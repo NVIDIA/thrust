@@ -14,6 +14,19 @@
  *  limitations under the License.
  */
 
+
+// This radix sort implementation was developed by Nadathur Satish, 
+// Mark Harris, and Michael Garland at NVIDIA.
+//
+// Refer to the following paper for further details:
+//
+//   "Designing efficient sorting algorithms for manycore GPUs"
+//   Nadathur Satish, Mark Harris, and Michael Garland,
+//   NVIDIA Technical Report NVR-2008-001, September 2008
+//
+//   http://www.nvidia.com/object/nvidia_research_pub_002.html
+
+
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
