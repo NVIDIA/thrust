@@ -1,0 +1,40 @@
+\section{komrade::binary\_\-negate$<$ Predicate $>$ Struct Template Reference}
+\label{structkomrade_1_1binary__negate}\index{komrade::binary\_\-negate@{komrade::binary\_\-negate}}
+{\tt \#include $<$functional.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- \textbf{binary\_\-negate} (Predicate p)\label{structkomrade_1_1binary__negate_1b2fd9d196377e76199f1de1f9ea8707}
+
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf operator()} (const T x, const T y)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+Predicate \textbf{pred}\label{structkomrade_1_1binary__negate_7cbf855f00dd3a29f89ea4ff19c48182}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Predicate$>$ struct komrade::binary\_\-negate$<$ Predicate $>$}
+
+{\tt \doxyref{binary\_\-negate}{p.}{structkomrade_1_1binary__negate}} is a function object adaptor: it is an Adaptable Binary Predicate that represents the logical negation of some other Adaptable Binary Predicate. That is: if {\tt f} is an object of class {\tt binary\_\-negate$<$AdaptablePredicate$>$}, then there exists an object {\tt pred} of class {\tt AdaptableBinaryPredicate} such that {\tt f(x,y)} always returns the same value as {\tt !pred(x,y)}. There is rarely any reason to construct a {\tt \doxyref{binary\_\-negate}{p.}{structkomrade_1_1binary__negate}} directly; it is almost always easier to use the helper function not2.
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/binary\_\-negate.html} \end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::binary\_\-negate@{komrade::binary\_\-negate}!operator()@{operator()}}
+\index{operator()@{operator()}!komrade::binary_negate@{komrade::binary\_\-negate}}
+\subsubsection[operator()]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Predicate$>$ template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::binary\_\-negate}$<$ Predicate $>$::operator() (const T {\em x}, \/  const T {\em y})\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1binary__negate_c0e74423999d6af1e69e7608a77a2bfb}
+
+
+Function call operator. The return value is {\tt !pred(x,y)}. 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf functional.h}\end{CompactItemize}

@@ -1,0 +1,79 @@
+\section{Memory Management Functions}
+\label{group__memory__management__functions}\index{Memory Management Functions@{Memory Management Functions}}
+\subsection*{Modules}
+\begin{CompactItemize}
+\item 
+{\bf Deallocation Functions}
+\item 
+{\bf Allocation Functions}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-pointer\_\-cast} (T $\ast$ptr)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-pointer\_\-cast} (const device\_\-ptr$<$ T $>$ \&ptr)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T $\ast$ {\bf komrade::raw\_\-pointer\_\-cast} (const device\_\-ptr$<$ T $>$ \&ptr)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T $\ast$ {\bf komrade::raw\_\-pointer\_\-cast} (T $\ast$ptr)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{memory\_\-management\_\-functions@{memory\_\-management\_\-functions}!device\_\-pointer\_\-cast@{device\_\-pointer\_\-cast}}
+\index{device\_\-pointer\_\-cast@{device\_\-pointer\_\-cast}!memory_management_functions@{memory\_\-management\_\-functions}}
+\subsubsection[device\_\-pointer\_\-cast]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- device\_\-ptr$<$T$>$ komrade::device\_\-pointer\_\-cast (const device\_\-ptr$<$ T $>$ \& {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{group__memory__management__functions_g085f575a93744d337ec8fa7837e2cad0}
+
+
+{\tt device\_\-pointer\_\-cast} creates a copy of a \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} from another \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}. This version is included merely for convenience.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]A \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A copy of {\tt ptr}. \end{Desc}
+\index{memory\_\-management\_\-functions@{memory\_\-management\_\-functions}!device\_\-pointer\_\-cast@{device\_\-pointer\_\-cast}}
+\index{device\_\-pointer\_\-cast@{device\_\-pointer\_\-cast}!memory_management_functions@{memory\_\-management\_\-functions}}
+\subsubsection[device\_\-pointer\_\-cast]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- device\_\-ptr$<$T$>$ komrade::device\_\-pointer\_\-cast (T $\ast$ {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{group__memory__management__functions_g8fbaf7ffddae21678ed7afc19ff889c6}
+
+
+{\tt device\_\-pointer\_\-cast} creates a \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} from a raw pointer which is presumed to point to a location in device memory.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]A raw pointer, presumed to point to a location in device memory. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} wrapping ptr. \end{Desc}
+\index{memory\_\-management\_\-functions@{memory\_\-management\_\-functions}!raw\_\-pointer\_\-cast@{raw\_\-pointer\_\-cast}}
+\index{raw\_\-pointer\_\-cast@{raw\_\-pointer\_\-cast}!memory_management_functions@{memory\_\-management\_\-functions}}
+\subsubsection[raw\_\-pointer\_\-cast]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T$\ast$ komrade::raw\_\-pointer\_\-cast (T $\ast$ {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{group__memory__management__functions_g60fe9f52e0b11c7ed6e59dea37827c06}
+
+
+{\tt raw\_\-pointer\_\-cast} creates a copy of a \char`\"{}raw\char`\"{} pointer {\tt T$\ast$}. This version is included merely for convenience.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]The pointer of interest. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt ptr} \end{Desc}
+\index{memory\_\-management\_\-functions@{memory\_\-management\_\-functions}!raw\_\-pointer\_\-cast@{raw\_\-pointer\_\-cast}}
+\index{raw\_\-pointer\_\-cast@{raw\_\-pointer\_\-cast}!memory_management_functions@{memory\_\-management\_\-functions}}
+\subsubsection[raw\_\-pointer\_\-cast]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T$\ast$ komrade::raw\_\-pointer\_\-cast (const device\_\-ptr$<$ T $>$ \& {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{group__memory__management__functions_g7d1643dacb28a3e6ca24f5972ed32dc9}
+
+
+{\tt raw\_\-pointer\_\-cast} creates a \char`\"{}raw\char`\"{} pointer {\tt T$\ast$} from a \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}, simply returning the pointer wrapped by the \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]The \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} of interest. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt ptr.get()}. \end{Desc}

@@ -1,0 +1,61 @@
+\section{komrade::identity$<$ T $>$ Struct Template Reference}
+\label{structkomrade_1_1identity}\index{komrade::identity@{komrade::identity}}
+{\tt \#include $<$functional.h$>$}
+
+Inheritance diagram for komrade::identity$<$ T $>$::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{structkomrade_1_1identity}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf operator()} (const T \&x) const 
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$ struct komrade::identity$<$ T $>$}
+
+{\tt \doxyref{identity}{p.}{structkomrade_1_1identity}} is a Unary Function that represents the \doxyref{identity}{p.}{structkomrade_1_1identity} function: it takes a single argument {\tt x}, and returns {\tt x}.
+
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em T}]No requirements on {\tt T}.\end{description}
+\end{Desc}
+The following code snippet demonstrates that {\tt \doxyref{identity}{p.}{structkomrade_1_1identity}} returns its argument.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/functional.h>
+  #include <assert.h>
+  ...
+  int x = 137;
+  komrade::identity<int> id;
+  assert(x == id(x));
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/identity.html} 
+
+\doxyref{unary\_\-function}{p.}{structkomrade_1_1unary__function} \end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::identity@{komrade::identity}!operator()@{operator()}}
+\index{operator()@{operator()}!komrade::identity@{komrade::identity}}
+\subsubsection[operator()]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::identity}$<$ T $>$::operator() (const T \& {\em x}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1identity_4527c0a73f266f53d648bb3de003015c}
+
+
+Function call operator. The return value is {\tt x}. \begin{Desc}
+\item[{\bf Bug}]identity$<$T$>$::operator()() should return const T \& \end{Desc}
+
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf functional.h}\end{CompactItemize}

@@ -1,0 +1,44 @@
+\section{komrade::equal\_\-to$<$ T $>$ Struct Template Reference}
+\label{structkomrade_1_1equal__to}\index{komrade::equal\_\-to@{komrade::equal\_\-to}}
+{\tt \#include $<$functional.h$>$}
+
+Inheritance diagram for komrade::equal\_\-to$<$ T $>$::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{structkomrade_1_1equal__to}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf operator()} (const T \&lhs, const T \&rhs) const 
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$ struct komrade::equal\_\-to$<$ T $>$}
+
+{\tt \doxyref{equal\_\-to}{p.}{structkomrade_1_1equal__to}} is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If {\tt f} is an object of class {\tt equal\_\-to$<$T$>$} and {\tt x} and {\tt y} are objects of class {\tt T}, then {\tt f(x,y)} returns {\tt true} if {\tt x == y} and {\tt false} otherwise.
+
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em T}]is a model of {\tt Equality Comparable}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/equal\_\-to.html} 
+
+\doxyref{binary\_\-function}{p.}{structkomrade_1_1binary__function} \end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::equal\_\-to@{komrade::equal\_\-to}!operator()@{operator()}}
+\index{operator()@{operator()}!komrade::equal_to@{komrade::equal\_\-to}}
+\subsubsection[operator()]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::equal\_\-to}$<$ T $>$::operator() (const T \& {\em lhs}, \/  const T \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1equal__to_51f3ffd68519667ac7eb28c93d205531}
+
+
+Function call operator. The return value is {\tt lhs == rhs}. 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf functional.h}\end{CompactItemize}

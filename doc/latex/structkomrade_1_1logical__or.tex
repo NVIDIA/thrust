@@ -1,0 +1,44 @@
+\section{komrade::logical\_\-or$<$ T $>$ Struct Template Reference}
+\label{structkomrade_1_1logical__or}\index{komrade::logical\_\-or@{komrade::logical\_\-or}}
+{\tt \#include $<$functional.h$>$}
+
+Inheritance diagram for komrade::logical\_\-or$<$ T $>$::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{structkomrade_1_1logical__or}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf operator()} (const T \&lhs, const T \&rhs) const 
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$ struct komrade::logical\_\-or$<$ T $>$}
+
+{\tt \doxyref{logical\_\-or}{p.}{structkomrade_1_1logical__or}} is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If {\tt f} is an object of class {\tt logical\_\-or$<$T$>$} and {\tt x} and {\tt y} are objects of class {\tt T} (where {\tt T} is convertible to {\tt bool}) then {\tt f(x,y)} returns {\tt true} if and only if either {\tt x} or {\tt y} are {\tt true}.
+
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em T}]must be convertible to {\tt bool}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/logical\_\-or.html} 
+
+\doxyref{binary\_\-function}{p.}{structkomrade_1_1binary__function} \end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::logical\_\-or@{komrade::logical\_\-or}!operator()@{operator()}}
+\index{operator()@{operator()}!komrade::logical_or@{komrade::logical\_\-or}}
+\subsubsection[operator()]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::logical\_\-or}$<$ T $>$::operator() (const T \& {\em lhs}, \/  const T \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1logical__or_f9ab6955831eab6c3cd416f6f1dcbe69}
+
+
+Function call operator. The return value is {\tt lhs $|$$|$ rhs}. 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf functional.h}\end{CompactItemize}

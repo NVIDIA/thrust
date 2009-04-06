@@ -1,0 +1,50 @@
+\section{device\_\-ptr.h File Reference}
+\label{device__ptr_8h}\index{device\_\-ptr.h@{device\_\-ptr.h}}
+Defines the interface to a pointer to a variable which resides on a parallel device. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/iterator/iterator\_\-categories.h$>$}\par
+{\tt \#include $<$komrade/detail/make\_\-device\_\-dereferenceable.h$>$}\par
+{\tt \#include $<$komrade/detail/type\_\-traits.h$>$}\par
+{\tt \#include $<$ostream$>$}\par
+{\tt \#include $<$komrade/detail/device\_\-ptr.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf komrade::device\_\-ptr$<$ T $>$}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T1, typename T2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::operator==} (const device\_\-ptr$<$ T1 $>$ \&lhs, const device\_\-ptr$<$ T2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename T2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::operator!=} (const device\_\-ptr$<$ T1 $>$ \&lhs, const device\_\-ptr$<$ T2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename T2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::operator$<$} (const device\_\-ptr$<$ T1 $>$ \&lhs, const device\_\-ptr$<$ T2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename T2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::operator$<$=} (const device\_\-ptr$<$ T1 $>$ \&lhs, const device\_\-ptr$<$ T2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename T2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::operator$>$} (const device\_\-ptr$<$ T1 $>$ \&lhs, const device\_\-ptr$<$ T2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename T2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool {\bf komrade::operator$>$=} (const device\_\-ptr$<$ T1 $>$ \&lhs, const device\_\-ptr$<$ T2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$class E, class T, class Y$>$ }\\std::basic\_\-ostream$<$ E, T $>$ \& {\bf komrade::operator$<$$<$} (std::basic\_\-ostream$<$ E, T $>$ \&os, const device\_\-ptr$<$ Y $>$ \&p)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-pointer\_\-cast} (T $\ast$ptr)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-pointer\_\-cast} (const device\_\-ptr$<$ T $>$ \&ptr)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T $\ast$ {\bf komrade::raw\_\-pointer\_\-cast} (const device\_\-ptr$<$ T $>$ \&ptr)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T $\ast$ {\bf komrade::raw\_\-pointer\_\-cast} (T $\ast$ptr)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to a pointer to a variable which resides on a parallel device. 
+

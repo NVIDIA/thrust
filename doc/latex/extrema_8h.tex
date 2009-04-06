@@ -1,0 +1,36 @@
+\section{extrema.h File Reference}
+\label{extrema_8h}\index{extrema.h@{extrema.h}}
+Defines the interface to functions for computing extrema. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/extrema.inl$>$}\par
+{\tt \#include $<$komrade/detail/min\_\-max\_\-element.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T, typename BinaryPredicate$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::min} (const T \&lhs, const T \&rhs, BinaryPredicate comp)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::min} (const T \&lhs, const T \&rhs)
+\item 
+{\footnotesize template$<$typename T, typename BinaryPredicate$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::max} (const T \&lhs, const T \&rhs, BinaryPredicate comp)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::max} (const T \&lhs, const T \&rhs)
+\item 
+{\footnotesize template$<$typename ForwardIterator$>$ }\\ForwardIterator {\bf komrade::min\_\-element} (ForwardIterator first, ForwardIterator last)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename BinaryPredicate$>$ }\\ForwardIterator {\bf komrade::min\_\-element} (ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
+\item 
+{\footnotesize template$<$typename ForwardIterator$>$ }\\ForwardIterator {\bf komrade::max\_\-element} (ForwardIterator first, ForwardIterator last)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename BinaryPredicate$>$ }\\ForwardIterator {\bf komrade::max\_\-element} (ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to functions for computing extrema. 
+

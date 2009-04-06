@@ -1,0 +1,862 @@
+<?xml version="1.0" ?>
+<testsuite  name="radix_sort">
+<platform>
+  <device name="GeForce GTX 280">
+    <property name="revision" value="1.3"/>
+    <property name="global memory" value="1073020928"  units="bytes"/>
+    <property name="multiprocessors" value="30"/>
+    <property name="cores" value="240"/>
+    <property name="constant memory" value="65536"  units="bytes"/>
+    <property name="shared memory per block" value="16384"  units="bytes"/>
+    <property name="warp size" value="32"/>
+    <property name="max threads per block" value="512"/>
+    <property name="clock rate" value="1.296"  units="GHz"/>
+  </device>
+  <compilation>
+    <property name="CUDA_VERSION" value="2020"/>
+    <property name="host compiler" value="GCC 40204"/>
+    <property name="__DATE__" value="Feb 24 2009"/>
+    <property name="__TIME__" value="03:18:03"/>
+  </compilation>
+</platform>
+<test name="radix_sort_char_16">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000761729"  units="seconds"/>
+  <result  name="Sorting"  value="0.0210048"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_32">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000769731"  units="seconds"/>
+  <result  name="Sorting"  value="0.041573"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_64">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000782227"  units="seconds"/>
+  <result  name="Sorting"  value="0.0818177"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_128">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.0008086"  units="seconds"/>
+  <result  name="Sorting"  value="0.158298"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_256">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000759557"  units="seconds"/>
+  <result  name="Sorting"  value="0.337039"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_512">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000760666"  units="seconds"/>
+  <result  name="Sorting"  value="0.673095"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_1024">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00114596"  units="seconds"/>
+  <result  name="Sorting"  value="0.893576"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_2048">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00119946"  units="seconds"/>
+  <result  name="Sorting"  value="1.70744"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_4096">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00120573"  units="seconds"/>
+  <result  name="Sorting"  value="3.39711"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_8192">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00120776"  units="seconds"/>
+  <result  name="Sorting"  value="6.78278"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_16384">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00121132"  units="seconds"/>
+  <result  name="Sorting"  value="13.5258"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_32768">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00181831"  units="seconds"/>
+  <result  name="Sorting"  value="18.0211"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_65536">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00190058"  units="seconds"/>
+  <result  name="Sorting"  value="34.482"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_131072">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00202336"  units="seconds"/>
+  <result  name="Sorting"  value="64.7794"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_262144">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.00227535"  units="seconds"/>
+  <result  name="Sorting"  value="115.21"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_524288">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.00274875"  units="seconds"/>
+  <result  name="Sorting"  value="190.737"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_1048576">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.00376162"  units="seconds"/>
+  <result  name="Sorting"  value="278.756"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_2097152">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.00573154"  units="seconds"/>
+  <result  name="Sorting"  value="365.897"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_4194304">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.0100149"  units="seconds"/>
+  <result  name="Sorting"  value="418.808"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_char_8388608">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.0182023"  units="seconds"/>
+  <result  name="Sorting"  value="460.854"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_16">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00115248"  units="seconds"/>
+  <result  name="Sorting"  value="0.0138831"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_32">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.00115952"  units="seconds"/>
+  <result  name="Sorting"  value="0.0275976"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_64">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.00117112"  units="seconds"/>
+  <result  name="Sorting"  value="0.0546485"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_128">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.00119832"  units="seconds"/>
+  <result  name="Sorting"  value="0.106816"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_256">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.00114915"  units="seconds"/>
+  <result  name="Sorting"  value="0.222773"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_512">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.00114664"  units="seconds"/>
+  <result  name="Sorting"  value="0.446521"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_1024">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00153749"  units="seconds"/>
+  <result  name="Sorting"  value="0.666019"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_2048">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.0016483"  units="seconds"/>
+  <result  name="Sorting"  value="1.24249"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_4096">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00164362"  units="seconds"/>
+  <result  name="Sorting"  value="2.49206"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_8192">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00164772"  units="seconds"/>
+  <result  name="Sorting"  value="4.97173"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_16384">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00165612"  units="seconds"/>
+  <result  name="Sorting"  value="9.89299"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_32768">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.0022845"  units="seconds"/>
+  <result  name="Sorting"  value="14.3436"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_65536">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00243075"  units="seconds"/>
+  <result  name="Sorting"  value="26.9613"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_131072">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00264529"  units="seconds"/>
+  <result  name="Sorting"  value="49.5493"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_262144">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.00310175"  units="seconds"/>
+  <result  name="Sorting"  value="84.5149"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_524288">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0039679"  units="seconds"/>
+  <result  name="Sorting"  value="132.132"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_1048576">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.00582932"  units="seconds"/>
+  <result  name="Sorting"  value="179.88"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_2097152">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.00944163"  units="seconds"/>
+  <result  name="Sorting"  value="222.118"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_4194304">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.0173838"  units="seconds"/>
+  <result  name="Sorting"  value="241.277"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_short_8388608">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.0324839"  units="seconds"/>
+  <result  name="Sorting"  value="258.239"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_16">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00182005"  units="seconds"/>
+  <result  name="Sorting"  value="0.00879095"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_32">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.00182715"  units="seconds"/>
+  <result  name="Sorting"  value="0.0175136"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_64">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.00183741"  units="seconds"/>
+  <result  name="Sorting"  value="0.0348317"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_128">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.00186538"  units="seconds"/>
+  <result  name="Sorting"  value="0.0686187"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_256">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.00181061"  units="seconds"/>
+  <result  name="Sorting"  value="0.141389"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_512">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.00182179"  units="seconds"/>
+  <result  name="Sorting"  value="0.281042"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_1024">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00199975"  units="seconds"/>
+  <result  name="Sorting"  value="0.512065"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_2048">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.002208"  units="seconds"/>
+  <result  name="Sorting"  value="0.927538"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_4096">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00221189"  units="seconds"/>
+  <result  name="Sorting"  value="1.85181"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_8192">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00221745"  units="seconds"/>
+  <result  name="Sorting"  value="3.69434"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_16384">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00222028"  units="seconds"/>
+  <result  name="Sorting"  value="7.37926"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_32768">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00288163"  units="seconds"/>
+  <result  name="Sorting"  value="11.3713"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_65536">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00313612"  units="seconds"/>
+  <result  name="Sorting"  value="20.8971"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_131072">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.0035066"  units="seconds"/>
+  <result  name="Sorting"  value="37.3786"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_262144">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.00433349"  units="seconds"/>
+  <result  name="Sorting"  value="60.4925"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_524288">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.00592096"  units="seconds"/>
+  <result  name="Sorting"  value="88.5477"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_1048576">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.00937225"  units="seconds"/>
+  <result  name="Sorting"  value="111.881"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_2097152">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0160501"  units="seconds"/>
+  <result  name="Sorting"  value="130.663"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_4194304">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.0308731"  units="seconds"/>
+  <result  name="Sorting"  value="135.856"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_int_8388608">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.0588351"  units="seconds"/>
+  <result  name="Sorting"  value="142.578"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_16">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00402882"  units="seconds"/>
+  <result  name="Sorting"  value="0.00397139"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_32">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.00404156"  units="seconds"/>
+  <result  name="Sorting"  value="0.00791773"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_64">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.00406369"  units="seconds"/>
+  <result  name="Sorting"  value="0.0157492"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_128">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.00411397"  units="seconds"/>
+  <result  name="Sorting"  value="0.0311135"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_256">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.00402473"  units="seconds"/>
+  <result  name="Sorting"  value="0.0636067"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_512">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.00422682"  units="seconds"/>
+  <result  name="Sorting"  value="0.121131"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_1024">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.0053791"  units="seconds"/>
+  <result  name="Sorting"  value="0.190367"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_2048">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.0057316"  units="seconds"/>
+  <result  name="Sorting"  value="0.357317"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_4096">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00573738"  units="seconds"/>
+  <result  name="Sorting"  value="0.713914"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_8192">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00575618"  units="seconds"/>
+  <result  name="Sorting"  value="1.42317"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_16384">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00578879"  units="seconds"/>
+  <result  name="Sorting"  value="2.8303"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_32768">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00742384"  units="seconds"/>
+  <result  name="Sorting"  value="4.41389"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_65536">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00802956"  units="seconds"/>
+  <result  name="Sorting"  value="8.16184"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_131072">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00922327"  units="seconds"/>
+  <result  name="Sorting"  value="14.211"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_262144">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0119966"  units="seconds"/>
+  <result  name="Sorting"  value="21.8515"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_524288">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0172555"  units="seconds"/>
+  <result  name="Sorting"  value="30.3838"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_1048576">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0296224"  units="seconds"/>
+  <result  name="Sorting"  value="35.3981"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_2097152">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0524765"  units="seconds"/>
+  <result  name="Sorting"  value="39.9636"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_4194304">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.100736"  units="seconds"/>
+  <result  name="Sorting"  value="41.6365"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_long_long_8388608">
+  <variable  name="KeyType"  value="long long"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.193959"  units="seconds"/>
+  <result  name="Sorting"  value="43.2493"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_16">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00171173"  units="seconds"/>
+  <result  name="Sorting"  value="0.00934727"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_32">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.00171297"  units="seconds"/>
+  <result  name="Sorting"  value="0.018681"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_64">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.00171048"  units="seconds"/>
+  <result  name="Sorting"  value="0.0374163"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_128">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.00171133"  units="seconds"/>
+  <result  name="Sorting"  value="0.0747958"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_256">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.0017075"  units="seconds"/>
+  <result  name="Sorting"  value="0.149927"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_512">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.00171723"  units="seconds"/>
+  <result  name="Sorting"  value="0.298155"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_1024">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00191091"  units="seconds"/>
+  <result  name="Sorting"  value="0.535869"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_2048">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00212113"  units="seconds"/>
+  <result  name="Sorting"  value="0.965524"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_4096">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00212341"  units="seconds"/>
+  <result  name="Sorting"  value="1.92897"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_8192">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00212797"  units="seconds"/>
+  <result  name="Sorting"  value="3.84968"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_16384">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00213083"  units="seconds"/>
+  <result  name="Sorting"  value="7.68902"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_32768">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00278775"  units="seconds"/>
+  <result  name="Sorting"  value="11.7543"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_65536">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00303163"  units="seconds"/>
+  <result  name="Sorting"  value="21.6174"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_131072">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00339685"  units="seconds"/>
+  <result  name="Sorting"  value="38.5863"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_262144">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.00421069"  units="seconds"/>
+  <result  name="Sorting"  value="62.2568"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_524288">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.00577155"  units="seconds"/>
+  <result  name="Sorting"  value="90.8401"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_1048576">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.00902524"  units="seconds"/>
+  <result  name="Sorting"  value="116.183"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_2097152">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0153876"  units="seconds"/>
+  <result  name="Sorting"  value="136.288"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_4194304">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.0292716"  units="seconds"/>
+  <result  name="Sorting"  value="143.289"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_float_8388608">
+  <variable  name="KeyType"  value="float"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.0554591"  units="seconds"/>
+  <result  name="Sorting"  value="151.257"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_16">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00403512"  units="seconds"/>
+  <result  name="Sorting"  value="0.00396518"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_32">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.00404797"  units="seconds"/>
+  <result  name="Sorting"  value="0.00790519"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_64">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.00406978"  units="seconds"/>
+  <result  name="Sorting"  value="0.0157257"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_128">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.00410838"  units="seconds"/>
+  <result  name="Sorting"  value="0.0311558"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_256">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.00401507"  units="seconds"/>
+  <result  name="Sorting"  value="0.0637598"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_512">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.0042142"  units="seconds"/>
+  <result  name="Sorting"  value="0.121494"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_1024">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00538121"  units="seconds"/>
+  <result  name="Sorting"  value="0.190292"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_2048">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00574619"  units="seconds"/>
+  <result  name="Sorting"  value="0.35641"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_4096">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00575346"  units="seconds"/>
+  <result  name="Sorting"  value="0.71192"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_8192">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00578011"  units="seconds"/>
+  <result  name="Sorting"  value="1.41727"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_16384">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00579721"  units="seconds"/>
+  <result  name="Sorting"  value="2.82619"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_32768">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00740928"  units="seconds"/>
+  <result  name="Sorting"  value="4.42256"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_65536">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00802315"  units="seconds"/>
+  <result  name="Sorting"  value="8.16837"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_131072">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.0091603"  units="seconds"/>
+  <result  name="Sorting"  value="14.3087"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_262144">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0117621"  units="seconds"/>
+  <result  name="Sorting"  value="22.2872"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_524288">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0167086"  units="seconds"/>
+  <result  name="Sorting"  value="31.3783"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_1048576">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0272373"  units="seconds"/>
+  <result  name="Sorting"  value="38.4978"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_2097152">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0474731"  units="seconds"/>
+  <result  name="Sorting"  value="44.1756"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_4194304">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.0893195"  units="seconds"/>
+  <result  name="Sorting"  value="46.9584"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="radix_sort_double_8388608">
+  <variable  name="KeyType"  value="double"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.171509"  units="seconds"/>
+  <result  name="Sorting"  value="48.9105"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+</testsuite>

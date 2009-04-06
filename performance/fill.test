@@ -1,0 +1,33 @@
+PREAMBLE = \
+    """
+    #include <komrade/fill.h>
+    """
+
+INITIALIZE = \
+    """
+    komrade::host_vector<$InputType>   h_input($InputSize);
+    komrade::device_vector<$InputType> d_input($InputSize);
+
+    komrade::fill(h_input.begin(),  h_input.end(),  $InputType(13));
+    komrade::fill(d_input.begin(),  d_input.end(),  $InputType(13));
+
+    ASSERT_EQUAL(h_input, d_input);
+    """
+
+TIME = \
+    """
+    komrade::fill(d_input.begin(),  d_input.end(),  $InputType(13));
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(double($InputSize));
+    RECORD_BANDWIDTH(sizeof($InputType) *  double($InputSize));
+    """
+
+InputTypes = SignedIntegerTypes
+InputSizes = StandardSizes
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes)]
+

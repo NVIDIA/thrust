@@ -1,0 +1,126 @@
+\section{Counting}
+\label{group__counting}\index{Counting@{Counting}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$class InputIterator, class EqualityComparable$>$ }\\komrade::iterator\_\-traits$<$ InputIterator $>$::difference\_\-type {\bf komrade::count} (InputIterator first, InputIterator last, const EqualityComparable \&value)
+\item 
+{\footnotesize template$<$class InputIterator, class Predicate$>$ }\\komrade::iterator\_\-traits$<$ InputIterator $>$::difference\_\-type {\bf komrade::count\_\-if} (InputIterator first, InputIterator last, Predicate pred)
+\item 
+{\footnotesize template$<$typename InputIterator$>$ }\\komrade::iterator\_\-traits$<$ InputIterator $>$::difference\_\-type {\bf komrade::distance} (InputIterator first, InputIterator last)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{counting@{counting}!count@{count}}
+\index{count@{count}!counting@{counting}}
+\subsubsection[count]{\setlength{\rightskip}{0pt plus 5cm}template$<$class InputIterator, class EqualityComparable$>$ komrade::iterator\_\-traits$<$InputIterator$>$::difference\_\-type komrade::count (InputIterator {\em first}, \/  InputIterator {\em last}, \/  const EqualityComparable \& {\em value})\hspace{0.3cm}{\tt  [inline]}}\label{group__counting_g75b2a97fcdcf1766ff9a86b67050036c}
+
+
+{\tt count} finds the number of elements in {\tt [first,last)} that are equal to {\tt value}. More precisely, {\tt count} returns the number of iterators {\tt i} in {\tt [first, last)} such that {\tt $\ast$i == value}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em value}]The value to be counted. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The number of elements equal to {\tt value}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]must be a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} must be a model of must be a model of {\tt Equality Comparable}. \item[{\em EqualityComparable}]must be a model of {\tt Equality Comparable} and can be compared for equality with {\tt InputIterator's} {\tt value\_\-type} \end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt count} to count the number of instances in a range of a value of interest. 
+
+\begin{Code}\begin{verbatim}  #include <komrade/count.h>
+  #include <komrade/device_vector.h>
+  ...
+  // put 3 1s in a device_vector
+  komrade::device_vector<int> vec(5,0);
+  vec[1] = 1;
+  vec[3] = 1;
+  vec[4] = 1;
+  
+  // count the 1s
+  int result = komrade::count(vec.begin(), vec.end(), 1);
+  // result == 3
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/count.html} \end{Desc}
+\index{counting@{counting}!count\_\-if@{count\_\-if}}
+\index{count\_\-if@{count\_\-if}!counting@{counting}}
+\subsubsection[count\_\-if]{\setlength{\rightskip}{0pt plus 5cm}template$<$class InputIterator, class Predicate$>$ komrade::iterator\_\-traits$<$InputIterator$>$::difference\_\-type komrade::count\_\-if (InputIterator {\em first}, \/  InputIterator {\em last}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__counting_gbe14c51965cd3ef158086aeec9f2cce2}
+
+
+{\tt count\_\-if} finds the number of elements in {\tt [first,last)} for which a predicate is {\tt true}. More precisely, {\tt count\_\-if} returns the number of iterators {\tt i} in {\tt [first, last)} such that {\tt pred($\ast$i) == true}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em pred}]The predicate. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The number of elements where {\tt pred} is {\tt true}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]must be a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} must be convertible to {\tt Predicate's} {\tt argument\_\-type}. \item[{\em Predicate}]must be a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt count} to count the number of odd numbers in a range. 
+
+\begin{Code}\begin{verbatim}  #include <komrade/count.h>
+  #include <komrade/device_vector.h>
+  ...
+  struct is_odd
+  {
+    __host__ __device__
+    bool operator()(int &x)
+    {
+      return x & 1;
+    }
+  };
+  ...
+  // fill a device_vector with even & odd numbers
+  komrade::device_vector<int> vec(5);
+  vec[0] = 0;
+  vec[1] = 1;
+  vec[2] = 2;
+  vec[3] = 3;
+  vec[4] = 4;
+
+  // count the odd elements in vec
+  int result = komrade::count(vec.begin(), vec.end(), is_odd());
+  // result == 2
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/count.html} \end{Desc}
+\index{counting@{counting}!distance@{distance}}
+\index{distance@{distance}!counting@{counting}}
+\subsubsection[distance]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator$>$ komrade::iterator\_\-traits$<$InputIterator$>$::difference\_\-type komrade::distance (InputIterator {\em first}, \/  InputIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__counting_g5332f41a64fb61e7eca2d498210160a0}
+
+
+{\tt distance} finds the distance between {\tt first} and {\tt last}, i.e. the number of times that {\tt first} must be incremented until it is equal to {\tt last}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of an input range of interest. \item[{\em last}]The end of an input range of interest. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The distance between the beginning and end of the input range.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/distance.html} \end{Desc}

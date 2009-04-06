@@ -1,0 +1,34 @@
+PREAMBLE = \
+    """
+    #include <komrade/reduce.h>
+    """
+
+INITIALIZE = \
+    """
+    komrade::host_vector<$InputType>   h_input = komradetest::random_integers<$InputType>($InputSize);
+    komrade::device_vector<$InputType> d_input = h_input;
+
+    $InputType init = 13;
+
+    $InputType h_result = komrade::reduce(h_input.begin(), h_input.end(), init);
+    $InputType d_result = komrade::reduce(d_input.begin(), d_input.end(), init);
+    ASSERT_EQUAL(h_result, d_result);
+    """
+
+TIME = \
+    """
+    komrade::reduce(d_input.begin(), d_input.end(), init);   
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(double($InputSize));
+    RECORD_BANDWIDTH(sizeof($InputType) *  double($InputSize));
+    """
+
+InputTypes = SignedIntegerTypes
+InputSizes = StandardSizes
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes)]
+

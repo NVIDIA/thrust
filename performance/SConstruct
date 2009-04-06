@@ -1,0 +1,71 @@
+import os
+from build.perftest import compile_test
+
+# try to import an environment first
+try:
+  Import('env')
+except:
+  exec open("../build/build-env.py")
+  env = Environment()
+
+def cu_build_function(source, target, env):
+  compile_test(str(source[0]), str(target[0]))
+
+# define a rule to build a .cu from a .test
+cu_builder = Builder(action = cu_build_function,
+                     suffix = '.cu',
+                     src_suffix = '.test')
+env.Append(BUILDERS = {'CUFile' : cu_builder})
+
+# define a rule to build a report from an executable
+report_builder = Builder(action = os.path.join('"' + env.GetLaunchDir(), '$SOURCE" > $TARGET'),
+                         suffix = '.xml',
+                         src_suffix = env['PROGSUFFIX'])
+env.Append(BUILDERS = {'Report' : report_builder})
+
+# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
+nvcc_options_file = env.Command('nvcc_options_file.txt',
+                                env.Program('../build/print_sm_version.cpp'),
+                                os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > nvcc_options_file.txt'))
+
+env.Append(NVCCFLAGS = ['-optf=nvcc_options_file.txt'])
+env.Append(CPPPATH = ['../testing/'])
+
+cu_list = []
+program_list = []
+report_list = []
+
+build_files = [os.path.join('build', f) for f in ['perftest.py', 'test_function_template.cxx']]
+
+# describe dependency graph:
+# report -> program -> .cu -> .test
+#                        \ -> nvcc_options_file
+for test in Glob("*.test"):
+  cu = env.CUFile(test)
+  env.Depends(cu, [nvcc_options_file] + build_files)
+  cu_list.append(cu)
+
+  prog = env.Program(cu)
+  program_list.append(prog)
+
+  report = env.Report(prog)
+  report_list.append(report)
+
+  # add .linkinfo files to the clean list
+  env.Clean(prog, str(test).replace("test", "linkinfo"))
+
+# make aliases for groups of targets
+reports = env.Alias("reports", report_list)
+programs = env.Alias("programs", program_list)
+
+# when no build target is specified, by default we build the programs
+env.Default(programs)
+
+# output a help message
+env.Help("""
+Type: 'scons' to build all performance test programs.
+Type: 'scons reports' to run all performance tests and output reports.
+Type: 'scons <test name>' to build a single performance test program of interest.
+Type: 'scons <test name>.xml' to run a single performance test of interest and output a report.
+""")
+

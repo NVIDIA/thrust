@@ -1,0 +1,42 @@
+\section{Utility}
+\label{group__utility}\index{Utility@{Utility}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename Assignable1, typename Assignable2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- void {\bf komrade::swap} (Assignable1 \&a, Assignable2 \&b)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{utility@{utility}!swap@{swap}}
+\index{swap@{swap}!utility@{utility}}
+\subsubsection[swap]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Assignable1, typename Assignable2$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- void komrade::swap (Assignable1 \& {\em a}, \/  Assignable2 \& {\em b})\hspace{0.3cm}{\tt  [inline]}}\label{group__utility_g9b1d6e2dffcef4f1815ff019c7351c20}
+
+
+{\tt swap} assigns the contents of {\tt a} to {\tt b} and the contents of {\tt b} to {\tt a}. This is used as a primitive operation by many other algorithms.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em a}]The first value of interest. After completion, the value of b will be returned here. \item[{\em b}]The second value of interest. After completion, the value of a will be returned here.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em Assignable}]is a model of {\tt Assignable}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt swap} to swap the contents of two variables.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/utility.h>
+  ...
+  int x = 1;
+  int y = 2;
+  komrade::swap(x,h);
+
+  // x == 2, y == 1
+\end{verbatim}
+\end{Code}
+
+ 

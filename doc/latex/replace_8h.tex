@@ -1,0 +1,27 @@
+\section{replace.h File Reference}
+\label{replace_8h}\index{replace.h@{replace.h}}
+Defines the interface to a family of templated replace functions. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/replace.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename T$>$ }\\void {\bf komrade::replace} (ForwardIterator first, ForwardIterator last, const T \&old\_\-value, const T \&new\_\-value)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename Predicate, typename T$>$ }\\void {\bf komrade::replace\_\-if} (ForwardIterator first, ForwardIterator last, Predicate pred, const T \&new\_\-value)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename T$>$ }\\OutputIterator {\bf komrade::replace\_\-copy} (InputIterator first, InputIterator last, OutputIterator result, const T \&old\_\-value, const T \&new\_\-value)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename Predicate, typename T$>$ }\\OutputIterator {\bf komrade::replace\_\-copy\_\-if} (InputIterator first, InputIterator last, OutputIterator result, Predicate pred, const T \&new\_\-value)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to a family of templated replace functions. 
+

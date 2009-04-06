@@ -1,0 +1,29 @@
+\section{radix\_\-sort.h File Reference}
+\label{radix__sort_8h}\index{radix\_\-sort.h@{radix\_\-sort.h}}
+Defines the interface to radix sort functions. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/sorting/detail/radix\_\-sort.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\item 
+namespace {\bf komrade::sorting}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::sorting::radix\_\-sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::sorting::stable\_\-radix\_\-sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ }\\void {\bf komrade::sorting::radix\_\-sort\_\-by\_\-key} (RandomAccessIterator1 keys\_\-first, RandomAccessIterator1 keys\_\-last, RandomAccessIterator2 values\_\-first)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ }\\void {\bf komrade::sorting::stable\_\-radix\_\-sort\_\-by\_\-key} (RandomAccessIterator1 keys\_\-first, RandomAccessIterator1 keys\_\-last, RandomAccessIterator2 values\_\-first)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to radix sort functions. 
+

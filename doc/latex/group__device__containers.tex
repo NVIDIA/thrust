@@ -1,0 +1,83 @@
+\section{Device Containers}
+\label{group__device__containers}\index{Device Containers@{Device Containers}}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class {\bf komrade::device\_\-vector$<$ T, Alloc $>$}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const device\_\-vector$<$ T1, Alloc1 $>$ \&lhs, const device\_\-vector$<$ T2, Alloc2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const host\_\-vector$<$ T1, Alloc1 $>$ \&lhs, const device\_\-vector$<$ T2, Alloc2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const device\_\-vector$<$ T1, Alloc1 $>$ \&lhs, const host\_\-vector$<$ T2, Alloc2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const std::vector$<$ T1, Alloc1 $>$ \&lhs, const device\_\-vector$<$ T2, Alloc2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const device\_\-vector$<$ T1, Alloc1 $>$ \&lhs, const std::vector$<$ T2, Alloc2 $>$ \&rhs)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{device\_\-containers@{device\_\-containers}!operator==@{operator==}}
+\index{operator==@{operator==}!device_containers@{device\_\-containers}}
+\subsubsection[operator==]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ bool komrade::operator== (const device\_\-vector$<$ T1, Alloc1 $>$ \& {\em lhs}, \/  const std::vector$<$ T2, Alloc2 $>$ \& {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{group__device__containers_gd6f31aeff2eb798f13b64327b3f53769}
+
+
+This operator allows comparison between a {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} \& a {\tt std::vector}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em lhs}]The {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to compare. \item[{\em rhs}]The {\tt std::vector} to compare. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt true} if and only if each corresponding element in either vector equals the other; {\tt false}, otherwise. \end{Desc}
+\index{device\_\-containers@{device\_\-containers}!operator==@{operator==}}
+\index{operator==@{operator==}!device_containers@{device\_\-containers}}
+\subsubsection[operator==]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ bool komrade::operator== (const std::vector$<$ T1, Alloc1 $>$ \& {\em lhs}, \/  const device\_\-vector$<$ T2, Alloc2 $>$ \& {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{group__device__containers_g1207cb42478de9349174478b75a30908}
+
+
+This operator allows comparison between a {\tt std::vector} \& a {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em lhs}]The {\tt std::vector} to compare. \item[{\em rhs}]The {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to compare. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt true} if and only if each corresponding element in either vector equals the other; {\tt false}, otherwise. \end{Desc}
+\index{device\_\-containers@{device\_\-containers}!operator==@{operator==}}
+\index{operator==@{operator==}!device_containers@{device\_\-containers}}
+\subsubsection[operator==]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ bool komrade::operator== (const device\_\-vector$<$ T1, Alloc1 $>$ \& {\em lhs}, \/  const host\_\-vector$<$ T2, Alloc2 $>$ \& {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{group__device__containers_g12bf08d6d02c2dccf84083abad0c91e9}
+
+
+This operator allows comparison between a {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} \& a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em lhs}]The {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to compare. \item[{\em rhs}]The {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} to compare. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt true} if and only if each corresponding element in either vector equals the other; {\tt false}, otherwise. \end{Desc}
+\index{device\_\-containers@{device\_\-containers}!operator==@{operator==}}
+\index{operator==@{operator==}!device_containers@{device\_\-containers}}
+\subsubsection[operator==]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ bool komrade::operator== (const host\_\-vector$<$ T1, Alloc1 $>$ \& {\em lhs}, \/  const device\_\-vector$<$ T2, Alloc2 $>$ \& {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{group__device__containers_g3d2797fb1a7a49b1a8d9e6af60358ee7}
+
+
+This operator allows comparison between a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} \& a {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em lhs}]The {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} to compare. \item[{\em rhs}]The {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to compare. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt true} if and only if each corresponding element in either vector equals the other; {\tt false}, otherwise. \end{Desc}
+\index{device\_\-containers@{device\_\-containers}!operator==@{operator==}}
+\index{operator==@{operator==}!device_containers@{device\_\-containers}}
+\subsubsection[operator==]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ bool komrade::operator== (const device\_\-vector$<$ T1, Alloc1 $>$ \& {\em lhs}, \/  const device\_\-vector$<$ T2, Alloc2 $>$ \& {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{group__device__containers_g2d6624f7698c83af6ffe2241a7e55264}
+
+
+This operator allows comparison between two {\tt device\_\-vectors}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em lhs}]The first {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to compare. \item[{\em rhs}]The second {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to compare. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt true} if and only if each corresponding element in either {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} equals the other; {\tt false}, otherwise. \end{Desc}

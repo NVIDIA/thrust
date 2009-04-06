@@ -1,0 +1,25 @@
+\section{copy.h File Reference}
+\label{copy_8h}\index{copy.h@{copy.h}}
+Defines the interface to copy between containers. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/copy.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator$>$ }\\OutputIterator {\bf komrade::copy} (InputIterator first, InputIterator last, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename PredicateIterator, typename OutputIterator$>$ }\\OutputIterator {\bf komrade::copy\_\-if} (InputIterator first, InputIterator last, PredicateIterator stencil, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename PredicateIterator, typename OutputIterator, typename Predicate$>$ }\\OutputIterator {\bf komrade::copy\_\-if} (InputIterator begin, InputIterator end, PredicateIterator stencil, OutputIterator result, Predicate pred)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to copy between containers. 
+

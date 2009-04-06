@@ -1,0 +1,36 @@
+import os
+import inspect
+
+# try to import an environment first
+try:
+  Import('env')
+except:
+  exec open("../build/build-env.py")
+  env = Environment()
+
+# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
+nvcc_options_file = env.Command('../build/nvcc_options_file.txt',
+                                env.Program('../build/print_sm_version.cpp'),
+                                os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > ../build/nvcc_options_file.txt'))
+
+env.Append(NVCCFLAGS = ['-optf=../build/nvcc_options_file.txt'])
+
+# find all .cus & .cpps in the current directory
+sources = []
+extensions = ['*.cu', '*.cpp']
+for ext in extensions:
+  sources.extend(env.Glob(ext, strings = True))
+
+# add the directory containing this file to the include path
+this_file = inspect.currentframe().f_code.co_filename
+this_dir = os.path.dirname(this_file)
+env.Append(CPPPATH = [this_dir])
+
+tester = env.Program('tester', sources)
+env.Depends(sources, nvcc_options_file)
+
+# add all the .cu-generated linkinfo files to the clean list
+for src in sources:
+  if src.endswith('.cu'):
+    env.Clean(tester, src.replace("cu", "linkinfo"))
+

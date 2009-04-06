@@ -1,0 +1,157 @@
+\section{komrade::host\_\-vector$<$ T, Alloc $>$ Class Template Reference}
+\label{classkomrade_1_1host__vector}\index{komrade::host\_\-vector@{komrade::host\_\-vector}}
+{\tt \#include $<$host\_\-vector.h$>$}
+
+\subsection*{Public Types}
+\begin{CompactItemize}
+\item 
+typedef Parent::size\_\-type \textbf{size\_\-type}\label{classkomrade_1_1host__vector_73b176390d84ef97b48408608e3b2711}
+
+\item 
+typedef Parent::value\_\-type \textbf{value\_\-type}\label{classkomrade_1_1host__vector_24a9dddb392f08b0afe184067b7af9b4}
+
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (void)
+\item 
+\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (size\_\-type n, const value\_\-type \&value=value\_\-type())
+\item 
+\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (const {\bf host\_\-vector} \&v)
+\item 
+\_\-\_\-host\_\-\_\- {\bf host\_\-vector} \& {\bf operator=} (const {\bf host\_\-vector} \&v)
+\item 
+{\footnotesize template$<$typename OtherT, typename OtherAlloc$>$ }\\\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (const {\bf host\_\-vector}$<$ OtherT, OtherAlloc $>$ \&v)
+\item 
+{\footnotesize template$<$typename OtherT, typename OtherAlloc$>$ }\\\_\-\_\-host\_\-\_\- {\bf host\_\-vector} \& {\bf operator=} (const {\bf host\_\-vector}$<$ OtherT, OtherAlloc $>$ \&v)
+\item 
+{\footnotesize template$<$typename OtherT, typename OtherAlloc$>$ }\\\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (const std::vector$<$ OtherT, OtherAlloc $>$ \&v)
+\item 
+{\footnotesize template$<$typename OtherT, typename OtherAlloc$>$ }\\\_\-\_\-host\_\-\_\- {\bf host\_\-vector} \& {\bf operator=} (const std::vector$<$ OtherT, OtherAlloc $>$ \&v)
+\item 
+{\footnotesize template$<$typename OtherT, typename OtherAlloc$>$ }\\\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (const {\bf device\_\-vector}$<$ OtherT, OtherAlloc $>$ \&v)
+\item 
+{\footnotesize template$<$typename InputIterator$>$ }\\\_\-\_\-host\_\-\_\- {\bf host\_\-vector} (InputIterator begin, InputIterator end)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ class komrade::host\_\-vector$<$ T, Alloc $>$}
+
+A {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} is a Host Sequence that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} may vary dynamically; memory management is automatic. The memory associated with a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} resides in the memory space of the host associated with a parallel device.
+
+Please refer to the {\tt C++ STL} for the documentation of {\tt host\_\-vector's} API.
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/Vector.html} 
+
+\doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}\end{Desc}
+\begin{Desc}
+\item[{\bf Bug}]The following members do not exist yet: {\tt reverse\_\-iterator}, {\tt const\_\-reverse\_\-iterator}, {\tt rbegin}, {\tt rend}, {\tt pop\_\-back}, {\tt insert}, {\tt operator$<$}.\end{Desc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (void)\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_faf1218ac3a9aa5dd182d83086d8f996}
+
+
+This constructor creates an empty {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}}. \index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (size\_\-type {\em n}, \/  const value\_\-type \& {\em value} = {\tt value\_\-type()})\hspace{0.3cm}{\tt  [inline, explicit]}}\label{classkomrade_1_1host__vector_1eaf269c6b5ee546c1add0f01e0c097d}
+
+
+This constructor creates a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} with copies of an exemplar element. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em n}]The number of elements to initially create. \item[{\em value}]An element to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (const {\bf host\_\-vector}$<$ T, Alloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_23c446eb08ff1db44ec5df0b8d9e1778}
+
+
+Copy constructor copies from an exemplar {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ template$<$typename OtherT, typename OtherAlloc$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (const {\bf host\_\-vector}$<$ OtherT, OtherAlloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_237ce62fb7d285a523d1e0678a8c9b76}
+
+
+Copy constructor copies from an exemplar {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} with different type. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ template$<$typename OtherT, typename OtherAlloc$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (const std::vector$<$ OtherT, OtherAlloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_60578fc4ed1e602bb7c7dc4171b2e3ad}
+
+
+Copy constructor copies from an exemplar {\tt std::vector}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt std::vector} to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ template$<$typename OtherT, typename OtherAlloc$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (const {\bf device\_\-vector}$<$ OtherT, OtherAlloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_13d58e21be3962532696972320f68684}
+
+
+Copy constructor copies from an exemplar {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} with possibly different type. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}} to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!host\_\-vector@{host\_\-vector}}
+\index{host\_\-vector@{host\_\-vector}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[host\_\-vector]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ template$<$typename InputIterator$>$ \_\-\_\-host\_\-\_\- {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::{\bf host\_\-vector} (InputIterator {\em begin}, \/  InputIterator {\em end})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_3a2fc8f92f2dc60c2c2c01381aa186fe}
+
+
+This constructor builds a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} from a range. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em begin}]The beginning of the range. \item[{\em end}]The end of the range. \end{description}
+\end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!operator=@{operator=}}
+\index{operator=@{operator=}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[operator=]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ \_\-\_\-host\_\-\_\- {\bf host\_\-vector}\& {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::operator= (const {\bf host\_\-vector}$<$ T, Alloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_7d6d8df547649787781d525181c14761}
+
+
+Assign operator copies from an exemplar {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!operator=@{operator=}}
+\index{operator=@{operator=}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[operator=]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ template$<$typename OtherT, typename OtherAlloc$>$ \_\-\_\-host\_\-\_\- {\bf host\_\-vector}\& {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::operator= (const {\bf host\_\-vector}$<$ OtherT, OtherAlloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_dfc4858db8bb498f8501b5b44d4df128}
+
+
+Assign operator copies from an exemplar {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} with different type. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} to copy. \end{description}
+\end{Desc}
+\index{komrade::host\_\-vector@{komrade::host\_\-vector}!operator=@{operator=}}
+\index{operator=@{operator=}!komrade::host_vector@{komrade::host\_\-vector}}
+\subsubsection[operator=]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, typename Alloc = std::allocator$<$T$>$$>$ template$<$typename OtherT, typename OtherAlloc$>$ \_\-\_\-host\_\-\_\- {\bf host\_\-vector}\& {\bf komrade::host\_\-vector}$<$ T, Alloc $>$::operator= (const std::vector$<$ OtherT, OtherAlloc $>$ \& {\em v})\hspace{0.3cm}{\tt  [inline]}}\label{classkomrade_1_1host__vector_eacdb16f803177e6171389c7b8fe46df}
+
+
+Assign operator copies from an exemplar {\tt std::vector}. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em v}]The {\tt std::vector} to copy. \end{description}
+\end{Desc}
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf host\_\-vector.h}\end{CompactItemize}

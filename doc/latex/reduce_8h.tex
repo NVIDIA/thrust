@@ -1,0 +1,29 @@
+\section{reduce.h File Reference}
+\label{reduce_8h}\index{reduce.h@{reduce.h}}
+Defines the interface to a templated inner\_\-product functions. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/iterator/iterator\_\-traits.h$>$}\par
+{\tt \#include $<$komrade/detail/reduce.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator$>$ }\\komrade::iterator\_\-traits$<$ InputIterator $>$::value\_\-type {\bf komrade::reduce} (InputIterator first, InputIterator last)
+\item 
+{\footnotesize template$<$typename InputIterator, typename T$>$ }\\T {\bf komrade::reduce} (InputIterator first, InputIterator last, T init)
+\item 
+{\footnotesize template$<$typename InputIterator, typename T, typename BinaryFunction$>$ }\\T {\bf komrade::reduce} (InputIterator first, InputIterator last, T init, BinaryFunction binary\_\-op)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to a templated inner\_\-product functions. 
+
+Defines the interface to a templated transformed reduction function.
+
+Defines the interface to a templated reduction function.

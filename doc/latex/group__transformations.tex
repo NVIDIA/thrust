@@ -1,0 +1,314 @@
+\section{Transformations}
+\label{group__transformations}\index{Transformations@{Transformations}}
+\subsection*{Modules}
+\begin{CompactItemize}
+\item 
+{\bf Filling}
+\item 
+{\bf Replacing}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator$>$ }\\OutputIterator {\bf komrade::adjacent\_\-difference} (InputIterator first, InputIterator last, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename BinaryFunction$>$ }\\OutputIterator {\bf komrade::adjacent\_\-difference} (InputIterator first, InputIterator last, OutputIterator result, BinaryFunction binary\_\-op)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename Generator$>$ }\\void {\bf komrade::generate} (ForwardIterator first, ForwardIterator last, Generator gen)
+\item 
+{\footnotesize template$<$typename ForwardIterator$>$ }\\void {\bf komrade::range} (ForwardIterator first, ForwardIterator last)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename T$>$ }\\void {\bf komrade::range} (ForwardIterator first, ForwardIterator last, T init)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename T$>$ }\\void {\bf komrade::range} (ForwardIterator first, ForwardIterator last, T init, T step)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename UnaryFunction$>$ }\\OutputIterator {\bf komrade::transform} (InputIterator first, InputIterator last, OutputIterator result, UnaryFunction op)
+\item 
+{\footnotesize template$<$typename InputIterator1, typename InputIterator2, typename OutputIterator, typename BinaryFunction$>$ }\\OutputIterator {\bf komrade::transform} (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, OutputIterator result, BinaryFunction op)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{transformations@{transformations}!adjacent\_\-difference@{adjacent\_\-difference}}
+\index{adjacent\_\-difference@{adjacent\_\-difference}!transformations@{transformations}}
+\subsubsection[adjacent\_\-difference]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename BinaryFunction$>$ OutputIterator komrade::adjacent\_\-difference (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  BinaryFunction {\em binary\_\-op})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_g86c34a100eb67397ecdca83959e258e1}
+
+
+{\tt adjacent\_\-difference} calculates the differences of adjacent elements in the range {\tt [first, last)}. That is, {\tt $\ast$first} is assigned to {\tt $\ast$result}, and, for each iterator {\tt i} in the range {\tt [first + 1, last)}, {\tt binary\_\-op($\ast$i, $\ast$(i - 1))} is assigned to {\tt $\ast$(result + (i - first))}.
+
+This version of {\tt adjacent\_\-difference} uses the binary function {\tt binary\_\-op} to calculate differences.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input range. \item[{\em last}]The end of the input range. \item[{\em result}]The beginning of the output range. \item[{\em binary\_\-op}]The binary function used to compute differences. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The iterator {\tt result + (last - first)}\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator}, and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt BinaryFunction's} {\tt first\_\-argument\_\-type} and {\tt second\_\-argument\_\-type}, and {\tt InputIterator's} {\tt value\_\-type} is convertible to a type in {\tt OutputIterator's} set of {\tt value\_\-types}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em BinaryFunction's}]{\tt result\_\-type} is convertible to a type in {\tt OutputIterator's} set of {\tt value\_\-types}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/adjacent\_\-difference.html} 
+
+\doxyref{inclusive\_\-scan}{p.}{group__prefixsums_ge3d7c4e007c70e0cb3d5679602329baa}\end{Desc}
+\begin{Desc}
+\item[Note:]Note that {\tt result} is permitted to be the same iterator as {\tt first}. This is useful for computing differences \char`\"{}in place\char`\"{}. \end{Desc}
+\index{transformations@{transformations}!adjacent\_\-difference@{adjacent\_\-difference}}
+\index{adjacent\_\-difference@{adjacent\_\-difference}!transformations@{transformations}}
+\subsubsection[adjacent\_\-difference]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator$>$ OutputIterator komrade::adjacent\_\-difference (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_g443af1488089d45b1ea717f203434d88}
+
+
+{\tt adjacent\_\-difference} calculates the differences of adjacent elements in the range {\tt [first, last)}. That is, {\tt $\ast$first} is assigned to {\tt $\ast$result}, and, for each iterator {\tt i} in the range {\tt [first + 1, last)}, the difference of {\tt $\ast$i} and {\tt $\ast$(i - 1)} is assigned to {\tt $\ast$(result + (i - first))}.
+
+This version of {\tt adjacent\_\-difference} uses {\tt operator-} to calculate differences.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input range. \item[{\em last}]The end of the input range. \item[{\em result}]The beginning of the output range. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The iterator {\tt result + (last - first)}\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator}, and {\tt x} and {\tt y} are objects of {\tt InputIterator's} {\tt value\_\-type}, then {\tt x} - {\tt is} defined, and {\tt InputIterator's} {\tt value\_\-type} is convertible to a type in {\tt OutputIterator's} set of {\tt value\_\-types}, and the return type of {\tt x - y} is convertible to a type in {\tt OutputIterator's} set of {\tt value\_\-types}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/adjacent\_\-difference.html} 
+
+\doxyref{inclusive\_\-scan}{p.}{group__prefixsums_ge3d7c4e007c70e0cb3d5679602329baa}\end{Desc}
+\begin{Desc}
+\item[Note:]Note that {\tt result} is permitted to be the same iterator as {\tt first}. This is useful for computing differences \char`\"{}in place\char`\"{}. \end{Desc}
+\index{transformations@{transformations}!generate@{generate}}
+\index{generate@{generate}!transformations@{transformations}}
+\subsubsection[generate]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename Generator$>$ void komrade::generate (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  Generator {\em gen})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_ge13e172ff4448a0f51df4abb896ba200}
+
+
+{\tt generate} assigns the result of invoking {\tt gen}, a function object that takes no arguments, to each element in the range {\tt [first,last)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The first element in the range of interest. \item[{\em last}]The last element in the range of interest. \item[{\em gen}]A function argument, taking no parameters, used to generate values to assign to elements in the range {\tt [first,last)}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable. \item[{\em Generator}]is a model of {\tt Generator}, and {\tt Generator's} {\tt result\_\-type} is convertible to {\tt ForwardIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to fill a {\tt \doxyref{host\_\-vector}{p.}{classkomrade_1_1host__vector}} with random numbers, using the standard C library function {\tt rand}.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/generate.h>
+  #include <komrade/host_vector.h>
+  #include <stdlib.h>
+  ...
+  komrade::host_vector<int> v(10);
+  srand(13);
+  komrade::generate(v.begin(), v.end(), rand);
+
+  // the elements of v are now with pseudo-random numbers
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/generate.html} \end{Desc}
+\index{transformations@{transformations}!range@{range}}
+\index{range@{range}!transformations@{transformations}}
+\subsubsection[range]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename T$>$ void komrade::range (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  T {\em init}, \/  T {\em step})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_g51767e0d8f4c61ac729889a1c7d94e87}
+
+
+{\tt range} fills the sequence {\tt [first, last)} with a range of numbers.
+
+Specifically, this version of {\tt range} assigns {\tt $\ast$first} the value {\tt init} and assigns each iterator {\tt i} in the sequence {\tt [first, last)} the {\tt value init + step $\ast$ (i - first)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em init}]The first value of the range of numbers \item[{\em step}]The difference between consecutive elements.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable, and if {\tt x} and {\tt y} are objects of {\tt ForwardIterator's} {\tt value\_\-type}, then {\tt x + y} is defined, and if {\tt T} is {\tt ForwardIterator's} {\tt value\_\-type}, then {\tt T(0)} is defined. \item[{\em T}]is a model of {\tt Assignable}, and {\tt T} is convertible to {\tt ForwardIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt range} to fill a sequence with a range of numbers starting from an intial value with a step size.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/range.h>
+  ...
+  const int N = 10;
+  int A[N];
+  komrade::range(A, A + 10, 1, 3);
+  // A is now {1, 4, 7, 10, 13, 16, 19, 22, 25, 28}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[Note:]Unlike the similar C++ STL function {\tt std::iota}, {\tt range} offers no guarantee on order of execution.\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/iota.html} \end{Desc}
+\index{transformations@{transformations}!range@{range}}
+\index{range@{range}!transformations@{transformations}}
+\subsubsection[range]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename T$>$ void komrade::range (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  T {\em init})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_gf6b193caa2c26c181a960260d9f3aabb}
+
+
+{\tt range} fills the sequence {\tt [first, last)} with a range of numbers.
+
+Specifically, this version of {\tt range} assigns {\tt $\ast$first} the value {\tt init} and assigns each iterator {\tt i} in the sequence {\tt [first, last)} the value {\tt init + (i - first)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em init}]The first value of the range of numbers.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable, and if {\tt x} and {\tt y} are objects of {\tt ForwardIterator's} {\tt value\_\-type}, then {\tt x + y} is defined, and if {\tt T} is {\tt ForwardIterator's} {\tt value\_\-type}, then {\tt T(0)} is defined. \item[{\em T}]is a model of {\tt Assignable}, and {\tt T} is convertible to {\tt ForwardIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt range} to fill a sequence with a range of numbers starting from an intial value.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/range.h>
+  ...
+  const int N = 10;
+  int A[N];
+  komrade::range(A, A + 10, 1);
+  // A is now {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[Note:]Unlike the similar C++ STL function {\tt std::iota}, {\tt range} offers no guarantee on order of execution.\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/iota.html} \end{Desc}
+\index{transformations@{transformations}!range@{range}}
+\index{range@{range}!transformations@{transformations}}
+\subsubsection[range]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator$>$ void komrade::range (ForwardIterator {\em first}, \/  ForwardIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_g792a805d4a8637a338e3b62e0317d389}
+
+
+{\tt range} fills the sequence {\tt [first, last)} with a range of numbers.
+
+Specifically, this version of {\tt range} assigns {\tt $\ast$first} the value {\tt 0} and assigns each iterator {\tt i} in the sequence {\tt [first, last)} the value {\tt (i - first)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable, and if {\tt x} and {\tt y} are objects of {\tt ForwardIterator's} {\tt value\_\-type}, then {\tt x + y} is defined, and if {\tt T} is {\tt ForwardIterator's} {\tt value\_\-type}, then {\tt T(0)} is defined.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt range} to fill a sequence with a range of numbers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/range.h>
+  ...
+  const int N = 10;
+  int A[N];
+  komrade::range(A, A + 10);
+  // A is now {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[Note:]Unlike the similar C++ STL function {\tt std::iota}, {\tt range} offers no guarantee on order of execution.\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/iota.html} \end{Desc}
+\index{transformations@{transformations}!transform@{transform}}
+\index{transform@{transform}!transformations@{transformations}}
+\subsubsection[transform]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator1, typename InputIterator2, typename OutputIterator, typename BinaryFunction$>$ OutputIterator komrade::transform (InputIterator1 {\em first1}, \/  InputIterator1 {\em last1}, \/  InputIterator2 {\em first2}, \/  OutputIterator {\em result}, \/  BinaryFunction {\em op})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_g7ca2581bbc99a42f5cad1eb3c2305cfa}
+
+
+This version of {\tt transform} applies a binary function to each pair of elements from two input sequences and stores the result in the corresponding position in an output sequence. Specifically, for each iterator {\tt i} in the range [{\tt first1}, {\tt last1}) and {\tt j = first + (i - first1)} in the rage [{\tt first2}, {\tt last2}) the operation {\tt op($\ast$i,$\ast$j)} is performed and the result is assigned to {\tt $\ast$o}, where {\tt o} is the corresponding output iterator in the range [{\tt result}, {\tt result} + ({\tt last} - {\tt first}) ). The input and output sequences may coincide, resulting in an in-place transformation.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first1}]The beginning of the first input sequence. \item[{\em last1}]The end of the first input sequence. \item[{\em first2}]The beginning of the second input sequence. \item[{\em result}]The beginning of the output sequence. \item[{\em op}]The tranformation operation.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator1}]is a model of {\tt Input Iterator} and {\tt InputIterator1's} {\tt value\_\-type} is convertible to the input\_\-type of {\tt BinaryFunction's} first argument. \item[{\em InputIterator2}]is a model of {\tt Input Iterator} and {\tt InputIterator2's} {\tt value\_\-type} is convertible to the input\_\-type of {\tt BinaryFunction's} second argument. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em BinaryFunction}]is a model of {\tt Binary Function} and {\tt BinaryFunction's} {\tt result\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt transform} 
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/transform.h>
+  #include <komrade/functional.h>
+  
+  int input1[6] = {-5,  0,  2,  3,  2,  4};
+  int input2[6] = { 3,  6, -2,  1,  2,  3};
+  int output[6];
+ 
+  komrade::plus<int> op;
+
+  komrade::transform(input1, input1 + 6, input2, output, op);
+
+  // output is now {-2,  6,  0,  4,  4,  7};
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/transform.html} \end{Desc}
+\index{transformations@{transformations}!transform@{transform}}
+\index{transform@{transform}!transformations@{transformations}}
+\subsubsection[transform]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename UnaryFunction$>$ OutputIterator komrade::transform (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  UnaryFunction {\em op})\hspace{0.3cm}{\tt  [inline]}}\label{group__transformations_g0e5476c2ab92dbb29d1b7c849bf337af}
+
+
+This version of {\tt transform} applies a unary function to each element of an input sequence and stores the result in the corresponding position in an output sequence. Specifically, for each iterator {\tt i} in the range [{\tt first}, {\tt last}) the operation {\tt op($\ast$i)} is performed and the result is assigned to {\tt $\ast$o}, where {\tt o} is the corresponding output iterator in the range [{\tt result}, {\tt result} + ({\tt last} - {\tt first}) ). The input and output sequences may coincide, resulting in an in-place transformation.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input sequence. \item[{\em last}]The end of the input sequence. \item[{\em result}]The beginning of the output sequence. \item[{\em op}]The tranformation operation.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt UnaryFunction's} {\tt input\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em UnaryFunction}]is a model of {\tt Unary Function} and {\tt UnaryFunction's} {\tt result\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt transform} 
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/transform.h>
+  #include <komrade/functional.h>
+  
+  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
+ 
+  komrade::negate<int> op;
+
+  komrade::transform(data, data + 10, data, op); // in-place transformation
+
+  // data is now {5, 0, -2, 3, -2, -4, 0, 1, -2, -8};
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/transform.html} \end{Desc}

@@ -1,0 +1,44 @@
+PREAMBLE = \
+    """
+    #include <komrade/sorting/merge_sort.h>
+    #include <komrade/range.h>
+    """
+
+INITIALIZE = \
+    """
+    komrade::host_vector<$KeyType>   h_keys = komradetest::random_integers<$KeyType>($InputSize);
+    komrade::device_vector<$KeyType> d_keys = h_keys;
+
+    komrade::host_vector<$ValueType>   h_values($InputSize);
+    komrade::device_vector<$ValueType> d_values($InputSize);
+    komrade::range(h_values.begin(), h_values.end());
+    komrade::range(d_values.begin(), d_values.end());
+
+    komrade::device_vector<$KeyType> d_keys_copy = d_keys;
+
+    // test sort
+    komrade::sorting::merge_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    komrade::sorting::merge_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+
+    ASSERT_EQUAL(d_keys,   h_keys);
+    ASSERT_EQUAL(d_values, h_values);
+    """
+
+TIME = \
+    """
+    komrade::copy(d_keys_copy.begin(), d_keys_copy.end(), d_keys.begin());
+    komrade::sorting::merge_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_SORTING_RATE(double($InputSize));
+    """
+
+KeyTypes = ['char', 'short', 'int', 'long long', 'float', 'double']
+ValueTypes = ['unsigned int']
+InputSizes = StandardSizes
+
+TestVariables = [('KeyType', KeyTypes), ('ValueType', ValueTypes), ('InputSize', InputSizes)]
+

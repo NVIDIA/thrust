@@ -1,0 +1,29 @@
+\section{Parallelization}
+\label{group__parallelization}\index{Parallelization@{Parallelization}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator, typename UnaryFunction$>$ }\\void {\bf komrade::for\_\-each} (InputIterator first, InputIterator last, UnaryFunction f)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{parallelization@{parallelization}!for\_\-each@{for\_\-each}}
+\index{for\_\-each@{for\_\-each}!parallelization@{parallelization}}
+\subsubsection[for\_\-each]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename UnaryFunction$>$ void komrade::for\_\-each (InputIterator {\em first}, \/  InputIterator {\em last}, \/  UnaryFunction {\em f})\hspace{0.3cm}{\tt  [inline]}}\label{group__parallelization_ged0263346d9d2c419eae264bd617faf9}
+
+
+{\tt for\_\-each} applies the function object {\tt f} to each element in the range {\tt [first, last)}; {\tt f's} return value, if any, is ignored. Unlike the C++ Standard Template Library function {\tt std::for\_\-each}, this version offers no guarantee on order of execution. For this reason, this version of {\tt for\_\-each} has no return value.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em f}]The function object to apply to the range {\tt [first, last)}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator}, and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt UnaryFunction's} {\tt argument\_\-type}. \item[{\em UnaryFunction}]is a model of {\tt Unary Function}, and {\tt UnaryFunction} does not apply any non-constant operation through its argument.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/for\_\-each.html} \end{Desc}

@@ -1,0 +1,33 @@
+\section{host\_\-vector.h File Reference}
+\label{host__vector_8h}\index{host\_\-vector.h@{host\_\-vector.h}}
+Defines the interface to a std::vector-like class for host memory management. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$memory$>$}\par
+{\tt \#include $<$komrade/detail/vector\_\-base.h$>$}\par
+{\tt \#include $<$vector$>$}\par
+{\tt \#include $<$komrade/detail/host\_\-vector.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class {\bf komrade::host\_\-vector$<$ T, Alloc $>$}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const host\_\-vector$<$ T1, Alloc1 $>$ \&lhs, const host\_\-vector$<$ T2, Alloc2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const host\_\-vector$<$ T1, Alloc1 $>$ \&lhs, const std::vector$<$ T2, Alloc2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$typename T1, typename Alloc1, typename T2, typename Alloc2$>$ }\\bool {\bf komrade::operator==} (const std::vector$<$ T1, Alloc1 $>$ \&lhs, const host\_\-vector$<$ T2, Alloc2 $>$ \&rhs)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to a std::vector-like class for host memory management. 
+

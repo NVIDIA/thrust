@@ -1,0 +1,23 @@
+\section{transform\_\-scan.h File Reference}
+\label{transform__scan_8h}\index{transform\_\-scan.h@{transform\_\-scan.h}}
+Defines some functions for computing fused transform + scan operations. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/transform\_\-scan.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename UnaryFunction, typename AssociativeOperator$>$ }\\void {\bf komrade::transform\_\-inclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, UnaryFunction unary\_\-op, AssociativeOperator binary\_\-op)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename UnaryFunction, typename T, typename AssociativeOperator$>$ }\\void {\bf komrade::transform\_\-exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, UnaryFunction unary\_\-op, T init, AssociativeOperator binary\_\-op)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines some functions for computing fused transform + scan operations. 
+

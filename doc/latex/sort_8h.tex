@@ -1,0 +1,35 @@
+\section{sort.h File Reference}
+\label{sort_8h}\index{sort.h@{sort.h}}
+Defines the interface to various sorting functions. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/sort.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator, typename StrictWeakOrdering$>$ }\\void {\bf komrade::sort} (RandomAccessIterator first, RandomAccessIterator last, StrictWeakOrdering comp)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::stable\_\-sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator, typename StrictWeakOrdering$>$ }\\void {\bf komrade::stable\_\-sort} (RandomAccessIterator first, RandomAccessIterator last, StrictWeakOrdering comp)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ }\\void {\bf komrade::sort\_\-by\_\-key} (RandomAccessIterator1 keys\_\-first, RandomAccessIterator1 keys\_\-last, RandomAccessIterator2 values\_\-first)
+\item 
+{\footnotesize template$<$typename RandomAccessKeyIterator, typename RandomAccessValueIterator, typename StrictWeakOrdering$>$ }\\void {\bf komrade::sort\_\-by\_\-key} (RandomAccessKeyIterator keys\_\-first, RandomAccessKeyIterator keys\_\-last, RandomAccessValueIterator values\_\-first, StrictWeakOrdering comp)
+\item 
+{\footnotesize template$<$typename RandomAccessKeyIterator, typename RandomAccessValueIterator$>$ }\\void {\bf komrade::stable\_\-sort\_\-by\_\-key} (RandomAccessKeyIterator keys\_\-first, RandomAccessKeyIterator keys\_\-last, RandomAccessValueIterator values\_\-first)
+\item 
+{\footnotesize template$<$typename RandomAccessKeyIterator, typename RandomAccessValueIterator, typename StrictWeakOrdering$>$ }\\void {\bf komrade::stable\_\-sort\_\-by\_\-key} (RandomAccessKeyIterator keys\_\-first, RandomAccessKeyIterator keys\_\-last, RandomAccessValueIterator values\_\-first, StrictWeakOrdering comp)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to various sorting functions. 
+

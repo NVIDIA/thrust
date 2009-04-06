@@ -1,0 +1,157 @@
+\section{Key Sorting}
+\label{group__key__sorting}\index{Key Sorting@{Key Sorting}}
+\subsection*{Modules}
+\begin{CompactItemize}
+\item 
+{\bf Merge Sorting}
+\item 
+{\bf Radix Sorting}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator, typename StrictWeakOrdering$>$ }\\void {\bf komrade::sort} (RandomAccessIterator first, RandomAccessIterator last, StrictWeakOrdering comp)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::stable\_\-sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator, typename StrictWeakOrdering$>$ }\\void {\bf komrade::stable\_\-sort} (RandomAccessIterator first, RandomAccessIterator last, StrictWeakOrdering comp)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{key\_\-sorting@{key\_\-sorting}!sort@{sort}}
+\index{sort@{sort}!key_sorting@{key\_\-sorting}}
+\subsubsection[sort]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator, typename StrictWeakOrdering$>$ void komrade::sort (RandomAccessIterator {\em first}, \/  RandomAccessIterator {\em last}, \/  StrictWeakOrdering {\em comp})\hspace{0.3cm}{\tt  [inline]}}\label{group__key__sorting_g61e96f2969a10d2bd220d10fa45ad0ef}
+
+
+{\tt sort} sorts the elements in {\tt [first, last)} into ascending order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [first, last)} such that {\tt i} precedes {\tt j}, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}. Note: {\tt sort} is not guaranteed to be stable. That is, suppose that {\tt $\ast$i} and {\tt $\ast$j} are equivalent: neither one is \doxyref{less}{p.}{structkomrade_1_1less} than the other. It is not guaranteed that the relative order of these two elements will be preserved by {\tt sort}.
+
+This version of {\tt sort} compares objects using a function object {\tt comp}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em comp}]Comparison operator.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator} is mutable, and {\tt RandomAccessIterator's} {\tt value\_\-type} is convertible to {\tt StrictWeakOrdering's} {\tt first\_\-argument\_\-type} and {\tt second\_\-argument\_\-type}. \item[{\em StrictWeakOrdering}]is a model of {\tt Strict Weak Ordering}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/sort.html} 
+
+{\tt \doxyref{stable\_\-sort}{p.}{group__key__sorting_g24bad4a52451d3602c97e3a89f8a3ab8}} 
+
+{\tt \doxyref{sort\_\-by\_\-key}{p.}{group__key__value__sorting_g4765e8da113a34af858a4d5cd02fb4f6}} \end{Desc}
+\index{key\_\-sorting@{key\_\-sorting}!sort@{sort}}
+\index{sort@{sort}!key_sorting@{key\_\-sorting}}
+\subsubsection[sort]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator$>$ void komrade::sort (RandomAccessIterator {\em first}, \/  RandomAccessIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__key__sorting_gbe71e2c3faadf83987bb7937b53d29cf}
+
+
+{\tt sort} sorts the elements in {\tt [first, last)} into ascending order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [first, last)} such that {\tt i} precedes {\tt j}, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}. Note: {\tt sort} is not guaranteed to be stable. That is, suppose that {\tt $\ast$i} and {\tt $\ast$j} are equivalent: neither one is \doxyref{less}{p.}{structkomrade_1_1less} than the other. It is not guaranteed that the relative order of these two elements will be preserved by {\tt sort}.
+
+This version of {\tt sort} compares objects using {\tt operator$<$}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator} is mutable, and {\tt RandomAccessIterator's} {\tt value\_\-type} is a model of {\tt LessThan Comparable}, and the ordering relation on {\tt RandomAccessIterator's} {\tt value\_\-type} is a {\em strict weak ordering\/}, as defined in the {\tt LessThan Comparable} requirements.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt sort} to sort a sequence of integers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/sort.h>
+  ...
+  const int N = 6;
+  int A[N] = {1, 4, 2, 8, 5, 7};
+  komrade::sort(A, A + N);
+  // A is now {1, 2, 4, 5, 7, 8}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/sort.html} 
+
+{\tt \doxyref{stable\_\-sort}{p.}{group__key__sorting_g24bad4a52451d3602c97e3a89f8a3ab8}} 
+
+{\tt \doxyref{sort\_\-by\_\-key}{p.}{group__key__value__sorting_g4765e8da113a34af858a4d5cd02fb4f6}} \end{Desc}
+\index{key\_\-sorting@{key\_\-sorting}!stable\_\-sort@{stable\_\-sort}}
+\index{stable\_\-sort@{stable\_\-sort}!key_sorting@{key\_\-sorting}}
+\subsubsection[stable\_\-sort]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator, typename StrictWeakOrdering$>$ void komrade::stable\_\-sort (RandomAccessIterator {\em first}, \/  RandomAccessIterator {\em last}, \/  StrictWeakOrdering {\em comp})\hspace{0.3cm}{\tt  [inline]}}\label{group__key__sorting_gb18992858cbb72e724db1fc2dbf35ce6}
+
+
+{\tt stable\_\-sort} is much like {\tt sort:} it sorts the elements in {\tt [first, last)} into ascending order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [first, last)} such that {\tt i} precedes {\tt j}, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}.
+
+As the name suggests, {\tt stable\_\-sort} is stable: it preserves the relative ordering of equivalent elements. That is, if {\tt x} and {\tt y} are elements in {\tt [first, last)} such that {\tt x} precedes {\tt y}, and if the two elements are equivalent (neither {\tt x $<$ y} nor {\tt y $<$ x}) then a postcondition of {\tt stable\_\-sort} is that {\tt x} still precedes {\tt y}.
+
+This version of {\tt stable\_\-sort} compares objects using a function object {\tt comp}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence. \item[{\em comp}]Comparison operator.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator} is mutable, and {\tt RandomAccessIterator's} {\tt value\_\-type} is convertible to {\tt StrictWeakOrdering's} {\tt first\_\-argument\_\-type} and {\tt second\_\-argument\_\-type}. \item[{\em StrictWeakOrdering}]is a model of {\tt Strict Weak Ordering}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/stable\_\-sort.html} 
+
+{\tt \doxyref{sort}{p.}{group__key__sorting_gbe71e2c3faadf83987bb7937b53d29cf}} 
+
+{\tt \doxyref{stable\_\-sort\_\-by\_\-key}{p.}{group__key__value__sorting_g09e75bb6d9fb544dfa88d5cb392ebb3e}} \end{Desc}
+\index{key\_\-sorting@{key\_\-sorting}!stable\_\-sort@{stable\_\-sort}}
+\index{stable\_\-sort@{stable\_\-sort}!key_sorting@{key\_\-sorting}}
+\subsubsection[stable\_\-sort]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator$>$ void komrade::stable\_\-sort (RandomAccessIterator {\em first}, \/  RandomAccessIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__key__sorting_g24bad4a52451d3602c97e3a89f8a3ab8}
+
+
+{\tt stable\_\-sort} is much like {\tt sort:} it sorts the elements in {\tt [first, last)} into ascending order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [first, last)} such that {\tt i} precedes {\tt j}, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}.
+
+As the name suggests, {\tt stable\_\-sort} is stable: it preserves the relative ordering of equivalent elements. That is, if {\tt x} and {\tt y} are elements in {\tt [first, last)} such that {\tt x} precedes {\tt y}, and if the two elements are equivalent (neither {\tt x $<$ y} nor {\tt y $<$ x}) then a postcondition of {\tt stable\_\-sort} is that {\tt x} still precedes {\tt y}.
+
+This version of {\tt stable\_\-sort} compares objects using {\tt operator$<$}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator} is mutable, and {\tt RandomAccessIterator's} {\tt value\_\-type} is a model of {\tt LessThan Comparable}, and the ordering relation on {\tt RandomAccessIterator's} {\tt value\_\-type} is a {\em strict weak ordering\/}, as defined in the {\tt LessThan Comparable} requirements.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt sort} to sort a sequence of integers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/sort.h>
+  ...
+  const int N = 6;
+  int A[N] = {1, 4, 2, 8, 5, 7};
+  komrade::stable_sort(A, A + N);
+  // A is now {1, 2, 4, 5, 7, 8}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/stable\_\-sort.html} 
+
+{\tt \doxyref{sort}{p.}{group__key__sorting_gbe71e2c3faadf83987bb7937b53d29cf}} 
+
+{\tt \doxyref{stable\_\-sort\_\-by\_\-key}{p.}{group__key__value__sorting_g09e75bb6d9fb544dfa88d5cb392ebb3e}} \end{Desc}

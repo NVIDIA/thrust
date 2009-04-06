@@ -1,0 +1,25 @@
+\section{scatter.h File Reference}
+\label{scatter_8h}\index{scatter.h@{scatter.h}}
+Defines the interface to a scatter function. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/scatter.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator1, typename InputIterator2, typename RandomAccessIterator$>$ }\\void {\bf komrade::scatter} (InputIterator1 first, InputIterator1 last, InputIterator2 map, RandomAccessIterator output)
+\item 
+{\footnotesize template$<$typename InputIterator1, typename InputIterator2, typename InputIterator3, typename RandomAccessIterator$>$ }\\void {\bf komrade::scatter\_\-if} (InputIterator1 first, InputIterator1 last, InputIterator2 map, InputIterator3 stencil, RandomAccessIterator output)
+\item 
+{\footnotesize template$<$typename InputIterator1, typename InputIterator2, typename InputIterator3, typename RandomAccessIterator, typename Predicate$>$ }\\void {\bf komrade::scatter\_\-if} (InputIterator1 first, InputIterator1 last, InputIterator2 map, InputIterator3 stencil, RandomAccessIterator output, Predicate pred)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to a scatter function. 
+

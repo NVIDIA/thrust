@@ -1,0 +1,178 @@
+\section{Radix Sorting}
+\label{group__radix__sorting}\index{Radix Sorting@{Radix Sorting}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::sorting::radix\_\-sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator$>$ }\\void {\bf komrade::sorting::stable\_\-radix\_\-sort} (RandomAccessIterator first, RandomAccessIterator last)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ }\\void {\bf komrade::sorting::radix\_\-sort\_\-by\_\-key} (RandomAccessIterator1 keys\_\-first, RandomAccessIterator1 keys\_\-last, RandomAccessIterator2 values\_\-first)
+\item 
+{\footnotesize template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ }\\void {\bf komrade::sorting::stable\_\-radix\_\-sort\_\-by\_\-key} (RandomAccessIterator1 keys\_\-first, RandomAccessIterator1 keys\_\-last, RandomAccessIterator2 values\_\-first)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{radix\_\-sorting@{radix\_\-sorting}!radix\_\-sort@{radix\_\-sort}}
+\index{radix\_\-sort@{radix\_\-sort}!radix_sorting@{radix\_\-sorting}}
+\subsubsection[radix\_\-sort]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator$>$ void komrade::sorting::radix\_\-sort (RandomAccessIterator {\em first}, \/  RandomAccessIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__radix__sorting_g273bce48fa20005060886063a5fd0df3}
+
+
+{\tt radix\_\-sort} sorts the elements in {\tt [first, last)} into ascending order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [first, last)} such that {\tt i} precedes {\tt j}, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}. Note: {\tt radix\_\-sort} is not guaranteed to be stable. That is, suppose that {\tt $\ast$i} and {\tt $\ast$j} are equivalent: neither one is \doxyref{less}{p.}{structkomrade_1_1less} than the other. It is not guaranteed that the relative order of these two elements will be preserved by {\tt radix\_\-sort}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator} is mutable, and {\tt RandomAccessIterator's} {\tt value\_\-type} is a model of Plain Old Data.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt radix\_\-sort} to sort a sequence of integers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/sorting/radix_sort.h>
+  ...
+  const int N = 6;
+  int A[N] = {1, 4, 2, 8, 5, 7};
+  komrade::sorting::radix_sort(A, A + N);
+  // A is now {1, 2, 4, 5, 7, 8}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]\doxyref{sort}{p.}{group__key__sorting_gbe71e2c3faadf83987bb7937b53d29cf} 
+
+{\tt \doxyref{stable\_\-radix\_\-sort}{p.}{group__radix__sorting_g59f1b366a710a75dbfe76bda62a87c31}} 
+
+{\tt \doxyref{radix\_\-sort\_\-by\_\-key}{p.}{group__radix__sorting_g8114f0f99e6c8b1098d545579f194303}} \end{Desc}
+\index{radix\_\-sorting@{radix\_\-sorting}!radix\_\-sort\_\-by\_\-key@{radix\_\-sort\_\-by\_\-key}}
+\index{radix\_\-sort\_\-by\_\-key@{radix\_\-sort\_\-by\_\-key}!radix_sorting@{radix\_\-sorting}}
+\subsubsection[radix\_\-sort\_\-by\_\-key]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ void komrade::sorting::radix\_\-sort\_\-by\_\-key (RandomAccessIterator1 {\em keys\_\-first}, \/  RandomAccessIterator1 {\em keys\_\-last}, \/  RandomAccessIterator2 {\em values\_\-first})\hspace{0.3cm}{\tt  [inline]}}\label{group__radix__sorting_g8114f0f99e6c8b1098d545579f194303}
+
+
+{\tt radix\_\-sort\_\-by\_\-key} performs a key-value sort. That is, {\tt radix\_\-sort\_\-by\_\-key} sorts the elements in {\tt [keys\_\-first, keys\_\-last)} and {\tt [values\_\-first, values\_\-first + (keys\_\-last - keys\_\-first))} into ascending key order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [keys\_\-first, keys\_\-last)} such that {\tt i} precedes {\tt j}, and {\tt p} and {\tt q} are iterators in {\tt [values\_\-first, values\_\-first + (keys\_\-last - keys\_\-first))} corresponding to {\tt i} and {\tt j} respectively, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}.
+
+Note: {\tt radix\_\-sort\_\-by\_\-key} is not guaranteed to be stable. That is, suppose that {\tt $\ast$i} and {\tt $\ast$j} are equivalent: neither one is \doxyref{less}{p.}{structkomrade_1_1less} than the other. It is not guaranteed that the relative order of these two keys or the relative order of their corresponding values will be preserved by {\tt radix\_\-sort\_\-by\_\-key}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em keys\_\-first}]The beginning of the key sequence. \item[{\em keys\_\-last}]The end of the key sequence. \item[{\em values\_\-first}]The beginning of the value sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator1}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator1} is mutable, and {\tt RandomAccessIterator1's} {\tt value\_\-type} is a model of Plain Old Data. \item[{\em RandomAccessIterator2}]is a model of {\tt Random Access Iterator}, and {\tt RandomAccessIterator2} is mutable.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt radix\_\-sort\_\-by\_\-key} to sort an array of characters using integers as \doxyref{sorting}{p.}{namespacekomrade_1_1sorting} keys.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/sorting/radix_sort.h>
+  ...
+  const int N = 6;
+  int    keys[N] = {  1,   4,   2,   8,   5,   7};
+  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
+  komrade::sorting::radix_sort_by_key(keys, keys + N, values);
+  // keys is now   {  1,   2,   4,   5,   7,   8}
+  // values is now {'a', 'c', 'b', 'e', 'f', 'd'}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]\doxyref{sort\_\-by\_\-key}{p.}{group__key__value__sorting_g4765e8da113a34af858a4d5cd02fb4f6} 
+
+{\tt \doxyref{stable\_\-radix\_\-sort\_\-by\_\-key}{p.}{group__radix__sorting_g54f92ef956a860294dc8917be51a66bb}} 
+
+{\tt \doxyref{radix\_\-sort}{p.}{group__radix__sorting_g273bce48fa20005060886063a5fd0df3}} \end{Desc}
+\index{radix\_\-sorting@{radix\_\-sorting}!stable\_\-radix\_\-sort@{stable\_\-radix\_\-sort}}
+\index{stable\_\-radix\_\-sort@{stable\_\-radix\_\-sort}!radix_sorting@{radix\_\-sorting}}
+\subsubsection[stable\_\-radix\_\-sort]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator$>$ void komrade::sorting::stable\_\-radix\_\-sort (RandomAccessIterator {\em first}, \/  RandomAccessIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__radix__sorting_g59f1b366a710a75dbfe76bda62a87c31}
+
+
+{\tt stable\_\-radix\_\-sort} is much like {\tt radix\_\-sort:} it sorts the elements in {\tt [first, last)} into ascending order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [first, last)} such that {\tt i} precedes {\tt j}, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}.
+
+As the name suggests, {\tt stable\_\-radix\_\-sort} is stable: it preserves the relative ordering of equivalent elements. That is, if {\tt x} and {\tt y} are elements in {\tt [first, last)} such that {\tt x} precedes {\tt y}, and if the two elements are equivalent (neither {\tt x $<$ y} nor {\tt y $<$ x}) then a postcondition of {\tt stable\_\-radix\_\-sort} is that {\tt x} still precedes {\tt y}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence. \item[{\em last}]The end of the sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator} is mutable, and {\tt RandomAccessIterator's} {\tt value\_\-type} is a model of Plain Old Data.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt stable\_\-radix\_\-sort} to sort a sequence of integers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/sorting/radix_sort.h>
+  ...
+  const int N = 6;
+  int A[N] = {1, 4, 2, 8, 5, 7};
+  komrade::sorting::stable_radix_sort(A, A + N);
+  // A is now {1, 2, 4, 5, 7, 8}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]\doxyref{stable\_\-sort}{p.}{group__key__sorting_g24bad4a52451d3602c97e3a89f8a3ab8} 
+
+{\tt \doxyref{radix\_\-sort}{p.}{group__radix__sorting_g273bce48fa20005060886063a5fd0df3}} 
+
+{\tt stable\_\-radxi\_\-sort\_\-by\_\-key} \end{Desc}
+\index{radix\_\-sorting@{radix\_\-sorting}!stable\_\-radix\_\-sort\_\-by\_\-key@{stable\_\-radix\_\-sort\_\-by\_\-key}}
+\index{stable\_\-radix\_\-sort\_\-by\_\-key@{stable\_\-radix\_\-sort\_\-by\_\-key}!radix_sorting@{radix\_\-sorting}}
+\subsubsection[stable\_\-radix\_\-sort\_\-by\_\-key]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename RandomAccessIterator1, typename RandomAccessIterator2$>$ void komrade::sorting::stable\_\-radix\_\-sort\_\-by\_\-key (RandomAccessIterator1 {\em keys\_\-first}, \/  RandomAccessIterator1 {\em keys\_\-last}, \/  RandomAccessIterator2 {\em values\_\-first})\hspace{0.3cm}{\tt  [inline]}}\label{group__radix__sorting_g54f92ef956a860294dc8917be51a66bb}
+
+
+{\tt stable\_\-radix\_\-sort\_\-by\_\-key} performs a key-value sort. That is, {\tt stable\_\-radix\_\-sort\_\-by\_\-key} sorts the elements in {\tt [keys\_\-first, keys\_\-last)} and {\tt [values\_\-first, values\_\-first + (keys\_\-last - keys\_\-first))} into ascending key order, meaning that if {\tt i} and {\tt j} are any two valid iterators in {\tt [keys\_\-first, keys\_\-last)} such that {\tt i} precedes {\tt j}, and {\tt p} and {\tt q} are iterators in {\tt [values\_\-first, values\_\-first + (keys\_\-last - keys\_\-first))} corresponding to {\tt i} and {\tt j} respectively, then {\tt $\ast$j} is not \doxyref{less}{p.}{structkomrade_1_1less} than {\tt $\ast$i}.
+
+As the name suggests, {\tt stable\_\-radix\_\-sort\_\-by\_\-key} is stable: it preserves the relative ordering of equivalent elements. That is, if {\tt x} and {\tt y} are elements in {\tt [keys\_\-first, keys\_\-last)} such that {\tt x} precedes {\tt y}, and if the two elements are equivalent (neither {\tt x $<$ y} nor {\tt y $<$ x}) then a postcondition of {\tt stable\_\-radix\_\-sort\_\-by\_\-key} is that {\tt x} still precedes {\tt y}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em keys\_\-first}]The beginning of the key sequence. \item[{\em keys\_\-last}]The end of the key sequence. \item[{\em values\_\-first}]The beginning of the value sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em RandomAccessIterator1}]is a model of {\tt Random Access Iterator}, {\tt RandomAccessIterator1} is mutable, and {\tt RandomAccessIterator1's} {\tt value\_\-type} is a model of Plain Old Data. \item[{\em RandomAccessIterator2}]is a model of {\tt Random Access Iterator}, and {\tt RandomAccessIterator2} is mutable.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt stable\_\-radix\_\-sort\_\-by\_\-key} to sort an array of characters using integers as \doxyref{sorting}{p.}{namespacekomrade_1_1sorting} keys.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/sorting/radix_sort.h>
+  ...
+  const int N = 6;
+  int    keys[N] = {  1,   4,   2,   8,   5,   7};
+  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
+  komrade::sorting::stable_radix_sort_by_key(keys, keys + N, values);
+  // keys is now   {  1,   2,   4,   5,   7,   8}
+  // values is now {'a', 'c', 'b', 'e', 'f', 'd'}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]\doxyref{stable\_\-sort\_\-by\_\-key}{p.}{group__key__value__sorting_g09e75bb6d9fb544dfa88d5cb392ebb3e} 
+
+{\tt \doxyref{radix\_\-sort\_\-by\_\-key}{p.}{group__radix__sorting_g8114f0f99e6c8b1098d545579f194303}} 
+
+{\tt \doxyref{stable\_\-radix\_\-sort}{p.}{group__radix__sorting_g59f1b366a710a75dbfe76bda62a87c31}} \end{Desc}

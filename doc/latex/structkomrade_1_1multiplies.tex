@@ -1,0 +1,70 @@
+\section{komrade::multiplies$<$ T $>$ Struct Template Reference}
+\label{structkomrade_1_1multiplies}\index{komrade::multiplies@{komrade::multiplies}}
+{\tt \#include $<$functional.h$>$}
+
+Inheritance diagram for komrade::multiplies$<$ T $>$::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{structkomrade_1_1multiplies}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf operator()} (const T \&lhs, const T \&rhs) const 
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$ struct komrade::multiplies$<$ T $>$}
+
+{\tt \doxyref{multiplies}{p.}{structkomrade_1_1multiplies}} is a function object. Specifically, it is an Adaptable Binary Function. If {\tt f} is an object of class {\tt minus$<$T$>$}, and {\tt x} and {\tt y} are objects of class {\tt T}, then {\tt f(x,y)} returns {\tt x$\ast$y}.
+
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em T}]is a model of {\tt Assignable}, and if {\tt x} and {\tt y} are objects of type {\tt T}, then {\tt x$\ast$y} must be defined and must have a return type that is convertible to {\tt T}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt \doxyref{multiplies}{p.}{structkomrade_1_1multiplies}} to multiply two device\_\-vectors of {\tt floats}.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/device_vector.h>
+  #include <komrade/functional.h>
+  #include <komrade/range.h>
+  #include <komrade/fill.h>
+  #include <komrade/transform.h>
+  ...
+  const int N = 1000;
+  komrade::device_vector<float> V1(N);
+  komrade::device_vector<float> V2(N);
+  komrade::device_vector<float> V3(N);
+
+  komrade::range(V1.begin(), V1.end(), 1);
+  komrade::fill(V2.begin(), V2.end(), 75);
+
+  komrade::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+                     komrade::multiplies<float>());
+  // V3 is now {75, 150, 225, ..., 75000}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/multiplies.html} 
+
+\doxyref{binary\_\-function}{p.}{structkomrade_1_1binary__function} \end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::multiplies@{komrade::multiplies}!operator()@{operator()}}
+\index{operator()@{operator()}!komrade::multiplies@{komrade::multiplies}}
+\subsubsection[operator()]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::multiplies}$<$ T $>$::operator() (const T \& {\em lhs}, \/  const T \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1multiplies_1bf149d692ddde334cc2a5d522b04cfe}
+
+
+Function call operator. The return value is {\tt lhs $\ast$ rhs}. 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf functional.h}\end{CompactItemize}

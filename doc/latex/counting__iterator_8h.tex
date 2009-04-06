@@ -1,0 +1,34 @@
+\section{counting\_\-iterator.h File Reference}
+\label{counting__iterator_8h}\index{counting\_\-iterator.h@{counting\_\-iterator.h}}
+Defines the interface to an iterator which adapts an incrementable type to return the current value of the incrementable upon operator$\ast$(). Based on Boost's counting\_\-iterator class. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/iterator/iterator\_\-adaptor.h$>$}\par
+{\tt \#include $<$komrade/iterator/iterator\_\-categories.h$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\item 
+namespace {\bf komrade::experimental}
+\item 
+namespace \textbf{komrade::detail}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class \textbf{komrade::experimental::counting\_\-iterator$<$ Incrementable, Difference $>$}
+\item 
+struct \textbf{komrade::detail::make\_\-device\_\-dereferenceable$<$ komrade::experimental::counting\_\-iterator$<$ Incrementable, Difference $>$ $>$}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename Incrementable, typename Difference$>$ }\\counting\_\-iterator$<$ Incrementable, Difference $>$ \textbf{komrade::experimental::make\_\-counting\_\-iterator} (Incrementable x)\label{namespacekomrade_1_1experimental_6b2d1b48130fda953643ec1914b0784a}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to an iterator which adapts an incrementable type to return the current value of the incrementable upon operator$\ast$(). Based on Boost's counting\_\-iterator class. 
+

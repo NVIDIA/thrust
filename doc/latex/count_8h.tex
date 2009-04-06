@@ -1,0 +1,24 @@
+\section{count.h File Reference}
+\label{count_8h}\index{count.h@{count.h}}
+Defines the interface to templated count and count\_\-if functions. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/iterator/iterator\_\-traits.h$>$}\par
+{\tt \#include $<$komrade/detail/count.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$class InputIterator, class EqualityComparable$>$ }\\komrade::iterator\_\-traits$<$ InputIterator $>$::difference\_\-type {\bf komrade::count} (InputIterator first, InputIterator last, const EqualityComparable \&value)
+\item 
+{\footnotesize template$<$class InputIterator, class Predicate$>$ }\\komrade::iterator\_\-traits$<$ InputIterator $>$::difference\_\-type {\bf komrade::count\_\-if} (InputIterator first, InputIterator last, Predicate pred)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface to templated count and count\_\-if functions. 
+

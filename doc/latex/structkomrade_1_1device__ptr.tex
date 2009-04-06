@@ -1,0 +1,270 @@
+\section{komrade::device\_\-ptr$<$ T $>$ Struct Template Reference}
+\label{structkomrade_1_1device__ptr}\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}}
+{\tt \#include $<$device\_\-ptr.h$>$}
+
+\subsection*{Public Types}
+\begin{CompactItemize}
+\item 
+typedef {\bf komrade::random\_\-access\_\-device\_\-iterator\_\-tag} \textbf{iterator\_\-category}\label{structkomrade_1_1device__ptr_bb1bf09af6be567bc8cb1b10e616cebb}
+
+\item 
+typedef T \textbf{value\_\-type}\label{structkomrade_1_1device__ptr_3c7ffd10b83015c49a1c1f2e48561451}
+
+\item 
+typedef ptrdiff\_\-t \textbf{difference\_\-type}\label{structkomrade_1_1device__ptr_aef14e2bbf9dac66f7895fa7556103f5}
+
+\item 
+typedef {\bf device\_\-ptr} \textbf{pointer}\label{structkomrade_1_1device__ptr_4cb89bf25f3f95246e9c615c0f33f60c}
+
+\item 
+typedef {\bf device\_\-reference}$<$ T $>$ \textbf{reference}\label{structkomrade_1_1device__ptr_77d9fbf1d7522909558fb587e197e535}
+
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} (void)
+\item 
+{\footnotesize template$<$class Y$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} (Y $\ast$ptr)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} (const {\bf device\_\-ptr}$<$ typename detail::remove\_\-const$<$ value\_\-type $>$::type $>$ \&ptr)
+\item 
+{\footnotesize template$<$typename U$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf operator device\_\-ptr$<$ U $>$} (void) const 
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf operator+} (const difference\_\-type \&rhs) const 
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf operator-} (const difference\_\-type \&rhs) const 
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} \& {\bf operator++} (void)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf operator++} (int)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} \& {\bf operator--} (void)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf operator--} (int)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} \& {\bf operator+=} (difference\_\-type rhs)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} \& {\bf operator-=} (difference\_\-type rhs)
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- difference\_\-type {\bf operator-} (const {\bf device\_\-ptr} \&rhs) const 
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf reference} {\bf operator[$\,$]} (const difference\_\-type \&i) const 
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf reference} {\bf operator$\ast$} (void) const 
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- value\_\-type $\ast$ {\bf get} (void) const 
+\end{CompactItemize}
+\subsection*{Friends}
+\begin{CompactItemize}
+\item 
+struct \textbf{komrade::detail::device\_\-dereferenceable\_\-iterator\_\-traits$<$ komrade::device\_\-ptr$<$ T $>$ $>$}\label{structkomrade_1_1device__ptr_7ab0392dca3240ab3902abcee84faf71}
+
+\item 
+struct \textbf{komrade::detail::make\_\-device\_\-dereferenceable$<$ komrade::device\_\-ptr$<$ T $>$ $>$}\label{structkomrade_1_1device__ptr_a242c5c2d83b1c2b2861ee94296ac9c8}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$ struct komrade::device\_\-ptr$<$ T $>$}
+
+{\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} stores a pointer to an object allocated in device memory. This type provides type safety when dispatching standard algorithms on ranges resident in device memory.
+
+{\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} can be created with the functions device\_\-malloc, device\_\-new, or device\_\-pointer\_\-cast, or by explicitly calling its constructor with a raw pointer.
+
+The raw pointer encapsulated by a {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} may be obtained by either its {\tt get} method or the device\_\-pointer\_\-cast free function.
+
+\begin{Desc}
+\item[Note:]{\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} is not a smart pointer; it is the programmer's responsibility to deallocate memory pointed to by {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}.\end{Desc}
+\begin{Desc}
+\item[See also:]\doxyref{device\_\-malloc}{p.}{group__allocation__functions_g2344cbff21562ec9a109c7cd44999c90} 
+
+\doxyref{device\_\-new}{p.}{group__allocation__functions_g6ba2e5e53b2acf5cdfe8a3818d7ffe42} 
+
+\doxyref{device\_\-pointer\_\-cast}{p.}{group__memory__management__functions_g8fbaf7ffddae21678ed7afc19ff889c6} 
+
+\doxyref{raw\_\-pointer\_\-cast}{p.}{group__memory__management__functions_g7d1643dacb28a3e6ca24f5972ed32dc9} \end{Desc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!device\_\-ptr@{device\_\-ptr}}
+\index{device\_\-ptr@{device\_\-ptr}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[device\_\-ptr]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf komrade::device\_\-ptr}$<$ T $>$::{\bf device\_\-ptr} (void)\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_7c07b668db696b71efdfed37fce6407e}
+
+
+{\tt device\_\-ptr's} null constructor initializes its raw pointer to {\tt 0}. 
+
+Referenced by komrade::device\_\-ptr$<$ T $>$::operator+(), and komrade::device\_\-ptr$<$ T $>$::operator-().\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!device\_\-ptr@{device\_\-ptr}}
+\index{device\_\-ptr@{device\_\-ptr}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[device\_\-ptr]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ template$<$class Y$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf komrade::device\_\-ptr}$<$ T $>$::{\bf device\_\-ptr} (Y $\ast$ {\em ptr})\hspace{0.3cm}{\tt  [inline, explicit]}}\label{structkomrade_1_1device__ptr_d93f0d18fde4d3a8c949d9b35522cd99}
+
+
+{\tt device\_\-ptr's} copy constructor is templated to allow copying to a const T $\ast$ from a T $\ast$.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]A raw pointer to copy from, presumed to point to a location in device memory. \end{description}
+\end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!device\_\-ptr@{device\_\-ptr}}
+\index{device\_\-ptr@{device\_\-ptr}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[device\_\-ptr]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf komrade::device\_\-ptr}$<$ T $>$::{\bf device\_\-ptr} (const {\bf device\_\-ptr}$<$ typename detail::remove\_\-const$<$ value\_\-type $>$::type $>$ \& {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_8cac342a978012968789bc25a0b10386}
+
+
+{\tt device\_\-ptr's} copy constructor allows copying from another \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} with related type. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]The {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} to copy from. \end{description}
+\end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator device\_\-ptr$<$ U $>$@{operator device\_\-ptr$<$ U $>$}}
+\index{operator device\_\-ptr$<$ U $>$@{operator device\_\-ptr$<$ U $>$}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator device\_\-ptr$<$ U $>$]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ template$<$typename U$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf komrade::device\_\-ptr}$<$ T $>$::operator {\bf device\_\-ptr}$<$ U $>$ (void) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_8721b809d4fba8bf65f51c2146135351}
+
+
+{\tt device\_\-ptr's} conversion operator allows conversion to {\tt device\_\-ptr$<$U$>$} with {\tt U} related to {\tt T}. For example, {\tt device\_\-ptr$<$int$>$} may be converted to {\tt device\_\-ptr$<$void$>$}.
+
+\begin{Desc}
+\item[Returns:]A copy of this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}, converted to {\tt device\_\-ptr$<$U$>$}. \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator+@{operator+}}
+\index{operator+@{operator+}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator+]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf komrade::device\_\-ptr}$<$ T $>$::operator+ (const difference\_\-type \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_f04ed4fefa306bafc4aa6bbe0f781b6e}
+
+
+Returns a {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} whose raw pointer is equal to this {\tt device\_\-ptr's} raw pointer \doxyref{plus}{p.}{structkomrade_1_1plus} the given sum.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rhs}]The sum to add to this {\tt device\_\-ptr's} raw pointer. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}(mPtr + rhs)}. \end{Desc}
+
+
+References komrade::device\_\-ptr$<$ T $>$::device\_\-ptr().\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator-@{operator-}}
+\index{operator-@{operator-}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator-]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf komrade::device\_\-ptr}$<$ T $>$::operator- (const difference\_\-type \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_4a627df4c3313624ff247530461f5d48}
+
+
+Returns a {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} whose raw pointer is equal to this {\tt device\_\-ptr's} raw pointer \doxyref{minus}{p.}{structkomrade_1_1minus} the given difference.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rhs}]The difference to subtract to this {\tt device\_\-ptr's} raw pointer. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}(mPtr - rhs)}. \end{Desc}
+
+
+References komrade::device\_\-ptr$<$ T $>$::device\_\-ptr().\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator++@{operator++}}
+\index{operator++@{operator++}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator++]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr}\& {\bf komrade::device\_\-ptr}$<$ T $>$::operator++ (void)\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_8aff1091af1dd73007c099398eb40ad8}
+
+
+The pre-increment operator increments this {\tt device\_\-ptr's} raw pointer and then returns a reference to this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} \begin{Desc}
+\item[Returns:]{\tt $\ast$this} \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator++@{operator++}}
+\index{operator++@{operator++}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator++]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf komrade::device\_\-ptr}$<$ T $>$::operator++ (int)\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_07bf66f88d754498f40b36726dc47f3c}
+
+
+The post-increment operator copies this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}, increments the copy, and then returns the copy. \begin{Desc}
+\item[Returns:]A copy of this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} after being incremented. \end{Desc}
+
+
+References komrade::copy().\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator--@{operator--}}
+\index{operator--@{operator--}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator--]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr}\& {\bf komrade::device\_\-ptr}$<$ T $>$::operator-- (void)\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_09431ef7a456b812236b58778fba50b0}
+
+
+The pre-decrement operator decrements this {\tt device\_\-ptr's} raw pointer and then returns a reference to this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} \begin{Desc}
+\item[Returns:]{\tt $\ast$this} \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator--@{operator--}}
+\index{operator--@{operator--}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator--]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr} {\bf komrade::device\_\-ptr}$<$ T $>$::operator-- (int)\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_cd716fbd99c4a0450aea4b6270922cc1}
+
+
+The post-decrement operator copies this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}, decrements the copy, and then returns the copy. \begin{Desc}
+\item[Returns:]A copy of this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} after being decremented. \end{Desc}
+
+
+References komrade::copy().\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator+=]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr}\& {\bf komrade::device\_\-ptr}$<$ T $>$::operator+= (difference\_\-type {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_ed7d610fbc9149d41ac43f087fa3bf64}
+
+
+The addition assignment operator adds the given sum to this {\tt device\_\-ptr's} raw pointer and returns this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} by reference.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rhs}]The sum to add to this {\tt device\_\-ptr's} raw pointer. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt $\ast$this} \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator-=@{operator-=}}
+\index{operator-=@{operator-=}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator-=]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf device\_\-ptr}\& {\bf komrade::device\_\-ptr}$<$ T $>$::operator-= (difference\_\-type {\em rhs})\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_e9d172eaed8cb95b5ba875feb01b0714}
+
+
+The subtraction assignment operator subtracts the given difference from this {\tt device\_\-ptr's} raw pointer and returns this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} by reference.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rhs}]The difference to subtract from this {\tt device\_\-ptr's} raw pointer. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]{\tt $\ast$this} \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator-@{operator-}}
+\index{operator-@{operator-}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator-]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- difference\_\-type {\bf komrade::device\_\-ptr}$<$ T $>$::operator- (const {\bf device\_\-ptr}$<$ T $>$ \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_019534d131a828dee57dee08bd8221a5}
+
+
+The difference operator returns the difference between this {\tt device\_\-ptr's} raw pointer and that of another.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em rhs}]The {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} to subtract from this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The difference between this {\tt device\_\-ptr's} raw pointer and {\tt rhs's} raw pointer. \end{Desc}
+
+
+References komrade::device\_\-ptr$<$ T $>$::mPtr.\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator[]@{operator[]}}
+\index{operator[]@{operator[]}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator[]]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf reference} {\bf komrade::device\_\-ptr}$<$ T $>$::operator[$\,$] (const difference\_\-type \& {\em i}) const}\label{structkomrade_1_1device__ptr_96523226d9dd58d045618436837aa033}
+
+
+The array subscript operator dereferences this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} by the given index. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em i}]The index to add to this {\tt device\_\-ptr's} raw pointer before deference. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A \doxyref{device\_\-reference}{p.}{structkomrade_1_1device__reference} referring to the object pointed to by (this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} \doxyref{plus}{p.}{structkomrade_1_1plus} {\tt i}). \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[operator$\ast$]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- {\bf reference} {\bf komrade::device\_\-ptr}$<$ T $>$::operator$\ast$ (void) const}\label{structkomrade_1_1device__ptr_9f87c7ed2c0e190914b795291a5b8ef4}
+
+
+This method dereferences this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}. \begin{Desc}
+\item[Returns:]a \doxyref{device\_\-reference}{p.}{structkomrade_1_1device__reference} referring to the object pointed to by this {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}}. \end{Desc}
+\index{komrade::device\_\-ptr@{komrade::device\_\-ptr}!get@{get}}
+\index{get@{get}!komrade::device_ptr@{komrade::device\_\-ptr}}
+\subsubsection[get]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- value\_\-type$\ast$ {\bf komrade::device\_\-ptr}$<$ T $>$::get (void) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1device__ptr_8dcfd94ebfc66998aab5b15d172624b2}
+
+
+This method returns this {\tt device\_\-ptr's} raw pointer. \begin{Desc}
+\item[Returns:]This {\tt device\_\-ptr's} raw pointer. \end{Desc}
+
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf device\_\-ptr.h}\end{CompactItemize}

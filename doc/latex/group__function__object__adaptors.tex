@@ -1,0 +1,69 @@
+\section{Function Object Adaptors}
+\label{group__function__object__adaptors}\index{Function Object Adaptors@{Function Object Adaptors}}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf komrade::unary\_\-function$<$ Argument, Result $>$}
+\item 
+struct {\bf komrade::binary\_\-function$<$ Argument1, Argument2, Result $>$}
+\item 
+struct {\bf komrade::unary\_\-negate$<$ Predicate $>$}
+\item 
+struct {\bf komrade::binary\_\-negate$<$ Predicate $>$}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename Predicate$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- unary\_\-negate$<$ Predicate $>$ {\bf komrade::not1} (Predicate \&pred)
+\item 
+{\footnotesize template$<$typename BinaryPredicate$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- binary\_\-negate$<$ BinaryPredicate $>$ {\bf komrade::not2} (BinaryPredicate \&pred)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{function\_\-object\_\-adaptors@{function\_\-object\_\-adaptors}!not1@{not1}}
+\index{not1@{not1}!function_object_adaptors@{function\_\-object\_\-adaptors}}
+\subsubsection[not1]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Predicate$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- unary\_\-negate$<$Predicate$>$ komrade::not1 (Predicate \& {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__function__object__adaptors_ga3fbfed5c41580041c606815acabd5bb}
+
+
+{\tt not1} is a helper function to simplify the creation of Adaptable Predicates: it takes an Adaptable Predicate {\tt pred} as an argument and returns a new Adaptable Predicate that represents the negation of {\tt pred}. That is: if {\tt pred} is an object of a type which models Adaptable Predicate, then the the type of the result {\tt npred} of {\tt not1(pred)} is also a model of Adaptable Predicate and {\tt npred(x)} always returns the same value as {\tt !pred(x)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em pred}]The Adaptable Predicate to \doxyref{negate}{p.}{structkomrade_1_1negate}. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A new object, {\tt npred} such that {\tt npred(x)} always returns the same value as {\tt !pred(x)}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em Predicate}]is a model of {\tt Adaptable Predicate}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\doxyref{unary\_\-negate}{p.}{structkomrade_1_1unary__negate} 
+
+\doxyref{not2}{p.}{group__function__object__adaptors_gffe0523dab03b231e23d40ea703224e0} \end{Desc}
+\index{function\_\-object\_\-adaptors@{function\_\-object\_\-adaptors}!not2@{not2}}
+\index{not2@{not2}!function_object_adaptors@{function\_\-object\_\-adaptors}}
+\subsubsection[not2]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename BinaryPredicate$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- binary\_\-negate$<$BinaryPredicate$>$ komrade::not2 (BinaryPredicate \& {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__function__object__adaptors_gffe0523dab03b231e23d40ea703224e0}
+
+
+{\tt not2} is a helper function to simplify the creation of Adaptable Binary Predicates: it takes an Adaptable Binary Predicate {\tt pred} as an argument and returns a new Adaptable Binary Predicate that represents the negation of {\tt pred}. That is: if {\tt pred} is an object of a type which models Adaptable Binary Predicate, then the the type of the result {\tt npred} of {\tt not2(pred)} is also a model of Adaptable Binary Predicate and {\tt npred(x,y)} always returns the same value as {\tt !pred(x,y)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em pred}]The Adaptable Binary Predicate to \doxyref{negate}{p.}{structkomrade_1_1negate}. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A new object, {\tt npred} such that {\tt npred(x,y)} always returns the same value as {\tt !pred(x,y)}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em Binary}]Predicate is a model of {\tt Adaptable Binary Predicate}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\doxyref{binary\_\-negate}{p.}{structkomrade_1_1binary__negate} 
+
+\doxyref{not1}{p.}{group__function__object__adaptors_ga3fbfed5c41580041c606815acabd5bb} \end{Desc}

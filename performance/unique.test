@@ -1,0 +1,42 @@
+PREAMBLE = \
+    """
+    #include <komrade/unique.h>
+    """
+
+INITIALIZE = \
+    """
+    komrade::host_vector<$InputType> h_input = komradetest::random_integers<$InputType>($InputSize);
+   
+    // increase likelihood of equal consecutive elements
+    for(size_t i = 0; i < $InputSize; i++)
+        h_input[i] %= 4;   
+
+    komrade::device_vector<$InputType> d_input = h_input;
+    komrade::device_vector<$InputType> d_copy = d_input;
+    
+    komrade::host_vector<$InputType>::iterator   h_end = komrade::unique(h_input.begin(), h_input.end());
+    komrade::device_vector<$InputType>::iterator d_end = komrade::unique(d_input.begin(), d_input.end());
+    
+    komrade::host_vector<$InputType>   h_result(h_input.begin(), h_end);
+    komrade::device_vector<$InputType> d_result(d_input.begin(), d_end);
+
+    ASSERT_EQUAL(h_result, d_result);
+    """
+
+TIME = \
+    """
+    komrade::copy(d_copy.begin(), d_copy.end(), d_input.begin());
+    komrade::unique(d_input.begin(), d_input.end());
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(double($InputSize));
+    """
+
+InputTypes = SignedIntegerTypes
+InputSizes = StandardSizes
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes)]
+

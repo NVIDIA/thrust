@@ -1,0 +1,500 @@
+\section{Stream Compaction}
+\label{group__stream__compaction}\index{Stream Compaction@{Stream Compaction}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename Predicate$>$ }\\ForwardIterator {\bf komrade::partition} (ForwardIterator first, ForwardIterator last, Predicate pred)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename OutputIterator, typename Predicate$>$ }\\OutputIterator {\bf komrade::partition\_\-copy} (ForwardIterator first, ForwardIterator last, OutputIterator result, Predicate pred)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename Predicate$>$ }\\ForwardIterator {\bf komrade::stable\_\-partition} (ForwardIterator begin, ForwardIterator end, Predicate pred)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename OutputIterator, typename Predicate$>$ }\\OutputIterator {\bf komrade::stable\_\-partition\_\-copy} (ForwardIterator begin, ForwardIterator end, OutputIterator result, Predicate pred)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename T$>$ }\\ForwardIterator {\bf komrade::remove} (ForwardIterator first, ForwardIterator last, const T \&value)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename T$>$ }\\OutputIterator {\bf komrade::remove\_\-copy} (InputIterator first, InputIterator last, OutputIterator result, const T \&value)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename Predicate$>$ }\\ForwardIterator {\bf komrade::remove\_\-if} (ForwardIterator first, ForwardIterator last, Predicate pred)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename Predicate$>$ }\\OutputIterator {\bf komrade::remove\_\-copy\_\-if} (InputIterator first, InputIterator last, OutputIterator result, Predicate pred)
+\item 
+{\footnotesize template$<$typename ForwardIterator$>$ }\\ForwardIterator {\bf komrade::unique} (ForwardIterator first, ForwardIterator last)
+\item 
+{\footnotesize template$<$typename ForwardIterator, typename BinaryPredicate$>$ }\\ForwardIterator {\bf komrade::unique} (ForwardIterator first, ForwardIterator last, BinaryPredicate binary\_\-pred)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{stream\_\-compaction@{stream\_\-compaction}!partition@{partition}}
+\index{partition@{partition}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[partition]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename Predicate$>$ ForwardIterator komrade::partition (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_ga984147d13d5e3e57f92e3d27552158a}
+
+
+{\tt partition} reorders the elements {\tt [first, last)} based on the function object {\tt pred}, such that all of the elements that satisfy {\tt pred} precede the elements that fail to satisfy it. The postcondition is that, for some iterator {\tt middle} in the range {\tt [first,last)}, {\tt pred($\ast$i)} is {\tt true} for every iterator {\tt i} in the range {\tt [first,middle)} and {\tt false} for every iterator {\tt i} in the range {\tt [middle,last)}. The return value of {\tt partition} is {\tt middle}.
+
+Note that the relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, \doxyref{stable\_\-partition}{p.}{group__stream__compaction_g332177172a54c7cf7175b778c36572f3}, does guarantee to preserve the relative order.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence to reorder. \item[{\em last}]The end of the sequence to reorder. \item[{\em pred}]A function object which decides to which partition each element of the sequence {\tt [begin,end)} belongs. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy {\tt pred}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator's} {\tt value\_\-type} is convertible to {\tt Predicate's} {\tt argument\_\-type}, and {\tt ForwardIterator} is mutable. \item[{\em Predicate}]is a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt partition} to reorder a sequence so that even numbers precede odd numbers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/partition.h>
+  ...
+  struct is_even
+  {
+    __host__ __device__
+    bool operator()(const int &x)
+    {
+      return (x % 2) == 0;
+    }
+  };
+  ...
+  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  const int N = sizeof(A)/sizeof(int);
+  komrade::partition(A, A + N,
+                     is_even());
+  // A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/partition.html} 
+
+{\tt \doxyref{stable\_\-partition}{p.}{group__stream__compaction_g332177172a54c7cf7175b778c36572f3}} 
+
+{\tt \doxyref{partition\_\-copy}{p.}{group__stream__compaction_g8df24b40acabea0974a67f1ceb12cbf5}} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!partition\_\-copy@{partition\_\-copy}}
+\index{partition\_\-copy@{partition\_\-copy}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[partition\_\-copy]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename OutputIterator, typename Predicate$>$ OutputIterator komrade::partition\_\-copy (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  OutputIterator {\em result}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_g8df24b40acabea0974a67f1ceb12cbf5}
+
+
+{\tt partition\_\-copy} differs from \doxyref{partition}{p.}{group__stream__compaction_ga984147d13d5e3e57f92e3d27552158a} only in that the reordered sequence is written to a difference output sequence, rather than in place.
+
+{\tt partition\_\-copy} reorders the elements {\tt [first, last)} based on the function object {\tt pred}, such that all of the elements that satisfy {\tt pred} precede the elements that fail to satisfy it. The postcondition is that, for some iterator {\tt middle} in the range {\tt [first,last)}, {\tt pred($\ast$i)} is {\tt true} for every iterator {\tt i} in the range {\tt [first,middle)} and {\tt false} for every iterator {\tt i} in the range {\tt [middle,last)}. The return value of {\tt partition\_\-copy} is {\tt middle}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the sequence to reorder. \item[{\em last}]The end of the sequence to reorder. \item[{\em result}]The destination of the resulting sequence. \item[{\em pred}]A function object which decides to which partition each element of the sequence {\tt [begin,end)} belongs. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy {\tt pred}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator's} {\tt value\_\-type} is convertible to {\tt Predicate's} {\tt argument\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em Predicate}]is a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt partition\_\-copy} to reorder a sequence so that even numbers precede odd numbers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/partition.h>
+  ...
+  struct is_even
+  {
+    __host__ __device__
+    bool operator()(const int &x)
+    {
+      return (x % 2) == 0;
+    }
+  };
+  ...
+  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  int result[10];
+  const int N = sizeof(A)/sizeof(int);
+  komrade::partition_copy(A, A + N, result,
+                          is_even());
+  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[Note:]The relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, \doxyref{stable\_\-partition\_\-copy}{p.}{group__stream__compaction_gb9ae4dc32b506b0f343b77eacb0b6657}, does guarantee to preserve the relative order.
+
+{\tt partition\_\-copy's} interface differs from the proposed C++ STL function {\tt std::partition\_\-copy} due to the absence of a priori knowledge about the size of the two resulting sequences.\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf} 
+
+{\tt \doxyref{stable\_\-partition\_\-copy}{p.}{group__stream__compaction_gb9ae4dc32b506b0f343b77eacb0b6657}} 
+
+{\tt \doxyref{partition}{p.}{group__stream__compaction_ga984147d13d5e3e57f92e3d27552158a}} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!remove@{remove}}
+\index{remove@{remove}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[remove]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename T$>$ ForwardIterator komrade::remove (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  const T \& {\em value})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_ga6441a12addd59fb435d475e6be0efb8}
+
+
+{\tt remove} removes from the range {\tt [first, last)} all elements that are equal to {\tt value}. That is, {\tt remove} returns an iterator {\tt new\_\-last} such that the range {\tt [first, new\_\-last)} contains no elements equal to {\tt value}. The iterators in the range {\tt [new\_\-first,last)} are all still dereferenceable, but the elements that they point to are unspecified. {\tt remove} is stable, meaning that the relative order of elements that are not equal to {\tt value} is unchanged.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the range of interest. \item[{\em last}]The end of the range of interest. \item[{\em value}]The value to remove from the range {\tt [begin, end)}. Elements which are equal to value are removed from the sequence. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A {\tt ForwardIterator} pointing to the end of the resulting range of elements which are not equal to {\tt value}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable. \item[{\em T}]is a model of {\tt Equality Comparable}, and objects of type {\tt T} can be compared for equality with objects of {\tt ForwardIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt remove} to remove a number of interest from a range.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/remove.h>
+  ...
+  const int N = 6;
+  int A[N] = {3, 1, 4, 1, 5, 9};
+  int *new_end = komrade::remove(A, A + N, 1);
+  // The first four values of A are now {3, 4, 5, 9}
+  // Values beyond new_end are unspecified
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[Note:]The meaning of \char`\"{}removal\char`\"{} is somewhat subtle. {\tt remove} does not destroy any iterators, and does not change the distance between {\tt first} and {\tt last}. (There's no way that it could do anything of the sort.) So, for example, if {\tt V} is a \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}, {\tt remove(V.begin(), V.end(), 0)} does not change {\tt V.size()}: {\tt V} will contain just as many elements as it did before. {\tt remove} returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a {\tt Sequence}, you may simply erase them. That is, a reasonable way of removing elements from a {\tt Sequence} is {\tt S.erase(remove(S.begin(), S.end(), x), S.end())}.\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/remove.html} 
+
+\doxyref{remove\_\-if}{p.}{group__stream__compaction_g6b987fb3874bacd9d3abc5d3ddbe8eae} 
+
+\doxyref{remove\_\-copy}{p.}{group__stream__compaction_gc0d46ce96da2df50119e4b6adf3ca5f0} 
+
+\doxyref{remove\_\-copy\_\-if}{p.}{group__stream__compaction_g1f537611a97a9ab13762f689d3b07c12} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!remove\_\-copy@{remove\_\-copy}}
+\index{remove\_\-copy@{remove\_\-copy}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[remove\_\-copy]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename T$>$ OutputIterator komrade::remove\_\-copy (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  const T \& {\em value})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_gc0d46ce96da2df50119e4b6adf3ca5f0}
+
+
+{\tt remove\_\-copy} copies elements that are not equal to {\tt value} from the range {\tt [first, last)} to a range beginning at {\tt result}. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as in the range {\tt [first, last)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the range of interest. \item[{\em last}]The end of the range of interest. \item[{\em result}]The resulting range is copied to the sequence beginning at this location. \item[{\em value}]The value to omit from the copied range. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An OutputIterator pointing to the end of the resulting range of elements which are not equal to {\tt value}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator}, and {\tt InputIterator's} {\tt value\_\-type} is convertible to a type in {\tt OutputIterator's} set of {\tt value\_\-types}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em T}]is a model of {\tt Equality Comparable}, and objects of type {\tt T} can be compared for equality with objects of {\tt InputIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt remove\_\-copy} to copy a sequence of numbers to an output range while omitting a value of interest.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/remove.h>
+  ...
+  const int N = 6;
+  int V[N] = {-2, 0, -1, 0, 1, 2};
+  int result[N-2];
+  komrade::remove_copy(V, V + N, result, 0);
+  // V remains {-2, 0, -1, 0, 1, 2}
+  // result is now {-2, -1, 1, 2}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/remove\_\-copy.html} 
+
+\doxyref{remove}{p.}{group__stream__compaction_ga6441a12addd59fb435d475e6be0efb8} 
+
+\doxyref{remove\_\-if}{p.}{group__stream__compaction_g6b987fb3874bacd9d3abc5d3ddbe8eae} 
+
+\doxyref{remove\_\-copy\_\-if}{p.}{group__stream__compaction_g1f537611a97a9ab13762f689d3b07c12} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!remove\_\-copy\_\-if@{remove\_\-copy\_\-if}}
+\index{remove\_\-copy\_\-if@{remove\_\-copy\_\-if}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[remove\_\-copy\_\-if]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename Predicate$>$ OutputIterator komrade::remove\_\-copy\_\-if (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_g1f537611a97a9ab13762f689d3b07c12}
+
+
+{\tt remove\_\-copy\_\-if} copies elements from the range {\tt [first,last)} to a range beginning at {\tt result}, except that elements for which {\tt pred} is {\tt true} are not copied. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as the range {\tt [first,last)}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the range of interest. \item[{\em last}]The end of the range of interest. \item[{\em result}]The resulting range is copied to the sequence beginning at this location. \item[{\em pred}]A predicate to evaluate for each element of the range {\tt [first,last)}. Elements for which {\tt pred} evaluates to {\tt false} are not copied to the resulting sequence. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An OutputIterator pointing to the end of the resulting range.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator}, {\tt InputIterator's} {\tt value\_\-type} is convertible to a type in {\tt OutputIterator's} set of {\tt value\_\-types}, and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt Predicate's} {\tt argument\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em Predicate}]is a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt remove\_\-copy\_\-if} to copy a sequence of numbers to an output range while omitting even numbers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/remove.h>
+  ...
+  struct is_even
+  {
+    __host__ __device__
+    bool operator()(const int x)
+    {
+      return (x % 2) == 0;
+    }
+  };
+  ...
+  const int N = 6;
+  int V[N] = {-2, 0, -1, 0, 1, 2};
+  int result[2];
+  komrade::remove_copy_if(V, V + N, result, is_even());
+  // V remains {-2, 0, -1, 0, 1, 2}
+  // result is now {-1, 1}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/remove\_\-copy\_\-if.html} 
+
+\doxyref{remove}{p.}{group__stream__compaction_ga6441a12addd59fb435d475e6be0efb8} 
+
+\doxyref{remove\_\-copy}{p.}{group__stream__compaction_gc0d46ce96da2df50119e4b6adf3ca5f0} 
+
+\doxyref{remove\_\-if}{p.}{group__stream__compaction_g6b987fb3874bacd9d3abc5d3ddbe8eae} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!remove\_\-if@{remove\_\-if}}
+\index{remove\_\-if@{remove\_\-if}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[remove\_\-if]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename Predicate$>$ ForwardIterator komrade::remove\_\-if (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_g6b987fb3874bacd9d3abc5d3ddbe8eae}
+
+
+{\tt remove\_\-if} removes from the range {\tt [first, last)} every element {\tt x} such that {\tt pred(x)} is {\tt true}. That is, {\tt remove\_\-if} returns an iterator {\tt new\_\-last} such that the range {\tt [first,new\_\-last)} contains no elements for which {\tt pred} is {\tt true}. The iterators in the range {\tt [new\_\-last,last)} are all still dereferenceable, but the elements that they point to are unspecified. {\tt remove\_\-if} is stable, meaning that the relative order of elements that are not removed is unchanged.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the range of interest. \item[{\em last}]The end of the range of interest. \item[{\em pred}]A predicate to evaluate for each element of the range {\tt [first,last)}. Elements for which {\tt pred} evaluates to {\tt false} are removed from the sequence. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]A ForwardIterator pointing to the end of the resulting range of elements for which {\tt pred} evaluated to {\tt true}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, {\tt ForwardIterator} is mutable, and {\tt ForwardIterator's} {\tt value\_\-type} is convertible to {\tt Predicate's} {\tt argument\_\-type}. \item[{\em Predicate}]is a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt remove\_\-if} to remove all even numbers from an array of integers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/remove.h>
+  ...
+  struct is_even
+  {
+    __host__ __device__
+    bool operator()(const int x)
+    {
+      return (x % 2) == 0;
+    }
+  };
+  ...
+  const int N = 6;
+  int A[N] = {1, 4, 2, 8, 5, 7};
+  int *new_end = komrade::remove(A, A + N, is_even());
+  // The first three values of A are now {1, 5, 7}
+  // Values beyond new_end are unspecified
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[Note:]The meaning of \char`\"{}removal\char`\"{} is somewhat subtle. {\tt remove\_\-if} does not destroy any iterators, and does not change the distance between {\tt first} and {\tt last}. (There's no way that it could do anything of the sort.) So, for example, if {\tt V} is a \doxyref{device\_\-vector}{p.}{classkomrade_1_1device__vector}, {\tt remove\_\-if(V.begin(), V.end(), pred)} does not change {\tt V.size()}: {\tt V} will contain just as many elements as it did before. {\tt remove\_\-if} returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a {\tt Sequence}, you may simply erase them. That is, a reasonable way of removing elements from a {\tt Sequence} is {\tt S.erase(remove\_\-if(S.begin(), S.end(), pred), S.end())}.\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/remove\_\-if.html} 
+
+\doxyref{remove}{p.}{group__stream__compaction_ga6441a12addd59fb435d475e6be0efb8} 
+
+\doxyref{remove\_\-copy}{p.}{group__stream__compaction_gc0d46ce96da2df50119e4b6adf3ca5f0} 
+
+\doxyref{remove\_\-copy\_\-if}{p.}{group__stream__compaction_g1f537611a97a9ab13762f689d3b07c12} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!stable\_\-partition@{stable\_\-partition}}
+\index{stable\_\-partition@{stable\_\-partition}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[stable\_\-partition]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename Predicate$>$ ForwardIterator komrade::stable\_\-partition (ForwardIterator {\em begin}, \/  ForwardIterator {\em end}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_g332177172a54c7cf7175b778c36572f3}
+
+
+{\tt stable\_\-partition} is much like \doxyref{partition}{p.}{group__stream__compaction_ga984147d13d5e3e57f92e3d27552158a} : it reorders the elements in the range {\tt [begin, end)} based on the function object {\tt pred}, such that all of the elements that satisfy {\tt pred} precede all of the elements that fail to satisfy it. The postcondition is that, for some iterator {\tt middle} in the range {\tt [begin,end)}, {\tt pred($\ast$i)} is {\tt true} for every iterator {\tt i} in the range {\tt [begin,middle)} and {\tt false} for every iterator {\tt i} in the range {\tt [middle,end)}. The return value of {\tt stable\_\-partition} is {\tt middle}.
+
+{\tt stable\_\-partition} differs from \doxyref{partition}{p.}{group__stream__compaction_ga984147d13d5e3e57f92e3d27552158a} in that {\tt stable\_\-partition} is guaranteed to preserve relative order. That is, if {\tt x} and {\tt y} are elements in {\tt [begin,end)}, such that {\tt pred(x) == pred(y)}, and if {\tt x} precedes {\tt y}, then it will still be true after {\tt stable\_\-partition} that {\tt x} precedes {\tt y}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em begin}]The first element of the sequence to reorder. \item[{\em end}]One position past the last element of the sequence to reorder. \item[{\em pred}]A function object which decides to which partition each element of the sequence [begin,end) belongs. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy pred.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator's} {\tt value\_\-type} is convertible to {\tt Predicate's} {\tt argument\_\-type}, and {\tt ForwardIterator} is mutable. \item[{\em Predicate}]is a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt stable\_\-partition} to reorder a sequence so that even numbers precede odd numbers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/partition.h>
+  ...
+  struct is_even
+  {
+    __host__ __device__
+    bool operator()(const int &x)
+    {
+      return (x % 2) == 0;
+    }
+  };
+  ...
+  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  const int N = sizeof(A)/sizeof(int);
+  komrade::stable_partition(A, A + N,
+                            is_even());
+  // A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/stable\_\-partition.html} 
+
+{\tt \doxyref{partition}{p.}{group__stream__compaction_ga984147d13d5e3e57f92e3d27552158a}} 
+
+{\tt \doxyref{stable\_\-partition\_\-copy}{p.}{group__stream__compaction_gb9ae4dc32b506b0f343b77eacb0b6657}} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!stable\_\-partition\_\-copy@{stable\_\-partition\_\-copy}}
+\index{stable\_\-partition\_\-copy@{stable\_\-partition\_\-copy}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[stable\_\-partition\_\-copy]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename OutputIterator, typename Predicate$>$ OutputIterator komrade::stable\_\-partition\_\-copy (ForwardIterator {\em begin}, \/  ForwardIterator {\em end}, \/  OutputIterator {\em result}, \/  Predicate {\em pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_gb9ae4dc32b506b0f343b77eacb0b6657}
+
+
+{\tt stable\_\-partition\_\-copy} is much like \doxyref{partition\_\-copy}{p.}{group__stream__compaction_g8df24b40acabea0974a67f1ceb12cbf5} : it reorders the elements in the range {\tt [begin, end)} based on the function object {\tt pred}, such that all of the elements that satisfy {\tt pred} precede all of the elements that fail to satisfy it. The postcondition is that, for some iterator {\tt middle} in the range {\tt [begin,end)}, {\tt pred($\ast$i)} is {\tt true} for every iterator {\tt i} in the range {\tt [begin,middle)} and {\tt false} for every iterator {\tt i} in the range {\tt [middle,end)}. The return value of {\tt stable\_\-partition\_\-copy} is {\tt middle}.
+
+{\tt stable\_\-partition\_\-copy} differs from \doxyref{partition\_\-copy}{p.}{group__stream__compaction_g8df24b40acabea0974a67f1ceb12cbf5} in that {\tt stable\_\-partition\_\-copy} is guaranteed to preserve relative order. That is, if {\tt x} and {\tt y} are elements in {\tt [begin,end)}, such that {\tt pred(x) == pred(y)}, and if {\tt x} precedes {\tt y}, then it will still be true after {\tt stable\_\-partition\_\-copy} that {\tt x} precedes {\tt y}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em begin}]The first element of the sequence to reorder. \item[{\em end}]One position past the last element of the sequence to reorder. \item[{\em result}]The destination of the resulting sequence. \item[{\em pred}]A function object which decides to which partition each element of the sequence [begin,end) belongs. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy pred.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator's} {\tt value\_\-type} is convertible to {\tt Predicate's} {\tt argument\_\-type}, and {\tt ForwardIterator} is mutable. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}. \item[{\em Predicate}]is a model of {\tt Predicate}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt stable\_\-partition\_\-copy} to reorder a sequence so that even numbers precede odd numbers.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/partition.h>
+  ...
+  struct is_even
+  {
+    __host__ __device__
+    bool operator()(const int &x)
+    {
+      return (x % 2) == 0;
+    }
+  };
+  ...
+  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  int result[10];
+  const int N = sizeof(A)/sizeof(int);
+  komrade::stable_partition_copy(A, A + N, result,
+                                 is_even());
+  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 8, 10}
+  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt \doxyref{partition\_\-copy}{p.}{group__stream__compaction_g8df24b40acabea0974a67f1ceb12cbf5}} 
+
+{\tt \doxyref{stable\_\-partition}{p.}{group__stream__compaction_g332177172a54c7cf7175b778c36572f3}} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!unique@{unique}}
+\index{unique@{unique}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[unique]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator, typename BinaryPredicate$>$ ForwardIterator komrade::unique (ForwardIterator {\em first}, \/  ForwardIterator {\em last}, \/  BinaryPredicate {\em binary\_\-pred})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_gea295a34e38125a15ce18f4ac052c7c6}
+
+
+For each group of consecutive elements in the range {\tt [first, last)} with the same value, {\tt unique} removes all but the first element of the group. The return value is an iterator {\tt new\_\-last} such that no two consecutive elements in the range {\tt [first, new\_\-last)} are equal. The iterators in the range {\tt [new\_\-last, last)} are all still dereferenceable, but the elements that they point to are unspecified. {\tt unique} is stable, meaning that the relative order of elements that are not removed is unchanged.
+
+This version of {\tt unique} uses the function object {\tt binary\_\-pred} to test for equality.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input range. \item[{\em last}]The end of the input range. \item[{\em binary\_\-pred}]The binary predicate used to determine equality. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The end of the unique range {\tt [first, new\_\-last)}\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable, and {\tt ForwardIterator's} {\tt value\_\-type} is convertible to {\tt BinaryPredicate's} {\tt first\_\-argument\_\-type} and to {\tt BinaryPredicate's} {\tt second\_\-argument\_\-type}. \item[{\em BinaryPredicate}]is a model of {\tt Binary Predicate}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/unique.html} \end{Desc}
+\index{stream\_\-compaction@{stream\_\-compaction}!unique@{unique}}
+\index{unique@{unique}!stream_compaction@{stream\_\-compaction}}
+\subsubsection[unique]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename ForwardIterator$>$ ForwardIterator komrade::unique (ForwardIterator {\em first}, \/  ForwardIterator {\em last})\hspace{0.3cm}{\tt  [inline]}}\label{group__stream__compaction_g2f2c6ff40652385c4dcdd21a33bbe299}
+
+
+For each group of consecutive elements in the range {\tt [first, last)} with the same value, {\tt unique} removes all but the first element of the group. The return value is an iterator {\tt new\_\-last} such that no two consecutive elements in the range {\tt [first, new\_\-last)} are equal. The iterators in the range {\tt [new\_\-last, last)} are all still dereferenceable, but the elements that they point to are unspecified. {\tt unique} is stable, meaning that the relative order of elements that are not removed is unchanged.
+
+This version of {\tt unique} uses {\tt operator==} to test for equality.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input range. \item[{\em last}]The end of the input range. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The end of the unique range {\tt [first, new\_\-last)}.\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em ForwardIterator}]is a model of {\tt Forward Iterator}, and {\tt ForwardIterator} is mutable, and {\tt ForwardIterator's} {\tt value\_\-type} is a model of {\tt Equality Comparable}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt unique} to compact a sequence of numbers to remove consecutive duplicates.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/unique.h>
+  ...
+  const int N = 7;
+  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+  int *new_end = komrade::unique(A, A + N);
+  // The first four values of A are now {1, 3, 2, 1}
+  // Values beyond new_end are unspecified.
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/unique.html} \end{Desc}

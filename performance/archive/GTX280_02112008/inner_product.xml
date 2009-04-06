@@ -1,0 +1,662 @@
+<?xml version="1.0" ?>
+<testsuite  name="inner_product">
+<platform>
+  <device name="GeForce GTX 280">
+    <property name="revision" value="1.3"/>
+    <property name="global memory" value="1073020928"  units="bytes"/>
+    <property name="multiprocessors" value="30"/>
+    <property name="cores" value="240"/>
+    <property name="constant memory" value="65536"  units="bytes"/>
+    <property name="shared memory per block" value="16384"  units="bytes"/>
+    <property name="warp size" value="32"/>
+    <property name="max threads per block" value="512"/>
+    <property name="clock rate" value="1.296"  units="GHz"/>
+  </device>
+  <compilation>
+    <property name="CUDA_VERSION" value="2020"/>
+    <property name="host compiler" value="GCC 40204"/>
+    <property name="__DATE__" value="Feb 11 2009"/>
+    <property name="__TIME__" value="19:00:14"/>
+  </compilation>
+</platform>
+<test name="inner_product_char_16">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="8.19848e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000390316"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.000390316"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_32">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="8.8864e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000720202"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.000720202"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_64">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000102072"  units="seconds"/>
+  <result  name="Throughput"  value="0.00125402"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00125402"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_128">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000128754"  units="seconds"/>
+  <result  name="Throughput"  value="0.00198829"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00198829"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_256">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="7.86902e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.00650653"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00650653"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_512">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="7.87981e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0129952"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0129952"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_1024">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="7.94716e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0257702"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0257702"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_2048">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="8.0109e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0511303"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0511303"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_4096">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="7.88551e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.103887"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.103887"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_8192">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="7.99643e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.204891"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.204891"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_16384">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="8.1919e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.400005"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.400005"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_32768">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="8.28281e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.791229"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.791229"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_65536">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="8.42134e-05"  units="seconds"/>
+  <result  name="Throughput"  value="1.55643"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="1.55643"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_131072">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="8.70032e-05"  units="seconds"/>
+  <result  name="Throughput"  value="3.01304"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="3.01304"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_262144">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="9.29893e-05"  units="seconds"/>
+  <result  name="Throughput"  value="5.63815"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="5.63815"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_524288">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000104471"  units="seconds"/>
+  <result  name="Throughput"  value="10.037"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="10.037"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_1048576">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.000127141"  units="seconds"/>
+  <result  name="Throughput"  value="16.4947"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="16.4947"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_2097152">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000173629"  units="seconds"/>
+  <result  name="Throughput"  value="24.1567"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="24.1567"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_4194304">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.000265615"  units="seconds"/>
+  <result  name="Throughput"  value="31.5818"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="31.5818"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_char_8388608">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.000451107"  units="seconds"/>
+  <result  name="Throughput"  value="37.1912"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="37.1912"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_16">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="8.25903e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000387455"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.000774909"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_32">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="8.88789e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000720081"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00144016"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_64">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000101956"  units="seconds"/>
+  <result  name="Throughput"  value="0.00125545"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00251089"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_128">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000127718"  units="seconds"/>
+  <result  name="Throughput"  value="0.00200441"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00400883"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_256">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="7.91509e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.00646865"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0129373"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_512">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="7.93508e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0129047"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0258094"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_1024">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="7.93964e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0257946"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0515893"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_2048">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="7.90833e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0517935"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.103587"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_4096">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="7.92636e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.103351"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.206703"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_8192">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="7.99906e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.204824"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.409648"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_16384">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="8.19627e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.399791"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.799583"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_32768">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="8.52404e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.768837"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="1.53767"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_65536">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="8.63829e-05"  units="seconds"/>
+  <result  name="Throughput"  value="1.51734"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="3.03467"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_131072">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="8.90032e-05"  units="seconds"/>
+  <result  name="Throughput"  value="2.94533"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="5.89066"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_262144">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="9.4569e-05"  units="seconds"/>
+  <result  name="Throughput"  value="5.54398"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="11.088"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_524288">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0001059"  units="seconds"/>
+  <result  name="Throughput"  value="9.90159"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="19.8032"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_1048576">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.000128209"  units="seconds"/>
+  <result  name="Throughput"  value="16.3573"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="32.7145"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_2097152">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000171509"  units="seconds"/>
+  <result  name="Throughput"  value="24.4553"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="48.9106"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_4194304">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.000258216"  units="seconds"/>
+  <result  name="Throughput"  value="32.4868"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="64.9736"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_short_8388608">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.00043249"  units="seconds"/>
+  <result  name="Throughput"  value="38.7922"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="77.5844"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_16">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="8.43244e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000379487"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00151795"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_32">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="9.21827e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000694273"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00277709"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_64">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000107613"  units="seconds"/>
+  <result  name="Throughput"  value="0.00118945"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0047578"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_128">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000139059"  units="seconds"/>
+  <result  name="Throughput"  value="0.00184094"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00736376"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_256">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="7.90897e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.00647366"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0258947"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_512">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="7.90748e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0129498"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.051799"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_1024">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="7.88613e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0259697"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.103879"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_2048">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="7.87253e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.052029"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.208116"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_4096">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="7.88018e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.103957"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.415828"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_8192">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="7.99842e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.204841"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.819362"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_16384">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="8.19923e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.399647"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="1.59859"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_32768">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="8.57075e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.764648"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="3.05859"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_65536">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="8.76641e-05"  units="seconds"/>
+  <result  name="Throughput"  value="1.49516"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="5.98065"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_131072">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="9.18477e-05"  units="seconds"/>
+  <result  name="Throughput"  value="2.85412"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="11.4165"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_262144">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="9.99825e-05"  units="seconds"/>
+  <result  name="Throughput"  value="5.2438"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="20.9752"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_524288">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000116591"  units="seconds"/>
+  <result  name="Throughput"  value="8.99363"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="35.9745"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_1048576">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.000149674"  units="seconds"/>
+  <result  name="Throughput"  value="14.0115"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="56.0459"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_2097152">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000215334"  units="seconds"/>
+  <result  name="Throughput"  value="19.4781"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="77.9125"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_4194304">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.000346511"  units="seconds"/>
+  <result  name="Throughput"  value="24.2088"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="96.835"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_int_8388608">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.000610308"  units="seconds"/>
+  <result  name="Throughput"  value="27.4898"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="109.959"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_16">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="8.69502e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000368027"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00294421"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_32">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="9.73963e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.000657109"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00525688"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_64">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000118352"  units="seconds"/>
+  <result  name="Throughput"  value="0.00108152"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.00865214"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_128">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000160071"  units="seconds"/>
+  <result  name="Throughput"  value="0.00159929"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0127943"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_256">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="8.09594e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.00632416"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.0505932"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_512">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="8.06326e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0126996"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.101597"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_1024">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="8.06398e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0253969"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.203175"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_2048">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="8.07789e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.0507063"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.40565"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_4096">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="8.11351e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.100967"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="0.807739"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_8192">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="8.33019e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.196682"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="1.57346"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_16384">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="8.63843e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.379328"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="3.03463"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_32768">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="9.14198e-05"  units="seconds"/>
+  <result  name="Throughput"  value="0.716869"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="5.73495"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_65536">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="9.69775e-05"  units="seconds"/>
+  <result  name="Throughput"  value="1.35157"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="10.8126"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_131072">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.000108471"  units="seconds"/>
+  <result  name="Throughput"  value="2.41672"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="19.3337"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_262144">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.000131253"  units="seconds"/>
+  <result  name="Throughput"  value="3.9945"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="31.956"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_524288">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000176786"  units="seconds"/>
+  <result  name="Throughput"  value="5.93134"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="47.4507"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_1048576">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.000267904"  units="seconds"/>
+  <result  name="Throughput"  value="7.82798"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="62.6239"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_2097152">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000449868"  units="seconds"/>
+  <result  name="Throughput"  value="9.32342"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="74.5873"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_4194304">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.000813347"  units="seconds"/>
+  <result  name="Throughput"  value="10.3137"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="82.5095"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inner_product_long_8388608">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.00153959"  units="seconds"/>
+  <result  name="Throughput"  value="10.8972"  units="GOp/s"/>
+  <result  name="Bandwidth"  value="87.1778"  units="GBytes/s"/>
+  <status  result="Success"  message=""/>
+</test>
+</testsuite>

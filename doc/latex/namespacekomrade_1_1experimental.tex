@@ -1,0 +1,59 @@
+\section{komrade::experimental Namespace Reference}
+\label{namespacekomrade_1_1experimental}\index{komrade::experimental@{komrade::experimental}}
+
+
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class \textbf{constant\_\-iterator}
+\item 
+class \textbf{counting\_\-iterator}
+\item 
+class \textbf{iterator\_\-adaptor}
+\item 
+struct \textbf{random\_\-access\_\-universal\_\-iterator\_\-tag}
+\item 
+class \textbf{iterator\_\-core\_\-access}
+\item 
+class \textbf{iterator\_\-facade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- constant\_\-iterator$<$ T $>$ \textbf{make\_\-constant\_\-iterator} (T x, ptrdiff\_\-t c=ptrdiff\_\-t())\label{namespacekomrade_1_1experimental_ee459d0d41235d9c3cf69258fc873d57}
+
+\item 
+{\footnotesize template$<$typename Incrementable, typename Difference$>$ }\\counting\_\-iterator$<$ Incrementable, Difference $>$ \textbf{make\_\-counting\_\-iterator} (Incrementable x)\label{namespacekomrade_1_1experimental_6b2d1b48130fda953643ec1914b0784a}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool \textbf{operator==} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_c1d43437fbf28e33d0abd23a16765491}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool \textbf{operator!=} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_12e5a9fb875a33b48b6afab86ef5f190}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool \textbf{operator$<$} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_d2bff29a83045064df2eb5475078ff5e}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool \textbf{operator$>$} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_ae4c33d5f71f583df2e11d971f3fee37}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool \textbf{operator$<$=} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_4869164f1cce67d46990a08f59529c31}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- bool \textbf{operator$>$=} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_6c56473e48975474e0dcc916baebb698}
+
+\item 
+{\footnotesize template$<$class Dr1, class V1, class TC1, class R1, class P1, class D1, class Dr2, class V2, class TC2, class R2, class P2, class D2$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$::difference\_\-type \textbf{operator-} (iterator\_\-facade$<$ Dr1, V1, TC1, R1, P1, D1 $>$ const \&lhs, iterator\_\-facade$<$ Dr2, V2, TC2, R2, P2, D2 $>$ const \&rhs)\label{namespacekomrade_1_1experimental_08035ee15fceef58d27bb12d82219dc1}
+
+\item 
+{\footnotesize template$<$class Derived, class V, class TC, class R, class P, class D$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- Derived \textbf{operator+} (iterator\_\-facade$<$ Derived, V, TC, R, P, D $>$ const \&i, typename Derived::difference\_\-type n)\label{namespacekomrade_1_1experimental_53377102bc2bae7e50f4ed68d0f30ef2}
+
+\item 
+{\footnotesize template$<$class Derived, class V, class TC, class R, class P, class D$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- Derived \textbf{operator+} (typename Derived::difference\_\-type n, iterator\_\-facade$<$ Derived, V, TC, R, P, D $>$ const \&i)\label{namespacekomrade_1_1experimental_b8515494d7e4d8984d2ba4e8af3fedfd}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+// end iterator\_\-tag\_\-classes 

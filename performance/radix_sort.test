@@ -1,0 +1,36 @@
+PREAMBLE = \
+    """
+    #include <komrade/sorting/radix_sort.h>
+    """
+
+INITIALIZE = \
+    """
+    komrade::host_vector<$KeyType>   h_keys = komradetest::random_integers<$KeyType>($InputSize);
+    komrade::device_vector<$KeyType> d_keys = h_keys;
+    komrade::device_vector<$KeyType> d_keys_copy = d_keys;
+    
+    // test sort
+    komrade::sorting::radix_sort(h_keys.begin(), h_keys.end());
+    komrade::sorting::radix_sort(d_keys.begin(), d_keys.end());
+
+    ASSERT_EQUAL(d_keys, h_keys);
+    """
+
+TIME = \
+    """
+    komrade::copy(d_keys_copy.begin(), d_keys_copy.end(), d_keys.begin());
+    komrade::sorting::radix_sort(d_keys.begin(), d_keys.end());
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_SORTING_RATE(double($InputSize));
+    """
+
+
+KeyTypes = ['char', 'short', 'int', 'long long', 'float', 'double']
+InputSizes = StandardSizes
+
+TestVariables = [('KeyType', KeyTypes), ('InputSize', InputSizes)]
+

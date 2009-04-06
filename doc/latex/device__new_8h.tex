@@ -1,0 +1,27 @@
+\section{device\_\-new.h File Reference}
+\label{device__new_8h}\index{device\_\-new.h@{device\_\-new.h}}
+Defines the interface for a wrapper for cudaMalloc. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$cstddef$>$}\par
+{\tt \#include $<$komrade/device\_\-ptr.h$>$}\par
+{\tt \#include $<$komrade/detail/device\_\-new.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-new} (device\_\-ptr$<$ void $>$ p, const size\_\-t n=1)
+\item 
+{\footnotesize template$<$typename T$>$ }\\device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-new} (device\_\-ptr$<$ void $>$ p, const T \&exemplar, const size\_\-t n=1)
+\item 
+{\footnotesize template$<$typename T$>$ }\\device\_\-ptr$<$ T $>$ {\bf komrade::device\_\-new} (const size\_\-t n=1)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the interface for a wrapper for cudaMalloc. 
+

@@ -1,0 +1,73 @@
+\section{functional.h File Reference}
+\label{functional_8h}\index{functional.h@{functional.h}}
+Defines templated functors and traits analogous to what is found in stl and boost's functional. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$functional$>$}\par
+{\tt \#include $<$komrade/detail/functional.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf komrade::unary\_\-function$<$ Argument, Result $>$}
+\item 
+struct {\bf komrade::binary\_\-function$<$ Argument1, Argument2, Result $>$}
+\item 
+struct {\bf komrade::plus$<$ T $>$}
+\item 
+struct {\bf komrade::minus$<$ T $>$}
+\item 
+struct {\bf komrade::multiplies$<$ T $>$}
+\item 
+struct {\bf komrade::divides$<$ T $>$}
+\item 
+struct {\bf komrade::modulus$<$ T $>$}
+\item 
+struct {\bf komrade::negate$<$ T $>$}
+\item 
+struct {\bf komrade::absolute\_\-value$<$ T $>$}
+\item 
+struct {\bf komrade::equal\_\-to$<$ T $>$}
+\item 
+struct {\bf komrade::not\_\-equal\_\-to$<$ T $>$}
+\item 
+struct {\bf komrade::greater$<$ T $>$}
+\item 
+struct {\bf komrade::less$<$ T $>$}
+\item 
+struct {\bf komrade::greater\_\-equal$<$ T $>$}
+\item 
+struct {\bf komrade::less\_\-equal$<$ T $>$}
+\item 
+struct {\bf komrade::logical\_\-and$<$ T $>$}
+\item 
+struct {\bf komrade::logical\_\-or$<$ T $>$}
+\item 
+struct {\bf komrade::logical\_\-not$<$ T $>$}
+\item 
+struct {\bf komrade::identity$<$ T $>$}
+\item 
+struct {\bf komrade::maximum$<$ T $>$}
+\item 
+struct {\bf komrade::minimum$<$ T $>$}
+\item 
+struct {\bf komrade::unary\_\-negate$<$ Predicate $>$}
+\item 
+struct {\bf komrade::binary\_\-negate$<$ Predicate $>$}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename Predicate$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- unary\_\-negate$<$ Predicate $>$ {\bf komrade::not1} (Predicate \&pred)
+\item 
+{\footnotesize template$<$typename BinaryPredicate$>$ }\\\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- binary\_\-negate$<$ BinaryPredicate $>$ {\bf komrade::not2} (BinaryPredicate \&pred)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines templated functors and traits analogous to what is found in stl and boost's functional. 
+

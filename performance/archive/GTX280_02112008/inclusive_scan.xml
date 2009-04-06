@@ -1,0 +1,582 @@
+<?xml version="1.0" ?>
+<testsuite  name="inclusive_scan">
+<platform>
+  <device name="GeForce GTX 280">
+    <property name="revision" value="1.3"/>
+    <property name="global memory" value="1073020928"  units="bytes"/>
+    <property name="multiprocessors" value="30"/>
+    <property name="cores" value="240"/>
+    <property name="constant memory" value="65536"  units="bytes"/>
+    <property name="shared memory per block" value="16384"  units="bytes"/>
+    <property name="warp size" value="32"/>
+    <property name="max threads per block" value="512"/>
+    <property name="clock rate" value="1.296"  units="GHz"/>
+  </device>
+  <compilation>
+    <property name="CUDA_VERSION" value="2020"/>
+    <property name="host compiler" value="GCC 40204"/>
+    <property name="__DATE__" value="Feb 11 2009"/>
+    <property name="__TIME__" value="18:44:23"/>
+  </compilation>
+</platform>
+<test name="inclusive_scan_char_16">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000141892"  units="seconds"/>
+  <result  name="Throughput"  value="0.000112761"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_32">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000141737"  units="seconds"/>
+  <result  name="Throughput"  value="0.00022577"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_64">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000142616"  units="seconds"/>
+  <result  name="Throughput"  value="0.000448758"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_128">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000142713"  units="seconds"/>
+  <result  name="Throughput"  value="0.000896902"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_256">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000143649"  units="seconds"/>
+  <result  name="Throughput"  value="0.00178213"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_512">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000143821"  units="seconds"/>
+  <result  name="Throughput"  value="0.00355999"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_1024">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000144138"  units="seconds"/>
+  <result  name="Throughput"  value="0.00710428"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_2048">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.000144167"  units="seconds"/>
+  <result  name="Throughput"  value="0.0142057"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_4096">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.000145454"  units="seconds"/>
+  <result  name="Throughput"  value="0.0281602"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_8192">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.000148998"  units="seconds"/>
+  <result  name="Throughput"  value="0.0549807"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_16384">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.000154278"  units="seconds"/>
+  <result  name="Throughput"  value="0.106198"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_32768">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.000168106"  units="seconds"/>
+  <result  name="Throughput"  value="0.194925"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_65536">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.000175733"  units="seconds"/>
+  <result  name="Throughput"  value="0.372929"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_131072">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.000202954"  units="seconds"/>
+  <result  name="Throughput"  value="0.64582"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_262144">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.000242369"  units="seconds"/>
+  <result  name="Throughput"  value="1.08159"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_524288">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000333879"  units="seconds"/>
+  <result  name="Throughput"  value="1.57029"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_1048576">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.000523065"  units="seconds"/>
+  <result  name="Throughput"  value="2.00467"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_2097152">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000912446"  units="seconds"/>
+  <result  name="Throughput"  value="2.29838"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_4194304">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.00169012"  units="seconds"/>
+  <result  name="Throughput"  value="2.48166"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_char_8388608">
+  <variable  name="InputType"  value="char"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.00324007"  units="seconds"/>
+  <result  name="Throughput"  value="2.58902"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_16">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00014222"  units="seconds"/>
+  <result  name="Throughput"  value="0.000112502"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_32">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000142092"  units="seconds"/>
+  <result  name="Throughput"  value="0.000225207"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_64">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000142851"  units="seconds"/>
+  <result  name="Throughput"  value="0.00044802"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_128">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000142996"  units="seconds"/>
+  <result  name="Throughput"  value="0.000895132"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_256">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000144094"  units="seconds"/>
+  <result  name="Throughput"  value="0.00177662"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_512">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000144211"  units="seconds"/>
+  <result  name="Throughput"  value="0.00355036"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_1024">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000144305"  units="seconds"/>
+  <result  name="Throughput"  value="0.0070961"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_2048">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.000145253"  units="seconds"/>
+  <result  name="Throughput"  value="0.0140996"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_4096">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.000145651"  units="seconds"/>
+  <result  name="Throughput"  value="0.028122"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_8192">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00014837"  units="seconds"/>
+  <result  name="Throughput"  value="0.0552133"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_16384">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.000161525"  units="seconds"/>
+  <result  name="Throughput"  value="0.101433"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_32768">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.000172751"  units="seconds"/>
+  <result  name="Throughput"  value="0.189684"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_65536">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.000177506"  units="seconds"/>
+  <result  name="Throughput"  value="0.369205"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_131072">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00019387"  units="seconds"/>
+  <result  name="Throughput"  value="0.676081"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_262144">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.000217365"  units="seconds"/>
+  <result  name="Throughput"  value="1.20601"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_524288">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000278244"  units="seconds"/>
+  <result  name="Throughput"  value="1.88427"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_1048576">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.000404609"  units="seconds"/>
+  <result  name="Throughput"  value="2.59158"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_2097152">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000657663"  units="seconds"/>
+  <result  name="Throughput"  value="3.18879"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_4194304">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.00115324"  units="seconds"/>
+  <result  name="Throughput"  value="3.63697"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_short_8388608">
+  <variable  name="InputType"  value="short"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.00214297"  units="seconds"/>
+  <result  name="Throughput"  value="3.91448"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_16">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000142229"  units="seconds"/>
+  <result  name="Throughput"  value="0.000112495"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_32">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000142271"  units="seconds"/>
+  <result  name="Throughput"  value="0.000224923"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_64">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000142924"  units="seconds"/>
+  <result  name="Throughput"  value="0.00044779"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_128">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000143282"  units="seconds"/>
+  <result  name="Throughput"  value="0.000893345"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_256">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000143778"  units="seconds"/>
+  <result  name="Throughput"  value="0.00178053"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_512">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.00014409"  units="seconds"/>
+  <result  name="Throughput"  value="0.00355334"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_1024">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000144741"  units="seconds"/>
+  <result  name="Throughput"  value="0.00707469"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_2048">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.000144953"  units="seconds"/>
+  <result  name="Throughput"  value="0.0141287"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_4096">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.000146114"  units="seconds"/>
+  <result  name="Throughput"  value="0.0280329"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_8192">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00015729"  units="seconds"/>
+  <result  name="Throughput"  value="0.0520821"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_16384">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.000161988"  units="seconds"/>
+  <result  name="Throughput"  value="0.101143"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_32768">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.000170788"  units="seconds"/>
+  <result  name="Throughput"  value="0.191864"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_65536">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.000175256"  units="seconds"/>
+  <result  name="Throughput"  value="0.373943"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_131072">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.000188812"  units="seconds"/>
+  <result  name="Throughput"  value="0.694192"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_262144">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0002113"  units="seconds"/>
+  <result  name="Throughput"  value="1.24062"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_524288">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000262078"  units="seconds"/>
+  <result  name="Throughput"  value="2.00051"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_1048576">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.00036081"  units="seconds"/>
+  <result  name="Throughput"  value="2.90617"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_2097152">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.000557881"  units="seconds"/>
+  <result  name="Throughput"  value="3.75914"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_4194304">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.000949749"  units="seconds"/>
+  <result  name="Throughput"  value="4.41622"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_int_8388608">
+  <variable  name="InputType"  value="int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.00173876"  units="seconds"/>
+  <result  name="Throughput"  value="4.82449"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_16">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00014313"  units="seconds"/>
+  <result  name="Throughput"  value="0.000111786"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_32">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000143232"  units="seconds"/>
+  <result  name="Throughput"  value="0.000223413"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_64">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000144594"  units="seconds"/>
+  <result  name="Throughput"  value="0.000442619"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_128">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000144869"  units="seconds"/>
+  <result  name="Throughput"  value="0.000883559"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_256">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000146288"  units="seconds"/>
+  <result  name="Throughput"  value="0.00174997"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_512">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.00014657"  units="seconds"/>
+  <result  name="Throughput"  value="0.00349322"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_1024">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000146744"  units="seconds"/>
+  <result  name="Throughput"  value="0.00697813"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_2048">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.000146711"  units="seconds"/>
+  <result  name="Throughput"  value="0.0139594"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_4096">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.000156973"  units="seconds"/>
+  <result  name="Throughput"  value="0.0260936"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_8192">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.000161922"  units="seconds"/>
+  <result  name="Throughput"  value="0.0505922"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_16384">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.000520835"  units="seconds"/>
+  <result  name="Throughput"  value="0.0314572"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_32768">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.000542391"  units="seconds"/>
+  <result  name="Throughput"  value="0.060414"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_65536">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.000551927"  units="seconds"/>
+  <result  name="Throughput"  value="0.11874"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_131072">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00058857"  units="seconds"/>
+  <result  name="Throughput"  value="0.222696"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_262144">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.000645142"  units="seconds"/>
+  <result  name="Throughput"  value="0.406335"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_524288">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.000773861"  units="seconds"/>
+  <result  name="Throughput"  value="0.677496"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_1048576">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.00100256"  units="seconds"/>
+  <result  name="Throughput"  value="1.04589"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_2097152">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.00147421"  units="seconds"/>
+  <result  name="Throughput"  value="1.42256"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_4194304">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.00241525"  units="seconds"/>
+  <result  name="Throughput"  value="1.73659"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="inclusive_scan_long_8388608">
+  <variable  name="InputType"  value="long"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.00431299"  units="seconds"/>
+  <result  name="Throughput"  value="1.94496"  units="GOp/s"/>
+  <status  result="Success"  message=""/>
+</test>
+</testsuite>

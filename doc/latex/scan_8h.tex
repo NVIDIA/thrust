@@ -1,0 +1,29 @@
+\section{scan.h File Reference}
+\label{scan_8h}\index{scan.h@{scan.h}}
+Defines some functions for computing prefix sums. 
+
+{\tt \#include $<$komrade/detail/config.h$>$}\par
+{\tt \#include $<$komrade/detail/scan.inl$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf komrade}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator$>$ }\\void {\bf komrade::inclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename AssociativeOperator$>$ }\\void {\bf komrade::inclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, AssociativeOperator binary\_\-op)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator$>$ }\\void {\bf komrade::exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename T$>$ }\\void {\bf komrade::exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, const T init)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename T, typename AssociativeOperator$>$ }\\void {\bf komrade::exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, const T init, AssociativeOperator binary\_\-op)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines some functions for computing prefix sums. 
+

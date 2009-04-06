@@ -1,0 +1,582 @@
+<?xml version="1.0" ?>
+<testsuite  name="sort">
+<platform>
+  <device name="GeForce GTX 280">
+    <property name="revision" value="1.3"/>
+    <property name="global memory" value="1073020928"  units="bytes"/>
+    <property name="multiprocessors" value="30"/>
+    <property name="cores" value="240"/>
+    <property name="constant memory" value="65536"  units="bytes"/>
+    <property name="shared memory per block" value="16384"  units="bytes"/>
+    <property name="warp size" value="32"/>
+    <property name="max threads per block" value="512"/>
+    <property name="clock rate" value="1.296"  units="GHz"/>
+  </device>
+  <compilation>
+    <property name="CUDA_VERSION" value="2020"/>
+    <property name="host compiler" value="GCC 40204"/>
+    <property name="__DATE__" value="Feb 11 2009"/>
+    <property name="__TIME__" value="19:01:31"/>
+  </compilation>
+</platform>
+<test name="sort_char_16">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000158805"  units="seconds"/>
+  <result  name="Sorting"  value="0.100752"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_32">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000158739"  units="seconds"/>
+  <result  name="Sorting"  value="0.201589"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_64">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000159022"  units="seconds"/>
+  <result  name="Sorting"  value="0.402459"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_128">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000176988"  units="seconds"/>
+  <result  name="Sorting"  value="0.723211"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_256">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000222432"  units="seconds"/>
+  <result  name="Sorting"  value="1.15091"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_512">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000267431"  units="seconds"/>
+  <result  name="Sorting"  value="1.91451"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_1024">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00046062"  units="seconds"/>
+  <result  name="Sorting"  value="2.22309"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_2048">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.000818543"  units="seconds"/>
+  <result  name="Sorting"  value="2.50201"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_4096">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00159319"  units="seconds"/>
+  <result  name="Sorting"  value="2.57094"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_8192">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00208901"  units="seconds"/>
+  <result  name="Sorting"  value="3.92147"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_16384">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00255264"  units="seconds"/>
+  <result  name="Sorting"  value="6.41846"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_32768">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00331811"  units="seconds"/>
+  <result  name="Sorting"  value="9.87551"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_65536">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00437826"  units="seconds"/>
+  <result  name="Sorting"  value="14.9685"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_131072">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00654708"  units="seconds"/>
+  <result  name="Sorting"  value="20.0199"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_262144">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0176687"  units="seconds"/>
+  <result  name="Sorting"  value="14.8366"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_524288">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0263019"  units="seconds"/>
+  <result  name="Sorting"  value="19.9335"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_1048576">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0463568"  units="seconds"/>
+  <result  name="Sorting"  value="22.6197"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_2097152">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0785232"  units="seconds"/>
+  <result  name="Sorting"  value="26.7074"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_4194304">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.142316"  units="seconds"/>
+  <result  name="Sorting"  value="29.4718"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_char_8388608">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.271391"  units="seconds"/>
+  <result  name="Sorting"  value="30.9096"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_16">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000146973"  units="seconds"/>
+  <result  name="Sorting"  value="0.108864"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_32">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000146943"  units="seconds"/>
+  <result  name="Sorting"  value="0.217771"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_64">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000147698"  units="seconds"/>
+  <result  name="Sorting"  value="0.433317"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_128">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000159403"  units="seconds"/>
+  <result  name="Sorting"  value="0.802996"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_256">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000191716"  units="seconds"/>
+  <result  name="Sorting"  value="1.33531"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_512">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000247509"  units="seconds"/>
+  <result  name="Sorting"  value="2.06862"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_1024">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000429596"  units="seconds"/>
+  <result  name="Sorting"  value="2.38364"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_2048">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00127485"  units="seconds"/>
+  <result  name="Sorting"  value="1.60646"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_4096">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00155939"  units="seconds"/>
+  <result  name="Sorting"  value="2.62667"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_8192">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00203715"  units="seconds"/>
+  <result  name="Sorting"  value="4.02131"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_16384">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00246226"  units="seconds"/>
+  <result  name="Sorting"  value="6.65404"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_32768">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.0031594"  units="seconds"/>
+  <result  name="Sorting"  value="10.3716"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_65536">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00409297"  units="seconds"/>
+  <result  name="Sorting"  value="16.0118"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_131072">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00598699"  units="seconds"/>
+  <result  name="Sorting"  value="21.8928"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_262144">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0165283"  units="seconds"/>
+  <result  name="Sorting"  value="15.8603"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_524288">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0276999"  units="seconds"/>
+  <result  name="Sorting"  value="18.9275"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_1048576">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0417759"  units="seconds"/>
+  <result  name="Sorting"  value="25.1"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_2097152">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0692924"  units="seconds"/>
+  <result  name="Sorting"  value="30.2653"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_4194304">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.123443"  units="seconds"/>
+  <result  name="Sorting"  value="33.9776"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_short_8388608">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.233754"  units="seconds"/>
+  <result  name="Sorting"  value="35.8865"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_16">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.00014932"  units="seconds"/>
+  <result  name="Sorting"  value="0.107152"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_32">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000149152"  units="seconds"/>
+  <result  name="Sorting"  value="0.214546"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_64">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000151266"  units="seconds"/>
+  <result  name="Sorting"  value="0.423095"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_128">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000165478"  units="seconds"/>
+  <result  name="Sorting"  value="0.773516"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_256">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000193828"  units="seconds"/>
+  <result  name="Sorting"  value="1.32076"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_512">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000247159"  units="seconds"/>
+  <result  name="Sorting"  value="2.07154"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_1024">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000918493"  units="seconds"/>
+  <result  name="Sorting"  value="1.11487"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_2048">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00127472"  units="seconds"/>
+  <result  name="Sorting"  value="1.60663"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_4096">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00156126"  units="seconds"/>
+  <result  name="Sorting"  value="2.62352"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_8192">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00200997"  units="seconds"/>
+  <result  name="Sorting"  value="4.07569"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_16384">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00243835"  units="seconds"/>
+  <result  name="Sorting"  value="6.7193"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_32768">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00311103"  units="seconds"/>
+  <result  name="Sorting"  value="10.5328"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_65536">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00399041"  units="seconds"/>
+  <result  name="Sorting"  value="16.4234"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_131072">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00572527"  units="seconds"/>
+  <result  name="Sorting"  value="22.8936"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_262144">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0192981"  units="seconds"/>
+  <result  name="Sorting"  value="13.5839"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_524288">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0267422"  units="seconds"/>
+  <result  name="Sorting"  value="19.6053"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_1048576">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0397493"  units="seconds"/>
+  <result  name="Sorting"  value="26.3798"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_2097152">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0653063"  units="seconds"/>
+  <result  name="Sorting"  value="32.1125"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_4194304">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.115021"  units="seconds"/>
+  <result  name="Sorting"  value="36.4656"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_int_8388608">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.216925"  units="seconds"/>
+  <result  name="Sorting"  value="38.6706"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_16">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000191897"  units="seconds"/>
+  <result  name="Sorting"  value="0.0833781"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_32">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000191846"  units="seconds"/>
+  <result  name="Sorting"  value="0.1668"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_64">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000195081"  units="seconds"/>
+  <result  name="Sorting"  value="0.328069"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_128">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000219035"  units="seconds"/>
+  <result  name="Sorting"  value="0.584382"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_256">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000291357"  units="seconds"/>
+  <result  name="Sorting"  value="0.878647"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_512">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000767517"  units="seconds"/>
+  <result  name="Sorting"  value="0.667086"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_1024">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00101722"  units="seconds"/>
+  <result  name="Sorting"  value="1.00667"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_2048">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00137801"  units="seconds"/>
+  <result  name="Sorting"  value="1.4862"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_4096">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00166658"  units="seconds"/>
+  <result  name="Sorting"  value="2.45772"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_8192">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00219545"  units="seconds"/>
+  <result  name="Sorting"  value="3.73135"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_16384">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00277074"  units="seconds"/>
+  <result  name="Sorting"  value="5.91322"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_32768">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00361578"  units="seconds"/>
+  <result  name="Sorting"  value="9.0625"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_65536">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00500069"  units="seconds"/>
+  <result  name="Sorting"  value="13.1054"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_131072">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.0107887"  units="seconds"/>
+  <result  name="Sorting"  value="12.149"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_262144">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0233263"  units="seconds"/>
+  <result  name="Sorting"  value="11.2381"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_524288">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0349062"  units="seconds"/>
+  <result  name="Sorting"  value="15.0199"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_1048576">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0563499"  units="seconds"/>
+  <result  name="Sorting"  value="18.6083"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_2097152">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0996106"  units="seconds"/>
+  <result  name="Sorting"  value="21.0535"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_4194304">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.184741"  units="seconds"/>
+  <result  name="Sorting"  value="22.7037"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="sort_long_8388608">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.360908"  units="seconds"/>
+  <result  name="Sorting"  value="23.2431"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+</testsuite>

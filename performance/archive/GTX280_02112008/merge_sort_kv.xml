@@ -1,0 +1,662 @@
+<?xml version="1.0" ?>
+<testsuite  name="merge_sort_by_key">
+<platform>
+  <device name="GeForce GTX 280">
+    <property name="revision" value="1.3"/>
+    <property name="global memory" value="1073020928"  units="bytes"/>
+    <property name="multiprocessors" value="30"/>
+    <property name="cores" value="240"/>
+    <property name="constant memory" value="65536"  units="bytes"/>
+    <property name="shared memory per block" value="16384"  units="bytes"/>
+    <property name="warp size" value="32"/>
+    <property name="max threads per block" value="512"/>
+    <property name="clock rate" value="1.296"  units="GHz"/>
+  </device>
+  <compilation>
+    <property name="CUDA_VERSION" value="2020"/>
+    <property name="host compiler" value="GCC 40204"/>
+    <property name="__DATE__" value="Feb 11 2009"/>
+    <property name="__TIME__" value="18:49:27"/>
+  </compilation>
+</platform>
+<test name="merge_sort_by_key_char_unsigned_int_16">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000181632"  units="seconds"/>
+  <result  name="Sorting"  value="0.08809"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_32">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000182411"  units="seconds"/>
+  <result  name="Sorting"  value="0.175428"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_64">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000184814"  units="seconds"/>
+  <result  name="Sorting"  value="0.346293"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_128">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000203915"  units="seconds"/>
+  <result  name="Sorting"  value="0.627713"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_256">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.0002517"  units="seconds"/>
+  <result  name="Sorting"  value="1.01708"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_512">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000303807"  units="seconds"/>
+  <result  name="Sorting"  value="1.68528"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_1024">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000780784"  units="seconds"/>
+  <result  name="Sorting"  value="1.3115"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_2048">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00114651"  units="seconds"/>
+  <result  name="Sorting"  value="1.78628"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_4096">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00165292"  units="seconds"/>
+  <result  name="Sorting"  value="2.47804"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_8192">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00219397"  units="seconds"/>
+  <result  name="Sorting"  value="3.73387"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_16384">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.0027091"  units="seconds"/>
+  <result  name="Sorting"  value="6.04777"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_32768">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00361771"  units="seconds"/>
+  <result  name="Sorting"  value="9.05767"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_65536">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00490319"  units="seconds"/>
+  <result  name="Sorting"  value="13.366"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_131072">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00759236"  units="seconds"/>
+  <result  name="Sorting"  value="17.2637"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_262144">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0197096"  units="seconds"/>
+  <result  name="Sorting"  value="13.3003"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_524288">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0303549"  units="seconds"/>
+  <result  name="Sorting"  value="17.272"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_1048576">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0543929"  units="seconds"/>
+  <result  name="Sorting"  value="19.2778"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_2097152">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0948942"  units="seconds"/>
+  <result  name="Sorting"  value="22.0999"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_4194304">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.174981"  units="seconds"/>
+  <result  name="Sorting"  value="23.9701"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_char_unsigned_int_8388608">
+  <variable  name="KeyType"  value="char"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.337744"  units="seconds"/>
+  <result  name="Sorting"  value="24.8372"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_16">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000169451"  units="seconds"/>
+  <result  name="Sorting"  value="0.0944227"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_32">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000170297"  units="seconds"/>
+  <result  name="Sorting"  value="0.187907"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_64">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000174328"  units="seconds"/>
+  <result  name="Sorting"  value="0.367123"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_128">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000187137"  units="seconds"/>
+  <result  name="Sorting"  value="0.683992"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_256">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000221666"  units="seconds"/>
+  <result  name="Sorting"  value="1.15489"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_512">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000282071"  units="seconds"/>
+  <result  name="Sorting"  value="1.81514"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_1024">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000749418"  units="seconds"/>
+  <result  name="Sorting"  value="1.36639"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_2048">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00132294"  units="seconds"/>
+  <result  name="Sorting"  value="1.54807"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_4096">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00161622"  units="seconds"/>
+  <result  name="Sorting"  value="2.53431"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_8192">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00212967"  units="seconds"/>
+  <result  name="Sorting"  value="3.8466"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_16384">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00261275"  units="seconds"/>
+  <result  name="Sorting"  value="6.27078"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_32768">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00344174"  units="seconds"/>
+  <result  name="Sorting"  value="9.52078"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_65536">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00460518"  units="seconds"/>
+  <result  name="Sorting"  value="14.2309"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_131072">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00709778"  units="seconds"/>
+  <result  name="Sorting"  value="18.4666"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_262144">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0188378"  units="seconds"/>
+  <result  name="Sorting"  value="13.9159"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_524288">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0325814"  units="seconds"/>
+  <result  name="Sorting"  value="16.0917"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_1048576">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0520444"  units="seconds"/>
+  <result  name="Sorting"  value="20.1477"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_2097152">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.0911246"  units="seconds"/>
+  <result  name="Sorting"  value="23.0141"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_4194304">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.169355"  units="seconds"/>
+  <result  name="Sorting"  value="24.7664"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_short_unsigned_int_8388608">
+  <variable  name="KeyType"  value="short"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.329977"  units="seconds"/>
+  <result  name="Sorting"  value="25.4218"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_16">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000172106"  units="seconds"/>
+  <result  name="Sorting"  value="0.0929657"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_32">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000172233"  units="seconds"/>
+  <result  name="Sorting"  value="0.185795"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_64">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000175436"  units="seconds"/>
+  <result  name="Sorting"  value="0.364805"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_128">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.000189642"  units="seconds"/>
+  <result  name="Sorting"  value="0.674956"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_256">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000225153"  units="seconds"/>
+  <result  name="Sorting"  value="1.137"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_512">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000279622"  units="seconds"/>
+  <result  name="Sorting"  value="1.83104"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_1024">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.000956122"  units="seconds"/>
+  <result  name="Sorting"  value="1.07099"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_2048">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.0013188"  units="seconds"/>
+  <result  name="Sorting"  value="1.55293"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_4096">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00161102"  units="seconds"/>
+  <result  name="Sorting"  value="2.54249"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_8192">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00210144"  units="seconds"/>
+  <result  name="Sorting"  value="3.89828"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_16384">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00257738"  units="seconds"/>
+  <result  name="Sorting"  value="6.35685"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_32768">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00332308"  units="seconds"/>
+  <result  name="Sorting"  value="9.86072"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_65536">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00444292"  units="seconds"/>
+  <result  name="Sorting"  value="14.7506"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_131072">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.00664948"  units="seconds"/>
+  <result  name="Sorting"  value="19.7116"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_262144">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0212202"  units="seconds"/>
+  <result  name="Sorting"  value="12.3535"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_524288">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0307024"  units="seconds"/>
+  <result  name="Sorting"  value="17.0764"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_1048576">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0481469"  units="seconds"/>
+  <result  name="Sorting"  value="21.7787"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_2097152">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.083215"  units="seconds"/>
+  <result  name="Sorting"  value="25.2016"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_4194304">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.152866"  units="seconds"/>
+  <result  name="Sorting"  value="27.4378"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_int_unsigned_int_8388608">
+  <variable  name="KeyType"  value="int"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.296785"  units="seconds"/>
+  <result  name="Sorting"  value="28.2649"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_16">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16"/>
+  <result  name="Time"  value="0.000207319"  units="seconds"/>
+  <result  name="Sorting"  value="0.0771756"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_32">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32"/>
+  <result  name="Time"  value="0.000211652"  units="seconds"/>
+  <result  name="Sorting"  value="0.151191"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_64">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="64"/>
+  <result  name="Time"  value="0.000220428"  units="seconds"/>
+  <result  name="Sorting"  value="0.290345"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_128">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="128"/>
+  <result  name="Time"  value="0.00026091"  units="seconds"/>
+  <result  name="Sorting"  value="0.49059"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_256">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="256"/>
+  <result  name="Time"  value="0.000367563"  units="seconds"/>
+  <result  name="Sorting"  value="0.69648"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_512">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="512"/>
+  <result  name="Time"  value="0.000657047"  units="seconds"/>
+  <result  name="Sorting"  value="0.779244"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_1024">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1024"/>
+  <result  name="Time"  value="0.00110502"  units="seconds"/>
+  <result  name="Sorting"  value="0.92668"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_2048">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2048"/>
+  <result  name="Time"  value="0.00147697"  units="seconds"/>
+  <result  name="Sorting"  value="1.38662"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_4096">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4096"/>
+  <result  name="Time"  value="0.00177804"  units="seconds"/>
+  <result  name="Sorting"  value="2.30366"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_8192">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8192"/>
+  <result  name="Time"  value="0.00240788"  units="seconds"/>
+  <result  name="Sorting"  value="3.40216"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_16384">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="16384"/>
+  <result  name="Time"  value="0.00303298"  units="seconds"/>
+  <result  name="Sorting"  value="5.40195"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_32768">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="32768"/>
+  <result  name="Time"  value="0.00419035"  units="seconds"/>
+  <result  name="Sorting"  value="7.81987"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_65536">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="65536"/>
+  <result  name="Time"  value="0.00597459"  units="seconds"/>
+  <result  name="Sorting"  value="10.9691"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_131072">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="131072"/>
+  <result  name="Time"  value="0.0127369"  units="seconds"/>
+  <result  name="Sorting"  value="10.2908"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_262144">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="262144"/>
+  <result  name="Time"  value="0.0272225"  units="seconds"/>
+  <result  name="Sorting"  value="9.62969"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_524288">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="524288"/>
+  <result  name="Time"  value="0.0429206"  units="seconds"/>
+  <result  name="Sorting"  value="12.2153"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_1048576">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="1048576"/>
+  <result  name="Time"  value="0.0729533"  units="seconds"/>
+  <result  name="Sorting"  value="14.3733"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_2097152">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="2097152"/>
+  <result  name="Time"  value="0.133955"  units="seconds"/>
+  <result  name="Sorting"  value="15.6556"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_4194304">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="4194304"/>
+  <result  name="Time"  value="0.256499"  units="seconds"/>
+  <result  name="Sorting"  value="16.3522"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+<test name="merge_sort_by_key_long_unsigned_int_8388608">
+  <variable  name="KeyType"  value="long"/>
+  <variable  name="ValueType"  value="unsigned int"/>
+  <variable  name="InputSize"  value="8388608"/>
+  <result  name="Time"  value="0.509329"  units="seconds"/>
+  <result  name="Sorting"  value="16.4699"  units="MKeys/s"/>
+  <status  result="Success"  message=""/>
+</test>
+</testsuite>

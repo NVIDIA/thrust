@@ -1,0 +1,205 @@
+\section{Prefix Sums}
+\label{group__prefixsums}\index{Prefix Sums@{Prefix Sums}}
+\subsection*{Modules}
+\begin{CompactItemize}
+\item 
+{\bf Transformed Prefix Sums}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator$>$ }\\void {\bf komrade::inclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename AssociativeOperator$>$ }\\void {\bf komrade::inclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, AssociativeOperator binary\_\-op)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator$>$ }\\void {\bf komrade::exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename T$>$ }\\void {\bf komrade::exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, const T init)
+\item 
+{\footnotesize template$<$typename InputIterator, typename OutputIterator, typename T, typename AssociativeOperator$>$ }\\void {\bf komrade::exclusive\_\-scan} (InputIterator first, InputIterator last, OutputIterator result, const T init, AssociativeOperator binary\_\-op)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{prefixsums@{prefixsums}!exclusive\_\-scan@{exclusive\_\-scan}}
+\index{exclusive\_\-scan@{exclusive\_\-scan}!prefixsums@{prefixsums}}
+\subsubsection[exclusive\_\-scan]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename T, typename AssociativeOperator$>$ void komrade::exclusive\_\-scan (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  const T {\em init}, \/  AssociativeOperator {\em binary\_\-op})\hspace{0.3cm}{\tt  [inline]}}\label{group__prefixsums_g74ec2bcc18eeee50ae11a296e18d3fda}
+
+
+{\tt exclusive\_\-scan} computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, {\tt init} is assigned to {\tt $\ast$result} and the value {\tt binary\_\-op(init, $\ast$first)} is assigned to {\tt $\ast$(result + 1)}, and so on. This version of the function requires both and associative operator and an initial value {\tt init}. When the input and output sequences are the same, the scan is performed in-place.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input sequence. \item[{\em last}]The end of the input sequence. \item[{\em result}]The beginning of the output sequence. \item[{\em init}]The initial value. \item[{\em binary\_\-op}]The associatve operator used to 'sum' values.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator} and {\tt OutputIterator's} {\tt value\_\-type} is convertible to both {\tt AssociativeOperator's} {\tt first\_\-argument\_\-type} and {\tt second\_\-argument\_\-type}. \item[{\em T}]is convertible to {\tt OutputIterator's} {\tt value\_\-type}. \item[{\em AssociativeOperator}]is a model of {\tt Binary Function} and {\tt AssociativeOperator's} {\tt result\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt exclusive\_\-scan} 
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/scan.h>
+  #include <komrade/functional.h>
+  
+  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
+ 
+  komrade::maximum<int> binary_op;
+
+  komrade::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan
+
+  // data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/partial\_\-sum.html} \end{Desc}
+\index{prefixsums@{prefixsums}!exclusive\_\-scan@{exclusive\_\-scan}}
+\index{exclusive\_\-scan@{exclusive\_\-scan}!prefixsums@{prefixsums}}
+\subsubsection[exclusive\_\-scan]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename T$>$ void komrade::exclusive\_\-scan (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  const T {\em init})\hspace{0.3cm}{\tt  [inline]}}\label{group__prefixsums_g582814b152e2dd0f08e01926eab420fc}
+
+
+{\tt exclusive\_\-scan} computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, {\tt init} is assigned to {\tt $\ast$result} and the sum of {\tt init} and {\tt $\ast$first} is assigned to {\tt $\ast$(result + 1)}, and so on. This version of {\tt exclusive\_\-scan} assumes \doxyref{plus}{p.}{structkomrade_1_1plus} as the associative operator but requires an initial value {\tt init}. When the input and output sequences are the same, the scan is performed in-place.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input sequence. \item[{\em last}]The end of the input sequence. \item[{\em result}]The beginning of the output sequence. \item[{\em init}]The initial value.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}, and if {\tt x} and {\tt y} are objects of {\tt OutputIterator's} {\tt value\_\-type}, then {\tt x + y} is defined. \item[{\em T}]is convertible to {\tt OutputIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt exclusive\_\-scan} 
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/scan.h>
+  
+  int data[6] = {1, 0, 2, 2, 1, 3};
+
+  komrade::exclusive_scan(data, data + 6, data, 4); // in-place scan
+
+  // data is now {4, 5, 5, 7, 9, 10}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/partial\_\-sum.html} \end{Desc}
+\index{prefixsums@{prefixsums}!exclusive\_\-scan@{exclusive\_\-scan}}
+\index{exclusive\_\-scan@{exclusive\_\-scan}!prefixsums@{prefixsums}}
+\subsubsection[exclusive\_\-scan]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator$>$ void komrade::exclusive\_\-scan (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result})\hspace{0.3cm}{\tt  [inline]}}\label{group__prefixsums_g5565c1bab2c57af80a3195a265c29838}
+
+
+{\tt exclusive\_\-scan} computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, {\tt 0} is assigned to {\tt $\ast$result} and the sum of {\tt 0} and {\tt $\ast$first} is assigned to {\tt $\ast$(result + 1)}, and so on. This version of {\tt exclusive\_\-scan} assumes \doxyref{plus}{p.}{structkomrade_1_1plus} as the associative operator and {\tt 0} as the initial value. When the input and output sequences are the same, the scan is performed in-place.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input sequence. \item[{\em last}]The end of the input sequence. \item[{\em result}]The beginning of the output sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}, and if {\tt x} and {\tt y} are objects of {\tt OutputIterator's} {\tt value\_\-type}, then {\tt x + y} is defined. If {\tt T} is {\tt OutputIterator's} {\tt value\_\-type}, then {\tt T(0)} is defined.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt exclusive\_\-scan} 
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/scan.h>
+  
+  int data[6] = {1, 0, 2, 2, 1, 3};
+
+  komrade::exclusive_scan(data, data + 6, data); // in-place scan
+
+  // data is now {0, 1, 1, 3, 5, 6}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/partial\_\-sum.html} \end{Desc}
+\index{prefixsums@{prefixsums}!inclusive\_\-scan@{inclusive\_\-scan}}
+\index{inclusive\_\-scan@{inclusive\_\-scan}!prefixsums@{prefixsums}}
+\subsubsection[inclusive\_\-scan]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator, typename AssociativeOperator$>$ void komrade::inclusive\_\-scan (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result}, \/  AssociativeOperator {\em binary\_\-op})\hspace{0.3cm}{\tt  [inline]}}\label{group__prefixsums_gcaf2fec33562f8d7172fc2fbbfd98ac9}
+
+
+{\tt inclusive\_\-scan} computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.
+
+{\tt inclusive\_\-scan} is similar to {\tt std::partial\_\-sum} in the STL. The primary difference between the two functions is that {\tt std::partial\_\-sum} guarantees a serial summation order, while {\tt inclusive\_\-scan} requires associativity of the binary operation to parallelize the prefix sum.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input sequence. \item[{\em last}]The end of the input sequence. \item[{\em result}]The beginning of the output sequence. \item[{\em binary\_\-op}]The associatve operator used to 'sum' values.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator} and {\tt OutputIterator's} {\tt value\_\-type} is convertible to both {\tt AssociativeOperator's} {\tt first\_\-argument\_\-type} and {\tt second\_\-argument\_\-type}. \item[{\em AssociativeOperator}]is a model of {\tt Binary Function} and {\tt AssociativeOperator's} {\tt result\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt inclusive\_\-scan} 
+
+
+
+\begin{Code}\begin{verbatim}  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
+ 
+  komrade::maximum<int> binary_op;
+
+  komrade::inclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan
+
+  // data is now {1, 1, 2, 2, 2, 4, 4, 4, 4, 8}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/partial\_\-sum.html} \end{Desc}
+\index{prefixsums@{prefixsums}!inclusive\_\-scan@{inclusive\_\-scan}}
+\index{inclusive\_\-scan@{inclusive\_\-scan}!prefixsums@{prefixsums}}
+\subsubsection[inclusive\_\-scan]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename InputIterator, typename OutputIterator$>$ void komrade::inclusive\_\-scan (InputIterator {\em first}, \/  InputIterator {\em last}, \/  OutputIterator {\em result})\hspace{0.3cm}{\tt  [inline]}}\label{group__prefixsums_ge3d7c4e007c70e0cb3d5679602329baa}
+
+
+{\tt inclusive\_\-scan} computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, {\tt $\ast$first} is assigned to {\tt $\ast$result} and the sum of {\tt $\ast$first} and {\tt $\ast$(first + 1)} is assigned to {\tt $\ast$(result + 1)}, and so on. This version of inclusive\_\-scan assumes \doxyref{plus}{p.}{structkomrade_1_1plus} as the associative operator. When the input and output sequences are the same, the scan is performed in-place.
+
+{\tt inclusive\_\-scan} is similar to {\tt std::partial\_\-sum} in the STL. The primary difference between the two functions is that {\tt std::partial\_\-sum} guarantees a serial summation order, while {\tt inclusive\_\-scan} requires associativity of the binary operation to parallelize the prefix sum.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em first}]The beginning of the input sequence. \item[{\em last}]The end of the input sequence. \item[{\em result}]The beginning of the output sequence.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em InputIterator}]is a model of {\tt Input Iterator} and {\tt InputIterator's} {\tt value\_\-type} is convertible to {\tt OutputIterator's} {\tt value\_\-type}. \item[{\em OutputIterator}]is a model of {\tt Output Iterator}, and if {\tt x} and {\tt y} are objects of {\tt OutputIterator's} {\tt value\_\-type}, then {\tt x + y} is defined. If {\tt T} is {\tt OutputIterator's} {\tt value\_\-type}, then {\tt T(0)} is defined.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt inclusive\_\-scan} 
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/scan.h>
+  
+  int data[6] = {1, 0, 2, 2, 1, 3};
+
+  komrade::inclusive_scan(data, data + 6, data); // in-place scan
+
+  // data is now {1, 1, 3, 5, 6, 9}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/partial\_\-sum.html} \end{Desc}

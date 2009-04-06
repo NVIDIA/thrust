@@ -1,0 +1,70 @@
+\section{komrade::divides$<$ T $>$ Struct Template Reference}
+\label{structkomrade_1_1divides}\index{komrade::divides@{komrade::divides}}
+{\tt \#include $<$functional.h$>$}
+
+Inheritance diagram for komrade::divides$<$ T $>$::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{structkomrade_1_1divides}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf operator()} (const T \&lhs, const T \&rhs) const 
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$ struct komrade::divides$<$ T $>$}
+
+{\tt \doxyref{divides}{p.}{structkomrade_1_1divides}} is a function object. Specifically, it is an Adaptable Binary Function. If {\tt f} is an object of class {\tt divides$<$T$>$}, and {\tt x} and {\tt y} are objects of class {\tt T}, then {\tt f(x,y)} returns {\tt x/y}.
+
+\begin{Desc}
+\item[Template Parameters:]
+\begin{description}
+\item[{\em T}]is a model of {\tt Assignable}, and if {\tt x} and {\tt y} are objects of type {\tt T}, then {\tt x/y} must be defined and must have a return type that is convertible to {\tt T}.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt \doxyref{divides}{p.}{structkomrade_1_1divides}} to divide one device\_\-vectors of {\tt floats} by another.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/device_vector.h>
+  #include <komrade/functional.h>
+  #include <komrade/range.h>
+  #include <komrade/fill.h>
+  #include <komrade/transform.h>
+  ...
+  const int N = 1000;
+  komrade::device_vector<float> V1(N);
+  komrade::device_vector<float> V2(N);
+  komrade::device_vector<float> V3(N);
+
+  komrade::range(V1.begin(), V1.end(), 1);
+  komrade::fill(V2.begin(), V2.end(), 75);
+
+  komrade::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+                     komrade::divides<float>());
+  // V3 is now {1/75, 2/75, 3/75, ..., 1000/75}
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]{\tt http://www.sgi.com/tech/stl/divides.html} 
+
+\doxyref{binary\_\-function}{p.}{structkomrade_1_1binary__function} \end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{komrade::divides@{komrade::divides}!operator()@{operator()}}
+\index{operator()@{operator()}!komrade::divides@{komrade::divides}}
+\subsubsection[operator()]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \_\-\_\-host\_\-\_\- \_\-\_\-device\_\-\_\- T {\bf komrade::divides}$<$ T $>$::operator() (const T \& {\em lhs}, \/  const T \& {\em rhs}) const\hspace{0.3cm}{\tt  [inline]}}\label{structkomrade_1_1divides_fe9b749d994594012b3f74549f61b321}
+
+
+Function call operator. The return value is {\tt lhs / rhs}. 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf functional.h}\end{CompactItemize}

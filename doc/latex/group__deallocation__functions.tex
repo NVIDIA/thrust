@@ -1,0 +1,67 @@
+\section{Deallocation Functions}
+\label{group__deallocation__functions}\index{Deallocation Functions@{Deallocation Functions}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\void {\bf komrade::device\_\-delete} ({\bf komrade::device\_\-ptr}$<$ T $>$ ptr)
+\item 
+void {\bf komrade::device\_\-free} ({\bf komrade::device\_\-ptr}$<$ void $>$ ptr)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{deallocation\_\-functions@{deallocation\_\-functions}!device\_\-delete@{device\_\-delete}}
+\index{device\_\-delete@{device\_\-delete}!deallocation_functions@{deallocation\_\-functions}}
+\subsubsection[device\_\-delete]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void komrade::device\_\-delete ({\bf komrade::device\_\-ptr}$<$ T $>$ {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{group__deallocation__functions_g86cf19874997176eff1c45f7fb7f7a6e}
+
+
+{\tt device\_\-delete} deletes a {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} allocated with {\tt device\_\-new}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]The {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} to delete, assumed to have been allocated with {\tt device\_\-new}.\end{description}
+\end{Desc}
+\begin{Desc}
+\item[{\bf Bug}]The current implementation of {\tt device\_\-delete} does not invoke {\tt T}'s destructor on the object {\tt $\ast$ptr}.\end{Desc}
+\begin{Desc}
+\item[See also:]\doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} 
+
+\doxyref{device\_\-new}{p.}{group__allocation__functions_g6ba2e5e53b2acf5cdfe8a3818d7ffe42} \end{Desc}
+\index{deallocation\_\-functions@{deallocation\_\-functions}!device\_\-free@{device\_\-free}}
+\index{device\_\-free@{device\_\-free}!deallocation_functions@{deallocation\_\-functions}}
+\subsubsection[device\_\-free]{\setlength{\rightskip}{0pt plus 5cm}void komrade::device\_\-free ({\bf komrade::device\_\-ptr}$<$ void $>$ {\em ptr})\hspace{0.3cm}{\tt  [inline]}}\label{group__deallocation__functions_g1e34af40f350d4fd90b469da76012d5e}
+
+
+{\tt device\_\-free} deallocates memory allocated by the function {\tt device\_\-malloc}.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ptr}]A {\tt \doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr}} pointing to memory to be deallocated.\end{description}
+\end{Desc}
+The following code snippet demonstrates how to use {\tt device\_\-free} to deallocate memory allocated by {\tt device\_\-malloc}.
+
+
+
+\begin{Code}\begin{verbatim}  #include <komrade/device_malloc.h>
+  #include <komrade/device_free.h>
+  ...
+  // allocate some integers with device_malloc
+  const int N = 100;
+  komrade::device_ptr<int> int_array = komrade::device_malloc<int>(N);
+
+  // manipulate integers
+  ...
+
+  // deallocate with device_free
+  komrade::device_free(int_array);
+\end{verbatim}
+\end{Code}
+
+
+
+\begin{Desc}
+\item[See also:]\doxyref{device\_\-ptr}{p.}{structkomrade_1_1device__ptr} 
+
+\doxyref{device\_\-malloc}{p.}{group__allocation__functions_g2344cbff21562ec9a109c7cd44999c90} \end{Desc}
