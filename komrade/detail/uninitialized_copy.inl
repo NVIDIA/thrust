@@ -35,8 +35,11 @@ template<typename InputIterator,
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ResultType;
 
+  // use a typedef here so old versions of gcc don't crash on OSX
+  typedef detail::has_trivial_copy_constructor<ResultType> ResultTypeHasTrivialCopyConstructor;
+
   return detail::dispatch::uninitialized_copy(first, last, result,
-           typename detail::has_trivial_copy_constructor<ResultType>());
+           ResultTypeHasTrivialCopyConstructor());
 } // end uninitialized_copy()
 
 } // end komrade

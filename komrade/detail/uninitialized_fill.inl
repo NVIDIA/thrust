@@ -35,8 +35,10 @@ template<typename ForwardIterator,
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
+  typedef detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+
   detail::dispatch::uninitialized_fill(first, last, x,
-    typename detail::has_trivial_copy_constructor<ValueType>());
+    ValueTypeHasTrivialCopyConstructor());
 } // end uninitialized_fill()
 
 } // end komrade

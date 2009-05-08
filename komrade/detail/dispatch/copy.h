@@ -273,10 +273,13 @@ template<typename InputIterator,
                       komrade::device_ptr<typename komrade::iterator_traits<InputIterator>::value_type>, // match device_ptr<T>
                       typename komrade::iterator_traits<InputIterator>::value_type *)                    // match T *
 {
+    // use a typedef here so that old versions of gcc on OSX don't crash
+    typedef typename komrade::device_ptr<const typename komrade::iterator_traits<InputIterator>::value_type> InputDevicePointer;
+
     return komrade::detail::dispatch::copy(begin, end, result,
             komrade::random_access_device_iterator_tag(),
             komrade::random_access_host_iterator_tag(),
-            typename komrade::device_ptr<const typename komrade::iterator_traits<InputIterator>::value_type>(),
+            InputDevicePointer(),
             typename komrade::iterator_traits<OutputIterator>::pointer());
 }
 
