@@ -43,11 +43,11 @@ namespace detail
 template <typename InputType, typename UnaryFunction, typename OutputType>
   struct transform_reduce_functor
 {
-  InputType * input;
+  const InputType * input;
   UnaryFunction unary_op;
 
   __host__ __device__ 
-  transform_reduce_functor(InputType * _input, UnaryFunction _unary_op) 
+  transform_reduce_functor(const InputType * _input, UnaryFunction _unary_op) 
     : input(_input), unary_op(_unary_op) {}
 
   template <typename IntegerType>
@@ -60,18 +60,18 @@ template <typename InputType, typename UnaryFunction, typename OutputType, typen
           typename WideType>
   struct wide_transform_reduce_functor
 {
-  InputType * input;
+  const InputType * input;
   UnaryFunction unary_op;
   BinaryFunction binary_op;
 
   __host__ __device__ 
-  wide_transform_reduce_functor(InputType * _input, UnaryFunction _unary_op, BinaryFunction _binary_op) 
+  wide_transform_reduce_functor(const InputType * _input, UnaryFunction _unary_op, BinaryFunction _binary_op) 
     : input(_input), unary_op(_unary_op), binary_op(_binary_op) {}
 
   template <typename IntegerType>
   __host__ __device__
   OutputType operator[](const IntegerType& i) {
-      const WideType x = reinterpret_cast<WideType *>(input)[i];
+      const WideType x = reinterpret_cast<const WideType *>(input)[i];
       WideType mask = ((WideType) 1 << (8 * sizeof(InputType))) - 1;
       OutputType sum = unary_op(static_cast<InputType>(x & mask));
       for(unsigned int n = 1; n < sizeof(WideType) / sizeof(InputType); n++)
