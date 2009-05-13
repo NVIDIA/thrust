@@ -362,6 +362,14 @@ template<typename T, typename Alloc>
 } // end vector_base::begin()
 
 template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_iterator
+    vector_base<T,Alloc>
+      ::cbegin(void) const
+{
+  return begin();
+} // end vector_base::cbegin()
+
+template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::end(void)
@@ -376,6 +384,14 @@ template<typename T, typename Alloc>
 {
   return begin() + size();
 } // end vector_base::end()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_iterator
+    vector_base<T,Alloc>
+      ::cend(void) const
+{
+  return end();
+} // end vector_base::cend()
 
 template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::const_reference

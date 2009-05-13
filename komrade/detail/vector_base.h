@@ -323,6 +323,13 @@ template<typename T, typename Alloc>
     __host__ __device__
     const_iterator begin(void) const;
 
+    /*! This method returns a const_iterator pointing to the beginning
+     *  of this vector_base.
+     *  \return mStart
+     */
+    __host__ __device__
+    const_iterator cbegin(void) const;
+
     /*! This method returns an iterator pointing to one element past the
      *  last of this vector_base.
      *  \return begin() + size().
@@ -336,6 +343,13 @@ template<typename T, typename Alloc>
      */
     __host__ __device__
     const_iterator end(void) const;
+
+    /*! This method returns a const_iterator pointing to one element past the
+     *  last of this vector_base.
+     *  \return begin() + size().
+     */
+    __host__ __device__
+    const_iterator cend(void) const;
 
     /*! This method returns a const_reference referring to the first element of this
      *  vector_base.
