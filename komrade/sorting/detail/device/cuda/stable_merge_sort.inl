@@ -129,9 +129,15 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
   // Assumption: tile_size is a power of 2.
   
   // load (2*BLOCK_SIZE) elements into shared memory. These (2*BLOCK_SIZE) elements belong to (2*BLOCK_SIZE)/tile_size different tiles.
-  __shared__ Tkey key[(2*BLOCK_SIZE)];
-  __shared__ Tkey outkey[(2*BLOCK_SIZE)];
-  __shared__ Tvalue outvalue[(2*BLOCK_SIZE)];
+  // XXX workaround no constructors in shared array problem
+  __shared__ unsigned char key_workaround[(2*BLOCK_SIZE) * sizeof(Tkey)];
+  Tkey *key = reinterpret_cast<Tkey*>(key_workaround);
+
+  __shared__ unsigned char outkey_workaround[(2*BLOCK_SIZE) * sizeof(Tkey)];
+  Tkey *outkey = reinterpret_cast<Tkey*>(outkey_workaround);
+
+  __shared__ unsigned char outvalue_workaround[(2*BLOCK_SIZE) * sizeof(Tvalue)];
+  Tvalue *outvalue = reinterpret_cast<Tvalue*>(outvalue_workaround);
 
   const unsigned int grid_size = gridDim.x * blockDim.x;
 
@@ -232,8 +238,12 @@ template<unsigned int BLOCK_SIZE,
                                                     StrictWeakOrdering comp,
                                                     const unsigned int n)
 {
-  __shared__ KeyType s_keys[BLOCK_SIZE];
-  __shared__ ValueType s_data[BLOCK_SIZE];
+  // XXX workaround no constructors on device arrays
+  __shared__ unsigned char s_keys_workaround[BLOCK_SIZE * sizeof(KeyType)];
+  KeyType *s_keys = reinterpret_cast<KeyType*>(s_keys_workaround);
+
+  __shared__ unsigned char s_data_workaround[BLOCK_SIZE * sizeof(ValueType)];
+  ValueType *s_data = reinterpret_cast<ValueType*>(s_data_workaround);
 
   const unsigned int grid_size = gridDim.x * blockDim.x;
 
