@@ -35,14 +35,14 @@ namespace experimental
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
+         typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  OutputIterator predicated_transform(InputIterator1 first, InputIterator1 last,
-                                      InputIterator2 stencil,
-                                      OutputIterator result,
-                                      UnaryFunction unary_op,
-                                      Predicate pred)
+  ForwardIterator transform_if(InputIterator1 first, InputIterator1 last,
+                               InputIterator2 stencil,
+                               ForwardIterator result,
+                               UnaryFunction unary_op,
+                               Predicate pred)
 {
   for(; first != last; ++first, ++stencil, ++result)
   {
@@ -53,20 +53,21 @@ template<typename InputIterator1,
   } // end for
 
   return result;
-} // end predicated_transform()
+} // end transform_if()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename OutputIterator,
+         typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
-  OutputIterator predicated_transform(InputIterator1 first1, InputIterator1 last1,
-                                      InputIterator2 first2,
-                                      InputIterator3 stencil,
-                                      OutputIterator result,
-                                      BinaryFunction binary_op,
-                                      Predicate pred)
+  ForwardIterator transform_if(InputIterator1 first1, InputIterator1 last1,
+                               InputIterator2 first2,
+                               InputIterator3 stencil,
+                               ForwardIterator result,
+                               BinaryFunction binary_op,
+                               Predicate pred)
 {
   for(; first1 != last1; ++first1, ++first2, ++stencil, ++result)
   {
@@ -77,7 +78,8 @@ template<typename InputIterator1,
   } // end for
 
   return result;
-} // end predicated_transform()
+} // end transform_if()
+
 
 } // end experimental
 

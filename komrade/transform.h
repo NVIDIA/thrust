@@ -136,7 +136,7 @@ template<typename InputIterator1,
 namespace experimental
 {
 
-/*! This version of \p predicated_transform conditionally applies a unary function
+/*! This version of \p transform_if conditionally applies a unary function
  *  to each element of an input sequence and stores the result in the corresponding 
  *  position in an output sequence if the corresponding position in a stencil sequence
  *  satifies a predicate. Otherwise, the corresponding position in the
@@ -162,12 +162,12 @@ namespace experimental
  *                         and \c InputIterator1's \c value_type is convertible to \c UnaryFunction's \c argument_type.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>.
  *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
  *                        and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
- *  The following code snippet demonstrates how to use \p predicated_transform:
+ *  The following code snippet demonstrates how to use \p transform_if:
  *
  *  \code
  *  #include <komrade/transform.h>
@@ -179,7 +179,7 @@ namespace experimental
  *  komrade::negate<int> op;
  *  komrade::identity<int> identity;
  *
- *  komrade::experimental::predicated_transform(data, data + 10, stencil, data, op, identity); // in-place transformation
+ *  komrade::experimental::transform_if(data, data + 10, stencil, data, op, identity); // in-place transformation
  *
  *  // data is now {5, 0, -2, -3, -2,  4, 0, -1, -2,  8};
  *  \endcode
@@ -188,16 +188,16 @@ namespace experimental
  */
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
+         typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  OutputIterator predicated_transform(InputIterator1 first, InputIterator1 last,
-                                      InputIterator2 stencil,
-                                      OutputIterator result,
-                                      UnaryFunction op,
-                                      Predicate pred);
+  ForwardIterator transform_if(InputIterator1 first, InputIterator1 last,
+                               InputIterator2 stencil,
+                               ForwardIterator result,
+                               UnaryFunction op,
+                               Predicate pred);
 
-/*! This version of \p predicated_transform conditionally applies a binary function
+/*! This version of \p transform_if conditionally applies a binary function
  *  to each pair of elements from two input sequences and stores the result in the corresponding 
  *  position in an output sequence if the corresponding position in a stencil sequence
  *  satifies a predicate. Otherwise, the corresponding position in the
@@ -224,7 +224,7 @@ template<typename InputIterator1,
  *                         and \c InputIterator1's \c value_type is convertible to \c BinaryFunction's \c first_argument_type.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c BinaryFunction's \c second_argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>.
  *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
  *                         and \c BinaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
@@ -243,7 +243,7 @@ template<typename InputIterator1,
  *  komrade::plus<int> op;
  *  komrade::identity<int> identity;
  *
- *  komrade::experimental::predicated_transform(input1, input1 + 6, input2, stencil, output, op, identity);
+ *  komrade::experimental::transform_if(input1, input1 + 6, input2, stencil, output, op, identity);
  *
  *  // output is now {-2,  0,  0,  3,  4,  4};
  *  \endcode
@@ -253,15 +253,15 @@ template<typename InputIterator1,
 template<typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename OutputIterator,
+         typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
-  OutputIterator predicated_transform(InputIterator1 first1, InputIterator1 last1,
-                                      InputIterator2 first2,
-                                      InputIterator3 stencil,
-                                      OutputIterator result,
-                                      BinaryFunction binary_op,
-                                      Predicate pred);
+  ForwardIterator transform_if(InputIterator1 first1, InputIterator1 last1,
+                               InputIterator2 first2,
+                               InputIterator3 stencil,
+                               ForwardIterator result,
+                               BinaryFunction binary_op,
+                               Predicate pred);
 
 } // end experimental
 

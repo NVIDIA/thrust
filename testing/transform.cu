@@ -20,7 +20,7 @@ DECLARE_VECTOR_UNITTEST(TestTransformUnarySimple);
 
 
 template <class Vector>
-void TestPredicatedTransformUnarySimple(void)
+void TestTransformIfUnarySimple(void)
 {
     typedef typename Vector::value_type T;
 
@@ -34,15 +34,15 @@ void TestPredicatedTransformUnarySimple(void)
     stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
     result[0]  = -1; result[1]  =  2; result[2]  = -3;
 
-    komrade::experimental::predicated_transform(input.begin(), input.end(),
-                                                stencil.begin(),
-                                                output.begin(),
-                                                komrade::negate<T>(),
-                                                komrade::identity<T>());
+    komrade::experimental::transform_if(input.begin(), input.end(),
+                                        stencil.begin(),
+                                        output.begin(),
+                                        komrade::negate<T>(),
+                                        komrade::identity<T>());
     
     ASSERT_EQUAL(output, result);
 }
-DECLARE_VECTOR_UNITTEST(TestPredicatedTransformUnarySimple);
+DECLARE_VECTOR_UNITTEST(TestTransformIfUnarySimple);
 
 
 template <class Vector>
@@ -66,7 +66,7 @@ DECLARE_VECTOR_UNITTEST(TestTransformBinarySimple);
 
 
 template <class Vector>
-void TestPredicatedTransformBinarySimple(void)
+void TestTransformIfBinarySimple(void)
 {
     typedef typename Vector::value_type T;
 
@@ -84,16 +84,16 @@ void TestPredicatedTransformBinarySimple(void)
 
     komrade::identity<T> identity;
 
-    komrade::experimental::predicated_transform(input1.begin(), input1.end(),
-                                                input2.begin(),
-                                                stencil.begin(),
-                                                output.begin(),
-                                                komrade::minus<T>(),
-                                                komrade::not1(identity));
+    komrade::experimental::transform_if(input1.begin(), input1.end(),
+                                        input2.begin(),
+                                        stencil.begin(),
+                                        output.begin(),
+                                        komrade::minus<T>(),
+                                        komrade::not1(identity));
     
     ASSERT_EQUAL(output, result);
 }
-DECLARE_VECTOR_UNITTEST(TestPredicatedTransformBinarySimple);
+DECLARE_VECTOR_UNITTEST(TestTransformIfBinarySimple);
 
 
 template <typename T>
@@ -125,7 +125,7 @@ struct is_positive
 
 
 template <typename T>
-void TestPredicatedTransformUnary(const size_t n)
+void TestTransformIfUnary(const size_t n)
 {
     komrade::host_vector<T>   h_input   = komradetest::random_integers<T>(n);
     komrade::host_vector<T>   h_stencil = komradetest::random_integers<T>(n);
@@ -135,19 +135,19 @@ void TestPredicatedTransformUnary(const size_t n)
     komrade::device_vector<T> d_stencil = h_stencil;
     komrade::device_vector<T> d_output  = h_output;
 
-    komrade::experimental::predicated_transform(h_input.begin(), h_input.end(),
-                                                h_stencil.begin(),
-                                                h_output.begin(),
-                                                komrade::negate<T>(), is_positive());
+    komrade::experimental::transform_if(h_input.begin(), h_input.end(),
+                                        h_stencil.begin(),
+                                        h_output.begin(),
+                                        komrade::negate<T>(), is_positive());
 
-    komrade::experimental::predicated_transform(d_input.begin(), d_input.end(),
-                                                d_stencil.begin(),
-                                                d_output.begin(),
-                                                komrade::negate<T>(), is_positive());
+    komrade::experimental::transform_if(d_input.begin(), d_input.end(),
+                                        d_stencil.begin(),
+                                        d_output.begin(),
+                                        komrade::negate<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 }
-DECLARE_VARIABLE_UNITTEST(TestPredicatedTransformUnary);
+DECLARE_VARIABLE_UNITTEST(TestTransformIfUnary);
 
 
 template <typename T>
@@ -175,7 +175,7 @@ DECLARE_VARIABLE_UNITTEST(TestTransformBinary);
 
 
 template <typename T>
-void TestPredicatedTransformBinary(const size_t n)
+void TestTransformIfBinary(const size_t n)
 {
     komrade::host_vector<T>   h_input1  = komradetest::random_integers<T>(n);
     komrade::host_vector<T>   h_input2  = komradetest::random_integers<T>(n);
@@ -187,36 +187,36 @@ void TestPredicatedTransformBinary(const size_t n)
     komrade::device_vector<T> d_stencil = h_stencil;
     komrade::device_vector<T> d_output  = h_output;
 
-    komrade::experimental::predicated_transform(h_input1.begin(), h_input1.end(),
-                                                h_input2.begin(),
-                                                h_stencil.begin(),
-                                                h_output.begin(),
-                                                komrade::minus<T>(), is_positive());
+    komrade::experimental::transform_if(h_input1.begin(), h_input1.end(),
+                                        h_input2.begin(),
+                                        h_stencil.begin(),
+                                        h_output.begin(),
+                                        komrade::minus<T>(), is_positive());
 
-    komrade::experimental::predicated_transform(d_input1.begin(), d_input1.end(),
-                                                d_input2.begin(),
-                                                d_stencil.begin(),
-                                                d_output.begin(),
-                                                komrade::minus<T>(), is_positive());
+    komrade::experimental::transform_if(d_input1.begin(), d_input1.end(),
+                                        d_input2.begin(),
+                                        d_stencil.begin(),
+                                        d_output.begin(),
+                                        komrade::minus<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 
     h_stencil = komradetest::random_integers<T>(n);
     d_stencil = h_stencil;
     
-    komrade::experimental::predicated_transform(h_input1.begin(), h_input1.end(),
-                                                h_input2.begin(),
-                                                h_stencil.begin(),
-                                                h_output.begin(),
-                                                komrade::multiplies<T>(), is_positive());
+    komrade::experimental::transform_if(h_input1.begin(), h_input1.end(),
+                                        h_input2.begin(),
+                                        h_stencil.begin(),
+                                        h_output.begin(),
+                                        komrade::multiplies<T>(), is_positive());
 
-    komrade::experimental::predicated_transform(d_input1.begin(), d_input1.end(),
-                                                d_input2.begin(),
-                                                d_stencil.begin(),
-                                                d_output.begin(),
-                                                komrade::multiplies<T>(), is_positive());
+    komrade::experimental::transform_if(d_input1.begin(), d_input1.end(),
+                                        d_input2.begin(),
+                                        d_stencil.begin(),
+                                        d_output.begin(),
+                                        komrade::multiplies<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 }
-DECLARE_VARIABLE_UNITTEST(TestPredicatedTransformBinary);
+DECLARE_VARIABLE_UNITTEST(TestTransformIfBinary);
 

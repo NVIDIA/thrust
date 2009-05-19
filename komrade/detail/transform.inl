@@ -61,42 +61,42 @@ namespace experimental
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
+         typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  OutputIterator predicated_transform(InputIterator1 first, InputIterator1 last,
-                                      InputIterator2 stencil,
-                                      OutputIterator result,
-                                      UnaryFunction unary_op,
-                                      Predicate pred)
+  ForwardIterator transform_if(InputIterator1 first, InputIterator1 last,
+                               InputIterator2 stencil,
+                               ForwardIterator result,
+                               UnaryFunction unary_op,
+                               Predicate pred)
 {
     // dispatch on category
-    return komrade::detail::dispatch::experimental::predicated_transform(first, last, stencil, result, unary_op, pred,
+    return komrade::detail::dispatch::experimental::transform_if(first, last, stencil, result, unary_op, pred,
             typename komrade::iterator_traits<InputIterator1>::iterator_category(),
             typename komrade::iterator_traits<InputIterator2>::iterator_category(),
-            typename komrade::iterator_traits<OutputIterator>::iterator_category());
-} // end predicated_transform()
+            typename komrade::iterator_traits<ForwardIterator>::iterator_category());
+} // end transform_if()
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename OutputIterator,
+         typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
-  OutputIterator predicated_transform(InputIterator1 first1, InputIterator1 last1,
-                                      InputIterator2 first2,
-                                      InputIterator3 stencil,
-                                      OutputIterator result,
-                                      BinaryFunction binary_op,
-                                      Predicate pred)
+  ForwardIterator transform_if(InputIterator1 first1, InputIterator1 last1,
+                               InputIterator2 first2,
+                               InputIterator3 stencil,
+                               ForwardIterator result,
+                               BinaryFunction binary_op,
+                               Predicate pred)
 {
     // dispatch on category
-    return komrade::detail::dispatch::experimental::predicated_transform(first1, last1, first2, stencil, result, binary_op, pred,
+    return komrade::detail::dispatch::experimental::transform_if(first1, last1, first2, stencil, result, binary_op, pred,
             typename komrade::iterator_traits<InputIterator1>::iterator_category(),
             typename komrade::iterator_traits<InputIterator2>::iterator_category(),
             typename komrade::iterator_traits<InputIterator3>::iterator_category(),
-            typename komrade::iterator_traits<OutputIterator>::iterator_category());
-} // end predicated_transform()
+            typename komrade::iterator_traits<ForwardIterator>::iterator_category());
+} // end transform_if()
 
 } // end experimental
 
