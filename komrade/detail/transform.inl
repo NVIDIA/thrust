@@ -56,5 +56,49 @@ template<typename InputIterator1,
             typename komrade::iterator_traits<OutputIterator>::iterator_category());
 } // end transform()
 
+namespace experimental
+{
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename Predicate>
+  OutputIterator predicated_transform(InputIterator1 first, InputIterator1 last,
+                                      InputIterator2 stencil,
+                                      OutputIterator result,
+                                      UnaryFunction unary_op,
+                                      Predicate pred)
+{
+    // dispatch on category
+    return komrade::detail::dispatch::experimental::predicated_transform(first, last, stencil, result, unary_op, pred,
+            typename komrade::iterator_traits<InputIterator1>::iterator_category(),
+            typename komrade::iterator_traits<InputIterator2>::iterator_category(),
+            typename komrade::iterator_traits<OutputIterator>::iterator_category());
+} // end predicated_transform()
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename OutputIterator,
+         typename BinaryFunction,
+         typename Predicate>
+  OutputIterator predicated_transform(InputIterator1 first1, InputIterator1 last1,
+                                      InputIterator2 first2,
+                                      InputIterator3 stencil,
+                                      OutputIterator result,
+                                      BinaryFunction binary_op,
+                                      Predicate pred)
+{
+    // dispatch on category
+    return komrade::detail::dispatch::experimental::predicated_transform(first1, last1, first2, stencil, result, binary_op, pred,
+            typename komrade::iterator_traits<InputIterator1>::iterator_category(),
+            typename komrade::iterator_traits<InputIterator2>::iterator_category(),
+            typename komrade::iterator_traits<InputIterator3>::iterator_category(),
+            typename komrade::iterator_traits<OutputIterator>::iterator_category());
+} // end predicated_transform()
+
+} // end experimental
+
 } // end namespace komrade
 

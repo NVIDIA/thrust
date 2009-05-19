@@ -51,7 +51,7 @@ namespace komrade
  *  \param op The tranformation operation.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *                        and \c InputIterator's \c value_type is convertible to \c UnaryFunction's \c input_type.
+ *                        and \c InputIterator's \c value_type is convertible to \c UnaryFunction's \c argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
  *                              and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
@@ -84,7 +84,7 @@ template<typename InputIterator,
  *  of elements from two input sequences and stores the result in the
  *  corresponding position in an output sequence.  Specifically, for
  *  each iterator <tt>i</tt> in the range [\p first1, \p last1) and 
- *  <tt>j = first + (i - first1)</tt> in the rage [\p first2, \p last2)
+ *  <tt>j = first + (i - first1)</tt> in the range [\p first2, \p last2)
  *  the operation <tt>op(*i,*j)</tt> is performed and the result is 
  *  assigned to <tt>*o</tt>,  where <tt>o</tt> is the corresponding
  *  output iterator in the range [\p result, \p result + (\p last - \p first) ).
@@ -98,11 +98,9 @@ template<typename InputIterator,
  *  \param op The tranformation operation.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *                        and \c InputIterator1's \c value_type is convertible to the input_type of \c BinaryFunction's 
- *                        first argument.
+ *                        and \c InputIterator1's \c value_type is convertible to \c BinaryFunction's \c first_argument_type.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *                        and \c InputIterator2's \c value_type is convertible to the input_type of \c BinaryFunction's 
- *                        second argument.
+ *                        and \c InputIterator2's \c value_type is convertible to \c BinaryFunction's \c second_argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
  *                              and \c BinaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
@@ -134,6 +132,138 @@ template<typename InputIterator1,
                            InputIterator2 first2,
                            OutputIterator result,
                            BinaryFunction op);
+
+namespace experimental
+{
+
+/*! This version of \p predicated_transform conditionally applies a unary function
+ *  to each element of an input sequence and stores the result in the corresponding 
+ *  position in an output sequence if the corresponding position in a stencil sequence
+ *  satifies a predicate. Otherwise, the corresponding position in the
+ *  output sequence is not modified.
+ *
+ *  Specifically, for each iterator <tt>i</tt> in the range <tt>[first, last)</tt> the
+ *  predicate <tt>pred(*s)</tt> is evaluated, where <tt>s</tt> is the corresponding input
+ *  iterator in the range <tt>[stencil, stencil + (last - first) )</tt>. If this predicate
+ *  evaluates to \c true, the result of <tt>op(*i)</tt> is assigned to <tt>*o</tt>,
+ *  where <tt>o</tt> is the corresponding output iterator in the range
+ *  <tt>[result, result + (last - first) )</tt>. Otherwise, <tt>op(*i)</tt> is
+ *  not evaluated and no assignment occurs. The input and output sequences may coincide,
+ *  resulting in an in-place transformation.
+ *    
+ *  \param first The beginning of the input sequence.
+ *  \param last The end of the input sequence.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param result The beginning of the output sequence.
+ *  \param op The tranformation operation.
+ *  \param pred The predicate operation.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *                         and \c InputIterator1's \c value_type is convertible to \c UnaryFunction's \c argument_type.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *                         and \c InputIterator2's \c value_type is convertible to \c Predicate's \c argument_type.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
+ *                        and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p predicated_transform:
+ *
+ *  \code
+ *  #include <komrade/transform.h>
+ *  #include <komrade/functional.h>
+ *  
+ *  int data[10]    = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
+ *  int stencil[10] = { 1, 0, 1,  0, 1, 0, 1,  0, 1, 0};
+ * 
+ *  komrade::negate<int> op;
+ *  komrade::identity<int> identity;
+ *
+ *  komrade::experimental::predicated_transform(data, data + 10, stencil, data, op, identity); // in-place transformation
+ *
+ *  // data is now {5, 0, -2, -3, -2,  4, 0, -1, -2,  8};
+ *  \endcode
+ *
+ *  \see komrade::transform
+ */
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename Predicate>
+  OutputIterator predicated_transform(InputIterator1 first, InputIterator1 last,
+                                      InputIterator2 stencil,
+                                      OutputIterator result,
+                                      UnaryFunction op,
+                                      Predicate pred);
+
+/*! This version of \p predicated_transform conditionally applies a binary function
+ *  to each pair of elements from two input sequences and stores the result in the corresponding 
+ *  position in an output sequence if the corresponding position in a stencil sequence
+ *  satifies a predicate. Otherwise, the corresponding position in the
+ *  output sequence is not modified.
+ *
+ *  Specifically, for each iterator <tt>i</tt> in the range <tt>[first1, last1)</tt> and 
+ *  <tt>j = first2 + (i - first1)</tt> in the range <tt>[first2, first2 + (last1 - first1) )</tt>,
+ *  the predicate <tt>pred(*s)</tt> is evaluated, where <tt>s</tt> is the corresponding input
+ *  iterator in the range <tt>[stencil, stencil + (last1 - first1) )</tt>. If this predicate
+ *  evaluates to \c true, the result of <tt>binary_op(*i,*j)</tt> is assigned to <tt>*o</tt>,
+ *  where <tt>o</tt> is the corresponding output iterator in the range
+ *  <tt>[result, result + (last1 - first1) )</tt>. Otherwise, <tt>binary_op(*i,*j)</tt> is
+ *  not evaluated and no assignment occurs. The input and output sequences may coincide,
+ *  resulting in an in-place transformation.
+ *    
+ *  \param first The beginning of the input sequence.
+ *  \param last The end of the input sequence.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param result The beginning of the output sequence.
+ *  \param binary_op The transformation operation.
+ *  \param pred The predicate operation.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *                         and \c InputIterator1's \c value_type is convertible to \c BinaryFunction's \c first_argument_type.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *                         and \c InputIterator2's \c value_type is convertible to \c BinaryFunction's \c second_argument_type.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *                         and \c BinaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p predicated_transform:
+ *
+ *  \code
+ *  #include <komrade/transform.h>
+ *  #include <komrade/functional.h>
+ *  
+ *  int input1[6]  = {-5,  0,  2,  3,  2,  4};
+ *  int input2[6]  = { 3,  6, -2,  1,  2,  3};
+ *  int stencil[8] = { 1,  0,  1,  0,  1,  0};
+ *  int output[6];
+ * 
+ *  komrade::plus<int> op;
+ *  komrade::identity<int> identity;
+ *
+ *  komrade::experimental::predicated_transform(input1, input1 + 6, input2, stencil, output, op, identity);
+ *
+ *  // output is now {-2,  0,  0,  3,  4,  4};
+ *  \endcode
+ *
+ *  \see komrade::transform
+ */
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename OutputIterator,
+         typename BinaryFunction,
+         typename Predicate>
+  OutputIterator predicated_transform(InputIterator1 first1, InputIterator1 last1,
+                                      InputIterator2 first2,
+                                      InputIterator3 stencil,
+                                      OutputIterator result,
+                                      BinaryFunction binary_op,
+                                      Predicate pred);
+
+} // end experimental
 
 /*! \} // end transformations
  */
