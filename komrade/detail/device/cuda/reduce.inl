@@ -94,7 +94,8 @@ template<typename InputFunctor,
                                      OutputType * block_results,  
                                      BinaryFunction binary_op)
 {
-    __shared__ OutputType sdata[BLOCK_SIZE];
+    __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
+    OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
 
     // perform first level of reduction,
     // write per-block results to global memory for second level reduction
@@ -135,7 +136,7 @@ template<typename InputFunctor,
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
-        block_results[blockIdx.x] = sdata[0];
+        block_results[blockIdx.x] = sdata[threadIdx.x];
 
 } // end __komrade__unordered_reduce_kernel()
 
