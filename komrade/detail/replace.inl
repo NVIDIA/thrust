@@ -45,6 +45,22 @@ template<typename Predicate, typename NewType, typename InputType, typename Outp
   NewType new_value;
 }; // end new_value_if
 
+// this unary functor ignores its argument and returns a constant
+template<typename T>
+  struct constant_unary
+{
+  constant_unary(T _c):c(_c){}
+
+  template<typename U>
+  __host__ __device__
+  T operator()(U &x)
+  {
+    return c;
+  } // end operator()()
+
+  T c;
+}; // end constant_unary
+
 }; // end detail  
 
 template<typename InputIterator, typename OutputIterator, typename Predicate, typename T>
@@ -63,12 +79,14 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
 namespace detail
 {
 
-template<typename ExemplarType, typename InputType>
+template<typename ExemplarType>
   struct if_equal_to_exemplar
 {
   if_equal_to_exemplar(const ExemplarType &e):exemplar(e){}
 
-  __host__ __device__ bool operator()(const InputType &x) const
+  template<typename ArgumentType>
+  __host__ __device__
+  bool operator()(const ArgumentType &x) const
   {
     return exemplar == x;
   } // end operator()()
@@ -84,10 +102,7 @@ template<typename InputIterator, typename OutputIterator, typename T>
                               const T &old_value,
                               const T &new_value)
 {
-  typedef typename komrade::iterator_traits<InputIterator>::value_type InputType;
-
-  komrade::detail::if_equal_to_exemplar<T,InputType> pred(old_value);
-
+  komrade::detail::if_equal_to_exemplar<T> pred(old_value);
   return komrade::replace_copy_if(first, last, result, pred, new_value);
 } // end replace_copy()
 
@@ -96,7 +111,12 @@ template<typename ForwardIterator, typename Predicate, typename T>
                   Predicate pred,
                   const T &new_value)
 {
-  komrade::replace_copy_if(first, last, first, pred, new_value);
+  detail::constant_unary<T> f(new_value);
+
+  // XXX replace this with generate_if:
+  // constant_nullary<T> f(new_value);
+  // generate_if(first, last, first, f, pred);
+  komrade::experimental::transform_if(first, last, first, first, f, pred);
 } // end replace_if()
 
 template<typename ForwardIterator, typename T>
@@ -104,7 +124,8 @@ template<typename ForwardIterator, typename T>
                const T &old_value,
                const T &new_value)
 {
-  komrade::replace_copy(first, last, first, old_value, new_value);
+  detail::if_equal_to_exemplar<T> pred(old_value);
+  return komrade::replace_if(first, last, pred, new_value);
 } // end replace()
 
 }; // end komrade

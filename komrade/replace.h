@@ -177,7 +177,7 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *  \param last The end of the sequence to copy from.
  *  \param result The beginning of the sequence to copy to.
  *  \param pred The predicate to test on every value of the range <tt>[first,last)</tt>.
- *  \param new_value The replacement value which <tt>pred(*i)</tt> evaluates to \c true.
+ *  \param new_value The replacement value to assign <tt>pred(*i)</tt> evaluates to \c true.
  *  \return <tt>result + (last-first)</tt>
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -185,12 +185,9 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
- *          \p T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>,
- *          \p T may be compared for equality with \p InputIterator's \c value_type,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
  *  \see http://www.sgi.com/tech/stl/replace_copy_if.html
- *  \see \c copy_if
  *  \see \c replace
  *  \see \c replace_if
  *  \see \c replace_copy
