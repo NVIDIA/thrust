@@ -31,14 +31,25 @@ namespace detail
 
 // this functor receives x, and returns a new_value if predicate(x) is true; otherwise,
 // it returns x
-template<typename Predicate, typename NewType, typename InputType, typename OutputType>
+template<typename Predicate, typename NewType, typename OutputType>
   struct new_value_if
 {
   new_value_if(Predicate p, NewType nv):pred(p),new_value(nv){}
 
-  __host__ __device__ OutputType operator()(const InputType &x) const
+  template<typename InputType>
+  __host__ __device__
+  OutputType operator()(const InputType &x) const
   {
     return pred(x) ? new_value : x;
+  } // end operator()()
+
+  // this version of operator()() works like the previous but
+  // feeds its second argument to pred
+  template<typename InputType, typename PredicateArgumentType>
+  __host__ __device__
+  OutputType operator()(const InputType &x, const PredicateArgumentType &y)
+  {
+    return pred(y) ? new_value : x;
   } // end operator()()
   
   Predicate pred;
@@ -72,8 +83,21 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
   typedef typename komrade::iterator_traits<InputIterator>::value_type InputType;
   typedef typename komrade::iterator_traits<OutputIterator>::value_type OutputType;
 
-  komrade::detail::new_value_if<Predicate,T,InputType,OutputType> op(pred,new_value);
+  komrade::detail::new_value_if<Predicate,T,OutputType> op(pred,new_value);
   return komrade::transform(first, last, result, op);
+} // end replace_copy_if()
+
+template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator replace_copy_if(InputIterator1 first, InputIterator1 last,
+                                 InputIterator2 stencil,
+                                 OutputIterator result,
+                                 Predicate pred,
+                                 const T &new_value)
+{
+  typedef typename komrade::iterator_traits<OutputIterator>::value_type OutputType;
+
+  komrade::detail::new_value_if<Predicate,T,OutputType> op(pred,new_value);
+  return komrade::transform(first, last, stencil, result, op);
 } // end replace_copy_if()
 
 namespace detail
@@ -117,6 +141,20 @@ template<typename ForwardIterator, typename Predicate, typename T>
   // constant_nullary<T> f(new_value);
   // generate_if(first, last, first, f, pred);
   komrade::experimental::transform_if(first, last, first, first, f, pred);
+} // end replace_if()
+
+template<typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+  void replace_if(ForwardIterator first, ForwardIterator last,
+                  InputIterator stencil,
+                  Predicate pred,
+                  const T &new_value)
+{
+  detail::constant_unary<T> f(new_value);
+
+  // XXX replace this with generate_if:
+  // constant_nullary<T> f(new_value);
+  // generate_if(stencil, stencil + n, first, f, pred);
+  komrade::experimental::transform_if(first, last, stencil, first, f, pred);
 } // end replace_if()
 
 template<typename ForwardIterator, typename T>

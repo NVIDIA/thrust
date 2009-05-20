@@ -110,7 +110,7 @@ template<typename ForwardIterator, typename T>
  *    }
  *  };
  *  ...
- *  komrade::device_vector<int> v;
+ *  komrade::device_vector<int> v(4);
  *  v[0] =  1;
  *  v[1] = -3;
  *  v[2] =  2;
@@ -119,7 +119,7 @@ template<typename ForwardIterator, typename T>
  *  is_less_than_zero pred;
  *  komrade::replace_if(v.begin(), v.end(), pred, 0);
  *
- *  // v[0] == 0, v[3] == 0
+ *  // v[1] == 0, v[3] == 0
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/replace_if.html
@@ -129,6 +129,71 @@ template<typename ForwardIterator, typename T>
  */
 template<typename ForwardIterator, typename Predicate, typename T>
   void replace_if(ForwardIterator first, ForwardIterator last,
+                  Predicate pred,
+                  const T &new_value);
+
+/*! \p replace_if replaces every element in the range <tt>[first, last)</tt> for which
+ *  <tt>pred(*s)</tt> returns \c true with \p new_value. That is: for every iterator
+ *  \c i in the range <tt>[first, last)</tt>, and \c s in the range <tt>[stencil, stencil + (last - first))</tt>,
+ *  if <tt>pred(*s)</tt> is \c true then it performs the assignment <tt>*i = new_value</tt>.
+ *
+ *  \param first The beginning of the sequence of interest.
+ *  \param last The end of the sequence of interest.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param pred The predicate to test on every value of the range <tt>[first,last)</tt>.
+ *  \param new_value The new value to replace elements which <tt>pred(*i)</tt> evaluates
+ *         to \c true.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator is mutable.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and \p T is convertible to \p ForwardIterator's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p replace_if to replace
+ *  a \c device_vector's element with \c 0 when its corresponding stencil element is less than zero.
+ *
+ *  \code
+ *  #include <komrade/replace.h>
+ *  #include <komrade/device_vector.h>
+ *  ...
+ *  struct is_less_than_zero
+ *  {
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x < 0;
+ *    }
+ *  };
+ *  ...
+ *  komrade::device_vector<int> v(4);
+ *  v[0] =  1;
+ *  v[1] = -3;
+ *  v[2] =  2;
+ *  v[3] = -1;
+ *
+ *  komrade::device_vector<int> s(4);
+ *  s[0] = -1;
+ *  s[1] =  2;
+ *  s[2] = -3;
+ *  s[3] =  4;
+ *
+ *  is_less_than_zero pred;
+ *  komrade::replace_if(v.begin(), v.end(), s.begin(), pred, 0);
+ *
+ *  // v[0] == 0, v[2] == 0
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/replace_if.html
+ *  \see \c replace
+ *  \see \c replace_copy
+ *  \see \c replace_copy_if
+ */
+template<typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+  void replace_if(ForwardIterator first, ForwardIterator last,
+                  InputIterator stencil,
                   Predicate pred,
                   const T &new_value);
 
@@ -194,6 +259,40 @@ template<typename InputIterator, typename OutputIterator, typename T>
  */
 template<typename InputIterator, typename OutputIterator, typename Predicate, typename T>
   OutputIterator replace_copy_if(InputIterator first, InputIterator last,
+                                 OutputIterator result,
+                                 Predicate pred,
+                                 const T &new_value);
+
+/*! This version of \p replace_copy_if copies elements from the range <tt>[first, last)</tt> to the range
+ *  <tt>[result, result + (last-first))</tt>, except that any element whose corresponding stencil
+ *  element causes \p pred to be \c true is not copied; \p new_value is copied instead.
+ *
+ *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
+ *  \p replace_copy_if performs the assignment <tt>*(result+n) = new_value</tt> if
+ *  <tt>pred(*(stencil+n))</tt>, and <tt>*(result+n) = *(first+n)</tt> otherwise.
+ *
+ *  \param first The beginning of the sequence to copy from.
+ *  \param last The end of the sequence to copy from.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param result The beginning of the sequence to copy to.
+ *  \param pred The predicate to test on every value of the range <tt>[stencil, stencil + (last - first))</tt>.
+ *  \param new_value The replacement value to assign when <tt>pred(*s)</tt> evaluates to \c true. 
+ *  \return <tt>result + (last-first)</tt>
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *                         and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and \p T is convertible to \p OutputIterator's \c value_type.
+ *
+ *  \see \c replace_copy
+ *  \see \c replace_if
+ */
+template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator replace_copy_if(InputIterator1 first, InputIterator1 last,
+                                 InputIterator2 stencil,
                                  OutputIterator result,
                                  Predicate pred,
                                  const T &new_value);

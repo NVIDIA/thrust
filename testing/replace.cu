@@ -128,6 +128,39 @@ void TestReplaceIfSimple(void)
 DECLARE_VECTOR_UNITTEST(TestReplaceIfSimple);
 
 
+template <class Vector>
+void TestReplaceIfStencilSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data(5);
+    data[0] =  1; 
+    data[1] =  3; 
+    data[2] =  4;
+    data[3] =  6; 
+    data[4] =  5; 
+
+    Vector stencil(5);
+    stencil[0] = 5;
+    stencil[1] = 4;
+    stencil[2] = 6;
+    stencil[3] = 3;
+    stencil[4] = 7;
+
+    komrade::replace_if(data.begin(), data.end(), stencil.begin(), less_than_five<T>(), (T) 0);
+
+    Vector result(5);
+    result[0] =  1; 
+    result[1] =  0; 
+    result[2] =  4;
+    result[3] =  0; 
+    result[4] =  5; 
+
+    ASSERT_EQUAL(data, result);
+}
+DECLARE_VECTOR_UNITTEST(TestReplaceIfStencilSimple);
+
+
 template <typename T>
 void TestReplaceIf(const size_t n)
 {
@@ -140,6 +173,23 @@ void TestReplaceIf(const size_t n)
     ASSERT_ALMOST_EQUAL(h_data, d_data);
 }
 DECLARE_VARIABLE_UNITTEST(TestReplaceIf);
+
+
+template <typename T>
+void TestReplaceIfStencil(const size_t n)
+{
+    komrade::host_vector<T>   h_data = komradetest::random_samples<T>(n);
+    komrade::device_vector<T> d_data = h_data;
+
+    komrade::host_vector<T>   h_stencil = komradetest::random_samples<T>(n);
+    komrade::device_vector<T> d_stencil = h_stencil;
+
+    komrade::replace_if(h_data.begin(), h_data.end(), h_stencil.begin(), less_than_five<T>(), (T) 0);
+    komrade::replace_if(d_data.begin(), d_data.end(), d_stencil.begin(), less_than_five<T>(), (T) 0);
+
+    ASSERT_ALMOST_EQUAL(h_data, d_data);
+}
+DECLARE_VARIABLE_UNITTEST(TestReplaceIfStencil);
 
 
 template <class Vector>
@@ -170,6 +220,41 @@ void TestReplaceCopyIfSimple(void)
 DECLARE_VECTOR_UNITTEST(TestReplaceCopyIfSimple);
 
 
+template <class Vector>
+void TestReplaceCopyIfStencilSimple(void)
+{
+    typedef typename Vector::value_type T;
+    
+    Vector data(5);
+    data[0] =  1; 
+    data[1] =  3; 
+    data[2] =  4;
+    data[3] =  6; 
+    data[4] =  5; 
+
+    Vector stencil(5);
+    stencil[0] = 1;
+    stencil[1] = 5;
+    stencil[2] = 4;
+    stencil[3] = 7;
+    stencil[4] = 8;
+
+    Vector dest(5);
+
+    komrade::replace_copy_if(data.begin(), data.end(), stencil.begin(), dest.begin(), less_than_five<T>(), (T) 0);
+
+    Vector result(5);
+    result[0] =  0; 
+    result[1] =  3; 
+    result[2] =  0;
+    result[3] =  6; 
+    result[4] =  5; 
+
+    ASSERT_EQUAL(dest, result);
+}
+DECLARE_VECTOR_UNITTEST(TestReplaceCopyIfStencilSimple);
+
+
 template <typename T>
 void TestReplaceCopyIf(const size_t n)
 {
@@ -186,4 +271,24 @@ void TestReplaceCopyIf(const size_t n)
     ASSERT_ALMOST_EQUAL(h_dest, d_dest);
 }
 DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIf);
+
+template <typename T>
+void TestReplaceCopyIfStencil(const size_t n)
+{
+    komrade::host_vector<T>   h_data = komradetest::random_samples<T>(n);
+    komrade::device_vector<T> d_data = h_data;
+
+    komrade::host_vector<T>   h_stencil = komradetest::random_samples<T>(n);
+    komrade::device_vector<T> d_stencil = h_stencil;
+
+    komrade::host_vector<T>   h_dest(n);
+    komrade::device_vector<T> d_dest(n);
+
+    komrade::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_dest.begin(), less_than_five<T>(), 0);
+    komrade::replace_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), d_dest.begin(), less_than_five<T>(), 0);
+
+    ASSERT_ALMOST_EQUAL(h_data, d_data);
+    ASSERT_ALMOST_EQUAL(h_dest, d_dest);
+}
+DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfStencil);
 
