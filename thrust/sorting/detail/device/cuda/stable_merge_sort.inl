@@ -625,7 +625,8 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
         cur = (start_2 + end_2)>>1;
         // using two comparisons is a hack to break ties in such a way that input1 elements go before input2
         // XXX eliminate the need for two comparisons and make sure it is still stable
-        if(comp(input1[cur], inp2) || !comp(inp2, input1[cur])) start_2 = cur + 1;
+        KeyType temp = input1[cur];
+        if(comp(temp, inp2) || !comp(inp2, temp)) start_2 = cur + 1;
         else end_2 = cur;
       } // end while
     } // end if
