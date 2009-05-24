@@ -1,23 +1,23 @@
 PREAMBLE = \
     """
-    #include <komrade/reduce.h>
+    #include <thrust/reduce.h>
     """
 
 INITIALIZE = \
     """
-    komrade::host_vector<$InputType>   h_input = komradetest::random_integers<$InputType>($InputSize);
-    komrade::device_vector<$InputType> d_input = h_input;
+    thrust::host_vector<$InputType>   h_input = thrusttest::random_integers<$InputType>($InputSize);
+    thrust::device_vector<$InputType> d_input = h_input;
 
     $InputType init = 13;
 
-    $InputType h_result = komrade::reduce(h_input.begin(), h_input.end(), init);
-    $InputType d_result = komrade::reduce(d_input.begin(), d_input.end(), init);
+    $InputType h_result = thrust::reduce(h_input.begin(), h_input.end(), init);
+    $InputType d_result = thrust::reduce(d_input.begin(), d_input.end(), init);
     ASSERT_EQUAL(h_result, d_result);
     """
 
 TIME = \
     """
-    komrade::reduce(d_input.begin(), d_input.end(), init);   
+    thrust::reduce(d_input.begin(), d_input.end(), init);   
     """
 
 FINALIZE = \

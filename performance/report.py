@@ -15,6 +15,6 @@ for method in ['sort', 'merge_sort', 'radix_sort']:
     plot_results(method + '_by_key.xml', 'KeyType', 'InputSize', 'Sorting', format=format)
 
 for format in ['png', 'pdf']:
-    plot_results('reduce_float.xml', 'InputType', 'InputSize', 'Bandwidth', dpi=120, plot='semilogx', title='komrade::reduce<float>()', format=format)
-    plot_results('sort_large.xml',  'KeyType', 'InputSize', 'Sorting', dpi=120, plot='semilogx', title='komrade::sort<T>()', format=format)
+    plot_results('reduce_float.xml', 'InputType', 'InputSize', 'Bandwidth', dpi=120, plot='semilogx', title='thrust::reduce<float>()', format=format)
+    plot_results('sort_large.xml',  'KeyType', 'InputSize', 'Sorting', dpi=120, plot='semilogx', title='thrust::sort<T>()', format=format)
 

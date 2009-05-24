@@ -1,22 +1,22 @@
 PREAMBLE = \
     """
-    #include <komrade/fill.h>
+    #include <thrust/fill.h>
     """
 
 INITIALIZE = \
     """
-    komrade::host_vector<$InputType>   h_input($InputSize);
-    komrade::device_vector<$InputType> d_input($InputSize);
+    thrust::host_vector<$InputType>   h_input($InputSize);
+    thrust::device_vector<$InputType> d_input($InputSize);
 
-    komrade::fill(h_input.begin(),  h_input.end(),  $InputType(13));
-    komrade::fill(d_input.begin(),  d_input.end(),  $InputType(13));
+    thrust::fill(h_input.begin(),  h_input.end(),  $InputType(13));
+    thrust::fill(d_input.begin(),  d_input.end(),  $InputType(13));
 
     ASSERT_EQUAL(h_input, d_input);
     """
 
 TIME = \
     """
-    komrade::fill(d_input.begin(),  d_input.end(),  $InputType(13));
+    thrust::fill(d_input.begin(),  d_input.end(),  $InputType(13));
     """
 
 FINALIZE = \

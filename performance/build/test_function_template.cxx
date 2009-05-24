@@ -86,7 +86,7 @@ void $FUNCTION(void)
     catch (std::bad_alloc) {
         RECORD_TEST_FAILURE("std::bad_alloc");
     }
-    catch (komradetest::UnitTestException e) {
+    catch (thrusttest::UnitTestException e) {
         RECORD_TEST_FAILURE(e);
     }
 

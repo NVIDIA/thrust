@@ -1,12 +1,12 @@
 PREAMBLE = \
     """
-    #include <komrade/reduce.h>
+    #include <thrust/reduce.h>
     """
 
 INITIALIZE = \
     """
-    komrade::host_vector<$InputType>   h_input = komradetest::random_samples<$InputType>($InputSize);
-    komrade::device_vector<$InputType> d_input = h_input;
+    thrust::host_vector<$InputType>   h_input = thrusttest::random_samples<$InputType>($InputSize);
+    thrust::device_vector<$InputType> d_input = h_input;
 
     $InputType init = 13;
 
@@ -14,7 +14,7 @@ INITIALIZE = \
 
 TIME = \
     """
-    komrade::reduce(d_input.begin(), d_input.end(), init);   
+    thrust::reduce(d_input.begin(), d_input.end(), init);   
     """
 
 FINALIZE = \
