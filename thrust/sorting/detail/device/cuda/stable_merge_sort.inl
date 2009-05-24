@@ -88,7 +88,7 @@ template<typename Key, typename Value>
     static const unsigned int final_candidate = 1<<lg_candidate;
 
   public:
-    static const unsigned int result = 256 < final_candidate ? 256 : final_candidate;
+    static const unsigned int result = 128 < final_candidate ? 128 : final_candidate;
 };
 
 template<typename Key, typename Value>
@@ -727,33 +727,27 @@ template<typename KeyType,
   const unsigned int BLOCK_SIZE = merge_sort_dev_namespace::BLOCK_SIZE<KeyType,ValueType>::result;
 
   // Case (a): tile_size <= BLOCK_SIZE
-  // XXX use BLOCK_SIZE/2 for this check rather than BLOCK_SIZE
-  //     due to problems with test_pair<char,char>
-  //if(tile_size <= BLOCK_SIZE)
-  if(tile_size <= BLOCK_SIZE/2)
+  if(tile_size <= BLOCK_SIZE)
   {
     // Two or more tiles can fully fit into shared memory, and can be merged by one thread block.
     // In particular, we load (2*BLOCK_SIZE) elements into shared memory, 
     //        and merge all the contained tile pairs using one thread block.   
     // We use (2*BLOCK_SIZE) threads/thread block and grid_size * tile_size/(2*BLOCK_SIZE) thread blocks.
-    //unsigned int tiles_per_block = (2*BLOCK_SIZE) / tile_size;
-    unsigned int tiles_per_block = BLOCK_SIZE / tile_size;
+    unsigned int tiles_per_block = (2*BLOCK_SIZE) / tile_size;
     unsigned int partial_block_size = num_tiles % tiles_per_block;
     unsigned int number_of_tiles_in_last_block = partial_block_size ? partial_block_size : tiles_per_block;
     unsigned int num_blocks = num_tiles / tiles_per_block;
     if(partial_block_size) ++num_blocks;
 
     // compute the maximum number of blocks we can launch on this arch
-    //const unsigned int MAX_GRID_SIZE = max_grid_size(2 * BLOCK_SIZE);
-    const unsigned int MAX_GRID_SIZE = max_grid_size(BLOCK_SIZE);
+    const unsigned int MAX_GRID_SIZE = max_grid_size(2 * BLOCK_SIZE);
     unsigned int grid_size = min(num_blocks, MAX_GRID_SIZE);
 
     // figure out the size & index of the last tile of the last block
     unsigned int size_of_last_tile = partial_tile_size ? partial_tile_size : tile_size;
     unsigned int index_of_last_tile_in_last_block = number_of_tiles_in_last_block - 1;
 
-    //merge_smalltiles_binarysearch<2*BLOCK_SIZE><<<grid_size,(2*BLOCK_SIZE)>>>(keys_src, data_src,
-    merge_smalltiles_binarysearch<BLOCK_SIZE><<<grid_size,BLOCK_SIZE>>>(keys_src, data_src,
+    merge_smalltiles_binarysearch<2*BLOCK_SIZE><<<grid_size,(2*BLOCK_SIZE)>>>(keys_src, data_src,
                                                                             n,
                                                                             num_blocks - 1,
                                                                             index_of_last_tile_in_last_block,
