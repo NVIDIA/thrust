@@ -27,12 +27,11 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
-#include <thrust/device_vector.h>
 #include <thrust/functional.h>
 #include <thrust/copy.h>
 #include <thrust/utility.h>
 
-#include <thrust/sorting/detail/device/cuda/block/odd_even_sort.h>
+#include <thrust/sorting/detail/device/cuda/block/merging_sort.h>
 
 namespace thrust
 {
@@ -79,7 +78,7 @@ template<typename Key, typename Value>
   private:
     static const unsigned int sizeof_larger_type = (sizeof(Key) > sizeof(Value) ? sizeof(Key) : sizeof(Value));
 
-    // our block size candidate is simply 1K over the size of the larger type
+    // our block size candidate is simply 2K over the sum of sizes
     static const unsigned int candidate = 2048 / (sizeof(Key) + sizeof(Value));
 
     // round one_k_over_size down to the nearest power of two
@@ -89,9 +88,7 @@ template<typename Key, typename Value>
     static const unsigned int final_candidate = 1<<lg_candidate;
 
   public:
-    // XXX we prefer 256 block size to 128, but it is broken with test_pair<char,char> for some reason
-    //static const unsigned int result = 256 < final_candidate ? 256 : final_candidate;
-    static const unsigned int result = 128 < final_candidate ? 128 : final_candidate;
+    static const unsigned int result = 256 < final_candidate ? 256 : final_candidate;
 };
 
 template<typename Key, typename Value>
@@ -272,7 +269,7 @@ template<unsigned int BLOCK_SIZE,
     } // end if
 
     // run merge_sort over the block
-    thrust::sorting::detail::device::cuda::block::stable_odd_even_sort<KeyType, ValueType, StrictWeakOrdering>(s_keys, s_data, length, comp);
+    block::merging_sort(s_keys, s_data, length, comp);
 
     // write result
     if(i < n)
@@ -730,27 +727,33 @@ template<typename KeyType,
   const unsigned int BLOCK_SIZE = merge_sort_dev_namespace::BLOCK_SIZE<KeyType,ValueType>::result;
 
   // Case (a): tile_size <= BLOCK_SIZE
-  if(tile_size <= BLOCK_SIZE)
+  // XXX use BLOCK_SIZE/2 for this check rather than BLOCK_SIZE
+  //     due to problems with test_pair<char,char>
+  //if(tile_size <= BLOCK_SIZE)
+  if(tile_size <= BLOCK_SIZE/2)
   {
     // Two or more tiles can fully fit into shared memory, and can be merged by one thread block.
     // In particular, we load (2*BLOCK_SIZE) elements into shared memory, 
     //        and merge all the contained tile pairs using one thread block.   
     // We use (2*BLOCK_SIZE) threads/thread block and grid_size * tile_size/(2*BLOCK_SIZE) thread blocks.
-    unsigned int tiles_per_block = (2*BLOCK_SIZE) / tile_size;
+    //unsigned int tiles_per_block = (2*BLOCK_SIZE) / tile_size;
+    unsigned int tiles_per_block = BLOCK_SIZE / tile_size;
     unsigned int partial_block_size = num_tiles % tiles_per_block;
     unsigned int number_of_tiles_in_last_block = partial_block_size ? partial_block_size : tiles_per_block;
     unsigned int num_blocks = num_tiles / tiles_per_block;
     if(partial_block_size) ++num_blocks;
 
     // compute the maximum number of blocks we can launch on this arch
-    const unsigned int MAX_GRID_SIZE = max_grid_size(2 * BLOCK_SIZE);
+    //const unsigned int MAX_GRID_SIZE = max_grid_size(2 * BLOCK_SIZE);
+    const unsigned int MAX_GRID_SIZE = max_grid_size(BLOCK_SIZE);
     unsigned int grid_size = min(num_blocks, MAX_GRID_SIZE);
 
     // figure out the size & index of the last tile of the last block
     unsigned int size_of_last_tile = partial_tile_size ? partial_tile_size : tile_size;
     unsigned int index_of_last_tile_in_last_block = number_of_tiles_in_last_block - 1;
 
-    merge_smalltiles_binarysearch<BLOCK_SIZE><<<grid_size,(2*BLOCK_SIZE)>>>(keys_src, data_src,
+    //merge_smalltiles_binarysearch<2*BLOCK_SIZE><<<grid_size,(2*BLOCK_SIZE)>>>(keys_src, data_src,
+    merge_smalltiles_binarysearch<BLOCK_SIZE><<<grid_size,BLOCK_SIZE>>>(keys_src, data_src,
                                                                             n,
                                                                             num_blocks - 1,
                                                                             index_of_last_tile_in_last_block,
@@ -775,14 +778,15 @@ template<typename KeyType,
 
   unsigned int grid_size = min<size_t>(num_splitters, MAX_GRID_SIZE);
 
-  thrust::device_vector<KeyType> splitters(num_splitters);
-  thrust::device_vector<unsigned int> splitters_pos(num_splitters);
-  thrust::device_vector<KeyType> splitters_merged(num_splitters);
-  thrust::device_vector<unsigned int> splitters_merged_pos(num_splitters);
-  thrust::device_vector<unsigned int> rank1(num_splitters);
-  thrust::device_vector<unsigned int> rank2(num_splitters);
+  // XXX replace these with scoped_ptr or something
+  thrust::device_ptr<KeyType> splitters            = device_malloc<KeyType>(num_splitters);
+  thrust::device_ptr<uint>    splitters_pos        = device_malloc<uint>(num_splitters);
+  thrust::device_ptr<KeyType> splitters_merged     = device_malloc<KeyType>(num_splitters);
+  thrust::device_ptr<uint>    splitters_merged_pos = device_malloc<uint>(num_splitters);
+  thrust::device_ptr<uint>    rank1                = device_malloc<uint>(num_splitters);
+  thrust::device_ptr<uint>    rank2                = device_malloc<uint>(num_splitters);
 
-  extract_splitters<KeyType><<<grid_size, BLOCK_SIZE>>>(keys_src, n, (&splitters[0]).get(), (&splitters_pos[0]).get());
+  extract_splitters<KeyType><<<grid_size, BLOCK_SIZE>>>(keys_src, n, splitters.get(), splitters_pos.get());
 
   // compute the log base 2 of the BLOCK_SIZE
   const unsigned int LOG_BLOCK_SIZE = merge_sort_dev_namespace::LOG_BLOCK_SIZE<KeyType,ValueType>::result;
@@ -792,13 +796,13 @@ template<typename KeyType,
   // splitters for each original block.
   size_t log_num_splitters_per_block = log_tile_size - LOG_BLOCK_SIZE;
   merge<KeyType, unsigned int, StrictWeakOrdering>
-    ((&splitters[0]).get(), (&splitters_pos[0]).get(),
+    (splitters.get(), splitters_pos.get(),
      num_splitters,
-     (&splitters_merged[0]).get(), (&splitters_merged_pos[0]).get(),
+     splitters_merged.get(), splitters_merged_pos.get(),
      log_num_splitters_per_block,
      level + 1, comp);
-  thrust::copy(splitters_merged.begin(), splitters_merged.end(), splitters.begin());
-  thrust::copy(splitters_merged_pos.begin(), splitters_merged_pos.end(), splitters_pos.begin());
+  thrust::copy(splitters_merged,     splitters_merged + num_splitters,     splitters);
+  thrust::copy(splitters_merged_pos, splitters_merged_pos + num_splitters, splitters_pos);
 
   // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
   // Store the results into rank1[level] and rank2[level] for the even and odd block respectively.
@@ -816,21 +820,28 @@ template<typename KeyType,
 
   find_splitter_ranks<BLOCK_SIZE, LOG_BLOCK_SIZE, KeyType, KeyType, StrictWeakOrdering>
     <<<grid_size,BLOCK_SIZE>>>
-      ((&splitters[0]).get(), (&splitters_pos[0]).get(),
-           (&rank1[0]).get(),         (&rank2[0]).get(),
+      (splitters.get(), splitters_pos.get(),
+           rank1.get(),         rank2.get(),
        keys_src,    n,
        num_splitters, log_tile_size,
        log_num_merged_splitters_per_block, comp);
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
   merge_subblocks_binarysearch<KeyType, ValueType>(keys_src, data_src, n,
-                                                   (&splitters[0]).get(), (&splitters_pos[0]).get(),
-                                                       (&rank1[0]).get(),         (&rank2[0]).get(),
+                                                   splitters.get(), splitters_pos.get(),
+                                                       rank1.get(),         rank2.get(),
                                                    keys_dst, data_dst,
                                                    num_splitters, log_tile_size,
                                                    log_num_merged_splitters_per_block,
                                                    num_tiles / 2,
                                                    comp);
+
+  device_free(splitters);
+  device_free(splitters_pos);
+  device_free(splitters_merged);
+  device_free(splitters_merged_pos);
+  device_free(rank1);
+  device_free(rank2);
 }
 
 template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
@@ -849,8 +860,13 @@ template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
 
   if(NBLOCKS%2)
   {
-    cudaMemcpy(keys_dst + (NBLOCKS-1)*block_size, keys_src + (NBLOCKS-1)*block_size, (n - (NBLOCKS -1 )*block_size)*sizeof(KeyType), cudaMemcpyDeviceToDevice);
-    cudaMemcpy(data_dst + (NBLOCKS-1)*block_size, data_src + (NBLOCKS-1)*block_size, (n - (NBLOCKS -1 )*block_size)*sizeof(ValueType), cudaMemcpyDeviceToDevice);
+    thrust::copy(device_pointer_cast(keys_src) + (NBLOCKS-1)*block_size,
+                 device_pointer_cast(keys_src) + (NBLOCKS-1)*block_size + (n - (NBLOCKS -1)*block_size),
+                 device_pointer_cast(keys_dst) + (NBLOCKS-1)*block_size);
+    
+    thrust::copy(device_pointer_cast(data_src) + (NBLOCKS-1)*block_size,
+                 device_pointer_cast(data_src) + (NBLOCKS-1)*block_size + (n - (NBLOCKS -1)*block_size),
+                 device_pointer_cast(data_dst) + (NBLOCKS-1)*block_size);
   }
 }
 
@@ -884,11 +900,11 @@ template<typename KeyType,
   merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<BLOCK_SIZE><<<grid_size, BLOCK_SIZE>>>(keys, data, comp, n);
 
   // scratch space
-  thrust::device_vector<KeyType>   temp_keys(n);
-  thrust::device_vector<ValueType> temp_data(n);
+  thrust::device_ptr<KeyType>   temp_keys = device_malloc<KeyType>(n);
+  thrust::device_ptr<ValueType> temp_data = device_malloc<ValueType>(n);
 
-  KeyType   *keys0 = keys, *keys1 = (&temp_keys[0]).get();
-  ValueType *data0 = data, *data1 = (&temp_data[0]).get();
+  KeyType   *keys0 = keys, *keys1 = temp_keys.get();
+  ValueType *data0 = data, *data1 = temp_data.get();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.
@@ -907,9 +923,16 @@ template<typename KeyType,
   // and not in the temporary arrays
   if(iterations % 2)
   {
-    cudaMemcpy(data1, data0, sizeof(ValueType) * n, cudaMemcpyDeviceToDevice);
-    cudaMemcpy(keys1, keys0, sizeof(KeyType) * n, cudaMemcpyDeviceToDevice);
+    thrust::copy(device_pointer_cast(data0),
+                 device_pointer_cast(data0 + n),
+                 device_pointer_cast(data1));
+    thrust::copy(device_pointer_cast(keys0),
+                 device_pointer_cast(keys0 + n),
+                 device_pointer_cast(keys1));
   }
+
+  device_free(temp_keys);
+  device_free(temp_data);
 } // end stable_merge_sort_by_key_dev()
 
 
