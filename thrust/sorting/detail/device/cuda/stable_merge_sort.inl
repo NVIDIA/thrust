@@ -779,12 +779,12 @@ template<typename KeyType,
   unsigned int grid_size = min<size_t>(num_splitters, MAX_GRID_SIZE);
 
   // XXX replace these with scoped_ptr or something
-  thrust::device_ptr<KeyType> splitters            = device_malloc<KeyType>(num_splitters);
-  thrust::device_ptr<uint>    splitters_pos        = device_malloc<uint>(num_splitters);
-  thrust::device_ptr<KeyType> splitters_merged     = device_malloc<KeyType>(num_splitters);
-  thrust::device_ptr<uint>    splitters_merged_pos = device_malloc<uint>(num_splitters);
-  thrust::device_ptr<uint>    rank1                = device_malloc<uint>(num_splitters);
-  thrust::device_ptr<uint>    rank2                = device_malloc<uint>(num_splitters);
+  thrust::device_ptr<KeyType>      splitters            = device_malloc<KeyType>(num_splitters);
+  thrust::device_ptr<unsigned int> splitters_pos        = device_malloc<unsigned int>(num_splitters);
+  thrust::device_ptr<KeyType>      splitters_merged     = device_malloc<KeyType>(num_splitters);
+  thrust::device_ptr<unsigned int> splitters_merged_pos = device_malloc<unsigned int>(num_splitters);
+  thrust::device_ptr<unsigned int> rank1                = device_malloc<unsigned int>(num_splitters);
+  thrust::device_ptr<unsigned int> rank2                = device_malloc<unsigned int>(num_splitters);
 
   extract_splitters<KeyType><<<grid_size, BLOCK_SIZE>>>(keys_src, n, splitters.get(), splitters_pos.get());
 
