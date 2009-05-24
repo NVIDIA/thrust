@@ -152,11 +152,12 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
   {
     // figure out if this thread should idle
     unsigned int thread_not_idle = i < n;
+    Tkey my_key;
     
     // copy over inputs to shared memory
     if(thread_not_idle)
     {
-      key[threadIdx.x] = d_srcDatakey[i];
+      key[threadIdx.x] = my_key = d_srcDatakey[i];
     } // end if
     
     // the tile to which the element belongs
@@ -183,6 +184,7 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
     
     // binary search: at the end of this loop, start contains
     // the rank of key[threadIdx.x] in the merged sequence.
+
     __syncthreads();
     if(thread_not_idle)
     {
@@ -191,8 +193,8 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
         cur = (start + end)>>1;
 
         // these are uncoalesced accesses: use shared memory to mitigate cost.
-        if((comp(other[cur], key[threadIdx.x]))
-           || (!comp(key[threadIdx.x], other[cur]) && (tile_index&0x1)))
+        if((comp(other[cur], my_key))
+           || (!comp(my_key, other[cur]) && (tile_index&0x1)))
         {
           start = cur + 1;
         } // end if
@@ -211,7 +213,7 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
     if(thread_not_idle)
     {
       // these are scatters: use shared memory to reduce cost.
-      outkey[rank] = key[threadIdx.x];
+      outkey[rank] = my_key;
       outvalue[rank] = d_srcDatavalue[i];
     } // end if
     __syncthreads();
@@ -591,8 +593,8 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
     KeyType inp1 = input1[threadIdx.x]; ValueType inp1val = input1val[threadIdx.x];
     KeyType inp2 = input2[threadIdx.x]; ValueType inp2val = input2val[threadIdx.x];
 
-    // XXX this does not seem necessary; why is it here?
-    //__syncthreads();
+    // this barrier is unnecessary for correctness but speeds up the kernel on G80
+    __syncthreads();
     
     // to merge input1 and input2, use binary search to find the rank of inp1 & inp2 in arrays input2 & input1, respectively
     // as before, the "end" variables point to one element after the last element of the arrays
@@ -607,7 +609,6 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
       while(start_1 < end_1)
       {
         cur = (start_1 + end_1)>>1;
-        //if(input2[cur] < inp1) start_1 = cur + 1;
         if(comp(input2[cur], inp1)) start_1 = cur + 1;
         else end_1 = cur;
       } // end while
