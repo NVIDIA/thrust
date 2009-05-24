@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/remove.h>
+#include <thrusttest/unittest.h>
+#include <thrust/remove.h>
 #include <stdexcept>
 
 template<typename T>
@@ -30,7 +30,7 @@ void TestRemoveCopyIfSimple(void)
 
     Vector result(5);
 
-    typename Vector::iterator end = komrade::remove_copy_if(data.begin(), 
+    typename Vector::iterator end = thrust::remove_copy_if(data.begin(), 
                                                             data.end(), 
                                                             result.begin(), 
                                                             is_even_remove<T>());
@@ -47,16 +47,16 @@ DECLARE_VECTOR_UNITTEST(TestRemoveCopyIfSimple);
 template<typename T>
 void TestRemoveCopyIf(const size_t n)
 {
-    komrade::host_vector<T> h_data = komradetest::random_samples<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
-    komrade::host_vector<T> h_result(n);
-    komrade::device_vector<T> d_result(n);
+    thrust::host_vector<T> h_result(n);
+    thrust::device_vector<T> d_result(n);
 
     is_true_remove<T> pred;
 
-    typename komrade::host_vector<T>::iterator h_new_end = komrade::remove_copy_if(h_data.begin(), h_data.end(), h_result.begin(), pred);
-    typename komrade::device_vector<T>::iterator d_new_end = komrade::remove_copy_if(d_data.begin(), d_data.end(), d_result.begin(), pred);
+    typename thrust::host_vector<T>::iterator h_new_end = thrust::remove_copy_if(h_data.begin(), h_data.end(), h_result.begin(), pred);
+    typename thrust::device_vector<T>::iterator d_new_end = thrust::remove_copy_if(d_data.begin(), d_data.end(), d_result.begin(), pred);
 
     h_result.resize(h_new_end - h_result.begin());
     d_result.resize(d_new_end - d_result.begin());
@@ -80,7 +80,7 @@ void TestRemoveCopySimple(void)
 
     Vector result(5);
 
-    typename Vector::iterator end = komrade::remove_copy(data.begin(), 
+    typename Vector::iterator end = thrust::remove_copy(data.begin(), 
                                                          data.end(), 
                                                          result.begin(), 
                                                          (T) 2);
@@ -97,17 +97,17 @@ DECLARE_VECTOR_UNITTEST(TestRemoveCopySimple);
 template<typename T>
 void TestRemoveCopy(const size_t n)
 {
-    komrade::host_vector<T> h_data = komradetest::random_samples<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
-    komrade::host_vector<T> h_result(n);
-    komrade::device_vector<T> d_result(n);
+    thrust::host_vector<T> h_result(n);
+    thrust::device_vector<T> d_result(n);
 
     T remove_me = 0;
     if(n > 0) remove_me = h_data[0];
 
-    typename komrade::host_vector<T>::iterator h_new_end = komrade::remove_copy(h_data.begin(), h_data.end(), h_result.begin(), remove_me);
-    typename komrade::device_vector<T>::iterator d_new_end = komrade::remove_copy(d_data.begin(), d_data.end(), d_result.begin(), remove_me);
+    typename thrust::host_vector<T>::iterator h_new_end = thrust::remove_copy(h_data.begin(), h_data.end(), h_result.begin(), remove_me);
+    typename thrust::device_vector<T>::iterator d_new_end = thrust::remove_copy(d_data.begin(), d_data.end(), d_result.begin(), remove_me);
 
     h_result.resize(h_new_end - h_result.begin());
     d_result.resize(d_new_end - d_result.begin());
@@ -129,7 +129,7 @@ void TestRemoveIfSimple(void)
     data[3] =  3; 
     data[4] =  2; 
 
-    typename Vector::iterator end = komrade::remove_if(data.begin(), 
+    typename Vector::iterator end = thrust::remove_if(data.begin(), 
                                                        data.end(), 
                                                        is_even_remove<T>());
 
@@ -145,13 +145,13 @@ DECLARE_VECTOR_UNITTEST(TestRemoveIfSimple);
 template<typename T>
 void TestRemoveIf(const size_t n)
 {
-    komrade::host_vector<T> h_data = komradetest::random_samples<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
     is_true_remove<T> pred;
 
-    typename komrade::host_vector<T>::iterator h_new_end = komrade::remove_if(h_data.begin(), h_data.end(), pred);
-    typename komrade::device_vector<T>::iterator d_new_end = komrade::remove_if(d_data.begin(), d_data.end(), pred);
+    typename thrust::host_vector<T>::iterator h_new_end = thrust::remove_if(h_data.begin(), h_data.end(), pred);
+    typename thrust::device_vector<T>::iterator d_new_end = thrust::remove_if(d_data.begin(), d_data.end(), pred);
 
     h_data.resize(h_new_end - h_data.begin());
     d_data.resize(d_new_end - d_data.begin());
@@ -173,7 +173,7 @@ void TestRemoveSimple(void)
     data[3] =  3; 
     data[4] =  2; 
 
-    typename Vector::iterator end = komrade::remove(data.begin(), 
+    typename Vector::iterator end = thrust::remove(data.begin(), 
                                                     data.end(), 
                                                     (T) 2);
 
@@ -189,14 +189,14 @@ DECLARE_VECTOR_UNITTEST(TestRemoveSimple);
 template<typename T>
 void TestRemove(const size_t n)
 {
-    komrade::host_vector<T> h_data = komradetest::random_samples<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
     T remove_me = 0;
     if(n > 0) remove_me = h_data[0];
 
-    typename komrade::host_vector<T>::iterator h_new_end = komrade::remove(h_data.begin(), h_data.end(), remove_me);
-    typename komrade::device_vector<T>::iterator d_new_end = komrade::remove(d_data.begin(), d_data.end(), remove_me);
+    typename thrust::host_vector<T>::iterator h_new_end = thrust::remove(h_data.begin(), h_data.end(), remove_me);
+    typename thrust::device_vector<T>::iterator d_new_end = thrust::remove(d_data.begin(), d_data.end(), remove_me);
 
     h_data.resize(h_new_end - h_data.begin());
     d_data.resize(d_new_end - d_data.begin());

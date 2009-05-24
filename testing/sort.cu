@@ -1,6 +1,6 @@
-#include <komradetest/unittest.h>
-#include <komrade/sort.h>
-#include <komrade/functional.h>
+#include <thrusttest/unittest.h>
+#include <thrust/sort.h>
+#include <thrust/functional.h>
 #include <utility>
 
 template <typename T>
@@ -129,7 +129,7 @@ void TestSortSimple(void)
 
     InitializeSimpleKeySortTest(unsorted_keys, sorted_keys);
 
-    komrade::sort(unsorted_keys.begin(), unsorted_keys.end());
+    thrust::sort(unsorted_keys.begin(), unsorted_keys.end());
 
     ASSERT_EQUAL(unsorted_keys, sorted_keys);
 }
@@ -144,7 +144,7 @@ void TestSortByKeySimple(void)
 
     InitializeSimpleKeyValueSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
-    komrade::sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
+    thrust::sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
@@ -162,7 +162,7 @@ void TestStableSortSimple(void)
 
     InitializeSimpleStableKeySortTest(unsorted_keys, sorted_keys);
 
-    komrade::stable_sort(unsorted_keys.begin(), unsorted_keys.end(), less_div_10<T>());
+    thrust::stable_sort(unsorted_keys.begin(), unsorted_keys.end(), less_div_10<T>());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
 }
@@ -179,7 +179,7 @@ void TestStableSortByKeySimple(void)
 
     InitializeSimpleStableKeyValueSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
-    komrade::stable_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), less_div_10<T>());
+    thrust::stable_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), less_div_10<T>());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
@@ -190,11 +190,11 @@ DECLARE_VECTOR_UNITTEST(TestStableSortByKeySimple);
 template <typename T>
 void TestSortAscendingKey(const size_t n)
 {
-    komrade::host_vector<T>   h_data = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
-    komrade::sort(h_data.begin(), h_data.end(), komrade::less<T>());
-    komrade::sort(d_data.begin(), d_data.end(), komrade::less<T>());
+    thrust::sort(h_data.begin(), h_data.end(), thrust::less<T>());
+    thrust::sort(d_data.begin(), d_data.end(), thrust::less<T>());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -204,11 +204,11 @@ void TestSortDescendingKey(void)
 {
     const size_t n = 10027;
 
-    komrade::host_vector<int>   h_data = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_data = h_data;
+    thrust::host_vector<int>   h_data = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_data = h_data;
 
-    komrade::sort(h_data.begin(), h_data.end(), komrade::greater<int>());
-    komrade::sort(d_data.begin(), d_data.end(), komrade::greater<int>());
+    thrust::sort(h_data.begin(), h_data.end(), thrust::greater<int>());
+    thrust::sort(d_data.begin(), d_data.end(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -218,11 +218,11 @@ DECLARE_UNITTEST(TestSortDescendingKey);
 template <typename T>
 void TestStableSortAscendingKey(const size_t n)
 {
-    komrade::host_vector<T>   h_data = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
-    komrade::stable_sort(h_data.begin(), h_data.end(), less_div_10<T>());
-    komrade::stable_sort(d_data.begin(), d_data.end(), less_div_10<T>());
+    thrust::stable_sort(h_data.begin(), h_data.end(), less_div_10<T>());
+    thrust::stable_sort(d_data.begin(), d_data.end(), less_div_10<T>());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -233,11 +233,11 @@ void TestStableSortDescendingKey(void)
 {
     const size_t n = 10027;
 
-    komrade::host_vector<int>   h_data = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_data = h_data;
+    thrust::host_vector<int>   h_data = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_data = h_data;
 
-    komrade::stable_sort(h_data.begin(), h_data.end(), greater_div_10<int>());
-    komrade::stable_sort(d_data.begin(), d_data.end(), greater_div_10<int>());
+    thrust::stable_sort(h_data.begin(), h_data.end(), greater_div_10<int>());
+    thrust::stable_sort(d_data.begin(), d_data.end(), greater_div_10<int>());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -248,14 +248,14 @@ DECLARE_UNITTEST(TestStableSortDescendingKey);
 template <typename T>
 void TestSortAscendingKeyValue(const size_t n)
 {
-    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_keys = h_keys;
+    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_keys = h_keys;
     
-    komrade::host_vector<T>   h_values = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_values = h_values;
+    thrust::host_vector<T>   h_values = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_values = h_values;
 
-    komrade::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), komrade::less<T>());
-    komrade::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), komrade::less<T>());
+    thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::less<T>());
+    thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::less<T>());
 
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
@@ -267,14 +267,14 @@ void TestSortDescendingKeyValue(void)
 {
     const size_t n = 10027;
 
-    komrade::host_vector<int>   h_keys = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_keys = h_keys;
+    thrust::host_vector<int>   h_keys = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_keys = h_keys;
     
-    komrade::host_vector<int>   h_values = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_values = h_values;
+    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_values = h_values;
 
-    komrade::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), komrade::greater<int>());
-    komrade::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), komrade::greater<int>());
+    thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<int>());
+    thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
@@ -285,14 +285,14 @@ DECLARE_UNITTEST(TestSortDescendingKeyValue);
 template <typename T>
 void TestStableSortAscendingKeyValue(const size_t n)
 {
-    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_keys = h_keys;
+    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_keys = h_keys;
     
-    komrade::host_vector<T>   h_values = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_values = h_values;
+    thrust::host_vector<T>   h_values = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_values = h_values;
 
-    komrade::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), less_div_10<T>());
-    komrade::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), less_div_10<T>());
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), less_div_10<T>());
+    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), less_div_10<T>());
 
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
@@ -304,14 +304,14 @@ void TestStableSortDescendingKeyValue(void)
 {
     const size_t n = 10027;
 
-    komrade::host_vector<int>   h_keys = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_keys = h_keys;
+    thrust::host_vector<int>   h_keys = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_keys = h_keys;
     
-    komrade::host_vector<int>   h_values = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_values = h_values;
+    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_values = h_values;
 
-    komrade::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), greater_div_10<int>());
-    komrade::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), greater_div_10<int>());
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), greater_div_10<int>());
+    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), greater_div_10<int>());
 
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
@@ -323,18 +323,18 @@ DECLARE_UNITTEST(TestStableSortDescendingKeyValue);
 template <typename T>
 void TestSortAscendingKeyLargeKey(const size_t n)
 {
-    komradetest::random_integer<T> rnd;
+    thrusttest::random_integer<T> rnd;
 
-    komrade::host_vector< komradetest::test_pair<T,T> > h_data(n);
+    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
     for(size_t i = 0; i < n; i++){
         h_data[i].first  = rnd();
         h_data[i].second = rnd();
     }
-    komrade::device_vector< komradetest::test_pair<T,T> > d_data = h_data;
+    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
 
 
-    komrade::sort(h_data.begin(), h_data.end());
-    komrade::sort(d_data.begin(), d_data.end());
+    thrust::sort(h_data.begin(), h_data.end());
+    thrust::sort(d_data.begin(), d_data.end());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -344,20 +344,20 @@ DECLARE_VARIABLE_UNITTEST(TestSortAscendingKeyLargeKey);
 template <typename T>
 void TestSortAscendingKeyValueLargeKey(const size_t n)
 {
-    komradetest::random_integer<T> rnd;
+    thrusttest::random_integer<T> rnd;
 
-    komrade::host_vector< komradetest::test_pair<T,T> > h_data(n);
+    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
     for(size_t i = 0; i < n; i++){
         h_data[i].first  = rnd();
         h_data[i].second = rnd();
     }
-    komrade::device_vector< komradetest::test_pair<T,T> > d_data = h_data;
+    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
     
-    komrade::host_vector<int>   h_values = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_values = h_values;
+    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_values = h_values;
 
-    komrade::sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
-    komrade::sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
+    thrust::sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
+    thrust::sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -367,18 +367,18 @@ DECLARE_VARIABLE_UNITTEST(TestSortAscendingKeyValueLargeKey);
 template <typename T>
 void TestStableSortAscendingKeyLargeKey(const size_t n)
 {
-    komradetest::random_integer<T> rnd;
+    thrusttest::random_integer<T> rnd;
 
-    komrade::host_vector< komradetest::test_pair<T,T> > h_data(n);
+    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
     for(size_t i = 0; i < n; i++){
         h_data[i].first  = rnd();
         h_data[i].second = rnd();
     }
-    komrade::device_vector< komradetest::test_pair<T,T> > d_data = h_data;
+    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
 
 
-    komrade::stable_sort(h_data.begin(), h_data.end());
-    komrade::stable_sort(d_data.begin(), d_data.end());
+    thrust::stable_sort(h_data.begin(), h_data.end());
+    thrust::stable_sort(d_data.begin(), d_data.end());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -388,20 +388,20 @@ DECLARE_VARIABLE_UNITTEST(TestStableSortAscendingKeyLargeKey);
 template <typename T>
 void TestStableSortAscendingKeyValueLargeKey(const size_t n)
 {
-    komradetest::random_integer<T> rnd;
+    thrusttest::random_integer<T> rnd;
 
-    komrade::host_vector< komradetest::test_pair<T,T> > h_data(n);
+    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
     for(size_t i = 0; i < n; i++){
         h_data[i].first  = rnd();
         h_data[i].second = rnd();
     }
-    komrade::device_vector< komradetest::test_pair<T,T> > d_data = h_data;
+    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
     
-    komrade::host_vector<int>   h_values = komradetest::random_integers<int>(n);
-    komrade::device_vector<int> d_values = h_values;
+    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::device_vector<int> d_values = h_values;
 
-    komrade::stable_sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
-    komrade::stable_sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
+    thrust::stable_sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
+    thrust::stable_sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
 
     ASSERT_EQUAL(h_data, d_data);
 }

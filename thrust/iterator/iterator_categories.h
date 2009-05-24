@@ -1,0 +1,190 @@
+/*
+ *  Copyright 2008-2009 NVIDIA Corporation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+
+/*! \file iterator_categories.h
+ *  \brief Defines the categories of iterator supported by thrust.
+ *         Based on STL & Boost's iterator categories.
+ */
+
+#pragma once
+
+#include <thrust/detail/config.h>
+
+// #include this for stl's iterator tags
+#include <iterator>
+
+namespace thrust
+{
+
+/*! \addtogroup iterators
+ *  \addtogroup iterator_tags Iterator Tags
+ *  \ingroup iterators
+ *  \addtogroup iterator_tag_classes Iterator Tag Classes
+ *  \ingroup iterator_tags
+ *  \{
+ */
+
+/*! \p input_device_iterator_tag is an empty class: it has no member functions,
+ *  member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Input Device Iterator concept within the C++ type
+ *  system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/input_iterator_tag.html, iterator_traits,
+ *  output_device_iterator_tag, forward_device_iterator_tag,
+ *  bidirectional_device_iterator_tag, random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+struct input_device_iterator_tag {};
+
+/*! \p output_device_iterator_tag is an empty class: it has no member functions,
+ *  member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Output Device Iterator concept within the C++ type
+ *  system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/output_iterator_tag.html, iterator_traits,
+ *  input_device_iterator_tag, forward_device_iterator_tag,
+ *  bidirectional_device_iterator_tag, random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+struct output_device_iterator_tag {};
+
+/*! \p forward_device_iterator_tag is an empty class: it has no member functions,
+ *  member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Forward Device Iterator concept within the C++ type
+ *  system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/forward_iterator_tag.html, iterator_traits,
+ *  input_device_iterator_tag, output_device_iterator_tag,
+ *  bidirectional_device_iterator_tag, random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+struct forward_device_iterator_tag : public input_device_iterator_tag {};
+
+/*! \p bidirectional_device_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Bidirectional Device Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/bidirectional_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+struct bidirectional_device_iterator_tag : public forward_device_iterator_tag {};
+
+/*! \p random_access_device_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Random Access Device Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/random_access_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, bidirectional_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+struct random_access_device_iterator_tag : public bidirectional_device_iterator_tag {};
+
+/*! \p input_host_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Input Host Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/input_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, bidirectional_device_iterator_tag,
+ *  random_access_device_iterator_tag,
+ *  output_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+typedef std::input_iterator_tag input_host_iterator_tag;
+
+/*! \p output_host_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Output Host Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/output_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, bidirectional_device_iterator_tag,
+ *  random_access_device_iterator_tag,
+ *  input_host_iterator_tag, forward_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+typedef std::output_iterator_tag output_host_iterator_tag;
+
+/*! \p forward_host_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Forward Host Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/forward_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, bidirectional_device_iterator_tag,
+ *  random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag,
+ *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
+ */
+typedef std::forward_iterator_tag forward_host_iterator_tag;
+
+/*! \p bidirectional_host_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Forward Host Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/bidirectional_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, bidirectional_device_iterator_tag,
+ *  random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag,
+ *  forward_host_iterator_tag, random_access_host_iterator_tag
+ */
+typedef std::bidirectional_iterator_tag bidirectional_host_iterator_tag;
+
+/*! \p random_access_host_iterator_tag is an empty class: it has no member
+ *  functions, member variables, or nested types. It is used solely as a "tag": a
+ *  representation of the Forward Host Iterator concept within the C++
+ *  type system.
+ *
+ *  \see http://www.sgi.com/tech/sgi/random_access_iterator_tag.html,
+ *  iterator_traits, input_device_iterator_tag, output_device_iterator_tag,
+ *  forward_device_iterator_tag, bidirectional_device_iterator_tag,
+ *  random_access_device_iterator_tag,
+ *  input_host_iterator_tag, output_host_iterator_tag,
+ *  forward_host_iterator_tag, bidirectional_host_iterator_tag
+ */
+typedef std::random_access_iterator_tag random_access_host_iterator_tag;
+
+/*! \} // end iterator_tag_classes
+ */
+
+namespace experimental
+{
+
+// XXX this could use a better name
+struct random_access_universal_iterator_tag
+  : public thrust::random_access_device_iterator_tag,
+    public std::random_access_iterator_tag {};
+
+} // end namespace experimental
+
+} // end namespace thrust
+

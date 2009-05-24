@@ -1,8 +1,8 @@
-#include <komrade/device_vector.h>
-#include <komrade/host_vector.h>
-#include <komrade/transform_reduce.h>
-#include <komrade/functional.h>
-#include <komrade/extrema.h>
+#include <thrust/device_vector.h>
+#include <thrust/host_vector.h>
+#include <thrust/transform_reduce.h>
+#include <thrust/functional.h>
+#include <thrust/extrema.h>
 
 
 // compute minimum and maximum values in a single reduction
@@ -41,8 +41,8 @@ struct minmax_binary_op
     __host__ __device__
         minmax_pair<T> operator()(const minmax_pair<T>& x, const minmax_pair<T>& y) const {
             minmax_pair<T> result;
-            result.min_val = komrade::min(x.min_val, y.min_val);
-            result.max_val = komrade::max(x.max_val, y.max_val);
+            result.min_val = thrust::min(x.min_val, y.min_val);
+            result.max_val = thrust::max(x.max_val, y.max_val);
             return result;
         }
 };
@@ -54,7 +54,7 @@ int main(void)
     int x[7] = {-1, 2, 7, -3, -4, 5};
 
     // transfer to device
-    komrade::device_vector<float> d_x(x, x + 7);
+    thrust::device_vector<float> d_x(x, x + 7);
 
     // setup arguments
     minmax_unary_op<int>  unary_op;
@@ -62,7 +62,7 @@ int main(void)
     minmax_pair<int> init = unary_op(d_x[0]);  // initialize with first element
 
     // compute minimum and maximum values
-    minmax_pair<int> result = komrade::transform_reduce(d_x.begin(), d_x.end(), unary_op, init, binary_op);
+    minmax_pair<int> result = thrust::transform_reduce(d_x.begin(), d_x.end(), unary_op, init, binary_op);
 
     std::cout << result.min_val << std::endl;
     std::cout << result.max_val << std::endl;

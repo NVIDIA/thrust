@@ -1,9 +1,9 @@
-#include <komradetest/unittest.h>
-#include <komrade/sorting/radix_sort.h>
-#include <komrade/functional.h>
-#include <komrade/range.h>
+#include <thrusttest/unittest.h>
+#include <thrust/sorting/radix_sort.h>
+#include <thrust/functional.h>
+#include <thrust/range.h>
 
-using namespace komradetest;
+using namespace thrusttest;
 
 template <class Vector>
 void InitializeSimpleKeyRadixSortTest(Vector& unsorted_keys, Vector& sorted_keys)
@@ -91,13 +91,13 @@ struct TestRadixSortKeySimple
 
     InitializeSimpleKeyRadixSortTest(unsorted_keys, sorted_keys);
 
-    komrade::sorting::radix_sort(unsorted_keys.begin(), unsorted_keys.end());
+    thrust::sorting::radix_sort(unsorted_keys.begin(), unsorted_keys.end());
 
     ASSERT_EQUAL(unsorted_keys, sorted_keys);
   }
 };
-VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, komrade::device_vector, komrade::device_allocator> TestRadixSortKeySimpleDeviceInstance;
-VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, komrade::host_vector,   std::allocator>            TestRadixSortKeySimpleHostInstance;
+VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_allocator> TestRadixSortKeySimpleDeviceInstance;
+VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator>            TestRadixSortKeySimpleHostInstance;
 
 
 template <class Vector>
@@ -110,19 +110,19 @@ struct TestRadixSortKeyValueSimple
 
     InitializeSimpleKeyValueRadixSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
-    komrade::sorting::radix_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
+    thrust::sorting::radix_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
   }
 };
-VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, komrade::device_vector, komrade::device_allocator> TestRadixSortKeyValueSimpleDeviceInstance;
-VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, komrade::host_vector,   std::allocator           > TestRadixSortKeyValueSimpleHostInstance;
+VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_allocator> TestRadixSortKeyValueSimpleDeviceInstance;
+VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator           > TestRadixSortKeyValueSimpleHostInstance;
 
 
 //still need to do long/ulong and maybe double
 
-typedef komradetest::type_list<char,
+typedef thrusttest::type_list<char,
                                signed char,
                                unsigned char,
                                short,
@@ -140,11 +140,11 @@ struct TestRadixSort
 {
   void operator()(const size_t n)
   {
-    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_keys = h_keys;
+    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_keys = h_keys;
 
-    komrade::sorting::radix_sort(h_keys.begin(), h_keys.end());
-    komrade::sorting::radix_sort(d_keys.begin(), d_keys.end());
+    thrust::sorting::radix_sort(h_keys.begin(), h_keys.end());
+    thrust::sorting::radix_sort(d_keys.begin(), d_keys.end());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
   }
@@ -157,16 +157,16 @@ struct TestRadixSortByKey
 {
   void operator()(const size_t n)
   {
-    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_keys = h_keys;
+    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_keys = h_keys;
     
-    komrade::host_vector<unsigned int>   h_values(n);
-    komrade::device_vector<unsigned int> d_values(n);
-    komrade::range(h_values.begin(), h_values.end());
-    komrade::range(d_values.begin(), d_values.end());
+    thrust::host_vector<unsigned int>   h_values(n);
+    thrust::device_vector<unsigned int> d_values(n);
+    thrust::range(h_values.begin(), h_values.end());
+    thrust::range(d_values.begin(), d_values.end());
 
-    komrade::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    komrade::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -180,16 +180,16 @@ struct TestRadixSortByKeyShortValues
 {
   void operator()(const size_t n)
   {
-    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_keys = h_keys;
+    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_keys = h_keys;
     
-    komrade::host_vector<short>   h_values(n);
-    komrade::device_vector<short> d_values(n);
-    komrade::range(h_values.begin(), h_values.end());
-    komrade::range(d_values.begin(), d_values.end());
+    thrust::host_vector<short>   h_values(n);
+    thrust::device_vector<short> d_values(n);
+    thrust::range(h_values.begin(), h_values.end());
+    thrust::range(d_values.begin(), d_values.end());
 
-    komrade::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    komrade::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -202,16 +202,16 @@ struct TestRadixSortByKeyFloatValues
 {
   void operator()(const size_t n)
   {
-    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_keys = h_keys;
+    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_keys = h_keys;
     
-    komrade::host_vector<float>   h_values(n);
-    komrade::device_vector<float> d_values(n);
-    komrade::range(h_values.begin(), h_values.end());
-    komrade::range(d_values.begin(), d_values.end());
+    thrust::host_vector<float>   h_values(n);
+    thrust::device_vector<float> d_values(n);
+    thrust::range(h_values.begin(), h_values.end());
+    thrust::range(d_values.begin(), d_values.end());
 
-    komrade::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    komrade::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -226,16 +226,16 @@ struct TestRadixSortVariableBits
   void operator()(const size_t n)
   {
     for(size_t num_bits = 1; num_bits < 8 * sizeof(T); num_bits += 3){
-        komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
+        thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
    
         size_t mask = (1 << num_bits) - 1;
         for(size_t i = 0; i < n; i++)
             h_keys[i] &= mask;
 
-        komrade::device_vector<T> d_keys = h_keys;
+        thrust::device_vector<T> d_keys = h_keys;
     
-        komrade::sorting::radix_sort(h_keys.begin(), h_keys.end());
-        komrade::sorting::radix_sort(d_keys.begin(), d_keys.end());
+        thrust::sorting::radix_sort(h_keys.begin(), h_keys.end());
+        thrust::sorting::radix_sort(d_keys.begin(), d_keys.end());
     
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     }
@@ -250,21 +250,21 @@ struct TestRadixSortByKeyVariableBits
   void operator()(const size_t n)
   {
     for(size_t num_bits = 0; num_bits < 8 * sizeof(T); num_bits += 7){
-        komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
+        thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
    
         const T mask = (1 << num_bits) - 1;
         for(size_t i = 0; i < n; i++)
             h_keys[i] &= mask;
 
-        komrade::device_vector<T> d_keys = h_keys;
+        thrust::device_vector<T> d_keys = h_keys;
     
-        komrade::host_vector<unsigned int>   h_values(n);
-        komrade::device_vector<unsigned int> d_values(n);
-        komrade::range(h_values.begin(), h_values.end());
-        komrade::range(d_values.begin(), d_values.end());
+        thrust::host_vector<unsigned int>   h_values(n);
+        thrust::device_vector<unsigned int> d_values(n);
+        thrust::range(h_values.begin(), h_values.end());
+        thrust::range(d_values.begin(), d_values.end());
 
-        komrade::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-        komrade::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+        thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+        thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
         ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -278,13 +278,13 @@ VariableUnitTest<TestRadixSortByKeyVariableBits, IntegralTypes> TestRadixSortByK
 //{   
 //    typedef unsigned long long T;
 //    const size_t n = (1 << 20) + 3;
-//    komrade::host_vector<T>   h_keys = komradetest::random_integers<T>(n);
-//    komrade::device_vector<T> d_keys = h_keys;
+//    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+//    thrust::device_vector<T> d_keys = h_keys;
 //
-//    komrade::sorting::radix_sort(h_keys.begin(), h_keys.end());
+//    thrust::sorting::radix_sort(h_keys.begin(), h_keys.end());
 //
 //    for (int i = 0; i < 100; i++){
-//        komrade::sorting::radix_sort(d_keys.begin(), d_keys.end());
+//        thrust::sorting::radix_sort(d_keys.begin(), d_keys.end());
 //    }
 //
 //    ASSERT_ALMOST_EQUAL(h_keys, d_keys);

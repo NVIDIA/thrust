@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/transform.h>
+#include <thrusttest/unittest.h>
+#include <thrust/transform.h>
 
 template <class Vector>
 void TestTransformUnarySimple(void)
@@ -12,7 +12,7 @@ void TestTransformUnarySimple(void)
     input[0]  =  1; input[1]  = -2; input[2]  =  3;
     result[0] = -1; result[1] =  2; result[2] = -3;
 
-    komrade::transform(input.begin(), input.end(), output.begin(), komrade::negate<T>());
+    thrust::transform(input.begin(), input.end(), output.begin(), thrust::negate<T>());
     
     ASSERT_EQUAL(output, result);
 }
@@ -34,11 +34,11 @@ void TestTransformIfUnarySimple(void)
     stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
     result[0]  = -1; result[1]  =  2; result[2]  = -3;
 
-    komrade::experimental::transform_if(input.begin(), input.end(),
+    thrust::experimental::transform_if(input.begin(), input.end(),
                                         stencil.begin(),
                                         output.begin(),
-                                        komrade::negate<T>(),
-                                        komrade::identity<T>());
+                                        thrust::negate<T>(),
+                                        thrust::identity<T>());
     
     ASSERT_EQUAL(output, result);
 }
@@ -58,7 +58,7 @@ void TestTransformBinarySimple(void)
     input2[0] = -4; input2[1] =  5; input2[2] =  6;
     result[0] =  5; result[1] = -7; result[2] = -3;
 
-    komrade::transform(input1.begin(), input1.end(), input2.begin(), output.begin(), komrade::minus<T>());
+    thrust::transform(input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
     
     ASSERT_EQUAL(output, result);
 }
@@ -82,14 +82,14 @@ void TestTransformIfBinarySimple(void)
     output[0]  =  1; output[1]  =  2; output[2]  =  3;
     result[0]  =  5; result[1]  =  2; result[2]  = -3;
 
-    komrade::identity<T> identity;
+    thrust::identity<T> identity;
 
-    komrade::experimental::transform_if(input1.begin(), input1.end(),
+    thrust::experimental::transform_if(input1.begin(), input1.end(),
                                         input2.begin(),
                                         stencil.begin(),
                                         output.begin(),
-                                        komrade::minus<T>(),
-                                        komrade::not1(identity));
+                                        thrust::minus<T>(),
+                                        thrust::not1(identity));
     
     ASSERT_EQUAL(output, result);
 }
@@ -99,14 +99,14 @@ DECLARE_VECTOR_UNITTEST(TestTransformIfBinarySimple);
 template <typename T>
 void TestTransformUnary(const size_t n)
 {
-    komrade::host_vector<T>   h_input = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_input = h_input;
+    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_input = h_input;
 
-    komrade::host_vector<T>   h_output(n);
-    komrade::device_vector<T> d_output(n);
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
 
-    komrade::transform(h_input.begin(), h_input.end(), h_output.begin(), komrade::negate<T>());
-    komrade::transform(d_input.begin(), d_input.end(), d_output.begin(), komrade::negate<T>());
+    thrust::transform(h_input.begin(), h_input.end(), h_output.begin(), thrust::negate<T>());
+    thrust::transform(d_input.begin(), d_input.end(), d_output.begin(), thrust::negate<T>());
     
     ASSERT_EQUAL(h_output, d_output);
 }
@@ -127,23 +127,23 @@ struct is_positive
 template <typename T>
 void TestTransformIfUnary(const size_t n)
 {
-    komrade::host_vector<T>   h_input   = komradetest::random_integers<T>(n);
-    komrade::host_vector<T>   h_stencil = komradetest::random_integers<T>(n);
-    komrade::host_vector<T>   h_output  = komradetest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input   = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_stencil = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_output  = thrusttest::random_integers<T>(n);
 
-    komrade::device_vector<T> d_input   = h_input;
-    komrade::device_vector<T> d_stencil = h_stencil;
-    komrade::device_vector<T> d_output  = h_output;
+    thrust::device_vector<T> d_input   = h_input;
+    thrust::device_vector<T> d_stencil = h_stencil;
+    thrust::device_vector<T> d_output  = h_output;
 
-    komrade::experimental::transform_if(h_input.begin(), h_input.end(),
+    thrust::experimental::transform_if(h_input.begin(), h_input.end(),
                                         h_stencil.begin(),
                                         h_output.begin(),
-                                        komrade::negate<T>(), is_positive());
+                                        thrust::negate<T>(), is_positive());
 
-    komrade::experimental::transform_if(d_input.begin(), d_input.end(),
+    thrust::experimental::transform_if(d_input.begin(), d_input.end(),
                                         d_stencil.begin(),
                                         d_output.begin(),
-                                        komrade::negate<T>(), is_positive());
+                                        thrust::negate<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 }
@@ -153,21 +153,21 @@ DECLARE_VARIABLE_UNITTEST(TestTransformIfUnary);
 template <typename T>
 void TestTransformBinary(const size_t n)
 {
-    komrade::host_vector<T>   h_input1 = komradetest::random_integers<T>(n);
-    komrade::host_vector<T>   h_input2 = komradetest::random_integers<T>(n);
-    komrade::device_vector<T> d_input1 = h_input1;
-    komrade::device_vector<T> d_input2 = h_input2;
+    thrust::host_vector<T>   h_input1 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input2 = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_input1 = h_input1;
+    thrust::device_vector<T> d_input2 = h_input2;
 
-    komrade::host_vector<T>   h_output(n);
-    komrade::device_vector<T> d_output(n);
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
 
-    komrade::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), h_output.begin(), komrade::minus<T>());
-    komrade::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), d_output.begin(), komrade::minus<T>());
+    thrust::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), h_output.begin(), thrust::minus<T>());
+    thrust::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), d_output.begin(), thrust::minus<T>());
     
     ASSERT_EQUAL(h_output, d_output);
     
-    komrade::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), h_output.begin(), komrade::multiplies<T>());
-    komrade::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), d_output.begin(), komrade::multiplies<T>());
+    thrust::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), h_output.begin(), thrust::multiplies<T>());
+    thrust::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), d_output.begin(), thrust::multiplies<T>());
     
     ASSERT_EQUAL(h_output, d_output);
 }
@@ -177,44 +177,44 @@ DECLARE_VARIABLE_UNITTEST(TestTransformBinary);
 template <typename T>
 void TestTransformIfBinary(const size_t n)
 {
-    komrade::host_vector<T>   h_input1  = komradetest::random_integers<T>(n);
-    komrade::host_vector<T>   h_input2  = komradetest::random_integers<T>(n);
-    komrade::host_vector<T>   h_stencil = komradetest::random_integers<T>(n);
-    komrade::host_vector<T>   h_output  = komradetest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input1  = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input2  = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_stencil = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_output  = thrusttest::random_integers<T>(n);
 
-    komrade::device_vector<T> d_input1  = h_input1;
-    komrade::device_vector<T> d_input2  = h_input2;
-    komrade::device_vector<T> d_stencil = h_stencil;
-    komrade::device_vector<T> d_output  = h_output;
+    thrust::device_vector<T> d_input1  = h_input1;
+    thrust::device_vector<T> d_input2  = h_input2;
+    thrust::device_vector<T> d_stencil = h_stencil;
+    thrust::device_vector<T> d_output  = h_output;
 
-    komrade::experimental::transform_if(h_input1.begin(), h_input1.end(),
+    thrust::experimental::transform_if(h_input1.begin(), h_input1.end(),
                                         h_input2.begin(),
                                         h_stencil.begin(),
                                         h_output.begin(),
-                                        komrade::minus<T>(), is_positive());
+                                        thrust::minus<T>(), is_positive());
 
-    komrade::experimental::transform_if(d_input1.begin(), d_input1.end(),
+    thrust::experimental::transform_if(d_input1.begin(), d_input1.end(),
                                         d_input2.begin(),
                                         d_stencil.begin(),
                                         d_output.begin(),
-                                        komrade::minus<T>(), is_positive());
+                                        thrust::minus<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 
-    h_stencil = komradetest::random_integers<T>(n);
+    h_stencil = thrusttest::random_integers<T>(n);
     d_stencil = h_stencil;
     
-    komrade::experimental::transform_if(h_input1.begin(), h_input1.end(),
+    thrust::experimental::transform_if(h_input1.begin(), h_input1.end(),
                                         h_input2.begin(),
                                         h_stencil.begin(),
                                         h_output.begin(),
-                                        komrade::multiplies<T>(), is_positive());
+                                        thrust::multiplies<T>(), is_positive());
 
-    komrade::experimental::transform_if(d_input1.begin(), d_input1.end(),
+    thrust::experimental::transform_if(d_input1.begin(), d_input1.end(),
                                         d_input2.begin(),
                                         d_stencil.begin(),
                                         d_output.begin(),
-                                        komrade::multiplies<T>(), is_positive());
+                                        thrust::multiplies<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 }

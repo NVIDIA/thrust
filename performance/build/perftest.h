@@ -1,4 +1,4 @@
-#include <komradetest/unittest.h>
+#include <thrusttest/unittest.h>
 #include <cuda_runtime.h>
 #include <cuda.h>
 

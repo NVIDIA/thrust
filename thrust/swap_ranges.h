@@ -1,0 +1,84 @@
+/*
+ *  Copyright 2008-2009 NVIDIA Corporation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+
+/*! \file swap_ranges.h
+ *  \brief Defines the interface to a swap
+ *         function for CUDA containers.
+ */
+
+#pragma once
+
+#include <thrust/detail/config.h>
+
+namespace thrust
+{
+
+/*! \addtogroup regular_copying Regular Copying
+ *  \{
+ */
+
+/*! \p swap_ranges swaps each of the elements in the range <tt>[first1, last1)</tt>
+ *  with the corresponding element in the range <tt>[first2, first2 + (last1 - first1))</tt>.
+ *  That is, for each integer \c n such that <tt>0 <= n < (last1 - first1)</tt>, it swaps
+ *  <tt>*(first1 + n)</tt> and <tt>*(first2 + n)</tt>. The return value is
+ *  <tt>first2 + (last1 - first1)</tt>.
+ *
+ *  \param first1 The beginning of the first sequence to swap.
+ *  \param last1 One position past the last element of the first sequence to swap.
+ *  \param first2 The beginning of the second sequence to swap.
+ *  \return An iterator pointing to one position past the last element of the second
+ *          sequence to swap.
+ *
+ *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator1's \c value_type must be convertible to \p ForwardIterator2's \c value_type.
+ *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator2's \c value_type must be convertible to \p ForwardIterator1's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p swap_ranges to
+ *  swap the contents of two \c thrust::device_vectors.
+ *
+ *  \code
+ *  #include <thrust/swap_ranges.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> v1(2), v2(2);
+ *  v1[0] = 1;
+ *  v1[1] = 2;
+ *  v2[0] = 3;
+ *  v2[1] = 4;
+ *
+ *  thrust::swap_ranges(v1.begin(), v1.end(), v2.begin());
+ *
+ *  // v1[0] == 3, v1[1] == 4, v2[0] == 1, v2[1] == 2
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/swap_ranges.html
+ *  \see \c swap
+ */
+template<typename ForwardIterator1,
+         typename ForwardIterator2>
+  ForwardIterator2 swap_ranges(ForwardIterator1 first1,
+                               ForwardIterator1 last1,
+                               ForwardIterator2 first2);
+
+/*! \} // regular_copying
+ */
+
+} // end namespace thrust
+
+#include <thrust/detail/swap_ranges.inl>
+

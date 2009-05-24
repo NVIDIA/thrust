@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/uninitialized_fill.h>
+#include <thrusttest/unittest.h>
+#include <thrust/uninitialized_fill.h>
 
 template <class Vector>
 void TestUninitializedFillPOD(void)
@@ -11,7 +11,7 @@ void TestUninitializedFillPOD(void)
 
     T exemplar(7);
 
-    komrade::uninitialized_fill(v.begin() + 1, v.begin() + 4, exemplar);
+    thrust::uninitialized_fill(v.begin() + 1, v.begin() + 4, exemplar);
 
     ASSERT_EQUAL(v[0], 0);
     ASSERT_EQUAL(v[1], exemplar);
@@ -21,7 +21,7 @@ void TestUninitializedFillPOD(void)
 
     exemplar = 8;
     
-    komrade::uninitialized_fill(v.begin() + 0, v.begin() + 3, exemplar);
+    thrust::uninitialized_fill(v.begin() + 0, v.begin() + 3, exemplar);
     
     ASSERT_EQUAL(v[0], exemplar);
     ASSERT_EQUAL(v[1], exemplar);
@@ -31,7 +31,7 @@ void TestUninitializedFillPOD(void)
 
     exemplar = 9;
     
-    komrade::uninitialized_fill(v.begin() + 2, v.end(), exemplar);
+    thrust::uninitialized_fill(v.begin() + 2, v.end(), exemplar);
     
     ASSERT_EQUAL(v[0], 8);
     ASSERT_EQUAL(v[1], 8);
@@ -41,7 +41,7 @@ void TestUninitializedFillPOD(void)
 
     exemplar = 1;
 
-    komrade::uninitialized_fill(v.begin(), v.end(), exemplar);
+    thrust::uninitialized_fill(v.begin(), v.end(), exemplar);
     
     ASSERT_EQUAL(v[0], exemplar);
     ASSERT_EQUAL(v[1], exemplar);
@@ -71,7 +71,7 @@ struct TestUninitializedFillNonPOD
   void operator()(const size_t dummy)
   {
     KNOWN_FAILURE
-    //typedef komrade::device_vector< Wrap<int> > Vector;
+    //typedef thrust::device_vector< Wrap<int> > Vector;
     //typedef typename Vector::value_type T;
 
     //Vector v(5, T(0));
@@ -81,7 +81,7 @@ struct TestUninitializedFillNonPOD
     //// use the copy constructor on the reference
     //T reference(exemplar);
 
-    //komrade::uninitialized_fill(v.begin() + 1, v.begin() + 4, exemplar);
+    //thrust::uninitialized_fill(v.begin() + 1, v.begin() + 4, exemplar);
 
     //ASSERT_EQUAL(v[0], T(0));
     //ASSERT_EQUAL(v[1], reference);
@@ -90,6 +90,6 @@ struct TestUninitializedFillNonPOD
     //ASSERT_EQUAL(v[4], T(0));
   }
 };
-VectorUnitTest<TestUninitializedFillNonPOD, komradetest::type_list<Wrap<int>, Wrap<float> >, komrade::device_vector, komrade::device_allocator> gTestUninitializedFillNonPODDeviceInstance;
-VectorUnitTest<TestUninitializedFillNonPOD, komradetest::type_list<Wrap<int>, Wrap<float> >, komrade::host_vector, std::allocator> gTestUninitializedFillNonPODHostInstance;
+VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_allocator> gTestUninitializedFillNonPODDeviceInstance;
+VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::host_vector, std::allocator> gTestUninitializedFillNonPODHostInstance;
 

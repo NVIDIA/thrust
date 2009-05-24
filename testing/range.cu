@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/range.h>
+#include <thrusttest/unittest.h>
+#include <thrust/range.h>
 
 
 template <class Vector>
@@ -9,7 +9,7 @@ void TestRangeSimple(void)
     
     Vector v(5);
 
-    komrade::range(v.begin(), v.end());
+    thrust::range(v.begin(), v.end());
 
     ASSERT_EQUAL(v[0], 0);
     ASSERT_EQUAL(v[1], 1);
@@ -17,7 +17,7 @@ void TestRangeSimple(void)
     ASSERT_EQUAL(v[3], 3);
     ASSERT_EQUAL(v[4], 4);
 
-    komrade::range(v.begin(), v.end(), 10);
+    thrust::range(v.begin(), v.end(), 10);
 
     ASSERT_EQUAL(v[0], 10);
     ASSERT_EQUAL(v[1], 11);
@@ -25,7 +25,7 @@ void TestRangeSimple(void)
     ASSERT_EQUAL(v[3], 13);
     ASSERT_EQUAL(v[4], 14);
     
-    komrade::range(v.begin(), v.end(), 10, 2);
+    thrust::range(v.begin(), v.end(), 10, 2);
 
     ASSERT_EQUAL(v[0], 10);
     ASSERT_EQUAL(v[1], 12);
@@ -39,21 +39,21 @@ DECLARE_VECTOR_UNITTEST(TestRangeSimple);
 template <typename T>
 void TestRange(size_t n)
 {
-    komrade::host_vector<T>   h_data(n);
-    komrade::device_vector<T> d_data(n);
+    thrust::host_vector<T>   h_data(n);
+    thrust::device_vector<T> d_data(n);
 
-    komrade::range(h_data.begin(), h_data.end());
-    komrade::range(d_data.begin(), d_data.end());
-
-    ASSERT_EQUAL(h_data, d_data);
-
-    komrade::range(h_data.begin(), h_data.end(), T(10));
-    komrade::range(d_data.begin(), d_data.end(), T(10));
+    thrust::range(h_data.begin(), h_data.end());
+    thrust::range(d_data.begin(), d_data.end());
 
     ASSERT_EQUAL(h_data, d_data);
 
-    komrade::range(h_data.begin(), h_data.end(), T(10), T(2));
-    komrade::range(d_data.begin(), d_data.end(), T(10), T(2));
+    thrust::range(h_data.begin(), h_data.end(), T(10));
+    thrust::range(d_data.begin(), d_data.end(), T(10));
+
+    ASSERT_EQUAL(h_data, d_data);
+
+    thrust::range(h_data.begin(), h_data.end(), T(10), T(2));
+    thrust::range(d_data.begin(), d_data.end(), T(10), T(2));
 
     ASSERT_EQUAL(h_data, d_data);
 }

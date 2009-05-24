@@ -1,4 +1,4 @@
-#include <komradetest/unittest.h>
+#include <thrusttest/unittest.h>
 #include <vector>
 #include <list>
 #include <limits>
@@ -15,8 +15,8 @@ DECLARE_VECTOR_UNITTEST(TestVectorCppZeroSize);
 
 void TestVectorCppBool(void)
 {
-    komrade::host_vector<bool> h(3);
-    komrade::device_vector<bool> d(3);
+    thrust::host_vector<bool> h(3);
+    thrust::device_vector<bool> d(3);
 
     h[0] = true; h[1] = false; h[2] = true;
     d[0] = true; d[1] = false; d[2] = true;
@@ -85,7 +85,7 @@ void TestVectorCppFromSTLVector(void)
     stl_vector[1] = 1;
     stl_vector[2] = 2;
 
-    komrade::host_vector<T> v(stl_vector);
+    thrust::host_vector<T> v(stl_vector);
 
     ASSERT_EQUAL(v.size(), 3);
     ASSERT_EQUAL(v[0], 0);
@@ -112,7 +112,7 @@ void TestVectorCppFromBiDirectionalIterator(void)
     stl_list.push_back(1);
     stl_list.push_back(2);
 
-    komrade::host_vector<int> v(stl_list.begin(), stl_list.end());
+    thrust::host_vector<int> v(stl_list.begin(), stl_list.end());
 
     ASSERT_EQUAL(v.size(), 3);
     ASSERT_EQUAL(v[0], 0);
@@ -127,7 +127,7 @@ void TestVectorCppToAndFromHostVector(void)
 {
     typedef typename Vector::value_type T;
 
-    komrade::host_vector<T> h(3);
+    thrust::host_vector<T> h(3);
     h[0] = 0;
     h[1] = 1;
     h[2] = 2;
@@ -165,7 +165,7 @@ void TestVectorCppToAndFromDeviceVector(void)
 {
     typedef typename Vector::value_type T;
 
-    komrade::device_vector<T> h(3);
+    thrust::device_vector<T> h(3);
     h[0] = 0;
     h[1] = 1;
     h[2] = 2;
@@ -313,16 +313,16 @@ DECLARE_VECTOR_UNITTEST(TestVectorCppEraseRange);
 
 void TestVectorCppEquality(void)
 {
-    komrade::host_vector<int> h_a(3);
-    komrade::host_vector<int> h_b(3);
-    komrade::host_vector<int> h_c(3);
+    thrust::host_vector<int> h_a(3);
+    thrust::host_vector<int> h_b(3);
+    thrust::host_vector<int> h_c(3);
     h_a[0] = 0;    h_a[1] = 1;    h_a[2] = 2;
     h_b[0] = 0;    h_b[1] = 1;    h_b[2] = 3;
     h_b[0] = 0;    h_b[1] = 1;
 
-    komrade::device_vector<int> d_a(3);
-    komrade::device_vector<int> d_b(3);
-    komrade::device_vector<int> d_c(3);
+    thrust::device_vector<int> d_a(3);
+    thrust::device_vector<int> d_b(3);
+    thrust::device_vector<int> d_c(3);
     d_a[0] = 0;    d_a[1] = 1;    d_a[2] = 2;
     d_b[0] = 0;    d_b[1] = 1;    d_b[2] = 3;
     d_b[0] = 0;    d_b[1] = 1;
@@ -427,7 +427,7 @@ void TestVectorManipulation(size_t n)
 {
     typedef typename Vector::value_type T;
 
-    komrade::host_vector<T> src = komradetest::random_samples<T>(n);
+    thrust::host_vector<T> src = thrusttest::random_samples<T>(n);
     ASSERT_EQUAL(src.size(), n);
 
     // basic initialization
@@ -485,14 +485,14 @@ void TestVectorManipulation(size_t n)
 template <typename T>
 void TestDeviceVectorCppManipulation(size_t n)
 {
-    TestVectorManipulation< komrade::device_vector<T> >(n);
+    TestVectorManipulation< thrust::device_vector<T> >(n);
 }
 DECLARE_VARIABLE_UNITTEST(TestDeviceVectorCppManipulation);
 
 template <typename T>
 void TestHostVectorCppManipulation(size_t n)
 {
-    TestVectorManipulation< komrade::host_vector<T> >(n);
+    TestVectorManipulation< thrust::host_vector<T> >(n);
 }
 DECLARE_VARIABLE_UNITTEST(TestHostVectorCppManipulation);
 

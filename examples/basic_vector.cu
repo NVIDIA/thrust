@@ -1,12 +1,12 @@
-#include <komrade/host_vector.h>
-#include <komrade/device_vector.h>
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
 
 #include <iostream>
 
 int main(void)
 {
     // H has storage for 4 integers
-    komrade::host_vector<int> H(4);
+    thrust::host_vector<int> H(4);
 
     // initialize individual elements
     H[0] = 14;
@@ -27,7 +27,7 @@ int main(void)
     std::cout << "H now has size " << H.size() << std::endl;
 
     // Copy host_vector H to device_vector D
-    komrade::device_vector<int> D = H;
+    thrust::device_vector<int> D = H;
     
     // elements of D can be modified
     D[0] = 99;

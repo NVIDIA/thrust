@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/scatter.h>
+#include <thrusttest/unittest.h>
+#include <thrust/scatter.h>
 
 template <class Vector>
 void TestScatterSimple(void)
@@ -14,7 +14,7 @@ void TestScatterSimple(void)
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4;
     dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0; dst[5] = 0; dst[6] = 0; dst[7] = 0;
 
-    komrade::scatter(src.begin(), src.end(), map.begin(), dst.begin());
+    thrust::scatter(src.begin(), src.end(), map.begin(), dst.begin());
 
     ASSERT_EQUAL(dst[0], 0);
     ASSERT_EQUAL(dst[1], 2);
@@ -31,32 +31,32 @@ DECLARE_VECTOR_UNITTEST(TestScatterSimple);
 void TestScatterFromHostToDevice(void)
 {
     // source vector
-    komrade::host_vector<int> src(5);
+    thrust::host_vector<int> src(5);
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4;
 
     // scatter indices
-    komrade::host_vector<int> h_map(5);
+    thrust::host_vector<int> h_map(5);
     h_map[0] = 6; h_map[1] = 3; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    komrade::device_vector<int> d_map = h_map;
+    thrust::device_vector<int> d_map = h_map;
 
     // destination vector
-    komrade::device_vector<int> dst(8, (int) 0);
+    thrust::device_vector<int> dst(8, (int) 0);
 
     // expected result
-    komrade::device_vector<int> result = dst;
+    thrust::device_vector<int> result = dst;
     result[1] = 2;
     result[2] = 4;
     result[3] = 1;
     result[7] = 3;
 
     // with map on the host
-    komrade::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
+    thrust::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
 
     // clear the destination vector
-    komrade::fill(dst.begin(), dst.end(), (int) 0);
+    thrust::fill(dst.begin(), dst.end(), (int) 0);
     
     // with map on the device
-    komrade::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
+    thrust::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
 }
 DECLARE_UNITTEST(TestScatterFromHostToDevice);
 
@@ -64,32 +64,32 @@ DECLARE_UNITTEST(TestScatterFromHostToDevice);
 void TestScatterFromDeviceToHost(void)
 {
     // source vector
-    komrade::device_vector<int> src(5);
+    thrust::device_vector<int> src(5);
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4;
 
     // scatter indices
-    komrade::host_vector<int> h_map(5);
+    thrust::host_vector<int> h_map(5);
     h_map[0] = 6; h_map[1] = 3; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    komrade::device_vector<int> d_map = h_map;
+    thrust::device_vector<int> d_map = h_map;
 
     // destination vector
-    komrade::host_vector<int> dst(8, (int) 0);
+    thrust::host_vector<int> dst(8, (int) 0);
 
     // expected result
-    komrade::host_vector<int> result = dst;
+    thrust::host_vector<int> result = dst;
     result[1] = 2;
     result[2] = 4;
     result[3] = 1;
     result[7] = 3;
 
     // with map on the host
-    komrade::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
+    thrust::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
 
     // clear the destination vector
-    komrade::fill(dst.begin(), dst.end(), (int) 0);
+    thrust::fill(dst.begin(), dst.end(), (int) 0);
     
     // with map on the device
-    komrade::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
+    thrust::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
 }
 DECLARE_UNITTEST(TestScatterFromDeviceToHost);
 
@@ -100,21 +100,21 @@ void TestScatter(const size_t n)
 {
     const size_t output_size = std::min((size_t) 10, 2 * n);
     
-    komrade::host_vector<T> h_input(n, (T) 1);
-    komrade::device_vector<T> d_input(n, (T) 1);
+    thrust::host_vector<T> h_input(n, (T) 1);
+    thrust::device_vector<T> d_input(n, (T) 1);
    
-    komrade::host_vector<unsigned int> h_map = komradetest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % output_size;
     
-    komrade::device_vector<unsigned int> d_map = h_map;
+    thrust::device_vector<unsigned int> d_map = h_map;
 
-    komrade::host_vector<T>   h_output(output_size, (T) 0);
-    komrade::device_vector<T> d_output(output_size, (T) 0);
+    thrust::host_vector<T>   h_output(output_size, (T) 0);
+    thrust::device_vector<T> d_output(output_size, (T) 0);
 
-    komrade::scatter(h_input.begin(), h_input.end(), h_map.begin(), h_output.begin());
-    komrade::scatter(d_input.begin(), d_input.end(), d_map.begin(), d_output.begin());
+    thrust::scatter(h_input.begin(), h_input.end(), h_map.begin(), h_output.begin());
+    thrust::scatter(d_input.begin(), d_input.end(), d_map.begin(), d_output.begin());
 
     ASSERT_EQUAL(h_output, d_output);
 }
@@ -136,7 +136,7 @@ void TestScatterIfSimple(void)
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4;
     dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0; dst[5] = 0; dst[6] = 0; dst[7] = 0;
 
-    komrade::scatter_if(src.begin(), src.end(), map.begin(), flg.begin(), dst.begin());
+    thrust::scatter_if(src.begin(), src.end(), map.begin(), flg.begin(), dst.begin());
 
     ASSERT_EQUAL(dst[0], 0);
     ASSERT_EQUAL(dst[1], 0);
@@ -162,21 +162,21 @@ void TestScatterIf(const size_t n)
 {
     const size_t output_size = std::min((size_t) 10, 2 * n);
     
-    komrade::host_vector<T> h_input(n, (T) 1);
-    komrade::device_vector<T> d_input(n, (T) 1);
+    thrust::host_vector<T> h_input(n, (T) 1);
+    thrust::device_vector<T> d_input(n, (T) 1);
    
-    komrade::host_vector<unsigned int> h_map = komradetest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % output_size;
     
-    komrade::device_vector<unsigned int> d_map = h_map;
+    thrust::device_vector<unsigned int> d_map = h_map;
 
-    komrade::host_vector<T>   h_output(output_size, (T) 0);
-    komrade::device_vector<T> d_output(output_size, (T) 0);
+    thrust::host_vector<T>   h_output(output_size, (T) 0);
+    thrust::device_vector<T> d_output(output_size, (T) 0);
 
-    komrade::scatter_if(h_input.begin(), h_input.end(), h_map.begin(), h_map.begin(), h_output.begin(), is_even_scatter_if<unsigned int>());
-    komrade::scatter_if(d_input.begin(), d_input.end(), d_map.begin(), d_map.begin(), d_output.begin(), is_even_scatter_if<unsigned int>());
+    thrust::scatter_if(h_input.begin(), h_input.end(), h_map.begin(), h_map.begin(), h_output.begin(), is_even_scatter_if<unsigned int>());
+    thrust::scatter_if(d_input.begin(), d_input.end(), d_map.begin(), d_map.begin(), d_output.begin(), is_even_scatter_if<unsigned int>());
 
     ASSERT_EQUAL(h_output, d_output);
 }

@@ -1,7 +1,7 @@
-#include <komrade/transform.h>
-#include <komrade/device_vector.h>
-#include <komrade/host_vector.h>
-#include <komrade/functional.h>
+#include <thrust/transform.h>
+#include <thrust/device_vector.h>
+#include <thrust/host_vector.h>
+#include <thrust/functional.h>
 #include <iostream>
 #include <iterator>
 #include <algorithm>
@@ -18,24 +18,24 @@ struct saxpy_functor
         }
 };
 
-void saxpy_fast(float A, komrade::device_vector<float>& X, komrade::device_vector<float>& Y)
+void saxpy_fast(float A, thrust::device_vector<float>& X, thrust::device_vector<float>& Y)
 {
     // Y <- A * X + Y
-    komrade::transform(X.begin(), X.end(), Y.begin(), Y.begin(), saxpy_functor(A));
+    thrust::transform(X.begin(), X.end(), Y.begin(), Y.begin(), saxpy_functor(A));
 }
 
-void saxpy_slow(float A, komrade::device_vector<float>& X, komrade::device_vector<float>& Y)
+void saxpy_slow(float A, thrust::device_vector<float>& X, thrust::device_vector<float>& Y)
 {
-    komrade::device_vector<float> temp(X.size());
+    thrust::device_vector<float> temp(X.size());
    
     // temp <- A
-    komrade::fill(temp.begin(), temp.end(), A);
+    thrust::fill(temp.begin(), temp.end(), A);
     
     // temp <- A * X
-    komrade::transform(X.begin(), X.end(), temp.begin(), temp.begin(), komrade::multiplies<float>());
+    thrust::transform(X.begin(), X.end(), temp.begin(), temp.begin(), thrust::multiplies<float>());
 
     // Y <- A * X + Y
-    komrade::transform(temp.begin(), temp.end(), Y.begin(), Y.begin(), komrade::plus<float>());
+    thrust::transform(temp.begin(), temp.end(), Y.begin(), Y.begin(), thrust::plus<float>());
 }
 
 int main(void)
@@ -46,8 +46,8 @@ int main(void)
 
     {
         // transfer to device
-        komrade::device_vector<float> X(x, x + 4);
-        komrade::device_vector<float> Y(y, y + 4);
+        thrust::device_vector<float> X(x, x + 4);
+        thrust::device_vector<float> Y(y, y + 4);
 
         // slow method
         saxpy_slow(2.0, X, Y);
@@ -55,8 +55,8 @@ int main(void)
 
     {
         // transfer to device
-        komrade::device_vector<float> X(x, x + 4);
-        komrade::device_vector<float> Y(y, y + 4);
+        thrust::device_vector<float> X(x, x + 4);
+        thrust::device_vector<float> Y(y, y + 4);
 
         // fast method
         saxpy_fast(2.0, X, Y);

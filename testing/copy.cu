@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/copy.h>
+#include <thrusttest/unittest.h>
+#include <thrust/copy.h>
 
 #include <list>
 #include <iterator>
@@ -15,8 +15,8 @@ void TestCopyFromConstIterator(void)
     std::vector<int>::const_iterator end = v.end();
 
     // copy to host_vector
-    komrade::host_vector<T> h(5, (T) 10);
-    komrade::host_vector<T>::iterator h_result = komrade::copy(begin, end, h.begin());
+    thrust::host_vector<T> h(5, (T) 10);
+    thrust::host_vector<T>::iterator h_result = thrust::copy(begin, end, h.begin());
     ASSERT_EQUAL(h[0], 0);
     ASSERT_EQUAL(h[1], 1);
     ASSERT_EQUAL(h[2], 2);
@@ -25,8 +25,8 @@ void TestCopyFromConstIterator(void)
     ASSERT_EQUAL_QUIET(h_result, h.end());
 
     // copy to device_vector
-    komrade::device_vector<T> d(5, (T) 10);
-    komrade::device_vector<T>::iterator d_result = komrade::copy(begin, end, d.begin());
+    thrust::device_vector<T> d(5, (T) 10);
+    thrust::device_vector<T>::iterator d_result = thrust::copy(begin, end, d.begin());
     ASSERT_EQUAL(d[0], 0);
     ASSERT_EQUAL(d[1], 1);
     ASSERT_EQUAL(d[2], 2);
@@ -45,8 +45,8 @@ void TestCopyMatchingTypes(void)
     v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
 
     // copy to host_vector
-    komrade::host_vector<T> h(5, (T) 10);
-    typename komrade::host_vector<T>::iterator h_result = komrade::copy(v.begin(), v.end(), h.begin());
+    thrust::host_vector<T> h(5, (T) 10);
+    typename thrust::host_vector<T>::iterator h_result = thrust::copy(v.begin(), v.end(), h.begin());
     ASSERT_EQUAL(h[0], 0);
     ASSERT_EQUAL(h[1], 1);
     ASSERT_EQUAL(h[2], 2);
@@ -55,8 +55,8 @@ void TestCopyMatchingTypes(void)
     ASSERT_EQUAL_QUIET(h_result, h.end());
 
     // copy to device_vector
-    komrade::device_vector<T> d(5, (T) 10);
-    typename komrade::device_vector<T>::iterator d_result = komrade::copy(v.begin(), v.end(), d.begin());
+    thrust::device_vector<T> d(5, (T) 10);
+    typename thrust::device_vector<T>::iterator d_result = thrust::copy(v.begin(), v.end(), d.begin());
     ASSERT_EQUAL(d[0], 0);
     ASSERT_EQUAL(d[1], 1);
     ASSERT_EQUAL(d[2], 2);
@@ -75,8 +75,8 @@ void TestCopyMixedTypes(void)
     v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
 
     // copy to host_vector with different type
-    komrade::host_vector<float> h(5, (float) 10);
-    typename komrade::host_vector<float>::iterator h_result = komrade::copy(v.begin(), v.end(), h.begin());
+    thrust::host_vector<float> h(5, (float) 10);
+    typename thrust::host_vector<float>::iterator h_result = thrust::copy(v.begin(), v.end(), h.begin());
 
     ASSERT_EQUAL(h[0], 0);
     ASSERT_EQUAL(h[1], 1);
@@ -86,8 +86,8 @@ void TestCopyMixedTypes(void)
     ASSERT_EQUAL_QUIET(h_result, h.end());
 
     // copy to device_vector with different type
-    komrade::device_vector<float> d(5, (float) 10);
-    typename komrade::device_vector<float>::iterator d_result = komrade::copy(v.begin(), v.end(), d.begin());
+    thrust::device_vector<float> d(5, (float) 10);
+    typename thrust::device_vector<float>::iterator d_result = thrust::copy(v.begin(), v.end(), d.begin());
     ASSERT_EQUAL(d[0], 0);
     ASSERT_EQUAL(d[1], 1);
     ASSERT_EQUAL(d[2], 2);
@@ -103,11 +103,11 @@ void TestCopyVectorBool(void)
     std::vector<bool> v(3);
     v[0] = true; v[1] = false; v[2] = true;
 
-    komrade::host_vector<bool> h(3);
-    komrade::device_vector<bool> d(3);
+    thrust::host_vector<bool> h(3);
+    thrust::device_vector<bool> d(3);
     
-    komrade::copy(v.begin(), v.end(), h.begin());
-    komrade::copy(v.begin(), v.end(), d.begin());
+    thrust::copy(v.begin(), v.end(), h.begin());
+    thrust::copy(v.begin(), v.end(), d.begin());
 
     ASSERT_EQUAL(h[0], true);
     ASSERT_EQUAL(h[1], false);
@@ -135,7 +135,7 @@ void TestCopyListTo(void)
    
     Vector v(l.size());
 
-    typename Vector::iterator v_result = komrade::copy(l.begin(), l.end(), v.begin());
+    typename Vector::iterator v_result = thrust::copy(l.begin(), l.end(), v.begin());
 
     ASSERT_EQUAL(v[0], 0);
     ASSERT_EQUAL(v[1], 1);
@@ -146,7 +146,7 @@ void TestCopyListTo(void)
 
     l.clear();
 
-    std::back_insert_iterator< std::list<T> > l_result = komrade::copy(v.begin(), v.end(), std::back_insert_iterator< std::list<T> >(l));
+    std::back_insert_iterator< std::list<T> > l_result = thrust::copy(v.begin(), v.end(), std::back_insert_iterator< std::list<T> >(l));
 
     ASSERT_EQUAL(l.size(), 5);
 
@@ -173,7 +173,7 @@ void TestCopyIfSimple(void)
 
     Vector dest(5, (T) 10);
 
-    typename Vector::iterator dest_result = komrade::copy_if(v.begin(), v.end(), stencil.begin(), dest.begin());
+    typename Vector::iterator dest_result = thrust::copy_if(v.begin(), v.end(), stencil.begin(), dest.begin());
     ASSERT_EQUAL(dest[0], 10);
     ASSERT_EQUAL(dest[1],  1);
     ASSERT_EQUAL(dest[2], 10);

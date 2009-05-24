@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/extrema.h>
+#include <thrusttest/unittest.h>
+#include <thrust/extrema.h>
 
 template <class Vector>
 void TestMinElementSimple(void)
@@ -14,27 +14,27 @@ void TestMinElementSimple(void)
     data[4] = 5;
     data[5] = 1;
 
-    ASSERT_EQUAL( *komrade::min_element(data.begin(), data.end()), 1);
-    ASSERT_EQUAL( komrade::min_element(data.begin(), data.end()) - data.begin(), 2);
+    ASSERT_EQUAL( *thrust::min_element(data.begin(), data.end()), 1);
+    ASSERT_EQUAL( thrust::min_element(data.begin(), data.end()) - data.begin(), 2);
     
-    ASSERT_EQUAL( *komrade::min_element(data.begin(), data.end(), komrade::greater<T>()), 5);
-    ASSERT_EQUAL( komrade::min_element(data.begin(), data.end(), komrade::greater<T>()) - data.begin(), 1);
+    ASSERT_EQUAL( *thrust::min_element(data.begin(), data.end(), thrust::greater<T>()), 5);
+    ASSERT_EQUAL( thrust::min_element(data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 1);
 }
 DECLARE_VECTOR_UNITTEST(TestMinElementSimple);
 
 template<typename T>
 void TestMinElement(const size_t n)
 {
-    komrade::host_vector<T> h_data = komradetest::random_samples<T>(n);
-    komrade::device_vector<T> d_data = h_data;
+    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
 
-    typename komrade::host_vector<T>::iterator   h_min = komrade::min_element(h_data.begin(), h_data.end());
-    typename komrade::device_vector<T>::iterator d_min = komrade::min_element(d_data.begin(), d_data.end());
+    typename thrust::host_vector<T>::iterator   h_min = thrust::min_element(h_data.begin(), h_data.end());
+    typename thrust::device_vector<T>::iterator d_min = thrust::min_element(d_data.begin(), d_data.end());
 
     ASSERT_EQUAL(h_min - h_data.begin(), d_min - d_data.begin());
     
-    typename komrade::host_vector<T>::iterator   h_max = komrade::min_element(h_data.begin(), h_data.end(), komrade::greater<T>());
-    typename komrade::device_vector<T>::iterator d_max = komrade::min_element(d_data.begin(), d_data.end(), komrade::greater<T>());
+    typename thrust::host_vector<T>::iterator   h_max = thrust::min_element(h_data.begin(), h_data.end(), thrust::greater<T>());
+    typename thrust::device_vector<T>::iterator d_max = thrust::min_element(d_data.begin(), d_data.end(), thrust::greater<T>());
 
     ASSERT_EQUAL(h_max - h_data.begin(), d_max - d_data.begin());
 }

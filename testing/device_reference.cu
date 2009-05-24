@@ -1,13 +1,13 @@
-#include <komradetest/unittest.h>
-#include <komrade/device_vector.h>
-#include <komrade/device_reference.h>
+#include <thrusttest/unittest.h>
+#include <thrust/device_vector.h>
+#include <thrust/device_reference.h>
 
 void TestDeviceReferenceConstructorFromDeviceReference(void)
 {
     typedef int T;
 
-    komrade::device_vector<T> v(1,0);
-    komrade::device_reference<T> ref = v[0];
+    thrust::device_vector<T> v(1,0);
+    thrust::device_reference<T> ref = v[0];
 
     // ref equals the object at v[0]
     ASSERT_EQUAL(v[0], ref);
@@ -31,9 +31,9 @@ void TestDeviceReferenceConstructorFromDevicePointer(void)
 {
     typedef int T;
 
-    komrade::device_vector<T> v(1,0);
-    komrade::device_ptr<T> ptr = &v[0];
-    komrade::device_reference<T> ref(ptr);
+    thrust::device_vector<T> v(1,0);
+    thrust::device_ptr<T> ptr = &v[0];
+    thrust::device_reference<T> ref(ptr);
 
     // ref equals the object pointed to by ptr
     ASSERT_EQUAL(*ptr, ref);
@@ -57,9 +57,9 @@ void TestDeviceReferenceAssignmentFromDeviceReference(void)
 {
     // test same types
     typedef int T0;
-    komrade::device_vector<T0> v0(2,0);
-    komrade::device_reference<T0> ref0 = v0[0];
-    komrade::device_reference<T0> ref1 = v0[1];
+    thrust::device_vector<T0> v0(2,0);
+    thrust::device_reference<T0> ref0 = v0[0];
+    thrust::device_reference<T0> ref1 = v0[1];
 
     ref0 = 13;
 
@@ -71,8 +71,8 @@ void TestDeviceReferenceAssignmentFromDeviceReference(void)
 
     // test different types
     typedef float T1;
-    komrade::device_vector<T1> v1(1,0);
-    komrade::device_reference<T1> ref2 = v1[0];
+    thrust::device_vector<T1> v1(1,0);
+    thrust::device_reference<T1> ref2 = v1[0];
 
     ref2 = ref1;
 
@@ -87,9 +87,9 @@ void TestDeviceReferenceManipulation(void)
 {
     typedef int T1;
 
-    komrade::device_vector<T1> v(1,0);
-    komrade::device_ptr<T1> ptr = &v[0];
-    komrade::device_reference<T1> ref(ptr);
+    thrust::device_vector<T1> v(1,0);
+    thrust::device_ptr<T1> ptr = &v[0];
+    thrust::device_reference<T1> ref(ptr);
 
     // reset
     ref = 0;

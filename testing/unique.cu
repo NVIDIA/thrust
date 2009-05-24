@@ -1,6 +1,6 @@
-#include <komradetest/unittest.h>
-#include <komrade/unique.h>
-#include <komrade/functional.h>
+#include <thrusttest/unittest.h>
+#include <thrust/unique.h>
+#include <thrust/functional.h>
 
 template<typename T>
 struct is_equal_div_10_unique
@@ -37,7 +37,7 @@ void TestUniqueSimple(void)
 
     typename Vector::iterator new_last;
     
-    new_last = komrade::unique(data.begin(), data.end());
+    new_last = thrust::unique(data.begin(), data.end());
 
     ASSERT_EQUAL(new_last - data.begin(), 7);
     ASSERT_EQUAL(data[0], 11);
@@ -48,7 +48,7 @@ void TestUniqueSimple(void)
     ASSERT_EQUAL(data[5], 31);
     ASSERT_EQUAL(data[6], 37);
 
-    new_last = komrade::unique(data.begin(), new_last, is_equal_div_10_unique<T>());
+    new_last = thrust::unique(data.begin(), new_last, is_equal_div_10_unique<T>());
 
     ASSERT_EQUAL(new_last - data.begin(), 3);
     ASSERT_EQUAL(data[0], 11);
@@ -61,20 +61,20 @@ DECLARE_VECTOR_UNITTEST(TestUniqueSimple);
 template<typename T>
 void TestUnique(const size_t n)
 {
-    komrade::host_vector<T>   h_data = komradetest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
 
     // round floats to ints so some duplicates occur
     for(size_t i = 0; i < n; i++)
         h_data[i] = T(int(h_data[i]));
 
-    komrade::device_vector<T> d_data = h_data;
+    thrust::device_vector<T> d_data = h_data;
 
-    typename komrade::host_vector<T>::iterator   h_new_last;
-    typename komrade::device_vector<T>::iterator d_new_last;
+    typename thrust::host_vector<T>::iterator   h_new_last;
+    typename thrust::device_vector<T>::iterator d_new_last;
 
     // using operator==
-    h_new_last = komrade::unique(h_data.begin(), h_data.end());
-    d_new_last = komrade::unique(d_data.begin(), d_data.end());
+    h_new_last = thrust::unique(h_data.begin(), h_data.end());
+    d_new_last = thrust::unique(d_data.begin(), d_data.end());
 
     ASSERT_EQUAL(h_new_last - h_data.begin(), d_new_last - d_data.begin());
    
@@ -82,8 +82,8 @@ void TestUnique(const size_t n)
     d_data.resize(d_new_last - d_data.begin());
 
     // using custom binary predicate
-    h_new_last = komrade::unique(h_data.begin(), h_data.end(), is_equal_div_2_unique<T>());
-    d_new_last = komrade::unique(d_data.begin(), d_data.end(), is_equal_div_2_unique<T>());
+    h_new_last = thrust::unique(h_data.begin(), h_data.end(), is_equal_div_2_unique<T>());
+    d_new_last = thrust::unique(d_data.begin(), d_data.end(), is_equal_div_2_unique<T>());
 
     ASSERT_EQUAL(h_new_last - h_data.begin(), d_new_last - d_data.begin());
 }

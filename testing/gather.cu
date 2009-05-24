@@ -1,7 +1,7 @@
-#include <komradetest/unittest.h>
-#include <komrade/gather.h>
+#include <thrusttest/unittest.h>
+#include <thrust/gather.h>
 
-#include <komrade/fill.h>
+#include <thrust/fill.h>
 
 template <class Vector>
 void TestGatherSimple(void)
@@ -16,7 +16,7 @@ void TestGatherSimple(void)
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
     dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0;
 
-    komrade::gather(dst.begin(), dst.end(), map.begin(), src.begin());
+    thrust::gather(dst.begin(), dst.end(), map.begin(), src.begin());
 
     ASSERT_EQUAL(dst[0], 6);
     ASSERT_EQUAL(dst[1], 2);
@@ -30,19 +30,19 @@ DECLARE_VECTOR_UNITTEST(TestGatherSimple);
 void TestGatherFromDeviceToHost(void)
 {
     // source vector
-    komrade::device_vector<int> src(8);
+    thrust::device_vector<int> src(8);
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
 
     // gather indices
-    komrade::host_vector<int>   h_map(5); 
+    thrust::host_vector<int>   h_map(5); 
     h_map[0] = 6; h_map[1] = 2; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    komrade::device_vector<int> d_map = h_map;
+    thrust::device_vector<int> d_map = h_map;
    
     // destination vector
-    komrade::host_vector<int> dst(5, (int) 0);
+    thrust::host_vector<int> dst(5, (int) 0);
 
     //// with map on the device
-    komrade::gather(dst.begin(), dst.end(), d_map.begin(), src.begin());
+    thrust::gather(dst.begin(), dst.end(), d_map.begin(), src.begin());
 
     ASSERT_EQUAL(dst[0], 6);
     ASSERT_EQUAL(dst[1], 2);
@@ -51,10 +51,10 @@ void TestGatherFromDeviceToHost(void)
     ASSERT_EQUAL(dst[4], 2);
 
     // clear the destination vector
-    komrade::fill(dst.begin(), dst.end(), (int) 0);
+    thrust::fill(dst.begin(), dst.end(), (int) 0);
     
     // with map on the host
-    komrade::gather(dst.begin(), dst.end(), h_map.begin(), src.begin());
+    thrust::gather(dst.begin(), dst.end(), h_map.begin(), src.begin());
 
     ASSERT_EQUAL(dst[0], 6);
     ASSERT_EQUAL(dst[1], 2);
@@ -68,19 +68,19 @@ DECLARE_UNITTEST(TestGatherFromDeviceToHost);
 void TestGatherFromHostToDevice(void)
 {
     // source vector
-    komrade::host_vector<int> src(8);
+    thrust::host_vector<int> src(8);
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
 
     // gather indices
-    komrade::host_vector<int>   h_map(5); 
+    thrust::host_vector<int>   h_map(5); 
     h_map[0] = 6; h_map[1] = 2; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    komrade::device_vector<int> d_map = h_map;
+    thrust::device_vector<int> d_map = h_map;
    
     // destination vector
-    komrade::device_vector<int> dst(5, (int) 0);
+    thrust::device_vector<int> dst(5, (int) 0);
 
     //// with map on the device
-    komrade::gather(dst.begin(), dst.end(), d_map.begin(), src.begin());
+    thrust::gather(dst.begin(), dst.end(), d_map.begin(), src.begin());
 
     ASSERT_EQUAL(dst[0], 6);
     ASSERT_EQUAL(dst[1], 2);
@@ -89,10 +89,10 @@ void TestGatherFromHostToDevice(void)
     ASSERT_EQUAL(dst[4], 2);
 
     // clear the destination vector
-    komrade::fill(dst.begin(), dst.end(), (int) 0);
+    thrust::fill(dst.begin(), dst.end(), (int) 0);
     
     // with map on the host
-    komrade::gather(dst.begin(), dst.end(), h_map.begin(), src.begin());
+    thrust::gather(dst.begin(), dst.end(), h_map.begin(), src.begin());
 
     ASSERT_EQUAL(dst[0], 6);
     ASSERT_EQUAL(dst[1], 2);
@@ -109,23 +109,23 @@ void TestGather(const size_t n)
     const size_t source_size = std::min((size_t) 10, 2 * n);
 
     // source vectors to gather from
-    komrade::host_vector<T>   h_source = komradetest::random_samples<T>(source_size);
-    komrade::device_vector<T> d_source = h_source;
+    thrust::host_vector<T>   h_source = thrusttest::random_samples<T>(source_size);
+    thrust::device_vector<T> d_source = h_source;
   
     // gather indices
-    komrade::host_vector<unsigned int> h_map = komradetest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % source_size;
     
-    komrade::device_vector<unsigned int> d_map = h_map;
+    thrust::device_vector<unsigned int> d_map = h_map;
 
     // gather destination
-    komrade::host_vector<T>   h_output(n);
-    komrade::device_vector<T> d_output(n);
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
 
-    komrade::gather(h_output.begin(), h_output.end(), h_map.begin(), h_source.begin());
-    komrade::gather(d_output.begin(), d_output.end(), d_map.begin(), d_source.begin());
+    thrust::gather(h_output.begin(), h_output.end(), h_map.begin(), h_source.begin());
+    thrust::gather(d_output.begin(), d_output.end(), d_map.begin(), d_source.begin());
 
     ASSERT_EQUAL(h_output, d_output);
 }
@@ -147,7 +147,7 @@ void TestGatherIfSimple(void)
     src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
     dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0;
 
-    komrade::gather_if(dst.begin(), dst.end(), map.begin(), flg.begin(), src.begin());
+    thrust::gather_if(dst.begin(), dst.end(), map.begin(), flg.begin(), src.begin());
 
     ASSERT_EQUAL(dst[0], 0);
     ASSERT_EQUAL(dst[1], 2);
@@ -172,31 +172,31 @@ void TestGatherIf(const size_t n)
     const size_t source_size = std::min((size_t) 10, 2 * n);
 
     // source vectors to gather from
-    komrade::host_vector<T>   h_source = komradetest::random_samples<T>(source_size);
-    komrade::device_vector<T> d_source = h_source;
+    thrust::host_vector<T>   h_source = thrusttest::random_samples<T>(source_size);
+    thrust::device_vector<T> d_source = h_source;
   
     // gather indices
-    komrade::host_vector<unsigned int> h_map = komradetest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] = h_map[i] % source_size;
     
-    komrade::device_vector<unsigned int> d_map = h_map;
+    thrust::device_vector<unsigned int> d_map = h_map;
     
     // gather stencil
-    komrade::host_vector<unsigned int> h_stencil = komradetest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_stencil = thrusttest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_stencil[i] = h_stencil[i] % 2;
     
-    komrade::device_vector<unsigned int> d_stencil = h_stencil;
+    thrust::device_vector<unsigned int> d_stencil = h_stencil;
 
     // gather destination
-    komrade::host_vector<T>   h_output(n);
-    komrade::device_vector<T> d_output(n);
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
 
-    komrade::gather_if(h_output.begin(), h_output.end(), h_map.begin(), h_stencil.begin(), h_source.begin(), is_even_gather_if<unsigned int>());
-    komrade::gather_if(d_output.begin(), d_output.end(), d_map.begin(), d_stencil.begin(), d_source.begin(), is_even_gather_if<unsigned int>());
+    thrust::gather_if(h_output.begin(), h_output.end(), h_map.begin(), h_stencil.begin(), h_source.begin(), is_even_gather_if<unsigned int>());
+    thrust::gather_if(d_output.begin(), d_output.end(), d_map.begin(), d_stencil.begin(), d_source.begin(), is_even_gather_if<unsigned int>());
 
     ASSERT_EQUAL(h_output, d_output);
 }

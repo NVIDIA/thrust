@@ -1,5 +1,5 @@
-#include "komradetest/testframework.h"
-#include "komradetest/exceptions.h"
+#include "thrusttest/testframework.h"
+#include "thrusttest/exceptions.h"
 
 #include <cuda_runtime.h>
 #include <iostream>
@@ -22,9 +22,9 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
     std::cout << "Running " << tests_to_run.size() << " unit tests." << std::endl;
 
     
-    std::vector< std::pair<UnitTest *,komradetest::UnitTestFailure> >      test_failures;
-    std::vector< std::pair<UnitTest *,komradetest::UnitTestKnownFailure> > test_known_failures;
-    std::vector< std::pair<UnitTest *,komradetest::UnitTestError>   >      test_errors;
+    std::vector< std::pair<UnitTest *,thrusttest::UnitTestFailure> >      test_failures;
+    std::vector< std::pair<UnitTest *,thrusttest::UnitTestKnownFailure> > test_known_failures;
+    std::vector< std::pair<UnitTest *,thrusttest::UnitTestError>   >      test_errors;
     std::vector< UnitTest * >                                              test_exceptions;
     
     cudaError_t error = cudaGetLastError();
@@ -46,7 +46,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
             else
                 std::cout << ".";
         } 
-        catch (komradetest::UnitTestFailure& f){
+        catch (thrusttest::UnitTestFailure& f){
             any_failed = true;
             if (verbose)
                 std::cout << "[FAILURE] " << test->name << std::endl;
@@ -54,14 +54,14 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
                 std::cout << "F";
             test_failures.push_back(std::make_pair(test,f));
         }
-        catch (komradetest::UnitTestKnownFailure& f){
+        catch (thrusttest::UnitTestKnownFailure& f){
             if (verbose)
                 std::cout << "[KNOWN FAILURE] " << test->name << std::endl;
             else
                 std::cout << "K";
             test_known_failures.push_back(std::make_pair(test,f));
         } 
-        catch (komradetest::UnitTestError& e){
+        catch (thrusttest::UnitTestError& e){
             any_failed = true;
             if (verbose)
                 std::cout << "[ERROR] " << test->name << std::endl;

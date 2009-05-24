@@ -1,0 +1,109 @@
+/*
+ *  Copyright 2008-2009 NVIDIA Corporation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+
+/*! \file equal.h
+ *  \brief Vectorwise equality function.
+ */
+
+#pragma once
+
+#include <thrust/detail/config.h>
+
+namespace thrust
+{
+
+/*! \addtogroup reductions
+ *  \{
+ *  \addtogroup comparisons
+ *  \ingroup reductions
+ *  \{
+ */
+
+/*! \p equal returns \c true if the two ranges <tt>[first1, last1)</tt>
+ *  and <tt>[first2, first2 + (last1 - first1))</tt> are identical when
+ *  compared element-by-element, and otherwise returns \c false.
+ *
+ *  This version of \p equal returns \c true if and only if for every
+ *  iterator \c i in <tt>[first1, last1)</tt>, <tt>*i == *(first2 + (i - first1))</tt>.
+ *
+ *  \param first1 The beginning of the first sequence.
+ *  \param last1  The end of the first sequence.
+ *  \param first2 The beginning of the second sequence.
+ *  \return \c true, if the sequences are equal; \c false, otherwise.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>,
+ *          and \p InputIterator1's \c value_type can be compared for equality with \c InputIterator2's \c value_type.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>,
+ *          and \p InputIterator2's \c value_type can be compared for equality with \c InputIterator1's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p equal to test
+ *  two ranges for equality.
+ *
+ *  \code
+ *  #include <thrust/equal.h>
+ *  ...
+ *  int A1[7] = {3, 1, 4, 1, 5, 9, 3};
+ *  int A2[7] = {3, 1, 4, 2, 8, 5, 7};
+ *  ...
+ *  bool result = thrust::equal(A1, A1 + 7, A1);
+ *
+ *  // result == false
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/equal.html
+ */
+template <typename InputIterator1, typename InputIterator2>
+bool equal(InputIterator1 first1, InputIterator1 last1,
+           InputIterator2 first2);
+
+/*! \p equal returns \c true if the two ranges <tt>[first1, last1)</tt>
+ *  and <tt>[first2, first2 + (last1 - first1))</tt> are identical when
+ *  compared element-by-element, and otherwise returns \c false.
+ *
+ *  This version of \p equal returns \c true if and only if for every
+ *  iterator \c i in <tt>[first1, last1)</tt>,
+ *  <tt>binary_pred(*i, *(first2 + (i - first1)))</tt> is \c true.
+ *
+ *  \param first1 The beginning of the first sequence.
+ *  \param last1  The end of the first sequence.
+ *  \param first2 The beginning of the second sequence.
+ *  \param binary_pred Binary predicate used to test element equality.
+ *  \return \c true, if the sequences are equal; \c false, otherwise.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator1's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator2's \c value_type is convertible to \p BinaryPredicate's \c second_argument_type.
+ *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  \see http://www.sgi.com/tech/stl/equal.html
+ */
+template <typename InputIterator1, typename InputIterator2, 
+          typename BinaryPredicate>
+bool equal(InputIterator1 first1, InputIterator1 last1,
+           InputIterator2 first2, BinaryPredicate binary_pred);
+
+/*! \} // end comparisons
+ *  \} // end reductions
+ */
+
+} // end namespace thrust
+
+#include <thrust/detail/equal.inl>
+

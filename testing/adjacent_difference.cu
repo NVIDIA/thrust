@@ -1,5 +1,5 @@
-#include <komradetest/unittest.h>
-#include <komrade/adjacent_difference.h>
+#include <thrusttest/unittest.h>
+#include <thrust/adjacent_difference.h>
 
 template <class Vector>
 void TestAjacentDifferenceSimple(void)
@@ -12,14 +12,14 @@ void TestAjacentDifferenceSimple(void)
 
     typename Vector::iterator result;
     
-    result = komrade::adjacent_difference(input.begin(), input.end(), output.begin());
+    result = thrust::adjacent_difference(input.begin(), input.end(), output.begin());
 
     ASSERT_EQUAL(result - output.begin(), 3);
     ASSERT_EQUAL(output[0], 1);
     ASSERT_EQUAL(output[1], 3);
     ASSERT_EQUAL(output[2], 2);
     
-    result = komrade::adjacent_difference(input.begin(), input.end(), output.begin(), komrade::plus<T>());
+    result = thrust::adjacent_difference(input.begin(), input.end(), output.begin(), thrust::plus<T>());
     
     ASSERT_EQUAL(result - output.begin(), 3);
     ASSERT_EQUAL(output[0],  1);
@@ -27,7 +27,7 @@ void TestAjacentDifferenceSimple(void)
     ASSERT_EQUAL(output[2], 10);
     
     // test in-place operation, result and first are permitted to be the same
-    result = komrade::adjacent_difference(input.begin(), input.end(), input.begin());
+    result = thrust::adjacent_difference(input.begin(), input.end(), input.begin());
 
     ASSERT_EQUAL(result - input.begin(), 3);
     ASSERT_EQUAL(input[0], 1);
@@ -40,32 +40,32 @@ DECLARE_VECTOR_UNITTEST(TestAjacentDifferenceSimple);
 template <typename T>
 void TestAjacentDifference(const size_t n)
 {
-    komrade::host_vector<T>   h_input = komradetest::random_samples<T>(n);
-    komrade::device_vector<T> d_input = h_input;
+    thrust::host_vector<T>   h_input = thrusttest::random_samples<T>(n);
+    thrust::device_vector<T> d_input = h_input;
 
-    komrade::host_vector<T>   h_output(n);
-    komrade::device_vector<T> d_output(n);
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
 
-    typename komrade::host_vector<T>::iterator   h_result;
-    typename komrade::device_vector<T>::iterator d_result;
+    typename thrust::host_vector<T>::iterator   h_result;
+    typename thrust::device_vector<T>::iterator d_result;
 
-    h_result = komrade::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin());
-    d_result = komrade::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin());
+    h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin());
+    d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_EQUAL(h_result - h_output.begin(), n);
     ASSERT_EQUAL(d_result - d_output.begin(), n);
     ASSERT_EQUAL(h_output, d_output);
     
-    h_result = komrade::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin(), komrade::plus<T>());
-    d_result = komrade::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin(), komrade::plus<T>());
+    h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin(), thrust::plus<T>());
+    d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin(), thrust::plus<T>());
 
     ASSERT_EQUAL(h_result - h_output.begin(), n);
     ASSERT_EQUAL(d_result - d_output.begin(), n);
     ASSERT_EQUAL(h_output, d_output);
     
     // in-place operation
-    h_result = komrade::adjacent_difference(h_input.begin(), h_input.end(), h_input.begin(), komrade::plus<T>());
-    d_result = komrade::adjacent_difference(d_input.begin(), d_input.end(), d_input.begin(), komrade::plus<T>());
+    h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_input.begin(), thrust::plus<T>());
+    d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_input.begin(), thrust::plus<T>());
 
     ASSERT_EQUAL(h_result - h_input.begin(), n);
     ASSERT_EQUAL(d_result - d_input.begin(), n);

@@ -1,15 +1,15 @@
-#include <komradetest/unittest.h>
-#include <komrade/device_vector.h>
-#include <komrade/device_ptr.h>
+#include <thrusttest/unittest.h>
+#include <thrust/device_vector.h>
+#include <thrust/device_ptr.h>
 
 void TestDevicePointerManipulation(void)
 {
     typedef int T;
 
-    komrade::device_vector<int> data(5);
+    thrust::device_vector<int> data(5);
 
-    komrade::device_ptr<int> begin(&data[0]);
-    komrade::device_ptr<int> end(&data[5]);
+    thrust::device_ptr<int> begin(&data[0]);
+    thrust::device_ptr<int> end(&data[5]);
 
     ASSERT_EQUAL(end - begin, 5);
 
@@ -43,8 +43,8 @@ void TestDevicePointerManipulation(void)
 
     ASSERT_EQUAL(end - begin, 5);
 
-    begin = begin + (komrade::device_ptr<int>::difference_type) 1;
-    begin = begin - (komrade::device_ptr<int>::difference_type) 1;
+    begin = begin + (thrust::device_ptr<int>::difference_type) 1;
+    begin = begin - (thrust::device_ptr<int>::difference_type) 1;
 
     ASSERT_EQUAL(end - begin, 5);
 }
@@ -56,11 +56,11 @@ void TestMakeDevicePointer(void)
 
     T *raw_ptr = 0;
 
-    komrade::device_ptr<T> p0 = komrade::device_pointer_cast(raw_ptr);
+    thrust::device_ptr<T> p0 = thrust::device_pointer_cast(raw_ptr);
 
-    ASSERT_EQUAL(komrade::raw_pointer_cast(p0), raw_ptr);
+    ASSERT_EQUAL(thrust::raw_pointer_cast(p0), raw_ptr);
 
-    komrade::device_ptr<T> p1 = komrade::device_pointer_cast(p0);
+    thrust::device_ptr<T> p1 = thrust::device_pointer_cast(p0);
 
     ASSERT_EQUAL(p0, p1);
 }

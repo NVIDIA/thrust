@@ -1,6 +1,6 @@
-#include <komradetest/unittest.h>
-#include <komrade/functional.h>
-#include <komrade/transform.h>
+#include <thrusttest/unittest.h>
+#include <thrust/functional.h>
+#include <thrust/transform.h>
 
 #include <functional>
 #include <algorithm>
@@ -13,14 +13,14 @@ void TestUnaryFunctional(void)
     typedef typename InputVector::value_type  InputType;
     typedef typename OutputVector::value_type OutputType;
     
-    komrade::host_vector<InputType>  std_input = komradetest::random_samples<InputType>(NUM_SAMPLES);
-    komrade::host_vector<OutputType> std_output(NUM_SAMPLES);
+    thrust::host_vector<InputType>  std_input = thrusttest::random_samples<InputType>(NUM_SAMPLES);
+    thrust::host_vector<OutputType> std_output(NUM_SAMPLES);
 
     InputVector  input = std_input;
     OutputVector output(NUM_SAMPLES);
 
-    komrade::transform(    input.begin(),     input.end(),     output.begin(),          Operator());
-    komrade::transform(std_input.begin(), std_input.end(), std_output.begin(), ReferenceOperator());
+    thrust::transform(    input.begin(),     input.end(),     output.begin(),          Operator());
+    thrust::transform(std_input.begin(), std_input.end(), std_output.begin(), ReferenceOperator());
 
     ASSERT_EQUAL(output, std_output);
 }
@@ -31,9 +31,9 @@ void TestBinaryFunctional(void)
     typedef typename InputVector::value_type  InputType;
     typedef typename OutputVector::value_type OutputType;
     
-    komrade::host_vector<InputType>  std_input1 = komradetest::random_samples<InputType>(NUM_SAMPLES);
-    komrade::host_vector<InputType>  std_input2 = komradetest::random_samples<InputType>(NUM_SAMPLES);
-    komrade::host_vector<OutputType> std_output(NUM_SAMPLES);
+    thrust::host_vector<InputType>  std_input1 = thrusttest::random_samples<InputType>(NUM_SAMPLES);
+    thrust::host_vector<InputType>  std_input2 = thrusttest::random_samples<InputType>(NUM_SAMPLES);
+    thrust::host_vector<OutputType> std_output(NUM_SAMPLES);
 
     // Replace zeros to avoid divide by zero exceptions
     std::replace(std_input2.begin(), std_input2.end(), (InputType) 0, (InputType) 1);
@@ -42,8 +42,8 @@ void TestBinaryFunctional(void)
     InputVector input2 = std_input2; 
     OutputVector output(NUM_SAMPLES);
 
-    komrade::transform(    input1.begin(),     input1.end(),      input2.begin(),     output.begin(),          Operator());
-    komrade::transform(std_input1.begin(), std_input1.end(),  std_input2.begin(), std_output.begin(), ReferenceOperator());
+    thrust::transform(    input1.begin(),     input1.end(),      input2.begin(),     output.begin(),          Operator());
+    thrust::transform(std_input1.begin(), std_input1.end(),  std_input2.begin(), std_output.begin(), ReferenceOperator());
 
     // Note: FP division is not bit-equal, even when nvcc is invoked with --prec-div
     ASSERT_ALMOST_EQUAL(output, std_output);
@@ -71,29 +71,29 @@ Macro(vector_type, operator_name, float)
 
 // op(T) -> T
 #define INSTANTIATE_UNARY_ARITHMETIC_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
-    TestUnaryFunctional< komrade::vector_type<data_type>,                                   \
-                         komrade::vector_type<data_type>,                                   \
-                         komrade::operator_name<data_type>,                                 \
+    TestUnaryFunctional< thrust::vector_type<data_type>,                                   \
+                         thrust::vector_type<data_type>,                                   \
+                         thrust::operator_name<data_type>,                                 \
                          std::operator_name<data_type> >();
 // XXX revert OutputVector<T> back to bool
 // op(T) -> bool
 #define INSTANTIATE_UNARY_LOGICAL_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
-    TestUnaryFunctional< komrade::vector_type<data_type>,                                \
-                         komrade::vector_type<data_type>,                                \
-                         komrade::operator_name<data_type>,                              \
+    TestUnaryFunctional< thrust::vector_type<data_type>,                                \
+                         thrust::vector_type<data_type>,                                \
+                         thrust::operator_name<data_type>,                              \
                          std::operator_name<data_type> >();
 // op(T,T) -> T
 #define INSTANTIATE_BINARY_ARITHMETIC_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
-    TestBinaryFunctional< komrade::vector_type<data_type>,                                   \
-                          komrade::vector_type<data_type>,                                   \
-                          komrade::operator_name<data_type>,                                 \
+    TestBinaryFunctional< thrust::vector_type<data_type>,                                   \
+                          thrust::vector_type<data_type>,                                   \
+                          thrust::operator_name<data_type>,                                 \
                           std::operator_name<data_type> >();
 // XXX revert OutputVector<T> back to bool
 // op(T,T) -> bool
 #define INSTANTIATE_BINARY_LOGICAL_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
-    TestBinaryFunctional< komrade::vector_type<data_type>,                                \
-                          komrade::vector_type<data_type>,                                \
-                          komrade::operator_name<data_type>,                              \
+    TestBinaryFunctional< thrust::vector_type<data_type>,                                \
+                          thrust::vector_type<data_type>,                                \
+                          thrust::operator_name<data_type>,                              \
                           std::operator_name<data_type> >();
 
 
@@ -199,7 +199,7 @@ void TestIdentityFunctional(void)
 
     Vector output(3);
 
-    komrade::transform(input.begin(), input.end(), output.begin(), komrade::identity<T>());
+    thrust::transform(input.begin(), input.end(), output.begin(), thrust::identity<T>());
 
     ASSERT_EQUAL(input, output);
 }
@@ -219,10 +219,10 @@ void TestMaximumFunctional(void)
 
     Vector output(3);
 
-    komrade::transform(input1.begin(), input1.end(), 
+    thrust::transform(input1.begin(), input1.end(), 
                        input2.begin(), 
                        output.begin(), 
-                       komrade::maximum<T>());
+                       thrust::maximum<T>());
 
     ASSERT_EQUAL(output[0], 8);
     ASSERT_EQUAL(output[1], 6);
@@ -242,10 +242,10 @@ void TestMinimumFunctional(void)
 
     Vector output(3);
 
-    komrade::transform(input1.begin(), input1.end(), 
+    thrust::transform(input1.begin(), input1.end(), 
                        input2.begin(), 
                        output.begin(), 
-                       komrade::minimum<T>());
+                       thrust::minimum<T>());
 
     ASSERT_EQUAL(output[0], 5);
     ASSERT_EQUAL(output[1], 3);

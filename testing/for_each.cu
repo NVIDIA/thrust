@@ -1,6 +1,6 @@
-#include <komradetest/unittest.h>
-#include <komrade/for_each.h>
-#include <komrade/device_ptr.h>
+#include <thrusttest/unittest.h>
+#include <thrust/for_each.h>
+#include <thrust/device_ptr.h>
 
 template <typename T>
 class mark_present_for_each
@@ -17,7 +17,7 @@ template <typename T>
 }
 
 template <typename T>
-  T *get_pointer(const komrade::device_ptr<T> ptr)
+  T *get_pointer(const thrust::device_ptr<T> ptr)
 {
   return ptr.get();
 }
@@ -35,7 +35,7 @@ void TestForEachSimple(void)
     mark_present_for_each<T> f;
     f.ptr = get_pointer(&output[0]);
 
-    komrade::for_each(input.begin(), input.end(), f);
+    thrust::for_each(input.begin(), input.end(), f);
 
     ASSERT_EQUAL(output[0], 0);
     ASSERT_EQUAL(output[1], 0);
@@ -53,23 +53,23 @@ void TestForEach(const size_t n)
 {
     const size_t output_size = std::min((size_t) 10, 2 * n);
     
-    komrade::host_vector<T> h_input = komradetest::random_integers<T>(n);
+    thrust::host_vector<T> h_input = thrusttest::random_integers<T>(n);
 
     for(size_t i = 0; i < n; i++)
         h_input[i] =  ((size_t) h_input[i]) % output_size;
     
-    komrade::device_vector<T> d_input = h_input;
+    thrust::device_vector<T> d_input = h_input;
 
-    komrade::host_vector<T>   h_output(output_size, (T) 0);
-    komrade::device_vector<T> d_output(output_size, (T) 0);
+    thrust::host_vector<T>   h_output(output_size, (T) 0);
+    thrust::device_vector<T> d_output(output_size, (T) 0);
 
     mark_present_for_each<T> h_f;
     mark_present_for_each<T> d_f;
     h_f.ptr = &h_output[0];
     d_f.ptr = (&d_output[0]).get();
     
-    komrade::for_each(h_input.begin(), h_input.end(), h_f);
-    komrade::for_each(d_input.begin(), d_input.end(), d_f);
+    thrust::for_each(h_input.begin(), h_input.end(), h_f);
+    thrust::for_each(d_input.begin(), d_input.end(), d_f);
 
     ASSERT_EQUAL(h_output, d_output);
 }

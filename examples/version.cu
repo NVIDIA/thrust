@@ -1,4 +1,4 @@
-#include <komrade/version.h>
+#include <thrust/version.h>
 #include <iostream>
 
 int main(void)

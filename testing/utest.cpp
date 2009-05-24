@@ -1,4 +1,4 @@
-#include "komradetest/testframework.h"
+#include "thrusttest/testframework.h"
 #include <cstdlib>
 
 
