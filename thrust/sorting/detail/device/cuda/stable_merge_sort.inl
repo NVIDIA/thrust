@@ -775,10 +775,8 @@ template<typename KeyType,
   // XXX replace these with scoped_ptr or something
   thrust::device_ptr<KeyType>      splitters            = device_malloc<KeyType>(num_splitters);
   thrust::device_ptr<unsigned int> splitters_pos        = device_malloc<unsigned int>(num_splitters);
-  thrust::device_ptr<KeyType>      splitters_merged     = device_malloc<KeyType>(num_splitters);
-  thrust::device_ptr<unsigned int> splitters_merged_pos = device_malloc<unsigned int>(num_splitters);
-  thrust::device_ptr<unsigned int> rank1                = device_malloc<unsigned int>(num_splitters);
-  thrust::device_ptr<unsigned int> rank2                = device_malloc<unsigned int>(num_splitters);
+  thrust::device_ptr<KeyType>      merged_splitters     = device_malloc<KeyType>(num_splitters);
+  thrust::device_ptr<unsigned int> merged_splitters_pos = device_malloc<unsigned int>(num_splitters);
 
   extract_splitters<KeyType><<<grid_size, BLOCK_SIZE>>>(keys_src, n, splitters.get(), splitters_pos.get());
 
@@ -792,11 +790,10 @@ template<typename KeyType,
   merge<KeyType, unsigned int, StrictWeakOrdering>
     (splitters.get(), splitters_pos.get(),
      num_splitters,
-     splitters_merged.get(), splitters_merged_pos.get(),
+     merged_splitters.get(), merged_splitters_pos.get(),
      log_num_splitters_per_block,
      level + 1, comp);
-  thrust::copy(splitters_merged,     splitters_merged + num_splitters,     splitters);
-  thrust::copy(splitters_merged_pos, splitters_merged_pos + num_splitters, splitters_pos);
+  device_free(splitters);
 
   // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
   // Store the results into rank1[level] and rank2[level] for the even and odd block respectively.
@@ -812,9 +809,13 @@ template<typename KeyType,
 
   grid_size = min<size_t>(num_blocks, MAX_GRID_SIZE);
 
+  // reuse the splitters_pos storage for rank1
+  thrust::device_ptr<unsigned int> rank1 = splitters_pos;
+  thrust::device_ptr<unsigned int> rank2 = device_malloc<unsigned int>(num_splitters);
+
   find_splitter_ranks<BLOCK_SIZE, LOG_BLOCK_SIZE, KeyType, KeyType, StrictWeakOrdering>
     <<<grid_size,BLOCK_SIZE>>>
-      (splitters.get(), splitters_pos.get(),
+      (merged_splitters.get(), merged_splitters_pos.get(),
            rank1.get(),         rank2.get(),
        keys_src,    n,
        num_splitters, log_tile_size,
@@ -822,7 +823,7 @@ template<typename KeyType,
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
   merge_subblocks_binarysearch<KeyType, ValueType>(keys_src, data_src, n,
-                                                   splitters.get(), splitters_pos.get(),
+                                                   merged_splitters.get(), merged_splitters_pos.get(),
                                                        rank1.get(),         rank2.get(),
                                                    keys_dst, data_dst,
                                                    num_splitters, log_tile_size,
@@ -830,10 +831,8 @@ template<typename KeyType,
                                                    num_tiles / 2,
                                                    comp);
 
-  device_free(splitters);
-  device_free(splitters_pos);
-  device_free(splitters_merged);
-  device_free(splitters_merged_pos);
+  device_free(merged_splitters);
+  device_free(merged_splitters_pos);
   device_free(rank1);
   device_free(rank2);
 }
@@ -855,11 +854,11 @@ template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
   if(NBLOCKS%2)
   {
     thrust::copy(device_pointer_cast(keys_src) + (NBLOCKS-1)*block_size,
-                 device_pointer_cast(keys_src) + (NBLOCKS-1)*block_size + (n - (NBLOCKS -1)*block_size),
+                 device_pointer_cast(keys_src) + n,
                  device_pointer_cast(keys_dst) + (NBLOCKS-1)*block_size);
     
     thrust::copy(device_pointer_cast(data_src) + (NBLOCKS-1)*block_size,
-                 device_pointer_cast(data_src) + (NBLOCKS-1)*block_size + (n - (NBLOCKS -1)*block_size),
+                 device_pointer_cast(data_src) + n,
                  device_pointer_cast(data_dst) + (NBLOCKS-1)*block_size);
   }
 }
