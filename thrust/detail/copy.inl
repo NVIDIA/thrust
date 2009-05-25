@@ -24,6 +24,7 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/dispatch/copy.h>
+#include <thrust/transform.h>
 
 namespace thrust
 {
@@ -72,11 +73,8 @@ template<typename InputIterator,
                            OutputIterator result,
                            Predicate pred)
 {
-  // dispatch on category
-  return thrust::detail::dispatch::copy_when(begin, end, stencil, result, pred,
-           typename thrust::iterator_traits<InputIterator>::iterator_category(),
-           typename thrust::iterator_traits<PredicateIterator>::iterator_category(),
-           typename thrust::iterator_traits<OutputIterator>::iterator_category());
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  return thrust::experimental::transform_if(begin, end, stencil, result, thrust::identity<InputType>(), pred);
 } // end copy_when()
 
 } // end namespace thrust

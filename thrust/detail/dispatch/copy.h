@@ -25,16 +25,12 @@
 #include <stdlib.h>           // for malloc & free
 #include <algorithm>          // for std::copy
 
-#include <vector>  // TODO remove this when vector is no longer used
-
 #include <thrust/transform.h>
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/make_device_dereferenceable.h>
 #include <thrust/device_ptr.h>
-
-#include <thrust/detail/device/cuda/vectorize.h>
 
 namespace thrust
 {
@@ -98,17 +94,16 @@ template<typename InputIterator,
                       thrust::input_host_iterator_tag, 
                       thrust::random_access_device_iterator_tag)
 {
-    // host container to device vector
+    // host container to device container
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
     // allocate temporary storage
-    // do not use a std::vector for temp storage here -- constructors must not be invoked
     InputType *temp = reinterpret_cast<InputType*>(malloc(sizeof(InputType) * n));
-    thrust::copy(begin, end, temp);
+    InputType *temp_end = thrust::copy(begin, end, temp);
 
-    result = thrust::copy(temp, temp + n, result);
+    result = thrust::copy(temp, temp_end, result);
 
     free(temp);
     return result;
@@ -162,11 +157,10 @@ template<typename InputIterator,
   typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  // do not use a std::vector here - constructors must not be invoked
   OutputType *temp = reinterpret_cast<OutputType*>(malloc(sizeof(OutputType) * n));
-  thrust::copy(begin, end, temp);
+  OutputType *temp_end = thrust::copy(begin, end, temp);
 
-  result = thrust::copy(temp, temp + n, result);
+  result = thrust::copy(temp, temp_end, result);
 
   free(temp);
   return result;
@@ -213,10 +207,15 @@ template<typename InputIterator,
                       thrust::output_host_iterator_tag)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type T;
-    // XXX do not use a std::vector here - constructors must not be invoked
-    std::vector<T> temp(end - begin);
-    thrust::copy(begin, end, temp.begin());
-    return std::copy(temp.begin(), temp.end(), result);
+
+    // allocate temporary storage
+    T *temp = reinterpret_cast<T*>(malloc(sizeof(T) * (end - begin)));
+    T *temp_end = thrust::copy(begin, end, temp);
+
+    result = std::copy(temp, temp_end, result);
+
+    free(temp);
+    return result;
 }
 
 template<typename InputIterator,
@@ -228,10 +227,15 @@ template<typename InputIterator,
                       thrust::forward_host_iterator_tag)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type T;
-    // XXX do not use a std::vector here - constructors must not be invoked
-    std::vector<T> temp(end - begin);
-    thrust::copy(begin, end, temp.begin());
-    return std::copy(temp.begin(), temp.end(), result);
+
+    // allocate temporary storage
+    T *temp = reinterpret_cast<T*>(malloc(sizeof(T) * (end - begin)));
+    T *temp_end = thrust::copy(begin, end, temp);
+
+    result = std::copy(temp, temp_end, result);
+
+    free(temp);
+    return result;
 }
 
 // const device pointer to host pointer with matching types
@@ -299,11 +303,13 @@ template<typename InputIterator,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
     // allocate temporary storage
-    // XXX do not use a vector here - copy constructors must not be invoked
-    std::vector<InputType> temp(end - begin);
-    thrust::copy(begin, end, temp.begin());
+    InputType *temp = reinterpret_cast<InputType*>(malloc(sizeof(InputType) * (end - begin)));
+    InputType *temp_end = thrust::copy(begin, end, temp);
 
-    return thrust::copy(temp.begin(), temp.end(), result);
+    result = thrust::copy(temp, temp_end, result);
+    free(temp);
+
+    return result;
 }
 
 // random access device iterator to random access host iterator
@@ -389,95 +395,6 @@ template<typename OutputIterator>
 
   return result + n;
 } // end copy()
-
-
-
-/////////////////////////
-// Host Path (copy_if) //
-/////////////////////////
-
-template<typename InputIterator,
-         typename PredicateIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_when(InputIterator begin,
-                           InputIterator end,
-                           PredicateIterator stencil,
-                           OutputIterator result,
-                           Predicate pred,
-                           thrust::forward_host_iterator_tag,
-                           thrust::forward_host_iterator_tag,
-                           thrust::forward_host_iterator_tag)
-{
-    while(begin != end){
-        if(pred(*stencil))
-            *result = *begin;
-        ++begin;
-        ++stencil;
-        ++result;
-    } // end while
-
-    return result;
-}
-
-namespace detail
-{
-
-//////////////
-// Functors //
-//////////////
-template <typename InputType, typename StencilType, typename OutputType, typename Predicate>
-class copy_when_functor
-{
-  private:
-    const InputType * src;
-    const StencilType * stc;
-          OutputType * dst;
-    const Predicate pred;
-  public:
-    copy_when_functor(const InputType * _src,
-                      const StencilType * _stc,
-                            OutputType * _dst, 
-                      const Predicate _pred) 
-        : src(_src), stc(_stc), dst(_dst), pred(_pred) {}
-    
-    template <typename IntegerType>
-        __host__ __device__
-    void operator()(const IntegerType i) { if (pred(stc[i])) dst[i] = src[i]; }
-}; // end copy_when_functor()
-
-} // end namespace detail
-
-///////////////////////////
-// Device Path (copy_when) //
-///////////////////////////
-template<typename InputIterator,
-         typename PredicateIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_when(InputIterator begin,
-                           InputIterator end,
-                           PredicateIterator stencil,
-                           OutputIterator result,
-                           Predicate pred,
-                           thrust::random_access_device_iterator_tag,
-                           thrust::random_access_device_iterator_tag,
-                           thrust::random_access_device_iterator_tag)
-{
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-    // XXX TODO use make_device_dereferenceable here instead of assuming device_ptr.get() will work
-    detail::copy_when_functor<InputType,StencilType,OutputType,Predicate> func((&*begin).get(),
-                                                                               (&*stencil).get(),
-                                                                               (&*result).get(),
-                                                                               pred);
-
-    thrust::detail::device::cuda::vectorize(end - begin, func);
-
-    return result + (end - begin);
-}
 
 } // end dispatch
 
