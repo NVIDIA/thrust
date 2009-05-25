@@ -1,0 +1,12 @@
+# Run with the following command:
+#svn -R propset svn:ignore -F .svnignore .
+*.pyc
+*.bak
+*.so
+*.swp
+*.vtu
+*.linkinfo
+.sconsign.dblite
+nvcc_options_file.txt
+print_sm_version
+
