@@ -80,7 +80,7 @@ template<typename InputIterator, typename OutputIterator>
                       InputIterator last,
                       OutputIterator result);
 
-/*! \p copy_if conditionally copies elements from the range [\p first, \p last)
+/*! \p copy_when conditionally copies elements from the range [\p first, \p last)
  *  to the range [\p result, \p result + (\p last - \p first)). For each iterator
  *  \c i in the range [\p first, \p last) such that *(\p stencil + (\c i - \p first))
  *  is \c true, the value *\c i is assigned to *(\p result + \c i). Otherwise,
@@ -98,7 +98,7 @@ template<typename InputIterator, typename OutputIterator>
  *  \tparam PredicateIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c value_type must be convertible to \c bool.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
- *  The following code snippet demonstrates how to use \p copy_if to
+ *  The following code snippet demonstrates how to use \p copy_when to
  *  copy every other element from an input range to an output range.
  *
  *  \code
@@ -109,9 +109,9 @@ template<typename InputIterator, typename OutputIterator>
  *  int stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1};
  *  thrust::device_vector<int> output(10,0);
  *  ...
- *  thrust::copy_if(input, input + 10,
- *                   stencil,
- *                   output.begin());
+ *  thrust::copy_when(input, input + 10,
+ *                    stencil,
+ *                    output.begin());
  *  // every other element of output is now equal to
  *  // every other element of input
  *  \endcode
@@ -119,12 +119,12 @@ template<typename InputIterator, typename OutputIterator>
 template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator>
-  OutputIterator copy_if(InputIterator first,
-                         InputIterator last,
-                         PredicateIterator stencil,
-                         OutputIterator result);
+  OutputIterator copy_when(InputIterator first,
+                           InputIterator last,
+                           PredicateIterator stencil,
+                           OutputIterator result);
 
-/*! \p copy_if conditionally copies elements from the range [\p first, \p last)
+/*! \p copy_when conditionally copies elements from the range [\p first, \p last)
  *  to the range [\p result, \p result + (\p last - \p first)). For each iterator
  *  \c i in [\p first, \p last) such that \p pred(*(\p stencil + (\c i - \p last))) is
  *  \p true, the value *\c i is assigned to *(\p result + \c i). Otherwise,
@@ -144,7 +144,7 @@ template<typename InputIterator,
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
- *  The following code snippet demonstrates how to use \p copy_if to
+ *  The following code snippet demonstrates how to use \p copy_when to
  *  copy odd elements from an input range to an output range.
  *
  *  \code
@@ -165,10 +165,10 @@ template<typename InputIterator,
  *  ...
  *  // fill input
  *  ...
- *  thrust::copy_if(input.begin(), input.end(),
- *                   input.begin(),
- *                   output.begin(),
- *                   is_odd());
+ *  thrust::copy_when(input.begin(), input.end(),
+ *                    input.begin(),
+ *                    output.begin(),
+ *                    is_odd());
  *  // odd elements of input have been copied to output
  *  \endcode
  */
@@ -176,11 +176,11 @@ template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(InputIterator begin,
-                         InputIterator end,
-                         PredicateIterator stencil,
-                         OutputIterator result,
-                         Predicate pred);
+  OutputIterator copy_when(InputIterator begin,
+                           InputIterator end,
+                           PredicateIterator stencil,
+                           OutputIterator result,
+                           Predicate pred);
 
 /*! \} // end regular_copying
  */

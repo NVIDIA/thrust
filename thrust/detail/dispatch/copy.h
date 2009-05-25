@@ -400,14 +400,14 @@ template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(InputIterator begin,
-                         InputIterator end,
-                         PredicateIterator stencil,
-                         OutputIterator result,
-                         Predicate pred,
-                         thrust::forward_host_iterator_tag,
-                         thrust::forward_host_iterator_tag,
-                         thrust::forward_host_iterator_tag)
+  OutputIterator copy_when(InputIterator begin,
+                           InputIterator end,
+                           PredicateIterator stencil,
+                           OutputIterator result,
+                           Predicate pred,
+                           thrust::forward_host_iterator_tag,
+                           thrust::forward_host_iterator_tag,
+                           thrust::forward_host_iterator_tag)
 {
     while(begin != end){
         if(pred(*stencil))
@@ -427,7 +427,7 @@ namespace detail
 // Functors //
 //////////////
 template <typename InputType, typename StencilType, typename OutputType, typename Predicate>
-class copy_if_functor
+class copy_when_functor
 {
   private:
     const InputType * src;
@@ -435,44 +435,44 @@ class copy_if_functor
           OutputType * dst;
     const Predicate pred;
   public:
-    copy_if_functor(const InputType * _src,
-                    const StencilType * _stc,
-                          OutputType * _dst, 
-                    const Predicate _pred) 
+    copy_when_functor(const InputType * _src,
+                      const StencilType * _stc,
+                            OutputType * _dst, 
+                      const Predicate _pred) 
         : src(_src), stc(_stc), dst(_dst), pred(_pred) {}
     
     template <typename IntegerType>
         __host__ __device__
     void operator()(const IntegerType i) { if (pred(stc[i])) dst[i] = src[i]; }
-}; // end copy_if_functor()
+}; // end copy_when_functor()
 
 } // end namespace detail
 
 ///////////////////////////
-// Device Path (copy_if) //
+// Device Path (copy_when) //
 ///////////////////////////
 template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(InputIterator begin,
-                         InputIterator end,
-                         PredicateIterator stencil,
-                         OutputIterator result,
-                         Predicate pred,
-                         thrust::random_access_device_iterator_tag,
-                         thrust::random_access_device_iterator_tag,
-                         thrust::random_access_device_iterator_tag)
+  OutputIterator copy_when(InputIterator begin,
+                           InputIterator end,
+                           PredicateIterator stencil,
+                           OutputIterator result,
+                           Predicate pred,
+                           thrust::random_access_device_iterator_tag,
+                           thrust::random_access_device_iterator_tag,
+                           thrust::random_access_device_iterator_tag)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
     typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
     // XXX TODO use make_device_dereferenceable here instead of assuming device_ptr.get() will work
-    detail::copy_if_functor<InputType,StencilType,OutputType,Predicate> func((&*begin).get(),
-                                                                             (&*stencil).get(),
-                                                                             (&*result).get(),
-                                                                             pred);
+    detail::copy_when_functor<InputType,StencilType,OutputType,Predicate> func((&*begin).get(),
+                                                                               (&*stencil).get(),
+                                                                               (&*result).get(),
+                                                                               pred);
 
     thrust::detail::device::cuda::vectorize(end - begin, func);
 

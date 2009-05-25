@@ -28,10 +28,10 @@
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">OutputIterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__regular__copying.html#g6e123c4508ed48ce98e79f4679c1aac2">thrust::copy</a> (InputIterator first, InputIterator last, OutputIterator result)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename InputIterator, typename PredicateIterator, typename OutputIterator&gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">OutputIterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__regular__copying.html#g315e4a7e5b374fb91a4df704ee08c7e5">thrust::copy_if</a> (InputIterator first, InputIterator last, PredicateIterator stencil, OutputIterator result)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">OutputIterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__regular__copying.html#geaea5f99daffdbdc24781c478f79e468">thrust::copy_when</a> (InputIterator first, InputIterator last, PredicateIterator stencil, OutputIterator result)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename InputIterator, typename PredicateIterator, typename OutputIterator, typename Predicate&gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">OutputIterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__regular__copying.html#g3fddefdb1ae20fd83d3c34e7480e8a69">thrust::copy_if</a> (InputIterator begin, InputIterator end, PredicateIterator stencil, OutputIterator result, Predicate pred)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">OutputIterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__regular__copying.html#gda759ca469bce32b1bdd5b0d3509863d">thrust::copy_when</a> (InputIterator begin, InputIterator end, PredicateIterator stencil, OutputIterator result, Predicate pred)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename ForwardIterator1, typename ForwardIterator2&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">ForwardIterator2&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__regular__copying.html#g926a4031b491e798a1dec97e47130eac">thrust::swap_ranges</a> (ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2 first2)</td></tr>
@@ -110,14 +110,14 @@ The following code snippet demonstrates how to use <code>copy</code> to copy fro
 
 </div>
 </div><p>
-<a class="anchor" name="g3fddefdb1ae20fd83d3c34e7480e8a69"></a><!-- doxytag: member="thrust::copy_if" ref="g3fddefdb1ae20fd83d3c34e7480e8a69" args="(InputIterator begin, InputIterator end, PredicateIterator stencil, OutputIterator result, Predicate pred)" -->
+<a class="anchor" name="gda759ca469bce32b1bdd5b0d3509863d"></a><!-- doxytag: member="thrust::copy_when" ref="gda759ca469bce32b1bdd5b0d3509863d" args="(InputIterator begin, InputIterator end, PredicateIterator stencil, OutputIterator result, Predicate pred)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename InputIterator, typename PredicateIterator, typename OutputIterator, typename Predicate&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">OutputIterator thrust::copy_if           </td>
+          <td class="memname">OutputIterator thrust::copy_when           </td>
           <td>(</td>
           <td class="paramtype">InputIterator&nbsp;</td>
           <td class="paramname"> <em>begin</em>, </td>
@@ -156,7 +156,7 @@ template&lt;typename InputIterator, typename PredicateIterator, typename OutputI
 <div class="memdoc">
 
 <p>
-<code>copy_if</code> conditionally copies elements from the range [<code>first</code>, <code>last</code>) to the range [<code>result</code>, <code>result</code> + (<code>last</code> - <code>first</code>)). For each iterator <code>i</code> in [<code>first</code>, <code>last</code>) such that <code>pred</code>(*(<code>stencil</code> + (<code>i</code> - <code>last</code>))) is <code>true</code>, the value *<code>i</code> is assigned to *(<code>result</code> + <code>i</code>). Otherwise, *(<code>result</code> + <code>i</code>) is left unchanged.<p>
+<code>copy_when</code> conditionally copies elements from the range [<code>first</code>, <code>last</code>) to the range [<code>result</code>, <code>result</code> + (<code>last</code> - <code>first</code>)). For each iterator <code>i</code> in [<code>first</code>, <code>last</code>) such that <code>pred</code>(*(<code>stencil</code> + (<code>i</code> - <code>last</code>))) is <code>true</code>, the value *<code>i</code> is assigned to *(<code>result</code> + <code>i</code>). Otherwise, *(<code>result</code> + <code>i</code>) is left unchanged.<p>
 The return value is <code>result</code> + (<code>last</code> - <code>first</code>).<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -176,7 +176,7 @@ The return value is <code>result</code> + (<code>last</code> - <code>first</code
     <tr><td valign="top"></td><td valign="top"><em>Predicate</em>&nbsp;</td><td>must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.</td></tr>
   </table>
 </dl>
-The following code snippet demonstrates how to use <code>copy_if</code> to copy odd elements from an input range to an output range.<p>
+The following code snippet demonstrates how to use <code>copy_when</code> to copy odd elements from an input range to an output range.<p>
 <div class="fragment"><pre class="fragment"><span class="preprocessor">  #include &lt;<a class="code" href="copy_8h.html" title="Defines the interface to copy between containers.">thrust/copy.h</a>&gt;</span>
 <span class="preprocessor">  #include &lt;<a class="code" href="device__vector_8h.html" title="Defines the interface to a std::vector-like class for device memory management.">thrust/device_vector.h</a>&gt;</span>
   ...
@@ -194,22 +194,22 @@ The following code snippet demonstrates how to use <code>copy_if</code> to copy 
   ...
   <span class="comment">// fill input</span>
   ...
-  <a class="code" href="group__regular__copying.html#g315e4a7e5b374fb91a4df704ee08c7e5">thrust::copy_if</a>(input.begin(), input.end(),
-                   input.begin(),
-                   output.begin(),
-                   is_odd());
+  <a class="code" href="group__regular__copying.html#geaea5f99daffdbdc24781c478f79e468">thrust::copy_when</a>(input.begin(), input.end(),
+                    input.begin(),
+                    output.begin(),
+                    is_odd());
   <span class="comment">// odd elements of input have been copied to output</span>
 </pre></div> 
 </div>
 </div><p>
-<a class="anchor" name="g315e4a7e5b374fb91a4df704ee08c7e5"></a><!-- doxytag: member="thrust::copy_if" ref="g315e4a7e5b374fb91a4df704ee08c7e5" args="(InputIterator first, InputIterator last, PredicateIterator stencil, OutputIterator result)" -->
+<a class="anchor" name="geaea5f99daffdbdc24781c478f79e468"></a><!-- doxytag: member="thrust::copy_when" ref="geaea5f99daffdbdc24781c478f79e468" args="(InputIterator first, InputIterator last, PredicateIterator stencil, OutputIterator result)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename InputIterator, typename PredicateIterator, typename OutputIterator&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">OutputIterator thrust::copy_if           </td>
+          <td class="memname">OutputIterator thrust::copy_when           </td>
           <td>(</td>
           <td class="paramtype">InputIterator&nbsp;</td>
           <td class="paramname"> <em>first</em>, </td>
@@ -242,7 +242,7 @@ template&lt;typename InputIterator, typename PredicateIterator, typename OutputI
 <div class="memdoc">
 
 <p>
-<code>copy_if</code> conditionally copies elements from the range [<code>first</code>, <code>last</code>) to the range [<code>result</code>, <code>result</code> + (<code>last</code> - <code>first</code>)). For each iterator <code>i</code> in the range [<code>first</code>, <code>last</code>) such that *(<code>stencil</code> + (<code>i</code> - <code>first</code>)) is <code>true</code>, the value *<code>i</code> is assigned to *(<code>result</code> + <code>i</code>). Otherwise, *(<code>result</code> + <code>i</code>) is left unchanged.<p>
+<code>copy_when</code> conditionally copies elements from the range [<code>first</code>, <code>last</code>) to the range [<code>result</code>, <code>result</code> + (<code>last</code> - <code>first</code>)). For each iterator <code>i</code> in the range [<code>first</code>, <code>last</code>) such that *(<code>stencil</code> + (<code>i</code> - <code>first</code>)) is <code>true</code>, the value *<code>i</code> is assigned to *(<code>result</code> + <code>i</code>). Otherwise, *(<code>result</code> + <code>i</code>) is left unchanged.<p>
 The return value is <code>result</code> + (<code>last</code> - <code>first</code>).<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -260,7 +260,7 @@ The return value is <code>result</code> + (<code>last</code> - <code>first</code
     <tr><td valign="top"></td><td valign="top"><em>OutputIterator</em>&nbsp;</td><td>must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.</td></tr>
   </table>
 </dl>
-The following code snippet demonstrates how to use <code>copy_if</code> to copy every other element from an input range to an output range.<p>
+The following code snippet demonstrates how to use <code>copy_when</code> to copy every other element from an input range to an output range.<p>
 <div class="fragment"><pre class="fragment"><span class="preprocessor">  #include &lt;<a class="code" href="copy_8h.html" title="Defines the interface to copy between containers.">thrust/copy.h</a>&gt;</span>
 <span class="preprocessor">  #include &lt;<a class="code" href="device__vector_8h.html" title="Defines the interface to a std::vector-like class for device memory management.">thrust/device_vector.h</a>&gt;</span>
   ...
@@ -268,9 +268,9 @@ The following code snippet demonstrates how to use <code>copy_if</code> to copy 
   <span class="keywordtype">int</span> stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1};
   <a class="code" href="classthrust_1_1device__vector.html">thrust::device_vector&lt;int&gt;</a> output(10,0);
   ...
-  <a class="code" href="group__regular__copying.html#g315e4a7e5b374fb91a4df704ee08c7e5">thrust::copy_if</a>(input, input + 10,
-                   stencil,
-                   output.begin());
+  <a class="code" href="group__regular__copying.html#geaea5f99daffdbdc24781c478f79e468">thrust::copy_when</a>(input, input + 10,
+                    stencil,
+                    output.begin());
   <span class="comment">// every other element of output is now equal to</span>
   <span class="comment">// every other element of input</span>
 </pre></div> 
@@ -425,7 +425,7 @@ The following code snippet demonstrates how to use <code>uninitialized_copy</cod
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat May 23 22:43:23 2009 for thrust by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon May 25 14:42:55 2009 for thrust by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.5 </small></address>
 </body>

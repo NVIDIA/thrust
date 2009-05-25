@@ -173,7 +173,7 @@ void TestCopyIfSimple(void)
 
     Vector dest(5, (T) 10);
 
-    typename Vector::iterator dest_result = thrust::copy_if(v.begin(), v.end(), stencil.begin(), dest.begin());
+    typename Vector::iterator dest_result = thrust::copy_when(v.begin(), v.end(), stencil.begin(), dest.begin());
     ASSERT_EQUAL(dest[0], 10);
     ASSERT_EQUAL(dest[1],  1);
     ASSERT_EQUAL(dest[2], 10);

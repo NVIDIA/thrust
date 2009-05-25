@@ -51,33 +51,33 @@ template<typename InputIterator,
 template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator>
-  OutputIterator copy_if(InputIterator begin,
-                         InputIterator end,
-                         PredicateIterator stencil,
-                         OutputIterator result)
+  OutputIterator copy_when(InputIterator begin,
+                           InputIterator end,
+                           PredicateIterator stencil,
+                           OutputIterator result)
 {
   // default predicate is identity
   typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
-  return thrust::copy_if(begin, end, stencil, result, thrust::identity<StencilType>());
-} // end copy_if()
+  return thrust::copy_when(begin, end, stencil, result, thrust::identity<StencilType>());
+} // end copy_when()
 
 
 template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(InputIterator begin,
-                         InputIterator end,
-                         PredicateIterator stencil,
-                         OutputIterator result,
-                         Predicate pred)
+  OutputIterator copy_when(InputIterator begin,
+                           InputIterator end,
+                           PredicateIterator stencil,
+                           OutputIterator result,
+                           Predicate pred)
 {
   // dispatch on category
-  return thrust::detail::dispatch::copy_if(begin, end, stencil, result, pred,
+  return thrust::detail::dispatch::copy_when(begin, end, stencil, result, pred,
            typename thrust::iterator_traits<InputIterator>::iterator_category(),
            typename thrust::iterator_traits<PredicateIterator>::iterator_category(),
            typename thrust::iterator_traits<OutputIterator>::iterator_category());
-} // end copy_if()
+} // end copy_when()
 
 } // end namespace thrust
 
