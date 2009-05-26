@@ -140,7 +140,7 @@ template<typename ForwardIterator, typename Predicate, typename T>
   // XXX replace this with generate_if:
   // constant_nullary<T> f(new_value);
   // generate_if(first, last, first, f, pred);
-  thrust::experimental::transform_if(first, last, first, first, f, pred);
+  thrust::transform_if(first, last, first, first, f, pred);
 } // end replace_if()
 
 template<typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
@@ -154,7 +154,7 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
   // XXX replace this with generate_if:
   // constant_nullary<T> f(new_value);
   // generate_if(stencil, stencil + n, first, f, pred);
-  thrust::experimental::transform_if(first, last, stencil, first, f, pred);
+  thrust::transform_if(first, last, stencil, first, f, pred);
 } // end replace_if()
 
 template<typename ForwardIterator, typename T>

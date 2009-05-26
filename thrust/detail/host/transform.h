@@ -30,9 +30,6 @@ namespace detail
 namespace host
 {
 
-namespace experimental
-{
-
 template<typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
@@ -79,9 +76,6 @@ template<typename InputIterator1,
 
   return result;
 } // end transform_if()
-
-
-} // end experimental
 
 } // end host
 

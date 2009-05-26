@@ -133,8 +133,6 @@ template<typename InputIterator1,
                            OutputIterator result,
                            BinaryFunction op);
 
-namespace experimental
-{
 
 /*! This version of \p transform_if conditionally applies a unary function
  *  to each element of an input sequence and stores the result in the corresponding 
@@ -179,7 +177,7 @@ namespace experimental
  *  thrust::negate<int> op;
  *  thrust::identity<int> identity;
  *
- *  thrust::experimental::transform_if(data, data + 10, stencil, data, op, identity); // in-place transformation
+ *  thrust::transform_if(data, data + 10, stencil, data, op, identity); // in-place transformation
  *
  *  // data is now {5, 0, -2, -3, -2,  4, 0, -1, -2,  8};
  *  \endcode
@@ -213,8 +211,9 @@ template<typename InputIterator1,
  *  not evaluated and no assignment occurs. The input and output sequences may coincide,
  *  resulting in an in-place transformation.
  *    
- *  \param first The beginning of the input sequence.
- *  \param last The end of the input sequence.
+ *  \param first1 The beginning of the first input sequence.
+ *  \param last1 The end of the first input sequence.
+ *  \param first2 The beginning of the second input sequence.
  *  \param stencil The beginning of the stencil sequence.
  *  \param result The beginning of the output sequence.
  *  \param binary_op The transformation operation.
@@ -229,7 +228,7 @@ template<typename InputIterator1,
  *                         and \c BinaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
- *  The following code snippet demonstrates how to use \p predicated_transform:
+ *  The following code snippet demonstrates how to use \p transform_if:
  *
  *  \code
  *  #include <thrust/transform.h>
@@ -243,7 +242,7 @@ template<typename InputIterator1,
  *  thrust::plus<int> op;
  *  thrust::identity<int> identity;
  *
- *  thrust::experimental::transform_if(input1, input1 + 6, input2, stencil, output, op, identity);
+ *  thrust::transform_if(input1, input1 + 6, input2, stencil, output, op, identity);
  *
  *  // output is now {-2,  0,  0,  3,  4,  4};
  *  \endcode
@@ -263,7 +262,6 @@ template<typename InputIterator1,
                                BinaryFunction binary_op,
                                Predicate pred);
 
-} // end experimental
 
 /*! \} // end transformations
  */

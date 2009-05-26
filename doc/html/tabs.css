@@ -32,7 +32,7 @@ DIV.tabs A
    float            : left;
    background       : url("tab_r.gif") no-repeat right top;
    border-bottom    : 1px solid #84B0C7;
-   font-size        : x-small;
+   font-size        : 80%;
    font-weight      : bold;
    text-decoration  : none;
 }
@@ -66,7 +66,7 @@ DIV.tabs INPUT
 
 DIV.tabs TD
 {
-   font-size        : x-small;
+   font-size        : 80%;
    font-weight      : bold;
    text-decoration  : none;
 }
@@ -99,4 +99,7 @@ DIV.navpath
    background       : none;
    border           : none;
    border-bottom    : 1px solid #84B0C7;
+   text-align       : center;
+   margin           : 2px;
+   padding          : 2px;
 }

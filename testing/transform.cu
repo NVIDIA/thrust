@@ -34,11 +34,11 @@ void TestTransformIfUnarySimple(void)
     stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
     result[0]  = -1; result[1]  =  2; result[2]  = -3;
 
-    thrust::experimental::transform_if(input.begin(), input.end(),
-                                        stencil.begin(),
-                                        output.begin(),
-                                        thrust::negate<T>(),
-                                        thrust::identity<T>());
+    thrust::transform_if(input.begin(), input.end(),
+                          stencil.begin(),
+                          output.begin(),
+                          thrust::negate<T>(),
+                          thrust::identity<T>());
     
     ASSERT_EQUAL(output, result);
 }
@@ -84,12 +84,12 @@ void TestTransformIfBinarySimple(void)
 
     thrust::identity<T> identity;
 
-    thrust::experimental::transform_if(input1.begin(), input1.end(),
-                                        input2.begin(),
-                                        stencil.begin(),
-                                        output.begin(),
-                                        thrust::minus<T>(),
-                                        thrust::not1(identity));
+    thrust::transform_if(input1.begin(), input1.end(),
+                          input2.begin(),
+                          stencil.begin(),
+                          output.begin(),
+                          thrust::minus<T>(),
+                          thrust::not1(identity));
     
     ASSERT_EQUAL(output, result);
 }
@@ -135,15 +135,15 @@ void TestTransformIfUnary(const size_t n)
     thrust::device_vector<T> d_stencil = h_stencil;
     thrust::device_vector<T> d_output  = h_output;
 
-    thrust::experimental::transform_if(h_input.begin(), h_input.end(),
-                                        h_stencil.begin(),
-                                        h_output.begin(),
-                                        thrust::negate<T>(), is_positive());
+    thrust::transform_if(h_input.begin(), h_input.end(),
+                          h_stencil.begin(),
+                          h_output.begin(),
+                          thrust::negate<T>(), is_positive());
 
-    thrust::experimental::transform_if(d_input.begin(), d_input.end(),
-                                        d_stencil.begin(),
-                                        d_output.begin(),
-                                        thrust::negate<T>(), is_positive());
+    thrust::transform_if(d_input.begin(), d_input.end(),
+                          d_stencil.begin(),
+                          d_output.begin(),
+                          thrust::negate<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 }
@@ -187,34 +187,34 @@ void TestTransformIfBinary(const size_t n)
     thrust::device_vector<T> d_stencil = h_stencil;
     thrust::device_vector<T> d_output  = h_output;
 
-    thrust::experimental::transform_if(h_input1.begin(), h_input1.end(),
-                                        h_input2.begin(),
-                                        h_stencil.begin(),
-                                        h_output.begin(),
-                                        thrust::minus<T>(), is_positive());
+    thrust::transform_if(h_input1.begin(), h_input1.end(),
+                         h_input2.begin(),
+                         h_stencil.begin(),
+                         h_output.begin(),
+                         thrust::minus<T>(), is_positive());
 
-    thrust::experimental::transform_if(d_input1.begin(), d_input1.end(),
-                                        d_input2.begin(),
-                                        d_stencil.begin(),
-                                        d_output.begin(),
-                                        thrust::minus<T>(), is_positive());
+    thrust::transform_if(d_input1.begin(), d_input1.end(),
+                         d_input2.begin(),
+                         d_stencil.begin(),
+                         d_output.begin(),
+                         thrust::minus<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 
     h_stencil = thrusttest::random_integers<T>(n);
     d_stencil = h_stencil;
     
-    thrust::experimental::transform_if(h_input1.begin(), h_input1.end(),
-                                        h_input2.begin(),
-                                        h_stencil.begin(),
-                                        h_output.begin(),
-                                        thrust::multiplies<T>(), is_positive());
+    thrust::transform_if(h_input1.begin(), h_input1.end(),
+                         h_input2.begin(),
+                         h_stencil.begin(),
+                         h_output.begin(),
+                         thrust::multiplies<T>(), is_positive());
 
-    thrust::experimental::transform_if(d_input1.begin(), d_input1.end(),
-                                        d_input2.begin(),
-                                        d_stencil.begin(),
-                                        d_output.begin(),
-                                        thrust::multiplies<T>(), is_positive());
+    thrust::transform_if(d_input1.begin(), d_input1.end(),
+                         d_input2.begin(),
+                         d_stencil.begin(),
+                         d_output.begin(),
+                         thrust::multiplies<T>(), is_positive());
     
     ASSERT_EQUAL(h_output, d_output);
 }

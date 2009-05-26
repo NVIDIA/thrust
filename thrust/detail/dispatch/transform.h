@@ -178,10 +178,6 @@ template<typename InputIterator1,
 } // end transform()
 
 
-namespace experimental
-{
-
-
 template<typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
@@ -196,7 +192,7 @@ template<typename InputIterator1,
                                thrust::input_host_iterator_tag,
                                thrust::forward_host_iterator_tag)
 {
-  return thrust::detail::host::experimental::transform_if(first, last, stencil, result, unary_op, pred);
+  return thrust::detail::host::transform_if(first, last, stencil, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -214,7 +210,7 @@ template<typename InputIterator1,
                                thrust::input_host_iterator_tag,
                                thrust::input_host_iterator_tag)
 {
-  return thrust::detail::host::experimental::transform_if(first, last, stencil, result, unary_op, pred);
+  return thrust::detail::host::transform_if(first, last, stencil, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -235,7 +231,7 @@ template<typename InputIterator1,
                                thrust::input_host_iterator_tag,
                                thrust::forward_host_iterator_tag)
 {
-  return thrust::detail::host::experimental::transform_if(first1, last1, first2, stencil, result, unary_op, pred);
+  return thrust::detail::host::transform_if(first1, last1, first2, stencil, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -256,7 +252,7 @@ template<typename InputIterator1,
                                thrust::input_host_iterator_tag,
                                thrust::input_host_iterator_tag)
 {
-  return thrust::detail::host::experimental::transform_if(first1, last1, first2, stencil, result, unary_op, pred);
+  return thrust::detail::host::transform_if(first1, last1, first2, stencil, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -377,8 +373,6 @@ template<typename InputIterator1,
 
   return result + (last1 - first1); // return the end of the output sequence
 } // end transform_if()
-
-} // end experimental
 
 } // end dispatch
 

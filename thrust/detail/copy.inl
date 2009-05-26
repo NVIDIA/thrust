@@ -74,7 +74,7 @@ template<typename InputIterator,
                            Predicate pred)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  return thrust::experimental::transform_if(begin, end, stencil, result, thrust::identity<InputType>(), pred);
+  return thrust::transform_if(begin, end, stencil, result, thrust::identity<InputType>(), pred);
 } // end copy_when()
 
 } // end namespace thrust

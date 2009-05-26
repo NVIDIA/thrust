@@ -56,8 +56,6 @@ template<typename InputIterator1,
             typename thrust::iterator_traits<OutputIterator>::iterator_category());
 } // end transform()
 
-namespace experimental
-{
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -71,7 +69,7 @@ template<typename InputIterator1,
                                Predicate pred)
 {
     // dispatch on category
-    return thrust::detail::dispatch::experimental::transform_if(first, last, stencil, result, unary_op, pred,
+    return thrust::detail::dispatch::transform_if(first, last, stencil, result, unary_op, pred,
             typename thrust::iterator_traits<InputIterator1>::iterator_category(),
             typename thrust::iterator_traits<InputIterator2>::iterator_category(),
             typename thrust::iterator_traits<ForwardIterator>::iterator_category());
@@ -91,14 +89,12 @@ template<typename InputIterator1,
                                Predicate pred)
 {
     // dispatch on category
-    return thrust::detail::dispatch::experimental::transform_if(first1, last1, first2, stencil, result, binary_op, pred,
+    return thrust::detail::dispatch::transform_if(first1, last1, first2, stencil, result, binary_op, pred,
             typename thrust::iterator_traits<InputIterator1>::iterator_category(),
             typename thrust::iterator_traits<InputIterator2>::iterator_category(),
             typename thrust::iterator_traits<InputIterator3>::iterator_category(),
             typename thrust::iterator_traits<ForwardIterator>::iterator_category());
 } // end transform_if()
-
-} // end experimental
 
 } // end namespace thrust
 
