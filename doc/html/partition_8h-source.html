@@ -46,34 +46,43 @@
 <a name="l00091"></a>00091                             ForwardIterator last,
 <a name="l00092"></a>00092                             Predicate pred);
 <a name="l00093"></a>00093 
-<a name="l00155"></a>00155 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ForwardIterator,
-<a name="l00156"></a>00156          <span class="keyword">typename</span> OutputIterator,
-<a name="l00157"></a>00157          <span class="keyword">typename</span> Predicate&gt;
-<a name="l00158"></a>00158   OutputIterator <a class="code" href="group__stream__compaction.html#g66d33508312689deba105bc9721b4bf4">partition_copy</a>(ForwardIterator first,
-<a name="l00159"></a>00159                                 ForwardIterator last,
-<a name="l00160"></a>00160                                 OutputIterator result,
-<a name="l00161"></a>00161                                 Predicate pred);
-<a name="l00162"></a>00162 
-<a name="l00214"></a>00214 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ForwardIterator,
-<a name="l00215"></a>00215          <span class="keyword">typename</span> Predicate&gt;
-<a name="l00216"></a>00216   ForwardIterator <a class="code" href="group__stream__compaction.html#gf7f5925c861f229d1a059bb03f00ff16">stable_partition</a>(ForwardIterator begin,
-<a name="l00217"></a>00217                                    ForwardIterator end,
-<a name="l00218"></a>00218                                    Predicate pred);
-<a name="l00219"></a>00219 
-<a name="l00275"></a>00275 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ForwardIterator,
-<a name="l00276"></a>00276          <span class="keyword">typename</span> OutputIterator,
-<a name="l00277"></a>00277          <span class="keyword">typename</span> Predicate&gt;
-<a name="l00278"></a>00278   OutputIterator <a class="code" href="group__stream__compaction.html#g29263effb714f72f353979123cf4d202">stable_partition_copy</a>(ForwardIterator begin,
-<a name="l00279"></a>00279                                        ForwardIterator end,
-<a name="l00280"></a>00280                                        OutputIterator result,
-<a name="l00281"></a>00281                                        Predicate pred);
-<a name="l00282"></a>00282 
-<a name="l00289"></a>00289 } <span class="comment">// end thrust</span>
-<a name="l00290"></a>00290 
-<a name="l00291"></a>00291 <span class="preprocessor">#include &lt;thrust/detail/partition.inl&gt;</span>
-<a name="l00292"></a>00292 
+<a name="l00094"></a>00094 <span class="keyword">namespace </span>experimental
+<a name="l00095"></a>00095 {
+<a name="l00157"></a>00157 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ForwardIterator,
+<a name="l00158"></a>00158          <span class="keyword">typename</span> OutputIterator,
+<a name="l00159"></a>00159          <span class="keyword">typename</span> Predicate&gt;
+<a name="l00160"></a>00160   OutputIterator <a class="code" href="namespacethrust_1_1experimental.html#74ffd2d26c10eb1cadd38a21a4d01a8b">partition_copy</a>(ForwardIterator first,
+<a name="l00161"></a>00161                                 ForwardIterator last,
+<a name="l00162"></a>00162                                 OutputIterator result,
+<a name="l00163"></a>00163                                 Predicate pred);
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165 } <span class="comment">// end namespace experimental</span>
+<a name="l00166"></a>00166 
+<a name="l00218"></a>00218 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ForwardIterator,
+<a name="l00219"></a>00219          <span class="keyword">typename</span> Predicate&gt;
+<a name="l00220"></a>00220   ForwardIterator <a class="code" href="group__stream__compaction.html#gf7f5925c861f229d1a059bb03f00ff16">stable_partition</a>(ForwardIterator begin,
+<a name="l00221"></a>00221                                    ForwardIterator end,
+<a name="l00222"></a>00222                                    Predicate pred);
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225 <span class="keyword">namespace </span>experimental
+<a name="l00226"></a>00226 {
+<a name="l00282"></a>00282 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ForwardIterator,
+<a name="l00283"></a>00283          <span class="keyword">typename</span> OutputIterator,
+<a name="l00284"></a>00284          <span class="keyword">typename</span> Predicate&gt;
+<a name="l00285"></a>00285   OutputIterator <a class="code" href="namespacethrust_1_1experimental.html#9db77686562e05a57c2b44cae1ae01d6">stable_partition_copy</a>(ForwardIterator begin,
+<a name="l00286"></a>00286                                        ForwardIterator end,
+<a name="l00287"></a>00287                                        OutputIterator result,
+<a name="l00288"></a>00288                                        Predicate pred);
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290 } <span class="comment">// end namespace experimental</span>
+<a name="l00291"></a>00291 
+<a name="l00298"></a>00298 } <span class="comment">// end thrust</span>
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300 <span class="preprocessor">#include &lt;thrust/detail/partition.inl&gt;</span>
+<a name="l00301"></a>00301 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon May 25 14:42:55 2009 for thrust by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue May 26 17:33:28 2009 for thrust by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.5 </small></address>
 </body>

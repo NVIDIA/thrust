@@ -26,6 +26,9 @@
 namespace thrust
 {
 
+namespace experimental
+{
+
 template<typename ForwardIterator,
          typename OutputIterator,
          typename Predicate>
@@ -41,6 +44,20 @@ template<typename ForwardIterator,
 
 
 template<typename ForwardIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator partition_copy(ForwardIterator begin,
+                                ForwardIterator end,
+                                OutputIterator result,
+                                Predicate pred)
+{
+  return thrust::experimental::stable_partition_copy(begin,end,result,pred);
+} // end partition_copy()
+
+} // end namespace experimental
+
+
+template<typename ForwardIterator,
          typename Predicate>
   ForwardIterator stable_partition(ForwardIterator begin,
                                    ForwardIterator end,
@@ -49,18 +66,6 @@ template<typename ForwardIterator,
   return detail::dispatch::stable_partition(begin, end, pred,
     typename thrust::iterator_traits<ForwardIterator>::iterator_category());
 } // end stable_partition_copy()
-
-
-template<typename ForwardIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator partition_copy(ForwardIterator begin,
-                                ForwardIterator end,
-                                OutputIterator result,
-                                Predicate pred)
-{
-  return thrust::stable_partition_copy(begin,end,result,pred);
-} // end partition_copy()
 
 
 template<typename ForwardIterator,

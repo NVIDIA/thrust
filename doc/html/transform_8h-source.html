@@ -56,41 +56,38 @@
 <a name="l00133"></a>00133                            OutputIterator result,
 <a name="l00134"></a>00134                            BinaryFunction op);
 <a name="l00135"></a>00135 
-<a name="l00136"></a>00136 <span class="keyword">namespace </span>experimental
-<a name="l00137"></a>00137 {
-<a name="l00138"></a>00138 
-<a name="l00189"></a>00189 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> InputIterator1,
-<a name="l00190"></a>00190          <span class="keyword">typename</span> InputIterator2,
-<a name="l00191"></a>00191          <span class="keyword">typename</span> ForwardIterator,
-<a name="l00192"></a>00192          <span class="keyword">typename</span> UnaryFunction,
-<a name="l00193"></a>00193          <span class="keyword">typename</span> Predicate&gt;
-<a name="l00194"></a>00194   ForwardIterator <a class="code" href="namespacethrust_1_1experimental.html#9d4f760eaaaa2b8dcbf2e600e78b1b8f">transform_if</a>(InputIterator1 first, InputIterator1 last,
-<a name="l00195"></a>00195                                InputIterator2 stencil,
-<a name="l00196"></a>00196                                ForwardIterator result,
-<a name="l00197"></a>00197                                UnaryFunction op,
-<a name="l00198"></a>00198                                Predicate pred);
-<a name="l00199"></a>00199 
-<a name="l00253"></a>00253 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> InputIterator1,
-<a name="l00254"></a>00254          <span class="keyword">typename</span> InputIterator2,
-<a name="l00255"></a>00255          <span class="keyword">typename</span> InputIterator3,
-<a name="l00256"></a>00256          <span class="keyword">typename</span> ForwardIterator,
-<a name="l00257"></a>00257          <span class="keyword">typename</span> BinaryFunction,
-<a name="l00258"></a>00258          <span class="keyword">typename</span> Predicate&gt;
-<a name="l00259"></a>00259   ForwardIterator <a class="code" href="namespacethrust_1_1experimental.html#9d4f760eaaaa2b8dcbf2e600e78b1b8f">transform_if</a>(InputIterator1 first1, InputIterator1 last1,
-<a name="l00260"></a>00260                                InputIterator2 first2,
-<a name="l00261"></a>00261                                InputIterator3 stencil,
-<a name="l00262"></a>00262                                ForwardIterator result,
-<a name="l00263"></a>00263                                BinaryFunction binary_op,
-<a name="l00264"></a>00264                                Predicate pred);
+<a name="l00136"></a>00136 
+<a name="l00187"></a>00187 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> InputIterator1,
+<a name="l00188"></a>00188          <span class="keyword">typename</span> InputIterator2,
+<a name="l00189"></a>00189          <span class="keyword">typename</span> ForwardIterator,
+<a name="l00190"></a>00190          <span class="keyword">typename</span> UnaryFunction,
+<a name="l00191"></a>00191          <span class="keyword">typename</span> Predicate&gt;
+<a name="l00192"></a>00192   ForwardIterator <a class="code" href="group__transformations.html#g0c6d919392b64d22d96ac31a51797c58">transform_if</a>(InputIterator1 first, InputIterator1 last,
+<a name="l00193"></a>00193                                InputIterator2 stencil,
+<a name="l00194"></a>00194                                ForwardIterator result,
+<a name="l00195"></a>00195                                UnaryFunction op,
+<a name="l00196"></a>00196                                Predicate pred);
+<a name="l00197"></a>00197 
+<a name="l00252"></a>00252 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> InputIterator1,
+<a name="l00253"></a>00253          <span class="keyword">typename</span> InputIterator2,
+<a name="l00254"></a>00254          <span class="keyword">typename</span> InputIterator3,
+<a name="l00255"></a>00255          <span class="keyword">typename</span> ForwardIterator,
+<a name="l00256"></a>00256          <span class="keyword">typename</span> BinaryFunction,
+<a name="l00257"></a>00257          <span class="keyword">typename</span> Predicate&gt;
+<a name="l00258"></a>00258   ForwardIterator <a class="code" href="group__transformations.html#g0c6d919392b64d22d96ac31a51797c58">transform_if</a>(InputIterator1 first1, InputIterator1 last1,
+<a name="l00259"></a>00259                                InputIterator2 first2,
+<a name="l00260"></a>00260                                InputIterator3 stencil,
+<a name="l00261"></a>00261                                ForwardIterator result,
+<a name="l00262"></a>00262                                BinaryFunction binary_op,
+<a name="l00263"></a>00263                                Predicate pred);
+<a name="l00264"></a>00264 
 <a name="l00265"></a>00265 
-<a name="l00266"></a>00266 } <span class="comment">// end experimental</span>
-<a name="l00267"></a>00267 
-<a name="l00271"></a>00271 } <span class="comment">// end namespace thrust</span>
+<a name="l00269"></a>00269 } <span class="comment">// end namespace thrust</span>
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 <span class="preprocessor">#include &lt;thrust/detail/transform.inl&gt;</span>
 <a name="l00272"></a>00272 
-<a name="l00273"></a>00273 <span class="preprocessor">#include &lt;thrust/detail/transform.inl&gt;</span>
-<a name="l00274"></a>00274 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon May 25 14:42:55 2009 for thrust by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue May 26 17:33:28 2009 for thrust by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.5 </small></address>
 </body>

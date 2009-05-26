@@ -91,6 +91,8 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred);
 
+namespace experimental
+{
 /*! \p partition_copy differs from \ref partition only in that the reordered
  *  sequence is written to a difference output sequence, rather than in place.
  *
@@ -160,6 +162,8 @@ template<typename ForwardIterator,
                                 OutputIterator result,
                                 Predicate pred);
 
+} // end namespace experimental
+
 /*! \p stable_partition is much like \ref partition : it reorders the elements in the
  *  range <tt>[begin, end)</tt> based on the function object \p pred, such that all of
  *  the elements that satisfy \p pred precede all of the elements that fail to satisfy
@@ -217,6 +221,9 @@ template<typename ForwardIterator,
                                    ForwardIterator end,
                                    Predicate pred);
 
+
+namespace experimental
+{
 /*! \p stable_partition_copy is much like \ref partition_copy : it reorders the elements
  *  in the range <tt>[begin, end)</tt> based on the function object \p pred, such that
  *  all of the elements that satisfy \p pred precede all of the elements that fail to
@@ -279,6 +286,8 @@ template<typename ForwardIterator,
                                        ForwardIterator end,
                                        OutputIterator result,
                                        Predicate pred);
+
+} // end namespace experimental
 
 /*! \} // end stream_compaction
  */

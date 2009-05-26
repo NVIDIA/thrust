@@ -30,7 +30,7 @@ void TestStablePartitionCopySimple(void)
 
     Vector result(5);
 
-    thrust::stable_partition_copy(data.begin(), data.end(), result.begin(), is_even<T>());
+    thrust::experimental::stable_partition_copy(data.begin(), data.end(), result.begin(), is_even<T>());
 
     Vector ref(5);
     ref[0] = 2;
@@ -53,13 +53,13 @@ void TestStablePartitionCopy(const size_t n)
     thrust::host_vector<T> h_result(n);
     thrust::device_vector<T> d_result(n);
 
-    thrust::stable_partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_true<T>());
-    thrust::stable_partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_true<T>());
+    thrust::experimental::stable_partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_true<T>());
+    thrust::experimental::stable_partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_true<T>());
 
     ASSERT_EQUAL(h_result, d_result);
     
-    thrust::stable_partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_even<T>());
-    thrust::stable_partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_even<T>());
+    thrust::experimental::stable_partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_even<T>());
+    thrust::experimental::stable_partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_even<T>());
 
     ASSERT_EQUAL(h_result, d_result);
 }
@@ -124,7 +124,7 @@ void TestPartitionCopySimple(void)
 
     Vector result(5);
 
-    thrust::partition_copy(data.begin(), data.end(), result.begin(), is_even<T>());
+    thrust::experimental::partition_copy(data.begin(), data.end(), result.begin(), is_even<T>());
 
     Vector ref(5);
     ref[0] =  2;
@@ -147,13 +147,13 @@ void TestPartitionCopy(const size_t n)
     thrust::host_vector<T> h_result(n);
     thrust::device_vector<T> d_result(n);
 
-    thrust::partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_true<T>());
-    thrust::partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_true<T>());
+    thrust::experimental::partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_true<T>());
+    thrust::experimental::partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_true<T>());
 
     ASSERT_EQUAL(h_result, d_result);
     
-    thrust::partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_even<T>());
-    thrust::partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_even<T>());
+    thrust::experimental::partition_copy(h_data.begin(), h_data.end(), h_result.begin(), is_even<T>());
+    thrust::experimental::partition_copy(d_data.begin(), d_data.end(), d_result.begin(), is_even<T>());
 
     ASSERT_EQUAL(h_result, d_result);
 }

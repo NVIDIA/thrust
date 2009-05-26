@@ -118,7 +118,7 @@ template<typename ForwardIterator,
   // partition to temp space
   thrust::device_ptr<InputType> temp = thrust::device_malloc<InputType>(end - begin);
   thrust::copy(begin, end, temp);
-  thrust::device_ptr<InputType> temp_middle = thrust::stable_partition_copy(begin, end, temp, pred);
+  thrust::device_ptr<InputType> temp_middle = thrust::experimental::stable_partition_copy(begin, end, temp, pred);
     
   // copy back to original sequence
   thrust::copy(temp, temp + (end - begin), begin);
