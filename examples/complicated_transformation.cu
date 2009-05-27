@@ -25,7 +25,7 @@ struct complicated_functor
     template <typename IndexType>
     __host__ __device__
     void operator()(const IndexType & i){
-        D[i] = 10 * A[i] + B[i] * C[i];
+        D[i] = A[i] + B[i] * C[i];
     }
 };
 
@@ -37,7 +37,7 @@ int main(void)
     thrust::device_vector<float> C(5);
     thrust::device_vector<float> D(5);
 
-    A[0] = 3;  B[0] = 1;  C[0] = 2; 
+    A[0] = 3;  B[0] = 6;  C[0] = 2; 
     A[1] = 4;  B[1] = 7;  C[1] = 5; 
     A[2] = 0;  B[2] = 2;  C[2] = 7; 
     A[3] = 8;  B[3] = 1;  C[3] = 4; 
