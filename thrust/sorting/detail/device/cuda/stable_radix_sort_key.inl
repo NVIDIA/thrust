@@ -19,6 +19,11 @@
 
 
 #include <limits>
+#include <thrust/device_ptr.h>
+#include <thrust/gather.h>
+#include <thrust/reduce.h>
+#include <thrust/sequence.h>
+#include <thrust/transform.h>
 #include <thrust/detail/util/static.h>
 #include <thrust/sorting/detail/device/cuda/stable_radix_sort_bits.h>
 
@@ -157,7 +162,7 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
                        extract_lower_bits);
 
     thrust::device_ptr<unsigned int> permutation = thrust::device_malloc<unsigned int>(num_elements);
-    thrust::range(permutation, permutation + num_elements);
+    thrust::sequence(permutation, permutation + num_elements);
     
     stable_radix_sort_key_value_dev((LowerBits *) partial_keys.get(), permutation.get(), num_elements);
 
@@ -173,7 +178,7 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
                        permuted_keys + num_elements,
                        partial_keys,
                        extract_upper_bits);
-    thrust::range(permutation, permutation + num_elements);
+    thrust::sequence(permutation, permutation + num_elements);
     
     stable_radix_sort_key_value_dev((UpperBits *) partial_keys.get(), permutation.get(), num_elements);
 

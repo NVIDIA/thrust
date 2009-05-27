@@ -15,9 +15,9 @@
  */
 
 
-/*! \file range.h
+/*! \file sequence.h
  *  \brief Defines the interface to the
- *         dispatch layer of the range function.
+ *         dispatch layer of the sequence function.
  */
 
 #pragma once
@@ -40,19 +40,19 @@ namespace detail
 {
 
 template <typename OutputType, typename RangeType>
-struct range_functor
+struct sequence_functor
 {
         OutputType * ptr;
   const RangeType init;
   const RangeType step;
 
-  range_functor(OutputType * _ptr, const RangeType _init, const RangeType _step) 
+  sequence_functor(OutputType * _ptr, const RangeType _init, const RangeType _step) 
       : ptr(_ptr), init(_init), step(_step) {}
   
   template <typename IntegerType>
       __host__ __device__
   void operator()(const IntegerType i) const { ptr[i] = init + step * i; }
-}; // end range_functor
+}; // end sequence_functor
 
 } // end detail
 
@@ -61,11 +61,11 @@ struct range_functor
 // Host Path //
 ///////////////    
 template<typename ForwardIterator, typename T>
-  void range(ForwardIterator first,
-             ForwardIterator last,
-             T init,
-             T step,
-             thrust::forward_host_iterator_tag)
+  void sequence(ForwardIterator first,
+                ForwardIterator last,
+                T init,
+                T step,
+                thrust::forward_host_iterator_tag)
 {
     for(size_t i = 0; first != last; i++, first++)
         *first = init + step * i;
@@ -77,16 +77,16 @@ template<typename ForwardIterator, typename T>
 /////////////////    
 
 template<typename ForwardIterator, typename T>
-  void range(ForwardIterator first,
-             ForwardIterator last,
-             T init,
-             T step,
-             thrust::random_access_device_iterator_tag)
+  void sequence(ForwardIterator first,
+                ForwardIterator last,
+                T init,
+                T step,
+                thrust::random_access_device_iterator_tag)
 {
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
 
     // XXX use make_device_dereferenceable here instead of assuming &*first is device_ptr
-    thrust::detail::device::cuda::vectorize(last - first, detail::range_functor<OutputType,T>((&*first).get(), init, step));
+    thrust::detail::device::cuda::vectorize(last - first, detail::sequence_functor<OutputType,T>((&*first).get(), init, step));
 }
 
 } // end dispatch

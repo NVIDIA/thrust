@@ -1,7 +1,7 @@
 #include <thrusttest/unittest.h>
 #include <thrust/sorting/radix_sort.h>
 #include <thrust/functional.h>
-#include <thrust/range.h>
+#include <thrust/sequence.h>
 
 using namespace thrusttest;
 
@@ -162,8 +162,8 @@ struct TestRadixSortByKey
     
     thrust::host_vector<unsigned int>   h_values(n);
     thrust::device_vector<unsigned int> d_values(n);
-    thrust::range(h_values.begin(), h_values.end());
-    thrust::range(d_values.begin(), d_values.end());
+    thrust::sequence(h_values.begin(), h_values.end());
+    thrust::sequence(d_values.begin(), d_values.end());
 
     thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
     thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
@@ -185,8 +185,8 @@ struct TestRadixSortByKeyShortValues
     
     thrust::host_vector<short>   h_values(n);
     thrust::device_vector<short> d_values(n);
-    thrust::range(h_values.begin(), h_values.end());
-    thrust::range(d_values.begin(), d_values.end());
+    thrust::sequence(h_values.begin(), h_values.end());
+    thrust::sequence(d_values.begin(), d_values.end());
 
     thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
     thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
@@ -207,8 +207,8 @@ struct TestRadixSortByKeyFloatValues
     
     thrust::host_vector<float>   h_values(n);
     thrust::device_vector<float> d_values(n);
-    thrust::range(h_values.begin(), h_values.end());
-    thrust::range(d_values.begin(), d_values.end());
+    thrust::sequence(h_values.begin(), h_values.end());
+    thrust::sequence(d_values.begin(), d_values.end());
 
     thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
     thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
@@ -260,8 +260,8 @@ struct TestRadixSortByKeyVariableBits
     
         thrust::host_vector<unsigned int>   h_values(n);
         thrust::device_vector<unsigned int> d_values(n);
-        thrust::range(h_values.begin(), h_values.end());
-        thrust::range(d_values.begin(), d_values.end());
+        thrust::sequence(h_values.begin(), h_values.end());
+        thrust::sequence(d_values.begin(), d_values.end());
 
         thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
         thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());

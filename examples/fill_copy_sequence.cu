@@ -2,7 +2,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/copy.h>
 #include <thrust/fill.h>
-#include <thrust/range.h>
+#include <thrust/sequence.h>
 
 #include <iostream>
 
@@ -18,7 +18,7 @@ int main(void)
     thrust::host_vector<int> H(D.begin(), D.begin() + 5);
 
     // set the elements of H to 0, 1, 2, 3, ...
-    thrust::range(H.begin(), H.end());
+    thrust::sequence(H.begin(), H.end());
 
     // copy all of H back to the beginning of D
     thrust::copy(H.begin(), H.end(), D.begin());

@@ -15,45 +15,44 @@
  */
 
 
-/*! \file range.inl
- *  \brief Inline file for range.h.
+/*! \file sequence.inl
+ *  \brief Inline file for sequence.h.
  */
 
-#include <thrust/range.h>
+#include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/range.h>
+#include <thrust/detail/dispatch/sequence.h>
 
 namespace thrust
 {
 
 template<typename ForwardIterator>
-  void range(ForwardIterator first,
-             ForwardIterator last)
+  void sequence(ForwardIterator first,
+                ForwardIterator last)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  thrust::range(first, last, OutputType(0), OutputType(1));
-} // end range()
+  thrust::sequence(first, last, OutputType(0), OutputType(1));
+} // end sequence()
 
 
 template<typename ForwardIterator, typename T>
-  void range(ForwardIterator first,
-             ForwardIterator last,
-             T init)
+  void sequence(ForwardIterator first,
+                ForwardIterator last,
+                T init)
 {
-  thrust::range(first, last, init, T(1));
-} // end range()
+  thrust::sequence(first, last, init, T(1));
+} // end sequence()
 
 
 template<typename ForwardIterator, typename T>
-  void range(ForwardIterator first,
-             ForwardIterator last,
-             T init,
-             T step)
+  void sequence(ForwardIterator first,
+                ForwardIterator last,
+                T init,
+                T step)
 {
-  thrust::detail::dispatch::range(first, last, init, step,
+  thrust::detail::dispatch::sequence(first, last, init, step,
     typename thrust::iterator_traits<ForwardIterator>::iterator_category());
-} // end range()
+} // end sequence()
 
 } // end namespace thrust
-
 

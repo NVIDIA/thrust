@@ -35,11 +35,7 @@
 #include <thrust/device_free.h>
 #include <thrust/scan.h>
 #include <thrust/functional.h>
-#include <thrust/transform.h>
 #include <thrust/transform_reduce.h>
-#include <thrust/reduce.h>
-#include <thrust/gather.h>
-#include <thrust/range.h>
 
 namespace thrust
 {

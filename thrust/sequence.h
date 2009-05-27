@@ -15,8 +15,8 @@
  */
 
 
-/*! \file range.h
- *  \brief Fills a sequence with a range of numbers.
+/*! \file sequence.h
+ *  \brief Fills a sequence with a sequence of numbers.
  */
 
 #pragma once
@@ -30,9 +30,9 @@ namespace thrust
  *  \{
  */
 
-/*! \p range fills the sequence <tt>[first, last)</tt> with a range of numbers.
+/*! \p sequence fills the sequence <tt>[first, last)</tt> with a sequence of numbers.
  *
- *  Specifically, this version of \p range assigns \c *first the value \c 0
+ *  Specifically, this version of \p sequence assigns \c *first the value \c 0
  *  and assigns each iterator \c i in the sequence <tt>[first, last)</tt> the
  *  value <tt>(i - first)</tt>.
  *
@@ -44,37 +44,37 @@ namespace thrust
  *          and if \c x and \c y are objects of \c ForwardIterator's \c value_type, then <tt>x + y</tt> is defined,
  *          and if \c T is \p ForwardIterator's \c value_type, then <tt>T(0)</tt> is defined.
  *
- *  The following code snippet demonstrates how to use \p range to fill a sequence
- *  with a range of numbers.
+ *  The following code snippet demonstrates how to use \p sequence to fill a range
+ *  with a sequence of numbers.
  *
  *  \code
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::range(A, A + 10);
+ *  thrust::sequence(A, A + 10);
  *  // A is now {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
  *  \endcode
  *
- *  \note Unlike the similar C++ STL function \c std::iota, \p range offers no
+ *  \note Unlike the similar C++ STL function \c std::iota, \p sequence offers no
  *        guarantee on order of execution.
  *
  *  \see http://www.sgi.com/tech/stl/iota.html
  */
 template<typename ForwardIterator>
-  void range(ForwardIterator first,
-             ForwardIterator last);
+  void sequence(ForwardIterator first,
+                ForwardIterator last);
 
 
-/*! \p range fills the sequence <tt>[first, last)</tt> with a range of numbers.
+/*! \p sequence fills the sequence <tt>[first, last)</tt> with a sequence of numbers.
  *
- *  Specifically, this version of \p range assigns \c *first the value \p init
+ *  Specifically, this version of \p sequence assigns \c *first the value \p init
  *  and assigns each iterator \c i in the sequence <tt>[first, last)</tt> the
  *  value <tt>init + (i - first)</tt>.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
- *  \param init The first value of the range of numbers.
+ *  \param init The first value of the sequence of numbers.
  *
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
@@ -83,38 +83,38 @@ template<typename ForwardIterator>
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
- *  The following code snippet demonstrates how to use \p range to fill a sequence
- *  with a range of numbers starting from an intial value.
+ *  The following code snippet demonstrates how to use \p sequence to fill a range
+ *  with a sequence of numbers starting from an intial value.
  *
  *  \code
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::range(A, A + 10, 1);
+ *  thrust::sequence(A, A + 10, 1);
  *  // A is now {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  \endcode
  *
- *  \note Unlike the similar C++ STL function \c std::iota, \p range offers no
+ *  \note Unlike the similar C++ STL function \c std::iota, \p sequence offers no
  *        guarantee on order of execution.
  *
  *  \see http://www.sgi.com/tech/stl/iota.html
  */
 template<typename ForwardIterator, typename T>
-  void range(ForwardIterator first,
-             ForwardIterator last,
-             T init);
+  void sequence(ForwardIterator first,
+                ForwardIterator last,
+                T init);
 
 
-/*! \p range fills the sequence <tt>[first, last)</tt> with a range of numbers.
+/*! \p sequence fills the sequence <tt>[first, last)</tt> with a sequence of numbers.
  *
- *  Specifically, this version of \p range assigns \c *first the value \p init
+ *  Specifically, this version of \p sequence assigns \c *first the value \p init
  *  and assigns each iterator \c i in the sequence <tt>[first, last)</tt> the
  *  <tt>value init + step * (i - first)</tt>.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
- *  \param init The first value of the range of numbers
+ *  \param init The first value of the sequence of numbers
  *  \param step The difference between consecutive elements.
  *
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
@@ -124,33 +124,33 @@ template<typename ForwardIterator, typename T>
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
- *  The following code snippet demonstrates how to use \p range to fill a sequence
- *  with a range of numbers starting from an intial value with a step size.
+ *  The following code snippet demonstrates how to use \p sequence to fill a range
+ *  with a sequence of numbers starting from an intial value with a step size.
  *
  *  \code
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::range(A, A + 10, 1, 3);
+ *  thrust::sequence(A, A + 10, 1, 3);
  *  // A is now {1, 4, 7, 10, 13, 16, 19, 22, 25, 28}
  *  \endcode
  *
- *  \note Unlike the similar C++ STL function \c std::iota, \p range offers no
+ *  \note Unlike the similar C++ STL function \c std::iota, \p sequence offers no
  *        guarantee on order of execution.
  *
  *  \see http://www.sgi.com/tech/stl/iota.html
  */
 template<typename ForwardIterator, typename T>
-  void range(ForwardIterator first,
-             ForwardIterator last,
-             T init,
-             T step);
+  void sequence(ForwardIterator first,
+                ForwardIterator last,
+                T init,
+                T step);
 
 /*! \} // end transformations
  */
 
 } // end namespace thrust
 
-#include <thrust/detail/range.inl>
+#include <thrust/detail/sequence.inl>
 
