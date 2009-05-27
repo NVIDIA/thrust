@@ -28,6 +28,10 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_categories.h>
+#include <thrust/detail/make_device_dereferenceable.h>
+
+// #include the details first
+#include <thrust/iterator/detail/counting_iterator.inl>
 
 namespace thrust
 {
@@ -36,33 +40,18 @@ namespace experimental
 {
 
 template<typename Incrementable,
-         // XXX TODO figure out whether we need CategoryOrTraversal
-         // XXX TODO infer Difference type automatically
-         typename Difference>
+         typename CategoryOrTraversal = use_default,
+         typename Difference = use_default>
   class counting_iterator
-    : public iterator_adaptor<counting_iterator<Incrementable,Difference>,
-                              Incrementable,
-                              Incrementable,
-                              // XXX TODO infer the category automatically
-                              thrust::experimental::random_access_universal_iterator_tag,
-                              Incrementable const &,
-                              Incrementable *,
-                              Difference>
+    : public detail::counting_iterator_base<Incrementable, CategoryOrTraversal, Difference>::type
 {
+    typedef typename detail::counting_iterator_base<Incrementable, CategoryOrTraversal, Difference>::type super_t;
+
     friend class iterator_core_access;
-
-    typedef iterator_adaptor<counting_iterator<Incrementable,Difference>,
-                             Incrementable,
-                             Incrementable,
-                             // XXX TODO infer the category automatically
-                             thrust::experimental::random_access_universal_iterator_tag,
-                             Incrementable const &,
-                             Incrementable *,
-                             Difference> super_t;
-
 
   public:
     typedef Incrementable const & reference;
+    typedef typename super_t::difference_type difference_type;
 
     __host__ __device__
     counting_iterator(void){};
@@ -80,14 +69,27 @@ template<typename Incrementable,
     {
       return this->base_reference();
     }
+
+    // XXX enable distance to related counting_iterators later
+    //template <class OtherIncrementable>
+    //difference_type
+    //distance_to(counting_iterator<OtherIncrementable, CategoryOrTraversal, Difference> const& y) const
+    //{
+    //  typedef typename mpl::if_<
+    //      detail::is_numeric<Incrementable>
+    //    , detail::number_distance<difference_type, Incrementable, OtherIncrementable>
+    //    , detail::iterator_distance<difference_type, Incrementable, OtherIncrementable>
+    //  >::type d;
+
+    //  return d::distance(this->base(), y.base());
+    //}
 }; // end counting_iterator
 
-// XXX TODO infer the Difference type automatically
-template <typename Incrementable, typename Difference>
-inline counting_iterator<Incrementable, Difference>
+template <typename Incrementable>
+inline counting_iterator<Incrementable>
 make_counting_iterator(Incrementable x)
 {
-  return counting_iterator<Incrementable, Difference>(x);
+  return counting_iterator<Incrementable>(x);
 }
 
 } // end experimental
@@ -95,27 +97,28 @@ make_counting_iterator(Incrementable x)
 namespace detail
 {
 
-template<typename Incrementable, typename Difference>
-  struct make_device_dereferenceable< thrust::experimental::counting_iterator<Incrementable,Difference> >
+template<typename Incrementable, typename CategoryOrTraversal, typename Difference>
+  struct make_device_dereferenceable< thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> >
 {
   __host__ __device__
   static
-  thrust::experimental::counting_iterator<Incrementable,Difference> &
-  transform(thrust::experimental::counting_iterator<Incrementable,Difference> &x)
+  thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &
+  transform(thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &x)
   {
     return x;
   } // end transform()
 
   __host__ __device__
   static
-  const thrust::experimental::counting_iterator<Incrementable,Difference> &
-  transform(const thrust::experimental::counting_iterator<Incrementable,Difference> &x)
+  const thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &
+  transform(const thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &x)
   {
     return x;
   } // end transform()
 }; // end make_device_dereferenceable
 
 } // end detail
+
 
 } // end thrust
 

@@ -32,6 +32,8 @@ namespace thrust
 namespace experimental
 {
 
+struct use_default {};
+
 template<typename Derived,
          typename Base,
          typename Value,
@@ -113,4 +115,6 @@ template<typename Derived,
 } // end experimental
 
 } // end thrust
+
+#include <thrust/iterator/detail/iterator_adaptor.inl>
 

@@ -131,6 +131,48 @@ template<typename T>
   typedef T type;
 }; // end remove_const
 
+template<typename T>
+  struct remove_volatile
+{
+  typedef T type;
+}; // end remove_volatile
+
+template<typename T>
+  struct remove_volatile<volatile T>
+{
+  typedef T type;
+}; // end remove_volatile
+
+template<typename T>
+  struct remove_cv
+{
+  typedef typename remove_const<typename remove_volatile<T>::type>::type type;
+}; // end remove_cv
+
+template<typename T>
+  struct remove_reference
+{
+  typedef T type;
+}; // end remove_reference
+
+template<typename T>
+  struct remove_reference<T&>
+{
+  typedef T type;
+}; // end remove_reference
+
+template<typename T1, typename T2>
+  struct is_same
+    : public false_type
+{
+}; // end is_same
+
+template<typename T>
+  struct is_same<T,T>
+    : public true_type
+{
+}; // end is_same
+
 } // end detail
 
 } // end thrust
