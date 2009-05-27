@@ -37,7 +37,7 @@ template<typename ForwardIterator,
                                        OutputIterator result,
                                        Predicate pred)
 {
-  return detail::dispatch::stable_partition_copy(begin, end, result, pred,
+  return thrust::detail::dispatch::stable_partition_copy(begin, end, result, pred,
     typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
     typename thrust::iterator_traits<OutputIterator>::iterator_category());
 } // end stable_partition_copy()
