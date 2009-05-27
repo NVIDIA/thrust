@@ -1,0 +1,26 @@
+Thrust release 1.0.0 Changelog
+
+Breaking API changes
+
+* Rename top level namespace komrade to thrust.
+* Move partition_copy() & stable_partition_copy() into thrust::experimental namespace until we can easily provide the standard interface.
+* Rename range() to sequence() to avoid collision with Boost.Range.
+* Rename copy_if() to copy_when() due to semantic differences with C++0x copy_if().
+
+Additional features
+
+* Add C++0x style cbegin() & cend() methods to host_vector & device_vector.
+* Add transform_if function.
+* Add stencil versions of replace_if() & replace_copy_if().
+* Allow counting_iterator to work with for_each().
+* Allow types with constructors in comparison sort & reduce.
+
+Performance improvements
+
+* merge_sort and stable_merge_sort are now 2 to 5x faster when executed on the parallel device.
+
+Bug fixes
+
+* Workaround an issue where an incremented iterator causes nvcc to crash. (Komrade issue #6)
+* Fix an issue where const_iterators could not be passed to transform. (Komrade issue #7)
+
