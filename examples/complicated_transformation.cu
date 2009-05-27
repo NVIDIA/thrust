@@ -44,14 +44,13 @@ int main(void)
     A[4] = 2;  B[4] = 8;  C[4] = 3; 
 
     thrust::experimental::counting_iterator<int, thrust::random_access_device_iterator_tag> begin(0);
-    thrust::experimental::counting_iterator<int, thrust::random_access_device_iterator_tag>   end(5);
 
     complicated_functor op(thrust::raw_pointer_cast(&A[0]), 
                            thrust::raw_pointer_cast(&B[0]), 
                            thrust::raw_pointer_cast(&C[0]),
                            thrust::raw_pointer_cast(&D[0]));
 
-    thrust::for_each(begin, end, op);
+    thrust::for_each(begin, begin + 5, op);
 
     for(int i = 0; i < 5; i++)
         std::cout << A[i] << " + " << B[i] << " * " << C[i] << " = " << D[i] << std::endl;
