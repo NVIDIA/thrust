@@ -19,9 +19,9 @@
 //  This is the only thrust header that is guarenteed to 
 //  change with every thrust release.
 //
-//  KOMRADE_VERSION % 100 is the sub-minor version
-//  KOMRADE_VERSION / 100 % 1000 is the minor version
-//  KOMRADE_VERSION / 100000 is the major version
+//  THRUST_VERSION % 100 is the sub-minor version
+//  THRUST_VERSION / 100 % 1000 is the minor version
+//  THRUST_VERSION / 100000 is the major version
 
-#define KOMRADE_VERSION 90000
+#define THRUST_VERSION 100000
 
