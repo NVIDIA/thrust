@@ -3,10 +3,10 @@
 
 int main(void)
 {
-    int major = KOMRADE_VERSION / 100000;
-    int minor = (KOMRADE_VERSION / 100) % 1000;
+    int major = THRUST_VERSION / 100000;
+    int minor = (THRUST_VERSION / 100) % 1000;
 
-    std::cout << "Komrade v" << major << "." << minor << std::endl;
+    std::cout << "Thrust v" << major << "." << minor << std::endl;
 
     return 0;
 }
