@@ -32,6 +32,9 @@
 #include <thrust/detail/make_device_dereferenceable.h>
 #include <thrust/device_ptr.h>
 
+#include <thrust/detail/host/copy.h>
+#include <thrust/detail/device/copy.h>
+
 namespace thrust
 {
 
@@ -395,6 +398,71 @@ template<typename OutputIterator>
 
   return result + n;
 } // end copy()
+
+
+
+///////////////////
+// copy_if Paths //
+///////////////////
+
+////////////////////////
+// Host to Host Paths //
+////////////////////////
+
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator,
+          typename Predicate>
+  OutputIterator copy_if(InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred,
+                         thrust::input_host_iterator_tag,
+                         thrust::input_host_iterator_tag,
+                         thrust::output_host_iterator_tag)
+{
+  return thrust::detail::host::copy_if(first, last, stencil, result, pred);
+} // end copy_if()
+
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator,
+          typename Predicate>
+  OutputIterator copy_if(InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred,
+                         thrust::input_host_iterator_tag,
+                         thrust::input_host_iterator_tag,
+                         thrust::input_host_iterator_tag)
+{
+  return thrust::detail::host::copy_if(first, last, stencil, result, pred);
+} // end copy_if()
+
+
+////////////////////////////
+// Device to Device Paths //
+////////////////////////////
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred,
+                         thrust::random_access_device_iterator_tag,
+                         thrust::random_access_device_iterator_tag,
+                         thrust::random_access_device_iterator_tag)
+{
+  return thrust::detail::device::copy_if(first, last, stencil, result, pred);
+} // end copy_if()
 
 } // end dispatch
 

@@ -25,13 +25,13 @@
 
 #include <thrust/experimental/arch.h>
 #include <thrust/functional.h>
-#include <thrust/host_vector.h>
-#include <thrust/device_vector.h>
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
 #include <thrust/copy.h>
 
 #include <thrust/scan.h>    //for second level scans
+
+#include <stdlib.h> // for malloc/free
 
 
 namespace thrust
@@ -302,11 +302,13 @@ template<typename InputIterator,
             (d_carry_out.get(), num_warps, d_carry_out.get(), op, num_warps, (d_carry_out + num_warps - 1).get());
     } else {
         // scan carry_out on the host
-        thrust::host_vector<OutputType> h_carry_out(d_carry_out, d_carry_out + num_warps);
-        thrust::inclusive_scan(h_carry_out.begin(), h_carry_out.end(), h_carry_out.begin(), op);
+        OutputType *h_carry_out = (OutputType*)(::malloc(num_warps * sizeof(OutputType)));
+        thrust::copy(d_carry_out, d_carry_out + num_warps, h_carry_out);
+        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps, h_carry_out, op);
 
         // copy back to device
-        thrust::copy(h_carry_out.begin(), h_carry_out.end(), d_carry_out);
+        thrust::copy(h_carry_out, h_carry_out + num_warps, d_carry_out);
+        ::free(h_carry_out);
     }
 
     //////////////////////
@@ -365,12 +367,14 @@ template<typename InputIterator,
     } 
     else {
         // scan carry_out on the host
-        thrust::host_vector<OutputType> h_carry_out(d_carry_out, d_carry_out + num_warps + 1);
+        OutputType *h_carry_out = (OutputType*)(::malloc((num_warps + 1) * sizeof(OutputType)));
+        thrust::copy(d_carry_out, d_carry_out + num_warps + 1, h_carry_out);       
         h_carry_out[0] = init;
-        thrust::inclusive_scan(h_carry_out.begin(), h_carry_out.end(), h_carry_out.begin(), op);
+        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps + 1, h_carry_out, op);
 
         // copy back to device
-        thrust::copy(h_carry_out.begin(), h_carry_out.end(), d_carry_out);
+        thrust::copy(h_carry_out, h_carry_out + num_warps + 1, d_carry_out);
+        ::free(h_carry_out);
     }
 
     //////////////////////

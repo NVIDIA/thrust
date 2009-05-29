@@ -77,5 +77,38 @@ template<typename InputIterator,
   return thrust::transform_if(begin, end, stencil, result, thrust::identity<InputType>(), pred);
 } // end copy_when()
 
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(InputIterator first,
+                         InputIterator last,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  // XXX it's potentially expensive to send [first,last) twice
+  //     we should probably specialize this case for POD
+  //     since we can safely keep the input in a temporary instead
+  //     of doing two loads
+  return thrust::copy_if(first, last, first, result, pred);
+} // end copy_if()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  return detail::dispatch::copy_if(first, last, stencil, result, pred,
+    typename thrust::iterator_traits<InputIterator1>::iterator_category(),
+    typename thrust::iterator_traits<InputIterator2>::iterator_category(),
+    typename thrust::iterator_traits<OutputIterator>::iterator_category());
+} // end copy_if()
+
 } // end namespace thrust
 
