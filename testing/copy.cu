@@ -288,3 +288,27 @@ void TestCopyIfStencil(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestCopyIfStencil);
 
+
+void TestCopyDeviceThrow(void)
+{
+    typedef int T;
+
+    thrust::device_ptr<T> null_device_ptr((int*)0);
+
+    bool caught_exception = false;
+    try
+    {
+        thrust::copy(null_device_ptr, null_device_ptr + 1, null_device_ptr);
+    } // end try
+    catch(std::runtime_error &e)
+    {
+        caught_exception = true;
+
+        // reset the error
+        cudaGetLastError();
+    } // end catch
+
+    ASSERT_EQUAL(true, caught_exception);
+}
+DECLARE_UNITTEST(TestCopyDeviceThrow);
+

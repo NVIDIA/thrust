@@ -24,6 +24,7 @@
 #include <cuda_runtime_api.h> // for cudaMemcpy
 #include <stdlib.h>           // for malloc & free
 #include <algorithm>          // for std::copy
+#include <stdexcept>          // for std::runtime_error
 
 #include <thrust/transform.h>
 #include <thrust/distance.h>
@@ -43,6 +44,18 @@ namespace detail
 
 namespace dispatch
 {
+
+namespace detail
+{
+  inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind)
+  {
+    cudaError_t error = cudaMemcpy(dst,src,count,kind);
+    if(error)
+    {
+      throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+    } // end if
+  } // end checked_cudaMemcpy()
+} // end detail
 
 ////////////////////////
 // Host to Host Paths //
@@ -134,10 +147,10 @@ template<typename InputIterator,
 
   // call cudaMemcpy
   // XXX TODO use make_device_dereferenceable here instead of assuming device_ptr.get() will work
-  cudaMemcpy((&*result).get(),
-             &*begin,
-             n * sizeof(OutputType),
-             cudaMemcpyHostToDevice);
+  detail::checked_cudaMemcpy((&*result).get(),
+                             &*begin,
+                             n * sizeof(OutputType),
+                             cudaMemcpyHostToDevice);
 
   return result + n;
 }
@@ -263,7 +276,7 @@ template<typename InputIterator,
 
     // call cudaMemcpy
     // XXX use make_device_dereferenceable here instead of ssuming that &*begin is device_ptr
-    cudaMemcpy(&*result, (&*begin).get(), n * sizeof(InputType), cudaMemcpyDeviceToHost);
+    detail::checked_cudaMemcpy(&*result, (&*begin).get(), n * sizeof(InputType), cudaMemcpyDeviceToHost);
 
     return result + n;
 }
@@ -394,7 +407,7 @@ template<typename OutputIterator>
   // XXX use make_device_dereferenceable here instead of assuming &*result & &*begin are device_ptr
   void * dest       = (&*result).get();
   const void * src  = (&*begin).get();
-  cudaMemcpy(dest, src, n * sizeof(T), cudaMemcpyDeviceToDevice);
+  detail::checked_cudaMemcpy(dest, src, n * sizeof(T), cudaMemcpyDeviceToDevice);
 
   return result + n;
 } // end copy()
