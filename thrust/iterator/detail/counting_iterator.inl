@@ -70,11 +70,11 @@ template <typename Incrementable, typename CategoryOrTraversal, typename Differe
 
   typedef iterator_adaptor<
     counting_iterator<Incrementable, CategoryOrTraversal, Difference>, // self
-    Incrementable, // Base
-    Incrementable, // Value
+    Incrementable,                                                     // Base
+    Incrementable *,                                                   // Pointer -- maybe we should make this device_ptr when memory space category is device?
+    Incrementable,                                                     // Value
     traversal,
     Incrementable const &,
-    Incrementable *,
     difference
   > type;
 }; // end counting_iterator_base

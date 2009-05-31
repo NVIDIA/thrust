@@ -25,6 +25,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -34,56 +35,56 @@ namespace experimental
 
 // This forward declaration is required for the friend declaration
 // in iterator_core_access
-template<typename I, typename V, typename CT, typename R, typename P, typename D> class iterator_facade;
+template<typename I, typename P, typename V, typename CT, typename R, typename D> class iterator_facade;
 
 class iterator_core_access
 {
     // declare our friends
-    template<typename I, typename V, typename CT, typename R, typename P, typename D> friend class iterator_facade;
+    template<typename I, typename P, typename V, typename CT, typename R, typename D> friend class iterator_facade;
 
     // iterator comparisons are our friends
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
     friend bool
-    operator ==(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-                iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    operator ==(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+                iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
     friend bool
-    operator !=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-                iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    operator !=(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+                iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
     friend bool
-    operator <(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-               iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    operator <(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+               iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
     friend bool
-    operator >(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-               iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    operator >(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+               iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
     friend bool
-    operator <=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-               iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    operator <=(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+                iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
     friend bool
-    operator >=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-               iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    operator >=(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+                iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
     // iterator difference is our friend
-    template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-              class Dr2, class V2, class TC2, class R2, class P2, class D2>
-    friend typename iterator_facade<Dr1,V1,TC1,R1,P1,D1>::difference_type
-    operator-(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-              iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs);
+    template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+              class Dr2, class P2, class V2, class TC2, class R2, class D2>
+    friend typename iterator_facade<Dr1,P1,V1,TC1,R1,D1>::difference_type
+    operator-(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+              iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs);
 
     template<typename Facade>
     __host__ __device__
@@ -160,16 +161,16 @@ class iterator_core_access
     //
     // Curiously Recurring Template interface.
     //
-    template <class I, class V, class TC, class R, class P, class D>
+    template <class I, class P, class V, class TC, class R, class D>
     __host__ __device__
-    static I& derived(iterator_facade<I,V,TC,R,P,D>& facade)
+    static I& derived(iterator_facade<I,P,V,TC,R,D>& facade)
     {
       return *static_cast<I*>(&facade);
     }
 
-    template <class I, class V, class TC, class R, class P, class D>
+    template <class I, class P, class V, class TC, class R, class D>
     __host__ __device__
-    static I const& derived(iterator_facade<I,V,TC,R,P,D> const& facade)
+    static I const& derived(iterator_facade<I,P,V,TC,R,D> const& facade)
     {
       return *static_cast<I const*>(&facade);
     }
@@ -181,27 +182,14 @@ class iterator_core_access
 }; // end iterator_core_access
 
 template<typename Derived,
+         typename Pointer,
          typename Value,
          typename CategoryOrTraversal,
          typename Reference,
-         typename Pointer,
          typename Difference>
   class iterator_facade
 {
   private:
-    // XXX move these somewhere else
-    template<typename T>
-      struct remove_const
-    {
-      typedef T type;
-    }; // end remove_const
-    
-    template<typename T>
-      struct remove_const<const T>
-    {
-      typedef T type;
-    }; // end remove_const
-
     //
     // Curiously Recurring Template interface.
     //
@@ -216,14 +204,14 @@ template<typename Derived,
     }
 
   public:
-    typedef typename remove_const<Value>::type value_type;
-    typedef Reference                         reference;
-    typedef Pointer                           pointer;
-    typedef Difference                        difference_type;
+    typedef typename thrust::detail::remove_const<Value>::type value_type;
+    typedef Reference                                          reference;
+    typedef Pointer                                            pointer;
+    typedef Difference                                         difference_type;
 
     // XXX investigate whether or not we need to go to the lengths
     //     boost does to determine this type
-    typedef CategoryOrTraversal               iterator_category;
+    typedef CategoryOrTraversal                                iterator_category;
 
     __host__ __device__
     reference operator*() const
@@ -304,84 +292,84 @@ template<typename Derived,
 }; // end iterator_facade
 
 // Comparison operators
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator ==(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-            iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+operator ==(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+            iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return iterator_core_access
     ::equal(*static_cast<Dr1 const*>(&lhs),
             *static_cast<Dr2 const*>(&rhs));
 }
 
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator !=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-            iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+operator !=(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+            iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return !iterator_core_access
     ::equal(*static_cast<Dr1 const*>(&lhs),
             *static_cast<Dr2 const*>(&rhs));
 }
 
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator <(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-           iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+operator <(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+           iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return 0 > iterator_core_access
     ::distance_from(*static_cast<Dr1 const*>(&lhs),
                     *static_cast<Dr2 const*>(&rhs));
 }
 
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator >(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-           iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+operator >(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+           iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return 0 < iterator_core_access
     ::distance_from(*static_cast<Dr1 const*>(&lhs),
                     *static_cast<Dr2 const*>(&rhs));
 }
 
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator <=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-            iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+operator <=(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+            iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return 0 >= iterator_core_access
     ::distance_from(*static_cast<Dr1 const*>(&lhs),
                     *static_cast<Dr2 const*>(&rhs));
 }
 
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator >=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-            iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+operator >=(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+            iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return 0 <= iterator_core_access
     ::distance_from(*static_cast<Dr1 const*>(&lhs),
@@ -389,14 +377,14 @@ operator >=(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
 }
 
 // Iterator difference
-template <class Dr1, class V1, class TC1, class R1, class P1, class D1,
-          class Dr2, class V2, class TC2, class R2, class P2, class D2>
+template <class Dr1, class P1, class V1, class TC1, class R1, class D1,
+          class Dr2, class P2, class V2, class TC2, class R2, class D2>
 inline __host__ __device__
 // XXX investigate whether we need to do extra work to determine the return type
 //     as Boost does
-typename iterator_facade<Dr1,V1,TC1,R1,P1,D1>::difference_type
-operator-(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
-          iterator_facade<Dr2,V2,TC2,R2,P2,D2> const& rhs)
+typename  iterator_facade<Dr1,P1,V1,TC1,R1,D1>::difference_type
+operator-(iterator_facade<Dr1,P1,V1,TC1,R1,D1> const& lhs,
+          iterator_facade<Dr2,P2,V2,TC2,R2,D2> const& rhs)
 {
   return iterator_core_access
     ::distance_from(*static_cast<Dr1 const*>(&lhs),
@@ -404,19 +392,19 @@ operator-(iterator_facade<Dr1,V1,TC1,R1,P1,D1> const& lhs,
 }
 
 // Iterator addition
-template <class Derived, class V, class TC, class R, class P, class D>
+template <class Derived, class P, class V, class TC, class R, class D>
 inline __host__ __device__
-Derived operator+ (iterator_facade<Derived,V,TC,R,P,D> const& i,
+Derived operator+ (iterator_facade<Derived,P,V,TC,R,D> const& i,
                    typename Derived::difference_type n)
 {
   Derived tmp(static_cast<Derived const&>(i));
   return tmp += n;
 }
 
-template <class Derived, class V, class TC, class R, class P, class D>
+template <class Derived, class P, class V, class TC, class R, class D>
 inline __host__ __device__
 Derived operator+ (typename Derived::difference_type n,
-                   iterator_facade<Derived,V,TC,R,P,D> const& i)
+                   iterator_facade<Derived,P,V,TC,R,D> const& i)
 {
   Derived tmp(static_cast<Derived const&>(i));
   return tmp += n;

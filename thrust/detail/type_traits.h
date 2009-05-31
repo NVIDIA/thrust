@@ -120,6 +120,12 @@ template<typename T> struct has_trivial_destructor : public is_pod<T> {};
 template<typename T> struct has_trivial_assign : public is_pod<T> {};
 
 template<typename T>
+  struct add_const
+{
+  typedef T const type;
+}; // end add_const
+
+template<typename T>
   struct remove_const
 {
   typedef T type;
@@ -148,6 +154,46 @@ template<typename T>
 {
   typedef typename remove_const<typename remove_volatile<T>::type>::type type;
 }; // end remove_cv
+
+template<typename T>
+  struct is_void
+{
+  static const bool value = false;
+}; // end is_void
+
+template<>
+  struct is_void<void>
+{
+  static const bool value = true;
+}; // end is_void
+
+
+template<typename T>
+  struct is_reference
+{
+  static const bool value = false;
+}; // end is_reference
+
+
+template<typename T>
+  struct is_reference<T&>
+{
+  static const bool value = true;
+}; // end is_reference
+
+
+// NB: Careful with reference to void.
+template<typename _Tp, bool = (is_void<_Tp>::value || is_reference<_Tp>::value)>
+  struct __add_reference_helper
+  { typedef _Tp&    type; };
+
+template<typename _Tp>
+  struct __add_reference_helper<_Tp, true>
+  { typedef _Tp     type; };
+
+template<typename _Tp>
+  struct add_reference
+    : public __add_reference_helper<_Tp>{};
 
 template<typename T>
   struct remove_reference

@@ -50,13 +50,7 @@ template<typename T, typename Alloc>
     typedef Alloc                           allocator_type;
 
     class iterator
-      : public experimental::iterator_adaptor<iterator,
-                                              pointer,
-                                              value_type,
-                                              typename thrust::iterator_traits<pointer>::iterator_category,
-                                              reference,
-                                              pointer,
-                                              difference_type>
+      : public experimental::iterator_adaptor<iterator, pointer, pointer>
     {
       public:
         __host__ __device__
@@ -78,11 +72,7 @@ template<typename T, typename Alloc>
         // shorthand: name the base class of device_dereferenceable_type
         typedef experimental::iterator_adaptor<device_dereferenceable_type,
                                                device_dereferenceable_pointer,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::value_type,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::iterator_category,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::reference,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::pointer,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::difference_type> device_dereferenceable_type_base;
+                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::pointer> device_dereferenceable_type_base;
 
 
         class device_dereferenceable_type
@@ -112,13 +102,7 @@ template<typename T, typename Alloc>
     }; // end iterator
 
     class const_iterator
-      : public experimental::iterator_adaptor<const_iterator,
-                                              const_pointer,
-                                              value_type,
-                                              typename thrust::iterator_traits<const_pointer>::iterator_category,
-                                              const_reference,
-                                              const_pointer,
-                                              difference_type>
+      : public experimental::iterator_adaptor<const_iterator, const_pointer, const_pointer>
     {
       public:
         __host__
@@ -143,11 +127,7 @@ template<typename T, typename Alloc>
         // shorthand: name the base class of device_dereferenceable_type
         typedef experimental::iterator_adaptor<device_dereferenceable_type,
                                                device_dereferenceable_pointer,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::value_type,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::iterator_category,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::reference,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::pointer,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::difference_type> device_dereferenceable_type_base;
+                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::pointer> device_dereferenceable_type_base;
 
         class device_dereferenceable_type
           : public device_dereferenceable_type_base

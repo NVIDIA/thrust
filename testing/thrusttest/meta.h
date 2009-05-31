@@ -91,7 +91,7 @@ template<typename List>  struct get_type<List,19> { typedef typename List::type_
 // iterate over a type_list, and
 // applying a unary function to each type
 template<typename TypeList,
-         template <typename> class UnaryFunctor,
+         template <typename> class Function,
          typename T,
          unsigned int i = 0>
   struct for_each_type
@@ -100,26 +100,45 @@ template<typename TypeList,
     void operator()(U n)
   {
     // run the function on type T
-    UnaryFunctor<T> f;
+    Function<T> f;
     f(n);
 
     // get the next type
     typedef typename get_type<TypeList,i+1>::type next_type;
 
     // recurse to i + 1
-    for_each_type<TypeList, UnaryFunctor, next_type, i + 1> loop;
+    for_each_type<TypeList, Function, next_type, i + 1> loop;
     loop(n);
+  }
+
+  void operator()(void)
+  {
+    // run the function on type T
+    Function<T> f;
+    f();
+
+    // get the next type
+    typedef typename get_type<TypeList,i+1>::type next_type;
+
+    // recurse to i + 1
+    for_each_type<TypeList, Function, next_type, i + 1> loop;
+    loop();
   }
 };
 
 // terminal case: do nothing when encountering null_type
 template<typename TypeList,
-         template <typename> class UnaryFunctor,
+         template <typename> class Function,
          unsigned int i>
-  struct for_each_type<TypeList, UnaryFunctor, null_type, i>
+  struct for_each_type<TypeList, Function, null_type, i>
 {
   template<typename U>
     void operator()(U n)
+  {
+    // no-op
+  }
+
+  void operator()(void)
   {
     // no-op
   }

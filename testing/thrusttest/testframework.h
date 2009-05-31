@@ -53,7 +53,24 @@ typedef thrusttest::type_list<char,
                                unsigned short> SmallIntegralTypes;
 
 typedef thrusttest::type_list<long long,
-                               unsigned long long> LargeIntegralTypes;
+                              unsigned long long> LargeIntegralTypes;
+
+typedef thrusttest::type_list<char,
+                              signed char,
+                              unsigned char,
+                              short,
+                              unsigned short,
+                              int,
+                              unsigned int,
+                              long,
+                              unsigned long,
+                              long long,
+                              unsigned long long,
+                              float
+#if __CUDA_ARCH__ >= 130
+                              , double
+#endif // __CUDA_ARCH__
+                              > NumericTypes;
 
 inline std::string base_class_name(const char *name)
 {
@@ -132,6 +149,26 @@ class TEST##UnitTest : public UnitTest {                         \
     }                                                            \
 };                                                               \
 TEST##UnitTest TEST##Instance
+
+template<template <typename> class TestName, typename TypeList>
+  class SimpleUnitTest : public UnitTest
+{
+  public:
+    SimpleUnitTest()
+      : UnitTest(base_class_name(thrusttest::type_name<TestName<int> >()).c_str()) {}
+
+    void run()
+    {
+      // get the first type in the list
+      typedef typename thrusttest::get_type<TypeList,0>::type first_type;
+
+      thrusttest::for_each_type<TypeList,TestName,first_type,0> for_each;
+
+      // loop over the types
+      for_each();
+    }
+}; // end SimpleUnitTest
+
 
 template<template <typename> class TestName, typename TypeList>
   class VariableUnitTest : public UnitTest
