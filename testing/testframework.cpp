@@ -39,24 +39,27 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
     for(size_t i = 0; i < tests_to_run.size(); i++){
         UnitTest * test = tests_to_run[i];
 
+        if (verbose)
+            std::cout << test->name << " : " << std::flush;
+
         try {
             test->run();
             if (verbose)
-                std::cout << "[PASS] " << test->name << std::endl;
+                std::cout << "[PASS] " << std::endl;
             else
                 std::cout << ".";
         } 
         catch (thrusttest::UnitTestFailure& f){
             any_failed = true;
             if (verbose)
-                std::cout << "[FAILURE] " << test->name << std::endl;
+                std::cout << "[FAILURE] " << std::endl;
             else
                 std::cout << "F";
             test_failures.push_back(std::make_pair(test,f));
         }
         catch (thrusttest::UnitTestKnownFailure& f){
             if (verbose)
-                std::cout << "[KNOWN FAILURE] " << test->name << std::endl;
+                std::cout << "[KNOWN FAILURE] " << std::endl;
             else
                 std::cout << "K";
             test_known_failures.push_back(std::make_pair(test,f));
@@ -64,7 +67,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         catch (thrusttest::UnitTestError& e){
             any_failed = true;
             if (verbose)
-                std::cout << "[ERROR] " << test->name << std::endl;
+                std::cout << "[ERROR] " << std::endl;
             else
                 std::cout << "E";
             test_errors.push_back(std::make_pair(test,e));
@@ -72,7 +75,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         catch (...){
             any_failed = true;
             if (verbose)
-                std::cout << "[UNKNOWN EXCEPTION] " << test->name << std::endl;
+                std::cout << "[UNKNOWN EXCEPTION] " << std::endl;
             else
                 std::cout << "U";
             test_exceptions.push_back(test);
@@ -80,7 +83,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         
         error = cudaGetLastError();
         if(error){
-            std::cerr << "[ERROR] CUDA Error detected after running " << test->name << ": [";
+            std::cerr << "\t[ERROR] CUDA Error detected after running " << test->name << ": [";
             std::cerr << std::string(cudaGetErrorString(error));
             std::cerr << "]" << std::endl;
             exit(EXIT_FAILURE);
