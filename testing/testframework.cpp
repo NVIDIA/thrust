@@ -4,6 +4,7 @@
 #include <cuda_runtime.h>
 #include <iostream>
 #include <cstdlib>
+#include <algorithm>
 
 void UnitTestDriver::register_test(UnitTest *test)
 {
@@ -21,11 +22,10 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
 
     std::cout << "Running " << tests_to_run.size() << " unit tests." << std::endl;
 
-    
     std::vector< std::pair<UnitTest *,thrusttest::UnitTestFailure> >      test_failures;
     std::vector< std::pair<UnitTest *,thrusttest::UnitTestKnownFailure> > test_known_failures;
     std::vector< std::pair<UnitTest *,thrusttest::UnitTestError>   >      test_errors;
-    std::vector< UnitTest * >                                              test_exceptions;
+    std::vector< UnitTest * >                                             test_exceptions;
     
     cudaError_t error = cudaGetLastError();
     if(error){
@@ -126,9 +126,24 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
     return any_failed;
 }
 
+
+// for sorting UnitTests by name
+struct UnitTest_name_cmp
+{
+    bool operator()(const UnitTest * a, const UnitTest * b) const {
+        return a->name < b->name;
+    }
+
+};
+
 bool UnitTestDriver::run_all_tests(const bool verbose)
 {
-  return run_tests(_test_list, verbose);
+  std::vector<UnitTest *> tests_to_run(_test_list);
+
+  // sort tests by name for deterministic results
+  std::sort(tests_to_run.begin(), tests_to_run.end(), UnitTest_name_cmp());
+
+  return run_tests(tests_to_run, verbose);
 }
 
 bool 
