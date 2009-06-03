@@ -40,26 +40,26 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         UnitTest * test = tests_to_run[i];
 
         if (verbose)
-            std::cout << test->name << " : " << std::flush;
+            std::cout << "Running " << test->name << "\r" << std::flush;
 
         try {
             test->run();
             if (verbose)
-                std::cout << "[PASS] " << std::endl;
+                std::cout << "[PASS]             ";
             else
                 std::cout << ".";
         } 
         catch (thrusttest::UnitTestFailure& f){
             any_failed = true;
             if (verbose)
-                std::cout << "[FAILURE] " << std::endl;
+                std::cout << "[FAILURE]          ";
             else
                 std::cout << "F";
             test_failures.push_back(std::make_pair(test,f));
         }
         catch (thrusttest::UnitTestKnownFailure& f){
             if (verbose)
-                std::cout << "[KNOWN FAILURE] " << std::endl;
+                std::cout << "[KNOWN FAILURE]    ";
             else
                 std::cout << "K";
             test_known_failures.push_back(std::make_pair(test,f));
@@ -67,7 +67,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         catch (thrusttest::UnitTestError& e){
             any_failed = true;
             if (verbose)
-                std::cout << "[ERROR] " << std::endl;
+                std::cout << "[ERROR]            ";
             else
                 std::cout << "E";
             test_errors.push_back(std::make_pair(test,e));
@@ -80,6 +80,9 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
                 std::cout << "U";
             test_exceptions.push_back(test);
         }
+           
+        if (verbose)
+            std::cout << " " << test->name << std::endl;
         
         error = cudaGetLastError();
         if(error){
