@@ -25,6 +25,7 @@
 #include <stdlib.h>           // for malloc & free
 #include <algorithm>          // for std::copy
 #include <stdexcept>          // for std::runtime_error
+#include <string>
 
 #include <thrust/transform.h>
 #include <thrust/distance.h>
