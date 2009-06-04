@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include <thrust/detail/util/static.h>
-
 // XXX nvcc 2.2 closed beta can't compile type_traits
 //// find type_traits
 //
@@ -46,18 +44,24 @@ namespace thrust
 
 namespace detail
 {
+ /// helper classes [4.3].
+ template<typename _Tp, _Tp __v>
+   struct integral_constant
+   {
+     static const _Tp                      value = __v;
+     typedef _Tp                           value_type;
+     typedef integral_constant<_Tp, __v>   type;
+   };
+ 
+ /// typedef for true_type
+ typedef integral_constant<bool, true>     true_type;
 
-//typedef std::tr1::true_type  true_type;
-//typedef std::tr1::false_type false_type;
+ /// typedef for true_type
+ typedef integral_constant<bool, false>    false_type;
 
-typedef thrust::detail::util::Bool2Type<true> true_type;
-typedef thrust::detail::util::Bool2Type<false> false_type;
-
+// general case is not pod
 template<typename T>
-  struct is_pod
-    : public false_type
-{
-}; // end is_pod
+  struct is_pod : public false_type {};
 
 // all pointers are pod
 template<typename T> struct is_pod<T*> : public true_type {};

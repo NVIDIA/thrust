@@ -17,14 +17,16 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
-
 #include <limits>
+
 #include <thrust/device_ptr.h>
 #include <thrust/gather.h>
 #include <thrust/reduce.h>
 #include <thrust/sequence.h>
 #include <thrust/transform.h>
-#include <thrust/detail/util/static.h>
+
+#include <thrust/detail/type_traits.h>
+
 #include <thrust/sorting/detail/device/cuda/stable_radix_sort_bits.h>
 
 namespace thrust
@@ -72,7 +74,7 @@ void stable_radix_sort_key_small_dev(KeyType * keys, unsigned int num_elements)
 
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<1>)
+                               thrust::detail::integral_constant<int, 1>)
 {
     stable_radix_sort_key_small_dev(keys, num_elements);
 }
@@ -85,7 +87,7 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
     
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<2>)
+                               thrust::detail::integral_constant<int, 2>)
 {
     stable_radix_sort_key_small_dev(keys, num_elements);
 }
@@ -97,18 +99,18 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
 
 template <typename KeyType> 
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<4>,
-                               thrust::detail::util::Bool2Type<true>,   
-                               thrust::detail::util::Bool2Type<false>)  // uint32
+                               thrust::detail::integral_constant<int, 4>,
+                               thrust::detail::integral_constant<bool, true>,   
+                               thrust::detail::integral_constant<bool, false>)  // uint32
 {
     radix_sort((unsigned int *) keys, num_elements, encode_uint<KeyType>(), encode_uint<KeyType>());
 }
 
 template <typename KeyType> 
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<4>,
-                               thrust::detail::util::Bool2Type<true>,
-                               thrust::detail::util::Bool2Type<true>)   // int32
+                               thrust::detail::integral_constant<int, 4>,
+                               thrust::detail::integral_constant<bool, true>,
+                               thrust::detail::integral_constant<bool, true>)   // int32
 {
     // find the smallest value in the array
     KeyType min_val = thrust::reduce(thrust::device_ptr<KeyType>(keys),
@@ -126,21 +128,21 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
 
 template <typename KeyType> 
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<4>,
-                               thrust::detail::util::Bool2Type<false>,
-                               thrust::detail::util::Bool2Type<true>)  // float32
+                               thrust::detail::integral_constant<int, 4>,
+                               thrust::detail::integral_constant<bool, false>,
+                               thrust::detail::integral_constant<bool, true>)  // float32
 {
     radix_sort((unsigned int*) keys, num_elements, encode_uint<KeyType>(), decode_uint<KeyType>(), 32);
 }
 
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<4>)
+                               thrust::detail::integral_constant<int, 4>)
 {
     stable_radix_sort_key_dev(keys, num_elements,
-                              thrust::detail::util::Int2Type<4>(),
-                              thrust::detail::util::Bool2Type<std::numeric_limits<KeyType>::is_exact>(),
-                              thrust::detail::util::Bool2Type<std::numeric_limits<KeyType>::is_signed>());
+                              thrust::detail::integral_constant<int, 4>(),
+                              thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_exact>(),
+                              thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_signed>());
 }
 
 //////////////////
@@ -196,9 +198,9 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
     
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<8>,
-                               thrust::detail::util::Bool2Type<true>,
-                               thrust::detail::util::Bool2Type<false>)  // uint64
+                               thrust::detail::integral_constant<int, 8>,
+                               thrust::detail::integral_constant<bool, true>,
+                               thrust::detail::integral_constant<bool, false>)  // uint64
 {
     stable_radix_sort_key_large_dev<KeyType, unsigned int, unsigned int, lower_32_bits<KeyType>, upper_32_bits<KeyType> >
         (keys, num_elements, lower_32_bits<KeyType>(), upper_32_bits<KeyType>());
@@ -206,9 +208,9 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
 
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<8>,
-                               thrust::detail::util::Bool2Type<true>,
-                               thrust::detail::util::Bool2Type<true>)   // int64
+                               thrust::detail::integral_constant<int, 8>,
+                               thrust::detail::integral_constant<bool, true>,
+                               thrust::detail::integral_constant<bool, true>)   // int64
 {
     stable_radix_sort_key_large_dev<KeyType, unsigned int, int, lower_32_bits<KeyType>, upper_32_bits<KeyType> >
         (keys, num_elements, lower_32_bits<KeyType>(), upper_32_bits<KeyType>());
@@ -216,9 +218,9 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
 
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<8>,
-                               thrust::detail::util::Bool2Type<false>,
-                               thrust::detail::util::Bool2Type<true>)  // float64
+                               thrust::detail::integral_constant<int, 8>,
+                               thrust::detail::integral_constant<bool, false>,
+                               thrust::detail::integral_constant<bool, true>)  // float64
 {
     typedef unsigned long long uint64;
     stable_radix_sort_key_large_dev<uint64, unsigned int, unsigned int, lower_32_bits<KeyType>, upper_32_bits<KeyType> >
@@ -227,12 +229,12 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
 
 template <typename KeyType>
 void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
-                               thrust::detail::util::Int2Type<8>)
+                               thrust::detail::integral_constant<int, 8>)
 {
     stable_radix_sort_key_dev(keys, num_elements,
-                              thrust::detail::util::Int2Type<8>(),
-                              thrust::detail::util::Bool2Type<std::numeric_limits<KeyType>::is_exact>(),
-                              thrust::detail::util::Bool2Type<std::numeric_limits<KeyType>::is_signed>());
+                              thrust::detail::integral_constant<int, 8>(),
+                              thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_exact>(),
+                              thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_signed>());
 }
 
 template <typename KeyType> 
@@ -241,7 +243,7 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements)
     // TODO assert is_pod
 
     // dispatch on sizeof(KeyType)
-    stable_radix_sort_key_dev(keys, num_elements, thrust::detail::util::Int2Type<sizeof(KeyType)>());
+    stable_radix_sort_key_dev(keys, num_elements, thrust::detail::integral_constant<int, sizeof(KeyType)>());
 }
 
 

@@ -19,8 +19,6 @@
  *  \brief Inline file for fill.h.
  */
 
-
-#include <thrust/detail/util/static.h>
 #include <thrust/detail/util/align.h>
 #include <thrust/detail/device/cuda/vectorize.h>
 #include <thrust/copy.h>
@@ -93,7 +91,7 @@ template<typename InputIterator, typename T>
   void fill(InputIterator first,
             InputIterator last,
             const T &exemplar,
-            thrust::detail::util::Bool2Type<false>)
+            thrust::detail::false_type)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type      InputType;
     // XXX use make_device_dereferenceable here instead of assuming &*first is a device_ptr
@@ -104,7 +102,7 @@ template<typename InputIterator, typename T>
   void fill(InputIterator first,
             InputIterator last,
             const T &exemplar,
-            thrust::detail::util::Bool2Type<true>)
+            thrust::detail::true_type)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type      InputType;
 
@@ -115,7 +113,7 @@ template<typename InputIterator, typename T>
     }
     else
     {
-        fill(first, last, exemplar, thrust::detail::util::Bool2Type<false>());
+        fill(first, last, exemplar, thrust::detail::false_type());
         // XXX use make_device_dereferenceable here instead of assuming that first is a device_ptr
         thrust::detail::device::cuda::vectorize(last - first, detail::fill_functor<InputType>((&*first).get(), exemplar));
     }
@@ -134,7 +132,7 @@ template<typename InputIterator, typename T>
 #ifdef __CUDACC__
   // we're compiling with nvcc, launch a kernel
   const bool use_wide_fill = sizeof(InputType) == 1 || sizeof(InputType) == 2 || sizeof(InputType) == 4;
-  detail::fill(first, last, exemplar, thrust::detail::util::Bool2Type<use_wide_fill>());
+  detail::fill(first, last, exemplar, thrust::detail::integral_constant<bool, use_wide_fill>());
 #else
   // we can't launch a kernel, implement this with a copy
   IndexType n = thrust::distance(first,last);

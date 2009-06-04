@@ -24,9 +24,10 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/iterator_categories.h>
 
+#include <thrust/detail/type_traits.h>
+
 #include <thrust/detail/host/transform_reduce.h>
 #include <thrust/detail/device/cuda/reduce.h>
-#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -90,7 +91,7 @@ template<typename InputIterator,
                                      UnaryFunction unary_op,
                                      OutputType init,
                                      BinaryFunction binary_op,
-                                     thrust::detail::util::Bool2Type<true>)
+                                     thrust::detail::true_type)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef unsigned int WideType;
@@ -121,7 +122,7 @@ template<typename InputIterator,
                                      UnaryFunction unary_op,
                                      OutputType init,
                                      BinaryFunction binary_op,
-                                     thrust::detail::util::Bool2Type<false>)
+                                     thrust::detail::false_type)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   
@@ -171,7 +172,7 @@ template<typename InputIterator,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
     const bool use_wide_load = thrust::detail::is_pod<InputType>::value && (sizeof(InputType) == 1 || sizeof(InputType) == 2);
-    return detail::transform_reduce_device(begin, end, unary_op, init, binary_op, thrust::detail::util::Bool2Type<use_wide_load>());
+    return detail::transform_reduce_device(begin, end, unary_op, init, binary_op, thrust::detail::integral_constant<bool, use_wide_load>());
 }
 
 } // end dispatch

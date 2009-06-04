@@ -75,5 +75,5 @@ template<typename ForwardIterator,
           typename thrust::iterator_traits<RandomAccessIterator>::iterator_category());
 } // end gather_if()
 
-} // end thrust
+} // end namespace thrust
 
