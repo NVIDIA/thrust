@@ -94,7 +94,7 @@ template<typename InputIterator> typename
  *  the sum of a sequence of integers including an intialization value.
  *
  *  \code
- *  #include <thrust/scan.h>
+ *  #include <thrust/reduce.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *  int result = thrust::reduce(data, data + 6, 1);
@@ -138,7 +138,7 @@ template<typename InputIterator, typename T>
  *  compute the maximum value of a sequence of integers.
  *
  *  \code
- *  #include <thrust/scan.h>
+ *  #include <thrust/reduce.h>
  *  #include <thrust/functional.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
