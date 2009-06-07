@@ -40,6 +40,13 @@ template<typename T>
   return lhs < rhs ? lhs : rhs;
 } // end vector_base_min()
 
+// define our own max() function rather than #include <thrust/extrema.h>
+template<typename T>
+  T vector_base_max(const T &lhs, const T &rhs)
+{
+  return lhs > rhs ? lhs : rhs;
+} // end vector_base_min()
+
 template<typename T, typename Alloc>
   vector_base<T,Alloc>
     ::vector_base(void)
@@ -493,6 +500,165 @@ template<typename T, typename Alloc>
   thrust::swap(mCapacity,  v.mCapacity);
   thrust::swap(mAllocator, v.mAllocator);
 } // end vector_base::swap()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    void vector_base<T,Alloc>
+      ::insert(iterator position, InputIterator first, InputIterator last)
+{
+  // we could have received insert(position, n, x), so disambiguate on the
+  // type of InputIterator
+  typedef typename thrust::detail::is_integral<InputIterator> integral;
+
+  insert_dispatch(position, first, last, integral());
+} // end vector_base::insert()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    void vector_base<T,Alloc>
+      ::insert_dispatch(iterator position, InputIterator first, InputIterator last, false_type)
+{
+  range_insert(position, first, last);
+} // end vector_base::insert_dispatch()
+
+template<typename T, typename Alloc>
+  template<typename Integral>
+    void vector_base<T,Alloc>
+      ::insert_dispatch(iterator position, Integral n, Integral x, true_type)
+{
+  fill_insert(position, n, x);
+} // end vector_base::insert_dispatch()
+
+// XXX this needs to be moved out into thrust:: and dispatched properly
+template<typename InputIterator, typename Distance>
+  void advance(InputIterator &i, Distance n)
+{
+  i += n;
+} // end advance()
+
+template<typename T, typename Alloc>
+  template<typename ForwardIterator>
+    void vector_base<T,Alloc>
+      ::range_insert(iterator position,
+                     ForwardIterator first,
+                     ForwardIterator last)
+{
+  if(first != last)
+  {
+    // how many new elements will we create?
+    const size_type num_new_elements = thrust::distance(first, last);
+    if(capacity() - size() >= num_new_elements)
+    {
+      // we've got room for all of them
+      // how many existing elements will we displace?
+      const size_type num_displaced_elements = end() - position;
+      iterator old_end = end();
+
+      if(num_displaced_elements > num_new_elements)
+      {
+        // construct copy n displaced elements to new elements
+        // following the insertion
+        thrust::uninitialized_copy(end() - num_new_elements, end(), end());
+
+        // extend the size
+        mSize += num_new_elements;
+
+        // copy num_displaced_elements - num_new_elements elements to existing elements
+
+        // XXX SGI's version calls copy_backward here for some reason
+        //     maybe it's just more readable
+        // copy_backward(position, old_end - num_new_elements, old_end);
+        const size_type copy_length = (old_end - num_new_elements) - position;
+        thrust::copy(position, old_end - num_new_elements, old_end - copy_length);
+
+        // finally, copy the range to the insertion point
+        thrust::copy(first, last, position);
+      } // end if
+      else
+      {
+        ForwardIterator mid = first;
+        thrust::detail::advance(mid, num_displaced_elements);
+
+        // construct copy new elements at the end of the vector
+        thrust::uninitialized_copy(mid, last, end());
+
+        // extend the size
+        mSize += num_new_elements - num_displaced_elements;
+
+        // construct copy the displaced elements
+        thrust::uninitialized_copy(position, old_end, end());
+
+        // extend the size
+        mSize += num_displaced_elements;
+
+        // copy to elements which already existed
+        thrust::copy(first, mid, position);
+      } // end else
+    } // end if
+    else
+    {
+      const size_type old_size = size();
+
+      // compute the new capacity after the allocation
+      size_type new_capacity = old_size + vector_base_max(old_size, num_new_elements);
+
+      // allocate exponentially larger new storage
+      new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
+
+      // do not exceed maximum storage
+      new_capacity = std::min<size_type>(new_capacity, max_size());
+
+      if(new_capacity > max_size())
+      {
+        throw std::length_error("insert(): insertion exceeds max_size().");
+      } // end if
+
+      iterator new_begin = mAllocator.allocate(new_capacity);
+      iterator new_end = new_begin;
+
+      try
+      {
+        // construct copy elements before the insertion to the beginning of the newly
+        // allocated storage
+        new_end = thrust::uninitialized_copy(begin(), position, new_begin);
+
+        // construct copy elements to insert
+        new_end = thrust::uninitialized_copy(first, last, new_end);
+
+        // construct copy displaced elements from the old storage to the new storage
+        // remember [position, end()) refers to the old storage
+        new_end = thrust::uninitialized_copy(position, end(), new_end);
+      } // end try
+      catch(...)
+      {
+        // something went wrong, so destroy & deallocate the new storage 
+        thrust::detail::destroy(new_begin, new_end);
+        mAllocator.deallocate(&*new_begin, new_capacity);
+
+        // rethrow
+        throw;
+      } // end catch
+
+      // call destructors on the elements in the old storage
+      thrust::detail::destroy(begin(), end());
+
+      // deallocate the old storage
+      mAllocator.deallocate(&*begin(), capacity());
+  
+      // record the vector's new parameters
+      mBegin    = new_begin;
+      mSize     = old_size + num_new_elements;
+      mCapacity = new_capacity;
+    } // end else
+  } // end if
+} // end vector_base::range_insert()
+
+template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::fill_insert(iterator position, size_type n, const T &x)
+{
+  throw std::runtime_error("vector_base::fill_insert(): Unimplemented method.");
+} // end vector_base::fill_insert()
 
 } // end detail
 

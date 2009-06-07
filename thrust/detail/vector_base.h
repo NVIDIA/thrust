@@ -399,6 +399,19 @@ template<typename T, typename Alloc>
     __host__
     iterator erase(iterator begin, iterator end);
 
+    /*! This method inserts a copy of an input range at the specified position
+     *  in this vector_base.
+     *  \param position The insertion position.
+     *  \param first The beginning of the range to copy.
+     *  \param last  The end of the range to copy.
+     *
+     *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html>Input Iterator</a>,
+     *                        and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
+     */
+    template<typename InputIterator>
+    __host__
+    void insert(iterator position, InputIterator first, InputIterator last);
+
   protected:
     // An iterator pointing to the first element of this vector_base.
     iterator mBegin;
@@ -419,6 +432,21 @@ template<typename T, typename Alloc>
 
     template<typename IteratorOrIntegralType>
       void init_dispatch(IteratorOrIntegralType n, IteratorOrIntegralType value, true_type); 
+
+    // these methods resolve the ambiguity of the insert() template of form (iterator, InputIterator, InputIterator)
+    template<typename InputIteratorOrIntegralType>
+      void insert_dispatch(iterator position, InputIteratorOrIntegralType first, InputIteratorOrIntegralType last, false_type);
+
+    // these methods resolve the ambiguity of the insert() template of form (iterator, InputIterator, InputIterator)
+    template<typename InputIteratorOrIntegralType>
+      void insert_dispatch(iterator position, InputIteratorOrIntegralType n, InputIteratorOrIntegralType x, true_type);
+
+    // this method performs insertion from a range
+    template<typename InputIterator>
+      void range_insert(iterator position, InputIterator first, InputIterator last);
+
+    // this method performs insertion from a fill value
+    void fill_insert(iterator position, size_type n, const T &x);
 }; // end vector_base
 
 } // end detail
