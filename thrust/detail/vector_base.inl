@@ -502,6 +502,13 @@ template<typename T, typename Alloc>
 } // end vector_base::swap()
 
 template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::insert(iterator position, size_type n, const T &x)
+{
+  fill_insert(position, n, x);
+} // end vector_base::insert()
+
+template<typename T, typename Alloc>
   template<typename InputIterator>
     void vector_base<T,Alloc>
       ::insert(iterator position, InputIterator first, InputIterator last)
@@ -657,7 +664,113 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::fill_insert(iterator position, size_type n, const T &x)
 {
-  throw std::runtime_error("vector_base::fill_insert(): Unimplemented method.");
+  if(n != 0)
+  {
+    if(capacity() - size() >= n)
+    {
+      // we've got room for all of them
+      // how many existing elements will we displace?
+      const size_type num_displaced_elements = end() - position;
+      iterator old_end = end();
+
+      if(num_displaced_elements > n)
+      {
+        // construct copy n displaced elements to new elements
+        // following the insertion
+        thrust::uninitialized_copy(end() - n, end(), end());
+
+        // extend the size
+        mSize += n;
+
+        // copy num_displaced_elements - n elements to existing elements
+
+        // XXX SGI's version calls copy_backward here for some reason
+        //     maybe it's just more readable
+        // copy_backward(position, old_end - n, old_end);
+        const size_type copy_length = (old_end - n) - position;
+        thrust::copy(position, old_end - n, old_end - copy_length);
+
+        // finally, fill the range to the insertion point
+        thrust::fill(position, position + n, x);
+      } // end if
+      else
+      {
+        // construct new elements at the end of the vector
+        // XXX SGI's version uses uninitialized_fill_n here
+        thrust::uninitialized_fill(end(),
+                                   end() + (n - num_displaced_elements),
+                                   x);
+
+        // extend the size
+        mSize += n - num_displaced_elements;
+
+        // construct copy the displaced elements
+        thrust::uninitialized_copy(position, old_end, end());
+
+        // extend the size
+        mSize += num_displaced_elements;
+
+        // fill to elements which already existed
+        thrust::fill(position, old_end, x);
+      } // end else
+    } // end if
+    else
+    {
+      const size_type old_size = size();
+
+      // compute the new capacity after the allocation
+      size_type new_capacity = old_size + vector_base_max(old_size, n);
+
+      // allocate exponentially larger new storage
+      new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
+
+      // do not exceed maximum storage
+      new_capacity = std::min<size_type>(new_capacity, max_size());
+
+      if(new_capacity > max_size())
+      {
+        throw std::length_error("insert(): insertion exceeds max_size().");
+      } // end if
+
+      iterator new_begin = mAllocator.allocate(new_capacity);
+      iterator new_end = new_begin;
+
+      try
+      {
+        // construct copy elements before the insertion to the beginning of the newly
+        // allocated storage
+        new_end = thrust::uninitialized_copy(begin(), position, new_begin);
+
+        // construct new elements to insert
+        thrust::uninitialized_fill(new_end, new_end + n, x);
+        new_end += n;
+
+        // construct copy displaced elements from the old storage to the new storage
+        // remember [position, end()) refers to the old storage
+        new_end = thrust::uninitialized_copy(position, end(), new_end);
+      } // end try
+      catch(...)
+      {
+        // something went wrong, so destroy & deallocate the new storage 
+        thrust::detail::destroy(new_begin, new_end);
+        mAllocator.deallocate(&*new_begin, new_capacity);
+
+        // rethrow
+        throw;
+      } // end catch
+
+      // call destructors on the elements in the old storage
+      thrust::detail::destroy(begin(), end());
+
+      // deallocate the old storage
+      mAllocator.deallocate(&*begin(), capacity());
+  
+      // record the vector's new parameters
+      mBegin    = new_begin;
+      mSize     = old_size + n;
+      mCapacity = new_capacity;
+    } // end else
+  } // end if
 } // end vector_base::fill_insert()
 
 } // end detail

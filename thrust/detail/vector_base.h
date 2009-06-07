@@ -399,6 +399,15 @@ template<typename T, typename Alloc>
     __host__
     iterator erase(iterator begin, iterator end);
 
+    /*! This method inserts a copy of an exemplar value to a range at the
+     *  specified position in this vector_base.
+     *  \param position The insertion position
+     *  \param n The number of insertions to perform.
+     *  \param x The value to replicate and insert.
+     */
+    __host__
+    void insert(iterator position, size_type n, const T &x);
+
     /*! This method inserts a copy of an input range at the specified position
      *  in this vector_base.
      *  \param position The insertion position.
