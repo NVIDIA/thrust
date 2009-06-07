@@ -390,14 +390,23 @@ template<typename T, typename Alloc>
     __host__
     iterator erase(iterator pos);
 
-    /*! This method removes the range of elements [begin,end) from this vector_base.
-     *  \param begin The beginning of the range of elements to remove.
-     *  \param end The end of the range of elements to remove.
+    /*! This method removes the range of elements [first,last) from this vector_base.
+     *  \param first The beginning of the range of elements to remove.
+     *  \param last The end of the range of elements to remove.
      *  \return An iterator pointing to the new location of the element that followed the last
-     *          element in the sequence [begin,end).
+     *          element in the sequence [first,last).
      */
     __host__
-    iterator erase(iterator begin, iterator end);
+    iterator erase(iterator first, iterator last);
+
+    /*! This method inserts a single copy of a given exemplar value at the
+     *  specified position in this vector_base.
+     *  \param position The insertion position.
+     *  \param x The exemplar element to copy & insert.
+     *  \return An iterator pointing to the newly inserted element.
+     */
+    __host__
+    iterator insert(iterator position, const T &x); 
 
     /*! This method inserts a copy of an exemplar value to a range at the
      *  specified position in this vector_base.

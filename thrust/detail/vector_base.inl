@@ -252,24 +252,10 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::resize(size_type new_size, value_type x)
 {
-  // reserve storage
-  reserve(new_size);
-  
-  if(capacity() >= new_size)
-  {
-    if(new_size > size())
-    {
-      // fill new elements at the end of the new array with the exemplar
-      thrust::uninitialized_fill(begin() + size(), begin() + new_size, x);
-    } // end if
-    else if(new_size < size())
-    {
-      // destroy elements at the end of the new range
-      thrust::detail::destroy(begin() + new_size, end());
-    } // end else if
-    
-    mSize = new_size;
-  } // end if
+  if(new_size < size())
+    erase(begin() + new_size, end());
+  else
+    insert(end(), new_size - size(), x);
 } // end vector_base::resize()
 
 template<typename T, typename Alloc>
@@ -472,23 +458,20 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator vector_base<T,Alloc>
-    ::erase(iterator begin, iterator end)
+    ::erase(iterator first, iterator last)
 {
-  // count the number of elements to erase
-  size_type num_erased = end - begin;
+  // copy the range [last,end()) to first
+  iterator i = thrust::copy(last, end(), first);
 
-  // copy the range [end,end()) to begin
-  thrust::copy(end, this->end(),begin);
+  // destroy everything after i
+  thrust::detail::destroy(i, end());
 
-  // find the new index of the position following the erased range
-  size_type new_index_following_erase = begin - this->begin();
-
-  // resize ourself: destructors get called inside resize()
-  resize(size() - num_erased);
+  // modify our size
+  mSize -= (last - first);
 
   // return an iterator pointing to the position of the first element
   // following the erased range
-  return this->begin() + new_index_following_erase;
+  return first;
 } // end vector_base::erase()
 
 template<typename T, typename Alloc>
@@ -500,6 +483,21 @@ template<typename T, typename Alloc>
   thrust::swap(mCapacity,  v.mCapacity);
   thrust::swap(mAllocator, v.mAllocator);
 } // end vector_base::swap()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::iterator
+    vector_base<T,Alloc>
+      ::insert(iterator position, const T &x)
+{
+  // find the index of the insertion
+  size_type index = position - begin();
+
+  // make the insertion
+  insert(position, position + 1, x);
+
+  // return an iterator pointing back to position
+  return begin() + index;
+} // end vector_base::insert()
 
 template<typename T, typename Alloc>
   void vector_base<T,Alloc>

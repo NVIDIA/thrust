@@ -385,7 +385,11 @@ void TestVectorCppResizing(void)
       v.resize(std::numeric_limits<size_t>::max());
     }
     catch(std::length_error e) {}
-    catch(std::bad_alloc e) {}
+    catch(std::bad_alloc e)
+    {
+      // reset the CUDA error
+      cudaGetLastError();
+    } // end catch
 
     ASSERT_EQUAL(v.size(), 0);
 }
