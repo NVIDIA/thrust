@@ -40,7 +40,7 @@ namespace thrust
  *  is that <tt>std::accumulate</tt> guarantees the order of summation, while
  *  \p reduce requires associativity of the binary operation to parallelize
  *  the reduction. If the sum operation is not commutative, then
- *  thrust::stable_reduce should be used instead.
+ *  thrust::reduce should not be used.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
@@ -78,7 +78,7 @@ template<typename InputIterator> typename
  *  is that <tt>std::accumulate</tt> guarantees the order of summation, while
  *  \p reduce requires associativity of the binary operation to parallelize
  *  the reduction. If the sum operation is not commutative, then
- *  thrust::stable_reduce should be used instead.
+ *  thrust::reduce should not be used.
  *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
@@ -117,7 +117,7 @@ template<typename InputIterator, typename T>
  *  The primary difference between the two functions is that <tt>std::accumulate</tt>
  *  guarantees the order of summation, while \p reduce requires associativity of
  *  \p binary_op to parallelize the reduction. If \p binary_op is not commutative,
- *  then thrust::stable_reduce should be used instead.
+ *  then thrust::reduce should not be used.
  *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
