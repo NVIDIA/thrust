@@ -848,32 +848,31 @@ void TestVectorContainingLargeType(void)
     // Thrust issue #5 
     // http://code.google.com/p/thrust/issues/detail?id=5
 
-    KNOWN_FAILURE;
-//    thrust::device_vector<LargeStruct> dv1;
-//    thrust::host_vector<LargeStruct>   hv1;
-//
-//    ASSERT_EQUAL_QUIET(dv1, hv1);
-//
-//    thrust::device_vector<LargeStruct> dv2(20);
-//    thrust::host_vector<LargeStruct>   hv2(20);
-//    
-//    ASSERT_EQUAL_QUIET(dv2, hv2);
-//    
-//    // set first element to something nonzero
-//    LargeStruct ls = {0};
-//    
-//    thrust::device_vector<LargeStruct> dv3(20, ls);
-//    thrust::host_vector<LargeStruct>   hv3(20, ls);
-//    
-//    ASSERT_EQUAL_QUIET(dv3, hv3);
-//    
-//    // set first element to something nonzero
-//    ls.x00 = 13;
-//
-//    dv3[2] = ls;
-//    hv3[2] = ls;
-//    
-//    ASSERT_EQUAL_QUIET(dv3, hv3);
+    thrust::device_vector<LargeStruct> dv1;
+    thrust::host_vector<LargeStruct>   hv1;
+
+    ASSERT_EQUAL_QUIET(dv1, hv1);
+
+    thrust::device_vector<LargeStruct> dv2(20);
+    thrust::host_vector<LargeStruct>   hv2(20);
+    
+    ASSERT_EQUAL_QUIET(dv2, hv2);
+    
+    // set first element to something nonzero
+    LargeStruct ls = {0};
+    
+    thrust::device_vector<LargeStruct> dv3(20, ls);
+    thrust::host_vector<LargeStruct>   hv3(20, ls);
+    
+    ASSERT_EQUAL_QUIET(dv3, hv3);
+    
+    // set first element to something nonzero
+    ls.x00 = 13;
+
+    dv3[2] = ls;
+    hv3[2] = ls;
+    
+    ASSERT_EQUAL_QUIET(dv3, hv3);
 }
 DECLARE_UNITTEST(TestVectorContainingLargeType);
 

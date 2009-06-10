@@ -41,8 +41,8 @@ namespace detail
 template <typename ValueType>
 struct fill_functor
 {
-        ValueType * ptr;
-  const ValueType   exemplar;
+  ValueType * ptr;
+  ValueType   exemplar;
 
   fill_functor(ValueType * _ptr, const ValueType _exemplar) 
       : ptr(_ptr), exemplar(_exemplar) {}

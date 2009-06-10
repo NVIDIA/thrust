@@ -23,6 +23,8 @@
 #ifdef __CUDACC__
 
 #include <thrust/experimental/arch.h>
+#include <thrust/detail/device/cuda/malloc.h>
+#include <thrust/detail/device/cuda/free.h>
 
 namespace thrust
 {
@@ -40,13 +42,62 @@ namespace cuda
 template<typename IndexType,
          typename UnaryFunction>
 __global__             
-void vectorize_kernel(IndexType n, UnaryFunction f)
+void vectorize_from_shared_kernel(IndexType n, UnaryFunction f)
 {
     const IndexType grid_size = blockDim.x * gridDim.x;
     
     for(IndexType i = blockIdx.x * blockDim.x + threadIdx.x; i < n; i += grid_size)
         f(i);
 }
+
+template<typename IndexType,
+         typename UnaryFunction>
+__global__
+void vectorize_from_global_kernel(IndexType n, UnaryFunction *f_ptr)
+{
+    // load f into registers
+    UnaryFunction f = *f_ptr;
+
+    const IndexType grid_size = blockDim.x * gridDim.x;
+    
+    for(IndexType i = blockIdx.x * blockDim.x + threadIdx.x; i < n; i += grid_size)
+        f(i);
+}
+
+template<bool> struct launch_vectorize {};
+
+// this path loads f into parameters as normal
+template<> struct launch_vectorize<true>
+{
+    template<typename IndexType, typename UnaryFunctor>
+    void operator()(const size_t NUM_BLOCKS, const size_t BLOCK_SIZE, IndexType n, UnaryFunctor f)
+    {
+        vectorize_from_shared_kernel<<<NUM_BLOCKS,BLOCK_SIZE>>>(n, f);
+    }
+};
+
+// this path loads f into gmem
+template<> struct launch_vectorize<false>
+{
+    template<typename IndexType, typename UnaryFunctor>
+    void operator()(const size_t NUM_BLOCKS, const size_t BLOCK_SIZE, IndexType n, UnaryFunctor f)
+    {
+        // allocate device memory for the functor
+        thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc(sizeof(UnaryFunctor));
+
+        // cast to UnaryFunctor *
+        thrust::device_ptr<UnaryFunctor> f_ptr(reinterpret_cast<UnaryFunctor*>(temp_ptr.get()));
+
+        // copy
+        *f_ptr = f;
+
+        // launch
+        vectorize_from_global_kernel<<<NUM_BLOCKS,BLOCK_SIZE>>>(n, f_ptr.get());
+
+        // free device memory
+        thrust::detail::device::cuda::free(f_ptr);
+    }
+};
 
 template<typename IndexType,
          typename UnaryFunction>
@@ -59,7 +110,15 @@ void vectorize(IndexType n, UnaryFunction f)
     const size_t MAX_BLOCKS = 3 * thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
     const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, (n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
-    vectorize_kernel<<<NUM_BLOCKS, BLOCK_SIZE>>>(n, f);
+    // B.1.4 in NVIDIA Programming Guide v2.2
+    // XXX perhaps publish this somewhere
+    const size_t MAX_GLOBAL_PARM_SIZE = 256;
+
+    // can we fit the parameters into smem?
+    const bool use_shared = (sizeof(IndexType) + sizeof(UnaryFunction)) <= MAX_GLOBAL_PARM_SIZE;
+
+    launch_vectorize<use_shared> launch;
+    launch(NUM_BLOCKS, BLOCK_SIZE, n, f);
 }
 
 
