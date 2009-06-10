@@ -824,3 +824,56 @@ struct TestVectorFillInsert
 }; // end TestVectorFillInsert
 VariableUnitTest<TestVectorFillInsert, IntegralTypes> TestVectorFillInsertInstance;
 
+
+
+struct LargeStruct
+{
+ int x00, x01, x02, x03, x04, x05, x06, x07;
+ int x08, x09, x0a, x0b, x0c, x0d, x0e, x0f;
+ int x10, x11, x12, x13, x14, x15, x16, x17;
+ int x18, x19, x1a, x1b, x1c, x1d, x1e, x1f;
+ int x20, x21, x22, x23, x24, x25, x26, x27;
+ int x28, x29, x2a, x2b, x2c, x2d, x2e, x2f;
+ int x30, x31, x32, x33, x34, x35, x36, x37;
+ int x38, x39, x3a, x3b, x3c, x3d, x3e, x3f;
+ bool operator==(const LargeStruct & ls) const{
+    const char * a = reinterpret_cast<const char *>(this);
+    const char * b = reinterpret_cast<const char *>(&ls);
+    return std::equal(a, a + sizeof(LargeStruct), b);
+ }
+};
+
+void TestVectorContainingLargeType(void)
+{
+    // Thrust issue #5 
+    // http://code.google.com/p/thrust/issues/detail?id=5
+
+    KNOWN_FAILURE;
+//    thrust::device_vector<LargeStruct> dv1;
+//    thrust::host_vector<LargeStruct>   hv1;
+//
+//    ASSERT_EQUAL_QUIET(dv1, hv1);
+//
+//    thrust::device_vector<LargeStruct> dv2(20);
+//    thrust::host_vector<LargeStruct>   hv2(20);
+//    
+//    ASSERT_EQUAL_QUIET(dv2, hv2);
+//    
+//    // set first element to something nonzero
+//    LargeStruct ls = {0};
+//    
+//    thrust::device_vector<LargeStruct> dv3(20, ls);
+//    thrust::host_vector<LargeStruct>   hv3(20, ls);
+//    
+//    ASSERT_EQUAL_QUIET(dv3, hv3);
+//    
+//    // set first element to something nonzero
+//    ls.x00 = 13;
+//
+//    dv3[2] = ls;
+//    hv3[2] = ls;
+//    
+//    ASSERT_EQUAL_QUIET(dv3, hv3);
+}
+DECLARE_UNITTEST(TestVectorContainingLargeType);
+
