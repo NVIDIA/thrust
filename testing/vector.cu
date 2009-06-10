@@ -828,19 +828,11 @@ VariableUnitTest<TestVectorFillInsert, IntegralTypes> TestVectorFillInsertInstan
 
 struct LargeStruct
 {
- int x00, x01, x02, x03, x04, x05, x06, x07;
- int x08, x09, x0a, x0b, x0c, x0d, x0e, x0f;
- int x10, x11, x12, x13, x14, x15, x16, x17;
- int x18, x19, x1a, x1b, x1c, x1d, x1e, x1f;
- int x20, x21, x22, x23, x24, x25, x26, x27;
- int x28, x29, x2a, x2b, x2c, x2d, x2e, x2f;
- int x30, x31, x32, x33, x34, x35, x36, x37;
- int x38, x39, x3a, x3b, x3c, x3d, x3e, x3f;
- bool operator==(const LargeStruct & ls) const{
-    const char * a = reinterpret_cast<const char *>(this);
-    const char * b = reinterpret_cast<const char *>(&ls);
-    return std::equal(a, a + sizeof(LargeStruct), b);
- }
+    int data[100];
+
+    bool operator==(const LargeStruct & ls) const{
+        return std::equal(data, data + 100, ls.data);
+    }
 };
 
 void TestVectorContainingLargeType(void)
@@ -867,7 +859,7 @@ void TestVectorContainingLargeType(void)
     ASSERT_EQUAL_QUIET(dv3, hv3);
     
     // set first element to something nonzero
-    ls.x00 = 13;
+    ls.data[0] = 13;
 
     dv3[2] = ls;
     hv3[2] = ls;
