@@ -15,8 +15,8 @@
  */
 
 
-/*! \file equal.h
- *  \brief Vectorwise equality function.
+/*! \file logical.h
+ *  \brief Logical operations on ranges.
  */
 
 #pragma once
