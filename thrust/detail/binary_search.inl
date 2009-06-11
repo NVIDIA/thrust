@@ -19,6 +19,8 @@
  *  \brief Inline file for binary_search.h.
  */
 
+#include <thrust/functional.h>
+
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/dispatch/binary_search.h>
 
