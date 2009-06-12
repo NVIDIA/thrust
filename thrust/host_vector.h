@@ -138,13 +138,13 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector(const device_vector<OtherT,OtherAlloc> &v);
 
     /*! This constructor builds a \p host_vector from a range.
-     *  \param begin The beginning of the range.
-     *  \param end   The end of the range.
+     *  \param first The beginning of the range.
+     *  \param last The end of the range.
      */
     template<typename InputIterator>
     __host__
-    host_vector(InputIterator begin, InputIterator end)
-      :Parent(begin,end) {}
+    host_vector(InputIterator first, InputIterator last)
+      :Parent(first, last) {}
 }; // end host_vector
 
 /*! This operator allows comparison between two \p host_vectors.

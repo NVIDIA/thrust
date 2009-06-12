@@ -41,7 +41,7 @@ namespace thrust
  *
  *  \param first The beginning of the range of interest.
  *  \param last The end of the range of interest.
- *  \param value The value to remove from the range <tt>[begin, end)</tt>.
+ *  \param value The value to remove from the range <tt>[first, last)</tt>.
  *         Elements which are equal to value are removed from the sequence.
  *  \return A \p ForwardIterator pointing to the end of the resulting range of
  *          elements which are not equal to \p value.

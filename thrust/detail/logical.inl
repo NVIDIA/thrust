@@ -27,22 +27,22 @@ namespace thrust
 {
 
 template <class InputIterator, class Predicate>
-bool all_of(InputIterator begin, InputIterator end, Predicate pred)
+bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    return thrust::transform_reduce(begin, end, pred, true, thrust::logical_and<bool>());
+    return thrust::transform_reduce(first, last, pred, true, thrust::logical_and<bool>());
 }
 
 template <class InputIterator, class Predicate>
-bool any_of(InputIterator begin, InputIterator end, Predicate pred)
+bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    return thrust::transform_reduce(begin, end, pred, false, thrust::logical_or<bool>());
+    return thrust::transform_reduce(first, last, pred, false, thrust::logical_or<bool>());
 }
 
 template <class InputIterator, class Predicate>
-bool none_of(InputIterator begin, InputIterator end, Predicate pred)
+bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    return !any_of(begin, end, pred);
+    return !any_of(first, last, pred);
 }
 
-} // namespace end thrust
+} // end namespace thrust
 

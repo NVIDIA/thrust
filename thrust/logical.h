@@ -35,12 +35,12 @@ namespace thrust
 
 
 /*! \p all_of determines whether all elements in a range satify a predicate.
- * Specifically, \all_of returns \c true if <tt>pred(*i)</tt> is \c true
- * for every iterator \c i in the range <tt>[begin, end)</tt> and 
+ * Specifically, \p all_of returns \c true if <tt>pred(*i)</tt> is \c true
+ * for every iterator \c i in the range <tt>[first, last)</tt> and 
  * \c false otherwise.
  *
- *  \param begin The beginning of the sequence.
- *  \param end  The end of the sequence.
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
  *  \param pred A predicate used to test range elements.
  *  \return \c true, if all elements satisfy the predicate; \c false, otherwise.
  *
@@ -66,16 +66,16 @@ namespace thrust
  *  \see transform_reduce
  */
 template <class InputIterator, class Predicate>
-bool all_of(InputIterator begin, InputIterator end, Predicate pred);
+bool all_of(InputIterator first, InputIterator last, Predicate pred);
    
 
 /*! \p any_of determines whether any element in a range satifies a predicate.
- * Specifically, \any_of returns \c true if <tt>pred(*i)</tt> is \c true
- * for any iterator \c i in the range <tt>[begin, end)</tt> and 
+ * Specifically, \p any_of returns \c true if <tt>pred(*i)</tt> is \c true
+ * for any iterator \c i in the range <tt>[first, last)</tt> and 
  * \c false otherwise.
  *
- *  \param begin The beginning of the sequence.
- *  \param end  The end of the sequence.
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
  *  \param pred A predicate used to test range elements.
  *  \return \c true, if any element satisfies the predicate; \c false, otherwise.
  *
@@ -102,16 +102,16 @@ bool all_of(InputIterator begin, InputIterator end, Predicate pred);
  *  \see transform_reduce
  */
 template <class InputIterator, class Predicate>
-bool any_of(InputIterator begin, InputIterator end, Predicate pred);
+bool any_of(InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p none_of determines whether no element in a range satifies a predicate.
  * Specifically, \p none_of returns \c true if there is no iterator \c i in 
- * the range <tt>[begin, end)</tt> such that <tt>pred(*i)</tt> is \c true,
+ * the range <tt>[first, last)</tt> such that <tt>pred(*i)</tt> is \c true,
  * and \c false otherwise.
  *
- *  \param begin The beginning of the sequence.
- *  \param end  The end of the sequence.
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
  *  \param pred A predicate used to test range elements.
  *  \return \c true, if no element satisfies the predicate; \c false, otherwise.
  *
@@ -138,7 +138,7 @@ bool any_of(InputIterator begin, InputIterator end, Predicate pred);
  *  \see transform_reduce
  */
 template <class InputIterator, class Predicate>
-bool none_of(InputIterator begin, InputIterator end, Predicate pred);
+bool none_of(InputIterator first, InputIterator last, Predicate pred);
 
 /*! \} // end logical
  *  \} // end reductions

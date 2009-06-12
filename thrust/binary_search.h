@@ -48,15 +48,15 @@ namespace thrust
 
 
 /*! \p lower_bound is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. 
+ * the element value in an ordered range <tt>[first, last)</tt>. 
  * Specifically, it returns the first position where value could be
  * inserted without violating the ordering. This version of 
  * \p lower_bound uses <tt>operator<</tt> for comparison and returns
- * the furthermost iterator \c i in <tt>[begin, end)</tt> such that,
- * for every iterator \c j in <tt>[begin, i)</tt>, <tt>*j < value</tt>. 
+ * the furthermost iterator \c i in <tt>[first, last)</tt> such that,
+ * for every iterator \c j in <tt>[first, i)</tt>, <tt>*j < value</tt>. 
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \return The furthermost iterator \c i, such that <tt>*i < value</tt>.
  * 
@@ -92,22 +92,22 @@ namespace thrust
  *  \see \p binary_search
  */
 template <class ForwardIterator, class LessThanComparable>
-ForwardIterator lower_bound(ForwardIterator begin, 
-                            ForwardIterator end,
+ForwardIterator lower_bound(ForwardIterator first, 
+                            ForwardIterator last,
                             const LessThanComparable& value);
 
 
 /*! \p lower_bound is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. 
+ * the element value in an ordered range <tt>[first, last)</tt>. 
  * Specifically, it returns the first position where value could be
  * inserted without violating the ordering. This version of 
  * \p lower_bound uses function object \c comp for comparison 
- * and returns the furthermost iterator \c i in <tt>[begin, end)</tt>
- * such that, for every iterator \c j in <tt>[begin, i)</tt>, 
+ * and returns the furthermost iterator \c i in <tt>[first, last)</tt>
+ * such that, for every iterator \c j in <tt>[first, i)</tt>, 
  * <tt>comp(*j, value)</tt> is \c true. 
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \param comp The comparison operator.
  *  \return The furthermost iterator \c i, such that <tt>comp(*i, value)</tt> is \c true.
@@ -146,23 +146,23 @@ ForwardIterator lower_bound(ForwardIterator begin,
  *  \see \p binary_search
  */
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-ForwardIterator lower_bound(ForwardIterator begin,
-                            ForwardIterator end,
+ForwardIterator lower_bound(ForwardIterator first,
+                            ForwardIterator last,
                             const T& value, 
                             StrictWeakOrdering comp);
 
 
 /*! \p upper_bound is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. 
+ * the element value in an ordered range <tt>[first, last)</tt>. 
  * Specifically, it returns the last position where value could be
  * inserted without violating the ordering. This version of 
  * \p upper_bound uses <tt>operator<</tt> for comparison and returns
- * the furthermost iterator \c i in <tt>[begin, end)</tt> such that,
- * for every iterator \c j in <tt>[begin, i)</tt>, <tt>value < *j</tt>
+ * the furthermost iterator \c i in <tt>[first, last)</tt> such that,
+ * for every iterator \c j in <tt>[first, i)</tt>, <tt>value < *j</tt>
  * is \c false.
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \return The furthermost iterator \c i, such that <tt>value < *i</tt> is \c false.
  * 
@@ -198,21 +198,21 @@ ForwardIterator lower_bound(ForwardIterator begin,
  *  \see \p binary_search
  */
 template <class ForwardIterator, class LessThanComparable>
-ForwardIterator upper_bound(ForwardIterator begin, 
-                            ForwardIterator end,
+ForwardIterator upper_bound(ForwardIterator first, 
+                            ForwardIterator last,
                             const LessThanComparable& value);
 
 /*! \p upper_bound is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. 
+ * the element value in an ordered range <tt>[first, last)</tt>. 
  * Specifically, it returns the last position where value could be
  * inserted without violating the ordering. This version of 
  * \p upper_bound uses function object \c comp for comparison and returns
- * the furthermost iterator \c i in <tt>[begin, end)</tt> such that,
- * for every iterator \c j in <tt>[begin, i)</tt>, <tt>comp(value, *j)</tt>
+ * the furthermost iterator \c i in <tt>[first, last)</tt> such that,
+ * for every iterator \c j in <tt>[first, i)</tt>, <tt>comp(value, *j)</tt>
  * is \c false.
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \param comp The comparison operator.
  *  \return The furthermost iterator \c i, such that <tt>comp(value, *i)</tt> is \c false.
@@ -251,24 +251,24 @@ ForwardIterator upper_bound(ForwardIterator begin,
  *  \see \p binary_search
  */
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-ForwardIterator upper_bound(ForwardIterator begin,
-                            ForwardIterator end,
+ForwardIterator upper_bound(ForwardIterator first,
+                            ForwardIterator last,
                             const T& value, 
                             StrictWeakOrdering comp);
 
 
 /*! \p binary_search is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. 
+ * the element value in an ordered range <tt>[first, last)</tt>. 
  * It returns \c true if an element that is equivalent to \c value 
- * is present in <tt>[begin, end)</tt> and \c false if no such element
+ * is present in <tt>[first, last)</tt> and \c false if no such element
  * exists.  Specifically, this version returns \c true if and only if 
- * there exists an iterator \c i in <tt>[begin, end)</tt> such that 
+ * there exists an iterator \c i in <tt>[first, last)</tt> such that 
  * <tt>*i < value</tt> and <tt>value < *i</tt> are both \c false.
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
- *  \return \c true if an equivalent element exists in <tt>[begin, end)</tt>, otherwise \c false.
+ *  \return \c true if an equivalent element exists in <tt>[first, last)</tt>, otherwise \c false.
  * 
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
  *  \tparam LessThanComparable is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>. 
@@ -302,24 +302,24 @@ ForwardIterator upper_bound(ForwardIterator begin,
  *  \see \p equal_range
  */
 template <class ForwardIterator, class LessThanComparable>
-bool binary_search(ForwardIterator begin, 
-                   ForwardIterator end,
+bool binary_search(ForwardIterator first, 
+                   ForwardIterator last,
                    const LessThanComparable& value);
 
 
 /*! \p binary_search is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. 
+ * the element value in an ordered range <tt>[first, last)</tt>. 
  * It returns \c true if an element that is equivalent to \c value 
- * is present in <tt>[begin, end)</tt> and \c false if no such element
+ * is present in <tt>[first, last)</tt> and \c false if no such element
  * exists.  Specifically, this version returns \c true if and only if 
- * there exists an iterator \c i in <tt>[begin, end)</tt> such that 
+ * there exists an iterator \c i in <tt>[first, last)</tt> such that 
  * <tt>comp(*i, value)</tt> and <tt>comp(value, *i)</tt> are both \c false.
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \param comp The comparison operator.
- *  \return \c true if an equivalent element exists in <tt>[begin, end)</tt>, otherwise \c false.
+ *  \return \c true if an equivalent element exists in <tt>[first, last)</tt>, otherwise \c false.
  * 
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
  *  \tparam T is comparable to \p ForwardIterator's \c value_type.
@@ -355,14 +355,14 @@ bool binary_search(ForwardIterator begin,
  *  \see \p equal_range
  */
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-bool binary_search(ForwardIterator begin,
-                   ForwardIterator end,
+bool binary_search(ForwardIterator first,
+                   ForwardIterator last,
                    const T& value, 
                    StrictWeakOrdering comp);
 
 
 /*! \p equal_range is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. The 
+ * the element value in an ordered range <tt>[first, last)</tt>. The 
  * value returned by \p equal_range is essentially a combination of
  * the values returned by \p lower_bound and \p upper_bound: it returns
  * a \p pair of iterators \c i and \c j such that \c i is the first
@@ -370,20 +370,20 @@ bool binary_search(ForwardIterator begin,
  * ordering and \c j is the last position where value could be inserted
  * without violating the ordering. It follows that every element in the
  * range <tt>[i, j)</tt> is equivalent to value, and that 
- * <tt>[i, j)</tt> is the largest subrange of <tt>[begin, end)</tt> that
+ * <tt>[i, j)</tt> is the largest subrange of <tt>[first, last)</tt> that
  * has this property. 
  *
  * This version of \p equal_range returns a \p pair of iterators 
  * <tt>[i, j)</tt>, where \c i is the furthermost iterator in 
- * <tt>[begin, end)</tt> such that, for every iterator \c k in 
- * <tt>[begin, i)</tt>, <tt>*k < value</tt>.  \c j is the furthermost
- * iterator in <tt>[begin, end)</tt> such that, for every iterator 
+ * <tt>[first, last)</tt> such that, for every iterator \c k in 
+ * <tt>[first, i)</tt>, <tt>*k < value</tt>.  \c j is the furthermost
+ * iterator in <tt>[first, last)</tt> such that, for every iterator 
  * \c k in <tt>[first, j)</tt>, <tt>value < *k</tt> is \c false. 
  * For every iterator \c k in <tt>[i, j)</tt>, neither 
  * <tt>value < *k</tt> nor <tt>*k < value</tt> is \c true.
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \return A \p pair of iterators <tt>[i, j)</tt> that define the range of equivalent elements.
  * 
@@ -420,12 +420,12 @@ bool binary_search(ForwardIterator begin,
  */
 template <class ForwardIterator, class LessThanComparable>
 thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(ForwardIterator begin,
-            ForwardIterator end,
+equal_range(ForwardIterator first,
+            ForwardIterator last,
             const LessThanComparable& value);
 
 /*! \p equal_range is a version of binary search: it attempts to find
- * the element value in an ordered range <tt>[begin, end)</tt>. The 
+ * the element value in an ordered range <tt>[first, last)</tt>. The 
  * value returned by \p equal_range is essentially a combination of
  * the values returned by \p lower_bound and \p upper_bound: it returns
  * a \p pair of iterators \c i and \c j such that \c i is the first
@@ -433,21 +433,21 @@ equal_range(ForwardIterator begin,
  * ordering and \c j is the last position where value could be inserted
  * without violating the ordering. It follows that every element in the
  * range <tt>[i, j)</tt> is equivalent to value, and that 
- * <tt>[i, j)</tt> is the largest subrange of <tt>[begin, end)</tt> that
+ * <tt>[i, j)</tt> is the largest subrange of <tt>[first, last)</tt> that
  * has this property. 
  *
  * This version of \p equal_range returns a \p pair of iterators 
  * <tt>[i, j)</tt>. \c i is the furthermost iterator in 
- * <tt>[begin, end)</tt> such that, for every iterator \c k in 
- * <tt>[begin, i)</tt>, <tt>comp(*k, value)</tt> is \c true.
- * \c j is the furthermost iterator in <tt>[begin, end)</tt> such
- * that, for every iterator \c k in <tt>[begin, end)</tt>, 
+ * <tt>[first, last)</tt> such that, for every iterator \c k in 
+ * <tt>[first, i)</tt>, <tt>comp(*k, value)</tt> is \c true.
+ * \c j is the furthermost iterator in <tt>[first, last)</tt> such
+ * that, for every iterator \c k in <tt>[first, last)</tt>, 
  * <tt>comp(value, *k)</tt> is \c false. For every iterator \c k 
  * in <tt>[i, j)</tt>, neither <tt>comp(value, *k)</tt> nor 
  * <tt>comp(*k, value)</tt> is \c true.
  *
- *  \param begin The beginning of the ordered sequence.
- *  \param end The end of the ordered sequence.
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
  *  \param value The value to be searched.
  *  \param comp The comparison operator.
  *  \return A \p pair of iterators <tt>[i, j)</tt> that define the range of equivalent elements.
@@ -487,8 +487,8 @@ equal_range(ForwardIterator begin,
  */
 template <class ForwardIterator, class T, class StrictWeakOrdering>
 thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(ForwardIterator begin,
-            ForwardIterator end,
+equal_range(ForwardIterator first,
+            ForwardIterator last,
             const T& value,
             StrictWeakOrdering comp);
 
@@ -505,57 +505,57 @@ equal_range(ForwardIterator begin,
 /*! \p lower_bound
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator>
-OutputIterator lower_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator lower_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output);
 
 /*! \p lower_bound
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator lower_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator lower_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp);
 
 /*! \p upper_bound
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator>
-OutputIterator upper_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator upper_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output);
 
 /*! \p upper_bound
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator upper_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator upper_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp);
 
 /*! \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator>
-OutputIterator binary_search(ForwardIterator begin, 
-                             ForwardIterator end,
-                             InputIterator values_begin, 
-                             InputIterator values_end,
+OutputIterator binary_search(ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
                              OutputIterator output);
 
 /*! \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator binary_search(ForwardIterator begin, 
-                             ForwardIterator end,
-                             InputIterator values_begin, 
-                             InputIterator values_end,
+OutputIterator binary_search(ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
                              OutputIterator output,
                              StrictWeakOrdering comp);
 

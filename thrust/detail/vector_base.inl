@@ -223,20 +223,20 @@ template<typename T, typename Alloc>
 template<typename T, typename Alloc>
   template<typename IteratorOrIntegralType>
     void vector_base<T,Alloc>
-      ::init_dispatch(IteratorOrIntegralType begin,
-                      IteratorOrIntegralType end,
+      ::init_dispatch(IteratorOrIntegralType first,
+                      IteratorOrIntegralType last,
                       false_type)
 {
-  resize(thrust::distance(begin, end));
+  resize(thrust::distance(first, last));
 
-  thrust::copy(begin, end, this->begin());
+  thrust::copy(first, last, this->begin());
 } // end vector_base::init_dispatch()
 
 template<typename T, typename Alloc>
   template<typename InputIterator>
     vector_base<T,Alloc>
-      ::vector_base(InputIterator begin,
-                                InputIterator end)
+      ::vector_base(InputIterator first,
+                    InputIterator last)
         :mBegin(pointer(static_cast<T*>(0))),
          mSize(0),
          mCapacity(0)
@@ -245,7 +245,7 @@ template<typename T, typename Alloc>
   // we need to interpret this call as (size_type, value_type)
   typedef thrust::detail::is_integral<InputIterator> Integer;
 
-  init_dispatch(begin, end, Integer());
+  init_dispatch(first, last, Integer());
 } // end vector_basee::vector_base()
 
 template<typename T, typename Alloc>

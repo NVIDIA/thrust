@@ -41,15 +41,15 @@ namespace thrust
  *  more efficient, since fewer memory reads and writes are required.
  *
  *  \p transform_reduce performs a reduction on the transformation of the
- *  sequence <tt> init, [begin, end)</tt> according to \p unary_op. Specifically,
+ *  sequence <tt> init, [first, last)</tt> according to \p unary_op. Specifically,
  *  \p unary_op is applied to each element of the sequence and then the result
  *  is reduced to a single value with \p binary_op using the initial value 
  *  \p init. The order of reduction is not specified, so \p binary_op must be
  *  both commutative and associative. If \p binary_op is only associative, then
  *  thrust::stable_transform_reduce should be used instead.
  *
- *  \param begin The beginning of the sequence.
- *  \param end The end of the sequence.
+ *  \param first The beginning of the sequence.
+ *  \param last The end of the sequence.
  *  \param unary_op The function to apply to each element of the input sequence.
  *  \param init The result is initialized to this value.
  *  \param binary_op The reduction operation.
@@ -87,8 +87,8 @@ template<typename InputIterator,
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(InputIterator begin,
-                              InputIterator end,
+  OutputType transform_reduce(InputIterator first,
+                              InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
                               BinaryFunction binary_op);

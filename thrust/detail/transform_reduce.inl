@@ -30,16 +30,16 @@ template<typename InputIterator,
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(InputIterator begin,
-                              InputIterator end,
+  OutputType transform_reduce(InputIterator first,
+                              InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
                               BinaryFunction binary_op)
 {
   // dispatch on category
-  return thrust::detail::dispatch::transform_reduce(begin, end, unary_op, init, binary_op,
+  return thrust::detail::dispatch::transform_reduce(first, last, unary_op, init, binary_op,
     typename thrust::iterator_traits<InputIterator>::iterator_category());
-} // end transform_reduce()
+}
 
 } // end namespace thrust
 

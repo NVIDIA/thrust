@@ -33,38 +33,38 @@ namespace thrust
 
 template<typename InputIterator>
 typename thrust::iterator_traits<InputIterator>::value_type
-  reduce(InputIterator begin,
-         InputIterator end)
+  reduce(InputIterator first,
+         InputIterator last)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
   // use InputType(0) as init by default
-  return thrust::reduce(begin, end, InputType(0));
+  return thrust::reduce(first, last, InputType(0));
 } // end reduce()
 
 template<typename InputIterator,
          typename T>
-   T reduce(InputIterator begin,
-            InputIterator end,
+   T reduce(InputIterator first,
+            InputIterator last,
             T init)
 {
   // use plus<T> by default
-  return thrust::reduce(begin, end, init, thrust::plus<T>());
+  return thrust::reduce(first, last, init, thrust::plus<T>());
 } // end reduce()
 
 
 template<typename InputIterator,
          typename T,
          typename BinaryFunction>
-   T reduce(InputIterator begin,
-            InputIterator end,
+   T reduce(InputIterator first,
+            InputIterator last,
             T init,
             BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
   // use transform_reduce with identity transformation
-  return thrust::transform_reduce(begin, end, thrust::identity<InputType>(), init, binary_op);
+  return thrust::transform_reduce(first, last, thrust::identity<InputType>(), init, binary_op);
 } // end reduce()
 
 

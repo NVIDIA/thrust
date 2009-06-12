@@ -38,9 +38,9 @@ namespace thrust
 /*! \p partition reorders the elements <tt>[first, last)</tt> based on the function
  *  object \p pred, such that all of the elements that satisfy \p pred precede the
  *  elements that fail to satisfy it. The postcondition is that, for some iterator
- *  \c middle in the range <tt>[first,last)</tt>, <tt>pred(*i)</tt> is \c true for every
+ *  \c middle in the range <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every
  *  iterator \c i in the range <tt>[first,middle)</tt> and \c false for every iterator
- *  \c i in the range <tt>[middle,last)</tt>. The return value of \p partition is
+ *  \c i in the range <tt>[middle, last)</tt>. The return value of \p partition is
  *  \c middle.
  *
  *  Note that the relative order of elements in the two reordered sequences is not
@@ -50,7 +50,7 @@ namespace thrust
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
  *  \param pred A function object which decides to which partition each element of the
- *              sequence <tt>[begin,end)</tt> belongs.
+ *              sequence <tt>[first, last)</tt> belongs.
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy \p pred.
  *
@@ -99,16 +99,16 @@ namespace experimental
  *  \p partition_copy reorders the elements <tt>[first, last)</tt> based on the
  *  function object \p pred, such that all of the elements that satisfy \p pred precede the
  *  elements that fail to satisfy it. The postcondition is that, for some iterator
- *  \c middle in the range <tt>[first,last)</tt>, <tt>pred(*i)</tt> is \c true for every
+ *  \c middle in the range <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every
  *  iterator \c i in the range <tt>[first,middle)</tt> and \c false for every iterator
- *  \c i in the range <tt>[middle,last)</tt>. The return value of \p partition_copy is
+ *  \c i in the range <tt>[middle, last)</tt>. The return value of \p partition_copy is
  *  \c middle.
  *
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
  *  \param result The destination of the resulting sequence.
  *  \param pred A function object which decides to which partition each element of the
- *              sequence <tt>[begin,end)</tt> belongs.
+ *              sequence <tt>[first, last)</tt> belongs.
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy \p pred.
  *
@@ -165,22 +165,22 @@ template<typename ForwardIterator,
 } // end namespace experimental
 
 /*! \p stable_partition is much like \ref partition : it reorders the elements in the
- *  range <tt>[begin, end)</tt> based on the function object \p pred, such that all of
+ *  range <tt>[first, last)</tt> based on the function object \p pred, such that all of
  *  the elements that satisfy \p pred precede all of the elements that fail to satisfy
  *  it. The postcondition is that, for some iterator \p middle in the range
- *  <tt>[begin,end)</tt>, <tt>pred(*i)</tt> is \c true for every iterator \c i in the
- *  range <tt>[begin,middle)</tt> and \c false for every iterator \c i in the range
- *  <tt>[middle,end)</tt>. The return value of \p stable_partition is \c middle.
+ *  <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every iterator \c i in the
+ *  range <tt>[first,middle)</tt> and \c false for every iterator \c i in the range
+ *  <tt>[middle, last)</tt>. The return value of \p stable_partition is \c middle.
  *
  *  \p stable_partition differs from \ref partition in that \p stable_partition is
  *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
- *  <tt>[begin,end)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
+ *  <tt>[first, last)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
  *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
  *
- *  \param begin The first element of the sequence to reorder.
- *  \param end One position past the last element of the sequence to reorder.
+ *  \param first The first element of the sequence to reorder.
+ *  \param last One position past the last element of the sequence to reorder.
  *  \param pred A function object which decides to which partition each element of the
- *              sequence [begin,end) belongs.
+ *              sequence <tt>[first, last)</tt> belongs.
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy pred.
  *
@@ -217,32 +217,32 @@ template<typename ForwardIterator,
  */
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(ForwardIterator begin,
-                                   ForwardIterator end,
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
                                    Predicate pred);
 
 
 namespace experimental
 {
 /*! \p stable_partition_copy is much like \ref partition_copy : it reorders the elements
- *  in the range <tt>[begin, end)</tt> based on the function object \p pred, such that
+ *  in the range <tt>[first, last)</tt> based on the function object \p pred, such that
  *  all of the elements that satisfy \p pred precede all of the elements that fail to
  *  satisfy it. The postcondition is that, for some iterator \p middle in the range
- *  <tt>[begin,end)</tt>, <tt>pred(*i)</tt> is \c true for every iterator \c i in the
- *  range <tt>[begin,middle)</tt> and \c false for every iterator \c i in the range
- *  <tt>[middle,end)</tt>. The return value of \p stable_partition_copy is \c middle.
+ *  <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every iterator \c i in the
+ *  range <tt>[first,middle)</tt> and \c false for every iterator \c i in the range
+ *  <tt>[middle, last)</tt>. The return value of \p stable_partition_copy is \c middle.
  *
  *  \p stable_partition_copy differs from \ref partition_copy in that
  *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
- *  \c x and \c y are elements in <tt>[begin,end)</tt>, such that
+ *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
  *  after \p stable_partition_copy that \c x precedes \c y.
  *
- *  \param begin The first element of the sequence to reorder.
- *  \param end One position past the last element of the sequence to reorder.
+ *  \param first The first element of the sequence to reorder.
+ *  \param last One position past the last element of the sequence to reorder.
  *  \param result The destination of the resulting sequence.
  *  \param pred A function object which decides to which partition each element of the
- *              sequence [begin,end) belongs.
+ *              sequence [first, last) belongs.
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy pred.
  *
@@ -282,8 +282,8 @@ namespace experimental
 template<typename ForwardIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator stable_partition_copy(ForwardIterator begin,
-                                       ForwardIterator end,
+  OutputIterator stable_partition_copy(ForwardIterator first,
+                                       ForwardIterator last,
                                        OutputIterator result,
                                        Predicate pred);
 

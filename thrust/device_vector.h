@@ -131,13 +131,13 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     device_vector(const host_vector<OtherT,OtherAlloc> &v);
 
     /*! This constructor builds a \p device_vector from a range.
-     *  \param begin The beginning of the range.
-     *  \param end   The end of the range.
+     *  \param first The beginning of the range.
+     *  \param last The end of the range.
      */
     template<typename InputIterator>
     __host__
-    device_vector(InputIterator begin, InputIterator end)
-      :Parent(begin,end) {}
+    device_vector(InputIterator first, InputIterator last)
+      :Parent(first,last) {}
 }; // end device_vector
 
 /*! This operator allows comparison between two \p device_vectors.

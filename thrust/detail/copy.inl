@@ -34,16 +34,16 @@ namespace thrust
 //////////////////
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator begin,
-                      InputIterator end,
+  OutputIterator copy(InputIterator first,
+                      InputIterator last,
                       OutputIterator result)
 {
   // XXX make sure this isn't necessary
-  if(begin == end) 
+  if(first == last) 
     return result;
 
   // dispatch on category
-  return thrust::detail::dispatch::copy(begin, end, result,
+  return thrust::detail::dispatch::copy(first, last, result,
            typename thrust::iterator_traits<InputIterator>::iterator_category(),
            typename thrust::iterator_traits<OutputIterator>::iterator_category());
 } // end copy()
@@ -52,14 +52,14 @@ template<typename InputIterator,
 template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator>
-  OutputIterator copy_when(InputIterator begin,
-                           InputIterator end,
+  OutputIterator copy_when(InputIterator first,
+                           InputIterator last,
                            PredicateIterator stencil,
                            OutputIterator result)
 {
   // default predicate is identity
   typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
-  return thrust::copy_when(begin, end, stencil, result, thrust::identity<StencilType>());
+  return thrust::copy_when(first, last, stencil, result, thrust::identity<StencilType>());
 } // end copy_when()
 
 
@@ -67,14 +67,14 @@ template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_when(InputIterator begin,
-                           InputIterator end,
+  OutputIterator copy_when(InputIterator first,
+                           InputIterator last,
                            PredicateIterator stencil,
                            OutputIterator result,
                            Predicate pred)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  return thrust::transform_if(begin, end, stencil, result, thrust::identity<InputType>(), pred);
+  return thrust::transform_if(first, last, stencil, result, thrust::identity<InputType>(), pred);
 } // end copy_when()
 
 

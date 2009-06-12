@@ -32,83 +32,83 @@ namespace thrust
 //////////////////////
 
 template <class ForwardIterator, class LessThanComparable>
-ForwardIterator lower_bound(ForwardIterator begin, 
-                            ForwardIterator end,
+ForwardIterator lower_bound(ForwardIterator first, 
+                            ForwardIterator last,
                             const LessThanComparable& value)
 {
-    return thrust::lower_bound(begin, end, value, thrust::less<LessThanComparable>());
+    return thrust::lower_bound(first, last, value, thrust::less<LessThanComparable>());
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-ForwardIterator lower_bound(ForwardIterator begin,
-                            ForwardIterator end,
+ForwardIterator lower_bound(ForwardIterator first,
+                            ForwardIterator last,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
     // dispatch on category
-    return thrust::detail::dispatch::lower_bound(begin, end, value, comp,
+    return thrust::detail::dispatch::lower_bound(first, last, value, comp,
             typename thrust::iterator_traits<ForwardIterator>::iterator_category());
 
 }
 
 template <class ForwardIterator, class LessThanComparable>
-ForwardIterator upper_bound(ForwardIterator begin, 
-                            ForwardIterator end,
+ForwardIterator upper_bound(ForwardIterator first, 
+                            ForwardIterator last,
                             const LessThanComparable& value)
 {
-    return thrust::upper_bound(begin, end, value, thrust::less<LessThanComparable>());
+    return thrust::upper_bound(first, last, value, thrust::less<LessThanComparable>());
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-ForwardIterator upper_bound(ForwardIterator begin,
-                            ForwardIterator end,
+ForwardIterator upper_bound(ForwardIterator first,
+                            ForwardIterator last,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
     // dispatch on category
-    return thrust::detail::dispatch::upper_bound(begin, end, value, comp,
+    return thrust::detail::dispatch::upper_bound(first, last, value, comp,
             typename thrust::iterator_traits<ForwardIterator>::iterator_category());
 
 }
 
 template <class ForwardIterator, class LessThanComparable>
-bool binary_search(ForwardIterator begin, 
-                   ForwardIterator end,
+bool binary_search(ForwardIterator first, 
+                   ForwardIterator last,
                    const LessThanComparable& value)
 {
-    return thrust::binary_search(begin, end, value, thrust::less<LessThanComparable>());
+    return thrust::binary_search(first, last, value, thrust::less<LessThanComparable>());
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-bool binary_search(ForwardIterator begin,
-                   ForwardIterator end,
+bool binary_search(ForwardIterator first,
+                   ForwardIterator last,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
     // dispatch on category
-    return thrust::detail::dispatch::binary_search(begin, end, value, comp,
+    return thrust::detail::dispatch::binary_search(first, last, value, comp,
             typename thrust::iterator_traits<ForwardIterator>::iterator_category());
 
 }
 
 template <class ForwardIterator, class LessThanComparable>
 thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(ForwardIterator begin,
-            ForwardIterator end,
+equal_range(ForwardIterator first,
+            ForwardIterator last,
             const LessThanComparable& value)
 {
-    return thrust::equal_range(begin, end, value, thrust::less<LessThanComparable>());
+    return thrust::equal_range(first, last, value, thrust::less<LessThanComparable>());
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
 thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(ForwardIterator begin,
-            ForwardIterator end,
+equal_range(ForwardIterator first,
+            ForwardIterator last,
             const T& value,
             StrictWeakOrdering comp)
 {
-    ForwardIterator lb = thrust::lower_bound(begin, end, value, comp);
-    ForwardIterator ub = thrust::upper_bound(begin, end, value, comp);
+    ForwardIterator lb = thrust::lower_bound(first, last, value, comp);
+    ForwardIterator ub = thrust::upper_bound(first, last, value, comp);
     return thrust::make_pair(lb, ub);
 }
 
@@ -117,81 +117,81 @@ equal_range(ForwardIterator begin,
 //////////////////////
 
 template <class ForwardIterator, class InputIterator, class OutputIterator>
-OutputIterator lower_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator lower_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::lower_bound(begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+    return thrust::lower_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator lower_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator lower_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
     // dispatch on category
-    return thrust::detail::dispatch::lower_bound(begin, end, values_begin, values_end, output, comp,
+    return thrust::detail::dispatch::lower_bound(first, last, values_first, values_last, output, comp,
             typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
             typename thrust::iterator_traits<InputIterator>::iterator_category(),
             typename thrust::iterator_traits<OutputIterator>::iterator_category());
 }
     
 template <class ForwardIterator, class InputIterator, class OutputIterator>
-OutputIterator upper_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator upper_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::upper_bound(begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+    return thrust::upper_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator upper_bound(ForwardIterator begin, 
-                           ForwardIterator end,
-                           InputIterator values_begin, 
-                           InputIterator values_end,
+OutputIterator upper_bound(ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
     // dispatch on category
-    return thrust::detail::dispatch::upper_bound(begin, end, values_begin, values_end, output, comp,
+    return thrust::detail::dispatch::upper_bound(first, last, values_first, values_last, output, comp,
             typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
             typename thrust::iterator_traits<InputIterator>::iterator_category(),
             typename thrust::iterator_traits<OutputIterator>::iterator_category());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator>
-OutputIterator binary_search(ForwardIterator begin, 
-                             ForwardIterator end,
-                             InputIterator values_begin, 
-                             InputIterator values_end,
+OutputIterator binary_search(ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
                              OutputIterator output)
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::binary_search(begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+    return thrust::binary_search(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator binary_search(ForwardIterator begin, 
-                             ForwardIterator end,
-                             InputIterator values_begin, 
-                             InputIterator values_end,
+OutputIterator binary_search(ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
     // dispatch on category
-    return thrust::detail::dispatch::binary_search(begin, end, values_begin, values_end, output, comp,
+    return thrust::detail::dispatch::binary_search(first, last, values_first, values_last, output, comp,
             typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
             typename thrust::iterator_traits<InputIterator>::iterator_category(),
             typename thrust::iterator_traits<OutputIterator>::iterator_category());

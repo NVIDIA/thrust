@@ -216,12 +216,12 @@ template<typename T, typename Alloc>
     vector_base &operator=(const std::vector<OtherT,OtherAlloc> &v);
 
     /*! This constructor builds a vector_base from a range.
-     *  \param begin The beginning of the range.
-     *  \param end   The end of the range.
+     *  \param first The beginning of the range.
+     *  \param last The end of the range.
      */
     template<typename InputIterator>
     __host__
-    vector_base(InputIterator begin, InputIterator end);
+    vector_base(InputIterator first, InputIterator last);
 
     /*! The destructor erases the elements.
      */

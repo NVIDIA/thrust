@@ -132,8 +132,8 @@ template<typename InputIterator,
  *
  *  The return value is \p result + (\p last - \p first).
  *
- *  \param begin The beginning of the sequence to copy.
- *  \param end The end of the sequence to copy.
+ *  \param first The beginning of the sequence to copy.
+ *  \param last The end of the sequence to copy.
  *  \param stencil Predicate iterator controlling the copy.
  *  \param result The destination sequence.
  *  \param pred Predicate used on stencil values.
@@ -176,8 +176,8 @@ template<typename InputIterator,
          typename PredicateIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_when(InputIterator begin,
-                           InputIterator end,
+  OutputIterator copy_when(InputIterator first,
+                           InputIterator last,
                            PredicateIterator stencil,
                            OutputIterator result,
                            Predicate pred);

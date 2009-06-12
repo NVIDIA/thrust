@@ -44,47 +44,47 @@ template<typename T>
 
 template<typename ForwardIterator,
          typename T>
-  ForwardIterator remove(ForwardIterator begin,
-                         ForwardIterator end,
+  ForwardIterator remove(ForwardIterator first,
+                         ForwardIterator last,
                          const T &value)
 {
   detail::equal_to_value<T> pred(value);
 
-  return thrust::remove_if(begin,end,pred);
+  return thrust::remove_if(first, last, pred);
 } // end remove()
 
 template<typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator remove_copy(InputIterator begin,
-                             InputIterator end,
+  OutputIterator remove_copy(InputIterator first,
+                             InputIterator last,
                              OutputIterator result,
                              const T &value)
 {
   detail::equal_to_value<T> pred(value);
 
-  return thrust::remove_copy_if(begin,end,result,pred);
+  return thrust::remove_copy_if(first, last, result, pred);
 } // end remove_copy()
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(ForwardIterator begin,
-                            ForwardIterator end,
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
                             Predicate pred)
 {
-  return detail::dispatch::remove_if(begin, end, pred,
+  return detail::dispatch::remove_if(first, last, pred,
     typename thrust::iterator_traits<ForwardIterator>::iterator_category());
 } // end remove_if()
 
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(InputIterator begin,
-                                InputIterator end,
+  OutputIterator remove_copy_if(InputIterator first,
+                                InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return detail::dispatch::remove_copy_if(begin, end, result, pred,
+  return detail::dispatch::remove_copy_if(first, last, result, pred,
     typename thrust::iterator_traits<InputIterator>::iterator_category(),
     typename thrust::iterator_traits<OutputIterator>::iterator_category());
 } // end remove_copy_if()
