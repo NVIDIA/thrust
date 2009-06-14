@@ -49,7 +49,7 @@ DECLARE_VECTOR_UNITTEST(TestVectorFrontBack);
 
 
 template <class Vector>
-void TestVectorAssignment(void)
+void TestVectorElementAssignment(void)
 {
     typedef typename Vector::value_type T;
 
@@ -74,7 +74,7 @@ void TestVectorAssignment(void)
 
     ASSERT_EQUAL(v, w);
 }
-DECLARE_VECTOR_UNITTEST(TestVectorAssignment);
+DECLARE_VECTOR_UNITTEST(TestVectorElementAssignment);
 
 
 template <class Vector>
@@ -105,6 +105,43 @@ DECLARE_VECTOR_UNITTEST(TestVectorFromSTLVector);
 
 
 template <class Vector>
+void TestVectorFillAssign(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::host_vector<T> v;
+    v.assign(3, 13);
+
+    ASSERT_EQUAL(v.size(), 3);
+    ASSERT_EQUAL(v[0], 13);
+    ASSERT_EQUAL(v[1], 13);
+    ASSERT_EQUAL(v[2], 13);
+}
+DECLARE_VECTOR_UNITTEST(TestVectorFillAssign);
+
+
+template <class Vector>
+void TestVectorAssignFromSTLVector(void)
+{
+    typedef typename Vector::value_type T;
+
+    std::vector<T> stl_vector(3);
+    stl_vector[0] = 0;
+    stl_vector[1] = 1;
+    stl_vector[2] = 2;
+
+    thrust::host_vector<T> v;
+    v.assign(stl_vector.begin(), stl_vector.end());
+
+    ASSERT_EQUAL(v.size(), 3);
+    ASSERT_EQUAL(v[0], 0);
+    ASSERT_EQUAL(v[1], 1);
+    ASSERT_EQUAL(v[2], 2);
+}
+DECLARE_VECTOR_UNITTEST(TestVectorAssignFromSTLVector);
+
+
+template <class Vector>
 void TestVectorFromBiDirectionalIterator(void)
 {
     typedef typename Vector::value_type T;
@@ -122,6 +159,45 @@ void TestVectorFromBiDirectionalIterator(void)
     ASSERT_EQUAL(v[2], 2);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorFromBiDirectionalIterator);
+
+
+template <class Vector>
+void TestVectorAssignFromBiDirectionalIterator(void)
+{
+    typedef typename Vector::value_type T;
+    
+    std::list<T> stl_list;
+    stl_list.push_back(0);
+    stl_list.push_back(1);
+    stl_list.push_back(2);
+
+    Vector v;
+    v.assign(stl_list.begin(), stl_list.end());
+
+    ASSERT_EQUAL(v.size(), 3);
+    ASSERT_EQUAL(v[0], 0);
+    ASSERT_EQUAL(v[1], 1);
+    ASSERT_EQUAL(v[2], 2);
+}
+DECLARE_VECTOR_UNITTEST(TestVectorAssignFromBiDirectionalIterator);
+
+
+template <class Vector>
+void TestVectorAssignFromHostVector(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::host_vector<T> h(3);
+    h[0] = 0;
+    h[1] = 1;
+    h[2] = 2;
+
+    Vector v;
+    v.assign(h.begin(), h.end());
+
+    ASSERT_EQUAL(v, h);
+}
+DECLARE_VECTOR_UNITTEST(TestVectorAssignFromHostVector);
 
 
 template <class Vector>
@@ -161,6 +237,25 @@ void TestVectorToAndFromHostVector(void)
     ASSERT_EQUAL(v, h);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorToAndFromHostVector);
+
+
+template <class Vector>
+void TestVectorAssignFromDeviceVector(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::device_vector<T> d(3);
+    d[0] = 0;
+    d[1] = 1;
+    d[2] = 2;
+
+    Vector v;
+    v.assign(d.begin(), d.end());
+
+    ASSERT_EQUAL(v, d);
+}
+DECLARE_VECTOR_UNITTEST(TestVectorAssignFromDeviceVector);
+
 
 template <class Vector>
 void TestVectorToAndFromDeviceVector(void)
