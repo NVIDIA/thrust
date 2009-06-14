@@ -404,8 +404,9 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::push_back(const value_type &x)
 {
-  // XXX TODO: possibly redo this
-  resize(size() + 1, x);
+  //// XXX TODO: possibly redo this
+  //resize(size() + 1, x);
+  insert(end(), x);
 } // end vector_base::push_back()
 
 template<typename T, typename Alloc>
@@ -471,7 +472,7 @@ template<typename T, typename Alloc>
   size_type index = position - begin();
 
   // make the insertion
-  insert(position, position + 1, x);
+  insert(position, 1, x);
 
   // return an iterator pointing back to position
   return begin() + index;
