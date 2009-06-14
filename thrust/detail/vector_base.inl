@@ -404,10 +404,16 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::push_back(const value_type &x)
 {
-  //// XXX TODO: possibly redo this
-  //resize(size() + 1, x);
   insert(end(), x);
 } // end vector_base::push_back()
+
+template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::pop_back(void)
+{
+  --mSize;
+  thrust::detail::destroy(end(), end() + 1);
+} // end vector_base::pop_back()
 
 template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator vector_base<T,Alloc>
@@ -883,6 +889,9 @@ template<typename T, typename Alloc>
   {
     // range fits inside allocated storage, but some elements
     // have not been constructed yet
+    
+    // XXX TODO we could possibly implement this with one call
+    // to transform rather than copy + uninitialized_copy
 
     // copy to elements which already exist
     ForwardIterator mid = first;

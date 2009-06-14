@@ -376,6 +376,12 @@ template<typename T, typename Alloc>
     __host__
     void push_back(const value_type &x);
 
+    /*! This method erases the last element of this vector_base, invalidating
+     *  all iterators and references to it.
+     */
+    __host__
+    void pop_back(void);
+
     /*! This method swaps the contents of this vector_base with another vector_base.
      *  \param v The vector_base with which to swap.
      */

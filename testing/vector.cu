@@ -569,7 +569,7 @@ void TestVectorManipulation(size_t n)
     vec1.resize(5);
     ASSERT_EQUAL(vec1.size(), 5);
 
-    // appending
+    // push_back
     Vector vec2;
     for(size_t i = 0; i < 10; ++i){
         ASSERT_EQUAL(vec2.size(), i);
@@ -578,6 +578,16 @@ void TestVectorManipulation(size_t n)
         for(size_t j = 0; j <= i; j++)
             ASSERT_EQUAL(vec2[j],     j);
         ASSERT_EQUAL(vec2.back(), i);
+    }
+
+    // pop_back
+    for(size_t i = 10; i > 0; --i){
+        ASSERT_EQUAL(vec2.size(), i);
+        ASSERT_EQUAL(vec2.back(), i-1);
+        vec2.pop_back();
+        ASSERT_EQUAL(vec2.size(), i-1);
+        for(size_t j = 0; j < i; j++)
+            ASSERT_EQUAL(vec2[j], j);
     }
 
     //TODO test swap, erase(pos), erase(begin, end)
