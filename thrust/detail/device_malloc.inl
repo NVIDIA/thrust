@@ -19,6 +19,13 @@
  *  \brief Inline file for device_malloc.h.
  */
 
+// workaround a recursive #inclusion problem here
+// by providing a forward declaration of cuda::malloc
+namespace thrust { namespace detail { namespace device { namespace cuda
+{
+inline device_ptr<void> malloc(const std::size_t n);
+}}}}
+
 #include <thrust/device_malloc.h>
 #include <thrust/detail/device/cuda/malloc.h>
 
@@ -27,7 +34,7 @@ namespace thrust
 
 thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
-  return detail::device::cuda::malloc(n);
+  return thrust::detail::device::cuda::malloc(n);
 } // end device_malloc()
 
 template<typename T>
