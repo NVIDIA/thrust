@@ -430,6 +430,24 @@ template<typename T, typename Alloc>
     __host__
     void insert(iterator position, InputIterator first, InputIterator last);
 
+    /*! This version of \p assign replicates a given exemplar
+     *  \p n times into this vector_base.
+     *  \param n The number of times to copy \p x.
+     *  \param x The exemplar element to replicate.
+     */
+    __host__
+    void assign(size_type n, const T &x);
+
+    /*! This version of \p assign makes this vector_base a copy of a given input range.
+     *  \param first The beginning of the range to copy.
+     *  \param last  The end of the range to copy.
+     *
+     *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>.
+     */
+    template<typename InputIterator>
+    __host__
+    void assign(InputIterator first, InputIterator last);
+
   protected:
     // An iterator pointing to the first element of this vector_base.
     iterator mBegin;
@@ -451,6 +469,14 @@ template<typename T, typename Alloc>
     template<typename IteratorOrIntegralType>
       void init_dispatch(IteratorOrIntegralType n, IteratorOrIntegralType value, true_type); 
 
+    template<typename InputHostIterator>
+      void range_init(InputHostIterator first, InputHostIterator last, true_type);
+
+    template<typename ForwardIterator>
+      void range_init(ForwardIterator first, ForwardIterator last, false_type);
+
+    void fill_init(size_type n, const T &x);
+
     // these methods resolve the ambiguity of the insert() template of form (iterator, InputIterator, InputIterator)
     template<typename InputIteratorOrIntegralType>
       void insert_dispatch(iterator position, InputIteratorOrIntegralType first, InputIteratorOrIntegralType last, false_type);
@@ -465,6 +491,36 @@ template<typename T, typename Alloc>
 
     // this method performs insertion from a fill value
     void fill_insert(iterator position, size_type n, const T &x);
+
+    // these methods resolve the ambiguity of the assign() template of form (InputIterator, InputIterator)
+    template<typename InputIterator>
+      void assign_dispatch(InputIterator first, InputIterator last, false_type);
+
+    // these methods resolve the ambiguity of the assign() template of form (InputIterator, InputIterator)
+    template<typename Integral>
+      void assign_dispatch(Integral n, Integral x, true_type);
+
+    // this method performs assignment from a range
+    template<typename InputIterator>
+      void range_assign(InputIterator first, InputIterator last);
+
+    // this method performs assignment from a range of ForwardIterators
+    template<typename ForwardIterator>
+      void range_assign(ForwardIterator first, ForwardIterator last, false_type);
+
+    // this method performs assignment from a range of InputHostIterators
+    template<typename InputHostIterator>
+      void range_assign(InputHostIterator first, InputHostIterator last, true_type);
+
+    // this method performs assignment from a fill value
+    void fill_assign(size_type n, const T &x);
+
+    // this method allocates new storage and construct copies the given range
+    template<typename ForwardIterator>
+    void allocate_and_copy(size_type requested_size,
+                           ForwardIterator first, ForwardIterator last,
+                           size_type &allocated_size,
+                           iterator &new_storage);
 }; // end vector_base
 
 } // end detail

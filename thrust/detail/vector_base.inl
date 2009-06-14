@@ -25,6 +25,7 @@
 #include <thrust/uninitialized_copy.h>
 #include <thrust/distance.h>
 #include <thrust/detail/destroy.h>
+#include <thrust/detail/type_traits.h>
 #include <stdexcept>
 
 namespace thrust
@@ -52,7 +53,8 @@ template<typename T, typename Alloc>
     ::vector_base(void)
       :mBegin(pointer(static_cast<T*>(0))),
        mSize(0),
-       mCapacity(0)
+       mCapacity(0),
+       mAllocator()
 {
   ;
 } // end vector_base::vector_base()
@@ -62,9 +64,10 @@ template<typename T, typename Alloc>
     ::vector_base(size_type n, const value_type &value)
       :mBegin(pointer(static_cast<T*>(0))),
        mSize(0),
-       mCapacity(0)
+       mCapacity(0),
+       mAllocator()
 {
-  resize(n,value);
+  fill_init(n,value);
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -75,9 +78,9 @@ template<typename T, typename Alloc>
        mCapacity(0),
        mAllocator(v.mAllocator)
 {
-  reserve(v.size());
-  thrust::uninitialized_copy(v.begin(), v.end(), begin());
-  mSize = v.size();
+  // vector_base's iterator is not strictly InputHostIterator,
+  // so dispatch with false_type
+  range_init(v.begin(), v.end(), false_type());
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -85,31 +88,10 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::operator=(const vector_base &v)
 {
-  // copy elements already allocated
-  thrust::copy(v.begin(),
-                v.begin() + vector_base_min(v.size(), size()),
-                begin());
-
-  // XXX this will do a redundant copy of elements we don't
-  //     wish to keep
-  reserve(v.size());
-
-  // copy construct uninitialized elements
-  difference_type num_remaining = v.size() - size();
-
-  if(num_remaining > 0)
+  if(this != &v)
   {
-    thrust::uninitialized_copy(v.begin() + size(),
-                                v.end(),
-                                begin() + size());
+    assign(v.begin(), v.end());
   } // end if
-  else
-  {
-    // destroy extra elements at the end of our range
-    thrust::detail::destroy(begin() + v.size(), end());
-  } // end if
-
-  mSize = v.size();
 
   return *this;
 } // end vector_base::operator=()
@@ -120,11 +102,12 @@ template<typename T, typename Alloc>
       ::vector_base(const vector_base<OtherT,OtherAlloc> &v)
         :mBegin(pointer(static_cast<T*>(0))),
          mSize(0),
-         mCapacity(0)
+         mCapacity(0),
+         mAllocator()
 {
-  reserve(v.size());
-  thrust::uninitialized_copy(v.begin(), v.end(), begin());
-  mSize = v.size();
+  // vector_base's iterator is not strictly InputHostIterator,
+  // so dispatch with false_type
+  range_init(v.begin(), v.end(), false_type());
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -133,31 +116,7 @@ template<typename T, typename Alloc>
       vector_base<T,Alloc>
         ::operator=(const vector_base<OtherT,OtherAlloc> &v)
 {
-  // copy elements already allocated
-  thrust::copy(v.begin(),
-                v.begin() + vector_base_min(v.size(), size()),
-                begin());
-
-  // XXX this will do a redundant copy of elements we don't
-  //     wish to keep
-  reserve(v.size());
-
-  // copy construct uninitialized elements
-  difference_type num_remaining = v.size() - size();
-
-  if(num_remaining > 0)
-  {
-    thrust::uninitialized_copy(v.begin() + size(),
-                                v.end(),
-                                begin() + size());
-  } // end if
-  else
-  {
-    // destroy extra elements at the end of our range
-    thrust::detail::destroy(begin() + v.size(), end());
-  } // end if
-
-  mSize = v.size();
+  assign(v.begin(), v.end());
 
   return *this;
 } // end vector_base::operator=()
@@ -168,11 +127,12 @@ template<typename T, typename Alloc>
       ::vector_base(const std::vector<OtherT,OtherAlloc> &v)
         :mBegin(pointer(static_cast<T*>(0))),
          mSize(0),
-         mCapacity(0)
+         mCapacity(0),
+         mAllocator()
 {
-  reserve(v.size());
-  thrust::uninitialized_copy(v.begin(), v.end(), begin());
-  mSize = v.size();
+  // std::vector's iterator is not strictly InputHostIterator,
+  // so dispatch with false_type
+  range_init(v.begin(), v.end(), false_type());
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -181,31 +141,7 @@ template<typename T, typename Alloc>
       vector_base<T,Alloc>
         ::operator=(const std::vector<OtherT,OtherAlloc> &v)
 {
-  // copy elements already allocated
-  thrust::copy(v.begin(),
-                v.begin() + vector_base_min(v.size(), size()),
-                begin());
-
-  // XXX this will do a redundant copy of elements we don't
-  //     wish to keep
-  reserve(v.size());
-
-  // copy construct uninitialized elements
-  difference_type num_remaining = v.size() - size();
-
-  if(num_remaining > 0)
-  {
-    thrust::uninitialized_copy(v.begin() + size(),
-                                v.end(),
-                                begin() + size());
-  } // end if
-  else
-  {
-    // destroy extra elements at the end of our range
-    thrust::detail::destroy(begin() + v.size(), end());
-  } // end if
-
-  mSize = v.size();
+  assign(v.begin(), v.end());
 
   return *this;
 } // end vector_base::operator=()
@@ -217,20 +153,64 @@ template<typename T, typename Alloc>
                       IteratorOrIntegralType value,
                       true_type)
 {
-  resize(n,value);
+  fill_init(n,value);
 } // end vector_base::init_dispatch()
 
 template<typename T, typename Alloc>
-  template<typename IteratorOrIntegralType>
+  void vector_base<T,Alloc>
+    ::fill_init(size_type n, const T &x)
+{
+  if(n > 0)
+  {
+    mBegin = mAllocator.allocate(n);
+    mSize = mCapacity = n;
+
+    thrust::uninitialized_fill(begin(), end(), x);
+  } // end if
+} // end vector_base::fill_init()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
     void vector_base<T,Alloc>
-      ::init_dispatch(IteratorOrIntegralType first,
-                      IteratorOrIntegralType last,
+      ::init_dispatch(InputIterator first,
+                      InputIterator last,
                       false_type)
 {
-  resize(thrust::distance(first, last));
-
-  thrust::copy(first, last, this->begin());
+  // dispatch based on whether or not InputIterator
+  // is strictly an InputHostIterator
+  typedef typename thrust::iterator_traits<InputIterator>::iterator_category category;
+  typedef typename thrust::detail::is_same<category, thrust::input_host_iterator_tag>::type input_host_iterator_or_not;
+  range_init(first, last, input_host_iterator_or_not());
 } // end vector_base::init_dispatch()
+
+template<typename T, typename Alloc>
+  template<typename InputHostIterator>
+    void vector_base<T,Alloc>
+      ::range_init(InputHostIterator first,
+                   InputHostIterator last,
+                   true_type)
+{
+  for(; first != last; ++first)
+    push_back(*first);
+} // end vector_base::range_init()
+
+template<typename T, typename Alloc>
+  template<typename ForwardIterator>
+    void vector_base<T,Alloc>
+      ::range_init(ForwardIterator first,
+                   ForwardIterator last,
+                   false_type)
+{
+  size_type new_size = thrust::distance(first, last);
+  size_type new_capacity;
+  iterator new_begin;
+
+  allocate_and_copy(new_size, first, last, new_capacity, new_begin);
+
+  mBegin    = new_begin;
+  mSize     = new_size;
+  mCapacity = new_capacity;
+} // end vector_base::range_init()
 
 template<typename T, typename Alloc>
   template<typename InputIterator>
@@ -239,9 +219,10 @@ template<typename T, typename Alloc>
                     InputIterator last)
         :mBegin(pointer(static_cast<T*>(0))),
          mSize(0),
-         mCapacity(0)
+         mCapacity(0),
+         mAllocator()
 {
-  // check the type of InputIterator: if its an integral type,
+  // check the type of InputIterator: if it's an integral type,
   // we need to interpret this call as (size_type, value_type)
   typedef thrust::detail::is_integral<InputIterator> Integer;
 
@@ -278,6 +259,7 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::reserve(size_type n)
 {
+  // XXX TODO: reimplement this function
   if(n > capacity())
   {
     if(n > max_size())
@@ -305,7 +287,8 @@ template<typename T, typename Alloc>
         thrust::copy(begin(), end(), new_array);
 
         // free the old storage
-        mAllocator.deallocate(&*begin(), capacity());
+        if(capacity())
+          mAllocator.deallocate(&*begin(), capacity());
       } // end if
 
       mBegin = new_array;
@@ -422,6 +405,7 @@ template<typename T, typename Alloc>
   vector_base<T,Alloc>
     ::~vector_base(void)
 {
+  // XXX TODO: possibly redo this
   clear();
   mAllocator.deallocate(&*begin(), capacity());
   mCapacity = 0;
@@ -432,6 +416,7 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::clear(void)
 {
+  // XXX TODO: possibly redo this
   resize(0);
 } // end vector_base::~vector_dev()
 
@@ -446,6 +431,7 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::push_back(const value_type &x)
 {
+  // XXX TODO: possibly redo this
   resize(size() + 1, x);
 } // end vector_base::push_back()
 
@@ -485,6 +471,25 @@ template<typename T, typename Alloc>
 } // end vector_base::swap()
 
 template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::assign(size_type n, const T &x)
+{
+  fill_assign(n, x);
+} // end vector_base::assign()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    void vector_base<T,Alloc>
+      ::assign(InputIterator first, InputIterator last)
+{
+  // we could have received assign(n, x), so disambiguate on the
+  // type of InputIterator
+  typedef typename thrust::detail::is_integral<InputIterator> integral;
+
+  assign_dispatch(first, last, integral());
+} // end vector_base::assign()
+
+template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::insert(iterator position, const T &x)
@@ -521,6 +526,22 @@ template<typename T, typename Alloc>
 template<typename T, typename Alloc>
   template<typename InputIterator>
     void vector_base<T,Alloc>
+      ::assign_dispatch(InputIterator first, InputIterator last, false_type)
+{
+  range_assign(first, last);
+} // end vector_base::assign_dispatch()
+
+template<typename T, typename Alloc>
+  template<typename Integral>
+    void vector_base<T,Alloc>
+      ::assign_dispatch(Integral n, Integral x, true_type)
+{
+  fill_assign(n, x);
+} // end vector_base::assign_dispatch()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    void vector_base<T,Alloc>
       ::insert_dispatch(iterator position, InputIterator first, InputIterator last, false_type)
 {
   range_insert(position, first, last);
@@ -536,9 +557,40 @@ template<typename T, typename Alloc>
 
 // XXX this needs to be moved out into thrust:: and dispatched properly
 template<typename InputIterator, typename Distance>
-  void advance(InputIterator &i, Distance n)
+  void advance(InputIterator &i, Distance n,
+               thrust::input_host_iterator_tag)
+{
+  for(Distance j = 0; j != n; ++j)
+    ++i;
+} // end advance()
+
+template<typename InputIterator, typename Distance>
+  void advance(InputIterator &i, Distance n,
+               thrust::input_device_iterator_tag)
+{
+  for(Distance j = 0; j != n; ++j)
+    ++i;
+} // end advance()
+
+template<typename InputIterator, typename Distance>
+  void advance(InputIterator &i, Distance n,
+               thrust::random_access_host_iterator_tag)
 {
   i += n;
+} // end advance()
+
+template<typename InputIterator, typename Distance>
+  void advance(InputIterator &i, Distance n,
+               thrust::random_access_device_iterator_tag)
+{
+  i += n;
+} // end advance()
+
+template<typename InputIterator, typename Distance>
+  void advance(InputIterator &i, Distance n)
+{
+  advance(i, n,
+          typename thrust::iterator_traits<InputIterator>::iterator_category());
 } // end advance()
 
 template<typename T, typename Alloc>
@@ -770,6 +822,182 @@ template<typename T, typename Alloc>
     } // end else
   } // end if
 } // end vector_base::fill_insert()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    void vector_base<T,Alloc>
+      ::range_assign(InputIterator first,
+                     InputIterator last)
+{
+  // dispatch based on whether or not InputIterator
+  // is strictly input_host_iterator_tag
+  typedef typename thrust::iterator_traits<InputIterator>::iterator_category category;
+
+  typedef typename thrust::detail::is_same<category, thrust::input_host_iterator_tag>::type input_host_iterator_or_not;
+
+  range_assign(first, last, input_host_iterator_or_not());
+} // end range_assign()
+
+template<typename T, typename Alloc>
+  template<typename InputHostIterator>
+    void vector_base<T,Alloc>
+      ::range_assign(InputHostIterator first,
+                     InputHostIterator last,
+                     true_type)
+{
+  iterator current(begin());
+
+  // assign to elements which already exist
+  for(; first != last && current != end(); ++current, ++first)
+  {
+    *current = *first;
+  } // end for
+  
+  // either just the input was exhausted or both
+  // the input and vector elements were exhausted
+  if(first == last)
+  {
+    // if we exhausted the input, erase leftover elements
+    erase(current, end());
+  } // end if
+  else
+  {
+    // insert the rest of the input at the end of the vector
+    insert(end(), first, last);
+  } // end else
+} // end vector_base::range_assign()
+
+template<typename T, typename Alloc>
+  template<typename ForwardIterator>
+    void vector_base<T,Alloc>
+      ::range_assign(ForwardIterator first,
+                     ForwardIterator last,
+                     false_type)
+{
+  const size_type n = thrust::distance(first, last);
+
+  if(n > capacity())
+  {
+    size_type new_capacity;
+    iterator new_begin;
+
+    allocate_and_copy(n, first, last, new_capacity, new_begin);
+
+    // call destructors on the elements in the old storage
+    thrust::detail::destroy(begin(), end());
+
+    // deallocate the old storage
+    mAllocator.deallocate(&*begin(), capacity());
+  
+    // record the vector's new parameters
+    mBegin    = new_begin;
+    mSize     = n;
+    mCapacity = new_capacity;
+  } // end if
+  else if(size() >= n)
+  {
+    // we can already accomodate the new range
+    iterator new_end = thrust::copy(first, last, begin());
+
+    // destroy the elements we don't need
+    thrust::detail::destroy(new_end, end());
+
+    // update size
+    mSize = n;
+  } // end else if
+  else
+  {
+    // range fits inside allocated storage, but some elements
+    // have not been constructed yet
+
+    // copy to elements which already exist
+    ForwardIterator mid = first;
+    thrust::detail::advance(mid, size());
+    thrust::copy(first, mid, begin());
+
+    // uninitialize_copy to elements which must be constructed
+    iterator new_end = thrust::uninitialized_copy(mid, last, end());
+
+    // update size
+    mSize = n;
+  } // end else
+} // end vector_base::assign()
+
+template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::fill_assign(size_type n, const T &x)
+{
+  if(n > capacity())
+  {
+    // XXX we should also include a copy of the allocator:
+    // vector_base<T,Alloc> temp(n, x, get_allocator());
+    vector_base<T,Alloc> temp(n, x);
+    temp.swap(*this);
+  } // end if
+  else if(n > size())
+  {
+    // fill to existing elements
+    thrust::fill(begin(), end(), x);
+
+    // construct uninitialized elements
+    thrust::uninitialized_fill(end(), end() + (n - size()), x);
+
+    // adjust size
+    mSize += (n - size());
+  } // end else if
+  else
+  {
+    // fill to existing elements
+    thrust::fill(begin(), begin() + n, x);
+
+    // erase the elements after the fill
+    erase(begin() + n, end());
+  } // end else
+} // end vector_base::fill_assign()
+
+template<typename T, typename Alloc>
+  template<typename ForwardIterator>
+    void vector_base<T,Alloc>
+      ::allocate_and_copy(size_type requested_size,
+                          ForwardIterator first, ForwardIterator last,
+                          size_type &allocated_size,
+                          iterator &new_storage)
+{
+  if(requested_size == 0)
+  {
+    allocated_size = 0;
+    new_storage = iterator(pointer(static_cast<T*>(0)));
+    return;
+  } // end if
+
+  // allocate exponentially larger new storage
+  allocated_size = std::max<size_type>(requested_size, 2 * capacity());
+
+  // do not exceed maximum storage
+  allocated_size = std::min<size_type>(allocated_size, max_size());
+
+  if(requested_size > allocated_size)
+  {
+    throw std::length_error("assignment exceeds max_size().");
+  } // end if
+
+  new_storage = mAllocator.allocate(allocated_size);
+
+  try
+  {
+    // construct the range to the newly allocated storage
+    thrust::uninitialized_copy(first, last, new_storage);
+  } // end try
+  catch(...)
+  {
+    // something went wrong, so destroy & deallocate the new storage 
+    thrust::detail::destroy(new_storage, new_storage + requested_size);
+    mAllocator.deallocate(&*new_storage, allocated_size);
+
+    // rethrow
+    throw;
+  } // end catch
+} // end vector_base::allocate_and_copy()
 
 } // end detail
 
