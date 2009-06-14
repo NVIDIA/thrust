@@ -259,41 +259,14 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::reserve(size_type n)
 {
-  // XXX TODO: reimplement this function
   if(n > capacity())
   {
-    if(n > max_size())
-    {
-      throw std::length_error("reserve(): n exceeds max_size().");
-    } // end if
+    size_type new_capacity;
+    iterator  new_begin;
+    allocate_and_copy(n, begin(), end(), new_capacity, new_begin);
 
-    // allocate exponentially larger new storage
-    size_t new_capacity = std::max<size_type>(n, 2 * capacity());
-
-    // do not exceed maximum storage
-    new_capacity = std::min<size_type>(new_capacity, max_size());
-
-    iterator new_array(pointer(static_cast<T*>(0)));
-    
-    // allocate the new storage
-    new_array = mAllocator.allocate(new_capacity);
-
-    if(new_array != iterator(pointer(static_cast<T*>(0))))
-    {
-      // deal with the old storage
-      if(size() > 0)
-      {
-        // copy original elements to the front of the new array
-        thrust::copy(begin(), end(), new_array);
-
-        // free the old storage
-        if(capacity())
-          mAllocator.deallocate(&*begin(), capacity());
-      } // end if
-
-      mBegin = new_array;
-      mCapacity = new_capacity;
-    } // end if
+    mBegin = new_begin;
+    mCapacity = new_capacity;
   } // end if
 } // end vector_base::reserve()
 
