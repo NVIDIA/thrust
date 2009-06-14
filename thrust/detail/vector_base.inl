@@ -378,11 +378,11 @@ template<typename T, typename Alloc>
   vector_base<T,Alloc>
     ::~vector_base(void)
 {
-  // XXX TODO: possibly redo this
-  clear();
-  mAllocator.deallocate(&*begin(), capacity());
-  mCapacity = 0;
-  mBegin = iterator(pointer(static_cast<T*>(0)));
+  // destroy every living thing
+  thrust::detail::destroy(begin(), end());
+
+  // deallocate
+  mAllocator.deallocate(mBegin.base(), capacity());
 } // end vector_base::~vector_base()
 
 template<typename T, typename Alloc>
