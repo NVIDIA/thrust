@@ -1,5 +1,4 @@
 #include <thrusttest/unittest.h>
-#include <thrust/sequence.h>
 #include <vector>
 #include <list>
 #include <limits>
@@ -612,14 +611,20 @@ struct TestVectorCppRangeInsertSimple
     void operator()(size_t dummy)
     {
         Vector v1(5);
-        thrust::sequence(v1.begin(), v1.end());
+        v1[0] = 0;
+        v1[1] = 1;
+        v1[2] = 2;
+        v1[3] = 3;
+        v1[4] = 4;
 
         // test when insertion range fits inside capacity
         // and the size of the insertion is greater than the number
         // of displaced elements
         Vector v2(3);
         v2.reserve(10);
-        thrust::sequence(v2.begin(), v2.end());
+        v2[0] = 0;
+        v2[1] = 1;
+        v2[2] = 2;
 
         size_t new_size = v2.size() + v1.size();
         size_t insertion_size = v1.end() - v1.begin();
@@ -650,7 +655,11 @@ struct TestVectorCppRangeInsertSimple
         // of displaced elements
         Vector v3(5);
         v3.reserve(10);
-        thrust::sequence(v3.begin(), v3.end());
+        v3[0] = 0;
+        v3[1] = 1;
+        v3[2] = 2;
+        v3[3] = 3;
+        v3[4] = 4;
 
         new_size = v3.size() + v1.size();
         insertion_size = v1.end() - v1.begin();
@@ -682,7 +691,11 @@ struct TestVectorCppRangeInsertSimple
         // number of displaced elements
         Vector v4(5);
         v4.reserve(10);
-        thrust::sequence(v4.begin(), v4.end());
+        v4[0] = 0;
+        v4[1] = 1;
+        v4[2] = 2;
+        v4[3] = 3;
+        v4[4] = 4;
 
         new_size = v4.size() + v1.size();
         insertion_size = (v1.begin() + 3) - v1.begin();
@@ -710,7 +723,11 @@ struct TestVectorCppRangeInsertSimple
 
         // test when insertion range does not fit inside capacity
         Vector v5(5);
-        thrust::sequence(v5.begin(), v5.end());
+        v5[0] = 0;
+        v5[1] = 1;
+        v5[2] = 2;
+        v5[3] = 3;
+        v5[4] = 4;
 
         new_size = v5.size() + v1.size();
 
@@ -782,7 +799,9 @@ struct TestVectorCppFillInsertSimple
         // of displaced elements
         Vector v1(3);
         v1.reserve(10);
-        thrust::sequence(v1.begin(), v1.end());
+        v1[0] = 0;
+        v1[1] = 1;
+        v1[2] = 2;
 
         size_t insertion_size = 5;
         size_t new_size = v1.size() + insertion_size;
@@ -812,7 +831,11 @@ struct TestVectorCppFillInsertSimple
         // of displaced elements
         Vector v2(5);
         v2.reserve(10);
-        thrust::sequence(v2.begin(), v2.end());
+        v2[0] = 0;
+        v2[1] = 1;
+        v2[2] = 2;
+        v2[3] = 3;
+        v2[4] = 4;
 
         insertion_size = 5;
         new_size = v2.size() + insertion_size;
@@ -843,7 +866,11 @@ struct TestVectorCppFillInsertSimple
         // number of displaced elements
         Vector v3(5);
         v3.reserve(10);
-        thrust::sequence(v3.begin(), v3.end());
+        v3[0] = 0;
+        v3[1] = 1;
+        v3[2] = 2;
+        v3[3] = 3;
+        v3[4] = 4;
 
         insertion_size = 3;
         new_size = v3.size() + insertion_size;
@@ -870,7 +897,11 @@ struct TestVectorCppFillInsertSimple
 
         // test when insertion range does not fit inside capacity
         Vector v4(5);
-        thrust::sequence(v4.begin(), v4.end());
+        v4[0] = 0;
+        v4[1] = 1;
+        v4[2] = 2;
+        v4[3] = 3;
+        v4[4] = 4;
 
         insertion_size = 5;
         new_size = v4.size() + insertion_size;
