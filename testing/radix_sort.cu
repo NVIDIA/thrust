@@ -290,3 +290,63 @@ VariableUnitTest<TestRadixSortByKeyVariableBits, IntegralTypes> TestRadixSortByK
 //    ASSERT_ALMOST_EQUAL(h_keys, d_keys);
 //}
 //DECLARE_UNITTEST(TestRadixSortMemoryLeak);
+
+
+template <class Vector>
+void TestRadixSortUnalignedSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector unsorted_keys;
+    Vector   sorted_keys;
+
+    InitializeSimpleKeyRadixSortTest(unsorted_keys, sorted_keys);
+    
+    for(int offset = 1; offset < 16; offset++){
+        size_t n = unsorted_keys.size() + offset;
+
+        Vector unaligned_unsorted_keys(n, 0);
+        Vector   unaligned_sorted_keys(n, 0);
+        
+        thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
+        thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
+   
+        thrust::sorting::radix_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
+
+        ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
+    }
+}
+DECLARE_VECTOR_UNITTEST(TestRadixSortUnalignedSimple);
+
+
+template <class Vector>
+void TestRadixSortByKeyUnalignedSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector unsorted_keys, unsorted_values;
+    Vector   sorted_keys,   sorted_values;
+
+    InitializeSimpleKeyValueRadixSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
+
+    for(int offset = 1; offset < 16; offset++){
+        size_t n = unsorted_keys.size() + offset;
+
+        Vector   unaligned_unsorted_keys(n, 0);
+        Vector     unaligned_sorted_keys(n, 0);
+        Vector unaligned_unsorted_values(n, 0);
+        Vector   unaligned_sorted_values(n, 0);
+        
+        thrust::copy(  unsorted_keys.begin(),   unsorted_keys.end(),   unaligned_unsorted_keys.begin() + offset);
+        thrust::copy(    sorted_keys.begin(),     sorted_keys.end(),     unaligned_sorted_keys.begin() + offset);
+        thrust::copy(unsorted_values.begin(), unsorted_values.end(), unaligned_unsorted_values.begin() + offset);
+        thrust::copy(  sorted_values.begin(),   sorted_values.end(),   unaligned_sorted_values.begin() + offset);
+   
+        thrust::sorting::radix_sort_by_key(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), unaligned_unsorted_values.begin() + offset);
+
+        ASSERT_EQUAL(  unaligned_unsorted_keys,   unaligned_sorted_keys);
+        ASSERT_EQUAL(unaligned_unsorted_values, unaligned_sorted_values);
+    }
+}
+DECLARE_VECTOR_UNITTEST(TestRadixSortByKeyUnalignedSimple);
+
