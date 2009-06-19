@@ -37,6 +37,8 @@
 #include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
 
+#include <thrust/detail/util/align.h>
+
 namespace thrust
 {
 
@@ -1187,6 +1189,23 @@ void radix_sort(unsigned int * keys,
     if (keyBits == 0)
         return;
 
+    if (!thrust::detail::util::is_aligned(keys, sizeof(uint4))) {
+        // keys is misaligned, copy to temp array and try again
+        thrust::device_ptr<unsigned int> aligned_keys = thrust::device_malloc<unsigned int>(numElements);
+        thrust::copy(thrust::device_ptr<unsigned int>(keys),
+                     thrust::device_ptr<unsigned int>(keys) + numElements,
+                     aligned_keys);
+
+        radix_sort((unsigned int *) aligned_keys.get(), numElements, preprocess, postprocess, keyBits);
+        
+        thrust::copy(aligned_keys,
+                     aligned_keys + numElements,
+                     thrust::device_ptr<unsigned int>(keys));
+
+        thrust::device_free(aligned_keys);
+        return;
+    }
+
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
 
     thrust::device_ptr<unsigned int> temp_keys     = thrust::device_malloc<unsigned int>(numElements);
@@ -1223,6 +1242,40 @@ void radix_sort_by_key(unsigned int * keys,
     
     if (keyBits == 0)
         return;
+    
+    if (!thrust::detail::util::is_aligned(keys, sizeof(uint4))) {
+        // keys is misaligned, copy to temp array and try again
+        thrust::device_ptr<unsigned int> aligned_keys = thrust::device_malloc<unsigned int>(numElements);
+        thrust::copy(thrust::device_ptr<unsigned int>(keys),
+                     thrust::device_ptr<unsigned int>(keys) + numElements,
+                     aligned_keys);
+
+        radix_sort_by_key((unsigned int *) aligned_keys.get(), values, numElements, preprocess, postprocess, keyBits);
+        
+        thrust::copy(aligned_keys,
+                     aligned_keys + numElements,
+                     thrust::device_ptr<unsigned int>(keys));
+
+        thrust::device_free(aligned_keys);
+        return;
+    }
+    
+    if (!thrust::detail::util::is_aligned(values, sizeof(uint4))) {
+        // values is misaligned, copy to temp array and try again
+        thrust::device_ptr<unsigned int> aligned_values = thrust::device_malloc<unsigned int>(numElements);
+        thrust::copy(thrust::device_ptr<unsigned int>(values),
+                     thrust::device_ptr<unsigned int>(values) + numElements,
+                     aligned_values);
+
+        radix_sort_by_key(keys, (unsigned int *) aligned_values.get(), numElements, preprocess, postprocess, keyBits);
+        
+        thrust::copy(aligned_values,
+                     aligned_values + numElements,
+                     thrust::device_ptr<unsigned int>(values));
+
+        thrust::device_free(aligned_values);
+        return;
+    }
 
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
     
