@@ -84,7 +84,7 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  *  two user-supplied function objects instead of \c operator+ and \c operator*.
  *
  *  Specifically, this version of \p inner_product computes the sum
- *  <tt>binary_op2(binary_op2(binary_op2(init, binary_op1(*first1, *first2)), (binary_op2*(first1+1), *(first2+1))), ... ) </tt>
+ *  <tt>binary_op1( init, binary_op2(*first1, *first2) ), ... </tt>
  *
  *  Unlike the C++ Standard Template Library function <tt>std::inner_product</tt>,
  *  this version offers no guarantee on order of execution.
