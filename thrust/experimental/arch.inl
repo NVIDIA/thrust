@@ -36,26 +36,45 @@ namespace experimental
 namespace arch
 {
 
+namespace detail
+{
+
+inline void checked_get_current_device_properties(cudaDeviceProp &props)
+{
+  int current_device = -1;
+  cudaError_t error = cudaGetDevice(&current_device);
+  if(error)
+  {
+    throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+  } // end if
+
+  if(current_device < 0)
+  {
+    throw std::runtime_error(std::string("No CUDA device found."));
+  } // end if
+  
+  error = cudaGetDeviceProperties(&props, current_device);
+  if(error)
+  {
+    throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+  } // end if
+} // end checked_get_current_device_properties()
+
+} // end detail
+
+
 size_t num_multiprocessors(void)
 {
   size_t result = 0;
 
-  // XXX it may make sense to collect device counts/properties
-  //     once upon thrust initialization, if possible
-  int num_devices = 0;  
-  
-  cudaGetDeviceCount(&num_devices);  
+  cudaDeviceProp properties;  
 
-  // XXX TODO handle multiple devices somehow
-  if(num_devices > 0)
-  {  
-    cudaDeviceProp properties;  
-    cudaGetDeviceProperties(&properties, 0);
-    result = properties.multiProcessorCount;
-  } // end for
+  detail::checked_get_current_device_properties(properties);
+  result = properties.multiProcessorCount;
 
   return result;
 } // end num_multiprocessors()
+
 
 size_t max_active_threads_per_multiprocessor(void)
 {
@@ -65,31 +84,23 @@ size_t max_active_threads_per_multiprocessor(void)
                                                                         {   768, 768, 1024, 1024}};
   size_t result = 0;
 
-  // XXX it may make sense to collect device counts/properties
-  //     once upon thrust initialization, if possible
-  int num_devices = 0;  
-  
-  cudaGetDeviceCount(&num_devices);  
+  cudaDeviceProp properties;  
+  detail::checked_get_current_device_properties(properties);
 
-  // XXX TODO handle multiple devices somehow
-  if(num_devices > 0)
-  {  
-    cudaDeviceProp properties;  
-    cudaGetDeviceProperties(&properties, 0);
+  assert(properties.major == 1);
+  assert(properties.minor >= 0 && properties.minor <= 3);
 
-    assert(properties.major == 1);
-    assert(properties.minor >= 0 && properties.minor <= 3);
-
-    result = max_active_threads_by_compute_capability[properties.major][properties.minor];
-  } // end for
+  result = max_active_threads_by_compute_capability[properties.major][properties.minor];
 
   return result;
 } // end max_active_threads_per_multiprocessor()
+
 
 size_t max_active_threads(void)
 {
   return num_multiprocessors() * max_active_threads_per_multiprocessor();
 } // end max_active_threads()
+
 
 dim3 max_grid_dimensions(void)
 {
@@ -104,23 +115,13 @@ dim3 max_grid_dimensions(void)
   static const dim3 max_grid_dimensions_by_compute_capability[2][4] = {{   zero,    zero,    zero,    zero},
                                                                        {max_dim, max_dim, max_dim, max_dim}};
 
-  // XXX it may make sense to collect device counts/properties
-  //     once upon thrust initialization, if possible
-  int num_devices = 0;  
-  
-  cudaGetDeviceCount(&num_devices);  
+  cudaDeviceProp properties;  
+  detail::checked_get_current_device_properties(properties);
 
-  // XXX TODO handle multiple devices somehow
-  if(num_devices > 0)
-  {  
-    cudaDeviceProp properties;  
-    cudaGetDeviceProperties(&properties, 0);
+  assert(properties.major == 1);
+  assert(properties.minor >= 0 && properties.minor <= 3);
 
-    assert(properties.major == 1);
-    assert(properties.minor >= 0 && properties.minor <= 3);
-
-    result = max_grid_dimensions_by_compute_capability[properties.major][properties.minor];
-  } // end for
+  result = max_grid_dimensions_by_compute_capability[properties.major][properties.minor];
 
   return result;
 } // end max_grid_dimensions()
