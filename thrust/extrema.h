@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -82,12 +83,13 @@ __host__ __device__
  *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  *
  *  \code
- *  #include <thrust/min_element.h>
+ *  #include <thrust/extrema.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *  int *result = thrust::min_element(data, data + 6);
  *
- *  // *result == 0
+ *  // result is data + 1
+ *  // *result is 0
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/min_element.html 
@@ -146,7 +148,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  *
  *  \code
- *  #include <thrust/max_element.h>
+ *  #include <thrust/extrema.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *  int *result = thrust::max_element(data, data + 6);
@@ -188,6 +190,66 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp);
 
+
+/*! \p minmax_element finds the smallest and largest elements in the range <tt>[first, last)</tt>.
+ *  It returns a pair of iterators <tt>(imin, imax)</tt> where \c imin is the same iterator
+ *  returned by \p min_element and \c imax is the same iterator returned by \p max_element.
+ *  This function is potentially more efficient than separate calls to \p min_element and \p max_element.
+ *
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
+ *  \return A pair of iterator pointing to the smallest and largest elements of the range <tt>[first, last)</tt>,
+ *          if it is not an empty range; \p last, otherwise.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \c ForwardIterator's \c value_type is a model of
+ *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *  ...
+ *  int data[6] = {1, 0, 2, 2, 1, 3};
+ *  thrust::pair<int *, int *> result = thrust::minmax_element(data, data + 6);
+ *
+ *  // result.first is data + 1
+ *  // result.second is data + 5
+ *  // *result.first is 0
+ *  // *result.second is 3
+ *  \endcode
+ *
+ *  \see min_element
+ *  \see_max_element
+ *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
+ */
+template <typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+                                                             ForwardIterator last);
+
+/*! \p minmax_element finds the smallest and largest elements in the range <tt>[first, last)</tt>.
+ *  It returns a pair of iterators <tt>(imin, imax)</tt> where \c imin is the same iterator
+ *  returned by \p min_element and \c imax is the same iterator returned by \p max_element.
+ *  This function is potentially more efficient than separate calls to \p min_element and \p max_element.
+ *
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
+ *  \param comp A binary predicate used for comparison.
+ *  \return A pair of iterator pointing to the smallest and largest elements of the range <tt>[first, last)</tt>,
+ *          if it is not an empty range; \p last, otherwise.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
+ *          \c first_argument_type and \c second_argument_type.
+ *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
+ *
+ *  \see min_element
+ *  \see_max_element
+ *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
+ */
+template <typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+                                                             ForwardIterator last,
+                                                             BinaryPredicate comp);
+
 /*! \} // end extrema
  *  \} // end reductions
  */
@@ -195,5 +257,4 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
 } // end thrust
 
 #include <thrust/detail/extrema.inl>
-#include <thrust/detail/min_max_element.inl>
 

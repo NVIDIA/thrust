@@ -15,9 +15,8 @@
  */
 
 
-/*! \file scan_dev.h
- *  \brief Defines the interface to a GPU implementation
- *         of the scan (parallel prefix-sum) algorithm.
+/*! \file scan.h
+ *  \brief Scan operations (parallel prefix-sum) [cuda]
  */
 
 #pragma once
@@ -34,25 +33,23 @@ namespace device
 namespace cuda
 {
 
-
 template<typename InputIterator,
-         typename OutputType,
+         typename OutputIterator,
          typename AssociativeOperator>
-  void inclusive_scan(InputIterator src,
-                      const size_t n,
-                      OutputType * dst,
-                      AssociativeOperator op);
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                AssociativeOperator binary_op);
 
 template<typename InputIterator,
-         typename OutputType,
+         typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  void exclusive_scan(InputIterator src,
-                      const size_t n,
-                      OutputType * dst,
-                      const T init,
-                      AssociativeOperator op);
-
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                T init,
+                                AssociativeOperator binary_op);
 
 } // end namespace cuda
 

@@ -74,7 +74,6 @@ OutputIterator binary_search(ForwardIterator begin,
                              InputIterator values_end,
                              OutputIterator output,
                              StrictWeakOrdering comp);
-
 } // end namespace cuda
 
 } // end namespace device

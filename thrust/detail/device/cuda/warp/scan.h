@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-
 #pragma once
 
 namespace thrust
@@ -23,28 +22,39 @@ namespace thrust
 namespace detail
 {
 
+namespace device
+{
+
+namespace cuda
+{
+
 namespace warp
 {
 
-// XXX figure out the best interface
-
-template <typename ValueType, typename BinaryFunction, unsigned int BLOCK_SIZE>
-__device__ ValueType
-inclusive_scan(ValueType * data, const unsigned int idx, BinaryFunction binary_op)
+template<typename InputType, 
+         typename InputIterator, 
+         typename AssociativeOperator>
+         __device__
+InputType scan(const unsigned int thread_lane, InputType val, InputIterator sdata, const AssociativeOperator binary_op)
 {
-    const unsigned int lane = idx & 31;
+    sdata[threadIdx.x] = val;
 
-    if (lane >=  1)  data[idx] = binary_op(data[idx -  1] , data[idx]);
-    if (lane >=  2)  data[idx] = binary_op(data[idx -  2] , data[idx]);
-    if (lane >=  4)  data[idx] = binary_op(data[idx -  4] , data[idx]);
-    if (lane >=  8)  data[idx] = binary_op(data[idx -  8] , data[idx]);
-    if (lane >= 16)  data[idx] = binary_op(data[idx - 16] , data[idx]);
+    if (thread_lane >=  1)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  1], val);
+    if (thread_lane >=  2)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  2], val);
+    if (thread_lane >=  4)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  4], val);
+    if (thread_lane >=  8)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  8], val);
+    if (thread_lane >= 16)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x - 16], val);
 
-    return data[idx];
+    return val;
 }
 
 } // end namespace warp
 
+} // end namespace cuda
+
+} // end namespace device
+
 } // end namespace detail
 
 } // end namespace thrust
+

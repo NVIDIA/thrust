@@ -28,6 +28,8 @@
 // #include this for size_t
 #include <cstddef>
 
+#ifdef __CUDACC__
+
 // #include this for dim3
 #include <vector_types.h>
 
@@ -73,4 +75,6 @@ inline dim3 max_grid_dimensions(void);
 }; // end thrust
 
 #include <thrust/experimental/arch.inl>
+
+#endif
 

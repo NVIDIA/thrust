@@ -26,13 +26,13 @@ namespace experimental
 {
 
 // forward declaration of counting_iterator
-template <typename Incrementable, typename CategoryOrTraversal, typename Difference>
+template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   class counting_iterator;
 
 namespace detail
 {
 
-template <typename Incrementable, typename CategoryOrTraversal, typename Difference>
+template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   struct counting_iterator_base
 {
   // XXX TODO deduce all this
@@ -45,11 +45,14 @@ template <typename Incrementable, typename CategoryOrTraversal, typename Differe
   //    >
   //>::type traversal;
 
-  // for the moment, the iterator category is either the default, which is random_access_universal_iterator_tag,
-  // or whatever the user provides
   typedef typename detail::ia_dflt_help<
-    CategoryOrTraversal,
-    identity<thrust::experimental::random_access_universal_iterator_tag>
+    Space,
+    thrust::detail::identity<thrust::experimental::space::any>
+  >::type space;
+
+  typedef typename detail::ia_dflt_help<
+    Traversal,
+    thrust::detail::identity<thrust::experimental::random_access_traversal_tag>
   >::type traversal;
 
   // XXX TODO deduce all this
@@ -65,14 +68,15 @@ template <typename Incrementable, typename CategoryOrTraversal, typename Differe
   // for the moment, the difference type is either the default, which is ptrdiff_t, or whatever the user provides
   typedef typename detail::ia_dflt_help<
     Difference,
-    identity<ptrdiff_t>
+    thrust::detail::identity<ptrdiff_t>
   >::type difference;
 
   typedef iterator_adaptor<
-    counting_iterator<Incrementable, CategoryOrTraversal, Difference>, // self
-    Incrementable,                                                     // Base
-    Incrementable *,                                                   // Pointer -- maybe we should make this device_ptr when memory space category is device?
-    Incrementable,                                                     // Value
+    counting_iterator<Incrementable, Space, Traversal, Difference>, // self
+    Incrementable,                                                  // Base
+    Incrementable *,                                                // Pointer -- maybe we should make this device_ptr when memory space category is device?
+    Incrementable,                                                  // Value
+    space,
     traversal,
     Incrementable const &,
     difference
@@ -82,6 +86,45 @@ template <typename Incrementable, typename CategoryOrTraversal, typename Differe
 } // end detail
 
 } // end experimental
+
+namespace detail
+{
+
+// specialize iterator_device_reference for counting_iterator
+// transform_iterator returns the same reference on the device as on the host
+template <typename Incrementable, typename Space, typename Traversal, typename Difference>
+  struct iterator_device_reference<
+    thrust::experimental::counting_iterator<
+      Incrementable, Space, Traversal, Difference
+    >
+  >
+{
+  typedef typename thrust::iterator_traits< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::reference type;
+}; // end iterator_device_reference
+
+
+namespace device
+{
+
+template<typename Incrementable, typename Space, typename Traversal, typename Difference>
+  inline __device__
+    typename iterator_device_reference< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+      dereference(thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> iter)
+{
+  return *iter;
+} // end dereference()
+
+template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
+  inline __device__
+    typename iterator_device_reference< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+      dereference(thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n)
+{
+  return iter[n];
+} // end dereference()
+
+} // end device
+
+} // end detail
 
 } // end thrust
 

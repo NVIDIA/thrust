@@ -16,17 +16,15 @@
 
 
 /*! \file generate.h
- *  \brief Defines the interface to the
- *         dispatch layer of the generate function.
+ *  \brief Dispatch layer for the generate function.
  */
 
 #pragma once
 
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/make_device_dereferenceable.h>
-#include <algorithm>
+#include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/device/cuda/vectorize.h>
+#include <algorithm>
+#include <thrust/detail/device/generate.h>
 
 namespace thrust
 {
@@ -37,62 +35,36 @@ namespace detail
 namespace dispatch
 {
 
-// host path
+///////////////    
+// Host Path //    
+///////////////    
 template<typename ForwardIterator,
          typename Generator>
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen,
-                thrust::forward_host_iterator_tag)
+                thrust::experimental::space::host)
 {
-  std::generate(first, last, gen);
+    std::generate(first, last, gen);
 } // end generate()
 
 
-namespace detail
-{
-
-template<typename ForwardIterator,
-         typename Generator>
-struct generator_functor
-{
-  ForwardIterator iter;
-  Generator gen;
-
-  generator_functor(ForwardIterator i, Generator g)
-    :iter(i),gen(g){}
-
-  template<typename IntegerType>
-  __host__ __device__
-  void operator()(IntegerType i)
-  {
-    iter[i] = gen();
-  }
-}; // end generator_functor
-  
-} // end detail
-
-
-// device path
+/////////////////
+// Device Path //
+/////////////////
 template<typename ForwardIterator,
          typename Generator>
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen,
-                thrust::random_access_device_iterator_tag)
+                thrust::experimental::space::device)
 {
-  typedef typename thrust::detail::device_dereferenceable_iterator_traits<ForwardIterator>::device_dereferenceable_type Iter;
-  typename thrust::iterator_traits<ForwardIterator>::difference_type n = last - first;
-
-  Iter iter = thrust::detail::make_device_dereferenceable<ForwardIterator>::transform(first);
-
-  detail::generator_functor<Iter, Generator> f(iter,gen);
-  thrust::detail::device::cuda::vectorize(n, f);
+    thrust::detail::device::generate(first, last, gen);
 } // end generate()
 
-} // end dispatch
+} // end namespace dispatch
 
-} // end detail
+} // end namespace detail
 
-} // end thrust
+} // end namespace thrust
 

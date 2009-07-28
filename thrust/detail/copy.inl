@@ -19,19 +19,19 @@
  *  \brief Inline file for copy.h.
  */
 
-#include <thrust/copy.h>
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/dispatch/copy.h>
+
+#include <thrust/functional.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/transform.h>
 
 namespace thrust
 {
 
-//////////////////
-// Entry Points //
-//////////////////
+//////////
+// copy //
+//////////
+
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator copy(InputIterator first,
@@ -42,12 +42,16 @@ template<typename InputIterator,
   if(first == last) 
     return result;
 
-  // dispatch on category
+  // dispatch on space
   return thrust::detail::dispatch::copy(first, last, result,
-           typename thrust::iterator_traits<InputIterator>::iterator_category(),
-           typename thrust::iterator_traits<OutputIterator>::iterator_category());
-} // end copy()
+          typename thrust::experimental::iterator_space<InputIterator>::type(),
+          typename thrust::experimental::iterator_space<OutputIterator>::type());
+}
 
+
+///////////////
+// copy_when //
+///////////////
 
 template<typename InputIterator,
          typename PredicateIterator,
@@ -57,11 +61,10 @@ template<typename InputIterator,
                            PredicateIterator stencil,
                            OutputIterator result)
 {
-  // default predicate is identity
-  typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
-  return thrust::copy_when(first, last, stencil, result, thrust::identity<StencilType>());
-} // end copy_when()
-
+    // default predicate is identity
+    typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
+    return thrust::copy_when(first, last, stencil, result, thrust::identity<StencilType>());
+}
 
 template<typename InputIterator,
          typename PredicateIterator,
@@ -73,10 +76,14 @@ template<typename InputIterator,
                            OutputIterator result,
                            Predicate pred)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  return thrust::transform_if(first, last, stencil, result, thrust::identity<InputType>(), pred);
-} // end copy_when()
+    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+    return thrust::transform_if(first, last, stencil, result, thrust::identity<InputType>(), pred);
+}
 
+
+/////////////
+// copy_if //
+/////////////
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -91,8 +98,7 @@ template<typename InputIterator,
   //     since we can safely keep the input in a temporary instead
   //     of doing two loads
   return thrust::copy_if(first, last, first, result, pred);
-} // end copy_if()
-
+}
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -105,10 +111,10 @@ template<typename InputIterator1,
                          Predicate pred)
 {
   return detail::dispatch::copy_if(first, last, stencil, result, pred,
-    typename thrust::iterator_traits<InputIterator1>::iterator_category(),
-    typename thrust::iterator_traits<InputIterator2>::iterator_category(),
-    typename thrust::iterator_traits<OutputIterator>::iterator_category());
-} // end copy_if()
+          typename thrust::experimental::iterator_space<InputIterator1>::type(),
+          typename thrust::experimental::iterator_space<InputIterator2>::type(),
+          typename thrust::experimental::iterator_space<OutputIterator>::type());
+}
 
 } // end namespace thrust
 

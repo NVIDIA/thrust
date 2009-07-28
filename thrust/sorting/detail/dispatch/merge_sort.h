@@ -21,12 +21,11 @@
 
 #include <algorithm>
 
-#include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 
 #include <thrust/sorting/detail/host/stable_merge_sort.h>
-#include <thrust/sorting/detail/device/cuda/stable_merge_sort.h>
+#include <thrust/sorting/detail/device/stable_merge_sort.h>
 
 
 namespace thrust
@@ -50,20 +49,20 @@ template<typename RandomAccessIterator,
   void stable_merge_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
                          StrictWeakOrdering comp,
-                         thrust::random_access_host_iterator_tag)
+                         thrust::experimental::space::host)
 {
     thrust::sorting::detail::host::stable_merge_sort(begin, end, comp);
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                                RandomAccessKeyIterator keys_end,
-                                RandomAccessValueIterator values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp,
-                                thrust::random_access_host_iterator_tag,
-                                thrust::random_access_host_iterator_tag)
+                                thrust::experimental::space::host,
+                                thrust::experimental::space::host)
 {
     thrust::sorting::detail::host::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
@@ -78,36 +77,23 @@ template<typename RandomAccessIterator,
   void stable_merge_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
                          StrictWeakOrdering comp,
-                         thrust::random_access_device_iterator_tag)
+                         thrust::experimental::space::device)
 {
-    // implement with merge_sort_by_key_dev for now
-    size_t n = end - begin;
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-
-    // XXX it's potentially unsafe to pass the same array for keys & values
-    //     implement a legit merge_sort_dev function later
-    // XXX use make_device_dereferenceable here instead of assuming &*begin is device_ptr
-    return thrust::sorting::detail::device::cuda::stable_merge_sort_by_key_dev<KeyType,KeyType,StrictWeakOrdering>((&*begin).get(), (&*begin).get(), comp, n);
+    thrust::sorting::detail::device::stable_merge_sort(begin, end, comp);
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                            RandomAccessKeyIterator keys_end,
-                            RandomAccessValueIterator values_begin,
-                            StrictWeakOrdering comp,
-                            thrust::random_access_device_iterator_tag,
-                            thrust::random_access_device_iterator_tag)
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin,
+                                StrictWeakOrdering comp,
+                                thrust::experimental::space::device,
+                                thrust::experimental::space::device)
 {
-    size_t n = keys_end - keys_begin;
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
-    typedef typename thrust::iterator_traits<RandomAccessValueIterator>::value_type ValueType;
-
-    // XXX use make_device_dereferenceable here instead of assuming &*keys_begin & &*values_begin is device_ptr
-    return thrust::sorting::detail::device::cuda::stable_merge_sort_by_key_dev<KeyType,ValueType,StrictWeakOrdering>((&*keys_begin).get(), (&*values_begin).get(), comp, n);
+    thrust::sorting::detail::device::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 } 
-
 
 } // end namespace dispatch
 

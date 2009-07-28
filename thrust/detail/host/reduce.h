@@ -15,8 +15,8 @@
  */
 
 
-/*! \file transform_reduce.h
- *  \brief Host implementation transform_reduce.
+/*! \file reduce.h
+ *  \brief Host implementation reduce.
  */
 
 #pragma once
@@ -32,21 +32,19 @@ namespace host
 
 
 template<typename InputIterator, 
-         typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(InputIterator begin,
-                              InputIterator end,
-                              UnaryFunction unary_op,
-                              OutputType init,
-                              BinaryFunction binary_op)
+  OutputType reduce(InputIterator begin,
+                    InputIterator end,
+                    OutputType init,
+                    BinaryFunction binary_op)
 {
     // initialize the result
     OutputType result = init;
 
     while(begin != end)
     {
-        result = binary_op(result, unary_op(*begin));
+        result = binary_op(result, *begin);
         begin++;
     } // end while
 

@@ -1,10 +1,13 @@
 #include <thrusttest/unittest.h>
 #include <thrust/transform.h>
+#include <thrust/iterator/counting_iterator.h>
 
 template <class Vector>
 void TestTransformUnarySimple(void)
 {
     typedef typename Vector::value_type T;
+    
+    typename Vector::iterator iter;
 
     Vector input(3);
     Vector output(3);
@@ -12,8 +15,9 @@ void TestTransformUnarySimple(void)
     input[0]  =  1; input[1]  = -2; input[2]  =  3;
     result[0] = -1; result[1] =  2; result[2] = -3;
 
-    thrust::transform(input.begin(), input.end(), output.begin(), thrust::negate<T>());
+    iter = thrust::transform(input.begin(), input.end(), output.begin(), thrust::negate<T>());
     
+    ASSERT_EQUAL(iter - output.begin(), input.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformUnarySimple);
@@ -23,6 +27,8 @@ template <class Vector>
 void TestTransformIfUnarySimple(void)
 {
     typedef typename Vector::value_type T;
+    
+    typename Vector::iterator iter;
 
     Vector input(3);
     Vector stencil(3);
@@ -34,12 +40,13 @@ void TestTransformIfUnarySimple(void)
     stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
     result[0]  = -1; result[1]  =  2; result[2]  = -3;
 
-    thrust::transform_if(input.begin(), input.end(),
-                          stencil.begin(),
-                          output.begin(),
-                          thrust::negate<T>(),
-                          thrust::identity<T>());
+    iter = thrust::transform_if(input.begin(), input.end(),
+                                stencil.begin(),
+                                output.begin(),
+                                thrust::negate<T>(),
+                                thrust::identity<T>());
     
+    ASSERT_EQUAL(iter - output.begin(), input.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfUnarySimple);
@@ -50,6 +57,8 @@ void TestTransformBinarySimple(void)
 {
     typedef typename Vector::value_type T;
 
+    typename Vector::iterator iter;
+
     Vector input1(3);
     Vector input2(3);
     Vector output(3);
@@ -58,8 +67,9 @@ void TestTransformBinarySimple(void)
     input2[0] = -4; input2[1] =  5; input2[2] =  6;
     result[0] =  5; result[1] = -7; result[2] = -3;
 
-    thrust::transform(input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
+    iter = thrust::transform(input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
     
+    ASSERT_EQUAL(iter - output.begin(), input1.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformBinarySimple);
@@ -69,6 +79,8 @@ template <class Vector>
 void TestTransformIfBinarySimple(void)
 {
     typedef typename Vector::value_type T;
+    
+    typename Vector::iterator iter;
 
     Vector input1(3);
     Vector input2(3);
@@ -84,13 +96,14 @@ void TestTransformIfBinarySimple(void)
 
     thrust::identity<T> identity;
 
-    thrust::transform_if(input1.begin(), input1.end(),
-                          input2.begin(),
-                          stencil.begin(),
-                          output.begin(),
-                          thrust::minus<T>(),
-                          thrust::not1(identity));
+    iter = thrust::transform_if(input1.begin(), input1.end(),
+                                input2.begin(),
+                                stencil.begin(),
+                                output.begin(),
+                                thrust::minus<T>(),
+                                thrust::not1(identity));
     
+    ASSERT_EQUAL(iter - output.begin(), input1.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfBinarySimple);
@@ -219,4 +232,41 @@ void TestTransformIfBinary(const size_t n)
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformIfBinary);
+
+
+template <class Vector>
+void TestTransformUnaryCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::experimental::counting_iterator<T> first(1);
+
+    Vector output(3);
+
+    thrust::transform(first, first + 3, output.begin(), thrust::identity<T>());
+    
+    Vector result(3);
+    result[0] = 1; result[1] = 2; result[2] = 3;
+
+    ASSERT_EQUAL(output, result);
+}
+DECLARE_VECTOR_UNITTEST(TestTransformUnaryCountingIterator);
+
+template <class Vector>
+void TestTransformBinaryCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::experimental::counting_iterator<T> first(1);
+
+    Vector output(3);
+
+    thrust::transform(first, first + 3, first, output.begin(), thrust::plus<T>());
+    
+    Vector result(3);
+    result[0] = 2; result[1] = 4; result[2] = 6;
+
+    ASSERT_EQUAL(output, result);
+}
+DECLARE_VECTOR_UNITTEST(TestTransformBinaryCountingIterator);
 

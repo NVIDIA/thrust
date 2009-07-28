@@ -1,11 +1,16 @@
 #include <thrusttest/unittest.h>
 #include <thrust/transform_scan.h>
+
 #include <thrust/functional.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/iterator_traits.h>
 
 template <class Vector>
 void TestTransformScanSimple(void)
 {
     typedef typename Vector::value_type T;
+
+    typename Vector::iterator iter;
 
     Vector input(5);
     Vector result(5);
@@ -16,37 +21,41 @@ void TestTransformScanSimple(void)
     Vector input_copy(input);
 
     // inclusive scan
-    thrust::transform_inclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), thrust::plus<T>());
+    iter = thrust::transform_inclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), thrust::plus<T>());
     result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
+    ASSERT_EQUAL(iter - output.begin(), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
     // exclusive scan with 0 init
-    thrust::transform_exclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), 0, thrust::plus<T>());
+    iter = thrust::transform_exclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), 0, thrust::plus<T>());
     result[0] = 0; result[1] = -1; result[2] = -4; result[3] = -2; result[4] = -6;
+    ASSERT_EQUAL(iter - output.begin(), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
     // exclusive scan with nonzero init
-    thrust::transform_exclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
+    iter = thrust::transform_exclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
     result[0] = 3; result[1] = 2; result[2] = -1; result[3] = 1; result[4] = -3;
+    ASSERT_EQUAL(iter - output.begin(), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
     // inplace inclusive scan
     input = input_copy;
-    thrust::transform_inclusive_scan(input.begin(), input.end(), input.begin(), thrust::negate<T>(), thrust::plus<T>());
+    iter = thrust::transform_inclusive_scan(input.begin(), input.end(), input.begin(), thrust::negate<T>(), thrust::plus<T>());
     result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
+    ASSERT_EQUAL(iter - input.begin(), input.size());
     ASSERT_EQUAL(input, result);
 
     // inplace exclusive scan with init
     input = input_copy;
-    thrust::transform_exclusive_scan(input.begin(), input.end(), input.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
+    iter = thrust::transform_exclusive_scan(input.begin(), input.end(), input.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
     result[0] = 3; result[1] = 2; result[2] = -1; result[3] = 1; result[4] = -3;
+    ASSERT_EQUAL(iter - input.begin(), input.size());
     ASSERT_EQUAL(input, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformScanSimple);
-
 
 
 template <typename T>
@@ -82,4 +91,22 @@ void TestTransformScan(const size_t n)
     ASSERT_EQUAL(d_output, h_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformScan);
+
+template <class Vector>
+void TestTransformScanCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+    typedef typename thrust::experimental::iterator_space<typename Vector::iterator>::type space;
+
+    thrust::experimental::counting_iterator<T, space> first(1);
+
+    Vector result(3);
+
+    thrust::transform_inclusive_scan(first, first + 3, result.begin(), thrust::negate<T>(), thrust::plus<T>());
+
+    ASSERT_EQUAL(result[0], -1);
+    ASSERT_EQUAL(result[1], -3);
+    ASSERT_EQUAL(result[2], -6);
+}
+DECLARE_VECTOR_UNITTEST(TestTransformScanCountingIterator);
 

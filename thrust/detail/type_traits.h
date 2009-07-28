@@ -42,6 +42,9 @@
 namespace thrust
 {
 
+// forward declaration of device_reference
+template<typename T> class device_reference;
+
 namespace detail
 {
  /// helper classes [4.3].
@@ -59,56 +62,53 @@ namespace detail
  /// typedef for true_type
  typedef integral_constant<bool, false>    false_type;
 
-// general case is not pod
-template<typename T>
-  struct is_pod : public false_type {};
-
-// all pointers are pod
-template<typename T> struct is_pod<T*> : public true_type {};
-
-// bool types are pod
-template<> struct is_pod<bool> : public true_type {};
-
-// char types are pod
-template<> struct is_pod<char> : public true_type {};
-template<> struct is_pod<unsigned char> : public true_type {};
-template<> struct is_pod<signed char> : public true_type {};
-
-// short types are pod
-template<> struct is_pod<short> : public true_type {};
-template<> struct is_pod<unsigned short> : public true_type {};
-
-// int types are pod
-template<> struct is_pod<int> : public true_type {};
-template<> struct is_pod<unsigned int> : public true_type {};
-
-// long types are pod
-template<> struct is_pod<long> : public true_type {};
-template<> struct is_pod<unsigned long> : public true_type {};
-
-// long long types are pod
-template<> struct is_pod<long long> : public true_type {};
-template<> struct is_pod<unsigned long long> : public true_type {};
-
-// real types are pod
-template<> struct is_pod<float> : public true_type {};
-template<> struct is_pod<double> : public true_type {};
-
-
 //template<typename T> struct is_integral : public std::tr1::is_integral<T> {};
-template<typename U> struct is_integral : public false_type {};
+template<typename T> struct is_integral                           : public false_type {};
+template<>           struct is_integral<bool>                     : public true_type {};
+template<>           struct is_integral<char>                     : public true_type {};
+template<>           struct is_integral<signed char>              : public true_type {};
+template<>           struct is_integral<unsigned char>            : public true_type {};
+template<>           struct is_integral<short>                    : public true_type {};
+template<>           struct is_integral<unsigned short>           : public true_type {};
+template<>           struct is_integral<int>                      : public true_type {};
+template<>           struct is_integral<unsigned int>             : public true_type {};
+template<>           struct is_integral<long>                     : public true_type {};
+template<>           struct is_integral<unsigned long>            : public true_type {};
+template<>           struct is_integral<long long>                : public true_type {};
+template<>           struct is_integral<unsigned long long>       : public true_type {};
+template<>           struct is_integral<const bool>               : public true_type {};
+template<>           struct is_integral<const char>               : public true_type {};
+template<>           struct is_integral<const unsigned char>      : public true_type {};
+template<>           struct is_integral<const short>              : public true_type {};
+template<>           struct is_integral<const unsigned short>     : public true_type {};
+template<>           struct is_integral<const int>                : public true_type {};
+template<>           struct is_integral<const unsigned int>       : public true_type {};
+template<>           struct is_integral<const long>               : public true_type {};
+template<>           struct is_integral<const unsigned long>      : public true_type {};
+template<>           struct is_integral<const long long>          : public true_type {};
+template<>           struct is_integral<const unsigned long long> : public true_type {};
 
-template<> struct is_integral<bool>               : public true_type {};
-template<> struct is_integral<char>               : public true_type {};
-template<> struct is_integral<unsigned char>      : public true_type {};
-template<> struct is_integral<short>              : public true_type {};
-template<> struct is_integral<unsigned short>     : public true_type {};
-template<> struct is_integral<int>                : public true_type {};
-template<> struct is_integral<unsigned int>       : public true_type {};
-template<> struct is_integral<long>               : public true_type {};
-template<> struct is_integral<unsigned long>      : public true_type {};
-template<> struct is_integral<long long>          : public true_type {};
-template<> struct is_integral<unsigned long long> : public true_type {};
+template<typename T> struct is_floating_point              : public false_type {};
+template<>           struct is_floating_point<float>       : public true_type {};
+template<>           struct is_floating_point<double>      : public true_type {};
+template<>           struct is_floating_point<long double> : public true_type {};
+
+template<typename T> struct is_arithmetic               : public is_integral<T> {};
+template<>           struct is_arithmetic<float>        : public true_type {};
+template<>           struct is_arithmetic<double>       : public true_type {};
+template<>           struct is_arithmetic<const float>  : public true_type {};
+template<>           struct is_arithmetic<const double> : public true_type {};
+
+template<typename T> struct is_pointer      : public false_type {};
+template<typename T> struct is_pointer<T *> : public true_type  {};
+
+template<typename T> struct is_device_ptr  : public false_type {};
+
+template<typename T> struct is_void       : public false_type {};
+template<>           struct is_void<void> : public true_type {};
+
+
+template<typename T> struct is_pod : public integral_constant<bool, is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value > {};
 
 // these two are synonyms for each other
 //template<typename T> struct has_trivial_copy : public std::tr1::has_trivial_copy<T> {};
@@ -122,6 +122,12 @@ template<typename T> struct has_trivial_copy_constructor : public is_pod<T> {};
 
 template<typename T> struct has_trivial_destructor : public is_pod<T> {};
 template<typename T> struct has_trivial_assign : public is_pod<T> {};
+
+template<typename T> struct is_const          : public false_type {};
+template<typename T> struct is_const<const T> : public true_type {};
+
+template<typename T> struct is_volatile             : public false_type {};
+template<typename T> struct is_volatile<volatile T> : public true_type {};
 
 template<typename T>
   struct add_const
@@ -159,31 +165,12 @@ template<typename T>
   typedef typename remove_const<typename remove_volatile<T>::type>::type type;
 }; // end remove_cv
 
-template<typename T>
-  struct is_void
-{
-  static const bool value = false;
-}; // end is_void
 
-template<>
-  struct is_void<void>
-{
-  static const bool value = true;
-}; // end is_void
+template<typename T> struct is_reference     : public false_type {};
+template<typename T> struct is_reference<T&> : public true_type {};
 
-
-template<typename T>
-  struct is_reference
-{
-  static const bool value = false;
-}; // end is_reference
-
-
-template<typename T>
-  struct is_reference<T&>
-{
-  static const bool value = true;
-}; // end is_reference
+template<typename T> struct is_device_reference                                : public false_type {};
+template<typename T> struct is_device_reference< thrust::device_reference<T> > : public true_type {};
 
 
 // NB: Careful with reference to void.
@@ -222,6 +209,118 @@ template<typename T>
     : public true_type
 {
 }; // end is_same
+
+// XXX consider is_normal_iterator only querying whether or not a type is
+//     truly an instance of normal_iterator
+template<typename T>
+  struct is_normal_iterator
+    : public integral_constant<bool, is_pointer<T>::value | is_device_ptr<T>::value>
+{
+}; // end is_normal_iterator
+
+namespace tt_detail
+{
+
+template<typename T>
+  struct is_int_or_cref
+{
+  typedef typename remove_reference<T>::type type_sans_ref;
+  static const bool value = (is_integral<T>::value
+                             || (is_integral<type_sans_ref>::value
+                                 && is_const<type_sans_ref>::value
+                                 && !is_volatile<type_sans_ref>::value));
+}; // end is_int_or_cref
+
+struct any_conversion
+{
+  template <typename T> any_conversion(const volatile T&);
+  template <typename T> any_conversion(T&);
+}; // end any_conversion
+
+template<typename From, typename To>
+  struct is_convertible_simple
+{
+  private:
+    typedef char                          one_byte;
+    typedef struct { char two_chars[2]; } two_bytes;
+
+    static one_byte  test(To, int);
+    static two_bytes test(any_conversion, ...);
+    static From      m_from;
+
+  public:
+    static const bool value = sizeof(test(m_from, 0)) == 1;
+}; // end is_convertible_simple
+
+template<typename From, typename To,
+         bool = (is_void<From>::value || is_void<To>::value
+              // XXX maybe implement this later but i don't think we need it for anything right now -jph
+              //|| is_function<To>::value || is_array<To>::value
+              || (is_floating_point<typename
+                  remove_reference<From>::type>::value
+                  && is_int_or_cref<To>::value))>
+  struct is_convertible
+{
+  static const bool value = (is_convertible_simple<typename
+                             add_reference<From>::type, To>::value);
+}; // end is_convertible
+
+template<typename From, typename To>
+  struct is_convertible<From, To, true>
+{
+  static const bool value = (is_void<To>::value
+                             || (is_int_or_cref<To>::value
+                                 && !is_void<From>::value));
+}; // end is_convertible
+
+} // end tt_detail
+
+template<typename From, typename To>
+  struct is_convertible
+    : public integral_constant<bool, tt_detail::is_convertible<From, To>::value>
+{
+}; // end is_convertible
+
+
+// mpl stuff
+
+template <typename Condition1, typename Condition2>
+  struct or_
+    : public integral_constant<bool, Condition1::value || Condition2::value>
+{
+}; // end or_
+
+template <typename Condition1, typename Condition2>
+  struct and_
+    : public integral_constant<bool, Condition1::value && Condition2::value>
+{
+}; // end and_
+
+template <bool, typename Then, typename Else>
+  struct eval_if
+{
+}; // end eval_if
+
+template<typename Then, typename Else>
+  struct eval_if<true, Then, Else>
+{
+  typedef typename Then::type type;
+}; // end eval_if
+
+template<typename Then, typename Else>
+  struct eval_if<false, Then, Else>
+{
+  typedef typename Else::type type;
+}; // end eval_if
+
+template<typename T>
+  struct identity
+{
+  typedef T type;
+}; // end identity
+
+template<bool, typename T = void> struct enable_if {};
+template<typename T>              struct enable_if<true, T> {typedef T type;};
 
 } // end detail
 

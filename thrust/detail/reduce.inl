@@ -19,17 +19,14 @@
  *  \brief Inline file for reduce.h.
  */
 
-#include <thrust/reduce.h>
+
 #include <thrust/functional.h>
-#include <thrust/transform_reduce.h>
 #include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/dispatch/reduce.h>
 
 namespace thrust
 {
-
-//////////////////
-// Entry Points //
-//////////////////
 
 template<typename InputIterator>
 typename thrust::iterator_traits<InputIterator>::value_type
@@ -40,7 +37,7 @@ typename thrust::iterator_traits<InputIterator>::value_type
 
   // use InputType(0) as init by default
   return thrust::reduce(first, last, InputType(0));
-} // end reduce()
+}
 
 template<typename InputIterator,
          typename T>
@@ -48,9 +45,9 @@ template<typename InputIterator,
             InputIterator last,
             T init)
 {
-  // use plus<T> by default
-  return thrust::reduce(first, last, init, thrust::plus<T>());
-} // end reduce()
+    // use plus<T> by default
+    return thrust::reduce(first, last, init, thrust::plus<T>());
+}
 
 
 template<typename InputIterator,
@@ -61,12 +58,11 @@ template<typename InputIterator,
             T init,
             BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+    //dispatch on space 
+    return thrust::detail::dispatch::reduce(first, last, init, binary_op,
+            typename thrust::experimental::iterator_space<InputIterator>::type());
+}
 
-  // use transform_reduce with identity transformation
-  return thrust::transform_reduce(first, last, thrust::identity<InputType>(), init, binary_op);
-} // end reduce()
 
-
-} // namespace end thrust
+} // end namespace thrust
 

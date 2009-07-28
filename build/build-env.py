@@ -1,4 +1,5 @@
 import os
+import platform
 import inspect
 
 def getTools():
@@ -16,8 +17,8 @@ OldEnvironment = Environment;
 # this dictionary maps the name of a compiler program to a dictionary mapping the name of
 # a compiler switch of interest to the specific switch implementing the feature
 gCompilerOptions = {
-    'gcc' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : ''},
-    'g++' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : ''},
+    'gcc' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : ''},
+    'g++' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : ''},
     'cl'  : {'optimization' : '/Ox', 'debug' : '/Zi', 'exception_handling' : '/EHsc'}
   }
 
@@ -100,13 +101,19 @@ def Environment():
 
   # get linker switches
   env.Append(LINKFLAGS = getLINKFLAGS(mode, env.subst('$LINK')))
+   
 
   # set CUDA lib & include path
+  if platform.machine() == 'x86_64':
+      lib_folder = 'lib64'
+  else:
+      lib_folder = 'lib'
+
   if os.name == 'posix':
-    env.Append(LIBPATH = ['/usr/local/cuda/lib'])
+    env.Append(LIBPATH = ['/usr/local/cuda/' + lib_folder])
     env.Append(CPPPATH = ['/usr/local/cuda/include'])
   elif os.name == 'nt':
-    env.Append(LIBPATH = ['C:/CUDA/lib'])
+    env.Append(LIBPATH = ['C:/CUDA/' + lib_folder])
     env.Append(CPPPATH = ['C:/CUDA/include'])
   else:
     raise ValueError, "Unknown OS. What are the CUDA include & library paths?"

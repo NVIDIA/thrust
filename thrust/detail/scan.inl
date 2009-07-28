@@ -19,8 +19,8 @@
  *  \brief Inline file for scan.h.
  */
 
-#include <thrust/scan.h>
-#include <thrust/transform_scan.h>
+#include <thrust/detail/dispatch/scan.h>
+
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
 
@@ -32,70 +32,70 @@ namespace thrust
 //////////////////
 template<typename InputIterator,
          typename OutputIterator>
-  void inclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result)
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
     // assume plus as the associative operator
-    thrust::inclusive_scan(first, last, result, thrust::plus<OutputType>());
+    return thrust::inclusive_scan(first, last, result, thrust::plus<OutputType>());
 } 
 
 template<typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  void inclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      AssociativeOperator binary_op)
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                AssociativeOperator binary_op)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-
-    // forward to transform_scan with identity transformation
-    thrust::transform_inclusive_scan(first, last, result, thrust::identity<InputType>(), binary_op);
+    // dispatch on space
+    return thrust::detail::dispatch::inclusive_scan(first, last, result, binary_op,
+            typename thrust::experimental::iterator_space<InputIterator>::type(),
+            typename thrust::experimental::iterator_space<OutputIterator>::type());
 }
 
 template<typename InputIterator,
          typename OutputIterator>
-  void exclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result)
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
     // assume 0 as the initialization value
-    thrust::exclusive_scan(first, last, result, OutputType(0));
+    return thrust::exclusive_scan(first, last, result, OutputType(0));
 }
 
 template<typename InputIterator,
          typename OutputIterator,
          typename T>
-  void exclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      const T init)
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                const T init)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
     // assume plus as the associative operator
-    thrust::exclusive_scan(first, last, result, init, thrust::plus<OutputType>());
+    return thrust::exclusive_scan(first, last, result, init, thrust::plus<OutputType>());
 } 
 
 template<typename InputIterator,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  void exclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      const T init,
-                      AssociativeOperator binary_op)
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                const T init,
+                                AssociativeOperator binary_op)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-
-    // forward to transform_scan with identity transformation
-    thrust::transform_exclusive_scan(first, last, result, thrust::identity<InputType>(), init, binary_op);
+    // dispatch on space
+    return thrust::detail::dispatch::exclusive_scan(first, last, result, init, binary_op,
+            typename thrust::experimental::iterator_space<InputIterator>::type(),
+            typename thrust::experimental::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace thrust

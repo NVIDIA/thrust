@@ -23,6 +23,9 @@
 #include <thrust/device_reference.h>
 #include <iostream>
 
+#include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
+
 namespace thrust
 {
 
@@ -118,6 +121,53 @@ template<class E, class T, class Y>
 } // end operator<<()
 
 
+namespace detail
+{
 
-} // end thrust
+template<typename T>
+  struct is_device_ptr< thrust::device_ptr<T> >
+    : public true_type
+{
+}; // end is_device_ptr
+
+// forward declaration of iterator_device_reference
+template<typename T> struct iterator_device_reference;
+
+template<typename T>
+  struct iterator_device_reference< device_ptr<T> >
+{
+  typedef T& type;
+}; // end device_traits
+
+template<typename T>
+  struct iterator_device_reference< device_ptr<const T> >
+{
+  typedef const T& type;
+}; // end device_traits
+
+
+namespace device
+{
+
+template<typename T>
+  inline __device__
+    typename iterator_device_reference< device_ptr<T> >::type
+      dereference(device_ptr<T> ptr)
+{
+  return *thrust::raw_pointer_cast(ptr);
+} // dereference
+
+template<typename T, typename IndexType>
+  inline __device__
+    typename iterator_device_reference< device_ptr<T> >::type
+      dereference(thrust::device_ptr<T> ptr, IndexType n)
+{
+  return thrust::raw_pointer_cast(ptr)[n];
+} // dereference
+
+} // end device
+
+} // end namespace detail
+
+} // end namespace thrust
 

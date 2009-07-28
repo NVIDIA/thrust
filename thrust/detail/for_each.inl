@@ -19,9 +19,8 @@
  *  \brief Inline file for for_each.h.
  */
 
-#include <thrust/for_each.h>
-#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/dispatch/for_each.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -35,9 +34,9 @@ void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f)
 {
-  // dispatch on iterator_category
-  thrust::detail::dispatch::for_each(first, last, f,
-          typename thrust::iterator_traits<InputIterator>::iterator_category());
+    // dispatch on space
+    thrust::detail::dispatch::for_each(first, last, f,
+            typename thrust::experimental::iterator_space<InputIterator>::type());
 } // end for_each()
 
 } // end namespace thrust

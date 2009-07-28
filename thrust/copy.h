@@ -197,7 +197,7 @@ template<typename InputIterator,
  *  to be \p pred to be \c false is not copied.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
- *  \p copy_if performs the assignment <tt>*(result+n) = *(first+n)</tt> and \p result
+ *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
  *  is advanced one position if <tt>pred(*(first+n))</tt>. Otherwise, no assignment
  *  occurs and \p result is not advanced.
  *
@@ -254,7 +254,7 @@ template<typename InputIterator,
  *  element causes \p pred to be \c false is not copied.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
- *  \p copy_if performs the assignment <tt>*(result+n) = *(first+n)</tt> and \p result
+ *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
  *  is advanced one position if <tt>pred(*(stencil+n))</tt>. Otherwise, no assignment
  *  occurs and \p result is not advanced.
  *

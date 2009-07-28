@@ -27,6 +27,9 @@
 // #include this for make_uint3
 #include <vector_functions.h>
 
+// #include this for runtime_error
+#include <stdexcept>
+
 namespace thrust
 {
 

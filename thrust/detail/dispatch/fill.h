@@ -22,9 +22,10 @@
 
 #pragma once
 
-#include <algorithm>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/device/cuda/fill.h>
+
+#include <algorithm>
+#include <thrust/detail/device/fill.h>
 
 namespace thrust
 {
@@ -38,11 +39,11 @@ namespace dispatch
 ///////////////
 // Host Path //
 ///////////////
-template<typename InputIterator, typename T>
-  void fill(InputIterator first,
-            InputIterator last,
+template<typename ForwardIterator, typename T>
+  void fill(ForwardIterator first,
+            ForwardIterator last,
             const T &exemplar,
-            thrust::input_host_iterator_tag)
+            thrust::experimental::space::host)
 {
   std::fill(first, last, exemplar);
 }
@@ -50,13 +51,13 @@ template<typename InputIterator, typename T>
 /////////////////
 // Device Path //
 /////////////////
-template<typename InputIterator, typename T>
-  void fill(InputIterator first,
-            InputIterator last,
+template<typename ForwardIterator, typename T>
+  void fill(ForwardIterator first,
+            ForwardIterator last,
             const T &exemplar,
-            thrust::random_access_device_iterator_tag)
+            thrust::experimental::space::device)
 {
-  thrust::detail::device::cuda::fill(first, last, exemplar);
+  thrust::detail::device::fill(first, last, exemplar);
 }
 
 } // end namespace dispatch

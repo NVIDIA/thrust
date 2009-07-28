@@ -40,7 +40,7 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
   return detail::dispatch::unique(first, last, binary_pred,
-    typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+    typename thrust::experimental::iterator_space<ForwardIterator>::type());
 } // end unique()
 
 } // end namespace thrust

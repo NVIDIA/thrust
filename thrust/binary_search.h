@@ -493,6 +493,9 @@ equal_range(ForwardIterator first,
             StrictWeakOrdering comp);
 
 
+namespace experimental
+{
+
 /*! \addtogroup vectorized_binary_search Vectorized Searches
  *  \ingroup binary_search
  *  \{
@@ -571,7 +574,9 @@ OutputIterator binary_search(ForwardIterator first,
  *  \} // end searching
  */
 
-}; // end namespace thrust
+} // end namespace experimental
+
+} // end namespace thrust
 
 #include <thrust/detail/binary_search.inl>
 

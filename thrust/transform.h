@@ -49,6 +49,7 @@ namespace thrust
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \param op The tranformation operation.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to \c UnaryFunction's \c argument_type.
@@ -80,6 +81,7 @@ template<typename InputIterator,
                            OutputIterator result,
                            UnaryFunction op);
 
+
 /*! This version of \p transform applies a binary function to each pair
  *  of elements from two input sequences and stores the result in the
  *  corresponding position in an output sequence.  Specifically, for
@@ -96,6 +98,7 @@ template<typename InputIterator,
  *  \param first2 The beginning of the second input sequence.
  *  \param result The beginning of the output sequence.
  *  \param op The tranformation operation.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator1's \c value_type is convertible to \c BinaryFunction's \c first_argument_type.
@@ -155,6 +158,7 @@ template<typename InputIterator1,
  *  \param result The beginning of the output sequence.
  *  \param op The tranformation operation.
  *  \param pred The predicate operation.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                         and \c InputIterator1's \c value_type is convertible to \c UnaryFunction's \c argument_type.
@@ -195,6 +199,7 @@ template<typename InputIterator1,
                                UnaryFunction op,
                                Predicate pred);
 
+
 /*! This version of \p transform_if conditionally applies a binary function
  *  to each pair of elements from two input sequences and stores the result in the corresponding 
  *  position in an output sequence if the corresponding position in a stencil sequence
@@ -218,6 +223,7 @@ template<typename InputIterator1,
  *  \param result The beginning of the output sequence.
  *  \param binary_op The transformation operation.
  *  \param pred The predicate operation.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                         and \c InputIterator1's \c value_type is convertible to \c BinaryFunction's \c first_argument_type.

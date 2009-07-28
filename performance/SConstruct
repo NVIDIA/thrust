@@ -1,4 +1,6 @@
 import os
+import glob
+
 from build.perftest import compile_test
 
 # try to import an environment first
@@ -40,7 +42,7 @@ build_files = [os.path.join('build', f) for f in ['perftest.py', 'test_function_
 # describe dependency graph:
 # report -> program -> .cu -> .test
 #                        \ -> nvcc_options_file
-for test in Glob("*.test"):
+for test in glob.glob("*.test"):
   cu = env.CUFile(test)
   env.Depends(cu, [nvcc_options_file] + build_files)
   cu_list.append(cu)

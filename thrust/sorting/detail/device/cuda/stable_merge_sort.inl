@@ -31,6 +31,9 @@
 #include <thrust/copy.h>
 #include <thrust/utility.h>
 
+#include <thrust/device_ptr.h>
+#include <thrust/detail/device/dereference.h>
+
 #include <thrust/sorting/detail/device/cuda/block/merging_sort.h>
 
 namespace thrust
@@ -868,67 +871,86 @@ template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
 
 } // end merge_sort_dev_namespace
 
-template<typename KeyType,
-         typename ValueType,
+
+//template<typename KeyType,
+//         typename ValueType,
+//         typename StrictWeakOrdering>
+//  void stable_merge_sort_by_key_dev(KeyType *keys,
+//                                    ValueType *data,
+//                                    StrictWeakOrdering comp,
+//                                    const size_t n)
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key_dev(KeyType *keys,
-                                    ValueType *data,
-                                    StrictWeakOrdering comp,
-                                    const size_t n)
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin,
+                                StrictWeakOrdering comp)
 {
-  // don't launch an empty kernel
-  if(n == 0) return;
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
 
-  // compute the BLOCK_SIZE based on the types we're sorting
-  const unsigned int BLOCK_SIZE = merge_sort_dev_namespace::BLOCK_SIZE<KeyType,ValueType>::result;
+    // XXX re-write kernels to accept general iterators
+    KeyType   * keys = thrust::raw_pointer_cast(&*keys_begin);
+    ValueType * data = thrust::raw_pointer_cast(&*values_begin);
 
-  // compute the maximum number of blocks we can launch on this arch
-  const unsigned int MAX_GRID_SIZE = merge_sort_dev_namespace::max_grid_size(BLOCK_SIZE);
+    const size_t n = keys_end - keys_begin;
 
-  // first, sort within each block
-  size_t num_blocks = n / BLOCK_SIZE;
-  if(n % BLOCK_SIZE) ++num_blocks;
+    // don't launch an empty kernel
+    if(n == 0) return;
 
-  size_t grid_size = merge_sort_dev_namespace::min<size_t>(num_blocks, MAX_GRID_SIZE);
+    // compute the BLOCK_SIZE based on the types we're sorting
+    const unsigned int BLOCK_SIZE = merge_sort_dev_namespace::BLOCK_SIZE<KeyType,ValueType>::result;
 
-  // do an odd-even sort per block of data
-  merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<BLOCK_SIZE><<<grid_size, BLOCK_SIZE>>>(keys, data, comp, n);
+    // compute the maximum number of blocks we can launch on this arch
+    const unsigned int MAX_GRID_SIZE = merge_sort_dev_namespace::max_grid_size(BLOCK_SIZE);
 
-  // scratch space
-  thrust::device_ptr<KeyType>   temp_keys = device_malloc<KeyType>(n);
-  thrust::device_ptr<ValueType> temp_data = device_malloc<ValueType>(n);
+    // first, sort within each block
+    size_t num_blocks = n / BLOCK_SIZE;
+    if(n % BLOCK_SIZE) ++num_blocks;
 
-  KeyType   *keys0 = keys, *keys1 = temp_keys.get();
-  ValueType *data0 = data, *data1 = temp_data.get();
+    size_t grid_size = merge_sort_dev_namespace::min<size_t>(num_blocks, MAX_GRID_SIZE);
 
-  // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
-  // Currently uses additional arrays for sorted outputs.
-  unsigned int iterations = 0;
-  for(unsigned int tile_size = BLOCK_SIZE;
-      tile_size < n;
-      tile_size *= 2)
-  {
-    merge_sort_dev_namespace::merge(keys0, data0, n, keys1, data1, tile_size, comp);
-    thrust::swap(keys0, keys1);
-    thrust::swap(data0, data1);
-    ++iterations;
-  }
+    // do an odd-even sort per block of data
+    merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<BLOCK_SIZE><<<grid_size, BLOCK_SIZE>>>(keys, data, comp, n);
 
-  // this is to make sure that our data is finally in the data and keys arrays
-  // and not in the temporary arrays
-  if(iterations % 2)
-  {
-    thrust::copy(device_pointer_cast(data0),
-                 device_pointer_cast(data0 + n),
-                 device_pointer_cast(data1));
-    thrust::copy(device_pointer_cast(keys0),
-                 device_pointer_cast(keys0 + n),
-                 device_pointer_cast(keys1));
-  }
+    // scratch space
+    thrust::device_ptr<KeyType>   temp_keys = thrust::device_malloc<KeyType>(n);
+    thrust::device_ptr<ValueType> temp_data = thrust::device_malloc<ValueType>(n);
 
-  device_free(temp_keys);
-  device_free(temp_data);
-} // end stable_merge_sort_by_key_dev()
+    KeyType   *keys0 = keys, *keys1 = temp_keys.get();
+    ValueType *data0 = data, *data1 = temp_data.get();
+
+    // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
+    // Currently uses additional arrays for sorted outputs.
+    unsigned int iterations = 0;
+    for(unsigned int tile_size = BLOCK_SIZE;
+            tile_size < n;
+            tile_size *= 2)
+    {
+        merge_sort_dev_namespace::merge(keys0, data0, n, keys1, data1, tile_size, comp);
+        thrust::swap(keys0, keys1);
+        thrust::swap(data0, data1);
+        ++iterations;
+    }
+
+    // this is to make sure that our data is finally in the data and keys arrays
+    // and not in the temporary arrays
+    if(iterations % 2)
+    {
+        thrust::copy(device_pointer_cast(data0),
+                device_pointer_cast(data0 + n),
+                device_pointer_cast(data1));
+        thrust::copy(device_pointer_cast(keys0),
+                device_pointer_cast(keys0 + n),
+                device_pointer_cast(keys1));
+    }
+
+    thrust::device_free(temp_keys);
+    thrust::device_free(temp_data);
+} // end stable_merge_sort_by_key()
 
 
 } // end namespace cuda

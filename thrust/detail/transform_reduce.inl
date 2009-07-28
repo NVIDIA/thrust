@@ -15,13 +15,13 @@
  */
 
 
-/*! \file reduce.inl
+/*! \file transform_reduce.inl
  *  \brief Inline file for transform_reduce.h.
  */
 
-#include <thrust/transform_reduce.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/transform_reduce.h>
+#include <thrust/reduce.h>
+
+#include <thrust/iterator/transform_iterator.h>
 
 namespace thrust
 {
@@ -36,9 +36,10 @@ template<typename InputIterator,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-  // dispatch on category
-  return thrust::detail::dispatch::transform_reduce(first, last, unary_op, init, binary_op,
-    typename thrust::iterator_traits<InputIterator>::iterator_category());
+    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
+    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+
+    return thrust::reduce(_first, _last, init, binary_op);
 }
 
 } // end namespace thrust

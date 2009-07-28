@@ -112,10 +112,9 @@ namespace experimental
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy \p pred.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's
- *          \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p partition_copy to reorder a
@@ -154,13 +153,13 @@ namespace experimental
  *  \see \p stable_partition_copy
  *  \see \p partition
  */
-template<typename ForwardIterator,
-         typename OutputIterator,
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
          typename Predicate>
-  OutputIterator partition_copy(ForwardIterator first,
-                                ForwardIterator last,
-                                OutputIterator result,
-                                Predicate pred);
+  ForwardIterator2 partition_copy(ForwardIterator1 first,
+                                  ForwardIterator1 last,
+                                  ForwardIterator2 result,
+                                  Predicate pred);
 
 } // end namespace experimental
 
@@ -246,10 +245,10 @@ namespace experimental
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy pred.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type,
- *          and \p ForwardIterator is mutable.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator1's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator2 is mutable.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p stable_partition_copy to
@@ -279,13 +278,13 @@ namespace experimental
  *  \see \p partition_copy
  *  \see \p stable_partition
  */
-template<typename ForwardIterator,
-         typename OutputIterator,
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
          typename Predicate>
-  OutputIterator stable_partition_copy(ForwardIterator first,
-                                       ForwardIterator last,
-                                       OutputIterator result,
-                                       Predicate pred);
+  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
+                                         ForwardIterator1 last,
+                                         ForwardIterator2 result,
+                                         Predicate pred);
 
 } // end namespace experimental
 

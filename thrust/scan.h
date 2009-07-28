@@ -39,7 +39,7 @@ namespace thrust
  *  input operand in the partial sum. More precisely, <tt>*first</tt> is 
  *  assigned to <tt>*result</tt> and the sum of <tt>*first</tt> and 
  *  <tt>*(first + 1)</tt> is assigned to <tt>*(result + 1)</tt>, and so on. 
- *  This version of inclusive_scan assumes plus as the associative operator.  
+ *  This version of \p inclusive_scan assumes plus as the associative operator.  
  *  When the input and output sequences are the same, the scan is performed 
  *  in-place.
  
@@ -51,6 +51,7 @@ namespace thrust
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
@@ -78,9 +79,9 @@ namespace thrust
  */
 template<typename InputIterator,
          typename OutputIterator>
-  void inclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result);
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result);
 
 /*! \p inclusive_scan computes an inclusive prefix sum operation. The
  *  term 'inclusive' means that each result includes the corresponding
@@ -96,6 +97,7 @@ template<typename InputIterator,
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \param binary_op The associatve operator used to 'sum' values.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
@@ -125,10 +127,10 @@ template<typename InputIterator,
 template<typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  void inclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      AssociativeOperator binary_op);
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                AssociativeOperator binary_op);
 
 /*! \p exclusive_scan computes an exclusive prefix sum operation. The
  *  term 'exclusive' means that each result does not include the 
@@ -142,6 +144,7 @@ template<typename InputIterator,
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
@@ -168,9 +171,9 @@ template<typename InputIterator,
  */
 template<typename InputIterator,
          typename OutputIterator>
-  void exclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result);
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result);
 
 
 /*! \p exclusive_scan computes an exclusive prefix sum operation. The
@@ -186,6 +189,7 @@ template<typename InputIterator,
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \param init The initial value.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
@@ -212,10 +216,10 @@ template<typename InputIterator,
 template<typename InputIterator,
          typename OutputIterator,
          typename T>
-  void exclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      const T init);
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                const T init);
 
 /*! \p exclusive_scan computes an exclusive prefix sum operation. The
  *  term 'exclusive' means that each result does not include the 
@@ -231,6 +235,7 @@ template<typename InputIterator,
  *  \param result The beginning of the output sequence.
  *  \param init The initial value.
  *  \param binary_op The associatve operator used to 'sum' values.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
@@ -265,11 +270,11 @@ template<typename InputIterator,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  void exclusive_scan(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      const T init,
-                      AssociativeOperator binary_op);
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                const T init,
+                                AssociativeOperator binary_op);
 
 /*! \} // end prefix sums
  */

@@ -22,9 +22,8 @@
 
 #pragma once
 
-#include <thrust/iterator/iterator_adaptor.h>
+#include <thrust/iterator/detail/normal_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/make_device_dereferenceable.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/utility.h>
 #include <vector>
@@ -49,110 +48,8 @@ template<typename T, typename Alloc>
     typedef typename Alloc::difference_type difference_type;
     typedef Alloc                           allocator_type;
 
-    class iterator
-      : public experimental::iterator_adaptor<iterator, pointer, pointer>
-    {
-      public:
-        __host__ __device__
-        iterator() {}
-
-        __host__ __device__
-        iterator(pointer p)
-          : iterator::iterator_adaptor_(p) {}
-
-
-        // XXX from here down needs to be private, but nvcc can't compile it
-
-        // device_dereferenceable_iterator_traits requires the following types to be defined
-        typedef typename device_dereferenceable_iterator_traits<pointer>::device_dereferenceable_type device_dereferenceable_pointer;
-
-        // forward declaration
-        class device_dereferenceable_type;
-
-        // shorthand: name the base class of device_dereferenceable_type
-        typedef experimental::iterator_adaptor<device_dereferenceable_type,
-                                               device_dereferenceable_pointer,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::pointer> device_dereferenceable_type_base;
-
-
-        class device_dereferenceable_type
-          : public device_dereferenceable_type_base
-        {
-          public:
-            __host__ __device__
-            device_dereferenceable_type() {}
-
-            __host__ __device__
-            device_dereferenceable_type(device_dereferenceable_pointer p)
-              : device_dereferenceable_type_base(p) {}
-        }; // end device_dereferenceable_type
-
-      private:
-
-        // befriend device_dereferenceable_iterator_traits so he can get at device_dereferenceable_type
-        friend struct thrust::detail::device_dereferenceable_iterator_traits<iterator>;
-
-        device_dereferenceable_type device_dereferenceable(void)
-        {
-          return device_dereferenceable_type(make_device_dereferenceable<pointer>::transform(this->base()));
-        } // end device_dereferenceable()
-
-        // befriend make_device_dereferenceable so he can get at device_dereferenceable()
-        friend struct thrust::detail::make_device_dereferenceable<iterator>;
-    }; // end iterator
-
-    class const_iterator
-      : public experimental::iterator_adaptor<const_iterator, const_pointer, const_pointer>
-    {
-      public:
-        __host__
-        const_iterator() {}
-
-        __host__
-        const_iterator(const_pointer p)
-          : const_iterator::iterator_adaptor_(p) {}
-
-        __host__ __device__
-        const_iterator(iterator const & other)
-          : const_iterator::iterator_adaptor_(other.base()) {}
-
-        // XXX from here down needs to be private, but nvcc can't compile it
-
-        // device_dereferenceable_iterator_traits requires the following types to be defined
-        typedef typename device_dereferenceable_iterator_traits<const_pointer>::device_dereferenceable_type device_dereferenceable_pointer;
-
-        // forward declaration
-        class device_dereferenceable_type;
-
-        // shorthand: name the base class of device_dereferenceable_type
-        typedef experimental::iterator_adaptor<device_dereferenceable_type,
-                                               device_dereferenceable_pointer,
-                                               typename thrust::iterator_traits<device_dereferenceable_pointer>::pointer> device_dereferenceable_type_base;
-
-        class device_dereferenceable_type
-          : public device_dereferenceable_type_base
-        {
-          public:
-            __host__ __device__
-            device_dereferenceable_type() {}
-
-            __host__ __device__
-            device_dereferenceable_type(device_dereferenceable_pointer p)
-              : device_dereferenceable_type_base(p) {}
-        }; // end device_dereferenceable_type
-
-      private:
-        // befriend device_dereferenceable_iterator_traits so he can get at device_dereferenceable_type
-        friend struct thrust::detail::device_dereferenceable_iterator_traits<const_iterator>;
-
-        device_dereferenceable_type device_dereferenceable(void)
-        {
-          return device_dereferenceable_type(make_device_dereferenceable<const_pointer>::transform(this->base()));
-        } // end device_dereferenceable()
-
-        // befriend make_device_dereferenceable so he can get at device_dereferenceable()
-        friend struct thrust::detail::make_device_dereferenceable<const_iterator>;
-    }; // end iterator
+    typedef normal_iterator<pointer>        iterator;
+    typedef normal_iterator<const_pointer>  const_iterator;
 
     /*! This constructor creates an empty vector_base.
      */

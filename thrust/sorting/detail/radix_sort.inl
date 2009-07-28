@@ -19,7 +19,6 @@
  *  \brief Inline file for radix_sort.h.
  */
 
-#include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/sorting/detail/dispatch/radix_sort.h>
 
@@ -46,7 +45,7 @@ template<typename RandomAccessIterator>
 {
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_radix_sort(begin, end,
-            typename thrust::iterator_traits<RandomAccessIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
 }
 
 
@@ -57,8 +56,8 @@ template<typename RandomAccessIterator>
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
   void radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                     RandomAccessIterator1 keys_end,
-                     RandomAccessIterator2 values_begin)
+                         RandomAccessIterator1 keys_end,
+                         RandomAccessIterator2 values_begin)
 {
     stable_radix_sort_by_key(keys_begin, keys_end, values_begin);
 }
@@ -67,13 +66,13 @@ template<typename RandomAccessIterator1,
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
   void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                            RandomAccessIterator1 keys_end,
-                            RandomAccessIterator2 values_begin)
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin)
 {
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_radix_sort_by_key(keys_begin, keys_end, values_begin,
-            typename thrust::iterator_traits<RandomAccessIterator1>::iterator_category(),
-            typename thrust::iterator_traits<RandomAccessIterator2>::iterator_category());
+            typename thrust::experimental::iterator_space<RandomAccessIterator1>::type(),
+            typename thrust::experimental::iterator_space<RandomAccessIterator2>::type());
 }
 
 

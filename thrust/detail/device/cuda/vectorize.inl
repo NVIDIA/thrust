@@ -122,6 +122,40 @@ void vectorize(IndexType n, UnaryFunction f)
 }
 
 
+
+template<typename RandomAccessDeviceIterator>
+  __global__ void vectorize_kernel(RandomAccessDeviceIterator first, RandomAccessDeviceIterator last)
+{
+  // this kernel simply dereferences each iterator i in [first, last)
+  
+  typedef typename thrust::iterator_traits<RandomAccessDeviceIterator>::difference_type difference_type;
+
+  difference_type grid_size = blockDim.x * gridDim.x;
+
+  for(first += blockIdx.x * blockDim.x + threadIdx.x;
+      first < last;
+      first += grid_size)
+  {
+    *first;
+  }
+}
+
+template<typename RandomAccessDeviceIterator>
+  void vectorize(RandomAccessDeviceIterator first, RandomAccessDeviceIterator last)
+{
+  if(first >= last) return;
+
+  typedef typename thrust::iterator_traits<RandomAccessDeviceIterator>::difference_type difference_type;
+  difference_type n = last - first;
+
+  const size_t BLOCK_SIZE = 256;
+  const size_t MAX_BLOCKS = 3 * thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
+  const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, (n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+
+  vectorize_kernel<<<NUM_BLOCKS, BLOCK_SIZE>>>(first,last);
+}
+
+
 } // end namespace cuda
 
 } // end namespace device

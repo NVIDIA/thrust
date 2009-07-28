@@ -26,6 +26,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/experimental/arch.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -53,7 +54,7 @@ void for_each_kernel(InputIterator first,
     first += blockIdx.x * blockDim.x + threadIdx.x;
 
     while (first < last){
-        f(*first);
+        f(thrust::detail::device::dereference(first));
         first += grid_size;
     }
 }

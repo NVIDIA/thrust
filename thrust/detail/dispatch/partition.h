@@ -16,24 +16,15 @@
 
 
 /*! \file partition.h
- *  \brief Defines the interface to the
- *         dispatch layer of the partition
- *         family of functions.
+ *  \brief Dispatch layer for the partition functions.
  */
 
 #pragma once
 
-#include <algorithm>
-#include <thrust/partition.h>
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/remove.h>
-#include <thrust/copy.h>
-#include <thrust/distance.h>
-#include <thrust/remove.h>
-#include <thrust/device_ptr.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/host/partition.h>
+#include <thrust/detail/device/partition.h>
 
 namespace thrust
 {
@@ -44,95 +35,108 @@ namespace detail
 namespace dispatch
 {
 
-///////////////
-// Host Path //
-///////////////
+////////////////
+// Host Paths //
+////////////////
 template<typename ForwardIterator,
-         typename OutputIterator,
          typename Predicate>
-  OutputIterator stable_partition_copy(ForwardIterator begin,
-                                       ForwardIterator end,
-                                       OutputIterator result,
-                                       Predicate pred,
-                                       thrust::forward_host_iterator_tag,
-                                       thrust::forward_host_iterator_tag)
+  ForwardIterator partition(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred,
+                            thrust::experimental::space::host)
 {
-  // copy [begin,end) to result
-  std::copy(begin, end, result);
-
-  return std::stable_partition(result, result + thrust::distance(begin, end), pred);
+    return thrust::detail::host::partition(first, last, pred);
 }
 
-
-/////////////////
-// Device Path //
-/////////////////
-template<typename ForwardIterator,
-         typename OutputIterator,
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
          typename Predicate>
-  OutputIterator stable_partition_copy(ForwardIterator begin,
-                                       ForwardIterator end,
-                                       OutputIterator result,
-                                       Predicate pred,
-                                       thrust::random_access_device_iterator_tag,
-                                       thrust::random_access_device_iterator_tag)
+  ForwardIterator2 partition_copy(ForwardIterator1 first,
+                                  ForwardIterator1 last,
+                                  ForwardIterator2 result,
+                                  Predicate pred,
+                                  thrust::experimental::space::host,
+                                  thrust::experimental::space::host)
 {
-  thrust::unary_negate<Predicate> not_pred(pred);
-
-  // remove_copy_if the false partition to result
-  OutputIterator end_of_true_partition = thrust::remove_copy_if(begin, end, result, not_pred);
-
-  // remove_copy_if the true partition to the end of the true partition
-  thrust::remove_copy_if(begin, end, end_of_true_partition, pred);
-
-  return end_of_true_partition;
+    return thrust::detail::host::partition_copy(first, last, result, pred);
 }
 
-
-///////////////
-// Host Path //
-///////////////
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(ForwardIterator begin,
-                                   ForwardIterator end,
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
                                    Predicate pred,
-                                   thrust::forward_host_iterator_tag)
+                                   thrust::experimental::space::host)
 {
-  return std::stable_partition(begin, end, pred);
+    return thrust::detail::host::stable_partition(first, last, pred);
+}
+
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
+         typename Predicate>
+  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
+                                         ForwardIterator1 last,
+                                         ForwardIterator2 result,
+                                         Predicate pred,
+                                         thrust::experimental::space::host,
+                                         thrust::experimental::space::host)
+{
+    return thrust::detail::host::stable_partition_copy(first, last, result, pred);
 }
 
 
-/////////////////
-// Device Path //
-/////////////////
+//////////////////
+// Device Paths //
+//////////////////
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(ForwardIterator begin,
-                                   ForwardIterator end,
-                                   Predicate pred,
-                                   thrust::random_access_device_iterator_tag)
+  ForwardIterator partition(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred,
+                            thrust::experimental::space::device)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-
-  // partition to temp space
-  thrust::device_ptr<InputType> temp = thrust::device_malloc<InputType>(end - begin);
-  thrust::copy(begin, end, temp);
-  thrust::device_ptr<InputType> temp_middle = thrust::experimental::stable_partition_copy(begin, end, temp, pred);
-    
-  // copy back to original sequence
-  thrust::copy(temp, temp + (end - begin), begin);
-
-  // free temp space
-  thrust::device_free(temp);
-
-  return begin + (temp_middle - temp);
+    return thrust::detail::device::partition(first, last, pred);
 }
 
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
+         typename Predicate>
+  ForwardIterator2 partition_copy(ForwardIterator1 first,
+                                  ForwardIterator1 last,
+                                  ForwardIterator2 result,
+                                  Predicate pred,
+                                  thrust::experimental::space::device,
+                                  thrust::experimental::space::device)
+{
+    return thrust::detail::device::partition_copy(first, last, result, pred);
+}
+
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
+                                   Predicate pred,
+                                   thrust::experimental::space::device)
+{
+    return thrust::detail::device::stable_partition(first, last, pred);
+}
+
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
+         typename Predicate>
+  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
+                                         ForwardIterator1 last,
+                                         ForwardIterator2 result,
+                                         Predicate pred,
+                                         thrust::experimental::space::device,
+                                         thrust::experimental::space::device)
+{
+    return thrust::detail::device::stable_partition_copy(first, last, result, pred);
+}
 
 } // end namespace dispatch
 
-} // end detail
+} // end namespace detail
 
-} // end thrust
+} // end namespace thrust
 

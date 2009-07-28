@@ -112,30 +112,5 @@ constant_iterator<T> make_constant_iterator(T x, ptrdiff_t c = ptrdiff_t())
 
 } // end namespace experimental
 
-namespace detail
-{
-
-template<typename T>
-  struct make_device_dereferenceable< thrust::experimental::constant_iterator<T> >
-{
-  __host__ __device__
-  static
-  thrust::experimental::constant_iterator<T> &
-  transform(thrust::experimental::constant_iterator<T> &x)
-  {
-    return x;
-  } // end transform()
-
-  __host__ __device__
-  static
-  const thrust::experimental::constant_iterator<T> &
-  transform(const thrust::experimental::constant_iterator<T> &x)
-  {
-    return x;
-  } // end transform()
-}; // end make_device_dereferenceable
-
-} // end detail
-
 } // end namespace thrust
 

@@ -15,8 +15,8 @@
  */
 
 
-/*! \file scan_dev.inl
- *  \brief Inline file for scan_dev.h.
+/*! \file scan.inl
+ *  \brief Inline file for scan.h.
  */
 
 // do not attempt to compile this file with any other compiler
@@ -29,10 +29,12 @@
 #include <thrust/device_free.h>
 #include <thrust/copy.h>
 
-#include <thrust/scan.h>    //for second level scans
+#include <thrust/scan.h>    // for second level scans
+#include <stdlib.h>         // for malloc & free
 
-#include <stdlib.h> // for malloc/free
+#include <thrust/detail/util/blocking.h>
 
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -49,93 +51,102 @@ namespace cuda
 namespace interval_scan
 {
 
-//TODO move this to /detail/util/    
-// ceil(x/y) for integers, used to determine # of blocks/warps etc.
-template<typename L, typename R>
-  inline __host__ __device__ L divide_into(const L x, const R y)
-{
-  return (x + y - 1) / y;
-}
-
 /////////////    
 // Kernels //
 /////////////    
 
 // XXX replace with thrust::detail::warp::scan() after perf testing
-template<typename T, 
+//template<typename T, 
+//         typename AssociativeOperator>
+//         __device__
+//void scan_warp(const unsigned int& thread_lane, volatile T * sdata, const AssociativeOperator binary_op)
+//{
+//    // the use of 'volatile' is a workaround so that nvcc doesn't reorder the following lines
+//    if (thread_lane >=  1)  sdata[threadIdx.x] = binary_op((T &) sdata[threadIdx.x -  1] , (T &) sdata[threadIdx.x]);
+//    if (thread_lane >=  2)  sdata[threadIdx.x] = binary_op((T &) sdata[threadIdx.x -  2] , (T &) sdata[threadIdx.x]);
+//    if (thread_lane >=  4)  sdata[threadIdx.x] = binary_op((T &) sdata[threadIdx.x -  4] , (T &) sdata[threadIdx.x]);
+//    if (thread_lane >=  8)  sdata[threadIdx.x] = binary_op((T &) sdata[threadIdx.x -  8] , (T &) sdata[threadIdx.x]);
+//    if (thread_lane >= 16)  sdata[threadIdx.x] = binary_op((T &) sdata[threadIdx.x - 16] , (T &) sdata[threadIdx.x]);
+//}
+
+template<typename InputType, 
+         typename InputIterator, 
          typename AssociativeOperator>
          __device__
-void scan_warp(const unsigned int& thread_lane, volatile T * sdata, const AssociativeOperator op)
+void scan_warp(const unsigned int& thread_lane, InputType& val, InputIterator sdata, const AssociativeOperator binary_op)
 {
-    // the use of 'volatile' is a workaround so that nvcc doesn't reorder the following lines
-    if (thread_lane >=  1)  sdata[threadIdx.x] = op((T &) sdata[threadIdx.x -  1] , (T &) sdata[threadIdx.x]);
-    if (thread_lane >=  2)  sdata[threadIdx.x] = op((T &) sdata[threadIdx.x -  2] , (T &) sdata[threadIdx.x]);
-    if (thread_lane >=  4)  sdata[threadIdx.x] = op((T &) sdata[threadIdx.x -  4] , (T &) sdata[threadIdx.x]);
-    if (thread_lane >=  8)  sdata[threadIdx.x] = op((T &) sdata[threadIdx.x -  8] , (T &) sdata[threadIdx.x]);
-    if (thread_lane >= 16)  sdata[threadIdx.x] = op((T &) sdata[threadIdx.x - 16] , (T &) sdata[threadIdx.x]);
+    sdata[threadIdx.x] = val;
+
+    if (thread_lane >=  1)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  1], val);
+    if (thread_lane >=  2)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  2], val);
+    if (thread_lane >=  4)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  4], val);
+    if (thread_lane >=  8)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  8], val);
+    if (thread_lane >= 16)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x - 16], val);
 }
 
-template<typename OutputType,
-         typename AssociativeOperator,
-         unsigned int BLOCK_SIZE>
+template<unsigned int BLOCK_SIZE,
+         typename OutputIterator,
+         typename OutputType,
+         typename AssociativeOperator>
 __global__ void
-inclusive_update_kernel(OutputType *dst,
+inclusive_update_kernel(OutputIterator result,
+                        const AssociativeOperator binary_op,
                         const unsigned int n,
-                        const AssociativeOperator op,
-                        const unsigned int num_iters,
-                        const unsigned int num_warps,
-                        const OutputType * carry_in)
+                        const unsigned int interval_size,
+                        OutputType * carry_in)
 {
-  const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;  // global thread index
-  const unsigned int thread_lane = threadIdx.x & 31;                       // thread index within the warp
-  const unsigned int warp_id     = thread_id   / 32;                       // global warp index
-
-  if(warp_id == 0 || warp_id >= num_warps) return;                         // nothing to do
-  
-  const unsigned int begin = warp_id * num_iters * 32 + thread_lane;       // thread offset into array
-  const unsigned int end   = min(begin + (num_iters * 32), n);             // end of thread work
-
-  const OutputType carry = carry_in[warp_id - 1];                          // value to add to this segment
-
-  for(unsigned int i = begin; i < end; i += 32){
-      dst[i] = op(carry, dst[i]);
-  }
-}
-
-template<typename OutputType,
-         typename AssociativeOperator,
-         unsigned int BLOCK_SIZE>
-__global__ void
-exclusive_update_kernel(OutputType *dst,
-                        const unsigned int n,
-                        const AssociativeOperator op,
-                        const unsigned int num_iters,
-                        const unsigned int num_warps,
-                        const OutputType * carry_in)
-{
-    __shared__ OutputType sdata[BLOCK_SIZE];
-    __shared__ OutputType first[BLOCK_SIZE/32];
-
-    const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;  // global thread index
-    const unsigned int thread_lane = threadIdx.x & 31;                       // thread index within the warp
-    const unsigned int warp_id     = thread_id   / 32;                       // global warp index
-    const unsigned int warp_lane   = threadIdx.x / 32;                       // warp index within the CTA
-
-    if(warp_id >= num_warps) return;                                         // nothing to do
+    const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;        // global thread index
+    const unsigned int thread_lane = threadIdx.x & 31;                             // thread index within the warp
+    const unsigned int warp_id     = thread_id   / 32;                             // global warp index
     
-    const unsigned int begin = warp_id * num_iters * 32 + thread_lane;       // thread offset into array
-    const unsigned int end   = min(begin + (num_iters * 32), n);             // end of thread work
+    const unsigned int interval_begin = warp_id * interval_size;                   // beginning of this warp's segment
+    const unsigned int interval_end   = min(interval_begin + interval_size, n);    // end of this warp's segment
+    
+    if(interval_begin == 0 || interval_begin >= n) return;                         // nothing to do
 
-    const OutputType carry = carry_in[warp_id];                               // value to add to this segment
+    OutputType carry = carry_in[warp_id - 1];                                      // value to add to this segment
 
-    if(thread_lane == 0)
-        first[warp_lane] = carry;
+    for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32){
+        thrust::detail::device::dereference(result, i) = binary_op(carry, thrust::detail::device::dereference(result, i));
+    }
+}
 
-    for(unsigned int i = begin; i < end; i += 32){
-        sdata[threadIdx.x] = op(carry, dst[i]);
-        dst[i] = (thread_lane == 0) ? first[warp_lane] : sdata[threadIdx.x - 1]; 
-        if(thread_lane == 31)
-            first[warp_lane] = sdata[threadIdx.x];
+template<unsigned int BLOCK_SIZE,
+         typename OutputIterator,
+         typename OutputType,
+         typename AssociativeOperator>
+__global__ void
+exclusive_update_kernel(OutputIterator result,
+                        OutputType init,
+                        const AssociativeOperator binary_op,
+                        const unsigned int n,
+                        const unsigned int interval_size,
+                        OutputType * carry_in)
+{
+    // XXX workaround types with constructors in __shared__ memory
+    //__shared__ OutputType sdata[BLOCK_SIZE];
+    __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
+    OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
+
+    const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;        // global thread index
+    const unsigned int thread_lane = threadIdx.x & 31;                             // thread index within the warp
+    const unsigned int warp_id     = thread_id   / 32;                             // global warp index
+    
+    const unsigned int interval_begin = warp_id * interval_size;                   // beginning of this warp's segment
+    const unsigned int interval_end   = min(interval_begin + interval_size, n);    // end of this warp's segment
+    
+    if(interval_begin >= n) return;                                                // nothing to do
+
+    OutputType carry = (warp_id == 0) ? init : binary_op(init, carry_in[warp_id - 1]);  // value to add to this segment
+    OutputType val   = carry;
+
+    for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32){
+        sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(result, i));
+
+        thrust::detail::device::dereference(result, i) = (thread_lane == 0) ? val : sdata[threadIdx.x - 1]; 
+
+        if(thread_lane == 0)
+            val = sdata[threadIdx.x + 31];
     }
 }
 
@@ -144,17 +155,18 @@ exclusive_update_kernel(OutputType *dst,
  * For intervals of length 2:
  *    [ a, b, c, d, ... ] -> [ a, a+b, c, c+d, ... ]
  *
- * Each warp is assigned an interval of src
+ * Each warp is assigned an interval of [first, first + n)
  */
-template<typename InputIterator,
-         typename OutputType,
+template<unsigned int BLOCK_SIZE,
+         typename InputIterator,
+         typename OutputIterator,
          typename AssociativeOperator,
-         unsigned int BLOCK_SIZE>
+         typename OutputType>
 __global__ void
-kernel(InputIterator src,
+kernel(InputIterator first,
        const unsigned int n,
-       OutputType *dst,
-       const AssociativeOperator op,
+       OutputIterator result,
+       const AssociativeOperator binary_op,
        const unsigned int interval_size,
        OutputType * final_carry)
 {
@@ -162,92 +174,69 @@ kernel(InputIterator src,
   //     so define our own constant
   const unsigned int WARP_SIZE = 32;
 
-  __shared__ volatile OutputType sdata[BLOCK_SIZE];
-  __shared__ volatile OutputType carry[BLOCK_SIZE/WARP_SIZE];
-
+  //__shared__ volatile OutputType sdata[BLOCK_SIZE];
+  __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
+  OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
+  
   const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;  // global thread index
   const unsigned int thread_lane = threadIdx.x & (WARP_SIZE - 1);          // thread index within the warp
   const unsigned int warp_id     = thread_id   / WARP_SIZE;                // global warp index
-  const unsigned int warp_lane   = threadIdx.x / WARP_SIZE;                // warp index within the CTA
 
-  const unsigned int base = warp_id * interval_size;
-  unsigned int i   = base + thread_lane;                                   // initial thread starting position
-  unsigned int end;                                                        // end of current sub-segment
-  
-  if(base >= n)
+  const unsigned int interval_begin = warp_id * interval_size;                 // beginning of this warp's segment
+  const unsigned int interval_end   = min(interval_begin + interval_size, n);  // end of this warp's segment
+
+  unsigned int i = interval_begin + thread_lane;                               // initial thread starting position
+
+  // nothing to do
+  if(i >= interval_end)
       return;
 
 //  /// XXX BEGIN TEST
 //  if(thread_lane == 0){
 //    end = min(base + interval_size, n);
 //
-//    OutputType sum = src[i];
-//    dst[i] = sum;
+//    OutputType sum = thrust::detail::device::dereference(first, i);
+//    thrust::detail::device::dereference(result, i) = sum;
 //
 //    i++;
 //    while( i < end ){
-//        sum = op(sum, src[i]);
-//        dst[i] = sum;
+//        sum = binary_op(sum, thrust::detail::device::dereference(first, i));
+//        thrust::detail::device::dereference(result, i) = sum;
 //        i++;
 //    }
 //    final_carry[warp_id] = sum;
 //  }
 //  // XXX END TEST
 
+
   // First iteration has no carry in
-  end = n;
-  if(i < n){
-    sdata[threadIdx.x] = src[i];
+  if(i < interval_end){
+      OutputType val = thrust::detail::device::dereference(first, i);
 
-    scan_warp<OutputType>(thread_lane, sdata, op);
+      scan_warp(thread_lane, val, sdata, binary_op);
 
-    if (thread_lane == 0)
-        carry[warp_lane] = sdata[threadIdx.x + min(n - i - 1, WARP_SIZE - 1)];    // since (i + WARP_SIZE - 1) may be >= n
+      thrust::detail::device::dereference(result, i) = val;
 
-    dst[i] = sdata[threadIdx.x];
-
-    i += WARP_SIZE;
-  }
-  
-  // Remaining full-width iterations
-  end = min(base + interval_size, n - (n & (WARP_SIZE - 1)));
-  while(i < end){
-    sdata[threadIdx.x] = src[i];
-
-    if (thread_lane == 0)
-        sdata[threadIdx.x] = op((OutputType &) carry[warp_lane], (OutputType &) sdata[threadIdx.x]);
-    
-    scan_warp<OutputType>(thread_lane, sdata, op);
-
-    if (thread_lane == (WARP_SIZE - 1))
-        carry[warp_lane] = sdata[threadIdx.x]; 
-
-    dst[i] = sdata[threadIdx.x];
-
-    i += WARP_SIZE;
-  }
-  
-  
-  // Final non-full-width iteration
-  end = min(base + interval_size, n);
-  if(i < end){
-    sdata[threadIdx.x] = src[i];
-
-    if(thread_lane == 0)
-        sdata[threadIdx.x] = op((OutputType &) carry[warp_lane], (OutputType &) sdata[threadIdx.x]);
-    
-    scan_warp<OutputType>(thread_lane, sdata, op);
-
-    if(thread_lane == 0)
-      carry[warp_lane] = sdata[threadIdx.x + min(n - i - 1, (WARP_SIZE - 1))]; 
-
-    dst[i] = sdata[threadIdx.x];
-
-    i += WARP_SIZE;
+      i += WARP_SIZE;
   }
 
-  if(base < end && thread_lane == 0)
-    final_carry[warp_id] = carry[warp_lane];
+  // Remaining iterations have carry in
+  while(i < interval_end){
+      OutputType val = thrust::detail::device::dereference(first, i);
+
+      if (thread_lane == 0)
+          val = binary_op(sdata[threadIdx.x + (WARP_SIZE - 1)], val);
+
+      scan_warp(thread_lane, val, sdata, binary_op);
+
+      thrust::detail::device::dereference(result, i) = val;
+
+      i += WARP_SIZE;
+  }
+
+  if (i == interval_end + (WARP_SIZE - 1))
+      final_carry[warp_id] = sdata[threadIdx.x];
+
 } // end kernel()
 
 
@@ -261,15 +250,19 @@ kernel(InputIterator src,
 //////////////////
 
 template<typename InputIterator,
-         typename OutputType,
+         typename OutputIterator,
          typename AssociativeOperator>
-  void inclusive_scan(InputIterator src,
-                      const size_t n,
-                      OutputType * dst,
-                      AssociativeOperator op)
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                AssociativeOperator binary_op)
 {
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  
+    const size_t n = last - first;
+
     if( n == 0 ) 
-        return;
+        return result;
 
     // XXX todo query for warp size
     const unsigned int WARP_SIZE  = 32;
@@ -277,10 +270,10 @@ template<typename InputIterator,
     const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
-    const unsigned int num_units  = interval_scan::divide_into(n, WARP_SIZE);
+    const unsigned int num_units  = thrust::detail::util::divide_into(n, WARP_SIZE);
     const unsigned int num_warps  = std::min(num_units, WARPS_PER_BLOCK * MAX_BLOCKS);
-    const unsigned int num_blocks = interval_scan::divide_into(num_warps,WARPS_PER_BLOCK);
-    const unsigned int num_iters  = interval_scan::divide_into(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
+    const unsigned int num_blocks = thrust::detail::util::divide_into(num_warps,WARPS_PER_BLOCK);
+    const unsigned int num_iters  = thrust::detail::util::divide_into(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
 
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
@@ -289,8 +282,8 @@ template<typename InputIterator,
 
     //////////////////////
     // first level scan
-    interval_scan::kernel<InputIterator,OutputType,AssociativeOperator,BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (src, n, dst, op, interval_size, d_carry_out.get());
+    interval_scan::kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+        (first, n, result, binary_op, interval_size, d_carry_out.get());
 
     bool second_scan_device = true;
 
@@ -298,13 +291,13 @@ template<typename InputIterator,
     // second level scan
     if (second_scan_device) {
         // scan carry_out on the device (use one warp of GPU method for second level scan)
-        interval_scan::kernel<OutputType *,OutputType,AssociativeOperator,WARP_SIZE> <<<1, WARP_SIZE>>>
-            (d_carry_out.get(), num_warps, d_carry_out.get(), op, num_warps, (d_carry_out + num_warps - 1).get());
+        interval_scan::kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+            (d_carry_out.get(), num_warps, d_carry_out.get(), binary_op, num_warps, (d_carry_out + num_warps - 1).get());
     } else {
         // scan carry_out on the host
         OutputType *h_carry_out = (OutputType*)(::malloc(num_warps * sizeof(OutputType)));
         thrust::copy(d_carry_out, d_carry_out + num_warps, h_carry_out);
-        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps, h_carry_out, op);
+        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps, h_carry_out, binary_op);
 
         // copy back to device
         thrust::copy(h_carry_out, h_carry_out + num_warps, d_carry_out);
@@ -313,47 +306,53 @@ template<typename InputIterator,
 
     //////////////////////
     // update intervals
-    interval_scan::inclusive_update_kernel<OutputType,AssociativeOperator,BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (dst, n, op, num_iters, num_warps, d_carry_out.get());
+    interval_scan::inclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+        (result, binary_op, n, interval_size, d_carry_out.get());
 
     // free device work array
     thrust::device_free(d_carry_out);
+
+    return result + n;
 } // end inclusive_interval_scan()
 
 
 
 template<typename InputIterator,
-         typename OutputType,
+         typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  void exclusive_scan(InputIterator src,
-                      const size_t n,
-                      OutputType * dst,
-                      const T init,
-                      AssociativeOperator op)
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                T init,
+                                AssociativeOperator binary_op)
 {
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  
+    const size_t n = last - first;
+
     if( n == 0 )
-        return;
+        return result;
 
     const unsigned int WARP_SIZE  = 32;
     const unsigned int BLOCK_SIZE = 256;
     const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
-    const unsigned int num_units  = interval_scan::divide_into(n, WARP_SIZE);
+    const unsigned int num_units  = thrust::detail::util::divide_into(n, WARP_SIZE);
     const unsigned int num_warps  = std::min(num_units, WARPS_PER_BLOCK * MAX_BLOCKS);
-    const unsigned int num_blocks = interval_scan::divide_into(num_warps,WARPS_PER_BLOCK);
-    const unsigned int num_iters  = interval_scan::divide_into(num_units, num_warps);
+    const unsigned int num_blocks = thrust::detail::util::divide_into(num_warps,WARPS_PER_BLOCK);
+    const unsigned int num_iters  = thrust::detail::util::divide_into(num_units, num_warps);
 
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::device_ptr<OutputType> d_carry_out = thrust::device_malloc<OutputType>(num_warps + 1);
+    thrust::device_ptr<OutputType> d_carry_out = thrust::device_malloc<OutputType>(num_warps);
 
     //////////////////////
     // first level scan
-    interval_scan::kernel<InputIterator,OutputType,AssociativeOperator,BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (src, n, dst, op, interval_size, (d_carry_out + 1).get());
+    interval_scan::kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+        (first, n, result, binary_op, interval_size, d_carry_out.get());
 
     bool second_scan_device = true;
 
@@ -361,29 +360,29 @@ template<typename InputIterator,
     // second level scan
     if (second_scan_device) {
         // scan carry_out on the device (use one warp of GPU method for second level scan)
-        d_carry_out[0] = init; // set first value
-        interval_scan::kernel<OutputType *,OutputType,AssociativeOperator,WARP_SIZE> <<<1, WARP_SIZE>>>
-            (d_carry_out.get(), num_warps + 1, d_carry_out.get(), op, num_warps + 1, (d_carry_out + num_warps).get());
+        interval_scan::kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+            (d_carry_out.get(), num_warps, d_carry_out.get(), binary_op, num_warps, (d_carry_out + num_warps - 1).get());
     } 
     else {
         // scan carry_out on the host
-        OutputType *h_carry_out = (OutputType*)(::malloc((num_warps + 1) * sizeof(OutputType)));
-        thrust::copy(d_carry_out, d_carry_out + num_warps + 1, h_carry_out);       
-        h_carry_out[0] = init;
-        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps + 1, h_carry_out, op);
+        OutputType *h_carry_out = (OutputType*)(::malloc(num_warps * sizeof(OutputType)));
+        thrust::copy(d_carry_out, d_carry_out + num_warps, h_carry_out);
+        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps, h_carry_out, binary_op);
 
         // copy back to device
-        thrust::copy(h_carry_out, h_carry_out + num_warps + 1, d_carry_out);
+        thrust::copy(h_carry_out, h_carry_out + num_warps, d_carry_out);
         ::free(h_carry_out);
     }
 
     //////////////////////
     // update intervals
-    interval_scan::exclusive_update_kernel<OutputType,AssociativeOperator,BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (dst, n, op, num_iters, num_warps, d_carry_out.get());
+    interval_scan::exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+        (result, OutputType(init), binary_op, n, interval_size, d_carry_out.get());
 
     // free device work array
     thrust::device_free(d_carry_out);
+
+    return result + n;
 } // end exclusive_interval_scan()
 
 

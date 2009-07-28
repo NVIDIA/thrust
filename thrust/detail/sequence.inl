@@ -20,8 +20,11 @@
  */
 
 #include <thrust/sequence.h>
+
+#include <thrust/transform.h>
+#include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/sequence.h>
+#include <thrust/iterator/counting_iterator.h>
 
 namespace thrust
 {
@@ -44,14 +47,41 @@ template<typename ForwardIterator, typename T>
 } // end sequence()
 
 
+
+namespace detail
+{
+
+template <typename OutputType, typename T>
+struct sequence_functor
+{
+  const T init;
+  const T step;
+
+  sequence_functor(T _init, T _step) 
+      : init(_init), step(_step) {}
+  
+  template <typename IntegerType>
+      __host__ __device__
+  OutputType operator()(const IntegerType i) const { return init + step * i; }
+}; // end sequence_functor
+
+} // end namespace detail
+
+
 template<typename ForwardIterator, typename T>
   void sequence(ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step)
 {
-  thrust::detail::dispatch::sequence(first, last, init, step,
-    typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+    typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
+    typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
+
+    detail::sequence_functor<OutputType,T> func(init, step);
+
+    thrust::experimental::counting_iterator<difference_type> iter(0);
+
+    thrust::transform(iter, iter + thrust::distance(first, last), first, func);
 } // end sequence()
 
 } // end namespace thrust

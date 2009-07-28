@@ -19,9 +19,9 @@
  *  \brief Inline file for transform_scan.h.
  */
 
-#include <thrust/transform_scan.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/transform_scan.h>
+#include <thrust/scan.h>
+
+#include <thrust/iterator/transform_iterator.h>
 
 namespace thrust
 {
@@ -30,16 +30,18 @@ template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename AssociativeOperator>
-  void transform_inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                UnaryFunction unary_op,
-                                AssociativeOperator binary_op)
+  OutputIterator transform_inclusive_scan(InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          UnaryFunction unary_op,
+                                          AssociativeOperator binary_op)
 {
-    // dispatch on iterator category
-    thrust::detail::dispatch::transform_inclusive_scan(first, last, result, unary_op, binary_op,
-            typename thrust::iterator_traits<InputIterator>::iterator_category(),
-            typename thrust::iterator_traits<OutputIterator>::iterator_category());
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
+    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
+    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+
+    return thrust::inclusive_scan(_first, _last, result, binary_op);
 }
 
 
@@ -48,17 +50,19 @@ template<typename InputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  void transform_exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                UnaryFunction unary_op,
-                                T init,
-                                AssociativeOperator binary_op)
+  OutputIterator transform_exclusive_scan(InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          UnaryFunction unary_op,
+                                          T init,
+                                          AssociativeOperator binary_op)
 {
-    // dispatch on category
-    thrust::detail::dispatch::transform_exclusive_scan(first, last, result, unary_op, init, binary_op,
-            typename thrust::iterator_traits<InputIterator>::iterator_category(),
-            typename thrust::iterator_traits<OutputIterator>::iterator_category());
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+    
+    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
+    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+
+    return thrust::exclusive_scan(_first, _last, result, init, binary_op);
 }
 
 } // end namespace thrust

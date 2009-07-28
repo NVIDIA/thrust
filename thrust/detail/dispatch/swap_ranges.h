@@ -23,16 +23,15 @@
 
 #pragma once
 
-#include <algorithm>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/cuda/vectorize.h>
+#include <thrust/distance.h>
 #include <thrust/copy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
 
-// XXX move the device path into /device/cuda/
-
+#include <algorithm>
+#include <thrust/detail/device/swap_ranges.h>
 
 namespace thrust
 {
@@ -43,32 +42,6 @@ namespace detail
 namespace dispatch
 {
 
-namespace detail
-{
-
-template <typename ValueType1, typename ValueType2>
-  struct swap_ranges_functor
-{
-  ValueType1 * first1;
-  ValueType2 * first2;
-
-  swap_ranges_functor(ValueType1 * _first1,
-                      ValueType2 * _first2)
-    : first1(_first1), first2(_first2) {}
-  
-  template <typename IntegerType>
-  __host__ __device__
-  void operator()(const IntegerType i)
-  { 
-    ValueType1 temp = first1[i];
-    first1[i] = first2[i];
-    first2[i] = temp;
-  } // end operator()()
-}; // end swap_ranges_functor
-
-} // end detail
-
-
 ///////////////
 // Host Path //
 ///////////////
@@ -77,8 +50,8 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::forward_host_iterator_tag,
-                               thrust::forward_host_iterator_tag)
+                               thrust::experimental::space::host,
+                               thrust::experimental::space::host)
 {
   return std::swap_ranges(first1, last1, first2);
 }
@@ -91,18 +64,10 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::random_access_device_iterator_tag,
-                               thrust::random_access_device_iterator_tag)
+                               thrust::experimental::space::device,
+                               thrust::experimental::space::device)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator1>::value_type ValueType1;
-  typedef typename thrust::iterator_traits<ForwardIterator2>::value_type ValueType2;
-
-  // XXX use make_device_dereferenceable here instead of assuming &*first1 & &*first2 are device_ptr
-  detail::swap_ranges_functor<ValueType1,ValueType2> func((&*first1).get(), (&*first2).get());
-
-  thrust::detail::device::cuda::vectorize(last1 - first1, func);
-
-  return first2 + (last1 - first1);
+  return thrust::detail::device::swap_ranges(first1, last1, first2);
 }
 
 
@@ -114,8 +79,8 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::forward_host_iterator_tag,
-                               thrust::random_access_device_iterator_tag)
+                               thrust::experimental::space::host,
+                               thrust::experimental::space::device)
 {
   typedef typename thrust::iterator_traits<ForwardIterator2>::value_type DeviceType;
   typename thrust::iterator_traits<ForwardIterator1>::difference_type N = std::distance(first1, last1);
@@ -142,11 +107,11 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::random_access_device_iterator_tag,
-                               thrust::forward_host_iterator_tag)
+                               thrust::experimental::space::device,
+                               thrust::experimental::space::host)
 {
   // reverse the arguments and use the other method
-  ForwardIterator2 last2 = first2 + (last1 - first1);
+  ForwardIterator2 last2 = first2 + thrust::distance(first1, last1);
   thrust::swap_ranges(first2, last2, first1);
   return last2;
 }

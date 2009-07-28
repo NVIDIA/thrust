@@ -36,14 +36,14 @@ namespace device
 namespace cuda
 {
 
-template<typename KeyType,
-         typename ValueType,
+    
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key_dev(KeyType *keys,
-                                ValueType *data,
-                                StrictWeakOrdering comp,
-                                const size_t n);
-
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin,
+                                StrictWeakOrdering comp);
 
 } // end namespace cuda
 

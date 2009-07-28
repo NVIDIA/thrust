@@ -27,9 +27,17 @@ namespace thrust
 {
 
 template<typename T>
-  device_reference<T>
-    ::device_reference(const device_reference &ref)
-      :mPtr(ref.mPtr)
+  template<typename OtherT>
+    device_reference<T>
+      ::device_reference(const device_reference<OtherT> &ref,
+                         typename
+                         detail::enable_if<
+                           detail::is_convertible<
+                             typename device_reference<OtherT>::pointer,
+                             pointer
+                           >::value
+                         >::type *dummy)
+        :mPtr(ref.mPtr)
 {
   ;
 } // end device_reference::device_reference()
@@ -66,39 +74,49 @@ template<typename T>
 } // end device_reference::operator=()
 
 template<typename T>
+  template<typename OtherT>
+    device_reference<T> &device_reference<T>
+      ::operator=(const device_reference<OtherT> &ref)
+{
+  thrust::copy(&ref, &ref + 1, mPtr);
+  return *this;
+} // end device_reference::operator=()
+
+template<typename T>
   device_reference<T> &device_reference<T>
     ::operator++(void)
 {
-  T temp = *this;
+  value_type temp = *this;
   ++temp;
   *this = temp;
   return *this;
 } // end device_reference::operator++()
 
 template<typename T>
-  T device_reference<T>
-    ::operator++(int)
+  typename device_reference<T>::value_type
+    device_reference<T>
+      ::operator++(int)
 {
-  T temp = *this;
-  T result = temp++;
+  value_type temp = *this;
+  value_type result = temp++;
   *this = temp;
   return result;
 } // end device_reference::operator++()
 
 template<typename T>
   device_reference<T>
-    ::operator T (void) const
+    ::operator typename device_reference<T>::value_type (void) const
 {
-  typename detail::remove_const<T>::type result;
+  value_type result;
   thrust::copy(mPtr, mPtr + 1, &result);
   return result;
-} // end device_reference::operator T ()
+} // end device_reference::operator value_type ()
 
 template<typename T>
   device_reference<T> &device_reference<T>
     ::operator+=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp += rhs;
   *this = temp;
   return *this;
@@ -108,18 +126,19 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator--(void)
 {
-  T temp = *this;
+  value_type temp = *this;
   --temp;
   *this = temp;
   return *this;
 } // end device_reference::operator--()
 
 template<typename T>
-  T device_reference<T>
-    ::operator--(int)
+  typename device_reference<T>::value_type
+    device_reference<T>
+      ::operator--(int)
 {
-  T temp = *this;
-  T result = temp--;
+  value_type temp = *this;
+  value_type result = temp--;
   *this = temp;
   return result;
 } // end device_reference::operator--()
@@ -128,7 +147,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator-=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp -= rhs;
   *this = temp;
   return *this;
@@ -138,7 +157,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator*=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp *= rhs;
   *this = temp;
   return *this;
@@ -148,7 +167,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator/=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp /= rhs;
   *this = temp;
   return *this;
@@ -158,7 +177,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator%=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp %= rhs;
   *this = temp;
   return *this;
@@ -168,7 +187,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator<<=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp <<= rhs;
   *this = temp;
   return *this;
@@ -178,7 +197,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator>>=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp >>= rhs;
   *this = temp;
   return *this;
@@ -188,7 +207,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator&=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp &= rhs;
   *this = temp;
   return *this;
@@ -198,7 +217,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator|=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp |= rhs;
   *this = temp;
   return *this;
@@ -208,7 +227,7 @@ template<typename T>
   device_reference<T> &device_reference<T>
     ::operator^=(const T &rhs)
 {
-  T temp = *this;
+  value_type temp = *this;
   temp ^= rhs;
   *this = temp;
   return *this;

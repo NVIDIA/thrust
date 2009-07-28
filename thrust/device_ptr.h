@@ -24,7 +24,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/make_device_dereferenceable.h>
 #include <thrust/detail/type_traits.h>
 #include <ostream>
 
@@ -61,8 +60,8 @@ template<typename T> struct device_reference;
 template<typename T> struct device_ptr
 {
   // define iterator_traits types
-  typedef thrust::random_access_device_iterator_tag iterator_category;
-  typedef T                                          value_type;
+  typedef thrust::random_access_device_iterator_tag  iterator_category;
+  typedef typename detail::remove_const<T>::type     value_type;
   typedef ptrdiff_t                                  difference_type;
   typedef device_ptr                                 pointer;
   typedef device_reference<T>                        reference;
@@ -86,7 +85,7 @@ template<typename T> struct device_ptr
    *  \param ptr The \c device_ptr to copy from.
    */
   __host__ __device__
-  device_ptr(const device_ptr<typename detail::remove_const<value_type>::type> &ptr) : mPtr(ptr.get()) {}
+  device_ptr(const device_ptr<value_type> &ptr) : mPtr(ptr.get()) {}
 
   /*! \p device_ptr's conversion operator allows conversion to <tt>device_ptr<U></tt> with
    *  \p U related to \p T. For example, <tt>device_ptr<int></tt> may be converted to
@@ -201,22 +200,10 @@ template<typename T> struct device_ptr
    *  \return This \p device_ptr's raw pointer.
    */
   __host__ __device__
-  value_type *get(void) const {return mPtr;}
+  T *get(void) const {return mPtr;}
 
   private:
-    value_type *mPtr;
-
-    typedef value_type *                               device_dereferenceable_type;
-
-    // befriend device_dereferenceable_iterator_traits so he can get at device_derereferenceable_type
-    friend struct thrust::detail::device_dereferenceable_iterator_traits< thrust::device_ptr<T> >;
-
-    // create an object type similar to device_ptr which can be dereferenced from a __global__
-    // or __device__ function
-    device_dereferenceable_type device_dereferenceable(void) {return get();}
-
-    // befriend make_device_dereferenceable so he can get at device_dereferenceable()
-    friend struct thrust::detail::make_device_dereferenceable< thrust::device_ptr<T> >;
+    T *mPtr;
 }; // end device_ptr
 
 /*! Equality comparison operator compares two \p device_ptrs with related types for

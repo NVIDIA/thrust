@@ -21,12 +21,10 @@
 
 #pragma once
 
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/scatter.h>
-#include <thrust/detail/device/cuda/scatter.h>
+#include <thrust/detail/device/scatter.h>
 
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
@@ -51,9 +49,9 @@ template<typename InputIterator1,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output,
-               thrust::input_host_iterator_tag,
-               thrust::input_host_iterator_tag,
-               thrust::random_access_host_iterator_tag)
+               thrust::experimental::space::host,
+               thrust::experimental::space::host,
+               thrust::experimental::space::host)
 {
     thrust::detail::host::scatter(first, last, map, output);
 }
@@ -70,10 +68,10 @@ template<typename InputIterator1,
                   InputIterator3 stencil,
                   RandomAccessIterator output,
                   Predicate pred,
-                  thrust::input_host_iterator_tag,
-                  thrust::input_host_iterator_tag,
-                  thrust::input_host_iterator_tag,
-                  thrust::random_access_host_iterator_tag)
+                  thrust::experimental::space::host,
+                  thrust::experimental::space::host,
+                  thrust::experimental::space::host,
+                  thrust::experimental::space::host)
 {
     thrust::detail::host::scatter_if(first, last, map, stencil, output, pred);
 } 
@@ -89,11 +87,11 @@ template<typename InputIterator1,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output,
-               thrust::random_access_device_iterator_tag,
-               thrust::random_access_device_iterator_tag,
-               thrust::random_access_device_iterator_tag)
+               thrust::experimental::space::device,
+               thrust::experimental::space::device,
+               thrust::experimental::space::device)
 {
-    thrust::detail::device::cuda::scatter(first, last, map, output);
+    thrust::detail::device::scatter(first, last, map, output);
 }
 
 
@@ -108,12 +106,12 @@ template<typename InputIterator1,
                   InputIterator3 stencil,
                   RandomAccessIterator output,
                   Predicate pred,
-                  thrust::random_access_device_iterator_tag,
-                  thrust::random_access_device_iterator_tag,
-                  thrust::random_access_device_iterator_tag,
-                  thrust::random_access_device_iterator_tag)
+                  thrust::experimental::space::device,
+                  thrust::experimental::space::device,
+                  thrust::experimental::space::device,
+                  thrust::experimental::space::device)
 {
-    thrust::detail::device::cuda::scatter_if(first, last, map, stencil, output, pred);
+    thrust::detail::device::scatter_if(first, last, map, stencil, output, pred);
 }
 
 
@@ -127,9 +125,9 @@ template<typename InputIterator1,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output,
-               thrust::random_access_device_iterator_tag,  // input on device
-               thrust::random_access_host_iterator_tag,    // map on host
-               thrust::random_access_host_iterator_tag)    // destination on host
+               thrust::experimental::space::device,  // input on device
+               thrust::experimental::space::host,    // map on host
+               thrust::experimental::space::host)    // destination on host
 {
   // copy input to host and scatter on host
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
@@ -147,9 +145,9 @@ template<typename InputIterator1,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output,
-               thrust::random_access_device_iterator_tag,  // input on device
-               thrust::random_access_device_iterator_tag,  // map on device
-               thrust::random_access_host_iterator_tag)    // destination on host
+               thrust::experimental::space::device,  // input on device
+               thrust::experimental::space::device,  // map on device
+               thrust::experimental::space::host)    // destination on host
 {
   // copy map to host and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;
@@ -170,9 +168,9 @@ template<typename InputIterator1,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output,
-               thrust::input_host_iterator_tag,            // input on host
-               thrust::random_access_device_iterator_tag,  // map on device
-               thrust::random_access_device_iterator_tag)  // destination on device
+               thrust::experimental::space::host,    // input on host
+               thrust::experimental::space::device,  // map on device
+               thrust::experimental::space::device)  // destination on device
 {
   // copy input to device and scatter on device
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
@@ -190,9 +188,9 @@ template<typename InputIterator1,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output,
-               thrust::input_host_iterator_tag,            // input on host
-               thrust::input_host_iterator_tag,            // map on host
-               thrust::random_access_device_iterator_tag)  // destination on device
+               thrust::experimental::space::host,    // input on host
+               thrust::experimental::space::host,    // map on host
+               thrust::experimental::space::device)  // destination on device
 {
   // copy map to device and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;

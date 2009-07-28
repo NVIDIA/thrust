@@ -46,7 +46,7 @@ namespace dispatch
 template<typename RandomAccessIterator>
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
-            thrust::random_access_host_iterator_tag)
+            thrust::experimental::space::host)
 {
     std::sort(begin, end);
 }
@@ -56,7 +56,7 @@ template<typename RandomAccessIterator,
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
             StrictWeakCompare comp,
-            thrust::random_access_host_iterator_tag)
+            thrust::experimental::space::host)
 {
     std::sort(begin, end, comp);
 }
@@ -65,7 +65,7 @@ template<typename RandomAccessIterator,
 template<typename RandomAccessIterator>
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
-                   thrust::random_access_host_iterator_tag)
+                   thrust::experimental::space::host)
 {
     std::stable_sort(begin,end);
 }
@@ -76,7 +76,7 @@ template<typename RandomAccessIterator,
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
                    StrictWeakCompare comp,
-                   thrust::random_access_host_iterator_tag)
+                   thrust::experimental::space::host)
 {
     std::stable_sort(begin,end,comp);
 }
@@ -86,8 +86,8 @@ template<typename RandomAccessKeyIterator,
   void stable_sort_by_key(RandomAccessKeyIterator keys_begin,
                           RandomAccessKeyIterator keys_end,
                           RandomAccessValueIterator values_begin,
-                          thrust::random_access_host_iterator_tag,
-                          thrust::random_access_host_iterator_tag)
+                          thrust::experimental::space::host,
+                          thrust::experimental::space::host)
 {
     thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin);
 }
@@ -99,8 +99,8 @@ template<typename RandomAccessKeyIterator,
                           RandomAccessKeyIterator keys_end,
                           RandomAccessValueIterator values_begin,
                           StrictWeakOrdering comp,
-                          thrust::random_access_host_iterator_tag,
-                          thrust::random_access_host_iterator_tag)
+                          thrust::experimental::space::host,
+                          thrust::experimental::space::host)
 
 {
     thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
@@ -114,7 +114,7 @@ template<typename RandomAccessKeyIterator,
 template<typename RandomAccessIterator>
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
-            thrust::random_access_device_iterator_tag)
+            thrust::experimental::space::device)
 {
     // pass to thrust::stable_sort
     thrust::stable_sort(begin, end);
@@ -144,7 +144,7 @@ template<typename RandomAccessIterator>
 template<typename RandomAccessIterator>
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
-                   thrust::random_access_device_iterator_tag)
+                   thrust::experimental::space::device)
 {
     // dispatch on whether KeyType is PlainOldData
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
@@ -156,7 +156,7 @@ template<typename RandomAccessIterator,
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
             StrictWeakCompare comp,
-            thrust::random_access_device_iterator_tag)
+            thrust::experimental::space::device)
 {
     // just pass to thrust::stable_sort
     thrust::stable_sort(begin, end, comp);
@@ -167,7 +167,7 @@ template<typename RandomAccessIterator,
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
                    StrictWeakCompare comp,
-                   thrust::random_access_device_iterator_tag)
+                   thrust::experimental::space::device)
 {
     // use stable_merge_sort for general comparison methods
     thrust::sorting::stable_merge_sort(begin, end, comp);
@@ -202,8 +202,8 @@ template<typename RandomAccessKeyIterator,
   void stable_sort_by_key(RandomAccessKeyIterator keys_begin,
                           RandomAccessKeyIterator keys_end,
                           RandomAccessValueIterator values_begin,
-                          thrust::random_access_device_iterator_tag,
-                          thrust::random_access_device_iterator_tag)
+                          thrust::experimental::space::device,
+                          thrust::experimental::space::device)
 {
     typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
     stable_sort_by_key_device_pod_switch
@@ -217,8 +217,8 @@ template<typename RandomAccessKeyIterator,
                           RandomAccessKeyIterator keys_end,
                           RandomAccessValueIterator values_begin,
                           StrictWeakOrdering comp,
-                          thrust::random_access_device_iterator_tag,
-                          thrust::random_access_device_iterator_tag)
+                          thrust::experimental::space::device,
+                          thrust::experimental::space::device)
 {
     thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }

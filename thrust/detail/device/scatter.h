@@ -16,7 +16,7 @@
 
 
 /*! \file scatter.h
- *  \brief CUDA implementations of scatter functions.
+ *  \brief Device implementations of scatter functions.
  */
 
 #pragma once
@@ -28,9 +28,6 @@ namespace detail
 {
 
 namespace device
-{
-
-namespace cuda
 {
 
 template<typename InputIterator1,
@@ -52,8 +49,6 @@ template<typename InputIterator1,
                   InputIterator3 stencil,
                   RandomAccessIterator output,
                   Predicate pred);
-
-} // end namespace cuda
 
 } // end namespace device
 

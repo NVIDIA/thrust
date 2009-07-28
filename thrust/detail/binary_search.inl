@@ -45,9 +45,9 @@ ForwardIterator lower_bound(ForwardIterator first,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    // dispatch on category
+    // dispatch on space
     return thrust::detail::dispatch::lower_bound(first, last, value, comp,
-            typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<ForwardIterator>::type());
 
 }
 
@@ -65,9 +65,9 @@ ForwardIterator upper_bound(ForwardIterator first,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    // dispatch on category
+    // dispatch on space
     return thrust::detail::dispatch::upper_bound(first, last, value, comp,
-            typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<ForwardIterator>::type());
 
 }
 
@@ -85,9 +85,9 @@ bool binary_search(ForwardIterator first,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
-    // dispatch on category
+    // dispatch on space
     return thrust::detail::dispatch::binary_search(first, last, value, comp,
-            typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<ForwardIterator>::type());
 
 }
 
@@ -116,6 +116,9 @@ equal_range(ForwardIterator first,
 // Vector Functions //
 //////////////////////
 
+namespace experimental
+{
+
 template <class ForwardIterator, class InputIterator, class OutputIterator>
 OutputIterator lower_bound(ForwardIterator first, 
                            ForwardIterator last,
@@ -125,7 +128,7 @@ OutputIterator lower_bound(ForwardIterator first,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::lower_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
+    return thrust::experimental::lower_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -136,11 +139,11 @@ OutputIterator lower_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    // dispatch on category
+    // dispatch on space
     return thrust::detail::dispatch::lower_bound(first, last, values_first, values_last, output, comp,
-            typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
-            typename thrust::iterator_traits<InputIterator>::iterator_category(),
-            typename thrust::iterator_traits<OutputIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<ForwardIterator>::type(),
+            typename thrust::experimental::iterator_space<InputIterator>::type(),
+            typename thrust::experimental::iterator_space<OutputIterator>::type());
 }
     
 template <class ForwardIterator, class InputIterator, class OutputIterator>
@@ -152,7 +155,7 @@ OutputIterator upper_bound(ForwardIterator first,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::upper_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
+    return thrust::experimental::upper_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -163,11 +166,11 @@ OutputIterator upper_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    // dispatch on category
+    // dispatch on space
     return thrust::detail::dispatch::upper_bound(first, last, values_first, values_last, output, comp,
-            typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
-            typename thrust::iterator_traits<InputIterator>::iterator_category(),
-            typename thrust::iterator_traits<OutputIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<ForwardIterator>::type(),
+            typename thrust::experimental::iterator_space<InputIterator>::type(),
+            typename thrust::experimental::iterator_space<OutputIterator>::type());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator>
@@ -179,7 +182,7 @@ OutputIterator binary_search(ForwardIterator first,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::binary_search(first, last, values_first, values_last, output, thrust::less<ValueType>());
+    return thrust::experimental::binary_search(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -190,13 +193,15 @@ OutputIterator binary_search(ForwardIterator first,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-    // dispatch on category
+    // dispatch on space
     return thrust::detail::dispatch::binary_search(first, last, values_first, values_last, output, comp,
-            typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
-            typename thrust::iterator_traits<InputIterator>::iterator_category(),
-            typename thrust::iterator_traits<OutputIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<ForwardIterator>::type(),
+            typename thrust::experimental::iterator_space<InputIterator>::type(),
+            typename thrust::experimental::iterator_space<OutputIterator>::type());
 }
 
+
+} // end namespace experimental
 
 } // end namespace thrust
 

@@ -24,7 +24,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/distance.h>
 
 namespace thrust
 {
@@ -47,15 +46,12 @@ namespace thrust
  */
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last)
-{
-  // dispatch on category
-  return thrust::detail::dispatch::distance(first,last,
-    typename thrust::iterator_traits<InputIterator>::iterator_category());
-} // end distance()
+    distance(InputIterator first, InputIterator last);
 
 /*! \} // end counting
  */
 
 } // end thrust
+
+#include <thrust/detail/distance.inl>
 

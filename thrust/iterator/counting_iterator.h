@@ -28,7 +28,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/make_device_dereferenceable.h>
 
 // #include the details first
 #include <thrust/iterator/detail/counting_iterator.inl>
@@ -40,18 +39,20 @@ namespace experimental
 {
 
 template<typename Incrementable,
-         typename CategoryOrTraversal = use_default,
+         typename Space = use_default,
+         typename Traversal = use_default,
          typename Difference = use_default>
   class counting_iterator
-    : public detail::counting_iterator_base<Incrementable, CategoryOrTraversal, Difference>::type
+    : public detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type
 {
-    typedef typename detail::counting_iterator_base<Incrementable, CategoryOrTraversal, Difference>::type super_t;
+    typedef typename detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type super_t;
 
     friend class iterator_core_access;
 
   public:
     typedef Incrementable const & reference;
     typedef typename super_t::difference_type difference_type;
+    typedef counting_iterator device_dereferenceable_type;
 
     __host__ __device__
     counting_iterator(void){};
@@ -93,32 +94,6 @@ make_counting_iterator(Incrementable x)
 }
 
 } // end experimental
-
-namespace detail
-{
-
-template<typename Incrementable, typename CategoryOrTraversal, typename Difference>
-  struct make_device_dereferenceable< thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> >
-{
-  __host__ __device__
-  static
-  thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &
-  transform(thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &x)
-  {
-    return x;
-  } // end transform()
-
-  __host__ __device__
-  static
-  const thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &
-  transform(const thrust::experimental::counting_iterator<Incrementable,CategoryOrTraversal,Difference> &x)
-  {
-    return x;
-  } // end transform()
-}; // end make_device_dereferenceable
-
-} // end detail
-
 
 } // end thrust
 

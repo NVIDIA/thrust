@@ -1,6 +1,9 @@
 #include <thrusttest/unittest.h>
 #include <thrust/transform_reduce.h>
 
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/iterator_traits.h>
+
 template <class Vector>
 void TestTransformReduceSimple(void)
 {
@@ -45,4 +48,18 @@ void TestTransformReduceFromConst(const size_t n)
     ASSERT_ALMOST_EQUAL(cpu_result, gpu_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformReduceFromConst);
+
+template <class Vector>
+void TestTransformReduceCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+    typedef typename thrust::experimental::iterator_space<typename Vector::iterator>::type space;
+
+    thrust::experimental::counting_iterator<T, space> first(1);
+
+    T result = thrust::transform_reduce(first, first + 3, thrust::negate<short>(), 0, thrust::plus<short>());
+
+    ASSERT_EQUAL(result, -6);
+}
+DECLARE_VECTOR_UNITTEST(TestTransformReduceCountingIterator);
 

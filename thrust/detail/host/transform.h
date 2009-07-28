@@ -30,6 +30,38 @@ namespace detail
 namespace host
 {
 
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction>
+  OutputIterator transform(InputIterator first, InputIterator last,
+                           OutputIterator result,
+                           UnaryFunction unary_op)
+{
+    for(; first != last; ++first, ++result)
+    {
+        *result = unary_op(*first);
+    }
+
+    return result;
+} // end transform()
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryFunction>
+  OutputIterator transform(InputIterator1 first1, InputIterator1 last1,
+                           InputIterator2 first2,
+                           OutputIterator result,
+                           BinaryFunction binary_op)
+{
+  for(; first1 != last1; ++first1, ++first2, ++result)
+  {
+      *result = binary_op(*first1, *first2);
+  }
+
+  return result;
+} // end transform()
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
@@ -41,15 +73,15 @@ template<typename InputIterator1,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  for(; first != last; ++first, ++stencil, ++result)
-  {
-    if(pred(*stencil))
+    for(; first != last; ++first, ++stencil, ++result)
     {
-      *result = unary_op(*first);
-    } // end if
-  } // end for
+        if(pred(*stencil))
+        {
+            *result = unary_op(*first);
+        }
+    }
 
-  return result;
+    return result;
 } // end transform_if()
 
 
@@ -66,15 +98,15 @@ template<typename InputIterator1,
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  for(; first1 != last1; ++first1, ++first2, ++stencil, ++result)
-  {
-    if(pred(*stencil))
+    for(; first1 != last1; ++first1, ++first2, ++stencil, ++result)
     {
-      *result = binary_op(*first1, *first2);
-    } // end if
-  } // end for
+        if(pred(*stencil))
+        {
+            *result = binary_op(*first1, *first2);
+        }
+    }
 
-  return result;
+    return result;
 } // end transform_if()
 
 } // end host

@@ -13,6 +13,7 @@
 #define ASSERT_GEQUAL(X,Y)       thrusttest::assert_gequal((X),(Y), __FILE__,  __LINE__)
 #define ASSERT_ALMOST_EQUAL(X,Y) thrusttest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
 #define KNOWN_FAILURE            { thrusttest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
+                    
 
 
 namespace thrusttest

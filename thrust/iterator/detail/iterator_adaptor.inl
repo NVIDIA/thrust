@@ -33,67 +33,18 @@ struct use_default;
 namespace detail
 {
 
-template <bool, typename Then, typename Else>
-  struct eval_if
-{
-}; // end eval_if
-
-template<typename Then, typename Else>
-  struct eval_if<true, Then, Else>
-{
-  typedef typename Then::type type;
-}; // end eval_if
-
-template<typename Then, typename Else>
-  struct eval_if<false, Then, Else>
-{
-  typedef typename Else::type type;
-}; // end eval_if
-
-template<typename T>
-  struct identity
-{
-  typedef T type;
-}; // end identity
-
 // If T is use_default, return the result of invoking
 // DefaultNullaryFn, otherwise return T.
+// XXX rename to dflt_help
 template <class T, class DefaultNullaryFn>
 struct ia_dflt_help
-  : eval_if<
-        thrust::detail::is_same<T, use_default>::value
+  : thrust::detail::eval_if<
+        thrust::detail::is_same<T, thrust::experimental::use_default>::value
       , DefaultNullaryFn
-      , identity<T>
+      , thrust::detail::identity<T>
     >
 {
-};
-
-template<typename Iterator>
-  struct iterator_value
-{
-  typedef typename thrust::iterator_traits<Iterator>::value_type type;
-}; // end iterator_value
-
-
-template<typename Iterator>
-  struct iterator_traversal
-{
-  typedef typename thrust::iterator_traits<Iterator>::iterator_category type;
-}; // end iterator_traversal
-
-
-template<typename Iterator>
-  struct iterator_reference
-{
-  typedef typename thrust::iterator_traits<Iterator>::reference type;
-}; // end iterator_reference
-
-
-template<typename Iterator>
-  struct iterator_difference
-{
-  typedef typename thrust::iterator_traits<Iterator>::difference_type type;
-}; // end iterator_difference
+}; // end ia_dflt_help
 
 
 // A metafunction which computes an iterator_adaptor's base class,
@@ -103,42 +54,51 @@ template <
   , typename Base
   , typename Pointer
   , typename Value
+  , typename Space
   , typename Traversal
   , typename Reference
   , typename Difference
 >
   struct iterator_adaptor_base
 {
+  typedef typename ia_dflt_help<
+    Value,
+    iterator_value<Base>
+  >::type value;
+
+  typedef typename ia_dflt_help<
+    Space,
+    thrust::experimental::iterator_space<Base>
+  >::type space;
+
+  typedef typename ia_dflt_help<
+    Traversal,
+    thrust::experimental::iterator_traversal<Base>
+  >::type traversal;
+
+  typedef typename ia_dflt_help<
+    Reference,
+    thrust::detail::eval_if<
+      thrust::detail::is_same<Value,use_default>::value,
+      thrust::experimental::iterator_reference<Base>,
+      thrust::detail::add_reference<Value>
+    >
+  >::type reference;
+
+  typedef typename ia_dflt_help<
+    Difference,
+    iterator_difference<Base>
+  >::type difference;
+
   typedef iterator_facade<
-      Derived
-
-    , Pointer
-
-    , typename ia_dflt_help<
-          Value
-        , iterator_value<Base>
-      >::type
-
-    , typename ia_dflt_help<
-          Traversal
-        , iterator_traversal<Base>
-      >::type
-
-    , typename ia_dflt_help<
-          Reference
-        , eval_if<
-            thrust::detail::is_same<Value,use_default>::value
-          , iterator_reference<Base>
-          , thrust::detail::add_reference<Value>
-        >
-      >::type
-
-    , typename ia_dflt_help<
-          Difference
-        , iterator_difference<Base>
-      >::type
-  >
-  type;
+    Derived,
+    Pointer,
+    value,
+    space,
+    traversal,
+    reference,
+    difference
+  > type;
 }; // end iterator_adaptor_base
 
 } // end detail

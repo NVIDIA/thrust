@@ -16,7 +16,7 @@
 
 
 /*! \file gather.h
- *  \brief CUDA implementations of gather functions.
+ *  \brief Device implementations of gather functions.
  */
 
 #pragma once
@@ -28,9 +28,6 @@ namespace detail
 {
 
 namespace device
-{
-
-namespace cuda
 {
 
 template<typename ForwardIterator,
@@ -52,8 +49,6 @@ template<typename ForwardIterator,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
                  Predicate pred);
-
-} // end namespace cuda
 
 } // end namespace device
 

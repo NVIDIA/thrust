@@ -41,21 +41,28 @@ template <
       typename Derived
     , typename Base
     , typename Pointer
-    , typename Value                = use_default
-    , typename CategoryOrTraversal  = use_default
-    , typename Reference            = use_default
-    , typename Difference           = use_default
+    // XXX nvcc can't handle these defaults at the moment
+    //, typename Value                = use_default
+    //, typename CategoryOrSpace      = use_default
+    //, typename CategoryOrTraversal  = use_default
+    //, typename Reference            = use_default
+    //, typename Difference           = use_default
+    , typename Value
+    , typename Space
+    , typename Traversal
+    , typename Reference
+    , typename Difference = use_default
   >
   class iterator_adaptor:
     public detail::iterator_adaptor_base<
-      Derived, Base, Pointer, Value, CategoryOrTraversal, Reference, Difference
+      Derived, Base, Pointer, Value, Space, Traversal, Reference, Difference
     >::type
 {
     friend class iterator_core_access;
 
   protected:
     typedef typename detail::iterator_adaptor_base<
-        Derived, Base, Pointer, Value, CategoryOrTraversal, Reference, Difference
+        Derived, Base, Pointer, Value, Space, Traversal, Reference, Difference
     >::type super_t;
   
   public:
@@ -94,9 +101,9 @@ template <
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
 
-    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename C, typename R, typename D>
+    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
-    bool equal(iterator_adaptor<OtherDerived, OtherIterator, P, V, C, R, D> const& x) const
+    bool equal(iterator_adaptor<OtherDerived, OtherIterator, P, V, S, T, R, D> const& x) const
     { return m_iterator == x.base(); }
 
     __host__ __device__
@@ -117,9 +124,9 @@ template <
       --m_iterator;
     }
 
-    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename C, typename R, typename D>
+    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
-    typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, P, V, C, R, D> const& y) const
+    typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, P, V, S, T, R, D> const& y) const
     { return y.base() - m_iterator; }
 
   private:

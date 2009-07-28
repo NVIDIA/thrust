@@ -23,12 +23,10 @@
 #pragma once
 
 #include <thrust/copy.h>
-#include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/gather.h>
-#include <thrust/detail/device/cuda/gather.h>
+#include <thrust/detail/device/gather.h>
 
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
@@ -52,9 +50,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::forward_host_iterator_tag,
-              thrust::input_host_iterator_tag,
-              thrust::random_access_host_iterator_tag)
+              thrust::experimental::space::host,
+              thrust::experimental::space::host,
+              thrust::experimental::space::host)
 {
     thrust::detail::host::gather(first, last, map, input);
 }
@@ -70,10 +68,10 @@ template<typename ForwardIterator,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
                  Predicate pred,
-                 thrust::forward_host_iterator_tag,
-                 thrust::input_host_iterator_tag,
-                 thrust::input_host_iterator_tag,
-                 thrust::random_access_host_iterator_tag)
+                 thrust::experimental::space::host,
+                 thrust::experimental::space::host,
+                 thrust::experimental::space::host,
+                 thrust::experimental::space::host)
 {
     thrust::detail::host::gather_if(first, last, map, stencil, input, pred);
 }
@@ -89,11 +87,11 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator  map,
               RandomAccessIterator input,
-              thrust::random_access_device_iterator_tag,
-              thrust::random_access_device_iterator_tag,
-              thrust::random_access_device_iterator_tag)
+              thrust::experimental::space::device,
+              thrust::experimental::space::device,
+              thrust::experimental::space::device)
 {
-    thrust::detail::device::cuda::gather(first, last, map, input);
+    thrust::detail::device::gather(first, last, map, input);
 }
 
 
@@ -108,12 +106,12 @@ template<typename ForwardIterator,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
                  Predicate pred,
-                 thrust::random_access_device_iterator_tag,
-                 thrust::random_access_device_iterator_tag,
-                 thrust::random_access_device_iterator_tag,
-                 thrust::random_access_device_iterator_tag)
+                 thrust::experimental::space::device,
+                 thrust::experimental::space::device,
+                 thrust::experimental::space::device,
+                 thrust::experimental::space::device)
 {
-    thrust::detail::device::cuda::gather_if(first, last, map, stencil, input, pred);
+    thrust::detail::device::gather_if(first, last, map, stencil, input, pred);
 }
 
 
@@ -128,9 +126,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::forward_host_iterator_tag,          // destination
-              thrust::random_access_device_iterator_tag,  // map
-              thrust::random_access_device_iterator_tag)  // source
+              thrust::experimental::space::host,    // destination
+              thrust::experimental::space::device,  // map
+              thrust::experimental::space::device)  // source
 {
   // gather on device and transfer to host
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
@@ -147,9 +145,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::forward_host_iterator_tag,         // destination
-              thrust::input_host_iterator_tag,           // map
-              thrust::random_access_device_iterator_tag) // source
+              thrust::experimental::space::host,   // destination
+              thrust::experimental::space::host,   // map
+              thrust::experimental::space::device) // source
 {
   // move map to device and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;
@@ -171,9 +169,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::random_access_device_iterator_tag, // destination
-              thrust::input_host_iterator_tag,           // map
-              thrust::random_access_host_iterator_tag)   // destination
+              thrust::experimental::space::device, // destination
+              thrust::experimental::space::host,   // map
+              thrust::experimental::space::host)   // destination
 {
   // gather on host and transfer to device
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
@@ -190,9 +188,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::random_access_device_iterator_tag, // destination
-              thrust::random_access_device_iterator_tag, // map
-              thrust::random_access_host_iterator_tag)   // destination
+              thrust::experimental::space::device, // destination
+              thrust::experimental::space::device, // map
+              thrust::experimental::space::host)   // destination
 {
   // move map to host and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;

@@ -199,6 +199,10 @@ void TestDeviceReferenceManipulation(void)
     ASSERT_EQUAL(0, ref);
     ASSERT_EQUAL(0, *ptr);
     ASSERT_EQUAL(0, v[0]);
+
+    // test equality of const references
+    thrust::device_reference<const T1> ref1 = v[0];
+    ASSERT_EQUAL(true, ref1 == ref);
 }
 DECLARE_UNITTEST(TestDeviceReferenceManipulation);
 

@@ -160,9 +160,9 @@ void TestVectorLowerBoundSimple(void)
 
     // test with integral output type
     IntVector integral_output(10);
-    thrust::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    thrust::experimental::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
     
-    typename IntVector::iterator output_end = thrust::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    typename IntVector::iterator output_end = thrust::experimental::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
 
     ASSERT_EQUAL((output_end - integral_output.begin()), 10);
 
@@ -216,7 +216,7 @@ void TestVectorUpperBoundSimple(void)
 
     // test with integral output type
     IntVector integral_output(10);
-    typename IntVector::iterator output_end = thrust::upper_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    typename IntVector::iterator output_end = thrust::experimental::upper_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
 
     ASSERT_EQUAL((output_end - integral_output.begin()), 10);
 
@@ -271,7 +271,7 @@ void TestVectorBinarySearchSimple(void)
 
     // test with boolean output type
     BoolVector bool_output(10);
-    typename BoolVector::iterator bool_output_end = thrust::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), bool_output.begin());
+    typename BoolVector::iterator bool_output_end = thrust::experimental::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), bool_output.begin());
 
     ASSERT_EQUAL((bool_output_end - bool_output.begin()), 10);
 
@@ -288,7 +288,7 @@ void TestVectorBinarySearchSimple(void)
     
     // test with integral output type
     IntVector integral_output(10, 2);
-    typename IntVector::iterator int_output_end = thrust::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    typename IntVector::iterator int_output_end = thrust::experimental::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
 
     ASSERT_EQUAL((int_output_end - integral_output.begin()), 10);
     
@@ -306,80 +306,79 @@ void TestVectorBinarySearchSimple(void)
 DECLARE_VECTOR_UNITTEST(TestVectorBinarySearchSimple);
 
 
+template <typename T>
+struct TestVectorLowerBound
+{
+  void operator()(const size_t n)
+  {
+    thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_vec = h_vec;
 
-//template <typename T>
-//struct TestVectorLowerBound
-//{
-//  void operator()(const size_t n)
-//  {
-//    thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
-//    thrust::device_vector<T> d_vec = h_vec;
-//
-//    thrust::sort(h_vec.begin(), h_vec.end());
-//    thrust::sort(d_vec.begin(), d_vec.end());
-//
-//    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(4*n);
-//    thrust::device_vector<T> d_input = h_input;
-//    
-//    thrust::host_vector<int>   h_output(4*n);
-//    thrust::device_vector<int> d_output(4*n);
-//
-//    thrust::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
-//    thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
-//
-//    ASSERT_ALMOST_EQUAL(h_output, d_output);
-//  }
-//};
-//VariableUnitTest<TestVectorLowerBound, NumericTypes> TestVectorLowerBoundInstance;
-//
-//
-//template <typename T>
-//struct TestVectorUpperBound
-//{
-//  void operator()(const size_t n)
-//  {
-//    thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
-//    thrust::device_vector<T> d_vec = h_vec;
-//
-//    thrust::sort(h_vec.begin(), h_vec.end());
-//    thrust::sort(d_vec.begin(), d_vec.end());
-//
-//    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(4*n);
-//    thrust::device_vector<T> d_input = h_input;
-//    
-//    thrust::host_vector<int>   h_output(4*n);
-//    thrust::device_vector<int> d_output(4*n);
-//
-//    thrust::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
-//    thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
-//
-//    ASSERT_ALMOST_EQUAL(h_output, d_output);
-//  }
-//};
-//VariableUnitTest<TestVectorUpperBound, NumericTypes> TestVectorUpperBoundInstance;
-//
-//template <typename T>
-//struct TestVectorBinarySearch
-//{
-//  void operator()(const size_t n)
-//  {
-//    thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
-//    thrust::device_vector<T> d_vec = h_vec;
-//
-//    thrust::sort(h_vec.begin(), h_vec.end());
-//    thrust::sort(d_vec.begin(), d_vec.end());
-//
-//    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(4*n);
-//    thrust::device_vector<T> d_input = h_input;
-//    
-//    thrust::host_vector<int>   h_output(4*n);
-//    thrust::device_vector<int> d_output(4*n);
-//
-//    thrust::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
-//    thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
-//
-//    ASSERT_ALMOST_EQUAL(h_output, d_output);
-//  }
-//};
-//VariableUnitTest<TestVectorBinarySearch, NumericTypes> TestVectorBinarySearchInstance;
+    thrust::sort(h_vec.begin(), h_vec.end());
+    thrust::sort(d_vec.begin(), d_vec.end());
+
+    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(4*n);
+    thrust::device_vector<T> d_input = h_input;
+    
+    thrust::host_vector<int>   h_output(4*n);
+    thrust::device_vector<int> d_output(4*n);
+
+    thrust::experimental::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
+    thrust::experimental::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
+
+    ASSERT_ALMOST_EQUAL(h_output, d_output);
+  }
+};
+VariableUnitTest<TestVectorLowerBound, NumericTypes> TestVectorLowerBoundInstance;
+
+
+template <typename T>
+struct TestVectorUpperBound
+{
+  void operator()(const size_t n)
+  {
+    thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_vec = h_vec;
+
+    thrust::sort(h_vec.begin(), h_vec.end());
+    thrust::sort(d_vec.begin(), d_vec.end());
+
+    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(4*n);
+    thrust::device_vector<T> d_input = h_input;
+    
+    thrust::host_vector<int>   h_output(4*n);
+    thrust::device_vector<int> d_output(4*n);
+
+    thrust::experimental::upper_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
+    thrust::experimental::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
+
+    ASSERT_ALMOST_EQUAL(h_output, d_output);
+  }
+};
+VariableUnitTest<TestVectorUpperBound, NumericTypes> TestVectorUpperBoundInstance;
+
+template <typename T>
+struct TestVectorBinarySearch
+{
+  void operator()(const size_t n)
+  {
+    thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_vec = h_vec;
+
+    thrust::sort(h_vec.begin(), h_vec.end());
+    thrust::sort(d_vec.begin(), d_vec.end());
+
+    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(4*n);
+    thrust::device_vector<T> d_input = h_input;
+    
+    thrust::host_vector<int>   h_output(4*n);
+    thrust::device_vector<int> d_output(4*n);
+
+    thrust::experimental::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
+    thrust::experimental::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
+
+    ASSERT_ALMOST_EQUAL(h_output, d_output);
+  }
+};
+VariableUnitTest<TestVectorBinarySearch, NumericTypes> TestVectorBinarySearchInstance;
 

@@ -66,20 +66,20 @@ namespace detail
 namespace host
 {
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void merge_by_key(RandomAccessKeyIterator keys_begin,
-                    RandomAccessKeyIterator keys_middle,
-                    RandomAccessKeyIterator keys_end,
-                    RandomAccessValueIterator values_begin,
+  void merge_by_key(RandomAccessIterator1 keys_begin,
+                    RandomAccessIterator1 keys_middle,
+                    RandomAccessIterator1 keys_end,
+                    RandomAccessIterator2 values_begin,
                     StrictWeakOrdering comp,
                     size_t len1, size_t len2)
 {
     if(len1 == 0 || len2 == 0)
         return;
 
-    RandomAccessValueIterator values_middle = values_begin + len1;
+    RandomAccessIterator2 values_middle = values_begin + len1;
 
     if(len1 + len2 == 2)
     {
@@ -92,13 +92,13 @@ template<typename RandomAccessKeyIterator,
         return;
     } // end if
 
-    RandomAccessKeyIterator keys_first_cut = keys_begin;
-    RandomAccessKeyIterator keys_second_cut = keys_middle;
-    RandomAccessValueIterator values_first_cut = values_begin;
-    RandomAccessValueIterator values_second_cut = values_middle;
+    RandomAccessIterator1 keys_first_cut = keys_begin;
+    RandomAccessIterator1 keys_second_cut = keys_middle;
+    RandomAccessIterator2 values_first_cut = values_begin;
+    RandomAccessIterator2 values_second_cut = values_middle;
 
-    typename thrust::iterator_traits<RandomAccessKeyIterator>::difference_type len11 = 0;
-    typename thrust::iterator_traits<RandomAccessKeyIterator>::difference_type len22 = 0;
+    typename thrust::iterator_traits<RandomAccessIterator1>::difference_type len11 = 0;
+    typename thrust::iterator_traits<RandomAccessIterator1>::difference_type len22 = 0;
 
     if(len1 > len2)
     {
@@ -124,10 +124,10 @@ template<typename RandomAccessKeyIterator,
     std::rotate(keys_first_cut, keys_middle, keys_second_cut);
     std::rotate(values_first_cut, values_middle, values_second_cut);
 
-    RandomAccessKeyIterator new_keys_middle = keys_first_cut;
+    RandomAccessIterator1 new_keys_middle = keys_first_cut;
     std::advance(new_keys_middle, std::distance(keys_middle, keys_second_cut));
 
-    RandomAccessValueIterator new_values_middle = values_first_cut;
+    RandomAccessIterator2 new_values_middle = values_first_cut;
     std::advance(new_values_middle, std::distance(values_middle, values_second_cut));
 
     merge_by_key(keys_begin, keys_first_cut, new_keys_middle, values_begin,
@@ -138,22 +138,22 @@ template<typename RandomAccessKeyIterator,
 
 
 // \see http://thomas.baudel.name/Visualisation/VisuTri/inplacestablesort.html
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                                RandomAccessKeyIterator keys_end,
-                                RandomAccessValueIterator values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp)
 {
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type   KeyType;
-    typedef typename thrust::iterator_traits<RandomAccessValueIterator>::value_type ValueType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type   KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
 
     size_t length = keys_end - keys_begin;
     if(length < 2) return;
 
-    RandomAccessKeyIterator   keys_middle   = keys_begin   + (keys_end - keys_begin)/2;
-    RandomAccessValueIterator values_middle = values_begin + (keys_end - keys_begin)/2;
+    RandomAccessIterator1   keys_middle   = keys_begin   + (keys_end - keys_begin)/2;
+    RandomAccessIterator2 values_middle = values_begin + (keys_end - keys_begin)/2;
 
     // sort each side
     thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_middle, values_begin, comp);

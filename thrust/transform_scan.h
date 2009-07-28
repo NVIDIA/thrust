@@ -56,6 +56,7 @@ namespace thrust
  *  \param result The beginning of the output sequence.
  *  \param unary_op The function used to tranform the input sequence.
  *  \param binary_op The associatve operator used to 'sum' transformed values.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                               and \c InputIterator's \c value_type is convertible to \c unary_op's input type.
@@ -90,11 +91,11 @@ template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename AssociativeOperator>
-  void transform_inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                UnaryFunction unary_op,
-                                AssociativeOperator binary_op);
+  OutputIterator transform_inclusive_scan(InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          UnaryFunction unary_op,
+                                          AssociativeOperator binary_op);
 
 
 /*! \p transform_exclusive_scan fuses the \p transform and \p exclusive_scan
@@ -114,6 +115,7 @@ template<typename InputIterator,
  *  \param unary_op The function used to tranform the input sequence.
  *  \param init The initial value of the \p exclusive_scan
  *  \param binary_op The associatve operator used to 'sum' transformed values.
+ *  \return The end of the output sequence.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *                               and \c InputIterator's \c value_type is convertible to \c unary_op's input type.
@@ -150,12 +152,12 @@ template<typename InputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  void transform_exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                UnaryFunction unary_op,
-                                T init,
-                                AssociativeOperator binary_op);
+  OutputIterator transform_exclusive_scan(InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          UnaryFunction unary_op,
+                                          T init,
+                                          AssociativeOperator binary_op);
 
 /*! \} // end transformed_prefixsums
  */

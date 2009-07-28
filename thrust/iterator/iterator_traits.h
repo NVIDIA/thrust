@@ -33,5 +33,51 @@ template<typename T>
 {
 }; // end iterator_traits
 
+namespace experimental
+{
+
+namespace space
+{
+  struct host {};
+  struct device {};
+  struct any : public host, public device {};
+}; // end space
+
+
+// define Boost's traversal tags
+struct no_traversal_tag {};
+
+struct incrementable_traversal_tag
+  : no_traversal_tag {};
+
+struct single_pass_traversal_tag
+  : incrementable_traversal_tag {};
+
+struct forward_traversal_tag
+  : single_pass_traversal_tag {};
+
+struct bidirectional_traversal_tag
+  : forward_traversal_tag {};
+
+struct random_access_traversal_tag
+  : bidirectional_traversal_tag {};
+
+
+template<typename Iterator> struct iterator_value;
+
+template<typename Iterator> struct iterator_pointer;
+
+template<typename Iterator> struct iterator_reference;
+
+template<typename Iterator> struct iterator_difference;
+
+template<typename Iterator> struct iterator_traversal;
+
+template<typename Iterator> struct iterator_space;
+
+} // end experimental
+
 } // end thrust
+
+#include <thrust/iterator/detail/iterator_traits.inl>
 

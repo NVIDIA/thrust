@@ -15,20 +15,26 @@ nvcc_options_file = env.Command('../../build/nvcc_options_file.txt',
 
 env.Append(NVCCFLAGS = ['-optf=../../build/nvcc_options_file.txt'])
 
-# find all .h files in the thrust directory
+# find all user-includable .h files in the thrust directory
 extensions = ['.h']
-for ext in extensions:
-  pattern = os.path.join(os.path.abspath('../../thrust/'), "*" + ext)
-  for fullpath in glob.glob(pattern):
-    headerfilename = os.path.basename(fullpath)
-    # create a .cu file
-    fid = open(headerfilename.replace('.h', '.cu'), 'w')
-    fid.write('#include <thrust/' + headerfilename + '>\n')
-    fid.close()
-    # create a .cpp file
-    fid = open(headerfilename.replace('.h', '_cpp.cpp'), 'w')
-    fid.write('#include <thrust/' + headerfilename + '>\n')
-    fid.close()
+folders = ['',              # main folder
+           'iterator/',
+           'experimental/',
+           'sorting/']
+
+for folder in folders:
+  for ext in extensions:
+    pattern = os.path.join(os.path.abspath("../../thrust/" + folder), "*" + ext)
+    for fullpath in glob.glob(pattern):
+      headerfilename = os.path.basename(fullpath)
+      # create a .cu file
+      fid = open(headerfilename.replace('.h', '.cu'), 'w')
+      fid.write('#include <thrust/' + folder + headerfilename + '>\n')
+      fid.close()
+      # create a .cpp file
+      fid = open(headerfilename.replace('.h', '_cpp.cpp'), 'w')
+      fid.write('#include <thrust/' + folder + headerfilename + '>\n')
+      fid.close()
     
 fid = open('main.cu', 'w')
 fid.write('int main(void){ return 0; }\n')

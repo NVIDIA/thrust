@@ -73,7 +73,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   return detail::dispatch::remove_if(first, last, pred,
-    typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+    typename thrust::experimental::iterator_space<ForwardIterator>::type());
 } // end remove_if()
 
 template<typename InputIterator,
@@ -85,8 +85,8 @@ template<typename InputIterator,
                                 Predicate pred)
 {
   return detail::dispatch::remove_copy_if(first, last, result, pred,
-    typename thrust::iterator_traits<InputIterator>::iterator_category(),
-    typename thrust::iterator_traits<OutputIterator>::iterator_category());
+    typename thrust::experimental::iterator_space<InputIterator>::type(),
+    typename thrust::experimental::iterator_space<OutputIterator>::type());
 } // end remove_copy_if()
 
 } // end thrust

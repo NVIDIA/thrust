@@ -26,14 +26,14 @@
 namespace thrust
 {
 
-template<typename InputIterator, typename T>
-  void fill(InputIterator first,
-            InputIterator last,
+template<typename ForwardIterator, typename T>
+  void fill(ForwardIterator first,
+            ForwardIterator last,
             const T &exemplar)
 {
-  // dispatch on category
+  // dispatch on space
   thrust::detail::dispatch::fill(first, last, exemplar,
-    typename thrust::iterator_traits<InputIterator>::iterator_category());
+    typename thrust::experimental::iterator_space<ForwardIterator>::type());
 } // end fill()
 
 } // end namespace thrust

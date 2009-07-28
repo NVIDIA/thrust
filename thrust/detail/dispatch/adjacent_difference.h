@@ -22,14 +22,10 @@
 
 #pragma once
 
-#include <numeric>
+#include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/adjacent_difference.h>
-#include <thrust/device_ptr.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
-#include <thrust/copy.h>
-#include <thrust/transform.h>
+#include <numeric>
+#include <thrust/detail/device/adjacent_difference.h>
 
 namespace thrust
 {
@@ -47,43 +43,12 @@ template <class InputIterator, class OutputIterator, class BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op,
-                                   thrust::input_host_iterator_tag)
+                                   thrust::experimental::space::host,
+                                   thrust::experimental::space::host)
 {
     return std::adjacent_difference(first, last, result, binary_op);
 }
 
-
-namespace detail
-{
-
-// XXX generalize this and put it in thrust:: namespace
-// consider defining disjoint_ranges() instead
-template <class DeviceIterator1, class DeviceIterator2, class Type1, class Type2>
-bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt,
-                  thrust::device_ptr<Type1>, thrust::device_ptr<Type2>)
-{
-    const void * first_ptr = thrust::raw_pointer_cast(&*first); 
-    const void * last_ptr  = thrust::raw_pointer_cast(&*last);
-    const void * pt_ptr    = thrust::raw_pointer_cast(&*pt);
-    return pt_ptr >= first_ptr && pt_ptr < last_ptr;
-}
-
-template <class DeviceIterator1, class DeviceIterator2, class DeviceIterator1Pointer, class DeviceIterator2Pointer>
-bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt,
-                  DeviceIterator1Pointer, DeviceIterator2Pointer)
-{
-    return false;
-}
-
-template <class DeviceIterator1, class DeviceIterator2>
-bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt)
-{
-    return within_range(first, last, pt,
-            typename thrust::iterator_traits<DeviceIterator1>::pointer(),
-            typename thrust::iterator_traits<DeviceIterator2>::pointer());
-}
-
-} // end namespace detail
 
 /////////////////
 // Device Path //
@@ -92,33 +57,10 @@ template <class InputIterator, class OutputIterator, class BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op,
-                                   thrust::random_access_device_iterator_tag)
+                                   thrust::experimental::space::device,
+                                   thrust::experimental::space::device)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-
-    if(first == last)
-    {
-        // empty range, nothing to do
-        return result; 
-    }
-    else if(detail::within_range(first, last, result))
-    {
-        // an in-place operation is requested, copy the input and call the entry point
-        // XXX a special-purpose kernel would be faster here since
-        // only block boundaries need to be copied
-        thrust::device_ptr<InputType> input_copy = thrust::device_malloc<InputType>(last - first);
-        thrust::copy(first, last, input_copy);
-        thrust::adjacent_difference(input_copy, input_copy + (last - first), result, binary_op);
-        thrust::device_free(input_copy);
-    }
-    else
-    {
-        // XXX a special-purpose kernel would be faster here
-        *result = *first;
-        thrust::transform(first + 1, last, first, result + 1, binary_op); 
-    } // end else
-
-    return result + (last - first);
+    return thrust::detail::device::adjacent_difference(first, last, result, binary_op);
 }
 
 } // end dispatch

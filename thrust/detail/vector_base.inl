@@ -34,6 +34,13 @@ namespace thrust
 namespace detail
 {
 
+// specialize iterator_device_reference for normal_iterator with device_ptr as base
+template<typename T>
+  struct iterator_device_reference< normal_iterator< device_ptr<T> > >
+{
+  typedef typename iterator_device_reference< device_ptr<T> >::type type;
+}; // end iterator_device_reference
+
 // define our own min() function rather than #include <thrust/extrema.h>
 template<typename T>
   T vector_base_min(const T &lhs, const T &rhs)
@@ -538,30 +545,14 @@ template<typename T, typename Alloc>
 // XXX this needs to be moved out into thrust:: and dispatched properly
 template<typename InputIterator, typename Distance>
   void advance(InputIterator &i, Distance n,
-               thrust::input_host_iterator_tag)
+               thrust::experimental::space::host)
 {
-  for(Distance j = 0; j != n; ++j)
-    ++i;
+    std::advance(i, n);
 } // end advance()
 
 template<typename InputIterator, typename Distance>
   void advance(InputIterator &i, Distance n,
-               thrust::input_device_iterator_tag)
-{
-  for(Distance j = 0; j != n; ++j)
-    ++i;
-} // end advance()
-
-template<typename InputIterator, typename Distance>
-  void advance(InputIterator &i, Distance n,
-               thrust::random_access_host_iterator_tag)
-{
-  i += n;
-} // end advance()
-
-template<typename InputIterator, typename Distance>
-  void advance(InputIterator &i, Distance n,
-               thrust::random_access_device_iterator_tag)
+               thrust::experimental::space::device)
 {
   i += n;
 } // end advance()
@@ -570,7 +561,7 @@ template<typename InputIterator, typename Distance>
   void advance(InputIterator &i, Distance n)
 {
   advance(i, n,
-          typename thrust::iterator_traits<InputIterator>::iterator_category());
+          typename thrust::experimental::iterator_space<InputIterator>::type());
 } // end advance()
 
 template<typename T, typename Alloc>

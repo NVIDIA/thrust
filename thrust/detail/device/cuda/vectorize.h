@@ -39,6 +39,10 @@ template<typename IndexType,
          typename UnaryFunction>
 void vectorize(IndexType n, UnaryFunction f);
 
+template<typename RandomAccessDeviceIterator>
+void vectorize(RandomAccessDeviceIterator first,
+               RandomAccessDeviceIterator last);
+
 
 } // end namespace cuda
 

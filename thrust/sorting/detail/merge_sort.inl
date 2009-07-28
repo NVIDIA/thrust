@@ -73,7 +73,7 @@ template<typename RandomAccessIterator,
 {
     // Dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_merge_sort(begin, end, comp,
-    typename thrust::iterator_traits<RandomAccessIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
 }
 
 
@@ -81,52 +81,52 @@ template<typename RandomAccessIterator,
 // Key Value //
 ///////////////
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                         RandomAccessKeyIterator keys_end,
-                         RandomAccessValueIterator values_begin)
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                         RandomAccessIterator1 keys_end,
+                         RandomAccessIterator2 values_begin)
 {
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     thrust::less<KeyType> comp;
     merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                         RandomAccessKeyIterator keys_end,
-                         RandomAccessValueIterator values_begin,
+  void merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                         RandomAccessIterator1 keys_end,
+                         RandomAccessIterator2 values_begin,
                          StrictWeakOrdering comp)
 {
     stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
 
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                                RandomAccessKeyIterator keys_end,
-                                RandomAccessValueIterator values_begin)
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin)
 {
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     thrust::less<KeyType> comp;
     stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 } 
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessKeyIterator keys_begin,
-                                RandomAccessKeyIterator keys_end,
-                                RandomAccessValueIterator values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                                RandomAccessIterator1 keys_end,
+                                RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp)
 {
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp,
-            typename thrust::iterator_traits<RandomAccessKeyIterator>::iterator_category(),
-            typename thrust::iterator_traits<RandomAccessValueIterator>::iterator_category());
+            typename thrust::experimental::iterator_space<RandomAccessIterator1>::type(),
+            typename thrust::experimental::iterator_space<RandomAccessIterator2>::type());
 }
 
 

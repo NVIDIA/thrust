@@ -44,6 +44,7 @@ template<typename T>
   struct device_reference
 {
   typedef device_ptr<T> pointer;
+  typedef typename detail::remove_const<T>::type value_type;
 
   /*! This copy constructor accepts a const reference to another
    *  \p device_reference. After this \p device_reference is constructed,
@@ -71,8 +72,19 @@ template<typename T>
    *  v[0] = 13;
    *  assert(ref == 13);
    *  \endcode
+   *
+   *  \note This constructor is templated to initialization of const
+   *  device_references to const T from device_references to T.
    */
-  device_reference(const device_reference &ref);
+  template<typename OtherT>
+  device_reference(const device_reference<OtherT> &ref,
+                   typename
+                   detail::enable_if<
+                     detail::is_convertible<
+                       typename device_reference<OtherT>::pointer,
+                       pointer
+                     >::value
+                   >::type *dummy = 0);
 
   /*! This copy constructor initializes this \p device_reference
    *  to refer to an object pointed to by the given \p device_ptr. After
@@ -128,11 +140,22 @@ template<typename T>
    *
    *  \param ref The \p device_reference to copy from.
    *  \return This \p device_reference.
-   *
-   *  \bug This needs to be templated on the type of the \p device_reference
-   *       to copy from.
    */
   device_reference &operator=(const device_reference &ref);
+
+  /*! Assignment operator copies the value of the object referenced by
+   *  the given \p device_reference to the object referenced by this
+   *  \p device_reference.
+   *
+   *  This operator is distinguished from the previous assignment operator
+   *  by being templated on the type of the other device_reference to copy from,
+   *  allowing copy from a convertible type.
+   *
+   *  \param ref The \p device_reference to copy from.
+   *  \return This \p device_reference.
+   */
+  template<typename OtherT>
+  device_reference &operator=(const device_reference<OtherT> &ref);
 
   /*! Prefix increment operator increments the object referenced by this
    *  \p device_reference.
@@ -223,7 +246,7 @@ template<typename T>
    *  \note The increment executes as if it were executed on the host.
    *  This may change in a later version.
    */
-  T operator++(int);
+  value_type operator++(int);
 
   /*! Addition assignment operator add-assigns the object referenced by this
    *  \p device_reference and returns this \p device_reference.
@@ -358,7 +381,7 @@ template<typename T>
    *  \note The decrement executes as if it were executed on the host.
    *  This may change in a later version.
    */
-  T operator--(int);
+  value_type operator--(int);
 
   /*! Subtraction assignment operator subtract-assigns the object referenced by this
    *  \p device_reference and returns this \p device_reference.
@@ -762,10 +785,14 @@ template<typename T>
    *
    *  \return A copy of the object referenced by this \p device_reference.
    */
-  operator T (void) const;
+  operator value_type (void) const;
 
   private:
-    pointer mPtr;
+    // allow access to mPtr for other device_references
+    template <typename OtherT> friend class device_reference;
+
+    // the pointer
+    const pointer mPtr;
 }; // end device_reference
 
 /*! \}

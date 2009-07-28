@@ -19,42 +19,21 @@
  *  \brief Inline file for partition.h.
  */
 
-#include <thrust/partition.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/dispatch/partition.h>
 
 namespace thrust
 {
 
-namespace experimental
-{
-
 template<typename ForwardIterator,
-         typename OutputIterator,
          typename Predicate>
-  OutputIterator stable_partition_copy(ForwardIterator first,
-                                       ForwardIterator last,
-                                       OutputIterator result,
-                                       Predicate pred)
+  ForwardIterator partition(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred)
 {
-  return thrust::detail::dispatch::stable_partition_copy(first, last, result, pred,
-    typename thrust::iterator_traits<ForwardIterator>::iterator_category(),
-    typename thrust::iterator_traits<OutputIterator>::iterator_category());
-} // end stable_partition_copy()
-
-
-template<typename ForwardIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator partition_copy(ForwardIterator first,
-                                ForwardIterator last,
-                                OutputIterator result,
-                                Predicate pred)
-{
-  return thrust::experimental::stable_partition_copy(first,last,result,pred);
-} // end partition_copy()
-
-} // end namespace experimental
+  return detail::dispatch::partition(first, last, pred,
+    typename thrust::experimental::iterator_space<ForwardIterator>::type());
+} // end partition()
 
 
 template<typename ForwardIterator,
@@ -64,18 +43,40 @@ template<typename ForwardIterator,
                                    Predicate pred)
 {
   return detail::dispatch::stable_partition(first, last, pred,
-    typename thrust::iterator_traits<ForwardIterator>::iterator_category());
+    typename thrust::experimental::iterator_space<ForwardIterator>::type());
+} // end stable_partition()
+
+
+namespace experimental
+{
+
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
+         typename Predicate>
+  ForwardIterator2 partition_copy(ForwardIterator1 first,
+                                  ForwardIterator1 last,
+                                  ForwardIterator2 result,
+                                  Predicate pred)
+{
+  return thrust::detail::dispatch::partition_copy(first, last, result, pred,
+    typename thrust::experimental::iterator_space<ForwardIterator1>::type(),
+    typename thrust::experimental::iterator_space<ForwardIterator2>::type());
+} // end partition_copy()
+
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
+         typename Predicate>
+  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
+                                         ForwardIterator1 last,
+                                         ForwardIterator2 result,
+                                         Predicate pred)
+{
+  return thrust::detail::dispatch::stable_partition_copy(first, last, result, pred,
+    typename thrust::experimental::iterator_space<ForwardIterator1>::type(),
+    typename thrust::experimental::iterator_space<ForwardIterator2>::type());
 } // end stable_partition_copy()
 
-
-template<typename ForwardIterator,
-         typename Predicate>
-  ForwardIterator partition(ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred)
-{
-  return thrust::stable_partition(first,last,pred);
-} // end partition()
+} // end namespace experimental
 
 } // end thrust
 

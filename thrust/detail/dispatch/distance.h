@@ -21,10 +21,8 @@
 
 #pragma once
 
-#include <thrust/distance.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
 #include <iterator>
+#include <thrust/detail/device/distance.h>
 
 namespace thrust
 {
@@ -35,45 +33,32 @@ namespace detail
 namespace dispatch
 {
 
-// general case
-template<typename InputIterator,
-         typename IteratorCategory>
+///////////////    
+// Host Path //
+///////////////
+template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last,
-             IteratorCategory)
+             thrust::experimental::space::host)
 {
   return std::distance(first, last);
 } // end distance()
 
-// special case: input device iterator
+
+/////////////////
+// Device Path //
+/////////////////
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last,
-             thrust::input_device_iterator_tag)
+             thrust::experimental::space::device)
 {
-  typename thrust::iterator_traits<InputIterator>::difference_type result = 0;
-
-  while(first != last)
-  {
-    ++first;
-    ++result;
-  } // end while
-
-  return result;
+  return thrust::detail::device::distance(first, last);
 } // end distance()
 
-// special case: random access device iterator
-template<typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last,
-             thrust::random_access_device_iterator_tag)
-{
-  return last - first;
-} // end distance()
+} // end namespace dispatch
 
-} // end dispatch
+} // end namespace detail
 
-} // end detail
-
-} // end thrust
+} // end namespace thrust
 

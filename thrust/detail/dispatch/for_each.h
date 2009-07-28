@@ -16,16 +16,15 @@
 
 
 /*! \file for_each.h
- *  \brief Defines the interface to the
- *         dispatch layer of the for_each function.
+ *  \brief Dispatch layer for the for_each function.
  */
 
 #pragma once
 
+#include <thrust/iterator/iterator_traits.h>
+
 #include <algorithm>
-#include <thrust/detail/make_device_dereferenceable.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/device/cuda/for_each.h>
+#include <thrust/detail/device/for_each.h>
 
 namespace thrust
 {
@@ -44,9 +43,9 @@ template<typename InputIterator,
 void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f,
-              thrust::forward_host_iterator_tag)
+              thrust::experimental::space::host)
 {
-  std::for_each(first, last, f);
+    std::for_each(first, last, f);
 }
 
 
@@ -58,14 +57,10 @@ template<typename InputIterator,
 void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f,
-              thrust::random_access_device_iterator_tag)
+              thrust::experimental::space::device)
 {
-  thrust::detail::device::cuda::for_each
-      (thrust::detail::make_device_dereferenceable<InputIterator>::transform(first),
-       thrust::detail::make_device_dereferenceable<InputIterator>::transform(last),
-       f);
+    thrust::detail::device::for_each(first, last, f);
 }
-
 
 } // end dispatch
 

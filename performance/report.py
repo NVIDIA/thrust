@@ -7,7 +7,7 @@ format = 'png'
 for function in ['fill', 'reduce', 'inner_product']:
     plot_results(function + '.xml', 'InputType', 'InputSize', 'Bandwidth', format=format)
 
-for function in ['inclusive_scan', 'unique']:
+for function in ['inclusive_scan', 'inclusive_segmented_scan', 'unique']:
     plot_results(function + '.xml', 'InputType', 'InputSize', 'Throughput', format=format)
 
 for method in ['sort', 'merge_sort', 'radix_sort']:

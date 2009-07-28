@@ -31,8 +31,9 @@
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
 
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/make_device_dereferenceable.h>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/device/dereference.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -59,7 +60,7 @@ namespace detail
 //struct lower_bound_postprocess<ForwardIterator, thrust::detail::true_type>
 //{
 //    template <class DeviceIterator>
-//        __host__ __device__
+//        __device__
 //    typename thrust::iterator_traits<DeviceIterator>::difference_type operator()(DeviceIterator final, DeviceIterator begin){
 //        return final - begin;
 //    }
@@ -69,7 +70,7 @@ namespace detail
 //struct lower_bound_postprocess<ForwardIterator, thrust::detail::false_type>
 //{
 //    template <class DeviceIterator>
-//        __host__ __device__
+//        __device__
 //    ForwardIterator operator()(DeviceIterator final, DeviceIterator begin){
 //        return ForwardIterator(final);
 //    }
@@ -80,7 +81,7 @@ namespace detail
 /////////////////////////////////
 
 template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-__host__ __device__
+__device__
 RandomAccessIterator __lower_bound(RandomAccessIterator begin, 
                                    RandomAccessIterator end, 
                                    const T& value,
@@ -99,7 +100,7 @@ RandomAccessIterator __lower_bound(RandomAccessIterator begin,
         middle = begin;
         middle += half;
 
-        if (comp(*middle, value)) {
+        if (comp(thrust::detail::device::dereference(middle), value)) {
             begin = middle;
             ++begin;
             len = len - half - 1;
@@ -112,7 +113,7 @@ RandomAccessIterator __lower_bound(RandomAccessIterator begin,
 }
 
 template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-__host__ __device__
+__device__
 RandomAccessIterator __upper_bound(RandomAccessIterator begin, 
                                    RandomAccessIterator end, 
                                    const T& value,
@@ -131,7 +132,7 @@ RandomAccessIterator __upper_bound(RandomAccessIterator begin,
         middle = begin;
         middle += half;
 
-        if (comp(value, *middle)) {
+        if (comp(value, thrust::detail::device::dereference(middle))) {
             len = half;
         } else {
             begin = middle;
@@ -148,7 +149,7 @@ RandomAccessIterator __upper_bound(RandomAccessIterator begin,
 struct lbf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __host__ __device__
+        __device__
         typename thrust::iterator_traits<RandomAccessIterator>::difference_type
      operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          return __lower_bound(begin, end, value, comp) - begin;
@@ -158,7 +159,7 @@ struct lbf
 struct ubf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __host__ __device__
+        __device__
         typename thrust::iterator_traits<RandomAccessIterator>::difference_type
      operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          return __upper_bound(begin, end, value, comp) - begin;
@@ -168,16 +169,16 @@ struct ubf
 struct bsf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __host__ __device__
+        __device__
      bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          RandomAccessIterator iter = __lower_bound(begin, end, value, comp);
-         return iter != end && !comp(value, *iter);
+         return iter != end && !comp(value, thrust::detail::device::dereference(iter));
      }
 };
 
 
 // TODO
-// step 0: precache elements from [begin, end)
+// step 0: precache selected elements from [begin, end) into [s_begin, s_end)
 // step 1: narrow(s_begin, s_end, value, comp) -> s_begin, s_end
 // step 2: output = search(new_begin, new_end, value, comp)
 
@@ -198,7 +199,7 @@ void binary_search_kernel(RandomAccessIterator begin,
     output       += thread_id;
     
     while (values_begin < values_end){
-        *output = func(begin, end, *values_begin, comp);
+        thrust::detail::device::dereference(output) = func(begin, end, thrust::detail::device::dereference(values_begin), comp);
         output       += grid_size;
         values_begin += grid_size;
     }
@@ -207,37 +208,24 @@ void binary_search_kernel(RandomAccessIterator begin,
 
 // Vector Implementation
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering, class BinarySearchFunction>
-void binary_search(ForwardIterator begin, 
-                   ForwardIterator end,
-                   InputIterator values_begin, 
-                   InputIterator values_end,
-                   OutputIterator output,
-                   StrictWeakOrdering comp,
-                   BinarySearchFunction func)
+OutputIterator binary_search(ForwardIterator begin, 
+                             ForwardIterator end,
+                             InputIterator values_begin, 
+                             InputIterator values_end,
+                             OutputIterator output,
+                             StrictWeakOrdering comp,
+                             BinarySearchFunction func)
 {
-    if (values_begin == values_end) return;  //empty range
+    if (values_begin == values_end) return output;  //empty range
 
     const size_t BLOCK_SIZE = 256;
     const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
     const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( (values_end - values_begin) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
-    
-    //  Ideally, we'd use 
-    //     thrust::detail::make_device_dereferenceable<InputIterator>::transform(begin), ... 
-    //  but nvcc doesn't like the extremely long mangled type names, so we reduce everything
-    //  to raw pointers for now.
-    
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type _ForwardIteratorType;
-    typedef typename thrust::iterator_traits<InputIterator>::value_type   _InputIteratorType;
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type  _OutputIteratorType;
-
-    _ForwardIteratorType * _begin        = thrust::raw_pointer_cast(&*begin);
-    _ForwardIteratorType * _end          = thrust::raw_pointer_cast(&*end);
-    _InputIteratorType   * _values_begin = thrust::raw_pointer_cast(&*values_begin);
-    _InputIteratorType   * _values_end   = thrust::raw_pointer_cast(&*values_end);
-    _OutputIteratorType  * _output       = thrust::raw_pointer_cast(&*output);
 
     binary_search_kernel<<<NUM_BLOCKS, BLOCK_SIZE>>>
-        (_begin, _end, _values_begin, _values_end, _output, comp, func);
+        (begin, end, values_begin, values_end, output, comp, func);
+
+    return output + (values_end - values_begin); 
 }
 
    
@@ -324,8 +312,7 @@ OutputIterator lower_bound(ForwardIterator begin,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::lbf());
-    return output + (values_end - values_begin); 
+    return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::lbf());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -336,8 +323,7 @@ OutputIterator upper_bound(ForwardIterator begin,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::ubf());
-    return output + (values_end - values_begin); 
+    return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::ubf());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -348,10 +334,8 @@ OutputIterator binary_search(ForwardIterator begin,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-    detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::bsf());
-    return output + (values_end - values_begin); 
+    return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::bsf());
 }
-
 
 } // end namespace cuda
 
@@ -362,5 +346,4 @@ OutputIterator binary_search(ForwardIterator begin,
 } // end namespace thrust
 
 #endif // __CUDACC__
-
 

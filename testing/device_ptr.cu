@@ -9,7 +9,7 @@ void TestDevicePointerManipulation(void)
     thrust::device_vector<int> data(5);
 
     thrust::device_ptr<int> begin(&data[0]);
-    thrust::device_ptr<int> end(&data[5]);
+    thrust::device_ptr<int> end(&data[0] + 5);
 
     ASSERT_EQUAL(end - begin, 5);
 
@@ -50,6 +50,7 @@ void TestDevicePointerManipulation(void)
 }
 DECLARE_UNITTEST(TestDevicePointerManipulation);
 
+
 void TestMakeDevicePointer(void)
 {
     typedef int T;
@@ -65,4 +66,30 @@ void TestMakeDevicePointer(void)
     ASSERT_EQUAL(p0, p1);
 }
 DECLARE_UNITTEST(TestMakeDevicePointer);
+
+
+template<typename Vector>
+void TestRawPointerCast(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector vec(3);
+
+    T * first;
+    T * last;
+    
+    first = thrust::raw_pointer_cast(&vec[0]);
+    last  = thrust::raw_pointer_cast(&vec[3]);
+    ASSERT_EQUAL(last - first, 3);
+
+    first = thrust::raw_pointer_cast(&vec.front());
+    last  = thrust::raw_pointer_cast(&vec.back());
+    ASSERT_EQUAL(last - first, 2);
+
+    KNOWN_FAILURE;
+    //first = thrust::raw_pointer_cast(vec.begin());
+    //last  = thrust::raw_pointer_cast(vec.end());
+    //ASSERT_EQUAL(last - first, 3);
+}
+DECLARE_VECTOR_UNITTEST(TestRawPointerCast);
 

@@ -3,6 +3,7 @@
 
 #include <list>
 #include <iterator>
+#include <thrust/iterator/counting_iterator.h>
 
 void TestCopyFromConstIterator(void)
 {
@@ -311,4 +312,24 @@ void TestCopyDeviceThrow(void)
     ASSERT_EQUAL(true, caught_exception);
 }
 DECLARE_UNITTEST(TestCopyDeviceThrow);
+
+
+template <typename Vector>
+void TestCopyCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::experimental::counting_iterator<T> iter(1);
+
+    Vector vec(4);
+
+    thrust::copy(iter, iter + 4, vec.begin());
+
+    ASSERT_EQUAL(vec[0], 1);
+    ASSERT_EQUAL(vec[1], 2);
+    ASSERT_EQUAL(vec[2], 3);
+    ASSERT_EQUAL(vec[3], 4);
+}
+DECLARE_VECTOR_UNITTEST(TestCopyCountingIterator);
+
 

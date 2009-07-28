@@ -15,11 +15,13 @@
  */
 
 
-/*! \file fill.h
- *  \brief Defines the interface to fill() on CUDA.
+/*! \file trivial_copy.h
+ *  \brief Device implementations for copying memory between host and device.
  */
 
 #pragma once
+
+#include <thrust/detail/device/cuda/trivial_copy.h>
 
 namespace thrust
 {
@@ -30,23 +32,24 @@ namespace detail
 namespace device
 {
 
-namespace cuda
+inline void trivial_copy_host_to_device(void *dst, const void *src, size_t count)
 {
+    thrust::detail::device::cuda::trivial_copy_host_to_device(dst, src, count);
+}
 
+inline void trivial_copy_device_to_host(void *dst, const void *src, size_t count)
+{
+    thrust::detail::device::cuda::trivial_copy_device_to_host(dst, src, count);
+}
 
-template<typename InputIterator, typename T>
-  void fill(InputIterator first,
-            InputIterator last,
-            const T &exemplar);
-
-
-} // end namespace cuda
+inline void trivial_copy_device_to_device(void *dst, const void *src, size_t count)
+{
+    thrust::detail::device::cuda::trivial_copy_device_to_device(dst, src, count);
+}
 
 } // end namespace device
 
 } // end namespace detail
 
 } // end namespace thrust
-
-#include "fill.inl"
 

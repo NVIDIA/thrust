@@ -19,22 +19,12 @@
  *  \brief Inline file for adjacent_difference.h
  */
 
-#include <thrust/adjacent_difference.h>
 #include <thrust/functional.h>
+
 #include <thrust/detail/dispatch/adjacent_difference.h>
 
 namespace thrust
 {
-
-template <class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(InputIterator first, InputIterator last,
-                                   OutputIterator result,
-                                   BinaryFunction binary_op)
-{
-  // dispatch on category
-  return thrust::detail::dispatch::adjacent_difference(first, last, result, binary_op,
-    typename thrust::iterator_traits<InputIterator>::iterator_category());
-} // end adjacent_difference()
 
 template <class InputIterator, class OutputIterator>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last, 
@@ -45,6 +35,18 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
   thrust::minus<InputType> binary_op;
   return thrust::adjacent_difference(first, last, result, binary_op);
 } // end adjacent_difference()
+
+template <class InputIterator, class OutputIterator, class BinaryFunction>
+OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   BinaryFunction binary_op)
+{
+  // dispatch on space
+  return thrust::detail::dispatch::adjacent_difference(first, last, result, binary_op,
+    typename thrust::experimental::iterator_space<InputIterator>::type(),
+    typename thrust::experimental::iterator_space<OutputIterator>::type());
+} // end adjacent_difference()
+
 
 } // end namespace thrust
 

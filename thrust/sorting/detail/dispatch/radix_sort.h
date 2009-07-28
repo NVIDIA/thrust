@@ -19,14 +19,11 @@
  *  \brief Dispatches radix_sort based on iterator_category.
  */
 
-#include <algorithm>
+
+#include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/sort.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/type_traits.h>
-
-#include <thrust/sorting/detail/device/cuda/stable_radix_sort.h>
+#include <thrust/sorting/detail/device/stable_radix_sort.h>
 
 namespace thrust
 {
@@ -47,7 +44,7 @@ namespace dispatch
 template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
-                         thrust::random_access_host_iterator_tag)
+                         thrust::experimental::space::host)
 {
     // no host path, just use stable_sort
     thrust::stable_sort(begin, end);
@@ -58,8 +55,8 @@ template<typename RandomAccessIterator1,
   void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
-                                thrust::random_access_host_iterator_tag,
-                                thrust::random_access_host_iterator_tag)
+                                thrust::experimental::space::host,
+                                thrust::experimental::space::host)
 {
     // no host path, just use stable_sort_by_key
     thrust::stable_sort_by_key(keys_begin, keys_end, values_begin);
@@ -73,12 +70,9 @@ template<typename RandomAccessIterator1,
 template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
-                         thrust::random_access_device_iterator_tag)
+                         thrust::experimental::space::device)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-
-    // XXX use make_device_dereferenceable here instead of assuming &*begin is device_ptr
-    thrust::sorting::detail::device::cuda::stable_radix_sort_key_dev<KeyType>((&*begin).get(), end - begin);
+    thrust::sorting::detail::device::stable_radix_sort(begin, end);
 }
 
 template<typename RandomAccessIterator1,
@@ -86,15 +80,10 @@ template<typename RandomAccessIterator1,
   void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
-                                thrust::random_access_device_iterator_tag,
-                                thrust::random_access_device_iterator_tag)
+                                thrust::experimental::space::device,
+                                thrust::experimental::space::device)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-
-    // XXX use make_device_dereferenceable here instead of assuming &*keys_begin & &*values_begin is device_ptr
-    thrust::sorting::detail::device::cuda::stable_radix_sort_key_value_dev<KeyType,ValueType>
-        ((&*keys_begin).get(), (&*values_begin).get(), keys_end - keys_begin);
+    thrust::sorting::detail::device::stable_radix_sort_by_key(keys_begin, keys_end, values_begin);
 }
 
 } // end namespace dispatch

@@ -15,12 +15,13 @@
  */
 
 
-/*! \file transform_scan.h
- *  \brief Defines the host implementations of 
- *         the family oftransform scan functions.
+/*! \file scan.h
+ *  \brief Host implementations of scan functions.
  */
 
 #pragma once
+
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -33,62 +34,61 @@ namespace host
 
 template<typename InputIterator,
          typename OutputIterator,
-         typename UnaryFunction,
          typename AssociativeOperator>
-  void transform_inclusive_scan(InputIterator begin,
-                                InputIterator end,
+  OutputIterator inclusive_scan(InputIterator first,
+                                InputIterator last,
                                 OutputIterator result,
-                                UnaryFunction unary_op,
                                 AssociativeOperator binary_op)
 {
-    if(begin != end) {
-        typename thrust::iterator_traits<OutputIterator>::value_type last;
+    if(first != last) {
+        typename thrust::iterator_traits<OutputIterator>::value_type prev;
 
-        // first one is *begin
-        *result = last = unary_op(*begin);
+        // first one is *first
+        *result = prev = *first;
 
-        for(++begin, ++result;
-                begin != end;
-                ++begin, ++result)
+        for(++first, ++result;
+                first != last;
+                ++first, ++result)
         {
-            *result = last = binary_op(last, unary_op(*begin));
+            *result = prev = binary_op(prev, *first);
         }
     }
+
+    return result;
 }
 
 
 template<typename InputIterator,
          typename OutputIterator,
-         typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  void transform_exclusive_scan(InputIterator begin,
-                                InputIterator end,
+  OutputIterator exclusive_scan(InputIterator first,
+                                InputIterator last,
                                 OutputIterator result,
-                                UnaryFunction unary_op,
                                 T init,
                                 AssociativeOperator binary_op)
 {
-    if(begin != end) {
-        typename thrust::iterator_traits<OutputIterator>::value_type temp = *begin;
+    if(first != last) {
+        typename thrust::iterator_traits<OutputIterator>::value_type temp = *first;
         typename thrust::iterator_traits<OutputIterator>::value_type next =  init;
 
         // first one is init
         *result = next;
-        next = binary_op(init, unary_op(temp));
+        next = binary_op(init, temp);
 
-        for(++begin, ++result;
-                begin != end;
-                ++begin, ++result)
+        for(++first, ++result;
+                first != last;
+                ++first, ++result)
         {
             // use temp to permit in-place scans
-            temp = unary_op(*begin);
+            temp = *first;
             *result = next;
             next = binary_op(next, temp);
         }
     }
-} 
 
+    return result;
+} 
 
 } // end namespace host
 

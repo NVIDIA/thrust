@@ -47,10 +47,10 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, OutputType init, 
               BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)
 {
-  // dispatch on category
+  // dispatch on space
   return thrust::detail::dispatch::inner_product(first1, last1, first2, init, binary_op1, binary_op2,
-    typename thrust::iterator_traits<InputIterator1>::iterator_category(),
-    typename thrust::iterator_traits<InputIterator2>::iterator_category());
+    typename thrust::experimental::iterator_space<InputIterator1>::type(),
+    typename thrust::experimental::iterator_space<InputIterator2>::type());
 } // end inner_product()
 
 
