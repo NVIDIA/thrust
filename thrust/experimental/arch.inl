@@ -48,7 +48,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   cudaError_t error = cudaGetDevice(&current_device);
   if(error)
   {
-    throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
   } // end if
 
   if(current_device < 0)
@@ -59,7 +59,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   error = cudaGetDeviceProperties(&props, current_device);
   if(error)
   {
-    throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
   } // end if
 } // end checked_get_current_device_properties()
 
