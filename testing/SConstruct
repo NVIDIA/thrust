@@ -14,8 +14,7 @@ nvcc_options_file = env.Command('../build/nvcc_options_file.txt',
                                 env.Program('../build/print_sm_version.cpp'),
                                 os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > ../build/nvcc_options_file.txt'))
 
-#env.Append(NVCCFLAGS = ['-optf=../build/nvcc_options_file.txt'])
-env.Append(NVCCFLAGS = ['-arch=sm_11'])
+env.Append(NVCCFLAGS = ['-optf=../build/nvcc_options_file.txt'])
 
 # find all .cus & .cpps in the current directory
 sources = []
