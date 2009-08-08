@@ -57,7 +57,7 @@ template<typename InputType,
   __host__ __device__
   void operator()(const InputType &in, OutputType &out)
   {
-    out.T(in);
+    ::new(static_cast<void*>(&out)) T(in);
   } // end operator()()
 }; // end uninitialized_copy_functor
 

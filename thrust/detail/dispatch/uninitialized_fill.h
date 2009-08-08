@@ -59,7 +59,7 @@ template<typename T>
   __host__ __device__
   void operator()(T &x)
   {
-    x.T(exemplar);
+    ::new(static_cast<void*>(&x)) T(exemplar);
   } // end operator()()
 }; // end copy_constructor
 
