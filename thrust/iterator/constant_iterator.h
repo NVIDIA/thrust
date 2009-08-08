@@ -24,9 +24,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/iterator_adaptor.h>
-#include <thrust/iterator/counting_iterator.h>
-#include <thrust/iterator/iterator_categories.h>
+#include <thrust/iterator/detail/constant_iterator_base.h>
 
 namespace thrust
 {
@@ -34,42 +32,37 @@ namespace thrust
 namespace experimental
 {
 
-template<typename Value>
+template<typename Value,
+         typename Incrementable = use_default,
+         typename Space = use_default>
   class constant_iterator
-    : public iterator_adaptor<constant_iterator<Value>,
-                              counting_iterator<ptrdiff_t, ptrdiff_t>,
-                              Value,
-                              thrust::experimental::random_access_universal_iterator_tag,
-                              Value const &,
-                              Value *,
-                              ptrdiff_t>
+    : public detail::constant_iterator_base<Value, Incrementable, Space>::type
 {
     friend class iterator_core_access;
-
-    //typedef counting_iterator<ptrdiff_t,ptrdiff_t> Base;
-
-    typedef iterator_adaptor<constant_iterator<Value>,
-                             counting_iterator<ptrdiff_t, ptrdiff_t>,
-                             Value,
-                             thrust::experimental::random_access_universal_iterator_tag,
-                             Value const &,
-                             Value *,
-                             ptrdiff_t> super_t;
+    typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::type          super_t;
+    typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::incrementable incrementable;
+    typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::base_iterator base_iterator;
 
   public:
-    typedef Value const & reference;
-    typedef typename super_t::difference_type difference_type;
+    typedef typename super_t::reference  reference;
+    typedef typename super_t::value_type value_type;
 
     __host__ __device__
-    constant_iterator(void){};
-
-  //  // XXX nvcc can't compile this at the moment
-  //  //__host__ __device__
-  //  //constant_iterator(constant_iterator const &rhs):super_t(rhs.base()){}
+    constant_iterator(void)
+      : super_t(), m_value(){};
 
     __host__ __device__
-    constant_iterator(Value const& v, ptrdiff_t const& c = ptrdiff_t())
-      : super_t(typename super_t::base_type(c)), m_value(v) {}
+    constant_iterator(constant_iterator const &rhs)
+      : super_t(rhs.base()), m_value(rhs.m_value) {}
+
+    __host__ __device__
+    constant_iterator(value_type const& v, incrementable const &i = incrementable())
+      : super_t(base_iterator(i)), m_value(v) {}
+
+    template<typename OtherValue, typename OtherIncrementable>
+    __host__ __device__
+    constant_iterator(OtherValue const& v, OtherIncrementable const& i = incrementable())
+      : super_t(base_iterator(i)), m_value(v) {}
 
     __host__ __device__
     Value const& value(void) const
@@ -86,31 +79,32 @@ template<typename Value>
   
   private: // Core iterator interface
     __host__ __device__
-    typename constant_iterator::reference dereference(void) const
+    reference dereference(void) const
     {
       return m_value;
     }
 
   private:
-    Value m_value;
+    const Value m_value;
 }; // end constant_iterator
 
-template<typename T>
-__host__ __device__
-constant_iterator<T> make_constant_iterator(T x, ptrdiff_t c = ptrdiff_t())
+template<typename V, typename I>
+inline __host__ __device__
+constant_iterator<V,I> make_constant_iterator(V x, I i = int())
 {
-  return constant_iterator<T>(x, c);
+  return constant_iterator<V,I>(x, i);
 } // end make_constant_iterator()
 
-// XXX TODO consider adding this convenience
-//template<typename T>
-//__host__ __device__
-//std::pair< constant_iterator<T>,constant_iterator<T> > make_constant_range(T x, ptrdiff_t size)
-//{
-//  return std::make_pair(make_constant_iterator(x, 0), make_constant_iterator(x, size));
-//} // end make_constant_range()
+template<typename V>
+inline __host__ __device__
+constant_iterator<V> make_constant_iterator(V x)
+{
+  return constant_iterator<V>(x, 0);
+} // end make_constant_iterator()
 
 } // end namespace experimental
 
 } // end namespace thrust
+
+#include <thrust/iterator/detail/constant_iterator.inl>
 
