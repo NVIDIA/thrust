@@ -225,13 +225,11 @@ struct TestRadixSortVariableBits
 {
   void operator()(const size_t n)
   {
-#if defined(__GNUC__)
-#if __GNUC__ <= 4  && __GNUC_MINOR__ <= 1
+#if defined(__GNUC__) && __GNUC__ <= 4 && _GNUC_MINOR__ <= 1
     // some bizzare problem with VariableUnitTest in this particular case
     // on GCC 4.1.2 (SUSE Linux)
     KNOWN_FAILURE;
-#endif
-#endif
+#else
     for(size_t num_bits = 0; num_bits < 8 * sizeof(T); num_bits += 7){
         thrust::host_vector<T>  h_keys = thrusttest::random_integers<T>(n);
    
@@ -246,6 +244,7 @@ struct TestRadixSortVariableBits
     
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     }
+#endif
   }
 };
 VariableUnitTest<TestRadixSortVariableBits, IntegralTypes> TestRadixSortVariableBitsInstance;

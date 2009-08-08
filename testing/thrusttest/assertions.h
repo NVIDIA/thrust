@@ -181,8 +181,8 @@ void assert_almost_equal(ForwardIterator first1, ForwardIterator last1, ForwardI
 }
 
 
-template <typename T>
-void assert_equal(const thrust::host_vector<T>& A, const thrust::host_vector<T>& B,
+template <typename T, typename Alloc>
+void assert_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vector<T,Alloc>& B,
                   const std::string& filename = "unknown", int lineno = -1)
 {
     if(A.size() != B.size())
@@ -190,8 +190,8 @@ void assert_equal(const thrust::host_vector<T>& A, const thrust::host_vector<T>&
     assert_equal(A.begin(), A.end(), B.begin(), filename, lineno);
 }
 
-template <typename T>
-void assert_almost_equal(const thrust::host_vector<T>& A, const thrust::host_vector<T>& B, 
+template <typename T, typename Alloc>
+void assert_almost_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vector<T,Alloc>& B, 
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
@@ -200,24 +200,24 @@ void assert_almost_equal(const thrust::host_vector<T>& A, const thrust::host_vec
     assert_almost_equal(A.begin(), A.end(), B.begin(), filename, lineno, a_tol, r_tol);
 }
 
-template <typename T>
-void assert_equal(const thrust::host_vector<T>& A, const thrust::device_vector<T>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_equal(const thrust::host_vector<T,Alloc1>& A, const thrust::device_vector<T,Alloc2>& B,
                   const std::string& filename = "unknown", int lineno = -1)
 {
-    thrust::host_vector<T> B_host = B;
+    thrust::host_vector<T,Alloc1> B_host = B;
     assert_equal(A, B_host, filename, lineno);
 }
 
-template <typename T>
-void assert_equal(const thrust::device_vector<T>& A, const thrust::host_vector<T>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_equal(const thrust::device_vector<T,Alloc1>& A, const thrust::host_vector<T,Alloc2>& B,
                   const std::string& filename = "unknown", int lineno = -1)
 {
-    thrust::host_vector<T> A_host = A;
+    thrust::host_vector<T,Alloc2> A_host = A;
     assert_equal(A_host, B, filename, lineno);
 }
 
-template <typename T>
-void assert_equal(const thrust::device_vector<T>& A, const thrust::device_vector<T>& B,
+template <typename T, typename Alloc>
+void assert_equal(const thrust::device_vector<T,Alloc>& A, const thrust::device_vector<T,Alloc>& B,
                   const std::string& filename = "unknown", int lineno = -1)
 {
     thrust::host_vector<T> A_host = A;
@@ -225,26 +225,26 @@ void assert_equal(const thrust::device_vector<T>& A, const thrust::device_vector
     assert_equal(A_host, B_host, filename, lineno);
 }
 
-template <typename T>
-void assert_almost_equal(const thrust::host_vector<T>& A, const thrust::device_vector<T>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_almost_equal(const thrust::host_vector<T,Alloc1>& A, const thrust::device_vector<T,Alloc2>& B,
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
-    thrust::host_vector<T> B_host = B;
+    thrust::host_vector<T,Alloc1> B_host = B;
     assert_almost_equal(A, B_host, filename, lineno, a_tol, r_tol);
 }
 
-template <typename T>
-void assert_almost_equal(const thrust::device_vector<T>& A, const thrust::host_vector<T>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_almost_equal(const thrust::device_vector<T,Alloc1>& A, const thrust::host_vector<T,Alloc2>& B,
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
-    thrust::host_vector<T> A_host = A;
+    thrust::host_vector<T,Alloc2> A_host = A;
     assert_almost_equal(A_host, B, filename, lineno, a_tol, r_tol);
 }
 
-template <typename T>
-void assert_almost_equal(const thrust::device_vector<T>& A, const thrust::device_vector<T>& B,
+template <typename T, typename Alloc>
+void assert_almost_equal(const thrust::device_vector<T,Alloc>& A, const thrust::device_vector<T,Alloc>& B,
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
