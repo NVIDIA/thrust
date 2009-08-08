@@ -21,6 +21,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string>
 
 #include <thrust/experimental/arch.h>
 

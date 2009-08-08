@@ -28,9 +28,11 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/iterator_facade.inl>
 
-#define ITERATOR_FACADE_FORMAL_PARMS(i) typename Derived##i, typename Pointer##i, typename Value##i, typename Space##i, typename Traversal##i, typename Reference##i, typename Difference##i
+#define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Pointer, typename    Value, typename    Space, typename    Traversal, typename    Reference, typename    Difference
+#define ITERATOR_FACADE_FORMAL_PARMS_I(i) typename Derived##i, typename Pointer##i, typename Value##i, typename Space##i, typename Traversal##i, typename Reference##i, typename Difference##i
 
-#define ITERATOR_FACADE_ARGS(i) Derived##i, Pointer##i, Value##i, Space##i, Traversal##i, Reference##i, Difference##i
+#define ITERATOR_FACADE_ARGS         Derived,    Pointer,    Value,    Space,    Traversal,    Reference,    Difference
+#define ITERATOR_FACADE_ARGS_I(i) Derived##i, Pointer##i, Value##i, Space##i, Traversal##i, Reference##i, Difference##i
 
 namespace thrust
 {
@@ -40,56 +42,56 @@ namespace experimental
 
 // This forward declaration is required for the friend declaration
 // in iterator_core_access
-template<ITERATOR_FACADE_FORMAL_PARMS()> class iterator_facade;
+template<ITERATOR_FACADE_FORMAL_PARMS> class iterator_facade;
 
 class iterator_core_access
 {
     // declare our friends
-    template<ITERATOR_FACADE_FORMAL_PARMS()> friend class iterator_facade;
+    template<ITERATOR_FACADE_FORMAL_PARMS> friend class iterator_facade;
 
     // iterator comparisons are our friends
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
     friend bool
-    operator ==(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-                iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    operator ==(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+                iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
     friend bool
-    operator !=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-                iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    operator !=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+                iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
     friend bool
-    operator <(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-               iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    operator <(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+               iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
     friend bool
-    operator >(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-               iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    operator >(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+               iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
     friend bool
-    operator <=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-                iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    operator <=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+                iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
     friend bool
-    operator >=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-                iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    operator >=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+                iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     // iterator difference is our friend
-    template <ITERATOR_FACADE_FORMAL_PARMS(1),
-              ITERATOR_FACADE_FORMAL_PARMS(2)>
-    friend typename iterator_facade<ITERATOR_FACADE_ARGS(1)>::difference_type
-    operator-(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-              iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs);
+    template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+              ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    friend typename iterator_facade<ITERATOR_FACADE_ARGS_I(1)>::difference_type
+    operator-(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+              iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template<typename Facade>
     __host__ __device__
@@ -166,16 +168,16 @@ class iterator_core_access
     //
     // Curiously Recurring Template interface.
     //
-    template <ITERATOR_FACADE_FORMAL_PARMS()>
+    template <ITERATOR_FACADE_FORMAL_PARMS>
     __host__ __device__
-    static Derived& derived(iterator_facade<ITERATOR_FACADE_ARGS()>& facade)
+    static Derived& derived(iterator_facade<ITERATOR_FACADE_ARGS>& facade)
     {
       return *static_cast<Derived*>(&facade);
     }
 
-    template <ITERATOR_FACADE_FORMAL_PARMS()>
+    template <ITERATOR_FACADE_FORMAL_PARMS>
     __host__ __device__
-    static Derived const& derived(iterator_facade<ITERATOR_FACADE_ARGS()> const& facade)
+    static Derived const& derived(iterator_facade<ITERATOR_FACADE_ARGS> const& facade)
     {
       return *static_cast<Derived const*>(&facade);
     }
@@ -187,7 +189,7 @@ class iterator_core_access
 }; // end iterator_core_access
 
 
-template<ITERATOR_FACADE_FORMAL_PARMS()>
+template<ITERATOR_FACADE_FORMAL_PARMS>
   class iterator_facade
 {
   private:
@@ -294,84 +296,84 @@ template<ITERATOR_FACADE_FORMAL_PARMS()>
 }; // end iterator_facade
 
 // Comparison operators
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator ==(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-            iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+operator ==(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+            iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return iterator_core_access
     ::equal(*static_cast<Derived1 const*>(&lhs),
             *static_cast<Derived2 const*>(&rhs));
 }
 
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator !=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-            iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+operator !=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+            iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return !iterator_core_access
     ::equal(*static_cast<Derived1 const*>(&lhs),
             *static_cast<Derived2 const*>(&rhs));
 }
 
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator <(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-           iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+operator <(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+           iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return 0 > iterator_core_access
     ::distance_from(*static_cast<Derived1 const*>(&lhs),
                     *static_cast<Derived2 const*>(&rhs));
 }
 
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator >(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-           iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+operator >(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+           iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return 0 < iterator_core_access
     ::distance_from(*static_cast<Derived1 const*>(&lhs),
                     *static_cast<Derived2 const*>(&rhs));
 }
 
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator <=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-            iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+operator <=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+            iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return 0 >= iterator_core_access
     ::distance_from(*static_cast<Derived1 const*>(&lhs),
                     *static_cast<Derived2 const*>(&rhs));
 }
 
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX it might be nice to implement this at some point
 //typename enable_if_interoperable<Dr1,Dr2,bool>::type // exposition
 bool
-operator >=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-            iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+operator >=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+            iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return 0 <= iterator_core_access
     ::distance_from(*static_cast<Derived1 const*>(&lhs),
@@ -379,14 +381,14 @@ operator >=(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
 }
 
 // Iterator difference
-template <ITERATOR_FACADE_FORMAL_PARMS(1),
-          ITERATOR_FACADE_FORMAL_PARMS(2)>
+template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
+          ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
 // XXX investigate whether we need to do extra work to determine the return type
 //     as Boost does
-typename  iterator_facade<ITERATOR_FACADE_ARGS(1)>::difference_type
-operator-(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
-          iterator_facade<ITERATOR_FACADE_ARGS(2)> const& rhs)
+typename  iterator_facade<ITERATOR_FACADE_ARGS_I(1)>::difference_type
+operator-(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
+          iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
   return iterator_core_access
     ::distance_from(*static_cast<Derived1 const*>(&lhs),
@@ -394,19 +396,19 @@ operator-(iterator_facade<ITERATOR_FACADE_ARGS(1)> const& lhs,
 }
 
 // Iterator addition
-template <ITERATOR_FACADE_FORMAL_PARMS()>
+template <ITERATOR_FACADE_FORMAL_PARMS>
 inline __host__ __device__
-Derived operator+ (iterator_facade<ITERATOR_FACADE_ARGS()> const& i,
+Derived operator+ (iterator_facade<ITERATOR_FACADE_ARGS> const& i,
                    typename Derived::difference_type n)
 {
   Derived tmp(static_cast<Derived const&>(i));
   return tmp += n;
 }
 
-template <ITERATOR_FACADE_FORMAL_PARMS()>
+template <ITERATOR_FACADE_FORMAL_PARMS>
 inline __host__ __device__
 Derived operator+ (typename Derived::difference_type n,
-                   iterator_facade<ITERATOR_FACADE_ARGS()> const& i)
+                   iterator_facade<ITERATOR_FACADE_ARGS> const& i)
 {
   Derived tmp(static_cast<Derived const&>(i));
   return tmp += n;
@@ -417,5 +419,7 @@ Derived operator+ (typename Derived::difference_type n,
 } // end thrust
 
 #undef ITERATOR_FACADE_FORMAL_PARMS
+#undef ITERATOR_FACADE_FORMAL_PARMS_I
 #undef ITERATOR_FACADE_ARGS
+#undef ITERATOR_FACADE_ARGS_I
 

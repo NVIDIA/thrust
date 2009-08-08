@@ -24,6 +24,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -77,14 +78,19 @@ template<typename T>
    *  device_references to const T from device_references to T.
    */
   template<typename OtherT>
-  device_reference(const device_reference<OtherT> &ref,
-                   typename
+  device_reference(const device_reference<OtherT> &ref
+
+// XXX msvc screws this up
+#ifndef _MSC_VER
+                   , typename
                    detail::enable_if<
                      detail::is_convertible<
                        typename device_reference<OtherT>::pointer,
                        pointer
                      >::value
-                   >::type *dummy = 0);
+                   >::type *dummy = 0
+#endif // __MSC_VER
+                  );
 
   /*! This copy constructor initializes this \p device_reference
    *  to refer to an object pointed to by the given \p device_ptr. After

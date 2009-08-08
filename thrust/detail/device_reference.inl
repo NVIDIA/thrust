@@ -29,14 +29,19 @@ namespace thrust
 template<typename T>
   template<typename OtherT>
     device_reference<T>
-      ::device_reference(const device_reference<OtherT> &ref,
-                         typename
+      ::device_reference(const device_reference<OtherT> &ref
+
+// XXX msvc screws this up
+#ifndef _MSC_VER
+                         , typename
                          detail::enable_if<
                            detail::is_convertible<
                              typename device_reference<OtherT>::pointer,
                              pointer
                            >::value
-                         >::type *dummy)
+                         >::type *dummy
+#endif // _MSC_VER
+                        )
         :mPtr(ref.mPtr)
 {
   ;
