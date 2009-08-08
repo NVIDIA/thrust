@@ -113,5 +113,92 @@ template <typename T1, typename T2>
 } // end make_pair()
 
 
+// specializations of tuple_element for pair
+template<typename T1, typename T2>
+  struct tuple_element<0, pair<T1,T2> >
+{
+  typedef T1 type;
+}; // end tuple_element
+
+template<typename T1, typename T2>
+  struct tuple_element<1, pair<T1,T2> >
+{
+  typedef T2 type;
+}; // end tuple_element
+
+
+// specialization of tuple_size for pair
+template<typename T1, typename T2>
+  struct tuple_size< pair<T1,T2 > >
+{
+  static const unsigned int value = 2;
+}; // end tuple_size
+
+
+
+namespace detail
+{
+
+
+template<int N, typename Pair> struct pair_get {};
+
+template<typename Pair>
+  struct pair_get<0, Pair>
+{
+  inline __host__ __device__
+    const typename tuple_element<0, Pair>::type &
+      operator()(const Pair &p) const
+  {
+    return p.first;
+  } // end operator()()
+
+  inline __host__ __device__
+    typename tuple_element<0, Pair>::type &
+      operator()(Pair &p) const
+  {
+    return p.first;
+  } // end operator()()
+}; // end pair_get
+
+
+template<typename Pair>
+  struct pair_get<1, Pair>
+{
+  inline __host__ __device__
+    const typename tuple_element<1, Pair>::type &
+      operator()(const Pair &p) const
+  {
+    return p.second;
+  } // end operator()()
+
+  inline __host__ __device__
+    typename tuple_element<1, Pair>::type &
+      operator()(Pair &p) const
+  {
+    return p.second;
+  } // end operator()()
+}; // end pair_get
+
+} // end detail
+
+
+
+template<unsigned int N, typename T1, typename T2>
+  inline __host__ __device__
+    typename tuple_element<N, pair<T1,T2> >::type &
+      get(pair<T1,T2> &p)
+{
+  return detail::pair_get<N, pair<T1,T2> >()(p);
+} // end get()
+
+template<unsigned int N, typename T1, typename T2>
+  inline __host__ __device__
+    const typename tuple_element<N, pair<T1,T2> >::type &
+      get(const pair<T1,T2> &p)
+{
+  return detail::pair_get<N, pair<T1,T2> >()(p);
+} // end get()
+
+
 } // end thrust
 

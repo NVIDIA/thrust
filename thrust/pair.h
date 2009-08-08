@@ -200,6 +200,55 @@ template <typename T1, typename T2>
   inline __host__ __device__
     pair<T1,T2> make_pair(T1 x, T2 y);
 
+
+/*! This convenience metafunction is included for compatibility with
+ *  \p tuple. It returns either the type of a \p pair's
+ *  \c first_type or \c second_type in its nested type, \c type.
+ *
+ *  \tparam N This parameter selects the member of interest.
+ *  \tparam T A \c pair type of interest.
+ */
+template<int N, typename T> struct tuple_element;
+
+
+/*! This convenience metafunction is included for compatibility with
+ *  \p tuple. It returns \c 2, the number of elements of a \p pair,
+ *  in its nested data member, \c value.
+ *
+ *  \tparam Pair A \c pair type of interest.
+ */
+template<typename Pair> struct tuple_size;
+
+
+/*! This convenience function returns a reference to either the first or
+ *  second member of a \p pair.
+ *
+ *  \param p The \p pair of interest.
+ *  \return \c p.first or \c p.second, depending on the template
+ *          parameter.
+ *
+ *  \tparam N This parameter selects the member of interest.
+ */
+template<unsigned int N, typename T1, typename T2>
+  inline __host__ __device__
+    typename tuple_element<N, pair<T1,T2> >::type &
+      get(pair<T1,T2> &p);
+
+
+/*! This convenience function returns a const reference to either the
+ *  first or second member of a \p pair.
+ *
+ *  \param p The \p pair of interest.
+ *  \return \c p.first or \c p.second, depending on the template
+ *          parameter.
+ *
+ *  \tparam i This parameter selects the member of interest.
+ */
+template<int N, typename T1, typename T2>
+  inline __host__ __device__
+    const typename tuple_element<N, pair<T1,T2> >::type &
+      get(const pair<T1,T2> &p);
+
 /*! \}
  */
 

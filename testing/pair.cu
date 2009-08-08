@@ -1,4 +1,5 @@
 #include <thrusttest/unittest.h>
+#include <thrust/host_vector.h>
 #include <thrust/pair.h>
 #include <thrust/transform.h>
 #include <thrust/reduce.h>
@@ -262,6 +263,10 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
+#ifdef __APPLE__
+    // nvcc has trouble with the add_pairs struct it seems
+    KNOWN_FAILURE
+#else
     typedef thrust::pair<T,T> P;
 
     thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
@@ -284,6 +289,7 @@ template <typename T>
     P d_result = thrust::reduce(d_pairs.begin(), d_pairs.end(), init, add_pairs());
 
     ASSERT_EQUAL_QUIET(h_result, d_result);
+#endif
   }
 }; // end TestPairReduce
 VariableUnitTest<TestPairReduce, IntegralTypes> TestPairReduceInstance;
@@ -351,4 +357,38 @@ template <typename T>
   }
 };
 VariableUnitTest<TestPairStableSort, NumericTypes> TestPairStableSortInstance;
+
+template<typename T>
+struct TestPairGet
+{
+  void operator()(void)
+  {
+    thrust::host_vector<T> data = thrusttest::random_integers<T>(2);
+
+    thrust::pair<T,T> p(data[0], data[1]);
+
+    ASSERT_EQUAL(data[0], thrust::get<0>(p));
+    ASSERT_EQUAL(data[1], thrust::get<1>(p));
+  }
+};
+SimpleUnitTest<TestPairGet, NumericTypes> TestPairGetInstance;
+
+
+void TestPairTupleSize(void)
+{
+  unsigned int result = thrust::tuple_size< thrust::pair<int,int> >::value;
+  ASSERT_EQUAL(2, result);
+};
+DECLARE_UNITTEST(TestPairTupleSize);
+
+
+void TestPairTupleElement(void)
+{
+  typedef typename thrust::tuple_element<0, thrust::pair<int, float> >::type type0;
+  typedef typename thrust::tuple_element<1, thrust::pair<int, float> >::type type1;
+
+  ASSERT_EQUAL_QUIET(typeid(int),   typeid(type0));
+  ASSERT_EQUAL_QUIET(typeid(float), typeid(type1));
+};
+DECLARE_UNITTEST(TestPairTupleElement);
 
