@@ -14,14 +14,18 @@ nvcc_options_file = env.Command('../build/nvcc_options_file.txt',
                                 env.Program('../build/print_sm_version.cpp'),
                                 os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > ../build/nvcc_options_file.txt'))
 
-env.Append(NVCCFLAGS = ['-optf=../build/nvcc_options_file.txt'])
+#env.Append(NVCCFLAGS = ['-optf=../build/nvcc_options_file.txt'])
+env.Append(NVCCFLAGS = ['-arch=sm_11'])
 
 # find all .cus & .cpps in the current directory
 sources = []
+directories = ['.', 'cuda']
 extensions = ['*.cu', '*.cpp']
-for ext in extensions:
-  #sources.extend(env.Glob(ext, strings = True))
-  sources.extend(glob.glob(ext))
+for dir in directories:
+  for ext in extensions:
+    regexp = os.path.join(dir, ext)
+    #sources.extend(env.Glob(regexp, strings = True))
+    sources.extend(glob.glob(regexp))
 
 # add the directory containing this file to the include path
 this_file = inspect.currentframe().f_code.co_filename
