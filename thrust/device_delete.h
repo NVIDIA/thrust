@@ -37,15 +37,15 @@ namespace thrust
  *
  *  \param ptr The \p device_ptr to delete, assumed to have
  *         been allocated with \p device_new.
- *
- *  \bug The current implementation of \p device_delete does
- *  not invoke <tt>T</tt>'s destructor on the object <tt>*ptr</tt>.
+ *  \param n The number of objects to destroy at \p ptr. Defaults to \c 1
+ *         similar to \p device_new.
  *
  *  \see device_ptr
  *  \see device_new
  */
 template<typename T>
-  inline void device_delete(thrust::device_ptr<T> ptr);
+  inline void device_delete(thrust::device_ptr<T> ptr,
+                            const size_t n = 1);
 
 /*! \}
  */

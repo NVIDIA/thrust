@@ -21,17 +21,17 @@
 
 #include <thrust/device_delete.h>
 #include <thrust/device_free.h>
+#include <thrust/detail/destroy.h>
 
 namespace thrust
 {
 
 template<typename T>
-  void device_delete(device_ptr<T> ptr)
+  void device_delete(device_ptr<T> ptr,
+                     const size_t n)
 {
-  // XXX TODO call T's destructor here
-  // XXX How many destructors should be called?
   // XXX defer to cudaDelete once it is implemented
-
+  detail::destroy(ptr, ptr + n);
   device_free(ptr);
 } // end device_delete()
 
