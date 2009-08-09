@@ -349,7 +349,8 @@ struct TestZipIteratorReduce
                                      make_tuple<T,T>(0,0),
                                      TuplePlus<Tuple>());
 
-    ASSERT_EQUAL_QUIET(h_result, d_result);
+    ASSERT_ALMOST_EQUAL(get<0>(h_result), get<0>(d_result));
+    ASSERT_ALMOST_EQUAL(get<1>(h_result), get<1>(d_result));
   }
 };
 VariableUnitTest<TestZipIteratorReduce, ThirtyTwoBitTypes> TestZipIteratorReduceInstance;
