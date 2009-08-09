@@ -28,6 +28,7 @@
 #include <thrust/device_ptr.h>
 
 #include <thrust/detail/device/trivial_copy.h>
+#include <iostream>
 
 namespace thrust
 {
@@ -46,6 +47,9 @@ template<typename InputIterator,
                                      thrust::experimental::single_pass_traversal_tag, 
                                      thrust::experimental::random_access_traversal_tag)
 {
+    std::cerr << std::endl;
+    std::cerr << "general copy_host_to_device(): InputIterator: " << typeid(InputIterator).name() << std::endl;
+    std::cerr << "general copy_host_to_device(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
     // host container to device container
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
@@ -71,6 +75,10 @@ template<typename InputIterator,
                                      thrust::experimental::random_access_traversal_tag,
                                      true_type)
 {
+  std::cerr << std::endl;
+  std::cerr << "random access copy_host_to_device(): trivial" << std::endl;
+  std::cerr << "general copy_host_to_device(): InputIterator: " << typeid(InputIterator).name() << std::endl;
+  std::cerr << "general copy_host_to_device(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
   // how many elements to copy?
   typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
@@ -92,6 +100,10 @@ template<typename InputIterator,
                                      thrust::experimental::random_access_traversal_tag,
                                      false_type)
 {
+  std::cerr << std::endl;
+  std::cerr << "random access copy_host_to_device(): non-trivial" << std::endl;
+  std::cerr << "general copy_host_to_device(): InputIterator: " << typeid(InputIterator).name() << std::endl;
+  std::cerr << "general copy_host_to_device(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
   typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin,end);

@@ -23,6 +23,28 @@
 #include <thrust/iterator/detail/iterator_category_to_traversal.h>
 #include <thrust/detail/type_traits.h>
 
+
+#if __GNUC__
+// forward declaration of gnu's __normal_iterator
+namespace __gnu_cxx
+{
+
+template<typename Iterator, typename Container> class __normal_iterator;
+
+} // end __gnu_cxx
+#endif // __GNUC__
+
+#if _MSC_VER
+// forward declaration of MSVC's "normal iterators"
+namespace std
+{
+
+template<typename Value, typename Difference, typename Pointer, typename Reference> struct _Ranit;
+
+} // end std
+#endif // _MSC_VER
+
+
 namespace thrust
 {
 
@@ -111,6 +133,60 @@ template <typename T>
 {
   typedef T& type;
 }; // end iterator_device_reference
+
+
+
+#ifdef __GNUC__
+template<typename T>
+  struct is_gnu_normal_iterator
+    : false_type
+{
+}; // end is_gnu_normal_iterator
+
+
+// catch gnu __normal_iterators
+template<typename Iterator, typename Container>
+  struct is_gnu_normal_iterator< __gnu_cxx::__normal_iterator<Iterator, Container> >
+    : true_type
+{
+}; // end is_gnu_normal_iterator
+#endif // __GNUC__
+
+
+#ifdef _MSC_VER
+// catch msvc _Ranit
+template<typename Iterator>
+  struct is_convertible_to_msvc_Ranit :
+    is_convertible<
+      Iterator,
+      std::_Ranit<
+        typename experimental::iterator_value<Iterator>::type,
+        typename experimental::iterator_difference<Iterator>::type,
+        typename experimental::iterator_pointer<Iterator>::type,
+        typename experimental::iterator_reference<Iterator>::type
+      >
+    > {};
+#endif // _MSC_VER
+
+
+// XXX consider is_normal_iterator only querying whether or not a type is
+//     truly an instance of normal_iterator
+template<typename T>
+  struct is_normal_iterator
+    : public integral_constant<
+        bool, is_pointer<T>::value |
+              is_device_ptr<T>::value
+#if __GNUC__
+              | is_gnu_normal_iterator<T>::value
+#endif // __GNUC__
+#ifdef _MSC_VER
+              | is_convertible_to_msvc_Ranit<T>::value
+#endif // _MSC_VER
+      >
+{
+}; // end is_normal_iterator
+
+
 
 
 } // end detail
