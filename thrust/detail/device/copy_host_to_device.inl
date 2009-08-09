@@ -91,6 +91,60 @@ template<typename InputIterator,
   return result + n;
 }
 
+
+namespace detail
+{
+
+// random access non-trivial host iterator to random access device iterator
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator non_trivial_random_access_copy_host_to_device(InputIterator begin,
+                                                               InputIterator end,
+                                                               OutputIterator result,
+                                                               false_type) // InputIterator is non-trivial
+{
+  // copy the input to a temporary host buffer of OutputType
+  typedef typename thrust::experimental::iterator_value<OutputIterator>::type OutputType;
+
+  typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
+
+  // allocate temporary storage
+  OutputType *temp = reinterpret_cast<OutputType*>(malloc(sizeof(OutputType) * n));
+  OutputType *temp_end = thrust::copy(begin, end, temp);
+
+  result = thrust::copy(temp, temp_end, result);
+
+  free(temp);
+  return result;
+}
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator non_trivial_random_access_copy_host_to_device(InputIterator begin,
+                                                               InputIterator end,
+                                                               OutputIterator result,
+                                                               true_type) // InputIterator is trivial
+{
+  // copy the input to a temporary device buffer of InputType
+  typedef typename thrust::experimental::iterator_value<InputIterator>::type InputType;
+
+  typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
+
+  // allocate temporary storage
+  device_ptr<InputType> temp = device_malloc<InputType>(n);
+
+  // force a trivial copy
+  thrust::detail::device::trivial_copy_host_to_device(raw_pointer_cast(temp), raw_pointer_cast(&*begin), n * sizeof(InputType));
+
+  result = thrust::copy(temp, temp + n, result);
+
+  device_free(temp);
+  return result;
+}
+
+} // end detail
+
+
 // random access host iterator to random access device iterator with non-trivial copy
 template<typename InputIterator,
          typename OutputIterator>
@@ -106,18 +160,9 @@ template<typename InputIterator,
   //std::cerr << "general copy_host_to_device(): InputIterator: " << typeid(InputIterator).name() << std::endl;
   //std::cerr << "general copy_host_to_device(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
 
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-  typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin,end);
-
-  // allocate temporary storage
-  OutputType *temp = reinterpret_cast<OutputType*>(malloc(sizeof(OutputType) * n));
-  OutputType *temp_end = thrust::copy(begin, end, temp);
-
-  result = thrust::copy(temp, temp_end, result);
-
-  free(temp);
-  return result;
+  // dispatch a non-trivial random access host to device copy based on whether or not the InputIterator is trivial
+  return detail::non_trivial_random_access_copy_host_to_device(begin, end, result,
+      typename thrust::detail::is_trivial_iterator<InputIterator>::type());
 }
 
 // random access host iterator to random access device iterator
