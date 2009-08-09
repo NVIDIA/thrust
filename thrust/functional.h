@@ -635,9 +635,8 @@ template<typename T>
   struct identity : public unary_function<T,T>
 {
   /*! Function call operator. The return value is <tt>x</tt>.
-   *  \bug identity<T>::operator()() should return const T &
    */
-  __host__ __device__ T operator()(const T &x) const {return x;}
+  __host__ __device__ const T &operator()(const T &x) const {return x;}
 }; // end identity
 
 /*! \p maximum is a function object that takes two arguments and returns the greater
@@ -668,9 +667,8 @@ template<typename T>
   struct maximum : public binary_function<T,T,T>
 {
   /*! Function call operator. The return value is <tt>lhs > rhs ? lhs : rhs</tt>.
-   *  \bug maximum<T>::operator()() should return const T &
    */
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs > rhs ? lhs : rhs;}
+  __host__ __device__ const T &operator()(const T &lhs, const T &rhs) const {return lhs > rhs ? lhs : rhs;}
 }; // end maximum
 
 /*! \p minimum is a function object that takes two arguments and returns the lesser
@@ -701,9 +699,8 @@ template<typename T>
   struct minimum : public binary_function<T,T,T>
 {
   /*! Function call operator. The return value is <tt>lhs > rhs ? lhs : rhs</tt>.
-   *  \bug minimum<T>::operator()() should return const T &
    */
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
+  __host__ __device__ const T &operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
 }; // end minimum
 
 
