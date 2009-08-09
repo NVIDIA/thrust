@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/detail/device/cuda/trivial_copy.h>
 
 namespace thrust
@@ -31,6 +33,25 @@ namespace detail
 
 namespace device
 {
+
+
+// a trivial copy's iterator's value_types match,
+// the iterators themselves are normal_iterators
+// and the ToIterator's value_type has_trivial_assign
+template<typename FromIterator, typename ToIterator>
+  struct is_trivial_copy :
+    integral_constant<
+      bool,
+      is_same<
+        typename thrust::experimental::iterator_value<FromIterator>::type,
+        typename thrust::experimental::iterator_value<ToIterator>::type
+      >::value
+      && is_normal_iterator<FromIterator>::value
+      && is_normal_iterator<ToIterator>::value
+      // XXX we need this for correctness, but let's leave it out for speed since our has_trivial_assign needs work
+      // && has_trivial_assign<typename thrust::experimental::iterator_value<ToIterator>::type>::value
+    > {};
+
 
 inline void trivial_copy_host_to_device(void *dst, const void *src, size_t count)
 {

@@ -39,6 +39,15 @@
 //#include <type_traits>
 //#endif // MSVC
 
+
+// forward declaration of gnu's __normal_iterator
+namespace __gnu_cxx
+{
+
+template<typename Iterator, typename Container> class __normal_iterator;
+
+} // end __gnu_cxx
+
 namespace thrust
 {
 
@@ -210,11 +219,31 @@ template<typename T>
 {
 }; // end is_same
 
+
+template<typename T>
+  struct is_gnu_normal_iterator
+    : false_type
+{
+}; // end is_gnu_normal_iterator
+
+
+// catch gnu __normal_iterators
+template<typename Iterator, typename Container>
+  struct is_gnu_normal_iterator< __gnu_cxx::__normal_iterator<Iterator, Container> >
+    : true_type
+{
+}; // end is_gnu_normal_iterator
+
+
 // XXX consider is_normal_iterator only querying whether or not a type is
 //     truly an instance of normal_iterator
 template<typename T>
   struct is_normal_iterator
-    : public integral_constant<bool, is_pointer<T>::value | is_device_ptr<T>::value>
+    : public integral_constant<
+        bool, is_pointer<T>::value |
+              is_device_ptr<T>::value |
+              is_gnu_normal_iterator<T>::value
+      >
 {
 }; // end is_normal_iterator
 
