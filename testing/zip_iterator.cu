@@ -311,3 +311,46 @@ struct TestZipIteratorTransform
 };
 VariableUnitTest<TestZipIteratorTransform, ThirtyTwoBitTypes> TestZipIteratorTransformInstance;
 
+
+template<typename Tuple>
+struct TuplePlus
+{
+  __host__ __device__
+  Tuple operator()(Tuple x, Tuple y) const
+  {
+    return make_tuple(get<0>(x) + get<0>(y),
+                      get<1>(x) + get<1>(y));
+  }
+}; // end SumTuple
+
+
+template <typename T>
+struct TestZipIteratorReduce
+{
+  void operator()(const size_t n)
+  {
+    thrust::host_vector<T> h_data0 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data1 = thrusttest::random_samples<T>(n);
+
+    thrust::device_vector<T> d_data0 = h_data0;
+    thrust::device_vector<T> d_data1 = h_data1;
+
+    typedef tuple<T,T> Tuple;
+
+    // run on host
+    Tuple h_result = thrust::reduce( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
+                                     make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
+                                     make_tuple<T,T>(0,0),
+                                     TuplePlus<Tuple>());
+
+    // run on device
+    Tuple d_result = thrust::reduce( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
+                                     make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
+                                     make_tuple<T,T>(0,0),
+                                     TuplePlus<Tuple>());
+
+    ASSERT_EQUAL_QUIET(h_result, d_result);
+  }
+};
+VariableUnitTest<TestZipIteratorReduce, ThirtyTwoBitTypes> TestZipIteratorReduceInstance;
+
