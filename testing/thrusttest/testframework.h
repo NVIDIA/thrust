@@ -76,6 +76,11 @@ inline std::string base_class_name(const char *name)
 {
   std::string result = name;
 
+  // if the name begins with "struct ", chop it off
+  result.replace(result.find_first_of("struct ") == 0 ? 0 : result.size(),
+                 7,
+                 "");
+
   // chop everything including and after first "<"
   return result.replace(result.find_first_of("<"),
                         result.size(),
