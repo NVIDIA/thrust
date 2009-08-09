@@ -118,8 +118,8 @@ template<typename InputIterator,
 
     const bool use_trivial_copy = 
         thrust::detail::is_same<InputType, OutputType>::value
-        && thrust::detail::is_normal_iterator<InputIterator>::value 
-        && thrust::detail::is_normal_iterator<OutputIterator>::value;
+        && thrust::detail::is_trivial_iterator<InputIterator>::value 
+        && thrust::detail::is_trivial_iterator<OutputIterator>::value;
 
     return detail::copy_device_to_device(begin, end, result,
             thrust::detail::integral_constant<bool, use_trivial_copy>());

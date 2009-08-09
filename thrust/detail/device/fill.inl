@@ -126,7 +126,7 @@ template<typename ForwardIterator, typename T>
   typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
   // we're compiling with nvcc, launch a kernel
-  const bool use_wide_fill = thrust::detail::is_normal_iterator<ForwardIterator>::value
+  const bool use_wide_fill = thrust::detail::is_trivial_iterator<ForwardIterator>::value
       && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
   detail::fill(first, last, exemplar, thrust::detail::integral_constant<bool, use_wide_fill>());
 }

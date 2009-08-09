@@ -169,25 +169,19 @@ template<typename Iterator>
 #endif // _MSC_VER
 
 
-// XXX consider is_normal_iterator only querying whether or not a type is
-//     truly an instance of normal_iterator
 template<typename T>
-  struct is_normal_iterator
-    : public integral_constant<
-        bool, is_pointer<T>::value |
-              is_device_ptr<T>::value
+  struct is_trivial_iterator :
+    integral_constant<
+      bool,
+        is_pointer<T>::value
+      | is_device_ptr<T>::value
 #if __GNUC__
-              | is_gnu_normal_iterator<T>::value
+      | is_gnu_normal_iterator<T>::value
 #endif // __GNUC__
 #ifdef _MSC_VER
-              | is_convertible_to_msvc_Ranit<T>::value
+      | is_convertible_to_msvc_Ranit<T>::value
 #endif // _MSC_VER
-      >
-{
-}; // end is_normal_iterator
-
-
-
+    > {};
 
 } // end detail
 

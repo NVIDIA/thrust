@@ -46,8 +46,8 @@ template<typename FromIterator, typename ToIterator>
         typename thrust::experimental::iterator_value<FromIterator>::type,
         typename thrust::experimental::iterator_value<ToIterator>::type
       >::value
-      && is_normal_iterator<FromIterator>::value
-      && is_normal_iterator<ToIterator>::value
+      && is_trivial_iterator<FromIterator>::value
+      && is_trivial_iterator<ToIterator>::value
       // XXX we need this for correctness, but let's leave it out for speed since our has_trivial_assign needs work
       // && has_trivial_assign<typename thrust::experimental::iterator_value<ToIterator>::type>::value
     > {};

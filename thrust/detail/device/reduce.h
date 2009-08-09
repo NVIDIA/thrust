@@ -139,7 +139,7 @@ template<typename InputIterator,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
     const bool use_wide_load = thrust::detail::is_pod<InputType>::value 
-                                    && thrust::detail::is_normal_iterator<InputIterator>::value
+                                    && thrust::detail::is_trivial_iterator<InputIterator>::value
                                     && (sizeof(InputType) == 1 || sizeof(InputType) == 2);
                                     
     return detail::reduce_device(first, last, init, binary_op, thrust::detail::integral_constant<bool, use_wide_load>());

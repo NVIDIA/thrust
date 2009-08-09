@@ -1,6 +1,7 @@
 #include <thrusttest/unittest.h>
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/device_ptr.h>
 
 struct non_pod
@@ -52,24 +53,24 @@ void TestIsPlainOldData(void)
 }
 DECLARE_UNITTEST(TestIsPlainOldData);
 
-void TestIsNormalIterator(void)
+void TestIsTrivialIterator(void)
 {
     typedef typename thrust::host_vector<int> HostVector;
     typedef typename thrust::device_vector<int> DeviceVector;
     
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator< int * >::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator< thrust::device_ptr<int> >::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< int * >::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
 
 
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator<typename HostVector::iterator>::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator<typename HostVector::const_iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename HostVector::iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename HostVector::const_iterator>::value, true);
 
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator<typename DeviceVector::iterator>::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator<typename DeviceVector::const_iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename DeviceVector::iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename DeviceVector::const_iterator>::value, true);
 
-    ASSERT_EQUAL((bool) thrust::detail::is_normal_iterator< thrust::device_ptr<int> >::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
 
     //XXX add counting_iterator, etc
 }
-DECLARE_UNITTEST(TestIsNormalIterator);
+DECLARE_UNITTEST(TestIsTrivialIterator);
 

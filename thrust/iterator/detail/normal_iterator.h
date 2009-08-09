@@ -64,7 +64,7 @@ template<typename Pointer>
 
 }; // end normal_iterator
 
-template<typename T> struct is_normal_iterator< normal_iterator<T> > : public true_type {};
+template<typename T> struct is_trivial_iterator< normal_iterator<T> > : public true_type {};
 
 namespace device
 {
