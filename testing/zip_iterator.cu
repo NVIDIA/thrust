@@ -355,3 +355,125 @@ struct TestZipIteratorReduce
 };
 VariableUnitTest<TestZipIteratorReduce, ThirtyTwoBitTypes> TestZipIteratorReduceInstance;
 
+
+void TestZipIteratorCopyAoSToSoA(void)
+{
+  const size_t n = 1;
+
+  typedef tuple<int,int> structure;
+  typedef host_vector<structure>   host_array_of_structures;
+  typedef device_vector<structure> device_array_of_structures;
+
+  typedef experimental::zip_iterator<
+    tuple<host_vector<int>::iterator, host_vector<int>::iterator>
+  > host_structure_of_arrays;
+
+  typedef experimental::zip_iterator<
+    tuple<device_vector<int>::iterator, device_vector<int>::iterator>
+  > device_structure_of_arrays;
+
+  host_array_of_structures   h_aos(n, make_tuple(7, 13) );
+  device_array_of_structures d_aos(n, make_tuple(7, 13) );
+
+
+
+  // host to host
+  host_vector<int> h_field0(n), h_field1(n);
+  host_structure_of_arrays h_soa = experimental::make_zip_iterator( make_tuple(h_field0.begin(), h_field1.begin()) );
+
+  thrust::copy(h_aos.begin(), h_aos.end(), h_soa);
+  ASSERT_EQUAL_QUIET(make_tuple(7, 13), h_soa[0]);
+
+
+
+  // host to device
+  device_vector<int> d_field0(n), d_field1(n);
+  device_structure_of_arrays d_soa = experimental::make_zip_iterator( make_tuple(d_field0.begin(), d_field1.begin()) );
+
+  thrust::copy(h_aos.begin(), h_aos.end(), d_soa);
+  ASSERT_EQUAL_QUIET(make_tuple(7, 13), d_soa[0]);
+
+
+
+  // device to device
+  thrust::fill(d_field0.begin(), d_field0.end(), 0);
+  thrust::fill(d_field1.begin(), d_field1.end(), 0);
+
+  thrust::copy(d_aos.begin(), d_aos.end(), d_soa);
+  ASSERT_EQUAL_QUIET(make_tuple(7, 13), d_soa[0]);
+
+
+  // device to host
+  thrust::fill(h_field0.begin(), h_field0.end(), 0);
+  thrust::fill(h_field1.begin(), h_field1.end(), 0);
+
+  thrust::copy(d_aos.begin(), d_aos.end(), h_soa);
+  ASSERT_EQUAL_QUIET(make_tuple(7, 13), h_soa[0]);
+};
+DECLARE_UNITTEST(TestZipIteratorCopyAoSToSoA);
+
+
+
+void TestZipIteratorCopySoAToAoS(void)
+{
+  const size_t n = 1;
+
+  typedef tuple<int,int> structure;
+  typedef host_vector<structure>   host_array_of_structures;
+  typedef device_vector<structure> device_array_of_structures;
+
+  typedef experimental::zip_iterator<
+    tuple<host_vector<int>::iterator, host_vector<int>::iterator>
+  > host_structure_of_arrays;
+
+  typedef experimental::zip_iterator<
+    tuple<device_vector<int>::iterator, device_vector<int>::iterator>
+  > device_structure_of_arrays;
+
+  host_vector<int>   h_field0(n, 7), h_field1(n, 13);
+  device_vector<int> d_field0(n, 7), d_field1(n, 13);
+
+  host_structure_of_arrays   h_soa = experimental::make_zip_iterator(make_tuple(h_field0.begin(), h_field1.begin()));
+  device_structure_of_arrays d_soa = experimental::make_zip_iterator(make_tuple(d_field0.begin(), d_field1.begin()));
+
+  host_array_of_structures   h_aos(n);
+  device_array_of_structures d_aos(n);
+
+
+
+  // host to host
+  thrust::fill(h_aos.begin(), h_aos.end(), make_tuple(0,0));
+
+  thrust::copy(h_soa, h_soa + n, h_aos.begin());
+  ASSERT_EQUAL_QUIET(7,  get<0>(h_soa[0]));
+  ASSERT_EQUAL_QUIET(13, get<1>(h_soa[0]));
+
+
+
+  // host to device
+  thrust::fill(d_aos.begin(), d_aos.end(), make_tuple(0,0));
+
+  thrust::copy(h_soa, h_soa + n, d_aos.begin());
+  ASSERT_EQUAL_QUIET(7,  get<0>(d_soa[0]));
+  ASSERT_EQUAL_QUIET(13, get<1>(d_soa[0]));
+
+
+
+  // device to device
+  thrust::fill(d_aos.begin(), d_aos.end(), make_tuple(0,0));
+
+  thrust::copy(d_soa, d_soa + n, d_aos.begin());
+  ASSERT_EQUAL_QUIET(7,  get<0>(d_soa[0]));
+  ASSERT_EQUAL_QUIET(13, get<1>(d_soa[0]));
+
+
+
+  // device to host
+  thrust::fill(h_aos.begin(), h_aos.end(), make_tuple(0,0));
+
+  thrust::copy(d_soa, d_soa + n, h_aos.begin());
+  ASSERT_EQUAL_QUIET(7,  get<0>(h_soa[0]));
+  ASSERT_EQUAL_QUIET(13, get<1>(h_soa[0]));
+};
+DECLARE_UNITTEST(TestZipIteratorCopySoAToAoS);
+

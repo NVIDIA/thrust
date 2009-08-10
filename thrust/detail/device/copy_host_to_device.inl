@@ -43,7 +43,7 @@ template<typename InputIterator,
   OutputIterator copy_host_to_device(InputIterator begin,
                                      InputIterator end,
                                      OutputIterator result,
-                                     thrust::experimental::single_pass_traversal_tag, 
+                                     thrust::experimental::incrementable_traversal_tag, 
                                      thrust::experimental::random_access_traversal_tag)
 {
     //std::cerr << std::endl;
