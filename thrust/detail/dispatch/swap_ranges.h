@@ -26,9 +26,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/copy.h>
-#include <thrust/device_ptr.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/detail/raw_buffer.h>
 
 #include <algorithm>
 #include <thrust/detail/device/swap_ranges.h>
@@ -86,17 +84,13 @@ template<typename ForwardIterator1,
   typename thrust::iterator_traits<ForwardIterator1>::difference_type N = std::distance(first1, last1);
 
   // copy device range to temp buffer on host
-  DeviceType * buffer = reinterpret_cast<DeviceType *>(malloc(N * sizeof(DeviceType)));
-  thrust::copy(first2, first2 + N, buffer);
+  raw_buffer<DeviceType, experimental::space::host> buffer(first2, first2 + N);
 
   // copy host range to device
   thrust::copy(first1, last1, first2);
 
   // swap on host
-  std::swap_ranges(first1, last1, buffer);
-
-  // free temp host buffer
-  free(buffer);
+  std::swap_ranges(first1, last1, buffer.begin());
 
   return first2 + N;
 }
