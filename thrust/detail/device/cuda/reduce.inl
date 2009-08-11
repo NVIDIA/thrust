@@ -24,10 +24,8 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/reduce.h>  // for second level reduction
 
 #include <thrust/detail/device/cuda/block/reduce.h>
@@ -174,25 +172,22 @@ template<typename InputFunctor,
     }
 
     // allocate storage for per-block results
-    thrust::device_ptr<OutputType> block_results = thrust::device_malloc<OutputType>(GRID_SIZE);
+    raw_buffer<OutputType, experimental::space::device> block_results(GRID_SIZE);
 
     // do the gpu part
     if( n < BLOCK_SIZE )
     {
         __thrust__serial_reduce_kernel<InputFunctor, OutputType, BinaryFunction>
-            <<<GRID_SIZE, 1>>>(input, n, block_results.get(), binary_op);
+            <<<GRID_SIZE, 1>>>(input, n, raw_pointer_cast(&block_results[0]), binary_op);
     } 
     else
     { 
         __thrust__unordered_reduce_kernel<InputFunctor, OutputType, BinaryFunction, BLOCK_SIZE>
-            <<<GRID_SIZE, BLOCK_SIZE>>>(input, n, block_results.get(), binary_op);
+            <<<GRID_SIZE, BLOCK_SIZE>>>(input, n, raw_pointer_cast(&block_results[0]), binary_op);
     }
 
     // copy work array to host
-    thrust::host_vector<OutputType> host_work(block_results, block_results + GRID_SIZE);
-
-    // free device work array
-    thrust::device_free(block_results);
+    raw_buffer<OutputType, experimental::space::host> host_work(block_results.begin(), block_results.end());
 
     // reduce on the host
     return thrust::reduce(host_work.begin(), host_work.end(), init, binary_op);
