@@ -26,10 +26,7 @@
 
 #include <algorithm>
 
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/detail/raw_buffer.h>
 
 #include <thrust/iterator/iterator_traits.h>
 
@@ -241,21 +238,17 @@ OutputType binary_search(ForwardIterator begin,
     // use the vectorized path to implement the scalar version
 
     // allocate device buffers for value and output
-    thrust::device_ptr<T>          d_value  = thrust::device_malloc<T>(1);
-    thrust::device_ptr<OutputType> d_output = thrust::device_malloc<OutputType>(1);
+    raw_buffer<T, experimental::space::device>          d_value(1);
+    raw_buffer<OutputType, experimental::space::device> d_output(1);
 
     // copy value to device
-    *d_value = value;
+    d_value[0] = value;
 
     // perform the query
-    detail::binary_search(begin, end, d_value, d_value + 1, d_output, comp, func);
+    detail::binary_search(begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
 
     // copy result to host
-    OutputType h_output = *d_output;
-
-    // free device buffers
-    thrust::device_free(d_value);     
-    thrust::device_free(d_output);     
+    OutputType h_output = d_output[0];
 
     return h_output;
 }
