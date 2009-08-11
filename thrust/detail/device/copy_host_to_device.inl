@@ -53,15 +53,11 @@ template<typename InputIterator,
     // host container to device container
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
-    typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
-
     // allocate temporary storage
-    InputType *temp = reinterpret_cast<InputType*>(malloc(sizeof(InputType) * n));
-    InputType *temp_end = thrust::copy(begin, end, temp);
+    raw_buffer<InputType, experimental::space::host> temp(begin,end);
 
-    result = thrust::copy(temp, temp_end, result);
+    result = thrust::copy(temp.begin(), temp.end(), result);
 
-    free(temp);
     return result;
 }
 
