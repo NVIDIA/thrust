@@ -26,6 +26,7 @@
 #include <thrust/transform.h>
 #include <thrust/functional.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/raw_buffer.h>
 
 #include <thrust/detail/device/trivial_copy.h>
 
@@ -57,19 +58,15 @@ template<typename InputIterator,
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
-    InputType *temp1 = reinterpret_cast<InputType*>(malloc(n * sizeof(InputType)));
-    thrust::copy(begin, end, temp1);
+    raw_buffer<InputType, experimental::space::host> temp1(begin, end);
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    OutputType *temp2 = reinterpret_cast<OutputType*>(malloc(n * sizeof(OutputType)));
-    thrust::transform(temp1, temp1 + n, temp2, thrust::identity<InputType>());
+    raw_buffer<OutputType, experimental::space::host> temp2(n);
+    thrust::transform(temp1.begin(), temp1.end(), temp2.begin(), thrust::identity<InputType>());
 
     // copy temp2 to device
-    result = thrust::copy(temp2, temp2 + n, result);
-
-    free(temp1);
-    free(temp2);
+    result = thrust::copy(temp2.begin(), temp2.end(), result);
 
     return result;
 #endif // __CUDACC__

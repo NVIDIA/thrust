@@ -28,6 +28,8 @@
 #include <thrust/detail/util/align.h>
 #include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/cuda/vectorize.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
@@ -166,10 +168,9 @@ template<typename ForwardIterator, typename T>
 
   // we can't launch a kernel, implement this with a copy
   IndexType n = thrust::distance(first,last);
-  OutputType *temp = reinterpret_cast<OutputType*>(::malloc(n * sizeof(OutputType)));
-  thrust::fill(temp, temp + n, exemplar);
-  thrust::copy(temp, temp + n, first);
-  ::free(temp);
+  raw_buffer<OutputType, experimental::space::host> temp(n);
+  thrust::fill(temp.begin(), temp.end(), exemplar);
+  thrust::copy(temp.begin(), temp.end(), first);
 }
 
 } // end namespace device

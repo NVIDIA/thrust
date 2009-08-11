@@ -30,7 +30,6 @@
 #include <thrust/copy.h>
 
 #include <thrust/scan.h>    // for second level scans
-#include <stdlib.h>         // for malloc & free
 
 #include <thrust/detail/util/blocking.h>
 
