@@ -35,7 +35,7 @@ template<typename T, typename Space> struct choose_raw_buffer_allocator {};
 template<typename T>
   struct choose_raw_buffer_allocator<thrust::experimental::space::device>
 {
-  typedef device_allocator<T> type;
+  typedef device_malloc_allocator<T> type;
 }; // end choose_raw_buffer_allocator
 
 template<typename T>
