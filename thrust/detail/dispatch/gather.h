@@ -28,8 +28,8 @@
 #include <thrust/detail/host/gather.h>
 #include <thrust/detail/device/gather.h>
 
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/distance.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
@@ -132,10 +132,9 @@ template<typename ForwardIterator,
 {
   // gather on device and transfer to host
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  thrust::device_ptr<OutputType> buffer = thrust::device_malloc<OutputType>(last - first);
-  thrust::gather(buffer, buffer + (last - first), map, input);
-  thrust::copy(buffer, buffer + (last - first), first);
-  thrust::device_free(buffer);
+  raw_buffer<OutputType, experimental::space::device> buffer(thrust::distance(first,last));
+  thrust::gather(buffer.begin(), buffer.end(), map, input);
+  thrust::copy(buffer.begin(), buffer.end(), first);
 } // end gather()
 
 template<typename ForwardIterator,
@@ -151,10 +150,9 @@ template<typename ForwardIterator,
 {
   // move map to device and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;
-  thrust::device_ptr<IndexType> d_map = thrust::device_malloc<IndexType>(last - first);
-  thrust::copy(map, map + (last - first), d_map);
-  thrust::gather(first, last, d_map, input);
-  thrust::device_free(d_map);
+  raw_buffer<IndexType, experimental::space::device> d_map(thrust::distance(first,last));
+  thrust::copy(map, map + (last - first), d_map.begin());
+  thrust::gather(first, last, d_map.begin(), input);
 } // end gather()
 
 
@@ -175,10 +173,9 @@ template<typename ForwardIterator,
 {
   // gather on host and transfer to device
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  OutputType * buffer = (OutputType *) malloc( (last - first) * sizeof(OutputType) ); // XXX replace with host_malloc
-  thrust::gather(buffer, buffer + (last - first), map, input);
-  thrust::copy(buffer, buffer + (last - first), first);
-  free(buffer);
+  raw_buffer<OutputType,experimental::space::host> buffer(thrust::distance(first,last));
+  thrust::gather(buffer.begin(), buffer.end(), map, input);
+  thrust::copy(buffer.begin(), buffer.end(), first);
 } // end gather()
 
 template<typename ForwardIterator,
@@ -194,10 +191,9 @@ template<typename ForwardIterator,
 {
   // move map to host and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;
-  IndexType * h_map = (IndexType *) malloc( (last - first) * sizeof(IndexType) ); // XXX replace with host_malloc
-  thrust::copy(map, map + (last - first), h_map);
-  thrust::gather(first, last, h_map, input);
-  free(h_map);
+  raw_buffer<IndexType, experimental::space::host> h_map(thrust::distance(first,last));
+  thrust::copy(map, map + (last - first), h_map.begin());
+  thrust::gather(first, last, h_map.begin(), input);
 } // end gather()
 
 
