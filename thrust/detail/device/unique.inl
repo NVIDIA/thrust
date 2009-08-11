@@ -27,9 +27,7 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <limits>
-#include <thrust/device_ptr.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
@@ -52,29 +50,24 @@ ForwardIterator __unique_helper(ForwardIterator first, ForwardIterator last,
 
     difference_type n = last - first;
   
-    thrust::device_ptr<InputType> input      = thrust::device_malloc<InputType>(n);
-    thrust::device_ptr<IndexType> is_first   = thrust::device_malloc<IndexType>(n);
-    thrust::device_ptr<IndexType> scatter_to = thrust::device_malloc<IndexType>(n);
-   
-    thrust::copy(first, last, input);
+    typedef raw_buffer<InputType, experimental::space::device> InputBuffer;
+    typedef raw_buffer<IndexType, experimental::space::device> IndexBuffer;
+    InputBuffer input(first, last);
+    IndexBuffer is_first(n), scatter_to(n);
 
     // mark first element in each group
     thrust::binary_negate<BinaryPredicate> not_binary_pred(binary_pred);
-    thrust::transform(input, input + (n - 1), input + 1, is_first + 1, not_binary_pred); 
+    thrust::transform(input.begin(), input.end() - 1, input.begin() + 1, is_first.begin() + 1, not_binary_pred); 
 
     is_first[0] = 0; // we can ignore the first element
 
     // scan the predicates
-    thrust::inclusive_scan(is_first, is_first + n, scatter_to);
+    thrust::inclusive_scan(is_first.begin(), is_first.end(), scatter_to.begin());
 
     // scatter first elements
-    thrust::scatter_if(input, input + n, scatter_to, is_first, first);
+    thrust::scatter_if(input.begin(), input.end(), scatter_to.begin(), is_first.begin(), first);
 
     ForwardIterator new_last = first + scatter_to[n - 1] + 1;
-
-    thrust::device_free(input);
-    thrust::device_free(is_first);
-    thrust::device_free(scatter_to);
 
     return new_last;
 }
