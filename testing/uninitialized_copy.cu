@@ -1,5 +1,6 @@
 #include <thrusttest/unittest.h>
 #include <thrust/uninitialized_copy.h>
+#include <thrust/device_malloc_allocator.h>
 
 template <class Vector>
 void TestUninitializedCopySimplePOD(void)
@@ -50,6 +51,6 @@ struct TestUninitializedCopySimpleNonPOD
     KNOWN_FAILURE
   }
 };
-VectorUnitTest<TestUninitializedCopySimpleNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_allocator> gTestUninitializedCopyNonPODSimpleDeviceInstance;
-VectorUnitTest<TestUninitializedCopySimpleNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::host_vector, std::allocator> gTestUninitializedCopyNonPODSimpleHostInstance;
+VectorUnitTest<TestUninitializedCopySimpleNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_malloc_allocator> gTestUninitializedCopyNonPODSimpleDeviceInstance;
+VectorUnitTest<TestUninitializedCopySimpleNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::host_vector, std::allocator>                    gTestUninitializedCopyNonPODSimpleHostInstance;
 

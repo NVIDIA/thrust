@@ -2,6 +2,7 @@
 #include <thrust/sorting/radix_sort.h>
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
+#include <thrust/device_malloc_allocator.h>
 
 using namespace thrusttest;
 
@@ -96,8 +97,8 @@ struct TestRadixSortKeySimple
     ASSERT_EQUAL(unsorted_keys, sorted_keys);
   }
 };
-VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_allocator> TestRadixSortKeySimpleDeviceInstance;
-VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator>            TestRadixSortKeySimpleHostInstance;
+VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_malloc_allocator> TestRadixSortKeySimpleDeviceInstance;
+VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator>                  TestRadixSortKeySimpleHostInstance;
 
 
 template <class Vector>
@@ -116,7 +117,7 @@ struct TestRadixSortKeyValueSimple
     ASSERT_EQUAL(unsorted_values, sorted_values);
   }
 };
-VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_allocator> TestRadixSortKeyValueSimpleDeviceInstance;
+VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_malloc_allocator> TestRadixSortKeyValueSimpleDeviceInstance;
 VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator           > TestRadixSortKeyValueSimpleHostInstance;
 
 

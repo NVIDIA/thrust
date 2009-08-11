@@ -1,4 +1,5 @@
 #include <thrusttest/unittest.h>
+#include <thrust/device_malloc_allocator.h>
 #include <vector>
 #include <list>
 #include <limits>
@@ -752,7 +753,7 @@ struct TestVectorCppRangeInsertSimple
         ASSERT_EQUAL(10, v5.size());
     }
 }; // end TestVectorCppRangeInsertSimple
-VectorUnitTest<TestVectorCppRangeInsertSimple, NumericTypes, thrust::device_vector, thrust::device_allocator> TestVectorCppRangeInsertSimpleDeviceInstance;
+VectorUnitTest<TestVectorCppRangeInsertSimple, NumericTypes, thrust::device_vector, thrust::device_malloc_allocator> TestVectorCppRangeInsertSimpleDeviceInstance;
 VectorUnitTest<TestVectorCppRangeInsertSimple, NumericTypes, thrust::host_vector,   std::allocator>   TestVectorCppRangeInsertSimpleHostInstance;
 
 template <class T>
@@ -926,7 +927,7 @@ struct TestVectorCppFillInsertSimple
         ASSERT_EQUAL(10, v4.size());
     }
 }; // end TestVectorCppFillInsertSimple
-VectorUnitTest<TestVectorCppFillInsertSimple, NumericTypes, thrust::device_vector, thrust::device_allocator> TestVectorCppFillInsertSimpleDeviceInstance;
+VectorUnitTest<TestVectorCppFillInsertSimple, NumericTypes, thrust::device_vector, thrust::device_malloc_allocator> TestVectorCppFillInsertSimpleDeviceInstance;
 VectorUnitTest<TestVectorCppFillInsertSimple, NumericTypes, thrust::host_vector,   std::allocator>   TestVectorCppFillInsertSimpleHostInstance;
 
 template <class T>

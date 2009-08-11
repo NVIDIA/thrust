@@ -1,6 +1,7 @@
 #include <thrusttest/unittest.h>
 #include <thrust/device_vector.h>
 #include <thrust/device_ptr.h>
+#include <thrust/device_new.h>
 #include <thrust/device_delete.h>
 
 struct Foo

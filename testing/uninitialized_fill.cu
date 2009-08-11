@@ -1,5 +1,6 @@
 #include <thrusttest/unittest.h>
 #include <thrust/uninitialized_fill.h>
+#include <thrust/device_malloc_allocator.h>
 
 template <class Vector>
 void TestUninitializedFillPOD(void)
@@ -90,6 +91,6 @@ struct TestUninitializedFillNonPOD
     //ASSERT_EQUAL(v[4], T(0));
   }
 };
-VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_allocator> gTestUninitializedFillNonPODDeviceInstance;
+VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_malloc_allocator> gTestUninitializedFillNonPODDeviceInstance;
 VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::host_vector, std::allocator> gTestUninitializedFillNonPODHostInstance;
 

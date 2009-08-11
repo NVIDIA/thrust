@@ -23,7 +23,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/device_allocator.h>
+#include <thrust/device_malloc_allocator.h>
 #include <thrust/detail/vector_base.h>
 #include <vector>
 
@@ -57,7 +57,7 @@ template<typename T, typename Alloc> class host_vector;
  *       \p pop_back, \p insert, \p operator<.
  *
  */
-template<typename T, typename Alloc = thrust::device_allocator<T> >
+template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
   class device_vector
     : public detail::vector_base<T,Alloc>
 {
