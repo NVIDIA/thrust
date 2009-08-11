@@ -15,31 +15,35 @@
  */
 
 /*! \file raw_buffer.h
- *  \brief Container-like object for wrapped malloc/free.
+ *  \brief Container-like class for wrapped malloc/free.
  */
 
 #pragma once
 
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/iterator/detail/normal_iterator.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <memory>
 
 namespace thrust
 {
 
+// forward declaration of device_malloc_allocator
+template<typename T> class device_malloc_allocator;
+
 namespace detail
 {
 
-template<typename T, typename Space> struct choose_raw_buffer_allocator {};
+template<typename T, typename Space> struct choose_raw_buffer_allocator;
 
 template<typename T>
-  struct choose_raw_buffer_allocator<thrust::experimental::space::device>
+  struct choose_raw_buffer_allocator<T,thrust::experimental::space::device>
 {
   typedef device_malloc_allocator<T> type;
 }; // end choose_raw_buffer_allocator
 
 template<typename T>
-  struct choose_raw_buffer_allocator<thrust::experimental::space::host>
+  struct choose_raw_buffer_allocator<T,thrust::experimental::space::host>
 {
   typedef std::allocator<T> type;
 }; // end choose_raw_buffer_allocator
@@ -52,6 +56,7 @@ template<typename T, typename Space>
     typedef typename choose_raw_buffer_allocator<T,Space>::type allocator_type;
     typedef T                                                   value_type;
     typedef typename allocator_type::pointer                    pointer;
+    typedef typename allocator_type::const_pointer              const_pointer;
     typedef typename allocator_type::reference                  reference;
     typedef typename allocator_type::const_reference            const_reference;
     typedef typename std::size_t                                size_type; 
@@ -60,37 +65,29 @@ template<typename T, typename Space>
     typedef normal_iterator<pointer>                            iterator;
     typedef normal_iterator<const_pointer>                      const_iterator;
 
-    __host__
     explicit raw_buffer(size_type n);
 
-    __host__
+    template<typename InputIterator>
+    raw_buffer(InputIterator first, InputIterator last);
+
     ~raw_buffer(void);
 
-    __host__
     size_type size(void) const;
 
-    __host__
     iterator begin(void);
 
-    __host__
     const_iterator begin(void) const;
 
-    __host__
     const_iterator cbegin(void) const;
 
-    __host__
     iterator end(void);
 
-    __host__
     const_iterator end(void) const;
 
-    __host__
     const_iterator cend(void) const;
 
-    __host__
     reference operator[](size_type n);
 
-    __host__
     const_reference operator[](size_type n) const;
 
 
@@ -99,10 +96,9 @@ template<typename T, typename Space>
 
     iterator m_begin, m_end;
 
-  private;
+  private:
     // disallow assignment
-    __host__
-    raw_buffer &operator=(const raw_buffer &){}
+    raw_buffer &operator=(const raw_buffer &);
 }; // end raw_buffer
 
 } // end detail

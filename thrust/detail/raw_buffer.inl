@@ -15,6 +15,15 @@
  */
 
 #include <thrust/detail/raw_buffer.h>
+#include <thrust/distance.h>
+#include <thrust/copy.h>
+
+
+namespace thrust
+{
+
+namespace detail
+{
 
 
 template<typename T, typename Space>
@@ -23,6 +32,17 @@ template<typename T, typename Space>
       :m_begin(m_allocator.allocate(n)),
        m_end(m_begin + n)
 {
+} // end raw_buffer::raw_buffer()
+
+
+template<typename T, typename Space>
+  template<typename InputIterator>
+    raw_buffer<T,Space>
+      ::raw_buffer(InputIterator first, InputIterator last)
+        :m_begin(m_allocator.allocate(distance(first, last))),
+         m_end(m_begin + distance(first,last))
+{
+  thrust::copy(first, last, begin());
 } // end raw_buffer::raw_buffer()
 
 
@@ -105,4 +125,8 @@ template<typename T, typename Space>
   return m_begin[n];
 } // end raw_buffer::operator[]()
 
+
+} // end detail
+
+} // end thrust
 

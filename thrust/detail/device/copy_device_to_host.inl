@@ -22,11 +22,11 @@
 #pragma once
 
 #include <algorithm>          // for std::copy
-#include <stdlib.h>           // for malloc & free
 
 #include <thrust/copy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/raw_buffer.h>
 
 #include <thrust/detail/device/trivial_copy.h>
 #include <thrust/detail/type_traits.h>
@@ -57,12 +57,9 @@ template<typename InputIterator,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
-    InputType *temp = reinterpret_cast<InputType*>(malloc(sizeof(InputType) * n));
-    InputType *temp_end = thrust::copy(begin, end, temp);
+    raw_buffer<InputType,experimental::space::host> temp(begin,end);
+    result = thrust::copy(temp.begin(), temp.end(), result);
 
-    result = thrust::copy(temp, temp_end, result);
-
-    free(temp);
     return result;
 }
 
@@ -109,12 +106,9 @@ template<typename InputIterator,
   typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  device_ptr<OutputType> temp = device_malloc<OutputType>(n);
-  device_ptr<OutputType> temp_end = thrust::copy(begin, end, temp);
+  raw_buffer<OutputType,experimental::space::device> temp(begin, end);
+  result = thrust::copy(temp.begin(), temp.end(), result);
 
-  result = thrust::copy(temp, temp_end, result);
-
-  device_free(temp);
   return result;
 }
 
@@ -131,14 +125,14 @@ template<typename InputIterator,
   typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  InputType *temp = reinterpret_cast<InputType*>(malloc(n * sizeof(InputType)));
+  raw_buffer<InputType,experimental::space::host> temp(n);
 
   // force a trivial copy
-  thrust::detail::device::trivial_copy_device_to_host(temp, raw_pointer_cast(&*begin), n * sizeof(InputType));
+  thrust::detail::device::trivial_copy_device_to_host(raw_pointer_cast(&*temp.begin()), raw_pointer_cast(&*begin), n * sizeof(InputType));
 
-  result = thrust::copy(temp, temp + n, result);
+  // finally, copy to the result
+  result = thrust::copy(temp.begin(), temp.end(), result);
 
-  free(temp);
   return result;
 }
 
