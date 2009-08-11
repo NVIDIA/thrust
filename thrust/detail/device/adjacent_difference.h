@@ -24,8 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/device_ptr.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/copy.h>
 #include <thrust/transform.h>
 
@@ -89,10 +88,8 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
         // an in-place operation is requested, copy the input and call the entry point
         // XXX a special-purpose kernel would be faster here since
         // only block boundaries need to be copied
-        thrust::device_ptr<InputType> input_copy = thrust::device_malloc<InputType>(last - first);
-        thrust::copy(first, last, input_copy);
-        thrust::adjacent_difference(input_copy, input_copy + (last - first), result, binary_op);
-        thrust::device_free(input_copy);
+        raw_buffer<InputType, experimental::space::device> input_copy(first, last);
+        thrust::adjacent_difference(input_copy.begin(), input_copy.end(), result, binary_op);
     }
     else
     {
