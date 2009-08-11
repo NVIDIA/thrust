@@ -25,8 +25,8 @@
 
 #include <thrust/experimental/arch.h>
 #include <thrust/functional.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/copy.h>
 
 #include <thrust/scan.h>    // for second level scans
@@ -278,12 +278,12 @@ template<typename InputIterator,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::device_ptr<OutputType> d_carry_out = thrust::device_malloc<OutputType>(num_warps);
+    raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
 
     //////////////////////
     // first level scan
     interval_scan::kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (first, n, result, binary_op, interval_size, d_carry_out.get());
+        (first, n, result, binary_op, interval_size, raw_pointer_cast(&d_carry_out[0]));
 
     bool second_scan_device = true;
 
@@ -292,25 +292,20 @@ template<typename InputIterator,
     if (second_scan_device) {
         // scan carry_out on the device (use one warp of GPU method for second level scan)
         interval_scan::kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
-            (d_carry_out.get(), num_warps, d_carry_out.get(), binary_op, num_warps, (d_carry_out + num_warps - 1).get());
+            (raw_pointer_cast(&d_carry_out[0]), num_warps, raw_pointer_cast(&d_carry_out[0]), binary_op, num_warps, raw_pointer_cast(&*(d_carry_out.end() - 1)));
     } else {
         // scan carry_out on the host
-        OutputType *h_carry_out = (OutputType*)(::malloc(num_warps * sizeof(OutputType)));
-        thrust::copy(d_carry_out, d_carry_out + num_warps, h_carry_out);
-        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps, h_carry_out, binary_op);
+        raw_buffer<OutputType, experimental::space::host> h_carry_out(d_carry_out.begin(), d_carry_out.end());
+        thrust::inclusive_scan(h_carry_out.begin(), h_carry_out.end(), h_carry_out.begin(), binary_op);
 
         // copy back to device
-        thrust::copy(h_carry_out, h_carry_out + num_warps, d_carry_out);
-        ::free(h_carry_out);
+        thrust::copy(h_carry_out.begin(), h_carry_out.end(), d_carry_out.begin());
     }
 
     //////////////////////
     // update intervals
     interval_scan::inclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (result, binary_op, n, interval_size, d_carry_out.get());
-
-    // free device work array
-    thrust::device_free(d_carry_out);
+        (result, binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
 
     return result + n;
 } // end inclusive_interval_scan()
@@ -347,12 +342,12 @@ template<typename InputIterator,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::device_ptr<OutputType> d_carry_out = thrust::device_malloc<OutputType>(num_warps);
+    raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
 
     //////////////////////
     // first level scan
     interval_scan::kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (first, n, result, binary_op, interval_size, d_carry_out.get());
+        (first, n, result, binary_op, interval_size, raw_pointer_cast(&d_carry_out[0]));
 
     bool second_scan_device = true;
 
@@ -361,26 +356,21 @@ template<typename InputIterator,
     if (second_scan_device) {
         // scan carry_out on the device (use one warp of GPU method for second level scan)
         interval_scan::kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
-            (d_carry_out.get(), num_warps, d_carry_out.get(), binary_op, num_warps, (d_carry_out + num_warps - 1).get());
+            (raw_pointer_cast(&d_carry_out[0]), num_warps, raw_pointer_cast(&d_carry_out[0]), binary_op, num_warps, raw_pointer_cast(&*(d_carry_out.end() - 1)));
     } 
     else {
         // scan carry_out on the host
-        OutputType *h_carry_out = (OutputType*)(::malloc(num_warps * sizeof(OutputType)));
-        thrust::copy(d_carry_out, d_carry_out + num_warps, h_carry_out);
-        thrust::inclusive_scan(h_carry_out, h_carry_out + num_warps, h_carry_out, binary_op);
+        raw_buffer<OutputType, experimental::space::host> h_carry_out(d_carry_out.begin(), d_carry_out.end());
+        thrust::inclusive_scan(h_carry_out.begin(), h_carry_out.end(), h_carry_out.begin(), binary_op);
 
         // copy back to device
-        thrust::copy(h_carry_out, h_carry_out + num_warps, d_carry_out);
-        ::free(h_carry_out);
+        thrust::copy(h_carry_out.begin(), h_carry_out.end(), d_carry_out.begin());
     }
 
     //////////////////////
     // update intervals
     interval_scan::exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (result, OutputType(init), binary_op, n, interval_size, d_carry_out.get());
-
-    // free device work array
-    thrust::device_free(d_carry_out);
+        (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
 
     return result + n;
 } // end exclusive_interval_scan()
