@@ -39,8 +39,8 @@ template<typename T, typename Space>
   template<typename InputIterator>
     raw_buffer<T,Space>
       ::raw_buffer(InputIterator first, InputIterator last)
-        :m_begin(m_allocator.allocate(distance(first, last))),
-         m_end(m_begin + distance(first,last))
+        :m_begin(m_allocator.allocate(thrust::distance(first, last))),
+         m_end(m_begin + thrust::distance(first,last))
 {
   thrust::copy(first, last, begin());
 } // end raw_buffer::raw_buffer()

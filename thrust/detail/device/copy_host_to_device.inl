@@ -23,11 +23,11 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <stdlib.h>           // for malloc & free
 #include <thrust/distance.h>
 #include <thrust/device_ptr.h>
 
 #include <thrust/detail/device/trivial_copy.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
@@ -109,12 +109,10 @@ template<typename InputIterator,
   typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  OutputType *temp = reinterpret_cast<OutputType*>(malloc(sizeof(OutputType) * n));
-  OutputType *temp_end = thrust::copy(begin, end, temp);
+  raw_buffer<OutputType, experimental::space::host> temp(begin, end);
 
-  result = thrust::copy(temp, temp_end, result);
+  result = thrust::copy(temp.begin(), temp.end(), result);
 
-  free(temp);
   return result;
 }
 
@@ -131,14 +129,13 @@ template<typename InputIterator,
   typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  device_ptr<InputType> temp = device_malloc<InputType>(n);
+  raw_buffer<InputType, experimental::space::device> temp(n);
 
   // force a trivial copy
-  thrust::detail::device::trivial_copy_host_to_device(raw_pointer_cast(temp), raw_pointer_cast(&*begin), n * sizeof(InputType));
+  thrust::detail::device::trivial_copy_host_to_device(raw_pointer_cast(&*temp.begin()), raw_pointer_cast(&*begin), n * sizeof(InputType));
 
-  result = thrust::copy(temp, temp + n, result);
+  result = thrust::copy(temp.begin(), temp.end(), result);
 
-  device_free(temp);
   return result;
 }
 
