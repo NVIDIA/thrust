@@ -26,8 +26,8 @@
 #include <thrust/detail/host/scatter.h>
 #include <thrust/detail/device/scatter.h>
 
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/distance.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
@@ -131,10 +131,8 @@ template<typename InputIterator1,
 {
   // copy input to host and scatter on host
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
-  InputType * buffer = (InputType *) malloc( (last - first) * sizeof(InputType) ); // XXX replace with host_malloc
-  thrust::copy(first, last, buffer);
-  thrust::scatter(buffer, buffer, map, output);
-  free(buffer);
+  raw_buffer<InputType, experimental::space::host> buffer(first,last);
+  thrust::scatter(buffer.begin(), buffer.end(), map, output);
 } // end scatter()
 
 
@@ -151,10 +149,8 @@ template<typename InputIterator1,
 {
   // copy map to host and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;
-  IndexType * h_map = (IndexType *) malloc( (last - first) * sizeof(IndexType) ); // XXX replace with host_malloc
-  thrust::copy(map, map + (last - first), h_map);
-  thrust::scatter(first, last, h_map, output);
-  free(h_map);
+  raw_buffer<IndexType, experimental::space::host> h_map(map, map + thrust::distance(first,last));
+  thrust::scatter(first, last, h_map.begin(), output);
 } // end scatter()
 
 
@@ -174,10 +170,8 @@ template<typename InputIterator1,
 {
   // copy input to device and scatter on device
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
-  thrust::device_ptr<InputType> buffer = thrust::device_malloc<InputType>(last - first);
-  thrust::copy(first, last, buffer);
-  thrust::scatter(buffer, buffer + (last - first), map, output);
-  thrust::device_free(buffer);
+  raw_buffer<InputType, experimental::space::device> buffer(first, last);
+  thrust::scatter(buffer.begin(), buffer.end(), map, output);
 } // end scatter()
 
 
@@ -194,10 +188,8 @@ template<typename InputIterator1,
 {
   // copy map to device and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;
-  thrust::device_ptr<IndexType> d_map = thrust::device_malloc<IndexType>(last - first);
-  thrust::copy(map, map + (last - first), d_map);
-  thrust::scatter(first, last, d_map, output);
-  thrust::device_free(d_map);
+  raw_buffer<IndexType, experimental::space::device> d_map(map, map + thrust::distance(first,last));
+  thrust::scatter(first, last, d_map.begin(), output);
 } // end scatter()
 
 } // end dispatch
