@@ -1,7 +1,7 @@
 PREAMBLE = \
     """
     #include <thrust/sorting/radix_sort.h>
-    #include <thrust/range.h>
+    #include <thrust/sequence.h>
     """
 
 INITIALIZE = \
@@ -11,8 +11,8 @@ INITIALIZE = \
 
     thrust::host_vector<$ValueType>   h_values($InputSize);
     thrust::device_vector<$ValueType> d_values($InputSize);
-    thrust::range(h_values.begin(), h_values.end());
-    thrust::range(d_values.begin(), d_values.end());
+    thrust::sequence(h_values.begin(), h_values.end());
+    thrust::sequence(d_values.begin(), d_values.end());
 
     thrust::device_vector<$KeyType> d_keys_copy = d_keys;
 
