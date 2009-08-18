@@ -29,21 +29,35 @@ namespace block
 
 template <unsigned int BLOCK_SIZE, typename ValueIterator, typename BinaryFunction>
 __device__ 
-void reduce(ValueIterator data, const unsigned int tid, BinaryFunction binary_op)
+void reduce(ValueIterator data, BinaryFunction binary_op)
 {
-    if (BLOCK_SIZE >= 512) { if (tid < 256) { data[tid] = binary_op(data[tid], data[tid + 256]); } __syncthreads(); }
-    if (BLOCK_SIZE >= 256) { if (tid < 128) { data[tid] = binary_op(data[tid], data[tid + 128]); } __syncthreads(); }
-    if (BLOCK_SIZE >= 128) { if (tid <  64) { data[tid] = binary_op(data[tid], data[tid +  64]); } __syncthreads(); }
-    if (BLOCK_SIZE >=  64) { if (tid <  32) { data[tid] = binary_op(data[tid], data[tid +  32]); } __syncthreads(); }
-    if (BLOCK_SIZE >=  32) { if (tid <  16) { data[tid] = binary_op(data[tid], data[tid +  16]); } __syncthreads(); }
-    if (BLOCK_SIZE >=  16) { if (tid <   8) { data[tid] = binary_op(data[tid], data[tid +   8]); } __syncthreads(); }
-    if (BLOCK_SIZE >=   8) { if (tid <   4) { data[tid] = binary_op(data[tid], data[tid +   4]); } __syncthreads(); }
-    if (BLOCK_SIZE >=   4) { if (tid <   2) { data[tid] = binary_op(data[tid], data[tid +   2]); } __syncthreads(); }
-    if (BLOCK_SIZE >=   2) { if (tid <   1) { data[tid] = binary_op(data[tid], data[tid +   1]); } __syncthreads(); }
+    if (BLOCK_SIZE >= 512) { if (threadIdx.x < 256) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 256]); } __syncthreads(); }
+    if (BLOCK_SIZE >= 256) { if (threadIdx.x < 128) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 128]); } __syncthreads(); }
+    if (BLOCK_SIZE >= 128) { if (threadIdx.x <  64) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  64]); } __syncthreads(); }
+    if (BLOCK_SIZE >=  64) { if (threadIdx.x <  32) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  32]); } __syncthreads(); }
+    if (BLOCK_SIZE >=  32) { if (threadIdx.x <  16) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  16]); } __syncthreads(); }
+    if (BLOCK_SIZE >=  16) { if (threadIdx.x <   8) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   8]); } __syncthreads(); }
+    if (BLOCK_SIZE >=   8) { if (threadIdx.x <   4) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   4]); } __syncthreads(); }
+    if (BLOCK_SIZE >=   4) { if (threadIdx.x <   2) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   2]); } __syncthreads(); }
+    if (BLOCK_SIZE >=   2) { if (threadIdx.x <   1) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   1]); } __syncthreads(); }
     
-    // XXX Not synchronizing here seems to break this kernel in general
-    // XXX Not testing (tid < X) for X <= 16 seems to break on G80
+    // XXX Not testing (threadIdx.x < X) for X <= 16 seems to break on G80
     // XXX This appears to be due to (illegal) instruction reorderings in the nightly builds
+}
+
+template <unsigned int BLOCK_SIZE, typename ValueIterator, typename BinaryFunction>
+__device__ 
+void reduce_n(ValueIterator data, const unsigned int n, BinaryFunction binary_op)
+{
+    if (BLOCK_SIZE >= 512) { if (threadIdx.x < 256 && threadIdx.x + 256 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 256]); } __syncthreads(); }
+    if (BLOCK_SIZE >= 256) { if (threadIdx.x < 128 && threadIdx.x + 128 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 128]); } __syncthreads(); }
+    if (BLOCK_SIZE >= 128) { if (threadIdx.x <  64 && threadIdx.x +  64 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  64]); } __syncthreads(); }
+    if (BLOCK_SIZE >=  64) { if (threadIdx.x <  32 && threadIdx.x +  32 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  32]); } __syncthreads(); }
+    if (BLOCK_SIZE >=  32) { if (threadIdx.x <  16 && threadIdx.x +  16 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  16]); } __syncthreads(); }
+    if (BLOCK_SIZE >=  16) { if (threadIdx.x <   8 && threadIdx.x +   8 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   8]); } __syncthreads(); }
+    if (BLOCK_SIZE >=   8) { if (threadIdx.x <   4 && threadIdx.x +   4 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   4]); } __syncthreads(); }
+    if (BLOCK_SIZE >=   4) { if (threadIdx.x <   2 && threadIdx.x +   2 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   2]); } __syncthreads(); }
+    if (BLOCK_SIZE >=   2) { if (threadIdx.x <   1 && threadIdx.x +   1 < n) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   1]); } __syncthreads(); }
 }
 
 } // end namespace block

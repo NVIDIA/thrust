@@ -82,15 +82,15 @@ template<typename InputFunctor,
  * Uses the same pattern as reduce6() in the CUDA SDK
  *
  */
-template<typename InputFunctor,
+template<unsigned int BLOCK_SIZE,
+         typename InputIterator,
          typename OutputType,
-         typename BinaryFunction,
-         unsigned int BLOCK_SIZE>
+         typename BinaryFunction>
   __global__ void
-  __thrust__unordered_reduce_kernel(InputFunctor input,
-                                     const unsigned int n,
-                                     OutputType * block_results,  
-                                     BinaryFunction binary_op)
+  __thrust__unordered_reduce_kernel(InputIterator input,
+                                    const unsigned int n,
+                                    OutputType * block_results,  
+                                    BinaryFunction binary_op)
 {
     __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
     OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
@@ -101,23 +101,28 @@ template<typename InputFunctor,
     const unsigned int grid_size = BLOCK_SIZE * gridDim.x;
     unsigned int i = blockIdx.x * BLOCK_SIZE + threadIdx.x;
 
-    // accumulate local result
-    OutputType accum = input[i];
-    i += grid_size;
+    // local (per-thread) sum
+    OutputType sum;
+   
+    // initialize local sum 
+    if (i < n)
+    {
+        sum = input[i];
+        i += grid_size;
+    }
 
+    // update sum
     while (i < n)
     {
-        accum = binary_op(accum, input[i]);  
+        sum = binary_op(sum, input[i]);  
         i += grid_size;
     } 
 
-    // copy local result to shared mem and perform reduction
-    sdata[threadIdx.x] = accum;  
-    
-    __syncthreads(); // wait for all writes to finish
-    
+    // copy local sum to shared memory
+    sdata[threadIdx.x] = sum;  __syncthreads();
+
     // compute reduction across block
-    thrust::detail::block::reduce<BLOCK_SIZE>(sdata, threadIdx.x, binary_op);
+    thrust::detail::block::reduce_n<BLOCK_SIZE>(sdata, n, binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
@@ -128,56 +133,41 @@ template<typename InputFunctor,
 
 
 
-template<typename InputFunctor,
+template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputFunctor input,
+  OutputType reduce(InputIterator input,
                     const size_t n,
-                    const OutputType init,
+                    OutputType init,
                     BinaryFunction binary_op)
 {
     const size_t BLOCK_SIZE = 256;  // BLOCK_SIZE must be a power of 2
     const size_t MAX_BLOCKS = 3 * experimental::arch::max_active_threads() / BLOCK_SIZE;
-
-    unsigned int GRID_SIZE;
-
+    
+    
     // handle zero length array case first
     if( n == 0 )
         return init;
-
-
+    
     // TODO if n < UINT_MAX use unsigned int instead of size_t indices in kernel
-
-    // kernels below assume n > 0
-    if( n < BLOCK_SIZE )
-    {
-        GRID_SIZE = 1;
-    }
-    else 
-    {
-        GRID_SIZE = std::min( (n / BLOCK_SIZE), MAX_BLOCKS);
-    }
+        
+    const unsigned int GRID_SIZE = 1; //std::max((size_t) 1, std::min( (n / BLOCK_SIZE), MAX_BLOCKS));
 
     // allocate storage for per-block results
-    raw_buffer<OutputType, experimental::space::device> block_results(GRID_SIZE);
+    raw_buffer<OutputType, experimental::space::device> temp(GRID_SIZE + 1);
 
-    // do the gpu part
-    if( n < BLOCK_SIZE )
-    {
-        __thrust__serial_reduce_kernel<InputFunctor, OutputType, BinaryFunction>
-            <<<GRID_SIZE, 1>>>(input, n, raw_pointer_cast(&block_results[0]), binary_op);
-    } 
-    else
-    { 
-        __thrust__unordered_reduce_kernel<InputFunctor, OutputType, BinaryFunction, BLOCK_SIZE>
-            <<<GRID_SIZE, BLOCK_SIZE>>>(input, n, raw_pointer_cast(&block_results[0]), binary_op);
-    }
+    // set first element of temp array to init
+    temp[0] = init;
 
-    // copy work array to host
-    raw_buffer<OutputType, experimental::space::host> host_work(block_results.begin(), block_results.end());
+    // reduce input to per-block sums
+    __thrust__unordered_reduce_kernel<BLOCK_SIZE>
+        <<<GRID_SIZE, BLOCK_SIZE>>>(input, n, raw_pointer_cast(&temp[1]), binary_op);
 
-    // reduce on the host
-    return thrust::reduce(host_work.begin(), host_work.end(), init, binary_op);
+    // reduce per-block sums together with init
+    __thrust__unordered_reduce_kernel<BLOCK_SIZE>
+        <<<1, BLOCK_SIZE>>>(raw_pointer_cast(&temp[0]), GRID_SIZE + 1, raw_pointer_cast(&temp[0]), binary_op);
+
+    return temp[0];
 } // end reduce()
 
 

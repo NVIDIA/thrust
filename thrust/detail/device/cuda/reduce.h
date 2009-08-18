@@ -35,12 +35,12 @@ namespace cuda
 {
 
 
-template<typename InputFunctor,
+template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputFunctor input,
+  OutputType reduce(InputIterator input,
                     const size_t n,
-                    const OutputType init,
+                    OutputType init,
                     BinaryFunction binary_op);
 
 
