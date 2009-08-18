@@ -117,3 +117,65 @@ struct TestReducePair
 };
 VariableUnitTest<TestReducePair, IntegralTypes> TestReducePairInstance;
 
+template <typename T, unsigned int N>
+struct FixedVector
+{
+    T data[N];
+    
+    __host__ __device__
+    FixedVector() { }
+
+    __host__ __device__
+    FixedVector(T init)
+    {
+        for(unsigned int i = 0; i < N; i++)
+            data[i] = init;
+    }
+
+    __host__ __device__
+    FixedVector operator+(const FixedVector& bs) const
+    {
+        FixedVector output;
+        for(unsigned int i = 0; i < N; i++)
+            output.data[i] = data[i] + bs.data[i];
+        return output;
+    }
+    
+    __host__ __device__
+    bool operator==(const FixedVector& bs) const
+    {
+        for(unsigned int i = 0; i < N; i++)
+            if(!(data[i] == bs.data[i]))
+                return false;
+        return true;                
+    }
+};
+
+
+template <typename T, unsigned int N>
+void _TestReduceWithLargeTypes(void)
+{
+    thrust::host_vector< FixedVector<T,N> > h_data(10000);
+
+    for(size_t i = 0; i < h_data.size(); i++)
+        h_data[i] = FixedVector<T,N>(i);
+
+    thrust::device_vector< FixedVector<T,N> > d_data = h_data;
+    
+    FixedVector<T,N> h_result = thrust::reduce(h_data.begin(), h_data.end(), FixedVector<T,N>(0));
+    FixedVector<T,N> d_result = thrust::reduce(d_data.begin(), d_data.end(), FixedVector<T,N>(0));
+
+    ASSERT_EQUAL_QUIET(h_result, d_result);
+}
+
+void TestReduceWithLargeTypes(void)
+{
+    _TestReduceWithLargeTypes<int,  1>();
+    _TestReduceWithLargeTypes<int,  2>();
+    _TestReduceWithLargeTypes<int,  4>();
+    _TestReduceWithLargeTypes<int,  8>();
+    //_TestReduceWithLargeTypes<int, 16>();
+    //_TestReduceWithLargeTypes<int, 32>();
+}
+DECLARE_UNITTEST(TestReduceWithLargeTypes);
+

@@ -27,16 +27,15 @@ namespace detail
 namespace block
 {
 
-template <typename ValueType, typename BinaryFunction, unsigned int BLOCK_SIZE>
-__device__ ValueType
-reduce(ValueType * data, const unsigned int tid, BinaryFunction binary_op)
+template <unsigned int BLOCK_SIZE, typename ValueIterator, typename BinaryFunction>
+__device__ 
+void reduce(ValueIterator data, const unsigned int tid, BinaryFunction binary_op)
 {
     if (BLOCK_SIZE >= 512) { if (tid < 256) { data[tid] = binary_op(data[tid], data[tid + 256]); } __syncthreads(); }
     if (BLOCK_SIZE >= 256) { if (tid < 128) { data[tid] = binary_op(data[tid], data[tid + 128]); } __syncthreads(); }
     if (BLOCK_SIZE >= 128) { if (tid <  64) { data[tid] = binary_op(data[tid], data[tid +  64]); } __syncthreads(); }
     if (BLOCK_SIZE >=  64) { if (tid <  32) { data[tid] = binary_op(data[tid], data[tid +  32]); } __syncthreads(); }
     if (BLOCK_SIZE >=  32) { if (tid <  16) { data[tid] = binary_op(data[tid], data[tid +  16]); } __syncthreads(); }
-
     if (BLOCK_SIZE >=  16) { if (tid <   8) { data[tid] = binary_op(data[tid], data[tid +   8]); } __syncthreads(); }
     if (BLOCK_SIZE >=   8) { if (tid <   4) { data[tid] = binary_op(data[tid], data[tid +   4]); } __syncthreads(); }
     if (BLOCK_SIZE >=   4) { if (tid <   2) { data[tid] = binary_op(data[tid], data[tid +   2]); } __syncthreads(); }
@@ -45,8 +44,6 @@ reduce(ValueType * data, const unsigned int tid, BinaryFunction binary_op)
     // XXX Not synchronizing here seems to break this kernel in general
     // XXX Not testing (tid < X) for X <= 16 seems to break on G80
     // XXX This appears to be due to (illegal) instruction reorderings in the nightly builds
-
-    return data[0];
 }
 
 } // end namespace block

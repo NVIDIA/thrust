@@ -116,21 +116,8 @@ template<typename InputFunctor,
     
     __syncthreads(); // wait for all writes to finish
     
-    if (BLOCK_SIZE >= 512) { if (threadIdx.x < 256) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x + 256]); } __syncthreads(); }
-    if (BLOCK_SIZE >= 256) { if (threadIdx.x < 128) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x + 128]); } __syncthreads(); }
-    if (BLOCK_SIZE >= 128) { if (threadIdx.x <  64) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +  64]); } __syncthreads(); }
-    if (BLOCK_SIZE >=  64) { if (threadIdx.x <  32) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +  32]); } __syncthreads(); }
-    if (BLOCK_SIZE >=  32) { if (threadIdx.x <  16) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +  16]); } __syncthreads(); }
-
-    if (BLOCK_SIZE >=  16) { if (threadIdx.x <   8) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +   8]); } __syncthreads(); }
-    if (BLOCK_SIZE >=   8) { if (threadIdx.x <   4) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +   4]); } __syncthreads(); }
-    if (BLOCK_SIZE >=   4) { if (threadIdx.x <   2) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +   2]); } __syncthreads(); }
-    if (BLOCK_SIZE >=   2) { if (threadIdx.x <   1) { sdata[threadIdx.x] = binary_op(sdata[threadIdx.x], sdata[threadIdx.x +   1]); } __syncthreads(); }
-
-    // XXX causes the following problem on CUDA 2.2 (Komrade issue #6)
-    //     Advisory: Cannot tell what pointer points to, assuming global memory space
-    //accum = thrust::detail::block::reduce<OutputType,BinaryFunction,BLOCK_SIZE>
-    //    (sdata, threadIdx.x, binary_op);
+    // compute reduction across block
+    thrust::detail::block::reduce<BLOCK_SIZE>(sdata, threadIdx.x, binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
