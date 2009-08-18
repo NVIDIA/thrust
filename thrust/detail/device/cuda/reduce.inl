@@ -26,7 +26,6 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/raw_buffer.h>
-#include <thrust/reduce.h>  // for second level reduction
 
 #include <thrust/detail/device/cuda/block/reduce.h>
 
@@ -141,7 +140,9 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
+     
     const size_t BLOCK_SIZE = 256;  // BLOCK_SIZE must be a power of 2
+
     const size_t MAX_BLOCKS = 3 * experimental::arch::max_active_threads() / BLOCK_SIZE;
     
     
@@ -151,7 +152,7 @@ template<typename InputIterator,
     
     // TODO if n < UINT_MAX use unsigned int instead of size_t indices in kernel
         
-    const unsigned int GRID_SIZE = 1; //std::max((size_t) 1, std::min( (n / BLOCK_SIZE), MAX_BLOCKS));
+    const unsigned int GRID_SIZE = std::max((size_t) 1, std::min( (n / BLOCK_SIZE), MAX_BLOCKS));
 
     // allocate storage for per-block results
     raw_buffer<OutputType, experimental::space::device> temp(GRID_SIZE + 1);

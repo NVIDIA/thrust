@@ -36,6 +36,8 @@
 
 #include <thrust/sorting/detail/device/cuda/block/merging_sort.h>
 
+#include <thrust/detail/mpl/math.h> // for log2<N>
+
 namespace thrust
 {
 
@@ -62,18 +64,6 @@ template<typename T>
   return lhs < rhs ? lhs : rhs;
 } // end min()
 
-// compute the log base-2 of an integer at compile time
-template <unsigned int N, unsigned int Cur = 0>
-struct lg
-{
-  static const unsigned int result = lg<(N >> 1),Cur+1>::result;
-};
-
-template <unsigned int Cur>
-struct lg<1,Cur>
-{
-  static const unsigned int result = Cur;
-};
 
 template<typename Key, typename Value>
   class BLOCK_SIZE
@@ -85,7 +75,7 @@ template<typename Key, typename Value>
     static const unsigned int candidate = 2048 / (sizeof(Key) + sizeof(Value));
 
     // round one_k_over_size down to the nearest power of two
-    static const unsigned int lg_candidate = lg<candidate>::result;
+    static const unsigned int lg_candidate = thrust::detail::mpl::math::log2<candidate>::value;
 
     // exponentiate that result, which rounds down to the nearest power of two
     static const unsigned int final_candidate = 1<<lg_candidate;
@@ -101,7 +91,7 @@ template<typename Key, typename Value>
     static const unsigned int block_size = BLOCK_SIZE<Key,Value>::result;
 
   public:
-    static const unsigned int result = lg<block_size>::result;
+    static const unsigned int result = thrust::detail::mpl::math::log2<block_size>::value;
 };
 
 static const unsigned int WARP_SIZE = 32;

@@ -6,6 +6,7 @@
 #include <thrust/sequence.h>
 #include <thrust/copy.h>
 #include <thrust/transform.h>
+#include <thrust/reduce.h>
 #include <thrust/detail/type_traits.h>
 #include <typeinfo>
 
