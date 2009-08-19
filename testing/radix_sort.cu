@@ -226,7 +226,7 @@ struct TestRadixSortVariableBits
 {
   void operator()(const size_t n)
   {
-#if defined(__GNUC__) && __GNUC__ <= 4 && _GNUC_MINOR__ <= 1
+#if defined(__GNUC__) && (__GNUC__ <= 4) && (__GNUC_MINOR__ <= 1)
     // some bizzare problem with VariableUnitTest in this particular case
     // on GCC 4.1.2 (SUSE Linux)
     KNOWN_FAILURE;
