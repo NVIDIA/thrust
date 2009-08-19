@@ -16,9 +16,7 @@
 
 
 /*! \file stable_radix_sort_dev.h
- *  \brief Defines the interface for a stable
- *         radix sort function for sorting a
- *         device array.
+ *  \brief Defines the interface for a stable radix sort implementation on CUDA
  */
 
 #pragma once

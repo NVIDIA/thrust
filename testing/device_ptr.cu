@@ -86,7 +86,7 @@ void TestRawPointerCast(void)
     last  = thrust::raw_pointer_cast(&vec.back());
     ASSERT_EQUAL(last - first, 2);
 
-    KNOWN_FAILURE;
+    // Do we want these to work?
     //first = thrust::raw_pointer_cast(vec.begin());
     //last  = thrust::raw_pointer_cast(vec.end());
     //ASSERT_EQUAL(last - first, 3);
