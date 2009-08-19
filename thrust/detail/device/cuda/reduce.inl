@@ -29,6 +29,8 @@
 
 #include <thrust/detail/device/cuda/block/reduce.h>
 
+#include <thrust/detail/mpl/math.h> // for log2<N>
+
 namespace thrust
 {
 
@@ -42,34 +44,7 @@ namespace cuda
 {
 
 /*
- * Reduction using a single thread.  Only used for small vectors.
- *
- */
-template<typename InputFunctor,
-         typename OutputType,
-         typename BinaryFunction>
-  __global__ void
-  __thrust__serial_reduce_kernel(InputFunctor input,
-                                  const size_t n,
-                                  OutputType * block_results,  
-                                  BinaryFunction binary_op)
-{
-    if( threadIdx.x == 0 )
-    {
-        OutputType accum = input[0];
-        for(unsigned int i = 1; i < n; i++){
-            accum = binary_op(accum, input[i]);
-        }
-        block_results[0] = accum;
-    }
-
-} // end __thrust__serial_reduce_kernel()
-
-
-
-
-/*
- * Reduce a vector of n elements using binary_op(op())
+ * Reduce a vector of n elements using binary_op()
  *
  * The order of reduction is not defined, so binary_op() should
  * be a commutative (and associative) operator such as 
@@ -140,12 +115,17 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-     
-    const size_t BLOCK_SIZE = 256;  // BLOCK_SIZE must be a power of 2
+    // 16KB (max) - 1KB (used for other purposes)
+    const size_t MAX_SMEM_SIZE = 15 * 1025; 
 
-    const size_t MAX_BLOCKS = 3 * experimental::arch::max_active_threads() / BLOCK_SIZE;
-    
-    
+    // largest 2^N that fits in SMEM
+    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/sizeof(OutputType)) >::value;
+    static const size_t BLOCKSIZE_LIMIT2 = 256;
+
+    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+
+    const size_t MAX_BLOCKS = 3 * experimental::arch::max_active_threads() / BLOCKSIZE_LIMIT2;
+   
     // handle zero length array case first
     if( n == 0 )
         return init;
