@@ -46,6 +46,7 @@ namespace arch
  *  multiprocessors available for processing.
  *  \return The number of SMs available.
  */
+inline size_t num_multiprocessors(const cudaDeviceProp&);
 inline size_t num_multiprocessors(void);
 
 /*! This function returns the maximum number of
@@ -53,12 +54,14 @@ inline size_t num_multiprocessors(void);
  *  \return The maximum number of threads active on
  *          a single multiprocessor.
  */
+inline size_t max_active_threads_per_multiprocessor(const cudaDeviceProp&);
 inline size_t max_active_threads_per_multiprocessor(void);
 
 /*! This function returns the maximum number of
  *  active threads allowed across all multiprocessors.
  *  \return The maximum number of active threads.
  */
+inline size_t max_active_threads(const cudaDeviceProp&);
 inline size_t max_active_threads(void);
 
 /*! This function returns the maximum size of each
@@ -66,7 +69,19 @@ inline size_t max_active_threads(void);
  *  \return A dim3 containing, for each dimension, the maximum
  *          size of a grid of thread blocks.
  */
+inline dim3 max_grid_dimensions(const cudaDeviceProp&);
 inline dim3 max_grid_dimensions(void);
+
+/*! This function returns the maximum number of
+ *  blocks (of a particular kernel) that can be resident on
+ *  a single multiprocessor.
+ */
+inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp& properties,
+                                                   const cudaFuncAttributes& attributes,
+                                                   const size_t CTA_SIZE,
+                                                   const size_t dynamic_smem_bytes);
+//template <typename KernelFunction>
+//size_t max_active_blocks_per_multiprocessor2(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes);
 
 }; // end arch
 

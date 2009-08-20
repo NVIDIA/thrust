@@ -181,7 +181,7 @@ void TestReduceWithLargeTypes(void)
     _TestReduceWithLargeTypes<int,   64>();
     _TestReduceWithLargeTypes<int,  128>();
     _TestReduceWithLargeTypes<int,  256>();
-    _TestReduceWithLargeTypes<int,  512>();
+    //_TestReduceWithLargeTypes<int,  512>();
     //_TestReduceWithLargeTypes<int, 1024>(); // fails
 }
 DECLARE_UNITTEST(TestReduceWithLargeTypes);

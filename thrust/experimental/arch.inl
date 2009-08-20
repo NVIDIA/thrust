@@ -19,11 +19,12 @@
  *  \brief Inline file for arch.h.
  */
 
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
 #include <string>
 
 #include <thrust/experimental/arch.h>
+
+#include <thrust/detail/util/blocking.h>
 
 // #include this for make_uint3
 #include <vector_functions.h>
@@ -67,72 +68,118 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
 } // end detail
 
 
-size_t num_multiprocessors(void)
+size_t num_multiprocessors(const cudaDeviceProp& properties)
 {
-  size_t result = 0;
-
-  cudaDeviceProp properties;  
-
-  detail::checked_get_current_device_properties(properties);
-  result = properties.multiProcessorCount;
-
-  return result;
+    return properties.multiProcessorCount;
 } // end num_multiprocessors()
 
 
-size_t max_active_threads_per_multiprocessor(void)
+size_t max_active_threads_per_multiprocessor(const cudaDeviceProp& properties)
 {
-  // index this array by [major, minor] revision
-  // \see NVIDIA_CUDA_Programming_Guide_2.1.pdf pp 82--83
-  static const size_t max_active_threads_by_compute_capability[2][4] = {{   0,   0,   0,    0},
-                                                                        {   768, 768, 1024, 1024}};
-  size_t result = 0;
+    // index this array by [major, minor] revision
+    // \see NVIDIA_CUDA_Programming_Guide_2.1.pdf pp 82--83
+    static const size_t max_active_threads_by_compute_capability[2][4] = \
+        {{     0,    0,    0,    0},
+         {   768,  768, 1024, 1024}};
 
-  cudaDeviceProp properties;  
-  detail::checked_get_current_device_properties(properties);
+    assert(properties.major == 1);
+    assert(properties.minor >= 0 && properties.minor <= 3);
 
-  assert(properties.major == 1);
-  assert(properties.minor >= 0 && properties.minor <= 3);
-
-  result = max_active_threads_by_compute_capability[properties.major][properties.minor];
-
-  return result;
+    return max_active_threads_by_compute_capability[properties.major][properties.minor];
 } // end max_active_threads_per_multiprocessor()
 
 
-size_t max_active_threads(void)
+size_t max_active_threads(const cudaDeviceProp& properties)
 {
-  return num_multiprocessors() * max_active_threads_per_multiprocessor();
+    return num_multiprocessors(properties) * max_active_threads_per_multiprocessor(properties);
 } // end max_active_threads()
 
 
+dim3 max_grid_dimensions(const cudaDeviceProp& properties)
+{
+    return make_uint3(properties.maxGridSize[0], properties.maxGridSize[1], properties.maxGridSize[2]);
+} // end max_grid_dimensions()
+  
+
+size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp& properties,
+                                            const cudaFuncAttributes& attributes,
+                                            size_t CTA_SIZE,
+                                            size_t dynamic_smem_bytes)
+{
+    // Determine the maximum number of CTAs that can be run simultaneously per SM
+    // This is equivalent to the calculation done in the CUDA Occupancy Calculator spreadsheet
+    const size_t regAllocationUnit = (properties.major < 2 && properties.minor < 2) ? 256 : 512; // in registers
+    const size_t warpAllocationMultiple = 2;
+    const size_t smemAllocationUnit = 512;                                                 // in bytes
+    const size_t maxThreadsPerSM = max_active_threads_per_multiprocessor(properties);      // 768, 1024, etc.
+    const size_t maxBlocksPerSM = 8;
+
+    // Number of warps (round up to nearest whole multiple of warp size & warp allocation multiple)
+    const size_t numWarps = thrust::detail::util::round_i(thrust::detail::util::divide_ri(CTA_SIZE, properties.warpSize), warpAllocationMultiple);
+
+    // Number of regs is regs per thread times number of warps times warp size
+    const size_t regsPerCTA = thrust::detail::util::round_i(attributes.numRegs * properties.warpSize * numWarps, regAllocationUnit);
+
+    const size_t smemBytes  = attributes.sharedSizeBytes + dynamic_smem_bytes;
+    const size_t smemPerCTA = thrust::detail::util::round_i(smemBytes, smemAllocationUnit);
+
+    const size_t ctaLimitRegs    = regsPerCTA > 0 ? properties.regsPerBlock / regsPerCTA : maxBlocksPerSM;
+    const size_t ctaLimitSMem    = smemPerCTA > 0 ? properties.sharedMemPerBlock   / smemPerCTA : maxBlocksPerSM;
+    const size_t ctaLimitThreads =                  maxThreadsPerSM                / CTA_SIZE;
+
+    return std::min<size_t>(ctaLimitRegs, std::min<size_t>(ctaLimitSMem, std::min<size_t>(ctaLimitThreads, maxBlocksPerSM)));
+}
+
+
+
+// Functions that query the runtime for device properties
+
+size_t num_multiprocessors(void)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+    return num_multiprocessors(properties);
+} // end num_multiprocessors()
+
+size_t max_active_threads_per_multiprocessor(void)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+    return max_active_threads_per_multiprocessor(properties);
+}
+
+size_t max_active_threads(void)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+    return max_active_threads(properties);
+}
+
 dim3 max_grid_dimensions(void)
 {
-  dim3 zero = make_uint3(0,0,0);
-  dim3 result = zero;
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+    return max_grid_dimensions(properties);
+}
 
-  // \see NVIDIA_CUDA_Programming_Guide_2.1.pdf pp 82--83, A.1.1
-  dim3 max_dim = make_uint3(65535, 65535, 65535);
+template <typename KernelFunction>
+size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
 
-  // index this array by [major, minor] revision
-  // \see NVIDIA_CUDA_Programming_Guide_2.1.pdf pp 82--83
-  static const dim3 max_grid_dimensions_by_compute_capability[2][4] = {{   zero,    zero,    zero,    zero},
-                                                                       {max_dim, max_dim, max_dim, max_dim}};
+    cudaFuncAttributes attributes;
+    cudaError_t err = cudaFuncGetAttributes(&attributes, kernel);
+    assert(err == cudaSuccess);
 
-  cudaDeviceProp properties;  
-  detail::checked_get_current_device_properties(properties);
+    return num_multiprocessors(properties) * max_active_blocks_per_multiprocessor(properties, attributes, CTA_SIZE, dynamic_smem_bytes);
+}
 
-  assert(properties.major == 1);
-  assert(properties.minor >= 0 && properties.minor <= 3);
 
-  result = max_grid_dimensions_by_compute_capability[properties.major][properties.minor];
 
-  return result;
-} // end max_grid_dimensions()
+} // end namespace arch
 
-}; // end arch
+} // end namespace experimental
 
-}; // end experimental
-
-}; // end thrust
+} // end namespace thrust
 

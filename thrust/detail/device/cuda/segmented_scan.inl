@@ -624,10 +624,10 @@ template<typename InputIterator1,
     const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
-    const unsigned int num_units  = thrust::detail::util::divide_into(n, WARP_SIZE);
+    const unsigned int num_units  = thrust::detail::util::divide_ri(n, WARP_SIZE);
     const unsigned int num_warps  = std::min(num_units, WARPS_PER_BLOCK * MAX_BLOCKS);
-    const unsigned int num_blocks = thrust::detail::util::divide_into(num_warps,WARPS_PER_BLOCK);
-    const unsigned int num_iters  = thrust::detail::util::divide_into(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
+    const unsigned int num_blocks = thrust::detail::util::divide_ri(num_warps,WARPS_PER_BLOCK);
+    const unsigned int num_iters  = thrust::detail::util::divide_ri(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
 
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
@@ -705,10 +705,10 @@ template<typename InputIterator1,
     const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
-    const unsigned int num_units  = thrust::detail::util::divide_into(n, WARP_SIZE);
+    const unsigned int num_units  = thrust::detail::util::divide_ri(n, WARP_SIZE);
     const unsigned int num_warps  = std::min(num_units, WARPS_PER_BLOCK * MAX_BLOCKS);
-    const unsigned int num_blocks = thrust::detail::util::divide_into(num_warps,WARPS_PER_BLOCK);
-    const unsigned int num_iters  = thrust::detail::util::divide_into(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
+    const unsigned int num_blocks = thrust::detail::util::divide_ri(num_warps,WARPS_PER_BLOCK);
+    const unsigned int num_iters  = thrust::detail::util::divide_ri(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
 
     const unsigned int interval_size = WARP_SIZE * num_iters;
 

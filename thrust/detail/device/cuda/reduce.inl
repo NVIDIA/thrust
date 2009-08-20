@@ -27,6 +27,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/raw_buffer.h>
 
+#include <thrust/experimental/arch.h>
+
 #include <thrust/detail/device/cuda/block/reduce.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
@@ -105,6 +107,7 @@ template<unsigned int BLOCK_SIZE,
 } // end __thrust__unordered_reduce_kernel()
 
 
+// XXX if n < UINT_MAX use unsigned int instead of size_t indices in kernel
 
 
 template<typename InputIterator,
@@ -115,7 +118,11 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-    // 16KB (max) - 1KB (used for other purposes)
+    // handle zero length array case first
+    if( n == 0 )
+        return init;
+
+    // 16KB (max) - 1KB (upper bound on what's used for other purposes)
     const size_t MAX_SMEM_SIZE = 15 * 1025; 
 
     // largest 2^N that fits in SMEM
@@ -123,15 +130,9 @@ template<typename InputIterator,
     static const size_t BLOCKSIZE_LIMIT2 = 256;
 
     static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
-
-    const size_t MAX_BLOCKS = 3 * experimental::arch::max_active_threads() / BLOCKSIZE_LIMIT2;
-   
-    // handle zero length array case first
-    if( n == 0 )
-        return init;
     
-    // TODO if n < UINT_MAX use unsigned int instead of size_t indices in kernel
-        
+    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(__thrust__unordered_reduce_kernel<BLOCK_SIZE, InputIterator, OutputType, BinaryFunction>, BLOCK_SIZE, (size_t) 0);
+
     const unsigned int GRID_SIZE = std::max((size_t) 1, std::min( (n / BLOCK_SIZE), MAX_BLOCKS));
 
     // allocate storage for per-block results
