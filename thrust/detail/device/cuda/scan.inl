@@ -58,7 +58,7 @@ namespace cuda
 //template<typename T, 
 //         typename AssociativeOperator>
 //         __device__
-//void scan_warp(const unsigned int& thread_lane, volatile T * sdata, const AssociativeOperator binary_op)
+//void scan_warp(const unsigned int& thread_lane, volatile T * sdata, AssociativeOperator binary_op)
 //{
 //    // the use of 'volatile' is a workaround so that nvcc doesn't reorder the following lines
 //    if (thread_lane >=  1)  sdata[threadIdx.x] = binary_op((T &) sdata[threadIdx.x -  1] , (T &) sdata[threadIdx.x]);
@@ -72,15 +72,15 @@ template<typename InputType,
          typename InputIterator, 
          typename AssociativeOperator>
          __device__
-void scan_warp(const unsigned int& thread_lane, InputType& val, InputIterator sdata, const AssociativeOperator binary_op)
+void scan_warp(const unsigned int& thread_lane, InputType& val, InputIterator sdata, AssociativeOperator binary_op)
 {
     sdata[threadIdx.x] = val;
 
-    if (thread_lane >=  1)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  1], val);
-    if (thread_lane >=  2)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  2], val);
-    if (thread_lane >=  4)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  4], val);
-    if (thread_lane >=  8)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  8], val);
-    if (thread_lane >= 16)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x - 16], val);
+    if (thread_lane >=  1)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  1], val);  __threadfence_block();
+    if (thread_lane >=  2)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  2], val);  __threadfence_block(); 
+    if (thread_lane >=  4)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  4], val);  __threadfence_block();
+    if (thread_lane >=  8)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x -  8], val);  __threadfence_block();
+    if (thread_lane >= 16)  sdata[threadIdx.x] = val = binary_op(sdata[threadIdx.x - 16], val);  __threadfence_block();
 }
 
 template<unsigned int BLOCK_SIZE,
@@ -88,7 +88,7 @@ template<unsigned int BLOCK_SIZE,
          typename AssociativeOperator>
 __global__ void
 inclusive_update_kernel(OutputIterator result,
-                        const AssociativeOperator binary_op,
+                        AssociativeOperator binary_op,
                         const unsigned int n,
                         const unsigned int interval_size,
                         typename thrust::iterator_traits<OutputIterator>::value_type * carry_in)
@@ -117,7 +117,7 @@ template<unsigned int BLOCK_SIZE,
 __global__ void
 exclusive_update_kernel(OutputIterator result,
                         typename thrust::iterator_traits<OutputIterator>::value_type init,
-                        const AssociativeOperator binary_op,
+                        AssociativeOperator binary_op,
                         const unsigned int n,
                         const unsigned int interval_size,
                         typename thrust::iterator_traits<OutputIterator>::value_type * carry_in)
@@ -166,7 +166,7 @@ __global__ void
 scan_kernel(InputIterator first,
             const unsigned int n,
             OutputIterator result,
-            const AssociativeOperator binary_op,
+            AssociativeOperator binary_op,
             const unsigned int interval_size,
             typename thrust::iterator_traits<OutputIterator>::value_type * final_carry)
 {

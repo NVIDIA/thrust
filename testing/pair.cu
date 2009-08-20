@@ -318,12 +318,10 @@ template <typename T>
     // scan on the host
     thrust::exclusive_scan(h_pairs.begin(), h_pairs.end(), h_pairs.begin(), init, add_pairs());
 
-    // XXX BUG: this is broken due to use of volatile in the implementation of scan
-    KNOWN_FAILURE;
-    //// scan on the device
-    //thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_pairs.begin(), init, add_pairs());
+    // scan on the device
+    thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_pairs.begin(), init, add_pairs());
 
-    //ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
+    ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
   }
 };
 VariableUnitTest<TestPairScan, IntegralTypes> TestPairScanInstance;
