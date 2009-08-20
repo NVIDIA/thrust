@@ -47,8 +47,8 @@ namespace device
 namespace cuda
 {
 
-namespace interval_scan
-{
+//namespace interval_scan
+//{
 
 /////////////    
 // Kernels //
@@ -85,15 +85,16 @@ void scan_warp(const unsigned int& thread_lane, InputType& val, InputIterator sd
 
 template<unsigned int BLOCK_SIZE,
          typename OutputIterator,
-         typename OutputType,
          typename AssociativeOperator>
 __global__ void
 inclusive_update_kernel(OutputIterator result,
                         const AssociativeOperator binary_op,
                         const unsigned int n,
                         const unsigned int interval_size,
-                        OutputType * carry_in)
+                        typename thrust::iterator_traits<OutputIterator>::value_type * carry_in)
 {
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
     const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;        // global thread index
     const unsigned int thread_lane = threadIdx.x & 31;                             // thread index within the warp
     const unsigned int warp_id     = thread_id   / 32;                             // global warp index
@@ -112,16 +113,17 @@ inclusive_update_kernel(OutputIterator result,
 
 template<unsigned int BLOCK_SIZE,
          typename OutputIterator,
-         typename OutputType,
          typename AssociativeOperator>
 __global__ void
 exclusive_update_kernel(OutputIterator result,
-                        OutputType init,
+                        typename thrust::iterator_traits<OutputIterator>::value_type init,
                         const AssociativeOperator binary_op,
                         const unsigned int n,
                         const unsigned int interval_size,
-                        OutputType * carry_in)
+                        typename thrust::iterator_traits<OutputIterator>::value_type * carry_in)
 {
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
     // XXX workaround types with constructors in __shared__ memory
     //__shared__ OutputType sdata[BLOCK_SIZE];
     __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
@@ -159,16 +161,17 @@ exclusive_update_kernel(OutputIterator result,
 template<unsigned int BLOCK_SIZE,
          typename InputIterator,
          typename OutputIterator,
-         typename AssociativeOperator,
-         typename OutputType>
+         typename AssociativeOperator>
 __global__ void
-kernel(InputIterator first,
-       const unsigned int n,
-       OutputIterator result,
-       const AssociativeOperator binary_op,
-       const unsigned int interval_size,
-       OutputType * final_carry)
+scan_kernel(InputIterator first,
+            const unsigned int n,
+            OutputIterator result,
+            const AssociativeOperator binary_op,
+            const unsigned int interval_size,
+            typename thrust::iterator_traits<OutputIterator>::value_type * final_carry)
 {
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
   // XXX warpSize exists, but is not known at compile time,
   //     so define our own constant
   const unsigned int WARP_SIZE = 32;
@@ -236,10 +239,10 @@ kernel(InputIterator first,
   if (i == interval_end + (WARP_SIZE - 1))
       final_carry[warp_id] = sdata[threadIdx.x];
 
-} // end kernel()
+} // end scan_kernel()
 
 
-} // end namespace interval_scan
+//} // end namespace interval_scan
 
 
 
@@ -266,7 +269,7 @@ template<typename InputIterator,
     // XXX todo query for warp size
     const unsigned int WARP_SIZE  = 32;
     const unsigned int BLOCK_SIZE = 256;
-    const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
+    const unsigned int MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(scan_kernel<BLOCK_SIZE, InputIterator, OutputIterator, AssociativeOperator>, BLOCK_SIZE, (size_t) 0);
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
     const unsigned int num_units  = thrust::detail::util::divide_ri(n, WARP_SIZE);
@@ -281,33 +284,22 @@ template<typename InputIterator,
 
     //////////////////////
     // first level scan
-    interval_scan::kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    scan_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
         (first, n, result, binary_op, interval_size, raw_pointer_cast(&d_carry_out[0]));
-
-    bool second_scan_device = true;
 
     ///////////////////////
     // second level scan
-    if (second_scan_device) {
-        // scan carry_out on the device (use one warp of GPU method for second level scan)
-        interval_scan::kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
-            (raw_pointer_cast(&d_carry_out[0]), num_warps, raw_pointer_cast(&d_carry_out[0]), binary_op, num_warps, raw_pointer_cast(&*(d_carry_out.end() - 1)));
-    } else {
-        // scan carry_out on the host
-        raw_buffer<OutputType, experimental::space::host> h_carry_out(d_carry_out.begin(), d_carry_out.end());
-        thrust::inclusive_scan(h_carry_out.begin(), h_carry_out.end(), h_carry_out.begin(), binary_op);
-
-        // copy back to device
-        thrust::copy(h_carry_out.begin(), h_carry_out.end(), d_carry_out.begin());
-    }
+    // scan carry_out on the device (use one warp of GPU method for second level scan)
+    scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+        (raw_pointer_cast(&d_carry_out[0]), num_warps, raw_pointer_cast(&d_carry_out[0]), binary_op, num_warps, raw_pointer_cast(&*(d_carry_out.end() - 1)));
 
     //////////////////////
     // update intervals
-    interval_scan::inclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    inclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
         (result, binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
 
     return result + n;
-} // end inclusive_interval_scan()
+} // end inclusive_scan()
 
 
 
@@ -330,7 +322,7 @@ template<typename InputIterator,
 
     const unsigned int WARP_SIZE  = 32;
     const unsigned int BLOCK_SIZE = 256;
-    const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
+    const unsigned int MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(scan_kernel<BLOCK_SIZE, InputIterator, OutputIterator, AssociativeOperator>, BLOCK_SIZE, (size_t) 0);
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
     const unsigned int num_units  = thrust::detail::util::divide_ri(n, WARP_SIZE);
@@ -345,34 +337,22 @@ template<typename InputIterator,
 
     //////////////////////
     // first level scan
-    interval_scan::kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    scan_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
         (first, n, result, binary_op, interval_size, raw_pointer_cast(&d_carry_out[0]));
-
-    bool second_scan_device = true;
 
     ///////////////////////
     // second level scan
-    if (second_scan_device) {
-        // scan carry_out on the device (use one warp of GPU method for second level scan)
-        interval_scan::kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
-            (raw_pointer_cast(&d_carry_out[0]), num_warps, raw_pointer_cast(&d_carry_out[0]), binary_op, num_warps, raw_pointer_cast(&*(d_carry_out.end() - 1)));
-    } 
-    else {
-        // scan carry_out on the host
-        raw_buffer<OutputType, experimental::space::host> h_carry_out(d_carry_out.begin(), d_carry_out.end());
-        thrust::inclusive_scan(h_carry_out.begin(), h_carry_out.end(), h_carry_out.begin(), binary_op);
-
-        // copy back to device
-        thrust::copy(h_carry_out.begin(), h_carry_out.end(), d_carry_out.begin());
-    }
+    // scan carry_out on the device (use one warp of GPU method for second level scan)
+    scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+        (raw_pointer_cast(&d_carry_out[0]), num_warps, raw_pointer_cast(&d_carry_out[0]), binary_op, num_warps, raw_pointer_cast(&*(d_carry_out.end() - 1)));
 
     //////////////////////
     // update intervals
-    interval_scan::exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
         (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
 
     return result + n;
-} // end exclusive_interval_scan()
+} // end exclusive_scan()
 
 
 } // end namespace cuda

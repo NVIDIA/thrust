@@ -80,8 +80,9 @@ inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp& propert
                                                    const cudaFuncAttributes& attributes,
                                                    const size_t CTA_SIZE,
                                                    const size_t dynamic_smem_bytes);
-//template <typename KernelFunction>
-//size_t max_active_blocks_per_multiprocessor2(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes);
+
+template <typename KernelFunction>
+size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes);
 
 }; // end arch
 
