@@ -111,6 +111,10 @@ inclusive_update_kernel(OutputIterator result,
     }
 }
 
+//#define USE_WARPWISE_EXCLUSIVE_UPDATE
+
+#if USE_WARPWISE_EXCLUSIVE_UPDATE 
+// This code dies on G80 (and only G80) for some mysterious reason
 template<unsigned int BLOCK_SIZE,
          typename OutputIterator,
          typename AssociativeOperator>
@@ -150,6 +154,52 @@ exclusive_update_kernel(OutputIterator result,
             val = sdata[threadIdx.x + 31];
     }
 }
+#else
+template<unsigned int BLOCK_SIZE,
+         typename OutputIterator,
+         typename AssociativeOperator>
+__global__ void
+exclusive_update_kernel(OutputIterator result,
+                        typename thrust::iterator_traits<OutputIterator>::value_type init,
+                        AssociativeOperator binary_op,
+                        const unsigned int n,
+                        const unsigned int interval_size,
+                        typename thrust::iterator_traits<OutputIterator>::value_type * carry_in)
+{
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
+    // XXX workaround types with constructors in __shared__ memory
+    //__shared__ OutputType sdata[BLOCK_SIZE];
+    __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
+    OutputType * sdata = reinterpret_cast<OutputType*>(sdata_workaround);
+    
+    const unsigned int interval_begin = blockIdx.x * interval_size;                // beginning of this block's segment
+    const unsigned int interval_end   = min(interval_begin + interval_size, n);    // end of this block's segment
+
+    OutputType carry = (blockIdx.x == 0) ? init : binary_op(init, carry_in[blockIdx.x - 1]);  // value to add to this segment
+    OutputType val   = carry;
+
+    for(unsigned int base = interval_begin; base < interval_end; base += BLOCK_SIZE)
+    {
+        const unsigned int i = base + threadIdx.x;
+
+        if(i < interval_end)
+            sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(result, i));
+
+        __syncthreads();
+
+        if (threadIdx.x > 0)
+            val = sdata[threadIdx.x - 1];
+
+        if (i < interval_end)
+            thrust::detail::device::dereference(result, base + threadIdx.x) = val;
+
+        if(threadIdx.x == 0)
+            val = sdata[threadIdx.x + BLOCK_SIZE - 1];
+    }
+}
+#endif
+
 
 /* Perform an inclusive scan on separate intervals
  *
@@ -348,8 +398,13 @@ template<typename InputIterator,
 
     //////////////////////
     // update intervals
+#ifdef USE_WARPWISE_EXCLUSIVE_UPDATE
     exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
         (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
+#else
+    exclusive_update_kernel<BLOCK_SIZE> <<<num_warps, BLOCK_SIZE>>>
+        (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
+#endif
 
     return result + n;
 } // end exclusive_scan()
