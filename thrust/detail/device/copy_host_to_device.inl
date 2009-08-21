@@ -54,7 +54,7 @@ template<typename InputIterator,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
     // allocate temporary storage
-    raw_buffer<InputType, experimental::space::host> temp(begin,end);
+    thrust::detail::raw_buffer<InputType, experimental::space::host> temp(begin,end);
 
     result = thrust::copy(temp.begin(), temp.end(), result);
 
@@ -105,7 +105,7 @@ template<typename InputIterator,
   typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  raw_buffer<OutputType, experimental::space::host> temp(begin, end);
+  thrust::detail::raw_buffer<OutputType, experimental::space::host> temp(begin, end);
 
   result = thrust::copy(temp.begin(), temp.end(), result);
 
@@ -125,7 +125,7 @@ template<typename InputIterator,
   typename thrust::experimental::iterator_difference<InputIterator>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  raw_buffer<InputType, experimental::space::device> temp(n);
+  thrust::detail::raw_buffer<InputType, experimental::space::device> temp(n);
 
   // force a trivial copy
   thrust::detail::device::trivial_copy_host_to_device(raw_pointer_cast(&*temp.begin()), raw_pointer_cast(&*begin), n * sizeof(InputType));

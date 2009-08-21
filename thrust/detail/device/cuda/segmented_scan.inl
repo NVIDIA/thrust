@@ -123,7 +123,7 @@ template<unsigned int BLOCK_SIZE,
          typename AssociativeOperator>
 __global__ void
 inclusive_update_kernel(OutputIterator result,
-                        const AssociativeOperator binary_op,
+                        AssociativeOperator binary_op,
                         const unsigned int n,
                         const unsigned int interval_size,
                         OutputType * carry_in,
@@ -154,7 +154,7 @@ template<unsigned int BLOCK_SIZE,
 __global__ void
 exclusive_update_kernel(OutputIterator result,
                         OutputType init,
-                        const AssociativeOperator binary_op,
+                        AssociativeOperator binary_op,
                         const unsigned int n,
                         const unsigned int interval_size,
                         OutputType * carry_in,

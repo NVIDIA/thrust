@@ -136,7 +136,7 @@ template<typename InputIterator,
     const unsigned int GRID_SIZE = std::max((size_t) 1, std::min( (n / BLOCK_SIZE), MAX_BLOCKS));
 
     // allocate storage for per-block results
-    raw_buffer<OutputType, experimental::space::device> temp(GRID_SIZE + 1);
+    thrust::detail::raw_buffer<OutputType, experimental::space::device> temp(GRID_SIZE + 1);
 
     // set first element of temp array to init
     temp[0] = init;

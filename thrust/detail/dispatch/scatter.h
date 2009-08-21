@@ -131,7 +131,7 @@ template<typename InputIterator1,
 {
   // copy input to host and scatter on host
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
-  raw_buffer<InputType, experimental::space::host> buffer(first,last);
+  thrust::detail::raw_buffer<InputType, experimental::space::host> buffer(first,last);
   thrust::scatter(buffer.begin(), buffer.end(), map, output);
 } // end scatter()
 
@@ -149,7 +149,7 @@ template<typename InputIterator1,
 {
   // copy map to host and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;
-  raw_buffer<IndexType, experimental::space::host> h_map(map, map + thrust::distance(first,last));
+  thrust::detail::raw_buffer<IndexType, experimental::space::host> h_map(map, map + thrust::distance(first,last));
   thrust::scatter(first, last, h_map.begin(), output);
 } // end scatter()
 
@@ -170,7 +170,7 @@ template<typename InputIterator1,
 {
   // copy input to device and scatter on device
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
-  raw_buffer<InputType, experimental::space::device> buffer(first, last);
+  thrust::detail::raw_buffer<InputType, experimental::space::device> buffer(first, last);
   thrust::scatter(buffer.begin(), buffer.end(), map, output);
 } // end scatter()
 
@@ -188,7 +188,7 @@ template<typename InputIterator1,
 {
   // copy map to device and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;
-  raw_buffer<IndexType, experimental::space::device> d_map(map, map + thrust::distance(first,last));
+  thrust::detail::raw_buffer<IndexType, experimental::space::device> d_map(map, map + thrust::distance(first,last));
   thrust::scatter(first, last, d_map.begin(), output);
 } // end scatter()
 

@@ -1,6 +1,7 @@
 #include <thrust/device_ptr.h>
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
+#include <thrust/device_vector.h>
 #include <cuda.h>
 
 int main(void)
@@ -18,6 +19,16 @@ int main(void)
 
     // free memory
     thrust::device_free(dev_ptr);
+
+    
+    // we can use the same approach for device_vector
+    thrust::device_vector<int> d_vec(N);
+
+    // note: &d_vec[0] returns a device_ptr
+    raw_ptr = thrust::raw_pointer_cast(&d_vec[0]);
+
+    // same as above
+    raw_ptr = thrust::raw_pointer_cast(&*d_vec.begin());
 
     return 0;
 }

@@ -29,8 +29,6 @@
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/copy.h>
 
-#include <thrust/scan.h>    // for second level scans
-
 #include <thrust/detail/util/blocking.h>
 
 #include <thrust/detail/device/dereference.h>
@@ -330,7 +328,7 @@ template<typename InputIterator,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
+    thrust::detail::raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
 
     //////////////////////
     // first level scan
@@ -383,7 +381,7 @@ template<typename InputIterator,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
+    thrust::detail::raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
 
     //////////////////////
     // first level scan
