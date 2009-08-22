@@ -34,6 +34,10 @@
 namespace thrust
 {
 
+// forward declarations to WAR circular #includes
+template<typename> class device_ptr;
+template<typename T> device_ptr<T> device_malloc(const std::size_t n);
+
 /*! \addtogroup memory_management Memory Management
  *  \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management

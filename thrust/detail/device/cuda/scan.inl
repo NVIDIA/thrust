@@ -39,6 +39,9 @@ namespace thrust
 namespace detail
 {
 
+// forward declaration of raw_buffer
+template<typename,typename> class raw_buffer;
+
 namespace device
 {
 

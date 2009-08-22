@@ -34,6 +34,9 @@ namespace thrust
 namespace detail
 {
 
+// forward declaration to WAR circular #inclusion
+template<typename,typename> class raw_buffer;
+
 namespace device
 {
 
