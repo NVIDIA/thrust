@@ -35,7 +35,7 @@ template<typename InputType,
          typename InputIterator, 
          typename AssociativeOperator>
          __device__
-InputType scan(const unsigned int thread_lane, InputType val, InputIterator sdata, const AssociativeOperator binary_op)
+InputType scan(const unsigned int thread_lane, InputType val, InputIterator sdata, AssociativeOperator binary_op)
 {
     sdata[threadIdx.x] = val;
 
