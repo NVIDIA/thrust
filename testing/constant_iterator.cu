@@ -1,5 +1,8 @@
 #include <thrusttest/unittest.h>
 #include <thrust/iterator/constant_iterator.h>
+#include <thrust/copy.h>
+#include <thrust/transform.h>
+#include <thrust/reduce.h>
 
 using namespace thrust::experimental;
 
@@ -71,6 +74,7 @@ void TestMakeConstantIterator(void)
 }
 DECLARE_UNITTEST(TestMakeConstantIterator);
 
+
 template<typename Vector>
 void TestConstantIteratorCopy(void)
 {
@@ -79,14 +83,58 @@ void TestConstantIteratorCopy(void)
 
   Vector result(4);
 
-  ConstIter begin = make_constant_iterator<int>(7);
-  ConstIter end   = begin + result.size();
-  thrust::copy(begin, end, result.begin());
+  ConstIter first = make_constant_iterator<int>(7);
+  ConstIter last  = first + result.size();
+  thrust::copy(first, last, result.begin());
 
   ASSERT_EQUAL(7, result[0]);
   ASSERT_EQUAL(7, result[1]);
   ASSERT_EQUAL(7, result[2]);
   ASSERT_EQUAL(7, result[3]);
 };
-DECLARE_VECTOR_UNITTEST(TestConstantIteratorCopy)
+DECLARE_VECTOR_UNITTEST(TestConstantIteratorCopy);
+
+
+template<typename Vector>
+void TestConstantIteratorTransform(void)
+{
+  typedef typename Vector::value_type T;
+  typedef constant_iterator<T> ConstIter;
+
+  Vector result(4);
+
+  ConstIter first1 = make_constant_iterator<T>(7);
+  ConstIter last1  = first1 + result.size();
+  ConstIter first2 = make_constant_iterator<T>(3);
+
+  thrust::transform(first1, last1, result.begin(), thrust::negate<T>());
+
+  ASSERT_EQUAL(-7, result[0]);
+  ASSERT_EQUAL(-7, result[1]);
+  ASSERT_EQUAL(-7, result[2]);
+  ASSERT_EQUAL(-7, result[3]);
+  
+  thrust::transform(first1, last1, first2, result.begin(), thrust::plus<T>());
+
+  ASSERT_EQUAL(10, result[0]);
+  ASSERT_EQUAL(10, result[1]);
+  ASSERT_EQUAL(10, result[2]);
+  ASSERT_EQUAL(10, result[3]);
+};
+DECLARE_VECTOR_UNITTEST(TestConstantIteratorTransform);
+
+
+void TestConstantIteratorReduce(void)
+{
+  typedef int T;
+  typedef constant_iterator<T> ConstIter;
+
+  ConstIter first = make_constant_iterator<T>(7);
+  ConstIter last  = first + 4;
+
+  T sum = thrust::reduce(first, last);
+
+  ASSERT_EQUAL(sum, 4 * 7);
+};
+DECLARE_UNITTEST(TestConstantIteratorReduce);
 

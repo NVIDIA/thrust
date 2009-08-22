@@ -66,6 +66,22 @@ template<typename InputIterator,
     return thrust::detail::device::reduce(first, last, init, binary_op);
 }
 
+//////////////
+// Any Path //
+//////////////
+template<typename InputIterator, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(InputIterator first,
+                    InputIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op,
+                    thrust::experimental::space::any)
+{
+    // default to device path
+    return thrust::detail::dispatch::reduce(first, last, init, binary_op, thrust::experimental::space::device());
+}
+
 } // end namespace dispatch
 
 } // end namespace detail
