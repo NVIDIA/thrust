@@ -269,7 +269,7 @@ void TestZipIteratorCopy(void)
 DECLARE_VECTOR_UNITTEST(TestZipIteratorCopy);
 
 
-struct SumTuple
+struct SumTwoTuple
 {
   template<typename Tuple>
   __host__ __device__
@@ -278,7 +278,18 @@ struct SumTuple
   {
     return get<0>(x) + get<1>(x);
   }
-}; // end SumTuple
+}; // end SumTwoTuple
+
+struct SumThreeTuple
+{
+  template<typename Tuple>
+  __host__ __device__
+  typename detail::remove_reference<typename tuple_element<0,Tuple>::type>::type
+    operator()(Tuple x) const
+  {
+    return get<0>(x) + get<1>(x) + get<2>(x);
+  }
+}; // end SumThreeTuple
 
 
 template <typename T>
@@ -288,25 +299,36 @@ struct TestZipIteratorTransform
   {
     thrust::host_vector<T> h_data0 = thrusttest::random_samples<T>(n);
     thrust::host_vector<T> h_data1 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data2 = thrusttest::random_samples<T>(n);
 
     thrust::device_vector<T> d_data0 = h_data0;
     thrust::device_vector<T> d_data1 = h_data1;
+    thrust::device_vector<T> d_data2 = h_data2;
 
     thrust::host_vector<T>   h_result(n);
     thrust::device_vector<T> d_result(n);
 
-    // run on host
+    // Tuples with 2 elements
     thrust::transform( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
                        make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
                        h_result.begin(),
-                       SumTuple());
-
-    // run on device
+                       SumTwoTuple());
     thrust::transform( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
                        make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
                        d_result.begin(),
-                       SumTuple());
-
+                       SumTwoTuple());
+    ASSERT_EQUAL(h_result, d_result);
+    
+    
+    // Tuples with 3 elements
+    thrust::transform( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin(), h_data2.begin())),
+                       make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end(),   h_data2.end())),
+                       h_result.begin(),
+                       SumThreeTuple());
+    thrust::transform( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin(), d_data2.begin())),
+                       make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end(),   d_data2.end())),
+                       d_result.begin(),
+                       SumThreeTuple());
     ASSERT_EQUAL(h_result, d_result);
   }
 };
