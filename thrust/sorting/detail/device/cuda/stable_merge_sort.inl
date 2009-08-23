@@ -110,8 +110,8 @@ template<unsigned int BLOCK_SIZE,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-__global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_begin,
-                                              RandomAccessIterator2 values_begin,
+__global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
+                                              RandomAccessIterator2 values_first,
                                               const unsigned int n,
                                               const unsigned int index_of_last_block,
                                               const unsigned int index_of_last_tile_in_last_block,
@@ -157,7 +157,7 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_begin,
     // copy over inputs to shared memory
     if(thread_not_idle)
     {
-      key[threadIdx.x] = my_key = keys_begin[i];
+      key[threadIdx.x] = my_key = keys_first[i];
     } // end if
     
     // the tile to which the element belongs
@@ -214,7 +214,7 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_begin,
     {
       // these are scatters: use shared memory to reduce cost.
       outkey[rank] = my_key;
-      outvalue[rank] = values_begin[i];
+      outvalue[rank] = values_first[i];
     } // end if
     __syncthreads();
     
@@ -232,8 +232,8 @@ template<unsigned int BLOCK_SIZE,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  __global__ void stable_odd_even_block_sort_kernel(RandomAccessIterator1 keys_begin,
-                                                    RandomAccessIterator2 values_begin,
+  __global__ void stable_odd_even_block_sort_kernel(RandomAccessIterator1 keys_first,
+                                                    RandomAccessIterator2 values_first,
                                                     StrictWeakOrdering comp,
                                                     const unsigned int n)
 {
@@ -261,8 +261,8 @@ template<unsigned int BLOCK_SIZE,
     // copy input to shared
     if(i < n)
     {
-      s_keys[threadIdx.x] = keys_begin[i];
-      s_data[threadIdx.x] = values_begin[i];
+      s_keys[threadIdx.x] = keys_first[i];
+      s_data[threadIdx.x] = values_first[i];
     } // end if
     __syncthreads();
 
@@ -279,8 +279,8 @@ template<unsigned int BLOCK_SIZE,
     // write result
     if(i < n)
     {
-      keys_begin[i]   = s_keys[threadIdx.x];
-      values_begin[i] = s_data[threadIdx.x];
+      keys_first[i]   = s_keys[threadIdx.x];
+      values_first[i] = s_data[threadIdx.x];
     } // end if
   } // end for i
 } // end stable_odd_even_block_sort_kernel()
@@ -292,7 +292,7 @@ template<unsigned int BLOCK_SIZE,
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3>
-  __global__ void extract_splitters(RandomAccessIterator1 begin,
+  __global__ void extract_splitters(RandomAccessIterator1 first,
                                     unsigned int N,
                                     RandomAccessIterator2 splitters_result,
                                     RandomAccessIterator3 positions_result)
@@ -307,7 +307,7 @@ template<typename RandomAccessIterator1,
   {
     if(threadIdx.x == 0)
     {
-      splitters_result[splitter_idx] = begin[src_idx]; 
+      splitters_result[splitter_idx] = first[src_idx]; 
       positions_result[splitter_idx] = src_idx;
     } // end if
   } // end while
@@ -326,11 +326,14 @@ template<unsigned int BLOCK_SIZE,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename RandomAccessIterator5,
          typename StrictWeakOrdering>
-  __global__ void find_splitter_ranks(RandomAccessIterator1 splitters_begin,
-                                      RandomAccessIterator2 splitters_pos_begin, 
-                                      unsigned int *d_rank1, unsigned int *d_rank2, 
-                                      RandomAccessIterator3 values_begin, unsigned int datasize, 
+  __global__ void find_splitter_ranks(RandomAccessIterator1 splitters_first,
+                                      RandomAccessIterator2 splitters_pos_first, 
+                                      RandomAccessIterator3 ranks_first1,
+                                      RandomAccessIterator4 ranks_first2, 
+                                      RandomAccessIterator5 values_begin, unsigned int datasize, 
                                       unsigned int N_SPLITTERS, unsigned int log_blocksize, 
                                       unsigned int log_num_merged_splitters_per_block,
                                       StrictWeakOrdering comp)
@@ -353,8 +356,8 @@ template<unsigned int BLOCK_SIZE,
   {
     if(i < N_SPLITTERS)
     { 
-      inp = splitters_begin[i];
-      inp_pos = splitters_pos_begin[i];
+      inp = splitters_first[i];
+      inp_pos = splitters_pos_first[i];
       
       // the (odd, even) block pair to which the splitter belongs. Each i corresponds to a splitter.
       unsigned int oddeven_blockid = i>>log_num_merged_splitters_per_block;
@@ -367,7 +370,7 @@ template<unsigned int BLOCK_SIZE,
       
       // the "other" block which which block listno must be merged.
       unsigned int otherlist = listno^1;
-      RandomAccessIterator3 other = values_begin + (1<<log_blocksize)*otherlist;
+      RandomAccessIterator5 other = values_begin + (1<<log_blocksize)*otherlist;
       
       // the size of the other block can be less than blocksize if the it is the last block.
       unsigned int othersize = min<unsigned int>(1 << log_blocksize, datasize - (otherlist<<log_blocksize));
@@ -389,16 +392,22 @@ template<unsigned int BLOCK_SIZE,
       //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
       if(!(listno&0x1))
       { 
-        d_rank1[i] = inp_pos + 1 - (1<<log_blocksize)*listno; 
-        end = (( local_i - ((d_rank1[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1; start = end - (BLOCK_SIZE-1);
+        ranks_first1[i] = inp_pos + 1 - (1<<log_blocksize)*listno; 
+
+        end = (( local_i - ((ranks_first1[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
+        start = end - (BLOCK_SIZE-1);
+
         if(end < 0) start = end = 0;
         if(end >= othersize) end = othersize - 1;
         if(start > othersize) start = othersize;
       } // end if
       else
       { 
-        d_rank2[i] = inp_pos + 1 - (1<<log_blocksize)*listno;
-        end = (( local_i - ((d_rank2[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1; start = end - (BLOCK_SIZE-1);
+        ranks_first2[i] = inp_pos + 1 - (1<<log_blocksize)*listno;
+
+        end = (( local_i - ((ranks_first2[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
+        start = end - (BLOCK_SIZE-1);
+
         if(end < 0) start = end = 0;
         if(end >= othersize) end = othersize - 1;
         if(start > othersize) start = othersize;
@@ -424,11 +433,11 @@ template<unsigned int BLOCK_SIZE,
 
       if(!(listno&0x1))
       {
-        d_rank2[i] = start;	
+        ranks_first2[i] = start;	
       } // end if
       else
       {
-        d_rank1[i] = start;	
+        ranks_first1[i] = start;	
       } // end else
     } // end if
   } // end for
