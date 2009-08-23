@@ -448,12 +448,13 @@ template<unsigned int LOG_BLOCK_SIZE,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
-         typename RandomAccessIterator4>
-  __global__ void copy_first_splitters(RandomAccessIterator1 keys_begin,
-                                       RandomAccessIterator2 values_begin,
-                                       unsigned int * d_splitters_pos, 
-                                       RandomAccessIterator3 keys_result, 
-                                       RandomAccessIterator4 values_result,
+         typename RandomAccessIterator4,
+         typename RandomAccessIterator5>
+  __global__ void copy_first_splitters(RandomAccessIterator1 keys_first,
+                                       RandomAccessIterator2 values_first,
+                                       RandomAccessIterator3 splitters_pos_first, 
+                                       RandomAccessIterator4 keys_result, 
+                                       RandomAccessIterator5 values_result,
                                        unsigned int log_num_merged_splitters_per_block,
                                        const unsigned int num_tile_pairs)
 {
@@ -466,8 +467,8 @@ template<unsigned int LOG_BLOCK_SIZE,
 
     if(threadIdx.x == 0)
     {
-      keys_result[dst_idx]   = keys_begin[d_splitters_pos[splitter_idx]];
-      values_result[dst_idx] = values_begin[d_splitters_pos[splitter_idx]];
+      keys_result[dst_idx]   = keys_first[splitters_pos_first[splitter_idx]];
+      values_result[dst_idx] = values_first[splitters_pos_first[splitter_idx]];
     } // end if
   } // end for
 } // end copy_first_splitters()
