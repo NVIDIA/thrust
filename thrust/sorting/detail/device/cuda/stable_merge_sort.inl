@@ -581,8 +581,8 @@ template<unsigned int BLOCK_SIZE,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
-         typename KeyType,
-         typename ValueType,
+         typename RandomAccessIterator5,
+         typename RandomAccessIterator6,
          typename StrictWeakOrdering>
 __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_first,
                                                     RandomAccessIterator2 values_first,
@@ -592,10 +592,15 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
                                                     const unsigned int log_blocksize, 
                                                     const unsigned int log_num_merged_splitters_per_block, 
                                                     const unsigned int num_splitters,
-                                                    KeyType *resultdatakey,
-                                                    ValueType *resultdatavalue,
+                                                    RandomAccessIterator5 keys_result,
+                                                    RandomAccessIterator6 values_result,
                                                     StrictWeakOrdering comp)
 {	
+  using namespace thrust::detail::device;
+
+  typedef typename experimental::iterator_value<RandomAccessIterator5>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator6>::type ValueType;
+
   extern __shared__ char A[];
   KeyType * input1 = (KeyType *)(A);
   KeyType * input2 = (KeyType *)(A + sizeof(KeyType)*BLOCK_SIZE);
@@ -620,14 +625,14 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
     // thread 0 computes the ranks & size of each array
     if(threadIdx.x == 0)
     {
-      start1 = ranks_first1[i];
-      start2 = ranks_first2[i];
+      start1 = dereference(ranks_first1,i);
+      start2 = dereference(ranks_first2,i);
 
       // Carefully avoid out-of-bounds rank array accesses.
       if( (i < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
       {
-        size1 = ranks_first1[i + 1];
-        size2 = ranks_first2[i + 1];
+        size1 = dereference(ranks_first1,i + 1);
+        size2 = dereference(ranks_first2,i + 1);
       } // end if
       else
       {
@@ -721,7 +726,7 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
     __syncthreads();
     
     // Write out to global memory; we need to align the write for good performance
-    aligned_write<BLOCK_SIZE>(input1, input1val, resultdatakey, resultdatavalue, (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE)) + start1 + start2, size1 + size2);
+    aligned_write<BLOCK_SIZE>(input1, input1val, keys_result, values_result, (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE)) + start1 + start2, size1 + size2);
   } // end for i
 } // end merge_subblocks_binarysearch_kernel()
 
@@ -742,16 +747,30 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
 // of an odd numbered block in the corresponding sub-block of its even numbered pair. It then adds this rank to 
 // the index of the element in its own sub-block to find the output index of the element in the merged sub-block.
 
-template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
-  void merge_subblocks_binarysearch(KeyType * srcdatakey, ValueType * srcdatavalue, unsigned int datasize, 
-                                    KeyType * d_splitters, unsigned int * d_splitters_pos, 
-                                    unsigned int * rank1, unsigned int * rank2, 
-                                    KeyType *resultdatakey, ValueType *resultdatavalue, 
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename RandomAccessIterator5,
+         typename RandomAccessIterator6,
+         typename RandomAccessIterator7,
+         typename StrictWeakOrdering>
+  void merge_subblocks_binarysearch(RandomAccessIterator1 keys_first,
+                                    RandomAccessIterator2 values_first,
+                                    unsigned int datasize, 
+                                    RandomAccessIterator3 splitters_pos_first, 
+                                    RandomAccessIterator4 ranks_first1,
+                                    RandomAccessIterator5 ranks_first2, 
+                                    RandomAccessIterator6 keys_result,
+                                    RandomAccessIterator7 values_result, 
                                     unsigned int N_SPLITTERS, unsigned int log_blocksize, 
                                     unsigned int log_num_merged_splitters_per_block,
                                     unsigned int N_ODDEVEN_BLOCK_PAIRS,
                                     StrictWeakOrdering comp)
 {
+  typedef typename experimental::iterator_value<RandomAccessIterator6>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator7>::type ValueType;
+
   unsigned int MAX_GRID_SIZE = max_grid_size(1);
 
   unsigned int grid_size = min(N_ODDEVEN_BLOCK_PAIRS, MAX_GRID_SIZE);
@@ -759,8 +778,11 @@ template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
   const unsigned int LOG_BLOCK_SIZE = merge_sort_dev_namespace::LOG_BLOCK_SIZE<KeyType,ValueType>::result;
 
   // Copy over the first merged splitter of each odd-even block pair to the output array
-  copy_first_splitters<LOG_BLOCK_SIZE><<<N_ODDEVEN_BLOCK_PAIRS,1>>>(srcdatakey, srcdatavalue, d_splitters_pos, 
-                                                                    resultdatakey, resultdatavalue,
+  copy_first_splitters<LOG_BLOCK_SIZE><<<N_ODDEVEN_BLOCK_PAIRS,1>>>(keys_first,
+                                                                    values_first,
+                                                                    splitters_pos_first, 
+                                                                    keys_result,
+                                                                    values_result,
                                                                     log_num_merged_splitters_per_block,
                                                                     N_ODDEVEN_BLOCK_PAIRS);
 
@@ -771,11 +793,16 @@ template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
   grid_size = min(N_SPLITTERS, MAX_GRID_SIZE);
 
   merge_subblocks_binarysearch_kernel<BLOCK_SIZE,LOG_BLOCK_SIZE><<<grid_size, BLOCK_SIZE, BLOCK_SIZE*(2*sizeof(KeyType) + 2*sizeof(ValueType))>>>(
-  	srcdatakey, srcdatavalue, datasize, 
-  	rank1, rank2, 
-  	log_blocksize, log_num_merged_splitters_per_block, 
+  	keys_first,
+        values_first,
+        datasize, 
+  	ranks_first1,
+        ranks_first2, 
+  	log_blocksize,
+        log_num_merged_splitters_per_block, 
         N_SPLITTERS,
-  	resultdatakey, resultdatavalue,
+  	keys_result,
+        values_result,
         comp);
 }
 
@@ -847,6 +874,8 @@ template<typename KeyType,
 
   unsigned int grid_size = min<size_t>(num_splitters, MAX_GRID_SIZE);
 
+  using namespace thrust::detail;
+
   // XXX replace these with scoped_ptr or something
   thrust::device_ptr<KeyType>      splitters            = device_malloc<KeyType>(num_splitters);
   thrust::device_ptr<unsigned int> splitters_pos        = device_malloc<unsigned int>(num_splitters);
@@ -897,14 +926,14 @@ template<typename KeyType,
        log_num_merged_splitters_per_block, comp);
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
-  merge_subblocks_binarysearch<KeyType, ValueType>(keys_src, data_src, n,
-                                                   merged_splitters.get(), merged_splitters_pos.get(),
-                                                       rank1.get(),         rank2.get(),
-                                                   keys_dst, data_dst,
-                                                   num_splitters, log_tile_size,
-                                                   log_num_merged_splitters_per_block,
-                                                   num_tiles / 2,
-                                                   comp);
+  merge_subblocks_binarysearch(keys_src, data_src, n,
+                               merged_splitters_pos.get(),
+                               rank1.get(), rank2.get(),
+                               keys_dst, data_dst,
+                               num_splitters, log_tile_size,
+                               log_num_merged_splitters_per_block,
+                               num_tiles / 2,
+                               comp);
 
   device_free(merged_splitters);
   device_free(merged_splitters_pos);
