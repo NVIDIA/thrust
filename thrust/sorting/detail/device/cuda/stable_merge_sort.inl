@@ -37,6 +37,7 @@
 #include <thrust/sorting/detail/device/cuda/block/merging_sort.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -104,30 +105,36 @@ inline unsigned int max_grid_size(const unsigned int block_size)
 // Base case for the merge algorithm: merges data where tile_size <= BLOCK_SIZE. 
 // Works by loading two or more tiles into shared memory and doing a binary search.
 template<unsigned int BLOCK_SIZE,
-         typename Tkey,
-         typename Tvalue,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-__global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const Tvalue * d_srcDatavalue,
+__global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_begin,
+                                              RandomAccessIterator2 values_begin,
                                               const unsigned int n,
                                               const unsigned int index_of_last_block,
                                               const unsigned int index_of_last_tile_in_last_block,
                                               const unsigned int size_of_last_tile,
-                                              Tkey * d_resultDatakey, Tvalue *d_resultDatavalue,
+                                              RandomAccessIterator3 keys_result,
+                                              RandomAccessIterator4 values_result,
                                               const unsigned int log_tile_size,
                                               StrictWeakOrdering comp)
 {
+  typedef typename experimental::iterator_value<RandomAccessIterator3>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator4>::type ValueType;
+
   // Assumption: tile_size is a power of 2.
   
   // load (2*BLOCK_SIZE) elements into shared memory. These (2*BLOCK_SIZE) elements belong to (2*BLOCK_SIZE)/tile_size different tiles.
-  // XXX workaround no constructors in shared array problem
-  __shared__ unsigned char key_workaround[(2*BLOCK_SIZE) * sizeof(Tkey)];
-  Tkey *key = reinterpret_cast<Tkey*>(key_workaround);
+  __shared__ unsigned char key_workaround[(2*BLOCK_SIZE) * sizeof(KeyType)];
+  KeyType *key = reinterpret_cast<KeyType*>(key_workaround);
 
-  __shared__ unsigned char outkey_workaround[(2*BLOCK_SIZE) * sizeof(Tkey)];
-  Tkey *outkey = reinterpret_cast<Tkey*>(outkey_workaround);
+  __shared__ unsigned char outkey_workaround[(2*BLOCK_SIZE) * sizeof(KeyType)];
+  KeyType *outkey = reinterpret_cast<KeyType*>(outkey_workaround);
 
-  __shared__ unsigned char outvalue_workaround[(2*BLOCK_SIZE) * sizeof(Tvalue)];
-  Tvalue *outvalue = reinterpret_cast<Tvalue*>(outvalue_workaround);
+  __shared__ unsigned char outvalue_workaround[(2*BLOCK_SIZE) * sizeof(ValueType)];
+  ValueType *outvalue = reinterpret_cast<ValueType*>(outvalue_workaround);
 
   const unsigned int grid_size = gridDim.x * blockDim.x;
 
@@ -145,12 +152,12 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
   {
     // figure out if this thread should idle
     unsigned int thread_not_idle = i < n;
-    Tkey my_key;
+    KeyType my_key;
     
     // copy over inputs to shared memory
     if(thread_not_idle)
     {
-      key[threadIdx.x] = my_key = d_srcDatakey[i];
+      key[threadIdx.x] = my_key = keys_begin[i];
     } // end if
     
     // the tile to which the element belongs
@@ -169,7 +176,7 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
     } // end if
     
     // figure out where the other tile begins in shared memory
-    Tkey * other = key + (other_tile_index<<log_tile_size);
+    KeyType * other = key + (other_tile_index<<log_tile_size);
     
     // do a binary search on the other tile, and find the rank of the element in the other tile.
     unsigned int start, end, cur;
@@ -207,15 +214,15 @@ __global__ void merge_smalltiles_binarysearch(const Tkey * d_srcDatakey, const T
     {
       // these are scatters: use shared memory to reduce cost.
       outkey[rank] = my_key;
-      outvalue[rank] = d_srcDatavalue[i];
+      outvalue[rank] = values_begin[i];
     } // end if
     __syncthreads();
     
     if(thread_not_idle)
     {
       // coalesced writes to global memory
-      d_resultDatakey[i] = outkey[threadIdx.x];
-      d_resultDatavalue[i] = outvalue[threadIdx.x];
+      keys_result[i]   = outkey[threadIdx.x];
+      values_result[i] = outvalue[threadIdx.x];
     } // end if
     __syncthreads();
   } // end for
