@@ -806,18 +806,23 @@ template<typename RandomAccessIterator1,
         comp);
 }
 
-template<typename KeyType,
-         typename ValueType,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge(KeyType *keys_src,
-             ValueType *data_src,
+  void merge(RandomAccessIterator1 keys_first,
+             RandomAccessIterator2 values_first,
              size_t n,
-             KeyType *keys_dst,
-             ValueType *data_dst,
+             RandomAccessIterator3 keys_result,
+             RandomAccessIterator4 values_result,
              size_t log_tile_size,
              size_t level,
              StrictWeakOrdering comp)
 {
+  typedef typename experimental::iterator_value<RandomAccessIterator3>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator4>::type ValueType;
+
   size_t tile_size = 1<<log_tile_size;
 
   // assumption: num_tiles is even; tile_size is a power of 2
@@ -849,14 +854,16 @@ template<typename KeyType,
     unsigned int size_of_last_tile = partial_tile_size ? partial_tile_size : tile_size;
     unsigned int index_of_last_tile_in_last_block = number_of_tiles_in_last_block - 1;
 
-    merge_smalltiles_binarysearch<2*BLOCK_SIZE><<<grid_size,(2*BLOCK_SIZE)>>>(keys_src, data_src,
-                                                                            n,
-                                                                            num_blocks - 1,
-                                                                            index_of_last_tile_in_last_block,
-                                                                            size_of_last_tile,
-                                                                            keys_dst, data_dst,
-                                                                            log_tile_size,
-                                                                            comp);
+    merge_smalltiles_binarysearch<2*BLOCK_SIZE><<<grid_size,(2*BLOCK_SIZE)>>>(keys_first,
+                                                                              values_first,
+                                                                              n,
+                                                                              num_blocks - 1,
+                                                                              index_of_last_tile_in_last_block,
+                                                                              size_of_last_tile,
+                                                                              keys_result,
+                                                                              values_result,
+                                                                              log_tile_size,
+                                                                              comp);
 
     return;
   } // end if
@@ -867,14 +874,12 @@ template<typename KeyType,
   const unsigned int MAX_GRID_SIZE = max_grid_size(BLOCK_SIZE);
 
   // Step 1 of the recursive case: extract one splitter per BLOCK_SIZE entries in each odd-even block pair.
-  // Store the splitter keys into splitters[level], and the array index in keys_src of the splitters
+  // Store the splitter keys into splitters[level], and the array index in keys_first of the splitters
   // chosen into splitters_pos[level]
   size_t num_splitters = n / BLOCK_SIZE;
   if(n % BLOCK_SIZE) ++num_splitters;
 
   unsigned int grid_size = min<size_t>(num_splitters, MAX_GRID_SIZE);
-
-  using namespace thrust::detail;
 
   // XXX replace these with scoped_ptr or something
   thrust::device_ptr<KeyType>      splitters            = device_malloc<KeyType>(num_splitters);
@@ -882,7 +887,7 @@ template<typename KeyType,
   thrust::device_ptr<KeyType>      merged_splitters     = device_malloc<KeyType>(num_splitters);
   thrust::device_ptr<unsigned int> merged_splitters_pos = device_malloc<unsigned int>(num_splitters);
 
-  extract_splitters<<<grid_size, BLOCK_SIZE>>>(keys_src, n, splitters.get(), splitters_pos.get());
+  extract_splitters<<<grid_size, BLOCK_SIZE>>>(keys_first, n, splitters.get(), splitters_pos.get());
 
   // compute the log base 2 of the BLOCK_SIZE
   const unsigned int LOG_BLOCK_SIZE = merge_sort_dev_namespace::LOG_BLOCK_SIZE<KeyType,ValueType>::result;
@@ -891,12 +896,14 @@ template<typename KeyType,
   // We need to merge num_splitters elements, each new "block" is the set of
   // splitters for each original block.
   size_t log_num_splitters_per_block = log_tile_size - LOG_BLOCK_SIZE;
-  merge<KeyType, unsigned int, StrictWeakOrdering>
-    (splitters.get(), splitters_pos.get(),
-     num_splitters,
-     merged_splitters.get(), merged_splitters_pos.get(),
-     log_num_splitters_per_block,
-     level + 1, comp);
+  merge(splitters.get(),
+        splitters_pos.get(),
+        num_splitters,
+        merged_splitters.get(),
+        merged_splitters_pos.get(),
+        log_num_splitters_per_block,
+        level + 1,
+        comp);
   device_free(splitters);
 
   // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
@@ -919,18 +926,28 @@ template<typename KeyType,
 
   find_splitter_ranks<BLOCK_SIZE, LOG_BLOCK_SIZE>
     <<<grid_size,BLOCK_SIZE>>>
-      (merged_splitters.get(), merged_splitters_pos.get(),
-           rank1.get(),         rank2.get(),
-       keys_src,    n,
-       num_splitters, log_tile_size,
-       log_num_merged_splitters_per_block, comp);
+      (merged_splitters.get(),
+       merged_splitters_pos.get(),
+       rank1.get(),
+       rank2.get(),
+       keys_first,
+       n,
+       num_splitters,
+       log_tile_size,
+       log_num_merged_splitters_per_block,
+       comp);
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
-  merge_subblocks_binarysearch(keys_src, data_src, n,
+  merge_subblocks_binarysearch(keys_first,
+                               values_first,
+                               n,
                                merged_splitters_pos.get(),
-                               rank1.get(), rank2.get(),
-                               keys_dst, data_dst,
-                               num_splitters, log_tile_size,
+                               rank1.get(),
+                               rank2.get(),
+                               keys_result,
+                               values_result,
+                               num_splitters,
+                               log_tile_size,
                                log_num_merged_splitters_per_block,
                                num_tiles / 2,
                                comp);
