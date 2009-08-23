@@ -104,6 +104,34 @@ template<typename T, typename Space>
     raw_buffer &operator=(const raw_buffer &);
 }; // end raw_buffer
 
+template<typename T>
+  class raw_device_buffer
+    : public raw_buffer<T, experimental::space::device >
+{
+  private:
+    typedef raw_buffer<T, experimental::space::device > super_t;
+
+  public:
+    explicit raw_device_buffer(typename super_t::size_type n):super_t(n){}
+
+    template<typename InputIterator>
+    raw_device_buffer(InputIterator first, InputIterator last):super_t(first,last){}
+}; // end raw_device_buffer
+
+template<typename T>
+  class raw_host_buffer
+    : public raw_buffer<T, experimental::space::host >
+{
+  private:
+    typedef raw_buffer<T, experimental::space::host > super_t;
+
+  public:
+    explicit raw_host_buffer(typename super_t::size_type n):super_t(n){}
+
+    template<typename InputIterator>
+    raw_host_buffer(InputIterator first, InputIterator last):super_t(first,last){}
+}; // end raw_host_buffer
+
 } // end detail
 
 } // end thrust

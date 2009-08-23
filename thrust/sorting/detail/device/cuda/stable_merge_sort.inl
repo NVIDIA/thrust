@@ -216,7 +216,7 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
     {
       // these are scatters: use shared memory to reduce cost.
       outkey[rank] = my_key;
-      outvalue[rank] = values_first[i];
+      outvalue[rank] = dereference(values_first,i);
     } // end if
     __syncthreads();
     
@@ -881,13 +881,14 @@ template<typename RandomAccessIterator1,
 
   unsigned int grid_size = min<size_t>(num_splitters, MAX_GRID_SIZE);
 
-  // XXX replace these with scoped_ptr or something
-  thrust::device_ptr<KeyType>      splitters            = device_malloc<KeyType>(num_splitters);
-  thrust::device_ptr<unsigned int> splitters_pos        = device_malloc<unsigned int>(num_splitters);
-  thrust::device_ptr<KeyType>      merged_splitters     = device_malloc<KeyType>(num_splitters);
-  thrust::device_ptr<unsigned int> merged_splitters_pos = device_malloc<unsigned int>(num_splitters);
+  using namespace thrust::detail;
 
-  extract_splitters<<<grid_size, BLOCK_SIZE>>>(keys_first, n, splitters.get(), splitters_pos.get());
+  raw_device_buffer<KeyType>      splitters(num_splitters);
+  raw_device_buffer<unsigned int> splitters_pos(num_splitters);
+  raw_device_buffer<KeyType>      merged_splitters(num_splitters);
+  raw_device_buffer<unsigned int> merged_splitters_pos(num_splitters);
+
+  extract_splitters<<<grid_size, BLOCK_SIZE>>>(keys_first, n, splitters.begin(), splitters_pos.begin());
 
   // compute the log base 2 of the BLOCK_SIZE
   const unsigned int LOG_BLOCK_SIZE = merge_sort_dev_namespace::LOG_BLOCK_SIZE<KeyType,ValueType>::result;
@@ -896,15 +897,16 @@ template<typename RandomAccessIterator1,
   // We need to merge num_splitters elements, each new "block" is the set of
   // splitters for each original block.
   size_t log_num_splitters_per_block = log_tile_size - LOG_BLOCK_SIZE;
-  merge(splitters.get(),
-        splitters_pos.get(),
+  merge(splitters.begin(),
+        splitters_pos.begin(),
         num_splitters,
-        merged_splitters.get(),
-        merged_splitters_pos.get(),
+        merged_splitters.begin(),
+        merged_splitters_pos.begin(),
         log_num_splitters_per_block,
         level + 1,
         comp);
-  device_free(splitters);
+  // free this memory before recursion
+  splitters.~raw_device_buffer();
 
   // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
   // Store the results into rank1[level] and rank2[level] for the even and odd block respectively.
@@ -921,15 +923,15 @@ template<typename RandomAccessIterator1,
   grid_size = min<size_t>(num_blocks, MAX_GRID_SIZE);
 
   // reuse the splitters_pos storage for rank1
-  thrust::device_ptr<unsigned int> rank1 = splitters_pos;
-  thrust::device_ptr<unsigned int> rank2 = device_malloc<unsigned int>(num_splitters);
+  raw_device_buffer<unsigned int> &rank1 = splitters_pos;
+  raw_device_buffer<unsigned int> rank2(num_splitters);
 
   find_splitter_ranks<BLOCK_SIZE, LOG_BLOCK_SIZE>
     <<<grid_size,BLOCK_SIZE>>>
-      (merged_splitters.get(),
-       merged_splitters_pos.get(),
-       rank1.get(),
-       rank2.get(),
+      (merged_splitters.begin(),
+       merged_splitters_pos.begin(),
+       rank1.begin(),
+       rank2.begin(),
        keys_first,
        n,
        num_splitters,
@@ -941,9 +943,9 @@ template<typename RandomAccessIterator1,
   merge_subblocks_binarysearch(keys_first,
                                values_first,
                                n,
-                               merged_splitters_pos.get(),
-                               rank1.get(),
-                               rank2.get(),
+                               merged_splitters_pos.begin(),
+                               rank1.begin(),
+                               rank2.begin(),
                                keys_result,
                                values_result,
                                num_splitters,
@@ -951,11 +953,6 @@ template<typename RandomAccessIterator1,
                                log_num_merged_splitters_per_block,
                                num_tiles / 2,
                                comp);
-
-  device_free(merged_splitters);
-  device_free(merged_splitters_pos);
-  device_free(rank1);
-  device_free(rank2);
 }
 
 template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
