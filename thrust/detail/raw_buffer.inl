@@ -29,9 +29,9 @@ namespace detail
 template<typename T, typename Space>
   raw_buffer<T,Space>
     ::raw_buffer(size_type n)
-      :m_begin(m_allocator.allocate(n)),
-       m_end(m_begin + n)
 {
+  m_begin = m_allocator.allocate(n);
+  m_end = m_begin + n;
 } // end raw_buffer::raw_buffer()
 
 
@@ -39,9 +39,10 @@ template<typename T, typename Space>
   template<typename InputIterator>
     raw_buffer<T,Space>
       ::raw_buffer(InputIterator first, InputIterator last)
-        :m_begin(m_allocator.allocate(thrust::distance(first, last))),
-         m_end(m_begin + thrust::distance(first,last))
 {
+  size_type n = thrust::distance(first,last);
+  m_begin = m_allocator.allocate(n);
+  m_end = m_begin + n;
   thrust::copy(first, last, begin());
 } // end raw_buffer::raw_buffer()
 
