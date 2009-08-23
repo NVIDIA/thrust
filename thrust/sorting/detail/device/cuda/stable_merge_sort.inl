@@ -331,10 +331,12 @@ template<unsigned int BLOCK_SIZE,
          typename StrictWeakOrdering>
   __global__ void find_splitter_ranks(RandomAccessIterator1 splitters_first,
                                       RandomAccessIterator2 splitters_pos_first, 
-                                      RandomAccessIterator3 ranks_first1,
-                                      RandomAccessIterator4 ranks_first2, 
-                                      RandomAccessIterator5 values_begin, unsigned int datasize, 
-                                      unsigned int N_SPLITTERS, unsigned int log_blocksize, 
+                                      RandomAccessIterator3 ranks_result1,
+                                      RandomAccessIterator4 ranks_result2, 
+                                      RandomAccessIterator5 values_begin,
+                                      unsigned int datasize, 
+                                      unsigned int N_SPLITTERS,
+                                      unsigned int log_blocksize, 
                                       unsigned int log_num_merged_splitters_per_block,
                                       StrictWeakOrdering comp)
 {
@@ -392,9 +394,9 @@ template<unsigned int BLOCK_SIZE,
       //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
       if(!(listno&0x1))
       { 
-        ranks_first1[i] = inp_pos + 1 - (1<<log_blocksize)*listno; 
+        ranks_result1[i] = inp_pos + 1 - (1<<log_blocksize)*listno; 
 
-        end = (( local_i - ((ranks_first1[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
+        end = (( local_i - ((ranks_result1[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
         start = end - (BLOCK_SIZE-1);
 
         if(end < 0) start = end = 0;
@@ -403,9 +405,9 @@ template<unsigned int BLOCK_SIZE,
       } // end if
       else
       { 
-        ranks_first2[i] = inp_pos + 1 - (1<<log_blocksize)*listno;
+        ranks_result2[i] = inp_pos + 1 - (1<<log_blocksize)*listno;
 
-        end = (( local_i - ((ranks_first2[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
+        end = (( local_i - ((ranks_result2[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
         start = end - (BLOCK_SIZE-1);
 
         if(end < 0) start = end = 0;
@@ -433,11 +435,11 @@ template<unsigned int BLOCK_SIZE,
 
       if(!(listno&0x1))
       {
-        ranks_first2[i] = start;	
+        ranks_result2[i] = start;	
       } // end if
       else
       {
-        ranks_first1[i] = start;	
+        ranks_result1[i] = start;	
       } // end else
     } // end if
   } // end for
@@ -556,13 +558,25 @@ template<unsigned int BLOCK_SIZE,
 // Inputs: srcdatakey, value: inputs
 //         log_blocksize, log_num_merged_splitters_per_block: as in previous functions
 // Outputs: resultdatakey, resultdatavalue: output merged arrays are written here.
-template<unsigned int BLOCK_SIZE, unsigned int LOG_BLOCK_SIZE, typename KeyType, typename ValueType, typename StrictWeakOrdering>
-__global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, const ValueType * srcdatavalue, unsigned int datasize, 
-                                                    const unsigned int * rank1, const unsigned int * rank2, 
+template<unsigned int BLOCK_SIZE,
+         unsigned int LOG_BLOCK_SIZE,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename KeyType,
+         typename ValueType,
+         typename StrictWeakOrdering>
+__global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_first,
+                                                    RandomAccessIterator2 values_first,
+                                                    unsigned int datasize, 
+                                                    RandomAccessIterator3 ranks_first1,
+                                                    RandomAccessIterator4 ranks_first2, 
                                                     const unsigned int log_blocksize, 
                                                     const unsigned int log_num_merged_splitters_per_block, 
                                                     const unsigned int num_splitters,
-                                                    KeyType *resultdatakey, ValueType *resultdatavalue,
+                                                    KeyType *resultdatakey,
+                                                    ValueType *resultdatavalue,
                                                     StrictWeakOrdering comp)
 {	
   extern __shared__ char A[];
@@ -589,14 +603,14 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
     // thread 0 computes the ranks & size of each array
     if(threadIdx.x == 0)
     {
-      start1 = rank1[i];
-      start2 = rank2[i];
+      start1 = ranks_first1[i];
+      start2 = ranks_first2[i];
 
       // Carefully avoid out-of-bounds rank array accesses.
       if( (i < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
       {
-        size1 = rank1[i + 1];
-        size2 = rank2[i + 1];
+        size1 = ranks_first1[i + 1];
+        size2 = ranks_first2[i + 1];
       } // end if
       else
       {
@@ -618,18 +632,19 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
     
     // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
     // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
-    const KeyType * local_srcdata1key = srcdatakey + (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE));
-    const KeyType * local_srcdata2key = srcdatakey + (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE)) + (1<<log_blocksize);
-    const ValueType * local_srcdata1value = srcdatavalue + (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE));
-    const ValueType * local_srcdata2value = srcdatavalue + (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE)) + (1<<log_blocksize);
+    RandomAccessIterator1 local_keys_first1 = keys_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE));
+    RandomAccessIterator1 local_keys_first2 = local_keys_first1 + (1<<log_blocksize);
+
+    RandomAccessIterator2 local_values_first1 = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE));
+    RandomAccessIterator2 local_values_first2 = local_values_first1 + (1<<log_blocksize);
     
     // read in blocks
     // this causes unaligned loads to take place because start1 is usually unaligned.
     // We can do some fancy tricks to eliminate this unaligned load: somewhat better
-    aligned_read<BLOCK_SIZE>(local_srcdata1key, local_srcdata1value, input1, input1val, start1, size1);
+    aligned_read<BLOCK_SIZE>(local_keys_first1, local_values_first1, input1, input1val, start1, size1);
     
     // Read in other side
-    aligned_read<BLOCK_SIZE>(local_srcdata2key, local_srcdata2value, input2, input2val, start2, size2);
+    aligned_read<BLOCK_SIZE>(local_keys_first2, local_values_first2, input2, input2val, start2, size2);
     
     KeyType inp1 = input1[threadIdx.x]; ValueType inp1val = input1val[threadIdx.x];
     KeyType inp2 = input2[threadIdx.x]; ValueType inp2val = input2val[threadIdx.x];
