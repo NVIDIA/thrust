@@ -499,9 +499,15 @@ template<unsigned int BLOCK_SIZE,
 }
 
 ///////////////////// Helper function to read in data in an aligned manner ////////////////////////////////////////
-template<unsigned int BLOCK_SIZE, typename Tkey, typename Tvalue>
-  __device__ void aligned_read(Tkey *dest, Tvalue *dest2,
-                               const Tkey *src, const Tvalue *src2,
+template<unsigned int BLOCK_SIZE,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4>
+  __device__ void aligned_read(RandomAccessIterator1 first1,
+                               RandomAccessIterator2 first2,
+                               RandomAccessIterator3 result1,
+                               RandomAccessIterator4 result2,
                                unsigned int src_offset,
                                unsigned int elements)
 {
@@ -514,16 +520,16 @@ template<unsigned int BLOCK_SIZE, typename Tkey, typename Tvalue>
   // write the first WARP_SIZE - start_thread_aligned elements
   if(t < WARP_SIZE && t >= start_thread_aligned && (t - start_thread_aligned < elements))
   {
-    dest[t - start_thread_aligned] = src[src_offset + t - start_thread_aligned];
-    dest2[t - start_thread_aligned] = src2[src_offset + t - start_thread_aligned];
+    result1[t - start_thread_aligned] = first1[src_offset + t - start_thread_aligned];
+    result2[t - start_thread_aligned] = first2[src_offset + t - start_thread_aligned];
   }
   
   //write upto BLOCK_SIZE elements in each iteration 
   unsigned int off = WARP_SIZE - start_thread_aligned;
   while(off + t < elements)
   {
-    dest[off + t] = src[src_offset + off + t]; 
-    dest2[off + t] = src2[src_offset + off + t]; 
+    result1[off + t] = first1[src_offset + off + t]; 
+    result2[off + t] = first2[src_offset + off + t]; 
     off+=BLOCK_SIZE;
   }
   __syncthreads();
@@ -610,10 +616,10 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
     // read in blocks
     // this causes unaligned loads to take place because start1 is usually unaligned.
     // We can do some fancy tricks to eliminate this unaligned load: somewhat better
-    aligned_read<BLOCK_SIZE>(input1, input1val, local_srcdata1key, local_srcdata1value, start1, size1);
+    aligned_read<BLOCK_SIZE>(local_srcdata1key, local_srcdata1value, input1, input1val, start1, size1);
     
     // Read in other side
-    aligned_read<BLOCK_SIZE>(input2, input2val, local_srcdata2key, local_srcdata2value, start2, size2);
+    aligned_read<BLOCK_SIZE>(local_srcdata2key, local_srcdata2value, input2, input2val, start2, size2);
     
     KeyType inp1 = input1[threadIdx.x]; ValueType inp1val = input1val[threadIdx.x];
     KeyType inp2 = input2[threadIdx.x]; ValueType inp2val = input2val[threadIdx.x];
