@@ -229,14 +229,17 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_begin,
 } // end merge_smalltiles_binarysearch()
 
 template<unsigned int BLOCK_SIZE,
-         typename KeyType,
-         typename ValueType,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  __global__ void stable_odd_even_block_sort_kernel(KeyType *keys,
-                                                    ValueType *data,
+  __global__ void stable_odd_even_block_sort_kernel(RandomAccessIterator1 keys_begin,
+                                                    RandomAccessIterator2 values_begin,
                                                     StrictWeakOrdering comp,
                                                     const unsigned int n)
 {
+  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+
   // XXX workaround no constructors on device arrays
   __shared__ unsigned char s_keys_workaround[BLOCK_SIZE * sizeof(KeyType)];
   KeyType *s_keys = reinterpret_cast<KeyType*>(s_keys_workaround);
@@ -258,8 +261,8 @@ template<unsigned int BLOCK_SIZE,
     // copy input to shared
     if(i < n)
     {
-      s_keys[threadIdx.x] = keys[i];
-      s_data[threadIdx.x] = data[i];
+      s_keys[threadIdx.x] = keys_begin[i];
+      s_data[threadIdx.x] = values_begin[i];
     } // end if
     __syncthreads();
 
@@ -276,8 +279,8 @@ template<unsigned int BLOCK_SIZE,
     // write result
     if(i < n)
     {
-      keys[i] = s_keys[threadIdx.x];
-      data[i] = s_data[threadIdx.x];
+      keys_begin[i]   = s_keys[threadIdx.x];
+      values_begin[i] = s_data[threadIdx.x];
     } // end if
   } // end for i
 } // end stable_odd_even_block_sort_kernel()
