@@ -289,24 +289,26 @@ template<unsigned int BLOCK_SIZE,
 // Input: src, src_size
 // Output: splitters: the splitters
 //         splitters_pos: Index of splitter in src
-template<typename ValueType>
-  __global__ void extract_splitters(ValueType *src,
-                                    unsigned int src_size,
-                                    ValueType *splitters,
-                                    unsigned int *splitters_pos)
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3>
+  __global__ void extract_splitters(RandomAccessIterator1 begin,
+                                    unsigned int N,
+                                    RandomAccessIterator2 splitters_result,
+                                    RandomAccessIterator3 positions_result)
 {
   const unsigned int grid_size = gridDim.x * blockDim.x;
 
   unsigned int splitter_idx = blockIdx.x;
   unsigned int src_idx = splitter_idx * blockDim.x;
   for(;
-      src_idx < src_size;
+      src_idx < N;
       src_idx += grid_size, splitter_idx += gridDim.x)
   {
     if(threadIdx.x == 0)
     {
-      splitters[splitter_idx] = src[src_idx]; 
-      splitters_pos[splitter_idx] = src_idx;
+      splitters_result[splitter_idx] = begin[src_idx]; 
+      positions_result[splitter_idx] = src_idx;
     } // end if
   } // end while
 } // end extract_splitters()
@@ -321,18 +323,23 @@ template<typename ValueType>
 //		   (say i) and its corresponding block (block i+1).
 template<unsigned int BLOCK_SIZE,
          unsigned int LOG_BLOCK_SIZE,
-         typename KeyType,
-         typename ValueType,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-  __global__ void find_splitter_ranks(KeyType *d_splitters,     unsigned int *d_splitters_pos, 
-                                      unsigned int *d_rank1,  unsigned int *d_rank2, 
-                                      ValueType *d_srcData,   unsigned int datasize, 
+  __global__ void find_splitter_ranks(RandomAccessIterator1 splitters_begin,
+                                      RandomAccessIterator2 splitters_pos_begin, 
+                                      unsigned int *d_rank1, unsigned int *d_rank2, 
+                                      RandomAccessIterator3 values_begin, unsigned int datasize, 
                                       unsigned int N_SPLITTERS, unsigned int log_blocksize, 
                                       unsigned int log_num_merged_splitters_per_block,
                                       StrictWeakOrdering comp)
 {
+  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator2>::type IndexType;
+
   KeyType inp;
-  unsigned int inp_pos;
+  IndexType inp_pos;
   int start, end, cur;
 
   const unsigned int grid_size = gridDim.x * blockDim.x;
@@ -346,8 +353,8 @@ template<unsigned int BLOCK_SIZE,
   {
     if(i < N_SPLITTERS)
     { 
-      inp = d_splitters[i];
-      inp_pos = d_splitters_pos[i];
+      inp = splitters_begin[i];
+      inp_pos = splitters_pos_begin[i];
       
       // the (odd, even) block pair to which the splitter belongs. Each i corresponds to a splitter.
       unsigned int oddeven_blockid = i>>log_num_merged_splitters_per_block;
@@ -360,7 +367,7 @@ template<unsigned int BLOCK_SIZE,
       
       // the "other" block which which block listno must be merged.
       unsigned int otherlist = listno^1;
-      KeyType *other = d_srcData + (1<<log_blocksize)*otherlist;
+      RandomAccessIterator3 other = values_begin + (1<<log_blocksize)*otherlist;
       
       // the size of the other block can be less than blocksize if the it is the last block.
       unsigned int othersize = min<unsigned int>(1 << log_blocksize, datasize - (otherlist<<log_blocksize));
@@ -369,12 +376,12 @@ template<unsigned int BLOCK_SIZE,
       // for instance, if inp belongs to d_srcData1, then 
       // (1) the rank in d_srcData1 is simply given by its inp_pos
       // (2) to find the rank in d_srcData2, we first find the block in d_srcData2 where inp appears.
-      //     We do this by noting that we have already merged/sorted d_splitters, and thus the rank
-      //     of inp in the elements of d_srcData2 that are present in d_splitters is given by 
-      //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in d_splitters
+      //     We do this by noting that we have already merged/sorted splitters, and thus the rank
+      //     of inp in the elements of d_srcData2 that are present in splitters is given by 
+      //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in splitters
       //        = i - inp_pos
       //     This also gives us the block of d_srcData2 that inp belongs in, since we have one
-      //     element in d_splitters per block of d_srcData2.
+      //     element in splitters per block of d_srcData2.
       
       //     We now perform a binary search over this block of d_srcData2 to find the rank of inp in d_srcData2.
       //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
@@ -428,9 +435,17 @@ template<unsigned int BLOCK_SIZE,
 } // end find_splitter_ranks()
 
 ///////////////// Copy over first merged splitter of each odd-even block pair to the output array //////////////////
-template<unsigned int LOG_BLOCK_SIZE, typename KeyType, typename ValueType>
-  __global__ void copy_first_splitters(KeyType * srcdatakey, ValueType * srcdatavalue, unsigned int * d_splitters_pos, 
-                                       KeyType *resultdatakey, ValueType *resultdatavalue, unsigned int log_num_merged_splitters_per_block,
+template<unsigned int LOG_BLOCK_SIZE,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4>
+  __global__ void copy_first_splitters(RandomAccessIterator1 keys_begin,
+                                       RandomAccessIterator2 values_begin,
+                                       unsigned int * d_splitters_pos, 
+                                       RandomAccessIterator3 keys_result, 
+                                       RandomAccessIterator4 values_result,
+                                       unsigned int log_num_merged_splitters_per_block,
                                        const unsigned int num_tile_pairs)
 {
   for(unsigned int block_idx = blockIdx.x;
@@ -442,17 +457,24 @@ template<unsigned int LOG_BLOCK_SIZE, typename KeyType, typename ValueType>
 
     if(threadIdx.x == 0)
     {
-      resultdatakey[dst_idx] = srcdatakey[d_splitters_pos[splitter_idx]];
-      resultdatavalue[dst_idx] = srcdatavalue[d_splitters_pos[splitter_idx]];
+      keys_result[dst_idx]   = keys_begin[d_splitters_pos[splitter_idx]];
+      values_result[dst_idx] = values_begin[d_splitters_pos[splitter_idx]];
     } // end if
   } // end for
 } // end copy_first_splitters()
 
 ///////////////////// Helper function to write out data in an aligned manner ////////////////////////////////////////
-template<unsigned int BLOCK_SIZE, typename KeyType, typename ValueType>
-  __device__ void aligned_write(KeyType * dest, ValueType * dest2,
-                                KeyType * src, ValueType * src2,
-                                unsigned int dest_offset, unsigned int elements)
+template<unsigned int BLOCK_SIZE,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4>
+  __device__ void aligned_write(RandomAccessIterator1 first1,
+                                RandomAccessIterator2 first2,
+                                RandomAccessIterator3 result1,
+                                RandomAccessIterator4 result2,
+                                unsigned int dest_offset,
+                                unsigned int elements)
 {
   // copy from src to dest + dest_offset: dest, src are aligned, dest_offset not a multiple of 4
   int t = (int)threadIdx.x;
@@ -461,16 +483,16 @@ template<unsigned int BLOCK_SIZE, typename KeyType, typename ValueType>
   // write the first WARP_SIZE - start_thread_aligned elements
   if(t < WARP_SIZE && t >= start_thread_aligned && (t - start_thread_aligned < elements))
   {
-    dest[dest_offset + t - start_thread_aligned] = src[t - start_thread_aligned];
-    dest2[dest_offset + t - start_thread_aligned] = src2[t - start_thread_aligned];
+    result1[dest_offset + t - start_thread_aligned] = first1[t - start_thread_aligned];
+    result2[dest_offset + t - start_thread_aligned] = first2[t - start_thread_aligned];
   }
   
   // write upto BLOCK_SIZE elements in each iteration 
   unsigned int off = WARP_SIZE - start_thread_aligned;
   while(off + t < elements)
   {
-    dest[dest_offset + off + t] = src[off + t]; 
-    dest2[dest_offset + off + t] = src2[off + t]; 
+    result1[dest_offset + off + t] = first1[off + t]; 
+    result2[dest_offset + off + t] = first2[off + t]; 
     off+=BLOCK_SIZE;
   }
   __syncthreads();
@@ -651,7 +673,7 @@ __global__ void merge_subblocks_binarysearch_kernel(const KeyType * srcdatakey, 
     __syncthreads();
     
     // Write out to global memory; we need to align the write for good performance
-    aligned_write<BLOCK_SIZE>(resultdatakey, resultdatavalue, input1, input1val, (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE)) + start1 + start2, size1 + size2);
+    aligned_write<BLOCK_SIZE>(input1, input1val, resultdatakey, resultdatavalue, (oddeven_blockid<<(log_num_merged_splitters_per_block + LOG_BLOCK_SIZE)) + start1 + start2, size1 + size2);
   } // end for i
 } // end merge_subblocks_binarysearch_kernel()
 
@@ -783,7 +805,7 @@ template<typename KeyType,
   thrust::device_ptr<KeyType>      merged_splitters     = device_malloc<KeyType>(num_splitters);
   thrust::device_ptr<unsigned int> merged_splitters_pos = device_malloc<unsigned int>(num_splitters);
 
-  extract_splitters<KeyType><<<grid_size, BLOCK_SIZE>>>(keys_src, n, splitters.get(), splitters_pos.get());
+  extract_splitters<<<grid_size, BLOCK_SIZE>>>(keys_src, n, splitters.get(), splitters_pos.get());
 
   // compute the log base 2 of the BLOCK_SIZE
   const unsigned int LOG_BLOCK_SIZE = merge_sort_dev_namespace::LOG_BLOCK_SIZE<KeyType,ValueType>::result;
@@ -818,7 +840,7 @@ template<typename KeyType,
   thrust::device_ptr<unsigned int> rank1 = splitters_pos;
   thrust::device_ptr<unsigned int> rank2 = device_malloc<unsigned int>(num_splitters);
 
-  find_splitter_ranks<BLOCK_SIZE, LOG_BLOCK_SIZE, KeyType, KeyType, StrictWeakOrdering>
+  find_splitter_ranks<BLOCK_SIZE, LOG_BLOCK_SIZE>
     <<<grid_size,BLOCK_SIZE>>>
       (merged_splitters.get(), merged_splitters_pos.get(),
            rank1.get(),         rank2.get(),
