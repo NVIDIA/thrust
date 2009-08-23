@@ -121,6 +121,8 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
                                               const unsigned int log_tile_size,
                                               StrictWeakOrdering comp)
 {
+  using namespace thrust::detail::device;
+
   typedef typename experimental::iterator_value<RandomAccessIterator3>::type KeyType;
   typedef typename experimental::iterator_value<RandomAccessIterator4>::type ValueType;
 
@@ -157,7 +159,7 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
     // copy over inputs to shared memory
     if(thread_not_idle)
     {
-      key[threadIdx.x] = my_key = keys_first[i];
+      key[threadIdx.x] = my_key = dereference(keys_first,i);
     } // end if
     
     // the tile to which the element belongs
@@ -221,8 +223,8 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
     if(thread_not_idle)
     {
       // coalesced writes to global memory
-      keys_result[i]   = outkey[threadIdx.x];
-      values_result[i] = outvalue[threadIdx.x];
+      dereference(keys_result,i)   = outkey[threadIdx.x];
+      dereference(values_result,i) = outvalue[threadIdx.x];
     } // end if
     __syncthreads();
   } // end for
@@ -237,6 +239,8 @@ template<unsigned int BLOCK_SIZE,
                                                     StrictWeakOrdering comp,
                                                     const unsigned int n)
 {
+  using namespace thrust::detail::device;
+
   typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
   typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
 
@@ -261,8 +265,8 @@ template<unsigned int BLOCK_SIZE,
     // copy input to shared
     if(i < n)
     {
-      s_keys[threadIdx.x] = keys_first[i];
-      s_data[threadIdx.x] = values_first[i];
+      s_keys[threadIdx.x] = dereference(keys_first,i);
+      s_data[threadIdx.x] = dereference(values_first,i);
     } // end if
     __syncthreads();
 
@@ -279,8 +283,8 @@ template<unsigned int BLOCK_SIZE,
     // write result
     if(i < n)
     {
-      keys_first[i]   = s_keys[threadIdx.x];
-      values_first[i] = s_data[threadIdx.x];
+      dereference(keys_first,i)   = s_keys[threadIdx.x];
+      dereference(values_first,i) = s_data[threadIdx.x];
     } // end if
   } // end for i
 } // end stable_odd_even_block_sort_kernel()
@@ -297,6 +301,8 @@ template<typename RandomAccessIterator1,
                                     RandomAccessIterator2 splitters_result,
                                     RandomAccessIterator3 positions_result)
 {
+  using namespace thrust::detail::device;
+
   const unsigned int grid_size = gridDim.x * blockDim.x;
 
   unsigned int splitter_idx = blockIdx.x;
@@ -307,8 +313,8 @@ template<typename RandomAccessIterator1,
   {
     if(threadIdx.x == 0)
     {
-      splitters_result[splitter_idx] = first[src_idx]; 
-      positions_result[splitter_idx] = src_idx;
+      dereference(splitters_result,splitter_idx) = dereference(first,src_idx); 
+      dereference(positions_result,splitter_idx) = src_idx;
     } // end if
   } // end while
 } // end extract_splitters()
@@ -340,6 +346,8 @@ template<unsigned int BLOCK_SIZE,
                                       unsigned int log_num_merged_splitters_per_block,
                                       StrictWeakOrdering comp)
 {
+  using namespace thrust::detail::device;
+
   typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
   typedef typename experimental::iterator_value<RandomAccessIterator2>::type IndexType;
 
@@ -358,8 +366,8 @@ template<unsigned int BLOCK_SIZE,
   {
     if(i < N_SPLITTERS)
     { 
-      inp = splitters_first[i];
-      inp_pos = splitters_pos_first[i];
+      inp     = dereference(splitters_first,i);
+      inp_pos = dereference(splitters_pos_first,i);
       
       // the (odd, even) block pair to which the splitter belongs. Each i corresponds to a splitter.
       unsigned int oddeven_blockid = i>>log_num_merged_splitters_per_block;
@@ -394,9 +402,10 @@ template<unsigned int BLOCK_SIZE,
       //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
       if(!(listno&0x1))
       { 
-        ranks_result1[i] = inp_pos + 1 - (1<<log_blocksize)*listno; 
+        dereference(ranks_result1,i) = inp_pos + 1 - (1<<log_blocksize)*listno; 
 
-        end = (( local_i - ((ranks_result1[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
+        // XXX this is a redundant load
+        end = (( local_i - ((dereference(ranks_result1,i) - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
         start = end - (BLOCK_SIZE-1);
 
         if(end < 0) start = end = 0;
@@ -405,9 +414,10 @@ template<unsigned int BLOCK_SIZE,
       } // end if
       else
       { 
-        ranks_result2[i] = inp_pos + 1 - (1<<log_blocksize)*listno;
+        dereference(ranks_result2,i) = inp_pos + 1 - (1<<log_blocksize)*listno;
 
-        end = (( local_i - ((ranks_result2[i] - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
+        // XXX this is a redundant load
+        end = (( local_i - ((dereference(ranks_result2,i) - 1)>>LOG_BLOCK_SIZE)) <<LOG_BLOCK_SIZE ) - 1;
         start = end - (BLOCK_SIZE-1);
 
         if(end < 0) start = end = 0;
@@ -422,8 +432,9 @@ template<unsigned int BLOCK_SIZE,
         cur = (start + end)>>1;
 
         // XXX eliminate the need for two comparisons here and ensure the sort is still stable
-        if((comp(other[cur], inp))
-           || (!comp(inp, other[cur]) && (listno&0x1)))
+        // XXX this is a redundant load
+        if((comp(dereference(other,cur), inp))
+           || (!comp(inp, dereference(other,cur)) && (listno&0x1)))
         {
           start = cur + 1;
         } // end if
@@ -435,11 +446,11 @@ template<unsigned int BLOCK_SIZE,
 
       if(!(listno&0x1))
       {
-        ranks_result2[i] = start;	
+        dereference(ranks_result2,i) = start;	
       } // end if
       else
       {
-        ranks_result1[i] = start;	
+        dereference(ranks_result1,i) = start;	
       } // end else
     } // end if
   } // end for
@@ -460,6 +471,8 @@ template<unsigned int LOG_BLOCK_SIZE,
                                        unsigned int log_num_merged_splitters_per_block,
                                        const unsigned int num_tile_pairs)
 {
+  using namespace thrust::detail::device;
+
   for(unsigned int block_idx = blockIdx.x;
       block_idx < num_tile_pairs;
       block_idx += gridDim.x)
@@ -469,8 +482,8 @@ template<unsigned int LOG_BLOCK_SIZE,
 
     if(threadIdx.x == 0)
     {
-      keys_result[dst_idx]   = keys_first[splitters_pos_first[splitter_idx]];
-      values_result[dst_idx] = values_first[splitters_pos_first[splitter_idx]];
+      dereference(keys_result,dst_idx)   = dereference(keys_first,  dereference(splitters_pos_first,splitter_idx));
+      dereference(values_result,dst_idx) = dereference(values_first,dereference(splitters_pos_first,splitter_idx));
     } // end if
   } // end for
 } // end copy_first_splitters()
@@ -488,6 +501,8 @@ template<unsigned int BLOCK_SIZE,
                                 unsigned int dest_offset,
                                 unsigned int elements)
 {
+  using namespace thrust::detail::device;
+
   // copy from src to dest + dest_offset: dest, src are aligned, dest_offset not a multiple of 4
   int t = (int)threadIdx.x;
   unsigned int start_thread_aligned = dest_offset%WARP_SIZE;
@@ -495,16 +510,16 @@ template<unsigned int BLOCK_SIZE,
   // write the first WARP_SIZE - start_thread_aligned elements
   if(t < WARP_SIZE && t >= start_thread_aligned && (t - start_thread_aligned < elements))
   {
-    result1[dest_offset + t - start_thread_aligned] = first1[t - start_thread_aligned];
-    result2[dest_offset + t - start_thread_aligned] = first2[t - start_thread_aligned];
+    dereference(result1,dest_offset + t - start_thread_aligned) = dereference(first1,t - start_thread_aligned);
+    dereference(result2,dest_offset + t - start_thread_aligned) = dereference(first2,t - start_thread_aligned);
   }
   
   // write upto BLOCK_SIZE elements in each iteration 
   unsigned int off = WARP_SIZE - start_thread_aligned;
   while(off + t < elements)
   {
-    result1[dest_offset + off + t] = first1[off + t]; 
-    result2[dest_offset + off + t] = first2[off + t]; 
+    dereference(result1,dest_offset + off + t) = dereference(first1,off + t); 
+    dereference(result2,dest_offset + off + t) = dereference(first2,off + t); 
     off+=BLOCK_SIZE;
   }
   __syncthreads();
@@ -523,6 +538,8 @@ template<unsigned int BLOCK_SIZE,
                                unsigned int src_offset,
                                unsigned int elements)
 {
+  using namespace thrust::detail::device;
+
   // copy from src + src_offset to dest: dest, src are aligned, src_offset not a multiple of 4
   // copy from src2 + src_offset to dest2: dest2, src2 are aligned, src_offset not a multiple of 4
   
@@ -532,16 +549,16 @@ template<unsigned int BLOCK_SIZE,
   // write the first WARP_SIZE - start_thread_aligned elements
   if(t < WARP_SIZE && t >= start_thread_aligned && (t - start_thread_aligned < elements))
   {
-    result1[t - start_thread_aligned] = first1[src_offset + t - start_thread_aligned];
-    result2[t - start_thread_aligned] = first2[src_offset + t - start_thread_aligned];
+    dereference(result1,t - start_thread_aligned) = dereference(first1,src_offset + t - start_thread_aligned);
+    dereference(result2,t - start_thread_aligned) = dereference(first2,src_offset + t - start_thread_aligned);
   }
   
   //write upto BLOCK_SIZE elements in each iteration 
   unsigned int off = WARP_SIZE - start_thread_aligned;
   while(off + t < elements)
   {
-    result1[off + t] = first1[src_offset + off + t]; 
-    result2[off + t] = first2[src_offset + off + t]; 
+    dereference(result1,off + t) = dereference(first1,src_offset + off + t); 
+    dereference(result2,off + t) = dereference(first2,src_offset + off + t); 
     off+=BLOCK_SIZE;
   }
   __syncthreads();
