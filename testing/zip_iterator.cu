@@ -7,6 +7,7 @@
 #include <thrust/copy.h>
 #include <thrust/transform.h>
 #include <thrust/reduce.h>
+#include <thrust/sort.h>
 #include <thrust/detail/type_traits.h>
 #include <typeinfo>
 
@@ -499,4 +500,41 @@ void TestZipIteratorCopySoAToAoS(void)
   ASSERT_EQUAL_QUIET(13, get<1>(h_soa[0]));
 };
 DECLARE_UNITTEST(TestZipIteratorCopySoAToAoS);
+
+
+template <typename T>
+  struct TestZipIteratorStableSort
+{
+  void operator()(const size_t n)
+  {
+    KNOWN_FAILURE;
+//      thrust::host_vector<T>   h1 = thrusttest::random_integers<T>(n);
+//      thrust::host_vector<T>   h2 = thrusttest::random_integers<T>(n);
+//      thrust::host_vector<T>   h3 = thrusttest::random_integers<T>(n);
+//      
+//      thrust::device_vector<T> d1 = h1;
+//      thrust::device_vector<T> d2 = h2;
+//      thrust::device_vector<T> d3 = h3;
+//      
+//      // Tuples with two elements
+//      thrust::stable_sort( make_zip_iterator(make_tuple(h1.begin(), h2.begin())),
+//                           make_zip_iterator(make_tuple(h1.end(),   h2.end())) );
+//  //    thrust::stable_sort( make_zip_iterator(make_tuple(d1.begin(), d2.begin())),
+//  //                         make_zip_iterator(make_tuple(d1.end(),   d2.end())) );
+//  //
+//  //    ASSERT_EQUAL_QUIET(h1, d1);
+//  //    ASSERT_EQUAL_QUIET(h2, d2);
+//  
+//      // Tuples with three
+//      thrust::stable_sort( make_zip_iterator(make_tuple(h1.begin(), h2.begin(), h3.begin())),
+//                           make_zip_iterator(make_tuple(h1.end(),   h2.end(),   h3.end())) );
+//  //    thrust::stable_sort( make_zip_iterator(make_tuple(d1.begin(), d2.begin(), d3.begin())),
+//  //                         make_zip_iterator(make_tuple(d1.end(),   d2.end(),   d3.end())) );
+//  //
+//  //    ASSERT_EQUAL_QUIET(h1, d1);
+//  //    ASSERT_EQUAL_QUIET(h2, d2);
+//  //    ASSERT_EQUAL_QUIET(h3, d3);
+  }
+};
+VariableUnitTest<TestZipIteratorStableSort, NumericTypes> TestZipIteratorStableSortInstance;
 
