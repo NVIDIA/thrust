@@ -54,7 +54,7 @@ template<typename T, typename Space>
   if(size() > 0)
   {
     m_allocator.deallocate(&*m_begin, size());
-    m_begin = m_end = pointer(static_cast<T*>(0));
+    m_end = m_begin;
   } // end if
 } // end raw_buffer::~raw_buffer()
 
