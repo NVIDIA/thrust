@@ -78,8 +78,11 @@ template<typename Key, typename Value>
   private:
     static const unsigned int sizeof_larger_type = (sizeof(Key) > sizeof(Value) ? sizeof(Key) : sizeof(Value));
 
+    static const unsigned int max_smem_usage = 2048;
+    static const unsigned int max_blocksize = 256;
+
     // our block size candidate is simply 2K over the sum of sizes
-    static const unsigned int candidate = 2048 / (sizeof(Key) + sizeof(Value));
+    static const unsigned int candidate = max_smem_usage / (sizeof(Key) + sizeof(Value));
 
     // round one_k_over_size down to the nearest power of two
     static const unsigned int lg_candidate = thrust::detail::mpl::math::log2<candidate>::value;
@@ -88,7 +91,7 @@ template<typename Key, typename Value>
     static const unsigned int final_candidate = 1<<lg_candidate;
 
   public:
-    static const unsigned int result = 128 < final_candidate ? 128 : final_candidate;
+    static const unsigned int result =  (final_candidate < max_blocksize) ? final_candidate : max_blocksize;
 };
 
 template<typename Key, typename Value>
