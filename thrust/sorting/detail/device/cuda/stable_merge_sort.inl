@@ -48,6 +48,12 @@ namespace sorting
 namespace detail
 {
 
+template<typename T>
+  void destroy(T &x)
+{
+  x.~T();
+} // end destroy()
+
 namespace device
 {
 
@@ -906,7 +912,7 @@ template<typename RandomAccessIterator1,
         level + 1,
         comp);
   // free this memory before recursion
-  splitters.~raw_device_buffer();
+  destroy(splitters);
 
   // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
   // Store the results into rank1[level] and rank2[level] for the even and odd block respectively.
