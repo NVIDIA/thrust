@@ -48,6 +48,8 @@ namespace device
 
 namespace cuda
 {
+  
+typedef unsigned int FlagType;
 
 namespace segmented_scan
 {
@@ -224,7 +226,6 @@ void inclusive_scan_kernel(InputIterator1 first1,
                            unsigned int * segment_lengths)
 {
   typedef typename thrust::iterator_traits<InputIterator2>::value_type KeyType;
-  typedef unsigned int FlagType;
 
   // XXX warpSize exists, but is not known at compile time,
   //     so define our own constant
@@ -393,7 +394,6 @@ void exclusive_scan_kernel(InputIterator1 first1,
                            unsigned int * segment_lengths)
 {
   typedef typename thrust::iterator_traits<InputIterator2>::value_type KeyType;
-  typedef unsigned int FlagType;
 
   // XXX warpSize exists, but is not known at compile time,
   //     so define our own constant
@@ -611,16 +611,25 @@ template<typename InputIterator1,
                                           AssociativeOperator binary_op,
                                           BinaryPredicate pred)
 {
+    typedef typename thrust::iterator_traits<InputIterator2>::value_type KeyType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
     if(first1 == last1) 
         return result;
     
     const size_t n = last1 - first1;
-
-    // XXX todo query for warp size
+    
     const unsigned int WARP_SIZE  = 32;
-    const unsigned int BLOCK_SIZE = 256;
+    
+    // 16KB (max) - 1KB (upper bound on what's used for other purposes)
+    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+
+    // largest 2^N that fits in SMEM
+    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/ (sizeof(OutputType) + sizeof(KeyType) + sizeof(FlagType))) >::value;
+    static const size_t BLOCKSIZE_LIMIT2 = 256;
+
+    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+
     const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
@@ -692,16 +701,25 @@ template<typename InputIterator1,
                                           AssociativeOperator binary_op,
                                           BinaryPredicate pred)
 {
+    typedef typename thrust::iterator_traits<InputIterator2>::value_type KeyType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
     if(first1 == last1) 
         return result;
     
     const size_t n = last1 - first1;
-
-    // XXX todo query for warp size
+    
     const unsigned int WARP_SIZE  = 32;
-    const unsigned int BLOCK_SIZE = 256;
+    
+    // 16KB (max) - 1KB (upper bound on what's used for other purposes)
+    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+
+    // largest 2^N that fits in SMEM
+    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/ (sizeof(OutputType) + sizeof(KeyType) + sizeof(FlagType))) >::value;
+    static const size_t BLOCKSIZE_LIMIT2 = 256;
+    
+    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+
     const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 

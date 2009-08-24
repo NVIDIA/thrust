@@ -369,7 +369,57 @@ void TestSegmentedScanLargeInput()
         thrust::experimental::inclusive_segmented_scan(d_input.begin(), d_input.begin() + n, d_keys.begin(), d_output.begin());
         ASSERT_EQUAL(d_output, h_output);
    }
-
 }
 DECLARE_UNITTEST(TestSegmentedScanLargeInput);
+
+
+template <typename T, unsigned int N>
+void _TestSegmentedScanWithLargeTypes(void)
+{
+    size_t n = (64 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector< FixedVector<T,N> > h_input(n);
+    thrust::host_vector< FixedVector<T,N> > h_output(n);
+    thrust::host_vector<   unsigned int   > h_keys(n);
+
+    for(size_t i = 0, k = 0; i < h_input.size(); i++)
+    {
+        h_input[i] = FixedVector<T,N>(i);
+        h_keys[i]  = k;
+        if (rand() % 5 == 0)
+            k++;
+    }
+
+    thrust::device_vector< FixedVector<T,N> > d_input = h_input;
+    thrust::device_vector< FixedVector<T,N> > d_output(n);
+    thrust::device_vector<   unsigned int   > d_keys = h_keys;
+    
+    thrust::experimental::inclusive_segmented_scan(h_input.begin(), h_input.end(), h_keys.begin(), h_output.begin());
+    thrust::experimental::inclusive_segmented_scan(d_input.begin(), d_input.end(), d_keys.begin(), d_output.begin());
+
+    ASSERT_EQUAL_QUIET(h_output, d_output);
+    
+    thrust::experimental::exclusive_segmented_scan(h_input.begin(), h_input.end(), h_keys.begin(), h_output.begin(), FixedVector<T,N>(0));
+    thrust::experimental::exclusive_segmented_scan(d_input.begin(), d_input.end(), d_keys.begin(), d_output.begin(), FixedVector<T,N>(0));
+    
+    ASSERT_EQUAL_QUIET(h_output, d_output);
+}
+
+void TestSegmentedScanWithLargeTypes(void)
+{
+    _TestSegmentedScanWithLargeTypes<int,    1>();
+    _TestSegmentedScanWithLargeTypes<int,    2>();
+    _TestSegmentedScanWithLargeTypes<int,    4>();
+    _TestSegmentedScanWithLargeTypes<int,    8>();
+    _TestSegmentedScanWithLargeTypes<int,   16>();
+    _TestSegmentedScanWithLargeTypes<int,   32>();
+    //_TestSegmentedScanWithLargeTypes<int,   64>();  // too large to pass as argument
+    //_TestSegmentedScanWithLargeTypes<int,  128>();
+    //_TestSegmentedScanWithLargeTypes<int,  256>();
+    //_TestSegmentedScanWithLargeTypes<int,  512>();
+    //_TestSegmentedScanWithLargeTypes<int, 1024>();
+}
+DECLARE_UNITTEST(TestSegmentedScanWithLargeTypes);
+
+
 
