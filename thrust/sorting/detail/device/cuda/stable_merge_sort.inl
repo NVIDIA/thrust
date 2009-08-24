@@ -1080,7 +1080,7 @@ template<typename RandomAccessIterator1,
 
   // copy both ranges into temporary storage
   raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);
-  raw_device_buffer<ValueType> values_temp(values_first, values_first + keys_last - keys_first);
+  raw_device_buffer<ValueType> values_temp(values_first, values_first + (keys_last - keys_first));
 
   // sort
   stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
@@ -1109,7 +1109,7 @@ template<typename RandomAccessIterator1,
   typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy values into temporary storage
-  raw_device_buffer<ValueType> values_temp(values_first, values_first + keys_last - keys_first);
+  raw_device_buffer<ValueType> values_temp(values_first, values_first + (keys_last - keys_first));
 
   // sort
   stable_merge_sort_by_key(keys_first, keys_last,
