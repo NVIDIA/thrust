@@ -7,3 +7,5 @@
 #include <thrusttest/meta.h>
 #include <thrusttest/random.h>
 #include <thrusttest/testframework.h>
+#include <thrusttest/special_types.h>
+

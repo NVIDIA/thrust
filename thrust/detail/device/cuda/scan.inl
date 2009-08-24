@@ -33,6 +33,8 @@
 
 #include <thrust/detail/device/dereference.h>
 
+#include <thrust/detail/mpl/math.h> // for log2<N>
+
 namespace thrust
 {
 
@@ -316,10 +318,17 @@ template<typename InputIterator,
 
     if( n == 0 ) 
         return result;
+    
+    // 16KB (max) - 1KB (upper bound on what's used for other purposes)
+    const size_t MAX_SMEM_SIZE = 15 * 1025; 
 
-    // XXX todo query for warp size
     const unsigned int WARP_SIZE  = 32;
-    const unsigned int BLOCK_SIZE = 256;
+
+    // largest 2^N that fits in SMEM
+    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/sizeof(OutputType)) >::value;
+    static const size_t BLOCKSIZE_LIMIT2 = 256;
+    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+
     const unsigned int MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(scan_kernel<BLOCK_SIZE, InputIterator, OutputIterator, AssociativeOperator>, BLOCK_SIZE, (size_t) 0);
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 
@@ -370,9 +379,17 @@ template<typename InputIterator,
 
     if( n == 0 )
         return result;
+    
+    // 16KB (max) - 1KB (upper bound on what's used for other purposes)
+    const size_t MAX_SMEM_SIZE = 15 * 1025; 
 
     const unsigned int WARP_SIZE  = 32;
-    const unsigned int BLOCK_SIZE = 256;
+
+    // largest 2^N that fits in SMEM
+    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/sizeof(OutputType)) >::value;
+    static const size_t BLOCKSIZE_LIMIT2 = 256;
+    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+
     const unsigned int MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(scan_kernel<BLOCK_SIZE, InputIterator, OutputIterator, AssociativeOperator>, BLOCK_SIZE, (size_t) 0);
     const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
 

@@ -264,3 +264,46 @@ void TestScanMixedTypes(void)
 }
 DECLARE_UNITTEST(TestScanMixedTypes);
 
+
+template <typename T, unsigned int N>
+void _TestScanWithLargeTypes(void)
+{
+    size_t n = (64 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector< FixedVector<T,N> > h_input(n);
+    thrust::host_vector< FixedVector<T,N> > h_output(n);
+
+    for(size_t i = 0; i < h_input.size(); i++)
+        h_input[i] = FixedVector<T,N>(i);
+
+    thrust::device_vector< FixedVector<T,N> > d_input = h_input;
+    thrust::device_vector< FixedVector<T,N> > d_output(n);
+    
+    thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin());
+    thrust::inclusive_scan(d_input.begin(), d_input.end(), d_output.begin());
+
+    ASSERT_EQUAL_QUIET(h_output, d_output);
+    
+    thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), FixedVector<T,N>(0));
+    thrust::exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), FixedVector<T,N>(0));
+    
+    ASSERT_EQUAL_QUIET(h_output, d_output);
+}
+
+void TestScanWithLargeTypes(void)
+{
+    _TestScanWithLargeTypes<int,    1>();
+    _TestScanWithLargeTypes<int,    2>();
+    _TestScanWithLargeTypes<int,    4>();
+    _TestScanWithLargeTypes<int,    8>();
+    _TestScanWithLargeTypes<int,   16>();
+    _TestScanWithLargeTypes<int,   32>();
+    //_TestScanWithLargeTypes<int,   64>();  // too large to pass as argument
+    //_TestScanWithLargeTypes<int,  128>();
+    //_TestScanWithLargeTypes<int,  256>();
+    //_TestScanWithLargeTypes<int,  512>();
+    //_TestScanWithLargeTypes<int, 1024>();
+}
+DECLARE_UNITTEST(TestScanWithLargeTypes);
+
+
