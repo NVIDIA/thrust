@@ -1,6 +1,7 @@
 #include <thrusttest/unittest.h>
 #include <thrust/host_vector.h>
 #include <thrust/pair.h>
+#include <thrust/tuple.h>
 #include <thrust/transform.h>
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
@@ -75,7 +76,6 @@ struct TestPairManipulation
   }
 };
 SimpleUnitTest<TestPairManipulation, NumericTypes> TestPairManipulationInstance;
-
 
 
 template <typename T>
@@ -212,13 +212,6 @@ struct make_pair_functor
     return thrust::make_pair(x,y);
   } // end operator()()
 }; // end make_pair_functor
-
-
-template <typename Pair>
-  std::ostream &operator<<(std::ostream &os, const Pair &p)
-{
-  return os << p.first << " " << p.second;
-} // end operator<<()
 
 
 template <typename T>
@@ -376,8 +369,6 @@ template <typename T>
     // zip up pairs on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_pairs.begin(), make_pair_functor());
 
-    thrust::device_vector<T> d_p1 = h_p1;
-    thrust::device_vector<T> d_p2 = h_p2;
     thrust::device_vector<P> d_pairs = h_pairs;
 
     // sort on the host
@@ -390,6 +381,42 @@ template <typename T>
   }
 };
 VariableUnitTest<TestPairStableSort, NumericTypes> TestPairStableSortInstance;
+
+
+template <typename T>
+  struct TestPairStableSortByKey
+{
+  void operator()(const size_t n)
+  {
+    typedef thrust::pair<T,T> P;
+
+    // host arrays
+    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<P>   h_pairs(n);
+
+    thrust::host_vector<int> h_values(n);
+    thrust::sequence(h_values.begin(), h_values.end());
+
+    // zip up pairs on the host
+    thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_pairs.begin(), make_pair_functor());
+
+    // device arrays
+    thrust::device_vector<P>   d_pairs = h_pairs;
+    thrust::device_vector<int> d_values = h_values;
+
+    // sort on the host
+    thrust::stable_sort_by_key(h_pairs.begin(), h_pairs.end(), h_values.begin());
+
+    // sort on the device
+    thrust::stable_sort_by_key(d_pairs.begin(), d_pairs.end(), d_values.begin());
+
+    ASSERT_EQUAL_QUIET(h_pairs,  d_pairs);
+    ASSERT_EQUAL(h_values, d_values);
+  }
+};
+VariableUnitTest<TestPairStableSortByKey, NumericTypes> TestPairStableSortByKeyInstance;
+
 
 template<typename T>
 struct TestPairGet
@@ -409,7 +436,7 @@ SimpleUnitTest<TestPairGet, NumericTypes> TestPairGetInstance;
 
 void TestPairTupleSize(void)
 {
-  unsigned int result = thrust::tuple_size< thrust::pair<int,int> >::value;
+  int result = thrust::tuple_size< thrust::pair<int,int> >::value;
   ASSERT_EQUAL(2, result);
 };
 DECLARE_UNITTEST(TestPairTupleSize);

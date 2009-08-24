@@ -1,7 +1,6 @@
 #include <thrusttest/unittest.h>
 #include <thrust/sorting/merge_sort.h>
 #include <thrust/functional.h>
-#include <utility>
 
 template <typename T>
 struct less_div_10
@@ -199,51 +198,6 @@ void TestMergeSortDescendingKeyValue(void)
     ASSERT_EQUAL(h_values, d_values);
 }
 DECLARE_UNITTEST(TestMergeSortDescendingKeyValue);
-
-
-
-template <typename T>
-void TestMergeSortAscendingKeyLargeKey(const size_t n)
-{
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-
-
-    thrust::sorting::merge_sort(h_data.begin(), h_data.end());
-    thrust::sorting::merge_sort(d_data.begin(), d_data.end());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestMergeSortAscendingKeyLargeKey);
-
-
-template <typename T>
-void TestMergeSortAscendingKeyValueLargeKey(const size_t n)
-{
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-    
-    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
-    thrust::device_vector<int> d_values = h_values;
-
-    thrust::sorting::merge_sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
-    thrust::sorting::merge_sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestMergeSortAscendingKeyValueLargeKey);
 
 
 template <class Vector>

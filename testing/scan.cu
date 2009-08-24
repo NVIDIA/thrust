@@ -264,32 +264,3 @@ void TestScanMixedTypes(void)
 }
 DECLARE_UNITTEST(TestScanMixedTypes);
 
-
-template <typename T>
-struct TestInclusiveScanPair
-{
-  void operator()(const size_t n)
-  {
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_input(n);
-    for(size_t i = 0; i < n; i++){
-        h_input[i].first  = rnd();
-        h_input[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_input = h_input;
-    
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_output(n);
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_output(n);
-
-    //thrusttest::test_pair<T,T> init(13, 29);
-
-    thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin());
-    thrust::inclusive_scan(d_input.begin(), d_input.end(), d_output.begin());
-
-    ASSERT_EQUAL(d_input, h_input);
-    ASSERT_EQUAL(d_output, h_output);
-  }
-};
-VariableUnitTest<TestInclusiveScanPair, IntegralTypes> TestInclusiveScanPairInstance;
-

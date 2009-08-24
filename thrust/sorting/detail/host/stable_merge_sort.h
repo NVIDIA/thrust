@@ -236,6 +236,7 @@ template<typename RandomAccessIterator1,
   typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy input to temporary ranges
+  RandomAccessIterator2 values_end = values_begin + (keys_end + keys_begin);
   thrust::detail::raw_host_buffer<ValueType> values_temp(values_begin, values_end);
 
   stable_merge_sort_by_key(keys_begin, keys_end,
@@ -259,8 +260,8 @@ template<typename RandomAccessIterator1,
 {
   // dispatch on whether or not the iterators are trivial
   return stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp,
-    thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type(),
-    thrust::detail::is_trivial_iterator<RandomAccessIterator2>::type());
+          typename thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type(),
+          typename thrust::detail::is_trivial_iterator<RandomAccessIterator2>::type());
 } // end stable_merge_sort_by_key()
 
 
@@ -364,7 +365,7 @@ template<typename RandomAccessIterator,
 {
   // dispatch on whether or not the iterator is trivial
   return stable_merge_sort(begin, end, comp,
-    thrust::detail::is_trivial_iterator<RandomAccessIterator>::type());
+          typename thrust::detail::is_trivial_iterator<RandomAccessIterator>::type());
 } // end stable_merge_sort()
 
 } // end namespace host

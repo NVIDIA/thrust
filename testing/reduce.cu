@@ -85,38 +85,6 @@ void TestReduceWithOperator(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestReduceWithOperator);
 
 
-
-template <typename T>
-struct TestReducePair
-{
-  void operator()(const size_t n)
-  {
-#ifdef __APPLE__
-    // test_pair<char,char> fails on OSX
-    KNOWN_FAILURE
-#else
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-
-    thrusttest::test_pair<T,T> init;
-    init.first = 13;
-    init.second = 29;
-
-    thrusttest::test_pair<T,T> cpu_result = thrust::reduce(h_data.begin(), h_data.end(), init);
-    thrusttest::test_pair<T,T> gpu_result = thrust::reduce(d_data.begin(), d_data.end(), init);
-
-    ASSERT_EQUAL(cpu_result, gpu_result);
-#endif // __APPLE__
-  }
-};
-VariableUnitTest<TestReducePair, IntegralTypes> TestReducePairInstance;
-
 template <typename T, unsigned int N>
 struct FixedVector
 {

@@ -1,7 +1,6 @@
 #include <thrusttest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
-#include <utility>
 
 template <typename T>
 struct less_div_10
@@ -317,96 +316,6 @@ void TestStableSortDescendingKeyValue(void)
     ASSERT_EQUAL(h_values, d_values);
 }
 DECLARE_UNITTEST(TestStableSortDescendingKeyValue);
-
-
-
-template <typename T>
-void TestSortAscendingKeyLargeKey(const size_t n)
-{
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-
-
-    thrust::sort(h_data.begin(), h_data.end());
-    thrust::sort(d_data.begin(), d_data.end());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestSortAscendingKeyLargeKey);
-
-
-template <typename T>
-void TestSortAscendingKeyValueLargeKey(const size_t n)
-{
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-    
-    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
-    thrust::device_vector<int> d_values = h_values;
-
-    thrust::sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
-    thrust::sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestSortAscendingKeyValueLargeKey);
-
-
-template <typename T>
-void TestStableSortAscendingKeyLargeKey(const size_t n)
-{
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-
-
-    thrust::stable_sort(h_data.begin(), h_data.end());
-    thrust::stable_sort(d_data.begin(), d_data.end());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestStableSortAscendingKeyLargeKey);
-
-
-template <typename T>
-void TestStableSortAscendingKeyValueLargeKey(const size_t n)
-{
-    thrusttest::random_integer<T> rnd;
-
-    thrust::host_vector< thrusttest::test_pair<T,T> > h_data(n);
-    for(size_t i = 0; i < n; i++){
-        h_data[i].first  = rnd();
-        h_data[i].second = rnd();
-    }
-    thrust::device_vector< thrusttest::test_pair<T,T> > d_data = h_data;
-    
-    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
-    thrust::device_vector<int> d_values = h_values;
-
-    thrust::stable_sort_by_key(h_data.begin(), h_data.end(), h_values.begin());
-    thrust::stable_sort_by_key(d_data.begin(), d_data.end(), d_values.begin());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestStableSortAscendingKeyValueLargeKey);
-
 
 
 template <class Vector>
