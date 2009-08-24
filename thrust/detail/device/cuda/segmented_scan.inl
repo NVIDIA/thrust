@@ -25,13 +25,8 @@
 
 #include <thrust/experimental/arch.h>
 #include <thrust/functional.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
-#include <thrust/copy.h>
 
-#include <thrust/segmented_scan.h>    // for second level scans
-#include <stdlib.h>                   // for malloc & free
-
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/util/blocking.h>
 #include <thrust/detail/device/cuda/warp/scan.h>
 
@@ -641,47 +636,25 @@ template<typename InputIterator1,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::device_ptr<OutputType>   d_final_val       = thrust::device_malloc<OutputType>(num_warps + 1);
-    thrust::device_ptr<unsigned int> d_segment_lengths = thrust::device_malloc<unsigned int>(num_warps + 1);
+    thrust::detail::raw_buffer<OutputType, experimental::space::device>   d_final_val(num_warps + 1);
+    thrust::detail::raw_buffer<unsigned int, experimental::space::device> d_segment_lengths(num_warps + 1);
 
     //////////////////////
     // first level scan
     segmented_scan::inclusive_scan_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (first1, first2, result, binary_op, pred, n, interval_size, d_final_val.get(), d_segment_lengths.get());
-
-    bool second_scan_device = true;
+        (first1, first2, result, binary_op, pred, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
 
     ///////////////////////
     // second level scan
-    if (second_scan_device) {
-        // scan final_val on the device (use one warp of GPU method for second level scan)
-        segmented_scan::inclusive_scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
-            (d_final_val.get(), d_segment_lengths.get(), d_final_val.get(), binary_op, segmented_scan::__segment_spans_interval(interval_size),
-             num_warps, num_warps, (d_final_val + num_warps).get(), (d_segment_lengths + num_warps).get());
-    } else {
-        // scan final_val on the host
-        OutputType*   h_final_val       = (OutputType*)  (::malloc(num_warps * sizeof(OutputType)));
-        unsigned int* h_segment_lengths = (unsigned int*)(::malloc(num_warps * sizeof(unsigned int)));
-
-        thrust::copy(d_final_val,       d_final_val        + num_warps, h_final_val);
-        thrust::copy(d_segment_lengths, d_segment_lengths  + num_warps, h_segment_lengths);
-
-        thrust::experimental::inclusive_segmented_scan(h_final_val, h_final_val + num_warps, h_segment_lengths, h_final_val, binary_op, segmented_scan::__segment_spans_interval(interval_size));
-
-        // copy back to device
-        thrust::copy(h_final_val, h_final_val + num_warps, d_final_val);
-        ::free(h_final_val);
-        ::free(h_segment_lengths);
-    }
+    // scan final_val on the device (use one warp of GPU method for second level scan)
+    segmented_scan::inclusive_scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+        (raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]), raw_pointer_cast(&d_final_val[0]), binary_op, segmented_scan::__segment_spans_interval(interval_size),
+         num_warps, num_warps, raw_pointer_cast(&d_final_val[num_warps]), raw_pointer_cast(&d_segment_lengths[num_warps]));
         
     //////////////////////
     // update intervals
     segmented_scan::inclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (result, binary_op, n, interval_size, d_final_val.get(), d_segment_lengths.get());
-
-    // free device work array
-    thrust::device_free(d_final_val);
-    thrust::device_free(d_segment_lengths);
+        (result, binary_op, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
 
     return result + n;
 } // end inclusive_segmented_scan()
@@ -731,48 +704,26 @@ template<typename InputIterator1,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::device_ptr<OutputType>   d_final_val       = thrust::device_malloc<OutputType>(num_warps + 1);
-    thrust::device_ptr<unsigned int> d_segment_lengths = thrust::device_malloc<unsigned int>(num_warps + 1);
+    thrust::detail::raw_buffer<OutputType, experimental::space::device>   d_final_val(num_warps + 1);
+    thrust::detail::raw_buffer<unsigned int, experimental::space::device> d_segment_lengths(num_warps + 1);
 
     //////////////////////
     // first level scan
     segmented_scan::exclusive_scan_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (first1, first2, result, OutputType(init), binary_op, pred, n, interval_size, d_final_val.get(), d_segment_lengths.get());
-
-    bool second_scan_device = true;
+        (first1, first2, result, OutputType(init), binary_op, pred, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
 
     ///////////////////////
     // second level scan
-    if (second_scan_device) {
-        // scan final_val on the device (use one warp of GPU method for second level scan)
-        segmented_scan::inclusive_scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
-            (d_final_val.get(), d_segment_lengths.get(), d_final_val.get(), binary_op, segmented_scan::__segment_spans_interval(interval_size),
-             num_warps, num_warps, (d_final_val + num_warps).get(), (d_segment_lengths + num_warps).get());
-    } else {
-        // scan final_val on the host
-        OutputType*   h_final_val       = (OutputType*)  (::malloc(num_warps * sizeof(OutputType)));
-        unsigned int* h_segment_lengths = (unsigned int*)(::malloc(num_warps * sizeof(unsigned int)));
-
-        thrust::copy(d_final_val,       d_final_val        + num_warps, h_final_val);
-        thrust::copy(d_segment_lengths, d_segment_lengths  + num_warps, h_segment_lengths);
-
-        thrust::experimental::inclusive_segmented_scan(h_final_val, h_final_val + num_warps, h_segment_lengths, h_final_val, binary_op, segmented_scan::__segment_spans_interval(interval_size));
-
-        // copy back to device
-        thrust::copy(h_final_val, h_final_val + num_warps, d_final_val);
-        ::free(h_final_val);
-        ::free(h_segment_lengths);
-    }
+    // scan final_val on the device (use one warp of GPU method for second level scan)
+    segmented_scan::inclusive_scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+        (raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]), raw_pointer_cast(&d_final_val[0]), binary_op, segmented_scan::__segment_spans_interval(interval_size),
+         num_warps, num_warps, raw_pointer_cast(&d_final_val[num_warps]), raw_pointer_cast(&d_segment_lengths[num_warps]));
         
     //////////////////////
     // update intervals
     segmented_scan::exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
-        (result, OutputType(init), binary_op, n, interval_size, d_final_val.get(), d_segment_lengths.get());
+        (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
     
-    // free device work array
-    thrust::device_free(d_final_val);
-    thrust::device_free(d_segment_lengths);
-
     return result + n;
 } // end exclusive_interval_scan()
 
