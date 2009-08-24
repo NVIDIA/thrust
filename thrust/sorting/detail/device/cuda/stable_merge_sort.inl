@@ -955,29 +955,40 @@ template<typename RandomAccessIterator1,
                                comp);
 }
 
-template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
-  void merge(KeyType *keys_src,
-             ValueType *data_src,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename StrictWeakOrdering>
+  void merge(RandomAccessIterator1 keys_first,
+             RandomAccessIterator2 values_first,
              size_t n,
-             KeyType *keys_dst,
-             ValueType *data_dst,
+             RandomAccessIterator3 keys_result,
+             RandomAccessIterator4 values_result,
              size_t block_size,
              StrictWeakOrdering comp)
 {
   unsigned int log_block_size = (unsigned int)logb((float)block_size);
   unsigned int NBLOCKS = (n%block_size)?((n/block_size)+1):(n/block_size);
 
-  merge(keys_src, data_src, (NBLOCKS%2)?((NBLOCKS-1)*block_size):n, keys_dst, data_dst, log_block_size, 0, comp);
+  merge(keys_first,
+        values_first,
+        (NBLOCKS%2)?((NBLOCKS-1)*block_size):n,
+        keys_result,
+        values_result,
+        log_block_size,
+        0,
+        comp);
 
   if(NBLOCKS%2)
   {
-    thrust::copy(device_pointer_cast(keys_src) + (NBLOCKS-1)*block_size,
-                 device_pointer_cast(keys_src) + n,
-                 device_pointer_cast(keys_dst) + (NBLOCKS-1)*block_size);
+    thrust::copy(device_pointer_cast(keys_first) + (NBLOCKS-1)*block_size,
+                 device_pointer_cast(keys_first) + n,
+                 device_pointer_cast(keys_result) + (NBLOCKS-1)*block_size);
     
-    thrust::copy(device_pointer_cast(data_src) + (NBLOCKS-1)*block_size,
-                 device_pointer_cast(data_src) + n,
-                 device_pointer_cast(data_dst) + (NBLOCKS-1)*block_size);
+    thrust::copy(device_pointer_cast(values_first) + (NBLOCKS-1)*block_size,
+                 device_pointer_cast(values_first) + n,
+                 device_pointer_cast(values_result) + (NBLOCKS-1)*block_size);
   }
 }
 
@@ -985,85 +996,176 @@ template<typename KeyType, typename ValueType, typename StrictWeakOrdering>
 } // end merge_sort_dev_namespace
 
 
-//template<typename KeyType,
-//         typename ValueType,
-//         typename StrictWeakOrdering>
-//  void stable_merge_sort_by_key_dev(KeyType *keys,
-//                                    ValueType *data,
-//                                    StrictWeakOrdering comp,
-//                                    const size_t n)
+namespace detail
+{
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
+                                StrictWeakOrdering comp,
+                                thrust::detail::true_type,
+                                thrust::detail::true_type)
+{
+  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+
+  const size_t n = keys_last - keys_first;
+
+  // don't launch an empty kernel
+  if(n == 0) return;
+
+  // compute the BLOCK_SIZE based on the types we're sorting
+  const unsigned int BLOCK_SIZE = merge_sort_dev_namespace::BLOCK_SIZE<KeyType,ValueType>::result;
+
+  // compute the maximum number of blocks we can launch on this arch
+  const unsigned int MAX_GRID_SIZE = merge_sort_dev_namespace::max_grid_size(BLOCK_SIZE);
+
+  // first, sort within each block
+  size_t num_blocks = n / BLOCK_SIZE;
+  if(n % BLOCK_SIZE) ++num_blocks;
+
+  size_t grid_size = merge_sort_dev_namespace::min<size_t>(num_blocks, MAX_GRID_SIZE);
+
+  // do an odd-even sort per block of data
+  merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<BLOCK_SIZE><<<grid_size, BLOCK_SIZE>>>(keys_first, values_first, comp, n);
+
+  // scratch space
+  using namespace thrust::detail;
+  raw_device_buffer<KeyType>   temp_keys(n);
+  raw_device_buffer<ValueType> temp_values(n);
+
+  device_ptr<KeyType>   keys0   = &*keys_first,   keys1   = &temp_keys[0];
+  device_ptr<ValueType> values0 = &*values_first, values1 = &temp_values[0];
+
+  // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
+  // Currently uses additional arrays for sorted outputs.
+  unsigned int iterations = 0;
+  for(unsigned int tile_size = BLOCK_SIZE;
+      tile_size < n;
+      tile_size *= 2)
+  {
+    merge_sort_dev_namespace::merge(keys0, values0, n, keys1, values1, tile_size, comp);
+    thrust::swap(keys0,   keys1);
+    thrust::swap(values0, values1);
+    ++iterations;
+  }
+
+  // this is to make sure that our data is finally in the data and keys arrays
+  // and not in the temporary arrays
+  if(iterations % 2)
+  {
+    thrust::copy(values0, values0 + n, values1);
+    thrust::copy(keys0,   keys0 + n,   keys1);
+  }
+} // end stable_merge_sort_by_key()
 
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
+                                StrictWeakOrdering comp,
+                                thrust::detail::false_type,
+                                thrust::detail::false_type)
+{
+  using namespace thrust::detail;
+
+  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+
+  // copy both ranges into temporary storage
+  raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);
+  raw_device_buffer<ValueType> values_temp(values_first, values_first + keys_last - keys_first);
+
+  // sort
+  stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
+                           values_temp.begin(),
+                           comp,
+                           thrust::detail::true_type(),
+                           thrust::detail::true_type());
+
+  // copy to original ranges
+  thrust::copy(keys_temp.begin(), keys_temp.end(), keys_first);
+  thrust::copy(values_temp.begin(), values_temp.end(), values_first);
+} // end stable_merge_sort_by_key()
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
+                                StrictWeakOrdering comp,
+                                thrust::detail::true_type,
+                                thrust::detail::false_type)
+{
+  using namespace thrust::detail;
+
+  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+
+  // copy values into temporary storage
+  raw_device_buffer<ValueType> values_temp(values_first, values_first + keys_last - keys_first);
+
+  // sort
+  stable_merge_sort_by_key(keys_first, keys_last,
+                           values_temp.begin(),
+                           comp,
+                           thrust::detail::true_type(),
+                           thrust::detail::true_type());
+
+  // copy to original range
+  thrust::copy(values_temp.begin(), values_temp.end(), values_first);
+} // end stable_merge_sort_by_key()
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
+                                StrictWeakOrdering comp,
+                                thrust::detail::false_type,
+                                thrust::detail::true_type)
+{
+  using namespace thrust::detail;
+
+  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
+
+  // copy keys into temporary storage
+  raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);
+
+  // sort
+  stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
+                           values_first,
+                           comp,
+                           thrust::detail::true_type(),
+                           thrust::detail::true_type());
+
+  // copy to original range
+  thrust::copy(keys_temp.begin(), keys_temp.end(), keys_first);
+} // end stable_merge_sort_by_key()
+
+} // end detail
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
                                 StrictWeakOrdering comp)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-
-    // XXX re-write kernels to accept general iterators
-    KeyType   * keys = thrust::raw_pointer_cast(&*keys_begin);
-    ValueType * data = thrust::raw_pointer_cast(&*values_begin);
-
-    const size_t n = keys_end - keys_begin;
-
-    // don't launch an empty kernel
-    if(n == 0) return;
-
-    // compute the BLOCK_SIZE based on the types we're sorting
-    const unsigned int BLOCK_SIZE = merge_sort_dev_namespace::BLOCK_SIZE<KeyType,ValueType>::result;
-
-    // compute the maximum number of blocks we can launch on this arch
-    const unsigned int MAX_GRID_SIZE = merge_sort_dev_namespace::max_grid_size(BLOCK_SIZE);
-
-    // first, sort within each block
-    size_t num_blocks = n / BLOCK_SIZE;
-    if(n % BLOCK_SIZE) ++num_blocks;
-
-    size_t grid_size = merge_sort_dev_namespace::min<size_t>(num_blocks, MAX_GRID_SIZE);
-
-    // do an odd-even sort per block of data
-    merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<BLOCK_SIZE><<<grid_size, BLOCK_SIZE>>>(keys, data, comp, n);
-
-    // scratch space
-    thrust::device_ptr<KeyType>   temp_keys = thrust::device_malloc<KeyType>(n);
-    thrust::device_ptr<ValueType> temp_data = thrust::device_malloc<ValueType>(n);
-
-    KeyType   *keys0 = keys, *keys1 = temp_keys.get();
-    ValueType *data0 = data, *data1 = temp_data.get();
-
-    // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
-    // Currently uses additional arrays for sorted outputs.
-    unsigned int iterations = 0;
-    for(unsigned int tile_size = BLOCK_SIZE;
-            tile_size < n;
-            tile_size *= 2)
-    {
-        merge_sort_dev_namespace::merge(keys0, data0, n, keys1, data1, tile_size, comp);
-        thrust::swap(keys0, keys1);
-        thrust::swap(data0, data1);
-        ++iterations;
-    }
-
-    // this is to make sure that our data is finally in the data and keys arrays
-    // and not in the temporary arrays
-    if(iterations % 2)
-    {
-        thrust::copy(device_pointer_cast(data0),
-                device_pointer_cast(data0 + n),
-                device_pointer_cast(data1));
-        thrust::copy(device_pointer_cast(keys0),
-                device_pointer_cast(keys0 + n),
-                device_pointer_cast(keys1));
-    }
-
-    thrust::device_free(temp_keys);
-    thrust::device_free(temp_data);
-} // end stable_merge_sort_by_key()
+  detail::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp,
+    typename thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type(),
+    typename thrust::detail::is_trivial_iterator<RandomAccessIterator2>::type());
+}
 
 
 } // end namespace cuda
