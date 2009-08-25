@@ -123,7 +123,7 @@ template<typename InputIterator,
         return init;
 
     // 16KB (max) - 1KB (upper bound on what's used for other purposes)
-    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+    const size_t MAX_SMEM_SIZE = 15 * 1024; 
 
     // largest 2^N that fits in SMEM
     static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/sizeof(OutputType)) >::value;

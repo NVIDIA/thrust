@@ -79,7 +79,7 @@ template<typename Key, typename Value>
     static const unsigned int sizeof_larger_type = (sizeof(Key) > sizeof(Value) ? sizeof(Key) : sizeof(Value));
 
     static const unsigned int max_smem_usage = 2048;
-    static const unsigned int max_blocksize = 256;
+    static const unsigned int max_blocksize = 128;
 
     // our block size candidate is simply 2K over the sum of sizes
     static const unsigned int candidate = max_smem_usage / (sizeof(Key) + sizeof(Value));

@@ -320,7 +320,7 @@ template<typename InputIterator,
         return result;
     
     // 16KB (max) - 1KB (upper bound on what's used for other purposes)
-    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+    const size_t MAX_SMEM_SIZE = 15 * 1024; 
 
     const unsigned int WARP_SIZE  = 32;
 
@@ -381,7 +381,7 @@ template<typename InputIterator,
         return result;
     
     // 16KB (max) - 1KB (upper bound on what's used for other purposes)
-    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+    const size_t MAX_SMEM_SIZE = 15 * 1024; 
 
     const unsigned int WARP_SIZE  = 32;
 

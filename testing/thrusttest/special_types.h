@@ -25,11 +25,26 @@ struct FixedVector
     }
     
     __host__ __device__
+    bool operator<(const FixedVector& bs) const
+    {
+        for(unsigned int i = 0; i < N; i++)
+        {
+            if(data[i] < bs.data[i])
+                return true;
+            else if(bs.data[i] < data[i])
+                return false;
+        }
+        return false;
+    }
+
+    __host__ __device__
     bool operator==(const FixedVector& bs) const
     {
         for(unsigned int i = 0; i < N; i++)
+        {
             if(!(data[i] == bs.data[i]))
                 return false;
+        }
         return true;                
     }
 };
