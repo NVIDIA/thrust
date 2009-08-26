@@ -30,12 +30,12 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
-#include <thrust/device_vector.h>
-#include <thrust/device_malloc.h>
-#include <thrust/device_free.h>
+#include <thrust/device_ptr.h>
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
+
+#include <thrust/detail/raw_buffer.h>
 
 #include <thrust/detail/util/align.h>
 
@@ -1191,39 +1191,32 @@ void radix_sort(unsigned int * keys,
 
     if (!thrust::detail::util::is_aligned(keys, sizeof(uint4))) {
         // keys is misaligned, copy to temp array and try again
-        thrust::device_ptr<unsigned int> aligned_keys = thrust::device_malloc<unsigned int>(numElements);
-        thrust::copy(thrust::device_ptr<unsigned int>(keys),
-                     thrust::device_ptr<unsigned int>(keys) + numElements,
-                     aligned_keys);
+        thrust::detail::raw_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
+                                                                     thrust::device_ptr<unsigned int>(keys) + numElements);
 
-        radix_sort((unsigned int *) aligned_keys.get(), numElements, preprocess, postprocess, keyBits);
+        radix_sort(thrust::raw_pointer_cast(&aligned_keys[0]), numElements, preprocess, postprocess, keyBits);
         
-        thrust::copy(aligned_keys,
-                     aligned_keys + numElements,
-                     thrust::device_ptr<unsigned int>(keys));
+        thrust::copy(aligned_keys.begin(), aligned_keys.end(), thrust::device_ptr<unsigned int>(keys));
 
-        thrust::device_free(aligned_keys);
         return;
     }
 
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
-
-    thrust::device_ptr<unsigned int> temp_keys     = thrust::device_malloc<unsigned int>(numElements);
-    thrust::device_ptr<unsigned int> counters      = thrust::device_malloc<unsigned int>(RadixSort::WARP_SIZE * numBlocks);
-    thrust::device_ptr<unsigned int> histogram     = thrust::device_malloc<unsigned int>(RadixSort::WARP_SIZE * numBlocks);
-    thrust::device_ptr<unsigned int> block_offsets = thrust::device_malloc<unsigned int>(RadixSort::WARP_SIZE * numBlocks);
+        
+    thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
+    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::WARP_SIZE * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::WARP_SIZE * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::WARP_SIZE * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
 
-    radixSortKeysOnly(keys, temp_keys.get(), 
-                      counters.get(), histogram.get(), block_offsets.get(),
+    radixSortKeysOnly(keys,
+                      thrust::raw_pointer_cast(&temp_keys[0]), 
+                      thrust::raw_pointer_cast(&counters[0]),
+                      thrust::raw_pointer_cast(&histogram[0]),
+                      thrust::raw_pointer_cast(&block_offsets[0]),
                       numElements, keyBits, manualCoalesce,
                       preprocess, postprocess);
-
-    thrust::device_free(temp_keys);
-    thrust::device_free(counters);
-    thrust::device_free(histogram);
-    thrust::device_free(block_offsets);
 }
 
 
@@ -1245,58 +1238,46 @@ void radix_sort_by_key(unsigned int * keys,
     
     if (!thrust::detail::util::is_aligned(keys, sizeof(uint4))) {
         // keys is misaligned, copy to temp array and try again
-        thrust::device_ptr<unsigned int> aligned_keys = thrust::device_malloc<unsigned int>(numElements);
-        thrust::copy(thrust::device_ptr<unsigned int>(keys),
-                     thrust::device_ptr<unsigned int>(keys) + numElements,
-                     aligned_keys);
+        thrust::detail::raw_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
+                                                                     thrust::device_ptr<unsigned int>(keys) + numElements);
 
-        radix_sort_by_key((unsigned int *) aligned_keys.get(), values, numElements, preprocess, postprocess, keyBits);
+        radix_sort_by_key(thrust::raw_pointer_cast(&aligned_keys[0]), values, numElements, preprocess, postprocess, keyBits);
         
-        thrust::copy(aligned_keys,
-                     aligned_keys + numElements,
-                     thrust::device_ptr<unsigned int>(keys));
+        thrust::copy(aligned_keys.begin(), aligned_keys.end(), thrust::device_ptr<unsigned int>(keys));
 
-        thrust::device_free(aligned_keys);
         return;
     }
     
     if (!thrust::detail::util::is_aligned(values, sizeof(uint4))) {
         // values is misaligned, copy to temp array and try again
-        thrust::device_ptr<unsigned int> aligned_values = thrust::device_malloc<unsigned int>(numElements);
-        thrust::copy(thrust::device_ptr<unsigned int>(values),
-                     thrust::device_ptr<unsigned int>(values) + numElements,
-                     aligned_values);
+        thrust::detail::raw_device_buffer<unsigned int> aligned_values(thrust::device_ptr<unsigned int>(values),
+                                                                       thrust::device_ptr<unsigned int>(values) + numElements);
 
-        radix_sort_by_key(keys, (unsigned int *) aligned_values.get(), numElements, preprocess, postprocess, keyBits);
+        radix_sort_by_key(keys, thrust::raw_pointer_cast(&aligned_values[0]), numElements, preprocess, postprocess, keyBits);
         
-        thrust::copy(aligned_values,
-                     aligned_values + numElements,
-                     thrust::device_ptr<unsigned int>(values));
+        thrust::copy(aligned_values.begin(), aligned_values.end(), thrust::device_ptr<unsigned int>(values));
 
-        thrust::device_free(aligned_values);
         return;
     }
 
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
-    
-    thrust::device_ptr<unsigned int> temp_keys     = thrust::device_malloc<unsigned int>(numElements);
-    thrust::device_ptr<unsigned int> temp_values   = thrust::device_malloc<unsigned int>(numElements);
-    thrust::device_ptr<unsigned int> counters      = thrust::device_malloc<unsigned int>(RadixSort::WARP_SIZE * numBlocks);
-    thrust::device_ptr<unsigned int> histogram     = thrust::device_malloc<unsigned int>(RadixSort::WARP_SIZE * numBlocks);
-    thrust::device_ptr<unsigned int> block_offsets = thrust::device_malloc<unsigned int>(RadixSort::WARP_SIZE * numBlocks);
+
+    thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
+    thrust::detail::raw_device_buffer<unsigned int> temp_values(numElements);
+    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::WARP_SIZE * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::WARP_SIZE * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::WARP_SIZE * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
-    
-    radixSort(keys, values, temp_keys.get(), temp_values.get(),
-              counters.get(), histogram.get(), block_offsets.get(),
+
+    radixSort(keys, values,
+              thrust::raw_pointer_cast(&temp_keys[0]), 
+              thrust::raw_pointer_cast(&temp_values[0]),
+              thrust::raw_pointer_cast(&counters[0]),
+              thrust::raw_pointer_cast(&histogram[0]),
+              thrust::raw_pointer_cast(&block_offsets[0]),
               numElements, keyBits, manualCoalesce,
               preprocess, postprocess);
-    
-    thrust::device_free(temp_keys);
-    thrust::device_free(temp_values);
-    thrust::device_free(counters);
-    thrust::device_free(histogram);
-    thrust::device_free(block_offsets);
 }
 #undef BLOCKING
 

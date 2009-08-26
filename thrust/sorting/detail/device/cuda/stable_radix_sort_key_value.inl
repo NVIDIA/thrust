@@ -25,6 +25,7 @@
 #include <thrust/sequence.h>
 #include <thrust/transform.h>
 
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/type_traits.h>
 
 #include <thrust/sorting/detail/device/cuda/stable_radix_sort_bits.h>
@@ -52,25 +53,21 @@ template <typename KeyType, typename ValueType>
 void stable_radix_sort_key_value_permute_dev(KeyType * keys, ValueType * values, unsigned int num_elements)
 {
     // When sizeof(ValueType) != 4 use a permutation to sort the values
-    thrust::device_ptr<unsigned int> permutation = thrust::device_malloc<unsigned int>(num_elements);
-    thrust::sequence(permutation, permutation + num_elements);
+    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
+    thrust::sequence(permutation.begin(), permutation.end());
 
-    stable_radix_sort_key_value_dev(keys, (&permutation[0]).get(), num_elements);
+    stable_radix_sort_key_value_dev(keys, thrust::raw_pointer_cast(&permutation[0]), num_elements);
     
     // copy values into temp vector and then permute
-    thrust::device_ptr<ValueType> temp_values = thrust::device_malloc<ValueType>(num_elements);
+    thrust::detail::raw_device_buffer<unsigned int> temp_values(num_elements);
     thrust::copy(thrust::device_ptr<ValueType>(values), 
-                  thrust::device_ptr<ValueType>(values + num_elements),
-                  temp_values);
+                 thrust::device_ptr<ValueType>(values + num_elements),
+                 temp_values.begin());
 
     thrust::gather(thrust::device_ptr<ValueType>(values), 
-                    thrust::device_ptr<ValueType>(values + num_elements),
-                    permutation,
-                    temp_values);
-
-    // free temp buffers
-    thrust::device_free(permutation);
-    thrust::device_free(temp_values);
+                   thrust::device_ptr<ValueType>(values + num_elements),
+                   permutation.begin(),
+                   temp_values.begin());
 }
 
 template <typename KeyType, typename ValueType>
@@ -79,23 +76,20 @@ void stable_radix_sort_key_value_small_dev(KeyType * keys, ValueType * values, u
     // When sizeof(ValueType) == 4 just pretend the ValueType is unsigned int
 
     // encode the small types in 32-bit unsigned ints
-    thrust::device_ptr<unsigned int> full_keys = thrust::device_malloc<unsigned int>(num_elements);
+    thrust::detail::raw_device_buffer<unsigned int> full_keys(num_elements);
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
-                       thrust::device_ptr<KeyType>(keys + num_elements),
-                       full_keys,
-                       encode_uint<KeyType>());
+                      thrust::device_ptr<KeyType>(keys + num_elements),
+                      full_keys.begin(),
+                      encode_uint<KeyType>());
     
     // sort the 32-bit unsigned ints
-    stable_radix_sort_key_value_dev(full_keys.get(), (unsigned int *) values, num_elements);
+    stable_radix_sort_key_value_dev(thrust::raw_pointer_cast(&full_keys[0]), (unsigned int *) values, num_elements);
     
     // decode the 32-bit unsigned ints
-    thrust::transform(full_keys,
-                       full_keys + num_elements,
-                       thrust::device_ptr<KeyType>(keys),
-                       decode_uint<KeyType>());
-
-    // free temp buffers
-    thrust::device_free(full_keys);
+    thrust::transform(full_keys.begin(),
+                      full_keys.end(),
+                      thrust::device_ptr<KeyType>(keys),
+                      decode_uint<KeyType>());
 }
 
 
@@ -203,53 +197,48 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
                                            UpperBitsExtractor extract_upper_bits)
 {
     // first sort on the lower 32-bits of the keys
-    thrust::device_ptr<unsigned int> partial_keys = thrust::device_malloc<unsigned int>(num_elements);
+    thrust::detail::raw_device_buffer<unsigned int> partial_keys(num_elements);
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
-                       thrust::device_ptr<KeyType>(keys + num_elements),
-                       partial_keys,
-                       extract_lower_bits);
+                      thrust::device_ptr<KeyType>(keys) + num_elements,
+                      partial_keys.begin(),
+                      extract_lower_bits);
 
-    thrust::device_ptr<unsigned int> permutation = thrust::device_malloc<unsigned int>(num_elements);
-    thrust::sequence(permutation, permutation + num_elements);
+    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
+    thrust::sequence(permutation.begin(), permutation.end());
     
-    stable_radix_sort_key_value_dev((LowerBits *) partial_keys.get(), permutation.get(), num_elements);
+    stable_radix_sort_key_value_dev((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]), thrust::raw_pointer_cast(&permutation[0]), num_elements);
 
     // permute full keys and values so lower bits are sorted
-    thrust::device_ptr<KeyType> permuted_keys = thrust::device_malloc<KeyType>(num_elements);
-    thrust::gather(permuted_keys, 
-                    permuted_keys + num_elements, 
-                    permutation,
-                    thrust::device_ptr<KeyType>(keys));
+    thrust::detail::raw_device_buffer<KeyType> permuted_keys(num_elements);
+    thrust::gather(permuted_keys.begin(),
+                   permuted_keys.end(),
+                   permutation.begin(),
+                   thrust::device_ptr<KeyType>(keys));
     
-    thrust::device_ptr<ValueType> permuted_values = thrust::device_malloc<ValueType>(num_elements);
-    thrust::gather(permuted_values, 
-                    permuted_values + num_elements, 
-                    permutation,
-                    thrust::device_ptr<ValueType>(values));
+    thrust::detail::raw_device_buffer<ValueType> permuted_values(num_elements);
+    thrust::gather(permuted_values.begin(),
+                   permuted_values.end(),
+                   permutation.begin(),
+                   thrust::device_ptr<ValueType>(values));
 
     // now sort on the upper 32 bits of the keys
-    thrust::transform(permuted_keys, 
-                       permuted_keys + num_elements,
-                       partial_keys,
-                       extract_upper_bits);
-    thrust::sequence(permutation, permutation + num_elements);
+    thrust::transform(permuted_keys.begin(),
+                      permuted_keys.end(),
+                      partial_keys.begin(),
+                      extract_upper_bits);
+    thrust::sequence(permutation.begin(), permutation.end());
     
-    stable_radix_sort_key_value_dev((UpperBits *) partial_keys.get(), permutation.get(), num_elements);
+    stable_radix_sort_key_value_dev((UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]), thrust::raw_pointer_cast(&permutation[0]), num_elements);
 
     // store sorted keys and values
     thrust::gather(thrust::device_ptr<KeyType>(keys), 
-                    thrust::device_ptr<KeyType>(keys + num_elements),
-                    permutation,
-                    permuted_keys);
+                   thrust::device_ptr<KeyType>(keys) + num_elements,
+                   permutation.begin(),
+                   permuted_keys.begin());
     thrust::gather(thrust::device_ptr<ValueType>(values), 
-                    thrust::device_ptr<ValueType>(values + num_elements),
-                    permutation,
-                    permuted_values);
-
-    thrust::device_free(partial_keys);
-    thrust::device_free(permutation);
-    thrust::device_free(permuted_keys);
-    thrust::device_free(permuted_values);
+                   thrust::device_ptr<ValueType>(values) + num_elements,
+                   permutation.begin(),
+                   permuted_values.begin());
 }
 
     
