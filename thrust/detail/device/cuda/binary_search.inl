@@ -238,8 +238,8 @@ OutputType binary_search(ForwardIterator begin,
     // use the vectorized path to implement the scalar version
 
     // allocate device buffers for value and output
-    raw_buffer<T, experimental::space::device>          d_value(1);
-    raw_buffer<OutputType, experimental::space::device> d_output(1);
+    thrust::detail::raw_device_buffer<T>          d_value(1);
+    thrust::detail::raw_device_buffer<OutputType> d_output(1);
 
     // copy value to device
     d_value[0] = value;
@@ -247,10 +247,8 @@ OutputType binary_search(ForwardIterator begin,
     // perform the query
     detail::binary_search(begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
 
-    // copy result to host
-    OutputType h_output = d_output[0];
-
-    return h_output;
+    // copy result to host and return
+    return d_output[0];
 }
    
 } // end namespace detail
