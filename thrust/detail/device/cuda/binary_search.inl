@@ -189,16 +189,15 @@ void binary_search_kernel(RandomAccessIterator begin,
                           StrictWeakOrdering comp,
                           BinarySearchFunction func)
 {
-    const unsigned int grid_size = blockDim.x * gridDim.x;
-    const unsigned int thread_id = blockIdx.x * blockDim.x + threadIdx.x;
+    typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
 
-    values_begin += thread_id;
-    output       += thread_id;
+    const difference_type grid_size = blockDim.x * gridDim.x;
+    const difference_type thread_id = blockIdx.x * blockDim.x + threadIdx.x;
+
+    const difference_type n = values_end - values_begin;
     
-    while (values_begin < values_end){
-        thrust::detail::device::dereference(output) = func(begin, end, thrust::detail::device::dereference(values_begin), comp);
-        output       += grid_size;
-        values_begin += grid_size;
+    for(difference_type i = thread_id; i < n; i += grid_size){
+        thrust::detail::device::dereference(output, i) = func(begin, end, thrust::detail::device::dereference(values_begin, i), comp);
     }
 }
 

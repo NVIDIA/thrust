@@ -56,35 +56,34 @@ DECLARE_UNITTEST(TestCountingIteratorComparison);
 
 void TestCountingIteratorLowerBound(void)
 {
-    KNOWN_FAILURE;
-    //size_t n = 10000;
-    //const size_t M = 100;
+    size_t n = 10000;
+    const size_t M = 100;
 
-    //thrust::host_vector<unsigned int> h_data = thrusttest::random_integers<unsigned int>(n);
-    //for(unsigned int i = 0; i < n; ++i)
-    //  h_data[i] %= M;
+    thrust::host_vector<unsigned int> h_data = thrusttest::random_integers<unsigned int>(n);
+    for(unsigned int i = 0; i < n; ++i)
+      h_data[i] %= M;
 
-    //thrust::sort(h_data.begin(), h_data.end());
+    thrust::sort(h_data.begin(), h_data.end());
 
-    //thrust::device_vector<unsigned int> d_data = h_data;
+    thrust::device_vector<unsigned int> d_data = h_data;
 
-    //thrust::experimental::counting_iterator<unsigned int> search_begin(0);
-    //thrust::experimental::counting_iterator<unsigned int> search_end(M);
-
-
-    //thrust::host_vector<unsigned int> h_result(M);
-    //thrust::device_vector<unsigned int> d_result(M);
+    thrust::experimental::counting_iterator<unsigned int> search_begin(0);
+    thrust::experimental::counting_iterator<unsigned int> search_end(M);
 
 
-    //thrust::experimental::lower_bound(h_data.begin(), h_data.end(),
-    //                                  search_begin, search_end,
-    //                                  h_result.begin());
+    thrust::host_vector<unsigned int> h_result(M);
+    thrust::device_vector<unsigned int> d_result(M);
 
-    //thrust::experimental::lower_bound(d_data.begin(), d_data.end(),
-    //                                  search_begin, search_end,
-    //                                  d_result.begin());
 
-    //ASSERT_EQUAL(h_result, d_result);
+    thrust::experimental::lower_bound(h_data.begin(), h_data.end(),
+                                      search_begin, search_end,
+                                      h_result.begin());
+
+    thrust::experimental::lower_bound(d_data.begin(), d_data.end(),
+                                      search_begin, search_end,
+                                      d_result.begin());
+
+    ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_UNITTEST(TestCountingIteratorLowerBound);
 
