@@ -54,6 +54,21 @@ void TestCountingIteratorComparison(void)
 }
 DECLARE_UNITTEST(TestCountingIteratorComparison);
 
+
+void TestCountingIteratorUnsignedType(void)
+{
+    thrust::experimental::counting_iterator<unsigned int> iter0(0);
+    thrust::experimental::counting_iterator<unsigned int> iter1(5);
+
+    ASSERT_EQUAL(iter1 - iter0,  5);
+    ASSERT_EQUAL(iter0 - iter1, -5);
+    ASSERT_EQUAL(iter0 != iter1, true);
+    ASSERT_EQUAL(iter0 <  iter1, true);
+    ASSERT_EQUAL(iter1 <  iter0, false);
+}
+DECLARE_UNITTEST(TestCountingIteratorUnsignedType);
+
+
 void TestCountingIteratorLowerBound(void)
 {
     size_t n = 10000;
