@@ -2,16 +2,26 @@
 #include <thrust/device_vector.h>
 #include <thrust/pair.h>
 
-#include <cuda.h>    // for float2
 #include <stdlib.h>  // for rand()
 
 
 // This example shows how to compute a bounding box
 // for a set of points in two dimensions.
 
+struct point2d
+{
+    float x, y;
+
+    __host__ __device__
+    point2d() {}
+    
+    __host__ __device__
+    point2d(float _x, float _y) : x(_x), y(_y) {}
+};
+
 
 // bounding box type
-typedef thrust::pair<float2, float2> bbox;
+typedef thrust::pair<point2d, point2d> bbox;
 
 // reduce a pair of bounding boxes (a,b) to a bounding box containing a and b
 struct bbox_reduction
@@ -20,10 +30,10 @@ struct bbox_reduction
     bbox operator()(bbox a, bbox b)
     {
         // lower left corner
-        float2 ll = make_float2(min(a.first.x, b.first.x), min(a.first.y, b.first.y));
+        point2d ll(min(a.first.x, b.first.x), min(a.first.y, b.first.y));
         
         // upper right corner
-        float2 ur = make_float2(max(a.second.x, b.second.x), max(a.second.y, b.second.y));
+        point2d ur(max(a.second.x, b.second.x), max(a.second.y, b.second.y));
 
         return bbox(ll, ur);
     }
@@ -33,7 +43,7 @@ struct bbox_reduction
 struct bbox_transformation
 {
     __host__ __device__
-    bbox operator()(float2 point)
+    bbox operator()(point2d point)
     {
         return bbox(point, point);
     }
@@ -44,11 +54,11 @@ int main(void)
     const size_t N = 40;
     
     // allocate storage for points
-    thrust::device_vector<float2> points(N);
+    thrust::device_vector<point2d> points(N);
 
     // generate some random points in the unit square
     for(size_t i = 0; i < N; i++)
-        points[i] = make_float2( ((float) rand() / (RAND_MAX + 1.0)), ((float) rand() / (RAND_MAX + 1.0)) );
+        points[i] = point2d( ((float) rand() / (RAND_MAX + 1.0)), ((float) rand() / (RAND_MAX + 1.0)) );
 
     // initial bounding box contains first point
     bbox init = bbox(points[0], points[0]);
