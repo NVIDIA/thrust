@@ -173,11 +173,11 @@ exclusive_update_kernel(OutputIterator result,
 
         __syncthreads();
 
-        if (threadIdx.x > 0)
+        if (threadIdx.x != 0)
             val = sdata[threadIdx.x - 1];
 
         if (i < interval_end)
-            thrust::detail::device::dereference(result, base + threadIdx.x) = val;
+            thrust::detail::device::dereference(result, i) = val;
 
         if(threadIdx.x == 0)
             val = sdata[threadIdx.x + BLOCK_SIZE - 1];
