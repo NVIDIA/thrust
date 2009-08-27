@@ -59,7 +59,7 @@ void stable_radix_sort_key_value_permute_dev(KeyType * keys, ValueType * values,
     stable_radix_sort_key_value_dev(keys, thrust::raw_pointer_cast(&permutation[0]), num_elements);
     
     // copy values into temp vector and then permute
-    thrust::detail::raw_device_buffer<unsigned int> temp_values(num_elements);
+    thrust::detail::raw_device_buffer<ValueType> temp_values(num_elements);
     thrust::copy(thrust::device_ptr<ValueType>(values), 
                  thrust::device_ptr<ValueType>(values + num_elements),
                  temp_values.begin());
