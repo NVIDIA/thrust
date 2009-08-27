@@ -7,6 +7,7 @@
 #include <thrust/copy.h>
 #include <thrust/transform.h>
 #include <thrust/reduce.h>
+#include <thrust/scan.h>
 #include <thrust/sort.h>
 #include <thrust/detail/type_traits.h>
 #include <typeinfo>
@@ -378,6 +379,67 @@ struct TestZipIteratorReduce
   }
 };
 VariableUnitTest<TestZipIteratorReduce, ThirtyTwoBitTypes> TestZipIteratorReduceInstance;
+
+
+template <typename T>
+struct TestZipIteratorScan
+{
+  void operator()(const size_t n)
+  {
+    thrust::host_vector<T> h_data0 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data1 = thrusttest::random_samples<T>(n);
+
+    thrust::device_vector<T> d_data0 = h_data0;
+    thrust::device_vector<T> d_data1 = h_data1;
+
+    typedef tuple<T,T> Tuple;
+
+    thrust::host_vector<Tuple>   h_result(n);
+    thrust::device_vector<Tuple> d_result(n);
+
+    // inclusive_scan
+    thrust::inclusive_scan( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
+                            make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
+                            h_result.begin(),
+                            TuplePlus<Tuple>());
+    thrust::inclusive_scan( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
+                            make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
+                            d_result.begin(),
+                            TuplePlus<Tuple>());
+    ASSERT_EQUAL_QUIET(h_result, d_result);
+   
+//    std::cout << "n " << n << demangle(typeid(T).name()) << std::endl;
+//    // exclusive_scan
+//    thrust::exclusive_scan( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
+//                            make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
+//                            h_result.begin(),
+//                            make_tuple<T,T>(0,0),
+//                            TuplePlus<Tuple>());
+//    thrust::exclusive_scan( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
+//                            make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
+//                            d_result.begin(),
+//                            make_tuple<T,T>(0,0),
+//                            TuplePlus<Tuple>());
+//    ASSERT_EQUAL_QUIET(h_result, d_result);
+                            
+//    thrust::host_vector<T>   h_result0(n);
+//    thrust::host_vector<T>   h_result1(n);
+//    thrust::device_vector<T> d_result0(n);
+//    thrust::device_vector<T> d_result1(n);
+//    
+//    thrust::inclusive_scan( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
+//                            make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
+//                            h_result.begin(),
+//                            TuplePlus<Tuple>());
+//    thrust::inclusive_scan( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
+//                            make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
+//                            d_result.begin(),
+//                            TuplePlus<Tuple>());
+//    ASSERT_EQUAL_QUIET(h_result, d_result);
+
+  }
+};
+VariableUnitTest<TestZipIteratorScan, SignedIntegralTypes> TestZipIteratorScanInstance;
 
 
 void TestZipIteratorCopyAoSToSoA(void)
