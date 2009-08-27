@@ -35,6 +35,9 @@
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
 
+// warpwise method fails in some cases
+//#define USE_WARPWISE_SCAN
+
 namespace thrust
 {
 
@@ -133,8 +136,7 @@ exclusive_update_kernel(OutputIterator result,
     __shared__ unsigned char sdata_workaround[BLOCK_SIZE * sizeof(OutputType)];
     OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
 
-#if __CUDA_ARCH__ > 100
-    // This code dies on G80 (and only G80) for some mysterious reason
+#if defined(USE_WARPWISE_SCAN)
     const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;        // global thread index
     const unsigned int thread_lane = threadIdx.x & 31;                             // thread index within the warp
     const unsigned int warp_id     = thread_id   / 32;                             // global warp index
@@ -180,7 +182,7 @@ exclusive_update_kernel(OutputIterator result,
         if(threadIdx.x == 0)
             val = sdata[threadIdx.x + BLOCK_SIZE - 1];
     }
-#endif //__CUDA_ARCH__ > 100
+#endif // define(USE_WARPWISE_SCAN)
 }
 
 
@@ -396,13 +398,13 @@ template<typename InputIterator,
 
     //////////////////////
     // update intervals
-#if __CUDA_ARCH__ > 100
+#if defined(USE_WARPWISE_SCAN)
     exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
         (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
 #else
     exclusive_update_kernel<BLOCK_SIZE> <<<num_warps, BLOCK_SIZE>>>
         (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_carry_out[0]));
-#endif // __CUDA_ARCH__ > 100
+#endif // defined(USE_WARPWISE_SCAN)
 
     return result + n;
 } // end exclusive_scan()
