@@ -45,7 +45,7 @@ template<typename Value,
   // the incrementable type is int unless otherwise specified
   typedef typename ia_dflt_help<
     Incrementable,
-    thrust::detail::identity<int>
+    thrust::detail::identity_<int>
   >::type incrementable;
 
   typedef counting_iterator<

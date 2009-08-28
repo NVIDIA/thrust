@@ -212,7 +212,7 @@ template<typename Tuple, class UnaryMetaFun>
   struct tuple_meta_transform
     : thrust::detail::eval_if<
           thrust::detail::is_same<Tuple, thrust::null_type>::value
-        , thrust::detail::identity<thrust::null_type>
+        , thrust::detail::identity_<thrust::null_type>
         , tuple_meta_transform_impl<Tuple, UnaryMetaFun>
       >
 {
@@ -264,7 +264,7 @@ template<
 struct tuple_meta_accumulate
   : thrust::detail::eval_if<
         thrust::detail::is_same<Tuple, thrust::null_type>::value
-      , thrust::detail::identity<StartType>
+      , thrust::detail::identity_<StartType>
       , tuple_meta_accumulate_impl<
             Tuple
           , BinaryMetaFun

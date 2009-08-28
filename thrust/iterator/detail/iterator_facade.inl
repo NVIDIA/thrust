@@ -100,7 +100,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
       >::value,
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::experimental::random_access_traversal_tag>::value,
-        thrust::detail::identity<thrust::random_access_host_iterator_tag>,
+        thrust::detail::identity_<thrust::random_access_host_iterator_tag>,
         thrust::detail::eval_if<
           thrust::detail::is_convertible<Traversal, thrust::experimental::bidirectional_traversal_tag>::value,
           thrust::bidirectional_host_iterator_tag,
@@ -112,8 +112,8 @@ template<typename Traversal, typename ValueParam, typename Reference>
           thrust::detail::is_convertible<Traversal, thrust::experimental::single_pass_traversal_tag>,
           thrust::detail::is_convertible<Reference, ValueParam>
         >::value,
-        thrust::detail::identity<thrust::input_host_iterator_tag>,
-        thrust::detail::identity<Traversal>
+        thrust::detail::identity_<thrust::input_host_iterator_tag>,
+        thrust::detail::identity_<Traversal>
       >
     >
 {
@@ -130,7 +130,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
       >::value,
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::experimental::random_access_traversal_tag>::value,
-        thrust::detail::identity<thrust::random_access_device_iterator_tag>,
+        thrust::detail::identity_<thrust::random_access_device_iterator_tag>,
         thrust::detail::eval_if<
           thrust::detail::is_convertible<Traversal, thrust::experimental::bidirectional_traversal_tag>::value,
           thrust::bidirectional_device_iterator_tag,
@@ -142,8 +142,8 @@ template<typename Traversal, typename ValueParam, typename Reference>
           thrust::detail::is_convertible<Traversal, thrust::experimental::single_pass_traversal_tag>,
           thrust::detail::is_convertible<Reference, ValueParam>
         >::value,
-        thrust::detail::identity<thrust::input_device_iterator_tag>,
-        thrust::detail::identity<Traversal>
+        thrust::detail::identity_<thrust::input_device_iterator_tag>,
+        thrust::detail::identity_<Traversal>
       >
     >
 {
@@ -162,7 +162,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::experimental::random_access_traversal_tag>::value,
-        thrust::detail::identity<thrust::experimental::random_access_universal_iterator_tag>,
+        thrust::detail::identity_<thrust::experimental::random_access_universal_iterator_tag>,
 
         thrust::detail::eval_if<
           thrust::detail::is_convertible<Traversal, thrust::experimental::bidirectional_traversal_tag>::value,
@@ -176,8 +176,8 @@ template<typename Traversal, typename ValueParam, typename Reference>
           thrust::detail::is_convertible<Traversal, thrust::experimental::single_pass_traversal_tag>,
           thrust::detail::is_convertible<Reference, ValueParam>
         >::value,
-        thrust::detail::identity<thrust::experimental::input_universal_iterator_tag>,
-        thrust::detail::identity<Traversal>
+        thrust::detail::identity_<thrust::experimental::input_universal_iterator_tag>,
+        thrust::detail::identity_<Traversal>
       >
     >
 {
@@ -210,8 +210,8 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
         typename thrust::experimental::detail::iterator_category_to_space<category>::type
       >
     >::value,
-    thrust::detail::identity<category>,
-    thrust::detail::identity<iterator_category_with_space_and_traversal<category,Space,Traversal> >
+    thrust::detail::identity_<category>,
+    thrust::detail::identity_<iterator_category_with_space_and_traversal<category,Space,Traversal> >
   >::type type;
 }; // end iterator_facade_category_impl
 
@@ -225,7 +225,7 @@ template<typename CategoryOrSpace,
   typedef typename
   thrust::detail::eval_if<
     thrust::detail::is_iterator_category<CategoryOrTraversal>::value,
-    thrust::detail::identity<CategoryOrTraversal>, // categories are fine as-is
+    thrust::detail::identity_<CategoryOrTraversal>, // categories are fine as-is
     iterator_facade_category_impl<CategoryOrSpace, CategoryOrTraversal, ValueParam, Reference>
   >::type type;
 }; // end iterator_facade_category

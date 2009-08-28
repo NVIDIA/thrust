@@ -43,19 +43,19 @@ template <typename Category>
   struct category_to_traversal<Category, thrust::experimental::space::host>
     : eval_if<
         is_convertible<Category, random_access_host_iterator_tag>::value,
-        detail::identity<random_access_traversal_tag>,
+        detail::identity_<random_access_traversal_tag>,
         eval_if<
           is_convertible<Category, bidirectional_host_iterator_tag>::value,
-          detail::identity<bidirectional_traversal_tag>,
+          detail::identity_<bidirectional_traversal_tag>,
           eval_if<
             is_convertible<Category, forward_host_iterator_tag>::value,
-            detail::identity<forward_traversal_tag>,
+            detail::identity_<forward_traversal_tag>,
             eval_if<
               is_convertible<Category, input_host_iterator_tag>::value,
-              detail::identity<single_pass_traversal_tag>,
+              detail::identity_<single_pass_traversal_tag>,
               eval_if<
                 is_convertible<Category, output_host_iterator_tag>::value,
-                detail::identity<incrementable_traversal_tag>,
+                detail::identity_<incrementable_traversal_tag>,
                 void
               >
             >
@@ -71,19 +71,19 @@ template <typename Category>
   struct category_to_traversal<Category, thrust::experimental::space::device>
     : eval_if<
         is_convertible<Category, random_access_device_iterator_tag>::value,
-        detail::identity<random_access_traversal_tag>,
+        detail::identity_<random_access_traversal_tag>,
         eval_if<
           is_convertible<Category, bidirectional_device_iterator_tag>::value,
-          detail::identity<bidirectional_traversal_tag>,
+          detail::identity_<bidirectional_traversal_tag>,
           eval_if<
             is_convertible<Category, forward_device_iterator_tag>::value,
-            detail::identity<forward_traversal_tag>,
+            detail::identity_<forward_traversal_tag>,
             eval_if<
               is_convertible<Category, input_device_iterator_tag>::value,
-              detail::identity<single_pass_traversal_tag>,
+              detail::identity_<single_pass_traversal_tag>,
               eval_if<
                 is_convertible<Category, output_device_iterator_tag>::value,
-                detail::identity<incrementable_traversal_tag>,
+                detail::identity_<incrementable_traversal_tag>,
                 void
               >
             >
@@ -99,7 +99,7 @@ template <typename Category>
   struct category_to_traversal<Category, thrust::experimental::space::any>
     : eval_if<
         is_convertible<Category, thrust::experimental::random_access_universal_iterator_tag>::value,
-        detail::identity<random_access_traversal_tag>,
+        detail::identity_<random_access_traversal_tag>,
         // XXX fill in the other cases when we have the other any categories
         void
       >
@@ -112,7 +112,7 @@ template <typename CategoryOrTraversal>
   struct iterator_category_to_traversal
     : eval_if<
         is_iterator_traversal<CategoryOrTraversal>::value,
-        detail::identity<CategoryOrTraversal>,
+        detail::identity_<CategoryOrTraversal>,
         category_to_traversal<
           CategoryOrTraversal,
           typename iterator_category_to_space<CategoryOrTraversal>::type

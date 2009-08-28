@@ -41,7 +41,7 @@ struct ia_dflt_help
   : thrust::detail::eval_if<
         thrust::detail::is_same<T, thrust::experimental::use_default>::value
       , DefaultNullaryFn
-      , thrust::detail::identity<T>
+      , thrust::detail::identity_<T>
     >
 {
 }; // end ia_dflt_help

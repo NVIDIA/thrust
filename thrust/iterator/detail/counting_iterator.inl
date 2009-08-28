@@ -40,19 +40,19 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
   //    CategoryOrTraversal
   //  , mpl::eval_if<
   //        is_numeric<Incrementable>
-  //      , mpl::identity<random_access_traversal_tag>
+  //      , mpl::identity_<random_access_traversal_tag>
   //      , iterator_traversal<Incrementable>
   //    >
   //>::type traversal;
 
   typedef typename detail::ia_dflt_help<
     Space,
-    thrust::detail::identity<thrust::experimental::space::any>
+    thrust::detail::identity_<thrust::experimental::space::any>
   >::type space;
 
   typedef typename detail::ia_dflt_help<
     Traversal,
-    thrust::detail::identity<thrust::experimental::random_access_traversal_tag>
+    thrust::detail::identity_<thrust::experimental::random_access_traversal_tag>
   >::type traversal;
 
   // XXX TODO deduce all this
@@ -68,7 +68,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
   // for the moment, the difference type is either the default, which is ptrdiff_t, or whatever the user provides
   typedef typename detail::ia_dflt_help<
     Difference,
-    thrust::detail::identity<ptrdiff_t>
+    thrust::detail::identity_<ptrdiff_t>
   >::type difference;
 
   typedef iterator_adaptor<

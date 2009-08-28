@@ -308,7 +308,9 @@ template<typename Then, typename Else>
 }; // end eval_if
 
 template<typename T>
-  struct identity
+//  struct identity
+//  XXX WAR nvcc's confusion with thrust::identity
+  struct identity_
 {
   typedef T type;
 }; // end identity
