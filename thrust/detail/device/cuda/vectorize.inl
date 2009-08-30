@@ -108,7 +108,7 @@ void vectorize(IndexType n, UnaryFunction f)
 
     const size_t BLOCK_SIZE = 256;
     const size_t MAX_BLOCKS = 3 * thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
-    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, (n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t NUM_BLOCKS = std::min<size_t>(MAX_BLOCKS, (n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
     // B.1.4 in NVIDIA Programming Guide v2.2
     // XXX perhaps publish this somewhere

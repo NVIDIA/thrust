@@ -216,7 +216,7 @@ OutputIterator binary_search(ForwardIterator begin,
 
     const size_t BLOCK_SIZE = 256;
     const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
-    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( (values_end - values_begin) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t NUM_BLOCKS = std::min<size_t>(MAX_BLOCKS, ( (values_end - values_begin) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
     binary_search_kernel<<<NUM_BLOCKS, BLOCK_SIZE>>>
         (begin, end, values_begin, values_end, output, comp, func);
