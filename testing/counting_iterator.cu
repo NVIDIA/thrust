@@ -3,6 +3,19 @@
 #include <thrust/sort.h>
 #include <thrust/binary_search.h>
 
+
+void TestCountingIteratorCopyConstructor(void)
+{
+    thrust::experimental::counting_iterator<int> iter0(100);
+
+    thrust::experimental::counting_iterator<int> iter1(iter0);
+
+    ASSERT_EQUAL_QUIET(iter0, iter1);
+    ASSERT_EQUAL(*iter0, *iter1);
+}
+DECLARE_UNITTEST(TestCountingIteratorCopyConstructor);
+
+
 void TestCountingIteratorIncrement(void)
 {
     thrust::experimental::counting_iterator<int> iter(0);

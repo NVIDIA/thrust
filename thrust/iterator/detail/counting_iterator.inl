@@ -122,6 +122,28 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
 
 } // end device
 
+
+template<typename Difference, typename Incrementable1, typename Incrementable2>
+  struct iterator_distance
+{
+  __host__ __device__
+  static Difference distance(Incrementable1 x, Incrementable2 y)
+  {
+    return y - x;
+  }
+};
+
+
+template<typename Difference, typename Incrementable1, typename Incrementable2>
+  struct number_distance
+{
+  __host__ __device__
+  static Difference distance(Incrementable1 x, Incrementable2 y)
+  {
+    return numeric_distance(x,y);
+  }
+};
+
 } // end detail
 
 } // end thrust

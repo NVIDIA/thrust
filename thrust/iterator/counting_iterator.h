@@ -57,9 +57,8 @@ template<typename Incrementable,
     __host__ __device__
     counting_iterator(void){};
 
-    // XXX nvcc can't compile this at the moment
-    //__host__ __device__
-    //counting_iterator(counting_iterator const &rhs):super_t(rhs.base()){}
+    __host__ __device__
+    counting_iterator(counting_iterator const &rhs):super_t(rhs.base()){}
 
     __host__ __device__
     explicit counting_iterator(Incrementable x):super_t(x){}
@@ -71,19 +70,20 @@ template<typename Incrementable,
       return this->base_reference();
     }
 
-    // XXX enable distance to related counting_iterators later
-    //template <class OtherIncrementable>
-    //difference_type
-    //distance_to(counting_iterator<OtherIncrementable, CategoryOrTraversal, Difference> const& y) const
-    //{
-    //  typedef typename mpl::if_<
-    //      detail::is_numeric<Incrementable>
-    //    , detail::number_distance<difference_type, Incrementable, OtherIncrementable>
-    //    , detail::iterator_distance<difference_type, Incrementable, OtherIncrementable>
-    //  >::type d;
+    template <class OtherIncrementable>
+    __host__ __device__
+    difference_type
+    distance_to(counting_iterator<OtherIncrementable, Space, Traversal, Difference> const& y) const
+    {
+      typedef typename
+      thrust::detail::eval_if<
+        thrust::detail::is_numeric<Incrementable>::value,
+        thrust::detail::identity_<thrust::detail::number_distance<difference_type, Incrementable, OtherIncrementable> >,
+        thrust::detail::identity_<thrust::detail::iterator_distance<difference_type, Incrementable, OtherIncrementable> >
+      >::type d;
 
-    //  return d::distance(this->base(), y.base());
-    //}
+      return d::distance(this->base(), y.base());
+    }
 }; // end counting_iterator
 
 template <typename Incrementable>

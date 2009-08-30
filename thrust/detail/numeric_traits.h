@@ -97,6 +97,15 @@ template<typename Number>
 {}; // end numeric_difference
 
 
+template<typename Number>
+__host__ __device__
+typename numeric_difference<Number>::type
+numeric_distance(Number x, Number y)
+{
+  typedef typename numeric_difference<Number>::type difference_type;
+  return difference_type(y) - difference_type(x);
+} // end numeric_distance
+
 } // end detail
 
 } // end thrust
