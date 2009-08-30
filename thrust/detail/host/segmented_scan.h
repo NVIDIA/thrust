@@ -58,7 +58,7 @@ template<typename InputIterator1,
         {
             typename thrust::iterator_traits<InputIterator2>::value_type key = *first2;
 
-            if (pred(prev_key, key)) // generalize to BinaryPredicate 
+            if (pred(prev_key, key))
                 *result = prev_value = binary_op(prev_value, *first1);
             else
                 *result = prev_value = *first1;

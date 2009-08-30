@@ -40,18 +40,16 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
 {
-    if(first != last) {
-        typename thrust::iterator_traits<OutputIterator>::value_type prev;
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-        // first one is *first
-        *result = prev = *first;
+    if(first != last)
+    {
+        OutputType sum = *first;
 
-        for(++first, ++result;
-                first != last;
-                ++first, ++result)
-        {
-            *result = prev = binary_op(prev, *first);
-        }
+        *result = sum;
+
+        for(++first, ++result; first != last; ++first, ++result)
+            *result = sum = binary_op(sum, *first);
     }
 
     return result;
@@ -68,22 +66,21 @@ template<typename InputIterator,
                                 T init,
                                 AssociativeOperator binary_op)
 {
-    if(first != last) {
-        typename thrust::iterator_traits<OutputIterator>::value_type temp = *first;
-        typename thrust::iterator_traits<OutputIterator>::value_type next =  init;
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-        // first one is init
-        *result = next;
-        next = binary_op(init, temp);
+    if(first != last)
+    {
+        OutputType tmp = *first;  // temporary value allows in-situ scan
+        OutputType sum =  init;
 
-        for(++first, ++result;
-                first != last;
-                ++first, ++result)
+        *result = sum;
+        sum = binary_op(sum, tmp);
+
+        for(++first, ++result; first != last; ++first, ++result)
         {
-            // use temp to permit in-place scans
-            temp = *first;
-            *result = next;
-            next = binary_op(next, temp);
+            tmp = *first;
+            *result = sum;
+            sum = binary_op(sum, tmp);
         }
     }
 
