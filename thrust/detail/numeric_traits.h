@@ -1,0 +1,103 @@
+/*
+ *  Copyright 2008-2009 NVIDIA Corporation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+#pragma once
+
+#include <thrust/detail/type_traits.h>
+#include <limits>
+#include <stdint.h> // for intmax_t
+
+namespace thrust
+{
+
+namespace detail
+{
+
+template<typename Number>
+  struct is_signed
+    : integral_constant<bool, std::numeric_limits<Number>::is_signed>
+{}; // end is_signed
+
+
+template<typename T>
+  struct num_digits
+    : eval_if<
+        std::numeric_limits<T>::is_specialized,
+        integral_constant<
+          int,
+          std::numeric_limits<T>::digits
+        >,
+        integral_constant<
+          int,
+          sizeof(T) * std::numeric_limits<unsigned char>::digits - (is_signed<T>::value ? 1 : 0)  
+        >
+      >::type
+{}; // end num_digits
+
+
+template<typename Integer>
+  struct integer_difference
+    //: eval_if<
+    //    sizeof(Integer) >= sizeof(intmax_t),
+    //    eval_if<
+    //      is_signed<Integer>::value,
+    //      identity_<Integer>,
+    //      identity_<intmax_t>
+    //    >,
+    //    eval_if<
+    //      sizeof(Integer) < sizeof(std::ptrdiff_t),
+    //      identity_<std::ptrdiff_t>,
+    //      identity_<intmax_t>
+    //    >
+    //  >
+{
+  private:
+    typedef std::numeric_limits<Integer> x;
+
+  public:
+    typedef typename
+      eval_if<
+        x::is_signed &&
+        // digits is the number of no-sign bits
+        (!x::is_bounded || (int(x::digits) + 1 >= num_digits<intmax_t>::value)),
+        identity_<Integer>,
+        eval_if<
+          int(x::digits) + 1 < num_digits<signed int>::value,
+          identity_<signed int>,
+          eval_if<
+            int(x::digits) + 1 < num_digits<signed long>::value,
+            identity_<signed long>,
+            identity_<intmax_t>
+          >
+        >
+      >::type type;
+}; // end integer_difference
+
+
+template<typename Number>
+  struct numeric_difference
+    : eval_if<
+      is_integral<Number>::value,
+      integer_difference<Number>,
+      identity_<Number>
+    >
+{}; // end numeric_difference
+
+
+} // end detail
+
+} // end thrust
+

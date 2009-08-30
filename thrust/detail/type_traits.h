@@ -318,6 +318,16 @@ template<typename T>
 template<bool, typename T = void> struct enable_if {};
 template<typename T>              struct enable_if<true, T> {typedef T type;};
 
+
+template<typename T>
+  struct is_numeric
+    : and_<
+        is_convertible<int,T>,
+        is_convertible<T,int>
+      >
+{
+}; // end is_numeric
+
 } // end detail
 
 } // end thrust

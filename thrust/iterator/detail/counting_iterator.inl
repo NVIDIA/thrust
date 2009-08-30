@@ -18,6 +18,7 @@
 
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/numeric_traits.h>
 
 namespace thrust
 {
@@ -35,40 +36,37 @@ namespace detail
 template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   struct counting_iterator_base
 {
-  // XXX TODO deduce all this
-  //typedef typename detail::ia_dflt_help<
-  //    CategoryOrTraversal
-  //  , mpl::eval_if<
-  //        is_numeric<Incrementable>
-  //      , mpl::identity_<random_access_traversal_tag>
-  //      , iterator_traversal<Incrementable>
-  //    >
-  //>::type traversal;
-
   typedef typename detail::ia_dflt_help<
     Space,
     thrust::detail::identity_<thrust::experimental::space::any>
   >::type space;
 
   typedef typename detail::ia_dflt_help<
-    Traversal,
-    thrust::detail::identity_<thrust::experimental::random_access_traversal_tag>
+      Traversal,
+      thrust::detail::eval_if<
+          thrust::detail::is_numeric<Incrementable>::value,
+          thrust::detail::identity_<random_access_traversal_tag>,
+          thrust::experimental::iterator_traversal<Incrementable>
+      >
   >::type traversal;
 
-  // XXX TODO deduce all this
+  // XXX this is equivalent to Boost's implementation
   //typedef typename detail::ia_dflt_help<
-  //    Difference
-  //  , mpl::eval_if<
-  //        is_numeric<Incrementable>
-  //      , numeric_difference<Incrementable>
-  //      , iterator_difference<Incrementable>
-  //    >
+  //  Difference,
+  //  eval_if<
+  //    is_numeric<Incrementable>::value,
+  //    numeric_difference<Incrementable>,
+  //    iterator_difference<Incrementable>
+  //  >
   //>::type difference;
 
-  // for the moment, the difference type is either the default, which is ptrdiff_t, or whatever the user provides
   typedef typename detail::ia_dflt_help<
     Difference,
-    thrust::detail::identity_<ptrdiff_t>
+    thrust::detail::eval_if<
+      thrust::detail::is_numeric<Incrementable>::value,
+      thrust::detail::identity_<std::ptrdiff_t>,
+      thrust::experimental::iterator_difference<Incrementable>
+    >
   >::type difference;
 
   typedef iterator_adaptor<
