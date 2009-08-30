@@ -493,9 +493,6 @@ equal_range(ForwardIterator first,
             StrictWeakOrdering comp);
 
 
-namespace experimental
-{
-
 /*! \addtogroup vectorized_binary_search Vectorized Searches
  *  \ingroup binary_search
  *  \{
@@ -505,7 +502,60 @@ namespace experimental
 // Vector Functions //
 //////////////////////
 
-/*! \p lower_bound
+/*! \p lower_bound is a vectorized version of binary search: for each 
+ * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
+ * Specifically, it returns the index of first position where value could
+ * be inserted without violating the ordering.
+ *
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
+ *  \param values_first The beginning of the search values sequence.
+ *  \param values_last The end of the search values sequence.
+ *  \param output The beginning of the output sequence.
+ * 
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *                        and \c InputIterator's \c value_type is <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *                        and \c ForwardIterator's difference_type is convertible to \c OutputIterator's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p lower_bound
+ *  to search for multiple values in a ordered range.
+ *
+ *  \code
+ *  #include <thrust/binary_search.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> input(5);
+ *
+ *  input[0] = 0;
+ *  input[1] = 2;
+ *  input[2] = 5;
+ *  input[3] = 7;
+ *  input[4] = 8;
+ *
+ *  thrust::device_vector<int> values(6);
+ *  values[0] = 0; 
+ *  values[1] = 1;
+ *  values[2] = 2;
+ *  values[3] = 3;
+ *  values[4] = 8;
+ *  values[5] = 9;
+ *
+ *  thrust::device_vector<unsigned int> output(6);
+ *
+ *  thrust::lower_bound(input.begin(), input.end(),
+ *                      values.begin(), values.end(),
+ *                      output.begin());
+ *
+ *  // output is now [0, 1, 1, 2, 4, 5]
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/lower_bound.html
+ *  \see \p upper_bound
+ *  \see \p equal_range
+ *  \see \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator>
 OutputIterator lower_bound(ForwardIterator first, 
@@ -514,7 +564,66 @@ OutputIterator lower_bound(ForwardIterator first,
                            InputIterator values_last,
                            OutputIterator output);
 
-/*! \p lower_bound
+
+/*! \p lower_bound is a vectorized version of binary search: for each 
+ * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
+ * Specifically, it returns the index of first position where value could
+ * be inserted without violating the ordering.  This version of 
+ * \p lower_bound uses function object \c comp for comparison.
+ *
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
+ *  \param values_first The beginning of the search values sequence.
+ *  \param values_last The end of the search values sequence.
+ *  \param output The beginning of the output sequence.
+ *  \param comp The comparison operator.
+ * 
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *                        and \c InputIterator's \c value_type is comparable to \p ForwardIterator's \c value_type.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *                        and \c ForwardIterator's difference_type is convertible to \c OutputIterator's \c value_type.
+ *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p lower_bound
+ *  to search for multiple values in a ordered range.
+ *
+ *  \code
+ *  #include <thrust/binary_search.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  thrust::device_vector<int> input(5);
+ *
+ *  input[0] = 0;
+ *  input[1] = 2;
+ *  input[2] = 5;
+ *  input[3] = 7;
+ *  input[4] = 8;
+ *
+ *  thrust::device_vector<int> values(6);
+ *  values[0] = 0; 
+ *  values[1] = 1;
+ *  values[2] = 2;
+ *  values[3] = 3;
+ *  values[4] = 8;
+ *  values[5] = 9;
+ *
+ *  thrust::device_vector<unsigned int> output(6);
+ *
+ *  thrust::lower_bound(input.begin(), input.end(),
+ *                      values.begin(), values.end(), 
+ *                      output.begin(),
+ *                      thrust::less<int>());
+ *
+ *  // output is now [0, 1, 1, 2, 4, 5]
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/lower_bound.html
+ *  \see \p upper_bound
+ *  \see \p equal_range
+ *  \see \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
 OutputIterator lower_bound(ForwardIterator first, 
@@ -524,7 +633,61 @@ OutputIterator lower_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp);
 
-/*! \p upper_bound
+
+/*! \p upper_bound is a vectorized version of binary search: for each 
+ * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
+ * Specifically, it returns the index of last position where value could
+ * be inserted without violating the ordering.
+ *
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
+ *  \param values_first The beginning of the search values sequence.
+ *  \param values_last The end of the search values sequence.
+ *  \param output The beginning of the output sequence.
+ * 
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *                        and \c InputIterator's \c value_type is <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *                        and \c ForwardIterator's difference_type is convertible to \c OutputIterator's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p lower_bound
+ *  to search for multiple values in a ordered range.
+ *
+ *  \code
+ *  #include <thrust/binary_search.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> input(5);
+ *
+ *  input[0] = 0;
+ *  input[1] = 2;
+ *  input[2] = 5;
+ *  input[3] = 7;
+ *  input[4] = 8;
+ *
+ *  thrust::device_vector<int> values(6);
+ *  values[0] = 0; 
+ *  values[1] = 1;
+ *  values[2] = 2;
+ *  values[3] = 3;
+ *  values[4] = 8;
+ *  values[5] = 9;
+ *
+ *  thrust::device_vector<unsigned int> output(6);
+ *
+ *  thrust::upper_bound(input.begin(), input.end(),
+ *                      values.begin(), values.end(),
+ *                      output.begin());
+ *
+ *  // output is now [1, 1, 2, 2, 5, 5]
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/upper_bound.html
+ *  \see \p upper_bound
+ *  \see \p equal_range
+ *  \see \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator>
 OutputIterator upper_bound(ForwardIterator first, 
@@ -533,7 +696,66 @@ OutputIterator upper_bound(ForwardIterator first,
                            InputIterator values_last,
                            OutputIterator output);
 
-/*! \p upper_bound
+
+/*! \p upper_bound is a vectorized version of binary search: for each 
+ * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
+ * Specifically, it returns the index of first position where value could
+ * be inserted without violating the ordering.  This version of 
+ * \p upper_bound uses function object \c comp for comparison.
+*
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
+ *  \param values_first The beginning of the search values sequence.
+ *  \param values_last The end of the search values sequence.
+ *  \param output The beginning of the output sequence.
+ *  \param comp The comparison operator.
+ * 
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *                        and \c InputIterator's \c value_type is comparable to \p ForwardIterator's \c value_type.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *                        and \c ForwardIterator's difference_type is convertible to \c OutputIterator's \c value_type.
+ *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p lower_bound
+ *  to search for multiple values in a ordered range.
+ *
+ *  \code
+ *  #include <thrust/binary_search.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  thrust::device_vector<int> input(5);
+ *
+ *  input[0] = 0;
+ *  input[1] = 2;
+ *  input[2] = 5;
+ *  input[3] = 7;
+ *  input[4] = 8;
+ *
+ *  thrust::device_vector<int> values(6);
+ *  values[0] = 0; 
+ *  values[1] = 1;
+ *  values[2] = 2;
+ *  values[3] = 3;
+ *  values[4] = 8;
+ *  values[5] = 9;
+ *
+ *  thrust::device_vector<unsigned int> output(6);
+ *
+ *  thrust::upper_bound(input.begin(), input.end(),
+ *                      values.begin(), values.end(), 
+ *                      output.begin(),
+ *                      thrust::less<int>());
+ *
+ *  // output is now [1, 1, 2, 2, 5, 5]
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/upper_bound.html
+ *  \see \p lower_bound
+ *  \see \p equal_range
+ *  \see \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
 OutputIterator upper_bound(ForwardIterator first, 
@@ -543,7 +765,62 @@ OutputIterator upper_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp);
 
-/*! \p binary_search
+
+/*! \p binary_search is a vectorized version of binary search: for each 
+ * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
+ * It returns \c true if an element that is equivalent to \c value 
+ * is present in <tt>[first, last)</tt> and \c false if no such element
+ * exists.
+ *
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
+ *  \param values_first The beginning of the search values sequence.
+ *  \param values_last The end of the search values sequence.
+ *  \param output The beginning of the output sequence.
+ * 
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *                        and \c InputIterator's \c value_type is <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *                        and bool is convertible to \c OutputIterator's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p binary_search
+ *  to search for multiple values in a ordered range.
+ *
+ *  \code
+ *  #include <thrust/binary_search.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> input(5);
+ *
+ *  input[0] = 0;
+ *  input[1] = 2;
+ *  input[2] = 5;
+ *  input[3] = 7;
+ *  input[4] = 8;
+ *
+ *  thrust::device_vector<int> values(6);
+ *  values[0] = 0; 
+ *  values[1] = 1;
+ *  values[2] = 2;
+ *  values[3] = 3;
+ *  values[4] = 8;
+ *  values[5] = 9;
+ *
+ *  thrust::device_vector<bool> output(6);
+ *
+ *  thrust::binary_search(input.begin(), input.end(),
+ *                        values.begin(), values.end(),
+ *                        output.begin());
+ *
+ *  // output is now [true, false, true, false, true, false]
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/binary_search.html
+ *  \see \p lower_bound
+ *  \see \p upper_bound
+ *  \see \p equal_range
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator>
 OutputIterator binary_search(ForwardIterator first, 
@@ -552,6 +829,67 @@ OutputIterator binary_search(ForwardIterator first,
                              InputIterator values_last,
                              OutputIterator output);
 
+
+/*! \p binary_search is a vectorized version of binary search: for each 
+ * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
+ * It returns \c true if an element that is equivalent to \c value 
+ * is present in <tt>[first, last)</tt> and \c false if no such element
+ * exists.  This version of \p binary_search uses function object 
+ * \c comp for comparison.
+ *
+ *  \param first The beginning of the ordered sequence.
+ *  \param last The end of the ordered sequence.
+ *  \param values_first The beginning of the search values sequence.
+ *  \param values_last The end of the search values sequence.
+ *  \param output The beginning of the output sequence.
+ * 
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *                        and \c InputIterator's \c value_type is <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *                        and bool is convertible to \c OutputIterator's \c value_type.
+ *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p binary_search
+ *  to search for multiple values in a ordered range.
+ *
+ *  \code
+ *  #include <thrust/binary_search.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  thrust::device_vector<int> input(5);
+ *
+ *  input[0] = 0;
+ *  input[1] = 2;
+ *  input[2] = 5;
+ *  input[3] = 7;
+ *  input[4] = 8;
+ *
+ *  thrust::device_vector<int> values(6);
+ *  values[0] = 0; 
+ *  values[1] = 1;
+ *  values[2] = 2;
+ *  values[3] = 3;
+ *  values[4] = 8;
+ *  values[5] = 9;
+ *
+ *  thrust::device_vector<bool> output(6);
+ *
+ *  thrust::binary_search(input.begin(), input.end(),
+ *                        values.begin(), values.end(),
+ *                        output.begin(),
+ *                        thrust::less<T>());
+ *
+ *  // output is now [true, false, true, false, true, false]
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/binary_search.html
+ *  \see \p lower_bound
+ *  \see \p upper_bound
+ *  \see \p equal_range
+ */
 /*! \p binary_search
  */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -573,8 +911,6 @@ OutputIterator binary_search(ForwardIterator first,
 /*! \} // end binary_search
  *  \} // end searching
  */
-
-} // end namespace experimental
 
 } // end namespace thrust
 

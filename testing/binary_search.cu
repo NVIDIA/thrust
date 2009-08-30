@@ -160,9 +160,9 @@ void TestVectorLowerBoundSimple(void)
 
     // test with integral output type
     IntVector integral_output(10);
-    thrust::experimental::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    thrust::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
     
-    typename IntVector::iterator output_end = thrust::experimental::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    typename IntVector::iterator output_end = thrust::lower_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
 
     ASSERT_EQUAL((output_end - integral_output.begin()), 10);
 
@@ -216,7 +216,7 @@ void TestVectorUpperBoundSimple(void)
 
     // test with integral output type
     IntVector integral_output(10);
-    typename IntVector::iterator output_end = thrust::experimental::upper_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    typename IntVector::iterator output_end = thrust::upper_bound(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
 
     ASSERT_EQUAL((output_end - integral_output.begin()), 10);
 
@@ -271,7 +271,7 @@ void TestVectorBinarySearchSimple(void)
 
     // test with boolean output type
     BoolVector bool_output(10);
-    typename BoolVector::iterator bool_output_end = thrust::experimental::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), bool_output.begin());
+    typename BoolVector::iterator bool_output_end = thrust::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), bool_output.begin());
 
     ASSERT_EQUAL((bool_output_end - bool_output.begin()), 10);
 
@@ -288,7 +288,7 @@ void TestVectorBinarySearchSimple(void)
     
     // test with integral output type
     IntVector integral_output(10, 2);
-    typename IntVector::iterator int_output_end = thrust::experimental::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
+    typename IntVector::iterator int_output_end = thrust::binary_search(vec.begin(), vec.end(), input.begin(), input.end(), integral_output.begin());
 
     ASSERT_EQUAL((int_output_end - integral_output.begin()), 10);
     
@@ -323,8 +323,8 @@ struct TestVectorLowerBound
     thrust::host_vector<int>   h_output(4*n);
     thrust::device_vector<int> d_output(4*n);
 
-    thrust::experimental::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
-    thrust::experimental::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
+    thrust::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
+    thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_ALMOST_EQUAL(h_output, d_output);
   }
@@ -349,8 +349,8 @@ struct TestVectorUpperBound
     thrust::host_vector<int>   h_output(4*n);
     thrust::device_vector<int> d_output(4*n);
 
-    thrust::experimental::upper_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
-    thrust::experimental::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
+    thrust::upper_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
+    thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_ALMOST_EQUAL(h_output, d_output);
   }
@@ -374,8 +374,8 @@ struct TestVectorBinarySearch
     thrust::host_vector<int>   h_output(4*n);
     thrust::device_vector<int> d_output(4*n);
 
-    thrust::experimental::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
-    thrust::experimental::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
+    thrust::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
+    thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_ALMOST_EQUAL(h_output, d_output);
   }

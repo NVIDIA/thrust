@@ -74,19 +74,19 @@ int main(void)
                       points.begin());
 
   // find the beginning of each bucket's list of points
-  thrust::experimental::counting_iterator<int> search_begin(0);
-  thrust::experimental::lower_bound(bucket_indices.begin(),
-                                    bucket_indices.end(),
-                                    search_begin,
-                                    search_begin + w*h,
-                                    bucket_begin.begin());
+  thrust::experimental::counting_iterator<unsigned int> search_begin(0);
+  thrust::lower_bound(bucket_indices.begin(),
+                      bucket_indices.end(),
+                      search_begin,
+                      search_begin + w*h,
+                      bucket_begin.begin());
 
   // find the end of each bucket's list of points
-  thrust::experimental::upper_bound(bucket_indices.begin(),
-                                    bucket_indices.end(),
-                                    search_begin,
-                                    search_begin + w*h,
-                                    bucket_end.begin());
+  thrust::upper_bound(bucket_indices.begin(),
+                      bucket_indices.end(),
+                      search_begin,
+                      search_begin + w*h,
+                      bucket_end.begin());
 
   // write out bucket (150, 50)'s list of points
   unsigned int bucket_idx = 50 * w + 150;

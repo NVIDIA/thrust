@@ -116,9 +116,6 @@ equal_range(ForwardIterator first,
 // Vector Functions //
 //////////////////////
 
-namespace experimental
-{
-
 template <class ForwardIterator, class InputIterator, class OutputIterator>
 OutputIterator lower_bound(ForwardIterator first, 
                            ForwardIterator last,
@@ -128,7 +125,7 @@ OutputIterator lower_bound(ForwardIterator first,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::experimental::lower_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
+    return thrust::lower_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -155,7 +152,7 @@ OutputIterator upper_bound(ForwardIterator first,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::experimental::upper_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
+    return thrust::upper_bound(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -182,7 +179,7 @@ OutputIterator binary_search(ForwardIterator first,
 {
     typedef typename thrust::iterator_traits<InputIterator>::value_type ValueType;
 
-    return thrust::experimental::binary_search(first, last, values_first, values_last, output, thrust::less<ValueType>());
+    return thrust::binary_search(first, last, values_first, values_last, output, thrust::less<ValueType>());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -199,9 +196,6 @@ OutputIterator binary_search(ForwardIterator first,
             typename thrust::experimental::iterator_space<InputIterator>::type(),
             typename thrust::experimental::iterator_space<OutputIterator>::type());
 }
-
-
-} // end namespace experimental
 
 } // end namespace thrust
 

@@ -90,13 +90,9 @@ void TestCountingIteratorLowerBound(void)
     thrust::device_vector<unsigned int> d_result(M);
 
 
-    thrust::experimental::lower_bound(h_data.begin(), h_data.end(),
-                                      search_begin, search_end,
-                                      h_result.begin());
+    thrust::lower_bound(h_data.begin(), h_data.end(), search_begin, search_end, h_result.begin());
 
-    thrust::experimental::lower_bound(d_data.begin(), d_data.end(),
-                                      search_begin, search_end,
-                                      d_result.begin());
+    thrust::lower_bound(d_data.begin(), d_data.end(), search_begin, search_end, d_result.begin());
 
     ASSERT_EQUAL(h_result, d_result);
 }
