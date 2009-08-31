@@ -106,7 +106,7 @@ template<typename InputIterator,
 
     // find the end of the new sequence
     size_of_new_sequence = not_pred_scatter_indices[n - 1]
-                         + (not_pred(*(end-1)) ? 1 : 0);
+                         + (result_of_not_pred[n - 1] ? 1 : 0);
   } // end if
 
   return result + size_of_new_sequence;
