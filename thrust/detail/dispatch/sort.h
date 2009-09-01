@@ -43,53 +43,25 @@ namespace dispatch
 /// HOST PATHS ///
 //////////////////
 
-template<typename RandomAccessIterator>
-  void sort(RandomAccessIterator begin,
-            RandomAccessIterator end,
-            thrust::experimental::space::host)
-{
-    std::sort(begin, end);
-}
-
 template<typename RandomAccessIterator,
-         typename StrictWeakCompare>
+         typename StrictWeakOrdering>
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
-            StrictWeakCompare comp,
+            StrictWeakOrdering comp,
             thrust::experimental::space::host)
 {
     std::sort(begin, end, comp);
 }
 
 
-template<typename RandomAccessIterator>
-  void stable_sort(RandomAccessIterator begin,
-                   RandomAccessIterator end,
-                   thrust::experimental::space::host)
-{
-    std::stable_sort(begin,end);
-}
-
-
 template<typename RandomAccessIterator,
-         typename StrictWeakCompare>
+         typename StrictWeakOrdering>
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
-                   StrictWeakCompare comp,
+                   StrictWeakOrdering comp,
                    thrust::experimental::space::host)
 {
     std::stable_sort(begin,end,comp);
-}
-
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_sort_by_key(RandomAccessKeyIterator keys_begin,
-                          RandomAccessKeyIterator keys_end,
-                          RandomAccessValueIterator values_begin,
-                          thrust::experimental::space::host,
-                          thrust::experimental::space::host)
-{
-    thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin);
 }
 
 template<typename RandomAccessKeyIterator,
@@ -111,104 +83,88 @@ template<typename RandomAccessKeyIterator,
 /// DEVICE PATHS ///
 ////////////////////
 
-template<typename RandomAccessIterator>
-  void sort(RandomAccessIterator begin,
-            RandomAccessIterator end,
-            thrust::experimental::space::device)
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort_with_radix_sort(RandomAccessIterator begin,
+                                   RandomAccessIterator end,
+                                   StrictWeakOrdering comp,
+                                   thrust::detail::true_type)
 {
-    // pass to thrust::stable_sort
-    thrust::stable_sort(begin, end);
-}
-
-// TODO add device in function name
-template<typename RandomAccessIterator>
-  void stable_sort_pod(RandomAccessIterator begin,
-                       RandomAccessIterator end,
-                       thrust::detail::true_type)
-{
-    // device path for thrust::stable_sort with plain old data (POD) keys,
-    // (e.g. int, float, short, etc.) is implemented with stable_radix_sort
+    // device path for thrust::stable_sort with primitive keys
+    // (e.g. int, float, short, etc.) and the default less<T> comparison
+    // method is implemented with stable_radix_sort
     thrust::sorting::stable_radix_sort(begin, end);
 }
 
-template<typename RandomAccessIterator>
-  void stable_sort_pod(RandomAccessIterator begin,
-                       RandomAccessIterator end,
-                       thrust::detail::false_type)
-{
-    // device path for thrust::stable_sort with non-POD keys is implemented
-    // with thrust::stable_merge_sort
-    thrust::sorting::stable_merge_sort(begin, end);
-}
-
-template<typename RandomAccessIterator>
-  void stable_sort(RandomAccessIterator begin,
-                   RandomAccessIterator end,
-                   thrust::experimental::space::device)
-{
-    // dispatch on whether KeyType is PlainOldData
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-    stable_sort_pod(begin, end, thrust::detail::is_pod<KeyType>());
-}
-
 template<typename RandomAccessIterator,
-         typename StrictWeakCompare>
-  void sort(RandomAccessIterator begin,
-            RandomAccessIterator end,
-            StrictWeakCompare comp,
-            thrust::experimental::space::device)
+         typename StrictWeakOrdering>
+  void stable_sort_with_radix_sort(RandomAccessIterator begin,
+                                   RandomAccessIterator end,
+                                   StrictWeakOrdering comp,
+                                   thrust::detail::false_type)
 {
-    // just pass to thrust::stable_sort
-    thrust::stable_sort(begin, end, comp);
-}
-
-template<typename RandomAccessIterator,
-         typename StrictWeakCompare>
-  void stable_sort(RandomAccessIterator begin,
-                   RandomAccessIterator end,
-                   StrictWeakCompare comp,
-                   thrust::experimental::space::device)
-{
-    // use stable_merge_sort for general comparison methods
+    // device path for thrust::stable_sort with general keys 
+    // and comparison methods is implemented with stable_merge_sort
     thrust::sorting::stable_merge_sort(begin, end, comp);
 }
 
 template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_sort_by_key_device_pod_switch(RandomAccessKeyIterator keys_begin,
-                                            RandomAccessKeyIterator keys_end,
-                                            RandomAccessValueIterator values_begin,
-                                            thrust::detail::true_type)
+         typename RandomAccessValueIterator,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key_with_radix_sort(RandomAccessKeyIterator keys_begin,
+                                          RandomAccessKeyIterator keys_end,
+                                          RandomAccessValueIterator values_begin,
+                                          StrictWeakOrdering comp,
+                                          thrust::detail::true_type)
 {
-    // device path for thrust::stable_sort_by_key with plain old data (POD) keys,
-    // (e.g. int, float, short, etc.) is implemented with stable_radix_sort_by_key
+    // device path for thrust::stable_sort_by_key with primitive keys
+    // (e.g. int, float, short, etc.) and the default less<T> comparison
+    // method is implemented with stable_radix_sort_by_key
     thrust::sorting::stable_radix_sort_by_key(keys_begin, keys_end, values_begin);
 }
 
 template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_sort_by_key_device_pod_switch(RandomAccessKeyIterator keys_begin,
-                                            RandomAccessKeyIterator keys_end,
-                                            RandomAccessValueIterator values_begin,
-                                            thrust::detail::false_type)
+         typename RandomAccessValueIterator,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key_with_radix_sort(RandomAccessKeyIterator keys_begin,
+                                          RandomAccessKeyIterator keys_end,
+                                          RandomAccessValueIterator values_begin,
+                                          StrictWeakOrdering comp,
+                                          thrust::detail::false_type)
 {
-    // device path for thrust::stable_sort_by_key with non-POD keys is implemented
-    // with thrust::stable_merge_sort_by_key
-    thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin);
+    // device path for thrust::stable_sort with general keys 
+    // and comparison methods is implemented with stable_merge_sort
+    thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_sort_by_key(RandomAccessKeyIterator keys_begin,
-                          RandomAccessKeyIterator keys_end,
-                          RandomAccessValueIterator values_begin,
-                          thrust::experimental::space::device,
-                          thrust::experimental::space::device)
+
+// XXX entry points
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void sort(RandomAccessIterator begin,
+            RandomAccessIterator end,
+            StrictWeakOrdering comp,
+            thrust::experimental::space::device)
 {
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
-    stable_sort_by_key_device_pod_switch
-        (keys_begin, keys_end, values_begin, thrust::detail::is_pod<KeyType>());
+    // XXX forward to thrust::stable_sort
+    thrust::stable_sort(begin, end, comp);
 }
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(RandomAccessIterator begin,
+                   RandomAccessIterator end,
+                   StrictWeakOrdering comp,
+                   thrust::experimental::space::device)
+{
+    // dispatch on whether we can use radix_sort
+    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+    static const bool use_radix_sort = thrust::detail::is_pod<KeyType>::value &&
+                                       thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
+
+    stable_sort_with_radix_sort(begin, end, comp, thrust::detail::integral_constant<bool, use_radix_sort>());
+}
+
 
 template<typename RandomAccessKeyIterator,
          typename RandomAccessValueIterator,
@@ -220,7 +176,13 @@ template<typename RandomAccessKeyIterator,
                           thrust::experimental::space::device,
                           thrust::experimental::space::device)
 {
-    thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    // dispatch on whether we can use radix_sort
+    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+    static const bool use_radix_sort = thrust::detail::is_pod<KeyType>::value &&
+                                       thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
+
+    stable_sort_by_key_with_radix_sort(keys_begin, keys_end, values_begin, comp,
+            thrust::detail::integral_constant<bool, use_radix_sort>());
 }
 
 } // end namespace dispatch

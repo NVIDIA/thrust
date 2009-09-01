@@ -27,17 +27,18 @@
 namespace thrust
 {
 
-///////////////////////
-// Sort Entry Points //
-///////////////////////
+///////////////
+// Key Sorts //
+///////////////
 
 template<typename RandomAccessIterator>
   void sort(RandomAccessIterator first,
             RandomAccessIterator last)
 {
-    // dispatch on space
-    thrust::detail::dispatch::sort(first, last,
-            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+
+    // default comparison method is less<KeyType>
+    thrust::sort(first, last, thrust::less<KeyType>());
 }
 
 template<typename RandomAccessIterator,
@@ -55,9 +56,10 @@ template<typename RandomAccessIterator>
   void stable_sort(RandomAccessIterator first,
                    RandomAccessIterator last)
 {
-    // dispatch on space
-    thrust::detail::dispatch::stable_sort(first, last,
-            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+
+    // default comparison method is less<KeyType>
+    thrust::stable_sort(first, last, thrust::less<KeyType>());
 } 
 
 template<typename RandomAccessIterator,
@@ -73,9 +75,9 @@ template<typename RandomAccessIterator,
 
 
 
-
-// The STL has no analog of sort_by_key() or stable_sort_by_key(),
-// so we rely on merge_sort_by_key() and radix_sort_by_key()
+/////////////////////
+// Key-Value Sorts //
+/////////////////////
 
 template<typename RandomAccessKeyIterator,
          typename RandomAccessValueIterator>
@@ -83,7 +85,10 @@ template<typename RandomAccessKeyIterator,
                    RandomAccessKeyIterator keys_last,
                    RandomAccessValueIterator values_first)
 {
-    stable_sort_by_key(keys_first, keys_last, values_first);
+    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+
+    // default comparison method is less<KeyType>
+    sort_by_key(keys_first, keys_last, values_first, thrust::less<KeyType>());
 }
 
 template<typename RandomAccessKeyIterator,
@@ -94,6 +99,7 @@ template<typename RandomAccessKeyIterator,
                    RandomAccessValueIterator values_first,
                    StrictWeakOrdering comp)
 {
+    // XXX forward sort_by_key to stable_sort_by_key
     stable_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
@@ -103,10 +109,10 @@ template<typename RandomAccessKeyIterator,
                           RandomAccessKeyIterator keys_last,
                           RandomAccessValueIterator values_first)
 {
-    // dispatch on space
-    thrust::detail::dispatch::stable_sort_by_key(keys_first, keys_last, values_first,
-            typename thrust::experimental::iterator_space<RandomAccessKeyIterator>::type(),
-            typename thrust::experimental::iterator_space<RandomAccessValueIterator>::type());
+    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+
+    // default comparison method is less<KeyType>
+    thrust::stable_sort_by_key(keys_first, keys_last, values_first, thrust::less<KeyType>());
 }
 
 template<typename RandomAccessKeyIterator,
