@@ -1,20 +1,27 @@
-from build import plot_results
+from build import plot_results, print_results
 
 #valid formats are png, pdf, ps, eps and svg
 #if format=None the plot will be displayed
 format = 'png'
+output = print_results
+#output = plot_results
 
 for function in ['fill', 'reduce', 'inner_product']:
-    plot_results(function + '.xml', 'InputType', 'InputSize', 'Bandwidth', format=format)
+    output(function + '.xml', 'InputType', 'InputSize', 'Bandwidth', format=format)
 
 for function in ['inclusive_scan', 'inclusive_segmented_scan', 'unique']:
-    plot_results(function + '.xml', 'InputType', 'InputSize', 'Throughput', format=format)
+    output(function + '.xml', 'InputType', 'InputSize', 'Throughput', format=format)
 
 for method in ['sort', 'merge_sort', 'radix_sort']:
-    plot_results(method + '.xml',    'KeyType', 'InputSize', 'Sorting', format=format)
-    plot_results(method + '_by_key.xml', 'KeyType', 'InputSize', 'Sorting', format=format)
+    output(method + '.xml',    'KeyType', 'InputSize', 'Sorting', title='thrust::' + method, format=format)
+    output(method + '_by_key.xml', 'KeyType', 'InputSize', 'Sorting', title='thrust::' + method + '_by_key', format=format)
+    
+output('stl_sort.xml', 'KeyType', 'InputSize', 'Sorting', title='std::sort', format=format)
+
+for method in ['radix_sort']:
+    output(method + '_bits.xml', 'KeyType', 'KeyBits', 'Sorting', title='thrust::' + method, plot='plot', dpi=72, format=format)
 
 for format in ['png', 'pdf']:
-    plot_results('reduce_float.xml', 'InputType', 'InputSize', 'Bandwidth', dpi=120, plot='semilogx', title='thrust::reduce<float>()', format=format)
-    plot_results('sort_large.xml',  'KeyType', 'InputSize', 'Sorting', dpi=120, plot='semilogx', title='thrust::sort<T>()', format=format)
+    output('reduce_float.xml', 'InputType', 'InputSize', 'Bandwidth', dpi=120, plot='semilogx', title='thrust::reduce<float>()', format=format)
+    output('sort_large.xml',  'KeyType', 'InputSize', 'Sorting', dpi=120, plot='semilogx', title='thrust::sort<T>()', format=format)
 

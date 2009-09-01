@@ -5,7 +5,13 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$KeyType>   h_keys = thrusttest::random_integers<$KeyType>($InputSize);
+    const size_t InputSize = 1 << 24;
+    thrust::host_vector<$KeyType>   h_keys = thrusttest::random_integers<$KeyType>(InputSize);
+
+    // set upper bits to zero
+    for(size_t i = 0; i < InputSize; i++)
+        h_keys[i] >>= (32 - $KeyBits);
+
     thrust::device_vector<$KeyType> d_keys = h_keys;
     thrust::device_vector<$KeyType> d_keys_copy = d_keys;
     
@@ -25,12 +31,12 @@ TIME = \
 FINALIZE = \
     """
     RECORD_TIME();
-    RECORD_SORTING_RATE(double($InputSize));
+    RECORD_SORTING_RATE(double(InputSize));
     """
 
 
-KeyTypes = ['char', 'short', 'int', 'long', 'float', 'double']
-InputSizes = [2**N for N in range(18, 25)]
+KeyTypes = ['unsigned int']
+KeyBits = range(1, 33)
 
-TestVariables = [('KeyType', KeyTypes), ('InputSize', InputSizes)]
+TestVariables = [('KeyType', KeyTypes), ('KeyBits',KeyBits)]
 

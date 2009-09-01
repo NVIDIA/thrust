@@ -29,8 +29,8 @@ FINALIZE = \
     """
 
 
-KeyTypes = ['char', 'short', 'int', 'long long', 'float', 'double']
-InputSizes = StandardSizes
+KeyTypes = ['char', 'short', 'int', 'long', 'float', 'double']
+InputSizes = [2**N for N in range(18, 25)]
 
 TestVariables = [('KeyType', KeyTypes), ('InputSize', InputSizes)]
 
