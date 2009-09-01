@@ -50,8 +50,8 @@ template<typename ForwardIterator,
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // partition to temp space
-  raw_buffer<InputType, experimental::space::device> temp(thrust::distance(first,last));
-  typename raw_buffer<InputType,experimental::space::device>::iterator temp_middle = thrust::experimental::stable_partition_copy(first, last, temp.begin(), pred);
+  raw_device_buffer<InputType> temp(thrust::distance(first,last));
+  typename raw_device_buffer<InputType>::iterator temp_middle = thrust::experimental::stable_partition_copy(first, last, temp.begin(), pred);
     
   // copy back to original sequence
   thrust::copy(temp.begin(), temp.end(), first);

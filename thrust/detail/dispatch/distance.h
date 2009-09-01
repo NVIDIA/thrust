@@ -39,7 +39,7 @@ namespace dispatch
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last,
-             thrust::experimental::space::host)
+             thrust::host_space_tag)
 {
   return std::distance(first, last);
 } // end distance()
@@ -51,7 +51,7 @@ template<typename InputIterator>
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last,
-             thrust::experimental::space::device)
+             thrust::device_space_tag)
 {
   return thrust::detail::device::distance(first, last);
 } // end distance()

@@ -43,7 +43,7 @@ template<typename ForwardIterator,
   ForwardIterator partition(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred,
-                            thrust::experimental::space::host)
+                            thrust::host_space_tag)
 {
     return thrust::detail::host::partition(first, last, pred);
 }
@@ -55,8 +55,8 @@ template<typename ForwardIterator1,
                                   ForwardIterator1 last,
                                   ForwardIterator2 result,
                                   Predicate pred,
-                                  thrust::experimental::space::host,
-                                  thrust::experimental::space::host)
+                                  thrust::host_space_tag,
+                                  thrust::host_space_tag)
 {
     return thrust::detail::host::partition_copy(first, last, result, pred);
 }
@@ -66,7 +66,7 @@ template<typename ForwardIterator,
   ForwardIterator stable_partition(ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred,
-                                   thrust::experimental::space::host)
+                                   thrust::host_space_tag)
 {
     return thrust::detail::host::stable_partition(first, last, pred);
 }
@@ -78,8 +78,8 @@ template<typename ForwardIterator1,
                                          ForwardIterator1 last,
                                          ForwardIterator2 result,
                                          Predicate pred,
-                                         thrust::experimental::space::host,
-                                         thrust::experimental::space::host)
+                                         thrust::host_space_tag,
+                                         thrust::host_space_tag)
 {
     return thrust::detail::host::stable_partition_copy(first, last, result, pred);
 }
@@ -93,7 +93,7 @@ template<typename ForwardIterator,
   ForwardIterator partition(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred,
-                            thrust::experimental::space::device)
+                            thrust::device_space_tag)
 {
     return thrust::detail::device::partition(first, last, pred);
 }
@@ -105,8 +105,8 @@ template<typename ForwardIterator1,
                                   ForwardIterator1 last,
                                   ForwardIterator2 result,
                                   Predicate pred,
-                                  thrust::experimental::space::device,
-                                  thrust::experimental::space::device)
+                                  thrust::device_space_tag,
+                                  thrust::device_space_tag)
 {
     return thrust::detail::device::partition_copy(first, last, result, pred);
 }
@@ -116,7 +116,7 @@ template<typename ForwardIterator,
   ForwardIterator stable_partition(ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred,
-                                   thrust::experimental::space::device)
+                                   thrust::device_space_tag)
 {
     return thrust::detail::device::stable_partition(first, last, pred);
 }
@@ -128,8 +128,8 @@ template<typename ForwardIterator1,
                                          ForwardIterator1 last,
                                          ForwardIterator2 result,
                                          Predicate pred,
-                                         thrust::experimental::space::device,
-                                         thrust::experimental::space::device)
+                                         thrust::device_space_tag,
+                                         thrust::device_space_tag)
 {
     return thrust::detail::device::stable_partition_copy(first, last, result, pred);
 }

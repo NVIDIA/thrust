@@ -48,7 +48,7 @@ template<typename RandomAccessIterator,
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
             StrictWeakOrdering comp,
-            thrust::experimental::space::host)
+            thrust::host_space_tag)
 {
     std::sort(begin, end, comp);
 }
@@ -59,7 +59,7 @@ template<typename RandomAccessIterator,
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
                    StrictWeakOrdering comp,
-                   thrust::experimental::space::host)
+                   thrust::host_space_tag)
 {
     std::stable_sort(begin,end,comp);
 }
@@ -71,8 +71,8 @@ template<typename RandomAccessKeyIterator,
                           RandomAccessKeyIterator keys_end,
                           RandomAccessValueIterator values_begin,
                           StrictWeakOrdering comp,
-                          thrust::experimental::space::host,
-                          thrust::experimental::space::host)
+                          thrust::host_space_tag,
+                          thrust::host_space_tag)
 
 {
     thrust::sorting::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
@@ -144,7 +144,7 @@ template<typename RandomAccessIterator,
   void sort(RandomAccessIterator begin,
             RandomAccessIterator end,
             StrictWeakOrdering comp,
-            thrust::experimental::space::device)
+            thrust::device_space_tag)
 {
     // XXX forward to thrust::stable_sort
     thrust::stable_sort(begin, end, comp);
@@ -155,7 +155,7 @@ template<typename RandomAccessIterator,
   void stable_sort(RandomAccessIterator begin,
                    RandomAccessIterator end,
                    StrictWeakOrdering comp,
-                   thrust::experimental::space::device)
+                   thrust::device_space_tag)
 {
     // dispatch on whether we can use radix_sort
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
@@ -173,8 +173,8 @@ template<typename RandomAccessKeyIterator,
                           RandomAccessKeyIterator keys_end,
                           RandomAccessValueIterator values_begin,
                           StrictWeakOrdering comp,
-                          thrust::experimental::space::device,
-                          thrust::experimental::space::device)
+                          thrust::device_space_tag,
+                          thrust::device_space_tag)
 {
     // dispatch on whether we can use radix_sort
     typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;

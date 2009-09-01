@@ -45,8 +45,8 @@ template<typename InputIterator,
   OutputIterator transform(InputIterator first, InputIterator last,
                            OutputIterator result,
                            UnaryFunction unary_op,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host)
+                           thrust::host_space_tag,
+                           thrust::host_space_tag)
 {
     return thrust::detail::host::transform(first, last, result, unary_op);
 } // end transform()
@@ -60,9 +60,9 @@ template<typename InputIterator1,
                            InputIterator2 first2,
                            OutputIterator result,
                            BinaryFunction binary_op,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host)
+                           thrust::host_space_tag,
+                           thrust::host_space_tag,
+                           thrust::host_space_tag)
 {
     return thrust::detail::host::transform(first1, last1, first2, result, binary_op);
 } // end transform()
@@ -78,9 +78,9 @@ template<typename InputIterator1,
                                ForwardIterator result,
                                UnaryFunction unary_op,
                                Predicate pred,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::host)
+                               thrust::host_space_tag,
+                               thrust::host_space_tag,
+                               thrust::host_space_tag)
 {
   return thrust::detail::host::transform_if(first, last, stencil, result, unary_op, pred);
 } // end transform_if()
@@ -98,10 +98,10 @@ template<typename InputIterator1,
                                ForwardIterator result,
                                UnaryFunction unary_op,
                                Predicate pred,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::host)
+                               thrust::host_space_tag,
+                               thrust::host_space_tag,
+                               thrust::host_space_tag,
+                               thrust::host_space_tag)
 {
     return thrust::detail::host::transform_if(first1, last1, first2, stencil, result, unary_op, pred);
 } // end transform_if()
@@ -117,8 +117,8 @@ template<typename InputIterator,
   OutputIterator transform(InputIterator first, InputIterator last,
                            OutputIterator result,
                            UnaryFunction unary_op,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device)
+                           thrust::device_space_tag,
+                           thrust::device_space_tag)
 {
     return thrust::detail::device::transform(first, last, result, unary_op);
 } // end transform() 
@@ -132,9 +132,9 @@ template<typename InputIterator1,
                            InputIterator2 first2,
                            OutputIterator result,
                            BinaryFunction binary_op,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device)
+                           thrust::device_space_tag,
+                           thrust::device_space_tag,
+                           thrust::device_space_tag)
 {
     return thrust::detail::device::transform(first1, last1, first2, result, binary_op);
 } // end transform()
@@ -150,9 +150,9 @@ template<typename InputIterator1,
                                ForwardIterator result,
                                UnaryFunction unary_op,
                                Predicate pred,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::device)
+                               thrust::device_space_tag,
+                               thrust::device_space_tag,
+                               thrust::device_space_tag)
 {
     return thrust::detail::device::transform_if(first, last, stencil, result, unary_op, pred);
 } // end transform_if()
@@ -170,10 +170,10 @@ template<typename InputIterator1,
                                ForwardIterator result,
                                BinaryFunction binary_op,
                                Predicate pred,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::device)
+                               thrust::device_space_tag,
+                               thrust::device_space_tag,
+                               thrust::device_space_tag,
+                               thrust::device_space_tag)
 {
     return thrust::detail::device::transform_if(first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()

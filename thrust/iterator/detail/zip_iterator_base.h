@@ -493,7 +493,7 @@ struct minimum_space_in_iterator_tuple
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
     tuple_of_space_tags,
     minimum_space<>,
-    thrust::experimental::space::any
+    thrust::any_space_tag
   >::type type;
 };
 

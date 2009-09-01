@@ -44,7 +44,7 @@ ForwardIterator lower_bound(ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp,
-                            thrust::experimental::space::host)
+                            thrust::host_space_tag)
 {
     return thrust::detail::host::lower_bound(begin, end, value, comp);
 }
@@ -56,9 +56,9 @@ OutputIterator lower_bound(ForwardIterator begin,
                            InputIterator values_end,
                            OutputIterator output,
                            StrictWeakOrdering comp,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host)
+                           thrust::host_space_tag,
+                           thrust::host_space_tag,
+                           thrust::host_space_tag)
 {
     return thrust::detail::host::lower_bound(begin, end, values_begin, values_end, output, comp);
 }
@@ -68,7 +68,7 @@ ForwardIterator upper_bound(ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp,
-                            thrust::experimental::space::host)
+                            thrust::host_space_tag)
 {
     return thrust::detail::host::upper_bound(begin, end, value, comp);
 }
@@ -80,9 +80,9 @@ OutputIterator upper_bound(ForwardIterator begin,
                            InputIterator values_end,
                            OutputIterator output,
                            StrictWeakOrdering comp,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host,
-                           thrust::experimental::space::host)
+                           thrust::host_space_tag,
+                           thrust::host_space_tag,
+                           thrust::host_space_tag)
 {
     return thrust::detail::host::upper_bound(begin, end, values_begin, values_end, output, comp);
 }
@@ -92,7 +92,7 @@ bool binary_search(ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
                    StrictWeakOrdering comp,
-                   thrust::experimental::space::host)
+                   thrust::host_space_tag)
 {
     return thrust::detail::host::binary_search(begin, end, value, comp);
 }
@@ -104,9 +104,9 @@ OutputIterator binary_search(ForwardIterator begin,
                              InputIterator values_end,
                              OutputIterator output,
                              StrictWeakOrdering comp,
-                             thrust::experimental::space::host,
-                             thrust::experimental::space::host,
-                             thrust::experimental::space::host)
+                             thrust::host_space_tag,
+                             thrust::host_space_tag,
+                             thrust::host_space_tag)
 {
     return thrust::detail::host::binary_search(begin, end, values_begin, values_end, output, comp);
 }
@@ -119,7 +119,7 @@ ForwardIterator lower_bound(ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp,
-                            thrust::experimental::space::device)
+                            thrust::device_space_tag)
 {
     return thrust::detail::device::lower_bound(begin, end, value, comp);
 }
@@ -131,9 +131,9 @@ OutputIterator lower_bound(ForwardIterator begin,
                            InputIterator values_end,
                            OutputIterator output,
                            StrictWeakOrdering comp,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device)
+                           thrust::device_space_tag,
+                           thrust::device_space_tag,
+                           thrust::device_space_tag)
 {
     return thrust::detail::device::lower_bound(begin, end, values_begin, values_end, output, comp);
 }
@@ -143,7 +143,7 @@ ForwardIterator upper_bound(ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp,
-                            thrust::experimental::space::device)
+                            thrust::device_space_tag)
 {
     return thrust::detail::device::upper_bound(begin, end, value, comp);
 }
@@ -155,9 +155,9 @@ OutputIterator upper_bound(ForwardIterator begin,
                            InputIterator values_end,
                            OutputIterator output,
                            StrictWeakOrdering comp,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device,
-                           thrust::experimental::space::device)
+                           thrust::device_space_tag,
+                           thrust::device_space_tag,
+                           thrust::device_space_tag)
 {
     return thrust::detail::device::upper_bound(begin, end, values_begin, values_end, output, comp);
 }
@@ -167,7 +167,7 @@ bool binary_search(ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
                    StrictWeakOrdering comp,
-                   thrust::experimental::space::device)
+                   thrust::device_space_tag)
 {
     return thrust::detail::device::binary_search(begin, end, value, comp);
 }
@@ -179,9 +179,9 @@ OutputIterator binary_search(ForwardIterator begin,
                              InputIterator values_end,
                              OutputIterator output,
                              StrictWeakOrdering comp,
-                             thrust::experimental::space::device,
-                             thrust::experimental::space::device,
-                             thrust::experimental::space::device)
+                             thrust::device_space_tag,
+                             thrust::device_space_tag,
+                             thrust::device_space_tag)
 {
     return thrust::detail::device::binary_search(begin, end, values_begin, values_end, output, comp);
 }

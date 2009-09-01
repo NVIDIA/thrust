@@ -43,7 +43,7 @@ template<typename ForwardIterator,
   ForwardIterator remove_if(ForwardIterator begin,
                             ForwardIterator end,
                             Predicate pred,
-                            thrust::experimental::space::host)
+                            thrust::host_space_tag)
 {
   return std::remove_if(begin, end, pred);
 }
@@ -55,8 +55,8 @@ template<typename InputIterator,
                                 InputIterator end,
                                 OutputIterator result,
                                 Predicate pred,
-                                thrust::experimental::space::host,
-                                thrust::experimental::space::host)
+                                thrust::host_space_tag,
+                                thrust::host_space_tag)
 {
   return std::remove_copy_if(begin, end, result, pred);
 }
@@ -70,7 +70,7 @@ template<typename ForwardIterator,
   ForwardIterator remove_if(ForwardIterator begin,
                             ForwardIterator end,
                             Predicate pred,
-                            thrust::experimental::space::device)
+                            thrust::device_space_tag)
 {
   return thrust::detail::device::remove_if(begin, end, pred);
 } 
@@ -83,8 +83,8 @@ template<typename InputIterator,
                                 InputIterator end,
                                 OutputIterator result,
                                 Predicate pred,
-                                thrust::experimental::space::device,
-                                thrust::experimental::space::device)
+                                thrust::device_space_tag,
+                                thrust::device_space_tag)
 {
   return thrust::detail::device::remove_copy_if(begin, end, result, pred);
 }

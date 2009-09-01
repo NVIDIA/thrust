@@ -41,7 +41,7 @@ template<typename Category>
     : eval_if<
         is_convertible<Category, thrust::experimental::random_access_universal_iterator_tag>::value,
 
-        detail::identity_<thrust::experimental::space::any>,
+        detail::identity_<thrust::any_space_tag>,
 
         // convertible to host iterator?
         eval_if<
@@ -50,7 +50,7 @@ template<typename Category>
             is_convertible<Category, thrust::output_host_iterator_tag>
           >::value,
 
-          detail::identity_<thrust::experimental::space::host>,
+          detail::identity_<thrust::host_space_tag>,
           
           // convertible to device iterator?
           eval_if<
@@ -59,7 +59,7 @@ template<typename Category>
               is_convertible<Category, thrust::output_device_iterator_tag>
             >::value,
 
-            detail::identity_<thrust::experimental::space::device>,
+            detail::identity_<thrust::device_space_tag>,
 
             // unknown space
             void

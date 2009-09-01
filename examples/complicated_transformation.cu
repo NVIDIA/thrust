@@ -43,7 +43,7 @@ int main(void)
     A[3] = 8;  B[3] = 1;  C[3] = 4; 
     A[4] = 2;  B[4] = 8;  C[4] = 3; 
 
-    thrust::experimental::counting_iterator<int, thrust::experimental::space::device> begin(0);
+    thrust::experimental::counting_iterator<int, thrust::device_space_tag> begin(0);
 
     complicated_functor op(thrust::raw_pointer_cast(&A[0]), 
                            thrust::raw_pointer_cast(&B[0]), 

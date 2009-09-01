@@ -43,7 +43,7 @@ template<typename ForwardIterator,
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen,
-                thrust::experimental::space::host)
+                thrust::host_space_tag)
 {
     std::generate(first, last, gen);
 } // end generate()
@@ -57,7 +57,7 @@ template<typename ForwardIterator,
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen,
-                thrust::experimental::space::device)
+                thrust::device_space_tag)
 {
     thrust::detail::device::generate(first, last, gen);
 } // end generate()

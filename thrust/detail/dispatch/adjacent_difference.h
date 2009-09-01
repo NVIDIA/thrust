@@ -43,8 +43,8 @@ template <class InputIterator, class OutputIterator, class BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op,
-                                   thrust::experimental::space::host,
-                                   thrust::experimental::space::host)
+                                   thrust::host_space_tag,
+                                   thrust::host_space_tag)
 {
     return std::adjacent_difference(first, last, result, binary_op);
 }
@@ -57,8 +57,8 @@ template <class InputIterator, class OutputIterator, class BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op,
-                                   thrust::experimental::space::device,
-                                   thrust::experimental::space::device)
+                                   thrust::device_space_tag,
+                                   thrust::device_space_tag)
 {
     return thrust::detail::device::adjacent_difference(first, last, result, binary_op);
 }

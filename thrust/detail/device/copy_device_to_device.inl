@@ -58,11 +58,11 @@ template<typename InputIterator,
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
-    raw_buffer<InputType, experimental::space::host> temp1(begin, end);
+    raw_buffer<InputType, host_space_tag> temp1(begin, end);
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    raw_buffer<OutputType, experimental::space::host> temp2(n);
+    raw_buffer<OutputType, host_space_tag> temp2(n);
     thrust::transform(temp1.begin(), temp1.end(), temp2.begin(), thrust::identity<InputType>());
 
     // copy temp2 to device

@@ -52,8 +52,8 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::experimental::space::host,
-                      thrust::experimental::space::host)
+                      thrust::host_space_tag,
+                      thrust::host_space_tag)
 {
     return std::copy(begin, end, result);
 }
@@ -68,8 +68,8 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::experimental::space::host,
-                      thrust::experimental::space::device)
+                      thrust::host_space_tag,
+                      thrust::device_space_tag)
 {
     return thrust::detail::device::copy_host_to_device(begin, end, result);
 }
@@ -84,8 +84,8 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::experimental::space::device,
-                      thrust::experimental::space::host)
+                      thrust::device_space_tag,
+                      thrust::host_space_tag)
 {
     return thrust::detail::device::copy_device_to_host(begin, end, result);
 }
@@ -99,8 +99,8 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::experimental::space::device,
-                      thrust::experimental::space::device)
+                      thrust::device_space_tag,
+                      thrust::device_space_tag)
 {
     return thrust::detail::device::copy_device_to_device(begin, end, result);
 }
@@ -115,7 +115,7 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::experimental::space::any,
+                      thrust::any_space_tag,
                       Space)
 {
     return thrust::detail::dispatch::copy(begin, end, result, Space(), Space());
@@ -128,7 +128,7 @@ template<typename InputIterator,
                       InputIterator end,
                       OutputIterator result,
                       Space,
-                      thrust::experimental::space::any)
+                      thrust::any_space_tag)
 {
     return thrust::detail::dispatch::copy(begin, end, result, Space(), Space());
 }
@@ -138,10 +138,10 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::experimental::space::any,
-                      thrust::experimental::space::any)
+                      thrust::any_space_tag,
+                      thrust::any_space_tag)
 {
-    return thrust::detail::dispatch::copy(begin, end, result, thrust::experimental::space::device(), thrust::experimental::space::device());
+    return thrust::detail::dispatch::copy(begin, end, result, thrust::device_space_tag(), thrust::device_space_tag());
 }
 
 
@@ -159,9 +159,9 @@ template <typename InputIterator1,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred,
-                         thrust::experimental::space::host,
-                         thrust::experimental::space::host,
-                         thrust::experimental::space::host)
+                         thrust::host_space_tag,
+                         thrust::host_space_tag,
+                         thrust::host_space_tag)
 {
   return thrust::detail::host::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
@@ -179,9 +179,9 @@ template<typename InputIterator1,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred,
-                         thrust::experimental::space::device,
-                         thrust::experimental::space::device,
-                         thrust::experimental::space::device)
+                         thrust::device_space_tag,
+                         thrust::device_space_tag,
+                         thrust::device_space_tag)
 {
   return thrust::detail::device::copy_if(first, last, stencil, result, pred);
 } // end copy_if()

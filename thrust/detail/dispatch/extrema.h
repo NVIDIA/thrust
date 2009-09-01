@@ -43,7 +43,7 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator min_element(ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp, 
-                            thrust::experimental::space::host)
+                            thrust::host_space_tag)
 {
   return std::min_element(first, last, comp);
 } // end min_element()
@@ -53,7 +53,7 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp, 
-                            thrust::experimental::space::host)
+                            thrust::host_space_tag)
 {
   return std::max_element(first, last, comp);
 } // end max_element()
@@ -63,7 +63,7 @@ template <typename ForwardIterator, typename BinaryPredicate>
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp, 
-                                                             thrust::experimental::space::host)
+                                                             thrust::host_space_tag)
 {
   return thrust::detail::host::minmax_element(first, last, comp);
 } // end minmax_element()
@@ -74,7 +74,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp, 
-                            thrust::experimental::space::device)
+                            thrust::device_space_tag)
 {
   return thrust::detail::device::min_element(first, last, comp);
 } // end min_element()
@@ -82,7 +82,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp, 
-                            thrust::experimental::space::device)
+                            thrust::device_space_tag)
 {
   return thrust::detail::device::max_element(first, last, comp);
 } // end max_element()
@@ -91,7 +91,7 @@ template <typename ForwardIterator, typename BinaryPredicate>
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp, 
-                                                             thrust::experimental::space::device)
+                                                             thrust::device_space_tag)
 {
   return thrust::detail::device::minmax_element(first, last, comp);
 } // end minmax_element()

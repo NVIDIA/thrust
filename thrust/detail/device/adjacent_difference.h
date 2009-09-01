@@ -88,7 +88,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
         // an in-place operation is requested, copy the input and call the entry point
         // XXX a special-purpose kernel would be faster here since
         // only block boundaries need to be copied
-        raw_buffer<InputType, experimental::space::device> input_copy(first, last);
+        raw_buffer<InputType, device_space_tag> input_copy(first, last);
         thrust::adjacent_difference(input_copy.begin(), input_copy.end(), result, binary_op);
     }
     else

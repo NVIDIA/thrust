@@ -50,8 +50,8 @@ ForwardIterator __unique_helper(ForwardIterator first, ForwardIterator last,
 
     difference_type n = last - first;
   
-    typedef raw_buffer<InputType, experimental::space::device> InputBuffer;
-    typedef raw_buffer<IndexType, experimental::space::device> IndexBuffer;
+    typedef raw_device_buffer<InputType> InputBuffer;
+    typedef raw_device_buffer<IndexType> IndexBuffer;
     InputBuffer input(first, last);
     IndexBuffer is_first(n), scatter_to(n);
 

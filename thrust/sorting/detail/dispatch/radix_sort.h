@@ -44,7 +44,7 @@ namespace dispatch
 template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
-                         thrust::experimental::space::host)
+                         thrust::host_space_tag)
 {
     // no host path, just use stable_sort
     thrust::stable_sort(begin, end);
@@ -55,8 +55,8 @@ template<typename RandomAccessIterator1,
   void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
-                                thrust::experimental::space::host,
-                                thrust::experimental::space::host)
+                                thrust::host_space_tag,
+                                thrust::host_space_tag)
 {
     // no host path, just use stable_sort_by_key
     thrust::stable_sort_by_key(keys_begin, keys_end, values_begin);
@@ -70,7 +70,7 @@ template<typename RandomAccessIterator1,
 template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
-                         thrust::experimental::space::device)
+                         thrust::device_space_tag)
 {
     thrust::sorting::detail::device::stable_radix_sort(begin, end);
 }
@@ -80,8 +80,8 @@ template<typename RandomAccessIterator1,
   void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
-                                thrust::experimental::space::device,
-                                thrust::experimental::space::device)
+                                thrust::device_space_tag,
+                                thrust::device_space_tag)
 {
     thrust::sorting::detail::device::stable_radix_sort_by_key(keys_begin, keys_end, values_begin);
 }

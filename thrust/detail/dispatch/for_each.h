@@ -43,7 +43,7 @@ template<typename InputIterator,
 void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f,
-              thrust::experimental::space::host)
+              thrust::host_space_tag)
 {
     std::for_each(first, last, f);
 }
@@ -57,7 +57,7 @@ template<typename InputIterator,
 void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f,
-              thrust::experimental::space::device)
+              thrust::device_space_tag)
 {
     thrust::detail::device::for_each(first, last, f);
 }

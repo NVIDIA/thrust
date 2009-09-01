@@ -60,7 +60,7 @@ template<typename RandomAccessDeviceIterator1,
     difference_type size_of_new_sequence = 0;
 
     // scan pred(stencil) to a temp buffer
-    thrust::detail::raw_buffer<difference_type, experimental::space::device> pred_scatter_indices(n);
+    thrust::detail::raw_buffer<difference_type, device_space_tag> pred_scatter_indices(n);
     thrust::transform_exclusive_scan(stencil,
                                      stencil + n,
                                      pred_scatter_indices.begin(),

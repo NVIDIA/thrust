@@ -52,7 +52,7 @@ template<typename ForwardIterator,
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // create temporary storage for an intermediate result
-  typedef raw_buffer<InputType,experimental::space::device> RawBuffer;
+  typedef raw_device_buffer<InputType> RawBuffer;
   RawBuffer temp(end - begin);
 
   // remove into temp
@@ -84,7 +84,7 @@ template<typename InputIterator,
     thrust::unary_negate<Predicate> not_pred(pred);
 
     // evaluate not_pred on [begin,end), store result to temp vector
-    raw_buffer<difference_type, experimental::space::device> result_of_not_pred(n);
+    raw_device_buffer<difference_type> result_of_not_pred(n);
 
     thrust::transform(begin,
                       end,
@@ -92,7 +92,7 @@ template<typename InputIterator,
                       not_pred);
 
     // scan the pred result to a temp vector
-    raw_buffer<difference_type, experimental::space::device> not_pred_scatter_indices(n);
+    raw_device_buffer<difference_type> not_pred_scatter_indices(n);
     thrust::exclusive_scan(result_of_not_pred.begin(),
                            result_of_not_pred.end(),
                            not_pred_scatter_indices.begin());

@@ -92,7 +92,7 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
 
 // this is the function for host space iterators
 template<typename Traversal, typename ValueParam, typename Reference>
-  struct iterator_facade_default_category<thrust::experimental::space::host, Traversal, ValueParam, Reference> :
+  struct iterator_facade_default_category<thrust::host_space_tag, Traversal, ValueParam, Reference> :
     thrust::detail::eval_if<
       thrust::detail::and_<
         thrust::detail::is_reference<Reference>,
@@ -122,7 +122,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
 // this is the function for device space iterators
 template<typename Traversal, typename ValueParam, typename Reference>
-  struct iterator_facade_default_category<thrust::experimental::space::device, Traversal, ValueParam, Reference> :
+  struct iterator_facade_default_category<thrust::device_space_tag, Traversal, ValueParam, Reference> :
     thrust::detail::eval_if<
       thrust::detail::and_<
         thrust::detail::is_device_reference<Reference>,
@@ -152,7 +152,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
 // this is the function for any space iterators
 template<typename Traversal, typename ValueParam, typename Reference>
-  struct iterator_facade_default_category<thrust::experimental::space::any, Traversal, ValueParam, Reference> :
+  struct iterator_facade_default_category<thrust::any_space_tag, Traversal, ValueParam, Reference> :
     thrust::detail::eval_if<
 
       thrust::detail::and_<

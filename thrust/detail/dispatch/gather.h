@@ -50,9 +50,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::experimental::space::host,
-              thrust::experimental::space::host,
-              thrust::experimental::space::host)
+              thrust::host_space_tag,
+              thrust::host_space_tag,
+              thrust::host_space_tag)
 {
     thrust::detail::host::gather(first, last, map, input);
 }
@@ -68,10 +68,10 @@ template<typename ForwardIterator,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
                  Predicate pred,
-                 thrust::experimental::space::host,
-                 thrust::experimental::space::host,
-                 thrust::experimental::space::host,
-                 thrust::experimental::space::host)
+                 thrust::host_space_tag,
+                 thrust::host_space_tag,
+                 thrust::host_space_tag,
+                 thrust::host_space_tag)
 {
     thrust::detail::host::gather_if(first, last, map, stencil, input, pred);
 }
@@ -87,9 +87,9 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator  map,
               RandomAccessIterator input,
-              thrust::experimental::space::device,
-              thrust::experimental::space::device,
-              thrust::experimental::space::device)
+              thrust::device_space_tag,
+              thrust::device_space_tag,
+              thrust::device_space_tag)
 {
     thrust::detail::device::gather(first, last, map, input);
 }
@@ -106,10 +106,10 @@ template<typename ForwardIterator,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
                  Predicate pred,
-                 thrust::experimental::space::device,
-                 thrust::experimental::space::device,
-                 thrust::experimental::space::device,
-                 thrust::experimental::space::device)
+                 thrust::device_space_tag,
+                 thrust::device_space_tag,
+                 thrust::device_space_tag,
+                 thrust::device_space_tag)
 {
     thrust::detail::device::gather_if(first, last, map, stencil, input, pred);
 }
@@ -126,13 +126,13 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::experimental::space::host,    // destination
-              thrust::experimental::space::device,  // map
-              thrust::experimental::space::device)  // source
+              thrust::host_space_tag,    // destination
+              thrust::device_space_tag,  // map
+              thrust::device_space_tag)  // source
 {
   // gather on device and transfer to host
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  raw_buffer<OutputType, experimental::space::device> buffer(thrust::distance(first,last));
+  raw_device_buffer<OutputType> buffer(thrust::distance(first,last));
   thrust::gather(buffer.begin(), buffer.end(), map, input);
   thrust::copy(buffer.begin(), buffer.end(), first);
 } // end gather()
@@ -144,13 +144,13 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::experimental::space::host,   // destination
-              thrust::experimental::space::host,   // map
-              thrust::experimental::space::device) // source
+              thrust::host_space_tag,   // destination
+              thrust::host_space_tag,   // map
+              thrust::device_space_tag) // source
 {
   // move map to device and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;
-  raw_buffer<IndexType, experimental::space::device> d_map(thrust::distance(first,last));
+  raw_device_buffer<IndexType> d_map(thrust::distance(first,last));
   thrust::copy(map, map + (last - first), d_map.begin());
   thrust::gather(first, last, d_map.begin(), input);
 } // end gather()
@@ -167,13 +167,13 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::experimental::space::device, // destination
-              thrust::experimental::space::host,   // map
-              thrust::experimental::space::host)   // destination
+              thrust::device_space_tag, // destination
+              thrust::host_space_tag,   // map
+              thrust::host_space_tag)   // destination
 {
   // gather on host and transfer to device
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  raw_buffer<OutputType,experimental::space::host> buffer(thrust::distance(first,last));
+  raw_host_buffer<OutputType> buffer(thrust::distance(first,last));
   thrust::gather(buffer.begin(), buffer.end(), map, input);
   thrust::copy(buffer.begin(), buffer.end(), first);
 } // end gather()
@@ -185,13 +185,13 @@ template<typename ForwardIterator,
               ForwardIterator last,
               InputIterator map,
               RandomAccessIterator input,
-              thrust::experimental::space::device, // destination
-              thrust::experimental::space::device, // map
-              thrust::experimental::space::host)   // destination
+              thrust::device_space_tag, // destination
+              thrust::device_space_tag, // map
+              thrust::host_space_tag)   // destination
 {
   // move map to host and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;
-  raw_buffer<IndexType, experimental::space::host> h_map(thrust::distance(first,last));
+  raw_host_buffer<IndexType> h_map(thrust::distance(first,last));
   thrust::copy(map, map + (last - first), h_map.begin());
   thrust::gather(first, last, h_map.begin(), input);
 } // end gather()

@@ -545,14 +545,14 @@ template<typename T, typename Alloc>
 // XXX this needs to be moved out into thrust:: and dispatched properly
 template<typename InputIterator, typename Distance>
   void advance(InputIterator &i, Distance n,
-               thrust::experimental::space::host)
+               thrust::host_space_tag)
 {
     std::advance(i, n);
 } // end advance()
 
 template<typename InputIterator, typename Distance>
   void advance(InputIterator &i, Distance n,
-               thrust::experimental::space::device)
+               thrust::device_space_tag)
 {
   i += n;
 } // end advance()

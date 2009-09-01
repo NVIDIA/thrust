@@ -33,16 +33,17 @@ template<typename T>
 {
 }; // end iterator_traits
 
+
+// define space tags
+struct host_space_tag {};
+
+struct device_space_tag {};
+
+struct any_space_tag : host_space_tag, device_space_tag {};
+
+
 namespace experimental
 {
-
-namespace space
-{
-  struct host {};
-  struct device {};
-  struct any : public host, public device {};
-}; // end space
-
 
 // define Boost's traversal tags
 struct no_traversal_tag {};

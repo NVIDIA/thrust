@@ -46,8 +46,8 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op,
-                                thrust::experimental::space::host,
-                                thrust::experimental::space::host)
+                                thrust::host_space_tag,
+                                thrust::host_space_tag)
 {
     return thrust::detail::host::inclusive_scan(first, last, result, binary_op);
 }
@@ -62,8 +62,8 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init,
                                 AssociativeOperator binary_op,
-                                thrust::experimental::space::host,
-                                thrust::experimental::space::host)
+                                thrust::host_space_tag,
+                                thrust::host_space_tag)
 {
     return thrust::detail::host::exclusive_scan(first, last, result, init, binary_op);
 }
@@ -80,8 +80,8 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op,
-                                thrust::experimental::space::device,
-                                thrust::experimental::space::device)
+                                thrust::device_space_tag,
+                                thrust::device_space_tag)
 {
     return thrust::detail::device::inclusive_scan(first, last, result, binary_op);
 }
@@ -96,8 +96,8 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init,
                                 AssociativeOperator binary_op,
-                                thrust::experimental::space::device,
-                                thrust::experimental::space::device)
+                                thrust::device_space_tag,
+                                thrust::device_space_tag)
 {
     return thrust::detail::device::exclusive_scan(first, last, result, init, binary_op);
 }

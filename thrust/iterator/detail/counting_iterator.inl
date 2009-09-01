@@ -38,7 +38,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
 {
   typedef typename detail::ia_dflt_help<
     Space,
-    thrust::detail::identity_<thrust::experimental::space::any>
+    thrust::detail::identity_<thrust::any_space_tag>
   >::type space;
 
   typedef typename detail::ia_dflt_help<

@@ -168,7 +168,7 @@ template<typename ForwardIterator, typename T>
 
   // we can't launch a kernel, implement this with a copy
   IndexType n = thrust::distance(first,last);
-  raw_buffer<OutputType, experimental::space::host> temp(n);
+  raw_host_buffer<OutputType> temp(n);
   thrust::fill(temp.begin(), temp.end(), exemplar);
   thrust::copy(temp.begin(), temp.end(), first);
 }

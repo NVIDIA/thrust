@@ -49,7 +49,7 @@ template<typename RandomAccessIterator,
   void stable_merge_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
                          StrictWeakOrdering comp,
-                         thrust::experimental::space::host)
+                         thrust::host_space_tag)
 {
     thrust::sorting::detail::host::stable_merge_sort(begin, end, comp);
 }
@@ -61,8 +61,8 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp,
-                                thrust::experimental::space::host,
-                                thrust::experimental::space::host)
+                                thrust::host_space_tag,
+                                thrust::host_space_tag)
 {
     thrust::sorting::detail::host::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
@@ -77,7 +77,7 @@ template<typename RandomAccessIterator,
   void stable_merge_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
                          StrictWeakOrdering comp,
-                         thrust::experimental::space::device)
+                         thrust::device_space_tag)
 {
     thrust::sorting::detail::device::stable_merge_sort(begin, end, comp);
 }
@@ -89,8 +89,8 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp,
-                                thrust::experimental::space::device,
-                                thrust::experimental::space::device)
+                                thrust::device_space_tag,
+                                thrust::device_space_tag)
 {
     thrust::sorting::detail::device::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
 } 

@@ -42,7 +42,7 @@ namespace dispatch
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator unique(ForwardIterator first, ForwardIterator last,
                        BinaryPredicate binary_pred,
-                       thrust::experimental::space::host)
+                       thrust::host_space_tag)
 {
     return std::unique(first, last, binary_pred);
 }
@@ -55,7 +55,7 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last,
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator unique(ForwardIterator first, ForwardIterator last,
                        BinaryPredicate binary_pred,
-                       thrust::experimental::space::device)
+                       thrust::device_space_tag)
 {
     return thrust::detail::device::unique(first, last, binary_pred);
 }

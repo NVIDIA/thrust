@@ -43,7 +43,7 @@ template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &exemplar,
-            thrust::experimental::space::host)
+            thrust::host_space_tag)
 {
   std::fill(first, last, exemplar);
 }
@@ -55,7 +55,7 @@ template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &exemplar,
-            thrust::experimental::space::device)
+            thrust::device_space_tag)
 {
   thrust::detail::device::fill(first, last, exemplar);
 }

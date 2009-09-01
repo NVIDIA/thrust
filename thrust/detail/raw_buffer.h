@@ -40,13 +40,13 @@ template<typename> class normal_iterator;
 template<typename T, typename Space> struct choose_raw_buffer_allocator;
 
 template<typename T>
-  struct choose_raw_buffer_allocator<T,thrust::experimental::space::device>
+  struct choose_raw_buffer_allocator<T,thrust::device_space_tag>
 {
   typedef device_malloc_allocator<T> type;
 }; // end choose_raw_buffer_allocator
 
 template<typename T>
-  struct choose_raw_buffer_allocator<T,thrust::experimental::space::host>
+  struct choose_raw_buffer_allocator<T,thrust::host_space_tag>
 {
   typedef std::allocator<T> type;
 }; // end choose_raw_buffer_allocator
@@ -106,10 +106,10 @@ template<typename T, typename Space>
 
 template<typename T>
   class raw_device_buffer
-    : public raw_buffer<T, experimental::space::device >
+    : public raw_buffer<T, thrust::device_space_tag >
 {
   private:
-    typedef raw_buffer<T, experimental::space::device > super_t;
+    typedef raw_buffer<T, thrust::device_space_tag > super_t;
 
   public:
     explicit raw_device_buffer(typename super_t::size_type n):super_t(n){}
@@ -120,10 +120,10 @@ template<typename T>
 
 template<typename T>
   class raw_host_buffer
-    : public raw_buffer<T, experimental::space::host >
+    : public raw_buffer<T, thrust::host_space_tag >
 {
   private:
-    typedef raw_buffer<T, experimental::space::host > super_t;
+    typedef raw_buffer<T, thrust::host_space_tag > super_t;
 
   public:
     explicit raw_host_buffer(typename super_t::size_type n):super_t(n){}

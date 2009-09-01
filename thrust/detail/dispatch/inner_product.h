@@ -44,8 +44,8 @@ template <typename InputIterator1, typename InputIterator2, typename OutputType,
     inner_product(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2, OutputType init, 
                   BinaryFunction1 binary_op1, BinaryFunction2 binary_op2,
-                  thrust::experimental::space::host,
-                  thrust::experimental::space::host)
+                  thrust::host_space_tag,
+                  thrust::host_space_tag)
 {
     return std::inner_product(first1, last1, first2, init, binary_op1, binary_op2);
 } 
@@ -59,8 +59,8 @@ template <typename InputIterator1, typename InputIterator2, typename OutputType,
     inner_product(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2, OutputType init, 
                   BinaryFunction1 binary_op1, BinaryFunction2 binary_op2,
-                  thrust::experimental::space::device,
-                  thrust::experimental::space::device)
+                  thrust::device_space_tag,
+                  thrust::device_space_tag)
 {
     return thrust::detail::device::inner_product(first1, last1, first2, init, binary_op1, binary_op2);    
 }

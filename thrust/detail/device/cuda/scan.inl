@@ -44,8 +44,8 @@ namespace thrust
 namespace detail
 {
 
-// forward declaration of raw_buffer
-template<typename,typename> class raw_buffer;
+// forward declaration of raw_device_buffer
+template<typename> class raw_device_buffer;
 
 namespace device
 {
@@ -322,7 +322,7 @@ template<typename InputIterator,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::detail::raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
+    thrust::detail::raw_device_buffer<OutputType> d_carry_out(num_warps);
 
     //////////////////////
     // first level scan
@@ -383,7 +383,7 @@ template<typename InputIterator,
     const unsigned int interval_size = WARP_SIZE * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::detail::raw_buffer<OutputType, experimental::space::device> d_carry_out(num_warps);
+    thrust::detail::raw_device_buffer<OutputType> d_carry_out(num_warps);
 
     //////////////////////
     // first level scan

@@ -48,8 +48,8 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::host)
+                               thrust::host_space_tag,
+                               thrust::host_space_tag)
 {
   return std::swap_ranges(first1, last1, first2);
 }
@@ -62,8 +62,8 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::device)
+                               thrust::device_space_tag,
+                               thrust::device_space_tag)
 {
   return thrust::detail::device::swap_ranges(first1, last1, first2);
 }
@@ -77,14 +77,14 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::experimental::space::host,
-                               thrust::experimental::space::device)
+                               thrust::host_space_tag,
+                               thrust::device_space_tag)
 {
   typedef typename thrust::iterator_traits<ForwardIterator2>::value_type DeviceType;
   typename thrust::iterator_traits<ForwardIterator1>::difference_type N = std::distance(first1, last1);
 
   // copy device range to temp buffer on host
-  raw_buffer<DeviceType, experimental::space::host> buffer(first2, first2 + N);
+  raw_host_buffer<DeviceType> buffer(first2, first2 + N);
 
   // copy host range to device
   thrust::copy(first1, last1, first2);
@@ -101,8 +101,8 @@ template<typename ForwardIterator1,
   ForwardIterator2 swap_ranges(ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2,
-                               thrust::experimental::space::device,
-                               thrust::experimental::space::host)
+                               thrust::device_space_tag,
+                               thrust::host_space_tag)
 {
   // reverse the arguments and use the other method
   ForwardIterator2 last2 = first2 + thrust::distance(first1, last1);

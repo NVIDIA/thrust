@@ -40,7 +40,7 @@ using namespace thrust::detail;
 template <typename Category, typename Space> struct category_to_traversal;
 
 template <typename Category>
-  struct category_to_traversal<Category, thrust::experimental::space::host>
+  struct category_to_traversal<Category, thrust::host_space_tag>
     : eval_if<
         is_convertible<Category, random_access_host_iterator_tag>::value,
         detail::identity_<random_access_traversal_tag>,
@@ -68,7 +68,7 @@ template <typename Category>
 
 
 template <typename Category>
-  struct category_to_traversal<Category, thrust::experimental::space::device>
+  struct category_to_traversal<Category, thrust::device_space_tag>
     : eval_if<
         is_convertible<Category, random_access_device_iterator_tag>::value,
         detail::identity_<random_access_traversal_tag>,
@@ -96,7 +96,7 @@ template <typename Category>
 
 
 template <typename Category>
-  struct category_to_traversal<Category, thrust::experimental::space::any>
+  struct category_to_traversal<Category, thrust::any_space_tag>
     : eval_if<
         is_convertible<Category, thrust::experimental::random_access_universal_iterator_tag>::value,
         detail::identity_<random_access_traversal_tag>,
