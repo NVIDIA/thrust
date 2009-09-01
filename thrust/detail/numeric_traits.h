@@ -18,13 +18,17 @@
 
 #include <thrust/detail/type_traits.h>
 #include <limits>
-#include <stdint.h> // for intmax_t
+
+//#include <stdint.h> // for intmax_t (not provided on MSVS 2005)
 
 namespace thrust
 {
 
 namespace detail
 {
+
+// XXX good enough for the platforms we care about
+typedef long long intmax_t;
 
 template<typename Number>
   struct is_signed
