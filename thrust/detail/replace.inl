@@ -38,7 +38,7 @@ template<typename Predicate, typename NewType, typename OutputType>
 
   template<typename InputType>
   __host__ __device__
-  OutputType operator()(const InputType &x) const
+  OutputType operator()(const InputType x) const
   {
     return pred(x) ? new_value : x;
   } // end operator()()
@@ -47,7 +47,7 @@ template<typename Predicate, typename NewType, typename OutputType>
   // feeds its second argument to pred
   template<typename InputType, typename PredicateArgumentType>
   __host__ __device__
-  OutputType operator()(const InputType &x, const PredicateArgumentType &y)
+  OutputType operator()(const InputType x, const PredicateArgumentType y)
   {
     return pred(y) ? new_value : x;
   } // end operator()()
