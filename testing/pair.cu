@@ -294,6 +294,10 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
+#ifdef __APPLE__
+    // nvcc has trouble with the add_pairs struct it seems
+    KNOWN_FAILURE
+#else
     typedef thrust::pair<T,T> P;
 
     thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
@@ -316,6 +320,7 @@ template <typename T>
     thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_pairs.begin(), init, add_pairs());
 
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
+#endif // __APPLE__
   }
 };
 VariableUnitTest<TestPairScan, IntegralTypes> TestPairScanInstance;
@@ -325,6 +330,10 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
+#ifdef __APPLE__
+    // nvcc has trouble with the add_pairs struct it seems
+    KNOWN_FAILURE
+#else
     typedef thrust::pair<T,T> P;
 
     thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
@@ -350,6 +359,7 @@ template <typename T>
     thrust::experimental::exclusive_segmented_scan(d_pairs.begin(), d_pairs.end(), d_keys.begin(), d_pairs.begin(), init, add_pairs());
 
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
+#endif // __APPLE__
   }
 };
 VariableUnitTest<TestPairSegmentedScan, IntegralTypes> TestPairSegmentedScanInstance;
