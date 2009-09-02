@@ -262,6 +262,25 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred);
 
+// XXX new functions
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil,
+                            Predicate pred);
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator remove_copy_if(InputIterator1 first,
+                                InputIterator1 last,
+                                InputIterator2 stencil,
+                                OutputIterator result,
+                                Predicate pred);
+
 /*! \{ // end stream_compaction
  */
 

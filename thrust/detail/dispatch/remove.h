@@ -23,7 +23,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <algorithm>
+#include <thrust/detail/host/remove.h>
 #include <thrust/detail/device/remove.h>
 
 namespace thrust
@@ -39,26 +39,47 @@ namespace dispatch
 // Host Paths //
 ////////////////
 template<typename ForwardIterator,
+         typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(ForwardIterator begin,
-                            ForwardIterator end,
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil,
                             Predicate pred,
+                            thrust::host_space_tag,
                             thrust::host_space_tag)
 {
-  return std::remove_if(begin, end, pred);
+  return thrust::detail::host::remove_if(first, last, stencil, pred);
 }
 
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(InputIterator begin,
-                                InputIterator end,
+  OutputIterator remove_copy_if(InputIterator first,
+                                InputIterator last,
                                 OutputIterator result,
                                 Predicate pred,
                                 thrust::host_space_tag,
                                 thrust::host_space_tag)
 {
-  return std::remove_copy_if(begin, end, result, pred);
+  // Note: this version can't be implemented by passing 'first' as the stencil
+  // argument of function below as it would violate InputIterator's semantics.
+  return thrust::detail::host::remove_copy_if(first, last, result, pred);
+}
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator remove_copy_if(InputIterator1 first,
+                                InputIterator1 last,
+                                InputIterator2 stencil,
+                                OutputIterator result,
+                                Predicate pred,
+                                thrust::host_space_tag,
+                                thrust::host_space_tag,
+                                thrust::host_space_tag)
+{
+  return thrust::detail::host::remove_copy_if(first, last, stencil, result, pred);
 }
 
 
@@ -66,27 +87,47 @@ template<typename InputIterator,
 // Device Paths //
 //////////////////
 template<typename ForwardIterator,
+         typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(ForwardIterator begin,
-                            ForwardIterator end,
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil,
                             Predicate pred,
+                            thrust::device_space_tag,
                             thrust::device_space_tag)
 {
-  return thrust::detail::device::remove_if(begin, end, pred);
+  return thrust::detail::device::remove_if(first, last, stencil, pred);
 } 
-
 
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(InputIterator begin,
-                                InputIterator end,
+  OutputIterator remove_copy_if(InputIterator first,
+                                InputIterator last,
                                 OutputIterator result,
                                 Predicate pred,
                                 thrust::device_space_tag,
                                 thrust::device_space_tag)
 {
-  return thrust::detail::device::remove_copy_if(begin, end, result, pred);
+  // Note: this version can't be implemented by passing 'first' as the stencil
+  // argument of function below as it would violate InputIterator's semantics.
+  return thrust::detail::device::remove_copy_if(first, last, result, pred);
+}
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator remove_copy_if(InputIterator1 first,
+                                InputIterator1 last,
+                                InputIterator2 stencil,
+                                OutputIterator result,
+                                Predicate pred,
+                                thrust::device_space_tag,
+                                thrust::device_space_tag,
+                                thrust::device_space_tag)
+{
+  return thrust::detail::device::remove_copy_if(first, last, stencil, result, pred);
 }
 
 } // end namespace dispatch

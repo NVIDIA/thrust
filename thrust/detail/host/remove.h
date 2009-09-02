@@ -16,10 +16,12 @@
 
 
 /*! \file remove.h
- *  \brief Device implementations for remove functions.
+ *  \brief Host implementation remove functions.
  */
 
 #pragma once
+
+#include <algorithm>
 
 namespace thrust
 {
@@ -27,16 +29,46 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace host
 {
 
 template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(ForwardIterator begin,
-                            ForwardIterator end,
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
                             InputIterator stencil,
-                            Predicate pred);
+                            Predicate pred)
+{
+    // advance iterators until pred(stencil) is true we reach the end of input
+    while(first != last && !bool(pred(*stencil)))
+    {
+        first++;
+        stencil++;
+    }
+
+    if(first == last)
+        return first;
+
+    // result always trails first 
+    ForwardIterator result = first;
+    
+    first++;
+    stencil++;
+
+    while(first != last)
+    {
+        if(!bool(pred(*stencil)))
+        {
+            *result = *first;
+            result++;
+        }
+        first++;
+        stencil++;
+    }
+
+    return result;
+}
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -44,23 +76,40 @@ template<typename InputIterator,
   OutputIterator remove_copy_if(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                Predicate pred);
+                                Predicate pred)
+{
+    return std::remove_copy_if(first, last, result, pred);
+}
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(InputIterator1 begin,
-                                InputIterator1 end,
+  OutputIterator remove_copy_if(InputIterator1 first,
+                                InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
-                                Predicate pred);
+                                Predicate pred)
+{
+    while (first != last)
+    {
+        if (!bool(pred(*stencil)))
+        {
+            *result = *first;
+            result++;
+        }
+        first++;
+        stencil++;
+    }
 
-} // end namespace device
+    return result;
+}
 
-} // end namespace detail
 
-} // end namespace thrust
 
-#include "remove.inl"
+} // last namespace host
+
+} // last namespace detail
+
+} // last namespace thrust
 
