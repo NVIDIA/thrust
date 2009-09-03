@@ -56,7 +56,7 @@ void transpose(size_t m, size_t n, thrust::device_vector<T>& src, thrust::device
     thrust::experimental::counting_iterator<size_t> indices(0);
     
     thrust::gather(dst.begin(), dst.end(),
-                   make_transform_iterator(indices, transpose_index(n, m)),
+                   thrust::make_transform_iterator(indices, transpose_index(n, m)),
                    src.begin());
 }
 
@@ -68,8 +68,8 @@ void scan_horizontally(size_t m, size_t n, thrust::device_vector<T>& d_data)
     thrust::experimental::counting_iterator<size_t> indices(0);
 
     thrust::experimental::inclusive_segmented_scan(d_data.begin(), d_data.end(),
-                                     make_transform_iterator(indices, row_index(n)),
-                                     d_data.begin());
+                                                   thrust::make_transform_iterator(indices, row_index(n)),
+                                                   d_data.begin());
 }
 
 // print an M-by-N array
