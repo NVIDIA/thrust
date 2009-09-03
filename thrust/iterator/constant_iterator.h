@@ -29,16 +29,13 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 template<typename Value,
-         typename Incrementable = use_default,
-         typename Space = use_default>
+         typename Incrementable = thrust::experimental::use_default,
+         typename Space = thrust::experimental::use_default>
   class constant_iterator
     : public detail::constant_iterator_base<Value, Incrementable, Space>::type
 {
-    friend class iterator_core_access;
+    friend class thrust::experimental::iterator_core_access;
     typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::type          super_t;
     typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::incrementable incrementable;
     typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::base_iterator base_iterator;
@@ -101,8 +98,6 @@ constant_iterator<V> make_constant_iterator(V x)
 {
   return constant_iterator<V>(x, 0);
 } // end make_constant_iterator()
-
-} // end namespace experimental
 
 } // end namespace thrust
 

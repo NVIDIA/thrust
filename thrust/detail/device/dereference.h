@@ -38,6 +38,13 @@ template<typename Pointer>
 
 } // end detail
 
+
+template<typename Value,
+         typename Incrementable,
+         typename Space>
+  class constant_iterator;
+
+
 namespace experimental
 {
 
@@ -49,11 +56,6 @@ template<typename Incrementable,
          typename Traversal,
          typename Difference>
   class counting_iterator;
-
-template<typename Value,
-         typename Incrementable,
-         typename Space>
-  class constant_iterator;
 
 template <typename IteratorTuple>
   class zip_iterator;
@@ -139,13 +141,13 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
 // constant_iterator prototypes
 template<typename Value, typename Incrementable, typename Space>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::experimental::constant_iterator<Value,Incrementable,Space> iter);
+    typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
+      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter);
 
 template<typename Value, typename Incrementable, typename Space, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::experimental::constant_iterator<Value,Incrementable,Space> iter, IndexType n);
+    typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
+      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter, IndexType n);
 
 
 // zip_iterator prototypes

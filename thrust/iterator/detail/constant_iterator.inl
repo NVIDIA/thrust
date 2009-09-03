@@ -27,12 +27,12 @@ namespace detail
 // transform_iterator returns the same reference on the device as on the host
 template <typename Value, typename Incrementable, typename Space>
   struct iterator_device_reference<
-    thrust::experimental::constant_iterator<
+    thrust::constant_iterator<
       Value, Incrementable, Space
     >
   >
 {
-  typedef typename thrust::iterator_traits< thrust::experimental::constant_iterator<Value,Incrementable,Space> >::reference type;
+  typedef typename thrust::iterator_traits< thrust::constant_iterator<Value,Incrementable,Space> >::reference type;
 }; // end iterator_device_reference
 
 
@@ -41,23 +41,23 @@ namespace device
 
 template<typename Value, typename Incrementable, typename Space>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::experimental::constant_iterator<Value,Incrementable,Space> iter)
+    typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
+      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter)
 {
   return *iter;
 } // end dereference()
 
 template<typename Value, typename Incrementable, typename Space, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::experimental::constant_iterator<Value,Incrementable,Space> iter, IndexType n)
+    typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
+      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter, IndexType n)
 {
   return iter[n];
 } // end dereference()
 
-} // end device
+} // end namespace device
 
-} // end detail
+} // end namespace detail
 
-} // end thrust
+} // end namespace thrust
 

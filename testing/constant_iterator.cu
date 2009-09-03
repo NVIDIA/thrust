@@ -4,7 +4,7 @@
 #include <thrust/transform.h>
 #include <thrust/reduce.h>
 
-using namespace thrust::experimental;
+using namespace thrust;
 
 void TestConstantIteratorIncrement(void)
 {

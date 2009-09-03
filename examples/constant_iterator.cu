@@ -17,7 +17,7 @@ int main(void)
 
     // add 10 to all values in data
     thrust::transform(data.begin(), data.end(),
-                      thrust::experimental::constant_iterator<int>(10),
+                      thrust::constant_iterator<int>(10),
                       data.begin(),
                       thrust::plus<int>());
 

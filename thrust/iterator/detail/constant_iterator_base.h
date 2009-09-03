@@ -22,9 +22,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 // forward declaration of constant_iterator
 template<typename,typename,typename> class constant_iterator;
 
@@ -43,31 +40,29 @@ template<typename Value,
   typedef const value_type * pointer;
 
   // the incrementable type is int unless otherwise specified
-  typedef typename ia_dflt_help<
+  typedef typename thrust::experimental::detail::ia_dflt_help<
     Incrementable,
     thrust::detail::identity_<int>
   >::type incrementable;
 
-  typedef counting_iterator<
+  typedef typename thrust::experimental::counting_iterator<
     incrementable,
     Space,
-    random_access_traversal_tag
+    thrust::experimental::random_access_traversal_tag
   > base_iterator;
 
-  typedef iterator_adaptor<
+  typedef typename thrust::experimental::iterator_adaptor<
     constant_iterator<Value, Incrementable, Space>,
     base_iterator,
     pointer,
     value_type,
-    typename iterator_space<base_iterator>::type,
-    typename iterator_traversal<base_iterator>::type,
+    typename thrust::experimental::iterator_space<base_iterator>::type,
+    typename thrust::experimental::iterator_traversal<base_iterator>::type,
     reference
   > type;
 }; // end constant_iterator_base
 
 } // end detail
   
-} // end experimental
-
 } // end thrust
 
