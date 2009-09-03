@@ -40,11 +40,11 @@ template<typename Pointer>
         normal_iterator<Pointer>,
         Pointer,
         Pointer,
-        typename thrust::experimental::use_default,
-        typename thrust::experimental::use_default,
-        typename thrust::experimental::use_default,
+        typename thrust::use_default,
+        typename thrust::use_default,
+        typename thrust::use_default,
         //typename thrust::iterator_traits<Pointer>::reference
-        typename thrust::experimental::use_default
+        typename thrust::use_default
       >
 {
   public:

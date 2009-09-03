@@ -33,7 +33,7 @@
 namespace thrust
 {
 
-template <class UnaryFunc, class Iterator, class Reference = experimental::use_default, class Value = experimental::use_default>
+template <class UnaryFunc, class Iterator, class Reference = use_default, class Value = use_default>
   class transform_iterator
     : public detail::transform_iterator_base<UnaryFunc, Iterator, Reference, Value>::type
 {

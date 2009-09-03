@@ -24,11 +24,11 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 // forward declaration of use_default
 struct use_default;
+
+namespace experimental
+{
 
 namespace detail
 {
@@ -39,7 +39,7 @@ namespace detail
 template <class T, class DefaultNullaryFn>
 struct ia_dflt_help
   : thrust::detail::eval_if<
-        thrust::detail::is_same<T, thrust::experimental::use_default>::value
+        thrust::detail::is_same<T, thrust::use_default>::value
       , DefaultNullaryFn
       , thrust::detail::identity_<T>
     >

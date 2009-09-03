@@ -36,9 +36,9 @@ namespace thrust
 {
 
 template<typename Incrementable,
-         typename Space = thrust::experimental::use_default,
-         typename Traversal = thrust::experimental::use_default,
-         typename Difference = thrust::experimental::use_default>
+         typename Space = use_default,
+         typename Traversal = use_default,
+         typename Difference = use_default>
   class counting_iterator
     : public detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type
 {

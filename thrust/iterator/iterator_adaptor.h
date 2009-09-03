@@ -32,10 +32,10 @@
 namespace thrust
 {
 
+struct use_default {};
+
 namespace experimental
 {
-
-struct use_default {};
 
 template <
       typename Derived

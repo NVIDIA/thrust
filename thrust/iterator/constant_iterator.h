@@ -30,8 +30,8 @@ namespace thrust
 {
 
 template<typename Value,
-         typename Incrementable = thrust::experimental::use_default,
-         typename Space = thrust::experimental::use_default>
+         typename Incrementable = use_default,
+         typename Space = use_default>
   class constant_iterator
     : public detail::constant_iterator_base<Value, Incrementable, Space>::type
 {
