@@ -60,7 +60,7 @@ template<typename InputIterator,
 {
     //dispatch on space 
     return thrust::detail::dispatch::reduce(first, last, init, binary_op,
-            typename thrust::experimental::iterator_space<InputIterator>::type());
+            typename thrust::iterator_space<InputIterator>::type());
 }
 
 

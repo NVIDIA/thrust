@@ -49,7 +49,7 @@ template<typename RandomAccessIterator,
 {
     // dispatch on space
     thrust::detail::dispatch::sort(first, last, comp,
-            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+            typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 
 template<typename RandomAccessIterator>
@@ -70,7 +70,7 @@ template<typename RandomAccessIterator,
 {
     // dispatch on space
     thrust::detail::dispatch::stable_sort(first, last, comp,
-            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+            typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 
 
@@ -125,8 +125,8 @@ template<typename RandomAccessKeyIterator,
 {
     // dispatch on space
     thrust::detail::dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp,
-            typename thrust::experimental::iterator_space<RandomAccessKeyIterator>::type(),
-            typename thrust::experimental::iterator_space<RandomAccessValueIterator>::type());
+            typename thrust::iterator_space<RandomAccessKeyIterator>::type(),
+            typename thrust::iterator_space<RandomAccessValueIterator>::type());
 }
 
 } // last namespace thrust

@@ -49,8 +49,8 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
 {
   // dispatch on space
   return thrust::detail::dispatch::inner_product(first1, last1, first2, init, binary_op1, binary_op2,
-    typename thrust::experimental::iterator_space<InputIterator1>::type(),
-    typename thrust::experimental::iterator_space<InputIterator2>::type());
+    typename thrust::iterator_space<InputIterator1>::type(),
+    typename thrust::iterator_space<InputIterator2>::type());
 } // end inner_product()
 
 

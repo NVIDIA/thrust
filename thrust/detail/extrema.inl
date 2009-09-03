@@ -63,7 +63,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
 {
     // dispatch on space
     return thrust::detail::dispatch::min_element(first, last, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type());
 } // end min_element()
 
 
@@ -82,7 +82,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
 {
     // dispatch on space
     return thrust::detail::dispatch::max_element(first, last, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type());
 } // end max_element()
 
 
@@ -103,7 +103,7 @@ thrust::pair<ForwardIterator,ForwardIterator>
 {
     // dispatch on space
     return thrust::detail::dispatch::minmax_element(first, last, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type());
 } // end minmax_element()
 
 

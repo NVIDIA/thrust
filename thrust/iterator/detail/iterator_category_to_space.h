@@ -23,23 +23,17 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace detail
 {
 
 // forward declaration
 template <typename> struct is_iterator_space;
 
-// make the type_traits easy to access
-using namespace thrust::detail;
-
 template<typename Category>
   struct iterator_category_to_space
     // convertible to any iterator?
     : eval_if<
-        is_convertible<Category, thrust::experimental::random_access_universal_iterator_tag>::value,
+        is_convertible<Category, thrust::random_access_universal_iterator_tag>::value,
 
         detail::identity_<thrust::any_space_tag>,
 
@@ -81,8 +75,6 @@ template<typename CategoryOrTraversal>
 }; // end iterator_category_or_traversal_to_space
 
 } // end detail
-
-} // end experimental
 
 } // end thrust
 

@@ -47,7 +47,7 @@ ForwardIterator lower_bound(ForwardIterator first,
 {
     // dispatch on space
     return thrust::detail::dispatch::lower_bound(first, last, value, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type());
 
 }
 
@@ -67,7 +67,7 @@ ForwardIterator upper_bound(ForwardIterator first,
 {
     // dispatch on space
     return thrust::detail::dispatch::upper_bound(first, last, value, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type());
 
 }
 
@@ -87,7 +87,7 @@ bool binary_search(ForwardIterator first,
 {
     // dispatch on space
     return thrust::detail::dispatch::binary_search(first, last, value, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type());
 
 }
 
@@ -138,9 +138,9 @@ OutputIterator lower_bound(ForwardIterator first,
 {
     // dispatch on space
     return thrust::detail::dispatch::lower_bound(first, last, values_first, values_last, output, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type(),
-            typename thrust::experimental::iterator_space<InputIterator>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type(),
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
     
 template <class ForwardIterator, class InputIterator, class OutputIterator>
@@ -165,9 +165,9 @@ OutputIterator upper_bound(ForwardIterator first,
 {
     // dispatch on space
     return thrust::detail::dispatch::upper_bound(first, last, values_first, values_last, output, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type(),
-            typename thrust::experimental::iterator_space<InputIterator>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type(),
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator>
@@ -192,9 +192,9 @@ OutputIterator binary_search(ForwardIterator first,
 {
     // dispatch on space
     return thrust::detail::dispatch::binary_search(first, last, values_first, values_last, output, comp,
-            typename thrust::experimental::iterator_space<ForwardIterator>::type(),
-            typename thrust::experimental::iterator_space<InputIterator>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<ForwardIterator>::type(),
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace thrust

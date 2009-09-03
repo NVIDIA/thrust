@@ -36,7 +36,7 @@ void for_each(InputIterator first,
 {
     // dispatch on space
     thrust::detail::dispatch::for_each(first, last, f,
-            typename thrust::experimental::iterator_space<InputIterator>::type());
+            typename thrust::iterator_space<InputIterator>::type());
 } // end for_each()
 
 } // end namespace thrust

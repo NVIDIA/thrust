@@ -52,8 +52,8 @@ template<typename InputIterator,
 {
     // dispatch on space
     return thrust::detail::dispatch::inclusive_scan(first, last, result, binary_op,
-            typename thrust::experimental::iterator_space<InputIterator>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
 
 template<typename InputIterator,
@@ -94,8 +94,8 @@ template<typename InputIterator,
 {
     // dispatch on space
     return thrust::detail::dispatch::exclusive_scan(first, last, result, init, binary_op,
-            typename thrust::experimental::iterator_space<InputIterator>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace thrust

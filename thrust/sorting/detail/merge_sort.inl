@@ -73,7 +73,7 @@ template<typename RandomAccessIterator,
 {
     // Dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_merge_sort(begin, end, comp,
-            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+            typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 
 
@@ -125,8 +125,8 @@ template<typename RandomAccessIterator1,
 {
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp,
-            typename thrust::experimental::iterator_space<RandomAccessIterator1>::type(),
-            typename thrust::experimental::iterator_space<RandomAccessIterator2>::type());
+            typename thrust::iterator_space<RandomAccessIterator1>::type(),
+            typename thrust::iterator_space<RandomAccessIterator2>::type());
 }
 
 

@@ -176,9 +176,6 @@ typedef std::random_access_iterator_tag random_access_host_iterator_tag;
 /*! \} // end iterator_tag_classes
  */
 
-namespace experimental
-{
-
 // XXX these could use better names
 
 struct input_universal_iterator_tag
@@ -220,8 +217,6 @@ struct random_access_universal_iterator_tag
   // make this type convertible to random_access_device_iterator_tag
   operator random_access_device_iterator_tag () {return random_access_device_iterator_tag();};
 };
-
-} // end namespace experimental
 
 } // end namespace thrust
 

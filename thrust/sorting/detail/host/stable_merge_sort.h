@@ -178,8 +178,8 @@ template<typename RandomAccessIterator1,
                                 thrust::detail::false_type,
                                 thrust::detail::false_type)
 {
-  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy input to temporary ranges
   thrust::detail::raw_host_buffer<KeyType>   keys_temp(keys_begin, keys_end);
@@ -207,7 +207,7 @@ template<typename RandomAccessIterator1,
                                 thrust::detail::false_type,
                                 thrust::detail::true_type)
 {
-  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
 
   // copy input to temporary ranges
   thrust::detail::raw_host_buffer<KeyType> keys_temp(keys_begin, keys_end);
@@ -233,7 +233,7 @@ template<typename RandomAccessIterator1,
                                 thrust::detail::true_type,
                                 thrust::detail::false_type)
 {
-  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy input to temporary ranges
   RandomAccessIterator2 values_end = values_begin + (keys_end + keys_begin);
@@ -345,7 +345,7 @@ template<typename RandomAccessIterator,
                          StrictWeakOrdering comp,
                          thrust::detail::false_type)
 {
-  typedef typename experimental::iterator_value<RandomAccessIterator>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator>::type ValueType;
 
   // copy input to temporary range
   thrust::detail::raw_host_buffer<ValueType> temp(begin,end);

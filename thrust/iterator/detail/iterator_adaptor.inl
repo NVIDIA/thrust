@@ -68,19 +68,19 @@ template <
 
   typedef typename ia_dflt_help<
     Space,
-    thrust::experimental::iterator_space<Base>
+    thrust::iterator_space<Base>
   >::type space;
 
   typedef typename ia_dflt_help<
     Traversal,
-    thrust::experimental::iterator_traversal<Base>
+    thrust::iterator_traversal<Base>
   >::type traversal;
 
   typedef typename ia_dflt_help<
     Reference,
     thrust::detail::eval_if<
       thrust::detail::is_same<Value,use_default>::value,
-      thrust::experimental::iterator_reference<Base>,
+      thrust::iterator_reference<Base>,
       thrust::detail::add_reference<Value>
     >
   >::type reference;

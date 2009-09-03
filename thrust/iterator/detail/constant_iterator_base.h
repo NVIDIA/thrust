@@ -48,7 +48,7 @@ template<typename Value,
   typedef typename thrust::experimental::counting_iterator<
     incrementable,
     Space,
-    thrust::experimental::random_access_traversal_tag
+    thrust::random_access_traversal_tag
   > base_iterator;
 
   typedef typename thrust::experimental::iterator_adaptor<
@@ -56,8 +56,8 @@ template<typename Value,
     base_iterator,
     pointer,
     value_type,
-    typename thrust::experimental::iterator_space<base_iterator>::type,
-    typename thrust::experimental::iterator_traversal<base_iterator>::type,
+    typename thrust::iterator_space<base_iterator>::type,
+    typename thrust::iterator_traversal<base_iterator>::type,
     reference
   > type;
 }; // end constant_iterator_base

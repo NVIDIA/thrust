@@ -33,8 +33,8 @@ template<typename ForwardIterator1,
                                ForwardIterator2 first2)
 {
   return thrust::detail::dispatch::swap_ranges(first1, last1, first2,
-    typename thrust::experimental::iterator_space<ForwardIterator1>::type(),
-    typename thrust::experimental::iterator_space<ForwardIterator2>::type());
+    typename thrust::iterator_space<ForwardIterator1>::type(),
+    typename thrust::iterator_space<ForwardIterator2>::type());
 } // end swap_ranges()
 
 } // end namespace thrust

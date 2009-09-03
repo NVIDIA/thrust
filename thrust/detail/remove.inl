@@ -84,8 +84,8 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   return detail::dispatch::remove_if(first, last, stencil, pred,
-    typename thrust::experimental::iterator_space<ForwardIterator>::type(),
-    typename thrust::experimental::iterator_space<InputIterator>::type());
+    typename thrust::iterator_space<ForwardIterator>::type(),
+    typename thrust::iterator_space<InputIterator>::type());
 } // end remove_if()
 
 template<typename InputIterator,
@@ -97,8 +97,8 @@ template<typename InputIterator,
                                 Predicate pred)
 {
   return detail::dispatch::remove_copy_if(first, last, result, pred,
-    typename thrust::experimental::iterator_space<InputIterator>::type(),
-    typename thrust::experimental::iterator_space<OutputIterator>::type());
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
 } // end remove_copy_if()
 
 template<typename InputIterator1,
@@ -112,9 +112,9 @@ template<typename InputIterator1,
                                 Predicate pred)
 {
   return detail::dispatch::remove_copy_if(first, last, stencil, result, pred,
-    typename thrust::experimental::iterator_space<InputIterator1>::type(),
-    typename thrust::experimental::iterator_space<InputIterator2>::type(),
-    typename thrust::experimental::iterator_space<OutputIterator>::type());
+    typename thrust::iterator_space<InputIterator1>::type(),
+    typename thrust::iterator_space<InputIterator2>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
 } // end remove_copy_if()
 
 } // end namespace thrust

@@ -48,10 +48,6 @@ template<typename Value, typename Difference, typename Pointer, typename Referen
 namespace thrust
 {
 
-namespace experimental
-{
-
-
 template<typename Iterator>
   struct iterator_value
 {
@@ -119,12 +115,6 @@ template<typename T>
 {
 }; // end is_iterator_space
 
-} // end detail
-
-} // end experimental
-
-namespace detail
-{
 
 template <typename Iterator> struct iterator_device_reference {};
 
@@ -160,10 +150,10 @@ template<typename Iterator>
     is_convertible<
       Iterator,
       std::_Ranit<
-        typename experimental::iterator_value<Iterator>::type,
-        typename experimental::iterator_difference<Iterator>::type,
-        typename experimental::iterator_pointer<Iterator>::type,
-        typename experimental::iterator_reference<Iterator>::type
+        typename iterator_value<Iterator>::type,
+        typename iterator_difference<Iterator>::type,
+        typename iterator_pointer<Iterator>::type,
+        typename iterator_reference<Iterator>::type
       >
     > {};
 #endif // _MSC_VER
@@ -183,7 +173,7 @@ template<typename T>
 #endif // _MSC_VER
     > {};
 
-} // end detail
+} // end namespace detail
 
-} // end thrust
+} // end namespace thrust
 

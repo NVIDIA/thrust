@@ -36,9 +36,9 @@ template<typename InputIterator1,
 {
   // dispatch on space
   thrust::detail::dispatch::scatter(first, last, map, output,
-    typename thrust::experimental::iterator_space<InputIterator1>::type(),
-    typename thrust::experimental::iterator_space<InputIterator2>::type(),
-    typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+    typename thrust::iterator_space<InputIterator1>::type(),
+    typename thrust::iterator_space<InputIterator2>::type(),
+    typename thrust::iterator_space<RandomAccessIterator>::type());
 } // end scatter()
 
 
@@ -72,10 +72,10 @@ template<typename InputIterator1,
 {
   // dispatch on space
   thrust::detail::dispatch::scatter_if(first, last, map, stencil, output, pred,
-    typename thrust::experimental::iterator_space<InputIterator1>::type(),
-    typename thrust::experimental::iterator_space<InputIterator2>::type(),
-    typename thrust::experimental::iterator_space<InputIterator3>::type(),
-    typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+    typename thrust::iterator_space<InputIterator1>::type(),
+    typename thrust::iterator_space<InputIterator2>::type(),
+    typename thrust::iterator_space<InputIterator3>::type(),
+    typename thrust::iterator_space<RandomAccessIterator>::type());
 } // end scatter_if()
 
 } // end namespace thrust

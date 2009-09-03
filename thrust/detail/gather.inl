@@ -36,9 +36,9 @@ template<typename ForwardIterator,
 {
   // dispatch on space
   thrust::detail::dispatch::gather(first, last, map, input,
-          typename thrust::experimental::iterator_space<ForwardIterator>::type(),
-          typename thrust::experimental::iterator_space<InputIterator>::type(),
-          typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+          typename thrust::iterator_space<ForwardIterator>::type(),
+          typename thrust::iterator_space<InputIterator>::type(),
+          typename thrust::iterator_space<RandomAccessIterator>::type());
 } // end gather()
 
 template<typename ForwardIterator,
@@ -69,10 +69,10 @@ template<typename ForwardIterator,
 {
   // dispatch on space
   thrust::detail::dispatch::gather_if(first, last, map, stencil, input, pred,
-          typename thrust::experimental::iterator_space<ForwardIterator>::type(),
-          typename thrust::experimental::iterator_space<InputIterator1>::type(),
-          typename thrust::experimental::iterator_space<InputIterator2>::type(),
-          typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+          typename thrust::iterator_space<ForwardIterator>::type(),
+          typename thrust::iterator_space<InputIterator1>::type(),
+          typename thrust::iterator_space<InputIterator2>::type(),
+          typename thrust::iterator_space<RandomAccessIterator>::type());
 } // end gather_if()
 
 } // end namespace thrust

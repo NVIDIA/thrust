@@ -96,20 +96,20 @@ template<typename Traversal, typename ValueParam, typename Reference>
     thrust::detail::eval_if<
       thrust::detail::and_<
         thrust::detail::is_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::experimental::forward_traversal_tag>
+        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
       >::value,
       thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::experimental::random_access_traversal_tag>::value,
+        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
         thrust::detail::identity_<thrust::random_access_host_iterator_tag>,
         thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::experimental::bidirectional_traversal_tag>::value,
+          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
           thrust::bidirectional_host_iterator_tag,
           thrust::forward_host_iterator_tag
         >
       >,
       thrust::detail::eval_if<
         thrust::detail::and_<
-          thrust::detail::is_convertible<Traversal, thrust::experimental::single_pass_traversal_tag>,
+          thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>,
           thrust::detail::is_convertible<Reference, ValueParam>
         >::value,
         thrust::detail::identity_<thrust::input_host_iterator_tag>,
@@ -126,20 +126,20 @@ template<typename Traversal, typename ValueParam, typename Reference>
     thrust::detail::eval_if<
       thrust::detail::and_<
         thrust::detail::is_device_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::experimental::forward_traversal_tag>
+        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
       >::value,
       thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::experimental::random_access_traversal_tag>::value,
+        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
         thrust::detail::identity_<thrust::random_access_device_iterator_tag>,
         thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::experimental::bidirectional_traversal_tag>::value,
+          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
           thrust::bidirectional_device_iterator_tag,
           thrust::forward_device_iterator_tag
         >
       >,
       thrust::detail::eval_if<
         thrust::detail::and_<
-          thrust::detail::is_convertible<Traversal, thrust::experimental::single_pass_traversal_tag>,
+          thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>,
           thrust::detail::is_convertible<Reference, ValueParam>
         >::value,
         thrust::detail::identity_<thrust::input_device_iterator_tag>,
@@ -157,26 +157,26 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
       thrust::detail::and_<
         thrust::detail::is_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::experimental::forward_traversal_tag>
+        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
       >::value,
 
       thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::experimental::random_access_traversal_tag>::value,
-        thrust::detail::identity_<thrust::experimental::random_access_universal_iterator_tag>,
+        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
+        thrust::detail::identity_<thrust::random_access_universal_iterator_tag>,
 
         thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::experimental::bidirectional_traversal_tag>::value,
-          thrust::experimental::bidirectional_universal_iterator_tag,
-          thrust::experimental::forward_universal_iterator_tag
+          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
+          thrust::bidirectional_universal_iterator_tag,
+          thrust::forward_universal_iterator_tag
         >
       >,
 
       thrust::detail::eval_if<
         thrust::detail::and_<
-          thrust::detail::is_convertible<Traversal, thrust::experimental::single_pass_traversal_tag>,
+          thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>,
           thrust::detail::is_convertible<Reference, ValueParam>
         >::value,
-        thrust::detail::identity_<thrust::experimental::input_universal_iterator_tag>,
+        thrust::detail::identity_<thrust::input_universal_iterator_tag>,
         thrust::detail::identity_<Traversal>
       >
     >
@@ -203,11 +203,11 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
     thrust::detail::and_<
       thrust::detail::is_same<
         Traversal,
-        typename thrust::experimental::detail::iterator_category_to_traversal<category>::type
+        typename thrust::detail::iterator_category_to_traversal<category>::type
       >,
       thrust::detail::is_same<
         Space,
-        typename thrust::experimental::detail::iterator_category_to_space<category>::type
+        typename thrust::detail::iterator_category_to_space<category>::type
       >
     >::value,
     thrust::detail::identity_<category>,

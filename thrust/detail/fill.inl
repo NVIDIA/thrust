@@ -33,7 +33,7 @@ template<typename ForwardIterator, typename T>
 {
   // dispatch on space
   thrust::detail::dispatch::fill(first, last, exemplar,
-    typename thrust::experimental::iterator_space<ForwardIterator>::type());
+    typename thrust::iterator_space<ForwardIterator>::type());
 } // end fill()
 
 } // end namespace thrust

@@ -132,8 +132,8 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
 {
   using namespace thrust::detail::device;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator3>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator4>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
 
   // Assumption: tile_size is a power of 2.
   
@@ -250,8 +250,8 @@ template<unsigned int BLOCK_SIZE,
 {
   using namespace thrust::detail::device;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // XXX workaround no constructors on device arrays
   __shared__ unsigned char s_keys_workaround[BLOCK_SIZE * sizeof(KeyType)];
@@ -357,8 +357,8 @@ template<unsigned int BLOCK_SIZE,
 {
   using namespace thrust::detail::device;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator2>::type IndexType;
+  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator2>::type IndexType;
 
   KeyType inp;
   IndexType inp_pos;
@@ -607,8 +607,8 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
 {	
   using namespace thrust::detail::device;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator5>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator6>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator5>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator6>::type ValueType;
 
   extern __shared__ char A[];
   KeyType * input1 = (KeyType *)(A);
@@ -777,8 +777,8 @@ template<typename RandomAccessIterator1,
                                     unsigned int N_ODDEVEN_BLOCK_PAIRS,
                                     StrictWeakOrdering comp)
 {
-  typedef typename experimental::iterator_value<RandomAccessIterator6>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator7>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator6>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator7>::type ValueType;
 
   unsigned int MAX_GRID_SIZE = max_grid_size(1);
 
@@ -829,8 +829,8 @@ template<typename RandomAccessIterator1,
              size_t level,
              StrictWeakOrdering comp)
 {
-  typedef typename experimental::iterator_value<RandomAccessIterator3>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator4>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
 
   size_t tile_size = 1<<log_tile_size;
 
@@ -1084,8 +1084,8 @@ template<typename RandomAccessIterator1,
 {
   using namespace thrust::detail;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy both ranges into temporary storage
   raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);
@@ -1115,7 +1115,7 @@ template<typename RandomAccessIterator1,
 {
   using namespace thrust::detail;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator2>::type ValueType;
+  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy values into temporary storage
   raw_device_buffer<ValueType> values_temp(values_first, values_first + (keys_last - keys_first));
@@ -1144,7 +1144,7 @@ template<typename RandomAccessIterator1,
 {
   using namespace thrust::detail;
 
-  typedef typename experimental::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
 
   // copy keys into temporary storage
   raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);

@@ -34,7 +34,7 @@ template<typename ForwardIterator,
                 Generator gen)
 {
   detail::dispatch::generate(first, last, gen,
-    typename thrust::experimental::iterator_space<ForwardIterator>::type());
+    typename thrust::iterator_space<ForwardIterator>::type());
 } // end generate()
 
 } // end thrust

@@ -46,7 +46,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
       thrust::detail::eval_if<
           thrust::detail::is_numeric<Incrementable>::value,
           thrust::detail::identity_<random_access_traversal_tag>,
-          thrust::experimental::iterator_traversal<Incrementable>
+          thrust::iterator_traversal<Incrementable>
       >
   >::type traversal;
 
@@ -65,7 +65,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
     thrust::detail::eval_if<
       thrust::detail::is_numeric<Incrementable>::value,
       thrust::detail::identity_<std::ptrdiff_t>,
-      thrust::experimental::iterator_difference<Incrementable>
+      thrust::iterator_difference<Incrementable>
     >
   >::type difference;
 

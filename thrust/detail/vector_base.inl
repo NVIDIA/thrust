@@ -561,7 +561,7 @@ template<typename InputIterator, typename Distance>
   void advance(InputIterator &i, Distance n)
 {
   advance(i, n,
-          typename thrust::experimental::iterator_space<InputIterator>::type());
+          typename thrust::iterator_space<InputIterator>::type());
 } // end advance()
 
 template<typename T, typename Alloc>

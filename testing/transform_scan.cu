@@ -96,7 +96,7 @@ template <class Vector>
 void TestTransformScanCountingIterator(void)
 {
     typedef typename Vector::value_type T;
-    typedef typename thrust::experimental::iterator_space<typename Vector::iterator>::type space;
+    typedef typename thrust::iterator_space<typename Vector::iterator>::type space;
 
     thrust::experimental::counting_iterator<T, space> first(1);
 

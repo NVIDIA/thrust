@@ -31,7 +31,7 @@ template<typename InputIterator>
 {
   // dispatch on space
   return thrust::detail::dispatch::distance(first,last,
-    typename thrust::experimental::iterator_space<InputIterator>::type());
+    typename thrust::iterator_space<InputIterator>::type());
 } // end distance()
 
 } // end namespace thrust

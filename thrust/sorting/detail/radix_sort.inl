@@ -45,7 +45,7 @@ template<typename RandomAccessIterator>
 {
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_radix_sort(begin, end,
-            typename thrust::experimental::iterator_space<RandomAccessIterator>::type());
+            typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 
 
@@ -71,8 +71,8 @@ template<typename RandomAccessIterator1,
 {
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_radix_sort_by_key(keys_begin, keys_end, values_begin,
-            typename thrust::experimental::iterator_space<RandomAccessIterator1>::type(),
-            typename thrust::experimental::iterator_space<RandomAccessIterator2>::type());
+            typename thrust::iterator_space<RandomAccessIterator1>::type(),
+            typename thrust::iterator_space<RandomAccessIterator2>::type());
 }
 
 

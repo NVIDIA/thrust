@@ -74,9 +74,9 @@ template<typename InputIterator1,
 {
     // dispatch on space
     return thrust::detail::dispatch::inclusive_segmented_scan(first1, last1, first2, result, binary_op, pred,
-            typename thrust::experimental::iterator_space<InputIterator1>::type(),
-            typename thrust::experimental::iterator_space<InputIterator2>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<InputIterator1>::type(),
+            typename thrust::iterator_space<InputIterator2>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
 
 template<typename InputIterator1,
@@ -143,9 +143,9 @@ template<typename InputIterator1,
 {
     // dispatch on space
     return thrust::detail::dispatch::exclusive_segmented_scan(first1, last1, first2, result, init, binary_op, pred,
-            typename thrust::experimental::iterator_space<InputIterator1>::type(),
-            typename thrust::experimental::iterator_space<InputIterator2>::type(),
-            typename thrust::experimental::iterator_space<OutputIterator>::type());
+            typename thrust::iterator_space<InputIterator1>::type(),
+            typename thrust::iterator_space<InputIterator2>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace experimental

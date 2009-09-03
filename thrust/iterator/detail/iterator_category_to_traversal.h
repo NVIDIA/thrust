@@ -24,9 +24,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace detail
 {
 
@@ -98,7 +95,7 @@ template <typename Category>
 template <typename Category>
   struct category_to_traversal<Category, thrust::any_space_tag>
     : eval_if<
-        is_convertible<Category, thrust::experimental::random_access_universal_iterator_tag>::value,
+        is_convertible<Category, thrust::random_access_universal_iterator_tag>::value,
         detail::identity_<random_access_traversal_tag>,
         // XXX fill in the other cases when we have the other any categories
         void
@@ -123,8 +120,6 @@ template <typename CategoryOrTraversal>
 
 
 } // end detail
-
-} // end experimental
 
 } // end thrust
 

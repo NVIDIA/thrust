@@ -42,9 +42,6 @@ struct device_space_tag {};
 struct any_space_tag : host_space_tag, device_space_tag {};
 
 
-namespace experimental
-{
-
 // define Boost's traversal tags
 struct no_traversal_tag {};
 
@@ -75,8 +72,6 @@ template<typename Iterator> struct iterator_difference;
 template<typename Iterator> struct iterator_traversal;
 
 template<typename Iterator> struct iterator_space;
-
-} // end experimental
 
 } // end thrust
 

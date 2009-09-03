@@ -377,7 +377,7 @@ struct _2 {};
 // specialize iterator_reference on the lambda placeholder
 template<typename T> struct
   iterator_reference
-    : thrust::experimental::iterator_reference<T>
+    : thrust::iterator_reference<T>
 {
 }; // end iterator_reference
 
@@ -385,7 +385,7 @@ template<>
   struct iterator_reference<_1>
 {
   template <class T>
-    struct apply : thrust::experimental::iterator_reference<T> {};
+    struct apply : thrust::iterator_reference<T> {};
 }; // end iterator_reference
 
 
@@ -407,7 +407,7 @@ template<>
 // specialize iterator_value on the lambda placeholder
 template<typename T> struct
   iterator_value
-    : thrust::experimental::iterator_value<T>
+    : thrust::iterator_value<T>
 {
 }; // end iterator_value
 
@@ -415,7 +415,7 @@ template<>
   struct iterator_value<_1>
 {
   template <class T>
-    struct apply : thrust::experimental::iterator_value<T> {};
+    struct apply : thrust::iterator_value<T> {};
 }; // end iterator_value
 
 
@@ -468,13 +468,13 @@ struct minimum_traversal_category_in_iterator_tuple
 {
   typedef typename tuple_impl_specific::tuple_meta_transform<
       IteratorTuple
-    , thrust::experimental::iterator_traversal<_1>
+    , thrust::iterator_traversal<_1>
   >::type tuple_of_traversal_tags;
       
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
       tuple_of_traversal_tags
     , minimum_category<>
-    , thrust::experimental::random_access_traversal_tag
+    , thrust::random_access_traversal_tag
   >::type type;
 };
 
@@ -487,7 +487,7 @@ struct minimum_space_in_iterator_tuple
 {
   typedef typename tuple_impl_specific::tuple_meta_transform<
     IteratorTuple,
-    thrust::experimental::iterator_space<_1>
+    thrust::iterator_space<_1>
   >::type tuple_of_space_tags;
 
   typedef typename tuple_impl_specific::tuple_meta_accumulate<

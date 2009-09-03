@@ -44,8 +44,8 @@ template<typename InputIterator,
 
   // dispatch on space
   return thrust::detail::dispatch::copy(first, last, result,
-          typename thrust::experimental::iterator_space<InputIterator>::type(),
-          typename thrust::experimental::iterator_space<OutputIterator>::type());
+          typename thrust::iterator_space<InputIterator>::type(),
+          typename thrust::iterator_space<OutputIterator>::type());
 }
 
 
@@ -111,9 +111,9 @@ template<typename InputIterator1,
                          Predicate pred)
 {
   return detail::dispatch::copy_if(first, last, stencil, result, pred,
-          typename thrust::experimental::iterator_space<InputIterator1>::type(),
-          typename thrust::experimental::iterator_space<InputIterator2>::type(),
-          typename thrust::experimental::iterator_space<OutputIterator>::type());
+          typename thrust::iterator_space<InputIterator1>::type(),
+          typename thrust::iterator_space<InputIterator2>::type(),
+          typename thrust::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace thrust

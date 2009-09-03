@@ -43,8 +43,8 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
 {
   // dispatch on space
   return thrust::detail::dispatch::adjacent_difference(first, last, result, binary_op,
-    typename thrust::experimental::iterator_space<InputIterator>::type(),
-    typename thrust::experimental::iterator_space<OutputIterator>::type());
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
 } // end adjacent_difference()
 
 
