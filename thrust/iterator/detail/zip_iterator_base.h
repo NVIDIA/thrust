@@ -394,10 +394,12 @@ template<>
     struct apply : thrust::detail::iterator_device_reference<T> {};
 }; // end iterator_device_reference
 
+namespace zip_iterator_base_ns
+{
 
 // specialize iterator_value on the lambda placeholder
-template<typename T> struct
-  iterator_value
+template<typename T>
+  struct iterator_value
     : thrust::iterator_value<T>
 {
 }; // end iterator_value
@@ -409,7 +411,7 @@ template<>
     struct apply : thrust::iterator_value<T> {};
 }; // end iterator_value
 
-
+} // end zip_iterator_base_ns
 
 
 // Metafunction to obtain the type of the tuple whose element types
@@ -444,7 +446,7 @@ template<typename IteratorTuple>
   struct tuple_of_value_types
     : tuple_impl_specific::tuple_meta_transform<
           IteratorTuple,
-          iterator_value<_1>
+          zip_iterator_base_ns::iterator_value<_1>
         >
 {
 }; // end tuple_of_value_types

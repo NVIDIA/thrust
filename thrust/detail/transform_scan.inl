@@ -38,8 +38,8 @@ template<typename InputIterator,
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
-    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
+    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
 
     return thrust::inclusive_scan(_first, _last, result, binary_op);
 }
@@ -59,8 +59,8 @@ template<typename InputIterator,
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
     
-    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
-    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
+    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
 
     return thrust::exclusive_scan(_first, _last, result, init, binary_op);
 }

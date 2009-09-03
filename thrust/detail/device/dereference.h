@@ -45,11 +45,11 @@ template<typename Value,
   class constant_iterator;
 
 
-namespace experimental
-{
-
 template <class UnaryFunc, class Iterator, class Reference, class Value>
   class transform_iterator;
+
+namespace experimental
+{
 
 template<typename Incrementable,
          typename Space,
@@ -116,13 +116,13 @@ template<typename T, typename IndexType>
 // transform_iterator prototypes
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter);
+    typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
+      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter);
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n);
+    typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
+      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n);
 
 
 

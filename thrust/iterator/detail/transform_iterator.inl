@@ -25,9 +25,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 template <class UnaryFunction, class Iterator, class Reference, class Value>
   class transform_iterator;
   
@@ -57,7 +54,7 @@ struct transform_iterator_base
     // the function.  Do we need to adjust the way
     // function_object_result is computed for the standard
     // proposal (e.g. using Doug's result_of)?
-    typedef typename ia_dflt_help<
+    typedef typename thrust::experimental::detail::ia_dflt_help<
         Reference
       , function_object_result<UnaryFunc>
     >::type reference;
@@ -67,7 +64,7 @@ struct transform_iterator_base
     // non-writability.  Note that if we adopt Thomas' suggestion
     // to key non-writability *only* on the Reference argument,
     // we'd need to strip constness here as well.
-    typedef typename ia_dflt_help<
+    typedef typename thrust::experimental::detail::ia_dflt_help<
         Value
       , thrust::detail::remove_reference<reference>
     >::type cv_value_type;
@@ -75,13 +72,13 @@ struct transform_iterator_base
     typedef typename thrust::iterator_traits<Iterator>::pointer pointer_;
 
  public:
-    typedef iterator_adaptor
+    typedef thrust::experimental::iterator_adaptor
     <
         transform_iterator<UnaryFunc, Iterator, Reference, Value>
       , Iterator
       , pointer_
       , cv_value_type
-      , use_default   // Leave the space alone
+      , thrust::experimental::use_default   // Leave the space alone
         //, use_default   // Leave the traversal alone
         // use the Iterator's category to let any space iterators remain random access even though
         // transform_iterator's reference type may not be a reference
@@ -91,36 +88,30 @@ struct transform_iterator_base
     > type;
 };
 
-} // end detail
-
-} // end experimental
-
-namespace detail
-{
-
 // specialize iterator_device_reference for transform_iterator
 // transform_iterator returns the same reference on the device as on the host
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
-  struct iterator_device_reference< thrust::experimental::transform_iterator<UnaryFunc, Iterator, Reference, Value> >
+  struct iterator_device_reference< thrust::transform_iterator<UnaryFunc, Iterator, Reference, Value> >
 {
-  typedef typename thrust::iterator_traits< thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::reference type;
+  typedef typename thrust::iterator_traits< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::reference type;
 }; // end iterator_device_reference
+
 
 namespace device
 {
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter)
+    typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
+      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter)
 {
   return iter.functor()( dereference(iter.base()) );
 } // end dereference()
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::experimental::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n)
+    typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
+      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n)
 {
   return iter.functor()( dereference(iter.base(), n) );
 } // end dereference()

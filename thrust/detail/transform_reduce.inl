@@ -36,8 +36,8 @@ template<typename InputIterator,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
-    thrust::experimental::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
+    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
 
     return thrust::reduce(_first, _last, init, binary_op);
 }

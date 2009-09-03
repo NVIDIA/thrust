@@ -181,8 +181,8 @@ void TestInclusiveSegmentedScanTransformIterator(void)
     input[6] = 7;  key[6] = 3;
 
     thrust::experimental::inclusive_segmented_scan(
-        thrust::experimental::make_transform_iterator(input.begin(), thrust::negate<T>()), 
-        thrust::experimental::make_transform_iterator(input.end(),   thrust::negate<T>()), 
+        thrust::make_transform_iterator(input.begin(), thrust::negate<T>()), 
+        thrust::make_transform_iterator(input.end(),   thrust::negate<T>()), 
         key.begin(), output.begin());
     
     ASSERT_EQUAL(output[0],  -1);

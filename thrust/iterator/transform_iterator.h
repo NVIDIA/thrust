@@ -33,33 +33,31 @@
 namespace thrust
 {
 
-namespace experimental
-{
-  template <class UnaryFunc, class Iterator, class Reference = use_default, class Value = use_default>
+template <class UnaryFunc, class Iterator, class Reference = experimental::use_default, class Value = experimental::use_default>
   class transform_iterator
     : public detail::transform_iterator_base<UnaryFunc, Iterator, Reference, Value>::type
-  {
-    public:
+{
+  public:
     typedef typename
     detail::transform_iterator_base<UnaryFunc, Iterator, Reference, Value>::type
     super_t;
 
-    friend class iterator_core_access;
+    friend class experimental::iterator_core_access;
 
   public:
     __host__ __device__
     transform_iterator() {}
-
+  
     __host__ __device__
     transform_iterator(Iterator const& x, UnaryFunc f)
       : super_t(x), m_f(f) {
     }
-
+  
     __host__ __device__
     explicit transform_iterator(Iterator const& x)
       : super_t(x) { }
 
-    // XXX figure this out
+//  // XXX figure this out
 //    template<
 //        class OtherUnaryFunction
 //      , class OtherIterator
@@ -89,16 +87,15 @@ namespace experimental
     // tag this as mutable per Dave Abrahams in this thread:
     // http://lists.boost.org/Archives/boost/2004/05/65332.php
     mutable UnaryFunc m_f;
-  }; // end transform_iterator
+}; // end transform_iterator
 
-  template <class UnaryFunc, class Iterator>
-  __host__ __device__
-  transform_iterator<UnaryFunc, Iterator>
-  make_transform_iterator(Iterator it, UnaryFunc fun)
-  {
-    return transform_iterator<UnaryFunc, Iterator>(it, fun);
-  } // end make_transform_iterator
-} // end experimental
+template <class UnaryFunc, class Iterator>
+__host__ __device__
+transform_iterator<UnaryFunc, Iterator>
+make_transform_iterator(Iterator it, UnaryFunc fun)
+{
+  return transform_iterator<UnaryFunc, Iterator>(it, fun);
+} // end make_transform_iterator
 
 } // end thrust
 
