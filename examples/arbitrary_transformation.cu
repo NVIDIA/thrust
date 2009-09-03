@@ -29,7 +29,7 @@
 //      D[i] = A[i] + B[i] * C[i];
 //      E[i] = A[i] + B[i] + C[i];
 //
-// The possibilites are endless! :)
+// The possibilities are endless! :)
 
 struct complicated_functor
 {
