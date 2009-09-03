@@ -202,8 +202,8 @@ template <typename T>
 
 
     // test any
-    typedef experimental::counting_iterator<T>         Iterator5;
-    typedef experimental::counting_iterator<const T>   Iterator6;
+    typedef counting_iterator<T>         Iterator5;
+    typedef counting_iterator<const T>   Iterator6;
     typedef tuple<Iterator5, Iterator6>                IteratorTuple3;
     typedef zip_iterator<IteratorTuple3> ZipIterator3;
 

@@ -74,7 +74,7 @@ int main(void)
                       points.begin());
 
   // find the beginning of each bucket's list of points
-  thrust::experimental::counting_iterator<unsigned int> search_begin(0);
+  thrust::counting_iterator<unsigned int> search_begin(0);
   thrust::lower_bound(bucket_indices.begin(),
                       bucket_indices.end(),
                       search_begin,

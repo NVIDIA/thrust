@@ -23,9 +23,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 // forward declaration of counting_iterator
 template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   class counting_iterator;
@@ -36,12 +33,12 @@ namespace detail
 template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   struct counting_iterator_base
 {
-  typedef typename detail::ia_dflt_help<
+  typedef typename thrust::experimental::detail::ia_dflt_help<
     Space,
     thrust::detail::identity_<thrust::any_space_tag>
   >::type space;
 
-  typedef typename detail::ia_dflt_help<
+  typedef typename thrust::experimental::detail::ia_dflt_help<
       Traversal,
       thrust::detail::eval_if<
           thrust::detail::is_numeric<Incrementable>::value,
@@ -60,7 +57,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
   //  >
   //>::type difference;
 
-  typedef typename detail::ia_dflt_help<
+  typedef typename thrust::experimental::detail::ia_dflt_help<
     Difference,
     thrust::detail::eval_if<
       thrust::detail::is_numeric<Incrementable>::value,
@@ -69,7 +66,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
     >
   >::type difference;
 
-  typedef iterator_adaptor<
+  typedef thrust::experimental::iterator_adaptor<
     counting_iterator<Incrementable, Space, Traversal, Difference>, // self
     Incrementable,                                                  // Base
     Incrementable *,                                                // Pointer -- maybe we should make this device_ptr when memory space category is device?
@@ -81,23 +78,17 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
   > type;
 }; // end counting_iterator_base
 
-} // end detail
-
-} // end experimental
-
-namespace detail
-{
 
 // specialize iterator_device_reference for counting_iterator
 // transform_iterator returns the same reference on the device as on the host
 template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   struct iterator_device_reference<
-    thrust::experimental::counting_iterator<
+    thrust::counting_iterator<
       Incrementable, Space, Traversal, Difference
     >
   >
 {
-  typedef typename thrust::iterator_traits< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::reference type;
+  typedef typename thrust::iterator_traits< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::reference type;
 }; // end iterator_device_reference
 
 
@@ -106,16 +97,16 @@ namespace device
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> iter)
+    typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter)
 {
   return *iter;
 } // end dereference()
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n)
+    typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n)
 {
   return iter[n];
 } // end dereference()

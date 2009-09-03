@@ -6,9 +6,9 @@
 
 void TestCountingIteratorCopyConstructor(void)
 {
-    thrust::experimental::counting_iterator<int> iter0(100);
+    thrust::counting_iterator<int> iter0(100);
 
-    thrust::experimental::counting_iterator<int> iter1(iter0);
+    thrust::counting_iterator<int> iter1(iter0);
 
     ASSERT_EQUAL_QUIET(iter0, iter1);
     ASSERT_EQUAL(*iter0, *iter1);
@@ -18,7 +18,7 @@ DECLARE_UNITTEST(TestCountingIteratorCopyConstructor);
 
 void TestCountingIteratorIncrement(void)
 {
-    thrust::experimental::counting_iterator<int> iter(0);
+    thrust::counting_iterator<int> iter(0);
 
     ASSERT_EQUAL(*iter, 0);
 
@@ -43,8 +43,8 @@ DECLARE_UNITTEST(TestCountingIteratorIncrement);
 
 void TestCountingIteratorComparison(void)
 {
-    thrust::experimental::counting_iterator<int> iter1(0);
-    thrust::experimental::counting_iterator<int> iter2(0);
+    thrust::counting_iterator<int> iter1(0);
+    thrust::counting_iterator<int> iter2(0);
 
     ASSERT_EQUAL(iter1 - iter2, 0);
     ASSERT_EQUAL(iter1 == iter2, true);
@@ -70,8 +70,8 @@ DECLARE_UNITTEST(TestCountingIteratorComparison);
 
 void TestCountingIteratorUnsignedType(void)
 {
-    thrust::experimental::counting_iterator<unsigned int> iter0(0);
-    thrust::experimental::counting_iterator<unsigned int> iter1(5);
+    thrust::counting_iterator<unsigned int> iter0(0);
+    thrust::counting_iterator<unsigned int> iter1(5);
 
     ASSERT_EQUAL(iter1 - iter0,  5);
     ASSERT_EQUAL(iter0 - iter1, -5);
@@ -95,8 +95,8 @@ void TestCountingIteratorLowerBound(void)
 
     thrust::device_vector<unsigned int> d_data = h_data;
 
-    thrust::experimental::counting_iterator<unsigned int> search_begin(0);
-    thrust::experimental::counting_iterator<unsigned int> search_end(M);
+    thrust::counting_iterator<unsigned int> search_begin(0);
+    thrust::counting_iterator<unsigned int> search_end(M);
 
 
     thrust::host_vector<unsigned int> h_result(M);

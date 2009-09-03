@@ -48,16 +48,11 @@ template<typename Value,
 template <class UnaryFunc, class Iterator, class Reference, class Value>
   class transform_iterator;
 
-namespace experimental
-{
-
 template<typename Incrementable,
          typename Space,
          typename Traversal,
          typename Difference>
   class counting_iterator;
-
-} // end experimental
 
 template <typename IteratorTuple>
   class zip_iterator;
@@ -129,13 +124,13 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
 // counting_iterator prototypes
 template<typename Incrementable, typename Space, typename Traversal, typename Difference>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> iter);
+    typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter);
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::experimental::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n);
+    typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n);
 
 
 // constant_iterator prototypes

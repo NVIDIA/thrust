@@ -35,19 +35,16 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 template<typename Incrementable,
-         typename Space = use_default,
-         typename Traversal = use_default,
-         typename Difference = use_default>
+         typename Space = thrust::experimental::use_default,
+         typename Traversal = thrust::experimental::use_default,
+         typename Difference = thrust::experimental::use_default>
   class counting_iterator
     : public detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type
 {
     typedef typename detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type super_t;
 
-    friend class iterator_core_access;
+    friend class thrust::experimental::iterator_core_access;
 
   public:
     typedef Incrementable const & reference;
@@ -92,8 +89,6 @@ make_counting_iterator(Incrementable x)
 {
   return counting_iterator<Incrementable>(x);
 }
-
-} // end experimental
 
 } // end thrust
 

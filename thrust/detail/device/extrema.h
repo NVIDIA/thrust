@@ -203,7 +203,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
     typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
-    thrust::experimental::counting_iterator<IndexType> index_first(0);
+    thrust::counting_iterator<IndexType> index_first(0);
     detail::element_pair<InputType, IndexType> init = detail::make_element_pair<InputType, IndexType>(*first, 0);
     detail::min_element_reduction<InputType, IndexType, BinaryPredicate> binary_op1(comp);
     detail::element_pair_functor<InputType, IndexType> binary_op2;
@@ -223,7 +223,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
     typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
-    thrust::experimental::counting_iterator<IndexType> index_first(0);
+    thrust::counting_iterator<IndexType> index_first(0);
     detail::element_pair<InputType, IndexType> init = detail::make_element_pair<InputType, IndexType>(*first, 0);
     detail::max_element_reduction<InputType, IndexType, BinaryPredicate> binary_op1(comp);
     detail::element_pair_functor<InputType, IndexType> binary_op2;
@@ -244,7 +244,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
     typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
-    thrust::experimental::counting_iterator<IndexType> index_first(0);
+    thrust::counting_iterator<IndexType> index_first(0);
 
     detail::minmax_element_pair<InputType, IndexType> init;
     init.min_pair = detail::make_element_pair<InputType, IndexType>(*first, 0);

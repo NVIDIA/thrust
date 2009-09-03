@@ -57,8 +57,8 @@ DECLARE_UNITTEST(TestDeviceDereferenceTransformIterator);
 
 void TestDeviceDereferenceCountingIterator(void)
 {
-    thrust::experimental::counting_iterator<int> first(1);
-    thrust::experimental::counting_iterator<int> last(6);
+    thrust::counting_iterator<int> first(1);
+    thrust::counting_iterator<int> last(6);
 
     thrust::device_vector<int> output(5);
 
@@ -74,8 +74,8 @@ DECLARE_UNITTEST(TestDeviceDereferenceCountingIterator);
 
 void TestDeviceDereferenceTransformedCountingIterator(void)
 {
-    thrust::experimental::counting_iterator<int> first(1);
-    thrust::experimental::counting_iterator<int> last(6);
+    thrust::counting_iterator<int> first(1);
+    thrust::counting_iterator<int> last(6);
 
     thrust::device_vector<int> output(5);
 

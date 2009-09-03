@@ -79,7 +79,7 @@ template<typename ForwardIterator, typename T>
 
     detail::sequence_functor<OutputType,T> func(init, step);
 
-    thrust::experimental::counting_iterator<difference_type> iter(0);
+    thrust::counting_iterator<difference_type> iter(0);
 
     thrust::transform(iter, iter + thrust::distance(first, last), first, func);
 } // end sequence()

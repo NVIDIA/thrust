@@ -45,7 +45,7 @@ template<typename Value,
     thrust::detail::identity_<int>
   >::type incrementable;
 
-  typedef typename thrust::experimental::counting_iterator<
+  typedef typename thrust::counting_iterator<
     incrementable,
     Space,
     thrust::random_access_traversal_tag

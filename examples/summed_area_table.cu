@@ -53,7 +53,7 @@ struct row_index
 template <typename T>
 void transpose(size_t m, size_t n, thrust::device_vector<T>& src, thrust::device_vector<T>& dst)
 {
-    thrust::experimental::counting_iterator<size_t> indices(0);
+    thrust::counting_iterator<size_t> indices(0);
     
     thrust::gather(dst.begin(), dst.end(),
                    thrust::make_transform_iterator(indices, transpose_index(n, m)),
@@ -65,7 +65,7 @@ void transpose(size_t m, size_t n, thrust::device_vector<T>& src, thrust::device
 template <typename T>
 void scan_horizontally(size_t m, size_t n, thrust::device_vector<T>& d_data)
 {
-    thrust::experimental::counting_iterator<size_t> indices(0);
+    thrust::counting_iterator<size_t> indices(0);
 
     thrust::experimental::inclusive_segmented_scan(d_data.begin(), d_data.end(),
                                                    thrust::make_transform_iterator(indices, row_index(n)),

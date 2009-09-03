@@ -319,7 +319,7 @@ void TestCopyCountingIterator(void)
 {
     typedef typename Vector::value_type T;
 
-    thrust::experimental::counting_iterator<T> iter(1);
+    thrust::counting_iterator<T> iter(1);
 
     Vector vec(4);
 

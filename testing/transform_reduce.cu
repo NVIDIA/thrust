@@ -55,7 +55,7 @@ void TestTransformReduceCountingIterator(void)
     typedef typename Vector::value_type T;
     typedef typename thrust::iterator_space<typename Vector::iterator>::type space;
 
-    thrust::experimental::counting_iterator<T, space> first(1);
+    thrust::counting_iterator<T, space> first(1);
 
     T result = thrust::transform_reduce(first, first + 3, thrust::negate<short>(), 0, thrust::plus<short>());
 

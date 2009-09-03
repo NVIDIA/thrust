@@ -239,7 +239,7 @@ void TestTransformUnaryCountingIterator(void)
 {
     typedef typename Vector::value_type T;
 
-    thrust::experimental::counting_iterator<T> first(1);
+    thrust::counting_iterator<T> first(1);
 
     Vector output(3);
 
@@ -257,7 +257,7 @@ void TestTransformBinaryCountingIterator(void)
 {
     typedef typename Vector::value_type T;
 
-    thrust::experimental::counting_iterator<T> first(1);
+    thrust::counting_iterator<T> first(1);
 
     Vector output(3);
 
