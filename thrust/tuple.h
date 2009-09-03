@@ -19,6 +19,11 @@
  *  \brief Defines a tuple type similar to std::tr1::tuple.
  */
 
+// thrust::tuple is derived from boost::tuple of the
+// Boost Tuples Library, which is the work of
+// Jaako Järvi.
+// See http://www.boost.org for details.
+
 #pragma once
 
 #include <thrust/detail/config.h>

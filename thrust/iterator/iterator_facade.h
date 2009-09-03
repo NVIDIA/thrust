@@ -14,6 +14,12 @@
  *  limitations under the License.
  */
 
+// thrust::experimental::iterator_facade is derived from
+// boost::iterator_facade of the Boost Iterator
+// Library, which is the work of
+// David Abrahams, Jeremy Siek, & Thomas Witt.
+// See http://www.boost.org for details.
+
 
 /*! \file iterator_facade.h
  *  \brief Defines a class which exposes the public

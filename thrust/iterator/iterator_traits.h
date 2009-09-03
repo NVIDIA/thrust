@@ -19,6 +19,11 @@
  *  \brief Defines a types traits class for iterators in thrust.
  */
 
+// Portions of this header were derived from
+// the Boost Iterator Library, which is the work
+// of David Abrahams, Jeremy Siek, & Thomas Witt.
+// See http://www.boost.org for details.
+
 #pragma once
 
 #include <thrust/detail/config.h>

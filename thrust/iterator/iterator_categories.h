@@ -176,8 +176,6 @@ typedef std::random_access_iterator_tag random_access_host_iterator_tag;
 /*! \} // end iterator_tag_classes
  */
 
-// XXX these could use better names
-
 struct input_universal_iterator_tag
   : input_host_iterator_tag,
     input_device_iterator_tag {};
