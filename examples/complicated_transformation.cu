@@ -3,21 +3,33 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <iostream>
 
-// This example shows how to implement a complicated transformation that
-// requires 3 inputs and 1 output using for_each and zip_iterator.
-// Iterators for all four vectors are combined with the zip_iterator 
-// into a single sequence of tuples (i.e. they are "zipped" together).
+// This example shows how to implement an arbitrary transformation of
+// the form output[i] = F(first[i], second[i], third[i], ... ).
+// In this example, we use a function with 3 inputs and 1 output.
+//
+// Iterators for all four vectors (3 inputs + 1 output) are "zipped"
+// into a single sequence of tuples with the zip_iterator.
+//  
 // The complicated_functor receives a tuple that contains four elements,
-// which are refrences to values in each of the four sequences.
-// When we access the tuple 't' with the get() function
-//      get<0>(t) returns a reference to A[i]
-//      get<1>(t) returns a reference to B[i]
-//      get<2>(t) returns a reference to C[i]
-//      get<3>(t) returns a reference to D[i]
+// which are references to values in each of the four sequences. When we
+// access the tuple 't' with the get() function,
+//      get<0>(t) returns a reference to A[i],
+//      get<1>(t) returns a reference to B[i],
+//      get<2>(t) returns a reference to C[i],
+//      get<3>(t) returns a reference to D[i].
 //
 // In this example, we can implement the transformation,
 //      D[i] = A[i] + B[i] * C[i];
 // by invoking complicated_functor() on each of the tuples using for_each.
+//
+// Note that we could extend this example to implement functions with an
+// arbitrary number of input arguments by zipping more sequence together.
+// With the same approach we can have multiple *output* sequences, if we 
+// wanted to implement something like
+//      D[i] = A[i] + B[i] * C[i];
+//      E[i] = A[i] + B[i] + C[i];
+//
+// The possibilites are endless! :)
 
 struct complicated_functor
 {
