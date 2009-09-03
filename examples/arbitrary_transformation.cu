@@ -10,7 +10,7 @@
 // Iterators for all four vectors (3 inputs + 1 output) are "zipped"
 // into a single sequence of tuples with the zip_iterator.
 //  
-// The complicated_functor receives a tuple that contains four elements,
+// The arbitrary_functor receives a tuple that contains four elements,
 // which are references to values in each of the four sequences. When we
 // access the tuple 't' with the get() function,
 //      get<0>(t) returns a reference to A[i],
@@ -20,7 +20,7 @@
 //
 // In this example, we can implement the transformation,
 //      D[i] = A[i] + B[i] * C[i];
-// by invoking complicated_functor() on each of the tuples using for_each.
+// by invoking arbitrary_functor() on each of the tuples using for_each.
 //
 // Note that we could extend this example to implement functions with an
 // arbitrary number of input arguments by zipping more sequence together.
@@ -31,7 +31,7 @@
 //
 // The possibilities are endless! :)
 
-struct complicated_functor
+struct arbitrary_functor
 {
     template <typename Tuple>
     __host__ __device__
@@ -59,11 +59,12 @@ int main(void)
     A[4] = 2;  B[4] = 8;  C[4] = 3; 
 
     // apply the transformation
-    thrust::for_each(thrust::experimental::make_zip_iterator(thrust::make_tuple(A.begin(), B.begin(), C.begin(), D.begin())),
-                     thrust::experimental::make_zip_iterator(thrust::make_tuple(A.end(),   B.end(),   C.end(),   D.end())),
-                     complicated_functor());
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(A.begin(), B.begin(), C.begin(), D.begin())),
+                     thrust::make_zip_iterator(thrust::make_tuple(A.end(),   B.end(),   C.end(),   D.end())),
+                     arbitrary_functor());
 
     // print the output
     for(int i = 0; i < 5; i++)
         std::cout << A[i] << " + " << B[i] << " * " << C[i] << " = " << D[i] << std::endl;
 }
+

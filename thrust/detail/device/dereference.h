@@ -57,10 +57,10 @@ template<typename Incrementable,
          typename Difference>
   class counting_iterator;
 
+} // end experimental
+
 template <typename IteratorTuple>
   class zip_iterator;
-
-} // end experimental
 
 namespace detail
 {
@@ -153,13 +153,13 @@ template<typename Value, typename Incrementable, typename Space, typename IndexT
 // zip_iterator prototypes
 template<typename IteratorTuple>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::zip_iterator<IteratorTuple> >::type
-      dereference(thrust::experimental::zip_iterator<IteratorTuple> iter);
+    typename iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
+      dereference(thrust::zip_iterator<IteratorTuple> iter);
 
 template<typename IteratorTuple, typename IndexType>
   inline __device__
-    typename iterator_device_reference< thrust::experimental::zip_iterator<IteratorTuple> >::type
-      dereference(thrust::experimental::zip_iterator<IteratorTuple> iter, IndexType n);
+    typename iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
+      dereference(thrust::zip_iterator<IteratorTuple> iter, IndexType n);
 
 } // end device
 

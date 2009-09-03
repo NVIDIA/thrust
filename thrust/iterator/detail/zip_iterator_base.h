@@ -28,9 +28,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 // forward declare zip_iterator for zip_iterator_base
 template<typename IteratorTuple> class zip_iterator;
 
@@ -390,12 +387,6 @@ template<>
 
 
 // specialize iterator_device_reference on the lambda placeholder
-template<typename T> struct
-  iterator_device_reference
-    : thrust::detail::iterator_device_reference<T>
-{
-}; // end iterator_device_reference
-
 template<>
   struct iterator_device_reference<_1>
 {
@@ -553,7 +544,7 @@ template<typename IteratorTuple>
   
     // The iterator facade type from which the zip iterator will
     // be derived.
-    typedef iterator_facade<
+    typedef experimental::iterator_facade<
         zip_iterator<IteratorTuple>,
         pointer,
         value_type,  
@@ -565,8 +556,6 @@ template<typename IteratorTuple>
 }; // end zip_iterator_base
 
 } // end detail
-
-} // end experimental
 
 } // end thrust
 

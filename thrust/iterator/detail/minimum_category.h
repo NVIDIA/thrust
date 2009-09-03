@@ -21,9 +21,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace detail
 { 
 
@@ -113,8 +110,6 @@ struct minimum_category<_1,_2>
 }; // end minimum_category
 
 } // end detail
-
-} // end experimental
 
 } // end thrust
 

@@ -29,9 +29,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 template <typename IteratorTuple>
   class zip_iterator
     : public detail::zip_iterator_base<IteratorTuple>::type
@@ -53,7 +50,7 @@ template <typename IteratorTuple>
     typedef typename
     detail::zip_iterator_base<IteratorTuple>::type super_t;
 
-    friend class iterator_core_access;
+    friend class experimental::iterator_core_access;
 
     // Dereferencing returns a tuple built from the dereferenced
     // iterators in the iterator tuple.
@@ -92,8 +89,6 @@ template <typename IteratorTuple>
 template<typename IteratorTuple>
 __host__ __device__
 zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
-
-} // end experimental
 
 } // end thrust
 

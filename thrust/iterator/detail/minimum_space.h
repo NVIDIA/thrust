@@ -21,9 +21,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace detail
 { 
 
@@ -116,8 +113,6 @@ struct minimum_space<_1,_2>
 }; // end minimum_space
 
 } // end detail
-
-} // end experimental
 
 } // end thrust
 
