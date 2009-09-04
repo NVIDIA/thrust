@@ -632,13 +632,13 @@ template <typename T>
       ASSERT_EQUAL_QUIET(h3, d3);
       ASSERT_EQUAL_QUIET(h4, d4);
       
-      //// sort with (scalar, tuple)
-      //thrust::stable_sort_by_key( h1.begin(),
-      //                            h1.end(),
-      //                            make_zip_iterator(make_tuple(h3.begin(), h4.begin())) );
-      //thrust::stable_sort_by_key( d1.begin(),
-      //                            d1.end(),
-      //                            make_zip_iterator(make_tuple(d3.begin(), d4.begin())) );
+      // sort with (scalar, tuple)
+      thrust::stable_sort_by_key( h1.begin(),
+                                  h1.end(),
+                                  make_zip_iterator(make_tuple(h3.begin(), h4.begin())) );
+      thrust::stable_sort_by_key( d1.begin(),
+                                  d1.end(),
+                                  make_zip_iterator(make_tuple(d3.begin(), d4.begin())) );
       
       // sort with (tuple, tuple)
       thrust::stable_sort_by_key( make_zip_iterator(make_tuple(h1.begin(), h2.begin())),

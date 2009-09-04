@@ -39,8 +39,8 @@ namespace cuda
 template <typename KeyType> 
     void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements);
 
-template <typename KeyType, typename ValueType>
-    void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigned int num_elements);
+template <typename KeyType, typename ValueIterator>
+    void stable_radix_sort_key_value_dev(KeyType * keys, ValueIterator values, unsigned int num_elements);
 
 } // end namespace cuda
 

@@ -40,8 +40,7 @@ template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator begin,
                          RandomAccessIterator end)
   {
-      // XXX it's potentially unsafe to pass the same array for keys & values
-      //     implement a legit merge_sort_dev function later
+      // radix sort only works for normal key arrays
       thrust::sorting::detail::device::cuda::stable_radix_sort_key_dev(thrust::raw_pointer_cast(&*begin), end - begin);
   }
 
@@ -51,8 +50,9 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin)
   {
+      // radix sort only works for normal key arrays
       thrust::sorting::detail::device::cuda::stable_radix_sort_key_value_dev(thrust::raw_pointer_cast(&*keys_begin), 
-                                                                             thrust::raw_pointer_cast(&*values_begin),
+                                                                             values_begin,
                                                                              keys_end - keys_begin);
   }
 

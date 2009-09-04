@@ -50,31 +50,8 @@ namespace cuda
 //////////////////////
 
 template <typename KeyType, typename ValueType>
-void stable_radix_sort_key_value_permute_dev(KeyType * keys, ValueType * values, unsigned int num_elements)
-{
-    // When sizeof(ValueType) != 4 use a permutation to sort the values
-    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
-    thrust::sequence(permutation.begin(), permutation.end());
-
-    stable_radix_sort_key_value_dev(keys, thrust::raw_pointer_cast(&permutation[0]), num_elements);
-    
-    // copy values into temp vector and then permute
-    thrust::detail::raw_device_buffer<ValueType> temp_values(num_elements);
-    thrust::copy(thrust::device_ptr<ValueType>(values), 
-                 thrust::device_ptr<ValueType>(values + num_elements),
-                 temp_values.begin());
-
-    thrust::gather(thrust::device_ptr<ValueType>(values), 
-                   thrust::device_ptr<ValueType>(values + num_elements),
-                   permutation.begin(),
-                   temp_values.begin());
-}
-
-template <typename KeyType, typename ValueType>
 void stable_radix_sort_key_value_small_dev(KeyType * keys, ValueType * values, unsigned int num_elements)
 {
-    // When sizeof(ValueType) == 4 just pretend the ValueType is unsigned int
-
     // encode the small types in 32-bit unsigned ints
     thrust::detail::raw_device_buffer<unsigned int> full_keys(num_elements);
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
@@ -101,11 +78,7 @@ template <typename KeyType, typename ValueType>
 void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigned int num_elements,
                                      thrust::detail::integral_constant<int, 1>)
 {
-    if (sizeof(ValueType) == 4){
-        stable_radix_sort_key_value_small_dev(keys, values, num_elements);
-    } else {
-        stable_radix_sort_key_value_permute_dev(keys, values, num_elements);
-    }
+    stable_radix_sort_key_value_small_dev(keys, values, num_elements);
 }
 
 //////////////////
@@ -116,11 +89,7 @@ template <typename KeyType, typename ValueType>
 void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigned int num_elements,
                                      thrust::detail::integral_constant<int, 2>)
 {
-    if (sizeof(ValueType) == 4){
-        stable_radix_sort_key_value_small_dev(keys, values, num_elements);
-    } else {
-        stable_radix_sort_key_value_permute_dev(keys, values, num_elements);
-    }
+    stable_radix_sort_key_value_small_dev(keys, values, num_elements);
 }
 
 
@@ -174,15 +143,11 @@ template <typename KeyType, typename ValueType>
 void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigned int num_elements,
                                      thrust::detail::integral_constant<int, 4>)
 {
-    if (sizeof(ValueType) == 4){
-        stable_radix_sort_key_value_dev(keys, values, num_elements,
-                                        thrust::detail::integral_constant<int, 4>(),
-                                        thrust::detail::integral_constant<int, 4>(),
-                                        thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_exact>(),
-                                        thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_signed>());
-    } else {
-        stable_radix_sort_key_value_permute_dev(keys, values, num_elements);
-    }
+    stable_radix_sort_key_value_dev(keys, values, num_elements,
+                                    thrust::detail::integral_constant<int, 4>(),
+                                    thrust::detail::integral_constant<int, 4>(),
+                                    thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_exact>(),
+                                    thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_signed>());
 }
 
 //////////////////
@@ -283,16 +248,50 @@ void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigne
                                     thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_signed>());
 }
 
-////////////////
-// Dispatcher //
-////////////////
-template <typename KeyType, typename ValueType> 
-void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigned int num_elements)
+
+
+////////////////////////////
+// ValueIterator Dispatch //
+////////////////////////////
+
+template <typename KeyType, typename ValueIterator>
+void stable_radix_sort_key_value_dev_native_values(KeyType * keys, ValueIterator values, unsigned int num_elements, thrust::detail::true_type)
 {
-    // TODO statically assert is_pod<KeyType>
-    stable_radix_sort_key_value_dev(keys, values, num_elements, thrust::detail::integral_constant<int, sizeof(KeyType)>());
+    // we can safely cast ValueIterator to unsigned int *
+    stable_radix_sort_key_value_dev(keys, thrust::raw_pointer_cast(&*values), num_elements, thrust::detail::integral_constant<int, sizeof(KeyType)>());
 }
 
+template <typename KeyType, typename ValueIterator>
+void stable_radix_sort_key_value_dev_native_values(KeyType * keys, ValueIterator values, unsigned int num_elements, thrust::detail::false_type)
+{
+    typedef typename thrust::iterator_traits<ValueIterator>::value_type ValueType;
+
+    // Sort with integer values and permute the real values accordingly
+    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
+    thrust::sequence(permutation.begin(), permutation.end());
+
+    stable_radix_sort_key_value_dev_native_values(keys, permutation.begin(), num_elements, thrust::detail::true_type());
+    
+    // copy values into temp vector and then permute
+    thrust::detail::raw_device_buffer<ValueType> temp_values(values, values + num_elements);
+    
+    thrust::gather(values, values + num_elements, permutation.begin(), temp_values.begin());
+}
+
+
+template <typename KeyType, typename ValueIterator>
+void stable_radix_sort_key_value_dev(KeyType * keys, ValueIterator values, unsigned int num_elements) 
+{
+    typedef typename thrust::iterator_traits<ValueIterator>::value_type ValueType;
+
+    static const bool native_values = thrust::detail::is_trivial_iterator<ValueIterator>::value &&
+                                      thrust::detail::is_pod<ValueType>::value &&
+                                      sizeof(ValueType) == 4;
+
+    stable_radix_sort_key_value_dev_native_values(keys, values, num_elements,                                         
+                                                  thrust::detail::integral_constant<bool, native_values>());
+
+}
 
 } // end namespace cuda
 
