@@ -4,6 +4,11 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/device_ptr.h>
 
+#include <thrust/iterator/constant_iterator.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/iterator/zip_iterator.h>
+
 struct non_pod
 { int x; int y; };
 
@@ -55,7 +60,7 @@ DECLARE_UNITTEST(TestIsPlainOldData);
 
 void TestIsTrivialIterator(void)
 {
-    typedef typename thrust::host_vector<int> HostVector;
+    typedef typename thrust::host_vector<int>   HostVector;
     typedef typename thrust::device_vector<int> DeviceVector;
     
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< int * >::value, true);
@@ -70,7 +75,18 @@ void TestIsTrivialIterator(void)
 
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
 
-    //XXX add counting_iterator, etc
+    typedef typename thrust::tuple< HostVector::iterator,   HostVector::iterator   > HostIteratorTuple;
+
+    typedef typename thrust::constant_iterator<int> ConstantIterator;
+    typedef typename thrust::counting_iterator<int> CountingIterator;
+    typedef typename thrust::transform_iterator<HostVector::iterator, thrust::identity<int> > TransformIterator;
+    typedef typename thrust::zip_iterator< HostIteratorTuple >  ZipIterator;
+
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<ConstantIterator>::value,  false);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<CountingIterator>::value,  false);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<TransformIterator>::value, false);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<ZipIterator>::value,       false);
+
 }
 DECLARE_UNITTEST(TestIsTrivialIterator);
 

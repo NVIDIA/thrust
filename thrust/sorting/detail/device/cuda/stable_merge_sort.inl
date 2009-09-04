@@ -1005,18 +1005,13 @@ template<typename RandomAccessIterator1,
 } // end merge_sort_dev_namespace
 
 
-namespace detail
-{
-
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
   void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first,
-                                StrictWeakOrdering comp,
-                                thrust::detail::true_type,
-                                thrust::detail::true_type)
+                                StrictWeakOrdering comp)
 {
   typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
   typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
@@ -1070,112 +1065,6 @@ template<typename RandomAccessIterator1,
     thrust::copy(keys0,   keys0 + n,   keys1);
   }
 } // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
-                                RandomAccessIterator1 keys_last,
-                                RandomAccessIterator2 values_first,
-                                StrictWeakOrdering comp,
-                                thrust::detail::false_type,
-                                thrust::detail::false_type)
-{
-  using namespace thrust::detail;
-
-  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
-
-  // copy both ranges into temporary storage
-  raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);
-  raw_device_buffer<ValueType> values_temp(values_first, values_first + (keys_last - keys_first));
-
-  // sort
-  stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
-                           values_temp.begin(),
-                           comp,
-                           thrust::detail::true_type(),
-                           thrust::detail::true_type());
-
-  // copy to original ranges
-  thrust::copy(keys_temp.begin(), keys_temp.end(), keys_first);
-  thrust::copy(values_temp.begin(), values_temp.end(), values_first);
-} // end stable_merge_sort_by_key()
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
-                                RandomAccessIterator1 keys_last,
-                                RandomAccessIterator2 values_first,
-                                StrictWeakOrdering comp,
-                                thrust::detail::true_type,
-                                thrust::detail::false_type)
-{
-  using namespace thrust::detail;
-
-  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
-
-  // copy values into temporary storage
-  raw_device_buffer<ValueType> values_temp(values_first, values_first + (keys_last - keys_first));
-
-  // sort
-  stable_merge_sort_by_key(keys_first, keys_last,
-                           values_temp.begin(),
-                           comp,
-                           thrust::detail::true_type(),
-                           thrust::detail::true_type());
-
-  // copy to original range
-  thrust::copy(values_temp.begin(), values_temp.end(), values_first);
-} // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
-                                RandomAccessIterator1 keys_last,
-                                RandomAccessIterator2 values_first,
-                                StrictWeakOrdering comp,
-                                thrust::detail::false_type,
-                                thrust::detail::true_type)
-{
-  using namespace thrust::detail;
-
-  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
-
-  // copy keys into temporary storage
-  raw_device_buffer<KeyType> keys_temp(keys_first, keys_last);
-
-  // sort
-  stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
-                           values_first,
-                           comp,
-                           thrust::detail::true_type(),
-                           thrust::detail::true_type());
-
-  // copy to original range
-  thrust::copy(keys_temp.begin(), keys_temp.end(), keys_first);
-} // end stable_merge_sort_by_key()
-
-} // end detail
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
-                                RandomAccessIterator1 keys_last,
-                                RandomAccessIterator2 values_first,
-                                StrictWeakOrdering comp)
-{
-  detail::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp,
-    typename thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type(),
-    typename thrust::detail::is_trivial_iterator<RandomAccessIterator2>::type());
-}
-
 
 } // end namespace cuda
 

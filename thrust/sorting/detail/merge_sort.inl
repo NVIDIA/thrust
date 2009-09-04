@@ -22,6 +22,7 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/sorting/detail/dispatch/merge_sort.h>
+#include <thrust/detail/trivial_sequence.h>
 
 namespace thrust
 {
@@ -32,7 +33,7 @@ namespace sorting
 // Sorting Rules
 // 1) Forward sorting methods to their stable versions when no unstable version exists
 // 2) Use thrust::less<KeyType> as the default comparison method
-// 3) Most general function dispatches based on iterator_category
+// 3) Most general variant of each function dispatches based on iterator_space
 
 /////////
 // Key //
@@ -71,9 +72,16 @@ template<typename RandomAccessIterator,
                          RandomAccessIterator end,
                          StrictWeakOrdering comp)
 {
+    // ensure sequence has trivial iterators
+    thrust::detail::trivial_sequence<RandomAccessIterator> keys(begin, end);
+
     // Dispatch on iterator category
-    thrust::sorting::detail::dispatch::stable_merge_sort(begin, end, comp,
+    thrust::sorting::detail::dispatch::stable_merge_sort(keys.begin(), keys.end(), comp,
             typename thrust::iterator_space<RandomAccessIterator>::type());
+
+    // copy results back, if necessary
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
+        thrust::copy(keys.begin(), keys.end(), begin);
 }
 
 
@@ -123,10 +131,21 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp)
 {
+    // ensure sequences have trivial iterators
+    RandomAccessIterator2 values_end = values_begin + (keys_end - keys_begin);
+    thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_begin, keys_end);
+    thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_begin, values_end);
+
     // dispatch on iterator category
-    thrust::sorting::detail::dispatch::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp,
+    thrust::sorting::detail::dispatch::stable_merge_sort_by_key(keys.begin(), keys.end(), values.begin(), comp,
             typename thrust::iterator_space<RandomAccessIterator1>::type(),
             typename thrust::iterator_space<RandomAccessIterator2>::type());
+
+    // copy results back, if necessary
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
+        thrust::copy(keys.begin(), keys.end(), keys_begin);
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
+        thrust::copy(values.begin(), values.end(), values_begin);
 }
 
 

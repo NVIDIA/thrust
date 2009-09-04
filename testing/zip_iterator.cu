@@ -583,34 +583,76 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
-    KNOWN_FAILURE;
-//      thrust::host_vector<T>   h1 = thrusttest::random_integers<T>(n);
-//      thrust::host_vector<T>   h2 = thrusttest::random_integers<T>(n);
-//      thrust::host_vector<T>   h3 = thrusttest::random_integers<T>(n);
-//      
-//      thrust::device_vector<T> d1 = h1;
-//      thrust::device_vector<T> d2 = h2;
-//      thrust::device_vector<T> d3 = h3;
-//      
-//      // Tuples with two elements
-//      thrust::stable_sort( make_zip_iterator(make_tuple(h1.begin(), h2.begin())),
-//                           make_zip_iterator(make_tuple(h1.end(),   h2.end())) );
-//  //    thrust::stable_sort( make_zip_iterator(make_tuple(d1.begin(), d2.begin())),
-//  //                         make_zip_iterator(make_tuple(d1.end(),   d2.end())) );
-//  //
-//  //    ASSERT_EQUAL_QUIET(h1, d1);
-//  //    ASSERT_EQUAL_QUIET(h2, d2);
-//  
-//      // Tuples with three
-//      thrust::stable_sort( make_zip_iterator(make_tuple(h1.begin(), h2.begin(), h3.begin())),
-//                           make_zip_iterator(make_tuple(h1.end(),   h2.end(),   h3.end())) );
-//  //    thrust::stable_sort( make_zip_iterator(make_tuple(d1.begin(), d2.begin(), d3.begin())),
-//  //                         make_zip_iterator(make_tuple(d1.end(),   d2.end(),   d3.end())) );
-//  //
-//  //    ASSERT_EQUAL_QUIET(h1, d1);
-//  //    ASSERT_EQUAL_QUIET(h2, d2);
-//  //    ASSERT_EQUAL_QUIET(h3, d3);
+      thrust::host_vector<T>   h1 = thrusttest::random_integers<T>(n);
+      thrust::host_vector<T>   h2 = thrusttest::random_integers<T>(n);
+      
+      thrust::device_vector<T> d1 = h1;
+      thrust::device_vector<T> d2 = h2;
+      
+      // sort on host
+      thrust::stable_sort( make_zip_iterator(make_tuple(h1.begin(), h2.begin())),
+                           make_zip_iterator(make_tuple(h1.end(),   h2.end())) );
+
+      // sort on device
+      thrust::stable_sort( make_zip_iterator(make_tuple(d1.begin(), d2.begin())),
+                           make_zip_iterator(make_tuple(d1.end(),   d2.end())) );
+  
+      ASSERT_EQUAL_QUIET(h1, d1);
+      ASSERT_EQUAL_QUIET(h2, d2);
   }
 };
 VariableUnitTest<TestZipIteratorStableSort, NumericTypes> TestZipIteratorStableSortInstance;
+
+
+template <typename T>
+  struct TestZipIteratorStableSortByKey
+{
+  void operator()(const size_t n)
+  {
+      thrust::host_vector<T>   h1 = thrusttest::random_integers<T>(n);
+      thrust::host_vector<T>   h2 = thrusttest::random_integers<T>(n);
+      thrust::host_vector<T>   h3 = thrusttest::random_integers<T>(n);
+      thrust::host_vector<T>   h4 = thrusttest::random_integers<T>(n);
+      
+      thrust::device_vector<T> d1 = h1;
+      thrust::device_vector<T> d2 = h2;
+      thrust::device_vector<T> d3 = h3;
+      thrust::device_vector<T> d4 = h4;
+      
+      // sort with (tuple, scalar)
+      thrust::stable_sort_by_key( make_zip_iterator(make_tuple(h1.begin(), h2.begin())),
+                                  make_zip_iterator(make_tuple(h1.end(),   h2.end())),
+                                  h3.begin() );
+      thrust::stable_sort_by_key( make_zip_iterator(make_tuple(d1.begin(), d2.begin())),
+                                  make_zip_iterator(make_tuple(d1.end(),   d2.end())),
+                                  d3.begin() );
+      
+      ASSERT_EQUAL_QUIET(h1, d1);
+      ASSERT_EQUAL_QUIET(h2, d2);
+      ASSERT_EQUAL_QUIET(h3, d3);
+      ASSERT_EQUAL_QUIET(h4, d4);
+      
+      //// sort with (scalar, tuple)
+      //thrust::stable_sort_by_key( h1.begin(),
+      //                            h1.end(),
+      //                            make_zip_iterator(make_tuple(h3.begin(), h4.begin())) );
+      //thrust::stable_sort_by_key( d1.begin(),
+      //                            d1.end(),
+      //                            make_zip_iterator(make_tuple(d3.begin(), d4.begin())) );
+      
+      // sort with (tuple, tuple)
+      thrust::stable_sort_by_key( make_zip_iterator(make_tuple(h1.begin(), h2.begin())),
+                                  make_zip_iterator(make_tuple(h1.end(),   h2.end())),
+                                  make_zip_iterator(make_tuple(h3.begin(), h4.begin())) );
+      thrust::stable_sort_by_key( make_zip_iterator(make_tuple(d1.begin(), d2.begin())),
+                                  make_zip_iterator(make_tuple(d1.end(),   d2.end())),
+                                  make_zip_iterator(make_tuple(d3.begin(), d4.begin())) );
+  
+      ASSERT_EQUAL_QUIET(h1, d1);
+      ASSERT_EQUAL_QUIET(h2, d2);
+      ASSERT_EQUAL_QUIET(h3, d3);
+      ASSERT_EQUAL_QUIET(h4, d4);
+  }
+};
+VariableUnitTest<TestZipIteratorStableSortByKey, NumericTypes> TestZipIteratorStableSortByKeyInstance;
 

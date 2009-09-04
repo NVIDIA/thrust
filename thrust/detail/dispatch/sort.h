@@ -50,7 +50,8 @@ template<typename RandomAccessIterator,
             StrictWeakOrdering comp,
             thrust::host_space_tag)
 {
-    std::sort(begin, end, comp);
+    // std::sort(begin,end,comp);  // doesn't support zip_iterator
+    thrust::sorting::merge_sort(begin, end, comp);
 }
 
 
@@ -61,7 +62,8 @@ template<typename RandomAccessIterator,
                    StrictWeakOrdering comp,
                    thrust::host_space_tag)
 {
-    std::stable_sort(begin,end,comp);
+    // std::stable_sort(begin,end,comp);  // doesn't support zip_iterator
+    thrust::sorting::stable_merge_sort(begin, end, comp);
 }
 
 template<typename RandomAccessKeyIterator,
