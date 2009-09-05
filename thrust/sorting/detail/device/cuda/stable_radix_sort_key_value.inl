@@ -60,7 +60,7 @@ void stable_radix_sort_key_value_small_dev(KeyType * keys, ValueType * values, u
                       encode_uint<KeyType>());
     
     // sort the 32-bit unsigned ints
-    stable_radix_sort_key_value_dev(thrust::raw_pointer_cast(&full_keys[0]), (unsigned int *) values, num_elements);
+    stable_radix_sort_by_key(full_keys.begin(), full_keys.end(), values);
     
     // decode the 32-bit unsigned ints
     thrust::transform(full_keys.begin(),
@@ -171,7 +171,9 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
     thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
     thrust::sequence(permutation.begin(), permutation.end());
     
-    stable_radix_sort_key_value_dev((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]), thrust::raw_pointer_cast(&permutation[0]), num_elements);
+    stable_radix_sort_by_key((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]),
+                             (LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]) + num_elements,
+                             thrust::raw_pointer_cast(&permutation[0]));
 
     // permute full keys and values so lower bits are sorted
     thrust::detail::raw_device_buffer<KeyType> permuted_keys(num_elements);
@@ -193,7 +195,9 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
                       extract_upper_bits);
     thrust::sequence(permutation.begin(), permutation.end());
     
-    stable_radix_sort_key_value_dev((UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]), thrust::raw_pointer_cast(&permutation[0]), num_elements);
+    stable_radix_sort_by_key((UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]),
+                             (UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]) + num_elements,
+                             thrust::raw_pointer_cast(&permutation[0]));
 
     // store sorted keys and values
     thrust::gather(thrust::device_ptr<KeyType>(keys), 
@@ -279,18 +283,34 @@ void stable_radix_sort_key_value_dev_native_values(KeyType * keys, ValueIterator
 }
 
 
-template <typename KeyType, typename ValueIterator>
-void stable_radix_sort_key_value_dev(KeyType * keys, ValueIterator values, unsigned int num_elements) 
-{
-    typedef typename thrust::iterator_traits<ValueIterator>::value_type ValueType;
+/////////////////
+// Entry Point //
+/////////////////
 
-    static const bool native_values = thrust::detail::is_trivial_iterator<ValueIterator>::value &&
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first)
+{
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+
+    // TODO static_assert< is_pod<KeyType> >
+
+    // RandomAccessIterator should be a trivial iterator
+    KeyType * keys = thrust::raw_pointer_cast(&*keys_first);
+
+    // we only handle < 2^32 elements right now
+    unsigned int num_elements = keys_last - keys_first;
+    
+    // radix_sort natively sorts uint32 values 
+    static const bool native_values = thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value &&
                                       thrust::detail::is_pod<ValueType>::value &&
                                       sizeof(ValueType) == 4;
 
-    stable_radix_sort_key_value_dev_native_values(keys, values, num_elements,                                         
+    stable_radix_sort_key_value_dev_native_values(keys, values_first, num_elements,
                                                   thrust::detail::integral_constant<bool, native_values>());
-
 }
 
 } // end namespace cuda

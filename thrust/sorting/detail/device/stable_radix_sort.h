@@ -21,7 +21,6 @@
 
 #pragma once
 
-#include <thrust/device_ptr.h>
 #include <thrust/sorting/detail/device/cuda/stable_radix_sort.h>
 
 namespace thrust
@@ -40,8 +39,7 @@ template<typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
-    // radix sort only works for normal key arrays
-    thrust::sorting::detail::device::cuda::stable_radix_sort_key_dev(thrust::raw_pointer_cast(&*first), last - first);
+    thrust::sorting::detail::device::cuda::stable_radix_sort(first, last);
 }
 
 template<typename RandomAccessIterator1,
@@ -50,10 +48,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
                               RandomAccessIterator1 keys_last,
                               RandomAccessIterator2 values_first)
 {
-    // radix sort only works for normal key arrays
-    thrust::sorting::detail::device::cuda::stable_radix_sort_key_value_dev(thrust::raw_pointer_cast(&*keys_first), 
-                                                                           values_first,
-                                                                           keys_last - keys_first);
+    thrust::sorting::detail::device::cuda::stable_radix_sort_by_key(keys_first, keys_last, values_first);
 }
 
 } // end namespace device

@@ -24,6 +24,7 @@
 #include <thrust/reduce.h>
 #include <thrust/sequence.h>
 #include <thrust/transform.h>
+#include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/type_traits.h>
@@ -61,7 +62,7 @@ void stable_radix_sort_key_small_dev(KeyType * keys, unsigned int num_elements)
                       encode_uint<KeyType>());
 
     // sort the 32-bit unsigned ints
-    stable_radix_sort_key_dev(thrust::raw_pointer_cast(&full_keys[0]), num_elements);
+    stable_radix_sort(full_keys.begin(), full_keys.end());
     
     // decode the 32-bit unsigned ints
     thrust::transform(full_keys.begin(),
@@ -164,7 +165,9 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
     thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
     thrust::sequence(permutation.begin(), permutation.end());
     
-    stable_radix_sort_key_value_dev((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]), thrust::raw_pointer_cast(&permutation[0]), num_elements);
+    stable_radix_sort_by_key((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]),
+                             (LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]) + num_elements,
+                             thrust::raw_pointer_cast(&permutation[0]));
 
     // permute full keys so lower bits are sorted
     thrust::detail::raw_device_buffer<KeyType> permuted_keys(num_elements);
@@ -180,7 +183,9 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
                       extract_upper_bits);
     thrust::sequence(permutation.begin(), permutation.end());
     
-    stable_radix_sort_key_value_dev((UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]), thrust::raw_pointer_cast(&permutation[0]), num_elements);
+    stable_radix_sort_by_key((UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]),
+                             (UpperBits *) thrust::raw_pointer_cast(&partial_keys[0]) + num_elements,
+                             thrust::raw_pointer_cast(&permutation[0]));
 
     // store sorted keys
     thrust::gather(thrust::device_ptr<KeyType>(keys), 
@@ -231,10 +236,23 @@ void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements,
                               thrust::detail::integral_constant<bool, std::numeric_limits<KeyType>::is_signed>());
 }
 
-template <typename KeyType> 
-void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements)
+/////////////////
+// Entry Point //
+/////////////////
+
+template<typename RandomAccessIterator>
+void stable_radix_sort(RandomAccessIterator first,
+                       RandomAccessIterator last)
 {
-    // TODO assert is_pod
+    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+
+    // TODO static_assert< is_pod<KeyType> >
+
+    // RandomAccessIterator should be a trivial iterator
+    KeyType * keys = thrust::raw_pointer_cast(&*first);
+
+    // we only handle < 2^32 elements right now
+    unsigned int num_elements = last - first;
 
     // dispatch on sizeof(KeyType)
     stable_radix_sort_key_dev(keys, num_elements, thrust::detail::integral_constant<int, sizeof(KeyType)>());

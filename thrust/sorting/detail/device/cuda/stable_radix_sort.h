@@ -36,11 +36,15 @@ namespace device
 namespace cuda
 {
 
-template <typename KeyType> 
-    void stable_radix_sort_key_dev(KeyType * keys, unsigned int num_elements);
+template<typename RandomAccessIterator>
+void stable_radix_sort(RandomAccessIterator first,
+                       RandomAccessIterator last);
 
-template <typename KeyType, typename ValueIterator>
-    void stable_radix_sort_key_value_dev(KeyType * keys, ValueIterator values, unsigned int num_elements);
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first);
 
 } // end namespace cuda
 
