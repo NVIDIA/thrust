@@ -42,24 +42,24 @@ namespace dispatch
 //////////////////
 
 template<typename RandomAccessIterator>
-  void stable_radix_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
+  void stable_radix_sort(RandomAccessIterator first,
+                         RandomAccessIterator last,
                          thrust::host_space_tag)
 {
     // no host path, just use stable_sort
-    thrust::stable_sort(begin, end);
+    thrust::stable_sort(first, last);
 }
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
+  void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
                                 thrust::host_space_tag,
                                 thrust::host_space_tag)
 {
     // no host path, just use stable_sort_by_key
-    thrust::stable_sort_by_key(keys_begin, keys_end, values_begin);
+    thrust::stable_sort_by_key(keys_first, keys_last, values_first);
 } 
 
 
@@ -68,22 +68,22 @@ template<typename RandomAccessIterator1,
 ////////////////////
 
 template<typename RandomAccessIterator>
-  void stable_radix_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
+  void stable_radix_sort(RandomAccessIterator first,
+                         RandomAccessIterator last,
                          thrust::device_space_tag)
 {
-    thrust::sorting::detail::device::stable_radix_sort(begin, end);
+    thrust::sorting::detail::device::stable_radix_sort(first, last);
 }
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
+  void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
                                 thrust::device_space_tag,
                                 thrust::device_space_tag)
 {
-    thrust::sorting::detail::device::stable_radix_sort_by_key(keys_begin, keys_end, values_begin);
+    thrust::sorting::detail::device::stable_radix_sort_by_key(keys_first, keys_last, values_first);
 }
 
 } // end namespace dispatch

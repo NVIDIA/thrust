@@ -19,7 +19,11 @@
  *  \brief Inline file for radix_sort.h.
  */
 
+#include <thrust/copy.h>
 #include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/trivial_sequence.h>
+
 #include <thrust/sorting/detail/dispatch/radix_sort.h>
 
 namespace thrust
@@ -43,9 +47,16 @@ template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator first,
                          RandomAccessIterator last)
 {
+    // ensure key sequence has trivial iterators
+    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+
     // dispatch on iterator category
-    thrust::sorting::detail::dispatch::stable_radix_sort(first, last,
+    thrust::sorting::detail::dispatch::stable_radix_sort(keys.begin(), keys.end(),
             typename thrust::iterator_space<RandomAccessIterator>::type());
+    
+    // copy results back, if necessary
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
+        thrust::copy(keys.begin(), keys.end(), first);
 }
 
 
@@ -69,10 +80,17 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first)
 {
+    // ensure key sequence has trivial iterators
+    thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
+
     // dispatch on iterator category
-    thrust::sorting::detail::dispatch::stable_radix_sort_by_key(keys_first, keys_last, values_first,
+    thrust::sorting::detail::dispatch::stable_radix_sort_by_key(keys.begin(), keys.end(), values_first,
             typename thrust::iterator_space<RandomAccessIterator1>::type(),
             typename thrust::iterator_space<RandomAccessIterator2>::type());
+
+    // copy results back, if necessary
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
+        thrust::copy(keys.begin(), keys.end(), keys_first);
 }
 
 
