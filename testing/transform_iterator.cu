@@ -2,7 +2,7 @@
 #include <thrust/iterator/transform_iterator.h>
 
 #include <thrust/copy.h>
-#include <thrust/transform.h>
+#include <thrust/reduce.h>
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
 #include <thrust/iterator/counting_iterator.h>
@@ -62,4 +62,25 @@ void TestMakeTransformIterator(void)
 
 }
 DECLARE_VECTOR_UNITTEST(TestMakeTransformIterator);
+
+template <typename T>
+struct TestTransformIteratorReduce
+{
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+
+        // run on host
+        T h_result = thrust::reduce( thrust::make_transform_iterator(h_data.begin(), thrust::negate<T>()),
+                                     thrust::make_transform_iterator(h_data.end(),   thrust::negate<T>()) );
+
+        // run on device
+        T d_result = thrust::reduce( thrust::make_transform_iterator(d_data.begin(), thrust::negate<T>()),
+                                     thrust::make_transform_iterator(d_data.end(),   thrust::negate<T>()) );
+
+        ASSERT_EQUAL(h_result, d_result);
+    }
+};
+VariableUnitTest<TestTransformIteratorReduce, IntegralTypes> TestTransformIteratorReduceInstance;
 

@@ -189,11 +189,11 @@ DECLARE_UNITTEST(TestScanMixedTypesDevice);
 
 
 template <typename T>
-void TestScan(const size_t n)
+struct TestScan
 {
+  void operator()(const size_t n)
+  {
     thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
-    for(size_t i = 0; i < n; i++)
-        h_input[i] = ((int) h_input[i] % 81 - 40) / 4.0;
     thrust::device_vector<T> d_input = h_input;
 
     thrust::host_vector<T>   h_output(n);
@@ -223,8 +223,9 @@ void TestScan(const size_t n)
     thrust::exclusive_scan(h_output.begin(), h_output.end(), h_output.begin());
     thrust::exclusive_scan(d_output.begin(), d_output.end(), d_output.begin());
     ASSERT_EQUAL(d_output, h_output);
-}
-DECLARE_VARIABLE_UNITTEST(TestScan);
+    }
+};
+VariableUnitTest<TestScan, IntegralTypes> TestScanInstance;
 
 
 void TestScanMixedTypes(void)
@@ -305,5 +306,4 @@ void TestScanWithLargeTypes(void)
     //_TestScanWithLargeTypes<int, 1024>();
 }
 DECLARE_UNITTEST(TestScanWithLargeTypes);
-
 
