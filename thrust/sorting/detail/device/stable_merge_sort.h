@@ -37,25 +37,25 @@ namespace device
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
-                         StrictWeakOrdering comp)
-  {
-      // XXX it's potentially unsafe to pass the same array for keys & values
-      //     implement a legit merge_sort_dev function later
-      thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(begin, end, begin, comp);
-  }
+void stable_merge_sort(RandomAccessIterator first,
+                       RandomAccessIterator last,
+                       StrictWeakOrdering comp)
+{
+    // XXX it's potentially unsafe to pass the same array for keys & values
+    //     implement a legit merge_sort_dev function later
+    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(first, last, first, comp);
+}
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp)
-  {
-      thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
-  }
+void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first,
+                              StrictWeakOrdering comp)
+{
+    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
+}
 
 } // end namespace device
 

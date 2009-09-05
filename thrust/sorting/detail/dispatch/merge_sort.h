@@ -46,25 +46,25 @@ namespace dispatch
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
+  void stable_merge_sort(RandomAccessIterator first,
+                         RandomAccessIterator last,
                          StrictWeakOrdering comp,
                          thrust::host_space_tag)
 {
-    thrust::sorting::detail::host::stable_merge_sort(begin, end, comp);
+    thrust::sorting::detail::host::stable_merge_sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
                                 StrictWeakOrdering comp,
                                 thrust::host_space_tag,
                                 thrust::host_space_tag)
 {
-    thrust::sorting::detail::host::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    thrust::sorting::detail::host::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 
@@ -74,25 +74,25 @@ template<typename RandomAccessIterator1,
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
+  void stable_merge_sort(RandomAccessIterator first,
+                         RandomAccessIterator last,
                          StrictWeakOrdering comp,
                          thrust::device_space_tag)
 {
-    thrust::sorting::detail::device::stable_merge_sort(begin, end, comp);
+    thrust::sorting::detail::device::stable_merge_sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
                                 StrictWeakOrdering comp,
                                 thrust::device_space_tag,
                                 thrust::device_space_tag)
 {
-    thrust::sorting::detail::device::stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    thrust::sorting::detail::device::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
 } 
 
 } // end namespace dispatch

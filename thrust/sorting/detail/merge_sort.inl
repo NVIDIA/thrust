@@ -20,9 +20,12 @@
  */
 
 #include <thrust/functional.h>
+#include <thrust/copy.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/sorting/detail/dispatch/merge_sort.h>
+
 #include <thrust/detail/trivial_sequence.h>
+
+#include <thrust/sorting/detail/dispatch/merge_sort.h>
 
 namespace thrust
 {
@@ -40,40 +43,40 @@ namespace sorting
 /////////
 
 template<typename RandomAccessIterator>
-  void merge_sort(RandomAccessIterator begin,
-                  RandomAccessIterator end)
+  void merge_sort(RandomAccessIterator first,
+                  RandomAccessIterator last)
 {
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
     thrust::less<KeyType> comp;
-    merge_sort(begin, end, comp);
+    merge_sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void merge_sort(RandomAccessIterator begin,
-                  RandomAccessIterator end,
+  void merge_sort(RandomAccessIterator first,
+                  RandomAccessIterator last,
                   StrictWeakOrdering comp)
 {
-    stable_merge_sort(begin, end, comp);
+    stable_merge_sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end)
+  void stable_merge_sort(RandomAccessIterator first,
+                         RandomAccessIterator last)
 {
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
     thrust::less<KeyType> comp;
-    stable_merge_sort(begin, end, comp);
+    stable_merge_sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
+  void stable_merge_sort(RandomAccessIterator first,
+                         RandomAccessIterator last,
                          StrictWeakOrdering comp)
 {
     // ensure sequence has trivial iterators
-    thrust::detail::trivial_sequence<RandomAccessIterator> keys(begin, end);
+    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
 
     // Dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_merge_sort(keys.begin(), keys.end(), comp,
@@ -81,7 +84,7 @@ template<typename RandomAccessIterator,
 
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
-        thrust::copy(keys.begin(), keys.end(), begin);
+        thrust::copy(keys.begin(), keys.end(), first);
 }
 
 
@@ -91,50 +94,50 @@ template<typename RandomAccessIterator,
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                         RandomAccessIterator1 keys_end,
-                         RandomAccessIterator2 values_begin)
+  void merge_sort_by_key(RandomAccessIterator1 keys_first,
+                         RandomAccessIterator1 keys_last,
+                         RandomAccessIterator2 values_first)
 {
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     thrust::less<KeyType> comp;
-    merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    merge_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                         RandomAccessIterator1 keys_end,
-                         RandomAccessIterator2 values_begin,
+  void merge_sort_by_key(RandomAccessIterator1 keys_first,
+                         RandomAccessIterator1 keys_last,
+                         RandomAccessIterator2 values_first,
                          StrictWeakOrdering comp)
 {
-    stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin)
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first)
 {
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     thrust::less<KeyType> comp;
-    stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
 } 
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
+  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
                                 StrictWeakOrdering comp)
 {
     // ensure sequences have trivial iterators
-    RandomAccessIterator2 values_end = values_begin + (keys_end - keys_begin);
-    thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_begin, keys_end);
-    thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_begin, values_end);
+    RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
+    thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
+    thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_last);
 
     // dispatch on iterator category
     thrust::sorting::detail::dispatch::stable_merge_sort_by_key(keys.begin(), keys.end(), values.begin(), comp,
@@ -143,9 +146,9 @@ template<typename RandomAccessIterator1,
 
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
-        thrust::copy(keys.begin(), keys.end(), keys_begin);
+        thrust::copy(keys.begin(), keys.end(), keys_first);
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
-        thrust::copy(values.begin(), values.end(), values_begin);
+        thrust::copy(values.begin(), values.end(), values_first);
 }
 
 

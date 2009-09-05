@@ -33,18 +33,18 @@ namespace sorting
 /////////
 
 template<typename RandomAccessIterator>
-  void radix_sort(RandomAccessIterator begin,
-                  RandomAccessIterator end)
+  void radix_sort(RandomAccessIterator first,
+                  RandomAccessIterator last)
 {
-    stable_radix_sort(begin, end);
+    stable_radix_sort(first, last);
 }
 
 template<typename RandomAccessIterator>
-  void stable_radix_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end)
+  void stable_radix_sort(RandomAccessIterator first,
+                         RandomAccessIterator last)
 {
     // dispatch on iterator category
-    thrust::sorting::detail::dispatch::stable_radix_sort(begin, end,
+    thrust::sorting::detail::dispatch::stable_radix_sort(first, last,
             typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 
@@ -55,22 +55,22 @@ template<typename RandomAccessIterator>
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                         RandomAccessIterator1 keys_end,
-                         RandomAccessIterator2 values_begin)
+  void radix_sort_by_key(RandomAccessIterator1 keys_first,
+                         RandomAccessIterator1 keys_last,
+                         RandomAccessIterator2 values_first)
 {
-    stable_radix_sort_by_key(keys_begin, keys_end, values_begin);
+    stable_radix_sort_by_key(keys_first, keys_last, values_first);
 }
 
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin)
+  void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first)
 {
     // dispatch on iterator category
-    thrust::sorting::detail::dispatch::stable_radix_sort_by_key(keys_begin, keys_end, values_begin,
+    thrust::sorting::detail::dispatch::stable_radix_sort_by_key(keys_first, keys_last, values_first,
             typename thrust::iterator_space<RandomAccessIterator1>::type(),
             typename thrust::iterator_space<RandomAccessIterator2>::type());
 }

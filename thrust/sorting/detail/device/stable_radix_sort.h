@@ -37,24 +37,24 @@ namespace device
 {
 
 template<typename RandomAccessIterator>
-  void stable_radix_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end)
-  {
-      // radix sort only works for normal key arrays
-      thrust::sorting::detail::device::cuda::stable_radix_sort_key_dev(thrust::raw_pointer_cast(&*begin), end - begin);
-  }
+void stable_radix_sort(RandomAccessIterator first,
+                       RandomAccessIterator last)
+{
+    // radix sort only works for normal key arrays
+    thrust::sorting::detail::device::cuda::stable_radix_sort_key_dev(thrust::raw_pointer_cast(&*first), last - first);
+}
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin)
-  {
-      // radix sort only works for normal key arrays
-      thrust::sorting::detail::device::cuda::stable_radix_sort_key_value_dev(thrust::raw_pointer_cast(&*keys_begin), 
-                                                                             values_begin,
-                                                                             keys_end - keys_begin);
-  }
+void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first)
+{
+    // radix sort only works for normal key arrays
+    thrust::sorting::detail::device::cuda::stable_radix_sort_key_value_dev(thrust::raw_pointer_cast(&*keys_first), 
+                                                                           values_first,
+                                                                           keys_last - keys_first);
+}
 
 } // end namespace device
 
