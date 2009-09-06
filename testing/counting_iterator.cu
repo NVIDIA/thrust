@@ -2,6 +2,7 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/sort.h>
 #include <thrust/binary_search.h>
+#include <thrust/distance.h>
 
 
 void TestCountingIteratorCopyConstructor(void)
@@ -41,6 +42,7 @@ void TestCountingIteratorIncrement(void)
 }
 DECLARE_UNITTEST(TestCountingIteratorIncrement);
 
+
 void TestCountingIteratorComparison(void)
 {
     thrust::counting_iterator<int> iter1(0);
@@ -66,6 +68,24 @@ void TestCountingIteratorComparison(void)
     ASSERT_EQUAL(iter1 == iter2, true);
 }
 DECLARE_UNITTEST(TestCountingIteratorComparison);
+
+
+void TestCountingIteratorDistance(void)
+{
+    thrust::counting_iterator<int> iter1(0);
+    thrust::counting_iterator<int> iter2(5);
+
+    ASSERT_EQUAL(thrust::distance(iter1, iter2), 5);
+
+    iter1++;
+    
+    ASSERT_EQUAL(thrust::distance(iter1, iter2), 4);
+   
+    iter2 += 100;
+
+    ASSERT_EQUAL(thrust::distance(iter1, iter2), 104);
+}
+DECLARE_UNITTEST(TestCountingIteratorDistance);
 
 
 void TestCountingIteratorUnsignedType(void)

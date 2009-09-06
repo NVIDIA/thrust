@@ -56,6 +56,18 @@ template<typename InputIterator>
   return thrust::detail::device::distance(first, last);
 } // end distance()
 
+//////////////
+// Any Path //
+//////////////
+template<typename InputIterator>
+  inline typename thrust::iterator_traits<InputIterator>::difference_type
+    distance(InputIterator first, InputIterator last,
+             thrust::any_space_tag)
+{
+  // default to device
+  return thrust::detail::device::distance(first, last);
+} // end distance()
+
 } // end namespace dispatch
 
 } // end namespace detail
