@@ -33,8 +33,8 @@ namespace thrust
  *  \{
  */
 
-/*! \p constant_iterator is a fancy iterator which represents a pointer into a sequence
- *  of constant values. This iterator is useful for creating a sequence filled with the same
+/*! \p constant_iterator is an iterator which represents a pointer into a range
+ *  of constant values. This iterator is useful for creating a range filled with the same
  *  value without explicitly storing it in memory. Using \p constant_iterator saves both
  *  memory capacity and bandwidth.
  *
@@ -84,7 +84,6 @@ namespace thrust
  *    
  *    return 0;
  *  }
- * 
  *  \endcode
  *
  *  \see make_constant_iterator
@@ -119,7 +118,7 @@ template<typename Value,
     /*! Copy constructor copies the value of another \p constant_iterator into this
      *  \p constant_iterator.
      *
-     *  \p rhs The value to copy.
+     *  \p rhs The constant_iterator to copy.
      */
     __host__ __device__
     constant_iterator(constant_iterator const &rhs)
@@ -222,6 +221,9 @@ constant_iterator<V> make_constant_iterator(V x)
 {
   return constant_iterator<V>(x, 0);
 } // end make_constant_iterator()
+
+/*! \}
+ */
 
 } // end namespace thrust
 
