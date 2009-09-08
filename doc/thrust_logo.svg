@@ -15,7 +15,7 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="thrust5.svg"
+   sodipodi:docname="thrust_logo.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="/home/nathan/Desktop/Old/logos/thrust3svg.jpg.png"
    inkscape:export-xdpi="90"
@@ -171,7 +171,7 @@
      inkscape:cx="513.86573"
      inkscape:cy="372.04724"
      inkscape:document-units="px"
-     inkscape:current-layer="g3189"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1125"
@@ -194,9 +194,9 @@
      id="layer1">
     <g
        id="g3189"
-       inkscape:export-filename="/home/nathan/Desktop/thrust_logo.png"
-       inkscape:export-xdpi="376.26999"
-       inkscape:export-ydpi="376.26999">
+       inkscape:export-filename="/home/nathan/NV/thrust/doc/thrust_logo.png"
+       inkscape:export-xdpi="47.029999"
+       inkscape:export-ydpi="47.029999">
       <path
          d="M 256.90625,209.34375 C 245.27561,209.38319 234.38709,213.94209 226.03125,221.0625 C 216.48171,229.20011 209.59283,242.94767 214.65625,256.65625 L 288.125,455.5625 C 291.48237,464.65215 295.87551,473.99003 303.21875,481.625 C 310.56199,489.25997 321.45303,494.71875 334.15625,494.71875 L 805.34375,494.71875 C 817.97624,494.71876 828.98878,489.54948 836.625,481.90625 C 844.26122,474.26302 848.88495,464.56763 851.65625,454.6875 L 889.5,319.75 C 893.24724,306.39046 886.23452,293.51892 877,286.21875 C 867.76548,278.91858 856.12028,274.84557 844.4375,273.5625 L 261.9375,209.59375 C 260.25138,209.40857 258.56777,209.33812 256.90625,209.34375 z"
          inkscape:href="#rect2474"
@@ -216,9 +216,9 @@
        id="g3251"
        transform="matrix(0.913744,0,0,0.3451662,176.2736,220.85042)"
        style="opacity:1"
-       inkscape:export-filename="/home/nathan/Desktop/thrust_logo.png"
-       inkscape:export-xdpi="376.26999"
-       inkscape:export-ydpi="376.26999">
+       inkscape:export-filename="/home/nathan/NV/thrust/doc/thrust_logo.png"
+       inkscape:export-xdpi="47.029999"
+       inkscape:export-ydpi="47.029999">
       <g
          id="g3253"
          transform="matrix(2.0484578,-1.263301,0.1197948,2.5356515,-182.46458,-362.9203)">
@@ -255,18 +255,18 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:178.33874511999999868px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.00000009;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:UnDotum;-inkscape-font-specification:UnDotum Bold Italic;stroke-miterlimit:4;stroke-dasharray:none"
-       x="358.79291"
-       y="496.65231"
+       style="font-size:178.33847046px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.99999785;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;font-family:UnDotum;-inkscape-font-specification:UnDotum Bold Italic"
+       x="352.8208"
+       y="466.72366"
        id="text3247"
        transform="matrix(1.0688669,0,-0.2132749,0.9355701,0,0)"
-       inkscape:export-filename="/home/nathan/Desktop/thrust_logo.png"
-       inkscape:export-xdpi="376.26999"
-       inkscape:export-ydpi="376.26999"><tspan
+       inkscape:export-filename="/home/nathan/NV/thrust/doc/thrust_logo.png"
+       inkscape:export-xdpi="47.029999"
+       inkscape:export-ydpi="47.029999"><tspan
          sodipodi:role="line"
          id="tspan3249"
-         x="358.79291"
-         y="496.65231"
-         style="font-size:178.33874511999999868px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:UnDotum;-inkscape-font-specification:UnDotum Bold Italic;stroke:#000000;stroke-opacity:1;stroke-width:2.00000009;stroke-miterlimit:4;stroke-dasharray:none">Thrust</tspan></text>
+         x="352.8208"
+         y="466.72366"
+         style="font-size:178.33847046px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;stroke:#000000;stroke-width:1.99999785;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;font-family:UnDotum;-inkscape-font-specification:UnDotum Bold Italic">Thrust</tspan></text>
   </g>
 </svg>
