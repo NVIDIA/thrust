@@ -229,10 +229,11 @@ template<typename Pair> struct tuple_size;
  *
  *  \tparam N This parameter selects the member of interest.
  */
-template<unsigned int N, typename T1, typename T2>
-  inline __host__ __device__
-    typename tuple_element<N, pair<T1,T2> >::type &
-      get(pair<T1,T2> &p);
+// XXX comment out these prototypes as a WAR to a problem on MSVC 2005
+//template<unsigned int N, typename T1, typename T2>
+//  inline __host__ __device__
+//    typename tuple_element<N, pair<T1,T2> >::type &
+//      get(pair<T1,T2> &p);
 
 
 /*! This convenience function returns a const reference to either the
@@ -244,10 +245,11 @@ template<unsigned int N, typename T1, typename T2>
  *
  *  \tparam i This parameter selects the member of interest.
  */
-template<int N, typename T1, typename T2>
-  inline __host__ __device__
-    const typename tuple_element<N, pair<T1,T2> >::type &
-      get(const pair<T1,T2> &p);
+// XXX comment out these prototypes as a WAR to a problem on MSVC 2005
+//template<int N, typename T1, typename T2>
+//  inline __host__ __device__
+//    const typename tuple_element<N, pair<T1,T2> >::type &
+//      get(const pair<T1,T2> &p);
 
 /*! \}
  */
