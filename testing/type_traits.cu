@@ -79,7 +79,7 @@ void TestIsTrivialIterator(void)
 
     typedef typename thrust::constant_iterator<int> ConstantIterator;
     typedef typename thrust::counting_iterator<int> CountingIterator;
-    typedef typename thrust::transform_iterator<HostVector::iterator, thrust::identity<int> > TransformIterator;
+    typedef typename thrust::transform_iterator<thrust::identity<int>, HostVector::iterator > TransformIterator;
     typedef typename thrust::zip_iterator< HostIteratorTuple >  ZipIterator;
 
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<ConstantIterator>::value,  false);
