@@ -29,7 +29,7 @@ int main(void)
     thrust::counting_iterator<int> last = first + 8;
 
     // compute indices of nonzero elements 
-    typedef typename thrust::device_vector<int>::iterator IndexIterator;
+    typedef thrust::device_vector<int>::iterator IndexIterator;
 
     IndexIterator indices_end = thrust::copy_if(first, last,
                                                 stencil.begin(),
