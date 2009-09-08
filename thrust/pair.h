@@ -27,7 +27,7 @@
 namespace thrust
 {
 
-/*! \addtogroup utilities
+/*! \addtogroup utility
  *  \{
  */
 
