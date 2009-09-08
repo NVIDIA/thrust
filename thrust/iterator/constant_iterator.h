@@ -29,12 +29,74 @@
 namespace thrust
 {
 
+/*! \addtogroup iterators
+ *  \{
+ */
+
+/*! \p constant_iterator is a fancy iterator which represents a pointer into a sequence
+ *  of constant values. This iterator is useful for creating a sequence filled with the same
+ *  value without explicitly storing it in memory. Using \p constant_iterator saves both
+ *  memory capacity and bandwidth.
+ *
+ *  The following code snippet demonstrates how to create a \p constant_iterator whose
+ *  \c value_type is \c int and whose value is \c 10.
+ *
+ *  \code
+ *  #include <thrust/iterator/constant_iterator.h>
+ *
+ *  thrust::constant_iterator<int> iter(10);
+ *
+ *  *iter;    // returns 10
+ *  iter[0];  // returns 10
+ *  iter[1];  // returns 10
+ *  iter[13]; // returns 10
+ *
+ *  // and so on...
+ *  \endcode
+ *
+ *  This next example demonstrates how to use a \p constant_iterator with the
+ *  \p thrust::transform function to increment all elements of a sequence by the
+ *  same value. We will create a temporary \p constant_iterator with the function
+ *  \p make_constant_iterator function in order to avoid explicitly specifying
+ *  its type:
+ *
+ *  \code
+ *  #include <thrust/iterator/constant_iterator.h>
+ *  #include <thrust/transform.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/device_vector.h>
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<int> data(4);
+ *    data[0] = 3;
+ *    data[1] = 7;
+ *    data[2] = 2;
+ *    data[3] = 5;
+ *    
+ *    // add 10 to all values in data
+ *    thrust::transform(data.begin(), data.end(),
+ *                      thrust::make_constant_iterator(10),
+ *                      data.begin(),
+ *                      thrust::plus<int>());
+ *    
+ *    // data is now [13, 17, 12, 15]
+ *    
+ *    return 0;
+ *  }
+ * 
+ *  \endcode
+ *
+ *  \see make_constant_iterator
+ */
 template<typename Value,
          typename Incrementable = use_default,
          typename Space = use_default>
   class constant_iterator
     : public detail::constant_iterator_base<Value, Incrementable, Space>::type
 {
+    /*! \cond
+     */
     friend class thrust::experimental::iterator_core_access;
     typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::type          super_t;
     typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::incrementable incrementable;
@@ -44,26 +106,60 @@ template<typename Value,
     typedef typename super_t::reference  reference;
     typedef typename super_t::value_type value_type;
 
+    /*! \endcond
+     */
+
+    /*! Null constructor initializes this \p constant_iterator's constant using its
+     *  null constructor.
+     */
     __host__ __device__
     constant_iterator(void)
       : super_t(), m_value(){};
 
+    /*! Copy constructor copies the value of another \p constant_iterator into this
+     *  \p constant_iterator.
+     *
+     *  \p rhs The value to copy.
+     */
     __host__ __device__
     constant_iterator(constant_iterator const &rhs)
       : super_t(rhs.base()), m_value(rhs.m_value) {}
 
+    /*! This constructor receives a value to use as the constant value of this
+     *  \p constant_iterator and an index specifying the location of this
+     *  \p constant_iterator in a sequence.
+     *  
+     *  \p v The value of this \p constant_iterator's constant value.
+     *  \p i The index of this \p constant_iterator in a sequence. Defaults to the
+     *       value returned by \c Incrementable's null constructor. For example,
+     *       when <tt>Incrementable == int</tt>, \c 0.
+     */
     __host__ __device__
     constant_iterator(value_type const& v, incrementable const &i = incrementable())
       : super_t(base_iterator(i)), m_value(v) {}
 
+    /*! This constructor is templated to allow construction from a value type and
+     *  incrementable type related this this \p constant_iterator's respective types.
+     *
+     *  \p v The value of this \p constant_iterator's constant value.
+     *  \p i The index of this \p constant_iterator in a sequence. Defaults to the
+     *       value returned by \c Incrementable's null constructor. For example,
+     *       when <tt>Incrementable == int</tt>, \c 0.
+     */
     template<typename OtherValue, typename OtherIncrementable>
     __host__ __device__
     constant_iterator(OtherValue const& v, OtherIncrementable const& i = incrementable())
       : super_t(base_iterator(i)), m_value(v) {}
 
+    /*! This method returns the value of this \p constant_iterator's constant value.
+     *  \return A \c const reference to this \p constant_iterator's constant value.
+     */
     __host__ __device__
     Value const& value(void) const
     { return m_value; }
+
+    /*! \cond
+     */
 
   protected:
     __host__ __device__
@@ -83,8 +179,26 @@ template<typename Value,
 
   private:
     const Value m_value;
+
+    /*! \endcond
+     */
 }; // end constant_iterator
 
+
+/*! This version of \p make_constant_iterator creates a \p constant_iterator
+ *  from values given for both value and index. The type of \p constant_iterator
+ *  may be inferred by the compiler from the types of its parameters.
+ *
+ *  \param x The value of the returned \p constant_iterator's constant value.
+ *  \param i The index of the returned \p constant_iterator within a sequence.
+ *           The type of this parameter defaults to \c int. In the default case,
+ *           the value of this parameter is \c 0.
+ *
+ *  \return A new \p constant_iterator with constant value & index as given
+ *          by \p x & \p i.
+ *
+ *  \see constant_iterator
+ */
 template<typename V, typename I>
 inline __host__ __device__
 constant_iterator<V,I> make_constant_iterator(V x, I i = int())
@@ -92,6 +206,16 @@ constant_iterator<V,I> make_constant_iterator(V x, I i = int())
   return constant_iterator<V,I>(x, i);
 } // end make_constant_iterator()
 
+
+/*! This version of \p make_constant_iterator creates a \p constant_iterator
+ *  using only a parameter for the desired constant value. The value of the
+ *  returned \p constant_iterator's index is set to \c 0.
+ *
+ *  \param x The value of the returned \p constant_iterator's constant value.
+ *  \return A new \p constant_iterator with constant value equal to \p x and
+ *          index equal to \c 0.
+ *  \see constant_iterator
+ */
 template<typename V>
 inline __host__ __device__
 constant_iterator<V> make_constant_iterator(V x)
