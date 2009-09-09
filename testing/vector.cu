@@ -538,7 +538,10 @@ void TestVectorManipulation(size_t n)
     ASSERT_EQUAL(test0.size(), n);
     ASSERT_EQUAL(test1.size(), n);
     ASSERT_EQUAL((test1 == std::vector<T>(n, (T) 3)), true);
-   
+
+#if !(_MSC_VER == 1400)
+    // KNOWN_FAILURE; causes cudafe crash on VS 2005 
+
     // initializing from other vector
     std::vector<T> stl_vector(src.begin(), src.end());
     Vector cpy0 = src;
@@ -547,6 +550,7 @@ void TestVectorManipulation(size_t n)
     ASSERT_EQUAL(cpy0, src);
     ASSERT_EQUAL(cpy1, src);
     ASSERT_EQUAL(cpy2, src);
+#endif
 
     // resizing
     Vector vec1(src);
