@@ -41,6 +41,11 @@ namespace thrust
  *  \{
  */
 
+/*! \addtogroup scalar_search Scalar Search
+ *  \ingroup binary_search
+ *  \{
+ */
+
 
 //////////////////////   
 // Scalar Functions //
@@ -491,6 +496,9 @@ equal_range(ForwardIterator first,
             ForwardIterator last,
             const T& value,
             StrictWeakOrdering comp);
+
+/*! \}
+ */
 
 
 /*! \addtogroup vectorized_binary_search Vectorized Searches
