@@ -75,8 +75,11 @@ def Environment():
   # scons has problems with finding the proper LIBPATH with Visual Studio Express 2008
   # help it out
   if os.name == 'nt':
-    env.Append(LIBPATH = ['C:/Program Files/Microsoft SDKs/Windows/v6.0A/Lib'])
-    env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 9.0/VC/lib'])
+    if platform.machine() == "x86_64":
+      env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 8/VC/lib/amd64'])
+    else:
+      env.Append(LIBPATH = ['C:/Program Files/Microsoft SDKs/Windows/v6.0A/Lib'])
+      env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 9.0/VC/lib'])
 
   # get the absolute path to the directory containing
   # this source file
