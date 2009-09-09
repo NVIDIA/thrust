@@ -330,6 +330,9 @@ public:
   typedef null_type inherited;
 };
 
+/*! \endcond
+ */
+
 
 /*! This version of \p make_tuple creates a new \c tuple object from a
  *  single object.
@@ -357,6 +360,10 @@ template<class T0, class T1>
 __host__ __device__ inline
   typename detail::make_tuple_mapper<T0, T1>::type
     make_tuple(const T0& t0, const T1& t1);
+
+
+/*! \cond
+ */
 
 template<class T0, class T1, class T2>
 __host__ __device__ inline
