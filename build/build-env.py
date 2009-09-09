@@ -1,6 +1,12 @@
 import os
-import platform
 import inspect
+import platform
+
+def is_64bit():
+  """ is this a 64-bit system? """
+  return platform.machine()[-2:] == '64'
+  #return platform.machine() == 'x86_64':
+  #return platform.machine() == 'AMD64':
 
 def getTools():
   result = []
@@ -75,7 +81,7 @@ def Environment():
   # scons has problems with finding the proper LIBPATH with Visual Studio Express 2008
   # help it out
   if os.name == 'nt':
-    if platform.machine() == "x86_64":
+    if is_64bit():
       env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 8/VC/lib/amd64'])
     else:
       env.Append(LIBPATH = ['C:/Program Files/Microsoft SDKs/Windows/v6.0A/Lib'])
@@ -107,7 +113,7 @@ def Environment():
    
 
   # set CUDA lib & include path
-  if platform.machine() == 'x86_64':
+  if is_64bit():
       lib_folder = 'lib64'
   else:
       lib_folder = 'lib'

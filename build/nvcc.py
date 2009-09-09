@@ -12,6 +12,14 @@ import SCons.Tool
 import SCons.Scanner.C
 import SCons.Defaults
 import os
+import platform
+
+def is_64bit():
+  """ is this a 64-bit system? """
+  return platform.machine()[-2:] == '64'
+  #return platform.machine() == 'x86_64':
+  #return platform.machine() == 'AMD64':
+
 
 CUDASuffixes = ['.cu']
 
@@ -83,9 +91,14 @@ def generate(env):
   if os.name == 'nt':
     exe_path = 'C:/CUDA/bin'
     lib_path = 'C:/CUDA/lib'
+    if is_64bit():
+      exe_path += '64'
+      lib_path += '64'
   elif os.name == 'posix':
     exe_path = '/usr/local/cuda/bin'
     lib_path = '/usr/local/cuda/lib'
+    if is_64bit():
+      lib_path += '64'
   else:
     raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
 
