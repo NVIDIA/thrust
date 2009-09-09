@@ -24,6 +24,7 @@
 #include <thrust/uninitialized_fill.h>
 #include <thrust/uninitialized_copy.h>
 #include <thrust/distance.h>
+#include <thrust/advance.h>
 #include <thrust/detail/destroy.h>
 #include <thrust/detail/type_traits.h>
 #include <stdexcept>
@@ -542,28 +543,6 @@ template<typename T, typename Alloc>
   fill_insert(position, n, x);
 } // end vector_base::insert_dispatch()
 
-// XXX this needs to be moved out into thrust:: and dispatched properly
-template<typename InputIterator, typename Distance>
-  void advance(InputIterator &i, Distance n,
-               thrust::host_space_tag)
-{
-    std::advance(i, n);
-} // end advance()
-
-template<typename InputIterator, typename Distance>
-  void advance(InputIterator &i, Distance n,
-               thrust::device_space_tag)
-{
-  i += n;
-} // end advance()
-
-template<typename InputIterator, typename Distance>
-  void advance(InputIterator &i, Distance n)
-{
-  advance(i, n,
-          typename thrust::iterator_space<InputIterator>::type());
-} // end advance()
-
 template<typename T, typename Alloc>
   template<typename ForwardIterator>
     void vector_base<T,Alloc>
@@ -605,7 +584,7 @@ template<typename T, typename Alloc>
       else
       {
         ForwardIterator mid = first;
-        thrust::detail::advance(mid, num_displaced_elements);
+        thrust::advance(mid, num_displaced_elements);
 
         // construct copy new elements at the end of the vector
         thrust::uninitialized_copy(mid, last, end());
@@ -886,7 +865,7 @@ template<typename T, typename Alloc>
 
     // copy to elements which already exist
     ForwardIterator mid = first;
-    thrust::detail::advance(mid, size());
+    thrust::advance(mid, size());
     thrust::copy(first, mid, begin());
 
     // uninitialize_copy to elements which must be constructed
