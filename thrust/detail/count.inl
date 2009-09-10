@@ -30,13 +30,13 @@ namespace detail
 {
 
 template <typename InputType1, typename InputType2, typename CountType>
-struct count_make_predicate
+struct count_transform
 {
   __host__ __device__ 
-  count_make_predicate(const InputType2 &val) : rhs(val){}
+  count_transform(InputType2 val) : rhs(val){}
 
   __host__ __device__
-  CountType operator()(const InputType1 &lhs) const 
+  CountType operator()(InputType1& lhs)
   {
     if(lhs == rhs)
       return 1;
@@ -44,28 +44,27 @@ struct count_make_predicate
       return 0;
   } // end operator()()
 
-  const InputType2 rhs;
-}; // end count_make_predicate
+  InputType2 rhs;
+}; // end count_transform
 
 
-// TODO fix this
 template <typename InputType, typename Predicate, typename CountType>
-struct count_predicate
+struct count_if_transform
 {
   __host__ __device__ 
-  count_predicate(const Predicate& pred) : op(pred){}
+  count_if_transform(Predicate _pred) : pred(_pred){}
 
   __host__ __device__
-  CountType operator()(const InputType &val) const 
+  CountType operator()(InputType& val)
   {
-    if(op(val))
+    if(pred(val))
       return 1;
     else
       return 0;
   } // end operator()
 
-  const Predicate op;
-}; // end count_predicate()
+  Predicate pred;
+}; // end count_if_transform
 
 } // end detail
 
@@ -76,9 +75,9 @@ count(InputIterator first, InputIterator last, const EqualityComparable& value)
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef typename thrust::iterator_traits<InputIterator>::difference_type CountType;
   
-  thrust::detail::count_make_predicate<InputType, EqualityComparable, CountType> op(value);
-  thrust::plus<CountType> bin_op;
-  return thrust::transform_reduce(first, last, op, CountType(0), bin_op);
+  thrust::detail::count_transform<InputType, EqualityComparable, CountType> unary_op(value);
+  thrust::plus<CountType> binary_op;
+  return thrust::transform_reduce(first, last, unary_op, CountType(0), binary_op);
 } // end count()
 
 template <typename InputIterator, typename Predicate>
@@ -88,10 +87,10 @@ count_if(InputIterator first, InputIterator last, Predicate pred)
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef typename thrust::iterator_traits<InputIterator>::difference_type CountType;
   
-  thrust::detail::count_predicate<InputType, Predicate, CountType> op(pred);
-  thrust::plus<CountType> bin_op;
-  return thrust::transform_reduce(first, last, op, CountType(0), bin_op);
+  thrust::detail::count_if_transform<InputType, Predicate, CountType> unary_op(pred);
+  thrust::plus<CountType> binary_op;
+  return thrust::transform_reduce(first, last, unary_op, CountType(0), binary_op);
 } // end count_if()
 
-}; // end thrust
+} // end namespace thrust
 
