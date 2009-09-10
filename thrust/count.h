@@ -111,7 +111,7 @@ template <class InputIterator, class EqualityComparable>
  *  vec[4] = 4;
  *
  *  // count the odd elements in vec
- *  int result = thrust::count(vec.begin(), vec.end(), is_odd());
+ *  int result = thrust::count_if(vec.begin(), vec.end(), is_odd());
  *  // result == 2
  *  \endcode
  *
