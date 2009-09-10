@@ -45,6 +45,11 @@ namespace thrust
  *  \{
  */
 
+/*! \addtogroup fancyiterator Fancy Iterators
+ *  \ingroup iterators
+ *  \{
+ */
+
 /*! \p counting_iterator is an iterator which represents a pointer into a range
  *  of sequentially changing values. This iterator is useful for creating a range
  *  filled with a sequence without explicitly storing it in memory. Using
@@ -205,7 +210,10 @@ counting_iterator<Incrementable> make_counting_iterator(Incrementable x)
   return counting_iterator<Incrementable>(x);
 }
 
-/*! \}
+/*! \} // end fancyiterators
+ */
+
+/*! \} // end iterators
  */
 
 } // end thrust

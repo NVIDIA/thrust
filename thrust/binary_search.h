@@ -497,9 +497,8 @@ equal_range(ForwardIterator first,
             const T& value,
             StrictWeakOrdering comp);
 
-/*! \}
+/*! \} // end binary_search
  */
-
 
 /*! \addtogroup vectorized_binary_search Vectorized Searches
  *  \ingroup binary_search
@@ -711,7 +710,7 @@ OutputIterator upper_bound(ForwardIterator first,
  * Specifically, it returns the index of first position where value could
  * be inserted without violating the ordering.  This version of 
  * \p upper_bound uses function object \c comp for comparison.
-*
+ *
  *  \param first The beginning of the ordered sequence.
  *  \param last The end of the ordered sequence.
  *  \param values_first The beginning of the search values sequence.
@@ -851,6 +850,7 @@ OutputIterator binary_search(ForwardIterator first,
  *  \param values_first The beginning of the search values sequence.
  *  \param values_last The end of the search values sequence.
  *  \param output The beginning of the output sequence.
+ *  \param comp The comparison operator.
  * 
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
@@ -898,8 +898,6 @@ OutputIterator binary_search(ForwardIterator first,
  *  \see \p upper_bound
  *  \see \p equal_range
  */
-/*! \p binary_search
- */
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
 OutputIterator binary_search(ForwardIterator first, 
                              ForwardIterator last,
@@ -908,16 +906,13 @@ OutputIterator binary_search(ForwardIterator first,
                              OutputIterator output,
                              StrictWeakOrdering comp);
 
-/*! \} // vectorized_binary_search
- *  \} // binary_search
- */
-
 /*! \} // binary_search
- *  \} // searching
  */
 
-/*! \} // end binary_search
- *  \} // end searching
+/*! \} // end searching
+ */
+
+/*! \} // end algorithms
  */
 
 } // end namespace thrust

@@ -33,6 +33,11 @@ namespace thrust
  *  \{
  */
 
+/*! \addtogroup fancyiterator Fancy Iterators
+ *  \ingroup iterators
+ *  \{
+ */
+
 /*! \p constant_iterator is an iterator which represents a pointer into a range
  *  of constant values. This iterator is useful for creating a range filled with the same
  *  value without explicitly storing it in memory. Using \p constant_iterator saves both
@@ -222,7 +227,10 @@ constant_iterator<V> make_constant_iterator(V x)
   return constant_iterator<V>(x, 0);
 } // end make_constant_iterator()
 
-/*! \}
+/*! \} // end fancyiterators
+ */
+
+/*! \} // end iterators
  */
 
 } // end namespace thrust

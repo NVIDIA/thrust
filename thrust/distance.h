@@ -28,7 +28,7 @@
 namespace thrust
 {
 
-/*! \addtogroup counting
+/*! \addtogroup iterators
  *  \{
  */
 
@@ -48,7 +48,7 @@ template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last);
 
-/*! \} // end counting
+/*! \} // end iterators
  */
 
 } // end thrust

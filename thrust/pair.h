@@ -189,8 +189,8 @@ template <typename T1, typename T2>
 
 /*! This convenience function creates a \p pair from two objects.
  *
- *  \param a The first object to copy from.
- *  \param b The second object to copy from.
+ *  \param x The first object to copy from.
+ *  \param y The second object to copy from.
  *  \return A newly-constructed \p pair copied from \p a and \p b.
  *
  *  \tparam T1 There are no requirements on the type of \p T1.

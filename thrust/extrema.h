@@ -218,7 +218,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *  \endcode
  *
  *  \see min_element
- *  \see_max_element
+ *  \see max_element
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template <typename ForwardIterator>
@@ -242,7 +242,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
  *
  *  \see min_element
- *  \see_max_element
+ *  \see max_element
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template <typename ForwardIterator, typename BinaryPredicate>

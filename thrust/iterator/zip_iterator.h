@@ -38,6 +38,11 @@ namespace thrust
  *  \{
  */
 
+/*! \addtogroup fancyiterator Fancy Iterators
+ *  \ingroup iterators
+ *  \{
+ */
+
 /*! \p zip_iterator is an iterator which represents a pointer into a range
  *  of \p tuples whose elements are themselves taken from a \p tuple of input
  *  iterators. This iterator is useful for creating a virtual array of structures
@@ -208,6 +213,12 @@ template <typename IteratorTuple>
 template<typename IteratorTuple>
 __host__ __device__
 zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
+
+/*! \} // end fancyiterators
+ */
+
+/*! \} // end iterators
+ */
 
 } // end thrust
 
