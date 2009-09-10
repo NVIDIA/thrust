@@ -79,13 +79,6 @@ struct trivial_sequence : public detail::_trivial_sequence<Iterator, typename th
     trivial_sequence(Iterator first, Iterator last) : super_t(first, last) { }
 };
 
-
-template <typename Iterator>
-struct trivial_sequence<Iterator> make_trivial_sequence(Iterator first, Iterator last)
-{
-    return trivial_sequence<Iterator>(first, last);
-}
-
 } // end namespace detail
 
 } // end namespace thrust
