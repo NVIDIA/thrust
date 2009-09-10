@@ -29,6 +29,19 @@ namespace thrust
 namespace experimental
 {
 
+/*! \addtogroup algorithms
+ */
+
+/*! \addtogroup prefixsums Prefix Sums
+ *  \ingroup algorithms
+ *  \{
+ */
+
+/*! \addtogroup segmentedprefixsums Segmented Prefix Sums
+ *  \ingroup algorithms
+ *  \{
+ */
+
 /*! \p inclusive_segmented_scan computes an inclusive segmented prefix 
  *  sum operation. The term 'inclusive' means that each result includes 
  *  the corresponding input operand in the partial sum. The term 'segmented'
@@ -500,6 +513,12 @@ template<typename InputIterator1,
                                           const T init,
                                           AssociativeOperator binary_op,
                                           BinaryPredicate pred);
+
+/*! \} // end segmentedprefixsums
+ */
+
+/*! \} // end prefix sums
+ */
 
 } // end namespace experimental
 	
