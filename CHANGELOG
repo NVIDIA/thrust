@@ -1,26 +1,92 @@
-Thrust release 1.0.0 Changelog
+#######################################
+#           Thrust v1.1.0             #
+#######################################
+
+Summary
+    Thrust v1.1 introduces fancy iterators, binary search functions, and
+    several specialized reduction functions.  Experimental support for
+    segmented scan has also been added.
+
+Breaking API Changes
+    counting_iterator has been moved into the thrust namespace (previously thrust::experimental)
+
+New Features
+    Functions
+        copy_if
+        lower_bound
+        upper_bound
+        vectorized lower_bound
+        vectorized upper_bound
+        equal_range
+        binary_search
+        vectorized binary_search
+        all_of
+        any_of
+        none_of
+        minmax_element
+        advance
+        inclusive_segmented_scan (experimental)
+        exclusive_segmented_scan (experimental)
+
+    Types
+        pair
+        tuple
+        device_malloc_allocator
+
+    Fancy Iterators
+        constant_iterator
+        counting_iterator
+        transform_iterator
+        zip_iterator
+
+New Examples
+    computing the maximum absolute difference between vectors
+    computing the bounding box of a two-dimensional point set
+    sorting multiple arrays together (lexicographical sorting)
+    constructing a summed area table
+    using zip_iterator to mimic an array of structs
+    using constant_iterator to increment array values
+
+Other Enhancements
+    added pinned memory allocator (experimental)
+    added more methods to host_vector & device_vector (issue #4)
+    added variant of remove_if with a stencil argument (issue #29)
+    scan and reduce use cudaFuncGetAttributes to determine grid size
+    exceptions are reported when temporary device arrays cannot be allocated 
+
+Bug Fixes
+     #5 make vector work for larger data types
+     #9 stable_partition_copy doesn't respect OutputIterator concept semantics
+    #10 scans should return OutputIterator
+    #16 make algorithms work for larger data types
+    #27 dispatch radix_sort even when comp=less<T> is explicitly provided
+
+Known Issues
+    Using functors with Thrust entry points may not compile on Mac OSX with gcc-4.0.1
+    uninitialized_copy & uninitialized_fill dispatch constructors on the host rather than the device.
+
+
+#######################################
+#           Thrust v1.0.0             #
+#######################################
 
 Breaking API changes
+    Rename top level namespace komrade to thrust.
+    Move partition_copy() & stable_partition_copy() into thrust::experimental namespace until we can easily provide the standard interface.
+    Rename range() to sequence() to avoid collision with Boost.Range.
+    Rename copy_if() to copy_when() due to semantic differences with C++0x copy_if().
 
-* Rename top level namespace komrade to thrust.
-* Move partition_copy() & stable_partition_copy() into thrust::experimental namespace until we can easily provide the standard interface.
-* Rename range() to sequence() to avoid collision with Boost.Range.
-* Rename copy_if() to copy_when() due to semantic differences with C++0x copy_if().
+New Features
+    Add C++0x style cbegin() & cend() methods to host_vector & device_vector.
+    Add transform_if function.
+    Add stencil versions of replace_if() & replace_copy_if().
+    Allow counting_iterator to work with for_each().
+    Allow types with constructors in comparison sort & reduce.
 
-Additional features
-
-* Add C++0x style cbegin() & cend() methods to host_vector & device_vector.
-* Add transform_if function.
-* Add stencil versions of replace_if() & replace_copy_if().
-* Allow counting_iterator to work with for_each().
-* Allow types with constructors in comparison sort & reduce.
-
-Performance improvements
-
-* merge_sort and stable_merge_sort are now 2 to 5x faster when executed on the parallel device.
+Other Enhancements
+    merge_sort and stable_merge_sort are now 2 to 5x faster when executed on the parallel device.
 
 Bug fixes
-
-* Workaround an issue where an incremented iterator causes nvcc to crash. (Komrade issue #6)
-* Fix an issue where const_iterators could not be passed to transform. (Komrade issue #7)
+    Workaround an issue where an incremented iterator causes nvcc to crash. (Komrade issue #6)
+    Fix an issue where const_iterators could not be passed to transform. (Komrade issue #7)
 

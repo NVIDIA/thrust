@@ -1,0 +1,11 @@
+Once Thrust has been installed, these example programs can be compiled
+directly with nvcc.  For example, the following command will compile the
+norm example.
+  $ nvcc norm.cu -o norm
+
+These examples are also available online:
+  http://code.google.com/p/thrust/source/browse/#svn/trunk/examples
+
+For additional information refer to the Thrust Tutorial:
+  http://code.google.com/p/thrust/wiki/Tutorial
+
