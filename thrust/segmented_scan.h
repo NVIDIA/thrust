@@ -29,16 +29,13 @@ namespace thrust
 namespace experimental
 {
 
-/*! \addtogroup algorithms
- */
-
 /*! \addtogroup prefixsums Prefix Sums
  *  \ingroup algorithms
  *  \{
  */
 
 /*! \addtogroup segmentedprefixsums Segmented Prefix Sums
- *  \ingroup algorithms
+ *  \ingroup prefixsums
  *  \{
  */
 

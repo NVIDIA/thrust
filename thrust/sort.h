@@ -29,10 +29,7 @@ namespace thrust
 
 
 /*! \addtogroup sorting
- *  \ingroup reordering
- *
- *  \addtogroup key_sorting Key Sorting
- *  \ingroup sorting
+ *  \ingroup algorithms
  *  \{
  */
 
@@ -184,18 +181,9 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
 
-/*! \} // end key_sorting
- */
-
-
 ///////////////
 // Key Value //
 ///////////////
-
-/*! \addtogroup key_value_sorting Key-Value Sorting
- *  \ingroup sorting
- *  \{
- */
 
 /*! \p sort_by_key performs a key-value sort. That is, \p sort_by_key sorts the
  *  elements in <tt>[keys_first, keys_last)</tt> and <tt>[values_first,
@@ -388,9 +376,6 @@ template<typename RandomAccessKeyIterator,
                           RandomAccessKeyIterator keys_last,
                           RandomAccessValueIterator values_first,
                           StrictWeakOrdering comp);
-
-/*! \} // end key_value_sorting
- */
 
 /*! \} // end sorting
  */

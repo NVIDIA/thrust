@@ -27,8 +27,10 @@
 namespace thrust
 {
 
-/*! \addtogroup stream_compaction
+/*! \addtogroup stream_compaction Stream Compaction
+ *  \ingroup reordering
  *  \{
+ *
  */
 
 /*! \p remove removes from the range <tt>[first, last)</tt> all elements that are
@@ -262,7 +264,49 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred);
 
-// XXX new functions
+/*! \p remove_if removes from the range <tt>[first, last)</tt> every element \p x
+ *  such that <tt>pred(x)</tt> is \c true. That is, \p remove_if returns an
+ *  iterator \c new_last such that the range <tt>[first, new_last)</tt> contains
+ *  no elements for which \p pred of the corresponding stencil value is \c true. 
+ *  The iterators in the range <tt>[new_last,last)</tt> are all still dereferenceable,
+ *  but the elements that they point to are unspecified. \p remove_if is stable,
+ *  meaning that the relative order of elements that are not removed is unchanged.
+ *
+ *  \param first The beginning of the range of interest.
+ *  \param last The end of the range of interest.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param pred A predicate to evaluate for each element of the range
+ *              <tt>[stencil, stencil + (last - first))</tt>. Elements for which \p pred evaluates to
+ *              \c false are removed from the sequence <tt>[first, last)</tt>
+ *  \return A ForwardIterator pointing to the end of the resulting range of
+ *          elements for which \p pred evaluated to \c true.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/ForwardIterator.html">Forward Iterator</a>
+ *          and \p ForwardIterator is mutable.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p remove_if to remove
+ *  specific elements from an array of integers.
+ *
+ *  \code
+ *  #include <thrust/remove.h>
+ *  ...
+ *  const int N = 6;
+ *  int A[N] = {1, 4, 2, 8, 5, 7};
+ *  int S[N] = {0, 1, 1, 1, 0, 0};
+ *
+ *  int *new_end = thrust::remove(A, A + N, S, thrust::identity<int>());
+ *  // The first three values of A are now {1, 5, 7}
+ *  // Values beyond new_end are unspecified
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/remove_if.html
+ *  \see remove
+ *  \see remove_copy
+ *  \see remove_copy_if
+ */
 template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
@@ -271,6 +315,51 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred);
 
+/*! \p remove_copy_if copies elements from the range <tt>[first,last)</tt> to a
+ *  range beginning at \p result, except that elements for which \p pred of the 
+ *  corresponding stencil value is \c true are not copied. The return value is 
+ *  the end of the resulting range.  This operation is stable, meaning that the
+ *  relative order of the elements that are copied is the same as the 
+ *  range <tt>[first,last)</tt>.
+ *
+ *  \param first The beginning of the range of interest.
+ *  \param last The end of the range of interest.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param result The resulting range is copied to the sequence beginning at this
+ *                location.
+ *  \param pred A predicate to evaluate for each element of the range <tt>[first,last)</tt>.
+ *              Elements for which \p pred evaluates to \c false are not copied
+ *              to the resulting sequence.
+ *  \return An OutputIterator pointing to the end of the resulting range.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator1's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p remove_copy_if to copy
+ *  a sequence of numbers to an output range while omitting specific elements.
+ *
+ *  \code
+ *  #include <thrust/remove.h>
+ *  ...
+ *  const int N = 6;
+ *  int V[N] = {-2, 0, -1, 0, 1, 2};
+ *  int S[N] = { 1, 1,  0, 1, 0, 1};
+ *  int result[2];
+ *  thrust::remove_copy_if(V, V + N, result, thrust::identity<int>());
+ *  // V remains {-2, 0, -1, 0, 1, 2}
+ *  // result is now {-1, 1}
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/remove_copy_if.html
+ *  \see remove
+ *  \see remove_copy
+ *  \see remove_if
+ *  \see copy_if
+ */
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -281,7 +370,7 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred);
 
-/*! \{ // end stream_compaction
+/*! \} // end stream_compaction
  */
 
 } // end thrust

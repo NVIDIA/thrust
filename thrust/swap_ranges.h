@@ -27,7 +27,7 @@
 namespace thrust
 {
 
-/*! \addtogroup regular_copying Regular Copying
+/*! \addtogroup copying
  *  \{
  */
 
@@ -75,7 +75,7 @@ template<typename ForwardIterator1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2);
 
-/*! \} // regular_copying
+/*! \} // copying
  */
 
 } // end namespace thrust

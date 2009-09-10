@@ -31,13 +31,8 @@ namespace thrust
 namespace sorting
 {
 
-/*! \addtogroup sorting
- *  \ingroup reordering
- *
- *  \addtogroup key_sorting Key Sorting
+/*! \addtogroup merge_sort Merge Sort
  *  \ingroup sorting
- *  \addtogroup merge_sorting Merge Sorting
- *  \ingroup key_sorting
  *  \{
  */
 
@@ -190,16 +185,6 @@ template<typename RandomAccessIterator,
   void stable_merge_sort(RandomAccessIterator first,
                          RandomAccessIterator last,
                          StrictWeakOrdering comp);
-
-/*! \}
- */
-
-/*! \addtogroup key_value_sorting Key-Value Sorting
- *  \ingroup sorting
- *  \addtogroup merge_sorting Merge Sorting
- *  \ingroup key_value_sorting
- *  \{
- */
 
 /*! \p merge_sort_by_key performs a key-value sort. That is, \p merge_sort_by_key sorts the
  *  elements in <tt>[keys_first, keys_last)</tt> and <tt>[values_first,
@@ -393,7 +378,7 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator2 values_first,
                                 StrictWeakOrdering comp);
 
-/*! \}
+/*! \} merge_sort
  */
 
 } // end namespace sorting

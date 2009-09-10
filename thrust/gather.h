@@ -27,9 +27,7 @@
 namespace thrust
 {
 
-/*! \addtogroup copying
- *  \{
- *  \addtogroup irregular_copying Irregular Copying
+/*! \addtogroup gathering
  *  \ingroup copying
  *  \{
  */
@@ -141,8 +139,7 @@ template<typename ForwardIterator,
                  RandomAccessIterator input,
                  Predicate pred);
 
-/*! \} // irregular_copying
- *  \} // copying
+/*! \} // gathering
  */
 
 }; // end namespace thrust

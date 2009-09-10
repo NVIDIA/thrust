@@ -29,8 +29,8 @@ namespace thrust
 namespace sorting
 {
 
-/*! \addtogroup radix_sorting Radix Sorting
- *  \ingroup key_sorting
+/*! \addtogroup radix_sort Radix Sort
+ *  \ingroup sorting
  *  \{
  */
 
@@ -108,14 +108,6 @@ template<typename RandomAccessIterator>
 template<typename RandomAccessIterator>
   void stable_radix_sort(RandomAccessIterator first,
                          RandomAccessIterator last);
-
-/*! \}
- */
-
-/*! \addtogroup radix_sorting Radix Sorting
- *  \ingroup key_value_sorting
- *  \{
- */
 
 /*! \p radix_sort_by_key performs a key-value sort. That is, \p radix_sort_by_key sorts the
  *  elements in <tt>[keys_first, keys_last)</tt> and <tt>[values_first,
@@ -215,7 +207,7 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first);
 
-/*! \}
+/*! \} end radix_sort
  */
 
 } // end namespace sorting

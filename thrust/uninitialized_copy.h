@@ -28,7 +28,7 @@
 namespace thrust
 {
 
-/*! \addtogroup regular_copying Regular Copying
+/*! \addtogroup copying
  *  \{
  */
 
@@ -94,7 +94,7 @@ template<typename InputIterator, typename ForwardIterator>
                                      InputIterator last,
                                      ForwardIterator result);
 
-/*! \} // regular_copying
+/*! \} // copying
  */
 
 } // end thrust

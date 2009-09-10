@@ -30,7 +30,7 @@ namespace thrust
 /*! \addtogroup reordering
  *  \ingroup algorithms
  *
- *  \addtogroup stream_compaction Stream Compaction
+ *  \addtogroup partitioning
  *  \ingroup reordering
  *  \{
  */

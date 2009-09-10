@@ -41,12 +41,6 @@ namespace thrust
  *  \{
  */
 
-/*! \addtogroup scalar_search Scalar Search
- *  \ingroup binary_search
- *  \{
- */
-
-
 //////////////////////   
 // Scalar Functions //
 //////////////////////
@@ -497,9 +491,6 @@ equal_range(ForwardIterator first,
             const T& value,
             StrictWeakOrdering comp);
 
-/*! \} // end binary_search
- */
-
 /*! \addtogroup vectorized_binary_search Vectorized Searches
  *  \ingroup binary_search
  *  \{
@@ -906,13 +897,13 @@ OutputIterator binary_search(ForwardIterator first,
                              OutputIterator output,
                              StrictWeakOrdering comp);
 
-/*! \} // binary_search
+/*! \} // end vectorized_binary_search
+ */
+
+/*! \} // end binary_search
  */
 
 /*! \} // end searching
- */
-
-/*! \} // end algorithms
  */
 
 } // end namespace thrust

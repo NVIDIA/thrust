@@ -26,11 +26,8 @@
 namespace thrust
 {
 
-/*! \addtogroup algorithms
- */
-
-/*! \addtogroup parallelization
- *  \ingroup algorithms
+/*! \addtogroup modifying
+ *  \ingroup transformations
  *  \{
  */
 
@@ -58,7 +55,7 @@ void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f);
 
-/*! \} // end parallelization
+/*! \} // end modifying
  */
 
 } // end namespace thrust
