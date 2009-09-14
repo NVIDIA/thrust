@@ -1,5 +1,6 @@
 import os
 import glob
+from warnings import warn
 
 # try to import an environment first
 try:
@@ -35,6 +36,14 @@ for folder in folders:
       fid = open(headerfilename.replace('.h', '_cpp.cpp'), 'w')
       fid.write('#include <thrust/' + folder + headerfilename + '>\n')
       fid.close()
+
+      # insure that all files #include <thrust/detail/config.h>
+      fid = open(fullpath)
+      if '#include <thrust/detail/config.h>' not in fid.read():
+        warn('Header <thrust/' + folder + headerfilename + '> does not include <thrust/detail/config.h>')
+
+
+
     
 fid = open('main.cu', 'w')
 fid.write('int main(void){ return 0; }\n')
