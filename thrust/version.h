@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 //  This is the only thrust header that is guarenteed to 
 //  change with every thrust release.
 //
