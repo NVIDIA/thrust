@@ -18,14 +18,14 @@
 
 #include <thrust/detail/config.h>
 
-//  This is the only thrust header that is guarenteed to 
+//  This is the only thrust header that is guaranteed to 
 //  change with every thrust release.
 //
 //  THRUST_VERSION % 100 is the sub-minor version
 //  THRUST_VERSION / 100 % 1000 is the minor version
 //  THRUST_VERSION / 100000 is the major version
 
-#define THRUST_VERSION 100100
+#define THRUST_VERSION 100101
 #define THRUST_MAJOR_VERSION     (THRUST_VERSION / 100000)
 #define THRUST_MINOR_VERSION     (THRUST_VERSION / 100 % 1000)
 #define THRUST_SUBMINOR_VERSION  (THRUST_VERSION % 100)

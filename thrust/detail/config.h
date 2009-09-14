@@ -27,6 +27,13 @@
 #error "CUDA v2.3 or newer is required"
 #endif 
 
+// XXX WAR this problem with Snow Leopard + CUDA 2.3a
+#if defined(__APPLE__)
+#if _GLIBCXX_ATOMIC_BUILTINS == 1
+#undef _GLIBCXX_ATOMIC_BUILTINS
+#endif // _GLIBCXX_ATOMIC_BUILTINS
+#endif // __APPLE__
+
 #else
 
 // if we're not compiling with nvcc,
