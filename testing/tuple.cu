@@ -364,10 +364,6 @@ struct TestTupleStableSort
 {
   void operator()(const size_t n)
   {
-#ifdef __APPLE__
-     // nvcc has trouble with SortTuplesByFirst
-     KNOWN_FAILURE
-#else
      thrust::host_vector<T> h_keys   = thrusttest::random_integers<T>(n);
      thrust::host_vector<T> h_values = thrusttest::random_integers<T>(n);
 
@@ -402,7 +398,6 @@ struct TestTupleStableSort
 
      ASSERT_ALMOST_EQUAL(h_keys, d_keys);
      ASSERT_ALMOST_EQUAL(h_values, d_values);
-#endif // __APPLE__
   }
 };
 VariableUnitTest<TestTupleStableSort, NumericTypes> TestTupleStableSortInstance;
