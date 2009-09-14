@@ -10,7 +10,7 @@ except:
   env = Environment()
 
 # on mac we have to tell the linker to link against the C++ library
-if os.uname()[0] == "Darwin":
+if env['PLATFORM'] == "darwin":
   env.Append(LINKFLAGS = "-lstdc++")
 
 # build and run the program that divines the version of the SM on gpu 0 of the build/test machine

@@ -44,8 +44,8 @@ def getCFLAGS(mode, CC):
   elif mode == 'debug' or mode == 'emudebug':
     # turn on debug mode
     result.append(gCompilerOptions[CC]['debug'])
-  # force 32b code on Darwin
-  if os.uname()[0] == 'Darwin':
+  # force 32b code on darwin
+  if platform.platform() == 'darwin':
     result.append('-m32')
   return result
 
@@ -59,8 +59,8 @@ def getCXXFLAGS(mode, CXX):
     result.append(gCompilerOptions[CXX]['debug'])
   # enable exception handling
   result.append(gCompilerOptions[CXX]['exception_handling'])
-  # force 32b code on Darwin
-  if os.uname()[0] == 'Darwin':
+  # force 32b code on darwin
+  if platform.platform() == 'darwin':
     result.append('-m32')
   return result
 
@@ -79,8 +79,8 @@ def getLINKFLAGS(mode, CXX):
   if mode == 'debug':
     # turn on debug mode
     result = gLinkerOptions[CXX]['debug']
-  # force 32b code on Darwin
-  if os.uname()[0] == 'Darwin':
+  # force 32b code on darwin
+  if platform.platform() == 'darwin':
     result.append('-m32')
   return result
 
