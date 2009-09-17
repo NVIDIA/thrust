@@ -7,6 +7,7 @@
 #include <iterator>
 #include <string>
 
+// this functor returns true if the argument is odd, and false otherwise
 template <typename T>
 struct is_odd
 {
@@ -70,5 +71,7 @@ int main(void)
     values.resize(values_end - values.begin());
 
     print_range("values", values.begin(), values.end());
+
+    return 0;
 }
 
