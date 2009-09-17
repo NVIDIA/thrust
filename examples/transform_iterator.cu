@@ -30,6 +30,16 @@ struct clamp
     }
 };
 
+template <typename T>
+struct simple_negate
+{
+    // this functor doesn't define result_type
+    __host__ __device__
+    T operator()(T x)
+    {
+        return -x;
+    }
+};
 
 template <typename Iterator>
 void print_range(const std::string& name, Iterator first, Iterator last)
@@ -109,6 +119,16 @@ int main(void)
     NegatedClampedCountingIterator ncs_end   = thrust::make_transform_iterator(cs_end,   thrust::negate<int>());
 
     print_range("negated sequence ", ncs_begin, ncs_end);
+
+
+    ////
+    // when a functor does not define result_type, a third template argument must be provided
+    typedef thrust::transform_iterator<simple_negate<int>, VectorIterator, int> NegatedVectorIterator;
+
+    NegatedVectorIterator nv_begin(values.begin(), simple_negate<int>());
+    NegatedVectorIterator nv_end(values.end(), simple_negate<int>());
+    
+    print_range("negated values ", nv_begin, nv_end);
 
     return 0;
 }
