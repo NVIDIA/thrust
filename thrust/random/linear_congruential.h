@@ -30,7 +30,7 @@ namespace experimental
 namespace random
 {
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
   class linear_congruential
 {
   public:

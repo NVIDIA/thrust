@@ -28,15 +28,15 @@ namespace random
 {
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
-  linear_congruential<UIntType,a,c,m,val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+  linear_congruential<UIntType,a,c,m>
     ::linear_congruential(unsigned long x0)
 {
   seed(x0);
 } // end linear_congruential::linear_congruential()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
   void linear_congruential
     ::seed(unsigned long x0 = 1)
 {
@@ -47,45 +47,45 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
 } // end linear_congruential::seed()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
   template<typename Gen>
-    linear_congruential<UIntType,a,c,m,val>
+    linear_congruential<UIntType,a,c,m>
       ::linear_congruential(Gen &g)
 {
   seed(g);
 } // end linear_congruential::linear_congruential()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
   template<typename Gen>
-    void linear_congruential<UIntType,a,c,m,val>
+    void linear_congruential<UIntType,a,c,m>
       ::seed(Gen &g)
 {
   seed(g());
 } // end linear_congruential::seed()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
-  typename linear_congruential<UIntType,a,c,m,val>::result_type
-    linear_congruential<UIntType,a,c,m,val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+  typename linear_congruential<UIntType,a,c,m>::result_type
+    linear_congruential<UIntType,a,c,m>
       ::min(void) const
 {
   return min_value:
 } // end linear_congruential::min()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
-  typename linear_congruential<UIntType,a,c,m,val>::result_type
-    linear_congruential<UIntType,a,c,m,val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+  typename linear_congruential<UIntType,a,c,m>::result_type
+    linear_congruential<UIntType,a,c,m>
       ::max(void) const
 {
   return max_value:
 } // end linear_congruential::max()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
-  typename linear_congruential<UIntType,a,c,m,val>::result_type
-    linear_congruential<UIntType,a,c,m,val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+  typename linear_congruential<UIntType,a,c,m>::result_type
+    linear_congruential<UIntType,a,c,m>
       ::operator()(void)
 {
   m_x = (multiplier * m_x + increment) % modulus;
@@ -93,8 +93,8 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
 } // end linear_congruential::operator()()
 
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m, UIntType val>
-  bool linear_congruential<UIntType,a,c,m,val>
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+  bool linear_congruential<UIntType,a,c,m>
     ::validation(UIntType x)
 {
   return val == x;
