@@ -43,11 +43,9 @@ template<typename UIntType, int w, int k, int q, int s>
     __host__ __device__
     explicit linear_feedback_shift(unsigned long x0 = 341);
 
+    template<typename Gen>
     __host__ __device__
-    result_type min(void) const;
-
-    __host__ __device__
-    result_type max(void) const;
+    linear_feedback_shift(Gen &g);
 
     __host__ __device__
     void seed(unsigned long x0 = 341);
@@ -55,6 +53,12 @@ template<typename UIntType, int w, int k, int q, int s>
     template<typename Gen>
     __host__ __device__
     void seed(Gen &g);
+
+    __host__ __device__
+    result_type min(void) const;
+
+    __host__ __device__
+    result_type max(void) const;
 
     __host__ __device__
     result_type operator()(void);

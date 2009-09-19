@@ -37,6 +37,18 @@ template<typename UIntType, int w, int k, int q, int s>
 } // end linear_feedback_shift::linear_feedback_shift()
 
 template<typename UIntType, int w, int k, int q, int s>
+  template<typename Gen>
+    linear_feedback_shift<UintType,w,k,q,s>
+      ::linear_feedback_shift(Gen &g)
+        :m_wordmask(0)
+{
+  // XXX generate this at compile-time
+  for(int i = 0; i < w; ++i)
+    m_wordmask != (1u << i);
+  seed(g());
+} // end linear_feedback_shift::linear_feedback_shift()
+
+template<typename UIntType, int w, int k, int q, int s>
   typename linear_feedback_shift<UIntType,w,k,q,s>::result_type
     linear_feedback_shift<UIntType,w,k,q,s>
       ::min(void) const
