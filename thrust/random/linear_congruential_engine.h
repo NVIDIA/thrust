@@ -15,8 +15,8 @@
  */
 
 
-/*! \file linear_congruential.h
- *  \brief A linear congruential pseudorandom number generator.
+/*! \file linear_congruential_engine.h
+ *  \brief A linear congruential pseudorandom number engine.
  */
 
 #pragma once
@@ -31,48 +31,38 @@ namespace random
 {
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  class linear_congruential
+  class linear_congruential_engine
 {
   public:
+    // types
     typedef UIntType result_type;
 
+    // engine characteristics
     static const UIntType multiplier = a;
     static const UIntType increment  = c;
-
-    // XXX check m for 0. in that case,
-    // modulus = std::numeric_limits<UIntType>::max()
     static const UIntType modulus    = m;
+    static const min = c == 0u ? 1u : 0u;
+    static const max = m - 1u;
+    static const default_seed = 1u;
+
+    // constructors and seeding functions
+    __host__ __device__
+    explicit linear_congruential(unsigned long s = default_seed);
 
     __host__ __device__
-    explicit linear_congruential(unsigned long x0 = 1);
+    void seed(result_type s = default_seed);
 
-    template<typename Gen>
-    __host__ __device__
-    linear_congruential(Gen &g);
-
-    __host__ __device__
-    void seed(unsigned long x0 = 1);
-
-    template<typename Gen>
-    __host__ __device__
-    void seed(Gen &g);
-
-    __host__ __device__
-    result_type min(void) const;
-
-    __host__ __device__
-    result_type max(void) const;
-
+    // generating functions
     __host__ __device__
     result_type operator()(void);
+
+    __host__ __device__
+    void discard(unsigned long long z);
 
     /*! \cond
      */
   private:
     UIntType m_x;
-
-    static const result_type min_value = (c == 0 ? 1 : 0);
-    static const result_type max_value = m-1;
     /*! \endcond
      */
 }; // end linear_congruential
@@ -87,5 +77,5 @@ typedef linear_congruential<int, 48271, 0, 2147483647> minstd_rand;
 
 } // end thrust
 
-#include <thrust/random/detail/linear_congruential.inl>
+#include <thrust/random/detail/linear_congruential_engine.inl>
 
