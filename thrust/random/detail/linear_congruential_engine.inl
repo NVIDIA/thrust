@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-#include <thrust/random/linear_congruential.h>
-#include <thrust/random/detail/linear_congruential.inl>
-#include <thrust/random/detail/const_mod.h>
+#include <thrust/random/linear_congruential_engine.h>
+#include <thrust/random/detail/mod.h>
 
 namespace thrust
 {
@@ -29,52 +28,45 @@ namespace random
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  linear_congruential<UIntType,a,c,m>
-    ::linear_congruential(result_type s)
+  linear_congruential_engine<UIntType,a,c,m>
+    ::linear_congruential_engine(result_type s)
 {
   seed(s);
-} // end linear_congruential::linear_congruential()
+} // end linear_congruential_engine::linear_congruential_engine()
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  void linear_congruential
-    ::seed(unsigned long x0 = 1)
+  void linear_congruential_engine<UIntType,a,c,m>
+    ::seed(result_type s)
 {
-  if(increment % modulus == 0 && x0 % modulus == 0)
-    m_x = 1 % modulus;
+  if((detail::mod<UIntType, 1, 0, m>(c) == 0) &&
+     (detail::mod<UIntType, 1, 0, m>(s) == 0))
+    m_x = detail::mod<UIntType, 1, 0, m>(1);
   else
-    m_x = x0 % modulus;
-} // end linear_congruential::seed()
+    m_x = detail::mod<UIntType, 1, 0, m>(s);
+} // end linear_congruential_engine::seed()
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  template<typename Gen>
-    void linear_congruential<UIntType,a,c,m>
-      ::seed(Gen &g)
-{
-  seed(g());
-} // end linear_congruential::seed()
-
-
-template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  typename linear_congruential<UIntType,a,c,m>::result_type
-    linear_congruential<UIntType,a,c,m>
+  typename linear_congruential_engine<UIntType,a,c,m>::result_type
+    linear_congruential_engine<UIntType,a,c,m>
       ::operator()(void)
 {
-  m_x = (multiplier * m_x + increment) % modulus;
+  m_x = detail::mod<UIntType,a,c,m>(m_x);
   return m_x;
-} // end linear_congruential::operator()()
+} // end linear_congruential_engine::operator()()
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  void linear_congruential<UIntType,a,c,m>
+  void linear_congruential_engine<UIntType,a,c,m>
     ::discard(unsigned long long z)
 {
   for(; z > 0; --z)
   {
     this->operator()();
-  }
-} // end linear_congruential::discard()
+  } // end for
+} // end linear_congruential_engine::discard()
+
 
 } // end random
 

@@ -38,16 +38,16 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
     typedef UIntType result_type;
 
     // engine characteristics
-    static const UIntType multiplier = a;
-    static const UIntType increment  = c;
-    static const UIntType modulus    = m;
-    static const min = c == 0u ? 1u : 0u;
-    static const max = m - 1u;
-    static const default_seed = 1u;
+    static const result_type multiplier = a;
+    static const result_type increment = c;
+    static const result_type modulus = m;
+    static const result_type min = c == 0u ? 1u : 0u;
+    static const result_type max = m - 1u;
+    static const result_type default_seed = 1u;
 
     // constructors and seeding functions
     __host__ __device__
-    explicit linear_congruential(unsigned long s = default_seed);
+    explicit linear_congruential_engine(result_type s = default_seed);
 
     __host__ __device__
     void seed(result_type s = default_seed);
@@ -62,14 +62,14 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
     /*! \cond
      */
   private:
-    UIntType m_x;
+    result_type m_x;
     /*! \endcond
      */
 }; // end linear_congruential
 
 // XXX the type boost used here was boost::int32_t
-typedef linear_congruential<int, 16807, 0, 2147483647> minstd_rand0;
-typedef linear_congruential<int, 48271, 0, 2147483647> minstd_rand;
+typedef linear_congruential_engine<unsigned int, 16807, 0, 2147483647> minstd_rand0;
+typedef linear_congruential_engine<unsigned int, 48271, 0, 2147483647> minstd_rand;
 
 } // end experimental
   
