@@ -55,6 +55,12 @@ typedef thrusttest::type_list<char,
 typedef thrusttest::type_list<long long,
                               unsigned long long> LargeIntegralTypes;
 
+typedef thrusttest::type_list<float
+#if __CUDA_ARCH__ >= 130
+                              , double
+#endif // __CUDA_ARCH__
+                             > FloatTypes;
+
 typedef thrusttest::type_list<char,
                               signed char,
                               unsigned char,
