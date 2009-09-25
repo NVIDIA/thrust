@@ -15,11 +15,13 @@
  */
 
 
-/*! \file uniform_real.h
+/*! \file uniform_real_distribution.h
  *  \brief A uniform distribution of real-valued numbers.
  */
 
 #pragma once
+
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -31,14 +33,47 @@ namespace random
 {
 
 template<typename RealType = double>
-  class uniform_real
+  class uniform_real_distribution
 {
   public:
-    typedef RealType input_type;
+    // types
     typedef RealType result_type;
+    typedef thrust::pair<RealType,RealType> param_type;
+
+    // constructors and reset functions
+    __host__ __device__
+    explicit uniform_real_distribution(RealType a = 0.0, RealType b = 1.0);
 
     __host__ __device__
-    explicit uniform_real(RealType min = RealType(0), RealType max = RealType(1));
+    explicit uniform_real_distribution(const param_type &parm);
+
+    __host__ __device__
+    uniform_real_distribution(const uniform_real_distribution &x);
+
+    __host__ __device__
+    void reset(void);
+
+    // generating functions
+    template<typename UniformRandomNumberGenerator>
+    __host__ __device__
+      result_type operator()(UniformRandomNumberGenerator &urng);
+
+    template<typename UniformRandomNumberGenerator>
+    __host__ __device__
+      result_type operator()(UniformRandomNumberGenerator &urng, const param_type &parm);
+
+    // property functions
+    __host__ __device__
+    result_type a(void) const;
+
+    __host__ __device__
+    result_type b(void) const;
+
+    __host__ __device__
+    param_type param(void) const;
+
+    __host__ __device__
+    void param(const param_type &parm);
 
     __host__ __device__
     result_type min(void) const;
@@ -46,16 +81,9 @@ template<typename RealType = double>
     __host__ __device__
     result_type max(void) const;
 
-    __host__ __device__
-    void reset(void) const;
-
-    template<typename UniformRandomNumberGenerator>
-    __host__ __device__
-      result_type operator()(UniformRandomNumberGenerator &urng);
-
   protected:
-    RealType m_min, m_max;
-}; // end uniform_real
+    RealType m_a, m_b;
+}; // end uniform_real_distribution
 
 } // end random
 
@@ -63,5 +91,5 @@ template<typename RealType = double>
 
 } // end thrust
 
-#include <thrust/random/detail/uniform_real.inl>
+#include <thrust/random/detail/uniform_real_distribution.inl>
 
