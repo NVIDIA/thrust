@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 namespace thrust
 {
 
