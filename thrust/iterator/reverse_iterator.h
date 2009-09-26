@@ -29,8 +29,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/detail/reverse_iterator_base.h>
 
 namespace thrust
 {
@@ -40,17 +40,14 @@ namespace experimental
 
 template<typename BidirectionalIterator>
   class reverse_iterator
-    : public thrust::experimental::iterator_adaptor<
-        reverse_iterator<BidirectionalIterator>,
-        BidirectionalIterator>
+    : public detail::reverse_iterator_base<BidirectionalIterator>::type
 {
   /*! \cond
    */
   private:
-    typedef thrust::experimental::iterator_adaptor<
-      reverse_iterator<BidirectionalIterator>,
-      BidirectionalIterator>
-    > super_t;
+    typedef typename thrust::experimental::detail::reverse_iterator_base<
+      BidirectionalIterator
+    >::type super_t;
 
     friend class thrust::experimental::iterator_core_access;
   /*! \endcond
@@ -60,7 +57,7 @@ template<typename BidirectionalIterator>
     /*! Default constructor does nothing.
      */
     __host__ __device__
-    reverse_iterator() {}
+    reverse_iterator(void) {}
 
     __host__ __device__
     explicit reverse_iterator(BidirectionalIterator x);
@@ -77,6 +74,7 @@ template<typename BidirectionalIterator>
                      );
 
   private:
+    __host__ __device__
     typename super_t::reference dereference(void) const;
 
     __host__ __device__
@@ -90,6 +88,7 @@ template<typename BidirectionalIterator>
 
     template<typename OtherBidirectionalIterator>
     __host__ __device__
+    typename super_t::difference_type
     distance_to(reverse_iterator<OtherBidirectionalIterator> const &y) const;
 }; // end reverse_iterator
 

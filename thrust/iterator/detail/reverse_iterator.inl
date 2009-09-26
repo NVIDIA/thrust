@@ -16,6 +16,7 @@
 
 #include <thrust/iterator/reverse_iterator.h>
 #include <thrust/detail/device/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -58,8 +59,9 @@ template<typename BidirectionalIterator>
 } // end reverse_iterator::reverse_iterator()
 
 template<typename BidirectionalIterator>
-  void reverse_iterator<BidirectionalIterator>
-    ::dereference(void)
+  typename reverse_iterator<BidirectionalIterator>::super_t::reference
+    reverse_iterator<BidirectionalIterator>
+      ::dereference(void) const
 {
   return *thrust::experimental::detail::prior(this->base());
 } // end reverse_iterator::increment()
@@ -80,14 +82,16 @@ template<typename BidirectionalIterator>
 
 template<typename BidirectionalIterator>
   void reverse_iterator<BidirectionalIterator>
-    ::advance(void)
+    ::advance(typename super_t::difference_type n)
 {
   this->base_reference() += -n;
 } // end reverse_iterator::advance()
 
-template<typename OtherBidirectionalIterator>
-  typename reverse_iterator<OtherBidirectionalIterator>::super_t::difference_type
-    distance_to(reverse_iterator<OtherBidirectionalIterator> const &y) const
+template<typename BidirectionalIterator>
+  template<typename OtherBidirectionalIterator>
+    typename reverse_iterator<BidirectionalIterator>::super_t::difference_type
+      reverse_iterator<BidirectionalIterator>
+        ::distance_to(reverse_iterator<OtherBidirectionalIterator> const &y) const
 {
   return this->base_reference() - y.base();
 } // end reverse_iterator::distance_to()
@@ -100,6 +104,16 @@ reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalItera
 } // end make_reverse_iterator()
 
 } // end experimental
+
+
+namespace detail
+{
+
+template<typename DeviceBidirectionalIterator>
+  struct iterator_device_reference< thrust::experimental::reverse_iterator<DeviceBidirectionalIterator> >
+    : iterator_device_reference<DeviceBidirectionalIterator>
+{
+}; // end iterator_device_reference
 
 namespace device
 {
@@ -119,10 +133,12 @@ template<typename BidirectionalIterator, typename IndexType>
 {
   thrust::experimental::reverse_iterator<BidirectionalIterator> temp = iter;
   temp += n;
-  return dereference(thrust::experimental::detail::prior(temp.base()));
+  return dereference(temp);
 } // end dereference()
 
 } // end device
+
+} // end detail
 
 } // end thrust
 
