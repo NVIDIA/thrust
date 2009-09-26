@@ -327,6 +327,30 @@ template<typename T, typename Alloc>
 } // end vector_base::cbegin()
 
 template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::reverse_iterator
+    vector_base<T,Alloc>
+      ::rbegin(void)
+{
+  return reverse_iterator(end());
+} // end vector_base::rbegin()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_reverse_iterator
+    vector_base<T,Alloc>
+      ::rbegin(void) const
+{
+  return const_reverse_iterator(end());
+} // end vector_base::rbegin()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_reverse_iterator
+    vector_base<T,Alloc>
+      ::crbegin(void) const
+{
+  return rbegin();
+} // end vector_base::crbegin()
+
+template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::end(void)
@@ -349,6 +373,30 @@ template<typename T, typename Alloc>
 {
   return end();
 } // end vector_base::cend()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::reverse_iterator
+    vector_base<T,Alloc>
+      ::rend(void)
+{
+  return reverse_iterator(begin());
+} // end vector_base::rend()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_reverse_iterator
+    vector_base<T,Alloc>
+      ::rend(void) const
+{
+  return const_reverse_iterator(begin());
+} // end vector_base::rend()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_reverse_iterator
+    vector_base<T,Alloc>
+      ::crend(void) const
+{
+  return rend();
+} // end vector_base::crend()
 
 template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::const_reference

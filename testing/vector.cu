@@ -974,3 +974,27 @@ void TestVectorContainingLargeType(void)
 }
 DECLARE_UNITTEST(TestVectorContainingLargeType);
 
+
+template <typename Vector>
+void TestVectorReversed(void)
+{
+  Vector v(3);
+  typedef typename Vector::value_type T;
+  v[0] = 0; v[1] = 1; v[2] = 2;
+
+  ASSERT_EQUAL(3, v.rend() - v.rbegin());
+  ASSERT_EQUAL(3, static_cast<const Vector&>(v).rend() - static_cast<const Vector&>(v).rbegin());
+  ASSERT_EQUAL(3, v.crend() - v.crbegin());
+
+  ASSERT_EQUAL(2, *v.rbegin());
+  ASSERT_EQUAL(2, *static_cast<const Vector&>(v).rbegin());
+  ASSERT_EQUAL(2, *v.crbegin());
+
+  ASSERT_EQUAL(1, *(v.rbegin() + 1));
+  ASSERT_EQUAL(0, *(v.rbegin() + 2));
+
+  ASSERT_EQUAL(0, *(v.rend() - 1));
+  ASSERT_EQUAL(1, *(v.rend() - 2));
+}
+DECLARE_VECTOR_UNITTEST(TestVectorReversed);
+

@@ -23,6 +23,7 @@
 #pragma once
 
 #include <thrust/iterator/detail/normal_iterator.h>
+#include <thrust/iterator/reverse_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/utility.h>
@@ -50,6 +51,9 @@ template<typename T, typename Alloc>
 
     typedef normal_iterator<pointer>        iterator;
     typedef normal_iterator<const_pointer>  const_iterator;
+
+    typedef thrust::experimental::reverse_iterator<iterator>       reverse_iterator;
+    typedef thrust::experimental::reverse_iterator<const_iterator> const_reverse_iterator;
 
     /*! This constructor creates an empty vector_base.
      */
@@ -207,6 +211,30 @@ template<typename T, typename Alloc>
     __host__ __device__
     const_iterator cbegin(void) const;
 
+    /*! This method returns a reverse_iterator pointing to the beginning of
+     *  this vector_base's reversed sequence.
+     *  \return A reverse_iterator pointing to the beginning of this
+     *          vector_base's reversed sequence.
+     */
+    __host__ __device__
+    reverse_iterator rbegin(void);
+
+    /*! This method returns a const_reverse_iterator pointing to the beginning of
+     *  this vector_base's reversed sequence.
+     *  \return A const_reverse_iterator pointing to the beginning of this
+     *          vector_base's reversed sequence.
+     */
+    __host__ __device__
+    const_reverse_iterator rbegin(void) const;
+
+    /*! This method returns a const_reverse_iterator pointing to the beginning of
+     *  this vector_base's reversed sequence.
+     *  \return A const_reverse_iterator pointing to the beginning of this
+     *          vector_base's reversed sequence.
+     */
+    __host__ __device__
+    const_reverse_iterator crbegin(void) const;
+
     /*! This method returns an iterator pointing to one element past the
      *  last of this vector_base.
      *  \return begin() + size().
@@ -227,6 +255,27 @@ template<typename T, typename Alloc>
      */
     __host__ __device__
     const_iterator cend(void) const;
+
+    /*! This method returns a reverse_iterator pointing to one element past the
+     *  last of this vector_base's reversed sequence.
+     *  \return rbegin() + size().
+     */
+    __host__ __device__
+    reverse_iterator rend(void);
+
+    /*! This method returns a const_reverse_iterator pointing to one element past the
+     *  last of this vector_base's reversed sequence.
+     *  \return rbegin() + size().
+     */
+    __host__ __device__
+    const_reverse_iterator rend(void) const;
+
+    /*! This method returns a const_reverse_iterator pointing to one element past the
+     *  last of this vector_base's reversed sequence.
+     *  \return rbegin() + size().
+     */
+    __host__ __device__
+    const_reverse_iterator crend(void) const;
 
     /*! This method returns a const_reference referring to the first element of this
      *  vector_base.
