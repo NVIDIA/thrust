@@ -57,6 +57,14 @@ template<typename Incrementable,
 template <typename IteratorTuple>
   class zip_iterator;
 
+namespace experimental
+{
+
+template <typename BidirectionalIterator>
+  class reverse_iterator;
+
+} // end experimental
+
 namespace detail
 {
 
@@ -155,6 +163,18 @@ template<typename IteratorTuple, typename IndexType>
   inline __device__
     typename iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
       dereference(thrust::zip_iterator<IteratorTuple> iter, IndexType n);
+
+
+// reverse_iterator prototypes
+template<typename BidirectionalIterator>
+  inline __device__
+    typename iterator_device_reference< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
+      dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter);
+
+template<typename BidirectionalIterator, typename IndexType>
+  inline __device__
+    typename iterator_device_reference< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
+      dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter, IndexType n);
 
 } // end device
 
