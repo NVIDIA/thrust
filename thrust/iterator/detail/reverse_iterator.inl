@@ -47,12 +47,15 @@ template<typename BidirectionalIterator>
   template<typename OtherBidirectionalIterator>
     reverse_iterator<BidirectionalIterator>
       ::reverse_iterator(reverse_iterator<OtherBidirectionalIterator> const &r
+// XXX msvc screws this up
+#ifndef _MSC_VER
                      , typename thrust::detail::enable_if<
                          thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
                          >::value
                        >::type *
+#endif // _MSC_VER
                      )
         :super_t(r.base())
 {

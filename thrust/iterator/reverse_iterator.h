@@ -65,12 +65,15 @@ template<typename BidirectionalIterator>
     template<typename OtherBidirectionalIterator>
     __host__ __device__
     reverse_iterator(reverse_iterator<OtherBidirectionalIterator> const &r
+// XXX msvc screws this up
+#ifndef _MSC_VER
                      , typename thrust::detail::enable_if<
                          thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
                          >::value
                        >::type * = 0
+#endif // _MSC_VER
                      );
 
   private:
