@@ -1,4 +1,5 @@
 #include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
 #include <thrust/generate.h>
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
@@ -23,10 +24,25 @@ void update_permutation(KeyVector& keys, PermutationVector& permutation)
 }
 
 
-// random digit: integer in [0,10)
-int rand10()
+template <typename KeyVector, typename PermutationVector>
+void apply_permutation(KeyVector& keys, PermutationVector& permutation)
 {
-    return rand() % 10;
+    // copy keys to temporary vector
+    KeyVector temp(keys.begin(), keys.end());
+
+    // permute the keys
+    thrust::gather(keys.begin(), keys.end(), permutation.begin(), temp.begin());
+}
+
+
+thrust::host_vector<int> random_vector(size_t N)
+{
+    thrust::host_vector<int> vec(N);
+
+    for (size_t i = 0; i < N; i++)
+        vec[i] = rand() % 10;
+
+    return vec;
 }
 
 
@@ -35,12 +51,9 @@ int main(void)
     size_t N = 20;
 
     // generate three arrays of random values
-    thrust::host_vector<int> upper(N);
-    thrust::host_vector<int> middle(N);
-    thrust::host_vector<int> lower(N);
-    thrust::generate(upper.begin(),  upper.end(),  rand10);
-    thrust::generate(middle.begin(), middle.end(), rand10);
-    thrust::generate(lower.begin(),  lower.end(),  rand10);
+    thrust::device_vector<int> upper  = random_vector(N);
+    thrust::device_vector<int> middle = random_vector(N);
+    thrust::device_vector<int> lower  = random_vector(N);
     
     std::cout << "Unsorted Keys" << std::endl;
     for(size_t i = 0; i < N; i++)
@@ -49,7 +62,7 @@ int main(void)
     }
 
     // initialize permutation to [0, 1, 2, ... ,N-1]
-    thrust::host_vector<int> permutation(N);
+    thrust::device_vector<int> permutation(N);
     thrust::sequence(permutation.begin(), permutation.end());
 
     // sort from least significant key to most significant keys
@@ -59,14 +72,18 @@ int main(void)
 
     // Note: keys have not been modified
     // Note: permutation now maps unsorted keys to sorted order
-    
+  
+    // permute the key arrays by the final permuation
+    apply_permutation(lower,  permutation);
+    apply_permutation(middle, permutation);
+    apply_permutation(upper,  permutation);
+
     std::cout << "Sorted Keys" << std::endl;
     for(size_t i = 0; i < N; i++)
     {
-        // p is the index in the *unsorted* arrays of the i-th sorted element
-        int p = permutation[i];
-        std::cout << "(" << upper[p] << "," << middle[p] << "," << lower[p] << ")" << std::endl;
+        std::cout << "(" << upper[i] << "," << middle[i] << "," << lower[i] << ")" << std::endl;
     }
 
     return 0;
 }
+
