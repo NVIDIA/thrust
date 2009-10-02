@@ -438,6 +438,35 @@ void TestVectorEquality(void)
 }
 DECLARE_UNITTEST(TestVectorEquality);
 
+void TestVectorInequality(void)
+{
+    thrust::host_vector<int> h_a(3);
+    thrust::host_vector<int> h_b(3);
+    thrust::host_vector<int> h_c(3);
+    h_a[0] = 0;    h_a[1] = 1;    h_a[2] = 2;
+    h_b[0] = 0;    h_b[1] = 1;    h_b[2] = 3;
+    h_b[0] = 0;    h_b[1] = 1;
+
+    thrust::device_vector<int> d_a(3);
+    thrust::device_vector<int> d_b(3);
+    thrust::device_vector<int> d_c(3);
+    d_a[0] = 0;    d_a[1] = 1;    d_a[2] = 2;
+    d_b[0] = 0;    d_b[1] = 1;    d_b[2] = 3;
+    d_b[0] = 0;    d_b[1] = 1;
+
+    ASSERT_EQUAL((h_a != h_a), false); ASSERT_EQUAL((h_a != d_a), false); ASSERT_EQUAL((d_a != h_a), false);  ASSERT_EQUAL((d_a != d_a), false); 
+    ASSERT_EQUAL((h_b != h_b), false); ASSERT_EQUAL((h_b != d_b), false); ASSERT_EQUAL((d_b != h_b), false);  ASSERT_EQUAL((d_b != d_b), false);
+    ASSERT_EQUAL((h_c != h_c), false); ASSERT_EQUAL((h_c != d_c), false); ASSERT_EQUAL((d_c != h_c), false);  ASSERT_EQUAL((d_c != d_c), false);
+
+    ASSERT_EQUAL((h_a != h_b), true); ASSERT_EQUAL((h_a != d_b), true); ASSERT_EQUAL((d_a != h_b), true); ASSERT_EQUAL((d_a != d_b), true); 
+    ASSERT_EQUAL((h_b != h_a), true); ASSERT_EQUAL((h_b != d_a), true); ASSERT_EQUAL((d_b != h_a), true); ASSERT_EQUAL((d_b != d_a), true);
+    ASSERT_EQUAL((h_a != h_c), true); ASSERT_EQUAL((h_a != d_c), true); ASSERT_EQUAL((d_a != h_c), true); ASSERT_EQUAL((d_a != d_c), true);
+    ASSERT_EQUAL((h_c != h_a), true); ASSERT_EQUAL((h_c != d_a), true); ASSERT_EQUAL((d_c != h_a), true); ASSERT_EQUAL((d_c != d_a), true);
+    ASSERT_EQUAL((h_b != h_c), true); ASSERT_EQUAL((h_b != d_c), true); ASSERT_EQUAL((d_b != h_c), true); ASSERT_EQUAL((d_b != d_c), true);
+    ASSERT_EQUAL((h_c != h_b), true); ASSERT_EQUAL((h_c != d_b), true); ASSERT_EQUAL((d_c != h_b), true); ASSERT_EQUAL((d_c != d_b), true);
+}
+DECLARE_UNITTEST(TestVectorInequality);
+
 
 template <class Vector>
 void TestVectorResizing(void)

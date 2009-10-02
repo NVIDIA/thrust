@@ -72,6 +72,14 @@ template<typename T1, typename Alloc1,
 
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
+  bool operator!=(const device_vector<T1,Alloc1> &lhs,
+                  const device_vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
   bool operator==(const host_vector<T1,Alloc1> &lhs,
                   const device_vector<T2,Alloc2> &rhs)
 {
@@ -81,6 +89,14 @@ template<typename T1, typename Alloc1,
   // compare on host
   return lhs == tempRhs;
 } // end operator==()
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+  bool operator!=(const host_vector<T1,Alloc1> &lhs,
+                  const device_vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
 
 // allow comparison between device_vector & host_vector
 template<typename T1, typename Alloc1,
@@ -95,6 +111,15 @@ template<typename T1, typename Alloc1,
   return tempLhs == rhs;
 } // end operator==()
 
+// allow comparison between device_vector & host_vector
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+  bool operator!=(const device_vector<T1,Alloc1> &lhs,
+                  const host_vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
+
 // allow comparison between std::vector & device_vector
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
@@ -108,6 +133,15 @@ template<typename T1, typename Alloc1,
   return lhs == tempRhs;
 } // end operator==()
 
+// allow comparison between std::vector & device_vector
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+  bool operator!=(const std::vector<T1,Alloc1> &lhs,
+                  const device_vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
+
 // allow comparison between device_vector & std::vector
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
@@ -120,6 +154,15 @@ template<typename T1, typename Alloc1,
   // compare on host
   return tempLhs == rhs;
 } // end operator==()
+
+// allow comparison between device_vector & std::vector
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+  bool operator!=(const device_vector<T1,Alloc1> &lhs,
+                  const std::vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
 
 } // end thrust
 

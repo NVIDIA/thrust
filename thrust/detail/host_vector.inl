@@ -71,6 +71,14 @@ template<typename T1, typename Alloc1,
 
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
+  bool operator!=(const host_vector<T1,Alloc1> &lhs,
+                  const host_vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
   bool operator==(const host_vector<T1,Alloc1> &lhs,
                   const std::vector<T2,Alloc2> &rhs)
 {
@@ -79,11 +87,27 @@ template<typename T1, typename Alloc1,
 
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
+  bool operator!=(const host_vector<T1,Alloc1> &lhs,
+                  const std::vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
   bool operator==(const std::vector<T1,Alloc1> &lhs,
                   const host_vector<T2,Alloc2> &rhs)
 {
   return thrust::detail::host_vector_vectors_equal(lhs,rhs);
 } // end operator==()
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+  bool operator!=(const std::vector<T1,Alloc1> &lhs,
+                  const host_vector<T2,Alloc2> &rhs)
+{
+  return !(lhs == rhs);
+} // end operator!=()
 
 } // end thrust
 
