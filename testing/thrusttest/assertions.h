@@ -14,6 +14,12 @@
 #define ASSERT_ALMOST_EQUAL(X,Y) thrusttest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
 #define KNOWN_FAILURE            { thrusttest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
                     
+#define ASSERT_EQUAL_RANGES(X,Y,Z)  unittest::assert_equal((X),(Y),(Z), __FILE__,  __LINE__)
+
+#define ASSERT_THROWS(X,Y)                                                         \
+    {   bool thrown = false; try { X; } catch (Y) { thrown = true; }                  \
+        if (!thrown) { unittest::UnitTestFailure f; f << "[" << __FILE__ << ":" << __LINE__ << "] did not throw " << #Y; throw f; } \
+    }
 
 
 namespace thrusttest

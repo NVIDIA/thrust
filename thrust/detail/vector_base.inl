@@ -30,6 +30,11 @@
 #include <thrust/detail/type_traits.h>
 #include <stdexcept>
 
+#include <thrust/distance.h>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/raw_buffer.h>
+
 namespace thrust
 {
 
@@ -1011,12 +1016,88 @@ template<typename T, typename Alloc>
 } // end swap()
 
 
+
+namespace detail
+{
+    
+//////////////////////
+// Host<->Host Path //
+//////////////////////
+template <typename InputIterator1, typename InputIterator2>
+bool vector_equal(InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2,
+                  thrust::host_space_tag,
+                  thrust::host_space_tag)
+{
+    return thrust::equal(first1, last1, first2);
+}
+
+//////////////////////////
+// Device<->Device Path //
+//////////////////////////
+template <typename InputIterator1, typename InputIterator2>
+bool vector_equal(InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2,
+                  thrust::device_space_tag,
+                  thrust::device_space_tag)
+{
+    return thrust::equal(first1, last1, first2);
+}
+
+////////////////////////
+// Host<->Device Path //
+////////////////////////
+template <typename InputIterator1, typename InputIterator2>
+bool vector_equal(InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2,
+                  thrust::host_space_tag,
+                  thrust::device_space_tag)
+{
+    typedef typename thrust::iterator_traits<InputIterator2>::value_type InputType2;
+    
+    // copy device sequence to host and compare on host
+    raw_host_buffer<InputType2> buffer(first2, first2 + thrust::distance(first1, last1));
+
+    return thrust::equal(first1, last1, buffer.begin());
+}
+  
+////////////////////////
+// Device<->Host Path //
+////////////////////////
+template <typename InputIterator1, typename InputIterator2> 
+bool vector_equal(InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2,
+                  thrust::device_space_tag,
+                  thrust::host_space_tag)
+{
+    typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
+    
+    // copy device sequence to host and compare on host
+    raw_host_buffer<InputType1> buffer(first1, last1);
+
+    return thrust::equal(buffer.begin(), buffer.end(), first2);
+}
+
+template <typename InputIterator1, typename InputIterator2>
+bool vector_equal(InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2)
+{
+    return vector_equal(first1, last1, first2,
+            typename thrust::iterator_space< InputIterator1 >::type(),
+            typename thrust::iterator_space< InputIterator2 >::type());
+}
+
+} // end namespace detail
+
+
+
+
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
 bool operator==(const detail::vector_base<T1,Alloc1>& lhs,
                 const detail::vector_base<T2,Alloc2>& rhs)
 {
-    return lhs.size() == rhs.size() && thrust::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return lhs.size() == rhs.size() && detail::vector_equal(lhs.begin(), lhs.end(), rhs.begin());
 }
     
 template<typename T1, typename Alloc1,
@@ -1024,7 +1105,7 @@ template<typename T1, typename Alloc1,
 bool operator==(const detail::vector_base<T1,Alloc1>& lhs,
                 const std::vector<T2,Alloc2>&         rhs)
 {
-    return lhs.size() == rhs.size() && thrust::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return lhs.size() == rhs.size() && detail::vector_equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template<typename T1, typename Alloc1,
@@ -1032,7 +1113,7 @@ template<typename T1, typename Alloc1,
 bool operator==(const std::vector<T1,Alloc1>&         lhs,
                 const detail::vector_base<T2,Alloc2>& rhs)
 {
-    return lhs.size() == rhs.size() && thrust::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return lhs.size() == rhs.size() && detail::vector_equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template<typename T1, typename Alloc1,
