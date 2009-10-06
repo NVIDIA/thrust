@@ -19,9 +19,8 @@
  *  \brief Inline file for equal.h.
  */
 
-#include <thrust/equal.h>
 #include <thrust/functional.h>
-#include <thrust/inner_product.h>
+#include <thrust/detail/dispatch/equal.h>
 
 namespace thrust
 {
@@ -37,8 +36,7 @@ struct operator_equal
   __host__ __device__
   bool operator()(const T1 &lhs, const T2 &rhs) const 
   {
-    //TODO, should this return an int type for speed?
-    return lhs == rhs;
+      return lhs == rhs;
   } // end operator()()
 }; // end operator_equal
 
@@ -62,8 +60,9 @@ template <typename InputIterator1, typename InputIterator2,
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2, BinaryPredicate binary_pred)
 {
-  thrust::logical_and<int> binary_op1; // the "plus" of the inner_product
-  return static_cast<bool>( thrust::inner_product(first1, last1, first2, static_cast<int>(1), binary_op1, binary_pred) );
+  return thrust::detail::dispatch::equal(first1, last1, first2, binary_pred,
+          typename thrust::iterator_space<InputIterator1>::type(),
+          typename thrust::iterator_space<InputIterator2>::type());
 } // end equal()
 
 

@@ -15,23 +15,36 @@
  */
 
 
-/*! \file host_vector.inl
- *  \brief Inline file for host_vector.h.
+/*! \file equal.h
+ *  \brief Host implementations of equal
  */
 
-#include <thrust/host_vector.h>
+#pragma once
+
+#include <thrust/inner_product.h>
+#include <thrust/functional.h>
 
 namespace thrust
 {
 
-template<typename T, typename Alloc>
-  template<typename OtherT, typename OtherAlloc>
-    host_vector<T,Alloc>
-      ::host_vector(const device_vector<OtherT,OtherAlloc> &v)
-        :Parent(v)
+namespace detail
 {
-  ;
-} // end host_vector::host_vector()
+
+namespace device
+{
+
+template <typename InputIterator1, typename InputIterator2, 
+          typename BinaryPredicate>
+bool equal(InputIterator1 first1, InputIterator1 last1,
+           InputIterator2 first2, BinaryPredicate binary_pred)
+{
+    thrust::logical_and<bool> binary_op1; // the "plus" of the inner_product
+    return thrust::inner_product(first1, last1, first2, true, binary_op1, binary_pred);
+}
+
+} // end namespace device
+
+} // end namespace detail
 
 } // end namespace thrust
 

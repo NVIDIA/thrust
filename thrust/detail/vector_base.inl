@@ -21,6 +21,7 @@
 
 #include <thrust/detail/vector_base.h>
 #include <thrust/copy.h>
+#include <thrust/equal.h>
 #include <thrust/uninitialized_fill.h>
 #include <thrust/uninitialized_copy.h>
 #include <thrust/distance.h>
@@ -1008,6 +1009,55 @@ template<typename T, typename Alloc>
 {
   a.swap(b);
 } // end swap()
+
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator==(const detail::vector_base<T1,Alloc1>& lhs,
+                const detail::vector_base<T2,Alloc2>& rhs)
+{
+    return lhs.size() == rhs.size() && thrust::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
+    
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator==(const detail::vector_base<T1,Alloc1>& lhs,
+                const std::vector<T2,Alloc2>&         rhs)
+{
+    return lhs.size() == rhs.size() && thrust::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator==(const std::vector<T1,Alloc1>&         lhs,
+                const detail::vector_base<T2,Alloc2>& rhs)
+{
+    return lhs.size() == rhs.size() && thrust::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator!=(const detail::vector_base<T1,Alloc1>& lhs,
+                const detail::vector_base<T2,Alloc2>& rhs)
+{
+    return !(lhs == rhs);
+}
+    
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator!=(const detail::vector_base<T1,Alloc1>& lhs,
+                const std::vector<T2,Alloc2>&         rhs)
+{
+    return !(lhs == rhs);
+}
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator!=(const std::vector<T1,Alloc1>&         lhs,
+                const detail::vector_base<T2,Alloc2>& rhs)
+{
+    return !(lhs == rhs);
+}
 
 } // end thrust
 
