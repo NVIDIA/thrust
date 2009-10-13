@@ -114,18 +114,7 @@ void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigne
                                      thrust::detail::integral_constant<bool, true>,
                                      thrust::detail::integral_constant<bool, true>)   // int32
 {
-    // find the smallest value in the array
-    KeyType min_val = thrust::reduce(thrust::device_ptr<KeyType>(keys),
-                                      thrust::device_ptr<KeyType>(keys + num_elements),
-                                      (KeyType) 0,
-                                      thrust::minimum<KeyType>());
-
-    if(min_val < 0)
-        // negatives present, sort all 32 bits
-        radix_sort_by_key((unsigned int*) keys, (unsigned int*) values, num_elements, encode_uint<KeyType>(), decode_uint<KeyType>(), 32);
-    else
-        // all keys are positive, treat keys as unsigned ints
-        radix_sort_by_key((unsigned int*) keys, (unsigned int*) values, num_elements, encode_uint<KeyType>(), decode_uint<KeyType>());
+    radix_sort_by_key((unsigned int*) keys, (unsigned int*) values, num_elements, encode_uint<KeyType>(), decode_uint<KeyType>());
 }
 
 template <typename KeyType, typename ValueType>
@@ -135,8 +124,7 @@ void stable_radix_sort_key_value_dev(KeyType * keys, ValueType * values, unsigne
                                      thrust::detail::integral_constant<bool, false>,
                                      thrust::detail::integral_constant<bool, true>)  // float32
 {
-    // sort all 32 bits
-    radix_sort_by_key((unsigned int*) keys, (unsigned int*) values, num_elements, encode_uint<KeyType>(), decode_uint<KeyType>(), 32);
+    radix_sort_by_key((unsigned int*) keys, (unsigned int*) values, num_elements, encode_uint<KeyType>(), decode_uint<KeyType>());
 }
 
 template <typename KeyType, typename ValueType>

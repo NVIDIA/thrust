@@ -39,6 +39,8 @@
 
 #include <thrust/detail/util/align.h>
 
+#include "stable_radix_sort_util.h"
+
 namespace thrust
 {
 
@@ -283,7 +285,7 @@ template<uint nbits, uint startbit, bool fullBlocks, class PreProcess>
 __global__ void radixSortBlocks(uint4* keysOut, uint4* valuesOut, 
                                 uint4* keysIn, uint4* valuesIn, 
                                 uint numElements, uint startBlock,
-                                const PreProcess preprocess)
+                                PreProcess preprocess)
 {
     extern __shared__ uint4 sMem[];
 
@@ -480,7 +482,7 @@ __global__ void reorderData(uint  *outKeys,
                             uint   numElements,
                             uint   totalBlocks,
                             uint   startBlock,
-                            const PostProcess postprocess)
+                            PostProcess postprocess)
 {
     __shared__ uint2 sKeys2[RadixSort::CTA_SIZE];
     __shared__ uint2 sValues2[RadixSort::CTA_SIZE];
@@ -600,8 +602,8 @@ void radixSortStep(uint *keys,
                    uint *blockOffsets, 
                    uint numElements,
                    bool manualCoalesce,
-                   const PreProcess&  preprocess,
-                   const PostProcess& postprocess)
+                   PreProcess  preprocess,
+                   PostProcess postprocess)
 {
     const uint eltsPerBlock  = RadixSort::CTA_SIZE * 4;
     const uint eltsPerBlock2 = RadixSort::CTA_SIZE * 2;
@@ -714,24 +716,31 @@ void radixSort(uint *keys,
                uint numElements, 
                uint keyBits,
                bool manualCoalesce,
-               const PreProcess&  preprocess,
-               const PostProcess& postprocess)
+               PreProcess  preprocess,
+               PostProcess postprocess)
 {
-#define RS_KeyValue(bit,pre,post)                                            \
-    if (keyBits > (bit))                                                     \
-        radixSortStep<4,(bit)>(keys, values, tempKeys, tempValues,           \
-                               counters, countersSum, blockOffsets,          \
-                               numElements, manualCoalesce,                  \
-                               (pre), (post))                                
+#define RS_KeyValue(bit,pre)                                                                  \
+    if (bit + 4 < keyBits)                                                                    \
+        radixSortStep<4,(bit)>(keys, values, tempKeys, tempValues,                            \
+                               counters, countersSum, blockOffsets,                           \
+                               numElements, manualCoalesce,                                   \
+                               pre,                                                           \
+                               thrust::identity<uint>());                                     \
+    else if (bit < keyBits)                                                                   \
+        radixSortStep<4,(bit)>(keys, values, tempKeys, tempValues,                            \
+                               counters, countersSum, blockOffsets,                           \
+                               numElements, manualCoalesce,                                   \
+                               pre,                                                           \
+                               postprocess);
 
-    RS_KeyValue( 0, preprocess,                thrust::identity<uint>());
-    RS_KeyValue( 4, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyValue( 8, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyValue(12, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyValue(16, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyValue(20, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyValue(24, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyValue(28, thrust::identity<uint>(), postprocess              );
+    RS_KeyValue( 0, preprocess);
+    RS_KeyValue( 4, thrust::identity<uint>());
+    RS_KeyValue( 8, thrust::identity<uint>());
+    RS_KeyValue(12, thrust::identity<uint>());
+    RS_KeyValue(16, thrust::identity<uint>());
+    RS_KeyValue(20, thrust::identity<uint>());
+    RS_KeyValue(24, thrust::identity<uint>());
+    RS_KeyValue(28, thrust::identity<uint>());
 
 #undef RS_KeyValue
 
@@ -799,7 +808,7 @@ __device__ void radixSortBlockKeysOnly(uint4 &key)
 // independently, sorting on the basis of bits (startbit) -> (startbit + nbits)
 //----------------------------------------------------------------------------
 template<uint nbits, uint startbit, bool fullBlocks, class PreProcess>
-__global__ void radixSortBlocksKeysOnly(uint4* keysOut, uint4* keysIn, uint numElements, uint startBlock, const PreProcess preprocess)
+__global__ void radixSortBlocksKeysOnly(uint4* keysOut, uint4* keysIn, uint numElements, uint startBlock, PreProcess preprocess)
 {
     extern __shared__ uint4 sMem[];
 
@@ -884,7 +893,7 @@ __global__ void reorderDataKeysOnly(uint  *outKeys,
                                     uint   numElements,
                                     uint   totalBlocks,
                                     uint   startBlock,
-                                    const PostProcess postprocess)
+                                    PostProcess postprocess)
 {
     __shared__ uint2 sKeys2[RadixSort::CTA_SIZE];
     __shared__ uint sOffsets[16];
@@ -993,8 +1002,8 @@ void radixSortStepKeysOnly(uint *keys,
                            uint *blockOffsets, 
                            uint numElements, 
                            bool manualCoalesce,
-                           const PreProcess&  preprocess,
-                           const PostProcess& postprocess)
+                           PreProcess  preprocess,
+                           PostProcess postprocess)
 {
     const uint eltsPerBlock = RadixSort::CTA_SIZE * 4;
     const uint eltsPerBlock2 = RadixSort::CTA_SIZE * 2;
@@ -1105,24 +1114,31 @@ void radixSortKeysOnly(uint *keys,
                        uint numElements, 
                        uint keyBits,
                        bool manualCoalesce,
-                       const PreProcess&  preprocess,
-                       const PostProcess& postprocess)
+                       PreProcess  preprocess,
+                       PostProcess postprocess)
 {
-#define RS_KeyOnly(bit,pre,post)                                                     \
-    if (keyBits > (bit))                                                             \
-        radixSortStepKeysOnly<4,(bit)>(keys, tempKeys,                               \
-                                       counters, countersSum, blockOffsets,          \
-                                       numElements, manualCoalesce,                  \
-                                       (pre), (post))                                
+#define RS_KeyOnly(bit,pre)                                                                           \
+    if (bit + 4 < keyBits)                                                                            \
+        radixSortStepKeysOnly<4,(bit)>(keys, tempKeys,                                                \
+                                       counters, countersSum, blockOffsets,                           \
+                                       numElements, manualCoalesce,                                   \
+                                       pre,                                                           \
+                                       thrust::identity<uint>());                                     \
+    else if (bit < keyBits)                                                                           \
+        radixSortStepKeysOnly<4,(bit)>(keys, tempKeys,                                                \
+                                       counters, countersSum, blockOffsets,                           \
+                                       numElements, manualCoalesce,                                   \
+                                       pre,                                                           \
+                                       postprocess);
 
-    RS_KeyOnly( 0, preprocess,                thrust::identity<uint>());
-    RS_KeyOnly( 4, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyOnly( 8, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyOnly(12, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyOnly(16, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyOnly(20, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyOnly(24, thrust::identity<uint>(), thrust::identity<uint>());
-    RS_KeyOnly(28, thrust::identity<uint>(), postprocess              );
+    RS_KeyOnly( 0, preprocess);
+    RS_KeyOnly( 4, thrust::identity<uint>());
+    RS_KeyOnly( 8, thrust::identity<uint>());
+    RS_KeyOnly(12, thrust::identity<uint>());
+    RS_KeyOnly(16, thrust::identity<uint>());
+    RS_KeyOnly(20, thrust::identity<uint>());
+    RS_KeyOnly(24, thrust::identity<uint>());
+    RS_KeyOnly(28, thrust::identity<uint>());
 
 #undef RS_KeyOnly
 
@@ -1152,44 +1168,18 @@ bool radix_sort_use_manual_coalescing(void)
 
 
 
-template <class PreProcess>
-unsigned int determine_keyBits(const unsigned int * keys,
-                               const unsigned int numElements,
-                               const PreProcess& preprocess)
-{
-    unsigned int max_val = thrust::transform_reduce(thrust::device_ptr<const unsigned int>(keys),
-                                                     thrust::device_ptr<const unsigned int>(keys + numElements),
-                                                     preprocess,
-                                                     (unsigned int) 0,
-                                                     thrust::maximum<unsigned int>());
-
-    // compute index of most significant bit
-    unsigned int keyBits = 0;     
-    while(max_val){
-        keyBits++;
-        max_val >>= 1;
-    }
-
-    return keyBits;
-}
-
-
-
 template <class PreProcess, class PostProcess>
 void radix_sort(unsigned int * keys, 
                 unsigned int numElements, 
-                const PreProcess& preprocess,
-                const PostProcess& postprocess,
+                PreProcess preprocess,
+                PostProcess postprocess,
                 unsigned int keyBits = UINT_MAX)
 {
-    //determine number of keyBits dynamically 
-    if (keyBits == UINT_MAX)
-        keyBits = determine_keyBits(keys, numElements, preprocess);
-
-    if (keyBits == 0)
+    if (numElements == 0 || keyBits == 0)
         return;
 
-    if (!thrust::detail::util::is_aligned(keys, sizeof(uint4))) {
+    if (!thrust::detail::util::is_aligned(keys, sizeof(uint4)))
+    {
         // keys is misaligned, copy to temp array and try again
         thrust::detail::raw_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
                                                                      thrust::device_ptr<unsigned int>(keys) + numElements);
@@ -1210,13 +1200,24 @@ void radix_sort(unsigned int * keys,
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
 
+    unsigned int min_value = 0;
+
+    if (keyBits == UINT_MAX)
+    {
+        //determine number of keyBits dynamically 
+        thrust::pair<unsigned int, unsigned int> minmax_value = compute_minmax(keys, numElements, preprocess);
+        keyBits = compute_keyBits(minmax_value);
+        min_value = minmax_value.first;
+    }
+
     radixSortKeysOnly(keys,
                       thrust::raw_pointer_cast(&temp_keys[0]), 
                       thrust::raw_pointer_cast(&counters[0]),
                       thrust::raw_pointer_cast(&histogram[0]),
                       thrust::raw_pointer_cast(&block_offsets[0]),
                       numElements, keyBits, manualCoalesce,
-                      preprocess, postprocess);
+                      modified_preprocess<PreProcess, unsigned int>(preprocess, min_value),
+                      modified_postprocess<PostProcess, unsigned int>(postprocess, min_value));
 }
 
 
@@ -1225,18 +1226,15 @@ template <class PreProcess, class PostProcess>
 void radix_sort_by_key(unsigned int * keys, 
                        unsigned int * values, 
                        unsigned int numElements, 
-                       const PreProcess& preprocess,
-                       const PostProcess& postprocess,
+                       PreProcess preprocess,
+                       PostProcess postprocess,
                        unsigned int keyBits = UINT_MAX)
 {
-    //determine number of keyBits dynamically 
-    if (keyBits == UINT_MAX)
-        keyBits = determine_keyBits(keys, numElements, preprocess);
-    
-    if (keyBits == 0)
+    if (numElements == 0 || keyBits == 0)
         return;
-    
-    if (!thrust::detail::util::is_aligned(keys, sizeof(uint4))) {
+
+    if (!thrust::detail::util::is_aligned(keys, sizeof(uint4)))
+    {
         // keys is misaligned, copy to temp array and try again
         thrust::detail::raw_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
                                                                      thrust::device_ptr<unsigned int>(keys) + numElements);
@@ -1248,7 +1246,8 @@ void radix_sort_by_key(unsigned int * keys,
         return;
     }
     
-    if (!thrust::detail::util::is_aligned(values, sizeof(uint4))) {
+    if (!thrust::detail::util::is_aligned(values, sizeof(uint4)))
+    {
         // values is misaligned, copy to temp array and try again
         thrust::detail::raw_device_buffer<unsigned int> aligned_values(thrust::device_ptr<unsigned int>(values),
                                                                        thrust::device_ptr<unsigned int>(values) + numElements);
@@ -1259,7 +1258,7 @@ void radix_sort_by_key(unsigned int * keys,
 
         return;
     }
-
+    
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
 
     thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
@@ -1269,6 +1268,16 @@ void radix_sort_by_key(unsigned int * keys,
     thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::WARP_SIZE * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
+    
+    unsigned int min_value = 0;
+
+    if (keyBits == UINT_MAX)
+    {
+        //determine number of keyBits dynamically 
+        thrust::pair<unsigned int, unsigned int> minmax_value = compute_minmax(keys, numElements, preprocess);
+        keyBits = compute_keyBits(minmax_value);
+        min_value = minmax_value.first;
+    }
 
     radixSort(keys, values,
               thrust::raw_pointer_cast(&temp_keys[0]), 
@@ -1277,20 +1286,16 @@ void radix_sort_by_key(unsigned int * keys,
               thrust::raw_pointer_cast(&histogram[0]),
               thrust::raw_pointer_cast(&block_offsets[0]),
               numElements, keyBits, manualCoalesce,
-              preprocess, postprocess);
+              modified_preprocess<PreProcess, unsigned int>(preprocess, min_value),
+              modified_postprocess<PostProcess, unsigned int>(postprocess, min_value));
 }
 #undef BLOCKING
 
-
 } // end namespace cuda
-
 } // end namespace device
-
-} // end sorting detail
-
-} // end sorting sorting
-
-} // end sorting thrust
+} // end namespace detail
+} // end namespace sorting
+} // end namespace thrust
 
 #endif // __CUDACC__
 
