@@ -1,5 +1,7 @@
 #include <thrusttest/unittest.h>
 #include <thrust/scatter.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/sequence.h>
 
 template <class Vector>
 void TestScatterSimple(void)
@@ -52,13 +54,70 @@ void TestScatterFromHostToDevice(void)
     // with map on the host
     thrust::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
 
+    ASSERT_EQUAL(result, dst);
+
     // clear the destination vector
     thrust::fill(dst.begin(), dst.end(), (int) 0);
     
     // with map on the device
     thrust::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
+
+    ASSERT_EQUAL(result, dst);
 }
 DECLARE_UNITTEST(TestScatterFromHostToDevice);
+
+
+void TestScatterFromAnyToDevice(void)
+{
+    // scatter indices
+    thrust::host_vector<int> h_map(5);
+    h_map[0] = 6; h_map[1] = 3; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
+    thrust::device_vector<int> d_map = h_map;
+
+    // destination vector
+    thrust::device_vector<int> dst(8, (int) 0);
+
+    // expected result
+    thrust::device_vector<int> result = dst;
+    result[1] = 2;
+    result[2] = 4;
+    result[3] = 1;
+    result[7] = 3;
+
+    // with map on the host
+    thrust::scatter(thrust::make_counting_iterator(0),
+                    thrust::make_counting_iterator(5),
+                    h_map.begin(), dst.begin());
+
+    ASSERT_EQUAL(result, dst);
+
+
+    // clear the destination vector
+    thrust::fill(dst.begin(), dst.end(), (int) 0);
+
+    // with map on the device
+    thrust::scatter(thrust::make_counting_iterator(0),
+                    thrust::make_counting_iterator(5),
+                    d_map.begin(), dst.begin());
+
+    ASSERT_EQUAL(result, dst);
+
+
+    // clear the destination vector
+    thrust::fill(dst.begin(), dst.end(), 0);
+
+    result = dst;
+    thrust::sequence(result.begin(), result.begin() + 5);
+
+    // with an any map
+    thrust::scatter(thrust::make_counting_iterator(0),
+                    thrust::make_counting_iterator(5),
+                    thrust::make_counting_iterator(0),
+                    dst.begin());
+
+    ASSERT_EQUAL(result, dst);
+}
+DECLARE_UNITTEST(TestScatterFromAnyToDevice);
 
 
 void TestScatterFromDeviceToHost(void)
@@ -92,6 +151,59 @@ void TestScatterFromDeviceToHost(void)
     thrust::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
 }
 DECLARE_UNITTEST(TestScatterFromDeviceToHost);
+
+
+void TestScatterFromAnyToHost(void)
+{
+    // scatter indices
+    thrust::host_vector<int> h_map(5);
+    h_map[0] = 6; h_map[1] = 3; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
+    thrust::device_vector<int> d_map = h_map;
+
+    // destination vector
+    thrust::host_vector<int> dst(8, (int) 0);
+
+    // expected result
+    thrust::host_vector<int> result = dst;
+    result[1] = 2;
+    result[2] = 4;
+    result[3] = 1;
+    result[7] = 3;
+
+    // with map on the host
+    thrust::scatter(thrust::make_counting_iterator(0),
+                    thrust::make_counting_iterator(5),
+                    h_map.begin(), dst.begin());
+
+    ASSERT_EQUAL(result, dst);
+
+
+    // clear the destination vector
+    thrust::fill(dst.begin(), dst.end(), (int) 0);
+
+    // with map on the device
+    thrust::scatter(thrust::make_counting_iterator(0),
+                    thrust::make_counting_iterator(5),
+                    d_map.begin(), dst.begin());
+
+    ASSERT_EQUAL(result, dst);
+
+
+    // clear the destination vector
+    thrust::fill(dst.begin(), dst.end(), 0);
+
+    result = dst;
+    thrust::sequence(result.begin(), result.begin() + 5);
+
+    // with an any map
+    thrust::scatter(thrust::make_counting_iterator(0),
+                    thrust::make_counting_iterator(5),
+                    thrust::make_counting_iterator(0),
+                    dst.begin());
+
+    ASSERT_EQUAL(result, dst);
+}
+DECLARE_UNITTEST(TestScatterFromAnyToHost);
 
 
 

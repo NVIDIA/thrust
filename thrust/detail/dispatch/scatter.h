@@ -63,6 +63,21 @@ template<typename InputIterator1,
 
 template<typename InputIterator1,
          typename InputIterator2,
+         typename RandomAccessIterator>
+  void scatter(InputIterator1 first,
+               InputIterator1 last,
+               InputIterator2 map,
+               RandomAccessIterator output,
+               thrust::any_space_tag,
+               thrust::host_space_tag,
+               thrust::host_space_tag)
+{
+    thrust::detail::host::scatter(first, last, map, output);
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
@@ -92,6 +107,21 @@ template<typename InputIterator1,
                InputIterator2 map,
                RandomAccessIterator output,
                thrust::device_space_tag,
+               thrust::device_space_tag,
+               thrust::device_space_tag)
+{
+    thrust::detail::device::scatter(first, last, map, output);
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator>
+  void scatter(InputIterator1 first,
+               InputIterator1 last,
+               InputIterator2 map,
+               RandomAccessIterator output,
+               thrust::any_space_tag,
                thrust::device_space_tag,
                thrust::device_space_tag)
 {
