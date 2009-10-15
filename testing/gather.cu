@@ -2,6 +2,8 @@
 #include <thrust/gather.h>
 
 #include <thrust/fill.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/sequence.h>
 
 template <class Vector>
 void TestGatherSimple(void)
@@ -201,4 +203,44 @@ void TestGatherIf(const size_t n)
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestGatherIf);
+
+
+template <typename Vector>
+void TestGatherCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector source(10);
+    thrust::sequence(source.begin(), source.end(), 0);
+
+    Vector map(10);
+    thrust::sequence(map.begin(), map.end(), 0);
+
+    Vector output(10);
+
+    // source has any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::gather(output.begin(), output.end(),
+                   map.begin(),
+                   thrust::make_counting_iterator(0));
+
+    ASSERT_EQUAL(output, map);
+    
+    // map has any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::gather(output.begin(), output.end(),
+                   thrust::make_counting_iterator(0),
+                   source.begin());
+
+    ASSERT_EQUAL(output, map);
+    
+    // source and map have any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::gather(output.begin(), output.end(),
+                   thrust::make_counting_iterator(0),
+                   thrust::make_counting_iterator(0));
+
+    ASSERT_EQUAL(output, map);
+}
+DECLARE_VECTOR_UNITTEST(TestGatherCountingIterator);
 
