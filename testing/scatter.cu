@@ -3,6 +3,9 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/sequence.h>
 
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/sequence.h>
+
 template <class Vector>
 void TestScatterSimple(void)
 {
@@ -294,4 +297,88 @@ void TestScatterIf(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestScatterIf);
 
+
+template <typename Vector>
+void TestScatterCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector source(10);
+    thrust::sequence(source.begin(), source.end(), 0);
+
+    Vector map(10);
+    thrust::sequence(map.begin(), map.end(), 0);
+
+    Vector output(10);
+
+    // source has any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::scatter(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
+                    map.begin(),
+                    output.begin());
+
+    ASSERT_EQUAL(output, map);
+    
+    // map has any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::scatter(source.begin(), source.end(),
+                    thrust::make_counting_iterator(0),
+                    output.begin());
+
+    ASSERT_EQUAL(output, map);
+    
+    // source and map have any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::scatter(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
+                    thrust::make_counting_iterator(0),
+                    output.begin());
+
+    ASSERT_EQUAL(output, map);
+}
+DECLARE_VECTOR_UNITTEST(TestScatterCountingIterator);
+
+
+template <typename Vector>
+void TestScatterIfCountingIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector source(10);
+    thrust::sequence(source.begin(), source.end(), 0);
+
+    Vector map(10);
+    thrust::sequence(map.begin(), map.end(), 0);
+    
+    Vector stencil(10, 1);
+
+    Vector output(10);
+
+    // source has any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::scatter_if(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
+                       map.begin(),
+                       stencil.begin(),
+                       output.begin());
+
+    ASSERT_EQUAL(output, map);
+    
+    // map has any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::scatter_if(source.begin(), source.end(),
+                       thrust::make_counting_iterator(0),
+                       stencil.begin(),
+                       output.begin());
+
+    ASSERT_EQUAL(output, map);
+    
+    // source and map have any_space_tag
+    thrust::fill(output.begin(), output.end(), 0);
+    thrust::scatter_if(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
+                       thrust::make_counting_iterator(0),
+                       stencil.begin(),
+                       output.begin());
+
+    ASSERT_EQUAL(output, map);
+}
+DECLARE_VECTOR_UNITTEST(TestScatterIfCountingIterator);
 
