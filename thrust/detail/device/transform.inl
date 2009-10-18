@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include <thrust/detail/device/cuda/vectorize.h>
-#include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/for_each.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
@@ -41,10 +39,6 @@ template<typename InputIterator, typename UnaryFunction> void for_each(InputIter
 
 namespace detail
 {
-
-//////////////    
-// Functors //
-//////////////    
 
 template <typename UnaryFunction>
 struct unary_transform_functor

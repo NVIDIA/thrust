@@ -22,11 +22,7 @@
 #pragma once
 
 #include <thrust/distance.h>
-#include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/device/cuda/vectorize.h>
-#include <thrust/detail/device/dereference.h>
-#include <thrust/utility.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
