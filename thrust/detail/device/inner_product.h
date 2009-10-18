@@ -21,37 +21,36 @@
 
 #pragma once
 
-#include <thrust/detail/device/cuda/reduce.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/iterator/transform_iterator.h>
+
+#include <thrust/detail/device/reduce.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace detail
 {
 
-template <typename InputIterator1, typename InputIterator2, typename OutputType, typename BinaryFunction2>
+// given a tuple (x,y) return binary_op2(x,y)
+template <typename OutputType, typename BinaryFunction2>
 struct inner_product_functor
 {
-  InputIterator1 first1;
-  InputIterator2 first2;
-  BinaryFunction2 binary_op2;
+    typedef OutputType result_type;
+    BinaryFunction2 binary_op2;
 
-  inner_product_functor(InputIterator1 _first1, InputIterator2 _first2, BinaryFunction2 _binary_op2) 
-    : first1(_first1), first2(_first2), binary_op2(_binary_op2) {}
+    inner_product_functor(BinaryFunction2 _binary_op2) 
+        : binary_op2(_binary_op2) {}
 
-  template <typename IntegerType>
-      __device__
-      OutputType operator[](const IntegerType& i)
-      { 
-          return binary_op2(thrust::detail::device::dereference(first1, i), thrust::detail::device::dereference(first2, i));
-      }
+    template <typename TupleType>
+        __device__
+        OutputType operator()(TupleType t)
+        { 
+            return binary_op2(thrust::get<0>(t), thrust::get<1>(t));
+        }
 }; // end inner_product_functor
 
 } // end namespace detail
@@ -63,16 +62,18 @@ template <typename InputIterator1, typename InputIterator2, typename OutputType,
                   InputIterator2 first2, OutputType init, 
                   BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)
 {
-    detail::inner_product_functor<InputIterator1, InputIterator2, OutputType, BinaryFunction2> 
-        func(first1, first2, binary_op2);
+    detail::inner_product_functor<OutputType, BinaryFunction2> func(binary_op2);
 
-    return thrust::detail::device::cuda::reduce(func, last1 - first1, init, binary_op1);
+    InputIterator2 last2 = first2 + (last1 - first1);
+
+    return thrust::detail::device::reduce(
+            thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(first1, first2)), func),
+            thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(last1, last2)), func),
+            init,
+            binary_op1);
 }
 
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
-
 
