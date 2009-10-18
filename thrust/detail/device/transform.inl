@@ -23,7 +23,7 @@
 
 #include <thrust/detail/device/cuda/vectorize.h>
 #include <thrust/detail/device/dereference.h>
-#include <thrust/for_each.h>
+#include <thrust/detail/device/for_each.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 
@@ -35,6 +35,9 @@ namespace detail
 
 namespace device
 {
+
+// WAR circular #inclusion with forward declaration of for_each 
+template<typename InputIterator, typename UnaryFunction> void for_each(InputIterator, InputIterator, UnaryFunction);
 
 namespace detail
 {
