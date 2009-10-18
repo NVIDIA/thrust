@@ -40,22 +40,15 @@ namespace device
 namespace detail
 {
 
-template <typename ForwardIterator1, typename ForwardIterator2>
-struct swap_ranges_functor
+struct swap_pair_elements
 {
-    ForwardIterator1 first1;
-    ForwardIterator2 first2;
-
-    swap_ranges_functor(ForwardIterator1 _first1, ForwardIterator2 _first2)
-        : first1(_first1), first2(_first2) {}
-
-    template <typename IntegerType>
-        __device__
-        void operator()(const IntegerType i)
-        { 
-            thrust::swap(thrust::detail::device::dereference(first1, i), thrust::detail::device::dereference(first2, i));
-        }
-}; // end swap_ranges_functor
+  template <typename Pair>
+  __device__
+  void operator()(Pair t)
+  { 
+    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end swap_pair_elements
 
 } // end namespace detail
 
@@ -66,11 +59,11 @@ template<typename ForwardIterator1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-    detail::swap_ranges_functor<ForwardIterator1,ForwardIterator2> func(first1, first2);
+  thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1, first2)),
+                                   thrust::make_zip_iterator(thrust::make_tuple(last1,  first2 + thrust::distance(first1, last1))),
+                                   detail::swap_pair_elements());
 
-    thrust::detail::device::cuda::vectorize(last1 - first1, func);
-
-    return first2 + thrust::distance(first1, last1);
+  return first2 + thrust::distance(first1, last1);
 }
 
 } // end namespace device
