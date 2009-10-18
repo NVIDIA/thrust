@@ -26,10 +26,10 @@
 /////////////////////
 
 #include <thrust/detail/util/align.h>
-#include <thrust/detail/device/dereference.h>
-#include <thrust/detail/device/cuda/vectorize.h>
+#include <thrust/detail/device/generate.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/extrema.h>
 
 namespace thrust
 {
@@ -43,21 +43,19 @@ namespace device
 namespace detail
 {
 
-template <typename ForwardIterator, typename T>
+template <typename T>
 struct fill_functor
 {
-    ForwardIterator first;
-    T exemplar;
+  T exemplar;
 
-    fill_functor(ForwardIterator _first, T _exemplar) 
-        : first(_first), exemplar(_exemplar) {}
+  fill_functor(T _exemplar) 
+    : exemplar(_exemplar) {}
 
-    template <typename IntegerType>
-        __device__
-        void operator()(const IntegerType i)
-        { 
-            thrust::detail::device::dereference(first, i) = exemplar;
-        }
+  __device__
+  T operator()(void)
+  { 
+    return exemplar;
+  }
 }; // end fill_functor
 
 
@@ -66,26 +64,24 @@ template<typename OutputType, typename T>
                  OutputType * last,
                  const T &exemplar)
 {
-    typedef unsigned long long WideType; // type used to pack the Ts
+  typedef unsigned long long WideType; // type used to pack the Ts
 
-    size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
+  size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
 
-    size_t n = last - first;
+  size_t n = last - first;
 
-    WideType wide_exemplar;
-    for(int i = 0; i < sizeof(WideType)/sizeof(T); i++)
-        reinterpret_cast<T *>(&wide_exemplar)[i] = exemplar;
+  WideType wide_exemplar;
+  for(int i = 0; i < sizeof(WideType)/sizeof(T); i++)
+      reinterpret_cast<T *>(&wide_exemplar)[i] = exemplar;
 
-    OutputType * block_first = std::min(first + n,   thrust::detail::util::align_up(first, ALIGNMENT_BOUNDARY));
-    OutputType * block_last  = std::max(block_first, thrust::detail::util::align_down(last, sizeof(WideType)));
+  OutputType * block_first = thrust::min(first + n,   thrust::detail::util::align_up(first, ALIGNMENT_BOUNDARY));
+  OutputType * block_last  = thrust::max(block_first, thrust::detail::util::align_down(last, sizeof(WideType)));
 
-    size_t pass1 = block_first - first;
-    size_t pass2 = (block_last - block_first) / (sizeof(WideType) / sizeof(T));
-    size_t pass3 = last - block_last;
-
-    thrust::detail::device::cuda::vectorize(pass1, detail::fill_functor<OutputType *, T       >(first, exemplar));
-    thrust::detail::device::cuda::vectorize(pass2, detail::fill_functor<WideType  *, WideType>((WideType *) block_first, wide_exemplar));
-    thrust::detail::device::cuda::vectorize(pass3, detail::fill_functor<OutputType *, T       >(block_last, exemplar));
+  thrust::detail::device::generate(first, block_first, fill_functor<OutputType>(exemplar));
+  thrust::detail::device::generate(reinterpret_cast<WideType*>(block_first),
+                                   reinterpret_cast<WideType*>(block_last),
+                                   fill_functor<WideType>(wide_exemplar));
+  thrust::detail::device::generate(block_last, last, fill_functor<OutputType>(exemplar));
 }
 
 template<typename ForwardIterator, typename T>
@@ -94,8 +90,8 @@ template<typename ForwardIterator, typename T>
             const T &exemplar,
             thrust::detail::false_type)
 {
-    detail::fill_functor<ForwardIterator, T> func(first, exemplar); 
-    thrust::detail::device::cuda::vectorize(last - first, func);
+  detail::fill_functor<T> func(exemplar); 
+  thrust::detail::device::generate(first, last, func);
 }
 
 template<typename ForwardIterator, typename T>
@@ -129,6 +125,7 @@ template<typename ForwardIterator, typename T>
 
   // we're compiling with nvcc, launch a kernel
   const bool use_wide_fill = thrust::detail::is_trivial_iterator<ForwardIterator>::value
+      && thrust::detail::has_trivial_copy<OutputType>::value
       && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
   detail::fill(first, last, exemplar, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
