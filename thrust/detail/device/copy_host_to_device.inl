@@ -82,7 +82,7 @@ template<typename InputIterator,
   // what is the output type?
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-  trivial_copy_host_to_device(raw_pointer_cast(&*result), raw_pointer_cast(&*begin),  n * sizeof(OutputType));
+  thrust::detail::device::trivial_copy_host_to_device(raw_pointer_cast(&*result), raw_pointer_cast(&*begin),  n * sizeof(OutputType));
 
   return result + n;
 }
