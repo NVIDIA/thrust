@@ -21,10 +21,7 @@
 
 #pragma once
 
-#include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/device/dereference.h>
-#include <thrust/detail/device/cuda/vectorize.h>
+#include <thrust/detail/device/for_each.h>
 
 namespace thrust
 {
@@ -38,22 +35,20 @@ namespace device
 namespace detail
 {
 
-template<typename ForwardIterator,
-         typename Generator>
+template<typename Generator>
 struct generate_functor
 {
-  ForwardIterator first;
   Generator gen;
 
-  generate_functor(ForwardIterator _first, Generator _gen)
-    : first(_first), gen(_gen){}
+  generate_functor(Generator _gen)
+    : gen(_gen){}
 
-  template<typename IntegerType>
-      __device__
-      void operator()(IntegerType i)
-      {
-          thrust::detail::device::dereference(first, i) = gen();
-      }
+  template<typename T>
+  __device__
+  void operator()(T &x)
+  {
+    x = gen();
+  }
 }; // end generate_functor
   
 } // end namespace detail
@@ -65,8 +60,8 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-    detail::generate_functor<ForwardIterator, Generator> f(first, gen);
-    thrust::detail::device::cuda::vectorize(last - first, f);
+  detail::generate_functor<Generator> f(gen);
+  thrust::detail::device::for_each(first, last, f);
 } // end generate()
 
 } // end namespace device
