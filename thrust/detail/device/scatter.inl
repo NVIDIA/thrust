@@ -21,9 +21,11 @@
 
 #pragma once
 
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/cuda/vectorize.h>
 #include <thrust/detail/device/dereference.h>
+#include <thrust/detail/device/for_each.h>
+#include <thrust/tuple.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/distance.h>
 
 namespace thrust
 {
@@ -34,53 +36,46 @@ namespace detail
 namespace device
 {
 
+// XXX WAR circluar #inclusion with this forward declaration
+template<typename InputIterator, typename UnaryFunction> void for_each(InputIterator, InputIterator, UnaryFunction);
+
 namespace detail
 {
 
-//////////////
-// Functors //
-//////////////
-template <typename InputIterator1, typename InputIterator2, typename RandomAccessIterator>
+
+template <typename RandomAccessIterator>
 struct scatter_functor
 {
-    InputIterator1 first;
-    InputIterator2 map;
-    RandomAccessIterator output;
+  RandomAccessIterator output;
 
-    scatter_functor(InputIterator1 _first, InputIterator2 _map, RandomAccessIterator _output) 
-        : first(_first), map(_map), output(_output) {}
+  scatter_functor(RandomAccessIterator _output) 
+    : output(_output) {}
   
-    template <typename IntegerType>
-        __device__
-        void operator()(const IntegerType& i)
-        { 
-            //output[map[i]] = input[i];
-            thrust::detail::device::dereference(output, thrust::detail::device::dereference(map, i)) = thrust::detail::device::dereference(first, i); 
-        }
+  template <typename Tuple>
+  __device__
+  void operator()(Tuple t)
+  { 
+    thrust::detail::device::dereference(output, thrust::get<1>(t)) = thrust::get<0>(t); 
+  }
 }; // end scatter_functor
 
 
-template <typename InputIterator1, typename InputIterator2, typename InputIterator3, typename RandomAccessIterator, typename Predicate>
+template <typename RandomAccessIterator, typename Predicate>
 struct scatter_if_functor
 {
-    InputIterator1 first;
-    InputIterator2 map;
-    InputIterator3 stencil;
-    RandomAccessIterator output;
-    Predicate pred;
+  RandomAccessIterator output;
+  Predicate pred;
 
-    scatter_if_functor(InputIterator1 _first, InputIterator2 _map, InputIterator3 _stencil, RandomAccessIterator _output, Predicate _pred)
-        : first(_first), map(_map), stencil(_stencil), output(_output), pred(_pred) {}
+  scatter_if_functor(RandomAccessIterator _output, Predicate _pred)
+    : output(_output), pred(_pred) {}
   
-    template <typename IntegerType>
-        __device__
-        void operator()(const IntegerType& i)
-        { 
-            //if(pred(stencil[i]))
-            //    output[map[i]] = input[i];
-            if(pred(thrust::detail::device::dereference(stencil, i)))
-                thrust::detail::device::dereference(output, thrust::detail::device::dereference(map, i)) = thrust::detail::device::dereference(first, i); 
-        }
+  template <typename Tuple>
+  __device__
+  void operator()(Tuple t)
+  { 
+    if(pred(thrust::get<2>(t)))
+      thrust::detail::device::dereference(output, thrust::get<1>(t)) = thrust::get<0>(t); 
+  }
 }; // end scatter_if_functor
 
 } // end detail
@@ -94,8 +89,10 @@ template<typename InputIterator1,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-    detail::scatter_functor<InputIterator1, InputIterator2, RandomAccessIterator> func(first, map, output);
-    thrust::detail::device::cuda::vectorize(last - first, func);
+  detail::scatter_functor<RandomAccessIterator> func(output);
+  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first, map)),
+                                   thrust::make_zip_iterator(make_tuple(last,  map + thrust::distance(first, last))),
+                                   func);
 } // end scatter()
 
 
@@ -111,8 +108,10 @@ template<typename InputIterator1,
                   RandomAccessIterator output,
                   Predicate pred)
 {
-    detail::scatter_if_functor<InputIterator1, InputIterator2, InputIterator3, RandomAccessIterator, Predicate> func(first, map, stencil, output, pred);
-    thrust::detail::device::cuda::vectorize(last - first, func);
+  detail::scatter_if_functor<RandomAccessIterator, Predicate> func(output, pred);
+  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first, map, stencil)),
+                                   thrust::make_zip_iterator(make_tuple(last,  map + thrust::distance(first, last), stencil + thrust::distance(first, last))),
+                                   func);
 } // end scatter_if()
 
 
