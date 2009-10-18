@@ -27,6 +27,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/experimental/arch.h>
 #include <thrust/detail/device/dereference.h>
+#include <thrust/detail/device/cuda/launch_closure.h>
 
 namespace thrust
 {
@@ -40,24 +41,39 @@ namespace device
 namespace cuda
 {
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename UnaryFunction>
-__global__             
-void for_each_kernel(InputIterator first,
-                     InputIterator last,
-                     UnaryFunction f)
+  struct for_each_n_closure
 {
-    typedef typename thrust::iterator_traits<InputIterator>::difference_type IndexType;
-    
-    const IndexType grid_size = blockDim.x * gridDim.x;
-    
-    first += blockIdx.x * blockDim.x + threadIdx.x;
+  typedef void result_type;
 
-    while (first < last){
-        f(thrust::detail::device::dereference(first));
-        first += grid_size;
+  RandomAccessIterator first;
+  Size n;
+  UnaryFunction f;
+
+  for_each_n_closure(RandomAccessIterator first_,
+                     Size n_,
+                     UnaryFunction f_)
+    : first(first_),
+      n(n_),
+      f(f_)
+  {}
+
+  __device__
+  result_type operator()(void)
+  {
+    const Size grid_size = blockDim.x * gridDim.x;
+
+    Size i = blockIdx.x * blockDim.x + threadIdx.x;
+
+    while(i < n)
+    {
+      f(thrust::detail::device::dereference(first, i));
+      i += grid_size;
     }
-}
+  }
+};
 
 
 template<typename InputIterator,
@@ -66,13 +82,16 @@ void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f)
 {
-    if (first >= last) return;  //empty range
+  if (first >= last) return;  //empty range
 
-    const size_t BLOCK_SIZE = 256;
-    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
-    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( (last - first) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+  const size_t BLOCK_SIZE = 256;
+  const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
+  const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( (last - first) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
-    for_each_kernel<<<NUM_BLOCKS, BLOCK_SIZE>>>(first, last, f);
+  typedef for_each_n_closure<InputIterator, size_t, UnaryFunction> Closure;
+  Closure closure(first, last - first, f);
+
+  launch_closure(closure, NUM_BLOCKS, BLOCK_SIZE);
 } 
 
 
