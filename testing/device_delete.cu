@@ -6,10 +6,16 @@
 
 struct Foo
 {
+  __host__ __device__
+  Foo(void)
+    :set_me_upon_destruction(0)
+  {}
+
   __device__
   ~Foo(void)
   {
-    *set_me_upon_destruction = true;
+    if(set_me_upon_destruction != 0)
+      *set_me_upon_destruction = true;
   }
 
   bool *set_me_upon_destruction;
