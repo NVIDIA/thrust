@@ -22,8 +22,6 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
-#include <algorithm>
-
 #include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/cuda/launch_closure.h>
 
