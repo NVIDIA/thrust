@@ -39,6 +39,9 @@ namespace thrust
 namespace detail
 {
 
+// XXX WAR circluar #inclusion with this forward declaration
+template<typename> class raw_device_buffer;
+
 namespace device
 {
 

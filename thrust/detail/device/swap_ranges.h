@@ -22,7 +22,8 @@
 #pragma once
 
 #include <thrust/distance.h>
-#include <thrust/pair.h>
+#include <thrust/tuple.h>
+#include <thrust/utility.h>
 
 namespace thrust
 {
@@ -38,9 +39,9 @@ namespace detail
 
 struct swap_pair_elements
 {
-  template <typename Pair>
+  template <typename Tuple>
   __device__
-  void operator()(Pair t)
+  void operator()(Tuple t)
   { 
     thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
   }
