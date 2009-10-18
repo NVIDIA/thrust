@@ -15,12 +15,13 @@
  */
 
 
-/*! \file for_each.inl
- *  \brief Inline file for for_each.h.
- */
-
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
+
+#include <thrust/experimental/arch.h>
+#include <thrust/extrema.h>
+#include <thrust/detail/device/cuda/malloc.h>
+#include <thrust/detail/device/cuda/free.h>
 
 namespace thrust
 {
@@ -57,17 +58,27 @@ template<typename NullaryFunction,
          bool launch_by_value = sizeof(NullaryFunction) <= 256>
   struct closure_launcher
 {
-  static void launch(NullaryFunction f, size_t num_blocks, size_t block_size)
+  template<typename Size>
+  static void launch(NullaryFunction f, Size n)
   {
-    detail::launch_closure_by_value<<<num_blocks,block_size>>>(f);
+    const size_t BLOCK_SIZE = 256;
+    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
+    const size_t NUM_BLOCKS = thrust::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+
+    detail::launch_closure_by_value<<<NUM_BLOCKS,BLOCK_SIZE>>>(f);
   }
 };
 
 template<typename NullaryFunction>
   struct closure_launcher<NullaryFunction,false>
 {
-  static void launch(NullaryFunction f, size_t num_blocks, size_t block_size)
+  template<typename Size>
+  static void launch(NullaryFunction f, Size n)
   {
+    const size_t BLOCK_SIZE = 256;
+    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
+    const size_t NUM_BLOCKS = thrust::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+
     // allocate device memory for the argument
     thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc(sizeof(NullaryFunction));
 
@@ -78,7 +89,7 @@ template<typename NullaryFunction>
     *f_ptr = f;
 
     // launch
-    detail::launch_closure_by_pointer<<<num_blocks, block_size>>>(f_ptr.get());
+    detail::launch_closure_by_pointer<<<NUM_BLOCKS, BLOCK_SIZE>>>(f_ptr.get());
 
     // free device memory
     thrust::detail::device::cuda::free(temp_ptr);
@@ -88,10 +99,10 @@ template<typename NullaryFunction>
 } // end detail
 
 
-template<typename NullaryFunction, typename Size1, typename Size2>
-  void launch_closure(NullaryFunction f, Size1 num_blocks, Size2 block_size)
+template<typename NullaryFunction, typename Size>
+  void launch_closure(NullaryFunction f, Size n)
 {
-  detail::closure_launcher<NullaryFunction>::launch(f, num_blocks, block_size);
+  detail::closure_launcher<NullaryFunction>::launch(f, n);
 }
 
 

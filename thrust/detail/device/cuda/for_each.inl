@@ -24,8 +24,6 @@
 
 #include <algorithm>
 
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/experimental/arch.h>
 #include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/cuda/launch_closure.h>
 
@@ -84,14 +82,10 @@ void for_each(InputIterator first,
 {
   if (first >= last) return;  //empty range
 
-  const size_t BLOCK_SIZE = 256;
-  const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
-  const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( (last - first) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
-
   typedef for_each_n_closure<InputIterator, size_t, UnaryFunction> Closure;
   Closure closure(first, last - first, f);
 
-  launch_closure(closure, NUM_BLOCKS, BLOCK_SIZE);
+  launch_closure(closure, last - first);
 } 
 
 
