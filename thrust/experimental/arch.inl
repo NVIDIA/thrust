@@ -22,6 +22,8 @@
 #include <cassert>
 #include <string>
 
+#include <thrust/extrema.h>
+
 #include <thrust/experimental/arch.h>
 
 #include <thrust/detail/util/blocking.h>
@@ -175,7 +177,47 @@ size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const siz
     return num_multiprocessors(properties) * max_active_blocks_per_multiprocessor(properties, attributes, CTA_SIZE, dynamic_smem_bytes);
 }
 
+size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
+                                            const cudaFuncAttributes& attributes)
+{
+    size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
 
+    size_t largest_blocksize  = thrust::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t granularity        = 32;
+
+    size_t max_blocksize     = 0;
+    size_t highest_occupancy = 0;
+
+    for(size_t blocksize = largest_blocksize; blocksize != 0; blocksize -= granularity)
+    {
+        size_t occupancy = blocksize * max_active_blocks_per_multiprocessor(properties, attributes, blocksize, 0);
+
+        if (occupancy > highest_occupancy)
+        {
+            max_blocksize = blocksize;
+            highest_occupancy = occupancy;
+        }
+
+        // early out, can't do better
+        if (highest_occupancy == max_occupancy)
+            return max_blocksize;
+    }
+
+    return max_blocksize;
+}
+
+template <typename KernelFunction>
+size_t max_blocksize_with_highest_occupancy(KernelFunction kernel)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+
+    cudaFuncAttributes attributes;
+    cudaError_t err = cudaFuncGetAttributes(&attributes, kernel);
+    assert(err == cudaSuccess);
+
+    return max_blocksize_with_highest_occupancy(properties, attributes);
+}
 
 } // end namespace arch
 

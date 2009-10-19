@@ -117,5 +117,43 @@ void TestMaxActiveBlocks(void)
 }
 DECLARE_UNITTEST(TestMaxActiveBlocks);
 
+
+void TestMaxBlocksizeWithHighestOccupancy(void)
+{
+    cudaDeviceProp properties;
+    cudaFuncAttributes attributes;
+    
+    // Kernel #1 : Full Occupancy on all devices
+    set_func_attributes(attributes, 0, 0, 512, 10, 2048);
+    
+    set_G80(properties);   ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 384);
+    set_GT200(properties); ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 512);
+    
+    // Kernel #2 : 2/3rds Occupancy on G8x and 100% on GT200
+    set_func_attributes(attributes, 0, 0, 512, 16, 2048);
+
+    set_G80(properties);   ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 512);
+    set_GT200(properties); ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 512);
+    
+    // Kernel #3 : 50% Occupancy on G8x and 75% on GT200
+    set_func_attributes(attributes, 0, 0, 256, 20, 2048);
+    
+    set_G80(properties);   ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 192);
+    set_GT200(properties); ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 256);
+    
+    // Kernel #4 : 1/3rds Occupancy on G8x and 50% on GT200
+    set_func_attributes(attributes, 0, 0, 384, 26, 2048);
+    
+    set_G80(properties);   ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 256);
+    set_GT200(properties); ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 192);
+    
+    // Kernel #5 :100% Occupancy on G8x and GT200
+    set_func_attributes(attributes, 0, 0, 512, 10, 8192);
+    
+    set_G80(properties);   ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 384);
+    set_GT200(properties); ASSERT_EQUAL(max_blocksize_with_highest_occupancy(properties, attributes), 512);
+}
+DECLARE_UNITTEST(TestMaxBlocksizeWithHighestOccupancy);
+
 #endif // defined(__CUDACC__)
 

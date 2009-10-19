@@ -61,8 +61,8 @@ template<typename NullaryFunction,
   template<typename Size>
   static void launch(NullaryFunction f, Size n)
   {
-    const size_t BLOCK_SIZE = 256;
-    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
+    const size_t BLOCK_SIZE = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
+    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, BLOCK_SIZE, 0);
     const size_t NUM_BLOCKS = thrust::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
     detail::launch_closure_by_value<<<NUM_BLOCKS,BLOCK_SIZE>>>(f);
@@ -75,8 +75,8 @@ template<typename NullaryFunction>
   template<typename Size>
   static void launch(NullaryFunction f, Size n)
   {
-    const size_t BLOCK_SIZE = 256;
-    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
+    const size_t BLOCK_SIZE = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
+    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, BLOCK_SIZE, 0);
     const size_t NUM_BLOCKS = thrust::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
     // allocate device memory for the argument

@@ -84,6 +84,17 @@ inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp& propert
 template <typename KernelFunction>
 size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes);
 
+
+/*! This function returns the block size that achieves the highest
+ *  occupancy for a particular kernel & device.
+ *  NOTE: this function ignores dynamic shared memory!
+ */
+inline size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
+                                                   const cudaFuncAttributes& attributes);
+
+template <typename KernelFunction>
+size_t max_blocksize_with_highest_occupancy(KernelFunction kernel);
+
 }; // end arch
 
 }; // end experimental
