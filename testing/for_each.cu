@@ -74,3 +74,77 @@ void TestForEach(const size_t n)
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestForEach);
+
+
+template <size_t N> __host__ __device__ void f   (int * x) { int temp = *x; f<N - 1>(x + 1); *x = temp;};
+template <>         __host__ __device__ void f<0>(int * x) { }
+template <size_t N>
+struct CopyFunctorWithManyRegisters
+{
+    __host__ __device__
+    void operator()(int * ptr)
+    {
+        f<N>(ptr);
+    }
+};
+void TestForEachLargeRegisterFootprint()
+{
+    const size_t N = 100;
+
+    thrust::device_vector<int> data(N, 12345);
+
+    thrust::device_vector<int *> input(1, get_pointer(&data[0])); // length is irrelevant
+    
+    thrust::for_each(input.begin(), input.end(), CopyFunctorWithManyRegisters<N>());
+}
+DECLARE_UNITTEST(TestForEachLargeRegisterFootprint);
+
+
+template <typename T, unsigned int N>
+struct SetFixedVectorToConstant
+{
+    FixedVector<T,N> exemplar;
+
+    SetFixedVectorToConstant(T scalar) : exemplar(scalar) {} 
+
+    __host__ __device__
+    void operator()(FixedVector<T,N>& t)
+    {
+        t = exemplar;
+    }
+};
+template <typename T, unsigned int N>
+void _TestForEachWithLargeTypes(void)
+{
+    size_t n = (64 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector< FixedVector<T,N> > h_data(n);
+
+    for(size_t i = 0; i < h_data.size(); i++)
+        h_data[i] = FixedVector<T,N>(i);
+
+    thrust::device_vector< FixedVector<T,N> > d_data = h_data;
+   
+    SetFixedVectorToConstant<T,N> func(123);
+
+    thrust::for_each(h_data.begin(), h_data.end(), func);
+    thrust::for_each(d_data.begin(), d_data.end(), func);
+
+    ASSERT_EQUAL_QUIET(h_data, d_data);
+}
+void TestForEachWithLargeTypes(void)
+{
+    _TestForEachWithLargeTypes<int,    1>();
+    _TestForEachWithLargeTypes<int,    2>();
+    _TestForEachWithLargeTypes<int,    4>();
+    _TestForEachWithLargeTypes<int,    8>();
+    _TestForEachWithLargeTypes<int,   16>();
+    _TestForEachWithLargeTypes<int,   32>();
+    _TestForEachWithLargeTypes<int,   64>();
+    _TestForEachWithLargeTypes<int,  128>();
+    _TestForEachWithLargeTypes<int,  256>();
+    _TestForEachWithLargeTypes<int,  512>();
+    _TestForEachWithLargeTypes<int, 1024>();
+}
+DECLARE_UNITTEST(TestForEachWithLargeTypes);
+
