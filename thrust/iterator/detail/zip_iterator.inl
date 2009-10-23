@@ -128,7 +128,7 @@ namespace device
 {
 
 template<typename IteratorTuple>
-  inline __device__
+  inline __host__ __device__
     typename thrust::detail::iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
       dereference(thrust::zip_iterator<IteratorTuple> iter)
 {
@@ -138,7 +138,7 @@ template<typename IteratorTuple>
 }; // end dereference()
 
 template<typename IteratorTuple, typename IndexType>
-  inline __device__
+  inline __host__ __device__
     typename thrust::detail::iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
       dereference(thrust::zip_iterator<IteratorTuple> iter,
                   IndexType n)

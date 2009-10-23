@@ -39,6 +39,7 @@ struct minmax_transform
 
     minmax_transform(PreProcess _preprocess) : preprocess(_preprocess) {}
 
+    __host__ __device__
     thrust::pair<T,T>
         operator()(T value)
         {
@@ -49,6 +50,7 @@ struct minmax_transform
 template <typename T>
 struct minmax_reduction
 {
+    __host__ __device__
     thrust::pair<T,T>
         operator()(thrust::pair<T,T> a, thrust::pair<T,T> b)
         {
@@ -93,6 +95,7 @@ struct modified_preprocess
     modified_preprocess(PreProcess _preprocess, T _min_value)
         : preprocess(_preprocess), min_value(_min_value) {}
 
+    __host__ __device__
     T operator()(T x)
     {
         return preprocess(x) - min_value;
@@ -108,6 +111,7 @@ struct modified_postprocess
     modified_postprocess(PostProcess _postprocess, T _min_value)
         : postprocess(_postprocess), min_value(_min_value) {}
 
+    __host__ __device__
     T operator()(T x)
     {
         return postprocess(x + min_value);

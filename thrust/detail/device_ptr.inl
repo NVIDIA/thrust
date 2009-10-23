@@ -150,7 +150,7 @@ namespace device
 {
 
 template<typename T>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< device_ptr<T> >::type
       dereference(device_ptr<T> ptr)
 {
@@ -158,7 +158,7 @@ template<typename T>
 } // dereference
 
 template<typename T, typename IndexType>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< device_ptr<T> >::type
       dereference(thrust::device_ptr<T> ptr, IndexType n)
 {

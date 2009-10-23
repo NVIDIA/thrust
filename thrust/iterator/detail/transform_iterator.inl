@@ -101,7 +101,7 @@ namespace device
 {
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
       dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter)
 {
@@ -109,7 +109,7 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
 } // end dereference()
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
       dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n)
 {

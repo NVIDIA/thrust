@@ -117,7 +117,7 @@ struct device_dereference_iterator
   }; // end apply
 
   template<typename Iterator>
-  __device__
+  __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)
   { return ::thrust::detail::device::dereference(it); }
 }; // end device_dereference_iterator
@@ -135,7 +135,7 @@ struct device_dereference_iterator_with_index
   }; // end apply
 
   template<typename Iterator>
-  __device__
+  __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)
   { return ::thrust::detail::device::dereference(it, n); }
 

@@ -46,7 +46,7 @@ struct inner_product_functor
         : binary_op2(_binary_op2) {}
 
     template <typename TupleType>
-        __device__
+        __host__ __device__
         OutputType operator()(TupleType t)
         { 
             return binary_op2(thrust::get<0>(t), thrust::get<1>(t));

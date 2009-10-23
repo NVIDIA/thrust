@@ -96,7 +96,7 @@ namespace device
 {
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
       dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter)
 {
@@ -104,7 +104,7 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
 } // end dereference()
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
       dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n)
 {

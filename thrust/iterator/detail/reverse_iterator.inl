@@ -122,7 +122,7 @@ namespace device
 {
 
 template<typename BidirectionalIterator>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
       dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter)
 {
@@ -130,7 +130,7 @@ template<typename BidirectionalIterator>
 } // end dereference()
 
 template<typename BidirectionalIterator, typename IndexType>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
       dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter, IndexType n)
 {

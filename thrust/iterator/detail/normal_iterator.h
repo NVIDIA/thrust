@@ -71,17 +71,17 @@ namespace device
 
 // forward declarations for dereference(device_ptr)
 template<typename T>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< device_ptr<T> >::type
       dereference(device_ptr<T> iter);
 
 template<typename T, typename IndexType>
-  inline __device__ 
+  inline __host__ __device__
     typename iterator_device_reference< device_ptr<T> >::type
       dereference(device_ptr<T> iter, IndexType n);
 
 template<typename T>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< normal_iterator< device_ptr<T> > >::type
       dereference(normal_iterator< device_ptr<T> > iter)
 {
@@ -89,7 +89,7 @@ template<typename T>
 } // end dereference()
 
 template<typename T, typename IndexType>
-  inline __device__ 
+  inline __host__ __device__
     typename iterator_device_reference< normal_iterator< device_ptr<T> > >::type
       dereference(normal_iterator< device_ptr<T> > iter, IndexType n)
 {

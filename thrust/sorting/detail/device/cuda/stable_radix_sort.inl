@@ -207,7 +207,7 @@ __device__ uint4 rank4(uint4 preds)
 // Uses rank to sort one bit at a time: Sorts a block according
 // to bits startbit -> nbits + startbit
 //----------------------------------------------------------------------------
-template<uint nbits, uint startbit, bool floatFlip>
+template<uint nbits, uint startbit>
 __device__ void radixSortBlock(uint4 &key, uint4 &value)
 {
     extern __shared__ uint sMem1[];
@@ -332,7 +332,7 @@ __global__ void radixSortBlocks(uint4* keysOut, uint4* valuesOut,
     }
 
     __syncthreads();
-    radixSortBlock<nbits, startbit, false>(key, value);
+    radixSortBlock<nbits, startbit>(key, value);
     //__syncthreads();  // IS THIS NECESSARY?
 
     // handle non-full last block if array is not multiple of 1024 numElements
