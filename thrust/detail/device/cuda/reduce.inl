@@ -35,16 +35,10 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
-// XXX WAR circluar #inclusion with this forward declaration
-template<typename> class raw_device_buffer;
-
 namespace device
 {
-
 namespace cuda
 {
 
@@ -110,9 +104,6 @@ template<unsigned int BLOCK_SIZE,
 } // end __thrust__unordered_reduce_kernel()
 
 
-// XXX if n < UINT_MAX use unsigned int instead of size_t indices in kernel
-
-
 template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
@@ -157,11 +148,8 @@ template<typename InputIterator,
 
 
 } // end namespace cuda
-
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #endif // __CUDACC__

@@ -18,8 +18,9 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
+#include <algorithm>
+
 #include <thrust/experimental/arch.h>
-#include <thrust/extrema.h>
 #include <thrust/detail/device/cuda/malloc.h>
 #include <thrust/detail/device/cuda/free.h>
 
@@ -63,7 +64,7 @@ template<typename NullaryFunction,
   {
     const size_t BLOCK_SIZE = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
     const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, BLOCK_SIZE, 0);
-    const size_t NUM_BLOCKS = thrust::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
     detail::launch_closure_by_value<<<NUM_BLOCKS,BLOCK_SIZE>>>(f);
   }
@@ -77,7 +78,7 @@ template<typename NullaryFunction>
   {
     const size_t BLOCK_SIZE = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
     const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, BLOCK_SIZE, 0);
-    const size_t NUM_BLOCKS = thrust::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
 
     // allocate device memory for the argument
     thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc(sizeof(NullaryFunction));

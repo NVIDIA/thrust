@@ -28,6 +28,8 @@
 #include <thrust/advance.h>
 #include <thrust/detail/destroy.h>
 #include <thrust/detail/type_traits.h>
+
+#include <algorithm>
 #include <stdexcept>
 
 #include <thrust/distance.h>
@@ -47,20 +49,6 @@ template<typename T>
 {
   typedef typename iterator_device_reference< device_ptr<T> >::type type;
 }; // end iterator_device_reference
-
-// define our own min() function rather than #include <thrust/extrema.h>
-template<typename T>
-  T vector_base_min(const T &lhs, const T &rhs)
-{
-  return lhs < rhs ? lhs : rhs;
-} // end vector_base_min()
-
-// define our own max() function rather than #include <thrust/extrema.h>
-template<typename T>
-  T vector_base_max(const T &lhs, const T &rhs)
-{
-  return lhs > rhs ? lhs : rhs;
-} // end vector_base_min()
 
 template<typename T, typename Alloc>
   vector_base<T,Alloc>
@@ -661,7 +649,7 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + vector_base_max(old_size, num_new_elements);
+      size_type new_capacity = old_size + std::max(old_size, num_new_elements);
 
       // allocate exponentially larger new storage
       new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
@@ -773,7 +761,7 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + vector_base_max(old_size, n);
+      size_type new_capacity = old_size + std::max(old_size, n);
 
       // allocate exponentially larger new storage
       new_capacity = std::max<size_type>(new_capacity, 2 * capacity());

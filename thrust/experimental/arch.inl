@@ -21,10 +21,7 @@
 
 #include <cassert>
 #include <string>
-
-#include <thrust/extrema.h>
-
-#include <thrust/experimental/arch.h>
+#include <algorithm>
 
 #include <thrust/detail/util/blocking.h>
 
@@ -182,7 +179,7 @@ size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
 {
     size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
 
-    size_t largest_blocksize  = thrust::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
     size_t granularity        = 32;
 
     size_t max_blocksize     = 0;
