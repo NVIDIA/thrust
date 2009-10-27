@@ -13,35 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-/*! \file config.h
- *  \brief Defines platform configuration.
- */
 
 #pragma once
 
-#ifdef __CUDACC__
+#include <thrust/detail/config.h>
+#include <thrust/iterator/iterator_traits.h>
 
-#include <cuda.h>
+namespace thrust
+{
 
-#if CUDA_VERSION < 2030
-#error "CUDA v2.3 or newer is required"
-#endif 
+namespace detail
+{
 
-// XXX WAR this problem with Snow Leopard + CUDA 2.3a
-#if defined(__APPLE__)
-#if _GLIBCXX_ATOMIC_BUILTINS == 1
-#undef _GLIBCXX_ATOMIC_BUILTINS
-#endif // _GLIBCXX_ATOMIC_BUILTINS
-#endif // __APPLE__
-
+#if THRUST_DEVICE_BACKEND == CUDA
+typedef thrust::detail::random_access_cuda_device_iterator_tag device_ptr_category;
+#elif THRUST_DEVICE_BACKEND == OMP
+typedef thrust::detail::random_access_omp_device_iterator_tag device_ptr_category;
 #else
+#error "Unknown device backend."
+#endif // THRUST_DEVICE_BACKEND
 
-// if we're not compiling with nvcc,
-// #include this to define what __host__ and __device__ mean
-// XXX ideally, we wouldn't require an installation of CUDA
-#include <host_defines.h>
+} // end detail
 
-#endif // __CUDACC__
-
-#define THRUST_DEVICE_BACKEND CUDA
+} // end thrust
 

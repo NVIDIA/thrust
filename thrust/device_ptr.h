@@ -25,6 +25,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/device_ptr_category.h>
 #include <ostream>
 
 namespace thrust
@@ -61,7 +62,7 @@ template<typename T> class device_ptr
 {
   public:
     // define iterator_traits types
-    typedef thrust::random_access_device_iterator_tag  iterator_category;
+    typedef thrust::detail::device_ptr_category        iterator_category;
     typedef typename detail::remove_const<T>::type     value_type;
     typedef ptrdiff_t                                  difference_type;
     typedef device_ptr                                 pointer;

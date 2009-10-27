@@ -173,6 +173,12 @@ template<typename T>
 #endif // _MSC_VER
     > {};
 
+
+
+// define the backend-specific space tags in detail for now
+struct cuda_device_space_tag : device_space_tag {};
+struct omp_device_space_tag : device_space_tag {};
+
 } // end namespace detail
 
 } // end namespace thrust
