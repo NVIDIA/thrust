@@ -95,16 +95,40 @@ template <typename Category>
 template <typename Category>
   struct category_to_traversal<Category, thrust::any_space_tag>
     : eval_if<
-        is_convertible<Category, thrust::random_access_universal_iterator_tag>::value,
-        detail::identity_<random_access_traversal_tag>,
-        // XXX fill in the other cases when we have the other any categories
-        void
+        is_convertible<Category, random_access_universal_iterator_tag>::value,
+        identity_<random_access_traversal_tag>,
+        eval_if<
+          is_convertible<Category, bidirectional_universal_iterator_tag>::value,
+          identity_<bidirectional_traversal_tag>,
+          eval_if<
+            is_convertible<Category, forward_universal_iterator_tag>::value,
+            identity_<forward_traversal_tag>,
+            eval_if<
+              is_convertible<Category, input_device_iterator_tag>::value,
+              identity_<single_pass_traversal_tag>,
+              eval_if<
+                is_convertible<Category, output_device_iterator_tag>::value,
+                identity_<incrementable_traversal_tag>,
+
+                // unknown traversal
+                void
+              >
+            >
+          >
+        >
       >
 {
 }; // end category_to_traversal
 
 
-
+// algorithm to convert CategoryOrTraversal to a traversal tag:
+// if CategoryOrTraversal is convertable to a traversal tag:
+//   //return specific_traversal<CategoryOrTraversal>
+//   return identity<CategoryOrTraversal>
+// else if CategoryOrTraversal is convertable to a category tag
+//   return category_to_traversal<CategoryOrTraversal>
+// else
+//   return error
 template <typename CategoryOrTraversal>
   struct iterator_category_to_traversal
     : eval_if<

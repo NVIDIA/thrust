@@ -33,7 +33,10 @@ template<typename Category>
   struct iterator_category_to_space
     // convertible to any iterator?
     : eval_if<
-        is_convertible<Category, thrust::random_access_universal_iterator_tag>::value,
+        or_<
+          is_convertible<Category, thrust::input_universal_iterator_tag>,
+          is_convertible<Category, thrust::output_universal_iterator_tag>
+        >::value,
 
         detail::identity_<thrust::any_space_tag>,
 
