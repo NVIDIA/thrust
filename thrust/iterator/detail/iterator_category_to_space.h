@@ -19,15 +19,23 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/detail/device_iterator_category_to_backend_space.h>
 
 namespace thrust
 {
+
+// XXX WAR circular #inclusion with forward declarations
+struct random_access_universal_iterator_tag;
+struct input_universal_iterator_tag;
+struct output_universal_iterator_tag;
 
 namespace detail
 {
 
 // forward declaration
 template <typename> struct is_iterator_space;
+
+template <typename> struct device_iterator_category_to_backend_space;
 
 template<typename Category>
   struct iterator_category_to_space
@@ -56,7 +64,7 @@ template<typename Category>
               is_convertible<Category, thrust::output_device_iterator_tag>
             >::value,
 
-            detail::identity_<thrust::device_space_tag>,
+            device_iterator_category_to_backend_space<Category>,
 
             // unknown space
             void

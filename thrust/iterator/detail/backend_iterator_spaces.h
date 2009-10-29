@@ -16,8 +16,7 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/iterator/detail/backend_iterator_categories.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -25,13 +24,9 @@ namespace thrust
 namespace detail
 {
 
-#if THRUST_DEVICE_BACKEND == CUDA
-typedef thrust::detail::random_access_cuda_device_iterator_tag device_ptr_category;
-#elif THRUST_DEVICE_BACKEND == OMP
-typedef thrust::detail::random_access_omp_device_iterator_tag device_ptr_category;
-#else
-#error "Unknown device backend."
-#endif // THRUST_DEVICE_BACKEND
+// define these in detail for now
+struct cuda_device_space_tag : device_space_tag {};
+struct omp_device_space_tag : device_space_tag {};
 
 } // end detail
 

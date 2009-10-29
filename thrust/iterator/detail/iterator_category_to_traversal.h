@@ -24,6 +24,10 @@
 namespace thrust
 {
 
+// XXX WAR circular #inclusion with these forward declarations
+struct bidirectional_universal_iterator_tag;
+struct forward_universal_iterator_tag;
+
 namespace detail
 {
 
@@ -34,10 +38,8 @@ template <typename> struct is_iterator_traversal;
 // make type_traits easy to access
 using namespace thrust::detail;
 
-template <typename Category, typename Space> struct category_to_traversal;
-
 template <typename Category>
-  struct category_to_traversal<Category, thrust::host_space_tag>
+  struct host_space_category_to_traversal
     : eval_if<
         is_convertible<Category, random_access_host_iterator_tag>::value,
         detail::identity_<random_access_traversal_tag>,
@@ -60,12 +62,12 @@ template <typename Category>
         >
       >
 {
-}; // end category_to_traversal
+}; // end host_space_category_to_traversal
 
 
 
 template <typename Category>
-  struct category_to_traversal<Category, thrust::device_space_tag>
+  struct device_space_category_to_traversal
     : eval_if<
         is_convertible<Category, random_access_device_iterator_tag>::value,
         detail::identity_<random_access_traversal_tag>,
@@ -88,12 +90,12 @@ template <typename Category>
         >
       >
 {
-}; // end category_to_traversal
+}; // end device_space_category_to_traversal
 
 
 
 template <typename Category>
-  struct category_to_traversal<Category, thrust::any_space_tag>
+  struct any_space_category_to_traversal
     : eval_if<
         is_convertible<Category, random_access_universal_iterator_tag>::value,
         identity_<random_access_traversal_tag>,
@@ -104,10 +106,10 @@ template <typename Category>
             is_convertible<Category, forward_universal_iterator_tag>::value,
             identity_<forward_traversal_tag>,
             eval_if<
-              is_convertible<Category, input_device_iterator_tag>::value,
+              is_convertible<Category, input_universal_iterator_tag>::value,
               identity_<single_pass_traversal_tag>,
               eval_if<
-                is_convertible<Category, output_device_iterator_tag>::value,
+                is_convertible<Category, output_universal_iterator_tag>::value,
                 identity_<incrementable_traversal_tag>,
 
                 // unknown traversal
@@ -118,26 +120,52 @@ template <typename Category>
         >
       >
 {
-}; // end category_to_traversal
+}; // end any_space_category_to_traversal
 
 
-// algorithm to convert CategoryOrTraversal to a traversal tag:
-// if CategoryOrTraversal is convertable to a traversal tag:
-//   //return specific_traversal<CategoryOrTraversal>
-//   return identity<CategoryOrTraversal>
-// else if CategoryOrTraversal is convertable to a category tag
-//   return category_to_traversal<CategoryOrTraversal>
-// else
-//   return error
+template<typename Category>
+  struct category_to_traversal
+      // check for any space
+    : eval_if<
+        or_<
+          is_convertible<Category, thrust::input_universal_iterator_tag>,
+          is_convertible<Category, thrust::output_universal_iterator_tag>
+        >::value,
+
+        any_space_category_to_traversal<Category>,
+
+        // check for host space
+        eval_if<
+          or_<
+            is_convertible<Category, thrust::input_host_iterator_tag>,
+            is_convertible<Category, thrust::output_host_iterator_tag>
+          >::value,
+
+          host_space_category_to_traversal<Category>,
+
+          // check for device space
+          eval_if<
+            or_<
+              is_convertible<Category, thrust::input_device_iterator_tag>,
+              is_convertible<Category, thrust::output_device_iterator_tag>
+            >::value,
+
+            device_space_category_to_traversal<Category>,
+
+            // unknown category
+            void
+          >
+        >
+      >
+{};
+
+
 template <typename CategoryOrTraversal>
   struct iterator_category_to_traversal
     : eval_if<
         is_iterator_traversal<CategoryOrTraversal>::value,
         detail::identity_<CategoryOrTraversal>,
-        category_to_traversal<
-          CategoryOrTraversal,
-          typename iterator_category_to_space<CategoryOrTraversal>::type
-        >
+        category_to_traversal<CategoryOrTraversal>
       >
 {
 }; // end iterator_category_to_traversal

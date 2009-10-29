@@ -514,7 +514,7 @@ struct minimum_space_in_iterator_tuple
 template<typename IteratorTuple>
   struct zip_iterator_base
 {
- private:
+ //private:
     // reference type is the type of the tuple obtained from the
     // iterators' reference types.
     typedef typename tuple_of_references<IteratorTuple>::type reference;

@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file iterator_categories.inl
- *  \brief Details for iterator_categories.h.
- */
-
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -56,24 +53,6 @@ template <typename T>
       >
 {
 }; // end is_iterator_category
-
-
-// define backend-specific iterator categories in detail for now
-struct input_cuda_device_iterator_tag : input_device_iterator_tag {};
-struct input_omp_device_iterator_tag : input_device_iterator_tag {};
-
-struct output_cuda_device_iterator_tag : output_device_iterator_tag {};
-struct output_omp_device_iterator_tag : output_device_iterator_tag {};
-
-struct forward_cuda_device_iterator_tag : forward_device_iterator_tag {};
-struct forward_omp_device_iterator_tag : forward_device_iterator_tag {};
-
-struct bidirectional_cuda_device_iterator_tag : bidirectional_device_iterator_tag {};
-struct bidirectional_omp_device_iterator_tag : bidirectional_device_iterator_tag {};
-
-struct random_access_cuda_device_iterator_tag : random_access_device_iterator_tag {};
-struct random_access_omp_device_iterator_tag : random_access_device_iterator_tag {};
-
 
 } // end detail
 

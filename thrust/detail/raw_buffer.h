@@ -37,19 +37,26 @@ namespace detail
 // forward declaration of normal_iterator
 template<typename> class normal_iterator;
 
-template<typename T, typename Space> struct choose_raw_buffer_allocator;
+template<typename T, typename Space>
+  struct choose_raw_buffer_allocator
+    : eval_if<
+        // XXX this check is technically incorrect: any could convert to host
+        is_convertible<Space, thrust::host_space_tag>::value,
 
-template<typename T>
-  struct choose_raw_buffer_allocator<T,thrust::device_space_tag>
-{
-  typedef device_malloc_allocator<T> type;
-}; // end choose_raw_buffer_allocator
+        identity_< std::allocator<T> >,
 
-template<typename T>
-  struct choose_raw_buffer_allocator<T,thrust::host_space_tag>
-{
-  typedef std::allocator<T> type;
-}; // end choose_raw_buffer_allocator
+        // XXX add backend-specific allocators here?
+
+        eval_if<
+          // XXX this check is technically incorrect: any could convert to device
+          is_convertible<Space, thrust::device_space_tag>::value,
+
+          identity_< device_malloc_allocator<T> >,
+
+          void
+        >
+      >
+{};
 
 
 template<typename T, typename Space>

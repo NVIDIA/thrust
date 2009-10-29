@@ -16,24 +16,23 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/iterator/detail/backend_iterator_categories.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 namespace thrust
 {
 
-namespace detail
+struct any_space_tag
 {
+  // use conversion operators instead of inheritance to avoid ambiguous conversion errors
+  operator host_space_tag () {return host_space_tag();};
 
-#if THRUST_DEVICE_BACKEND == CUDA
-typedef thrust::detail::random_access_cuda_device_iterator_tag device_ptr_category;
-#elif THRUST_DEVICE_BACKEND == OMP
-typedef thrust::detail::random_access_omp_device_iterator_tag device_ptr_category;
-#else
-#error "Unknown device backend."
-#endif // THRUST_DEVICE_BACKEND
+  operator device_space_tag () {return device_space_tag();};
 
-} // end detail
+  operator detail::cuda_device_space_tag () {return detail::cuda_device_space_tag();};
+
+  operator detail::omp_device_space_tag () {return detail::omp_device_space_tag();};
+};
 
 } // end thrust
 
