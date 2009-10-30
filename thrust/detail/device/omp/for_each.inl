@@ -19,6 +19,10 @@
  *  \brief Inline file for for_each.h.
  */
 
+#include <thrust/detail/device/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/distance.h>
+
 namespace thrust
 {
 
@@ -37,10 +41,15 @@ void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f)
 {
-  while(first < last)
+  typedef typename thrust::iterator_difference<InputIterator>::type difference;
+  difference n = thrust::distance(first,last);
+
+#pragma omp parallel for
+  for(difference i = 0;
+      i < n;
+      ++i)
   {
-    f(thrust::detail::device::dereference(first));
-    ++first;
+    f(thrust::detail::device::dereference(first, i));
   }
 } 
 
