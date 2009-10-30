@@ -26,6 +26,8 @@
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/distance.h>
+#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/forced_iterator.h>
 
 namespace thrust
 {
@@ -89,9 +91,24 @@ template<typename InputIterator1,
                InputIterator2 map,
                RandomAccessIterator output)
 {
+  // since we're hiding the output inside a functor, its device space will get lost
+  // we need to create the zip_iterator with the minimum space of first, map, & output
+
+  typedef typename thrust::iterator_space<InputIterator1>::type       Space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type       Space2;
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space3;
+
+  typedef typename thrust::detail::minimum_space<Space1,Space2>::type Space4;
+  typedef typename thrust::detail::minimum_space<Space3,Space4>::type Space;
+
+  typedef thrust::detail::forced_iterator<InputIterator1,Space> forced_iterator;
+
+  // force first to be of the minimum space
+  forced_iterator first_forced(first), last_forced(last);
+
   detail::scatter_functor<RandomAccessIterator> func(output);
-  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first, map)),
-                                   thrust::make_zip_iterator(make_tuple(last,  map + thrust::distance(first, last))),
+  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first_forced, map)),
+                                   thrust::make_zip_iterator(make_tuple(last_forced,  map + thrust::distance(first, last))),
                                    func);
 } // end scatter()
 
@@ -108,9 +125,27 @@ template<typename InputIterator1,
                   RandomAccessIterator output,
                   Predicate pred)
 {
+  // since we're hiding the output inside a functor, its device space will get lost
+  // we need to create the zip_iterator with the minimum space of first, map, & output
+
+  typedef typename thrust::iterator_space<InputIterator1>::type       Space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type       Space2;
+  typedef typename thrust::iterator_space<InputIterator3>::type       Space3;
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space4;
+
+  typedef typename thrust::detail::minimum_space<Space1,Space2>::type Space5;
+  typedef typename thrust::detail::minimum_space<Space3,Space4>::type Space6;
+
+  typedef typename thrust::detail::minimum_space<Space5,Space6>::type Space;
+
+  typedef thrust::detail::forced_iterator<InputIterator1,Space> forced_iterator;
+
+  // force first to be of the minimum space
+  forced_iterator first_forced(first), last_forced(last);
+
   detail::scatter_if_functor<RandomAccessIterator, Predicate> func(output, pred);
-  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first, map, stencil)),
-                                   thrust::make_zip_iterator(make_tuple(last,  map + thrust::distance(first, last), stencil + thrust::distance(first, last))),
+  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first_forced, map, stencil)),
+                                   thrust::make_zip_iterator(make_tuple(last_forced,  map + thrust::distance(first, last), stencil + thrust::distance(first, last))),
                                    func);
 } // end scatter_if()
 

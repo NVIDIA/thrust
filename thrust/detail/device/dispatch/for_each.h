@@ -14,15 +14,11 @@
  *  limitations under the License.
  */
 
-
-/*! \file for_each.h
- *  \brief Device implementation of for_each.
- */
-
 #pragma once
 
-#include <thrust/detail/device/dispatch/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/cuda/for_each.h>
+#include <thrust/detail/device/omp/for_each.h>
 
 namespace thrust
 {
@@ -33,20 +29,34 @@ namespace detail
 namespace device
 {
 
+namespace dispatch
+{
+
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f)
+  void for_each(InputIterator first,
+                InputIterator last,
+                UnaryFunction f,
+                thrust::detail::omp_device_space_tag)
 {
-  // dispatch on space
-  thrust::detail::device::dispatch::for_each(first, last, f,
-      typename thrust::iterator_space<InputIterator>::type());
+  thrust::detail::device::omp::for_each(first, last, f);
 }
 
-} // end namespace device
+template<typename InputIterator,
+         typename UnaryFunction>
+  void for_each(InputIterator first,
+                InputIterator last,
+                UnaryFunction f,
+                thrust::detail::cuda_device_space_tag)
+{
+  thrust::detail::device::cuda::for_each(first, last, f);
+}
 
-} // end namespace detail
+} // end dispatch
 
-} // end namespace thrust
+} // end device
+
+} // end detail
+
+} // end thrust
 

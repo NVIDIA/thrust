@@ -36,6 +36,9 @@ namespace detail
 template<typename Pointer>
   class normal_iterator;
 
+template<typename Iterator, typename Space>
+  class forced_iterator;
+
 } // end detail
 
 
@@ -113,6 +116,18 @@ template<typename T, typename IndexType>
   inline __host__ __device__
     typename iterator_device_reference< normal_iterator< device_ptr<T> > >::type
       dereference(normal_iterator< device_ptr<T> > iter, IndexType n);
+
+
+// forced_iterator
+template<typename Iterator, typename Space>
+  inline __host__ __device__
+    typename iterator_device_reference< forced_iterator< Iterator, Space > >::type
+      dereference(forced_iterator< Iterator, Space > iter);
+
+template<typename Iterator, typename Space, typename IndexType>
+  inline __host__ __device__
+    typename iterator_device_reference< forced_iterator< Iterator, Space > >::type
+      dereference(forced_iterator< Iterator, Space > iter, IndexType n);
 
 
 

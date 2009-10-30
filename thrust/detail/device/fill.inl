@@ -59,11 +59,13 @@ struct fill_functor
 }; // end fill_functor
 
 
-template<typename OutputType, typename T>
-  void wide_fill(OutputType * first,
-                 OutputType * last,
+template<typename Pointer, typename T>
+  void wide_fill(Pointer first,
+                 Pointer last,
                  const T &exemplar)
 {
+  typedef typename thrust::iterator_value<Pointer>::type OutputType;
+
   typedef unsigned long long WideType; // type used to pack the Ts
 
   size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
@@ -74,14 +76,19 @@ template<typename OutputType, typename T>
   for(int i = 0; i < sizeof(WideType)/sizeof(T); i++)
       reinterpret_cast<T *>(&wide_exemplar)[i] = exemplar;
 
-  OutputType * block_first = thrust::min(first + n,   thrust::detail::util::align_up(first, ALIGNMENT_BOUNDARY));
-  OutputType * block_last  = thrust::max(block_first, thrust::detail::util::align_down(last, sizeof(WideType)));
+  OutputType *first_raw = thrust::raw_pointer_cast(first);
+  OutputType *last_raw  = thrust::raw_pointer_cast(last);
 
-  thrust::detail::device::generate(first, block_first, fill_functor<OutputType>(exemplar));
-  thrust::detail::device::generate(reinterpret_cast<WideType*>(block_first),
-                                   reinterpret_cast<WideType*>(block_last),
+  OutputType *block_first_raw = thrust::min(first_raw + n,   thrust::detail::util::align_up(first_raw, ALIGNMENT_BOUNDARY));
+  OutputType *block_last_raw  = thrust::max(block_first_raw, thrust::detail::util::align_down(last_raw, sizeof(WideType)));
+
+  thrust::device_ptr<WideType> block_first_wide = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_first_raw));
+  thrust::device_ptr<WideType> block_last_wide  = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_last_raw));
+
+  thrust::detail::device::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(exemplar));
+  thrust::detail::device::generate(block_first_wide, block_last_wide,
                                    fill_functor<WideType>(wide_exemplar));
-  thrust::detail::device::generate(block_last, last, fill_functor<OutputType>(exemplar));
+  thrust::detail::device::generate(thrust::device_pointer_cast(block_last_raw), last, fill_functor<OutputType>(exemplar));
 }
 
 template<typename ForwardIterator, typename T>
@@ -105,7 +112,8 @@ template<typename ForwardIterator, typename T>
     
     if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
     {
-        detail::wide_fill(thrust::raw_pointer_cast(&*first), thrust::raw_pointer_cast(&*last), exemplar);
+        // XXX this needs to be pushed down into cuda::
+        detail::wide_fill(&*first, &*last, exemplar);
     }
     else
     {
