@@ -73,6 +73,20 @@ template<typename ForwardIterator,
 }
 
 template<typename ForwardIterator,
+         typename InputIterator,
+         typename RandomAccessIterator>
+  void gather(ForwardIterator first,
+              ForwardIterator last,
+              InputIterator  map,
+              RandomAccessIterator input,
+              thrust::host_space_tag,
+              thrust::any_space_tag,
+              thrust::any_space_tag)
+{
+    thrust::detail::host::gather(first, last, map, input);
+}
+
+template<typename ForwardIterator,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
@@ -119,6 +133,20 @@ template<typename ForwardIterator,
               RandomAccessIterator input,
               thrust::device_space_tag,
               thrust::device_space_tag,
+              thrust::any_space_tag)
+{
+    thrust::detail::device::gather(first, last, map, input);
+}
+
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename RandomAccessIterator>
+  void gather(ForwardIterator first,
+              ForwardIterator last,
+              InputIterator  map,
+              RandomAccessIterator input,
+              thrust::device_space_tag,
+              thrust::any_space_tag,
               thrust::any_space_tag)
 {
     thrust::detail::device::gather(first, last, map, input);
@@ -184,6 +212,23 @@ template<typename ForwardIterator,
   thrust::gather(first, last, d_map.begin(), input);
 } // end gather()
 
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename RandomAccessIterator>
+  void gather(ForwardIterator first,
+              ForwardIterator last,
+              InputIterator map,
+              RandomAccessIterator input,
+              thrust::host_space_tag,   // destination
+              thrust::any_space_tag,    // map
+              thrust::device_space_tag) // destination
+{
+  thrust::detail::dispatch::gather(first, last, map, input,
+      thrust::host_space_tag(),
+      thrust::device_space_tag(),
+      thrust::device_space_tag());
+} // end gather()
+
 
 ///////////////////////////////
 // From Host To Device Paths //
@@ -223,6 +268,23 @@ template<typename ForwardIterator,
   raw_host_buffer<IndexType> h_map(thrust::distance(first,last));
   thrust::copy(map, map + (last - first), h_map.begin());
   thrust::gather(first, last, h_map.begin(), input);
+} // end gather()
+
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename RandomAccessIterator>
+  void gather(ForwardIterator first,
+              ForwardIterator last,
+              InputIterator map,
+              RandomAccessIterator input,
+              thrust::device_space_tag, // destination
+              thrust::any_space_tag,    // map
+              thrust::host_space_tag)   // destination
+{
+  thrust::detail::dispatch::gather(first, last, map, input,
+      thrust::device_space_tag(),
+      thrust::host_space_tag(),
+      thrust::host_space_tag());
 } // end gather()
 
 

@@ -244,3 +244,54 @@ void TestGatherCountingIterator(void)
 }
 DECLARE_VECTOR_UNITTEST(TestGatherCountingIterator);
 
+
+void TestCrossSpaceGatherCountingIterator(void)
+{
+    thrust::host_vector<int> reference(thrust::make_counting_iterator(0),
+                                       thrust::make_counting_iterator(10));
+
+    thrust::host_vector<int> h_source(thrust::make_counting_iterator(0),
+                                      thrust::make_counting_iterator(10));
+    thrust::device_vector<int> d_source = h_source;
+
+    thrust::host_vector<int> h_map(thrust::make_counting_iterator(0),
+                                   thrust::make_counting_iterator(10));
+    thrust::device_vector<int> d_map = h_map;
+
+    thrust::host_vector<int> h_result(10, 0);
+    thrust::device_vector<int> d_result(10, 0);
+
+
+    thrust::fill(d_result.begin(), d_result.end(), 0);
+    thrust::gather(d_result.begin(), d_result.end(),   // device
+                   thrust::make_counting_iterator(0),  // any
+                   h_source.begin());                  // host
+
+    ASSERT_EQUAL(reference, d_result);
+
+    
+    thrust::fill(h_result.begin(), h_result.end(), 0);
+    thrust::gather(h_result.begin(), h_result.end(),   // host
+                   thrust::make_counting_iterator(0),  // any
+                   d_source.begin());                  // device
+
+    ASSERT_EQUAL(reference, h_result);
+
+    
+    thrust::fill(d_result.begin(), d_result.end(), 0);
+    thrust::gather(d_result.begin(), d_result.end(),   // device
+                   h_map.begin(),                      // host
+                   thrust::make_counting_iterator(0)); // any
+
+    ASSERT_EQUAL(reference, d_result);
+
+
+    thrust::fill(h_result.begin(), h_result.end(), 0);
+    thrust::gather(h_result.begin(), h_result.end(),   // host
+                   d_map.begin(),                      // device
+                   thrust::make_counting_iterator(0)); // any
+
+    ASSERT_EQUAL(reference, h_result);
+}
+DECLARE_UNITTEST(TestCrossSpaceGatherCountingIterator);
+
