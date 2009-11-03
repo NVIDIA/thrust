@@ -71,7 +71,7 @@ template<typename InputIterator,
                       thrust::host_space_tag,
                       thrust::device_space_tag)
 {
-    return thrust::detail::device::copy_host_to_device(begin, end, result);
+    return thrust::detail::device::copy_cross_space(begin, end, result);
 }
 
 
@@ -87,7 +87,7 @@ template<typename InputIterator,
                       thrust::device_space_tag,
                       thrust::host_space_tag)
 {
-    return thrust::detail::device::copy_device_to_host(begin, end, result);
+    return thrust::detail::device::copy_cross_space(begin, end, result);
 }
 
 ///////////////////////////

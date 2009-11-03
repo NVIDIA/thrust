@@ -32,15 +32,9 @@ namespace device
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_host_to_device(InputIterator begin, 
-                                     InputIterator end, 
-                                     OutputIterator result);
-
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy_device_to_host(InputIterator begin, 
-                                     InputIterator end, 
-                                     OutputIterator result);
+  OutputIterator copy_cross_space(InputIterator begin, 
+                                  InputIterator end, 
+                                  OutputIterator result);
 
 template<typename InputIterator,
          typename OutputIterator>
@@ -65,7 +59,6 @@ template<typename InputIterator1,
 } // end thrust
 
 #include "copy_if.inl"
-#include "copy_host_to_device.inl"
-#include "copy_device_to_host.inl"
+#include "copy_cross_space.inl"
 #include "copy_device_to_device.inl"
 
