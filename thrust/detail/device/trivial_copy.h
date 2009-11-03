@@ -53,19 +53,12 @@ template<typename FromIterator, typename ToIterator>
     > {};
 
 
-inline void trivial_copy_host_to_device(void *dst, const void *src, size_t count)
+template<typename RandomAccessIterator1,
+         typename Size,
+         typename RandomAccessIterator2>
+  void trivial_copy_n(RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
-    thrust::detail::device::cuda::trivial_copy_host_to_device(dst, src, count);
-}
-
-inline void trivial_copy_device_to_host(void *dst, const void *src, size_t count)
-{
-    thrust::detail::device::cuda::trivial_copy_device_to_host(dst, src, count);
-}
-
-inline void trivial_copy_device_to_device(void *dst, const void *src, size_t count)
-{
-    thrust::detail::device::cuda::trivial_copy_device_to_device(dst, src, count);
+    thrust::detail::device::cuda::trivial_copy_n(first, n, result);
 }
 
 } // end namespace device

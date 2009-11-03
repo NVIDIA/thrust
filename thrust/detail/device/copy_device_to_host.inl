@@ -81,10 +81,7 @@ template<typename InputIterator,
   // how many elements to copy?
   typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
-  // what is the output type?
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-  trivial_copy_device_to_host(raw_pointer_cast(&*result), raw_pointer_cast(&*begin),  n * sizeof(OutputType));
+  trivial_copy_n(begin, n, result);
 
   return result + n;
 }
@@ -128,7 +125,7 @@ template<typename InputIterator,
   thrust::detail::raw_buffer<InputType,host_space_tag> temp(n);
 
   // force a trivial copy
-  thrust::detail::device::trivial_copy_device_to_host(raw_pointer_cast(&*temp.begin()), raw_pointer_cast(&*begin), n * sizeof(InputType));
+  thrust::detail::device::trivial_copy_n(begin, n, temp.begin());
 
   // finally, copy to the result
   result = thrust::copy(temp.begin(), temp.end(), result);

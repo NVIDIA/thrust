@@ -52,22 +52,81 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
     }
 } // end checked_cudaMemcpy()
 
+
+template<typename SrcSpace,
+         typename DstSpace>
+  struct is_host_to_device
+    : integral_constant<
+        bool,
+        thrust::detail::is_convertible<SrcSpace, thrust::host_space_tag>::value &&
+        thrust::detail::is_convertible<DstSpace, thrust::device_space_tag>::value
+      >
+{};
+
+
+template<typename SrcSpace,
+         typename DstSpace>
+  struct is_device_to_host
+    : integral_constant<
+        bool,
+        thrust::detail::is_convertible<SrcSpace, thrust::device_space_tag>::value &&
+        thrust::detail::is_convertible<DstSpace, thrust::host_space_tag>::value
+      >
+{};
+
+
+template<typename SrcSpace,
+         typename DstSpace>
+  struct is_device_to_device
+    : integral_constant<
+        bool,
+        thrust::detail::is_convertible<SrcSpace, thrust::device_space_tag>::value &&
+        thrust::detail::is_convertible<DstSpace, thrust::device_space_tag>::value
+      >
+{};
+
+
+template<typename SrcSpace,
+         typename DstSpace>
+  struct cuda_memcpy_kind
+    : thrust::detail::eval_if<
+        is_host_to_device<SrcSpace,DstSpace>::value,
+        thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyHostToDevice>,
+
+        eval_if<
+          is_device_to_host<SrcSpace,DstSpace>::value,
+          thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToHost>,
+
+          eval_if<
+            is_device_to_device<SrcSpace,DstSpace>::value,
+            thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToDevice>,
+            void
+          >
+        >
+      >::type
+{};
+
 } // end namespace detail
 
-inline void trivial_copy_host_to_device(void *dst, const void *src, size_t count)
+
+template<typename RandomAccessIterator1,
+         typename Size,
+         typename RandomAccessIterator2>
+  void trivial_copy_n(RandomAccessIterator1 first,
+                      Size n,
+                      RandomAccessIterator2 result)
 {
-    detail::checked_cudaMemcpy(dst, src, count, cudaMemcpyHostToDevice);
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type SrcSpace;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type DstSpace;
+
+  void *dst = thrust::raw_pointer_cast(&*result);
+  const void *src = thrust::raw_pointer_cast(&*first);
+
+  detail::checked_cudaMemcpy(dst, src, n * sizeof(T), detail::cuda_memcpy_kind<SrcSpace, DstSpace>::value);
 }
 
-inline void trivial_copy_device_to_host(void *dst, const void *src, size_t count)
-{
-    detail::checked_cudaMemcpy(dst, src, count, cudaMemcpyDeviceToHost);
-}
-
-inline void trivial_copy_device_to_device(void *dst, const void *src, size_t count)
-{
-    detail::checked_cudaMemcpy(dst, src, count, cudaMemcpyDeviceToDevice);
-}
 
 } // end namespace cuda
 

@@ -86,14 +86,7 @@ template<typename InputIterator,
     // how many elements to copy?
     typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
-    // figure out the type of the element to copy
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type T;
-
-    // XXX TODO use raw_pointer_cast
-    void * dest       = thrust::raw_pointer_cast(&*result);
-    const void * src  = thrust::raw_pointer_cast(&*begin);
-
-    thrust::detail::device::trivial_copy_device_to_device(dest, src, n * sizeof(T));
+    thrust::detail::device::trivial_copy_n(begin, n, result);
 
     return result + n;
 }
