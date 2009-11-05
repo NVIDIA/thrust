@@ -62,11 +62,11 @@ template<typename NullaryFunction,
   template<typename Size>
   static void launch(NullaryFunction f, Size n)
   {
-    const size_t BLOCK_SIZE = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
-    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, BLOCK_SIZE, 0);
-    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, 0);
+    const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
 
-    detail::launch_closure_by_value<<<NUM_BLOCKS,BLOCK_SIZE>>>(f);
+    detail::launch_closure_by_value<<<num_blocks,block_size>>>(f);
   }
 };
 
@@ -76,9 +76,9 @@ template<typename NullaryFunction>
   template<typename Size>
   static void launch(NullaryFunction f, Size n)
   {
-    const size_t BLOCK_SIZE = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
-    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, BLOCK_SIZE, 0);
-    const size_t NUM_BLOCKS = std::min(MAX_BLOCKS, ( n + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, 0);
+    const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
 
     // allocate device memory for the argument
     thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc(sizeof(NullaryFunction));
@@ -90,7 +90,7 @@ template<typename NullaryFunction>
     *f_ptr = f;
 
     // launch
-    detail::launch_closure_by_pointer<<<NUM_BLOCKS, BLOCK_SIZE>>>(f_ptr.get());
+    detail::launch_closure_by_pointer<<<num_blocks, block_size>>>(f_ptr.get());
 
     // free device memory
     thrust::detail::device::cuda::free(temp_ptr);

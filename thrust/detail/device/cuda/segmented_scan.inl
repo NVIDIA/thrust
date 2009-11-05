@@ -114,7 +114,7 @@ void segscan_warp2(const unsigned int thread_lane, FlagType flg, InputIterator s
 }
 
 
-template<unsigned int BLOCK_SIZE,
+template<unsigned int block_size,
          typename OutputIterator,
          typename OutputType,
          typename AssociativeOperator>
@@ -126,7 +126,7 @@ inclusive_update_kernel(OutputIterator result,
                         OutputType * carry_in,
                         unsigned int * segment_lengths)
 {
-    const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;  // global thread index
+    const unsigned int thread_id   = block_size * blockIdx.x + threadIdx.x;  // global thread index
     const unsigned int thread_lane = threadIdx.x & 31;                       // thread index within the warp
     const unsigned int warp_id     = thread_id   / 32;                       // global warp index
 
@@ -144,7 +144,7 @@ inclusive_update_kernel(OutputIterator result,
 }
 
 
-template<unsigned int BLOCK_SIZE,
+template<unsigned int block_size,
          typename OutputIterator,
          typename OutputType,
          typename AssociativeOperator>
@@ -158,7 +158,7 @@ exclusive_update_kernel(OutputIterator result,
                         unsigned int * segment_lengths)
                         
 {
-    const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;  // global thread index
+    const unsigned int thread_id   = block_size * blockIdx.x + threadIdx.x;  // global thread index
     const unsigned int thread_lane = threadIdx.x & 31;                       // thread index within the warp
     const unsigned int warp_id     = thread_id   / 32;                       // global warp index
 
@@ -202,7 +202,7 @@ exclusive_update_kernel(OutputIterator result,
  *
  * Each warp is assigned an interval of [first, first + n)
  */
-template<unsigned int BLOCK_SIZE,
+template<unsigned int block_size,
          typename InputIterator1, 
          typename InputIterator2,
          typename OutputIterator,
@@ -224,19 +224,19 @@ void inclusive_scan_kernel(InputIterator1 first1,
 
   // XXX warpSize exists, but is not known at compile time,
   //     so define our own constant
-  const unsigned int WARP_SIZE = 32;
+  const unsigned int warp_size = 32;
 
-  //__shared__ volatile OutputType sval[BLOCK_SIZE];
-  //__shared__ volatile KeyType    skey[BLOCK_SIZE];
-  __shared__ unsigned char sval_workaround[BLOCK_SIZE * sizeof(OutputType)];
-  __shared__ unsigned char skey_workaround[BLOCK_SIZE * sizeof(KeyType)];
+  //__shared__ volatile OutputType sval[block_size];
+  //__shared__ volatile KeyType    skey[block_size];
+  __shared__ unsigned char sval_workaround[block_size * sizeof(OutputType)];
+  __shared__ unsigned char skey_workaround[block_size * sizeof(KeyType)];
   OutputType * sval = reinterpret_cast<OutputType*>(sval_workaround);
   KeyType    * skey = reinterpret_cast<KeyType*>(skey_workaround);
-  __shared__ FlagType    sflg[BLOCK_SIZE];
+  __shared__ FlagType    sflg[block_size];
 
-  const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;      // global thread index
-  const unsigned int thread_lane = threadIdx.x & (WARP_SIZE - 1);              // thread index within the warp
-  const unsigned int warp_id     = thread_id   / WARP_SIZE;                    // global warp index
+  const unsigned int thread_id   = block_size * blockIdx.x + threadIdx.x;      // global thread index
+  const unsigned int thread_lane = threadIdx.x & (warp_size - 1);              // thread index within the warp
+  const unsigned int warp_id     = thread_id   / warp_size;                    // global warp index
 
   const unsigned int interval_begin = warp_id * interval_size;                 // beginning of this warp's segment
   const unsigned int interval_end   = min(interval_begin + interval_size, n);  // end of this warp's segment
@@ -369,7 +369,7 @@ void inclusive_scan_kernel(InputIterator1 first1,
  *
  * Each warp is assigned an interval of [first, first + n)
  */
-template<unsigned int BLOCK_SIZE,
+template<unsigned int block_size,
          typename InputIterator1, 
          typename InputIterator2,
          typename OutputIterator,
@@ -392,19 +392,19 @@ void exclusive_scan_kernel(InputIterator1 first1,
 
   // XXX warpSize exists, but is not known at compile time,
   //     so define our own constant
-  const unsigned int WARP_SIZE = 32;
+  const unsigned int warp_size = 32;
 
-  //__shared__ volatile OutputType sval[BLOCK_SIZE];
-  //__shared__ volatile KeyType    skey[BLOCK_SIZE];
-  __shared__ unsigned char sval_workaround[BLOCK_SIZE * sizeof(OutputType)];
-  __shared__ unsigned char skey_workaround[BLOCK_SIZE * sizeof(KeyType)];
+  //__shared__ volatile OutputType sval[block_size];
+  //__shared__ volatile KeyType    skey[block_size];
+  __shared__ unsigned char sval_workaround[block_size * sizeof(OutputType)];
+  __shared__ unsigned char skey_workaround[block_size * sizeof(KeyType)];
   OutputType * sval = reinterpret_cast<OutputType*>(sval_workaround);
   KeyType    * skey = reinterpret_cast<KeyType*>(skey_workaround);
-  __shared__ FlagType    sflg[BLOCK_SIZE];
+  __shared__ FlagType    sflg[block_size];
 
-  const unsigned int thread_id   = BLOCK_SIZE * blockIdx.x + threadIdx.x;      // global thread index
-  const unsigned int thread_lane = threadIdx.x & (WARP_SIZE - 1);              // thread index within the warp
-  const unsigned int warp_id     = thread_id   / WARP_SIZE;                    // global warp index
+  const unsigned int thread_id   = block_size * blockIdx.x + threadIdx.x;      // global thread index
+  const unsigned int thread_lane = threadIdx.x & (warp_size - 1);              // thread index within the warp
+  const unsigned int warp_id     = thread_id   / warp_size;                    // global warp index
 
   const unsigned int interval_begin = warp_id * interval_size;                 // beginning of this warp's segment
   const unsigned int interval_end   = min(interval_begin + interval_size, n);  // end of this warp's segment
@@ -614,26 +614,26 @@ template<typename InputIterator1,
     
     const size_t n = last1 - first1;
     
-    const unsigned int WARP_SIZE  = 32;
+    const unsigned int warp_size  = 32;
     
     // 16KB (max) - 1KB (upper bound on what's used for other purposes)
-    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+    const size_t max_smem_size = 15 * 1025; 
 
     // largest 2^N that fits in SMEM
-    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/ (sizeof(OutputType) + sizeof(KeyType) + sizeof(FlagType))) >::value;
-    static const size_t BLOCKSIZE_LIMIT2 = 256;
+    static const size_t blocksize_limit1 = 1 << thrust::detail::mpl::math::log2< (max_smem_size/ (sizeof(OutputType) + sizeof(KeyType) + sizeof(FlagType))) >::value;
+    static const size_t blocksize_limit2 = 256;
 
-    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+    static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
 
-    const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
-    const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
+    const unsigned int max_blocks = experimental::arch::max_active_threads()/block_size;
+    const unsigned int warps_per_block = block_size/warp_size;
 
-    const unsigned int num_units  = thrust::detail::util::divide_ri(n, WARP_SIZE);
-    const unsigned int num_warps  = std::min(num_units, WARPS_PER_BLOCK * MAX_BLOCKS);
-    const unsigned int num_blocks = thrust::detail::util::divide_ri(num_warps,WARPS_PER_BLOCK);
+    const unsigned int num_units  = thrust::detail::util::divide_ri(n, warp_size);
+    const unsigned int num_warps  = std::min(num_units, warps_per_block * max_blocks);
+    const unsigned int num_blocks = thrust::detail::util::divide_ri(num_warps,warps_per_block);
     const unsigned int num_iters  = thrust::detail::util::divide_ri(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
 
-    const unsigned int interval_size = WARP_SIZE * num_iters;
+    const unsigned int interval_size = warp_size * num_iters;
 
     // create a temp vector for per-warp results
     thrust::detail::raw_device_buffer<OutputType>   d_final_val(num_warps + 1);
@@ -641,19 +641,19 @@ template<typename InputIterator1,
 
     //////////////////////
     // first level scan
-    segmented_scan::inclusive_scan_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    segmented_scan::inclusive_scan_kernel<block_size> <<<num_blocks, block_size>>>
         (first1, first2, result, binary_op, pred, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
 
     ///////////////////////
     // second level scan
     // scan final_val on the device (use one warp of GPU method for second level scan)
-    segmented_scan::inclusive_scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+    segmented_scan::inclusive_scan_kernel<warp_size> <<<1, warp_size>>>
         (raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]), raw_pointer_cast(&d_final_val[0]), binary_op, segmented_scan::__segment_spans_interval(interval_size),
          num_warps, num_warps, raw_pointer_cast(&d_final_val[num_warps]), raw_pointer_cast(&d_segment_lengths[num_warps]));
         
     //////////////////////
     // update intervals
-    segmented_scan::inclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    segmented_scan::inclusive_update_kernel<block_size> <<<num_blocks, block_size>>>
         (result, binary_op, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
 
     return result + n;
@@ -682,26 +682,26 @@ template<typename InputIterator1,
     
     const size_t n = last1 - first1;
     
-    const unsigned int WARP_SIZE  = 32;
+    const unsigned int warp_size  = 32;
     
     // 16KB (max) - 1KB (upper bound on what's used for other purposes)
-    const size_t MAX_SMEM_SIZE = 15 * 1025; 
+    const size_t max_smem_size = 15 * 1025; 
 
     // largest 2^N that fits in SMEM
-    static const size_t BLOCKSIZE_LIMIT1 = 1 << thrust::detail::mpl::math::log2< (MAX_SMEM_SIZE/ (sizeof(OutputType) + sizeof(KeyType) + sizeof(FlagType))) >::value;
-    static const size_t BLOCKSIZE_LIMIT2 = 256;
+    static const size_t blocksize_limit1 = 1 << thrust::detail::mpl::math::log2< (max_smem_size/ (sizeof(OutputType) + sizeof(KeyType) + sizeof(FlagType))) >::value;
+    static const size_t blocksize_limit2 = 256;
     
-    static const size_t BLOCK_SIZE = (BLOCKSIZE_LIMIT1 < BLOCKSIZE_LIMIT2) ? BLOCKSIZE_LIMIT1 : BLOCKSIZE_LIMIT2;
+    static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
 
-    const unsigned int MAX_BLOCKS = experimental::arch::max_active_threads()/BLOCK_SIZE;
-    const unsigned int WARPS_PER_BLOCK = BLOCK_SIZE/WARP_SIZE;
+    const unsigned int max_blocks = experimental::arch::max_active_threads()/block_size;
+    const unsigned int warps_per_block = block_size/warp_size;
 
-    const unsigned int num_units  = thrust::detail::util::divide_ri(n, WARP_SIZE);
-    const unsigned int num_warps  = std::min(num_units, WARPS_PER_BLOCK * MAX_BLOCKS);
-    const unsigned int num_blocks = thrust::detail::util::divide_ri(num_warps,WARPS_PER_BLOCK);
+    const unsigned int num_units  = thrust::detail::util::divide_ri(n, warp_size);
+    const unsigned int num_warps  = std::min(num_units, warps_per_block * max_blocks);
+    const unsigned int num_blocks = thrust::detail::util::divide_ri(num_warps,warps_per_block);
     const unsigned int num_iters  = thrust::detail::util::divide_ri(num_units, num_warps);          // number of times each warp iterates, interval length is 32*num_iters
 
-    const unsigned int interval_size = WARP_SIZE * num_iters;
+    const unsigned int interval_size = warp_size * num_iters;
 
     // create a temp vector for per-warp results
     thrust::detail::raw_device_buffer<OutputType>   d_final_val(num_warps + 1);
@@ -709,19 +709,19 @@ template<typename InputIterator1,
 
     //////////////////////
     // first level scan
-    segmented_scan::exclusive_scan_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    segmented_scan::exclusive_scan_kernel<block_size> <<<num_blocks, block_size>>>
         (first1, first2, result, OutputType(init), binary_op, pred, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
 
     ///////////////////////
     // second level scan
     // scan final_val on the device (use one warp of GPU method for second level scan)
-    segmented_scan::inclusive_scan_kernel<WARP_SIZE> <<<1, WARP_SIZE>>>
+    segmented_scan::inclusive_scan_kernel<warp_size> <<<1, warp_size>>>
         (raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]), raw_pointer_cast(&d_final_val[0]), binary_op, segmented_scan::__segment_spans_interval(interval_size),
          num_warps, num_warps, raw_pointer_cast(&d_final_val[num_warps]), raw_pointer_cast(&d_segment_lengths[num_warps]));
         
     //////////////////////
     // update intervals
-    segmented_scan::exclusive_update_kernel<BLOCK_SIZE> <<<num_blocks, BLOCK_SIZE>>>
+    segmented_scan::exclusive_update_kernel<block_size> <<<num_blocks, block_size>>>
         (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
     
     return result + n;

@@ -214,11 +214,11 @@ OutputIterator binary_search(ForwardIterator begin,
 {
     if (values_begin == values_end) return output;  //empty range
 
-    const size_t BLOCK_SIZE = 256;
-    const size_t MAX_BLOCKS = thrust::experimental::arch::max_active_threads()/BLOCK_SIZE;
-    const size_t NUM_BLOCKS = std::min<size_t>(MAX_BLOCKS, ( (values_end - values_begin) + (BLOCK_SIZE - 1) ) / BLOCK_SIZE);
+    const size_t block_size = 256;
+    const size_t max_blocks = thrust::experimental::arch::max_active_threads()/block_size;
+    const size_t num_blocks = std::min<size_t>(max_blocks, ( (values_end - values_begin) + (block_size - 1) ) / block_size);
 
-    binary_search_kernel<<<NUM_BLOCKS, BLOCK_SIZE>>>
+    binary_search_kernel<<<num_blocks, block_size>>>
         (begin, end, values_begin, values_end, output, comp, func);
 
     return output + (values_end - values_begin); 

@@ -77,8 +77,8 @@ void checkCudaError(const char *msg)
 
 namespace RadixSort
 {
-    const unsigned int CTA_SIZE  = 256;
-    const unsigned int WARP_SIZE = 32;
+    const unsigned int cta_size  = 256;
+    const unsigned int warp_size = 32;
 }
 
 
@@ -97,11 +97,11 @@ typedef unsigned int uint;
 template<class T, int maxlevel>
 __device__ T scanwarp(T val, T* sData)
 {
-    // The following is the same as 2 * RadixSort::WARP_SIZE * warpId + threadInWarp = 
-    // 64*(threadIdx.x >> 5) + (threadIdx.x & (RadixSort::WARP_SIZE - 1))
-    int idx = 2 * threadIdx.x - (threadIdx.x & (RadixSort::WARP_SIZE - 1));
+    // The following is the same as 2 * RadixSort::warp_size * warpId + threadInWarp = 
+    // 64*(threadIdx.x >> 5) + (threadIdx.x & (RadixSort::warp_size - 1))
+    int idx = 2 * threadIdx.x - (threadIdx.x & (RadixSort::warp_size - 1));
     sData[idx] = 0;
-    idx += RadixSort::WARP_SIZE;
+    idx += RadixSort::warp_size;
     sData[idx] = val;          __SYNC
 
 #ifdef __DEVICE_EMULATION__
@@ -127,7 +127,7 @@ __device__ T scanwarp(T val, T* sData)
 }
 
 //----------------------------------------------------------------------------
-// scan4 scans 4*RadixSort::CTA_SIZE numElements in a block (4 per thread), using 
+// scan4 scans 4*RadixSort::cta_size numElements in a block (4 per thread), using 
 // a warp-scan algorithm
 //----------------------------------------------------------------------------
 template <typename T>
@@ -148,14 +148,14 @@ __device__ uint4 scan4(T idata)  //T = uint4
     val = scanwarp<uint, 4>(val, ptr);
     __syncthreads();
 
-    if ((idx & (RadixSort::WARP_SIZE - 1)) == RadixSort::WARP_SIZE - 1)
+    if ((idx & (RadixSort::warp_size - 1)) == RadixSort::warp_size - 1)
     {
         ptr[idx >> 5] = val + val4.w + sum[2];
     }
     __syncthreads();
 
 #ifndef __DEVICE_EMULATION__
-    if (idx < RadixSort::WARP_SIZE)
+    if (idx < RadixSort::warp_size)
 #endif
     {
         ptr[idx] = scanwarp<uint, 2>(ptr[idx], ptr);
@@ -220,34 +220,34 @@ __device__ void radixSortBlock(uint4 &key, uint4 &value)
         lsb.z = !((key.z >> shift) & 0x1);
         lsb.w = !((key.w >> shift) & 0x1);
 
-        uint4 r = rank4<RadixSort::CTA_SIZE>(lsb);
+        uint4 r = rank4<RadixSort::cta_size>(lsb);
 
 #if 1
-        // This arithmetic strides the ranks across 4 CTA_SIZE regions
-        sMem1[(r.x & 3) * RadixSort::CTA_SIZE + (r.x >> 2)] = key.x;
-        sMem1[(r.y & 3) * RadixSort::CTA_SIZE + (r.y >> 2)] = key.y;
-        sMem1[(r.z & 3) * RadixSort::CTA_SIZE + (r.z >> 2)] = key.z;
-        sMem1[(r.w & 3) * RadixSort::CTA_SIZE + (r.w >> 2)] = key.w;
+        // This arithmetic strides the ranks across 4 cta_size regions
+        sMem1[(r.x & 3) * RadixSort::cta_size + (r.x >> 2)] = key.x;
+        sMem1[(r.y & 3) * RadixSort::cta_size + (r.y >> 2)] = key.y;
+        sMem1[(r.z & 3) * RadixSort::cta_size + (r.z >> 2)] = key.z;
+        sMem1[(r.w & 3) * RadixSort::cta_size + (r.w >> 2)] = key.w;
         __syncthreads();
 
         // The above allows us to read without 4-way bank conflicts:
         key.x = sMem1[threadIdx.x];
-        key.y = sMem1[threadIdx.x +     RadixSort::CTA_SIZE];
-        key.z = sMem1[threadIdx.x + 2 * RadixSort::CTA_SIZE];
-        key.w = sMem1[threadIdx.x + 3 * RadixSort::CTA_SIZE];
+        key.y = sMem1[threadIdx.x +     RadixSort::cta_size];
+        key.z = sMem1[threadIdx.x + 2 * RadixSort::cta_size];
+        key.w = sMem1[threadIdx.x + 3 * RadixSort::cta_size];
 
         __syncthreads();
 
-        sMem1[(r.x & 3) * RadixSort::CTA_SIZE + (r.x >> 2)] = value.x;
-        sMem1[(r.y & 3) * RadixSort::CTA_SIZE + (r.y >> 2)] = value.y;
-        sMem1[(r.z & 3) * RadixSort::CTA_SIZE + (r.z >> 2)] = value.z;
-        sMem1[(r.w & 3) * RadixSort::CTA_SIZE + (r.w >> 2)] = value.w;
+        sMem1[(r.x & 3) * RadixSort::cta_size + (r.x >> 2)] = value.x;
+        sMem1[(r.y & 3) * RadixSort::cta_size + (r.y >> 2)] = value.y;
+        sMem1[(r.z & 3) * RadixSort::cta_size + (r.z >> 2)] = value.z;
+        sMem1[(r.w & 3) * RadixSort::cta_size + (r.w >> 2)] = value.w;
         __syncthreads();
 
         value.x = sMem1[threadIdx.x];
-        value.y = sMem1[threadIdx.x +     RadixSort::CTA_SIZE];
-        value.z = sMem1[threadIdx.x + 2 * RadixSort::CTA_SIZE];
-        value.w = sMem1[threadIdx.x + 3 * RadixSort::CTA_SIZE];
+        value.y = sMem1[threadIdx.x +     RadixSort::cta_size];
+        value.z = sMem1[threadIdx.x + 2 * RadixSort::cta_size];
+        value.w = sMem1[threadIdx.x + 3 * RadixSort::cta_size];
 #else
         sMem1[r.x] = key.x;
         sMem1[r.y] = key.y;
@@ -385,7 +385,7 @@ __global__ void findRadixOffsets(uint2 *keys,
 
     uint2 *sRadix2         = (uint2*)sMem2;
     uint  *sRadix1         = (uint*) sRadix2; 
-    uint  *sStartPointers  = (uint*)(sMem2 + RadixSort::CTA_SIZE);
+    uint  *sStartPointers  = (uint*)(sMem2 + RadixSort::cta_size);
 
     uint blockId = blockIdx.x + startBlock;
     const uint i = blockId * blockDim.x + threadIdx.x;
@@ -423,9 +423,9 @@ __global__ void findRadixOffsets(uint2 *keys,
     {
         sStartPointers[sRadix1[threadIdx.x]] = threadIdx.x;
     }
-    if(sRadix1[threadIdx.x + RadixSort::CTA_SIZE] != sRadix1[threadIdx.x + RadixSort::CTA_SIZE - 1]) 
+    if(sRadix1[threadIdx.x + RadixSort::cta_size] != sRadix1[threadIdx.x + RadixSort::cta_size - 1]) 
     {
-        sStartPointers[sRadix1[threadIdx.x + RadixSort::CTA_SIZE]] = threadIdx.x + RadixSort::CTA_SIZE;
+        sStartPointers[sRadix1[threadIdx.x + RadixSort::cta_size]] = threadIdx.x + RadixSort::cta_size;
     }
     __syncthreads();
 
@@ -441,16 +441,16 @@ __global__ void findRadixOffsets(uint2 *keys,
         sStartPointers[sRadix1[threadIdx.x - 1]] = 
             threadIdx.x - sStartPointers[sRadix1[threadIdx.x - 1]];
     }
-    if(sRadix1[threadIdx.x + RadixSort::CTA_SIZE] != sRadix1[threadIdx.x + RadixSort::CTA_SIZE - 1] ) 
+    if(sRadix1[threadIdx.x + RadixSort::cta_size] != sRadix1[threadIdx.x + RadixSort::cta_size - 1] ) 
     {
-        sStartPointers[sRadix1[threadIdx.x + RadixSort::CTA_SIZE - 1]] = 
-            threadIdx.x + RadixSort::CTA_SIZE - sStartPointers[sRadix1[threadIdx.x + RadixSort::CTA_SIZE - 1]];
+        sStartPointers[sRadix1[threadIdx.x + RadixSort::cta_size - 1]] = 
+            threadIdx.x + RadixSort::cta_size - sStartPointers[sRadix1[threadIdx.x + RadixSort::cta_size - 1]];
     }
 
-    if(threadIdx.x == RadixSort::CTA_SIZE - 1) 
+    if(threadIdx.x == RadixSort::cta_size - 1) 
     {
-        sStartPointers[sRadix1[2 * RadixSort::CTA_SIZE - 1]] = 
-            2 * RadixSort::CTA_SIZE - sStartPointers[sRadix1[2 * RadixSort::CTA_SIZE - 1]];
+        sStartPointers[sRadix1[2 * RadixSort::cta_size - 1]] = 
+            2 * RadixSort::cta_size - sStartPointers[sRadix1[2 * RadixSort::cta_size - 1]];
     }
     __syncthreads();
     
@@ -464,7 +464,7 @@ __global__ void findRadixOffsets(uint2 *keys,
 
 //----------------------------------------------------------------------------
 // reorderData shuffles data in the array globally after the radix offsets 
-// have been found. Depends on RadixSort::CTA_SIZE being 16 * number of radices 
+// have been found. Depends on RadixSort::cta_size being 16 * number of radices 
 // (i.e. 16 * 2^nbits).
 // 
 // This is quite fast and fully coalesces memory writes, albeit by doing extra 
@@ -484,8 +484,8 @@ __global__ void reorderData(uint  *outKeys,
                             uint   startBlock,
                             PostProcess postprocess)
 {
-    __shared__ uint2 sKeys2[RadixSort::CTA_SIZE];
-    __shared__ uint2 sValues2[RadixSort::CTA_SIZE];
+    __shared__ uint2 sKeys2[RadixSort::cta_size];
+    __shared__ uint2 sValues2[RadixSort::cta_size];
     __shared__ uint sOffsets[16];
     __shared__ uint sBlockOffsets[16];
 
@@ -532,13 +532,13 @@ __global__ void reorderData(uint  *outKeys,
 	        outValues[globalOffset] = sValues1[threadIdx.x];
         }
 
-        radix = (sKeys1[threadIdx.x + RadixSort::CTA_SIZE] >> startbit) & 0xF;
-	    globalOffset = sOffsets[radix] + threadIdx.x + RadixSort::CTA_SIZE - sBlockOffsets[radix];
+        radix = (sKeys1[threadIdx.x + RadixSort::cta_size] >> startbit) & 0xF;
+	    globalOffset = sOffsets[radix] + threadIdx.x + RadixSort::cta_size - sBlockOffsets[radix];
 	    
         if (fullBlocks || globalOffset < numElements)
         {
-	        outKeys[globalOffset]   = postprocess(sKeys1[threadIdx.x + RadixSort::CTA_SIZE]);
-	        outValues[globalOffset] = sValues1[threadIdx.x + RadixSort::CTA_SIZE];
+	        outKeys[globalOffset]   = postprocess(sKeys1[threadIdx.x + RadixSort::cta_size]);
+	        outValues[globalOffset] = sValues1[threadIdx.x + RadixSort::cta_size];
         }
     }
     else
@@ -605,8 +605,8 @@ void radixSortStep(uint *keys,
                    PreProcess  preprocess,
                    PostProcess postprocess)
 {
-    const uint eltsPerBlock  = RadixSort::CTA_SIZE * 4;
-    const uint eltsPerBlock2 = RadixSort::CTA_SIZE * 2;
+    const uint eltsPerBlock  = RadixSort::cta_size * 4;
+    const uint eltsPerBlock2 = RadixSort::cta_size * 2;
 
     bool fullBlocks = ((numElements % eltsPerBlock) == 0);
     uint numBlocks = (fullBlocks) ? 
@@ -626,13 +626,13 @@ void radixSortStep(uint *keys,
         if (blocks < max1DBlocks && !fullBlocks)
         {
             radixSortBlocks<nbits, startbit, false>
-                <<<blocks, RadixSort::CTA_SIZE, 4 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)tempValues, (uint4*)keys, (uint4*)values, numElements, block, preprocess);
         }
         else
         {
             radixSortBlocks<nbits, startbit, true>
-                <<<blocks, RadixSort::CTA_SIZE, 4 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)tempValues, (uint4*)keys, (uint4*)values, numElements, block, preprocess);
         }
     }
@@ -644,13 +644,13 @@ void radixSortStep(uint *keys,
         if (blocks < max1DBlocks && !fullBlocks)
         {
             findRadixOffsets<startbit, false>
-                <<<blocks, RadixSort::CTA_SIZE, 3 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
         }
         else
         {
             findRadixOffsets<startbit, true>
-                <<<blocks, RadixSort::CTA_SIZE, 3 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
         }
     }
@@ -667,13 +667,13 @@ void radixSortStep(uint *keys,
         {
             if (manualCoalesce)
             {
-                reorderData<startbit, false, true><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderData<startbit, false, true><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
             }
             else
             {
-                reorderData<startbit, false, false><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderData<startbit, false, false><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
             }
@@ -682,13 +682,13 @@ void radixSortStep(uint *keys,
         {
             if (manualCoalesce)
             {
-                reorderData<startbit, true, true><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderData<startbit, true, true><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
             }
             else
             {
-                reorderData<startbit, true, false><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderData<startbit, true, false><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
             }
@@ -772,18 +772,18 @@ __device__ void radixSortBlockKeysOnly(uint4 &key)
         uint4 r = rank4<256>(lsb);
 
 #if 1
-        // This arithmetic strides the ranks across 4 CTA_SIZE regions
-        sMem1[(r.x & 3) * RadixSort::CTA_SIZE + (r.x >> 2)] = key.x;
-        sMem1[(r.y & 3) * RadixSort::CTA_SIZE + (r.y >> 2)] = key.y;
-        sMem1[(r.z & 3) * RadixSort::CTA_SIZE + (r.z >> 2)] = key.z;
-        sMem1[(r.w & 3) * RadixSort::CTA_SIZE + (r.w >> 2)] = key.w;
+        // This arithmetic strides the ranks across 4 cta_size regions
+        sMem1[(r.x & 3) * RadixSort::cta_size + (r.x >> 2)] = key.x;
+        sMem1[(r.y & 3) * RadixSort::cta_size + (r.y >> 2)] = key.y;
+        sMem1[(r.z & 3) * RadixSort::cta_size + (r.z >> 2)] = key.z;
+        sMem1[(r.w & 3) * RadixSort::cta_size + (r.w >> 2)] = key.w;
         __syncthreads();
 
         // The above allows us to read without 4-way bank conflicts:
         key.x = sMem1[threadIdx.x];
-        key.y = sMem1[threadIdx.x +     RadixSort::CTA_SIZE];
-        key.z = sMem1[threadIdx.x + 2 * RadixSort::CTA_SIZE];
-        key.w = sMem1[threadIdx.x + 3 * RadixSort::CTA_SIZE];
+        key.y = sMem1[threadIdx.x +     RadixSort::cta_size];
+        key.z = sMem1[threadIdx.x + 2 * RadixSort::cta_size];
+        key.w = sMem1[threadIdx.x + 3 * RadixSort::cta_size];
 #else
         sMem1[r.x] = key.x;
         sMem1[r.y] = key.y;
@@ -877,7 +877,7 @@ __global__ void radixSortBlocksKeysOnly(uint4* keysOut, uint4* keysIn, uint numE
 
 //----------------------------------------------------------------------------
 // reorderData shuffles data in the array globally after the radix offsets 
-// have been found. Depends on RadixSort::CTA_SIZE being 16 * number of radices 
+// have been found. Depends on RadixSort::cta_size being 16 * number of radices 
 // (i.e. 16 * 2^nbits).
 // 
 // This is quite fast and fully coalesces memory writes, albeit by doing extra 
@@ -895,7 +895,7 @@ __global__ void reorderDataKeysOnly(uint  *outKeys,
                                     uint   startBlock,
                                     PostProcess postprocess)
 {
-    __shared__ uint2 sKeys2[RadixSort::CTA_SIZE];
+    __shared__ uint2 sKeys2[RadixSort::cta_size];
     __shared__ uint sOffsets[16];
     __shared__ uint sBlockOffsets[16];
     
@@ -936,12 +936,12 @@ __global__ void reorderDataKeysOnly(uint  *outKeys,
 	        outKeys[globalOffset]   = postprocess(sKeys1[threadIdx.x]);
         }
 
-        radix = (sKeys1[threadIdx.x + RadixSort::CTA_SIZE] >> startbit) & 0xF;
-	    globalOffset = sOffsets[radix] + threadIdx.x + RadixSort::CTA_SIZE - sBlockOffsets[radix];
+        radix = (sKeys1[threadIdx.x + RadixSort::cta_size] >> startbit) & 0xF;
+	    globalOffset = sOffsets[radix] + threadIdx.x + RadixSort::cta_size - sBlockOffsets[radix];
 	    
         if (fullBlocks || globalOffset < numElements)
         {
-	        outKeys[globalOffset]   = postprocess(sKeys1[threadIdx.x + RadixSort::CTA_SIZE]);
+	        outKeys[globalOffset]   = postprocess(sKeys1[threadIdx.x + RadixSort::cta_size]);
         }
     }
     else
@@ -1005,8 +1005,8 @@ void radixSortStepKeysOnly(uint *keys,
                            PreProcess  preprocess,
                            PostProcess postprocess)
 {
-    const uint eltsPerBlock = RadixSort::CTA_SIZE * 4;
-    const uint eltsPerBlock2 = RadixSort::CTA_SIZE * 2;
+    const uint eltsPerBlock = RadixSort::cta_size * 4;
+    const uint eltsPerBlock2 = RadixSort::cta_size * 2;
 
     bool fullBlocks = ((numElements % eltsPerBlock) == 0);
     uint numBlocks = (fullBlocks) ? 
@@ -1026,13 +1026,13 @@ void radixSortStepKeysOnly(uint *keys,
         if (blocks < max1DBlocks && !fullBlocks)
         {
             radixSortBlocksKeysOnly<nbits, startbit, false>
-                <<<blocks, RadixSort::CTA_SIZE, 4 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)keys, numElements, block, preprocess);
         }
         else
         {
             radixSortBlocksKeysOnly<nbits, startbit, true>
-                <<<blocks, RadixSort::CTA_SIZE, 4 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)keys, numElements, block, preprocess);
         }
     }
@@ -1044,13 +1044,13 @@ void radixSortStepKeysOnly(uint *keys,
         if (blocks < max1DBlocks && !fullBlocks)
         {
             findRadixOffsets<startbit, false>
-                <<<blocks, RadixSort::CTA_SIZE, 3 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
         }
         else
         {
             findRadixOffsets<startbit, true>
-                <<<blocks, RadixSort::CTA_SIZE, 3 * RadixSort::CTA_SIZE * sizeof(uint)>>>
+                <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
         }
     }
@@ -1067,13 +1067,13 @@ void radixSortStepKeysOnly(uint *keys,
         {
             if (manualCoalesce)
             {
-                reorderDataKeysOnly<startbit, false, true><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderDataKeysOnly<startbit, false, true><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
             }
             else
             {
-                reorderDataKeysOnly<startbit, false, false><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderDataKeysOnly<startbit, false, false><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
             }
@@ -1082,13 +1082,13 @@ void radixSortStepKeysOnly(uint *keys,
         {
             if (manualCoalesce)
             {
-                reorderDataKeysOnly<startbit, true, true><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderDataKeysOnly<startbit, true, true><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
             }
             else
             {
-                reorderDataKeysOnly<startbit, true, false><<<blocks, RadixSort::CTA_SIZE>>>
+                reorderDataKeysOnly<startbit, true, false><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
             }
@@ -1191,12 +1191,12 @@ void radix_sort(unsigned int * keys,
         return;
     }
 
-    unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
+    unsigned int numBlocks  = BLOCKING(numElements, RadixSort::cta_size * 4);
         
     thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
-    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::WARP_SIZE * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::WARP_SIZE * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::WARP_SIZE * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::warp_size * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
 
@@ -1259,13 +1259,13 @@ void radix_sort_by_key(unsigned int * keys,
         return;
     }
     
-    unsigned int numBlocks  = BLOCKING(numElements, RadixSort::CTA_SIZE * 4);
+    unsigned int numBlocks  = BLOCKING(numElements, RadixSort::cta_size * 4);
 
     thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
     thrust::detail::raw_device_buffer<unsigned int> temp_values(numElements);
-    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::WARP_SIZE * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::WARP_SIZE * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::WARP_SIZE * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::warp_size * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
     
