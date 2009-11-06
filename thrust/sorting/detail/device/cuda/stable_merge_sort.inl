@@ -91,7 +91,15 @@ template<typename Key, typename Value>
     static const unsigned int final_candidate = 1<<lg_candidate;
 
   public:
-    static const unsigned int result =  (final_candidate < max_blocksize) ? final_candidate : max_blocksize;
+    // XXX WAR nvcc 3.0 bug
+    //static const unsigned int result =  (final_candidate < max_blocksize) ? final_candidate : max_blocksize;
+
+    static const unsigned int result = 
+      thrust::detail::eval_if<
+        final_candidate < max_blocksize,
+        thrust::detail::integral_constant<unsigned int, final_candidate>,
+        thrust::detail::integral_constant<unsigned int, max_blocksize>
+      >::type::value;
 };
 
 template<typename Key, typename Value>
