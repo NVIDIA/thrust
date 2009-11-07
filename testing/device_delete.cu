@@ -11,11 +11,14 @@ struct Foo
     :set_me_upon_destruction(0)
   {}
 
-  __device__
+  __host__ __device__
   ~Foo(void)
   {
+#ifdef __CUDA_ARCH__
+    // __device__ overload
     if(set_me_upon_destruction != 0)
       *set_me_upon_destruction = true;
+#endif
   }
 
   bool *set_me_upon_destruction;
