@@ -432,7 +432,8 @@ template<typename T, typename Alloc>
   thrust::detail::destroy(begin(), end());
 
   // deallocate
-  mAllocator.deallocate(mBegin.base(), capacity());
+  if(capacity())
+    mAllocator.deallocate(mBegin.base(), capacity());
 } // end vector_base::~vector_base()
 
 template<typename T, typename Alloc>
@@ -692,7 +693,8 @@ template<typename T, typename Alloc>
       thrust::detail::destroy(begin(), end());
 
       // deallocate the old storage
-      mAllocator.deallocate(&*begin(), capacity());
+      if(capacity())
+        mAllocator.deallocate(&*begin(), capacity());
   
       // record the vector's new parameters
       mBegin    = new_begin;
@@ -805,7 +807,8 @@ template<typename T, typename Alloc>
       thrust::detail::destroy(begin(), end());
 
       // deallocate the old storage
-      mAllocator.deallocate(&*begin(), capacity());
+      if(capacity())
+        mAllocator.deallocate(&*begin(), capacity());
   
       // record the vector's new parameters
       mBegin    = new_begin;
@@ -879,7 +882,8 @@ template<typename T, typename Alloc>
     thrust::detail::destroy(begin(), end());
 
     // deallocate the old storage
-    mAllocator.deallocate(&*begin(), capacity());
+    if(capacity())
+      mAllocator.deallocate(&*begin(), capacity());
   
     // record the vector's new parameters
     mBegin    = new_begin;
