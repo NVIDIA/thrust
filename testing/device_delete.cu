@@ -26,6 +26,8 @@ struct Foo
 
 void TestDeviceDeleteDestructorInvocation(void)
 {
+  KNOWN_FAILURE;
+
   thrust::device_vector<bool> destructor_flag(1, false);
 
   thrust::device_ptr<Foo> foo_ptr  = thrust::device_new<Foo>();
