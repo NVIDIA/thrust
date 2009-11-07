@@ -53,44 +53,68 @@ void TestUninitializedFillPOD(void)
 DECLARE_VECTOR_UNITTEST(TestUninitializedFillPOD);
 
 
-template<typename T>
-struct Wrap
+struct CopyConstructTest
 {
-  T x;
+  CopyConstructTest(void)
+    :copy_constructed_on_host(false),
+     copy_constructed_on_device(false)
+  {}
 
-  Wrap(void){}
+  __host__ __device__
+  CopyConstructTest(const CopyConstructTest &exemplar)
+  {
+#if __CUDA_ARCH__
+    copy_constructed_on_device = true;
+    copy_constructed_on_host   = false;
+#else
+    copy_constructed_on_device = false;
+    copy_constructed_on_host   = true;
+#endif
+  }
 
-  explicit Wrap(T exemplar):x(exemplar){}
+  CopyConstructTest &operator=(const CopyConstructTest &x)
+  {
+    copy_constructed_on_host   = x.copy_constructed_on_host;
+    copy_constructed_on_device = x.copy_constructed_on_device;
+    return *this;
+  }
 
-  Wrap(const Wrap &exemplar):x(exemplar.x + 13){}
+  bool copy_constructed_on_host;
+  bool copy_constructed_on_device;
 };
 
 
-template<class Vector>
 struct TestUninitializedFillNonPOD
 {
   void operator()(const size_t dummy)
   {
+    // XXX nvcc 3.0b can generate this code correctly,
+    //     but leave this as a known fail for now
     KNOWN_FAILURE
-    //typedef thrust::device_vector< Wrap<int> > Vector;
-    //typedef typename Vector::value_type T;
+    typedef CopyConstructTest T;
+    thrust::device_ptr<T> v = thrust::device_malloc<T>(5);
 
-    //Vector v(5, T(0));
+    T exemplar;
+    ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
+    ASSERT_EQUAL(false, exemplar.copy_constructed_on_host);
 
-    //T exemplar(7);
+    T host_copy_of_exemplar(exemplar);
+    ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
+    ASSERT_EQUAL(true,  exemplar.copy_constructed_on_host);
 
-    //// use the copy constructor on the reference
-    //T reference(exemplar);
+    // copy construct v from the exemplar
+    thrust::uninitialized_fill(v, v + 1, exemplar);
 
-    //thrust::uninitialized_fill(v.begin() + 1, v.begin() + 4, exemplar);
+    T x;
+    ASSERT_EQUAL(false,  x.copy_constructed_on_device);
+    ASSERT_EQUAL(false,  x.copy_constructed_on_host);
 
-    //ASSERT_EQUAL(v[0], T(0));
-    //ASSERT_EQUAL(v[1], reference);
-    //ASSERT_EQUAL(v[2], reference);
-    //ASSERT_EQUAL(v[3], reference);
-    //ASSERT_EQUAL(v[4], T(0));
+    x = v[0];
+    ASSERT_EQUAL(true,   x.copy_constructed_on_device);
+    ASSERT_EQUAL(false,  x.copy_constructed_on_host);
+
+    thrust::device_free(v);
   }
 };
-VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_malloc_allocator> gTestUninitializedFillNonPODDeviceInstance;
-VectorUnitTest<TestUninitializedFillNonPOD, thrusttest::type_list<Wrap<int>, Wrap<float> >, thrust::host_vector, std::allocator> gTestUninitializedFillNonPODHostInstance;
+DECLARE_UNITTEST(TestUninitializedFillNonPOD);
 
