@@ -15,11 +15,15 @@
  */
 
 
-/*! \file free.inl
- *  \brief Inline file for free.h.
+/*! \file malloc.h
+ *  \brief Generic implementation of device malloc.
  */
 
-#include <cuda_runtime_api.h>
+#pragma once
+
+#include <thrust/device_ptr.h>
+#include <cstdlib>
+#include <stdexcept>
 
 namespace thrust
 {
@@ -30,20 +34,26 @@ namespace detail
 namespace device
 {
 
-namespace cuda
+namespace generic
 {
 
-void free(thrust::device_ptr<void> ptr)
+inline thrust::device_ptr<void> malloc(const std::size_t n)
 {
-  cudaFree(ptr.get());
-} // end free()
+  void *result = std::malloc(n);
 
-} // end namespace cuda
+  if(!result)
+  {
+    throw std::bad_alloc();
+  } // end if
+
+  return thrust::device_ptr<void>(result);
+} // end malloc()
+
+} // end namespace generic
 
 } // end namespace device
 
 } // end namespace detail
 
 } // end namespace thrust
-
 

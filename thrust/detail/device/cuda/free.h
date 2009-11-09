@@ -22,6 +22,8 @@
 #pragma once
 
 #include <thrust/device_ptr.h>
+#include <cuda_runtime_api.h>
+#include <stdexcept>
 
 namespace thrust
 {
@@ -35,7 +37,15 @@ namespace device
 namespace cuda
 {
 
-inline void free(thrust::device_ptr<void> ptr);
+inline void free(thrust::device_ptr<void> ptr)
+{
+  cudaError_t error = cudaFree(ptr.get());
+
+  if(error)
+  {
+    throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+  } // end error
+} // end free()
 
 } // end namespace cuda
 
@@ -44,6 +54,4 @@ inline void free(thrust::device_ptr<void> ptr);
 } // end namespace detail
 
 } // end namespace thrust
-
-#include "free.inl"
 

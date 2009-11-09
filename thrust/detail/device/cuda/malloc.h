@@ -16,12 +16,14 @@
 
 
 /*! \file malloc.h
- *  \brief Defines the interface to malloc() on CUDA.
+ *  \brief CUDA implementation of device malloc.
  */
 
 #pragma once
 
 #include <thrust/device_ptr.h>
+#include <cuda_runtime_api.h>
+#include <stdexcept>
 
 namespace thrust
 {
@@ -35,7 +37,19 @@ namespace device
 namespace cuda
 {
 
-inline device_ptr<void> malloc(const std::size_t n);
+inline thrust::device_ptr<void> malloc(const std::size_t n)
+{
+  void *result = 0;
+
+  cudaError_t error = cudaMalloc(reinterpret_cast<void**>(&result), n);
+
+  if(error)
+  {
+    throw std::bad_alloc();
+  } // end if
+
+  return thrust::device_ptr<void>(result);
+} // end malloc()
 
 } // end namespace cuda
 
@@ -44,6 +58,4 @@ inline device_ptr<void> malloc(const std::size_t n);
 } // end namespace detail
 
 } // end namespace thrust
-
-#include "malloc.inl"
 

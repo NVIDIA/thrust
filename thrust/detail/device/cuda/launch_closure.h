@@ -93,7 +93,7 @@ template<typename NullaryFunction>
     detail::launch_closure_by_pointer<<<num_blocks, block_size>>>(f_ptr.get());
 
     // free device memory
-    thrust::detail::device::cuda::free(temp_ptr);
+    thrust::detail::device::cuda::free(f_ptr);
   }
 };
 
