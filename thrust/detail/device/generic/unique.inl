@@ -27,17 +27,17 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <limits>
+
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
+namespace generic
+{
 namespace detail
 {
 
@@ -47,11 +47,12 @@ ForwardIterator __unique_helper(ForwardIterator first, ForwardIterator last,
 {
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
     typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
+    typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
     difference_type n = last - first;
   
-    typedef raw_device_buffer<InputType> InputBuffer;
-    typedef raw_device_buffer<IndexType> IndexBuffer;
+    typedef raw_buffer<InputType,Space> InputBuffer;
+    typedef raw_buffer<IndexType,Space> IndexBuffer;
     InputBuffer input(first, last);
     IndexBuffer is_first(n), scatter_to(n);
 
@@ -97,11 +98,8 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last,
   }
 }
 
-
+} // end namespace generic
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
-
 

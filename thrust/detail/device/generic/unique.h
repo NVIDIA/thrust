@@ -16,12 +16,10 @@
 
 
 /*! \file unique.h
- *  \brief Device implementation of unique()
+ *  \brief Generic device implementation of unique()
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/unique.h>
 
 namespace thrust
 {
@@ -29,15 +27,17 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
 
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator unique(ForwardIterator first, ForwardIterator last,
-                       BinaryPredicate binary_pred)
-{
-    return thrust::detail::device::generic::unique(first, last, binary_pred);
-}
+                       BinaryPredicate binary_pred);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "unique.inl"
 
