@@ -16,12 +16,16 @@
 
 
 /*! \file swap_ranges.h
- *  \brief Device interface to swap_ranges.
+ *  \brief Device implementation for swap_ranges.
  */
 
 #pragma once
 
-#include <thrust/detail/device/generic/swap_ranges.h>
+#include <thrust/distance.h>
+#include <thrust/tuple.h>
+#include <thrust/utility.h>
+
+#include <thrust/iterator/zip_iterator.h>
 
 namespace thrust
 {
@@ -29,6 +33,23 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
+namespace detail
+{
+
+struct swap_pair_elements
+{
+  template <typename Tuple>
+  __device__
+  void operator()(Tuple t)
+  { 
+    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end swap_pair_elements
+
+} // end namespace detail
+
 
 template<typename ForwardIterator1,
          typename ForwardIterator2>
@@ -36,9 +57,14 @@ template<typename ForwardIterator1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-    return thrust::detail::device::generic::swap_ranges(first1, last1, first2);
+  thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1, first2)),
+                                   thrust::make_zip_iterator(thrust::make_tuple(last1,  first2 + thrust::distance(first1, last1))),
+                                   detail::swap_pair_elements());
+
+  return first2 + thrust::distance(first1, last1);
 }
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
