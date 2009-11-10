@@ -27,16 +27,16 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
 
 // WAR circular #inclusion with forward declaration of for_each 
 template<typename InputIterator, typename UnaryFunction> void for_each(InputIterator, InputIterator, UnaryFunction);
 
+namespace generic
+{
 namespace detail
 {
 
@@ -195,9 +195,8 @@ template<typename InputIterator1,
   return result + (last1 - first1); // return the end of the output sequence
 } // end transform_if()
 
+} // end namespace generic
 } // end namespace device
-
-} // end detail
-
-} // end thrust
+} // end namespace detail
+} // end namespace thrust
 

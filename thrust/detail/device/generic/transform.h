@@ -16,12 +16,10 @@
 
 
 /*! \file transform.h
- *  \brief Device implementation of transformation functions.
+ *  \brief Generic device implementation of transformation functions.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/transform.h>
 
 namespace thrust
 {
@@ -29,16 +27,16 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
 
 template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
   OutputIterator transform(InputIterator first, InputIterator last,
                            OutputIterator result,
-                           UnaryFunction unary_op)
-{
-    return thrust::detail::device::generic::transform(first, last, result, unary_op);
-}
+                           UnaryFunction unary_op);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -47,10 +45,7 @@ template<typename InputIterator1,
   OutputIterator transform(InputIterator1 first1, InputIterator1 last1,
                            InputIterator2 first2,
                            OutputIterator result,
-                           BinaryFunction binary_op)
-{
-    return thrust::detail::device::generic::transform(first1, last1, first2, result, binary_op);
-}
+                           BinaryFunction binary_op);
 
 
 template<typename InputIterator1,
@@ -62,10 +57,7 @@ template<typename InputIterator1,
                                InputIterator2 stencil,
                                ForwardIterator result,
                                UnaryFunction unary_op,
-                               Predicate pred)
-{
-    return thrust::detail::device::generic::transform_if(first, last, stencil, result, unary_op, pred);
-}
+                               Predicate pred);
 
 
 template<typename InputIterator1,
@@ -79,12 +71,12 @@ template<typename InputIterator1,
                                InputIterator3 stencil,
                                ForwardIterator result,
                                BinaryFunction binary_op,
-                               Predicate pred)
-{
-    return thrust::detail::device::generic::transform_if(first1, last1, first2, stencil, result, binary_op, pred);
-}
+                               Predicate pred);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/device/generic/transform.inl>
 
