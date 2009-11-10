@@ -107,10 +107,10 @@ template<unsigned int block_size,
 template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator input,
-                    const size_t n,
-                    OutputType init,
-                    BinaryFunction binary_op)
+  OutputType reduce_n(InputIterator input,
+                      const size_t n,
+                      OutputType init,
+                      BinaryFunction binary_op)
 {
     // handle zero length array case first
     if( n == 0 )
@@ -144,7 +144,7 @@ template<typename InputIterator,
         <<<1, block_size>>>(raw_pointer_cast(&temp[0]), grid_size + 1, raw_pointer_cast(&temp[0]), binary_op);
 
     return temp[0];
-} // end reduce()
+} // end reduce_n()
 
 
 } // end namespace cuda

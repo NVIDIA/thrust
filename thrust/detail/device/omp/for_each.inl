@@ -25,13 +25,10 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace omp
 {
 
@@ -55,10 +52,7 @@ void for_each(InputIterator first,
 
 
 } // end namespace omp
-
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 

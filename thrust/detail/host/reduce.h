@@ -53,8 +53,6 @@ template<typename InputIterator,
 
 
 } // end namespace host
-
 } // end namespace detail
-
 } // end namespace thrust
 

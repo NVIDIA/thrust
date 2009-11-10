@@ -20,7 +20,6 @@
 
 namespace thrust
 {
-
 namespace detail
 {
 
@@ -91,7 +90,6 @@ struct random_access_omp_device_iterator_tag
   operator random_access_device_iterator_tag () {return random_access_device_iterator_tag();} 
 };
 
-} // end detail
-
-} // end thrust
+} // end namespace detail
+} // end namespace thrust
 

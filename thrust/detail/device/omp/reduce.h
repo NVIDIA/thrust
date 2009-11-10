@@ -14,24 +14,33 @@
  *  limitations under the License.
  */
 
+
+/*! \file reduce.h
+ *  \brief OpenMP implementation for reduce
+ */
+
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/iterator/detail/backend_iterator_categories.h>
 
 namespace thrust
 {
 namespace detail
 {
+namespace device
+{
+namespace omp
+{
 
-#if THRUST_DEVICE_BACKEND == CUDA
-typedef thrust::detail::random_access_cuda_device_iterator_tag device_ptr_category;
-#elif THRUST_DEVICE_BACKEND == OMP
-typedef thrust::detail::random_access_omp_device_iterator_tag device_ptr_category;
-#else
-#error "Unknown device backend."
-#endif // THRUST_DEVICE_BACKEND
+template<typename InputIterator, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(InputIterator first,
+                    InputIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op);
 
-} // end detail
-} // end thrust
+} // end namespace omp
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 

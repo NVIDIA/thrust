@@ -20,7 +20,6 @@
 
 namespace thrust
 {
-
 namespace detail
 {
 
@@ -28,7 +27,14 @@ namespace detail
 struct cuda_device_space_tag : device_space_tag {};
 struct omp_device_space_tag : device_space_tag {};
 
-} // end detail
+#if THRUST_DEVICE_BACKEND == CUDA
+typedef cuda_device_space_tag default_device_space_tag;
+#elif THRUST_DEVICE_BACKEND == OMP
+typedef omp_device_space_tag default_device_space_tag;
+#else
+#error "Unknown device backend."
+#endif // THRUST_DEVICE_BACKEND
 
-} // end thrust
+} // end namespace detail
+} // end namespace thrust
 
