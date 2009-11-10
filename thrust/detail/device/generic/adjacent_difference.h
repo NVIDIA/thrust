@@ -16,12 +16,10 @@
 
 
 /*! \file adjacent_difference.h
- *  \brief Device interface to adjacent_difference.
+ *  \brief Generic device implementation of adjacent_difference.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/adjacent_difference.h>
 
 namespace thrust
 {
@@ -29,16 +27,18 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
 
 template <class InputIterator, class OutputIterator, class BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
-                                   BinaryFunction binary_op)
-{
-    return thrust::detail::device::generic::adjacent_difference(first, last, result, binary_op);
-}
+                                   BinaryFunction binary_op);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "adjacent_difference.inl"
 
