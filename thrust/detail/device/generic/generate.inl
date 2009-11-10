@@ -15,13 +15,7 @@
  */
 
 
-/*! \file generate.h
- *  \brief Device interface to generate.
- */
-
-#pragma once
-
-#include <thrust/detail/device/generic/generate.h>
+#include <thrust/detail/device/for_each.h>
 
 namespace thrust
 {
@@ -29,6 +23,29 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
+namespace detail
+{
+
+template<typename Generator>
+struct generate_functor
+{
+    Generator gen;
+
+    generate_functor(Generator _gen)
+        : gen(_gen){}
+
+    template<typename T>
+        __device__
+        void operator()(T &x)
+        {
+            x = gen();
+        }
+}; // end generate_functor
+  
+} // end namespace detail
+
 
 template<typename ForwardIterator,
          typename Generator>
@@ -36,9 +53,12 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-    thrust::detail::device::generic::generate(first, last, gen);
-}
+    detail::generate_functor<Generator> f(gen);
+    thrust::detail::device::for_each(first, last, f);
+} // end generate()
 
+
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust

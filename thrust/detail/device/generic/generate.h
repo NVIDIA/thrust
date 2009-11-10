@@ -16,12 +16,10 @@
 
 
 /*! \file generate.h
- *  \brief Device interface to generate.
+ *  \brief Generic device implementation of generate.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/generate.h>
 
 namespace thrust
 {
@@ -29,17 +27,19 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
 
 template<typename ForwardIterator,
          typename Generator>
   void generate(ForwardIterator first,
                 ForwardIterator last,
-                Generator gen)
-{
-    thrust::detail::device::generic::generate(first, last, gen);
-}
+                Generator gen);
 
+} // end namespace generate
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "generate.inl"
 
