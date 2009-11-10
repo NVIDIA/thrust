@@ -21,22 +21,21 @@
 
 #pragma once
 
+#include <thrust/distance.h>
+
 #include <thrust/detail/device/for_each.h>
 #include <thrust/detail/device/dereference.h>
-#include <thrust/distance.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
+namespace generic
+{
 namespace detail
 {
-
 
 template <typename RandomAccessIterator>
 struct gather_functor
@@ -53,7 +52,6 @@ struct gather_functor
     thrust::get<0>(t) = thrust::detail::device::dereference(input, thrust::get<1>(t)); 
   }
 }; // end gather_functor
-
 
 template <typename RandomAccessIterator, typename Predicate>
 struct gather_if_functor
@@ -72,7 +70,6 @@ struct gather_if_functor
       thrust::get<0>(t) = thrust::detail::device::dereference(input, thrust::get<1>(t)); 
   }
 }; // end gather_functor
-
 
 } // end detail
 
@@ -111,9 +108,8 @@ template<typename ForwardIterator,
 } // end gather_if()
 
 
+} // end namespace generic
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 

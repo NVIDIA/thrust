@@ -16,18 +16,18 @@
 
 
 /*! \file gather.h
- *  \brief Device implementations of gather functions.
+ *  \brief Generic device implementations of gather functions.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/gather.h>
 
 namespace thrust
 {
 namespace detail
 {
 namespace device
+{
+namespace generic
 {
 
 template<typename ForwardIterator,
@@ -36,10 +36,7 @@ template<typename ForwardIterator,
   void gather(ForwardIterator first,
               ForwardIterator last,
               InputIterator  map,
-              RandomAccessIterator input)
-{
-    thrust::detail::device::generic::gather(first, last, map, input); 
-}
+              RandomAccessIterator input);
 
 template<typename ForwardIterator,
          typename InputIterator1,
@@ -51,12 +48,12 @@ template<typename ForwardIterator,
                  InputIterator1 map,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
-                 Predicate pred)
-{
-    thrust::detail::device::generic::gather_if(first, last, map, stencil, input, pred);
-}
+                 Predicate pred);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "gather.inl"
 
