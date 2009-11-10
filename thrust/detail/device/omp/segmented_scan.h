@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include <thrust/detail/device/generic/segmented_scan.h>
-
 namespace thrust
 {
+
 namespace detail
 {
+
 namespace device
 {
 
@@ -40,11 +40,7 @@ template<typename InputIterator1,
                                           InputIterator2 first2,
                                           OutputIterator result,
                                           AssociativeOperator binary_op,
-                                          BinaryPredicate pred)
-{
-    return thrust::detail::device::generic::inclusive_segmented_scan
-        (first1, last1, first2, result, binary_op, pred);
-}
+                                          BinaryPredicate pred);
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -58,13 +54,13 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           const T init,
                                           AssociativeOperator binary_op,
-                                          BinaryPredicate pred)
-{
-    return thrust::detail::device::generic::exclusive_segmented_scan
-        (first1, last1, first2, result, init, binary_op, pred);
-}
+                                          BinaryPredicate pred);
 
 } // end namespace device
+
 } // end namespace detail
+
 } // end namespace thrust
+
+#include "segmented_scan.inl"
 
