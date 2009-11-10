@@ -16,7 +16,7 @@
 
 
 /*! \file scan.h
- *  \brief Scan operations (parallel prefix-sum) [cuda]
+ *  \brief Scan operations (parallel prefix-sum) [OpenMP]
  */
 
 #pragma once
@@ -27,7 +27,7 @@ namespace detail
 {
 namespace device
 {
-namespace cuda
+namespace omp
 {
 
 template<typename InputIterator,
@@ -48,7 +48,7 @@ template<typename InputIterator,
                                 T init,
                                 AssociativeOperator binary_op);
 
-} // end namespace cuda
+} // end namespace omp
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust

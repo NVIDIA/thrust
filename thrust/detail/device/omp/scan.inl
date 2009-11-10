@@ -14,12 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file scan.h
- *  \brief Scan operations (parallel prefix-sum) [cuda]
- */
-
-#pragma once
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -27,16 +22,32 @@ namespace detail
 {
 namespace device
 {
-namespace cuda
+namespace omp
 {
 
+// TODO parallelize these
 template<typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
   OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                AssociativeOperator binary_op);
+                                AssociativeOperator binary_op)
+{
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
+    if(first != last)
+    {
+        OutputType sum = *first;
+
+        *result = sum;
+
+        for(++first, ++result; first != last; ++first, ++result)
+            *result = sum = binary_op(sum, *first);
+    }
+
+    return result;
+}
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -46,12 +57,31 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                AssociativeOperator binary_op);
+                                AssociativeOperator binary_op)
+{
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-} // end namespace cuda
+    if(first != last)
+    {
+        OutputType tmp = *first;  // temporary value allows in-situ scan
+        OutputType sum =  init;
+
+        *result = sum;
+        sum = binary_op(sum, tmp);
+
+        for(++first, ++result; first != last; ++first, ++result)
+        {
+            tmp = *first;
+            *result = sum;
+            sum = binary_op(sum, tmp);
+        }
+    }
+
+    return result;
+}
+
+} // end namespace omp
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#include "scan.inl"
 
