@@ -16,21 +16,18 @@
 
 
 /*! \file binary_search.h
- *  \brief Search for values in sorted ranges [cuda]
+ *  \brief Generic implementations of binary search functions.
  */
 
 #pragma once
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
-namespace cuda
+namespace generic
 {
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -74,12 +71,10 @@ OutputIterator binary_search(ForwardIterator begin,
                              InputIterator values_end,
                              OutputIterator output,
                              StrictWeakOrdering comp);
-} // end namespace cuda
 
+} // end namespace generic
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #include "binary_search.inl"

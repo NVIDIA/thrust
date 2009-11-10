@@ -16,19 +16,17 @@
 
 
 /*! \file binary_search.h
- *  \brief Device implementations of binary search functions.
+ *  \brief Device interface to binary search functions.
  */
 
 #pragma once
 
-#include <thrust/detail/device/cuda/binary_search.h>
+#include <thrust/detail/device/generic/binary_search.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
 
@@ -38,7 +36,7 @@ ForwardIterator lower_bound(ForwardIterator begin,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    return thrust::detail::device::cuda::lower_bound(begin, end, value, comp);
+    return thrust::detail::device::generic::lower_bound(begin, end, value, comp);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -47,7 +45,7 @@ ForwardIterator upper_bound(ForwardIterator begin,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    return thrust::detail::device::cuda::upper_bound(begin, end, value, comp);
+    return thrust::detail::device::generic::upper_bound(begin, end, value, comp);
 }
 
 
@@ -57,7 +55,7 @@ bool binary_search(ForwardIterator begin,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
-    return thrust::detail::device::cuda::binary_search(begin, end, value, comp);
+    return thrust::detail::device::generic::binary_search(begin, end, value, comp);
 }
 
 
@@ -69,7 +67,7 @@ OutputIterator lower_bound(ForwardIterator begin,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    return thrust::detail::device::cuda::lower_bound(begin, end, values_begin, values_end, output, comp);
+    return thrust::detail::device::generic::lower_bound(begin, end, values_begin, values_end, output, comp);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -80,7 +78,7 @@ OutputIterator upper_bound(ForwardIterator begin,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    return thrust::detail::device::cuda::upper_bound(begin, end, values_begin, values_end, output, comp);
+    return thrust::detail::device::generic::upper_bound(begin, end, values_begin, values_end, output, comp);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -91,12 +89,10 @@ OutputIterator binary_search(ForwardIterator begin,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-    return thrust::detail::device::cuda::binary_search(begin, end, values_begin, values_end, output, comp);
+    return thrust::detail::device::generic::binary_search(begin, end, values_begin, values_end, output, comp);
 }
 
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 

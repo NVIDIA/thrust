@@ -21,30 +21,24 @@
 
 #pragma once
 
-// do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
-
-#include <algorithm>
-
-#include <thrust/detail/raw_buffer.h>
-
+#include <thrust/distance.h>
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/device/for_each.h>
 #include <thrust/detail/device/dereference.h>
+
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
-namespace cuda
+namespace generic
 {
-
 namespace detail
 {
 
@@ -78,7 +72,7 @@ namespace detail
 /////////////////////////////////
 
 template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-__device__
+__host__ __device__
 RandomAccessIterator __lower_bound(RandomAccessIterator begin, 
                                    RandomAccessIterator end, 
                                    const T& value,
@@ -110,7 +104,7 @@ RandomAccessIterator __lower_bound(RandomAccessIterator begin,
 }
 
 template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-__device__
+__host__ __device__
 RandomAccessIterator __upper_bound(RandomAccessIterator begin, 
                                    RandomAccessIterator end, 
                                    const T& value,
@@ -174,32 +168,23 @@ struct bsf
 };
 
 
-// TODO
-// step 0: precache selected elements from [begin, end) into [s_begin, s_end)
-// step 1: narrow(s_begin, s_end, value, comp) -> s_begin, s_end
-// step 2: output = search(new_begin, new_end, value, comp)
-
-template <class RandomAccessIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering, class BinarySearchFunction>
-__global__
-void binary_search_kernel(RandomAccessIterator begin, 
-                          RandomAccessIterator end,
-                          InputIterator values_begin,
-                          InputIterator values_end,
-                          OutputIterator output,
-                          StrictWeakOrdering comp,
-                          BinarySearchFunction func)
+template <typename ForwardIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
+struct binary_search_functor
 {
-    typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
+    ForwardIterator begin;
+    ForwardIterator end;
+    StrictWeakOrdering comp;
+    BinarySearchFunction func;
 
-    const difference_type grid_size = blockDim.x * gridDim.x;
-    const difference_type thread_id = blockIdx.x * blockDim.x + threadIdx.x;
+    binary_search_functor(ForwardIterator begin, ForwardIterator end, StrictWeakOrdering comp, BinarySearchFunction func)
+        : begin(begin), end(end), comp(comp), func(func) {}
 
-    const difference_type n = values_end - values_begin;
-    
-    for(difference_type i = thread_id; i < n; i += grid_size){
-        thrust::detail::device::dereference(output, i) = func(begin, end, thrust::detail::device::dereference(values_begin, i), comp);
-    }
-}
+    template <typename Tuple>
+        void operator()(Tuple t)
+        {
+            thrust::get<1>(t) = func(begin, end, thrust::get<0>(t), comp);
+        }
+}; // binary_search_functor
 
 
 // Vector Implementation
@@ -212,16 +197,11 @@ OutputIterator binary_search(ForwardIterator begin,
                              StrictWeakOrdering comp,
                              BinarySearchFunction func)
 {
-    if (values_begin == values_end) return output;  //empty range
+    thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(values_begin, output)),
+                                     thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(values_begin, values_end))),
+                                     detail::binary_search_functor<ForwardIterator, StrictWeakOrdering, BinarySearchFunction>(begin, end, comp, func));
 
-    const size_t block_size = 256;
-    const size_t max_blocks = thrust::experimental::arch::max_active_threads()/block_size;
-    const size_t num_blocks = std::min<size_t>(max_blocks, ( (values_end - values_begin) + (block_size - 1) ) / block_size);
-
-    binary_search_kernel<<<num_blocks, block_size>>>
-        (begin, end, values_begin, values_end, output, comp, func);
-
-    return output + (values_end - values_begin); 
+    return output + thrust::distance(values_begin, values_end);
 }
 
    
@@ -234,11 +214,13 @@ OutputType binary_search(ForwardIterator begin,
                          StrictWeakOrdering comp,
                          BinarySearchFunction func)
 {
+    typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+
     // use the vectorized path to implement the scalar version
 
     // allocate device buffers for value and output
-    thrust::detail::raw_device_buffer<T>          d_value(1);
-    thrust::detail::raw_device_buffer<OutputType> d_output(1);
+    thrust::detail::raw_buffer<T,Space>          d_value(1);
+    thrust::detail::raw_buffer<OutputType,Space> d_output(1);
 
     // copy value to device
     d_value[0] = value;
@@ -327,13 +309,8 @@ OutputIterator binary_search(ForwardIterator begin,
     return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::bsf());
 }
 
-} // end namespace cuda
-
+} // end namespace generic
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
-
-#endif // __CUDACC__
 
