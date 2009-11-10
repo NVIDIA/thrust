@@ -33,13 +33,12 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
+namespace cuda
+{
 namespace detail
 {
 
@@ -97,7 +96,7 @@ template<typename ForwardIterator, typename T>
             const T &exemplar,
             thrust::detail::false_type)
 {
-  detail::fill_functor<T> func(exemplar); 
+  fill_functor<T> func(exemplar); 
   thrust::detail::device::generate(first, last, func);
 }
 
@@ -113,7 +112,7 @@ template<typename ForwardIterator, typename T>
     if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
     {
         // XXX this needs to be pushed down into cuda::
-        detail::wide_fill(&*first, &*last, exemplar);
+        wide_fill(&*first, &*last, exemplar);
     }
     else
     {
@@ -138,10 +137,9 @@ template<typename ForwardIterator, typename T>
   detail::fill(first, last, exemplar, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
 
+} // end namespace cuda
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #else
@@ -156,11 +154,11 @@ template<typename ForwardIterator, typename T>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
+{
+namespace cuda
 {
 
 template<typename ForwardIterator, typename T>
@@ -178,10 +176,9 @@ template<typename ForwardIterator, typename T>
   thrust::copy(temp.begin(), temp.end(), first);
 }
 
+} // end namespace cuda
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #endif // __CUDACC__

@@ -21,27 +21,24 @@
 
 #pragma once
 
-#include <thrust/detail/device/dispatch/fill.h>
-#include <thrust/iterator/iterator_traits.h>
-
 namespace thrust
 {
 namespace detail
 {
 namespace device
 {
+namespace cuda
+{
 
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
-            const T &exemplar)
-{
-    // dispatch on space
-    thrust::detail::device::dispatch::fill(first, last, exemplar,
-            typename thrust::iterator_space<ForwardIterator>::type());
-}
+            const T &exemplar);
 
+} // end namespace cuda
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "fill.inl"
 

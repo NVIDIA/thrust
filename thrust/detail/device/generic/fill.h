@@ -21,8 +21,7 @@
 
 #pragma once
 
-#include <thrust/detail/device/dispatch/fill.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/generate.h>
 
 namespace thrust
 {
@@ -30,6 +29,25 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
+namespace detail
+{
+    template <typename T>
+    struct fill_functor
+    {
+      T exemplar;
+    
+      fill_functor(T _exemplar) 
+        : exemplar(_exemplar) {}
+    
+      __device__
+      T operator()(void)
+      { 
+          return exemplar;
+      }
+    };
+} // end namespace detail
 
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
@@ -37,10 +55,10 @@ template<typename ForwardIterator, typename T>
             const T &exemplar)
 {
     // dispatch on space
-    thrust::detail::device::dispatch::fill(first, last, exemplar,
-            typename thrust::iterator_space<ForwardIterator>::type());
+    thrust::detail::device::generate(first, last, detail::fill_functor<T>(exemplar));
 }
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
