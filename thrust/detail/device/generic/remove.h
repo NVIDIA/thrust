@@ -16,18 +16,18 @@
 
 
 /*! \file remove.h
- *  \brief Device interface to remove functions.
+ *  \brief Generic device implementations of remove functions.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/remove.h>
 
 namespace thrust
 {
 namespace detail
 {
 namespace device
+{
+namespace generic
 {
 
 template<typename ForwardIterator,
@@ -36,10 +36,7 @@ template<typename ForwardIterator,
   ForwardIterator remove_if(ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
-                            Predicate pred)
-{
-    return thrust::detail::device::generic::remove_if(first, last, stencil, pred);
-}
+                            Predicate pred);
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -47,10 +44,7 @@ template<typename InputIterator,
   OutputIterator remove_copy_if(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                Predicate pred)
-{
-    return thrust::detail::device::generic::remove_copy_if(first, last, result, pred);
-}
+                                Predicate pred);
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -60,12 +54,12 @@ template<typename InputIterator1,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
-                                Predicate pred)
-{
-    return thrust::detail::device::generic::remove_copy_if(first, last, stencil, result, pred);
-}
+                                Predicate pred);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "remove.inl"
 

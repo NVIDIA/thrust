@@ -19,26 +19,23 @@
  *  \brief Inline file for remove.h
  */
 
-#pragma once
-
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/functional.h>
-#include <thrust/copy.h>
 #include <thrust/transform.h>
 #include <thrust/scan.h>
 #include <thrust/scatter.h>
+
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
+namespace generic
+{
 
 template<typename ForwardIterator,
          typename InputIterator,
@@ -51,18 +48,13 @@ template<typename ForwardIterator,
   // XXX do we need to call destructors for elements which get removed?
 
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
   // create temporary storage for an intermediate result
-  typedef raw_device_buffer<InputType> RawBuffer;
-  RawBuffer temp(end - begin);
+  thrust::detail::raw_buffer<InputType,Space> temp(begin, end);
 
   // remove into temp
-  typename RawBuffer::iterator new_end = thrust::detail::device::remove_copy_if(begin, end, stencil, temp.begin(), pred);
-
-  // copy temp to the original range
-  thrust::copy(temp.begin(), new_end, begin);
-
-  return begin + (new_end - temp.begin());
+  return thrust::detail::device::generic::remove_copy_if(temp.begin(), temp.end(), stencil, begin, pred);
 } 
 
 template<typename InputIterator,
@@ -73,7 +65,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-    return thrust::detail::device::remove_copy_if(first, last, first, result, pred);
+    return thrust::detail::device::generic::remove_copy_if(first, last, first, result, pred);
 }
 
 
@@ -88,17 +80,19 @@ template<typename InputIterator1,
                                 Predicate pred)
 {
   typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
+  typedef typename thrust::iterator_space<OutputIterator>::type Space;
 
   difference_type n = end - begin;
 
   difference_type size_of_new_sequence = 0;
+
   if(n > 0)
   {
     // negate the predicate -- this tells us which elements to keep
     thrust::unary_negate<Predicate> not_pred(pred);
 
     // evaluate not_pred on [begin,end), store result to temp vector
-    raw_device_buffer<difference_type> result_of_not_pred(n);
+    thrust::detail::raw_buffer<difference_type,Space> result_of_not_pred(n);
 
     thrust::transform(stencil,
                       stencil + n,
@@ -106,7 +100,8 @@ template<typename InputIterator1,
                       not_pred);
 
     // scan the pred result to a temp vector
-    raw_device_buffer<difference_type> not_pred_scatter_indices(n);
+    thrust::detail::raw_buffer<difference_type,Space> not_pred_scatter_indices(n);
+
     thrust::exclusive_scan(result_of_not_pred.begin(),
                            result_of_not_pred.end(),
                            not_pred_scatter_indices.begin());
@@ -126,11 +121,8 @@ template<typename InputIterator1,
   return result + size_of_new_sequence;
 } // end remove_copy_if()
 
-
+} // end namespace generic
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
-
 
