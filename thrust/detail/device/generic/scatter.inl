@@ -31,19 +31,18 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
 
 // XXX WAR circluar #inclusion with this forward declaration
 template<typename InputIterator, typename UnaryFunction> void for_each(InputIterator, InputIterator, UnaryFunction);
 
+namespace generic
+{
 namespace detail
 {
-
 
 template <typename RandomAccessIterator>
 struct scatter_functor
@@ -80,7 +79,7 @@ struct scatter_if_functor
   }
 }; // end scatter_if_functor
 
-} // end detail
+} // end namespace detail
 
 
 template<typename InputIterator1,
@@ -107,8 +106,8 @@ template<typename InputIterator1,
   forced_iterator first_forced(first), last_forced(last);
 
   detail::scatter_functor<RandomAccessIterator> func(output);
-  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first_forced, map)),
-                                   thrust::make_zip_iterator(make_tuple(last_forced,  map + thrust::distance(first, last))),
+  thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first_forced, map)),
+                                   thrust::make_zip_iterator(thrust::make_tuple(last_forced,  map + thrust::distance(first, last))),
                                    func);
 } // end scatter()
 
@@ -144,15 +143,13 @@ template<typename InputIterator1,
   forced_iterator first_forced(first), last_forced(last);
 
   detail::scatter_if_functor<RandomAccessIterator, Predicate> func(output, pred);
-  thrust::detail::device::for_each(thrust::make_zip_iterator(make_tuple(first_forced, map, stencil)),
-                                   thrust::make_zip_iterator(make_tuple(last_forced,  map + thrust::distance(first, last), stencil + thrust::distance(first, last))),
+  thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first_forced, map, stencil)),
+                                   thrust::make_zip_iterator(thrust::make_tuple(last_forced,  map + thrust::distance(first, last), stencil + thrust::distance(first, last))),
                                    func);
 } // end scatter_if()
 
-
+} // end namespace generic
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 

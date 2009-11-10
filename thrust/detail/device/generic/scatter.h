@@ -16,18 +16,18 @@
 
 
 /*! \file scatter.h
- *  \brief Device interface to scatter functions.
+ *  \brief Generic device implementations of scatter functions.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/scatter.h>
 
 namespace thrust
 {
 namespace detail
 {
 namespace device
+{
+namespace generic
 {
 
 template<typename InputIterator1,
@@ -36,10 +36,7 @@ template<typename InputIterator1,
   void scatter(InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
-               RandomAccessIterator output)
-{
-    thrust::detail::device::generic::scatter(first, last, map, output);
-}
+               RandomAccessIterator output);
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -51,12 +48,12 @@ template<typename InputIterator1,
                   InputIterator2 map,
                   InputIterator3 stencil,
                   RandomAccessIterator output,
-                  Predicate pred)
-{
-    thrust::detail::device::generic::scatter_if(first, last, map, stencil, output, pred);
-}
+                  Predicate pred);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "scatter.inl"
 
