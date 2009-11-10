@@ -15,19 +15,20 @@
  */
 
 
-/*! \file partition.h
- *  \brief Device interface to partition functions.
- */
+#include <thrust/iterator/iterator_traits.h>
 
-#pragma once
+#include <thrust/functional.h>
+#include <thrust/remove.h>
 
-#include <thrust/detail/device/generic/partition.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
 namespace detail
 {
 namespace device
+{
+namespace generic
 {
 
 template<typename ForwardIterator,
@@ -36,7 +37,13 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-    return thrust::detail::device::generic::stable_partition(first, last, pred);
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+
+  // copy input to temp buffer
+  thrust::detail::raw_buffer<InputType,Space> temp(first, last);
+
+  return thrust::detail::device::generic::stable_partition_copy(temp.begin(), temp.end(), first, pred);
 }
 
 template<typename ForwardIterator1,
@@ -47,7 +54,15 @@ template<typename ForwardIterator1,
                                          ForwardIterator2 result,
                                          Predicate pred)
 {
-    return thrust::detail::device::generic::stable_partition_copy(first, last, result, pred);
+  thrust::unary_negate<Predicate> not_pred(pred);
+
+  // remove_copy_if the false partition to result
+  ForwardIterator2 end_of_true_partition = thrust::remove_copy_if(first, last, result, not_pred);
+
+  // remove_copy_if the true partition to the end of the true partition
+  thrust::remove_copy_if(first, last, end_of_true_partition, pred);
+
+  return end_of_true_partition;
 }
 
 template<typename ForwardIterator,
@@ -56,7 +71,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-    return thrust::detail::device::generic::partition(first, last, pred);
+    return thrust::detail::device::generic::stable_partition(first, last, pred);
 }
 
 template<typename ForwardIterator1,
@@ -67,9 +82,10 @@ template<typename ForwardIterator1,
                                   ForwardIterator2 result,
                                   Predicate pred)
 {
-    return thrust::detail::device::generic::partition_copy(first, last, result, pred);
+    return thrust::detail::device::generic::stable_partition_copy(first, last, result, pred);
 }
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust

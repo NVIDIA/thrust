@@ -16,12 +16,10 @@
 
 
 /*! \file partition.h
- *  \brief Device interface to partition functions.
+ *  \brief Generic device implementations of partition functions.
  */
 
 #pragma once
-
-#include <thrust/detail/device/generic/partition.h>
 
 namespace thrust
 {
@@ -29,15 +27,14 @@ namespace detail
 {
 namespace device
 {
+namespace generic
+{
 
 template<typename ForwardIterator,
          typename Predicate>
   ForwardIterator stable_partition(ForwardIterator first,
                                    ForwardIterator last,
-                                   Predicate pred)
-{
-    return thrust::detail::device::generic::stable_partition(first, last, pred);
-}
+                                   Predicate pred);
 
 template<typename ForwardIterator1,
          typename ForwardIterator2,
@@ -45,19 +42,13 @@ template<typename ForwardIterator1,
   ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
                                          ForwardIterator1 last,
                                          ForwardIterator2 result,
-                                         Predicate pred)
-{
-    return thrust::detail::device::generic::stable_partition_copy(first, last, result, pred);
-}
+                                         Predicate pred);
 
 template<typename ForwardIterator,
          typename Predicate>
   ForwardIterator partition(ForwardIterator first,
                             ForwardIterator last,
-                            Predicate pred)
-{
-    return thrust::detail::device::generic::partition(first, last, pred);
-}
+                            Predicate pred);
 
 template<typename ForwardIterator1,
          typename ForwardIterator2,
@@ -65,12 +56,12 @@ template<typename ForwardIterator1,
   ForwardIterator2 partition_copy(ForwardIterator1 first,
                                   ForwardIterator1 last,
                                   ForwardIterator2 result,
-                                  Predicate pred)
-{
-    return thrust::detail::device::generic::partition_copy(first, last, result, pred);
-}
+                                  Predicate pred);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include "partition.inl"
 
