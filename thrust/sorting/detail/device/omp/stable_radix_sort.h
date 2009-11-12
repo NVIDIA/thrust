@@ -16,12 +16,10 @@
 
 
 /*! \file stable_radix_sort.h
- *  \brief Device interface to stable_radix_sort.
+ *  \brief OpenMP implementation of stable_radix_sort.
  */
 
 #pragma once
-
-#include <thrust/sorting/detail/device/dispatch/stable_radix_sort.h>
 
 namespace thrust
 {
@@ -31,30 +29,24 @@ namespace detail
 {
 namespace device
 {
+namespace omp
+{
 
 template<typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
-                       RandomAccessIterator last)
-{
-    // dispatch on space
-    thrust::sorting::detail::device::dispatch::stable_radix_sort(first, last,
-            typename thrust::iterator_space<RandomAccessIterator>::type());
-}
+                       RandomAccessIterator last);
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
                               RandomAccessIterator1 keys_last,
-                              RandomAccessIterator2 values_first)
-{
-    // dispatch on space
-    thrust::sorting::detail::device::dispatch::stable_radix_sort_by_key(keys_first, keys_last, values_first,
-            typename thrust::iterator_space<RandomAccessIterator1>::type(),
-            typename thrust::iterator_space<RandomAccessIterator2>::type());
-}
+                              RandomAccessIterator2 values_first);
 
+} // end namespace omp
 } // end namespace device
 } // end namespace detail
 } // end namespace sorting
 } // end namespace thrust
+
+#include "stable_radix_sort.h"
 
