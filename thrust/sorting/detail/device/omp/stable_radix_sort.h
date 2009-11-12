@@ -48,5 +48,5 @@ void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
 } // end namespace sorting
 } // end namespace thrust
 
-#include "stable_radix_sort.h"
+#include "stable_radix_sort.inl"
 

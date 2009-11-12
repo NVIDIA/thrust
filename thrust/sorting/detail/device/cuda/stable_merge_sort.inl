@@ -1013,6 +1013,19 @@ template<typename RandomAccessIterator1,
 } // end merge_sort_dev_namespace
 
 
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+void stable_merge_sort(RandomAccessIterator first,
+                       RandomAccessIterator last,
+                       StrictWeakOrdering comp)
+{
+    // XXX it's potentially unsafe to pass the same array for keys & values
+    //     implement a legit merge_sort_dev function later
+    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(first, last, first, comp);
+}
+
+
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>

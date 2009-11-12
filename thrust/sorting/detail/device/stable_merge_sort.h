@@ -21,17 +21,15 @@
 
 #pragma once
 
-#include <thrust/sorting/detail/device/cuda/stable_merge_sort.h>
+#include <thrust/sorting/detail/device/dispatch/stable_merge_sort.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
-
 namespace sorting
 {
-
 namespace detail
 {
-
 namespace device
 {
 
@@ -41,9 +39,8 @@ void stable_merge_sort(RandomAccessIterator first,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp)
 {
-    // XXX it's potentially unsafe to pass the same array for keys & values
-    //     implement a legit merge_sort_dev function later
-    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(first, last, first, comp);
+    thrust::sorting::detail::device::dispatch::stable_merge_sort(first, last, comp,
+            typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 
 template<typename RandomAccessIterator1,
@@ -54,14 +51,14 @@ void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
                               RandomAccessIterator2 values_first,
                               StrictWeakOrdering comp)
 {
-    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
+    thrust::sorting::detail::device::dispatch::stable_merge_sort_by_key
+        (keys_first, keys_last, values_first, comp,
+         typename thrust::iterator_space<RandomAccessIterator1>::type(),
+         typename thrust::iterator_space<RandomAccessIterator2>::type());
 }
 
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace sorting
-
 } // end namespace thrust
 
