@@ -43,5 +43,12 @@
 
 #endif // __CUDACC__
 
-#define THRUST_DEVICE_BACKEND CUDA
+// XXX this sucks
+// XXX reserve 0 for undefined
+#define THRUST_CUDA 1
+#define THRUST_OMP  2
+
+#ifndef THRUST_DEVICE_BACKEND
+#define THRUST_DEVICE_BACKEND THRUST_CUDA
+#endif // THRUST_DEVICE_BACKEND
 
