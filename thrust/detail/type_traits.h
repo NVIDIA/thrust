@@ -276,6 +276,15 @@ template<typename From, typename To>
 }; // end is_convertible
 
 
+template<typename T1, typename T2>
+  struct is_one_convertible_to_the_other
+    : public integral_constant<
+        bool,
+        is_convertible<T1,T2>::value || is_convertible<T2,T1>::value
+      >
+{};
+
+
 // mpl stuff
 
 template <typename Condition1, typename Condition2>

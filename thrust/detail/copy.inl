@@ -42,7 +42,6 @@ template<typename InputIterator,
   if(first == last) 
     return result;
 
-  // dispatch on space
   return thrust::detail::dispatch::copy(first, last, result,
           typename thrust::iterator_space<InputIterator>::type(),
           typename thrust::iterator_space<OutputIterator>::type());
