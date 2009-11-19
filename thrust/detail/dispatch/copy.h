@@ -31,8 +31,6 @@
 // device
 #include <thrust/detail/device/copy.h>
 
-#include <iostream>
-
 namespace thrust
 {
 
