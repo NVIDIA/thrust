@@ -15,14 +15,10 @@
  */
 
 
-/*! \file copy.h
- *  \brief Generic device implementation of copy.
- */
-
 #pragma once
 
-#include <thrust/detail/device/transform.h>
-#include <thrust/functional.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/cuda/dispatch/copy.h>
 
 namespace thrust
 {
@@ -33,26 +29,21 @@ namespace detail
 namespace device
 {
 
-// XXX WAR circular #inclusion problems
-template<typename InputIterator,
-         typename OutputIterator,
-         typename UnaryFunction>
-  OutputIterator transform(InputIterator,InputIterator,OutputIterator,UnaryFunction);
-
-namespace generic
+namespace cuda
 {
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator  first,
-                      InputIterator  last,
+  OutputIterator copy(InputIterator begin,
+                      InputIterator end,
                       OutputIterator result)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type T;
-  return thrust::detail::device::transform(first, last, result, thrust::identity<T>());
-} // end copy()
+  return thrust::detail::device::cuda::dispatch::copy(begin,end,result,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
+}
 
-} // end generic
+} // end cuda
 
 } // end device
 

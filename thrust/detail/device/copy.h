@@ -15,11 +15,10 @@
  */
 
 
-/*! \file copy.h
- *  \brief Device implementations for copy.
- */
-
 #pragma once
+
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/dispatch/copy.h>
 
 namespace thrust
 {
@@ -32,15 +31,15 @@ namespace device
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_cross_space(InputIterator begin, 
-                                  InputIterator end, 
-                                  OutputIterator result);
+  OutputIterator copy(InputIterator begin, 
+                      InputIterator end, 
+                      OutputIterator result)
+{
+  return thrust::detail::device::dispatch::copy(begin, end, result,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
+}
 
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result);
 
 template<typename InputIterator1,
          typename InputIterator2,

@@ -28,6 +28,9 @@ namespace thrust
 namespace detail
 {
 
+// XXX WAR circular #inclusion problem
+template<typename,typename> class raw_buffer;
+
 namespace device
 {
 

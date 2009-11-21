@@ -39,6 +39,12 @@ namespace detail
 namespace device
 {
 
+// XXX WAR circular #inclusion problems
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction>
+  OutputIterator transform(InputIterator,InputIterator,OutputIterator,UnaryFunction);
+
 namespace cuda
 {
 
@@ -56,7 +62,7 @@ template<typename InputIterator,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
 #ifdef __CUDACC__
-    return thrust::transform(begin, end, result, thrust::identity<InputType>());
+    return thrust::detail::device::transform(begin, end, result, thrust::identity<InputType>());
 #else
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
@@ -69,7 +75,7 @@ template<typename InputIterator,
     thrust::transform(temp1.begin(), temp1.end(), temp2.begin(), thrust::identity<InputType>());
 
     // copy temp2 to device
-    result = thrust::copy(temp2.begin(), temp2.end(), result);
+    result = thrust::detail::device::cuda::copy_cross_space(temp2.begin(), temp2.end(), result);
 
     return result;
 #endif // __CUDACC__
