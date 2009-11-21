@@ -23,7 +23,6 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/device/cuda/trivial_copy.h>
 
 namespace thrust
 {
@@ -51,15 +50,6 @@ template<typename FromIterator, typename ToIterator>
       // XXX we need this for correctness, but let's leave it out for speed since our has_trivial_assign needs work
       // && has_trivial_assign<typename thrust::iterator_value<ToIterator>::type>::value
     > {};
-
-
-template<typename RandomAccessIterator1,
-         typename Size,
-         typename RandomAccessIterator2>
-  void trivial_copy_n(RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
-{
-    thrust::detail::device::cuda::trivial_copy_n(first, n, result);
-}
 
 } // end namespace device
 

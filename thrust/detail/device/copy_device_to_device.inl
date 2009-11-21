@@ -28,7 +28,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/raw_buffer.h>
 
-#include <thrust/detail/device/trivial_copy.h>
+#include <thrust/detail/device/cuda/trivial_copy.h>
 
 namespace thrust
 {
@@ -86,7 +86,7 @@ template<typename InputIterator,
     // how many elements to copy?
     typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
-    thrust::detail::device::trivial_copy_n(begin, n, result);
+    thrust::detail::device::cuda::trivial_copy_n(begin, n, result);
 
     return result + n;
 }

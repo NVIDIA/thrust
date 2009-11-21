@@ -19,7 +19,8 @@
 #include <thrust/copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/raw_buffer.h>
-#include <thrust/detail/device/trivial_copy.h>
+#include <thrust/detail/device/is_trivial_copy.h>
+#include <thrust/detail/device/cuda/trivial_copy.h>
 
 namespace thrust
 {
@@ -97,7 +98,7 @@ template<typename RandomAccessIterator1,
   // how many elements to copy?
   typename thrust::iterator_traits<RandomAccessIterator1>::difference_type n = end - begin;
 
-  thrust::detail::device::trivial_copy_n(begin, n, result);
+  thrust::detail::device::cuda::trivial_copy_n(begin, n, result);
 
   return result + n;
 }
@@ -142,7 +143,7 @@ template<typename RandomAccessIterator1,
   thrust::detail::raw_buffer<InputType,OutputSpace> temp(n);
 
   // force a trivial copy
-  thrust::detail::device::trivial_copy_n(begin, n, temp.begin());
+  thrust::detail::device::cuda::trivial_copy_n(begin, n, temp.begin());
 
   // finally, copy to the result
   result = thrust::copy(temp.begin(), temp.end(), result);
