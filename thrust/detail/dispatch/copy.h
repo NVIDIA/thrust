@@ -31,6 +31,10 @@
 // device
 #include <thrust/detail/device/copy.h>
 
+// XXX these need to be removed from this file
+#include <thrust/detail/device/cuda/copy_cross_space.h>
+#include <thrust/detail/device/cuda/copy_device_to_device.h>
+
 namespace thrust
 {
 
@@ -69,7 +73,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::device_space_tag)
 {
-    return thrust::detail::device::copy_device_to_device(begin, end, result);
+    return thrust::detail::device::cuda::copy_device_to_device(begin, end, result);
 }
 
 ///////////////
@@ -83,7 +87,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::any_space_tag)
 {
-    return thrust::detail::device::copy_device_to_device(begin, end, result);
+    return thrust::detail::device::cuda::copy_device_to_device(begin, end, result);
 }
 
 //////////////////////
@@ -97,7 +101,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       detail::false_type cross_space_copy)
 {
-  return thrust::detail::device::copy_cross_space(first, last, result);
+  return thrust::detail::device::cuda::copy_cross_space(first, last, result);
 }
 
 //////////////////////

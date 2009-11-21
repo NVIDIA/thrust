@@ -31,6 +31,9 @@ namespace detail
 namespace device
 {
 
+namespace cuda
+{
+
 
 // general input to random access case
 template<typename InputIterator,
@@ -203,6 +206,7 @@ template<typename InputIterator,
           typename thrust::iterator_traversal<OutputIterator>::type());
 }
 
+} // end cuda
 
 } // end device
 

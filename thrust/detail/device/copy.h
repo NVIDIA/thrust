@@ -59,6 +59,4 @@ template<typename InputIterator1,
 } // end thrust
 
 #include "copy_if.inl"
-#include "copy_cross_space.inl"
-#include "copy_device_to_device.inl"
 

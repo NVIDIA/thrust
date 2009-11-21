@@ -39,6 +39,9 @@ namespace detail
 namespace device
 {
 
+namespace cuda
+{
+
 namespace detail
 {
 
@@ -115,6 +118,8 @@ template<typename InputIterator,
             thrust::detail::integral_constant<bool, use_trivial_copy>());
 
 }
+
+} // end namespace cuda
 
 } // end namespace device
 
