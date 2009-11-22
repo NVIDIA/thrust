@@ -19,7 +19,6 @@
  *  \brief Inline file for arch.h.
  */
 
-#include <cassert>
 #include <string>
 #include <algorithm>
 
@@ -33,36 +32,39 @@
 
 namespace thrust
 {
-
 namespace experimental
 {
-
 namespace arch
 {
-
 namespace detail
 {
 
 inline void checked_get_current_device_properties(cudaDeviceProp &props)
 {
   int current_device = -1;
+
   cudaError_t error = cudaGetDevice(&current_device);
+
   if(error)
-  {
     throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
-  } // end if
 
   if(current_device < 0)
-  {
     throw std::runtime_error(std::string("No CUDA device found."));
-  } // end if
   
   error = cudaGetDeviceProperties(&props, current_device);
-  if(error)
-  {
+
+  if(error != cudaSuccess)
     throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
-  } // end if
 } // end checked_get_current_device_properties()
+
+template <typename KernelFunction>
+void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunction kernel)
+{
+  cudaError_t error = cudaFuncGetAttributes(&attributes, kernel);
+
+  if(error != cudaSuccess)
+    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
+} // end checked_get_function_attributes()
 
 } // end detail
 
@@ -81,10 +83,11 @@ size_t max_active_threads_per_multiprocessor(const cudaDeviceProp& properties)
         {{     0,    0,    0,    0},
          {   768,  768, 1024, 1024}};
 
-    assert(properties.major == 1);
-    assert(properties.minor >= 0 && properties.minor <= 3);
-
-    return max_active_threads_by_compute_capability[properties.major][properties.minor];
+    // produce valid results for new, unknown devices
+    if (properties.major > 1 || properties.minor > 3)
+        return max_active_threads_by_compute_capability[1][3];
+    else
+        return max_active_threads_by_compute_capability[properties.major][properties.minor];
 } // end max_active_threads_per_multiprocessor()
 
 
@@ -168,8 +171,7 @@ size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const siz
     detail::checked_get_current_device_properties(properties);
 
     cudaFuncAttributes attributes;
-    cudaError_t err = cudaFuncGetAttributes(&attributes, kernel);
-    assert(err == cudaSuccess);
+    detail::checked_get_function_attributes(attributes, kernel);
 
     return num_multiprocessors(properties) * max_active_blocks_per_multiprocessor(properties, attributes, CTA_SIZE, dynamic_smem_bytes);
 }
@@ -210,15 +212,12 @@ size_t max_blocksize_with_highest_occupancy(KernelFunction kernel)
     detail::checked_get_current_device_properties(properties);
 
     cudaFuncAttributes attributes;
-    cudaError_t err = cudaFuncGetAttributes(&attributes, kernel);
-    assert(err == cudaSuccess);
+    detail::checked_get_function_attributes(attributes, kernel);
 
     return max_blocksize_with_highest_occupancy(properties, attributes);
 }
 
 } // end namespace arch
-
 } // end namespace experimental
-
 } // end namespace thrust
 
