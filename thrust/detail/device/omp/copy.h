@@ -20,6 +20,9 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 
+// for std::copy
+#include <algorithm>
+
 namespace thrust
 {
 namespace detail
@@ -32,6 +35,7 @@ namespace omp
 namespace detail
 {
 
+// XXX eliminate these 3 overloads
 template<typename InputIterator,
          typename OutputIterator>
 OutputIterator copy(InputIterator first,
@@ -100,18 +104,51 @@ OutputIterator copy(InputIterator first,
   return result + n;
 } 
 
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator copy(InputIterator first,
+                    InputIterator last,
+                    OutputIterator result,
+                    thrust::random_access_traversal_tag,
+                    thrust::random_access_traversal_tag)
+{
+  // dispatch on space
+  return thrust::detail::device::omp::detail::copy(first, last, result,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
+} 
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename Traversal1,
+         typename Traversal2>
+OutputIterator copy(InputIterator first,
+                    InputIterator last,
+                    OutputIterator result,
+                    Traversal1,
+                    Traversal2)
+{
+  // serialize on the host
+  return std::copy(first,last,result);
+} 
+
+
 } // end detail
 
+
+// entry point
 template<typename InputIterator,
          typename OutputIterator>
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result)
 {
-  // dispatch on space
+  // dispatch on traversal
   return thrust::detail::device::omp::detail::copy(first, last, result,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+    typename thrust::iterator_traversal<InputIterator>::type(),
+    typename thrust::iterator_traversal<OutputIterator>::type());
 } 
 
 
