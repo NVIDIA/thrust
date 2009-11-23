@@ -24,6 +24,7 @@
 #include <thrust/device_ptr.h>
 #include <cuda_runtime_api.h>
 #include <stdexcept>
+#include <string>
 
 namespace thrust
 {
