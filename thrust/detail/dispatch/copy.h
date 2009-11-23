@@ -101,7 +101,7 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      detail::false_type cross_space_copy)
+                      thrust::detail::false_type cross_space_copy)
 {
   return thrust::detail::device::copy(first, last, result);
 }
@@ -115,13 +115,13 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      detail::true_type cross_space_copy)
+                      thrust::detail::true_type cross_space_copy)
 {
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
 
   // find the minimum space of the two
-  typedef typename detail::minimum_space<space1,space2>::type minimum_space;
+  typedef typename thrust::detail::minimum_space<space1,space2>::type minimum_space;
 
   return thrust::detail::dispatch::copy(first, last, result, minimum_space());
 }
