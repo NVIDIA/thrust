@@ -19,7 +19,6 @@
  *  \brief Inline file for for_each.h.
  */
 
-#include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 
@@ -46,7 +45,7 @@ void for_each(InputIterator first,
       i < n;
       ++i)
   {
-    f(thrust::detail::device::dereference(first, i));
+    f(first[i]);
   }
 } 
 
