@@ -123,7 +123,7 @@ template<typename InputIterator,
   // find the minimum space of the two
   typedef typename detail::minimum_space<space1,space2>::type minimum_space;
 
-  return copy(first, last, result, minimum_space());
+  return thrust::detail::dispatch::copy(first, last, result, minimum_space());
 }
 
 
@@ -138,8 +138,8 @@ template<typename InputIterator,
                       Space1,
                       Space2)
 {
-  return copy(first, last, result,
-    typename detail::is_one_convertible_to_the_other<Space1,Space2>::type());
+  return thrust::detail::dispatch::copy(first, last, result,
+    typename thrust::detail::is_one_convertible_to_the_other<Space1,Space2>::type());
 }
 
 
