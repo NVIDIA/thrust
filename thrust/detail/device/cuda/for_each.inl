@@ -22,18 +22,17 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
+#include <limits>
+
 #include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/cuda/launch_closure.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
 
@@ -80,19 +79,31 @@ void for_each(InputIterator first,
 {
   if (first >= last) return;  //empty range
 
-  typedef for_each_n_closure<InputIterator, size_t, UnaryFunction> Closure;
-  Closure closure(first, last - first, f);
+  typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
 
-  launch_closure(closure, last - first);
+  difference_type n = last - first;
+  
+  if (sizeof(difference_type) > sizeof(unsigned int) && n > std::numeric_limits<unsigned int>::max())
+  {
+    // n is large, must use 64-bit indices
+    typedef for_each_n_closure<InputIterator, difference_type, UnaryFunction> Closure;
+    Closure closure(first, last - first, f);
+    launch_closure(closure, last - first);
+  }
+  else
+  {
+    // n is small, 32-bit indices are sufficient
+    typedef for_each_n_closure<InputIterator, unsigned int, UnaryFunction> Closure;
+    Closure closure(first, static_cast<unsigned int>(n), f);
+    launch_closure(closure, static_cast<unsigned int>(n));
+  }
+
 } 
 
 
 } // end namespace cuda
-
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #endif // __CUDACC__
