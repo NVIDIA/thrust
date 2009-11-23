@@ -53,7 +53,7 @@ struct scatter_functor
     : output(_output) {}
   
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     thrust::detail::device::dereference(output, thrust::get<1>(t)) = thrust::get<0>(t); 
@@ -71,7 +71,7 @@ struct scatter_if_functor
     : output(_output), pred(_pred) {}
   
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     if(pred(thrust::get<2>(t)))
