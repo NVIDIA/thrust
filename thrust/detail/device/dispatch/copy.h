@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/device/generic/copy.h>
+#include <thrust/detail/device/omp/copy.h>
 #include <thrust/detail/device/cuda/copy.h>
 
 namespace thrust
@@ -33,7 +33,10 @@ namespace dispatch
 {
 
 
-// generic path
+// omp path
+// XXX this dispatch process is pretty lousy,
+//     but we can't implement copy(host,omp) & copy(omp,host)
+//     with generic::copy
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator copy(InputIterator first,
@@ -41,7 +44,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::detail::false_type) // neither space is CUDA
 {
-  return thrust::detail::device::generic::copy(first, last, result);
+  return thrust::detail::device::omp::copy(first, last, result);
 } // end copy()
 
 
