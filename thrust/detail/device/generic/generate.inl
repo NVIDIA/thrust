@@ -37,7 +37,7 @@ struct generate_functor
         : gen(_gen){}
 
     template<typename T>
-        __device__
+        __host__ __device__
         void operator()(T &x)
         {
             x = gen();

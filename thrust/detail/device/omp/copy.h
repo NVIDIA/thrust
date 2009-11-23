@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 
@@ -28,14 +29,16 @@ namespace device
 namespace omp
 {
 
-// XXX note that this code is valid
-//     if the iterators are host or omp
-//     iterators
+namespace detail
+{
+
 template<typename InputIterator,
          typename OutputIterator>
 OutputIterator copy(InputIterator first,
                     InputIterator last,
-                    OutputIterator result)
+                    OutputIterator result,
+                    thrust::detail::omp_device_space_tag,
+                    thrust::detail::omp_device_space_tag)
 {
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
   difference n = thrust::distance(first,last);
@@ -45,10 +48,70 @@ OutputIterator copy(InputIterator first,
       i < n;
       ++i)
   {
-    result[i] = first[i];
+    dereference(result,i) = dereference(first,i);
   }
 
   return result + n;
+} 
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator copy(InputIterator first,
+                    InputIterator last,
+                    OutputIterator result,
+                    thrust::host_space_tag,
+                    thrust::detail::omp_device_space_tag)
+{
+  typedef typename thrust::iterator_difference<InputIterator>::type difference;
+  difference n = thrust::distance(first,last);
+
+#pragma omp parallel for
+  for(difference i = 0;
+      i < n;
+      ++i)
+  {
+    dereference(result,i) = first[i];
+  }
+
+  return result + n;
+} 
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator copy(InputIterator first,
+                    InputIterator last,
+                    OutputIterator result,
+                    thrust::detail::omp_device_space_tag,
+                    thrust::host_space_tag)
+{
+  typedef typename thrust::iterator_difference<InputIterator>::type difference;
+  difference n = thrust::distance(first,last);
+
+#pragma omp parallel for
+  for(difference i = 0;
+      i < n;
+      ++i)
+  {
+    result[i] = dereference(first,i);
+  }
+
+  return result + n;
+} 
+
+} // end detail
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator copy(InputIterator first,
+                    InputIterator last,
+                    OutputIterator result)
+{
+  // dispatch on space
+  return thrust::detail::device::omp::detail::copy(first, last, result,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
 } 
 
 

@@ -50,7 +50,7 @@ struct unary_transform_functor
   {}
 
   template<typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   {
     thrust::get<1>(t) = f(thrust::get<0>(t));
@@ -68,7 +68,7 @@ struct binary_transform_functor
   {}
 
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
@@ -86,7 +86,7 @@ struct unary_transform_if_functor
     : unary_op(_unary_op), pred(_pred) {} 
   
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   {
     if(pred(thrust::get<1>(t)))
@@ -105,7 +105,7 @@ struct binary_transform_if_functor
     : binary_op(_binary_op), pred(_pred) {} 
 
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   {
     if(pred(thrust::get<2>(t)))
