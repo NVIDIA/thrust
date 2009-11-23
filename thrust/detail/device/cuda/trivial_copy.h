@@ -48,7 +48,7 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
     cudaError_t error = cudaMemcpy(dst,src,count,kind);
     if(error)
     {
-        throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+        throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
     }
 } // end checked_cudaMemcpy()
 
