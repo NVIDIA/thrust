@@ -43,7 +43,7 @@ inline void free(thrust::device_ptr<void> ptr)
 
   if(error)
   {
-    throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
   } // end error
 } // end free()
 
