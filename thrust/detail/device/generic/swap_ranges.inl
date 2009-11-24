@@ -41,7 +41,7 @@ namespace detail
 struct swap_pair_elements
 {
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     thrust::swap(thrust::get<0>(t), thrust::get<1>(t));

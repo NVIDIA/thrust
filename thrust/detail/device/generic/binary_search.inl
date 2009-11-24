@@ -51,7 +51,7 @@ namespace detail
 //struct lower_bound_postprocess<ForwardIterator, thrust::detail::true_type>
 //{
 //    template <class DeviceIterator>
-//        __device__
+//        __host__ __device__
 //    typename thrust::iterator_traits<DeviceIterator>::difference_type operator()(DeviceIterator final, DeviceIterator begin){
 //        return final - begin;
 //    }
@@ -61,7 +61,7 @@ namespace detail
 //struct lower_bound_postprocess<ForwardIterator, thrust::detail::false_type>
 //{
 //    template <class DeviceIterator>
-//        __device__
+//        __host__ __device__
 //    ForwardIterator operator()(DeviceIterator final, DeviceIterator begin){
 //        return ForwardIterator(final);
 //    }
@@ -140,7 +140,7 @@ RandomAccessIterator __upper_bound(RandomAccessIterator begin,
 struct lbf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __device__
+        __host__ __device__
         typename thrust::iterator_traits<RandomAccessIterator>::difference_type
      operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          return __lower_bound(begin, end, value, comp) - begin;
@@ -150,7 +150,7 @@ struct lbf
 struct ubf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __device__
+        __host__ __device__
         typename thrust::iterator_traits<RandomAccessIterator>::difference_type
      operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          return __upper_bound(begin, end, value, comp) - begin;
@@ -160,7 +160,7 @@ struct ubf
 struct bsf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __device__
+        __host__ __device__
      bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          RandomAccessIterator iter = __lower_bound(begin, end, value, comp);
          return iter != end && !comp(value, thrust::detail::device::dereference(iter));

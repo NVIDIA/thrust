@@ -46,7 +46,7 @@ struct gather_functor
     : input(_input) {}
   
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     thrust::get<0>(t) = thrust::detail::device::dereference(input, thrust::get<1>(t)); 
@@ -63,7 +63,7 @@ struct gather_if_functor
     : input(_input), pred(_pred) {}
   
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     if(pred(thrust::get<2>(t)))
