@@ -32,15 +32,19 @@ namespace device
 namespace omp
 {
 
-template<typename RandomAccessIterator>
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
 void stable_merge_sort(RandomAccessIterator first,
-                       RandomAccessIterator last);
-
+                       RandomAccessIterator last,
+                       StrictWeakOrdering comp);
+    
 template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2>
-void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
-                              RandomAccessIterator1 keys_last,
-                              RandomAccessIterator2 values_first);
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+                              RandomAccessIterator1 keys_end,
+                              RandomAccessIterator2 values_begin,
+                              StrictWeakOrdering comp);
 
 } // end namespace omp
 } // end namespace device

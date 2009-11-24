@@ -179,10 +179,10 @@ template<typename RandomAccessIterator1,
 
   // copy input to temporary ranges
   thrust::detail::raw_host_buffer<KeyType>   keys_temp(keys_begin, keys_end);
-  thrust::detail::raw_host_buffer<ValueType> values_temp(values_begin, values_begin + keys_end - keys_begin);
+  thrust::detail::raw_host_buffer<ValueType> values_temp(values_begin, values_begin + (keys_end - keys_begin));
 
   stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
-                           values_begin.begin(),
+                           values_temp.begin(),
                            comp,
                            thrust::detail::true_type(),
                            thrust::detail::true_type());
