@@ -57,7 +57,7 @@ struct reduce_functor
     : first(_first)  {}
 
   template <typename IntegerType>
-      __device__
+      __host__ __device__
       OutputType operator[](const IntegerType& i)
       { 
           return thrust::detail::device::dereference(first, i);

@@ -79,8 +79,8 @@ template<typename InputIterator,
 
   // XXX WAR nvcc 3.0b crash
   static const bool temp =
-    thrust::detail::is_convertible<Space1,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_convertible<Space2,thrust::detail::cuda_device_space_tag>::value
+    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
+    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
   ;
 
   typedef typename thrust::detail::eval_if<

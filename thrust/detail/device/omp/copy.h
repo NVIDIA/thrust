@@ -60,11 +60,12 @@ OutputIterator copy(InputIterator first,
 
 
 template<typename InputIterator,
-         typename OutputIterator>
+         typename OutputIterator,
+         typename HostOrAnySpaceTag>
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
-                    thrust::host_space_tag,
+                    HostOrAnySpaceTag,
                     thrust::detail::omp_device_space_tag)
 {
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
@@ -83,12 +84,13 @@ OutputIterator copy(InputIterator first,
 
 
 template<typename InputIterator,
-         typename OutputIterator>
+         typename OutputIterator,
+         typename HostOrAnySpaceTag>
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
                     thrust::detail::omp_device_space_tag,
-                    thrust::host_space_tag)
+                    HostOrAnySpaceTag)
 {
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
   difference n = thrust::distance(first,last);
