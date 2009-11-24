@@ -1,0 +1,29 @@
+import os
+import glob
+
+# try to import an environment first
+try:
+  Import('env')
+except:
+  exec open("../../build/build-env.py")
+  env = Environment()
+
+# on mac we have to tell the linker to link against the C++ library
+if env['PLATFORM'] == "darwin":
+  env.Append(LINKFLAGS = "-lstdc++")
+
+# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
+nvcc_options_file = env.Command('../../build/nvcc_options_file.txt',
+                                env.Program('../../build/print_sm_version.cpp'),
+                                os.path.join('"' + env.GetLaunchDir(), '../../build/print_sm_version" > nvcc_options_file.txt'))
+
+env.Append(NVCCFLAGS = ['-optf=nvcc_options_file.txt'])
+
+# find all .cus in the current directory
+sources = ['device.cu','host.cpp']
+
+env.Depends(sources, nvcc_options_file)
+
+# compile example
+env.Program('tester', sources)
+
