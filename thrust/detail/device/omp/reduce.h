@@ -44,3 +44,5 @@ template<typename InputIterator,
 } // end namespace detail
 } // end namespace thrust
 
+#include <thrust/detail/device/omp/reduce.inl>
+

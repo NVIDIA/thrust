@@ -17,7 +17,8 @@
 
 #include <omp.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/distance>
+#include <thrust/distance.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
@@ -35,10 +36,10 @@ namespace omp
 template <typename InputIterator,
           typename OutputType,
           typename BinaryFunction>
-T reduce(InputIterator first,
-         InputIterator last,
-         OutputType init,
-         BinaryFunction binary_op)
+OutputType reduce(InputIterator first,
+                  InputIterator last,
+                  OutputType init,
+                  BinaryFunction binary_op)
 {
     // initialize the result
     OutputType result = init;
@@ -57,10 +58,10 @@ T reduce(InputIterator first,
 template <typename InputIterator,
           typename OutputType,
           typename BinaryFunction>
-T reduce(InputIterator first,
-         InputIterator last,
-         OutputType init,
-         BinaryFunction binary_op)
+OutputType reduce(InputIterator first,
+                  InputIterator last,
+                  OutputType init,
+                  BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
 
@@ -68,18 +69,14 @@ T reduce(InputIterator first,
 
     int num_threads = std::min<difference_type>(omp_get_max_threads(), N);
 
-    std::vector<T> thread_results(first, first + num_threads);
-
-    std::cout << "num_threads " << num_threads << std::endl;
+    thrust::detail::raw_host_buffer<OutputType> thread_results(first, first + num_threads);
 
 #   pragma omp parallel num_threads(num_threads)
     {
 
         int thread_id = omp_get_thread_num();
 
-        std::cout << "thread_id " << thread_id << std::endl;
-
-        T thread_sum = thread_results[thread_id];
+        OutputType thread_sum = thread_results[thread_id];
 
 #      pragma omp for 
         for (difference_type i = num_threads; i < N; i++)
@@ -88,7 +85,7 @@ T reduce(InputIterator first,
         thread_results[thread_id] = thread_sum;
     }
 
-    T total_sum = init;
+    OutputType total_sum = init;
     for (int i = 0; i < num_threads; ++i)
         total_sum = binary_op(total_sum, thread_results[i]);
 
