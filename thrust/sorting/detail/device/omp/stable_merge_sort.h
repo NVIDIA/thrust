@@ -41,9 +41,9 @@ void stable_merge_sort(RandomAccessIterator first,
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                              RandomAccessIterator1 keys_end,
-                              RandomAccessIterator2 values_begin,
+void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first,
                               StrictWeakOrdering comp);
 
 } // end namespace omp
@@ -52,5 +52,5 @@ void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
 } // end namespace sorting
 } // end namespace thrust
 
-#include "stable_merge_sort.h"
+#include "stable_merge_sort.inl"
 
