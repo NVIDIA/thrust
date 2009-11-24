@@ -44,10 +44,10 @@ OutputType reduce(InputIterator first,
     // initialize the result
     OutputType result = init;
 
-    while(begin != end)
+    while(first != last)
     {
-        result = binary_op(result, *begin);
-        begin++;
+        result = binary_op(result, *first);
+        first++;
     } // end while
 
     return result;
