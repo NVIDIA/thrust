@@ -19,6 +19,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -46,7 +47,7 @@ OutputType reduce(InputIterator first,
 
     while(first != last)
     {
-        result = binary_op(result, *first);
+        result = binary_op(result, thrust::detail::device::dereference(first));
         first++;
     } // end while
 
@@ -80,7 +81,7 @@ OutputType reduce(InputIterator first,
 
 #      pragma omp for 
         for (difference_type i = num_threads; i < N; i++)
-            thread_sum = binary_op(thread_sum, first[i]);
+            thread_sum = binary_op(thread_sum, thrust::detail::device::dereference(first,i));
 
         thread_results[thread_id] = thread_sum;
     }

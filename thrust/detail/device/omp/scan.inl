@@ -15,6 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -38,12 +39,13 @@ template<typename InputIterator,
 
     if(first != last)
     {
-        OutputType sum = *first;
+        OutputType sum = thrust::detail::device::dereference(first);
 
-        *result = sum;
+        thrust::detail::device::dereference(result) = sum;
 
         for(++first, ++result; first != last; ++first, ++result)
-            *result = sum = binary_op(sum, *first);
+            thrust::detail::device::dereference(result)
+              = sum = binary_op(sum, thrust::detail::device::dereference(first));
     }
 
     return result;
@@ -63,16 +65,16 @@ template<typename InputIterator,
 
     if(first != last)
     {
-        OutputType tmp = *first;  // temporary value allows in-situ scan
-        OutputType sum =  init;
+        OutputType tmp = thrust::detail::device::dereference(first);  // temporary value allows in-situ scan
+        OutputType sum = init;
 
-        *result = sum;
+        thrust::detail::device::dereference(result) = sum;
         sum = binary_op(sum, tmp);
 
         for(++first, ++result; first != last; ++first, ++result)
         {
-            tmp = *first;
-            *result = sum;
+            tmp = thrust::detail::device::dereference(first);
+            thrust::detail::device::dereference(result) = sum;
             sum = binary_op(sum, tmp);
         }
     }
