@@ -40,7 +40,7 @@ namespace device
 {
 
 template<typename Value, typename Incrementable, typename Space>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
       dereference(thrust::constant_iterator<Value,Incrementable,Space> iter)
 {
@@ -48,7 +48,7 @@ template<typename Value, typename Incrementable, typename Space>
 } // end dereference()
 
 template<typename Value, typename Incrementable, typename Space, typename IndexType>
-  inline __device__
+  inline __host__ __device__
     typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
       dereference(thrust::constant_iterator<Value,Incrementable,Space> iter, IndexType n)
 {
