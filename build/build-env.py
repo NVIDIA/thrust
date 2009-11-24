@@ -36,7 +36,7 @@ gLinkerOptions = {
     'link'  : {'debug' : '/debug'}
   }
 
-def getCFLAGS(mode, CC):
+def getCFLAGS(mode, backend, CC):
   result = []
   if mode == 'release' or mode == 'emurelease':
     # turn on optimization
@@ -47,6 +47,12 @@ def getCFLAGS(mode, CC):
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
+
+  # generate omp code
+  # XXX make this portable to msvc
+  if backend == 'omp':
+    result.append('-fopenmp')
+
   return result
 
 def getCXXFLAGS(mode, CXX):
@@ -64,17 +70,23 @@ def getCXXFLAGS(mode, CXX):
     result.append('-m32')
   return result
 
-def getNVCCFLAGS(mode):
+def getNVCCFLAGS(mode, backend):
   result = []
   if mode == 'emurelease' or mode == 'emudebug':
     # turn on emulation
     result.append('-deviceemu')
+
+  if backend == 'cuda':
+    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_CUDA')
+  elif backend == 'omp':
+    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_OMP')
+
   return result
 
 # XXX this should actually be based on LINK,
 #     but that's apparently a dynamic variable which
 #     is harder to figure out
-def getLINKFLAGS(mode, CXX):
+def getLINKFLAGS(mode, backend, CXX):
   result = []
   if mode == 'debug':
     # turn on debug mode
@@ -82,6 +94,11 @@ def getLINKFLAGS(mode, CXX):
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
+
+  # XXX make this portable
+  # link against omp
+  if backend == 'omp':
+    result.append('-lgomp')
   return result
 
 def Environment():
@@ -108,17 +125,21 @@ def Environment():
   if ARGUMENTS.get('mode'):
     mode = ARGUMENTS['mode']
 
+  backend = 'cuda'
+  if ARGUMENTS.get('backend'):
+    backend = ARGUMENTS['backend']
+
   # get C compiler switches
-  env.Append(CFLAGS = getCFLAGS(mode, env.subst('$CC')))
+  env.Append(CFLAGS = getCFLAGS(mode, backend, env.subst('$CC')))
 
   # get CXX compiler switches
   env.Append(CXXFLAGS = getCXXFLAGS(mode, env.subst('$CXX')))
 
   # get NVCC compiler switches
-  env.Append(NVCCFLAGS = getNVCCFLAGS(mode))
+  env.Append(NVCCFLAGS = getNVCCFLAGS(mode, backend))
 
   # get linker switches
-  env.Append(LINKFLAGS = getLINKFLAGS(mode, env.subst('$LINK')))
+  env.Append(LINKFLAGS = getLINKFLAGS(mode, backend, env.subst('$LINK')))
    
 
   # set CUDA lib & include path
