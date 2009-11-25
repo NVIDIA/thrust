@@ -19,6 +19,7 @@
 #include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
+#include <thrust/iterator/detail/minimum_category.h>
 
 // for std::copy
 #include <algorithm>
@@ -112,7 +113,6 @@ template<typename InputIterator,
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
-                    thrust::random_access_traversal_tag,
                     thrust::random_access_traversal_tag)
 {
   // dispatch on space
@@ -123,14 +123,11 @@ OutputIterator copy(InputIterator first,
 
 
 template<typename InputIterator,
-         typename OutputIterator,
-         typename Traversal1,
-         typename Traversal2>
+         typename OutputIterator>
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
-                    Traversal1,
-                    Traversal2)
+                    thrust::incrementable_traversal_tag)
 {
   // serialize on the host
   return std::copy(first,last,result);
@@ -147,10 +144,15 @@ OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result)
 {
-  // dispatch on traversal
-  return thrust::detail::device::omp::detail::copy(first, last, result,
-    typename thrust::iterator_traversal<InputIterator>::type(),
-    typename thrust::iterator_traversal<OutputIterator>::type());
+  typedef typename thrust::iterator_traversal<InputIterator>::type traversal1;
+  typedef typename thrust::iterator_traversal<OutputIterator>::type traversal2;
+
+  // XXX minimum_traversal doesn't exist, but it should?
+  //typedef typename thrust::detail::minimum_traversal<traversal1,traversal2>::type minimum_traversal;
+  typedef typename thrust::detail::minimum_category<traversal1,traversal2>::type minimum_traversal;
+
+  // dispatch on min traversal
+  return thrust::detail::device::omp::detail::copy(first, last, result, minimum_traversal());
 } 
 
 
