@@ -54,8 +54,9 @@ namespace cuda
  * Uses the same pattern as reduce6() in the CUDA SDK
  *
  */
-template<unsigned int block_size,
-         typename InputIterator,
+
+extern __shared__ char sdata_workaround[];
+template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
   __global__ void
@@ -64,14 +65,14 @@ template<unsigned int block_size,
                                     OutputType * block_results,  
                                     BinaryFunction binary_op)
 {
-    __shared__ unsigned char sdata_workaround[block_size * sizeof(OutputType)];
+//    __shared__ unsigned char sdata_workaround[block_size * sizeof(OutputType)];
     OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
 
     // perform first level of reduction,
     // write per-block results to global memory for second level reduction
     
-    const unsigned int grid_size = block_size * gridDim.x;
-    unsigned int i = blockIdx.x * block_size + threadIdx.x;
+    const unsigned int grid_size = blockDim.x * gridDim.x;
+    unsigned int i = blockDim.x * blockIdx.x + threadIdx.x;
 
     // local (per-thread) sum
     OutputType sum;
@@ -94,7 +95,7 @@ template<unsigned int block_size,
     sdata[threadIdx.x] = sum;  __syncthreads();
 
     // compute reduction across block
-    thrust::detail::block::reduce_n<block_size>(sdata, n, binary_op);
+    thrust::detail::block::reduce_n(sdata, min(n, blockDim.x), binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
@@ -124,8 +125,10 @@ template<typename InputIterator,
     static const size_t blocksize_limit2 = 256;
 
     static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
-    
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(__thrust__unordered_reduce_kernel<block_size, InputIterator, OutputType, BinaryFunction>, block_size, (size_t) 0);
+
+    static const size_t smem_size  = block_size * sizeof(OutputType);
+
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(__thrust__unordered_reduce_kernel<InputIterator, OutputType, BinaryFunction>, block_size, (size_t) smem_size);
 
     const unsigned int grid_size = std::max((size_t) 1, std::min( (n / block_size), max_blocks));
 
@@ -136,12 +139,12 @@ template<typename InputIterator,
     temp[0] = init;
 
     // reduce input to per-block sums
-    __thrust__unordered_reduce_kernel<block_size>
-        <<<grid_size, block_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
+    __thrust__unordered_reduce_kernel
+        <<<grid_size, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
 
     // reduce per-block sums together with init
-    __thrust__unordered_reduce_kernel<block_size>
-        <<<1, block_size>>>(raw_pointer_cast(&temp[0]), grid_size + 1, raw_pointer_cast(&temp[0]), binary_op);
+    __thrust__unordered_reduce_kernel
+        <<<1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), grid_size + 1, raw_pointer_cast(&temp[0]), binary_op);
 
     return temp[0];
 } // end reduce_n()
