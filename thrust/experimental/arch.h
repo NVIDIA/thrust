@@ -90,10 +90,11 @@ size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const siz
  *  NOTE: this function ignores dynamic shared memory!
  */
 inline size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
-                                                   const cudaFuncAttributes& attributes);
+                                                   const cudaFuncAttributes& attributes,
+                                                   size_t dynamic_smem_bytes_per_thread = 0);
 
 template <typename KernelFunction>
-size_t max_blocksize_with_highest_occupancy(KernelFunction kernel);
+size_t max_blocksize_with_highest_occupancy(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread = 0);
 
 }; // end arch
 

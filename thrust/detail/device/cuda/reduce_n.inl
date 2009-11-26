@@ -60,12 +60,11 @@ template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
   __global__ void
-  __thrust__unordered_reduce_kernel(InputIterator input,
-                                    const unsigned int n,
-                                    OutputType * block_results,  
-                                    BinaryFunction binary_op)
+  reduce_n_kernel(InputIterator input,
+                  const unsigned int n,
+                  OutputType * block_results,  
+                  BinaryFunction binary_op)
 {
-//    __shared__ unsigned char sdata_workaround[block_size * sizeof(OutputType)];
     OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
 
     // perform first level of reduction,
@@ -101,7 +100,7 @@ template<typename InputIterator,
     if (threadIdx.x == 0) 
         block_results[blockIdx.x] = sdata[threadIdx.x];
 
-} // end __thrust__unordered_reduce_kernel()
+} // end reduce_n_kernel()
 
 
 template<typename InputIterator,
@@ -116,35 +115,24 @@ template<typename InputIterator,
     // handle zero length array case first
     if( n == 0 )
         return init;
-
-    // 16KB (max) - 1KB (upper bound on what's used for other purposes)
-    const size_t max_smem_size = 15 * 1024; 
-
-    // largest 2^N that fits in SMEM
-    static const size_t blocksize_limit1 = 1 << thrust::detail::mpl::math::log2< (max_smem_size/sizeof(OutputType)) >::value;
-    static const size_t blocksize_limit2 = 256;
-
-    static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
-
-    static const size_t smem_size  = block_size * sizeof(OutputType);
-
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(__thrust__unordered_reduce_kernel<InputIterator, OutputType, BinaryFunction>, block_size, (size_t) smem_size);
-
-    const unsigned int grid_size = std::max((size_t) 1, std::min( (n / block_size), max_blocks));
+   
+    // determine launch parameters
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, 0);
+    const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
+    const size_t smem_size  = block_size * sizeof(OutputType);
 
     // allocate storage for per-block results
-    thrust::detail::raw_device_buffer<OutputType> temp(grid_size + 1);
+    thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
 
     // set first element of temp array to init
     temp[0] = init;
 
     // reduce input to per-block sums
-    __thrust__unordered_reduce_kernel
-        <<<grid_size, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
+    reduce_n_kernel<<<num_blocks, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
 
     // reduce per-block sums together with init
-    __thrust__unordered_reduce_kernel
-        <<<1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), grid_size + 1, raw_pointer_cast(&temp[0]), binary_op);
+    reduce_n_kernel<<<1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
 
     return temp[0];
 } // end reduce_n()
