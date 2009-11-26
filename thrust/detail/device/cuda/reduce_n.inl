@@ -119,7 +119,7 @@ template<typename InputIterator,
     // determine launch parameters
     const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
     const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, 0);
-    const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
+    const size_t num_blocks = std::min(max_blocks, std::max((size_t) 1, n / block_size));
     const size_t smem_size  = block_size * sizeof(OutputType);
 
     // allocate storage for per-block results
