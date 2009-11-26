@@ -115,12 +115,15 @@ template<typename InputIterator,
     // handle zero length array case first
     if( n == 0 )
         return init;
-   
+
+    const size_t max_smem_size = 15 * 1024;
+
     // determine launch parameters
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, 0);
-    const size_t num_blocks = std::min(max_blocks, std::max((size_t) 1, n / block_size));
+    //const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy_pow2(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
+    const size_t block_size = std::min(256, 1 << thrust::detail::mpl::math::log2< (max_smem_size/sizeof(OutputType)) >::value);
     const size_t smem_size  = block_size * sizeof(OutputType);
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    const size_t num_blocks = std::min(max_blocks, std::max((size_t) 1, n / block_size));
 
     // allocate storage for per-block results
     thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
@@ -132,7 +135,7 @@ template<typename InputIterator,
     reduce_n_kernel<<<num_blocks, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
 
     // reduce per-block sums together with init
-    reduce_n_kernel<<<1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
+    reduce_n_kernel<<<         1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
 
     return temp[0];
 } // end reduce_n()
