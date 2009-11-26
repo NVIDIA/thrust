@@ -53,7 +53,6 @@ namespace cuda
  *
  */
 
-extern __shared__ char sdata_workaround[];
 template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
@@ -63,7 +62,7 @@ template<typename InputIterator,
                   OutputType * block_results,  
                   BinaryFunction binary_op)
 {
-    OutputType *sdata = reinterpret_cast<OutputType*>(sdata_workaround);
+    extern __shared__ OutputType sdata[];
 
     // perform first level of reduction,
     // write per-block results to global memory for second level reduction

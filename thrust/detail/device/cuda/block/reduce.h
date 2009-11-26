@@ -14,16 +14,16 @@
  *  limitations under the License.
  */
 
-
-
 #pragma once
 
 namespace thrust
 {
-
 namespace detail
 {
-
+namespace device
+{
+namespace cuda
+{
 namespace block
 {
 
@@ -62,7 +62,8 @@ void reduce_n(ValueIterator data, const unsigned int n, BinaryFunction binary_op
 }
 
 } // end namespace block
-
+} // end namespace cuda
+} // end namespace device
 } // end namespace detail
-
 } // end namespace thrust
+
