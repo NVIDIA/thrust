@@ -24,13 +24,11 @@
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
-#include <thrust/detail/raw_buffer.h>
-
+// to configure launch parameters
 #include <thrust/experimental/arch.h>
 
+#include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/device/cuda/block/reduce.h>
-
-#include <thrust/detail/mpl/math.h> // for log2<N>
 
 namespace thrust
 {
@@ -116,11 +114,8 @@ template<typename InputIterator,
     if( n == 0 )
         return init;
 
-    const size_t max_smem_size = 15 * 1024;
-
     // determine launch parameters
-    //const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy_pow2(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
-    const size_t block_size = std::min(256, 1 << thrust::detail::mpl::math::log2< (max_smem_size/sizeof(OutputType)) >::value);
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
     const size_t smem_size  = block_size * sizeof(OutputType);
     const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
     const size_t num_blocks = std::min(max_blocks, std::max((size_t) 1, n / block_size));
