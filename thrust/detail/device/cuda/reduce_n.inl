@@ -95,7 +95,7 @@ template<typename InputIterator,
     sdata[threadIdx.x] = sum;  __syncthreads();
 
     // compute reduction across block
-    thrust::detail::block::reduce_n(sdata, min(n, blockDim.x), binary_op);
+    block::reduce_n(sdata, min(n, blockDim.x), binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
