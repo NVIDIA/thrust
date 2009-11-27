@@ -25,6 +25,8 @@
 // to configure launch parameters
 #include <thrust/experimental/arch.h>
 
+#include <thrust/detail/type_traits.h>
+
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/device/cuda/block/reduce.h>
 
@@ -35,6 +37,8 @@ namespace detail
 namespace device
 {
 namespace cuda
+{
+namespace detail
 {
 
 /*
@@ -53,18 +57,17 @@ namespace cuda
 
 template<typename InputIterator,
          typename OutputType,
-         typename BinaryFunction>
-  __global__ void
-  reduce_n_kernel(InputIterator input,
+         typename BinaryFunction,
+         typename SharedArray>
+  __device__ void
+  reduce_n_device(InputIterator input,
                   const unsigned int n,
                   OutputType * block_results,  
-                  BinaryFunction binary_op)
+                  BinaryFunction binary_op,
+                  SharedArray shared_array)
 {
-    extern __shared__ OutputType sdata[];
-
-    // perform first level of reduction,
-    // write per-block results to global memory for second level reduction
-    
+    // perform one level of reduction, writing per-block results to 
+    // global memory for subsequent processing (e.g. second level reduction) 
     const unsigned int grid_size = blockDim.x * gridDim.x;
     unsigned int i = blockDim.x * blockIdx.x + threadIdx.x;
 
@@ -86,17 +89,115 @@ template<typename InputIterator,
     } 
 
     // copy local sum to shared memory
-    sdata[threadIdx.x] = sum;  __syncthreads();
+    shared_array[threadIdx.x] = sum;  __syncthreads();
 
     // compute reduction across block
-    block::reduce_n(sdata, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
+    block::reduce_n(shared_array, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
-        block_results[blockIdx.x] = sdata[threadIdx.x];
+        block_results[blockIdx.x] = shared_array[threadIdx.x];
 
+} // end reduce_n_device()
+
+template<typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+  __global__ void
+  reduce_n_smem(InputIterator input,
+                const unsigned int n,
+                OutputType * block_results,  
+                BinaryFunction binary_op)
+{
+    extern __shared__ OutputType shared_array[];
+
+    reduce_n_device(input, n, block_results, binary_op, shared_array);
 } // end reduce_n_kernel()
 
+
+template<typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+  __global__ void
+  reduce_n_gmem(InputIterator input,
+                const unsigned int n,
+                OutputType * block_results,  
+                OutputType * shared_array,
+                BinaryFunction binary_op)
+{
+    reduce_n_device(input, n, block_results, binary_op, shared_array + blockDim.x * blockIdx.x);
+} // end reduce_n_kernel()
+
+template<typename InputIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce_n(InputIterator first,
+                      SizeType n,
+                      OutputType init,
+                      BinaryFunction binary_op,
+                      thrust::detail::true_type)    // reduce in shared memory
+{
+    // determine launch parameters
+    const size_t smem_per_thread = sizeof(OutputType);
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
+    const size_t smem_size  = block_size * smem_per_thread;
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    const size_t num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
+
+    // allocate storage for per-block results
+    thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
+
+    // set first element of temp array to init
+    temp[0] = init;
+
+    // reduce input to per-block sums
+    reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first,                      n,              raw_pointer_cast(&temp[1]), binary_op);
+
+    // reduce per-block sums together with init
+    reduce_n_smem<<<         1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
+    
+    return temp[0];
+} // end reduce_n()
+
+
+template<typename InputIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce_n(InputIterator first,
+                      SizeType n,
+                      OutputType init,
+                      BinaryFunction binary_op,
+                      thrust::detail::false_type)    // reduce in global memory
+{
+    // determine launch parameters
+    const size_t smem_per_thread = 0;
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
+    const size_t smem_size  = block_size * smem_per_thread;
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    const size_t num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
+
+    // allocate storage for per-block results
+    thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
+
+    // allocate storage for shared array
+    thrust::detail::raw_device_buffer<OutputType> shared_array(block_size * num_blocks);
+
+    // set first element of temp array to init
+    temp[0] = init;
+
+    detail::reduce_n_gmem<<<num_blocks, block_size, 0>>>(first,                      n,              raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
+    detail::reduce_n_gmem<<<         1, block_size, 0>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), raw_pointer_cast(&shared_array[0]), binary_op);
+    
+    return temp[0];
+} // end reduce_n()
+
+} // end namespace detail
+
+
+// TODO add runtime switch for SizeType vs. unsigned int
+// TODO use closure approach to handle large iterators & functors (i.e. sum > 256 bytes)
 
 template<typename InputIterator,
          typename SizeType,
@@ -111,25 +212,10 @@ template<typename InputIterator,
     if( n == 0 )
         return init;
 
-    // determine launch parameters
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
-    const size_t smem_size  = block_size * sizeof(OutputType);
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const size_t num_blocks = std::min(max_blocks, (n + block_size - 1) / block_size);
+    // whether to perform blockwise reductions in shared memory or global memory
+    static const bool use_smem = sizeof(OutputType) <= 64;
 
-    // allocate storage for per-block results
-    thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
-
-    // set first element of temp array to init
-    temp[0] = init;
-
-    // reduce input to per-block sums
-    reduce_n_kernel<<<num_blocks, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
-
-    // reduce per-block sums together with init
-    reduce_n_kernel<<<         1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
-
-    return temp[0];
+    return detail::reduce_n(first, n, init, binary_op, thrust::detail::integral_constant<bool, use_smem>());
 } // end reduce_n()
 
 } // end namespace cuda
