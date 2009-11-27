@@ -19,8 +19,6 @@
  *  \brief Inline file for reduce.h
  */
 
-#pragma once
-
 // do not attempt to compile this file with any other compiler
 #ifdef __CUDACC__
 
@@ -78,9 +76,9 @@ template<typename InputIterator,
     {
         sum = thrust::detail::device::dereference(input, i);
         i += grid_size;
-    }
+    }   
 
-    // update sum
+    // accumulate local sum
     while (i < n)
     {
         sum = binary_op(sum, thrust::detail::device::dereference(input, i));
@@ -91,7 +89,7 @@ template<typename InputIterator,
     sdata[threadIdx.x] = sum;  __syncthreads();
 
     // compute reduction across block
-    block::reduce_n(sdata, min(n, blockDim.x), binary_op);
+    block::reduce_n(sdata, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
@@ -117,7 +115,7 @@ template<typename InputIterator,
     const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, sizeof(OutputType));
     const size_t smem_size  = block_size * sizeof(OutputType);
     const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_kernel<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const size_t num_blocks = std::min(max_blocks, std::max((size_t) 1, n / block_size));
+    const size_t num_blocks = std::min(max_blocks, (n + block_size - 1) / block_size);
 
     // allocate storage for per-block results
     thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
