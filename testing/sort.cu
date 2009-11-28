@@ -399,14 +399,14 @@ void TestStableSortWithLargeTypes(void)
     _TestStableSortWithLargeTypes<int,    1>();
     _TestStableSortWithLargeTypes<int,    2>();
     _TestStableSortWithLargeTypes<int,    4>();
-    _TestStableSortWithLargeTypes<int,    8>(); // too many resources requested for launch
+    _TestStableSortWithLargeTypes<int,    8>();
     //_TestStableSortWithLargeTypes<int,   16>(); // unspecified launch failure
     //_TestStableSortWithLargeTypes<int,   32>();
     //_TestStableSortWithLargeTypes<int,   64>();
     //_TestStableSortWithLargeTypes<int,  128>();
     //_TestStableSortWithLargeTypes<int,  256>();
     //_TestStableSortWithLargeTypes<int,  512>();
-    //_TestStableSortWithLargeTypes<int, 1024>(); // fails
+    //_TestStableSortWithLargeTypes<int, 1024>();
 }
 DECLARE_UNITTEST(TestStableSortWithLargeTypes);
 
