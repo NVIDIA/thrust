@@ -56,7 +56,17 @@ def generate_functions(pname, TestVariables, INITIALIZE, TIME, FINALIZE):
     TestVariableRanges = [ pair[1] for pair in TestVariables]
 
     for n,values in enumerate(product(*TestVariableRanges)):
-        fname = '_'.join( [pname] +  [str(v).replace(" ","_") for v in values] )
+        converted_values = []
+        for v in values:
+            v = str(v)
+            v = v.replace(" ","_")  # C++ tokens we don't want
+            v = v.replace("<","_")
+            v = v.replace(">","_")
+            v = v.replace(",","_")
+            v = v.replace(":","_")
+            converted_values.append(v)
+
+        fname = '_'.join( [pname] + converted_values )
         TestVariablePairs = zip(TestVariableNames, values)
         yield (fname, make_test_function(fname, TestVariablePairs, ftemplate))
 
