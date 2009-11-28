@@ -50,6 +50,12 @@ struct log2<1, Cur>
     static const unsigned int value = Cur;
 };
 
+template <unsigned int Cur>
+struct log2<0, Cur>
+{
+    // undefined
+};
+
 } // end namespace detail
 
 
