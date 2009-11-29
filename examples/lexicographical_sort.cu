@@ -3,6 +3,7 @@
 #include <thrust/generate.h>
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
+#include <thrust/gather.h>
 #include <iostream>
 #include <cstdlib>
 
