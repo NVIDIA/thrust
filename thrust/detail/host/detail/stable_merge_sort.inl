@@ -52,16 +52,14 @@
 #include <algorithm>
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
-{
-namespace sorting
 {
 namespace detail
 {
 namespace host
+{
+namespace detail
 {
 
 template<typename RandomAccessIterator1,
@@ -142,122 +140,20 @@ template<typename RandomAccessIterator1,
   void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
                                 RandomAccessIterator1 keys_end,
                                 RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp,
-                                thrust::detail::true_type,
-                                thrust::detail::true_type)
+                                StrictWeakOrdering comp)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type   KeyType;
-    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-
     if(keys_end - keys_begin < 2) return;
 
     RandomAccessIterator1   keys_middle   = keys_begin   + (keys_end - keys_begin)/2;
     RandomAccessIterator2 values_middle = values_begin + (keys_end - keys_begin)/2;
 
     // sort each side
-    thrust::sorting::detail::host::stable_merge_sort_by_key(keys_begin,  keys_middle, values_begin,  comp);
-    thrust::sorting::detail::host::stable_merge_sort_by_key(keys_middle, keys_end,    values_middle, comp);
+    thrust::detail::host::detail::stable_merge_sort_by_key(keys_begin,  keys_middle, values_begin,  comp);
+    thrust::detail::host::detail::stable_merge_sort_by_key(keys_middle, keys_end,    values_middle, comp);
 
     // merge
     merge_by_key(keys_begin, keys_middle, keys_end, values_begin,
             comp, keys_middle - keys_begin, keys_end - keys_middle);
-} // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp,
-                                thrust::detail::false_type,
-                                thrust::detail::false_type)
-{
-  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
-
-  // copy input to temporary ranges
-  thrust::detail::raw_host_buffer<KeyType>   keys_temp(keys_begin, keys_end);
-  thrust::detail::raw_host_buffer<ValueType> values_temp(values_begin, values_begin + (keys_end - keys_begin));
-
-  stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
-                           values_temp.begin(),
-                           comp,
-                           thrust::detail::true_type(),
-                           thrust::detail::true_type());
-
-  // copy to original input
-  thrust::copy(keys_temp.begin(), keys_temp.end(), keys_begin);
-  thrust::copy(values_temp.begin(), values_temp.end(), values_begin);
-} // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp,
-                                thrust::detail::false_type,
-                                thrust::detail::true_type)
-{
-  typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
-
-  // copy input to temporary ranges
-  thrust::detail::raw_host_buffer<KeyType> keys_temp(keys_begin, keys_end);
-
-  stable_merge_sort_by_key(keys_temp.begin(), keys_temp.end(),
-                           values_begin,
-                           comp,
-                           thrust::detail::true_type(),
-                           thrust::detail::true_type());
-
-  // copy to original input
-  thrust::copy(keys_temp.begin(), keys_temp.end(), keys_begin);
-} // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp,
-                                thrust::detail::true_type,
-                                thrust::detail::false_type)
-{
-  typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
-
-  // copy input to temporary ranges
-  RandomAccessIterator2 values_end = values_begin + (keys_end - keys_begin);
-  thrust::detail::raw_host_buffer<ValueType> values_temp(values_begin, values_end);
-
-  stable_merge_sort_by_key(keys_begin, keys_end,
-                           values_temp.begin(),
-                           comp,
-                           thrust::detail::true_type(),
-                           thrust::detail::true_type());
-
-  // copy to original input
-  thrust::copy(values_temp.begin(), values_temp.end(), values_begin);
-} // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp)
-{
-  // dispatch on whether or not the iterators are trivial
-  return stable_merge_sort_by_key(keys_begin, keys_end, values_begin, comp,
-          typename thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type(),
-          typename thrust::detail::is_trivial_iterator<RandomAccessIterator2>::type());
 } // end stable_merge_sort_by_key()
 
 
@@ -318,54 +214,23 @@ template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
   void stable_merge_sort(RandomAccessIterator begin,
                          RandomAccessIterator end,
-                         StrictWeakOrdering comp,
-                         thrust::detail::true_type)
+                         StrictWeakOrdering comp)
 {
     if(end - begin < 2) return;
 
     RandomAccessIterator middle = begin + (end - begin)/2;
 
     // sort each side
-    stable_merge_sort(begin, middle, comp, thrust::detail::true_type());
-    stable_merge_sort(middle, end, comp, thrust::detail::true_type());
+    stable_merge_sort(begin,  middle, comp);
+    stable_merge_sort(middle, end,    comp);
 
     // merge
     merge(begin, middle, end,
             comp, middle - begin, end - middle);
 } // end stable_merge_sort()
 
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
-                         StrictWeakOrdering comp,
-                         thrust::detail::false_type)
-{
-  typedef typename iterator_value<RandomAccessIterator>::type ValueType;
-
-  // copy input to temporary range
-  thrust::detail::raw_host_buffer<ValueType> temp(begin,end);
-
-  stable_merge_sort(temp.begin(), temp.end(), comp, thrust::detail::true_type());
-
-  // copy to original range
-  thrust::copy(temp.begin(), temp.end(), begin);
-} // end stable_merge_sort()
-
-
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
-                         StrictWeakOrdering comp)
-{
-  // dispatch on whether or not the iterator is trivial
-  return stable_merge_sort(begin, end, comp,
-          typename thrust::detail::is_trivial_iterator<RandomAccessIterator>::type());
-} // end stable_merge_sort()
-
+} // end namespace detail
 } // end namespace host
 } // end namespace detail
-} // end namespace sorting
 } // end namespace thrust
 

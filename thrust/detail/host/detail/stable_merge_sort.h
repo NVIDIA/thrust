@@ -18,11 +18,11 @@
 
 namespace thrust
 {
-namespace sorting
-{
 namespace detail
 {
 namespace host
+{
+namespace detail
 {
 
 template<typename RandomAccessIterator,
@@ -39,9 +39,9 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator2 values_begin,
                                 StrictWeakOrdering comp);
 
+} // end namespace detail
 } // end namespace host
 } // end namespace detail
-} // end namespace sorting
 } // end namespace thrust
 
 #include "stable_merge_sort.inl"

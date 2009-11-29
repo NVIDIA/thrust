@@ -19,7 +19,9 @@
  *  \brief Inline file for sort.h
  */
 
-#include <thrust/sorting/detail/host/stable_merge_sort.h>
+#include <thrust/detail/trivial_sequence.h>
+
+#include <thrust/detail/host/detail/stable_merge_sort.h>
 
 namespace thrust
 {
@@ -44,7 +46,15 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-    thrust::sorting::detail::host::stable_merge_sort(first, last, comp);
+    // ensure sequence has trivial iterators
+    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+ 
+    // perform the sort
+    thrust::detail::host::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
+  
+    // copy results back, if necessary
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
+        thrust::copy(keys.begin(), keys.end(), first);
 }
 
 template<typename RandomAccessIterator1,
@@ -67,7 +77,19 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-    thrust::sorting::detail::host::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
+    // ensure sequences have trivial iterators
+    RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
+    thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
+    thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_last);
+
+    // perform the sort
+    thrust::detail::host::detail::stable_merge_sort_by_key(keys.begin(), keys.end(), values.begin(), comp);
+
+    // copy results back, if necessary
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
+        thrust::copy(keys.begin(), keys.end(), keys_first);
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
+       thrust::copy(values.begin(), values.end(), values_first);
 }
 
 } // end namespace host

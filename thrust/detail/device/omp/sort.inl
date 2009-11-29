@@ -15,11 +15,11 @@
  */
 
 
-#include <thrust/sorting/detail/host/stable_merge_sort.h>
+#include <thrust/detail/host/sort.h>
 
 #include <thrust/iterator/detail/forced_iterator.h> // XXX remove this we we have a proper OMP sort
 
-// XXX use host's merge sort implementation for now
+// XXX use host's sort implementations for now
 
 namespace thrust
 {
@@ -36,9 +36,9 @@ void stable_sort(RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
-    thrust::sorting::detail::host::stable_merge_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()),
-                                                     thrust::detail::make_forced_iterator(last,  thrust::host_space_tag()),
-                                                     comp);
+    thrust::detail::host::stable_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()),
+                                      thrust::detail::make_forced_iterator(last,  thrust::host_space_tag()),
+                                      comp);
 }
 
 template<typename RandomAccessIterator1,
@@ -51,10 +51,10 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
 {
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
 
-    thrust::sorting::detail::host::stable_merge_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()),
-                                                            thrust::detail::make_forced_iterator(keys_last,    thrust::host_space_tag()),
-                                                            thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()),
-                                                            comp);
+    thrust::detail::host::stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()),
+                                             thrust::detail::make_forced_iterator(keys_last,    thrust::host_space_tag()),
+                                             thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()),
+                                             comp);
 }
 
 } // end namespace omp
