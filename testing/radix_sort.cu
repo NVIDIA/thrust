@@ -1,8 +1,12 @@
+#if THRUST_DEVICE_BACKEND == THRUST_CUDA
+
 #include <thrusttest/unittest.h>
-#include <thrust/sorting/radix_sort.h>
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
 #include <thrust/device_malloc_allocator.h>
+
+#include <thrust/sort.h>
+#include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
 
 using namespace thrusttest;
 
@@ -92,13 +96,12 @@ struct TestRadixSortKeySimple
 
     InitializeSimpleKeyRadixSortTest(unsorted_keys, sorted_keys);
 
-    thrust::sorting::radix_sort(unsorted_keys.begin(), unsorted_keys.end());
+    thrust::detail::device::cuda::detail::stable_radix_sort(unsorted_keys.begin(), unsorted_keys.end());
 
     ASSERT_EQUAL(unsorted_keys, sorted_keys);
   }
 };
 VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_malloc_allocator> TestRadixSortKeySimpleDeviceInstance;
-VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator>                  TestRadixSortKeySimpleHostInstance;
 
 
 template <class Vector>
@@ -111,14 +114,13 @@ struct TestRadixSortKeyValueSimple
 
     InitializeSimpleKeyValueRadixSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
-    thrust::sorting::radix_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
+    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
   }
 };
 VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_malloc_allocator> TestRadixSortKeyValueSimpleDeviceInstance;
-VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::host_vector,   std::allocator           > TestRadixSortKeyValueSimpleHostInstance;
 
 
 //still need to do long/ulong and maybe double
@@ -144,8 +146,8 @@ struct TestRadixSort
     thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
 
-    thrust::sorting::radix_sort(h_keys.begin(), h_keys.end());
-    thrust::sorting::radix_sort(d_keys.begin(), d_keys.end());
+    thrust::stable_sort(h_keys.begin(), h_keys.end());
+    thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
   }
@@ -166,8 +168,8 @@ struct TestRadixSortByKey
     thrust::sequence(h_values.begin(), h_values.end());
     thrust::sequence(d_values.begin(), d_values.end());
 
-    thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -189,8 +191,8 @@ struct TestRadixSortByKeyShortValues
     thrust::sequence(h_values.begin(), h_values.end());
     thrust::sequence(d_values.begin(), d_values.end());
 
-    thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -211,8 +213,8 @@ struct TestRadixSortByKeyFloatValues
     thrust::sequence(h_values.begin(), h_values.end());
     thrust::sequence(d_values.begin(), d_values.end());
 
-    thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -240,8 +242,8 @@ struct TestRadixSortVariableBits
 
         thrust::device_vector<T> d_keys = h_keys;
     
-        thrust::sorting::radix_sort(h_keys.begin(), h_keys.end());
-        thrust::sorting::radix_sort(d_keys.begin(), d_keys.end());
+        thrust::stable_sort(h_keys.begin(), h_keys.end());
+        thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
     
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     }
@@ -270,8 +272,8 @@ struct TestRadixSortByKeyVariableBits
         thrust::sequence(h_values.begin(), h_values.end());
         thrust::sequence(d_values.begin(), d_values.end());
 
-        thrust::sorting::radix_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-        thrust::sorting::radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+        thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+        thrust::detail::device::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
         ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -288,10 +290,10 @@ VariableUnitTest<TestRadixSortByKeyVariableBits, IntegralTypes> TestRadixSortByK
 //    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
 //    thrust::device_vector<T> d_keys = h_keys;
 //
-//    thrust::sorting::radix_sort(h_keys.begin(), h_keys.end());
+//    thrust::detail::device::cuda::detail::stable_radix_sort(h_keys.begin(), h_keys.end());
 //
 //    for (int i = 0; i < 100; i++){
-//        thrust::sorting::radix_sort(d_keys.begin(), d_keys.end());
+//        thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
 //    }
 //
 //    ASSERT_ALMOST_EQUAL(h_keys, d_keys);
@@ -299,9 +301,9 @@ VariableUnitTest<TestRadixSortByKeyVariableBits, IntegralTypes> TestRadixSortByK
 //DECLARE_UNITTEST(TestRadixSortMemoryLeak);
 
 
-template <class Vector>
 void TestRadixSortUnalignedSimple(void)
 {
+    typedef thrust::device_vector<int> Vector;
     typedef typename Vector::value_type T;
 
     Vector unsorted_keys;
@@ -318,17 +320,17 @@ void TestRadixSortUnalignedSimple(void)
         thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
         thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
    
-        thrust::sorting::radix_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
+        thrust::detail::device::cuda::detail::stable_radix_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
 
         ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
     }
 }
-DECLARE_VECTOR_UNITTEST(TestRadixSortUnalignedSimple);
+DECLARE_UNITTEST(TestRadixSortUnalignedSimple);
 
 
-template <class Vector>
 void TestRadixSortByKeyUnalignedSimple(void)
 {
+    typedef thrust::device_vector<int> Vector;
     typedef typename Vector::value_type T;
 
     Vector unsorted_keys, unsorted_values;
@@ -349,11 +351,13 @@ void TestRadixSortByKeyUnalignedSimple(void)
         thrust::copy(unsorted_values.begin(), unsorted_values.end(), unaligned_unsorted_values.begin() + offset);
         thrust::copy(  sorted_values.begin(),   sorted_values.end(),   unaligned_sorted_values.begin() + offset);
    
-        thrust::sorting::radix_sort_by_key(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), unaligned_unsorted_values.begin() + offset);
+        thrust::detail::device::cuda::detail::stable_radix_sort_by_key(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), unaligned_unsorted_values.begin() + offset);
 
         ASSERT_EQUAL(  unaligned_unsorted_keys,   unaligned_sorted_keys);
         ASSERT_EQUAL(unaligned_unsorted_values, unaligned_sorted_values);
     }
 }
-DECLARE_VECTOR_UNITTEST(TestRadixSortByKeyUnalignedSimple);
+DECLARE_UNITTEST(TestRadixSortByKeyUnalignedSimple);
+
+#endif // THRUST_DEVICE_BACKEND == THRUST_CUDA
 
