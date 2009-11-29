@@ -57,12 +57,12 @@ template<typename RandomAccessIterator,
 template<typename RandomAccessKeyIterator,
          typename RandomAccessValueIterator,
          typename StrictWeakOrdering>
-  void sort_by_key(RandomAccessKeyIterator keys_first,
-                   RandomAccessKeyIterator keys_last,
-                   RandomAccessValueIterator values_first,
-                   StrictWeakOrdering comp,
-                   thrust::detail::omp_device_space_tag,
-                   thrust::detail::omp_device_space_tag)
+  void stable_sort_by_key(RandomAccessKeyIterator keys_first,
+                          RandomAccessKeyIterator keys_last,
+                          RandomAccessValueIterator values_first,
+                          StrictWeakOrdering comp,
+                          thrust::detail::omp_device_space_tag,
+                          thrust::detail::omp_device_space_tag)
 {
     // OpenMP implementation
     thrust::detail::device::omp::stable_sort_by_key(keys_first, keys_last, values_first, comp);

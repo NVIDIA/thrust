@@ -21,6 +21,8 @@
 
 #pragma once
 
+#ifdef __CUDACC__
+
 #include <thrust/device_ptr.h>
 #include <cuda_runtime_api.h>
 #include <stdexcept>
@@ -28,13 +30,10 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
 
@@ -49,10 +48,9 @@ inline void free(thrust::device_ptr<void> ptr)
 } // end free()
 
 } // end namespace cuda
-
 } // end namespace device
-
 } // end namespace detail
-
 } // end namespace thrust
+
+#endif // __CUDACC__
 

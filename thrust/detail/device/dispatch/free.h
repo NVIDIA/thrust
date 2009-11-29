@@ -23,34 +23,33 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace dispatch
 {
 
 inline void free(thrust::device_ptr<void> ptr,
                  thrust::device_space_tag)
 {
-  return thrust::detail::device::generic::free(ptr);
+  thrust::detail::device::generic::free(ptr);
 } // end free()
+
+#ifdef __CUDACC__
+
+// TODO guard this elsewhere
 
 inline void free(thrust::device_ptr<void> ptr,
                  thrust::detail::cuda_device_space_tag)
 {
-  return thrust::detail::device::cuda::free(ptr);
+  thrust::detail::device::cuda::free(ptr);
 } // end free()
 
-} // end dispatch
+#endif
 
-} // end device
-
-} // end detail
-
-} // end thrust
-
+} // end namespace dispatch
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 
