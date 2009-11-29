@@ -126,7 +126,7 @@ template<typename InputIterator,
   detail::unary_transform_functor<UnaryFunction> func(unary_op);
   
   thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first, result)),
-                                   thrust::make_zip_iterator(thrust::make_tuple(last, result + (last - first))),
+                                   thrust::make_zip_iterator(thrust::make_tuple(first, result)) + thrust::distance(first, last),
                                    func);
   
   return result + (last - first); // return the end of the output sequence
@@ -145,7 +145,7 @@ template<typename InputIterator1,
   detail::binary_transform_functor<BinaryFunction> func(binary_op);
   
   thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1, first2, result)),
-                                   thrust::make_zip_iterator(thrust::make_tuple(last1,  first2 + (last1 - first1), result + (last1 - first1))),
+                                   thrust::make_zip_iterator(thrust::make_tuple(first1, first2, result)) + thrust::distance(first1, last1),
                                    func);
   
   return result + (last1 - first1); // return the end of the output sequence
@@ -166,7 +166,7 @@ template<typename InputIterator1,
   detail::unary_transform_if_functor<UnaryFunction,Predicate> func(unary_op, pred);
 
   thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first, stencil, result)),
-                                   thrust::make_zip_iterator(thrust::make_tuple(last,  stencil + (last - first), result + (last - first))),
+                                   thrust::make_zip_iterator(thrust::make_tuple(first, stencil, result)) + thrust::distance(first, last),
                                    func);
 
   return result + (last - first); // return the end of the output sequence
@@ -189,7 +189,7 @@ template<typename InputIterator1,
   detail::binary_transform_if_functor<BinaryFunction,Predicate> func(binary_op, pred);
 
   thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1, first2, stencil, result)),
-                                   thrust::make_zip_iterator(thrust::make_tuple(last1,  first2 + (last1 - first1), stencil + (last1 - first1), result + (last1 - first1))),
+                                   thrust::make_zip_iterator(thrust::make_tuple(first1, first2, stencil, result)) + thrust::distance(first1, last1),
                                    func);
 
   return result + (last1 - first1); // return the end of the output sequence
