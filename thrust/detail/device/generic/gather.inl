@@ -84,7 +84,7 @@ template<typename ForwardIterator,
 {
   detail::gather_functor<RandomAccessIterator> func(input);
   thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first, map)),
-                                   thrust::make_zip_iterator(thrust::make_tuple(last,  map + thrust::distance(first, last))),
+                                   thrust::make_zip_iterator(thrust::make_tuple(first, map)) + thrust::distance(first, last),
                                    func);
 } // end gather()
 
@@ -103,7 +103,7 @@ template<typename ForwardIterator,
 {
   detail::gather_if_functor<RandomAccessIterator, Predicate> func(input, pred);
   thrust::detail::device::for_each(thrust::make_zip_iterator(thrust::make_tuple(first, map, stencil)),
-                                   thrust::make_zip_iterator(thrust::make_tuple(last,  map + thrust::distance(first, last), stencil + thrust::distance(first, last))),
+                                   thrust::make_zip_iterator(thrust::make_tuple(first, map, stencil)) + thrust::distance(first, last),
                                    func);
 } // end gather_if()
 
