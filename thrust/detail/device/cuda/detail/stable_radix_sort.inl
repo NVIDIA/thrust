@@ -43,17 +43,13 @@
 
 namespace thrust
 {
-
-namespace sorting
-{
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
+{
+namespace detail
 {
 
 inline
@@ -1291,10 +1287,10 @@ void radix_sort_by_key(unsigned int * keys,
 }
 #undef BLOCKING
 
+} // end namespace detail
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail
-} // end namespace sorting
 } // end namespace thrust
 
 #endif // __CUDACC__

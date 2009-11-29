@@ -29,21 +29,17 @@
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/type_traits.h>
 
-#include <thrust/sorting/detail/device/cuda/stable_radix_sort_bits.h>
+#include "stable_radix_sort_bits.h"
 
 namespace thrust
 {
-
-namespace sorting
-{
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
+{
+namespace detail
 {
 
 //////////////////
@@ -247,15 +243,10 @@ void stable_radix_sort(RandomAccessIterator first,
     stable_radix_sort_key_dev(keys, num_elements, thrust::detail::integral_constant<int, sizeof(KeyType)>());
 }
 
-
-} // end namespace cuda
-
-} // end namespace device
-
 } // end namespace detail
-
-} // end namespace sorting
-
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
 } // end namespace thrust
 
 #endif // __CUDACC__

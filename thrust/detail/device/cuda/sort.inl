@@ -22,8 +22,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 
-#include <thrust/sorting/detail/device/cuda/stable_merge_sort.h>
-#include <thrust/sorting/detail/device/cuda/stable_radix_sort.h>
+#include <thrust/detail/device/cuda/detail/stable_merge_sort.h>
+#include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
 
 namespace thrust
 {
@@ -46,7 +46,7 @@ template<typename RandomAccessIterator,
     // CUDA path for thrust::stable_sort with primitive keys
     // (e.g. int, float, short, etc.) and the default less<T> comparison
     // method is implemented with stable_radix_sort_by_key
-    thrust::sorting::detail::device::cuda::stable_radix_sort(first, last);
+    thrust::detail::device::cuda::detail::stable_radix_sort(first, last);
 }
 
 template<typename RandomAccessIterator,
@@ -58,7 +58,7 @@ template<typename RandomAccessIterator,
 {
     // device path for thrust::stable_sort with general keys 
     // and comparison methods is implemented with stable_merge_sort
-    thrust::sorting::detail::device::cuda::stable_merge_sort(first, last, comp);
+    thrust::detail::device::cuda::detail::stable_merge_sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator1,
@@ -73,7 +73,7 @@ template<typename RandomAccessIterator1,
     // device path for thrust::stable_sort_by_key with primitive keys
     // (e.g. int, float, short, etc.) and the default less<T> comparison
     // method is implemented with stable_radix_sort_by_key
-    thrust::sorting::detail::device::cuda::stable_radix_sort_by_key(keys_first, keys_last, values_first);
+    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(keys_first, keys_last, values_first);
 }
 
 template<typename RandomAccessIterator1,
@@ -87,7 +87,7 @@ template<typename RandomAccessIterator1,
 {
     // device path for thrust::stable_sort with general keys 
     // and comparison methods is implemented with stable_merge_sort
-    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
+    thrust::detail::device::cuda::detail::stable_merge_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 } // end namespace detail

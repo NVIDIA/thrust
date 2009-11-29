@@ -34,17 +34,13 @@
 #include <thrust/device_ptr.h>
 #include <thrust/detail/device/dereference.h>
 
-#include <thrust/sorting/detail/device/cuda/block/merging_sort.h>
+#include <thrust/detail/device/cuda/detail/block/merging_sort.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
-
-namespace sorting
-{
-
 namespace detail
 {
 
@@ -56,8 +52,9 @@ template<typename T>
 
 namespace device
 {
-
 namespace cuda
+{
+namespace detail
 {
 
 namespace merge_sort_dev_namespace
@@ -1022,7 +1019,7 @@ void stable_merge_sort(RandomAccessIterator first,
 {
     // XXX it's potentially unsafe to pass the same array for keys & values
     //     implement a legit merge_sort_dev function later
-    thrust::sorting::detail::device::cuda::stable_merge_sort_by_key(first, last, first, comp);
+    thrust::detail::device::cuda::detail::stable_merge_sort_by_key(first, last, first, comp);
 }
 
 
@@ -1087,14 +1084,10 @@ template<typename RandomAccessIterator1,
   }
 } // end stable_merge_sort_by_key()
 
-} // end namespace cuda
-
-} // end namespace device
-
 } // end namespace detail
-
-} // end namespace sorting
-
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
 } // end namespace thrust
 
 #endif // __CUDACC__

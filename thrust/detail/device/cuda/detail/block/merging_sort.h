@@ -24,22 +24,16 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 
-
 namespace thrust
 {
-
-namespace sorting
-{
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
-
+namespace detail
+{
 namespace block
 {
 
@@ -241,16 +235,10 @@ __device__ void merging_sort(RandomAccessIterator1 keys,
     merge(keys, data, i, n, begin, end, h, comp);
 } // end merging_sort()
 
-
 } // end namespace block
-
-} // end namespace cuda
-
-} // end namespace device
-
 } // end namespace detail
-
-} // end namespace sorting
-
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
 } // end namespace thrust
 

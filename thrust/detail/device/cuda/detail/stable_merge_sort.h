@@ -23,13 +23,13 @@
 
 namespace thrust
 {
-namespace sorting
-{
 namespace detail
 {
 namespace device
 {
 namespace cuda
+{
+namespace detail
 {
 
 template<typename RandomAccessIterator,
@@ -46,10 +46,10 @@ void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
                               RandomAccessIterator2 values_begin,
                               StrictWeakOrdering comp);
 
+} // end namespace detail
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail
-} // end namespace sorting
 } // end namespace thrust
 
 #include "stable_merge_sort.inl"

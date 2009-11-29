@@ -21,19 +21,14 @@
 
 namespace thrust
 {
-
-namespace sorting
-{
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
-
+namespace detail
+{
 
 // Default encoding works for unsigned types
 template <typename T>
@@ -205,13 +200,9 @@ template <>
 };
 
 
-} // end namespace cuda
-
-} // end namespace device
-
 } // end namespace detail
-
-} // end namespace sorting
-
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
 } // end namespace thrust
 

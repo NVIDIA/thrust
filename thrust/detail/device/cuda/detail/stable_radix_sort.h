@@ -15,21 +15,21 @@
  */
 
 
-/*! \file stable_radix_sort.h
- *  \brief OpenMP implementation of stable_radix_sort.
+/*! \file stable_radix_sort_dev.h
+ *  \brief Defines the interface for a stable radix sort implementation on CUDA
  */
 
 #pragma once
 
 namespace thrust
 {
-namespace sorting
-{
 namespace detail
 {
 namespace device
 {
-namespace omp
+namespace cuda
+{
+namespace detail
 {
 
 template<typename RandomAccessIterator>
@@ -42,11 +42,13 @@ void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
                               RandomAccessIterator1 keys_last,
                               RandomAccessIterator2 values_first);
 
-} // end namespace omp
+} // end namespace detail
+} // end namespace cuda
 } // end namespace device
 } // end namespace detail
-} // end namespace sorting
 } // end namespace thrust
 
 #include "stable_radix_sort.inl"
+#include "stable_radix_sort_key.inl"
+#include "stable_radix_sort_key_value.inl"
 

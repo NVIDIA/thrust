@@ -22,15 +22,14 @@
 
 namespace thrust
 {
-namespace sorting
-{
 namespace detail
 {
 namespace device
 {
 namespace cuda
 {
-
+namespace detail
+{
 
 template <class PreProcess, typename T>
 struct minmax_transform
@@ -118,10 +117,9 @@ struct modified_postprocess
     }
 };
 
-
+} // end namespace detail
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail
-} // end namespace sorting
 } // end namespace thrust
 
