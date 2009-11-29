@@ -47,6 +47,11 @@ def getCFLAGS(mode, backend, CC):
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
+  
+  if backend == 'cuda':
+    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_CUDA')
+  elif backend == 'omp':
+    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_OMP')
 
   # generate omp code
   # XXX make this portable to msvc
@@ -90,7 +95,7 @@ def getLINKFLAGS(mode, backend, CXX):
   result = []
   if mode == 'debug':
     # turn on debug mode
-    result = gLinkerOptions[CXX]['debug']
+    result.append(gLinkerOptions[CXX]['debug'])
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
