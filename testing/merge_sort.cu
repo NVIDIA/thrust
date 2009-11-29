@@ -1,8 +1,8 @@
-#if THRUST_DEVICE_BACKEND == THRUST_CUDA
-
 #include <thrusttest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
+
+#if THRUST_DEVICE_BACKEND == THRUST_CUDA
 
 template <typename T>
 struct less_div_10

@@ -1,5 +1,3 @@
-#if THRUST_DEVICE_BACKEND == THRUST_CUDA
-
 #include <thrusttest/unittest.h>
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
@@ -7,6 +5,8 @@
 
 #include <thrust/sort.h>
 #include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
+
+#if THRUST_DEVICE_BACKEND == THRUST_CUDA
 
 using namespace thrusttest;
 
