@@ -232,7 +232,7 @@ template<typename RandomAccessIterator1,
   typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // copy input to temporary ranges
-  RandomAccessIterator2 values_end = values_begin + (keys_end + keys_begin);
+  RandomAccessIterator2 values_end = values_begin + (keys_end - keys_begin);
   thrust::detail::raw_host_buffer<ValueType> values_temp(values_begin, values_end);
 
   stable_merge_sort_by_key(keys_begin, keys_end,

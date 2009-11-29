@@ -99,8 +99,10 @@ template<typename RandomAccessKeyIterator,
                    RandomAccessValueIterator values_first,
                    StrictWeakOrdering comp)
 {
-    // XXX forward sort_by_key to stable_sort_by_key
-    stable_sort_by_key(keys_first, keys_last, values_first, comp);
+    // dispatch on space
+    thrust::detail::dispatch::sort_by_key(keys_first, keys_last, values_first, comp,
+            typename thrust::iterator_space<RandomAccessKeyIterator>::type(),
+            typename thrust::iterator_space<RandomAccessValueIterator>::type());
 }
 
 template<typename RandomAccessKeyIterator,
@@ -129,5 +131,5 @@ template<typename RandomAccessKeyIterator,
             typename thrust::iterator_space<RandomAccessValueIterator>::type());
 }
 
-} // last namespace thrust
+} // end namespace thrust
 
