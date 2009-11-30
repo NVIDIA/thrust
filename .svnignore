@@ -8,6 +8,7 @@
 *.linkinfo
 .sconsign.dblite
 nvcc_options_file.txt
+cuda_profile.log
 print_sm_version
 tester
 
