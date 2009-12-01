@@ -377,40 +377,84 @@ DECLARE_VECTOR_UNITTEST(TestSortByKeyUnalignedSimple);
 
 
 template <typename T, unsigned int N>
-void _TestStableSortWithLargeTypes(void)
+void _TestStableSortWithLargeKeys(void)
 {
     size_t n = (128 * 1024) / sizeof(FixedVector<T,N>);
 
-    thrust::host_vector< FixedVector<T,N> > h_data(n);
+    thrust::host_vector< FixedVector<T,N> > h_keys(n);
 
-    for(size_t i = 0; i < h_data.size(); i++)
-        h_data[i] = FixedVector<T,N>(rand());
+    for(size_t i = 0; i < n; i++)
+        h_keys[i] = FixedVector<T,N>(rand());
 
-    thrust::device_vector< FixedVector<T,N> > d_data = h_data;
+    thrust::device_vector< FixedVector<T,N> > d_keys = h_keys;
     
-    thrust::stable_sort(h_data.begin(), h_data.end());
-    thrust::stable_sort(d_data.begin(), d_data.end());
+    thrust::stable_sort(h_keys.begin(), h_keys.end());
+    thrust::stable_sort(d_keys.begin(), d_keys.end());
 
-    ASSERT_EQUAL_QUIET(h_data, d_data);
+    ASSERT_EQUAL_QUIET(h_keys, d_keys);
 }
 
-void TestStableSortWithLargeTypes(void)
+void TestStableSortWithLargeKeys(void)
 {
-    _TestStableSortWithLargeTypes<int,    1>();
-    _TestStableSortWithLargeTypes<int,    2>();
-    _TestStableSortWithLargeTypes<int,    4>();
-    _TestStableSortWithLargeTypes<int,    8>();
-    _TestStableSortWithLargeTypes<int,   16>();
-    _TestStableSortWithLargeTypes<int,   32>();
-    _TestStableSortWithLargeTypes<int,   64>();
-    _TestStableSortWithLargeTypes<int,  128>();
-    _TestStableSortWithLargeTypes<int,  256>();
-    _TestStableSortWithLargeTypes<int,  512>();
-    _TestStableSortWithLargeTypes<int, 1024>();
-    _TestStableSortWithLargeTypes<int, 2048>();
-    _TestStableSortWithLargeTypes<int, 4096>();
-    _TestStableSortWithLargeTypes<int, 8192>();
+    _TestStableSortWithLargeKeys<int,    1>();
+    _TestStableSortWithLargeKeys<int,    2>();
+    _TestStableSortWithLargeKeys<int,    4>();
+    _TestStableSortWithLargeKeys<int,    8>();
+    _TestStableSortWithLargeKeys<int,   16>();
+    _TestStableSortWithLargeKeys<int,   32>();
+    _TestStableSortWithLargeKeys<int,   64>();
+    _TestStableSortWithLargeKeys<int,  128>();
+    _TestStableSortWithLargeKeys<int,  256>();
+    _TestStableSortWithLargeKeys<int,  512>();
+    _TestStableSortWithLargeKeys<int, 1024>();
+    _TestStableSortWithLargeKeys<int, 2048>();
+    _TestStableSortWithLargeKeys<int, 4096>();
+    _TestStableSortWithLargeKeys<int, 8192>();
 }
-DECLARE_UNITTEST(TestStableSortWithLargeTypes);
+DECLARE_UNITTEST(TestStableSortWithLargeKeys);
+
+
+template <typename T, unsigned int N>
+void _TestStableSortByKeyWithLargeKeys(void)
+{
+    size_t n = (128 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector< FixedVector<T,N> > h_keys(n);
+    thrust::host_vector<   unsigned int   > h_vals(n);
+
+    for(size_t i = 0; i < n; i++)
+    {
+        h_keys[i] = FixedVector<T,N>(rand());
+        h_vals[i] = i;
+    }
+
+    thrust::device_vector< FixedVector<T,N> > d_keys = h_keys;
+    thrust::device_vector<   unsigned int   > d_vals = h_vals;
+    
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_vals.begin());
+    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_vals.begin());
+
+    ASSERT_EQUAL_QUIET(h_keys, d_keys);
+    ASSERT_EQUAL_QUIET(h_vals, d_vals);
+}
+
+void TestStableSortByKeyWithLargeKeys(void)
+{
+    _TestStableSortByKeyWithLargeKeys<int,    1>();
+    _TestStableSortByKeyWithLargeKeys<int,    2>();
+    _TestStableSortByKeyWithLargeKeys<int,    4>();
+    _TestStableSortByKeyWithLargeKeys<int,    8>();
+    _TestStableSortByKeyWithLargeKeys<int,   16>();
+    _TestStableSortByKeyWithLargeKeys<int,   32>();
+    _TestStableSortByKeyWithLargeKeys<int,   64>();
+    _TestStableSortByKeyWithLargeKeys<int,  128>();
+    _TestStableSortByKeyWithLargeKeys<int,  256>();
+    _TestStableSortByKeyWithLargeKeys<int,  512>();
+    _TestStableSortByKeyWithLargeKeys<int, 1024>();
+    _TestStableSortByKeyWithLargeKeys<int, 2048>();
+    _TestStableSortByKeyWithLargeKeys<int, 4096>();
+    _TestStableSortByKeyWithLargeKeys<int, 8192>();
+}
+DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeys);
 
 
