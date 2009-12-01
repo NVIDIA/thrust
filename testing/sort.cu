@@ -458,3 +458,98 @@ void TestStableSortByKeyWithLargeKeys(void)
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeys);
 
 
+template <typename T, unsigned int N>
+void _TestStableSortByKeyWithLargeValues(void)
+{
+    size_t n = (128 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector<   unsigned int   > h_keys(n);
+    thrust::host_vector< FixedVector<T,N> > h_vals(n);
+
+    for(size_t i = 0; i < n; i++)
+    {
+        h_keys[i] = rand();
+        h_vals[i] = FixedVector<T,N>(i);
+    }
+
+    thrust::device_vector<   unsigned int   > d_keys = h_keys;
+    thrust::device_vector< FixedVector<T,N> > d_vals = h_vals;
+    
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_vals.begin());
+    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_vals.begin());
+
+    ASSERT_EQUAL_QUIET(h_keys, d_keys);
+    ASSERT_EQUAL_QUIET(h_vals, d_vals);
+
+    // so cuda::stable_merge_sort_by_key() is called
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), greater_div_10<unsigned int>());
+    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_vals.begin(), greater_div_10<unsigned int>());
+
+    ASSERT_EQUAL_QUIET(h_keys, d_keys);
+    ASSERT_EQUAL_QUIET(h_vals, d_vals);
+}
+
+void TestStableSortByKeyWithLargeValues(void)
+{
+    _TestStableSortByKeyWithLargeValues<int,    1>();
+    _TestStableSortByKeyWithLargeValues<int,    2>();
+    _TestStableSortByKeyWithLargeValues<int,    4>();
+    _TestStableSortByKeyWithLargeValues<int,    8>();
+    _TestStableSortByKeyWithLargeValues<int,   16>();
+    _TestStableSortByKeyWithLargeValues<int,   32>();
+    _TestStableSortByKeyWithLargeValues<int,   64>();
+    _TestStableSortByKeyWithLargeValues<int,  128>();
+    _TestStableSortByKeyWithLargeValues<int,  256>();
+    _TestStableSortByKeyWithLargeValues<int,  512>();
+    _TestStableSortByKeyWithLargeValues<int, 1024>();
+    _TestStableSortByKeyWithLargeValues<int, 2048>();
+    _TestStableSortByKeyWithLargeValues<int, 4096>();
+    _TestStableSortByKeyWithLargeValues<int, 8192>();
+}
+DECLARE_UNITTEST(TestStableSortByKeyWithLargeValues);
+
+
+template <typename T, unsigned int N>
+void _TestStableSortByKeyWithLargeKeysAndValues(void)
+{
+    size_t n = (128 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector< FixedVector<T,N> > h_keys(n);
+    thrust::host_vector< FixedVector<T,N> > h_vals(n);
+
+    for(size_t i = 0; i < n; i++)
+    {
+        h_keys[i] = FixedVector<T,N>(rand());
+        h_vals[i] = FixedVector<T,N>(i);
+    }
+
+    thrust::device_vector< FixedVector<T,N> > d_keys = h_keys;
+    thrust::device_vector< FixedVector<T,N> > d_vals = h_vals;
+    
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_vals.begin());
+    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_vals.begin());
+
+    ASSERT_EQUAL_QUIET(h_keys, d_keys);
+    ASSERT_EQUAL_QUIET(h_vals, d_vals);
+}
+
+void TestStableSortByKeyWithLargeKeysAndValues(void)
+{
+    _TestStableSortByKeyWithLargeKeysAndValues<int,    1>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,    2>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,    4>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,    8>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,   16>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,   32>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,   64>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,  128>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,  256>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,  512>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int, 1024>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int, 2048>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int, 4096>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int, 8192>();
+}
+DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeysAndValues);
+
+

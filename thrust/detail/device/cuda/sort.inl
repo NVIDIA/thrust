@@ -33,21 +33,24 @@
 /*
  *  This file implements the following dispatch procedure for cuda::stable_sort()
  *  and cuda::stable_sort_by_key().  All iterators are assumed to be "trivial
- *  iterators" (i.e. pointer wrappers).  The functions
- *      indirect_stable_sort()
- *      indirect_stable_sort_by_key()
- *      permutation_stable_sort_by_key()
- *  are meta sorting functions that convert one sorting problem to another.
- *  Specifically, indirect_sort() converts a sort on T to a sort on integers
- *  that index into an array of type T.  Similarly, permutation_sort_by_key()
- *  converts a (key,value) sort into a (key,index) sort where the indices
- *  record the permutation used to sort the keys.  The permuted indices are
- *  then used to reorder the values.  In either case, the meta sorting functions
- *  are used to convert an ill-suited problem (i.e. sorting with large keys 
- *  or large values) into a problem more amenable to the true sorting algorithms.
- * 
- *   stable_sort() dispatch procedure
+ *  iterators" (i.e. pointer wrappers).  The first level inspects the KeyType
+ *  and StrictWeakOrdering to determines whether Radix Sort may be applied.
+ *  The second level inspects the KeyType to determine whether keys should 
+ *  be sorted indirectly (i.e. sorting references to keys instead of keys 
+ *  themselves). The third level inspects the ValueType to determine whether 
+ *  the values should be sorted indirectly, again using references instead of
+ *  the values themselves.
  *
+ *  The second and third levels convert one sorting problem to another.
+ *  The second level converts a sort on T to a sort on integers that index
+ *  into an array of type T.  Similarly, the third level converts a (key,value) 
+ *  sort into a (key,index) sort where the indices  record the permutation 
+ *  used to sort the keys.  The permuted indices are then used to reorder the
+ *  values.  In either case, the transformation converts an ill-suited problem
+ *  (i.e. sorting with large keys or large values) into a problem more amenable
+ *  to the underlying sorting algorithms.
+ * 
+ *   Summary of the stable_sort() dispatch procedure:
  *       Level 1:
  *          if is_primitive<KeyType> && is_equal< StrictWeakOrdering, less<KeyType> > 
  *              stable_radix_sort()
@@ -62,8 +65,7 @@
  *          else
  *               stable_merge_sort()
  *     
- *   stable_sort_by_key() dispatch procedure
- *
+ *   Summary of the stable_sort_by_key() dispatch procedure:
  *       Level 1:
  *          if is_primitive<KeyType> && is_equal< StrictWeakOrdering, less<KeyType> > 
  *              stable_radix_sort_by_key()
@@ -88,7 +90,6 @@
  */
 
 
-
 namespace thrust
 {
 namespace detail
@@ -97,6 +98,48 @@ namespace device
 {
 namespace cuda
 {
+
+namespace third_dispatch
+{
+    // thrid level of the dispatch decision tree
+    
+    template<typename RandomAccessIterator1,
+             typename RandomAccessIterator2,
+             typename StrictWeakOrdering>
+    void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                  RandomAccessIterator1 keys_last,
+                                  RandomAccessIterator2 values_first,
+                                  StrictWeakOrdering comp,
+                                  thrust::detail::true_type)
+    {
+        // sizeof(ValueType) != 4, use indirection and permute values
+        typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+        thrust::detail::raw_device_buffer<unsigned int> permutation(keys_last - keys_first);
+        thrust::sequence(permutation.begin(), permutation.end());
+    
+        thrust::detail::device::cuda::detail::stable_merge_sort_by_key
+            (keys_first, keys_last, permutation.begin(), comp);
+   
+        RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
+        thrust::detail::raw_device_buffer<ValueType> temp(values_first, values_last);
+        thrust::gather(values_first, values_last, permutation.begin(), temp.begin());
+    }
+    
+    template<typename RandomAccessIterator1,
+             typename RandomAccessIterator2,
+             typename StrictWeakOrdering>
+    void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                                  RandomAccessIterator1 keys_last,
+                                  RandomAccessIterator2 values_first,
+                                  StrictWeakOrdering comp,
+                                  thrust::detail::false_type)
+    {
+        // sizeof(ValueType) == 4, sort values directly
+        thrust::detail::device::cuda::detail::stable_merge_sort_by_key
+            (keys_first, keys_last, values_first, comp);
+    }
+
+} // end namespace third_dispatch
 
 namespace second_dispatch
 {
@@ -128,7 +171,7 @@ namespace second_dispatch
                              StrictWeakOrdering comp,
                              thrust::detail::true_type)
     {
-        // sizeof(KeyType) is large, use indirection and permute keys
+        // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
         thrust::detail::raw_device_buffer<unsigned int> permutation(last - first);
         thrust::sequence(permutation.begin(), permutation.end());
@@ -147,7 +190,7 @@ namespace second_dispatch
                              StrictWeakOrdering comp,
                              thrust::detail::false_type)
     {
-        // sizeof(KeyType) is small, use stable_merge_sort() directly
+        // sizeof(KeyType) <= 16, sort keys directly
         thrust::detail::device::cuda::detail::stable_merge_sort(first, last, comp);
     }
     
@@ -160,13 +203,17 @@ namespace second_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        // sizeof(KeyType) is large, use indirection and permute keys
+        // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
         thrust::detail::raw_device_buffer<unsigned int> permutation(keys_last - keys_first);
         thrust::sequence(permutation.begin(), permutation.end());
     
-        thrust::detail::device::cuda::detail::stable_merge_sort_by_key
-            (permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp));
+        // decide whether to sort values indirectly
+        typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+        static const bool sort_values_indirectly = sizeof(ValueType) != 4;
+        thrust::detail::device::cuda::third_dispatch::stable_merge_sort_by_key
+            (permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
+             thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
         thrust::detail::raw_device_buffer<KeyType> temp(keys_first, keys_last);
         thrust::gather(keys_first, keys_last, permutation.begin(), temp.begin());
@@ -181,9 +228,14 @@ namespace second_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::false_type)
     {
-        // sizeof(KeyType) is small, sort keys directly
-        thrust::detail::device::cuda::detail::stable_merge_sort_by_key
-            (keys_first, keys_last, values_first, comp);
+        // sizeof(KeyType) <= 16, sort keys directly
+        
+        // decide whether to sort values indirectly
+        typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+        static const bool sort_values_indirectly = sizeof(ValueType) != 4;
+        thrust::detail::device::cuda::third_dispatch::stable_merge_sort_by_key
+            (keys_first, keys_last, values_first, comp,
+             thrust::detail::integral_constant<bool, sort_values_indirectly>());
     }
 
 } // end namespace second_dispatch
@@ -213,9 +265,9 @@ namespace first_dispatch
                        StrictWeakOrdering comp,
                        thrust::detail::false_type)
     {
-        // decide whether we should use indirect sort or not
+        // decide whether to sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        static const bool add_key_indirection = sizeof(KeyType) > 16;  
+        static const bool sort_keys_indirectly = sizeof(KeyType) > 16;  
         
         // XXX  magic constant determined by limited empirical testing
         // TODO more extensive tuning, consider vector types (e.g. int4)
@@ -224,7 +276,7 @@ namespace first_dispatch
         // and comparison methods is implemented with stable_merge_sort
         thrust::detail::device::cuda::second_dispatch::stable_merge_sort
             (first, last, comp,
-                thrust::detail::integral_constant<bool, add_key_indirection>());
+                thrust::detail::integral_constant<bool, sort_keys_indirectly>());
     }
     
     template<typename RandomAccessIterator1,
@@ -251,9 +303,9 @@ namespace first_dispatch
                               StrictWeakOrdering comp,
                               thrust::detail::false_type)
     {
-        // decide whether we should use indirect_sort or not
+        // decide whether to sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        static const bool add_key_indirection = sizeof(KeyType) > 16;  
+        static const bool sort_keys_indirectly = sizeof(KeyType) > 16;  
         
         // XXX  magic constant determined by limited empirical testing
         // TODO more extensive tuning, consider vector types (e.g. int4)
@@ -262,7 +314,7 @@ namespace first_dispatch
         // and comparison methods is implemented with stable_merge_sort
         thrust::detail::device::cuda::second_dispatch::stable_merge_sort_by_key
             (keys_first, keys_last, values_first, comp,
-                thrust::detail::integral_constant<bool, add_key_indirection>());
+                thrust::detail::integral_constant<bool, sort_keys_indirectly>());
     }
 
 } // end namespace first_dispatch
@@ -291,7 +343,7 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-    // dispatch on whether we can use radix_sort
+    // dispatch on whether we can use radix_sort_by_key
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     static const bool use_radix_sort = thrust::detail::is_pod<KeyType>::value &&
                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
