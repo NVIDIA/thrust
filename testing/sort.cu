@@ -379,7 +379,7 @@ DECLARE_VECTOR_UNITTEST(TestSortByKeyUnalignedSimple);
 template <typename T, unsigned int N>
 void _TestStableSortWithLargeTypes(void)
 {
-    size_t n = (64 * 1024) / sizeof(FixedVector<T,N>);
+    size_t n = (128 * 1024) / sizeof(FixedVector<T,N>);
 
     thrust::host_vector< FixedVector<T,N> > h_data(n);
 
@@ -400,13 +400,16 @@ void TestStableSortWithLargeTypes(void)
     _TestStableSortWithLargeTypes<int,    2>();
     _TestStableSortWithLargeTypes<int,    4>();
     _TestStableSortWithLargeTypes<int,    8>();
-    //_TestStableSortWithLargeTypes<int,   16>(); // unspecified launch failure
-    //_TestStableSortWithLargeTypes<int,   32>();
-    //_TestStableSortWithLargeTypes<int,   64>();
-    //_TestStableSortWithLargeTypes<int,  128>();
-    //_TestStableSortWithLargeTypes<int,  256>();
-    //_TestStableSortWithLargeTypes<int,  512>();
-    //_TestStableSortWithLargeTypes<int, 1024>();
+    _TestStableSortWithLargeTypes<int,   16>();
+    _TestStableSortWithLargeTypes<int,   32>();
+    _TestStableSortWithLargeTypes<int,   64>();
+    _TestStableSortWithLargeTypes<int,  128>();
+    _TestStableSortWithLargeTypes<int,  256>();
+    _TestStableSortWithLargeTypes<int,  512>();
+    _TestStableSortWithLargeTypes<int, 1024>();
+    _TestStableSortWithLargeTypes<int, 2048>();
+    _TestStableSortWithLargeTypes<int, 4096>();
+    _TestStableSortWithLargeTypes<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortWithLargeTypes);
 
