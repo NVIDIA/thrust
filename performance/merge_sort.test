@@ -1,6 +1,7 @@
 PREAMBLE = \
     """
-    #include <thrust/sorting/merge_sort.h>
+    #include <thrust/sort.h>
+    #include <thrust/detail/device/cuda/detail/stable_merge_sort.h>
     """
 
 INITIALIZE = \
@@ -10,8 +11,8 @@ INITIALIZE = \
     thrust::device_vector<$KeyType> d_keys_copy = d_keys;
     
     // test sort
-    thrust::sorting::merge_sort(h_keys.begin(), h_keys.end());
-    thrust::sorting::merge_sort(d_keys.begin(), d_keys.end());
+    thrust::stable_sort(h_keys.begin(), h_keys.end());
+    thrust::detail::device::cuda::detail::stable_merge_sort(d_keys.begin(), d_keys.end(), thrust::less<$KeyType>());
 
     ASSERT_EQUAL(d_keys, h_keys);
     """
@@ -19,7 +20,7 @@ INITIALIZE = \
 TIME = \
     """
     thrust::copy(d_keys_copy.begin(), d_keys_copy.end(), d_keys.begin());
-    thrust::sorting::merge_sort(d_keys.begin(), d_keys.end());
+    thrust::detail::device::cuda::detail::stable_merge_sort(d_keys.begin(), d_keys.end(), thrust::less<$KeyType>());
     """
 
 FINALIZE = \
@@ -29,7 +30,7 @@ FINALIZE = \
     """
 
 
-KeyTypes = ['char', 'short', 'int', 'long', 'float', 'double']
+KeyTypes   = ['char', 'short', 'int', 'long', 'float', 'double']
 InputSizes = [2**N for N in range(18, 25)]
 
 TestVariables = [('KeyType', KeyTypes), ('InputSize', InputSizes)]
