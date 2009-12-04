@@ -88,21 +88,23 @@ struct transform_iterator_base
     > type;
 };
 
-// specialize iterator_device_reference for transform_iterator
-// transform_iterator returns the same reference on the device as on the host
-template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
-  struct iterator_device_reference< thrust::transform_iterator<UnaryFunc, Iterator, Reference, Value> >
-{
-  typedef typename thrust::iterator_traits< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::reference type;
-}; // end iterator_device_reference
-
 
 namespace device
 {
 
+
+// specialize dereference_result for transform_iterator
+// transform_iterator returns the same reference on the device as on the host
+template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
+  struct dereference_result< thrust::transform_iterator<UnaryFunc, Iterator, Reference, Value> >
+{
+  typedef typename thrust::iterator_traits< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::reference type;
+}; // end dereference_result
+
+
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
+    typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
       dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter)
 {
   return iter.functor()( dereference(iter.base()) );
@@ -110,7 +112,7 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
+    typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
       dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n)
 {
   return iter.functor()( dereference(iter.base(), n) );

@@ -43,13 +43,6 @@ namespace thrust
 namespace detail
 {
 
-// specialize iterator_device_reference for normal_iterator with device_ptr as base
-template<typename T>
-  struct iterator_device_reference< normal_iterator< device_ptr<T> > >
-{
-  typedef typename iterator_device_reference< device_ptr<T> >::type type;
-}; // end iterator_device_reference
-
 template<typename T, typename Alloc>
   vector_base<T,Alloc>
     ::vector_base(void)

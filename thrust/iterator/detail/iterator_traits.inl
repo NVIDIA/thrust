@@ -116,16 +116,6 @@ template<typename T>
 }; // end is_iterator_space
 
 
-template <typename Iterator> struct iterator_device_reference {};
-
-template <typename T>
-  struct iterator_device_reference<T*>
-{
-  typedef T& type;
-}; // end iterator_device_reference
-
-
-
 #ifdef __GNUC__
 template<typename T>
   struct is_gnu_normal_iterator

@@ -112,18 +112,18 @@ reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalItera
 namespace detail
 {
 
-template<typename DeviceBidirectionalIterator>
-  struct iterator_device_reference< thrust::experimental::reverse_iterator<DeviceBidirectionalIterator> >
-    : iterator_device_reference<DeviceBidirectionalIterator>
-{
-}; // end iterator_device_reference
-
 namespace device
 {
 
+template<typename DeviceBidirectionalIterator>
+  struct dereference_result< thrust::experimental::reverse_iterator<DeviceBidirectionalIterator> >
+    : dereference_result<DeviceBidirectionalIterator>
+{
+}; // end dereference_result
+
 template<typename BidirectionalIterator>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
+    typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
       dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter)
 {
   return dereference(thrust::experimental::detail::prior(iter.base()));
@@ -131,7 +131,7 @@ template<typename BidirectionalIterator>
 
 template<typename BidirectionalIterator, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
+    typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
       dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter, IndexType n)
 {
   thrust::experimental::reverse_iterator<BidirectionalIterator> temp = iter;

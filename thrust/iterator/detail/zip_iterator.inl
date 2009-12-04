@@ -115,21 +115,23 @@ template <typename IteratorTuple>
 namespace detail
 {
 
+namespace device
+{
+
+
 template<typename DeviceIteratorTuple>
-  struct iterator_device_reference< thrust::zip_iterator<DeviceIteratorTuple> >
+  struct dereference_result< thrust::zip_iterator<DeviceIteratorTuple> >
 {
   // device_reference type is the type of the tuple obtained from the
   // iterators' device_reference types.
   typedef typename
-  thrust::detail::tuple_of_device_references<DeviceIteratorTuple>::type type;
-}; // end iterator_device_reference
+  thrust::detail::tuple_of_dereference_result<DeviceIteratorTuple>::type type;
+}; // end dereference_result
 
-namespace device
-{
 
 template<typename IteratorTuple>
   inline __host__ __device__
-    typename thrust::detail::iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
+    typename dereference_result< thrust::zip_iterator<IteratorTuple> >::type
       dereference(thrust::zip_iterator<IteratorTuple> iter)
 {
   using namespace thrust::detail::tuple_impl_specific;
@@ -137,9 +139,10 @@ template<typename IteratorTuple>
   return tuple_transform(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
 }; // end dereference()
 
+
 template<typename IteratorTuple, typename IndexType>
   inline __host__ __device__
-    typename thrust::detail::iterator_device_reference< thrust::zip_iterator<IteratorTuple> >::type
+    typename dereference_result< thrust::zip_iterator<IteratorTuple> >::type
       dereference(thrust::zip_iterator<IteratorTuple> iter,
                   IndexType n)
 {
@@ -150,6 +153,7 @@ template<typename IteratorTuple, typename IndexType>
 
   return tuple_transform(iter.get_iterator_tuple(), f);
 }; // end dereference()
+
 
 } // end device
 

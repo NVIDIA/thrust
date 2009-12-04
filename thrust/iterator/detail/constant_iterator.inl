@@ -16,6 +16,7 @@
 
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -23,37 +24,40 @@ namespace thrust
 namespace detail
 {
 
-// specialize iterator_device_reference for counting_iterator
+namespace device
+{
+
+
+// specialize dereference_result for counting_iterator
 // transform_iterator returns the same reference on the device as on the host
 template <typename Value, typename Incrementable, typename Space>
-  struct iterator_device_reference<
+  struct dereference_result<
     thrust::constant_iterator<
       Value, Incrementable, Space
     >
   >
 {
   typedef typename thrust::iterator_traits< thrust::constant_iterator<Value,Incrementable,Space> >::reference type;
-}; // end iterator_device_reference
+}; // end dereference_result
 
-
-namespace device
-{
 
 template<typename Value, typename Incrementable, typename Space>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
+    typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
       dereference(thrust::constant_iterator<Value,Incrementable,Space> iter)
 {
   return *iter;
 } // end dereference()
 
+
 template<typename Value, typename Incrementable, typename Space, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::constant_iterator<Value,Incrementable,Space> >::type
+    typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
       dereference(thrust::constant_iterator<Value,Incrementable,Space> iter, IndexType n)
 {
   return iter[n];
 } // end dereference()
+
 
 } // end namespace device
 

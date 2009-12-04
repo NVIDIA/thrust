@@ -52,6 +52,27 @@ template<typename IteratorTuple> class zip_iterator;
 namespace detail
 {
 
+
+// forward declaration of the lambda placeholders
+struct _1;
+struct _2;
+
+
+namespace device
+{
+
+
+// specialize dereference_result on the lambda placeholder
+template<>
+  struct dereference_result<_1>
+{
+  template <class T>
+    struct apply : thrust::detail::device::dereference_result<T> {};
+}; // end dereference_result
+
+} // end device
+
+
 // Functors to be used with tuple algorithms
 //
 template<typename DiffType>
@@ -112,7 +133,7 @@ struct device_dereference_iterator
   struct apply
   { 
     typedef typename
-      thrust::detail::iterator_device_reference<Iterator>::type
+      thrust::detail::device::dereference_result<Iterator>::type
     type;
   }; // end apply
 
@@ -130,7 +151,7 @@ struct device_dereference_iterator_with_index
   struct apply
   { 
     typedef typename
-      thrust::detail::iterator_device_reference<Iterator>::type
+      thrust::detail::device::dereference_result<Iterator>::type
     type;
   }; // end apply
 
@@ -385,15 +406,6 @@ template<>
     struct apply : thrust::iterator_reference<T> {};
 }; // end iterator_reference
 
-
-// specialize iterator_device_reference on the lambda placeholder
-template<>
-  struct iterator_device_reference<_1>
-{
-  template <class T>
-    struct apply : thrust::detail::iterator_device_reference<T> {};
-}; // end iterator_device_reference
-
 namespace zip_iterator_base_ns
 {
 
@@ -430,13 +442,13 @@ template<typename IteratorTuple>
 // Metafunction to obtain the type of the tuple whose element types
 // are the device reference types of an iterator tuple.
 template<typename IteratorTuple>
-  struct tuple_of_device_references
+  struct tuple_of_dereference_result
     : tuple_impl_specific::tuple_meta_transform<
           IteratorTuple,
-          iterator_device_reference<_1>
+          thrust::detail::device::dereference_result<_1>
         >
 {
-}; // end tuple_of_device_references
+}; // end tuple_of_dereference_result
 
 
 // Metafunction to obtain the type of the tuple whose element types

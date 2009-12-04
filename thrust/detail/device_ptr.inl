@@ -130,36 +130,41 @@ template<typename T>
 {
 }; // end is_device_ptr
 
-// forward declaration of iterator_device_reference
-template<typename T> struct iterator_device_reference;
+
+namespace device
+{
+
+
+// forward declaration of dereference_result
+template<typename T> struct dereference_result;
+
 
 template<typename T>
-  struct iterator_device_reference< device_ptr<T> >
+  struct dereference_result< device_ptr<T> >
 {
   typedef T& type;
 }; // end device_traits
 
+
 template<typename T>
-  struct iterator_device_reference< device_ptr<const T> >
+  struct dereference_result< device_ptr<const T> >
 {
   typedef const T& type;
 }; // end device_traits
 
 
-namespace device
-{
-
 template<typename T>
   inline __host__ __device__
-    typename iterator_device_reference< device_ptr<T> >::type
+    typename dereference_result< device_ptr<T> >::type
       dereference(device_ptr<T> ptr)
 {
   return *thrust::raw_pointer_cast(ptr);
 } // dereference
 
+
 template<typename T, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< device_ptr<T> >::type
+    typename dereference_result< device_ptr<T> >::type
       dereference(thrust::device_ptr<T> ptr, IndexType n)
 {
   return thrust::raw_pointer_cast(ptr)[n];

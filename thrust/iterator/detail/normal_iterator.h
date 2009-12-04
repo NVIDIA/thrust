@@ -25,6 +25,7 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/device/dereference.h>
 #include <thrust/device_ptr.h>
 
 namespace thrust
@@ -64,25 +65,37 @@ template<typename Pointer>
 
 }; // end normal_iterator
 
+
 template<typename T> struct is_trivial_iterator< normal_iterator<T> > : public true_type {};
+
+
 
 namespace device
 {
 
+
+// specialize dereference_result for normal_iterator with device_ptr as base
+template<typename T>
+  struct dereference_result< normal_iterator< device_ptr<T> > >
+{
+  typedef typename dereference_result< device_ptr<T> >::type type;
+}; // end dereference_result
+
+
 // forward declarations for dereference(device_ptr)
 template<typename T>
   inline __host__ __device__
-    typename iterator_device_reference< device_ptr<T> >::type
+    typename dereference_result< device_ptr<T> >::type
       dereference(device_ptr<T> iter);
 
 template<typename T, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< device_ptr<T> >::type
+    typename dereference_result< device_ptr<T> >::type
       dereference(device_ptr<T> iter, IndexType n);
 
 template<typename T>
   inline __host__ __device__
-    typename iterator_device_reference< normal_iterator< device_ptr<T> > >::type
+    typename dereference_result< normal_iterator< device_ptr<T> > >::type
       dereference(normal_iterator< device_ptr<T> > iter)
 {
   return dereference(iter.base());
@@ -90,7 +103,7 @@ template<typename T>
 
 template<typename T, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< normal_iterator< device_ptr<T> > >::type
+    typename dereference_result< normal_iterator< device_ptr<T> > >::type
       dereference(normal_iterator< device_ptr<T> > iter, IndexType n)
 {
   return dereference(iter.base(), n);

@@ -71,34 +71,37 @@ template <typename Iterator, typename Space>
   return forced_iterator<Iterator,Space>(x);
 } // end make_forced_iterator
 
-template<typename Iterator, typename Space>
-  struct iterator_device_reference< thrust::detail::forced_iterator<Iterator,Space> >
-    : iterator_device_reference<Iterator>
-{
-}; // end iterator_device_reference
-
 
 namespace device
 {
 
+
+template<typename Iterator, typename Space>
+  struct dereference_result< thrust::detail::forced_iterator<Iterator,Space> >
+    : dereference_result<Iterator>
+{
+}; // end dereference_result
+
+
 template<typename Iterator, typename Space>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::detail::forced_iterator<Iterator,Space> >::type
+    typename dereference_result< thrust::detail::forced_iterator<Iterator,Space> >::type
       dereference(thrust::detail::forced_iterator<Iterator,Space> iter)
 {
   return dereference(iter.base());
 } // end dereference()
 
+
 template<typename Iterator, typename Space, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::detail::forced_iterator<Iterator,Space> >::type
+    typename dereference_result< thrust::detail::forced_iterator<Iterator,Space> >::type
       dereference(thrust::detail::forced_iterator<Iterator,Space> iter, IndexType n)
 {
   return dereference(iter.base(), n);
 } // end dereference()
 
-} // end device
 
+} // end device
 
 } // end detail
 

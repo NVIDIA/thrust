@@ -19,6 +19,7 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/numeric_traits.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -79,25 +80,26 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
 }; // end counting_iterator_base
 
 
-// specialize iterator_device_reference for counting_iterator
+namespace device
+{
+
+
+// specialize dereference_result for counting_iterator
 // transform_iterator returns the same reference on the device as on the host
 template <typename Incrementable, typename Space, typename Traversal, typename Difference>
-  struct iterator_device_reference<
+  struct dereference_result<
     thrust::counting_iterator<
       Incrementable, Space, Traversal, Difference
     >
   >
 {
   typedef typename thrust::iterator_traits< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::reference type;
-}; // end iterator_device_reference
+}; // end dereference_result
 
-
-namespace device
-{
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+    typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
       dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter)
 {
   return *iter;
@@ -105,7 +107,7 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
+    typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
       dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n)
 {
   return iter[n];
