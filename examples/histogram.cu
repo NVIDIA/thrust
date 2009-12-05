@@ -56,12 +56,6 @@ int main(void)
                         search_begin + num_bins,
                         d_cumulative_histogram.begin());
     
-    // print the sorted data
-    std::cout << "sorted data" << std::endl;
-    thrust::copy(d_data.begin(), d_data.end(), std::ostream_iterator<int>(std::cout, " "));
-    std::cout << std::endl;
-
-
     // print the cumulative histogram
     std::cout << "cumulative histogram" << std::endl;
     thrust::copy(d_cumulative_histogram.begin(), d_cumulative_histogram.end(), std::ostream_iterator<int>(std::cout, " "));
