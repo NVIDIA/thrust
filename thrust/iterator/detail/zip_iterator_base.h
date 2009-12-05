@@ -22,6 +22,8 @@
 #include <thrust/iterator/detail/minimum_category.h>
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/tuple.h>
+#include <thrust/detail/tuple_meta_transform.h>
+#include <thrust/detail/tuple_transform.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/device/dereference.h>
 
@@ -30,24 +32,6 @@ namespace thrust
 
 // forward declare zip_iterator for zip_iterator_base
 template<typename IteratorTuple> class zip_iterator;
-
-// One important design goal of the zip_iterator is to isolate all
-// functionality whose implementation relies on the current tuple
-// implementation. This goal has been achieved as follows: Inside
-// the namespace detail there is a namespace tuple_impl_specific.
-// This namespace encapsulates all functionality that is specific
-// to the current Boost tuple implementation. More precisely, the
-// namespace tuple_impl_specific provides the following tuple
-// algorithms and meta-algorithms for the current Boost tuple
-// implementation:
-//
-// tuple_meta_transform
-// tuple_meta_accumulate
-// tuple_transform
-// tuple_for_each
-//
-// If the tuple implementation changes, all that needs to be
-// replaced is the implementation of these four (meta-)algorithms.
 
 namespace detail
 {
@@ -202,41 +186,6 @@ template< template <typename> class X >
 }; // end lambda
 
 
-// Meta-transform algorithm for tuples
-
-// forward declaraction of tuple_meta_transform for tuple_meta_transform_impl
-template<typename Tuple, class UnaryMetaFun>
-  struct tuple_meta_transform;
-
-template<typename Tuple, class UnaryMetaFun>
-  struct tuple_meta_transform_impl
-{
-    typedef thrust::detail::cons<
-        typename apply1<
-            // XXX do we need to implement mpl::lambda or not?
-            //typename mpl::lambda<UnaryMetaFun>::type
-            typename lambda<UnaryMetaFun>::type
-            //UnaryMetaFun
-          , typename Tuple::head_type
-        >::type
-      , typename tuple_meta_transform<
-            typename Tuple::tail_type
-          , UnaryMetaFun 
-        >::type
-    > type;
-};
-
-template<typename Tuple, class UnaryMetaFun>
-  struct tuple_meta_transform
-    : thrust::detail::eval_if<
-          thrust::detail::is_same<Tuple, thrust::null_type>::value
-        , thrust::detail::identity_<thrust::null_type>
-        , tuple_meta_transform_impl<Tuple, UnaryMetaFun>
-      >
-{
-};
-
-
 
 // define apply2 for tuple_meta_accumulate_impl
 template<typename UnaryMetaFunctionClass, class Arg1, class Arg2>
@@ -309,40 +258,6 @@ struct tuple_meta_accumulate
 //     template <class Arg>
 //     Arg* operator()(Arg x);
 // };
-template<typename Fun>
-__host__ __device__
-thrust::null_type tuple_transform
-    (thrust::null_type const&, Fun)
-{ return thrust::null_type(); }
-
-
-
-template<typename Tuple, typename Fun>
-__host__ __device__
-typename tuple_meta_transform<
-    Tuple
-  , Fun
->::type
-
-tuple_transform(
-  const Tuple& t, 
-  Fun f
-)
-{ 
-    typedef typename tuple_meta_transform<
-        typename Tuple::tail_type
-      , Fun
-    >::type transformed_tail_type;
-
-  return thrust::detail::cons<
-      typename apply1<
-          Fun, typename Tuple::head_type
-       >::type
-     , transformed_tail_type
-  >( 
-      f(thrust::get<0>(t)), tuple_transform(t.get_tail(), f)
-  );
-} // end tuple_transform()
 
 
 
@@ -431,9 +346,9 @@ template<>
 //
 template<typename IteratorTuple>
   struct tuple_of_references
-    : tuple_impl_specific::tuple_meta_transform<
+    : tuple_meta_transform<
           IteratorTuple, 
-          iterator_reference<_1>
+          iterator_reference
         >
 {
 }; // end tuple_of_references
@@ -443,9 +358,9 @@ template<typename IteratorTuple>
 // are the device reference types of an iterator tuple.
 template<typename IteratorTuple>
   struct tuple_of_dereference_result
-    : tuple_impl_specific::tuple_meta_transform<
+    : tuple_meta_transform<
           IteratorTuple,
-          thrust::detail::device::dereference_result<_1>
+          thrust::detail::device::dereference_result
         >
 {
 }; // end tuple_of_dereference_result
@@ -456,9 +371,9 @@ template<typename IteratorTuple>
 //
 template<typename IteratorTuple>
   struct tuple_of_value_types
-    : tuple_impl_specific::tuple_meta_transform<
+    : tuple_meta_transform<
           IteratorTuple,
-          zip_iterator_base_ns::iterator_value<_1>
+          iterator_value
         >
 {
 }; // end tuple_of_value_types
@@ -471,9 +386,9 @@ template<typename IteratorTuple>
 template<typename IteratorTuple>
 struct minimum_traversal_category_in_iterator_tuple
 {
-  typedef typename tuple_impl_specific::tuple_meta_transform<
+  typedef typename tuple_meta_transform<
       IteratorTuple
-    , thrust::iterator_traversal<_1>
+    , thrust::iterator_traversal
   >::type tuple_of_traversal_tags;
       
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
@@ -490,9 +405,9 @@ struct minimum_traversal_category_in_iterator_tuple
 template<typename IteratorTuple>
 struct minimum_space_in_iterator_tuple
 {
-  typedef typename tuple_impl_specific::tuple_meta_transform<
+  typedef typename thrust::detail::tuple_meta_transform<
     IteratorTuple,
-    thrust::iterator_space<_1>
+    thrust::iterator_space
   >::type tuple_of_space_tags;
 
   typedef typename tuple_impl_specific::tuple_meta_accumulate<

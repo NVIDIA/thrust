@@ -287,9 +287,9 @@ template<typename T1, typename T2>
 
 // mpl stuff
 
-template <typename Condition1, typename Condition2>
+template <typename Condition1, typename Condition2, typename Condition3 = false_type>
   struct or_
-    : public integral_constant<bool, Condition1::value || Condition2::value>
+    : public integral_constant<bool, Condition1::value || Condition2::value || Condition3::value>
 {
 }; // end or_
 
@@ -298,6 +298,12 @@ template <typename Condition1, typename Condition2>
     : public integral_constant<bool, Condition1::value && Condition2::value>
 {
 }; // end and_
+
+template <typename Boolean>
+  struct not_
+    : public integral_constant<bool, !Boolean::value>
+{
+}; // end not_
 
 template <bool, typename Then, typename Else>
   struct eval_if
@@ -336,6 +342,10 @@ template<typename T>
       >
 {
 }; // end is_numeric
+
+
+template<typename> struct is_reference_to_const             : false_type {};
+template<typename T> struct is_reference_to_const<const T&> : true_type {};
 
 } // end detail
 

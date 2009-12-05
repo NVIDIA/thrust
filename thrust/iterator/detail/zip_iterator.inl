@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/detail/tuple_transform.h>
 
 namespace thrust
 {
@@ -52,7 +53,7 @@ template <typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  return tuple_transform(get_iterator_tuple(), detail::dereference_iterator());
+  return thrust::detail::tuple_transform(get_iterator_tuple(), detail::dereference_iterator());
 } // end zip_iterator::dereference()
 
 
@@ -136,7 +137,7 @@ template<typename IteratorTuple>
 {
   using namespace thrust::detail::tuple_impl_specific;
 
-  return tuple_transform(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
+  return thrust::detail::tuple_transform(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
 }; // end dereference()
 
 
@@ -151,7 +152,7 @@ template<typename IteratorTuple, typename IndexType>
   thrust::detail::device_dereference_iterator_with_index<IndexType> f;
   f.n = n;
 
-  return tuple_transform(iter.get_iterator_tuple(), f);
+  return thrust::detail::tuple_transform(iter.get_iterator_tuple(), f);
 }; // end dereference()
 
 
