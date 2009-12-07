@@ -703,6 +703,57 @@ template<typename T>
   __host__ __device__ const T &operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
 }; // end minimum
 
+/*! \p project1st is a function object that takes two arguments and returns 
+ *  its first argument; the second argument is unused. It is essentially a
+ *  generalization of identity to the case of a Binary Function.
+ *
+ *  \code
+ *  #include <thrust/functional.h>
+ *  #include <assert.h>
+ *  ...
+ *  int x =  137;
+ *  int y = -137;
+ *  thrust::project1st<int> pj1;
+ *  assert(x == pj1(x,y));
+ *  \endcode
+ *
+ *  \see identity
+ *  \see project2nd
+ *  \see binary_function
+ */
+template<typename T1, typename T2>
+  struct project1st : public binary_function<T1,T2,T1>
+{
+  /*! Function call operator. The return value is <tt>lhs</tt>.
+   */
+  __host__ __device__ const T1 &operator()(const T1 &lhs, const T2 &rhs) const {return lhs;}
+}; // end project1st
+
+/*! \p project2nd is a function object that takes two arguments and returns 
+ *  its second argument; the first argument is unused. It is essentially a
+ *  generalization of identity to the case of a Binary Function.
+ *
+ *  \code
+ *  #include <thrust/functional.h>
+ *  #include <assert.h>
+ *  ...
+ *  int x =  137;
+ *  int y = -137;
+ *  thrust::project2nd<int> pj2;
+ *  assert(y == pj2(x,y));
+ *  \endcode
+ *
+ *  \see identity
+ *  \see project1st
+ *  \see binary_function
+ */
+template<typename T1, typename T2>
+  struct project2nd : public binary_function<T1,T2,T2>
+{
+  /*! Function call operator. The return value is <tt>rhs</tt>.
+   */
+  __host__ __device__ const T2 &operator()(const T1 &lhs, const T2 &rhs) const {return rhs;}
+}; // end project2nd
 
 /*! \}
  */

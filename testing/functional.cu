@@ -205,7 +205,43 @@ void TestIdentityFunctional(void)
 }
 DECLARE_VECTOR_UNITTEST(TestIdentityFunctional);
 
+template <class Vector>
+void TestProject1stFunctional(void)
+{
+    typedef typename Vector::value_type T;
 
+    Vector lhs(3);
+    Vector rhs(3);
+    lhs[0] = 0;  rhs[0] = 3; 
+    lhs[1] = 1;  rhs[1] = 4;
+    lhs[2] = 2;  rhs[2] = 5;
+
+    Vector output(3);
+
+    thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), output.begin(), thrust::project1st<T,T>());
+
+    ASSERT_EQUAL(output, lhs);
+}
+DECLARE_VECTOR_UNITTEST(TestProject1stFunctional);
+
+template <class Vector>
+void TestProject2ndFunctional(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector lhs(3);
+    Vector rhs(3);
+    lhs[0] = 0;  rhs[0] = 3; 
+    lhs[1] = 1;  rhs[1] = 4;
+    lhs[2] = 2;  rhs[2] = 5;
+
+    Vector output(3);
+
+    thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), output.begin(), thrust::project2nd<T,T>());
+
+    ASSERT_EQUAL(output, rhs);
+}
+DECLARE_VECTOR_UNITTEST(TestProject2ndFunctional);
 
 template <class Vector>
 void TestMaximumFunctional(void)
