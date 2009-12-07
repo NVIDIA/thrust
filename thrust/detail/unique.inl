@@ -28,20 +28,48 @@ namespace thrust
 {
     
 template <typename ForwardIterator>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last)
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
   return thrust::unique(first, last, thrust::equal_to<InputType>());
 } // end unique()
 
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
   return detail::dispatch::unique(first, last, binary_pred,
     typename thrust::iterator_space<ForwardIterator>::type());
 } // end unique()
+
+
+template <typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output)
+{
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  return thrust::unique_copy(first, last, output, thrust::equal_to<InputType>());
+}
+
+
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred)
+{
+  return detail::dispatch::unique_copy(first, last, output, binary_pred,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
+}
 
 } // end namespace thrust
 

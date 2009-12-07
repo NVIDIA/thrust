@@ -30,9 +30,19 @@ namespace device
 namespace generic
 {
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred);
+
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred);
 
 } // end namespace generic
 } // end namespace device

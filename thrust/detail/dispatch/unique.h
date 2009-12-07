@@ -28,16 +28,14 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
-///////////////
-// Host Path //
-///////////////
+////////////////
+// Host Paths //
+////////////////
 
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator unique(ForwardIterator first, ForwardIterator last,
@@ -47,10 +45,22 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last,
     return std::unique(first, last, binary_pred);
 }
 
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred,
+                           thrust::host_space_tag,
+                           thrust::host_space_tag)
+{
+    return std::unique_copy(first, last, output, binary_pred);
+}
 
-/////////////////
-// Device Path //
-/////////////////
+//////////////////
+// Device Paths //
+//////////////////
 
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator unique(ForwardIterator first, ForwardIterator last,
@@ -60,9 +70,20 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last,
     return thrust::detail::device::unique(first, last, binary_pred);
 }
 
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred,
+                           thrust::device_space_tag,
+                           thrust::device_space_tag)
+{
+    return thrust::detail::device::unique_copy(first, last, output, binary_pred);
+}
+
 } // end namespace dispatch
-
 } // end namespace detail
-
 } // end namespace thrust
 

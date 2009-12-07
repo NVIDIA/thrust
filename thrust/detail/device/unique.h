@@ -30,11 +30,24 @@ namespace detail
 namespace device
 {
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
     return thrust::detail::device::generic::unique(first, last, binary_pred);
+}
+
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred)
+{
+    return thrust::detail::device::generic::unique_copy(first, last, output, binary_pred);
 }
 
 } // end namespace device

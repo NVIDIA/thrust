@@ -41,34 +41,41 @@ namespace generic
 namespace detail
 {
 
-template <typename ForwardIterator, typename BinaryPredicate, typename IndexType>
-ForwardIterator __unique_helper(ForwardIterator first, ForwardIterator last,
-                                BinaryPredicate binary_pred)
+template <typename IndexType,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-    typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
-    typedef typename thrust::iterator_space<ForwardIterator>::type Space;
-
-    difference_type n = last - first;
-  
-    typedef raw_buffer<InputType,Space> InputBuffer;
+    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+    typedef typename thrust::iterator_space<OutputIterator>::type Space;
+    
     typedef raw_buffer<IndexType,Space> IndexBuffer;
-    InputBuffer input(first, last);
+
+    IndexType n = last - first;
+  
     IndexBuffer is_first(n), scatter_to(n);
 
     // mark first element in each group
     thrust::binary_negate<BinaryPredicate> not_binary_pred(binary_pred);
-    thrust::transform(input.begin(), input.end() - 1, input.begin() + 1, is_first.begin() + 1, not_binary_pred); 
+    thrust::transform(first, last - 1, first + 1, is_first.begin() + 1, not_binary_pred); 
 
-    is_first[0] = 0; // we can ignore the first element
-
+    // ignore the first element for now 
+    is_first[0] = 0; 
+    
     // scan the predicates
     thrust::inclusive_scan(is_first.begin(), is_first.end(), scatter_to.begin());
-
+    
+    // mark the first element before scatter 
+    is_first[0] = 1;
+    
     // scatter first elements
-    thrust::scatter_if(input.begin(), input.end(), scatter_to.begin(), is_first.begin(), first);
-
-    ForwardIterator new_last = first + scatter_to[n - 1] + 1;
+    thrust::scatter_if(first, last, scatter_to.begin(), is_first.begin(), output);
+    
+    OutputIterator new_last = output + scatter_to[n - 1] + 1;
 
     return new_last;
 }
@@ -76,26 +83,42 @@ ForwardIterator __unique_helper(ForwardIterator first, ForwardIterator last,
 } // end namespace detail
 
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
+    typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+    typedef typename thrust::iterator_space<ForwardIterator>::type        Space;
+
+    typedef raw_buffer<InputType,Space> InputBuffer;
+    InputBuffer input(first, last);
+
+    return thrust::detail::device::generic::unique_copy(input.begin(), input.end(), first, binary_pred);
+}
+
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred)
+{
+  typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
 
   difference_type n = last - first;
 
+  // ranges with length 0 and 1 are already unique
   if(n < 2)
-  {
-    // ranges with length 0 and 1 are already unique
-    return last;
-  }
+    return output + n;  
 
   // use 32-bit indices when possible (almost always)
-  if (sizeof(difference_type) > sizeof(unsigned int) && n > std::numeric_limits<unsigned int>::max()){
-      return detail::__unique_helper<ForwardIterator, BinaryPredicate, difference_type>(first, last, binary_pred);
-  } else {
-      return detail::__unique_helper<ForwardIterator, BinaryPredicate, unsigned int>(first, last, binary_pred);
-  }
+  if (sizeof(difference_type) > sizeof(unsigned int) && n > std::numeric_limits<unsigned int>::max())
+      return detail::unique_copy<difference_type>(first, last, output, binary_pred);
+  else
+      return detail::unique_copy<unsigned int>   (first, last, output, binary_pred);
 }
 
 } // end namespace generic

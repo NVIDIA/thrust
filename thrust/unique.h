@@ -65,7 +65,8 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/unique.html
  */
 template <typename ForwardIterator>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last);
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last);
 
 /*! For each group of consecutive elements in the range <tt>[first, last)</tt>
  *  with the same value, \p unique removes all but the first element of 
@@ -91,9 +92,87 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last);
  *
  *  \see http://www.sgi.com/tech/stl/unique.html
  */
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred);
+
+
+/*! TODO 
+ *
+ *
+ *  This version of \p unique_copy uses \c operator== to test for equality.
+ *
+ *  \param first The beginning of the input range.
+ *  \param last  The end of the input range.
+ *  \param outpu The beginning of the output range.
+ *  \return The end of the unique range <tt>[output, output_end)</tt>.
+ *
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator is mutable,
+ *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *
+ *  The following code snippet demonstrates how to use \p unique_copy to
+ *  compact a sequence of numbers to remove consecutive duplicates.
+ *
+ *  \code
+ *  #include <thrust/unique.h>
+ *  ...
+ *  const int N = 7;
+ *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+ *  int B[N];
+ *  int *output_end = thrust::unique_copy(A, A + N, B);
+ *  // The first four values of B are now {1, 3, 2, 1}
+ *  // Values beyond new_end are unspecified.
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/unique_copy.html
+ */
+template <typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output);
+                       
+
+
+/*! TODO 
+ *
+ *
+ *  \param first The beginning of the input range.
+ *  \param last  The end of the input range.
+ *  \param output The beginning of the output range.
+ *  \return The end of the unique range <tt>[output, output_end)</tt>.
+ *
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator is mutable,
+ *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p unique_copy to
+ *  compact a sequence of numbers to remove consecutive duplicates.
+ *
+ *  \code
+ *  #include <thrust/unique.h>
+ *  ...
+ *  const int N = 7;
+ *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+ *  int B[N];
+ *  int *output_end = thrust::unique_copy(A, A + N, B);
+ *  // The first four values of B are now {1, 3, 2, 1}
+ *  // Values beyond new_end are unspecified.
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/unique_copy.html
+ */
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred);
 
 /*! \} // end stream_compaction
  */
