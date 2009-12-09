@@ -21,8 +21,6 @@
 
 #pragma once
 
-#ifdef __CUDACC__
-
 #include <thrust/device_ptr.h>
 #include <cuda_runtime_api.h>
 #include <stdexcept>
@@ -37,7 +35,8 @@ namespace device
 namespace cuda
 {
 
-inline void free(thrust::device_ptr<void> ptr)
+template<unsigned int DummyParameterToAvoidInstantiation>
+void free(thrust::device_ptr<void> ptr)
 {
   cudaError_t error = cudaFree(ptr.get());
 
@@ -51,6 +50,4 @@ inline void free(thrust::device_ptr<void> ptr)
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#endif // __CUDACC__
 

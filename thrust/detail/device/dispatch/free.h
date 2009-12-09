@@ -30,23 +30,20 @@ namespace device
 namespace dispatch
 {
 
-inline void free(thrust::device_ptr<void> ptr,
-                 thrust::device_space_tag)
+template<unsigned int DummyParameterToAvoidInstantiation>
+void free(thrust::device_ptr<void> ptr,
+          thrust::device_space_tag)
 {
-  thrust::detail::device::generic::free(ptr);
+  thrust::detail::device::generic::free<0>(ptr);
 } // end free()
 
-#ifdef __CUDACC__
 
-// TODO guard this elsewhere
-
-inline void free(thrust::device_ptr<void> ptr,
-                 thrust::detail::cuda_device_space_tag)
+template<unsigned int DummyParameterToAvoidInstantiation>
+void free(thrust::device_ptr<void> ptr,
+          thrust::detail::cuda_device_space_tag)
 {
-  thrust::detail::device::cuda::free(ptr);
+  thrust::detail::device::cuda::free<0>(ptr);
 } // end free()
-
-#endif
 
 } // end namespace dispatch
 } // end namespace device

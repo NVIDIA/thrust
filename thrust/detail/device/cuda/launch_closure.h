@@ -81,7 +81,7 @@ template<typename NullaryFunction>
     const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
 
     // allocate device memory for the argument
-    thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc(sizeof(NullaryFunction));
+    thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc<0>(sizeof(NullaryFunction));
 
     // cast to NullaryFunction *
     thrust::device_ptr<NullaryFunction> f_ptr(reinterpret_cast<NullaryFunction*>(temp_ptr.get()));
@@ -93,7 +93,7 @@ template<typename NullaryFunction>
     detail::launch_closure_by_pointer<<<num_blocks, block_size>>>(f_ptr.get());
 
     // free device memory
-    thrust::detail::device::cuda::free(f_ptr);
+    thrust::detail::device::cuda::free<0>(f_ptr);
   }
 };
 

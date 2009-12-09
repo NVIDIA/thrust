@@ -37,7 +37,8 @@ namespace device
 namespace generic
 {
 
-inline thrust::device_ptr<void> malloc(const std::size_t n)
+template<unsigned int DummyParameterToAvoidInstantiation>
+thrust::device_ptr<void> malloc(const std::size_t n)
 {
   void *result = std::malloc(n);
 

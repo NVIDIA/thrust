@@ -34,23 +34,26 @@ namespace device
 namespace cuda
 {
 
-inline thrust::device_ptr<void> malloc(const std::size_t n);
+template<unsigned int>
+thrust::device_ptr<void> malloc(const std::size_t n);
 
 } // end cuda
 
 namespace dispatch
 {
 
-inline thrust::device_ptr<void> malloc(const std::size_t n,
-                                       thrust::device_space_tag)
+template<unsigned int DummyParameterToAvoidInstantiation>
+thrust::device_ptr<void> malloc(const std::size_t n,
+                                thrust::device_space_tag)
 {
-  return thrust::detail::device::generic::malloc(n);
+  return thrust::detail::device::generic::malloc<0>(n);
 } // end malloc()
 
-inline thrust::device_ptr<void> malloc(const std::size_t n,
-                                       thrust::detail::cuda_device_space_tag)
+template<unsigned int DummyParameterToAvoidInstantiation>
+thrust::device_ptr<void> malloc(const std::size_t n,
+                                thrust::detail::cuda_device_space_tag)
 {
-  return thrust::detail::device::cuda::malloc(n);
+  return thrust::detail::device::cuda::malloc<0>(n);
 } // end malloc()
 
 } // end dispatch

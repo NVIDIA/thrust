@@ -22,6 +22,7 @@
 
 #include <thrust/device_ptr.h>
 #include <cstdlib>
+#include <iostream>
 
 namespace thrust
 {
@@ -35,7 +36,8 @@ namespace device
 namespace generic
 {
 
-inline void free(thrust::device_ptr<void> ptr)
+template<unsigned int DummyParameterToAvoidInstantiation>
+void free(thrust::device_ptr<void> ptr)
 {
   return std::free(ptr.get());
 } // end free()

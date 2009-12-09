@@ -37,7 +37,8 @@ namespace device
 namespace cuda
 {
 
-inline thrust::device_ptr<void> malloc(const std::size_t n)
+template<unsigned int DummyParameterToPreventInstantiation>
+thrust::device_ptr<void> malloc(const std::size_t n)
 {
   void *result = 0;
 

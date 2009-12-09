@@ -29,7 +29,7 @@ thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
   typedef thrust::iterator_space< device_ptr<void> >::type space;
 
-  return thrust::detail::device::dispatch::malloc(n, space());
+  return thrust::detail::device::dispatch::malloc<0>(n, space());
 } // end device_malloc()
 
 template<typename T>
