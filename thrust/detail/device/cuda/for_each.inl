@@ -62,10 +62,14 @@ template<typename RandomAccessIterator,
 
     Size i = blockIdx.x * blockDim.x + threadIdx.x;
 
+    // advance iterator
+    first += i;
+
     while(i < n)
     {
-      f(thrust::detail::device::dereference(first, i));
+      f(thrust::detail::device::dereference(first));
       i += grid_size;
+      first += grid_size;
     }
   }
 };

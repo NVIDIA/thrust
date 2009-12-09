@@ -46,7 +46,8 @@ void for_each(InputIterator first,
       i < n;
       ++i)
   {
-    f(dereference(first,i));
+    InputIterator temp = first + i;
+    f(dereference(temp));
   }
 } 
 
