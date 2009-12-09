@@ -81,7 +81,10 @@ OutputType reduce(InputIterator first,
 
 #      pragma omp for 
         for (difference_type i = num_threads; i < N; i++)
-            thread_sum = binary_op(thread_sum, thrust::detail::device::dereference(first,i));
+        {
+            InputIterator temp = first + i;
+            thread_sum = binary_op(thread_sum, thrust::detail::device::dereference(first));
+        }
 
         thread_results[thread_id] = thread_sum;
     }

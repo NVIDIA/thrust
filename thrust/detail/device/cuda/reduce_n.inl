@@ -71,21 +71,26 @@ template<typename InputIterator,
     const unsigned int grid_size = blockDim.x * gridDim.x;
     unsigned int i = blockDim.x * blockIdx.x + threadIdx.x;
 
+    // advance input
+    input += i;
+
     // local (per-thread) sum
     OutputType sum;
    
     // initialize local sum 
     if (i < n)
     {
-        sum = thrust::detail::device::dereference(input, i);
+        sum = thrust::detail::device::dereference(input);
         i += grid_size;
+        input += grid_size;
     }   
 
     // accumulate local sum
     while (i < n)
     {
-        sum = binary_op(sum, thrust::detail::device::dereference(input, i));
+        sum = binary_op(sum, thrust::detail::device::dereference(input));
         i += grid_size;
+        input += grid_size;
     } 
 
     // copy local sum to shared memory
