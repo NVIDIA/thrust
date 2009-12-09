@@ -23,7 +23,7 @@
 
 #include <thrust/iterator/iterator_categories.h>
 
-#include <algorithm>
+#include <thrust/detail/host/unique.h>
 #include <thrust/detail/device/unique.h>
 
 namespace thrust
@@ -37,12 +37,14 @@ namespace dispatch
 // Host Paths //
 ////////////////
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred,
                        thrust::host_space_tag)
 {
-    return std::unique(first, last, binary_pred);
+    return thrust::detail::host::unique(first, last, binary_pred);
 }
 
 template <typename InputIterator,
@@ -55,15 +57,57 @@ OutputIterator unique_copy(InputIterator first,
                            thrust::host_space_tag,
                            thrust::host_space_tag)
 {
-    return std::unique_copy(first, last, output, binary_pred);
+    return thrust::detail::host::unique_copy(first, last, output, binary_pred);
+}
+
+template <typename ForwardIterator1,
+          typename ForwardIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(ForwardIterator1 keys_first, 
+                ForwardIterator1 keys_last,
+                ForwardIterator2 values_first,
+                BinaryPredicate binary_pred,
+                BinaryFunction binary_op,
+                thrust::host_space_tag,
+                thrust::host_space_tag)
+{
+    return thrust::detail::host::unique_by_key
+        (keys_first, keys_last, values_first, binary_pred, binary_op);
+}
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  unique_copy_by_key(InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output,
+                     BinaryPredicate binary_pred,
+                     BinaryFunction binary_op,
+                     thrust::host_space_tag,
+                     thrust::host_space_tag,
+                     thrust::host_space_tag,
+                     thrust::host_space_tag)
+{
+    return thrust::detail::host::unique_copy_by_key
+        (keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 //////////////////
 // Device Paths //
 //////////////////
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
                        BinaryPredicate binary_pred,
                        thrust::device_space_tag)
 {
@@ -81,6 +125,46 @@ OutputIterator unique_copy(InputIterator first,
                            thrust::device_space_tag)
 {
     return thrust::detail::device::unique_copy(first, last, output, binary_pred);
+}
+
+template <typename ForwardIterator1,
+          typename ForwardIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(ForwardIterator1 keys_first, 
+                ForwardIterator1 keys_last,
+                ForwardIterator2 values_first,
+                BinaryPredicate binary_pred,
+                BinaryFunction binary_op,
+                thrust::device_space_tag,
+                thrust::device_space_tag)
+{
+    return thrust::detail::device::unique_by_key
+        (keys_first, keys_last, values_first, binary_pred, binary_op);
+}
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  unique_copy_by_key(InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output,
+                     BinaryPredicate binary_pred,
+                     BinaryFunction binary_op,
+                     thrust::device_space_tag,
+                     thrust::device_space_tag,
+                     thrust::device_space_tag,
+                     thrust::device_space_tag)
+{
+    return thrust::detail::device::unique_copy_by_key
+        (keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 } // end namespace dispatch
