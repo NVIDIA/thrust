@@ -24,11 +24,11 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/transform.h>
 #include <thrust/scatter.h>
-#include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <limits>
 
+#include <thrust/detail/device/scan.h>
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
@@ -209,10 +209,11 @@ template <typename InputIterator1,
     thrust::detail::raw_buffer<ValueType,Space> scanned_values(n);
     thrust::detail::raw_buffer<FlagType,Space>  scanned_tail_flags(n);
     
-    thrust::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
-                           thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
-                           thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
-                           detail::unique_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
+    thrust::detail::device::inclusive_scan
+        (thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
+         thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
+         thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
+         detail::unique_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
 
     thrust::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin());
 

@@ -16,12 +16,12 @@
 
 
 #include <thrust/functional.h>
-#include <thrust/scan.h>
 #include <thrust/transform.h>
 #include <thrust/replace.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/device/scan.h>
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
@@ -85,10 +85,11 @@ template<typename InputIterator1,
         //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
         //    NVIDIA Technical Report NVR-2008-003, December 2008
         //    http://mgarland.org/files/papers/nvr-2008-003.pdf
-        thrust::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(first1, flags.begin())),
-                               thrust::make_zip_iterator(thrust::make_tuple(last1,  flags.end())),
-                               thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
-                               detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+        thrust::detail::device::inclusive_scan
+            (thrust::make_zip_iterator(thrust::make_tuple(first1, flags.begin())),
+             thrust::make_zip_iterator(thrust::make_tuple(last1,  flags.end())),
+             thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
+             detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
     }
 
     return result + (last1 - first1);
