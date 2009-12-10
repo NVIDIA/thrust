@@ -21,30 +21,28 @@
 
 #ifdef __CUDACC__
 
-#include <thrust/detail/device/cuda/set_intersection.h>
-#include <thrust/detail/device/dereference.h>
+// TODO use thrust/detail/device/ where possible
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/binary_search.h>
 #include <thrust/gather.h>
 #include <thrust/scan.h>
 #include <thrust/distance.h>
 #include <thrust/extrema.h>
+
+#include <thrust/detail/device/dereference.h>
+
 #include <thrust/detail/device/cuda/block/copy.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
-#include <thrust/sorting/detail/device/cuda/block/merging_sort.h>
+#include <thrust/detail/device/cuda/detail/block/merging_sort.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
-
 namespace set_intersection_detail
 {
 
@@ -80,7 +78,7 @@ __device__ unsigned int shared_memory_intersection(RandomAccessIterator results,
     element = smaller[id];
 
     // roll our own binary_search
-    thrust::sorting::detail::device::cuda::block::lower_bound_workaround(larger, larger + largerSize, element, comp, match);
+    thrust::detail::device::cuda::detail::block::lower_bound_workaround(larger, larger + largerSize, element, comp, match);
     keysMatch = (match != (larger + largerSize) && !comp(element, *match));
   }
 
@@ -264,7 +262,7 @@ struct mult_by
   }
 };
 
-} // end set_intersection_detail
+} // end namespace set_intersection_detail
 
 
 template<typename RandomAccessIterator1,
@@ -338,13 +336,10 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   return result + result_partition_sizes[num_partitions - 1];
 } // end set_intersection
 
-} // end cuda
-
-} // end device
-
-} // end detail
-
-} // end thrust
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 
 #endif // __CUDACC__
 

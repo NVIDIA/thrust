@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <thrust/device_ptr.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>

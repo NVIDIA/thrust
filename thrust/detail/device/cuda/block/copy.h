@@ -21,29 +21,23 @@
 
 #pragma once
 
-#include <thrust/detail/device/cuda/detail/trivial_copy.h>
-#include <thrust/detail/device/trivial_copy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/device/dereference.h>
 
+#include <thrust/detail/device/cuda/detail/trivial_copy.h>
+
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
-
 namespace block
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
@@ -85,9 +79,8 @@ __device__
   } // end for
 } // end copy()
 
-} // end dispatch
-
-} // end detail
+} // end namespace dispatch
+} // end namespace detail
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
@@ -100,13 +93,9 @@ __device__
     typename is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
 } // end copy()
 
-} // end block
-
-} // end cuda
-
-} // end device
-
-} // end detail
-
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 

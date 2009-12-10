@@ -20,16 +20,12 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
 {
-
 namespace block
 {
 
@@ -43,24 +39,20 @@ __device__
   typename thrust::iterator_value<RandomAccessIterator>::type val = first[threadIdx.x];
   __syncthreads();
 
-  if(block_size > 1)   { if (threadIdx.x >=  1)  first[threadIdx.x] = val = binary_op(first[threadIdx.x -  1],  val); __syncthreads(); }
-  if(block_size > 2)   { if (threadIdx.x >=  2)  first[threadIdx.x] = val = binary_op(first[threadIdx.x -  2],  val); __syncthreads(); } 
-  if(block_size > 4)   { if (threadIdx.x >=  4)  first[threadIdx.x] = val = binary_op(first[threadIdx.x -  4],  val); __syncthreads(); }
-  if(block_size > 8)   { if (threadIdx.x >=  8)  first[threadIdx.x] = val = binary_op(first[threadIdx.x -  8],  val); __syncthreads(); }
-  if(block_size > 16)  { if (threadIdx.x >= 16)  first[threadIdx.x] = val = binary_op(first[threadIdx.x - 16],  val); __syncthreads(); }
-  if(block_size > 32)  { if (threadIdx.x >= 32)  first[threadIdx.x] = val = binary_op(first[threadIdx.x - 32],  val); __syncthreads(); }
-  if(block_size > 64)  { if (threadIdx.x >= 64)  first[threadIdx.x] = val = binary_op(first[threadIdx.x - 64],  val); __syncthreads(); }
+  if(block_size >   1) { if (threadIdx.x >=   1) first[threadIdx.x] = val = binary_op(first[threadIdx.x -   1], val); __syncthreads(); }
+  if(block_size >   2) { if (threadIdx.x >=   2) first[threadIdx.x] = val = binary_op(first[threadIdx.x -   2], val); __syncthreads(); } 
+  if(block_size >   4) { if (threadIdx.x >=   4) first[threadIdx.x] = val = binary_op(first[threadIdx.x -   4], val); __syncthreads(); }
+  if(block_size >   8) { if (threadIdx.x >=   8) first[threadIdx.x] = val = binary_op(first[threadIdx.x -   8], val); __syncthreads(); }
+  if(block_size >  16) { if (threadIdx.x >=  16) first[threadIdx.x] = val = binary_op(first[threadIdx.x -  16], val); __syncthreads(); }
+  if(block_size >  32) { if (threadIdx.x >=  32) first[threadIdx.x] = val = binary_op(first[threadIdx.x -  32], val); __syncthreads(); }
+  if(block_size >  64) { if (threadIdx.x >=  64) first[threadIdx.x] = val = binary_op(first[threadIdx.x -  64], val); __syncthreads(); }
   if(block_size > 128) { if (threadIdx.x >= 128) first[threadIdx.x] = val = binary_op(first[threadIdx.x - 128], val); __syncthreads(); }
   if(block_size > 256) { if (threadIdx.x >= 256) first[threadIdx.x] = val = binary_op(first[threadIdx.x - 256], val); __syncthreads(); }
 } // end inplace_inclusive_scan()
 
-} // end block
-
-} // end cuda
-
-} // end device
-
-} // end detail
-
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 

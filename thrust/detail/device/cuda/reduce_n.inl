@@ -97,7 +97,7 @@ template<typename InputIterator,
     shared_array[threadIdx.x] = sum;  __syncthreads();
 
     // compute reduction across block
-    block::reduce_n(shared_array, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
+    thrust::detail::device::cuda::block::reduce_n(shared_array, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
