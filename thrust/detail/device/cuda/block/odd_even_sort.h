@@ -29,8 +29,6 @@ namespace device
 {
 namespace cuda
 {
-namespace detail
-{
 namespace block
 {
 
@@ -147,7 +145,6 @@ template<typename KeyType,
 
 } // end namespace block
 } // end namespace cuda
-} // end namespace detail
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust

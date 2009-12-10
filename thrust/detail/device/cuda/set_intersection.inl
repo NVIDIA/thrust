@@ -33,7 +33,7 @@
 
 #include <thrust/detail/device/cuda/block/copy.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
-#include <thrust/detail/device/cuda/detail/block/merging_sort.h>
+#include <thrust/detail/device/cuda/block/merging_sort.h>
 
 namespace thrust
 {
@@ -78,7 +78,7 @@ __device__ unsigned int shared_memory_intersection(RandomAccessIterator results,
     element = smaller[id];
 
     // roll our own binary_search
-    thrust::detail::device::cuda::detail::block::lower_bound_workaround(larger, larger + largerSize, element, comp, match);
+    thrust::detail::device::cuda::block::lower_bound_workaround(larger, larger + largerSize, element, comp, match);
     keysMatch = (match != (larger + largerSize) && !comp(element, *match));
   }
 

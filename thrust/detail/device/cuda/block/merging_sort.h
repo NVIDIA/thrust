@@ -32,8 +32,6 @@ namespace device
 {
 namespace cuda
 {
-namespace detail
-{
 namespace block
 {
 
@@ -236,7 +234,6 @@ __device__ void merging_sort(RandomAccessIterator1 keys,
 } // end merging_sort()
 
 } // end namespace block
-} // end namespace detail
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail

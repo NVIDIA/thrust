@@ -34,10 +34,10 @@
 #include <thrust/device_ptr.h>
 #include <thrust/detail/device/dereference.h>
 
-#include <thrust/detail/device/cuda/detail/block/merging_sort.h>
-
 #include <thrust/detail/mpl/math.h> // for log2<N>
 #include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/device/cuda/block/merging_sort.h>
 
 namespace thrust
 {
@@ -302,7 +302,7 @@ template<unsigned int block_size,
     } // end if
 
     // run merge_sort over the block
-    block::merging_sort(s_keys, s_data, length, comp);
+    thrust::detail::device::cuda::block::merging_sort(s_keys, s_data, length, comp);
 
     // write result
     if(i < n)
