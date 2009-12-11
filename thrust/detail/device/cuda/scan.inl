@@ -112,8 +112,11 @@ inclusive_update_kernel(OutputIterator result,
 
     OutputType carry = carry_in[warp_id - 1];                                      // value to add to this segment
 
-    for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32){
-        thrust::detail::device::dereference(result, i) = binary_op(carry, thrust::detail::device::dereference(result, i));
+    // advance result iterator
+    result += interval_begin + thread_lane;
+
+    for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32, result += 32){
+        thrust::detail::device::dereference(result) = binary_op(carry, thrust::detail::device::dereference(result));
     }
 }
 
@@ -149,10 +152,13 @@ exclusive_update_kernel(OutputIterator result,
     OutputType carry = (warp_id == 0) ? init : binary_op(init, carry_in[warp_id - 1]);  // value to add to this segment
     OutputType val   = carry;
 
-    for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32){
-        sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(result, i));
+    // advance result iterator
+    result += interval_begin + thread_lane;
 
-        thrust::detail::device::dereference(result, i) = (thread_lane == 0) ? val : sdata[threadIdx.x - 1]; 
+    for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32, result += 32){
+        sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(result));
+
+        thrust::detail::device::dereference(result) = (thread_lane == 0) ? val : sdata[threadIdx.x - 1]; 
 
         if(thread_lane == 0)
             val = sdata[threadIdx.x + 31];
@@ -164,12 +170,15 @@ exclusive_update_kernel(OutputIterator result,
     OutputType carry = (blockIdx.x == 0) ? init : binary_op(init, carry_in[blockIdx.x - 1]);  // value to add to this segment
     OutputType val   = carry;
 
-    for(unsigned int base = interval_begin; base < interval_end; base += block_size)
+    // advance result iterator
+    result += interval_begin + threadIdx.x;
+
+    for(unsigned int base = interval_begin; base < interval_end; base += block_size, result += block_size)
     {
         const unsigned int i = base + threadIdx.x;
 
         if(i < interval_end)
-            sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(result, i));
+            sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(result));
 
         __syncthreads();
 
@@ -177,7 +186,7 @@ exclusive_update_kernel(OutputIterator result,
             val = sdata[threadIdx.x - 1];
 
         if (i < interval_end)
-            thrust::detail::device::dereference(result, i) = val;
+            thrust::detail::device::dereference(result) = val;
 
         if(threadIdx.x == 0)
             val = sdata[threadIdx.x + block_size - 1];
@@ -228,47 +237,58 @@ scan_kernel(InputIterator first,
   if(i >= interval_end)
       return;
 
+  // advance iterators
+  first  += i;
+  result += i;
+
 //  /// XXX BEGIN TEST
 //  if(thread_lane == 0){
 //    end = min(base + interval_size, n);
 //
-//    OutputType sum = thrust::detail::device::dereference(first, i);
-//    thrust::detail::device::dereference(result, i) = sum;
+//    OutputType sum = thrust::detail::device::dereference(first);
+//    thrust::detail::device::dereference(result) = sum;
 //
-//    i++;
+//    ++i;
+//    ++first;
+//    ++result;
 //    while( i < end ){
-//        sum = binary_op(sum, thrust::detail::device::dereference(first, i));
-//        thrust::detail::device::dereference(result, i) = sum;
-//        i++;
+//        sum = binary_op(sum, thrust::detail::device::dereference(first));
+//        thrust::detail::device::dereference(result) = sum;
+//        ++i;
+//        ++first;
+//        ++result;
 //    }
 //    final_carry[warp_id] = sum;
 //  }
 //  // XXX END TEST
 
-
   // First iteration has no carry in
   if(i < interval_end){
-      OutputType val = thrust::detail::device::dereference(first, i);
+      OutputType val = thrust::detail::device::dereference(first);
 
       scan_warp(thread_lane, val, sdata, binary_op);
 
-      thrust::detail::device::dereference(result, i) = val;
+      thrust::detail::device::dereference(result) = val;
 
-      i += warp_size;
+      i      += warp_size;
+      first  += warp_size;
+      result += warp_size;
   }
 
   // Remaining iterations have carry in
   while(i < interval_end){
-      OutputType val = thrust::detail::device::dereference(first, i);
+      OutputType val = thrust::detail::device::dereference(first);
 
       if (thread_lane == 0)
           val = binary_op(sdata[threadIdx.x + (warp_size - 1)], val);
 
       scan_warp(thread_lane, val, sdata, binary_op);
 
-      thrust::detail::device::dereference(result, i) = val;
+      thrust::detail::device::dereference(result) = val;
 
-      i += warp_size;
+      i      += warp_size;
+      first  += warp_size;
+      result += warp_size;
   }
 
   if (i == interval_end + (warp_size - 1))
