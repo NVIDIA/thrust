@@ -53,7 +53,10 @@ OutputIterator copy(InputIterator first,
       i < n;
       ++i)
   {
-    dereference(result,i) = dereference(first,i);
+    InputIterator  first_temp  = first  + i;
+    OutputIterator result_temp = result + i;
+
+    dereference(result_temp) = dereference(first_temp);
   }
 
   return result + n;
@@ -77,7 +80,8 @@ OutputIterator copy(InputIterator first,
       i < n;
       ++i)
   {
-    dereference(result,i) = first[i];
+    OutputIterator temp = result + i;
+    dereference(temp) = first[i];
   }
 
   return result + n;
@@ -101,7 +105,8 @@ OutputIterator copy(InputIterator first,
       i < n;
       ++i)
   {
-    result[i] = dereference(first,i);
+    InputIterator temp = first + i;
+    result[i] = dereference(temp);
   }
 
   return result + n;
