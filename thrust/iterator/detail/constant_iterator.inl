@@ -44,7 +44,7 @@ template <typename Value, typename Incrementable, typename Space>
 template<typename Value, typename Incrementable, typename Space>
   inline __host__ __device__
     typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter)
+      dereference(const thrust::constant_iterator<Value,Incrementable,Space> &iter)
 {
   return *iter;
 } // end dereference()
@@ -53,7 +53,7 @@ template<typename Value, typename Incrementable, typename Space>
 template<typename Value, typename Incrementable, typename Space, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter, IndexType n)
+      dereference(const thrust::constant_iterator<Value,Incrementable,Space> &iter, IndexType n)
 {
   return iter[n];
 } // end dereference()

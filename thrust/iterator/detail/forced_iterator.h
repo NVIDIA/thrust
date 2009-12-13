@@ -86,7 +86,7 @@ template<typename Iterator, typename Space>
 template<typename Iterator, typename Space>
   inline __host__ __device__
     typename dereference_result< thrust::detail::forced_iterator<Iterator,Space> >::type
-      dereference(thrust::detail::forced_iterator<Iterator,Space> iter)
+      dereference(const thrust::detail::forced_iterator<Iterator,Space> &iter)
 {
   return dereference(iter.base());
 } // end dereference()
@@ -95,7 +95,7 @@ template<typename Iterator, typename Space>
 template<typename Iterator, typename Space, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::detail::forced_iterator<Iterator,Space> >::type
-      dereference(thrust::detail::forced_iterator<Iterator,Space> iter, IndexType n)
+      dereference(const thrust::detail::forced_iterator<Iterator,Space> &iter, IndexType n)
 {
   return dereference(iter.base(), n);
 } // end dereference()

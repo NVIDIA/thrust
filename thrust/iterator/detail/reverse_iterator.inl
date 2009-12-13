@@ -124,7 +124,7 @@ template<typename DeviceBidirectionalIterator>
 template<typename BidirectionalIterator>
   inline __host__ __device__
     typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
-      dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter)
+      dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter)
 {
   return dereference(thrust::experimental::detail::prior(iter.base()));
 } // end dereference()
@@ -132,7 +132,7 @@ template<typename BidirectionalIterator>
 template<typename BidirectionalIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
-      dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter, IndexType n)
+      dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter, IndexType n)
 {
   thrust::experimental::reverse_iterator<BidirectionalIterator> temp = iter;
   temp += n;

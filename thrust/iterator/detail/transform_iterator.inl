@@ -105,7 +105,7 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
   inline __host__ __device__
     typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter)
+      dereference(const thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> &iter)
 {
   return iter.functor()( dereference(iter.base()) );
 } // end dereference()
@@ -113,7 +113,7 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n)
+      dereference(const thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> &iter, IndexType n)
 {
   return iter.functor()( dereference(iter.base(), n) );
 } // end dereference()

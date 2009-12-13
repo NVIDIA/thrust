@@ -100,7 +100,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
 template<typename Incrementable, typename Space, typename Traversal, typename Difference>
   inline __host__ __device__
     typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter)
+      dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter)
 {
   return *iter;
 } // end dereference()
@@ -108,7 +108,7 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n)
+      dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter, IndexType n)
 {
   return iter[n];
 } // end dereference()

@@ -119,24 +119,24 @@ template<typename T, typename IndexType>
 template<typename T>
   inline __host__ __device__
     typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(normal_iterator< device_ptr<T> > iter);
+      dereference(const normal_iterator< device_ptr<T> > &iter);
 
 template<typename T, typename IndexType>
   inline __host__ __device__
     typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(normal_iterator< device_ptr<T> > iter, IndexType n);
+      dereference(const normal_iterator< device_ptr<T> > &iter, IndexType n);
 
 
 // forced_iterator
 template<typename Iterator, typename Space>
   inline __host__ __device__
     typename dereference_result< forced_iterator< Iterator, Space > >::type
-      dereference(forced_iterator< Iterator, Space > iter);
+      dereference(const forced_iterator< Iterator, Space > &iter);
 
 template<typename Iterator, typename Space, typename IndexType>
   inline __host__ __device__
     typename dereference_result< forced_iterator< Iterator, Space > >::type
-      dereference(forced_iterator< Iterator, Space > iter, IndexType n);
+      dereference(const forced_iterator< Iterator, Space > &iter, IndexType n);
 
 
 
@@ -144,12 +144,12 @@ template<typename Iterator, typename Space, typename IndexType>
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
   inline __host__ __device__
     typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter);
+      dereference(const thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> &iter);
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> iter, IndexType n);
+      dereference(const thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> &iter, IndexType n);
 
 
 
@@ -157,48 +157,48 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
 template<typename Incrementable, typename Space, typename Traversal, typename Difference>
   inline __host__ __device__
     typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter);
+      dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter);
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(thrust::counting_iterator<Incrementable,Space,Traversal,Difference> iter, IndexType n);
+      dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter, IndexType n);
 
 
 // constant_iterator prototypes
 template<typename Value, typename Incrementable, typename Space>
   inline __host__ __device__
     typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter);
+      dereference(const thrust::constant_iterator<Value,Incrementable,Space> &iter);
 
 template<typename Value, typename Incrementable, typename Space, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
-      dereference(thrust::constant_iterator<Value,Incrementable,Space> iter, IndexType n);
+      dereference(const thrust::constant_iterator<Value,Incrementable,Space> &iter, IndexType n);
 
 
 // zip_iterator prototypes
 template<typename IteratorTuple>
   inline __host__ __device__
     typename dereference_result< thrust::zip_iterator<IteratorTuple> >::type
-      dereference(thrust::zip_iterator<IteratorTuple> iter);
+      dereference(const thrust::zip_iterator<IteratorTuple> &iter);
 
 template<typename IteratorTuple, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::zip_iterator<IteratorTuple> >::type
-      dereference(thrust::zip_iterator<IteratorTuple> iter, IndexType n);
+      dereference(const thrust::zip_iterator<IteratorTuple> &iter, IndexType n);
 
 
 // reverse_iterator prototypes
 template<typename BidirectionalIterator>
   inline __host__ __device__
     typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
-      dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter);
+      dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter);
 
 template<typename BidirectionalIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
-      dereference(thrust::experimental::reverse_iterator<BidirectionalIterator> iter, IndexType n);
+      dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter, IndexType n);
 
 } // end device
 

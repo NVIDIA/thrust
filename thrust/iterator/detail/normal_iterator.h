@@ -96,7 +96,7 @@ template<typename T, typename IndexType>
 template<typename T>
   inline __host__ __device__
     typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(normal_iterator< device_ptr<T> > iter)
+      dereference(const normal_iterator< device_ptr<T> > &iter)
 {
   return dereference(iter.base());
 } // end dereference()
@@ -104,7 +104,7 @@ template<typename T>
 template<typename T, typename IndexType>
   inline __host__ __device__
     typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(normal_iterator< device_ptr<T> > iter, IndexType n)
+      dereference(const normal_iterator< device_ptr<T> > &iter, IndexType n)
 {
   return dereference(iter.base(), n);
 } // end dereference()
