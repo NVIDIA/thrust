@@ -118,13 +118,16 @@ template<typename InputIterator1,
     {
         const size_t n = last1 - first1;
 
+        InputIterator2 last2 = first2 + n;
+
         // compute head flags
-        thrust::detail::raw_device_buffer<HeadFlagType> flags(n);
-        flags[0] = 1; thrust::transform(first2, first2 + (n - 1), first2 + 1, flags.begin() + 1, thrust::not2(pred));
+        thrust::detail::raw_buffer<HeadFlagType,Space> flags(n);
+        flags[0] = 1; thrust::transform(first2, last2 - 1, first2 + 1, flags.begin() + 1, thrust::not2(pred));
 
         // shift input one to the right and initialize segments with init
         thrust::detail::raw_buffer<OutputType,Space> temp(n);
-        thrust::replace_copy_if(first1 - 1, last1 - 1, flags.begin(), temp.begin(), thrust::negate<HeadFlagType>(), init);
+        thrust::replace_copy_if(first1, last1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
+        temp[0] = init;
 
         // scan key-flag tuples, 
         // For additional details refer to Section 2 of the following paper
