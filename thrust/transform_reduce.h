@@ -41,12 +41,12 @@ namespace thrust
  *  more efficient, since fewer memory reads and writes are required.
  *
  *  \p transform_reduce performs a reduction on the transformation of the
- *  sequence <tt> init, [first, last)</tt> according to \p unary_op. Specifically,
+ *  sequence <tt>[first, last)</tt> according to \p unary_op. Specifically,
  *  \p unary_op is applied to each element of the sequence and then the result
  *  is reduced to a single value with \p binary_op using the initial value 
- *  \p init. The order of reduction is not specified, so \p binary_op must be
- *  both commutative and associative. If \p binary_op is only associative, then
- *  thrust::stable_transform_reduce should be used instead.
+ *  \p init.  Note that the transformation \p unary_op is not applied to 
+ *  the initial value \p init.  The order of reduction is not specified, 
+ *  so \p binary_op must be both commutative and associative. 
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
@@ -75,7 +75,7 @@ namespace thrust
  *  int data[6] = {-1, 0, -2, -2, 1, -3};
  *  int result = thrust::transform_reduce(data, data + 6,
  *                                         thrust::absolute_value<int>(),
- *                                         0, 
+ *                                         0,
  *                                         thrust::maximum<int>());
  *  // result == 3
  *  \endcode
