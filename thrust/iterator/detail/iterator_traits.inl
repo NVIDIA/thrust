@@ -163,6 +163,26 @@ template<typename T>
 #endif // _MSC_VER
     > {};
 
+// XXX this should be implemented better
+template<typename Space1, typename Space2>
+  struct are_spaces_interoperable
+    : thrust::detail::false_type
+{};
+
+template<>
+  struct are_spaces_interoperable<
+    thrust::host_space_tag,
+    thrust::detail::omp_device_space_tag
+  > : thrust::detail::true_type
+{};
+
+template<>
+  struct are_spaces_interoperable<
+    thrust::detail::omp_device_space_tag,
+    thrust::host_space_tag
+  > : thrust::detail::true_type
+{};
+
 } // end namespace detail
 
 } // end namespace thrust

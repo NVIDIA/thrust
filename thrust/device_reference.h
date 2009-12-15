@@ -25,6 +25,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -800,6 +801,16 @@ template<typename T>
 
     // the pointer
     const pointer mPtr;
+
+    template<typename Pointer>
+    inline void assign_from(Pointer src, thrust::detail::true_type spaces_are_interoperable);
+
+    template<typename Pointer>
+    inline void assign_from(Pointer src, thrust::detail::false_type spaces_are_not_interoperable);
+
+    inline value_type convert(thrust::detail::true_type spaces_are_interoperable) const;
+
+    inline value_type convert(thrust::detail::false_type spaces_are_not_interoperable) const;
 }; // end device_reference
 
 /*! \}
