@@ -126,7 +126,7 @@ template<typename InputIterator1,
 
         // shift input one to the right and initialize segments with init
         thrust::detail::raw_buffer<OutputType,Space> temp(n);
-        thrust::replace_copy_if(first1, last1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
+        thrust::replace_copy_if(first1, last1 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
         temp[0] = init;
 
         // scan key-flag tuples, 
