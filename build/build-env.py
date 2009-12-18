@@ -36,6 +36,14 @@ gLinkerOptions = {
     'link'  : {'debug' : '/debug'}
   }
 
+def getBackendDefine(backend):
+  result = ''
+  if backend == 'cuda':
+    result = '-DTHRUST_DEVICE_BACKEND=THRUST_CUDA'
+  elif backend == 'omp':
+    result = '-DTHRUST_DEVICE_BACKEND=THRUST_OMP'
+  return result
+
 def getCFLAGS(mode, backend, CC):
   result = []
   if mode == 'release' or mode == 'emurelease':
@@ -47,11 +55,9 @@ def getCFLAGS(mode, backend, CC):
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
-  
-  if backend == 'cuda':
-    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_CUDA')
-  elif backend == 'omp':
-    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_OMP')
+
+  # get the define for the device backend
+  result.append(getBackendDefine(backend))
 
   # generate omp code
   # XXX make this portable to msvc
@@ -60,7 +66,7 @@ def getCFLAGS(mode, backend, CC):
 
   return result
 
-def getCXXFLAGS(mode, CXX):
+def getCXXFLAGS(mode, backend, CXX):
   result = []
   if mode == 'release' or mode == 'emurelease':
     # turn on optimization
@@ -73,6 +79,10 @@ def getCXXFLAGS(mode, CXX):
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
+
+  # get the define for the device backend
+  result.append(getBackendDefine(backend))
+
   return result
 
 def getNVCCFLAGS(mode, backend):
@@ -81,10 +91,8 @@ def getNVCCFLAGS(mode, backend):
     # turn on emulation
     result.append('-deviceemu')
 
-  if backend == 'cuda':
-    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_CUDA')
-  elif backend == 'omp':
-    result.append('-DTHRUST_DEVICE_BACKEND=THRUST_OMP')
+  # get the define for the device backend
+  result.append(getBackendDefine(backend))
 
   return result
 
@@ -138,7 +146,7 @@ def Environment():
   env.Append(CFLAGS = getCFLAGS(mode, backend, env.subst('$CC')))
 
   # get CXX compiler switches
-  env.Append(CXXFLAGS = getCXXFLAGS(mode, env.subst('$CXX')))
+  env.Append(CXXFLAGS = getCXXFLAGS(mode, backend, env.subst('$CXX')))
 
   # get NVCC compiler switches
   env.Append(NVCCFLAGS = getNVCCFLAGS(mode, backend))
