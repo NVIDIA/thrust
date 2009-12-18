@@ -29,6 +29,7 @@
 
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/device/cuda/block/reduce.h>
+#include <thrust/detail/device/cuda/extern_shared_ptr.h>
 
 namespace thrust
 {
@@ -114,7 +115,8 @@ template<typename InputIterator,
                 OutputType * block_results,  
                 BinaryFunction binary_op)
 {
-    extern __shared__ OutputType shared_array[];
+    thrust::detail::device::cuda::extern_shared_ptr<OutputType> shared_ptr;
+    OutputType *shared_array = shared_ptr;
 
     reduce_n_device(input, n, block_results, binary_op, shared_array);
 } // end reduce_n_kernel()
