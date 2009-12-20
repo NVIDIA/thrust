@@ -48,6 +48,7 @@ __device__
   if(block_size >  64) { if (threadIdx.x >=  64) first[threadIdx.x] = val = binary_op(first[threadIdx.x -  64], val); __syncthreads(); }
   if(block_size > 128) { if (threadIdx.x >= 128) first[threadIdx.x] = val = binary_op(first[threadIdx.x - 128], val); __syncthreads(); }
   if(block_size > 256) { if (threadIdx.x >= 256) first[threadIdx.x] = val = binary_op(first[threadIdx.x - 256], val); __syncthreads(); }
+  if(block_size > 512) { if (threadIdx.x >= 512) first[threadIdx.x] = val = binary_op(first[threadIdx.x - 512], val); __syncthreads(); }
 } // end inplace_inclusive_scan()
 
 } // end namespace block
