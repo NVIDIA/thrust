@@ -165,7 +165,7 @@ template <typename T>
 class is_even_gather_if
 {
     public:
-    __host__ __device__ bool operator()(const T i) const { return (i % 2) == 1; }
+    __host__ __device__ bool operator()(const T i) const { return (i % 2) == 0; }
 };
 
 template <typename T>
