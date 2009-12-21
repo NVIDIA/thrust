@@ -56,7 +56,8 @@ struct scatter_functor
   __host__ __device__
   void operator()(Tuple t)
   { 
-    thrust::detail::device::dereference(output, thrust::get<1>(t)) = thrust::get<0>(t); 
+    RandomAccessIterator dst = output + thrust::get<1>(t);
+    thrust::detail::device::dereference(dst) = thrust::get<0>(t);
   }
 }; // end scatter_functor
 
@@ -75,7 +76,10 @@ struct scatter_if_functor
   void operator()(Tuple t)
   { 
     if(pred(thrust::get<2>(t)))
-      thrust::detail::device::dereference(output, thrust::get<1>(t)) = thrust::get<0>(t); 
+    {
+      RandomAccessIterator dst = output + thrust::get<1>(t);
+      thrust::detail::device::dereference(dst) = thrust::get<0>(t);
+    }
   }
 }; // end scatter_if_functor
 

@@ -49,7 +49,8 @@ struct gather_functor
   __host__ __device__
   void operator()(Tuple t)
   { 
-    thrust::get<0>(t) = thrust::detail::device::dereference(input, thrust::get<1>(t)); 
+    RandomAccessIterator src = input + thrust::get<1>(t);
+    thrust::get<0>(t) = thrust::detail::device::dereference(src); 
   }
 }; // end gather_functor
 
@@ -67,7 +68,10 @@ struct gather_if_functor
   void operator()(Tuple t)
   { 
     if(pred(thrust::get<2>(t)))
-      thrust::get<0>(t) = thrust::detail::device::dereference(input, thrust::get<1>(t)); 
+    {
+      RandomAccessIterator src = input + thrust::get<1>(t);
+      thrust::get<0>(t) = thrust::detail::device::dereference(src); 
+    }   
   }
 }; // end gather_functor
 
