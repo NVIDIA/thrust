@@ -54,6 +54,12 @@ T1 ceil_div(T1 up, T2 down)
   return (rem != 0) ? div + 1 : div;
 }
 
+template<unsigned int N>
+  struct align_size_to_int
+{
+  static const unsigned int value = (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
+};
+
 template<unsigned int block_size,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -132,22 +138,30 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
   
   const unsigned int block_idx  = blockIdx.x;
   const unsigned int thread_idx = threadIdx.x;
+
+  // advance iterators
+  partition_begin_indices1 += block_idx;
+  partition_begin_indices2 += block_idx;
   
   // find the ends of our partition if this is not the last block
   if(block_idx != gridDim.x - 1)
   {
-    last1 = first1 + dereference(partition_begin_indices1,block_idx + 1);
-    last2 = first2 + dereference(partition_begin_indices2,block_idx + 1);
+    RandomAccessIterator4 temp1 = partition_begin_indices1 + 1;
+    RandomAccessIterator5 temp2 = partition_begin_indices2 + 1;
+
+    last1 = first1 + dereference(temp1);
+    last2 = first2 + dereference(temp2);
   }
   
   // point to the beginning of our partition in each range
-  first1 += dereference(partition_begin_indices1,block_idx);
-  first2 += dereference(partition_begin_indices2,block_idx);
-  result += dereference(partition_begin_indices1,block_idx);
-  
-  __shared__ int _first2[block_size * sizeof(value_type) / sizeof(int)];
-  __shared__ int _first1[block_size * sizeof(value_type) / sizeof(int)];		
-  __shared__ int _result[block_size * sizeof(value_type) / sizeof(int)];
+  first1 += dereference(partition_begin_indices1);
+  first2 += dereference(partition_begin_indices2);
+  result += dereference(partition_begin_indices1);
+
+  const unsigned int array_size = align_size_to_int<block_size * sizeof(value_type)>::value;
+  __shared__ int _first2[array_size];
+  __shared__ int _first1[array_size];		
+  __shared__ int _result[array_size];
   
   value_type* s_first2 = reinterpret_cast<value_type*>(_first2);
   value_type* s_first1 = reinterpret_cast<value_type*>(_first1);
@@ -222,25 +236,27 @@ template<typename RandomAccessIterator1,
 __global__
 void grouped_gather(RandomAccessIterator1 result,
                     RandomAccessIterator2 first,
-                    RandomAccessIterator3 indicesBegin,
-                    RandomAccessIterator4 sizeBegin)
+                    RandomAccessIterator3 indices_begin,
+                    RandomAccessIterator4 size_begin)
 {
   using namespace thrust::detail::device;
 
   // advance input
-  first += dereference(indicesBegin, blockIdx.x);
+  indices_begin += blockIdx.x;
+  first += dereference(indices_begin);
+  size_begin += blockIdx.x;
   
-  typename thrust::iterator_value<RandomAccessIterator3>::type size(0);
+  typename thrust::iterator_value<RandomAccessIterator3>::type size = dereference(size_begin);
   
-  if(blockIdx.x == 0)
+  if(blockIdx.x != 0)
   {
-    size = dereference(sizeBegin, 0);
-  }
-  else
-  {
+    RandomAccessIterator4 prev_size = size_begin - 1;
+
     // advance output
-    result += dereference(sizeBegin, blockIdx.x - 1);
-    size = dereference(sizeBegin,blockIdx.x) - dereference(sizeBegin,blockIdx.x - 1);
+    result += dereference(prev_size);
+
+    // compute size
+    size -= dereference(prev_size);
   }
   
   thrust::detail::device::cuda::block::copy(first, first + size, result);
@@ -311,7 +327,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   raw_buffer<difference2, cuda_device_space_tag> partition_begin_indices2(num_partitions);
   
   thrust::lower_bound(first2, last2, partition_values.begin(), 
-  	              partition_values.end(), partition_begin_indices2.begin());
+  	              partition_values.end(), partition_begin_indices2.begin(), comp);
   
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_partitions);
   raw_buffer< value_type, cuda_device_space_tag> temp_result(num_elements1);
