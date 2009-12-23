@@ -116,6 +116,12 @@ inline unsigned int max_grid_size(const unsigned int block_size)
   return 3 * thrust::experimental::arch::max_active_threads() / block_size;
 } // end max_grid_size()
 
+template<unsigned int N>
+  struct align_size_to_int
+{
+  static const unsigned int value = (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
+};
+
 // Base case for the merge algorithm: merges data where tile_size <= block_size. 
 // Works by loading two or more tiles into shared memory and doing a binary search.
 template<unsigned int block_size,
@@ -141,15 +147,16 @@ __global__ void merge_smalltiles_binarysearch(RandomAccessIterator1 keys_first,
   typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
 
   // Assumption: tile_size is a power of 2.
-  
+
   // load (2*block_size) elements into shared memory. These (2*block_size) elements belong to (2*block_size)/tile_size different tiles.
-  __shared__ unsigned char key_workaround[(2*block_size) * sizeof(KeyType)];
+  // use int for these shared arrays due to alignment issues
+  __shared__ int key_workaround[align_size_to_int<2 * block_size * sizeof(KeyType)>::value];
   KeyType *key = reinterpret_cast<KeyType*>(key_workaround);
 
-  __shared__ unsigned char outkey_workaround[(2*block_size) * sizeof(KeyType)];
+  __shared__ int outkey_workaround[align_size_to_int<2 * block_size * sizeof(KeyType)>::value];
   KeyType *outkey = reinterpret_cast<KeyType*>(outkey_workaround);
 
-  __shared__ unsigned char outvalue_workaround[(2*block_size) * sizeof(ValueType)];
+  __shared__ int outvalue_workaround[align_size_to_int<2 * block_size * sizeof(ValueType)>::value];
   ValueType *outvalue = reinterpret_cast<ValueType*>(outvalue_workaround);
 
   const unsigned int grid_size = gridDim.x * blockDim.x;
