@@ -29,14 +29,6 @@ namespace random
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
   linear_congruential_engine<UIntType,a,c,m>
-    ::linear_congruential_engine(void)
-{
-  seed(default_seed);
-} // end linear_congruential_engine::linear_congruential_engine()
-
-
-template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  linear_congruential_engine<UIntType,a,c,m>
     ::linear_congruential_engine(result_type s)
 {
   seed(s);
