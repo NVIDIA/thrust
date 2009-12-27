@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-#include <thrust/random/linear_feedback_shift.h>
+#include <thrust/random/linear_feedback_shift_engine.h>
 
 namespace thrust
 {
@@ -26,39 +26,39 @@ namespace random
 {
 
 template<typename UIntType, int w, int k, int q, int s>
-  linear_feedback_shift<UIntType,w,k,q,s>
-    ::linear_feedback_shift(result_type value)
+  linear_feedback_shift_engine<UIntType,w,k,q,s>
+    ::linear_feedback_shift_engine(result_type value)
 {
   seed(value);
-} // end linear_feedback_shift::linear_feedback_shift()
+} // end linear_feedback_shift_engine::linear_feedback_shift_engine()
 
 template<typename UIntType, int w, int k, int q, int s>
-  void linear_feedback_shift<UIntType,w,k,q,s>
+  void linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::seed(result_type value)
 {
   m_value = value;
-} // end linear_feedback_shift::seed()
+} // end linear_feedback_shift_engine::seed()
 
 template<typename UIntType, int w, int k, int q, int s>
-  typename linear_feedback_shift<UIntType,w,k,q,s>::result_type
-    linear_feedback_shift<UIntType,w,k,q,s>
+  typename linear_feedback_shift_engine<UIntType,w,k,q,s>::result_type
+    linear_feedback_shift_engine<UIntType,w,k,q,s>
       ::operator()(void)
 {
   const UIntType b = (((m_value << q) ^ m_value) & wordmask) >> (k-s);
   const UIntType mask = ( (~static_cast<UIntType>(0)) << (w-k) ) & wordmask;
   m_value = ((m_value & mask) << s) ^ b;
   return m_value;
-} // end linear_feedback_shift::operator()()
+} // end linear_feedback_shift_engine::operator()()
 
 template<typename UIntType, int w, int k, int q, int s>
-  void linear_feedback_shift<UIntType,w,k,q,s>
+  void linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::discard(unsigned long long z)
 {
   for(; z > 0; --z)
   {
     this->operator()();
   } // end for
-} // end linear_feedback_shift::discard()
+} // end linear_feedback_shift_engine::discard()
 
 } // end random
 
