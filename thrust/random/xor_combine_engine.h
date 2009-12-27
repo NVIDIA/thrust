@@ -23,6 +23,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/random/detail/xor_combine_engine_max.h>
 
 namespace thrust
 {
@@ -40,49 +42,53 @@ template<typename Engine1, size_t s1,
   public:
     typedef Engine1 base1_type;
     typedef Engine2 base2_type;
-    // XXX result_type is larger of
-    // base1_type::result_type & base2_type::result_type
-    typedef ... result_type;
+
+    typedef typename thrust::detail::eval_if<
+      (sizeof(typename base2_type::result_type) > sizeof(typename base1_type::result_type)),
+      thrust::detail::identity_<typename base2_type::result_type>,
+      thrust::detail::identity_<typename base1_type::result_type>
+    >::type result_type;
     
     static const size_t shift1 = s1;
     static const size_t shift2 = s2;
     static const result_type min = 0;
-    static const result_type max = ...;
+    static const result_type max =
+      detail::xor_combine_engine_max<
+        Engine1, s1, Engine2, s2, result_type
+      >::value;
 
     __host__ __device__
     xor_combine_engine(void);
 
     __host__ __device__
-    xor_combine_engine(const base1_type &rng1, const base2_type &rng2);
+    xor_combine_engine(const base1_type &urng1, const base2_type &urng2);
 
     __host__ __device__
-    xor_combine_engine(unsigned long s);
-
-    template<typename Gen>
-    __host__ __device__
-    xor_combine_engine(Gen &g);
+    xor_combine_engine(result_type s);
 
     __host__ __device__
     void seed(void);
 
-    template<typename Gen>
     __host__ __device__
-    void seed(Gen &g);
+    void seed(result_type s);
 
     __host__ __device__
-    const base_type1 &base1(void) const;
+    const base1_type &base1(void) const;
 
     __host__ __device__
-    const base_type2 &base2(void) const;
+    const base2_type &base2(void) const;
 
     __host__ __device__
     result_type operator()(void);
 
+    __host__ __device__
+    void discard(unsigned long long z);
+
     /*! \cond
      */
   private:
-    base_type1 m_b1;
-    base_type2 m_b2;
+    base1_type m_b1;
+    base2_type m_b2;
     /*! \endcond
      */
 }; // end xor_combine_engine
