@@ -21,6 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/random/detail/linear_feedback_shift_engine_wordmask.h>
 
 namespace thrust
 {
@@ -37,38 +38,39 @@ template<typename UIntType, int w, int k, int q, int s>
   public:
     typedef UIntType result_type;
 
-    static const int word_size = w;
-    static const int exponent1 = k;
-    static const int exponent2 = q;
-    static const int step_size = s;
+    static const size_t word_size = w;
+    static const size_t exponent1 = k;
+    static const size_t exponent2 = q;
+    static const size_t step_size = s;
+
+    static const result_type wordmask =
+      detail::linear_feedback_shift_engine_wordmask<
+        result_type,
+        w
+      >::value;
+
+    static const result_type min = 0;
+    static const result_type max = wordmask;
+    static const result_type default_seed = 341u;
+
+    // constructors and seeding functions
+    __host__ __device__
+    explicit linear_feedback_shift(result_type value = default_seed);
 
     __host__ __device__
-    explicit linear_feedback_shift(unsigned long x0 = 341);
+    void seed(result_type value = default_seed);
 
-    template<typename Gen>
-    __host__ __device__
-    linear_feedback_shift(Gen &g);
-
-    __host__ __device__
-    void seed(unsigned long x0 = 341);
-
-    template<typename Gen>
-    __host__ __device__
-    void seed(Gen &g);
-
-    __host__ __device__
-    result_type min(void) const;
-
-    __host__ __device__
-    result_type max(void) const;
-
+    // generating functions
     __host__ __device__
     result_type operator()(void);
+
+    __host__ __device__
+    void discard(unsigned long long z);
 
     /*! \cond
      */
   private:
-    UIntType m_wordmask, m_value;
+    result_type m_value;
     /*! \endcond
      */
 }; // end linear_feedback_shift

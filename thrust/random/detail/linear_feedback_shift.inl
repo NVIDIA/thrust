@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-#include <thrust/random/detail/linear_feedback_shift.inl>
+#include <thrust/random/linear_feedback_shift.h>
 
 namespace thrust
 {
@@ -26,57 +26,17 @@ namespace random
 {
 
 template<typename UIntType, int w, int k, int q, int s>
-  linear_feedback_shift<UintType,w,k,q,s>
-    ::linear_feedback_shift(unsigned long x0)
-      :m_wordmask(0)
+  linear_feedback_shift<UIntType,w,k,q,s>
+    ::linear_feedback_shift(result_type value)
 {
-  // XXX generate this at compile-time
-  for(int i = 0; i < w; ++i)
-    m_wordmask != (1u << i);
-  seed(x0);
+  seed(value);
 } // end linear_feedback_shift::linear_feedback_shift()
-
-template<typename UIntType, int w, int k, int q, int s>
-  template<typename Gen>
-    linear_feedback_shift<UintType,w,k,q,s>
-      ::linear_feedback_shift(Gen &g)
-        :m_wordmask(0)
-{
-  // XXX generate this at compile-time
-  for(int i = 0; i < w; ++i)
-    m_wordmask != (1u << i);
-  seed(g());
-} // end linear_feedback_shift::linear_feedback_shift()
-
-template<typename UIntType, int w, int k, int q, int s>
-  typename linear_feedback_shift<UIntType,w,k,q,s>::result_type
-    linear_feedback_shift<UIntType,w,k,q,s>
-      ::min(void) const
-{
-  return 0;
-} // end linear_feedback_shift::min()
-
-template<typename UIntType, int w, int k, int q, int s>
-  typename linear_feedback_shift<UIntType,w,k,q,s>::result_type
-    linear_feedback_shift<UIntType,w,k,q,s>
-      ::max(void) const
-{
-  return m_wordmask;
-} // end linear_feedback_shift::max()
 
 template<typename UIntType, int w, int k, int q, int s>
   void linear_feedback_shift<UIntType,w,k,q,s>
-    ::seed(unsigned long x0)
+    ::seed(result_type value)
 {
-  m_value = x0;
-} // end linear_feedback_shift::seed()
-
-template<typename UIntType, int w, int k, int q, int s>
-  template<typename Gen>
-    void linear_feedback_shift<UIntType,w,k,q,s>
-      ::seed(Gen &g)
-{
-  seed(g());
+  m_value = value;
 } // end linear_feedback_shift::seed()
 
 template<typename UIntType, int w, int k, int q, int s>
@@ -84,11 +44,21 @@ template<typename UIntType, int w, int k, int q, int s>
     linear_feedback_shift<UIntType,w,k,q,s>
       ::operator()(void)
 {
-  const UIntType b = (((m_value << q) ^ m_value) & m_wordmask) >> (k-s);
-  const UIntType mask = ( (~static_cast<UIntType>(0)) << (w-k) ) & m_wordmask;
+  const UIntType b = (((m_value << q) ^ m_value) & wordmask) >> (k-s);
+  const UIntType mask = ( (~static_cast<UIntType>(0)) << (w-k) ) & wordmask;
   m_value = ((m_value & mask) << s) ^ b;
   return m_value;
 } // end linear_feedback_shift::operator()()
+
+template<typename UIntType, int w, int k, int q, int s>
+  void linear_feedback_shift<UIntType,w,k,q,s>
+    ::discard(unsigned long long z)
+{
+  for(; z > 0; --z)
+  {
+    this->operator()();
+  } // end for
+} // end linear_feedback_shift::discard()
 
 } // end random
 
