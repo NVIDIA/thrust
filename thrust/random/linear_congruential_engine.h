@@ -49,7 +49,10 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
     // constructors and seeding functions
     __host__ __device__
-    explicit linear_congruential_engine(result_type s = default_seed);
+    linear_congruential_engine(void);
+
+    __host__ __device__
+    explicit linear_congruential_engine(result_type s);
 
     __host__ __device__
     void seed(result_type s = default_seed);
