@@ -17,17 +17,20 @@
 
 #pragma once
 
-//functions to support aligned memory 
+#if defined(_MSC_VER) // Microsoft Visual C++ doesn't have stdint.h
+typedef unsigned long uintptr_t;
+#else 
+#include <stdint.h> 
+#endif
+
+// functions to handle memory alignment
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace util
 {
-
 
 template <typename T>
 T * align_up(T * ptr, uintptr_t bytes)
@@ -48,8 +51,6 @@ bool is_aligned(T * ptr, uintptr_t bytes = sizeof(T))
 }
 
 } // end namespace util
-
 } // end namespace detail
-
 } // end namespace thrust
 
