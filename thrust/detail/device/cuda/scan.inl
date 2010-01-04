@@ -41,7 +41,8 @@ template<typename InputIterator,
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
     // whether to use fast_scan or safe_scan
-    static const bool use_fast_scan = sizeof(OutputType) <= 16;  // TODO profile this threshold
+    // TODO profile this threshold
+    static const bool use_fast_scan = sizeof(OutputType) <= 16 && thrust::detail::is_pod<OutputType>::value;
 
     return thrust::detail::device::cuda::dispatch::inclusive_scan
         (first, last, result, binary_op,
@@ -61,7 +62,8 @@ template<typename InputIterator,
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
     // whether to use fast_scan or safe_scan
-    static const bool use_fast_scan = sizeof(OutputType) <= 16;  // TODO profile this threshold
+    // TODO profile this threshold
+    static const bool use_fast_scan = sizeof(OutputType) <= 16 && thrust::detail::is_pod<OutputType>::value;
 
     return thrust::detail::device::cuda::dispatch::exclusive_scan
         (first, last, result, init, binary_op,
