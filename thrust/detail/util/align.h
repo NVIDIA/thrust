@@ -17,11 +17,15 @@
 
 #pragma once
 
-#if defined(_MSC_VER) // Microsoft Visual C++ doesn't have stdint.h
-typedef unsigned long uintptr_t;
-#else 
-#include <stdint.h> 
-#endif
+//#if defined(_MSC_VER) // Microsoft Visual C++ doesn't have stdint.h
+//#include <vadefs.h>
+//#else 
+//#include <stdint.h> 
+//#endif
+//
+// TODO find a portable <stdint.h> and put it in the Thrust namespace 
+// TODO replace unsigned long with uintptr_t
+
 
 // functions to handle memory alignment
 
@@ -33,21 +37,21 @@ namespace util
 {
 
 template <typename T>
-T * align_up(T * ptr, uintptr_t bytes)
+T * align_up(T * ptr, unsigned long bytes)
 {
-    return (T *) ( bytes * (((uintptr_t) ptr + (bytes - 1)) / bytes) );
+    return (T *) ( bytes * ((reinterpret_cast<unsigned long>(ptr) + (bytes - 1)) / bytes) );
 }
 
 template <typename T>
-T * align_down(T * ptr, uintptr_t bytes)
+T * align_down(T * ptr, unsigned long bytes)
 {
-    return (T *) ( bytes * (uintptr_t(ptr) / bytes) );
+    return (T *) ( bytes * reinterpret_cast<unsigned long>(ptr) / bytes);
 }
 
 template <typename T>
-bool is_aligned(T * ptr, uintptr_t bytes = sizeof(T))
+bool is_aligned(T * ptr, unsigned long bytes = sizeof(T))
 {
-    return uintptr_t(ptr) % bytes == 0;
+    return reinterpret_cast<unsigned long>(ptr) % bytes == 0;
 }
 
 } // end namespace util
