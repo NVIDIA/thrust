@@ -14,39 +14,45 @@
  *  limitations under the License.
  */
 
-
 #pragma once
-
-#include <thrust/detail/cstdint.h>
-
-// functions to handle memory alignment
 
 namespace thrust
 {
+
 namespace detail
 {
-namespace util
-{
 
-template <typename T>
-T * align_up(T * ptr, detail::uintptr_t bytes)
+template<int word_size = sizeof(int*)>
+  struct divine_intptr_t
 {
-    return (T *) ( bytes * (((detail::uintptr_t) ptr + (bytes - 1)) / bytes) );
-}
+  typedef      int type;
+};
 
-template <typename T>
-T * align_down(T * ptr, detail::uintptr_t bytes)
+// use long int on 64b platforms
+template<>
+  struct divine_intptr_t<8>
 {
-    return (T *) ( bytes * (detail::uintptr_t(ptr) / bytes) );
-}
+  typedef long int type;
+};
 
-template <typename T>
-bool is_aligned(T * ptr, detail::uintptr_t bytes = sizeof(T))
+template<int word_size = sizeof(int*)>
+  struct divine_uintptr_t
 {
-    return detail::uintptr_t(ptr) % bytes == 0;
-}
+  typedef unsigned int type;
+};
 
-} // end namespace util
-} // end namespace detail
-} // end namespace thrust
+// use unsigned long int on 64b platforms
+template<>
+  struct divine_uintptr_t<8>
+{
+  typedef unsigned long int type;
+};
+
+
+typedef typename divine_intptr_t<>::type intptr_t;
+typedef typename divine_uintptr_t<>::type uintptr_t;
+
+} // end detail
+
+} // end thrust
 
