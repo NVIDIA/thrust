@@ -218,6 +218,38 @@ size_t max_blocksize_with_highest_occupancy(KernelFunction kernel, size_t dynami
     return max_blocksize_with_highest_occupancy(properties, attributes, dynamic_smem_bytes_per_thread);
 }
 
+
+// TODO unify this with max_blocksize_with_highest_occupancy
+size_t max_blocksize(const cudaDeviceProp& properties,
+                     const cudaFuncAttributes& attributes,
+                     size_t dynamic_smem_bytes_per_thread)
+{
+    size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
+
+    size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t granularity        = 32;
+
+    for(size_t blocksize = largest_blocksize; blocksize != 0; blocksize -= granularity)
+    {
+        if(0 < max_active_blocks_per_multiprocessor(properties, attributes, blocksize, dynamic_smem_bytes_per_thread * blocksize))
+            return blocksize;
+    }
+
+    return 0;
+}
+
+template <typename KernelFunction>
+size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+
+    cudaFuncAttributes attributes;
+    detail::checked_get_function_attributes(attributes, kernel);
+
+    return max_blocksize(properties, attributes, dynamic_smem_bytes_per_thread);
+}
+
 } // end namespace arch
 } // end namespace experimental
 } // end namespace thrust

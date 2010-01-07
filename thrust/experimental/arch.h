@@ -87,7 +87,6 @@ size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const siz
 
 /*! This function returns the block size that achieves the highest
  *  occupancy for a particular kernel & device.
- *  NOTE: this function ignores dynamic shared memory!
  */
 inline size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
                                                    const cudaFuncAttributes& attributes,
@@ -96,11 +95,18 @@ inline size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& propert
 template <typename KernelFunction>
 size_t max_blocksize_with_highest_occupancy(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread = 0);
 
-}; // end arch
+/*! This function returns the maximum block size for a given kernel and device.
+ */
+inline size_t max_blocksize(const cudaDeviceProp& properties,
+                            const cudaFuncAttributes& attributes,
+                            size_t dynamic_smem_bytes_per_thread = 0);
 
-}; // end experimental
+template <typename KernelFunction>
+size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread = 0);
 
-}; // end thrust
+} // end namespace arch
+} // end namespace experimental
+} // end namespace thrust
 
 #include <thrust/experimental/arch.inl>
 
