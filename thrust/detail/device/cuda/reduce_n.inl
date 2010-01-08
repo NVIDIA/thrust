@@ -89,7 +89,8 @@ template<typename InputIterator,
     // accumulate local sum
     while (i < n)
     {
-        sum = binary_op(sum, thrust::detail::device::dereference(input));
+        OutputType val = thrust::detail::device::dereference(input);
+        sum = binary_op(sum, val);
         i += grid_size;
         input += grid_size;
     } 
