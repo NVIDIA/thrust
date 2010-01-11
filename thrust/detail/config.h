@@ -43,12 +43,30 @@
 
 #endif // __CUDACC__
 
+#define THRUST_UNKNOWN 0
+
 // XXX this sucks
 // XXX reserve 0 for undefined
-#define THRUST_CUDA 1
-#define THRUST_OMP  2
+#define THRUST_CUDA    1
+#define THRUST_OMP     2
 
 #ifndef THRUST_DEVICE_BACKEND
 #define THRUST_DEVICE_BACKEND THRUST_CUDA
 #endif // THRUST_DEVICE_BACKEND
+
+// enumerate compilers we know about
+#define THRUST_COMPILER_UNKNOWN 0
+#define THRUST_COMPILER_MSVC    1
+#define THRUST_COMPILER_GCC     2
+
+// figure out which compiler we're using
+#if   defined(_MSC_VER)
+#define THRUST_COMPILER THRUST_COMPILER_MSVC
+#elif defined(__GNUC__)
+#define THRUST_COMPILER THRUST_COMPILER_GCC
+#else
+#define THRUST_COMPILER THRUST_COMPILER_UNKNOWN
+#endif // THRUST_COMPILER
+
+
 

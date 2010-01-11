@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 // XXX nvcc 2.2 closed beta can't compile type_traits
 //// find type_traits
 //
@@ -109,7 +111,22 @@ template<typename T> struct is_void       : public false_type {};
 template<>           struct is_void<void> : public true_type {};
 
 
-template<typename T> struct is_pod : public integral_constant<bool, is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value > {};
+namespace tt_detail
+{
+
+
+} // end tt_detail
+
+template<typename T> struct is_pod
+   : public integral_constant<
+       bool,
+       is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value
+#if THRUST_COMPILER != THRUST_COMPILER_UNKNOWN
+// use intrinsic type traits
+       || __is_pod(T)
+#endif // THRUST_COMPILER
+     >
+ {};
 
 // these two are synonyms for each other
 //template<typename T> struct has_trivial_copy : public std::tr1::has_trivial_copy<T> {};

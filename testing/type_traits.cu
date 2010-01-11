@@ -10,7 +10,13 @@
 #include <thrust/iterator/zip_iterator.h>
 
 struct non_pod
-{ int x; int y; };
+{
+  // non-pods can have constructors
+  non_pod(void)
+  {}
+
+  int x; int y;
+};
 
 void TestIsPlainOldData(void)
 {
