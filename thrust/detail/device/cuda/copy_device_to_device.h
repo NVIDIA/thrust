@@ -71,8 +71,7 @@ template<typename InputIterator,
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    raw_buffer<OutputType, host_space_tag> temp2(n);
-    thrust::transform(temp1.begin(), temp1.end(), temp2.begin(), thrust::identity<InputType>());
+    raw_buffer<OutputType, host_space_tag> temp2(temp1.begin(), temp1.end());
 
     // copy temp2 to device
     result = thrust::detail::device::cuda::copy_cross_space(temp2.begin(), temp2.end(), result);
