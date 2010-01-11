@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
+// don't attempt to compile this file without omp support
+// XXX we need a better way to WAR missing omp.h
+
+#if THRUST_DEVICE_BACKEND == THRUST_OMP
 
 #include <omp.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -102,4 +106,6 @@ OutputType reduce(InputIterator first,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#endif // THRUST_DEVICE_BACKEND
 
