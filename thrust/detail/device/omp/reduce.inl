@@ -70,6 +70,9 @@ OutputType reduce(InputIterator first,
 {
     typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
 
+    if (first == last)
+        return init;
+
     difference_type N = thrust::distance(first, last);
 
     int num_threads = std::min<difference_type>(omp_get_max_threads(), N);
