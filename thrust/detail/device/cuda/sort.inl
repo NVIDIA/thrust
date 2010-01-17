@@ -328,7 +328,7 @@ template<typename RandomAccessIterator,
 {
     // dispatch on whether we can use radix_sort
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-    static const bool use_radix_sort = thrust::detail::is_pod<KeyType>::value &&
+    static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
 
     first_dispatch::stable_sort(first, last, comp,
@@ -345,7 +345,7 @@ template<typename RandomAccessIterator1,
 {
     // dispatch on whether we can use radix_sort_by_key
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-    static const bool use_radix_sort = thrust::detail::is_pod<KeyType>::value &&
+    static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
     
     first_dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp,

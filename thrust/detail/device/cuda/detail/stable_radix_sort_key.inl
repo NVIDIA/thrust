@@ -231,7 +231,7 @@ void stable_radix_sort(RandomAccessIterator first,
 {
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
 
-    // TODO static_assert< is_pod<KeyType> >
+    // TODO static_assert< is_arithmetic<KeyType> >
 
     // RandomAccessIterator should be a trivial iterator
     KeyType * keys = thrust::raw_pointer_cast(&*first);
