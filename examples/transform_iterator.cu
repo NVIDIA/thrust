@@ -2,17 +2,15 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/device_vector.h>
 #include <thrust/reduce.h>
+#include <thrust/functional.h>
 #include <iostream>
 #include <iterator>
 #include <string>
 
 // this functor clamps a value to the range [lo, hi]
 template <typename T>
-struct clamp
+struct clamp : public thrust::unary_function<T,T>
 {
-    // transform_iterator uses result_type to define its value_type
-    typedef T result_type; 
-
     T lo, hi;
 
     __host__ __device__
@@ -31,9 +29,8 @@ struct clamp
 };
 
 template <typename T>
-struct simple_negate
+struct simple_negate : public thrust::unary_function<T,T>
 {
-    // this functor doesn't define result_type
     __host__ __device__
     T operator()(T x)
     {

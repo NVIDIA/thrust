@@ -18,7 +18,7 @@ float2 make_random_float2(void)
 
 // hash a point in the unit square to the index of
 // the grid bucket that contains it
-struct point_to_bucket_index
+struct point_to_bucket_index : public thrust::unary_function<float2,unsigned int>
 {
   __host__ __device__
   point_to_bucket_index(unsigned int width, unsigned int height)

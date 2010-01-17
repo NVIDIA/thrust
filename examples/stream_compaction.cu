@@ -9,7 +9,7 @@
 
 // this functor returns true if the argument is odd, and false otherwise
 template <typename T>
-struct is_odd
+struct is_odd : public thrust::unary_function<T,bool>
 {
     __host__ __device__
     bool operator()(T x)

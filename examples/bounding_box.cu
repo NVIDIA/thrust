@@ -24,7 +24,7 @@ struct point2d
 typedef thrust::pair<point2d, point2d> bbox;
 
 // reduce a pair of bounding boxes (a,b) to a bounding box containing a and b
-struct bbox_reduction
+struct bbox_reduction : public thrust::binary_function<bbox,bbox,bbox>
 {
     __host__ __device__
     bbox operator()(bbox a, bbox b)
@@ -40,7 +40,7 @@ struct bbox_reduction
 };
 
 // convert a point to a bbox containing that point, (point) -> (point, point)
-struct bbox_transformation
+struct bbox_transformation : public thrust::unary_function<point2d,bbox>
 {
     __host__ __device__
     bbox operator()(point2d point)

@@ -12,17 +12,22 @@
 // over a padded grid.  The padded values are not considered
 // during the reduction operation.
 
+
+// transform a tuple (bool,value) into a tuple (bool,value,value)
 template <typename IndexType, typename ValueType>
-struct transform_tuple
+struct transform_tuple : 
+    public thrust::unary_function< thrust::tuple<IndexType,ValueType>, 
+                                   thrust::tuple<bool,ValueType,ValueType> >
 {
-    typedef typename thrust::tuple<bool,ValueType,ValueType> result_type;
+    typedef typename thrust::tuple<bool,ValueType>           InputTuple;
+    typedef typename thrust::tuple<bool,ValueType,ValueType> OutputTuple;
 
     IndexType n, N;
 
     transform_tuple(IndexType n, IndexType N) : n(n), N(N) {}
 
     __host__ __device__
-        result_type operator()(const thrust::tuple<IndexType,ValueType>& t) const
+        OutputTuple operator()(const InputTuple& t) const
         { 
             bool is_valid = (thrust::get<0>(t) % N) < n;
             return result_type(is_valid, thrust::get<1>(t), thrust::get<1>(t));
@@ -30,13 +35,17 @@ struct transform_tuple
 };
 
 
+// reduce two tuples (bool,value,value)
 template <typename IndexType, typename ValueType>
-struct reduce_tuple
+struct reduce_tuple :
+    public thrust::binary_function< thrust::tuple<bool,ValueType,ValueType>,
+                                    thrust::tuple<bool,ValueType,ValueType>,
+                                    thrust::tuple<bool,ValueType,ValueType> >
 {
-    typedef typename thrust::tuple<bool,ValueType,ValueType> result_type;
+    typedef typename thrust::tuple<bool,ValueType,ValueType> Tuple;
 
     __host__ __device__
-        result_type operator()(const result_type& t0, const result_type& t1) const
+        Tuple operator()(const Tuple& t0, const Tuple& t1) const
         { 
             if(thrust::get<0>(t0) && thrust::get<0>(t1)) // both valid
                 return result_type(true, 

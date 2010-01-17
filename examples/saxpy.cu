@@ -6,7 +6,7 @@
 #include <iterator>
 #include <algorithm>
 
-struct saxpy_functor
+struct saxpy_functor : public thrust::binary_function<float,float,float>
 {
     const float a;
 

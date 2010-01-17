@@ -1,5 +1,6 @@
 #include <thrust/random/linear_congruential_engine.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
 
 #include <iostream>
@@ -18,7 +19,7 @@ unsigned int hash(unsigned int a)
     return a;
 }
 
-struct estimate_pi
+struct estimate_pi : public thrust::unary_function<unsigned int,float>
 {
   __host__ __device__
   float operator()(unsigned int thread_id)

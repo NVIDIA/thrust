@@ -1,5 +1,6 @@
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
+#include <thrust/functional.h>
 #include <thrust/gather.h>
 #include <thrust/segmented_scan.h>
 #include <thrust/iterator/counting_iterator.h>
@@ -13,12 +14,10 @@
 
 
 // convert a linear index to a linear index in the transpose 
-struct transpose_index
+struct transpose_index : public thrust::unary_function<size_t,size_t>
 {
     size_t m, n;
 
-    typedef size_t result_type;
-    
     __host__ __device__
     transpose_index(size_t _m, size_t _n) : m(_m), n(_n) {}
 
@@ -33,12 +32,10 @@ struct transpose_index
 };
 
 // convert a linear index to a row index
-struct row_index
+struct row_index : public thrust::unary_function<size_t,size_t>
 {
     size_t n;
     
-    typedef size_t result_type;
-
     __host__ __device__
     row_index(size_t _n) : n(_n) {}
 
