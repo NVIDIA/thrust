@@ -50,7 +50,7 @@ template <typename KeyType>
 void stable_radix_sort_key_small_dev(KeyType * keys, unsigned int num_elements)
 {
     // encode the small types in 32-bit unsigned ints
-    thrust::detail::raw_device_buffer<unsigned int> full_keys(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> full_keys(num_elements);
 
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
                       thrust::device_ptr<KeyType>(keys) + num_elements,
@@ -141,13 +141,13 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
                                      UpperBitsExtractor extract_upper_bits)
 {
     // first sort on the lower 32-bits of the keys
-    thrust::detail::raw_device_buffer<unsigned int> partial_keys(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> partial_keys(num_elements);
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
                       thrust::device_ptr<KeyType>(keys) + num_elements,
                       partial_keys.begin(),
                       extract_lower_bits);
 
-    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(num_elements);
     thrust::sequence(permutation.begin(), permutation.end());
     
     stable_radix_sort_by_key((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]),
@@ -155,7 +155,7 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
                              thrust::raw_pointer_cast(&permutation[0]));
 
     // permute full keys so lower bits are sorted
-    thrust::detail::raw_device_buffer<KeyType> permuted_keys(num_elements);
+    thrust::detail::raw_cuda_device_buffer<KeyType> permuted_keys(num_elements);
     thrust::gather(permuted_keys.begin(),
                    permuted_keys.end(),
                    permutation.begin(),

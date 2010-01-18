@@ -114,14 +114,14 @@ namespace third_dispatch
     {
         // sizeof(ValueType) != 4, use indirection and permute values
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-        thrust::detail::raw_device_buffer<unsigned int> permutation(keys_last - keys_first);
+        thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(keys_last - keys_first);
         thrust::sequence(permutation.begin(), permutation.end());
     
         thrust::detail::device::cuda::detail::stable_merge_sort_by_key
             (keys_first, keys_last, permutation.begin(), comp);
    
         RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-        thrust::detail::raw_device_buffer<ValueType> temp(values_first, values_last);
+        thrust::detail::raw_cuda_device_buffer<ValueType> temp(values_first, values_last);
         thrust::gather(values_first, values_last, permutation.begin(), temp.begin());
     }
     
@@ -173,13 +173,13 @@ namespace second_dispatch
     {
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        thrust::detail::raw_device_buffer<unsigned int> permutation(last - first);
+        thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(last - first);
         thrust::sequence(permutation.begin(), permutation.end());
     
         thrust::detail::device::cuda::detail::stable_merge_sort
             (permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
     
-        thrust::detail::raw_device_buffer<KeyType> temp(first, last);
+        thrust::detail::raw_cuda_device_buffer<KeyType> temp(first, last);
         thrust::gather(first, last, permutation.begin(), temp.begin());
     }
     
@@ -205,7 +205,7 @@ namespace second_dispatch
     {
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        thrust::detail::raw_device_buffer<unsigned int> permutation(keys_last - keys_first);
+        thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(keys_last - keys_first);
         thrust::sequence(permutation.begin(), permutation.end());
     
         // decide whether to sort values indirectly
@@ -215,7 +215,7 @@ namespace second_dispatch
             (permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
-        thrust::detail::raw_device_buffer<KeyType> temp(keys_first, keys_last);
+        thrust::detail::raw_cuda_device_buffer<KeyType> temp(keys_first, keys_last);
         thrust::gather(keys_first, keys_last, permutation.begin(), temp.begin());
     }
     

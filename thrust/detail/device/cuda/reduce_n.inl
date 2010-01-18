@@ -154,7 +154,7 @@ template<typename InputIterator,
     const size_t num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
 
     // allocate storage for per-block results
-    thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
+    thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
 
     // set first element of temp array to init
     temp[0] = init;
@@ -187,10 +187,10 @@ template<typename InputIterator,
     const size_t num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
 
     // allocate storage for per-block results
-    thrust::detail::raw_device_buffer<OutputType> temp(num_blocks + 1);
+    thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
 
     // allocate storage for shared array
-    thrust::detail::raw_device_buffer<OutputType> shared_array(block_size * num_blocks);
+    thrust::detail::raw_cuda_device_buffer<OutputType> shared_array(block_size * num_blocks);
 
     // set first element of temp array to init
     temp[0] = init;

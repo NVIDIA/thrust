@@ -189,8 +189,13 @@ template<typename ForwardIterator,
 {
   // gather on device and transfer to host
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  raw_device_buffer<OutputType> buffer(thrust::distance(first,last));
+  typedef typename thrust::iterator_space<InputIterator>::type        Space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space2;
+  typedef typename thrust::detail::minimum_space<Space1,Space2>::type Space;
+
+  raw_buffer<OutputType,Space> buffer(thrust::distance(first,last));
   thrust::gather(buffer.begin(), buffer.end(), map, input);
+
   thrust::copy(buffer.begin(), buffer.end(), first);
 } // end gather()
 
@@ -207,8 +212,11 @@ template<typename ForwardIterator,
 {
   // move map to device and try again
   typedef typename thrust::iterator_traits<InputIterator>::value_type IndexType;
-  raw_device_buffer<IndexType> d_map(thrust::distance(first,last));
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space;
+
+  raw_buffer<IndexType,Space> d_map(thrust::distance(first,last));
   thrust::copy(map, map + (last - first), d_map.begin());
+
   thrust::gather(first, last, d_map.begin(), input);
 } // end gather()
 

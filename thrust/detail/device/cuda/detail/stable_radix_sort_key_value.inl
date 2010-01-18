@@ -49,7 +49,7 @@ template <typename KeyType, typename ValueType>
 void stable_radix_sort_key_value_small_dev(KeyType * keys, ValueType * values, unsigned int num_elements)
 {
     // encode the small types in 32-bit unsigned ints
-    thrust::detail::raw_device_buffer<unsigned int> full_keys(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> full_keys(num_elements);
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
                       thrust::device_ptr<KeyType>(keys + num_elements),
                       full_keys.begin(),
@@ -146,13 +146,13 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
                                            UpperBitsExtractor extract_upper_bits)
 {
     // first sort on the lower 32-bits of the keys
-    thrust::detail::raw_device_buffer<unsigned int> partial_keys(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> partial_keys(num_elements);
     thrust::transform(thrust::device_ptr<KeyType>(keys), 
                       thrust::device_ptr<KeyType>(keys) + num_elements,
                       partial_keys.begin(),
                       extract_lower_bits);
 
-    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(num_elements);
     thrust::sequence(permutation.begin(), permutation.end());
     
     stable_radix_sort_by_key((LowerBits *) thrust::raw_pointer_cast(&partial_keys[0]),
@@ -160,13 +160,13 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
                              thrust::raw_pointer_cast(&permutation[0]));
 
     // permute full keys and values so lower bits are sorted
-    thrust::detail::raw_device_buffer<KeyType> permuted_keys(num_elements);
+    thrust::detail::raw_cuda_device_buffer<KeyType> permuted_keys(num_elements);
     thrust::gather(permuted_keys.begin(),
                    permuted_keys.end(),
                    permutation.begin(),
                    thrust::device_ptr<KeyType>(keys));
     
-    thrust::detail::raw_device_buffer<ValueType> permuted_values(num_elements);
+    thrust::detail::raw_cuda_device_buffer<ValueType> permuted_values(num_elements);
     thrust::gather(permuted_values.begin(),
                    permuted_values.end(),
                    permutation.begin(),
@@ -255,13 +255,13 @@ void stable_radix_sort_key_value_dev_native_values(KeyType * keys, ValueIterator
     typedef typename thrust::iterator_traits<ValueIterator>::value_type ValueType;
 
     // Sort with integer values and permute the real values accordingly
-    thrust::detail::raw_device_buffer<unsigned int> permutation(num_elements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(num_elements);
     thrust::sequence(permutation.begin(), permutation.end());
 
     stable_radix_sort_key_value_dev_native_values(keys, permutation.begin(), num_elements, thrust::detail::true_type());
     
     // copy values into temp vector and then permute
-    thrust::detail::raw_device_buffer<ValueType> temp_values(values, values + num_elements);
+    thrust::detail::raw_cuda_device_buffer<ValueType> temp_values(values, values + num_elements);
     
     thrust::gather(values, values + num_elements, permutation.begin(), temp_values.begin());
 }

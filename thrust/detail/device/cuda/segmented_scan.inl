@@ -636,8 +636,8 @@ template<typename InputIterator1,
     const unsigned int interval_size = warp_size * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::detail::raw_device_buffer<OutputType>   d_final_val(num_warps + 1);
-    thrust::detail::raw_device_buffer<unsigned int> d_segment_lengths(num_warps + 1);
+    thrust::detail::raw_cuda_device_buffer<OutputType>   d_final_val(num_warps + 1);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> d_segment_lengths(num_warps + 1);
 
     //////////////////////
     // first level scan
@@ -704,8 +704,8 @@ template<typename InputIterator1,
     const unsigned int interval_size = warp_size * num_iters;
 
     // create a temp vector for per-warp results
-    thrust::detail::raw_device_buffer<OutputType>   d_final_val(num_warps + 1);
-    thrust::detail::raw_device_buffer<unsigned int> d_segment_lengths(num_warps + 1);
+    thrust::detail::raw_cuda_device_buffer<OutputType>   d_final_val(num_warps + 1);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> d_segment_lengths(num_warps + 1);
 
     //////////////////////
     // first level scan

@@ -972,10 +972,10 @@ template<typename RandomAccessIterator1,
 
   using namespace thrust::detail;
 
-  raw_device_buffer<KeyType>      splitters(num_splitters);
-  raw_device_buffer<unsigned int> splitters_pos(num_splitters);
-  raw_device_buffer<KeyType>      merged_splitters(num_splitters);
-  raw_device_buffer<unsigned int> merged_splitters_pos(num_splitters);
+  raw_cuda_device_buffer<KeyType>      splitters(num_splitters);
+  raw_cuda_device_buffer<unsigned int> splitters_pos(num_splitters);
+  raw_cuda_device_buffer<KeyType>      merged_splitters(num_splitters);
+  raw_cuda_device_buffer<unsigned int> merged_splitters_pos(num_splitters);
 
   extract_splitters<<<grid_size, block_size>>>(keys_first, n, splitters.begin(), splitters_pos.begin());
 
@@ -1012,8 +1012,8 @@ template<typename RandomAccessIterator1,
   grid_size = min<size_t>(num_blocks, max_num_blocks);
 
   // reuse the splitters_pos storage for rank1
-  raw_device_buffer<unsigned int> &rank1 = splitters_pos;
-  raw_device_buffer<unsigned int> rank2(num_splitters);
+  raw_cuda_device_buffer<unsigned int> &rank1 = splitters_pos;
+  raw_cuda_device_buffer<unsigned int> rank2(num_splitters);
 
   find_splitter_ranks<block_size, log_block_size>
     <<<grid_size,block_size>>>
@@ -1131,8 +1131,8 @@ template<typename RandomAccessIterator1,
 
   // scratch space
   using namespace thrust::detail;
-  raw_device_buffer<KeyType>   temp_keys(n);
-  raw_device_buffer<ValueType> temp_values(n);
+  raw_cuda_device_buffer<KeyType>   temp_keys(n);
+  raw_cuda_device_buffer<ValueType> temp_values(n);
 
   device_ptr<KeyType>   keys0   = &*keys_first,   keys1   = &temp_keys[0];
   device_ptr<ValueType> values0 = &*values_first, values1 = &temp_values[0];

@@ -112,18 +112,32 @@ template<typename T, typename Space>
 }; // end raw_buffer
 
 template<typename T>
-  class raw_device_buffer
-    : public raw_buffer<T, thrust::device_space_tag >
+  class raw_omp_device_buffer
+    : public raw_buffer<T, thrust::detail::omp_device_space_tag >
 {
   private:
-    typedef raw_buffer<T, thrust::device_space_tag > super_t;
+    typedef raw_buffer<T, thrust::detail::omp_device_space_tag > super_t;
 
   public:
-    explicit raw_device_buffer(typename super_t::size_type n):super_t(n){}
+    explicit raw_omp_device_buffer(typename super_t::size_type n):super_t(n){}
 
     template<typename InputIterator>
-    raw_device_buffer(InputIterator first, InputIterator last):super_t(first,last){}
-}; // end raw_device_buffer
+    raw_omp_device_buffer(InputIterator first, InputIterator last):super_t(first,last){}
+}; // end raw_omp_device_buffer
+
+template<typename T>
+  class raw_cuda_device_buffer
+    : public raw_buffer<T, thrust::detail::cuda_device_space_tag >
+{
+  private:
+    typedef raw_buffer<T, thrust::detail::cuda_device_space_tag > super_t;
+
+  public:
+    explicit raw_cuda_device_buffer(typename super_t::size_type n):super_t(n){}
+
+    template<typename InputIterator>
+    raw_cuda_device_buffer(InputIterator first, InputIterator last):super_t(first,last){}
+}; // end raw_cuda_device_buffer
 
 template<typename T>
   class raw_host_buffer

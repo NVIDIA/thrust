@@ -77,7 +77,7 @@ OutputType reduce(InputIterator first,
 
     int num_threads = std::min<difference_type>(omp_get_max_threads(), N);
 
-    thrust::detail::raw_host_buffer<OutputType> thread_results(first, first + num_threads);
+    thrust::detail::raw_omp_device_buffer<OutputType> thread_results(first, first + num_threads);
 
 #   pragma omp parallel num_threads(num_threads)
     {

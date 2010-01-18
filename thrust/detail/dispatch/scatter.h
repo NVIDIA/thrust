@@ -36,8 +36,8 @@ namespace detail
 {
 
 // forward declarations
-template<typename> class raw_device_buffer;
-template<typename> class raw_host_buffer;
+template<typename,typename> class raw_buffer;
+template<typename>          class raw_host_buffer;
 
 namespace dispatch
 {
@@ -204,7 +204,8 @@ template<typename InputIterator1,
 {
   // copy input to device and scatter on device
   typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType;
-  thrust::detail::raw_device_buffer<InputType> buffer(first, last);
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space;
+  thrust::detail::raw_buffer<InputType,Space> buffer(first, last);
   thrust::scatter(buffer.begin(), buffer.end(), map, output);
 } // end scatter()
 
@@ -222,13 +223,12 @@ template<typename InputIterator1,
 {
   // copy map to device and try again
   typedef typename thrust::iterator_traits<InputIterator2>::value_type IndexType;
-  thrust::detail::raw_device_buffer<IndexType> d_map(map, map + thrust::distance(first,last));
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space;
+  thrust::detail::raw_buffer<IndexType,Space> d_map(map, map + thrust::distance(first,last));
   thrust::scatter(first, last, d_map.begin(), output);
 } // end scatter()
 
-} // end dispatch
-
-} // end detail
-
-} // end thrust
+} // end namespace dispatch
+} // end namespace detail
+} // end namespace thrust
 

@@ -1177,7 +1177,7 @@ void radix_sort(unsigned int * keys,
     if (!thrust::detail::util::is_aligned(keys, sizeof(uint4)))
     {
         // keys is misaligned, copy to temp array and try again
-        thrust::detail::raw_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
+        thrust::detail::raw_cuda_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
                                                                      thrust::device_ptr<unsigned int>(keys) + numElements);
 
         radix_sort(thrust::raw_pointer_cast(&aligned_keys[0]), numElements, preprocess, postprocess, keyBits);
@@ -1189,10 +1189,10 @@ void radix_sort(unsigned int * keys,
 
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::cta_size * 4);
         
-    thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
-    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::warp_size * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::warp_size * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> temp_keys(numElements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> counters(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> histogram(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> block_offsets(RadixSort::warp_size * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
 
@@ -1232,7 +1232,7 @@ void radix_sort_by_key(unsigned int * keys,
     if (!thrust::detail::util::is_aligned(keys, sizeof(uint4)))
     {
         // keys is misaligned, copy to temp array and try again
-        thrust::detail::raw_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
+        thrust::detail::raw_cuda_device_buffer<unsigned int> aligned_keys(thrust::device_ptr<unsigned int>(keys),
                                                                      thrust::device_ptr<unsigned int>(keys) + numElements);
 
         radix_sort_by_key(thrust::raw_pointer_cast(&aligned_keys[0]), values, numElements, preprocess, postprocess, keyBits);
@@ -1245,7 +1245,7 @@ void radix_sort_by_key(unsigned int * keys,
     if (!thrust::detail::util::is_aligned(values, sizeof(uint4)))
     {
         // values is misaligned, copy to temp array and try again
-        thrust::detail::raw_device_buffer<unsigned int> aligned_values(thrust::device_ptr<unsigned int>(values),
+        thrust::detail::raw_cuda_device_buffer<unsigned int> aligned_values(thrust::device_ptr<unsigned int>(values),
                                                                        thrust::device_ptr<unsigned int>(values) + numElements);
 
         radix_sort_by_key(keys, thrust::raw_pointer_cast(&aligned_values[0]), numElements, preprocess, postprocess, keyBits);
@@ -1257,11 +1257,11 @@ void radix_sort_by_key(unsigned int * keys,
     
     unsigned int numBlocks  = BLOCKING(numElements, RadixSort::cta_size * 4);
 
-    thrust::detail::raw_device_buffer<unsigned int> temp_keys(numElements);
-    thrust::detail::raw_device_buffer<unsigned int> temp_values(numElements);
-    thrust::detail::raw_device_buffer<unsigned int> counters(RadixSort::warp_size * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> histogram(RadixSort::warp_size * numBlocks);
-    thrust::detail::raw_device_buffer<unsigned int> block_offsets(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> temp_keys(numElements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> temp_values(numElements);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> counters(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> histogram(RadixSort::warp_size * numBlocks);
+    thrust::detail::raw_cuda_device_buffer<unsigned int> block_offsets(RadixSort::warp_size * numBlocks);
 
     bool manualCoalesce = radix_sort_use_manual_coalescing();
     

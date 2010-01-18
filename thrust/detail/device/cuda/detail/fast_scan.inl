@@ -40,8 +40,8 @@ namespace thrust
 namespace detail
 {
 
-// forward declaration of raw_device_buffer
-template<typename> class raw_device_buffer;
+// forward declaration of raw_cuda_device_buffer
+template<typename> class raw_cuda_device_buffer;
 
 namespace device
 {
@@ -360,7 +360,6 @@ OutputIterator inclusive_scan(InputIterator first,
     const unsigned int K        = 6;
     
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-    typedef typename thrust::iterator_space<OutputIterator>::type Space;
 
     const unsigned int N = last - first;
     
@@ -379,7 +378,7 @@ OutputIterator inclusive_scan(InputIterator first,
     //std::cout << "num_iters     " << num_iters     << std::endl;
     //std::cout << "interval_size " << interval_size << std::endl;
     
-    thrust::detail::raw_buffer<OutputType,Space> block_results(num_blocks + 1);
+    thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_blocks + 1);
     
     // first level scan of interval (one interval per block)
     scan_intervals<CTA_SIZE,K> <<<num_blocks, CTA_SIZE>>>
@@ -429,7 +428,6 @@ OutputIterator exclusive_scan(InputIterator first,
     const unsigned int K        = 6;
     
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-    typedef typename thrust::iterator_space<OutputIterator>::type Space;
 
     const unsigned int N = last - first;
 
@@ -448,7 +446,7 @@ OutputIterator exclusive_scan(InputIterator first,
     //std::cout << "num_iters     " << num_iters     << std::endl;
     //std::cout << "interval_size " << interval_size << std::endl;
 
-    thrust::detail::raw_buffer<OutputType,Space> block_results(num_blocks + 1);
+    thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
     scan_intervals<CTA_SIZE,K> <<<num_blocks, CTA_SIZE>>>
