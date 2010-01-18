@@ -553,3 +553,53 @@ void TestStableSortByKeyWithLargeKeysAndValues(void)
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeysAndValues);
 
 
+template <typename T>
+struct comp_mod3 : public thrust::binary_function<T,T,bool>
+{
+    T * table;
+
+    comp_mod3(T * table) : table(table) {}
+
+    __host__ __device__
+    bool operator()(T a, T b)
+    {
+        return table[(int) a] < table[(int) b];
+    }
+};
+
+template <typename Vector>
+void TestStableSortWithIndirection(void)
+{
+    // add numbers modulo 3 with external lookup table
+    typedef typename Vector::value_type T;
+
+    Vector data(7);
+    data[0] = 1;
+    data[1] = 3;
+    data[2] = 5;
+    data[3] = 3;
+    data[4] = 0;
+    data[5] = 2;
+    data[6] = 1;
+
+    Vector table(6);
+    table[0] = 0;
+    table[1] = 1;
+    table[2] = 2;
+    table[3] = 0;
+    table[4] = 1;
+    table[5] = 2;
+
+    thrust::stable_sort(data.begin(), data.end(), comp_mod3<T>(thrust::raw_pointer_cast(&table[0])));
+    
+    ASSERT_EQUAL(data[0], T(3));
+    ASSERT_EQUAL(data[1], T(3));
+    ASSERT_EQUAL(data[2], T(0));
+    ASSERT_EQUAL(data[3], T(1));
+    ASSERT_EQUAL(data[4], T(1));
+    ASSERT_EQUAL(data[5], T(5));
+    ASSERT_EQUAL(data[6], T(2));
+}
+DECLARE_VECTOR_UNITTEST(TestStableSortWithIndirection);
+
+

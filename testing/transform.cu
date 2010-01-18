@@ -270,3 +270,58 @@ void TestTransformBinaryCountingIterator(void)
 }
 DECLARE_VECTOR_UNITTEST(TestTransformBinaryCountingIterator);
 
+
+template <typename T>
+struct plus_mod3 : public thrust::binary_function<T,T,T>
+{
+    T * table;
+
+    plus_mod3(T * table) : table(table) {}
+
+    __host__ __device__
+    T operator()(T a, T b)
+    {
+        return table[(int) (a + b)];
+    }
+};
+
+template <typename Vector>
+void TestTransformWithIndirection(void)
+{
+    // add numbers modulo 3 with external lookup table
+    typedef typename Vector::value_type T;
+
+    Vector input1(7);
+    Vector input2(7);
+    Vector output(7, 0);
+    input1[0] = 0;  input2[0] = 2; 
+    input1[1] = 1;  input2[1] = 2;
+    input1[2] = 2;  input2[2] = 2;
+    input1[3] = 1;  input2[3] = 0;
+    input1[4] = 2;  input2[4] = 2;
+    input1[5] = 0;  input2[5] = 1;
+    input1[6] = 1;  input2[6] = 0;
+
+    Vector table(6);
+    table[0] = 0;
+    table[1] = 1;
+    table[2] = 2;
+    table[3] = 0;
+    table[4] = 1;
+    table[5] = 2;
+
+    thrust::transform(input1.begin(), input1.end(),
+                      input2.begin(), 
+                      output.begin(),
+                      plus_mod3<T>(thrust::raw_pointer_cast(&table[0])));
+    
+    ASSERT_EQUAL(output[0], T(2));
+    ASSERT_EQUAL(output[1], T(0));
+    ASSERT_EQUAL(output[2], T(1));
+    ASSERT_EQUAL(output[3], T(1));
+    ASSERT_EQUAL(output[4], T(1));
+    ASSERT_EQUAL(output[5], T(1));
+    ASSERT_EQUAL(output[6], T(1));
+}
+DECLARE_VECTOR_UNITTEST(TestTransformWithIndirection);
+
