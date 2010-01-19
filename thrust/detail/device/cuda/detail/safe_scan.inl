@@ -314,7 +314,11 @@ OutputIterator inclusive_scan(InputIterator first,
          binary_op);
   
     {
+#if CUDA_VERSION >= 3000
         const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<OutputType *, OutputType *, BinaryFunction>, smem_per_thread);
+#else
+        const unsigned int block_size_pass2 = 32;
+#endif        
         const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
 
         // second level inclusive scan of per-block results
@@ -388,7 +392,11 @@ OutputIterator exclusive_scan(InputIterator first,
          binary_op);
         
     {
+#if CUDA_VERSION >= 3000
         const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<OutputType *, OutputType *, BinaryFunction>, smem_per_thread);
+#else
+        const unsigned int block_size_pass2 = 32;
+#endif        
         const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
 
         // second level inclusive scan of per-block results

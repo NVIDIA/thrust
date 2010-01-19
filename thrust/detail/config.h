@@ -23,8 +23,8 @@
 
 #include <cuda.h>
 
-#if CUDA_VERSION < 3000
-#error "CUDA v3.0 or newer is required"
+#if CUDA_VERSION < 2300
+#error "CUDA v2.3 or newer is required"
 #endif 
 
 // XXX WAR this problem with Snow Leopard + CUDA 2.3a
