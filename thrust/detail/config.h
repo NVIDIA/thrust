@@ -23,7 +23,7 @@
 
 #include <cuda.h>
 
-#if CUDA_VERSION < 2300
+#if CUDA_VERSION < 2030
 #error "CUDA v2.3 or newer is required"
 #endif 
 
