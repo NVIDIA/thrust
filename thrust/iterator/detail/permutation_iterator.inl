@@ -1,0 +1,62 @@
+/*
+ *  Copyright 2008-2009 NVIDIA Corporation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+#include <thrust/iterator/permutation_iterator.h>
+
+namespace thrust
+{
+
+namespace detail
+{
+
+namespace device
+{
+
+
+template<typename ElementIterator, typename IndexIterator>
+  struct dereference_result< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >
+    : dereference_result<ElementIterator>
+{
+}; // end dereference_result
+
+
+template<typename ElementIterator, typename IndexIterator>
+  inline __host__ __device__
+    typename iterator_device_reference< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
+      dereference(const thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> &iter)
+{
+  return dereference(iter.m_element_iterator, dereference(iter.base()));
+} // end dereference()
+
+
+template<typename ElementIterator, typename IndexIterator, typename IndexType>
+  inline __host__ __device__
+    typename iterator_device_reference< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
+      dereference(const thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n)
+{
+  // XXX the result of these operations is undefined if dereference() returns a reference to
+  //     a member of iter
+  iter += n;
+  return dereference(iter);
+} // end dereference()
+
+
+} // end device
+
+} // end detail
+
+} // end thrust
+

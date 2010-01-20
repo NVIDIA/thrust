@@ -66,6 +66,9 @@ namespace experimental
 template <typename BidirectionalIterator>
   class reverse_iterator;
 
+template <typename ElementIterator, typename IndexIterator>
+  class permutation_iterator;
+
 } // end experimental
 
 namespace detail
@@ -199,6 +202,18 @@ template<typename BidirectionalIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
       dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter, IndexType n);
+
+
+// permutation_iterator prototypes
+template<typename ElementIterator, typename IndexIterator>
+  inline __host__ __device__
+    typename dereference_result< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
+      dereference(const thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> &iter);
+
+template<typename ElementIterator, typename IndexIterator, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
+      dereference(const thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n);
 
 } // end device
 
