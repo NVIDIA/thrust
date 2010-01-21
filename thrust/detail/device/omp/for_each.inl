@@ -19,6 +19,10 @@
  *  \brief Inline file for for_each.h.
  */
 
+// do not attempt to compile this code unless the compiler is generating multicore code
+// TODO: do this check inside omp::for_each with static_assert
+#ifdef _OPENMP
+
 #include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
@@ -56,4 +60,6 @@ void for_each(InputIterator first,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#endif // _OPENMP
 
