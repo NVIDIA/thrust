@@ -224,8 +224,6 @@ size_t max_blocksize(const cudaDeviceProp& properties,
                      const cudaFuncAttributes& attributes,
                      size_t dynamic_smem_bytes_per_thread)
 {
-    size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
-
     size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
     size_t granularity        = 32;
 
