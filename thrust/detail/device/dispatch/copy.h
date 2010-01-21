@@ -71,11 +71,24 @@ template<typename InputIterator,
                       Space1,
                       Space2)
 {
-  // inspect both spaces
-  typedef typename thrust::detail::integral_constant<bool,
-    thrust::detail::is_convertible<Space1,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_convertible<Space2,thrust::detail::cuda_device_space_tag>::value
-  > is_one_of_the_spaces_cuda;
+//  // inspect both spaces
+//  XXX this is what we want
+//  typedef typename thrust::detail::integral_constant<bool,
+//    thrust::detail::is_convertible<Space1,thrust::detail::cuda_device_space_tag>::value ||
+//    thrust::detail::is_convertible<Space2,thrust::detail::cuda_device_space_tag>::value
+//  > is_one_of_the_spaces_cuda;
+
+  // XXX WAR nvcc 3.0b crash
+  static const bool temp =
+    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
+    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
+  ;
+
+  typedef typename thrust::detail::eval_if<
+    temp,
+    thrust::detail::true_type,
+    thrust::detail::false_type
+  >::type is_one_of_the_spaces_cuda;
 
   return copy(first, last, result,
     is_one_of_the_spaces_cuda());
