@@ -16,13 +16,8 @@
 
 #pragma once
 
-#include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/distance.h>
-#include <thrust/iterator/detail/minimum_category.h>
-
-// for std::copy
-#include <algorithm>
+#include <thrust/detail/device/omp/dispatch/copy.h>
 
 namespace thrust
 {
@@ -32,114 +27,6 @@ namespace device
 {
 namespace omp
 {
-
-namespace detail
-{
-
-// XXX eliminate these 3 overloads
-template<typename InputIterator,
-         typename OutputIterator>
-OutputIterator copy(InputIterator first,
-                    InputIterator last,
-                    OutputIterator result,
-                    thrust::detail::omp_device_space_tag,
-                    thrust::detail::omp_device_space_tag)
-{
-  typedef typename thrust::iterator_difference<InputIterator>::type difference;
-  difference n = thrust::distance(first,last);
-
-#pragma omp parallel for
-  for(difference i = 0;
-      i < n;
-      ++i)
-  {
-    InputIterator  first_temp  = first  + i;
-    OutputIterator result_temp = result + i;
-
-    dereference(result_temp) = dereference(first_temp);
-  }
-
-  return result + n;
-} 
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename HostOrAnySpaceTag>
-OutputIterator copy(InputIterator first,
-                    InputIterator last,
-                    OutputIterator result,
-                    HostOrAnySpaceTag,
-                    thrust::detail::omp_device_space_tag)
-{
-  typedef typename thrust::iterator_difference<InputIterator>::type difference;
-  difference n = thrust::distance(first,last);
-
-#pragma omp parallel for
-  for(difference i = 0;
-      i < n;
-      ++i)
-  {
-    OutputIterator temp = result + i;
-    dereference(temp) = first[i];
-  }
-
-  return result + n;
-} 
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename HostOrAnySpaceTag>
-OutputIterator copy(InputIterator first,
-                    InputIterator last,
-                    OutputIterator result,
-                    thrust::detail::omp_device_space_tag,
-                    HostOrAnySpaceTag)
-{
-  typedef typename thrust::iterator_difference<InputIterator>::type difference;
-  difference n = thrust::distance(first,last);
-
-#pragma omp parallel for
-  for(difference i = 0;
-      i < n;
-      ++i)
-  {
-    InputIterator temp = first + i;
-    result[i] = dereference(temp);
-  }
-
-  return result + n;
-} 
-
-
-template<typename InputIterator,
-         typename OutputIterator>
-OutputIterator copy(InputIterator first,
-                    InputIterator last,
-                    OutputIterator result,
-                    thrust::random_access_traversal_tag)
-{
-  // dispatch on space
-  return thrust::detail::device::omp::detail::copy(first, last, result,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
-} 
-
-
-template<typename InputIterator,
-         typename OutputIterator>
-OutputIterator copy(InputIterator first,
-                    InputIterator last,
-                    OutputIterator result,
-                    thrust::incrementable_traversal_tag)
-{
-  // serialize on the host
-  return std::copy(first,last,result);
-} 
-
-
-} // end detail
 
 
 // entry point
@@ -157,7 +44,7 @@ OutputIterator copy(InputIterator first,
   typedef typename thrust::detail::minimum_category<traversal1,traversal2>::type minimum_traversal;
 
   // dispatch on min traversal
-  return thrust::detail::device::omp::detail::copy(first, last, result, minimum_traversal());
+  return thrust::detail::device::omp::dispatch::copy(first, last, result, minimum_traversal());
 } 
 
 
