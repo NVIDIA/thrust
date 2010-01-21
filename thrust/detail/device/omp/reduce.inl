@@ -97,8 +97,10 @@ OutputType reduce(InputIterator first,
     }
 
     OutputType total_sum = init;
-    for (int i = 0; i < num_threads; ++i)
-        total_sum = binary_op(total_sum, thread_results[i]);
+    for (typename thrust::detail::raw_omp_device_buffer<OutputType>::iterator result = thread_results.begin();
+         result != thread_results.end();
+         ++result)
+        total_sum = binary_op(total_sum, thrust::detail::device::dereference(result));
 
     return total_sum;
 }
