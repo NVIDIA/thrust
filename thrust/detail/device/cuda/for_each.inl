@@ -87,7 +87,8 @@ void for_each(InputIterator first,
 
   difference_type n = last - first;
   
-  if (sizeof(difference_type) > sizeof(unsigned int) && n > std::numeric_limits<unsigned int>::max())
+  if ((sizeof(difference_type) > sizeof(unsigned int))
+       && n > difference_type(std::numeric_limits<unsigned int>::max())) // convert to difference_type to avoid a warning
   {
     // n is large, must use 64-bit indices
     typedef for_each_n_closure<InputIterator, difference_type, UnaryFunction> Closure;

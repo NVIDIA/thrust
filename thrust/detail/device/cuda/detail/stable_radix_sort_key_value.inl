@@ -293,6 +293,9 @@ void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
                                       thrust::detail::is_arithmetic<ValueType>::value &&
                                       sizeof(ValueType) == 4;
 
+    // XXX WAR nvcc 3.0 unused variable warning
+    (void) native_values;
+
     stable_radix_sort_key_value_dev_native_values(keys, values_first, num_elements,
                                                   thrust::detail::integral_constant<bool, native_values>());
 }

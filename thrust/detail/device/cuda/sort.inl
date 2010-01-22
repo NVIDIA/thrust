@@ -331,6 +331,9 @@ template<typename RandomAccessIterator,
     static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
 
+    // XXX WAR nvcc 3.0 unused variable warning
+    (void) use_radix_sort;
+
     first_dispatch::stable_sort(first, last, comp,
             thrust::detail::integral_constant<bool, use_radix_sort>());
 }

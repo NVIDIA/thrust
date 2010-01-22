@@ -72,7 +72,7 @@ template<typename Pointer, typename T>
   size_t n = last - first;
 
   WideType wide_exemplar;
-  for(int i = 0; i < sizeof(WideType)/sizeof(T); i++)
+  for(size_t i = 0; i < sizeof(WideType)/sizeof(T); i++)
       reinterpret_cast<T *>(&wide_exemplar)[i] = exemplar;
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
@@ -111,7 +111,6 @@ template<typename ForwardIterator, typename T>
     
     if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
     {
-        // XXX this needs to be pushed down into cuda::
         wide_fill(&*first, &*last, exemplar);
     }
     else
@@ -134,6 +133,10 @@ template<typename ForwardIterator, typename T>
   const bool use_wide_fill = thrust::detail::is_trivial_iterator<ForwardIterator>::value
       && thrust::detail::has_trivial_copy<OutputType>::value
       && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
+
+  // XXX WAR nvcc 3.0 usused variable warning
+  (void)use_wide_fill;
+
   detail::fill(first, last, exemplar, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
 

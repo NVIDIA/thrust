@@ -84,6 +84,9 @@ template<typename InputIterator,
     thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
   ;
 
+  // XXX WAR nvcc 2.3 unused variable warning
+  (void)temp;
+
   typedef typename thrust::detail::eval_if<
     temp,
     thrust::detail::true_type,

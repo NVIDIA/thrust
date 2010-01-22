@@ -147,7 +147,7 @@ class TEST##UnitTest : public UnitTest {                         \
             1024, 1025, 10000, 12345,                            \
             (1<<16) - 3, 1<<16, (1<<16) + 3};                    \
         size_t num_sizes = sizeof(sizes) / sizeof(size_t);       \
-        for(int i = 0; i != num_sizes; ++i)                      \
+        for(size_t i = 0; i != num_sizes; ++i)                      \
         {                                                        \
             TEST<char>(sizes[i]);                                \
             TEST<unsigned char>(sizes[i]);                       \

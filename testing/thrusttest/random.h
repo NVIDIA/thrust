@@ -17,7 +17,7 @@ template<typename T>
   {
       T value = 0;
         
-      for(int i = 0; i < sizeof(T); i++)
+      for(size_t i = 0; i < sizeof(T); i++)
           value ^= T(rand() & 0xff) << (8*i);
 
       return value;

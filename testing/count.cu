@@ -21,8 +21,8 @@ void TestCount(const size_t n)
     thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
-    size_t cpu_result = thrust::count(h_data.begin(), h_data.end(), 5);
-    size_t gpu_result = thrust::count(d_data.begin(), d_data.end(), 5);
+    size_t cpu_result = thrust::count(h_data.begin(), h_data.end(), T(5));
+    size_t gpu_result = thrust::count(d_data.begin(), d_data.end(), T(5));
 
     ASSERT_EQUAL(cpu_result, gpu_result);
 }

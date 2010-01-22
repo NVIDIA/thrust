@@ -866,6 +866,10 @@ template<typename RandomAccessIterator1,
 
   const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
 
+  // XXX WAR nvcc 3.0 unused variable warning
+  unsigned int unused_variable_workaround = log_block_size;
+  ++unused_variable_workaround;
+
   // Copy over the first merged splitter of each odd-even block pair to the output array
   copy_first_splitters<log_block_size><<<num_oddeven_tile_pairs,1>>>(keys_first,
                                                                      values_first,

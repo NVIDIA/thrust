@@ -65,6 +65,9 @@ template<typename InputIterator,
     // TODO profile this threshold
     static const bool use_fast_scan = sizeof(OutputType) <= 16 && thrust::detail::is_pod<OutputType>::value;
 
+    // XXX WAR nvcc 3.0 unused variable warning
+    (void) use_fast_scan;
+
     return thrust::detail::device::cuda::dispatch::exclusive_scan
         (first, last, result, init, binary_op,
          thrust::detail::integral_constant<bool, use_fast_scan>());

@@ -125,6 +125,9 @@ template<typename InputIterator,
     const bool use_wide_load = thrust::detail::is_pod<InputType>::value 
                                     && thrust::detail::is_trivial_iterator<InputIterator>::value
                                     && (sizeof(InputType) == 1 || sizeof(InputType) == 2);
+
+    // XXX WAR nvcc 3.0 unused variable warning
+    (void) use_wide_load;
                                     
     return detail::reduce_device(first, last, init, binary_op, thrust::detail::integral_constant<bool, use_wide_load>());
 }
