@@ -233,6 +233,10 @@ namespace second_dispatch
         // decide whether to sort values indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
         static const bool sort_values_indirectly = sizeof(ValueType) != 4;
+
+        // XXX WAR nvcc 3.0 unused variable warning
+        (void) sort_values_indirectly;
+
         thrust::detail::device::cuda::third_dispatch::stable_merge_sort_by_key
             (keys_first, keys_last, values_first, comp,
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
@@ -268,6 +272,9 @@ namespace first_dispatch
         // decide whether to sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
         static const bool sort_keys_indirectly = sizeof(KeyType) > 16;  
+
+        // XXX WAR nvcc 3.0 unused variable warning
+        (void) sort_keys_indirectly;
         
         // XXX  magic constant determined by limited empirical testing
         // TODO more extensive tuning, consider vector types (e.g. int4)
@@ -306,6 +313,9 @@ namespace first_dispatch
         // decide whether to sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
         static const bool sort_keys_indirectly = sizeof(KeyType) > 16;  
+
+        // XXX WAR nvcc 3.0 unused variable warning
+        (void) sort_keys_indirectly;
         
         // XXX  magic constant determined by limited empirical testing
         // TODO more extensive tuning, consider vector types (e.g. int4)
@@ -350,6 +360,9 @@ template<typename RandomAccessIterator1,
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
+
+    // XXX WAR nvcc 3.0 unused variable warning
+    (void) use_radix_sort;
     
     first_dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp,
             thrust::detail::integral_constant<bool, use_radix_sort>());
