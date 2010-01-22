@@ -9,7 +9,7 @@
 
 // convert a linear index to a row index
 template <typename T>
-struct linear_index_to_row_index : public thrust::unary_function<size_t,size_t>
+struct linear_index_to_row_index : public thrust::unary_function<T,T>
 {
     T C; // number of columns
     
@@ -30,7 +30,7 @@ int main(void)
 
     // initialize data
     thrust::device_vector<int> array(R * C);
-    for (int i = 0; i < array.size(); i++)
+    for (size_t i = 0; i < array.size(); i++)
         array[i] = rand() % 3;
     
     // allocate storage for row sums and indices
@@ -47,10 +47,10 @@ int main(void)
                                thrust::plus<int>());
 
     // print data 
-    for(size_t i = 0; i < R; i++)
+    for(int i = 0; i < R; i++)
     {
         std::cout << "[";
-        for(size_t j = 0; j < C; j++)
+        for(int j = 0; j < C; j++)
             std::cout << std::setw(8) << array[i * C + j] << " ";
         std::cout << "] = " << std::setw(8) << row_sums[i] << "\n";
     }
