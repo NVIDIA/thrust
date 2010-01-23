@@ -58,7 +58,7 @@ void TestMakePermutationIterator(void)
     thrust::permutation_iterator<Iterator, Iterator> iter(input.begin(), indices.begin());
 
     thrust::copy(thrust::make_permutation_iterator(source.begin(), indices.begin()),
-                 thrust::make_permutation_iterator(source.end(), indices.end()),
+                 thrust::make_permutation_iterator(source.begin(), indices.begin()) + 4,
                  output.begin());
 
     ASSERT_EQUAL(output[0], 4);
