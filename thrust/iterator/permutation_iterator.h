@@ -46,7 +46,7 @@ template <typename ElementIterator,
   private:
     typedef typename detail::permutation_iterator_base<ElementIterator,IndexIterator>::type super_t;
 
-    friend class iterator_core_access;
+    friend class experimental::iterator_core_access;
 
   public:
     __host__ __device__
@@ -80,7 +80,7 @@ template <typename ElementIterator,
     template<typename OtherElementIterator, typename OtherIndexIterator>
       friend inline __host__ __device__
         typename thrust::detail::device::dereference_result< permutation_iterator<OtherElementIterator,OtherIndexIterator> >::type
-          dereference(const permutation_iterator<OtherElementIterator,OtherIndexIterator> &iter);
+          thrust::detail::device::dereference(const permutation_iterator<OtherElementIterator,OtherIndexIterator> &iter);
 
     ElementIterator m_element_iterator;
 }; // end permutation_iterator

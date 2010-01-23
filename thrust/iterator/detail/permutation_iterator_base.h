@@ -38,7 +38,7 @@ template<typename ElementIterator,
   typedef typename thrust::iterator_space<IndexIterator>::type Space2;
 
   typedef thrust::experimental::iterator_adaptor<
-    permutation_iterator_base<ElementIterator,IndexIterator>,
+    permutation_iterator<ElementIterator,IndexIterator>,
     IndexIterator,
     typename thrust::iterator_pointer<ElementIterator>::type,
     typename thrust::iterator_value<ElementIterator>::type,
