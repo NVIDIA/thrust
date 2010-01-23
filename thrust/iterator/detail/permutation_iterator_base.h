@@ -19,17 +19,12 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 
 namespace thrust
 {
 
-
-namespace experimental
-{
-
 template<typename,typename> class permutation_iterator;
-
-} // end experimental
 
 
 namespace detail
@@ -43,15 +38,15 @@ template<typename ElementIterator,
   typedef typename thrust::iterator_space<IndexIterator>::type Space2;
 
   typedef thrust::experimental::iterator_adaptor<
-    thrust::experimental::permutation_iterator_base<ElementIterator,IndexIterator>,
+    permutation_iterator_base<ElementIterator,IndexIterator>,
     IndexIterator,
-    thrust::iterator_pointer<ElementIterator>::type,
-    thrust::iterator_value<ElementIterator>::type,
-    thrust::detail::minimum_space<Space1,Space2>::type,
+    typename thrust::iterator_pointer<ElementIterator>::type,
+    typename thrust::iterator_value<ElementIterator>::type,
+    typename detail::minimum_space<Space1,Space2>::type,
     thrust::use_default,
-    thrust::iterator_reference<ElementIterator>::type
+    typename thrust::iterator_reference<ElementIterator>::type
   > type;
-} // end permutation_iterator_base
+}; // end permutation_iterator_base
 
 } // end detail
 

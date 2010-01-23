@@ -30,23 +30,21 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/permutation_iterator_base.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
-{
-
-namespace experimental
 {
 
 template <typename ElementIterator,
           typename IndexIterator>
   class permutation_iterator
-    : public detail::permutation_iterator_base<
+    : public thrust::detail::permutation_iterator_base<
         ElementIterator,
         IndexIterator
       >::type
 {
   private:
-    typedef detail::permutation_iterator_base<ElementIterator,IndexIterator>::type super_t;
+    typedef typename detail::permutation_iterator_base<ElementIterator,IndexIterator>::type super_t;
 
     friend class iterator_core_access;
 
@@ -79,13 +77,13 @@ template <typename ElementIterator,
     template<typename,typename> friend class permutation_iterator;
 
     // make friends with the dereferencer
-    friend template<typename, typename>
-      inline __host__ __device__
-        typename iterator_device_reference< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
-          dereference(thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> iter);
+    template<typename OtherElementIterator, typename OtherIndexIterator>
+      friend inline __host__ __device__
+        typename thrust::detail::device::dereference_result< permutation_iterator<OtherElementIterator,OtherIndexIterator> >::type
+          dereference(const permutation_iterator<OtherElementIterator,OtherIndexIterator> &iter);
 
     ElementIterator m_element_iterator;
-} // end permutation_iterator
+}; // end permutation_iterator
 
 
 template<typename ElementIterator, typename IndexIterator>
@@ -94,9 +92,6 @@ permutation_iterator<ElementIterator,IndexIterator> make_permutation_iterator(El
 {
   return permutation_iterator<ElementIterator,IndexIterator>(e,i);
 }
-
-
-} // end experimental
 
 } // end thrust
 

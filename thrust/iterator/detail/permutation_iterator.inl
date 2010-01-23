@@ -27,7 +27,7 @@ namespace device
 
 
 template<typename ElementIterator, typename IndexIterator>
-  struct dereference_result< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >
+  struct dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >
     : dereference_result<ElementIterator>
 {
 }; // end dereference_result
@@ -35,8 +35,8 @@ template<typename ElementIterator, typename IndexIterator>
 
 template<typename ElementIterator, typename IndexIterator>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
-      dereference(const thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> &iter)
+    typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
+      dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter)
 {
   return dereference(iter.m_element_iterator, dereference(iter.base()));
 } // end dereference()
@@ -44,8 +44,8 @@ template<typename ElementIterator, typename IndexIterator>
 
 template<typename ElementIterator, typename IndexIterator, typename IndexType>
   inline __host__ __device__
-    typename iterator_device_reference< thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> >::type
-      dereference(const thrust::experimental::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n)
+    typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
+      dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n)
 {
   // XXX the result of these operations is undefined if dereference() returns a reference to
   //     a member of iter

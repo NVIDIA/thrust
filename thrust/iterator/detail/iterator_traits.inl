@@ -105,13 +105,7 @@ template <typename T>
 
 template<typename T>
   struct is_iterator_space
-    : detail::or_<
-        detail::is_convertible<T, any_space_tag>,
-        detail::or_<
-          detail::is_convertible<T, host_space_tag>,
-          detail::is_convertible<T, device_space_tag>
-        >
-      >
+    : detail::is_convertible<T, space_tag>
 {
 }; // end is_iterator_space
 
