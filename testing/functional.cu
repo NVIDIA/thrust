@@ -256,9 +256,9 @@ void TestMaximumFunctional(void)
     Vector output(3);
 
     thrust::transform(input1.begin(), input1.end(), 
-                       input2.begin(), 
-                       output.begin(), 
-                       thrust::maximum<T>());
+                      input2.begin(), 
+                      output.begin(), 
+                      thrust::maximum<T>());
 
     ASSERT_EQUAL(output[0], 8);
     ASSERT_EQUAL(output[1], 6);
@@ -279,13 +279,60 @@ void TestMinimumFunctional(void)
     Vector output(3);
 
     thrust::transform(input1.begin(), input1.end(), 
-                       input2.begin(), 
-                       output.begin(), 
-                       thrust::minimum<T>());
+                      input2.begin(), 
+                      output.begin(), 
+                      thrust::minimum<T>());
 
     ASSERT_EQUAL(output[0], 5);
     ASSERT_EQUAL(output[1], 3);
     ASSERT_EQUAL(output[2], 7);
 }
 DECLARE_VECTOR_UNITTEST(TestMinimumFunctional);
+
+template <class Vector>
+void TestNot1(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector input(5);
+    input[0] = 1; input[1] = 0; input[2] = 1; input[3] = 1; input[4] = 0;
+
+    Vector output(5);
+
+    thrust::transform(input.begin(), input.end(), 
+                      output.begin(), 
+                      thrust::not1(thrust::identity<T>()));
+
+    ASSERT_EQUAL(output[0], 0);
+    ASSERT_EQUAL(output[1], 1);
+    ASSERT_EQUAL(output[2], 0);
+    ASSERT_EQUAL(output[3], 0);
+    ASSERT_EQUAL(output[4], 1);
+}
+DECLARE_VECTOR_UNITTEST(TestNot1);
+
+template <class Vector>
+void TestNot2(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector input1(5);
+    Vector input2(5);
+    input1[0] = 1; input1[1] = 0; input1[2] = 1; input1[3] = 1; input1[4] = 0;
+    input2[0] = 1; input2[1] = 1; input2[2] = 0; input2[3] = 1; input2[4] = 1;
+
+    Vector output(5);
+
+    thrust::transform(input1.begin(), input1.end(), 
+                      input2.begin(),
+                      output.begin(), 
+                      thrust::not2(thrust::equal_to<T>()));
+
+    ASSERT_EQUAL(output[0], 0);
+    ASSERT_EQUAL(output[1], 1);
+    ASSERT_EQUAL(output[2], 1);
+    ASSERT_EQUAL(output[3], 0);
+    ASSERT_EQUAL(output[4], 1);
+}
+DECLARE_VECTOR_UNITTEST(TestNot2);
 

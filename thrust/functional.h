@@ -809,7 +809,7 @@ struct unary_negate
  */
 template<typename Predicate>
   __host__ __device__
-  unary_negate<Predicate> not1(Predicate &pred);
+  unary_negate<Predicate> not1(const Predicate &pred);
 
 /*! \p binary_negate is a function object adaptor: it is an Adaptable Binary 
  *  Predicate that represents the logical negation of some other Adaptable
@@ -854,7 +854,7 @@ struct binary_negate
  */
 template<typename BinaryPredicate>
   __host__ __device__
-  binary_negate<BinaryPredicate> not2(BinaryPredicate &pred);
+  binary_negate<BinaryPredicate> not2(const BinaryPredicate &pred);
 
 /*! \}
  */
