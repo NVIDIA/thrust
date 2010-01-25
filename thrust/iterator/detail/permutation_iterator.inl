@@ -19,8 +19,24 @@
 namespace thrust
 {
 
+
 namespace detail
 {
+
+// XXX remove this when we no longer need device::dereference
+struct permutation_iterator_friend
+{
+  template<typename ElementIterator, typename IndexIterator>
+    static inline __host__ __device__
+      typename device::dereference_result< thrust::permutation_iterator<ElementIterator,IndexIterator> >::type
+        dereference(const thrust::permutation_iterator<ElementIterator,IndexIterator> &iter)
+  {
+    return thrust::detail::device::dereference(iter.m_element_iterator + thrust::detail::device::dereference(iter.base()));
+  }
+};
+
+
+
 
 namespace device
 {
@@ -38,7 +54,7 @@ template<typename ElementIterator, typename IndexIterator>
     typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
       dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter)
 {
-  return dereference(iter.m_element_iterator, dereference(iter.base()));
+  return permutation_iterator_friend::dereference(iter);
 } // end dereference()
 
 

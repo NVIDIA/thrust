@@ -35,6 +35,14 @@
 namespace thrust
 {
 
+namespace detail
+{
+
+// XXX remove when we no longer need device::dereference
+struct permutation_iterator_friend;
+
+}
+
 template <typename ElementIterator,
           typename IndexIterator>
   class permutation_iterator
@@ -76,11 +84,9 @@ template <typename ElementIterator,
     // make friends for the copy constructor
     template<typename,typename> friend class permutation_iterator;
 
-    // make friends with the dereferencer
-    template<typename OtherElementIterator, typename OtherIndexIterator>
-      friend inline __host__ __device__
-        typename thrust::detail::device::dereference_result< permutation_iterator<OtherElementIterator,OtherIndexIterator> >::type
-          thrust::detail::device::dereference(const permutation_iterator<OtherElementIterator,OtherIndexIterator> &iter);
+    // XXX WAR this problem with the omp compile
+    //     remove this when we no longer need device::dereference
+    friend struct detail::permutation_iterator_friend;
 
     ElementIterator m_element_iterator;
 }; // end permutation_iterator
