@@ -45,6 +45,30 @@ void TestFillSimple(void)
 DECLARE_VECTOR_UNITTEST(TestFillSimple);
 
 
+template <class Vector>
+void TestFillMixedTypes(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v(4);
+
+    thrust::fill(v.begin(), v.end(), (long) 10);
+    
+    ASSERT_EQUAL(v[0], 10);
+    ASSERT_EQUAL(v[1], 10);
+    ASSERT_EQUAL(v[2], 10);
+    ASSERT_EQUAL(v[3], 10);
+    
+    thrust::fill(v.begin(), v.end(), (float) 20);
+    
+    ASSERT_EQUAL(v[0], 20);
+    ASSERT_EQUAL(v[1], 20);
+    ASSERT_EQUAL(v[2], 20);
+    ASSERT_EQUAL(v[3], 20);
+}
+DECLARE_VECTOR_UNITTEST(TestFillMixedTypes);
+
+
 template <typename T>
 void TestFill(size_t n)
 {
