@@ -45,7 +45,6 @@
 
 #define THRUST_UNKNOWN 0
 
-// XXX this sucks
 // XXX reserve 0 for undefined
 #define THRUST_CUDA    1
 #define THRUST_OMP     2
@@ -62,11 +61,11 @@
 // figure out which compiler we're using
 #if   defined(_MSC_VER)
 #define THRUST_COMPILER THRUST_COMPILER_MSVC
+#define THRUST_DEPRECATED __declspec(deprecated)
 #elif defined(__GNUC__)
 #define THRUST_COMPILER THRUST_COMPILER_GCC
+#define THRUST_DEPRECATED __attribute__ ((deprecated)) 
 #else
 #define THRUST_COMPILER THRUST_COMPILER_UNKNOWN
 #endif // THRUST_COMPILER
-
-
 
