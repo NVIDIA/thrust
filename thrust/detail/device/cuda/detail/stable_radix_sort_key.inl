@@ -156,7 +156,7 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
 
     // permute full keys so lower bits are sorted
     thrust::detail::raw_cuda_device_buffer<KeyType> permuted_keys(num_elements);
-    thrust::gather(permuted_keys.begin(),
+    thrust::deprecated::gather(permuted_keys.begin(),
                    permuted_keys.end(),
                    permutation.begin(),
                    thrust::device_ptr<KeyType>(keys));
@@ -173,7 +173,7 @@ void stable_radix_sort_key_large_dev(KeyType * keys, unsigned int num_elements,
                              thrust::raw_pointer_cast(&permutation[0]));
 
     // store sorted keys
-    thrust::gather(thrust::device_ptr<KeyType>(keys), 
+    thrust::deprecated::gather(thrust::device_ptr<KeyType>(keys), 
                    thrust::device_ptr<KeyType>(keys) + num_elements,
                    permutation.begin(),
                    permuted_keys.begin());

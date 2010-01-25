@@ -131,9 +131,6 @@ void TestMakePermutationIterator(void)
     indices[2] = 5;
     indices[3] = 7;
    
-    // construct transform_iterator
-    thrust::permutation_iterator<Iterator, Iterator> iter(source.begin(), indices.begin());
-
     thrust::copy(thrust::make_permutation_iterator(source.begin(), indices.begin()),
                  thrust::make_permutation_iterator(source.begin(), indices.begin()) + 4,
                  output.begin());

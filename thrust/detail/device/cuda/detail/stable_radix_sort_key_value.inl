@@ -161,13 +161,13 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
 
     // permute full keys and values so lower bits are sorted
     thrust::detail::raw_cuda_device_buffer<KeyType> permuted_keys(num_elements);
-    thrust::gather(permuted_keys.begin(),
+    thrust::deprecated::gather(permuted_keys.begin(),
                    permuted_keys.end(),
                    permutation.begin(),
                    thrust::device_ptr<KeyType>(keys));
     
     thrust::detail::raw_cuda_device_buffer<ValueType> permuted_values(num_elements);
-    thrust::gather(permuted_values.begin(),
+    thrust::deprecated::gather(permuted_values.begin(),
                    permuted_values.end(),
                    permutation.begin(),
                    thrust::device_ptr<ValueType>(values));
@@ -184,11 +184,11 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
                              thrust::raw_pointer_cast(&permutation[0]));
 
     // store sorted keys and values
-    thrust::gather(thrust::device_ptr<KeyType>(keys), 
+    thrust::deprecated::gather(thrust::device_ptr<KeyType>(keys), 
                    thrust::device_ptr<KeyType>(keys) + num_elements,
                    permutation.begin(),
                    permuted_keys.begin());
-    thrust::gather(thrust::device_ptr<ValueType>(values), 
+    thrust::deprecated::gather(thrust::device_ptr<ValueType>(values), 
                    thrust::device_ptr<ValueType>(values) + num_elements,
                    permutation.begin(),
                    permuted_values.begin());
@@ -263,7 +263,7 @@ void stable_radix_sort_key_value_dev_native_values(KeyType * keys, ValueIterator
     // copy values into temp vector and then permute
     thrust::detail::raw_cuda_device_buffer<ValueType> temp_values(values, values + num_elements);
     
-    thrust::gather(values, values + num_elements, permutation.begin(), temp_values.begin());
+    thrust::deprecated::gather(values, values + num_elements, permutation.begin(), temp_values.begin());
 }
 
 

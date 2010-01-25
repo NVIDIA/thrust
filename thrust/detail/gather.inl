@@ -21,11 +21,84 @@
 
 #include <thrust/gather.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/gather.h>
+#include <thrust/iterator/permutation_iterator.h>
+
+// XXX remove these two when we no longer have to support the old
+//     gather interface
+#include <thrust/advance.h>
+#include <thrust/distance.h>
+
+#include <thrust/copy.h>
 
 namespace thrust
 {
 
+// XXX remove this namespace in Thrust v1.3
+namespace next
+{
+
+template<typename InputIterator,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+  OutputIterator gather(InputIterator        map_first,
+                        InputIterator        map_last,
+                        RandomAccessIterator input_first,
+                        OutputIterator       result)
+{
+  return thrust::copy(thrust::make_permutation_iterator(input_first, map_first),
+                      thrust::make_permutation_iterator(input_first, map_last),
+                      result);
+} // end gather()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+  OutputIterator gather_if(InputIterator1       map_first,
+                           InputIterator1       map_last,
+                           InputIterator2       stencil,
+                           RandomAccessIterator input_first,
+                           OutputIterator       result)
+{
+  typedef typename thrust::iterator_value<InputIterator2>::type StencilType;
+  return thrust::next::gather_if(map_first,
+                                 map_last,
+                                 stencil,
+                                 input_first,
+                                 result,
+                                 thrust::identity<StencilType>());
+} // end gather_if()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator gather_if(InputIterator1       map_first,
+                           InputIterator1       map_last,
+                           InputIterator2       stencil,
+                           RandomAccessIterator input_first,
+                           OutputIterator       result,
+                           Predicate            pred)
+{
+  return thrust::copy_when(thrust::make_permutation_iterator(input_first, map_first),
+                           thrust::make_permutation_iterator(input_first, map_last),
+                           stencil,
+                           result,
+                           pred);
+} // end gather_if()
+
+} // end next
+
+
+// XXX remove this in Thrust v1.3
+namespace deprecated
+{
+
+
+// XXX remove this in Thrust v1.3
 template<typename ForwardIterator,
          typename InputIterator,
          typename RandomAccessIterator>
@@ -34,13 +107,17 @@ template<typename ForwardIterator,
               InputIterator map,
               RandomAccessIterator input)
 {
-  // dispatch on space
-  thrust::detail::dispatch::gather(first, last, map, input,
-          typename thrust::iterator_space<ForwardIterator>::type(),
-          typename thrust::iterator_space<InputIterator>::type(),
-          typename thrust::iterator_space<RandomAccessIterator>::type());
+  // find the end of the map range
+  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
+  difference_type n = thrust::distance(first,last);
+  InputIterator map_last = map;
+  thrust::advance(map_last, n);
+
+  thrust::next::gather(map, map_last, input, first);
 } // end gather()
 
+
+// XXX remove this in Thrust v1.3
 template<typename ForwardIterator,
          typename InputIterator1,
          typename InputIterator2,
@@ -52,9 +129,11 @@ template<typename ForwardIterator,
                  RandomAccessIterator input)
 {
   typedef typename thrust::iterator_traits<InputIterator2>::value_type StencilType;
-  thrust::gather_if(first, last, map, stencil, input, thrust::identity<StencilType>());
+  thrust::deprecated::gather_if(first, last, map, stencil, input, thrust::identity<StencilType>());
 } // end gather_if()
 
+
+// XXX remove this in Thrust v1.3
 template<typename ForwardIterator,
          typename InputIterator1,
          typename InputIterator2,
@@ -67,13 +146,16 @@ template<typename ForwardIterator,
                  RandomAccessIterator input,
                  Predicate pred)
 {
-  // dispatch on space
-  thrust::detail::dispatch::gather_if(first, last, map, stencil, input, pred,
-          typename thrust::iterator_space<ForwardIterator>::type(),
-          typename thrust::iterator_space<InputIterator1>::type(),
-          typename thrust::iterator_space<InputIterator2>::type(),
-          typename thrust::iterator_space<RandomAccessIterator>::type());
+  // find the end of the map range
+  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
+  difference_type n = thrust::distance(first,last);
+  InputIterator1 map_last = map;
+  thrust::advance(map_last, n);
+
+  thrust::next::gather_if(map, map_last, stencil, input, first, pred);
 } // end gather_if()
+
+} // end deprecated
 
 } // end namespace thrust
 

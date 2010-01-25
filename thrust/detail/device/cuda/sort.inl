@@ -122,7 +122,7 @@ namespace third_dispatch
    
         RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
         thrust::detail::raw_cuda_device_buffer<ValueType> temp(values_first, values_last);
-        thrust::gather(values_first, values_last, permutation.begin(), temp.begin());
+        thrust::deprecated::gather(values_first, values_last, permutation.begin(), temp.begin());
     }
     
     template<typename RandomAccessIterator1,
@@ -180,7 +180,7 @@ namespace second_dispatch
             (permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
     
         thrust::detail::raw_cuda_device_buffer<KeyType> temp(first, last);
-        thrust::gather(first, last, permutation.begin(), temp.begin());
+        thrust::deprecated::gather(first, last, permutation.begin(), temp.begin());
     }
     
     template<typename RandomAccessIterator,
@@ -216,7 +216,7 @@ namespace second_dispatch
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
         thrust::detail::raw_cuda_device_buffer<KeyType> temp(keys_first, keys_last);
-        thrust::gather(keys_first, keys_last, permutation.begin(), temp.begin());
+        thrust::deprecated::gather(keys_first, keys_last, permutation.begin(), temp.begin());
     }
     
     template<typename RandomAccessIterator1,

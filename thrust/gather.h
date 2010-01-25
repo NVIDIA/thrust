@@ -32,6 +32,10 @@ namespace thrust
  *  \{
  */
 
+// XXX remove this namespace and these functions in Thrust v1.3
+namespace deprecated
+{
+
 /*! \p gather copies elements from a source array into a destination range according 
  *  to a map. For each output iterator \c i in the range [\p first, \p last), the 
  *  value \p input[*(\p map + (\p i - \p first))] is assigned to \p *i. \p RandomAccessIterator
@@ -72,6 +76,7 @@ namespace thrust
 template<typename ForwardIterator,
          typename InputIterator,
          typename RandomAccessIterator>
+THRUST_DEPRECATED
   void gather(ForwardIterator first,
               ForwardIterator last,
               InputIterator map,
@@ -100,6 +105,7 @@ template<typename ForwardIterator,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
+THRUST_DEPRECATED
   void gather_if(ForwardIterator first,
                  ForwardIterator last,
                  InputIterator1 map,
@@ -132,12 +138,56 @@ template<typename ForwardIterator,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename Predicate>
+THRUST_DEPRECATED
   void gather_if(ForwardIterator first,
                  ForwardIterator last,
                  InputIterator1 map,
                  InputIterator2 stencil,
                  RandomAccessIterator input,
                  Predicate pred);
+
+} // end namespace deprecated
+
+
+// XXX remove this namespace in Thrust v1.3
+namespace next
+{
+
+// XXX document these
+
+template<typename InputIterator,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+  OutputIterator gather(InputIterator        map_first,
+                        InputIterator        map_last,
+                        RandomAccessIterator input_first,
+                        OutputIterator       result);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+  OutputIterator gather_if(InputIterator1       map_first,
+                           InputIterator1       map_last,
+                           InputIterator2       stencil,
+                           RandomAccessIterator input_first,
+                           OutputIterator       result);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator gather_if(InputIterator1       map_first,
+                           InputIterator1       map_last,
+                           InputIterator2       stencil,
+                           RandomAccessIterator input_first,
+                           OutputIterator       result,
+                           Predicate            pred);
+
+} // end next
 
 /*! \} // gathering
  */
