@@ -72,8 +72,8 @@ template<typename Pointer, typename T>
   size_t n = last - first;
 
   WideType wide_exemplar;
-  for(size_t i = 0; i < sizeof(WideType)/sizeof(T); i++)
-      reinterpret_cast<T *>(&wide_exemplar)[i] = exemplar;
+  for(size_t i = 0; i < sizeof(WideType)/sizeof(OutputType); i++)
+      reinterpret_cast<OutputType *>(&wide_exemplar)[i] = static_cast<OutputType>(exemplar);
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = thrust::raw_pointer_cast(last);
