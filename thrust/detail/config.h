@@ -67,5 +67,6 @@
 #define THRUST_DEPRECATED __attribute__ ((deprecated)) 
 #else
 #define THRUST_COMPILER THRUST_COMPILER_UNKNOWN
+#define THRUST_DEPRECATED
 #endif // THRUST_COMPILER
 
