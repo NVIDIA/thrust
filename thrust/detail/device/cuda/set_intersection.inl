@@ -320,14 +320,15 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   
   // XXX we could encapsulate this gather in a permutation_iterator
   raw_buffer<value_type, cuda_device_space_tag> partition_values(num_partitions);
-  thrust::deprecated::gather(partition_values.begin(), partition_values.end(), 
-                 partition_begin_indices1,
-                 first1);
+  thrust::next::gather(partition_begin_indices1, partition_begin_indices1 + partition_values.size(),
+                       first1,
+                       partition_values.begin());
   
   raw_buffer<difference2, cuda_device_space_tag> partition_begin_indices2(num_partitions);
   
-  thrust::lower_bound(first2, last2, partition_values.begin(), 
-  	              partition_values.end(), partition_begin_indices2.begin(), comp);
+  thrust::lower_bound(first2, last2,
+                      partition_values.begin(), partition_values.end(), 
+                      partition_begin_indices2.begin(), comp);
   
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_partitions);
   raw_buffer< value_type, cuda_device_space_tag> temp_result(num_elements1);
