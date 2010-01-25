@@ -6,7 +6,7 @@
 #include <thrust/sort.h>
 #include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_CUDA
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
 using namespace thrusttest;
 
@@ -359,5 +359,5 @@ void TestRadixSortByKeyUnalignedSimple(void)
 }
 DECLARE_UNITTEST(TestRadixSortByKeyUnalignedSimple);
 
-#endif // THRUST_DEVICE_BACKEND == THRUST_CUDA
+#endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 

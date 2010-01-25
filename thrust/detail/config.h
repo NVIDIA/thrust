@@ -46,11 +46,11 @@
 #define THRUST_UNKNOWN 0
 
 // XXX reserve 0 for undefined
-#define THRUST_CUDA    1
-#define THRUST_OMP     2
+#define THRUST_DEVICE_BACKEND_CUDA    1
+#define THRUST_DEVICE_BACKEND_OMP     2
 
 #ifndef THRUST_DEVICE_BACKEND
-#define THRUST_DEVICE_BACKEND THRUST_CUDA
+#define THRUST_DEVICE_BACKEND THRUST_DEVICE_BACKEND_CUDA
 #endif // THRUST_DEVICE_BACKEND
 
 // enumerate compilers we know about

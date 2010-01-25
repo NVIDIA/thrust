@@ -27,9 +27,9 @@ namespace detail
 struct cuda_device_space_tag : device_space_tag {};
 struct omp_device_space_tag : device_space_tag {};
 
-#if   THRUST_DEVICE_BACKEND == THRUST_CUDA
+#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 typedef cuda_device_space_tag default_device_space_tag;
-#elif THRUST_DEVICE_BACKEND == THRUST_OMP
+#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
 typedef omp_device_space_tag  default_device_space_tag;
 #else
 #error Unknown device backend.

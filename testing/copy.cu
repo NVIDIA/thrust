@@ -289,12 +289,10 @@ void TestCopyIfStencil(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestCopyIfStencil);
 
-
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+// do we really want to test this ever?
 void TestCopyDeviceThrow(void)
 {
-#if THRUST_DEVICE_BACKEND == THRUST_OMP
-    KNOWN_FAILURE;  // do we really want to test this ever?
-#else
     typedef int T;
 
     thrust::device_ptr<T> null_device_ptr((int*)0);
@@ -313,10 +311,9 @@ void TestCopyDeviceThrow(void)
     } // end catch
 
     ASSERT_EQUAL(true, caught_exception);
-#endif
 }
 DECLARE_UNITTEST(TestCopyDeviceThrow);
-
+#endif
 
 template <typename Vector>
 void TestCopyCountingIterator(void)

@@ -17,7 +17,7 @@
 // don't attempt to compile this file without omp support
 // XXX we need a better way to WAR missing omp.h
 
-#if THRUST_DEVICE_BACKEND == THRUST_OMP
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
 
 #include <omp.h>
 #include <thrust/iterator/iterator_traits.h>

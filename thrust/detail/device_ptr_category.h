@@ -25,9 +25,9 @@ namespace detail
 {
 
 // XXX device_ptr_category needs to be f(default_device_space_tag, random_access_traversal_tag)
-#if   THRUST_DEVICE_BACKEND == THRUST_CUDA
+#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 typedef thrust::detail::random_access_cuda_device_iterator_tag device_ptr_category;
-#elif THRUST_DEVICE_BACKEND == THRUST_OMP
+#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
 typedef thrust::detail::random_access_omp_device_iterator_tag device_ptr_category;
 #else
 #error "Unknown device backend."

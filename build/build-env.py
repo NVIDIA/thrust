@@ -39,9 +39,9 @@ gLinkerOptions = {
 def getBackendDefine(backend):
   result = ''
   if backend == 'cuda':
-    result = '-DTHRUST_DEVICE_BACKEND=THRUST_CUDA'
+    result = '-DTHRUST_DEVICE_BACKEND=THRUST_DEVICE_BACKEND_CUDA'
   elif backend == 'omp':
-    result = '-DTHRUST_DEVICE_BACKEND=THRUST_OMP'
+    result = '-DTHRUST_DEVICE_BACKEND=THRUST_DEVICE_BACKEND_OMP'
   return result
 
 def getCFLAGS(mode, backend, CC):
