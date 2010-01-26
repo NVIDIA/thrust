@@ -7,8 +7,8 @@ void TestReverseIteratorCopyConstructor(void)
 {
   thrust::host_vector<int> h_v(1,13);
 
-  thrust::experimental::reverse_iterator<thrust::host_vector<int>::iterator> h_iter0(h_v.end());
-  thrust::experimental::reverse_iterator<thrust::host_vector<int>::iterator> h_iter1(h_iter0);
+  thrust::reverse_iterator<thrust::host_vector<int>::iterator> h_iter0(h_v.end());
+  thrust::reverse_iterator<thrust::host_vector<int>::iterator> h_iter1(h_iter0);
 
   ASSERT_EQUAL_QUIET(h_iter0, h_iter1);
   ASSERT_EQUAL(*h_iter0, *h_iter1);
@@ -16,8 +16,8 @@ void TestReverseIteratorCopyConstructor(void)
 
   thrust::device_vector<int> d_v(1,13);
 
-  thrust::experimental::reverse_iterator<thrust::device_vector<int>::iterator> d_iter2(d_v.end());
-  thrust::experimental::reverse_iterator<thrust::device_vector<int>::iterator> d_iter3(d_iter2);
+  thrust::reverse_iterator<thrust::device_vector<int>::iterator> d_iter2(d_v.end());
+  thrust::reverse_iterator<thrust::device_vector<int>::iterator> d_iter3(d_iter2);
 
   ASSERT_EQUAL_QUIET(d_iter2, d_iter3);
   ASSERT_EQUAL(*d_iter2, *d_iter3);
@@ -29,7 +29,7 @@ void TestReverseIteratorIncrement(void)
   thrust::host_vector<int> h_v(4);
   thrust::sequence(h_v.begin(), h_v.end());
 
-  thrust::experimental::reverse_iterator<thrust::host_vector<int>::iterator> h_iter(h_v.end());
+  thrust::reverse_iterator<thrust::host_vector<int>::iterator> h_iter(h_v.end());
 
   ASSERT_EQUAL(*h_iter, 3);
 
@@ -46,7 +46,7 @@ void TestReverseIteratorIncrement(void)
   thrust::device_vector<int> d_v(4);
   thrust::sequence(d_v.begin(), d_v.end());
 
-  thrust::experimental::reverse_iterator<thrust::device_vector<int>::iterator> d_iter(d_v.end());
+  thrust::reverse_iterator<thrust::device_vector<int>::iterator> d_iter(d_v.end());
 
   ASSERT_EQUAL(*d_iter, 3);
 
@@ -74,12 +74,12 @@ void TestReverseIteratorExclusiveScanSimple(void)
   thrust::host_vector<T>   h_result(h_data.size());
   thrust::device_vector<T> d_result(d_data.size());
 
-  thrust::exclusive_scan(thrust::experimental::make_reverse_iterator(h_data.end()),
-                         thrust::experimental::make_reverse_iterator(h_data.begin()),
+  thrust::exclusive_scan(thrust::make_reverse_iterator(h_data.end()),
+                         thrust::make_reverse_iterator(h_data.begin()),
                          h_result.begin());
 
-  thrust::exclusive_scan(thrust::experimental::make_reverse_iterator(d_data.end()),
-                         thrust::experimental::make_reverse_iterator(d_data.begin()),
+  thrust::exclusive_scan(thrust::make_reverse_iterator(d_data.end()),
+                         thrust::make_reverse_iterator(d_data.begin()),
                          d_result.begin());
 
   ASSERT_EQUAL_QUIET(h_result, d_result);
@@ -99,12 +99,12 @@ struct TestReverseIteratorExclusiveScan
     thrust::host_vector<T>   h_result(n);
     thrust::device_vector<T> d_result(n);
 
-    thrust::exclusive_scan(thrust::experimental::make_reverse_iterator(h_data.end()),
-                           thrust::experimental::make_reverse_iterator(h_data.begin()),
+    thrust::exclusive_scan(thrust::make_reverse_iterator(h_data.end()),
+                           thrust::make_reverse_iterator(h_data.begin()),
                            h_result.begin());
 
-    thrust::exclusive_scan(thrust::experimental::make_reverse_iterator(d_data.end()),
-                           thrust::experimental::make_reverse_iterator(d_data.begin()),
+    thrust::exclusive_scan(thrust::make_reverse_iterator(d_data.end()),
+                           thrust::make_reverse_iterator(d_data.begin()),
                            d_result.begin());
 
     ASSERT_EQUAL_QUIET(h_result, d_result);

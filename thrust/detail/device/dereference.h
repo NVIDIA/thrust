@@ -60,13 +60,8 @@ template<typename Incrementable,
 template <typename IteratorTuple>
   class zip_iterator;
 
-namespace experimental
-{
-
 template <typename BidirectionalIterator>
   class reverse_iterator;
-
-} // end experimental
 
 template <typename ElementIterator, typename IndexIterator>
   class permutation_iterator;
@@ -195,13 +190,13 @@ template<typename IteratorTuple, typename IndexType>
 // reverse_iterator prototypes
 template<typename BidirectionalIterator>
   inline __host__ __device__
-    typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
-      dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter);
+    typename dereference_result< thrust::reverse_iterator<BidirectionalIterator> >::type
+      dereference(const thrust::reverse_iterator<BidirectionalIterator> &iter);
 
 template<typename BidirectionalIterator, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< thrust::experimental::reverse_iterator<BidirectionalIterator> >::type
-      dereference(const thrust::experimental::reverse_iterator<BidirectionalIterator> &iter, IndexType n);
+    typename dereference_result< thrust::reverse_iterator<BidirectionalIterator> >::type
+      dereference(const thrust::reverse_iterator<BidirectionalIterator> &iter, IndexType n);
 
 
 // permutation_iterator prototypes

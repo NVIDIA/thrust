@@ -148,6 +148,7 @@ template <typename ElementIterator,
     template<typename OtherElementIterator, typename OtherIndexIterator>
     __host__ __device__
     permutation_iterator(permutation_iterator<OtherElementIterator,OtherIndexIterator> const &r
+    // XXX remove these guards when we have static_assert
     , typename detail::enable_if_convertible<OtherElementIterator, ElementIterator>::type* = 0
     , typename detail::enable_if_convertible<OtherIndexIterator, IndexIterator>::type* = 0
     )
@@ -181,7 +182,7 @@ template <typename ElementIterator,
  *  and an \c IndexIterator pointing to a range of indices defining an indexing
  *  scheme on the values.
  *
- *  \param e An \c ElementIterator pointing this \p permutation_iterator's range of values.
+ *  \param e An \c ElementIterator pointing to a range of values.
  *  \param i An \c IndexIterator pointing to an indexing scheme to use on \p e.
  *  \return A new \p permutation_iterator which permutes the range \p e by \p i.
  *  \see permutation_iterator

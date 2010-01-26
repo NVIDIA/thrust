@@ -52,8 +52,8 @@ template<typename T, typename Alloc>
     typedef normal_iterator<pointer>        iterator;
     typedef normal_iterator<const_pointer>  const_iterator;
 
-    typedef thrust::experimental::reverse_iterator<iterator>       reverse_iterator;
-    typedef thrust::experimental::reverse_iterator<const_iterator> const_reverse_iterator;
+    typedef thrust::reverse_iterator<iterator>       reverse_iterator;
+    typedef thrust::reverse_iterator<const_iterator> const_reverse_iterator;
 
     /*! This constructor creates an empty vector_base.
      */
