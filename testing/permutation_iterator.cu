@@ -177,3 +177,103 @@ void TestPermutationIteratorReduce(void)
 };
 DECLARE_VECTOR_UNITTEST(TestPermutationIteratorReduce);
 
+void TestPermutationIteratorHostDeviceGather(void)
+{
+    typedef int T;
+    typedef thrust::host_vector<T> HostVector;
+    typedef thrust::host_vector<T> DeviceVector;
+    typedef HostVector::iterator   HostIterator;
+    typedef DeviceVector::iterator DeviceIterator;
+
+    HostVector h_source(8);
+    HostVector h_indices(4);
+    HostVector h_output(4, 10);
+    
+    DeviceVector d_source(8);
+    DeviceVector d_indices(4);
+    DeviceVector d_output(4, 10);
+
+    // initialize source
+    thrust::sequence(h_source.begin(), h_source.end(), 1);
+    thrust::sequence(d_source.begin(), d_source.end(), 1);
+
+    h_indices[0] = d_indices[0] = 3;
+    h_indices[1] = d_indices[1] = 0;
+    h_indices[2] = d_indices[2] = 5;
+    h_indices[3] = d_indices[3] = 7;
+   
+    thrust::permutation_iterator<HostIterator,   HostIterator>   p_h_source(h_source.begin(), h_indices.begin());
+    thrust::permutation_iterator<DeviceIterator, DeviceIterator> p_d_source(d_source.begin(), d_indices.begin());
+
+    // gather host->device
+    thrust::copy(p_h_source, p_h_source + 4, d_output.begin());
+
+    ASSERT_EQUAL(d_output[0], 4);
+    ASSERT_EQUAL(d_output[1], 1);
+    ASSERT_EQUAL(d_output[2], 6);
+    ASSERT_EQUAL(d_output[3], 8);
+    
+    // gather device->host
+    thrust::copy(p_d_source, p_d_source + 4, h_output.begin());
+
+    ASSERT_EQUAL(h_output[0], 4);
+    ASSERT_EQUAL(h_output[1], 1);
+    ASSERT_EQUAL(h_output[2], 6);
+    ASSERT_EQUAL(h_output[3], 8);
+}
+DECLARE_UNITTEST(TestPermutationIteratorHostDeviceGather);
+
+void TestPermutationIteratorHostDeviceScatter(void)
+{
+    typedef int T;
+    typedef thrust::host_vector<T> HostVector;
+    typedef thrust::host_vector<T> DeviceVector;
+    typedef HostVector::iterator   HostIterator;
+    typedef DeviceVector::iterator DeviceIterator;
+
+    HostVector h_source(4,10);
+    HostVector h_indices(4);
+    HostVector h_output(8);
+    
+    DeviceVector d_source(4,10);
+    DeviceVector d_indices(4);
+    DeviceVector d_output(8);
+
+    // initialize source
+    thrust::sequence(h_output.begin(), h_output.end(), 1);
+    thrust::sequence(d_output.begin(), d_output.end(), 1);
+
+    h_indices[0] = d_indices[0] = 3;
+    h_indices[1] = d_indices[1] = 0;
+    h_indices[2] = d_indices[2] = 5;
+    h_indices[3] = d_indices[3] = 7;
+   
+    thrust::permutation_iterator<HostIterator,   HostIterator>   p_h_output(h_output.begin(), h_indices.begin());
+    thrust::permutation_iterator<DeviceIterator, DeviceIterator> p_d_output(d_output.begin(), d_indices.begin());
+
+    // scatter host->device
+    thrust::copy(h_source.begin(), h_source.end(), p_d_output);
+
+    ASSERT_EQUAL(d_output[0], 10);
+    ASSERT_EQUAL(d_output[1],  2);
+    ASSERT_EQUAL(d_output[2],  3);
+    ASSERT_EQUAL(d_output[3], 10);
+    ASSERT_EQUAL(d_output[4],  5);
+    ASSERT_EQUAL(d_output[5], 10);
+    ASSERT_EQUAL(d_output[6],  7);
+    ASSERT_EQUAL(d_output[7], 10);
+    
+    // scatter device->host
+    thrust::copy(d_source.begin(), d_source.end(), p_h_output);
+
+    ASSERT_EQUAL(h_output[0], 10);
+    ASSERT_EQUAL(h_output[1],  2);
+    ASSERT_EQUAL(h_output[2],  3);
+    ASSERT_EQUAL(h_output[3], 10);
+    ASSERT_EQUAL(h_output[4],  5);
+    ASSERT_EQUAL(h_output[5], 10);
+    ASSERT_EQUAL(h_output[6],  7);
+    ASSERT_EQUAL(h_output[7], 10);
+}
+DECLARE_UNITTEST(TestPermutationIteratorHostDeviceScatter);
+
