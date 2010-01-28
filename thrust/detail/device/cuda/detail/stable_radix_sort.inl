@@ -91,7 +91,7 @@ typedef unsigned int uint;
 // uses 2 numElements of shared memory per thread (64 numElements per warp)
 //----------------------------------------------------------------------------
 template<class T, int maxlevel>
-__device__ T scanwarp(T val, T* sData)
+__device__ T scanwarp(T val, volatile T* sData)
 {
     // The following is the same as 2 * RadixSort::warp_size * warpId + threadInWarp = 
     // 64*(threadIdx.x >> 5) + (threadIdx.x & (RadixSort::warp_size - 1))
