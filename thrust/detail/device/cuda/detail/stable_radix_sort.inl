@@ -87,85 +87,43 @@ namespace RadixSort
 typedef unsigned int uint;
 
 //----------------------------------------------------------------------------
-// Scans each warp in parallel ("warp-scan"), one element per thread.
-// uses 2 numElements of shared memory per thread (64 numElements per warp)
-//----------------------------------------------------------------------------
-template<class T, int maxlevel>
-__device__ T scanwarp(T val, volatile T* sData)
-{
-    // The following is the same as 2 * RadixSort::warp_size * warpId + threadInWarp = 
-    // 64*(threadIdx.x >> 5) + (threadIdx.x & (RadixSort::warp_size - 1))
-    int idx = 2 * threadIdx.x - (threadIdx.x & (RadixSort::warp_size - 1));
-    sData[idx] = 0;
-    idx += RadixSort::warp_size;
-    sData[idx] = val;          __SYNC
-
-#ifdef __DEVICE_EMULATION__
-        T t = sData[idx -  1]; __SYNC 
-        sData[idx] += t;       __SYNC
-        t = sData[idx -  2];   __SYNC 
-        sData[idx] += t;       __SYNC
-        t = sData[idx -  4];   __SYNC 
-        sData[idx] += t;       __SYNC
-        t = sData[idx -  8];   __SYNC 
-        sData[idx] += t;       __SYNC
-        t = sData[idx - 16];   __SYNC 
-        sData[idx] += t;       __SYNC
-#else
-        if (0 <= maxlevel) { sData[idx] += sData[idx - 1]; } __SYNC
-        if (1 <= maxlevel) { sData[idx] += sData[idx - 2]; } __SYNC
-        if (2 <= maxlevel) { sData[idx] += sData[idx - 4]; } __SYNC
-        if (3 <= maxlevel) { sData[idx] += sData[idx - 8]; } __SYNC
-        if (4 <= maxlevel) { sData[idx] += sData[idx -16]; } __SYNC
-#endif
-
-    return sData[idx] - val;  // convert inclusive -> exclusive
-}
-
-//----------------------------------------------------------------------------
-// scan4 scans 4*RadixSort::cta_size numElements in a block (4 per thread), using 
-// a warp-scan algorithm
+// scan4 scans 4*RadixSort::cta_size numElements in a block (4 per thread)
 //----------------------------------------------------------------------------
 template <typename T>
 __device__ uint4 scan4(T idata)  //T = uint4
 {    
     extern  __shared__  uint ptr[];
-    
+
+    // sum of thread's 4 values 
+    uint val = idata.x + idata.y + idata.z + idata.w;
+
     uint idx = threadIdx.x;
 
-    uint4 val4 = idata;
-    uint sum[3];
-    sum[0] = val4.x;
-    sum[1] = val4.y + sum[0];
-    sum[2] = val4.z + sum[1];
+    // padding to avoid conditionals in the scan
+    ptr[threadIdx.x] = 0; 
     
-    uint val = val4.w + sum[2];
+    idx += RadixSort::cta_size;
     
-    val = scanwarp<uint, 4>(val, ptr);
+    ptr[idx] = val;
+
     __syncthreads();
+    
+    val += ptr[idx -   1]; __syncthreads(); ptr[idx] = val; __syncthreads();  
+    val += ptr[idx -   2]; __syncthreads(); ptr[idx] = val; __syncthreads(); 
+    val += ptr[idx -   4]; __syncthreads(); ptr[idx] = val; __syncthreads();
+    val += ptr[idx -   8]; __syncthreads(); ptr[idx] = val; __syncthreads();
+    val += ptr[idx -  16]; __syncthreads(); ptr[idx] = val; __syncthreads();
+    val += ptr[idx -  32]; __syncthreads(); ptr[idx] = val; __syncthreads();
+    val += ptr[idx -  64]; __syncthreads(); ptr[idx] = val; __syncthreads();
+    val += ptr[idx - 128]; __syncthreads(); ptr[idx] = val; __syncthreads();
 
-    if ((idx & (RadixSort::warp_size - 1)) == RadixSort::warp_size - 1)
-    {
-        ptr[idx >> 5] = val + val4.w + sum[2];
-    }
-    __syncthreads();
+    // safe because array is padded with 0s to the left
+    val = ptr[idx - 1]; 
 
-#ifndef __DEVICE_EMULATION__
-    if (idx < RadixSort::warp_size)
-#endif
-    {
-        ptr[idx] = scanwarp<uint, 2>(ptr[idx], ptr);
-    }
-    __syncthreads();
-
-    val += ptr[idx >> 5];
-
-    val4.x = val;
-    val4.y = val + sum[0];
-    val4.z = val + sum[1];
-    val4.w = val + sum[2];
-
-    return val4;
+    return make_uint4(val, 
+                      val + idata.x,
+                      val + idata.x + idata.y,
+                      val + idata.x + idata.y + idata.z);
 }
 
 //----------------------------------------------------------------------------
