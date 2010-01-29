@@ -78,14 +78,15 @@ size_t num_multiprocessors(const cudaDeviceProp& properties)
 size_t max_active_threads_per_multiprocessor(const cudaDeviceProp& properties)
 {
     // index this array by [major, minor] revision
-    // \see NVIDIA_CUDA_Programming_Guide_2.1.pdf pp 82--83
-    static const size_t max_active_threads_by_compute_capability[2][4] = \
+    // \see NVIDIA_CUDA_Programming_Guide_3.0.pdf p 140
+    static const size_t max_active_threads_by_compute_capability[3][4] = \
         {{     0,    0,    0,    0},
-         {   768,  768, 1024, 1024}};
+         {   768,  768, 1024, 1024},
+         {  1536, 1536, 1536, 1536}};
 
     // produce valid results for new, unknown devices
-    if (properties.major > 1 || properties.minor > 3)
-        return max_active_threads_by_compute_capability[1][3];
+    if (properties.major > 2 || properties.minor > 3)
+        return max_active_threads_by_compute_capability[2][3];
     else
         return max_active_threads_by_compute_capability[properties.major][properties.minor];
 } // end max_active_threads_per_multiprocessor()
@@ -183,6 +184,8 @@ size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
     size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
 
     size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+
+    // TODO eliminate this constant (i assume this is warp_size)
     size_t granularity        = 32;
 
     size_t max_blocksize     = 0;
@@ -225,6 +228,8 @@ size_t max_blocksize(const cudaDeviceProp& properties,
                      size_t dynamic_smem_bytes_per_thread)
 {
     size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+
+    // TODO eliminate this constant (i assume this is warp_size)
     size_t granularity        = 32;
 
     for(size_t blocksize = largest_blocksize; blocksize != 0; blocksize -= granularity)
