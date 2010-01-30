@@ -35,12 +35,153 @@ namespace thrust
  *  \{
  */
 
-/*! \p device_reference acts as a reference to an object stored in device memory.
+/*! \p device_reference acts as a reference-like object to an object stored in device memory.
  *  \p device_reference is not intended to be used directly; rather, this type
  *  is the result of deferencing a \p device_ptr. Similarly, taking the address of
  *  a \p device_reference yields a \p device_ptr.
+ *  
+ *  \p device_reference may often be used from host code in place of operations defined on
+ *  its associated \c value_type. For example, when \p device_reference refers to an
+ *  arithmetic type, arithmetic operations on it are legal:
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<int> vec(1, 13);
+ *
+ *    thrust::device_reference<int> ref_to_thirteen = vec[0];
+ *
+ *    int x = ref_to_thirteen + 1;
+ *
+ *    // x is 14
+ *
+ *    return 0;
+ *  }
+ *  \endcode
+ *
+ *  Similarly, we can print the value of \c ref_to_thirteen in the above code by using an
+ *  \c iostream:
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <iostream>
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<int> vec(1, 13);
+ *
+ *    thrust::device_reference<int> ref_to_thirteen = vec[0];
+ *
+ *    std::cout << ref_to_thirteen << std::endl;
+ *
+ *    // 13 is printed
+ *
+ *    return 0;
+ *  }
+ *  \endcode
+ *
+ *  Of course, we needn't explicitly create a \p device_reference in the previous
+ *  example, because one is returned by \p device_vector's bracket operator. A more natural
+ *  way to print the value of a \p device_vector element might be:
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <iostream>
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<int> vec(1, 13);
+ *
+ *    std::cout << vec[0] << std::endl;
+ *
+ *    // 13 is printed
+ *
+ *    return 0;
+ *  }
+ *  \endcode
+ *
+ *  These kinds of operations should be used sparingly in performance-critical code, because
+ *  they imply a potentially expensive copy between host and device space.
+ *
+ *  Some operations which are possible with regular objects are impossible with their
+ *  corresponding \p device_reference objects due to the requirements of the C++ language. For
+ *  example, because the member access operator cannot be overloaded, member variables and functions
+ *  of a referent object cannot be directly accessed through its \p device_reference.
+ *
+ *  The following code, which generates a compiler error, illustrates:
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *
+ *  struct foo
+ *  {
+ *    int x;
+ *  };
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<foo> foo_vec(1);
+ *
+ *    thrust::device_reference<foo> foo_ref = foo_vec[0];
+ *
+ *    foo_ref.x = 13; // ERROR: x cannot be accessed through foo_ref
+ *
+ *    return 0;
+ *  }
+ *  \endcode
+ *
+ *  Instead, a host space copy must be created to access \c foo's \c x member:
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *
+ *  struct foo
+ *  {
+ *    int x;
+ *  };
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<foo> foo_vec(1);
+ *
+ *    // create a local host-side foo object
+ *    foo host_foo;
+ *    host_foo.x = 13;
+ *
+ *    thrust::device_reference<foo> foo_ref = foo_vec[0];
+ *
+ *    foo_ref = host_foo;
+ *
+ *    // foo_ref's x member is 13
+ *
+ *    return 0;
+ *  }
+ *  \endcode
+ *  
+ *  Another common case where a \p device_reference cannot directly be used in place of
+ *  its referent object occurs when passing them as parameters to functions like \c printf
+ *  which have varargs parameters. Because varargs parameters must be Plain Old Data, a
+ *  \p device_reference to a POD type requires a cast when passed to \c printf:
+ *
+ *  \code
+ *  #include <stdio.h>
+ *  #include <thrust/device_vector.h>
+ *
+ *  int main(void)
+ *  {
+ *    thrust::device_vector<int> vec(1,13);
+ *
+ *    // vec[0] must be cast to int when passing to printf
+ *    printf("%d\n", (int) vec[0]);
+ *
+ *    return 0;
+ *  }
+ *  \endcode
  *
  *  \see device_ptr
+ *  \see device_vector
  */
 template<typename T>
   class device_reference
