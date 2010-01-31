@@ -53,20 +53,32 @@
 #define THRUST_DEVICE_BACKEND THRUST_DEVICE_BACKEND_CUDA
 #endif // THRUST_DEVICE_BACKEND
 
-// enumerate compilers we know about
-#define THRUST_COMPILER_UNKNOWN 0
-#define THRUST_COMPILER_MSVC    1
-#define THRUST_COMPILER_GCC     2
+// enumerate host compilers we know about
+#define THRUST_HOST_COMPILER_UNKNOWN 0
+#define THRUST_HOST_COMPILER_MSVC    1
+#define THRUST_HOST_COMPILER_GCC     2
 
-// figure out which compiler we're using
+// enumerate host compilers we know about
+#define THRUST_DEVICE_COMPILER_UNKNOWN 0
+#define THRUST_DEVICE_COMPILER_NVCC    1
+
+// figure out which host compiler we're using
+// XXX we should move the definition of THRUST_DEPRECATED out of this logic
 #if   defined(_MSC_VER)
-#define THRUST_COMPILER THRUST_COMPILER_MSVC
+#define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_MSVC
 #define THRUST_DEPRECATED __declspec(deprecated)
 #elif defined(__GNUC__)
-#define THRUST_COMPILER THRUST_COMPILER_GCC
+#define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_GCC
 #define THRUST_DEPRECATED __attribute__ ((deprecated)) 
 #else
-#define THRUST_COMPILER THRUST_COMPILER_UNKNOWN
+#define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_UNKNOWN
 #define THRUST_DEPRECATED
 #endif // THRUST_COMPILER
+
+// figure out which device compiler we're using
+#if defined(__CUDACC__)
+#define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_NVCC
+#else
+#define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_UNKNOWN
+#endif
 

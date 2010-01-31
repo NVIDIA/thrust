@@ -14,15 +14,7 @@
  *  limitations under the License.
  */
 
-
-// do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
-
-#include <algorithm>
-
-#include <thrust/experimental/arch.h>
-#include <thrust/detail/device/cuda/malloc.h>
-#include <thrust/detail/device/cuda/free.h>
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -36,76 +28,8 @@ namespace device
 namespace cuda
 {
 
-namespace detail
-{
-
-template<typename NullaryFunction>
-__global__
-void launch_closure_by_value(NullaryFunction f)
-{
-  f();
-}
-
-template<typename NullaryFunction>
-__global__
-void launch_closure_by_pointer(const NullaryFunction *f)
-{
-  // copy to registers
-  NullaryFunction f_reg = *f;
-  f_reg();
-}
-
-template<typename NullaryFunction,
-         bool launch_by_value = sizeof(NullaryFunction) <= 256>
-  struct closure_launcher
-{
-  template<typename Size>
-  static void launch(NullaryFunction f, Size n)
-  {
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, 0);
-    const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
-
-    detail::launch_closure_by_value<<<num_blocks,block_size>>>(f);
-  }
-};
-
-template<typename NullaryFunction>
-  struct closure_launcher<NullaryFunction,false>
-{
-  template<typename Size>
-  static void launch(NullaryFunction f, Size n)
-  {
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, 0);
-    const size_t num_blocks = std::min(max_blocks, ( n + (block_size - 1) ) / block_size);
-
-    // allocate device memory for the argument
-    thrust::device_ptr<void> temp_ptr = thrust::detail::device::cuda::malloc<0>(sizeof(NullaryFunction));
-
-    // cast to NullaryFunction *
-    thrust::device_ptr<NullaryFunction> f_ptr(reinterpret_cast<NullaryFunction*>(temp_ptr.get()));
-
-    // copy
-    *f_ptr = f;
-
-    // launch
-    detail::launch_closure_by_pointer<<<num_blocks, block_size>>>(f_ptr.get());
-
-    // free device memory
-    thrust::detail::device::cuda::free<0>(f_ptr);
-  }
-};
-
-} // end detail
-
-
 template<typename NullaryFunction, typename Size>
-  void launch_closure(NullaryFunction f, Size n)
-{
-  detail::closure_launcher<NullaryFunction>::launch(f, n);
-}
-
+  void launch_closure(NullaryFunction f, Size n);
 
 } // end cuda
   
@@ -115,5 +39,5 @@ template<typename NullaryFunction, typename Size>
 
 } // end thrust
 
-#endif // __CUDACC__
+#include <thrust/detail/device/cuda/launch_closure.inl>
 

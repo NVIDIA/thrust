@@ -19,13 +19,11 @@
  *  \brief Inline file for for_each.h.
  */
 
-// do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
-
 #include <limits>
 
 #include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/cuda/launch_closure.h>
+#include <thrust/detail/static_assert.h>
 
 namespace thrust
 {
@@ -55,6 +53,8 @@ template<typename RandomAccessIterator,
       f(f_)
   {}
 
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   __device__
   result_type operator()(void)
   {
@@ -72,6 +72,7 @@ template<typename RandomAccessIterator,
       first += grid_size;
     }
   }
+#endif // THRUST_DEVICE_COMPILER_NVCC
 };
 
 
@@ -81,6 +82,13 @@ void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f)
 {
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT(THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC);
+
   if (first >= last) return;  //empty range
 
   typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
@@ -110,6 +118,4 @@ void for_each(InputIterator first,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#endif // __CUDACC__
 

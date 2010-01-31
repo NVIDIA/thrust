@@ -121,10 +121,10 @@ template<typename T> struct is_pod
    : public integral_constant<
        bool,
        is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value
-#if THRUST_COMPILER   == THRUST_COMPILER_MSCC
+#if THRUST_HOST_COMPILER   == THRUST_HOST_COMPILER_MSCC
 // use intrinsic type traits
        || __is_pod(T)
-#elif THRUST_COMPILER == THRUST_COMPILER_GCC
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
        || __is_pod(T)
