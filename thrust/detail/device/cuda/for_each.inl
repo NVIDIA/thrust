@@ -87,7 +87,7 @@ void for_each(InputIterator first,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
   // ========================================================================
-  THRUST_STATIC_ASSERT(THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC);
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
   if (first >= last) return;  //empty range
 

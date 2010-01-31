@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <thrust/detail/type_traits.h>
+
 // based on Boost's BOOST_STATIC_ASSERT
 // see www.boost.org for details.
 
@@ -44,6 +46,12 @@ template <> struct STATIC_ASSERTION_FAILURE<true> { enum { value = 1 }; };
 
 // HP aCC cannot deal with missing names for template value parameters
 template<int x> struct static_assert_test{};
+
+template<typename, bool x>
+  struct depend_on_instantiation
+{
+  static const bool value = x;
+};
 
 } // end detail
 
