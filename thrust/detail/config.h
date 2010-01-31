@@ -73,7 +73,7 @@
 #else
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_UNKNOWN
 #define THRUST_DEPRECATED
-#endif // THRUST_COMPILER
+#endif // THRUST_HOST_COMPILER
 
 // figure out which device compiler we're using
 #if defined(__CUDACC__)

@@ -20,7 +20,7 @@
  */
 
 // do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 // to configure launch parameters
 #include <thrust/experimental/arch.h>
@@ -234,5 +234,5 @@ template<typename InputIterator,
 } // end namespace detail
 } // end namespace thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC
 

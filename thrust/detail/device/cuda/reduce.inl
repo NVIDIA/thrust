@@ -25,6 +25,7 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>
+#include <thrust/detail/static_assert.h>
 
 #include <thrust/detail/device/cuda/reduce_n.h>
 
@@ -120,6 +121,13 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
+    // we're attempting to launch a kernel, assert we're compiling with nvcc
+    // ========================================================================
+    // X Note to the user: If you've found this line due to a compiler error, X
+    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+    // ========================================================================
+    THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
     const bool use_wide_load = thrust::detail::is_pod<InputType>::value 
