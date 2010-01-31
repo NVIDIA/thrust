@@ -189,6 +189,29 @@ DECLARE_UNITTEST(TestScanMixedTypesDevice);
 
 
 template <typename T>
+struct TestScanWithOperator
+{
+  void operator()(const size_t n)
+  {
+    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
+    
+    thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), thrust::maximum<T>());
+    thrust::inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), thrust::maximum<T>());
+    ASSERT_EQUAL(d_output, h_output);
+    
+    thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), T(13), thrust::maximum<T>());
+    thrust::exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), T(13), thrust::maximum<T>());
+    ASSERT_EQUAL(d_output, h_output);
+    }
+};
+VariableUnitTest<TestScanWithOperator, IntegralTypes> TestScanWithOperatorInstance;
+
+
+template <typename T>
 struct TestScan
 {
   void operator()(const size_t n)

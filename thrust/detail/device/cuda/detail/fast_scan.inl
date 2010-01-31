@@ -315,7 +315,7 @@ void exclusive_update(OutputIterator output,
     const unsigned int interval_end   = min(interval_begin + interval_size, N);
 
     // value to add to this segment 
-    OutputType carry = (blockIdx.x == 0) ? init : binary_op(init, block_results[blockIdx.x - 1]);
+    OutputType carry = (blockIdx.x == 0) ? init : binary_op(init, OutputType(block_results[blockIdx.x - 1]));
     OutputType val   = carry;
 
     // advance result iterator
@@ -326,7 +326,7 @@ void exclusive_update(OutputIterator output,
         const unsigned int i = base + threadIdx.x;
 
         if(i < interval_end)
-            sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(output));
+            sdata[threadIdx.x] = binary_op(carry, OutputType(thrust::detail::device::dereference(output)));
 
         __syncthreads();
 
