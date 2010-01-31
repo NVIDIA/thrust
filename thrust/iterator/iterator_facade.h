@@ -33,6 +33,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/iterator_facade.inl>
+#include <thrust/iterator/detail/distance_from_result.h>
 
 #define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Pointer, typename    Value, typename    Space, typename    Traversal, typename    Reference, typename    Difference
 #define ITERATOR_FACADE_FORMAL_PARMS_I(i) typename Derived##i, typename Pointer##i, typename Value##i, typename Space##i, typename Traversal##i, typename Reference##i, typename Difference##i
@@ -95,7 +96,11 @@ class iterator_core_access
     // iterator difference is our friend
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
-    friend typename iterator_facade<ITERATOR_FACADE_ARGS_I(1)>::difference_type
+    friend
+      typename thrust::detail::distance_from_result<
+        iterator_facade<ITERATOR_FACADE_ARGS_I(1)>,
+        iterator_facade<ITERATOR_FACADE_ARGS_I(2)>
+      >::type
     operator-(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
               iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
@@ -149,26 +154,35 @@ class iterator_core_access
       f.advance(n);
     }
 
-    // XXX TODO: Investigate whether we need both of these cases
-    //template <class Facade1, class Facade2>
-    //__host__ __device__
-    //static typename Facade1::difference_type distance_from(Facade1 const& f1, Facade2 const& f2, mpl::true_)
-    //{
-    //  return -f1.distance_to(f2);
-    //}
+    // Facade2 is convertible to Facade1,
+    // so return Facade1's difference_type
+    template <class Facade1, class Facade2>
+    __host__ __device__
+    static typename Facade1::difference_type
+      distance_from(Facade1 const& f1, Facade2 const& f2, thrust::detail::true_type)
+    {
+      return -f1.distance_to(f2);
+    }
 
-    //template <class Facade1, class Facade2>
-    //__host__ __device__
-    //static typename Facade2::difference_type distance_from(Facade1 const& f1, Facade2 const& f2, mpl::false_)
-    //{
-    //  return f2.distance_to(f1);
-    //}
+    // Facade2 is not convertible to Facade1,
+    // so return Facade2's difference_type
+    template <class Facade1, class Facade2>
+    __host__ __device__
+    static typename Facade2::difference_type
+      distance_from(Facade1 const& f1, Facade2 const& f2, thrust::detail::false_type)
+    {
+      return f2.distance_to(f1);
+    }
     
     template <class Facade1, class Facade2>
     __host__ __device__
-    static typename Facade2::difference_type distance_from(Facade1 const& f1, Facade2 const& f2)
+    static typename thrust::detail::distance_from_result<Facade1,Facade2>::type
+      distance_from(Facade1 const& f1, Facade2 const& f2)
     {
-      return f2.distance_to(f1);
+      // dispatch the implementation of this method upon whether or not
+      // Facade2 is convertible to Facade1
+      return distance_from(f1, f2,
+        typename thrust::detail::is_convertible<Facade2,Facade1>::type());
     }
 
     //
@@ -390,9 +404,13 @@ operator >=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
 template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
           ITERATOR_FACADE_FORMAL_PARMS_I(2)>
 inline __host__ __device__
-// XXX investigate whether we need to do extra work to determine the return type
-//     as Boost does
-typename  iterator_facade<ITERATOR_FACADE_ARGS_I(1)>::difference_type
+
+// divine the type this operator returns
+typename thrust::detail::distance_from_result<
+  iterator_facade<ITERATOR_FACADE_ARGS_I(1)>,
+  iterator_facade<ITERATOR_FACADE_ARGS_I(2)>
+>::type
+
 operator-(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
           iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs)
 {
