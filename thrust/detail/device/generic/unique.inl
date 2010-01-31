@@ -29,6 +29,7 @@
 #include <limits>
 
 #include <thrust/detail/device/scan.h>
+#include <thrust/detail/device/copy.h>
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
@@ -131,7 +132,7 @@ OutputIterator unique_copy(InputIterator first,
 
   // ranges with length 0 and 1 are already unique
   if(n < 2)
-    return output + n;  
+      return thrust::detail::device::copy(first, last, output);
 
   // use 32-bit indices when possible (almost always)
   if (sizeof(difference_type) > sizeof(unsigned int) && n > std::numeric_limits<unsigned int>::max())
