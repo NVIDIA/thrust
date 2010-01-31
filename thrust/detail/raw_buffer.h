@@ -40,20 +40,27 @@ template<typename> class normal_iterator;
 template<typename T, typename Space>
   struct choose_raw_buffer_allocator
     : eval_if<
-        // XXX this check is technically incorrect: any could convert to host
-        is_convertible<Space, thrust::host_space_tag>::value,
-
-        identity_< std::allocator<T> >,
-
-        // XXX add backend-specific allocators here?
+        // catch any_space_tag and output an error
+        is_convertible<Space, thrust::any_space_tag>::value,
+        
+        void,
 
         eval_if<
-          // XXX this check is technically incorrect: any could convert to device
-          is_convertible<Space, thrust::device_space_tag>::value,
+          // XXX this check is technically incorrect: any could convert to host
+          is_convertible<Space, thrust::host_space_tag>::value,
 
-          identity_< device_malloc_allocator<T> >,
+          identity_< std::allocator<T> >,
 
-          void
+          // XXX add backend-specific allocators here?
+
+          eval_if<
+            // XXX this check is technically incorrect: any could convert to device
+            is_convertible<Space, thrust::device_space_tag>::value,
+
+            identity_< device_malloc_allocator<T> >,
+
+            void
+          >
         >
       >
 {};
@@ -110,6 +117,7 @@ template<typename T, typename Space>
     // disallow assignment
     raw_buffer &operator=(const raw_buffer &);
 }; // end raw_buffer
+
 
 template<typename T>
   class raw_omp_device_buffer
