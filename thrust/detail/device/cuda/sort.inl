@@ -336,6 +336,13 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
+    // we're attempting to launch a kernel, assert we're compiling with nvcc
+    // ========================================================================
+    // X Note to the user: If you've found this line due to a compiler error, X
+    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+    // ========================================================================
+    THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
     // dispatch on whether we can use radix_sort
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
     static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
@@ -356,6 +363,13 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
+    // we're attempting to launch a kernel, assert we're compiling with nvcc
+    // ========================================================================
+    // X Note to the user: If you've found this line due to a compiler error, X
+    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+    // ========================================================================
+    THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
     // dispatch on whether we can use radix_sort_by_key
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&

@@ -27,8 +27,10 @@
 //   http://www.nvidia.com/object/nvidia_research_pub_002.html
 
 
+#include <thrust/detail/config.h>
+
 // do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
+#ifdef THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/device_ptr.h>
 #include <thrust/scan.h>
@@ -1251,5 +1253,5 @@ void radix_sort_by_key(unsigned int * keys,
 } // end namespace detail
 } // end namespace thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

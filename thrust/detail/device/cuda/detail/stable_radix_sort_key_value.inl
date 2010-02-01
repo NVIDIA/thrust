@@ -14,8 +14,10 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+
 // do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
+#ifdef THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <limits>
 
@@ -307,5 +309,5 @@ void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
 } // end namespace detail
 } // end namespace thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
