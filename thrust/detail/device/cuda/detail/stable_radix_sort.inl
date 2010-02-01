@@ -30,7 +30,7 @@
 #include <thrust/detail/config.h>
 
 // do not attempt to compile this file with any other compiler
-#ifdef THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/device_ptr.h>
 #include <thrust/scan.h>
