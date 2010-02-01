@@ -21,8 +21,10 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 // do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/iterator/iterator_traits.h>
 
@@ -428,5 +430,5 @@ OutputIterator exclusive_scan(InputIterator first,
 } // end namespace detail
 } // end namespace thrust
 
-#endif // #ifdef __CUDACC__
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

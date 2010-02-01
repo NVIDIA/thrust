@@ -20,6 +20,7 @@
  */
 
 #include <thrust/detail/device/cuda/dispatch/scan.h>
+#include <thrust/detail/static_assert.h>
 
 namespace thrust
 {
@@ -38,6 +39,13 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
 {
+    // we're attempting to launch a kernel, assert we're compiling with nvcc
+    // ========================================================================
+    // X Note to the user: If you've found this line due to a compiler error, X
+    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+    // ========================================================================
+    THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
     // whether to use fast_scan or safe_scan
@@ -62,6 +70,13 @@ template<typename InputIterator,
                                 T init,
                                 AssociativeOperator binary_op)
 {
+    // we're attempting to launch a kernel, assert we're compiling with nvcc
+    // ========================================================================
+    // X Note to the user: If you've found this line due to a compiler error, X
+    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+    // ========================================================================
+    THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
     // whether to use fast_scan or safe_scan
