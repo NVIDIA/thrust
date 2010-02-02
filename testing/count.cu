@@ -63,3 +63,18 @@ void TestCountIf(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestCountIf);
 
+
+template <typename Vector>
+void TestCountFromConstIteratorSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data(5);
+    data[0] = 1; data[1] = 1; data[2] = 0; data[3] = 0; data[4] = 1;
+
+    ASSERT_EQUAL(thrust::count(data.cbegin(), data.cend(), 0), 2);
+    ASSERT_EQUAL(thrust::count(data.cbegin(), data.cend(), 1), 3);
+    ASSERT_EQUAL(thrust::count(data.cbegin(), data.cend(), 2), 0);
+}
+DECLARE_VECTOR_UNITTEST(TestCountFromConstIteratorSimple);
+

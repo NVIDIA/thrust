@@ -36,7 +36,7 @@ struct count_transform
   count_transform(InputType2 val) : rhs(val){}
 
   __host__ __device__
-  CountType operator()(InputType1& lhs)
+  CountType operator()(const InputType1& lhs)
   {
     if(lhs == rhs)
       return 1;
@@ -55,7 +55,7 @@ struct count_if_transform
   count_if_transform(Predicate _pred) : pred(_pred){}
 
   __host__ __device__
-  CountType operator()(InputType& val)
+  CountType operator()(const InputType& val)
   {
     if(pred(val))
       return 1;
