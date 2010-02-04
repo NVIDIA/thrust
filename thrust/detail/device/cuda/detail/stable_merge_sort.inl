@@ -908,8 +908,12 @@ template<typename RandomAccessIterator1,
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
   {
     char filename[256];
-    sprintf(filename, "merge_subblocks_binarysearch_kernel.launch.%d.txt", launch_num);
+    sprintf(filename, "merge_subblocks_binarysearch_kernel.input.%d.txt", launch_num);
     std::fstream dumpfile(filename, std::fstream::out);
+
+    dumpfile << "grid_size: " << grid_size << std::endl;
+    dumpfile << "block_size: " << block_size << std::endl;
+    dumpfile << "shared_size: " << block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)) << std::endl;
 
     dumpfile << "keys_first: " << std::endl;
     std::copy(keys_first, keys_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
@@ -961,6 +965,20 @@ template<typename RandomAccessIterator1,
       std::cerr << "CUDA error after merge_subblocks_binarysearch_kernel(): " << cudaGetErrorString(error) << std::endl;
       exit(-1);
     }
+
+    char filename[256];
+    sprintf(filename, "merge_subblocks_binarysearch_kernel.output.%d.txt", launch_num-1);
+    std::fstream dumpfile(filename, std::fstream::out);
+
+    dumpfile << "keys_result: " << std::endl;
+    std::copy(keys_result, keys_result + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+    dumpfile << std::endl;
+
+    dumpfile << "values_result: " << std::endl;
+    std::copy(values_result, values_result + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+    dumpfile << std::endl;
+
+    dumpfile.close();
   }
 #endif
 }
