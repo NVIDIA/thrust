@@ -41,6 +41,13 @@
 
 #include <thrust/detail/device/cuda/block/merging_sort.h>
 
+//#define THRUST_DEBUG_CUDA_MERGE_SORT
+
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+#include <fstream>
+#include <iostream>
+#endif
+
 namespace thrust
 {
 namespace detail
@@ -880,12 +887,57 @@ template<typename RandomAccessIterator1,
                                                                      values_result,
                                                                      log_num_merged_splitters_per_block,
                                                                      num_oddeven_tile_pairs);
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after copy_first_splitters(): " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
 
   const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
 
   max_num_blocks = max_grid_size(block_size);
 
   grid_size = min(num_splitters, max_num_blocks);
+
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+  {
+    static unsigned int launch_num = 0;
+    char filename[256];
+    sprintf(filename, "merge_subblocks_binarysearch_kernel.launch.%d.txt", launch_num);
+    std::fstream dumpfile(filename, std::fstream::out);
+
+    dumpfile << "keys_first: " << std::endl;
+    std::copy(keys_first, keys_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+    dumpfile << std::endl;
+
+    dumpfile << "values_first: " << std::endl;
+    std::copy(values_first, values_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+    dumpfile << std::endl;
+
+    dumpfile << "datasize: " << datasize << std::endl;
+
+    dumpfile << "ranks_first1: " << std::endl;
+    std::copy(ranks_first1, ranks_first1 + num_splitters, std::ostream_iterator<int>(dumpfile, "\n"));
+    dumpfile << std::endl;
+
+    dumpfile << "ranks_first2: " << std::endl;
+    std::copy(ranks_first2, ranks_first2 + num_splitters, std::ostream_iterator<int>(dumpfile, "\n"));
+    dumpfile << std::endl;
+
+    dumpfile << "log_tile_size: " << log_tile_size << std::endl;
+    dumpfile << "log_num_merged_splitters_per_block: " << log_num_merged_splitters_per_block << std::endl;
+    dumpfile << "num_splitters: " << num_splitters << std::endl;
+
+    dumpfile.close();
+
+    ++launch_num;
+  }
+#endif
 
   merge_subblocks_binarysearch_kernel<block_size,log_block_size><<<grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType))>>>(
   	keys_first,
@@ -899,6 +951,16 @@ template<typename RandomAccessIterator1,
   	keys_result,
         values_result,
         comp);
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after merge_subblocks_binarysearch_kernel(): " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
 }
 
 template<typename RandomAccessIterator1,
@@ -959,6 +1021,16 @@ template<typename RandomAccessIterator1,
                                                                               values_result,
                                                                               log_tile_size,
                                                                               comp);
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+    {
+      cudaError_t error = cudaGetLastError();
+      if(error != cudaSuccess)
+      {
+        std::cerr << "CUDA error after merge_smalltiles_binarysearch(): " << cudaGetErrorString(error) << std::endl;
+        exit(-1);
+      }
+    }
+#endif
 
     return;
   } // end if
@@ -984,6 +1056,14 @@ template<typename RandomAccessIterator1,
   raw_cuda_device_buffer<unsigned int> merged_splitters_pos(num_splitters);
 
   extract_splitters<<<grid_size, block_size>>>(keys_first, n, splitters.begin(), splitters_pos.begin());
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after extract_splitters(): " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+#endif
 
   // compute the log base 2 of the block_size
   const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
@@ -1033,6 +1113,17 @@ template<typename RandomAccessIterator1,
        log_tile_size,
        log_num_merged_splitters_per_block,
        comp);
+
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+    {
+      cudaError_t error = cudaGetLastError();
+      if(error != cudaSuccess)
+      {
+        std::cerr << "CUDA error after find_splitter_ranks(): " << cudaGetErrorString(error) << std::endl;
+        exit(-1);
+      }
+    }
+#endif
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
   merge_subblocks_binarysearch(keys_first,

@@ -138,9 +138,20 @@ void TestMergeSortStableKeySimple(void)
 DECLARE_UNITTEST(TestMergeSortStableKeySimple);
 
 
+
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+template <typename U>
+void TestMergeSortAscendingKey(const size_t)
+#else
 template <typename T>
 void TestMergeSortAscendingKey(const size_t n)
+#endif
 {
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+    const size_t n = 65533;
+    typedef int T;
+#endif
+
     thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
