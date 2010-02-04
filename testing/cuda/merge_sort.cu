@@ -86,6 +86,8 @@ void InitializeSimpleStableKeySortTest(Vector& unsorted_keys, Vector& sorted_key
 }
 
 
+#ifndef THRUST_DEBUG_CUDA_MERGE_SORT
+
 void TestMergeSortKeySimple(void)
 {
     typedef thrust::device_vector<int> Vector;
@@ -137,6 +139,8 @@ void TestMergeSortStableKeySimple(void)
 }
 DECLARE_UNITTEST(TestMergeSortStableKeySimple);
 
+#endif // THRUST_DEBUG_CUDA_MERGE_SORT
+
 
 
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
@@ -148,7 +152,26 @@ void TestMergeSortAscendingKey(const size_t n)
 #endif
 {
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
-    const size_t n = 65533;
+
+// XXX these work
+//    const size_t n = 30000;
+//    const size_t n = 32500;
+//    const size_t n = 32750;
+//    const size_t n = 32764;
+//    const size_t n = 32765;
+//    const size_t n = 32768;
+
+// XXX these fail
+      const size_t n = 32769;
+//    const size_t n = 32770;
+//    const size_t n = 32775;
+//    const size_t n = 32800;
+//    const size_t n = 32850;
+//    const size_t n = 33000;
+//    const size_t n = 33750;
+//    const size_t n = 35000;
+//    const size_t n = 40000;
+//    const size_t n = 60000;
     typedef int T;
 #endif
 
@@ -166,6 +189,8 @@ void TestMergeSortAscendingKey(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestMergeSortAscendingKey);
 
+
+#ifndef THRUST_DEBUG_CUDA_MERGE_SORT
 
 void TestMergeSortDescendingKey(void)
 {
@@ -279,6 +304,8 @@ void TestMergeSortByKeyUnalignedSimple(void)
     }
 }
 DECLARE_UNITTEST(TestMergeSortByKeyUnalignedSimple);
+
+#endif // THRUST_DEBUG_CUDA_MERGE_SORT
 
 #endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
