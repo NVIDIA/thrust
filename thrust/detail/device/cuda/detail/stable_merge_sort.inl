@@ -46,6 +46,7 @@
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
 #include <fstream>
 #include <iostream>
+unsigned int launch_num = 0;
 #endif
 
 namespace thrust
@@ -906,7 +907,6 @@ template<typename RandomAccessIterator1,
 
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
   {
-    static unsigned int launch_num = 0;
     char filename[256];
     sprintf(filename, "merge_subblocks_binarysearch_kernel.launch.%d.txt", launch_num);
     std::fstream dumpfile(filename, std::fstream::out);
@@ -934,6 +934,8 @@ template<typename RandomAccessIterator1,
     dumpfile << "num_splitters: " << num_splitters << std::endl;
 
     dumpfile.close();
+    
+    std::cerr << "launch_num: " << launch_num << std::endl;
 
     ++launch_num;
   }
