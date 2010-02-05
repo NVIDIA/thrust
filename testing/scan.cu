@@ -320,8 +320,8 @@ void TestScanWithLargeTypes(void)
     _TestScanWithLargeTypes<int,    2>();
     _TestScanWithLargeTypes<int,    4>();
     _TestScanWithLargeTypes<int,    8>();
-    _TestScanWithLargeTypes<int,   16>();
-    _TestScanWithLargeTypes<int,   32>();
+    //_TestScanWithLargeTypes<int,   16>();
+    //_TestScanWithLargeTypes<int,   32>();
     //_TestScanWithLargeTypes<int,   64>();  // too large to pass as argument
     //_TestScanWithLargeTypes<int,  128>();
     //_TestScanWithLargeTypes<int,  256>();
