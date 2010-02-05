@@ -61,6 +61,28 @@ void TestReverseIteratorIncrement(void)
 }
 DECLARE_UNITTEST(TestReverseIteratorIncrement);
 
+template <typename Vector>
+void TestReverseIteratorCopy(void)
+{
+  Vector source(4);
+  source[0] = 10;
+  source[1] = 20;
+  source[2] = 30;
+  source[3] = 40;
+
+  Vector destination(4,0);
+  
+  thrust::copy(thrust::make_reverse_iterator(source.end()),
+               thrust::make_reverse_iterator(source.begin()),
+               destination.begin());
+
+  ASSERT_EQUAL(destination[0], 40);
+  ASSERT_EQUAL(destination[1], 30);
+  ASSERT_EQUAL(destination[2], 20);
+  ASSERT_EQUAL(destination[3], 10);
+}
+DECLARE_VECTOR_UNITTEST(TestReverseIteratorCopy);
+
 void TestReverseIteratorExclusiveScanSimple(void)
 {
   typedef int T;
