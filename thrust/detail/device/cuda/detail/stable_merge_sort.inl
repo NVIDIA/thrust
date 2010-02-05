@@ -46,7 +46,26 @@
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
 #include <fstream>
 #include <iostream>
+#include <thrust/pair.h>
+#include <thrust/device_reference.h>
 unsigned int launch_num = 0;
+unsigned int stable_odd_even_block_sort_kernel_launch_num = 0;
+
+template<typename T> struct is_pair : thrust::detail::false_type {};
+template<typename T1,typename T2> struct is_pair< thrust::pair<T1,T2> > : thrust::detail::true_type {};
+
+template<typename T>
+void serialize(std::ostream &os, T x, thrust::detail::true_type)
+{
+  os << x.first << " " << x.second;
+}
+
+template<typename T>
+void serialize(std::ostream &os, T x, thrust::detail::false_type)
+{
+  os << x;
+}
+
 #endif
 
 namespace thrust
@@ -282,10 +301,15 @@ template<unsigned int block_size,
   typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
 
   // XXX workaround no constructors on device arrays
-  __shared__ unsigned char s_keys_workaround[block_size * sizeof(KeyType)];
+//  __shared__ unsigned char s_keys_workaround[block_size * sizeof(KeyType)];
+//  KeyType *s_keys = reinterpret_cast<KeyType*>(s_keys_workaround);
+//
+//  __shared__ unsigned char s_data_workaround[block_size * sizeof(ValueType)];
+//  ValueType *s_data = reinterpret_cast<ValueType*>(s_data_workaround);
+  __shared__ int s_keys_workaround[align_size_to_int<block_size * sizeof(KeyType)>::value];
   KeyType *s_keys = reinterpret_cast<KeyType*>(s_keys_workaround);
 
-  __shared__ unsigned char s_data_workaround[block_size * sizeof(ValueType)];
+  __shared__ int s_data_workaround[align_size_to_int<block_size * sizeof(ValueType)>::value];
   ValueType *s_data = reinterpret_cast<ValueType*>(s_data_workaround);
 
   const unsigned int grid_size = gridDim.x * blockDim.x;
@@ -578,10 +602,21 @@ template<unsigned int block_size,
   // write the first warp_size - start_thread_aligned elements
   if(threadIdx.x < warp_size && threadIdx.x >= start_thread_aligned && (threadIdx.x - start_thread_aligned < num_elements))
   {
-    RandomAccessIterator1 first1_temp  =  first1 + threadIdx.x - start_thread_aligned;
-    RandomAccessIterator2 first2_temp  =  first2 + threadIdx.x - start_thread_aligned;
-    RandomAccessIterator3 result1_temp = result1 + threadIdx.x - start_thread_aligned + dest_offset;
-    RandomAccessIterator4 result2_temp = result2 + threadIdx.x - start_thread_aligned + dest_offset;
+    unsigned int offset = threadIdx.x - start_thread_aligned;
+
+    // carefully create these iterator without creating temporary objects
+    RandomAccessIterator1 first1_temp  = first1;
+    first1_temp += offset;
+
+    RandomAccessIterator2 first2_temp  = first2;
+    first2_temp += offset;
+
+    RandomAccessIterator3 result1_temp = result1;
+    result1_temp += offset + dest_offset;
+
+    RandomAccessIterator4 result2_temp = result2;
+    result2_temp += offset + dest_offset;
+
 
     dereference(result1_temp) = dereference(first1_temp);
     dereference(result2_temp) = dereference(first2_temp);
@@ -606,6 +641,7 @@ template<unsigned int block_size,
   __syncthreads();
 }
 
+// XXX we should eliminate this in favor of block::copy
 ///////////////////// Helper function to read in data in an aligned manner ////////////////////////////////////////
 template<unsigned int block_size,
          typename RandomAccessIterator1,
@@ -625,12 +661,24 @@ template<unsigned int block_size,
   unsigned int start_thread_aligned = src_offset%warp_size;
   
   // write the first warp_size - start_thread_aligned elements
-  if(threadIdx.x < warp_size && threadIdx.x >= start_thread_aligned && (threadIdx.x - start_thread_aligned < num_elements))
+  if((threadIdx.x < warp_size) &&
+     (threadIdx.x >= start_thread_aligned) &&
+     ((threadIdx.x - start_thread_aligned) < num_elements))
   {
-      RandomAccessIterator1 first1_temp  = first1  + threadIdx.x - start_thread_aligned + src_offset;
-      RandomAccessIterator2 first2_temp  = first2  + threadIdx.x - start_thread_aligned + src_offset;
-      RandomAccessIterator3 result1_temp = result1 + threadIdx.x - start_thread_aligned;
-      RandomAccessIterator4 result2_temp = result2 + threadIdx.x - start_thread_aligned;
+      // carefully create these iterators without causing creation of temporary objects
+      unsigned int offset = threadIdx.x - start_thread_aligned;
+
+      RandomAccessIterator1 first1_temp  = first1;
+      first1_temp += offset + src_offset;
+
+      RandomAccessIterator2 first2_temp  = first2;
+      first2_temp += offset + src_offset;
+
+      RandomAccessIterator3 result1_temp = result1;
+      result1_temp += offset;
+
+      RandomAccessIterator4 result2_temp = result2;
+      result2_temp += offset;
 
       dereference(result1_temp) = dereference(first1_temp);
       dereference(result2_temp) = dereference(first2_temp);
@@ -644,7 +692,7 @@ template<unsigned int block_size,
   result1 += i;
   result2 += i;
   
-  //write upto block_size elements in each iteration 
+  // write up to block_size elements in each iteration 
   for(;
       i < num_elements;
       i += block_size, first1 + block_size, first2 += block_size, result1 += block_size, result2 += block_size)
@@ -692,11 +740,25 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
   typedef typename iterator_value<RandomAccessIterator5>::type KeyType;
   typedef typename iterator_value<RandomAccessIterator6>::type ValueType;
 
-  extern __shared__ char A[];
-  KeyType * input1 = (KeyType *)(A);
-  KeyType * input2 = (KeyType *)(A + sizeof(KeyType)*block_size);
-  ValueType * input1val = (ValueType *)(A + sizeof(KeyType)*(2*block_size));
-  ValueType * input2val = (ValueType *)(A + sizeof(KeyType)*(2*block_size) + sizeof(ValueType)*block_size);
+//  extern __shared__ char A[];
+//  KeyType * input1 = (KeyType *)(A);
+//  KeyType * input2 = (KeyType *)(A + sizeof(KeyType)*block_size);
+//  ValueType * input1val = (ValueType *)(A + sizeof(KeyType)*(2*block_size));
+//  ValueType * input2val = (ValueType *)(A + sizeof(KeyType)*(2*block_size) + sizeof(ValueType)*block_size);
+
+  // use int for these shared arrays due to alignment issues
+  __shared__ int input1_workaround[align_size_to_int<block_size * sizeof(KeyType)>::value];
+  KeyType *input1 = reinterpret_cast<KeyType*>(input1_workaround);
+
+  __shared__ int input2_workaround[align_size_to_int<block_size * sizeof(KeyType)>::value];
+  KeyType *input2 = reinterpret_cast<KeyType*>(input2_workaround);
+
+  __shared__ int input1val_workaround[align_size_to_int<block_size * sizeof(ValueType)>::value];
+  ValueType *input1val = reinterpret_cast<ValueType*>(input1val_workaround);
+
+  __shared__ int input2val_workaround[align_size_to_int<block_size * sizeof(ValueType)>::value];
+  ValueType *input2val = reinterpret_cast<ValueType*>(input2val_workaround);
+
 
   // advance iterators
   unsigned int i = blockIdx.x;
@@ -750,11 +812,12 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
       size2 -= start2;
     } // end if
     __syncthreads();
+
     
     // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
     // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
-    RandomAccessIterator1 local_keys_first1 = keys_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
-    RandomAccessIterator1 local_keys_first2 = local_keys_first1 + (1<<log_tile_size);
+    RandomAccessIterator1 local_keys_first1   = keys_first   + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+    RandomAccessIterator1 local_keys_first2   = local_keys_first1   + (1<<log_tile_size);
 
     RandomAccessIterator2 local_values_first1 = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
     RandomAccessIterator2 local_values_first2 = local_values_first1 + (1<<log_tile_size);
@@ -766,7 +829,7 @@ __global__ void merge_subblocks_binarysearch_kernel(RandomAccessIterator1 keys_f
     
     // Read in other side
     aligned_read<block_size>(local_keys_first2, local_values_first2, input2, input2val, start2, size2);
-    
+
     KeyType inp1 = input1[threadIdx.x]; ValueType inp1val = input1val[threadIdx.x];
     KeyType inp2 = input2[threadIdx.x]; ValueType inp2val = input2val[threadIdx.x];
 
@@ -906,43 +969,43 @@ template<typename RandomAccessIterator1,
   grid_size = min(num_splitters, max_num_blocks);
 
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
-  {
-    char filename[256];
-    sprintf(filename, "merge_subblocks_binarysearch_kernel.input.%d.txt", launch_num);
-    std::fstream dumpfile(filename, std::fstream::out);
-
-    dumpfile << "grid_size: " << grid_size << std::endl;
-    dumpfile << "block_size: " << block_size << std::endl;
-    dumpfile << "shared_size: " << block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)) << std::endl;
-
-    dumpfile << "keys_first: " << std::endl;
-    std::copy(keys_first, keys_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
-    dumpfile << std::endl;
-
-    dumpfile << "values_first: " << std::endl;
-    std::copy(values_first, values_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
-    dumpfile << std::endl;
-
-    dumpfile << "datasize: " << datasize << std::endl;
-
-    dumpfile << "ranks_first1: " << std::endl;
-    std::copy(ranks_first1, ranks_first1 + num_splitters, std::ostream_iterator<int>(dumpfile, "\n"));
-    dumpfile << std::endl;
-
-    dumpfile << "ranks_first2: " << std::endl;
-    std::copy(ranks_first2, ranks_first2 + num_splitters, std::ostream_iterator<int>(dumpfile, "\n"));
-    dumpfile << std::endl;
-
-    dumpfile << "log_tile_size: " << log_tile_size << std::endl;
-    dumpfile << "log_num_merged_splitters_per_block: " << log_num_merged_splitters_per_block << std::endl;
-    dumpfile << "num_splitters: " << num_splitters << std::endl;
-
-    dumpfile.close();
-    
-    std::cerr << "launch_num: " << launch_num << std::endl;
-
-    ++launch_num;
-  }
+//  {
+//    char filename[256];
+//    sprintf(filename, "merge_subblocks_binarysearch_kernel.input.%d.txt", launch_num);
+//    std::fstream dumpfile(filename, std::fstream::out);
+//
+//    dumpfile << "grid_size: " << grid_size << std::endl;
+//    dumpfile << "block_size: " << block_size << std::endl;
+//    dumpfile << "shared_size: " << block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)) << std::endl;
+//    dumpfile << "datasize: " << datasize << std::endl;
+//
+//    dumpfile << "keys_first: " << std::endl;
+//    std::copy(keys_first, keys_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+//    dumpfile << std::endl;
+//
+//    dumpfile << "values_first: " << std::endl;
+//    std::copy(values_first, values_first + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+//    dumpfile << std::endl;
+//
+//    dumpfile << "num_splitters: " << num_splitters << std::endl;
+//
+//    dumpfile << "ranks_first1: " << std::endl;
+//    std::copy(ranks_first1, ranks_first1 + num_splitters, std::ostream_iterator<int>(dumpfile, "\n"));
+//    dumpfile << std::endl;
+//
+//    dumpfile << "ranks_first2: " << std::endl;
+//    std::copy(ranks_first2, ranks_first2 + num_splitters, std::ostream_iterator<int>(dumpfile, "\n"));
+//    dumpfile << std::endl;
+//
+//    dumpfile << "log_tile_size: " << log_tile_size << std::endl;
+//    dumpfile << "log_num_merged_splitters_per_block: " << log_num_merged_splitters_per_block << std::endl;
+//
+//    dumpfile.close();
+//    
+//    std::cerr << "launch_num: " << launch_num << std::endl;
+//
+//    ++launch_num;
+//  }
 #endif
 
   merge_subblocks_binarysearch_kernel<block_size,log_block_size><<<grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType))>>>(
@@ -966,19 +1029,19 @@ template<typename RandomAccessIterator1,
       exit(-1);
     }
 
-    char filename[256];
-    sprintf(filename, "merge_subblocks_binarysearch_kernel.output.%d.txt", launch_num-1);
-    std::fstream dumpfile(filename, std::fstream::out);
-
-    dumpfile << "keys_result: " << std::endl;
-    std::copy(keys_result, keys_result + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
-    dumpfile << std::endl;
-
-    dumpfile << "values_result: " << std::endl;
-    std::copy(values_result, values_result + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
-    dumpfile << std::endl;
-
-    dumpfile.close();
+//    char filename[256];
+//    sprintf(filename, "merge_subblocks_binarysearch_kernel.output.%d.txt", launch_num-1);
+//    std::fstream dumpfile(filename, std::fstream::out);
+//
+//    dumpfile << "keys_result: " << std::endl;
+//    std::copy(keys_result, keys_result + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+//    dumpfile << std::endl;
+//
+//    dumpfile << "values_result: " << std::endl;
+//    std::copy(values_result, values_result + datasize, std::ostream_iterator<int>(dumpfile, "\n"));
+//    dumpfile << std::endl;
+//
+//    dumpfile.close();
   }
 #endif
 }
@@ -1243,8 +1306,48 @@ template<typename RandomAccessIterator1,
 
   size_t grid_size = merge_sort_dev_namespace::min<size_t>(num_blocks, max_num_blocks);
 
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+  {
+    char filename[256];
+    sprintf(filename, "stable_odd_even_block_sort_kernel.input.%d.txt", stable_odd_even_block_sort_kernel_launch_num);
+    std::fstream dumpfile(filename, std::fstream::out);
+
+    dumpfile << "grid_size " << grid_size << std::endl;
+    dumpfile << "block_size " << block_size << std::endl;
+    dumpfile << "n " << n << std::endl;
+
+    dumpfile << "keys_first " << std::endl;
+    for(int i = 0; i < n; ++i)
+    {
+      serialize(dumpfile, (KeyType)keys_first[i], is_pair<KeyType>());
+      dumpfile << std::endl;
+    }
+
+    dumpfile << "values_first " << std::endl;
+    for(int i = 0; i < n; ++i)
+    {
+      serialize(dumpfile, (ValueType)values_first[i], is_pair<ValueType>());
+      dumpfile << std::endl;
+    }
+    dumpfile.close();
+
+    ++stable_odd_even_block_sort_kernel_launch_num;
+  }
+#endif
+
   // do an odd-even sort per block of data
   merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<block_size><<<grid_size, block_size>>>(keys_first, values_first, comp, n);
+
+#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after stable_odd_even_block_sort_kernel(): " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
 
   // scratch space
   using namespace thrust::detail;
