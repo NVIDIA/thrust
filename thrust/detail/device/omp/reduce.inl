@@ -34,10 +34,6 @@ namespace device
 namespace omp
 {
 
-#if defined(__CUDACC__) && (CUDA_VERSION < 3000)
-
-// CUDA v2.3 and earlier strip OpenMP #pragmas from template functions
-
 template <typename InputIterator,
           typename OutputType,
           typename BinaryFunction>
@@ -46,28 +42,7 @@ OutputType reduce(InputIterator first,
                   OutputType init,
                   BinaryFunction binary_op)
 {
-    // initialize the result
-    OutputType result = init;
-
-    while(first != last)
-    {
-        result = binary_op(result, thrust::detail::device::dereference(first));
-        first++;
-    } // end while
-
-    return result;
-}
-
-#else
-
-template <typename InputIterator,
-          typename OutputType,
-          typename BinaryFunction>
-OutputType reduce(InputIterator first,
-                  InputIterator last,
-                  OutputType init,
-                  BinaryFunction binary_op)
-{
+    // XXX static assert that the compiler can generate omp
     typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
 
     if (first == last)
@@ -104,8 +79,6 @@ OutputType reduce(InputIterator first,
 
     return total_sum;
 }
-
-#endif //#if defined(__CUDACC__) && (CUDA_VERSION < 3000)
 
 } // end namespace omp
 } // end namespace device

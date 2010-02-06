@@ -19,7 +19,9 @@
  *  \brief Inline file for fill.h.
  */
 
-#ifdef __CUDACC__
+#include <thrust/detail/config.h>
+
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 /////////////////////
 // NVCC definition //
@@ -184,5 +186,5 @@ template<typename ForwardIterator, typename T>
 } // end namespace detail
 } // end namespace thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER_NVCC
 

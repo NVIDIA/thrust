@@ -19,9 +19,10 @@
  *  \brief Inline file for segmented_scan.h.
  */
 
-// do not attempt to compile this file with any other compiler
-#ifdef __CUDACC__
+#include <thrust/detail/config.h>
 
+// do not attempt to compile this file with any other compiler
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/experimental/arch.h>
 #include <thrust/functional.h>
@@ -736,5 +737,5 @@ template<typename InputIterator1,
 
 } // end namespace thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER_NVCC
 

@@ -17,9 +17,11 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 // don't attempt to compile with any compiler other than nvcc
 // due to use of __shared__ below
-#ifdef __CUDACC__
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 namespace thrust
 {
@@ -60,5 +62,5 @@ template<typename T>
 
 } // end thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER_NVCC
 

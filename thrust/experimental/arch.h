@@ -28,10 +28,11 @@
 // #include this for size_t
 #include <cstddef>
 
-#ifdef __CUDACC__
-
 // #include this for dim3
 #include <vector_types.h>
+
+// #include this for cudaDeviceProp
+#include <cuda_runtime_api.h>
 
 namespace thrust
 {
@@ -109,6 +110,4 @@ size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread
 } // end namespace thrust
 
 #include <thrust/experimental/arch.inl>
-
-#endif
 

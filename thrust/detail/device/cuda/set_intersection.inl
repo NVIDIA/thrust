@@ -19,7 +19,9 @@
  *         based on Gregory Diamos' original implementation.
  */
 
-#ifdef __CUDACC__
+#include <thrust/detail/config.h>
+
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 // TODO use thrust/detail/device/ where possible
 #include <thrust/iterator/iterator_traits.h>
@@ -358,5 +360,5 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
 } // end namespace detail
 } // end namespace thrust
 
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER_NVCC
 

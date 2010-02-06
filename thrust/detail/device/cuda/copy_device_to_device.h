@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/transform.h>
@@ -61,7 +62,7 @@ template<typename InputIterator,
     // general case (mixed types)
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
-#ifdef __CUDACC__
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     return thrust::detail::device::transform(begin, end, result, thrust::identity<InputType>());
 #else
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
@@ -77,7 +78,7 @@ template<typename InputIterator,
     result = thrust::detail::device::cuda::copy_cross_space(temp2.begin(), temp2.end(), result);
 
     return result;
-#endif // __CUDACC__
+#endif // THRUST_DEVICE_COMPILER_NVCC
 }
 
 
