@@ -44,6 +44,8 @@
 #endif // __CUDACC__
 
 #define THRUST_UNKNOWN 0
+#define THRUST_FALSE   0
+#define THRUST_TRUE    1
 
 // XXX reserve 0 for undefined
 #define THRUST_DEVICE_BACKEND_CUDA    1
@@ -60,7 +62,9 @@
 
 // enumerate host compilers we know about
 #define THRUST_DEVICE_COMPILER_UNKNOWN 0
-#define THRUST_DEVICE_COMPILER_NVCC    1
+#define THRUST_DEVICE_COMPILER_MSVC    1
+#define THRUST_DEVICE_COMPILER_GCC     2
+#define THRUST_DEVICE_COMPILER_NVCC    3
 
 // figure out which host compiler we're using
 // XXX we should move the definition of THRUST_DEPRECATED out of this logic
@@ -78,7 +82,23 @@
 // figure out which device compiler we're using
 #if defined(__CUDACC__)
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_NVCC
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_MSVC
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 #else
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_UNKNOWN
 #endif
+
+// is the device compiler capable of compiling omp?
+#ifdef _OPENMP
+#define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_TRUE
+#else
+#define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
+#endif // _OPENMP
+
+// check for nvcc < 3.0, which strips omp #pragmas
+#if (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
+#undef THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
+#endif // _OPENMP
 

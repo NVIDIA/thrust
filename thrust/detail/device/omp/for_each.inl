@@ -19,10 +19,8 @@
  *  \brief Inline file for for_each.h.
  */
 
-// do not attempt to compile this code unless the compiler is generating multicore code
-// TODO: do this check inside omp::for_each with static_assert
-#ifdef _OPENMP
-
+#include <thrust/detail/config.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
@@ -42,6 +40,14 @@ void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f)
 {
+  // we're attempting to launch an omp kernel, assert we're compiling with omp support
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to OpenMP support in your compiler.                         X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
+                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
   difference n = thrust::distance(first,last);
 
@@ -60,6 +66,4 @@ void for_each(InputIterator first,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#endif // _OPENMP
 

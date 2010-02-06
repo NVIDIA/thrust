@@ -16,10 +16,9 @@
 
 #pragma once
 
-// do not guard this implementation from _OPENMP since we need a serial fall-back
-// for vector's pure-c++ subset mode
 // TODO: eliminate the need for this function once we have done away with device::dereference()
 
+#include <thrust/detail/config.h>
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/device/dereference.h>
@@ -47,9 +46,9 @@ OutputIterator copy_device_to_device(InputIterator first,
 
 // are we compiling with omp support?
 // if no, we serialize on the "host"
-#ifdef _OPENMP
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 #pragma omp parallel for
-#endif // _OPENMP
+#endif // omp support
   for(difference i = 0;
       i < n;
       ++i)

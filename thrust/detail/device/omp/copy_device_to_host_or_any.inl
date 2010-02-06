@@ -16,11 +16,10 @@
 
 #pragma once
 
-// do not attempt to compile this code unless the compiler is generating multicore code
-// TODO: do this check inside omp::copy_device_to_host_or_any with static_assert
 // TODO: eliminate the need for this function once we have done away with device::dereference()
-#ifdef _OPENMP
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/device/dereference.h>
@@ -43,6 +42,14 @@ OutputIterator copy_device_to_host_or_any(InputIterator first,
                                           InputIterator last,
                                           OutputIterator result)
 {
+  // we're attempting to launch an omp kernel, assert we're compiling with omp support
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to OpenMP support in your compiler.                         X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
+                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
   difference n = thrust::distance(first,last);
 
@@ -65,6 +72,4 @@ OutputIterator copy_device_to_host_or_any(InputIterator first,
 } // end detail
 
 } // end thrust
-
-#endif // _OPENMP
 

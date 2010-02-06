@@ -14,12 +14,11 @@
  *  limitations under the License.
  */
 
-// don't attempt to compile this file without omp support
-// XXX we need a better way to WAR missing omp.h
-
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
-
+// don't attempt to #include this file without omp support
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 #include <omp.h>
+#endif // omp support
+
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/detail/raw_buffer.h>
@@ -42,7 +41,14 @@ OutputType reduce(InputIterator first,
                   OutputType init,
                   BinaryFunction binary_op)
 {
-    // XXX static assert that the compiler can generate omp
+    // we're attempting to launch an omp kernel, assert we're compiling with omp support
+    // ========================================================================
+    // X Note to the user: If you've found this line due to a compiler error, X
+    // X you need to OpenMP support in your compiler.                         X
+    // ========================================================================
+    THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
+                          (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+
     typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
 
     if (first == last)
@@ -50,6 +56,10 @@ OutputType reduce(InputIterator first,
 
     difference_type N = thrust::distance(first, last);
 
+// do not attempt to compile the body of this function, which calls omp functions, without
+// support from the compiler
+// XXX implement the body of this function in another file to eliminate this ugliness
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
     int num_threads = std::min<difference_type>(omp_get_max_threads(), N);
 
     thrust::detail::raw_omp_device_buffer<OutputType> thread_results(first, first + num_threads);
@@ -70,12 +80,16 @@ OutputType reduce(InputIterator first,
 
         thread_results[thread_id] = thread_sum;
     }
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 
     OutputType total_sum = init;
+
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
     for (typename thrust::detail::raw_omp_device_buffer<OutputType>::iterator result = thread_results.begin();
          result != thread_results.end();
          ++result)
         total_sum = binary_op(total_sum, thrust::detail::device::dereference(result));
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 
     return total_sum;
 }
@@ -84,6 +98,4 @@ OutputType reduce(InputIterator first,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#endif // THRUST_DEVICE_BACKEND
 
