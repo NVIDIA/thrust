@@ -2,6 +2,7 @@
 #include <thrust/tuple.h>
 #include <thrust/sort.h>
 #include <thrust/scan.h>
+#include <thrust/generate.h>
 #include <thrust/is_sorted.h>
 
 using namespace thrusttest;
@@ -493,4 +494,130 @@ struct TestTupleTransform
   }
 };
 VariableUnitTest<TestTupleTransform, NumericTypes> TestTupleTransformInstance;
+
+template <typename T>
+struct TestTupleTieFunctor
+{
+  __host__ __device__
+  void clear(T *data) const
+  {
+    for(int i = 0; i < 10; ++i)
+      data[i] = 13;
+  }
+
+  __host__ __device__
+  bool operator()() const
+  {
+    using namespace thrust;
+
+    bool result = true;
+
+    T data[10];
+    clear(data);
+
+    tie(data[0]) = make_tuple(0);;
+    result &= data[0] == 0;
+    clear(data);
+
+    tie(data[0], data[1]) = make_tuple(0,1);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    clear(data);
+
+    tie(data[0], data[1], data[2]) = make_tuple(0,1,2);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3]) = make_tuple(0,1,2,3);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3], data[4]) = make_tuple(0,1,2,3,4);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    result &= data[4] == 4;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3], data[4], data[5]) = make_tuple(0,1,2,3,4,5);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    result &= data[4] == 4;
+    result &= data[5] == 5;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3], data[4], data[5], data[6]) = make_tuple(0,1,2,3,4,5,6);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    result &= data[4] == 4;
+    result &= data[5] == 5;
+    result &= data[6] == 6;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]) = make_tuple(0,1,2,3,4,5,6,7);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    result &= data[4] == 4;
+    result &= data[5] == 5;
+    result &= data[6] == 6;
+    result &= data[7] == 7;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]) = make_tuple(0,1,2,3,4,5,6,7,8);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    result &= data[4] == 4;
+    result &= data[5] == 5;
+    result &= data[6] == 6;
+    result &= data[7] == 7;
+    result &= data[8] == 8;
+    clear(data);
+
+    tie(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]) = make_tuple(0,1,2,3,4,5,6,7,8,9);
+    result &= data[0] == 0;
+    result &= data[1] == 1;
+    result &= data[2] == 2;
+    result &= data[3] == 3;
+    result &= data[4] == 4;
+    result &= data[5] == 5;
+    result &= data[6] == 6;
+    result &= data[7] == 7;
+    result &= data[8] == 8;
+    result &= data[9] == 9;
+    clear(data);
+
+    return result;
+  }
+};
+
+template <typename T>
+struct TestTupleTie
+{
+  void operator()(void)
+  {
+    thrust::host_vector<bool> h_result(1);
+    thrust::generate(h_result.begin(), h_result.end(), TestTupleTieFunctor<T>());
+
+    thrust::device_vector<bool> d_result(1);
+    thrust::generate(d_result.begin(), d_result.end(), TestTupleTieFunctor<T>());
+
+    ASSERT_EQUAL(true, h_result[0]);
+    ASSERT_EQUAL(true, d_result[0]);
+  }
+};
+SimpleUnitTest<TestTupleTie, NumericTypes> TestTupleTieInstance;
 

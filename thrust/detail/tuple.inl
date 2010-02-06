@@ -715,6 +715,77 @@ __host__ __device__ inline
 } // end make_tuple()
 
 
+template<typename T0>
+__host__ __device__ inline
+tuple<T0&> tie(T0 &t0)
+{
+  return tuple<T0&>(t0);
+}
+
+template<typename T0,typename T1>
+__host__ __device__ inline
+tuple<T0&,T1&> tie(T0 &t0, T1 &t1)
+{
+  return tuple<T0&,T1&>(t0,t1);
+}
+
+template<typename T0,typename T1, typename T2>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&> tie(T0 &t0, T1 &t1, T2 &t2)
+{
+  return tuple<T0&,T1&,T2&>(t0,t1,t2);
+}
+
+template<typename T0,typename T1, typename T2, typename T3>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3)
+{
+  return tuple<T0&,T1&,T2&,T3&>(t0,t1,t2,t3);
+}
+
+template<typename T0,typename T1, typename T2, typename T3, typename T4>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&,T4&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3, T4 &t4)
+{
+  return tuple<T0&,T1&,T2&,T3&,T4&>(t0,t1,t2,t3,t4);
+}
+
+template<typename T0,typename T1, typename T2, typename T3, typename T4, typename T5>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&,T4&,T5&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3, T4 &t4, T5 &t5)
+{
+  return tuple<T0&,T1&,T2&,T3&,T4&,T5&>(t0,t1,t2,t3,t4,t5);
+}
+
+template<typename T0,typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3, T4 &t4, T5 &t5, T6 &t6)
+{
+  return tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&>(t0,t1,t2,t3,t4,t5,t6);
+}
+
+template<typename T0,typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3, T4 &t4, T5 &t5, T6 &t6, T7 &t7)
+{
+  return tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&>(t0,t1,t2,t3,t4,t5,t6,t7);
+}
+
+template<typename T0,typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3, T4 &t4, T5 &t5, T6 &t6, T7 &t7, T8 &t8)
+{
+  return tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&>(t0,t1,t2,t3,t4,t5,t6,t7,t8);
+}
+
+template<typename T0,typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
+__host__ __device__ inline
+tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&> tie(T0 &t0, T1 &t1, T2 &t2, T3 &t3, T4 &t4, T5 &t5, T6 &t6, T7 &t7, T8 &t8, T9 &t9)
+{
+  return tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&>(t0,t1,t2,t3,t4,t5,t6,t7,t8,t9);
+}
+
+
 
 namespace detail
 {
