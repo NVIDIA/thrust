@@ -23,6 +23,7 @@
 
 #include <cuda.h>
 
+// Thrust supports CUDA 2.3 and 3.0
 #if CUDA_VERSION < 2030
 #error "CUDA v2.3 or newer is required"
 #endif 
@@ -100,5 +101,17 @@
 #if (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
 #undef THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 #define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
-#endif // _OPENMP
+#endif // (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
+
+#if defined(__DEVICE_EMULATION__)
+#if defined(__MSC_VER)
+#pragma message("-----------------------------------------------------------------------")
+#pragma message("| WARNING: Thrust does not support device emulation                    ")
+#pragma message("-----------------------------------------------------------------------")
+#else
+#warning -----------------------------------------------------------------------
+#warning | WARNING: Thrust does not support device emulation                    
+#warning -----------------------------------------------------------------------
+#endif // __MSC_VER
+#endif // __DEVICE_EMULATION__
 
