@@ -53,7 +53,7 @@ namespace thrust
  *  \c operator<.
  *
  *  \param first1 The beginning of the first input range.
- *  \param last2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
  *  \param result The beginning of the output range.

@@ -501,7 +501,7 @@ equal_range(ForwardIterator first,
 //////////////////////
 
 /*! \p lower_bound is a vectorized version of binary search: for each 
- * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * iterator \c v in <tt>[values_first, values_last)</tt> it attempts to
  * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
  * Specifically, it returns the index of first position where value could
  * be inserted without violating the ordering.
@@ -564,7 +564,7 @@ OutputIterator lower_bound(ForwardIterator first,
 
 
 /*! \p lower_bound is a vectorized version of binary search: for each 
- * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * iterator \c v in <tt>[values_first, values_last)</tt> it attempts to
  * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
  * Specifically, it returns the index of first position where value could
  * be inserted without violating the ordering.  This version of 
@@ -633,7 +633,7 @@ OutputIterator lower_bound(ForwardIterator first,
 
 
 /*! \p upper_bound is a vectorized version of binary search: for each 
- * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * iterator \c v in <tt>[values_first, values_last)</tt> it attempts to
  * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
  * Specifically, it returns the index of last position where value could
  * be inserted without violating the ordering.
@@ -696,7 +696,7 @@ OutputIterator upper_bound(ForwardIterator first,
 
 
 /*! \p upper_bound is a vectorized version of binary search: for each 
- * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * iterator \c v in <tt>[values_first, values_last)</tt> it attempts to
  * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
  * Specifically, it returns the index of first position where value could
  * be inserted without violating the ordering.  This version of 
@@ -765,7 +765,7 @@ OutputIterator upper_bound(ForwardIterator first,
 
 
 /*! \p binary_search is a vectorized version of binary search: for each 
- * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * iterator \c v in <tt>[values_first, values_last)</tt> it attempts to
  * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
  * It returns \c true if an element that is equivalent to \c value 
  * is present in <tt>[first, last)</tt> and \c false if no such element
@@ -829,7 +829,7 @@ OutputIterator binary_search(ForwardIterator first,
 
 
 /*! \p binary_search is a vectorized version of binary search: for each 
- * iterator \c v in <tt>[values_first, values_last)<tt> it attempts to
+ * iterator \c v in <tt>[values_first, values_last)</tt> it attempts to
  * find the value <tt>*v</tt> in an ordered range <tt>[first, last)</tt>.
  * It returns \c true if an element that is equivalent to \c value 
  * is present in <tt>[first, last)</tt> and \c false if no such element
