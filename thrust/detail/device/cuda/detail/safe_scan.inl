@@ -67,16 +67,17 @@ T scan_block(SharedArray array, T val, BinaryFunction binary_op)
 
     __syncthreads();
 
-    if (blockDim.x >   1) { if(threadIdx.x >=   1) { val = binary_op(array[threadIdx.x -   1], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >   2) { if(threadIdx.x >=   2) { val = binary_op(array[threadIdx.x -   2], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >   4) { if(threadIdx.x >=   4) { val = binary_op(array[threadIdx.x -   4], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >   8) { if(threadIdx.x >=   8) { val = binary_op(array[threadIdx.x -   8], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >  16) { if(threadIdx.x >=  16) { val = binary_op(array[threadIdx.x -  16], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >  32) { if(threadIdx.x >=  32) { val = binary_op(array[threadIdx.x -  32], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >  64) { if(threadIdx.x >=  64) { val = binary_op(array[threadIdx.x -  64], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x > 128) { if(threadIdx.x >= 128) { val = binary_op(array[threadIdx.x - 128], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x > 256) { if(threadIdx.x >= 256) { val = binary_op(array[threadIdx.x - 256], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
-    if (blockDim.x > 512) { if(threadIdx.x >= 512) { val = binary_op(array[threadIdx.x - 512], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
+    // copy to temporary so val and tmp have the same memory space
+    if (blockDim.x >   1) { if(threadIdx.x >=   1) { T tmp = array[threadIdx.x -   1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   2) { if(threadIdx.x >=   2) { T tmp = array[threadIdx.x -   2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   4) { if(threadIdx.x >=   4) { T tmp = array[threadIdx.x -   4]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   8) { if(threadIdx.x >=   8) { T tmp = array[threadIdx.x -   8]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >  16) { if(threadIdx.x >=  16) { T tmp = array[threadIdx.x -  16]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >  32) { if(threadIdx.x >=  32) { T tmp = array[threadIdx.x -  32]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >  64) { if(threadIdx.x >=  64) { T tmp = array[threadIdx.x -  64]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x > 128) { if(threadIdx.x >= 128) { T tmp = array[threadIdx.x - 128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x > 256) { if(threadIdx.x >= 256) { T tmp = array[threadIdx.x - 256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
+    if (blockDim.x > 512) { if(threadIdx.x >= 512) { T tmp = array[threadIdx.x - 512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
 
     return val;
 }
@@ -91,16 +92,16 @@ T scan_block_n(SharedArray array, const unsigned int n, T val, BinaryFunction bi
 
     __syncthreads();
 
-    if (blockDim.x >   1) { if(threadIdx.x < n && threadIdx.x >=   1) { val = binary_op(array[threadIdx.x -   1], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >   2) { if(threadIdx.x < n && threadIdx.x >=   2) { val = binary_op(array[threadIdx.x -   2], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >   4) { if(threadIdx.x < n && threadIdx.x >=   4) { val = binary_op(array[threadIdx.x -   4], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >   8) { if(threadIdx.x < n && threadIdx.x >=   8) { val = binary_op(array[threadIdx.x -   8], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >  16) { if(threadIdx.x < n && threadIdx.x >=  16) { val = binary_op(array[threadIdx.x -  16], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >  32) { if(threadIdx.x < n && threadIdx.x >=  32) { val = binary_op(array[threadIdx.x -  32], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x >  64) { if(threadIdx.x < n && threadIdx.x >=  64) { val = binary_op(array[threadIdx.x -  64], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x > 128) { if(threadIdx.x < n && threadIdx.x >= 128) { val = binary_op(array[threadIdx.x - 128], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x > 256) { if(threadIdx.x < n && threadIdx.x >= 256) { val = binary_op(array[threadIdx.x - 256], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (blockDim.x > 512) { if(threadIdx.x < n && threadIdx.x >= 512) { val = binary_op(array[threadIdx.x - 512], val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   1) { if(threadIdx.x < n && threadIdx.x >=   1) { T tmp = array[threadIdx.x -   1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   2) { if(threadIdx.x < n && threadIdx.x >=   2) { T tmp = array[threadIdx.x -   2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   4) { if(threadIdx.x < n && threadIdx.x >=   4) { T tmp = array[threadIdx.x -   4]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >   8) { if(threadIdx.x < n && threadIdx.x >=   8) { T tmp = array[threadIdx.x -   8]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >  16) { if(threadIdx.x < n && threadIdx.x >=  16) { T tmp = array[threadIdx.x -  16]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >  32) { if(threadIdx.x < n && threadIdx.x >=  32) { T tmp = array[threadIdx.x -  32]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x >  64) { if(threadIdx.x < n && threadIdx.x >=  64) { T tmp = array[threadIdx.x -  64]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x > 128) { if(threadIdx.x < n && threadIdx.x >= 128) { T tmp = array[threadIdx.x - 128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x > 256) { if(threadIdx.x < n && threadIdx.x >= 256) { T tmp = array[threadIdx.x - 256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (blockDim.x > 512) { if(threadIdx.x < n && threadIdx.x >= 512) { T tmp = array[threadIdx.x - 512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
 
     return val;
 }
@@ -138,8 +139,11 @@ void scan_intervals(InputIterator input,
        
         // carry in
         if (threadIdx.x == 0 && base != interval_begin)
-            val = binary_op(sdata[blockDim.x - 1], val);
-        
+        {
+            OutputType tmp = sdata[blockDim.x - 1];
+            val = binary_op(tmp, val);
+        }
+
         __syncthreads();
 
         // scan block
@@ -164,8 +168,10 @@ void scan_intervals(InputIterator input,
        
         // carry in
         if (threadIdx.x == 0 && base != interval_begin)
-            val = binary_op(sdata[blockDim.x - 1], val);
-
+        {
+            OutputType tmp = sdata[blockDim.x - 1];
+            val = binary_op(tmp, val);
+        }
         __syncthreads();
 
         // scan block
@@ -217,7 +223,10 @@ void inclusive_update(OutputIterator output,
         const unsigned int i = base + threadIdx.x;
 
         if(i < interval_end)
-            thrust::detail::device::dereference(output) = binary_op(sum, thrust::detail::device::dereference(output));
+        {
+            OutputType tmp = thrust::detail::device::dereference(output);
+            thrust::detail::device::dereference(output) = binary_op(sum, tmp);
+        }
 
         __syncthreads();
     }
@@ -240,8 +249,14 @@ void exclusive_update(OutputIterator output,
     const unsigned int interval_end   = min(interval_begin + interval_size, N);
 
     // value to add to this segment 
-    OutputType carry = (blockIdx.x == 0) ? init : binary_op(init, block_results[blockIdx.x - 1]);
-    OutputType val   = carry;
+    OutputType carry = init;
+    if (blockIdx.x != 0)
+    {
+        OutputType tmp = block_results[blockIdx.x - 1];
+        carry = binary_op(carry, tmp);
+    }
+
+    OutputType val = carry;
 
     // advance result iterator
     output += interval_begin + threadIdx.x;
@@ -251,8 +266,10 @@ void exclusive_update(OutputIterator output,
         const unsigned int i = base + threadIdx.x;
 
         if(i < interval_end)
-            sdata[threadIdx.x] = binary_op(carry, thrust::detail::device::dereference(output));
-
+        {
+            OutputType tmp = thrust::detail::device::dereference(output);
+            sdata[threadIdx.x] = binary_op(carry, tmp);
+        }
         __syncthreads();
 
         if (threadIdx.x != 0)

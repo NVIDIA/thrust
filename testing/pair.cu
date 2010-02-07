@@ -294,6 +294,7 @@ template <typename T>
     thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
     thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
     thrust::host_vector<P>   h_pairs(n);
+    thrust::host_vector<P>   h_output(n);
 
     // zip up pairs on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_pairs.begin(), make_pair_functor());
@@ -301,16 +302,27 @@ template <typename T>
     thrust::device_vector<T> d_p1 = h_p1;
     thrust::device_vector<T> d_p2 = h_p2;
     thrust::device_vector<P> d_pairs = h_pairs;
+    thrust::device_vector<P> d_output(n);
 
     P init = thrust::make_pair(13,13);
 
-    // scan on the host
-    thrust::exclusive_scan(h_pairs.begin(), h_pairs.end(), h_pairs.begin(), init, add_pairs());
+    // scan with plus
+    thrust::inclusive_scan(h_pairs.begin(), h_pairs.end(), h_output.begin(), add_pairs());
+    thrust::inclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), add_pairs());
+    ASSERT_EQUAL_QUIET(h_output, d_output);
 
-    // scan on the device
-    thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_pairs.begin(), init, add_pairs());
+    thrust::exclusive_scan(h_pairs.begin(), h_pairs.end(), h_output.begin(), init, add_pairs());
+    thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), init, add_pairs());
+    ASSERT_EQUAL_QUIET(h_output, d_output);
+    
+    // scan with maximum (thrust issue #69)
+    thrust::inclusive_scan(h_pairs.begin(), h_pairs.end(), h_output.begin(), thrust::maximum<P>());
+    thrust::inclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), thrust::maximum<P>());
+    ASSERT_EQUAL_QUIET(h_output, d_output);
 
-    ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
+    thrust::exclusive_scan(h_pairs.begin(), h_pairs.end(), h_output.begin(), init, thrust::maximum<P>());
+    thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), init, thrust::maximum<P>());
+    ASSERT_EQUAL_QUIET(h_output, d_output);
   }
 };
 VariableUnitTest<TestPairScan, IntegralTypes> TestPairScanInstance;
