@@ -74,7 +74,6 @@ template<typename UIntType, size_t w, size_t s, size_t r>
     __host__ __device__
     void discard(unsigned long long z);
 
-
     template<typename UIntType_, size_t w_, size_t s_, size_t r_,
              typename CharT, typename Traits>
     friend std::basic_ostream<CharT,Traits>&

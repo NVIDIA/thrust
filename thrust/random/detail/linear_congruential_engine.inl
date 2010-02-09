@@ -68,6 +68,57 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 } // end linear_congruential_engine::discard()
 
 
+template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const linear_congruential_engine<UIntType_,a_,c_,m_> &e)
+{
+  typedef std::basic_ostream<CharT,Traits> ostream_type;
+  typedef typename ostream_type::ios_base  ios_base;
+
+  // save old flags & fill character
+  const typename ios_base::fmtflags flags = os.flags();
+  const CharT fill = os.fill();
+
+  os.flags(ios_base::dec | ios_base::fixed | ios_base::left);
+  os.fill(os.widen(' '));
+
+  // output one word of state
+  os << e.m_x;
+
+  // restore flags & fill character
+  os.flags(flags);
+  os.fill(fill);
+
+  return os;
+}
+
+
+template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           linear_congruential_engine<UIntType_,a_,c_,m_> &e)
+{
+  typedef std::basic_istream<CharT,Traits> istream_type;
+  typedef typename istream_type::ios_base     ios_base;
+
+  // save old flags
+  const typename ios_base::fmtflags flags = is.flags();
+
+  is.flags(ios_base::dec);
+
+  // input one word of state
+  is >> e.m_x;
+
+  // restore flags
+  is.flags(flags);
+
+  return is;
+}
+
+
 } // end random
 
 } // end experimental

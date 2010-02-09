@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <iostream>
 
 namespace thrust
 {
@@ -60,6 +61,18 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
     __host__ __device__
     void discard(unsigned long long z);
+
+    template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+             typename CharT, typename Traits>
+    friend std::basic_ostream<CharT,Traits>&
+    operator<<(std::basic_ostream<CharT,Traits> &os,
+               const linear_congruential_engine<UIntType_,a_,c_,m_> &e);
+
+    template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+             typename CharT, typename Traits>
+    friend std::basic_istream<CharT,Traits>&
+    operator>>(std::basic_istream<CharT,Traits> &is,
+               linear_congruential_engine<UIntType_,a_,c_,m_> &e);
 
     /*! \cond
      */

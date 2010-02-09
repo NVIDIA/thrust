@@ -1,4 +1,5 @@
 #include <thrusttest/unittest.h>
+#include <thrust/random/linear_congruential_engine.h>
 #include <thrust/random/subtract_with_carry_engine.h>
 #include <thrust/generate.h>
 #include <sstream>
@@ -87,6 +88,40 @@ void TestEngineValidation(void)
 
 
 template<typename Engine>
+void TestEngineMax(void)
+{
+  // test host
+  thrust::host_vector<bool> h(1);
+  thrust::generate(h.begin(), h.end(), ValidateEngineMax<Engine>());
+
+  ASSERT_EQUAL(true, h[0]);
+
+  // test device
+  thrust::device_vector<bool> d(1);
+  thrust::generate(d.begin(), d.end(), ValidateEngineMax<Engine>());
+
+  ASSERT_EQUAL(true, d[0]);
+}
+
+
+template<typename Engine>
+void TestEngineMin(void)
+{
+  // test host
+  thrust::host_vector<bool> h(1);
+  thrust::generate(h.begin(), h.end(), ValidateEngineMin<Engine>());
+
+  ASSERT_EQUAL(true, h[0]);
+
+  // test device
+  thrust::device_vector<bool> d(1);
+  thrust::generate(d.begin(), d.end(), ValidateEngineMin<Engine>());
+
+  ASSERT_EQUAL(true, d[0]);
+}
+
+
+template<typename Engine>
 void TestEngineSaveRestore(void)
 {
   // create a default engine
@@ -128,17 +163,7 @@ void TestRanlux24BaseMin(void)
 {
   typedef typename thrust::experimental::random::ranlux24_base Engine;
 
-  // test host
-  thrust::host_vector<bool> h(1);
-  thrust::generate(h.begin(), h.end(), ValidateEngineMin<Engine>());
-
-  ASSERT_EQUAL(true, h[0]);
-
-  // test device
-  thrust::device_vector<bool> d(1);
-  thrust::generate(d.begin(), d.end(), ValidateEngineMin<Engine>());
-
-  ASSERT_EQUAL(true, d[0]);
+  TestEngineMin<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux24BaseMin);
 
@@ -147,17 +172,7 @@ void TestRanlux24BaseMax(void)
 {
   typedef typename thrust::experimental::random::ranlux24_base Engine;
 
-  // test host
-  thrust::host_vector<bool> h(1);
-  thrust::generate(h.begin(), h.end(), ValidateEngineMax<Engine>());
-
-  ASSERT_EQUAL(true, h[0]);
-
-  // test device
-  thrust::device_vector<bool> d(1);
-  thrust::generate(d.begin(), d.end(), ValidateEngineMax<Engine>());
-
-  ASSERT_EQUAL(true, d[0]);
+  TestEngineMax<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux24BaseMax);
 
@@ -190,17 +205,7 @@ void TestRanlux48BaseMin(void)
 
 //  typedef typename thrust::experimental::random::ranlux48_base Engine;
 //
-//  // test host
-//  thrust::host_vector<bool> h(1);
-//  thrust::generate(h.begin(), h.end(), ValidateEngineMin<Engine>());
-//
-//  ASSERT_EQUAL(true, h[0]);
-//
-//  // test device
-//  thrust::device_vector<bool> d(1);
-//  thrust::generate(d.begin(), d.end(), ValidateEngineMin<Engine>());
-//
-//  ASSERT_EQUAL(true, d[0]);
+//  TestEngineMin<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseMin);
 
@@ -212,17 +217,78 @@ void TestRanlux48BaseMax(void)
 
 //  typedef typename thrust::experimental::random::ranlux48_base Engine;
 //
-//  // test host
-//  thrust::host_vector<bool> h(1);
-//  thrust::generate(h.begin(), h.end(), ValidateEngineMax<Engine>());
-//
-//  ASSERT_EQUAL(true, h[0]);
-//
-//  // test device
-//  thrust::device_vector<bool> d(1);
-//  thrust::generate(d.begin(), d.end(), ValidateEngineMax<Engine>());
-//
-//  ASSERT_EQUAL(true, d[0]);
+//  TestEngineMax<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseMax);
+
+
+void TestMinstdRandValidation(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand Engine;
+
+  TestEngineValidation<Engine,399268537u>();
+}
+DECLARE_UNITTEST(TestMinstdRandValidation);
+
+
+void TestMinstdRandMin(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRandMin);
+
+
+void TestMinstdRandMax(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRandMax);
+
+
+void TestMinstdRandSaveRestore(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRandSaveRestore);
+
+void TestMinstdRand0Validation(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand0 Engine;
+
+  TestEngineValidation<Engine,1043618065u>();
+}
+DECLARE_UNITTEST(TestMinstdRand0Validation);
+
+
+void TestMinstdRand0Min(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand0 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRand0Min);
+
+
+void TestMinstdRand0Max(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand0 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRand0Max);
+
+
+void TestMinstdRand0SaveRestore(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand0 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRand0SaveRestore);
 
