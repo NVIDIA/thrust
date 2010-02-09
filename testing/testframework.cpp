@@ -18,7 +18,7 @@ UnitTest::UnitTest(const char * _name) : name(_name)
 
 bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, const bool verbose)
 {
-    bool any_failed = false;
+    bool all_passed = true;
 
     std::cout << "Running " << tests_to_run.size() << " unit tests." << std::endl;
 
@@ -50,7 +50,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
                 std::cout << ".";
         } 
         catch (thrusttest::UnitTestFailure& f){
-            any_failed = true;
+            all_passed = false;
             if (verbose)
                 std::cout << "[FAILURE]          ";
             else
@@ -65,7 +65,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
             test_known_failures.push_back(std::make_pair(test,f));
         } 
         catch (thrusttest::UnitTestError& e){
-            any_failed = true;
+            all_passed = false;
             if (verbose)
                 std::cout << "[ERROR]            ";
             else
@@ -73,7 +73,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
             test_errors.push_back(std::make_pair(test,e));
         } 
         catch (...){
-            any_failed = true;
+            all_passed = false;
             if (verbose)
                 std::cout << "[UNKNOWN EXCEPTION] " << std::endl;
             else
@@ -126,7 +126,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
     std::cout << test_errors.size() << " errors and ";
     std::cout << test_exceptions.size() << " unknown exceptions." << std::endl;
 
-    return any_failed;
+    return all_passed;
 }
 
 
