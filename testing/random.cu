@@ -1,6 +1,8 @@
 #include <thrusttest/unittest.h>
 #include <thrust/random/linear_congruential_engine.h>
 #include <thrust/random/subtract_with_carry_engine.h>
+#include <thrust/random/linear_feedback_shift_engine.h>
+#include <thrust/random/xor_combine_engine.h>
 #include <thrust/generate.h>
 #include <sstream>
 
@@ -291,4 +293,106 @@ void TestMinstdRand0SaveRestore(void)
   TestEngineSaveRestore<Engine>();
 }
 DECLARE_UNITTEST(TestMinstdRand0SaveRestore);
+
+
+void TestTaus88Validation(void)
+{
+  using namespace thrust::experimental::random;
+
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u> lsf1;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u> lsf2;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u> lsf3;
+
+  typedef xor_combine_engine<
+    lsf1,
+    0,
+    xor_combine_engine<
+      lsf2, 0,
+      lsf3, 0
+    >,
+    0
+  > taus88;
+
+  typedef taus88 Engine;
+
+  TestEngineValidation<Engine,3535848941ull>();
+}
+DECLARE_UNITTEST(TestTaus88Validation);
+
+
+void TestTaus88Min(void)
+{
+  using namespace thrust::experimental::random;
+
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u> lsf1;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u> lsf2;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u> lsf3;
+
+  typedef xor_combine_engine<
+    lsf1,
+    0,
+    xor_combine_engine<
+      lsf2, 0,
+      lsf3, 0
+    >,
+    0
+  > taus88;
+
+  typedef taus88 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestTaus88Min);
+
+
+void TestTaus88Max(void)
+{
+  using namespace thrust::experimental::random;
+
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u> lsf1;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u> lsf2;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u> lsf3;
+
+  typedef xor_combine_engine<
+    lsf1,
+    0,
+    xor_combine_engine<
+      lsf2, 0,
+      lsf3, 0
+    >,
+    0
+  > taus88;
+
+  typedef taus88 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestTaus88Max);
+
+
+void TestTaus88SaveRestore(void)
+{
+  KNOWN_FAILURE;
+
+//  using namespace thrust::experimental::random;
+//
+//  typedef linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u> lsf1;
+//  typedef linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u> lsf2;
+//  typedef linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u> lsf3;
+//
+//  typedef xor_combine_engine<
+//    lsf1,
+//    0,
+//    xor_combine_engine<
+//      lsf2, 0,
+//      lsf3, 0
+//    >,
+//    0
+//  > taus88;
+//
+//  typedef taus88 Engine;
+//
+//  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestTaus88SaveRestore);
 

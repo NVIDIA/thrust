@@ -25,6 +25,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/random/detail/xor_combine_engine_max.h>
+#include <iostream>
 
 namespace thrust
 {
@@ -83,6 +84,18 @@ template<typename Engine1, size_t s1,
 
     __host__ __device__
     void discard(unsigned long long z);
+
+    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
+             typename CharT, typename Traits>
+    friend std::basic_ostream<CharT,Traits>&
+    operator<<(std::basic_ostream<CharT,Traits> &os,
+               const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e);
+
+    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
+             typename CharT, typename Traits>
+    friend std::basic_istream<CharT,Traits>&
+    operator>>(std::basic_istream<CharT,Traits> &is,
+               xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e);
 
     /*! \cond
      */

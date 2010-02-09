@@ -106,6 +106,57 @@ template<typename Engine1, size_t s1,
   } // end for
 } // end xor_combine_engine::discard()
 
+
+template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e)
+{
+  typedef std::basic_ostream<CharT,Traits> ostream_type;
+  typedef typename ostream_type::ios_base  ios_base;
+
+  // save old flags and fill character
+  const typename ios_base::fmtflags flags = os.flags();
+  const CharT fill = os.fill();
+
+  const CharT space = os.widen(' ');
+  os.flags(ios_base::dec | ios_base::fixed | ios_base::left);
+  os.fill(space);
+
+  // output each base engine in turn
+  os << e.base1() << space << e.base2();
+
+  // restore old flags and fill character
+  os.flags(flags);
+  os.fill(fill);
+  return os;
+}
+
+
+template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e)
+{
+  typedef std::basic_istream<CharT,Traits> istream_type;
+  typedef typename istream_type::ios_base  ios_base;
+
+  // save old flags
+  const typename ios_base::fmtflags flags = is.flags();
+
+  is.flags(ios_base::skipws);
+
+  // input each base engine in turn
+  is >> e.m_b1 >> e.m_b2;
+
+  // restore old flags
+  is.flags(flags);
+  return is;
+}
+
+
 } // end random
 
 } // end experimental
