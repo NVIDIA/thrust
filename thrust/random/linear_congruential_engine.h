@@ -94,7 +94,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
      */
 }; // end linear_congruential
 
-// XXX the type boost used here was boost::int32_t
+// XXX the type N2111 used here was uint_fast32_t
 typedef linear_congruential_engine<unsigned int, 16807, 0, 2147483647> minstd_rand0;
 typedef linear_congruential_engine<unsigned int, 48271, 0, 2147483647> minstd_rand;
 
