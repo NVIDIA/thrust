@@ -119,6 +119,22 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 }
 
 
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+bool operator==(const linear_congruential_engine<UIntType,a,c,m> &lhs,
+                const linear_congruential_engine<UIntType,a,c,m> &rhs)
+{
+  return lhs.m_x == rhs.m_x;
+}
+
+
+template<typename UIntType, UIntType a, UIntType c, UIntType m>
+bool operator!=(const linear_congruential_engine<UIntType,a,c,m> &lhs,
+                const linear_congruential_engine<UIntType,a,c,m> &rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // end random
 
 } // end experimental

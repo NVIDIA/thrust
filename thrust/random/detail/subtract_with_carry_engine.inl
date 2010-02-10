@@ -113,7 +113,7 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
 
   const UIntType long_lag = r;
                                                           
-  for (size_t i = 0; i < r; ++i)
+  for(size_t i = 0; i < r; ++i)
     os << e.m_x[(i + e.m_k) % long_lag] << space;
   os << e.m_carry;
                                                                           
@@ -143,6 +143,33 @@ operator>>(std::basic_istream<CharType,Traits> &is,
 
   is.flags(flags);
   return is;
+}
+
+
+template<typename UIntType, size_t w, size_t s, size_t r>
+bool operator==(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
+                const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
+{
+  const UIntType long_lag = r;
+
+  bool result = true;
+  for(size_t i = 0; i < r; ++i)
+  {
+    result &= (lhs.m_x[(i + lhs.m_k) % long_lag] == rhs.m_x[(i + rhs.m_k) % long_lag]);
+  }
+
+  // XXX not sure if this last check is necessary
+  result &= (lhs.m_carry == rhs.m_carry);
+
+  return result;
+}
+
+
+template<typename UIntType, size_t w, size_t s, size_t r>
+bool operator!=(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
+                const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
+{
+  return !(lhs == rhs);
 }
 
 

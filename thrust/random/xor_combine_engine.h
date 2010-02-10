@@ -85,6 +85,16 @@ template<typename Engine1, size_t s1,
     __host__ __device__
     void discard(unsigned long long z);
 
+    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
+    friend __host__ __device__
+    bool operator==(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
+                    const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
+
+    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
+    friend __host__ __device__
+    bool operator!=(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
+                    const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
+
     template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
              typename CharT, typename Traits>
     friend std::basic_ostream<CharT,Traits>&

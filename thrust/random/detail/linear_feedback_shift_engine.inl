@@ -112,6 +112,22 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 }
 
 
+template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
+bool operator==(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
+                const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
+{
+  return lhs.m_value == rhs.m_value;
+}
+
+
+template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
+bool operator!=(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
+                const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
+{
+  return (!lhs == rhs);
+}
+
+
 } // end random
 
 } // end experimental

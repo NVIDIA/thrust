@@ -72,6 +72,80 @@ template<typename Engine>
 }; // end ValidateEngineMax
 
 
+template<typename Engine>
+  struct ValidateEngineEqual
+{
+  __host__ __device__
+  bool operator()(void) const
+  {
+    bool result = true;
+
+    // test from default constructor
+    Engine e0, e1;
+    result &= (e0 == e1);
+
+    // advance engines
+    e0.discard(10000);
+    e1.discard(10000);
+    result &= (e0 == e1);
+
+    // test from identical seeds
+    Engine e2(13), e3(13);
+    result &= (e2 == e3);
+
+    // test different seeds aren't equal
+    Engine e4(7), e5(13);
+    result &= !(e4 == e5);
+
+    // test reseeding engine to the same seed causes equality
+    e4.seed(13);
+    result &= (e4 == e5);
+
+    return result;
+  }
+};
+
+
+template<typename Engine>
+  struct ValidateEngineUnequal
+{
+  __host__ __device__
+  bool operator()(void) const
+  {
+    bool result = true;
+
+    // test from default constructor
+    Engine e0, e1;
+    result &= !(e0 != e1);
+
+    // advance engines
+    e0.discard(10000);
+    e1.discard(10000);
+    result &= !(e0 != e1);
+
+    // test from identical seeds
+    Engine e2(13), e3(13);
+    result &= !(e2 != e3);
+
+    // test different seeds aren't equal
+    Engine e4(7), e5(13);
+    result &= (e4 != e5);
+
+    // test reseeding engine to the same seed causes equality
+    e4.seed(13);
+    result &= !(e4 != e5);
+
+    // test different discards causes inequality
+    Engine e6(13), e7(13);
+    e6.discard(5000);
+    e7.discard(10000);
+    result &= (e6 != e7);
+
+    return result;
+  }
+};
+
+
 template<typename Engine, unsigned long long state_10000>
 void TestEngineValidation(void)
 {
@@ -152,6 +226,44 @@ void TestEngineSaveRestore(void)
 }
 
 
+template<typename Engine>
+void TestEngineEqual(void)
+{
+  ValidateEngineEqual<Engine> f;
+
+  // test host
+  thrust::host_vector<bool> h(1);
+  thrust::generate(h.begin(), h.end(), f);
+
+  ASSERT_EQUAL(true, h[0]);
+
+  // test device
+  thrust::device_vector<bool> d(1);
+  thrust::generate(d.begin(), d.end(), f);
+
+  ASSERT_EQUAL(true, d[0]);
+}
+
+
+template<typename Engine>
+void TestEngineUnequal(void)
+{
+  ValidateEngineUnequal<Engine> f;
+
+  // test host
+  thrust::host_vector<bool> h(1);
+  thrust::generate(h.begin(), h.end(), f);
+
+  ASSERT_EQUAL(true, h[0]);
+
+  // test device
+  thrust::device_vector<bool> d(1);
+  thrust::generate(d.begin(), d.end(), f);
+
+  ASSERT_EQUAL(true, d[0]);
+}
+
+
 void TestRanlux24BaseValidation(void)
 {
   typedef typename thrust::experimental::random::ranlux24_base Engine;
@@ -188,6 +300,24 @@ void TestRanlux24SaveRestore(void)
 DECLARE_UNITTEST(TestRanlux24SaveRestore);
 
 
+void TestRanlux24Equal(void)
+{
+  typedef typename thrust::experimental::random::ranlux24_base Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24Equal);
+
+
+void TestRanlux24Unequal(void)
+{
+  typedef typename thrust::experimental::random::ranlux24_base Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24Unequal);
+
+
 void TestRanlux48BaseValidation(void)
 {
   // XXX nvcc 3.0 complains that the validation number is too large
@@ -202,7 +332,7 @@ DECLARE_UNITTEST(TestRanlux48BaseValidation);
 
 void TestRanlux48BaseMin(void)
 {
-  // XXX nvcc 3.0 complains that the validation number is too large
+  // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
 //  typedef typename thrust::experimental::random::ranlux48_base Engine;
@@ -214,7 +344,7 @@ DECLARE_UNITTEST(TestRanlux48BaseMin);
 
 void TestRanlux48BaseMax(void)
 {
-  // XXX nvcc 3.0 complains that the validation number is too large
+  // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
 //  typedef typename thrust::experimental::random::ranlux48_base Engine;
@@ -222,6 +352,42 @@ void TestRanlux48BaseMax(void)
 //  TestEngineMax<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseMax);
+
+
+void TestRanlux48SaveRestore(void)
+{
+  // XXX nvcc 3.0 complains that the shift count is too large
+  KNOWN_FAILURE
+
+//  typedef typename thrust::experimental::random::ranlux48_base Engine;
+//
+//  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48SaveRestore);
+
+
+void TestRanlux48Equal(void)
+{
+  // XXX nvcc 3.0 complains that the shift count is too large
+  KNOWN_FAILURE
+
+//  typedef typename thrust::experimental::random::ranlux48_base Engine;
+//
+//  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48Equal);
+
+
+void TestRanlux48Unequal(void)
+{
+  // XXX nvcc 3.0 complains that the shift count is too large
+  KNOWN_FAILURE
+
+// typedef typename thrust::experimental::random::ranlux48_base Engine;
+//
+// TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48Unequal);
 
 
 void TestMinstdRandValidation(void)
@@ -259,6 +425,25 @@ void TestMinstdRandSaveRestore(void)
 }
 DECLARE_UNITTEST(TestMinstdRandSaveRestore);
 
+
+void TestMinstdRandEqual(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRandEqual);
+
+
+void TestMinstdRandUnequal(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRandUnequal);
+
+
 void TestMinstdRand0Validation(void)
 {
   typedef typename thrust::experimental::random::minstd_rand0 Engine;
@@ -293,6 +478,24 @@ void TestMinstdRand0SaveRestore(void)
   TestEngineSaveRestore<Engine>();
 }
 DECLARE_UNITTEST(TestMinstdRand0SaveRestore);
+
+
+void TestMinstdRand0Equal(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand0 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRand0Equal);
+
+
+void TestMinstdRand0Unequal(void)
+{
+  typedef typename thrust::experimental::random::minstd_rand0 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestMinstdRand0Unequal);
 
 
 void TestTaus88Validation(void)
@@ -395,4 +598,55 @@ void TestTaus88SaveRestore(void)
 //  TestEngineSaveRestore<Engine>();
 }
 DECLARE_UNITTEST(TestTaus88SaveRestore);
+
+
+void TestTaus88Equal(void)
+{
+  using namespace thrust::experimental::random;
+
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u> lsf1;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u> lsf2;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u> lsf3;
+
+  typedef xor_combine_engine<
+    lsf1,
+    0,
+    xor_combine_engine<
+      lsf2, 0,
+      lsf3, 0
+    >,
+    0
+  > taus88;
+
+  typedef taus88 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestTaus88Equal);
+
+
+void TestTaus88Unequal(void)
+{
+  using namespace thrust::experimental::random;
+
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u> lsf1;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u> lsf2;
+  typedef linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u> lsf3;
+
+  typedef xor_combine_engine<
+    lsf1,
+    0,
+    xor_combine_engine<
+      lsf2, 0,
+      lsf3, 0
+    >,
+    0
+  > taus88;
+
+  typedef taus88 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestTaus88Unequal);
+
 

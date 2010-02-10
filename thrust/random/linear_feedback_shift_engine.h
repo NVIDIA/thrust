@@ -75,6 +75,16 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
     __host__ __device__
     void discard(unsigned long long z);
 
+    template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
+    friend __host__ __device__
+    bool operator==(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
+                    const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
+
+    template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
+    friend __host__ __device__
+    bool operator!=(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
+                    const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
+
     template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
              typename CharT, typename Traits>
     friend std::basic_ostream<CharT,Traits>&

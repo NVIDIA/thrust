@@ -157,6 +157,22 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 }
 
 
+template<typename Engine1, size_t s1, typename Engine2, size_t s2>
+bool operator==(const xor_combine_engine<Engine1,s1,Engine2,s2> &lhs,
+                const xor_combine_engine<Engine1,s1,Engine2,s2> &rhs)
+{
+  return (lhs.m_b1 == rhs.m_b1) && (lhs.m_b2 == rhs.m_b2);
+}
+
+
+template<typename Engine1, size_t s1, typename Engine2, size_t s2>
+bool operator!=(const xor_combine_engine<Engine1,s1,Engine2,s2> &lhs,
+                const xor_combine_engine<Engine1,s1,Engine2,s2> &rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // end random
 
 } // end experimental
