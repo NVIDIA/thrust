@@ -19,9 +19,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -129,8 +126,6 @@ bool operator!=(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
 
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

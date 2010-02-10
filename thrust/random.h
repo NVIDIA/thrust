@@ -34,9 +34,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -51,8 +48,6 @@ typedef xor_combine_engine<
 > taus88;
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

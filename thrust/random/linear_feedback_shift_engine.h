@@ -27,8 +27,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
 
 namespace random
 {
@@ -106,8 +104,6 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 }; // end linear_feedback_shift_engine
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

@@ -30,9 +30,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -117,8 +114,6 @@ template<typename Engine1, size_t s1,
 }; // end xor_combine_engine
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

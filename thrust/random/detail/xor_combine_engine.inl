@@ -19,9 +19,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -174,8 +171,6 @@ bool operator!=(const xor_combine_engine<Engine1,s1,Engine2,s2> &lhs,
 
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

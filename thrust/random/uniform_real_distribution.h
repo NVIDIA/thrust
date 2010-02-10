@@ -27,10 +27,10 @@
 namespace thrust
 {
 
-namespace experimental
+namespace random
 {
 
-namespace random
+namespace experimental
 {
 
 template<typename RealType = double>
@@ -86,9 +86,9 @@ template<typename RealType = double>
     RealType m_a, m_b;
 }; // end uniform_real_distribution
 
-} // end random
-
 } // end experimental
+
+} // end random
 
 } // end thrust
 

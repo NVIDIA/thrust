@@ -19,10 +19,10 @@
 namespace thrust
 {
 
-namespace experimental
+namespace random
 {
 
-namespace random
+namespace experimental
 {
 
 template<typename RealType>
@@ -123,10 +123,9 @@ template<typename RealType>
   return b();
 } // end uniform_real_distribution::max()
 
+} // end experimental
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

@@ -30,9 +30,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -114,8 +111,6 @@ typedef subtract_with_carry_engine<uint32_t, 24, 10, 24> ranlux24_base;
 typedef subtract_with_carry_engine<uint64_t, 48,  5, 12> ranlux48_base;
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

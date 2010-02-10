@@ -20,9 +20,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -136,8 +133,6 @@ bool operator!=(const linear_congruential_engine<UIntType,a,c,m> &lhs,
 
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

@@ -23,9 +23,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -316,8 +313,6 @@ template<typename Engine1, size_t s1, typename Engine2, size_t s2, typename resu
 } // end detail
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

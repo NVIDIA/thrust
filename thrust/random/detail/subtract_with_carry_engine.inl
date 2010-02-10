@@ -21,9 +21,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -40,7 +37,7 @@ template<typename UIntType, size_t w, size_t s, size_t r>
   void subtract_with_carry_engine<UIntType,w,s,r>
     ::seed(result_type value)
 {
-  thrust::experimental::random::linear_congruential_engine<result_type,
+  thrust::random::linear_congruential_engine<result_type,
     40014u, 0u, 2147483563u> e(value == 0u ? default_seed : value);
 
   // initialize state
@@ -174,8 +171,6 @@ bool operator!=(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
 
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 

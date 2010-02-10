@@ -17,9 +17,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -43,8 +40,6 @@ template<typename T, int w>
 } // end detail
 
 } // end random
-  
-} // end experimental
 
 } // end thrust
 

@@ -19,9 +19,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace random
 {
 
@@ -95,8 +92,6 @@ __host__ __device__
 } // end detail
 
 } // end random
-
-} // end experimental
 
 } // end thrust
 
