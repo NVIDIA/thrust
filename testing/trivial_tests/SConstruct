@@ -23,6 +23,7 @@ folders = ['',              # main folder
            'experimental/',
            'sorting/']
 
+# XXX this code obnoxiously creates *.cpp & *.cu upon scons -c :)
 for folder in folders:
   for ext in extensions:
     pattern = os.path.join(os.path.abspath("../../thrust/" + folder), "*" + ext)
