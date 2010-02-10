@@ -1,4 +1,4 @@
-#include <thrust/random/linear_congruential_engine.h>
+#include <thrust/random.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
@@ -24,23 +24,21 @@ struct estimate_pi : public thrust::unary_function<unsigned int,float>
   __host__ __device__
   float operator()(unsigned int thread_id)
   {
-    using namespace thrust::experimental::random;
-
     float sum = 0;
     unsigned int N = 10000; // samples per thread
 
     unsigned int seed = hash(thread_id);
 
     // seed a random number generator
-    // XXX use this with uniform_01
-    minstd_rand rng(seed);
+    // XXX use this with uniform_real_distribution
+    thrust::minstd_rand rng(seed);
 
     // take N samples in a quarter circle
     for(unsigned int i = 0; i < N; ++i)
     {
       // draw a sample from the unit square
-      float x = static_cast<float>(rng()) / minstd_rand::max;
-      float y = static_cast<float>(rng()) / minstd_rand::max;
+      float x = static_cast<float>(rng()) / thrust::minstd_rand::max;
+      float y = static_cast<float>(rng()) / thrust::minstd_rand::max;
 
       // measure distance from the origin
       float dist = sqrtf(x*x + y*y);
