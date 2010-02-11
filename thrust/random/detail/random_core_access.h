@@ -25,19 +25,29 @@ namespace random
 namespace detail
 {
 
-template<typename T, int w, int i = w-1>
-  struct linear_feedback_shift_engine_wordmask
+struct random_core_access
 {
-  static const T value =
-    (T(1u) << i) |
-    linear_feedback_shift_engine_wordmask<T, w, i-1>::value;
-}; // end linear_feedback_shift_engine_wordmask
 
-template<typename T, int w>
-  struct linear_feedback_shift_engine_wordmask<T, w, 0>
+template<typename OStream, typename Engine>
+static OStream &stream_out(OStream &os, const Engine &e)
 {
-  static const T value = 0;
-}; // end linear_feedback_shift_engine_wordmask
+  return e.stream_out(os);
+}
+
+template<typename IStream, typename Engine>
+static IStream &stream_in(IStream &is, Engine &e)
+{
+  return e.stream_in(is);
+}
+
+template<typename Engine>
+__host__ __device__
+static bool equal(const Engine &lhs, const Engine &rhs)
+{
+  return lhs.equal(rhs);
+}
+
+}; // end random_core_access
 
 } // end detail
 

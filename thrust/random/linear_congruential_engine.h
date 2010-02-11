@@ -24,6 +24,7 @@
 #include <thrust/detail/config.h>
 #include <iostream>
 #include <thrust/detail/cstdint.h>
+#include <thrust/random/detail/random_core_access.h>
 
 namespace thrust
 {
@@ -60,37 +61,48 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
     __host__ __device__
     void discard(unsigned long long z);
 
-    template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
-    __host__ __device__
-    friend bool
-    operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
-               const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
-
-    template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
-    __host__ __device__
-    friend bool
-    operator!=(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
-               const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
-
-    template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
-             typename CharT, typename Traits>
-    friend std::basic_ostream<CharT,Traits>&
-    operator<<(std::basic_ostream<CharT,Traits> &os,
-               const linear_congruential_engine<UIntType_,a_,c_,m_> &e);
-
-    template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
-             typename CharT, typename Traits>
-    friend std::basic_istream<CharT,Traits>&
-    operator>>(std::basic_istream<CharT,Traits> &is,
-               linear_congruential_engine<UIntType_,a_,c_,m_> &e);
-
     /*! \cond
      */
   private:
     result_type m_x;
+
+    friend struct thrust::random::detail::random_core_access;
+
+    __host__ __device__
+    bool equal(const linear_congruential_engine &rhs) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& stream_out(std::basic_ostream<CharT,Traits> &os) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& stream_in(std::basic_istream<CharT,Traits> &is);
+
     /*! \endcond
      */
 }; // end linear_congruential
+
+template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
+__host__ __device__
+bool operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
+                const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
+
+template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
+__host__ __device__
+bool operator!=(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
+                const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
+
+template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const linear_congruential_engine<UIntType_,a_,c_,m_> &e);
+
+template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           linear_congruential_engine<UIntType_,a_,c_,m_> &e);
+
 
 // XXX the type N2111 used here was uint_fast32_t
 typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 2147483647> minstd_rand0;
