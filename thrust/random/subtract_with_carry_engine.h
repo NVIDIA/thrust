@@ -23,8 +23,8 @@
 
 #include <thrust/detail/config.h>
 
-// XXX we should use <cstdint> instead
-#include <stdint.h>
+#include <thrust/detail/cstdint.h>
+#include <cstddef> // for size_t
 #include <iostream>
 
 namespace thrust
@@ -105,10 +105,10 @@ template<typename UIntType, size_t w, size_t s, size_t r>
 
 
 // XXX N2111 uses uint_fast32_t here
-typedef subtract_with_carry_engine<uint32_t, 24, 10, 24> ranlux24_base;
+typedef subtract_with_carry_engine<thrust::detail::uint32_t, 24, 10, 24> ranlux24_base;
 
 // XXX N2111 uses uint_fast64_t here
-typedef subtract_with_carry_engine<uint64_t, 48,  5, 12> ranlux48_base;
+typedef subtract_with_carry_engine<thrust::detail::uint64_t, 48,  5, 12> ranlux48_base;
 
 } // end random
 

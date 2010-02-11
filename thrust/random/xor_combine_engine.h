@@ -26,6 +26,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/random/detail/xor_combine_engine_max.h>
 #include <iostream>
+#include <cstddef> // for size_t
 
 namespace thrust
 {

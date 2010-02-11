@@ -263,7 +263,7 @@ void TestEngineUnequal(void)
 
 void TestRanlux24BaseValidation(void)
 {
-  typedef typename thrust::random::ranlux24_base Engine;
+  typedef thrust::random::ranlux24_base Engine;
 
   TestEngineValidation<Engine,7937952u>();
 }
@@ -272,7 +272,7 @@ DECLARE_UNITTEST(TestRanlux24BaseValidation);
 
 void TestRanlux24BaseMin(void)
 {
-  typedef typename thrust::random::ranlux24_base Engine;
+  typedef thrust::random::ranlux24_base Engine;
 
   TestEngineMin<Engine>();
 }
@@ -281,7 +281,7 @@ DECLARE_UNITTEST(TestRanlux24BaseMin);
 
 void TestRanlux24BaseMax(void)
 {
-  typedef typename thrust::random::ranlux24_base Engine;
+  typedef thrust::random::ranlux24_base Engine;
 
   TestEngineMax<Engine>();
 }
@@ -290,7 +290,7 @@ DECLARE_UNITTEST(TestRanlux24BaseMax);
 
 void TestRanlux24SaveRestore(void)
 {
-  typedef typename thrust::random::ranlux24_base Engine;
+  typedef thrust::random::ranlux24_base Engine;
 
   TestEngineSaveRestore<Engine>();
 }
@@ -299,7 +299,7 @@ DECLARE_UNITTEST(TestRanlux24SaveRestore);
 
 void TestRanlux24Equal(void)
 {
-  typedef typename thrust::random::ranlux24_base Engine;
+  typedef thrust::random::ranlux24_base Engine;
 
   TestEngineEqual<Engine>();
 }
@@ -308,7 +308,7 @@ DECLARE_UNITTEST(TestRanlux24Equal);
 
 void TestRanlux24Unequal(void)
 {
-  typedef typename thrust::random::ranlux24_base Engine;
+  typedef thrust::random::ranlux24_base Engine;
 
   TestEngineUnequal<Engine>();
 }
@@ -320,7 +320,7 @@ void TestRanlux48BaseValidation(void)
   // XXX nvcc 3.0 complains that the validation number is too large
   KNOWN_FAILURE
 
-//  typedef typename thrust::random::ranlux24_base Engine;
+//  typedef thrust::random::ranlux24_base Engine;
 //
 //  TestEngineValidation<Engine,61839128582725ull>();
 }
@@ -332,7 +332,7 @@ void TestRanlux48BaseMin(void)
   // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
-//  typedef typename thrust::random::ranlux48_base Engine;
+//  typedef thrust::random::ranlux48_base Engine;
 //
 //  TestEngineMin<Engine>();
 }
@@ -344,7 +344,7 @@ void TestRanlux48BaseMax(void)
   // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
-//  typedef typename thrust::random::ranlux48_base Engine;
+//  typedef thrust::random::ranlux48_base Engine;
 //
 //  TestEngineMax<Engine>();
 }
@@ -356,7 +356,7 @@ void TestRanlux48SaveRestore(void)
   // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
-//  typedef typename thrust::random::ranlux48_base Engine;
+//  typedef thrust::random::ranlux48_base Engine;
 //
 //  TestEngineSaveRestore<Engine>();
 }
@@ -368,7 +368,7 @@ void TestRanlux48Equal(void)
   // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
-//  typedef typename thrust::random::ranlux48_base Engine;
+//  typedef thrust::random::ranlux48_base Engine;
 //
 //  TestEngineEqual<Engine>();
 }
@@ -380,7 +380,7 @@ void TestRanlux48Unequal(void)
   // XXX nvcc 3.0 complains that the shift count is too large
   KNOWN_FAILURE
 
-// typedef typename thrust::random::ranlux48_base Engine;
+// typedef thrust::random::ranlux48_base Engine;
 //
 // TestEngineUnequal<Engine>();
 }
@@ -389,7 +389,7 @@ DECLARE_UNITTEST(TestRanlux48Unequal);
 
 void TestMinstdRandValidation(void)
 {
-  typedef typename thrust::random::minstd_rand Engine;
+  typedef thrust::random::minstd_rand Engine;
 
   TestEngineValidation<Engine,399268537u>();
 }
@@ -398,7 +398,7 @@ DECLARE_UNITTEST(TestMinstdRandValidation);
 
 void TestMinstdRandMin(void)
 {
-  typedef typename thrust::random::minstd_rand Engine;
+  typedef thrust::random::minstd_rand Engine;
 
   TestEngineMin<Engine>();
 }
@@ -407,7 +407,7 @@ DECLARE_UNITTEST(TestMinstdRandMin);
 
 void TestMinstdRandMax(void)
 {
-  typedef typename thrust::random::minstd_rand Engine;
+  typedef thrust::random::minstd_rand Engine;
 
   TestEngineMax<Engine>();
 }
@@ -416,7 +416,7 @@ DECLARE_UNITTEST(TestMinstdRandMax);
 
 void TestMinstdRandSaveRestore(void)
 {
-  typedef typename thrust::random::minstd_rand Engine;
+  typedef thrust::random::minstd_rand Engine;
 
   TestEngineSaveRestore<Engine>();
 }
@@ -425,7 +425,7 @@ DECLARE_UNITTEST(TestMinstdRandSaveRestore);
 
 void TestMinstdRandEqual(void)
 {
-  typedef typename thrust::random::minstd_rand Engine;
+  typedef thrust::random::minstd_rand Engine;
 
   TestEngineEqual<Engine>();
 }
@@ -434,7 +434,7 @@ DECLARE_UNITTEST(TestMinstdRandEqual);
 
 void TestMinstdRandUnequal(void)
 {
-  typedef typename thrust::random::minstd_rand Engine;
+  typedef thrust::random::minstd_rand Engine;
 
   TestEngineUnequal<Engine>();
 }
@@ -443,7 +443,7 @@ DECLARE_UNITTEST(TestMinstdRandUnequal);
 
 void TestMinstdRand0Validation(void)
 {
-  typedef typename thrust::random::minstd_rand0 Engine;
+  typedef thrust::random::minstd_rand0 Engine;
 
   TestEngineValidation<Engine,1043618065u>();
 }
@@ -452,7 +452,7 @@ DECLARE_UNITTEST(TestMinstdRand0Validation);
 
 void TestMinstdRand0Min(void)
 {
-  typedef typename thrust::random::minstd_rand0 Engine;
+  typedef thrust::random::minstd_rand0 Engine;
 
   TestEngineMin<Engine>();
 }
@@ -461,7 +461,7 @@ DECLARE_UNITTEST(TestMinstdRand0Min);
 
 void TestMinstdRand0Max(void)
 {
-  typedef typename thrust::random::minstd_rand0 Engine;
+  typedef thrust::random::minstd_rand0 Engine;
 
   TestEngineMax<Engine>();
 }
@@ -470,7 +470,7 @@ DECLARE_UNITTEST(TestMinstdRand0Max);
 
 void TestMinstdRand0SaveRestore(void)
 {
-  typedef typename thrust::random::minstd_rand0 Engine;
+  typedef thrust::random::minstd_rand0 Engine;
 
   TestEngineSaveRestore<Engine>();
 }
@@ -479,7 +479,7 @@ DECLARE_UNITTEST(TestMinstdRand0SaveRestore);
 
 void TestMinstdRand0Equal(void)
 {
-  typedef typename thrust::random::minstd_rand0 Engine;
+  typedef thrust::random::minstd_rand0 Engine;
 
   TestEngineEqual<Engine>();
 }
@@ -488,7 +488,7 @@ DECLARE_UNITTEST(TestMinstdRand0Equal);
 
 void TestMinstdRand0Unequal(void)
 {
-  typedef typename thrust::random::minstd_rand0 Engine;
+  typedef thrust::random::minstd_rand0 Engine;
 
   TestEngineUnequal<Engine>();
 }

@@ -21,6 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/cstdint.h>
 
 // RNGs
 #include <thrust/random/linear_congruential_engine.h>
@@ -38,11 +39,11 @@ namespace random
 {
 
 typedef xor_combine_engine<
-  linear_feedback_shift_engine<uint32_t, 32u, 31u, 13u, 12u>,
+  linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 31u, 13u, 12u>,
   0,
   xor_combine_engine<
-    linear_feedback_shift_engine<uint32_t, 32u, 29u,  2u,  4u>, 0,
-    linear_feedback_shift_engine<uint32_t, 32u, 28u,  3u, 17u>, 0
+    linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 29u,  2u,  4u>, 0,
+    linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 28u,  3u, 17u>, 0
   >,
   0
 > taus88;

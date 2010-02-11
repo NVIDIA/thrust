@@ -23,6 +23,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/random/detail/linear_feedback_shift_engine_wordmask.h>
 #include <iostream>
+#include <cstddef> // for size_t
 
 namespace thrust
 {

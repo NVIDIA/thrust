@@ -23,6 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <iostream>
+#include <thrust/detail/cstdint.h>
 
 namespace thrust
 {
@@ -92,8 +93,8 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 }; // end linear_congruential
 
 // XXX the type N2111 used here was uint_fast32_t
-typedef linear_congruential_engine<unsigned int, 16807, 0, 2147483647> minstd_rand0;
-typedef linear_congruential_engine<unsigned int, 48271, 0, 2147483647> minstd_rand;
+typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 2147483647> minstd_rand0;
+typedef linear_congruential_engine<thrust::detail::uint32_t, 48271, 0, 2147483647> minstd_rand;
   
 } // end random
 

@@ -22,6 +22,7 @@ namespace thrust
 namespace detail
 {
 
+// an oracle to tell us how to define intptr_t
 template<int word_size = sizeof(int*)>
   struct divine_intptr_t
 {
@@ -35,6 +36,10 @@ template<>
   typedef long int type;
 };
 
+typedef divine_intptr_t<>::type   intptr_t;
+
+
+// an oracle to tell us how to define uintptr_t
 template<int word_size = sizeof(int*)>
   struct divine_uintptr_t
 {
@@ -48,9 +53,28 @@ template<>
   typedef unsigned long int type;
 };
 
+typedef divine_uintptr_t<>::type uintptr_t;
 
-typedef typename divine_intptr_t<>::type intptr_t;
-typedef typename divine_uintptr_t<>::type uintptr_t;
+
+// an oracle to tell us how to define uint64_t
+template<int word_size = sizeof(int*)> struct divine_uint64_t;
+
+// 32b machine type
+template<>
+  struct divine_uint64_t<4>
+{
+  typedef unsigned long int type;
+};
+
+// 64b machine type
+template<>
+  struct divine_uint64_t<8>
+{
+  typedef unsigned long long int type;
+};
+
+typedef unsigned int            uint32_t;
+typedef divine_uint64_t<>::type uint64_t;
 
 } // end detail
 
