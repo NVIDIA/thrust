@@ -47,9 +47,8 @@
 // XXX remove me
 #include <cassert>
 #include <thrust/reduce.h>
-#endif
-
 #include <thrust/cuPrintf.cu>
+#endif
 
 namespace thrust
 {
@@ -193,7 +192,9 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
                                         StrictWeakOrdering comp,
                                         unsigned int *debug)
 {
+#ifdef THRUST_DEBUG_SET_INTERSECTION
   cuPrintfRestrict(0,CUPRINTF_UNRESTRICTED);
+#endif
 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   
@@ -257,7 +258,9 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 
       RandomAccessIterator1 end = thrust::min(first1 + block_size, last1);
 
+#ifdef THRUST_DEBUG_SET_INTERSECTION
       cuPrintf("Fetching %d from left side\n", (end - first1));
+#endif
 
       // reset s_range1 to point to the beginning of its shared storage
       s_range1.first = reinterpret_cast<value_type*>(_first1);
@@ -274,7 +277,9 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     {
       RandomAccessIterator2 end = thrust::min(first2 + block_size, last2);
 
+#ifdef THRUST_DEBUG_SET_INTERSECTION
       cuPrintf("Fetching %d from right side\n", (end - first2));
+#endif
 
       // reset s_range2 to point to the beginning of its shared storage
       s_range2.first = reinterpret_cast<value_type*>(_first2);
@@ -298,6 +303,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     fetch1 = !greater1;
     fetch2 = !greater2;
     
+#ifdef THRUST_DEBUG_SET_INTERSECTION
     if((s_range_with_lesser_bound.second - s_range_with_lesser_bound.first) > block_size)
     {
       cuPrintf("ERROR: range_with_lesser_bound.size(): %d\n", (s_range_with_lesser_bound.second - s_range_with_lesser_bound.first));
@@ -310,6 +316,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 
     cuPrintf("lesser  range: [%d, %d]\n", s_range_with_lesser_bound.first[0],  s_range_with_lesser_bound.second[-1]);
     cuPrintf("greater range: [%d, %d]\n", s_range_with_greater_bound.first[0], s_range_with_greater_bound.second[-1]);
+#endif
 
     // XXX this spot is probably the point of parameterization for other related algorithms
     value_type *s_result_end;
@@ -323,10 +330,12 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     // copy out to result, advance iterator
     result = thrust::detail::device::cuda::block::copy(s_result, s_result_end, result);
 
+#ifdef THRUST_DEBUG_SET_INTERSECTION
     if(s_result_end > s_result)
       cuPrintf("Output %d, last result output: %d\n", (s_result_end - s_result), dereference(result-1));
     else
       cuPrintf("Nothing output that round\n");
+#endif
 
     // increment size of the output
     result_partition_size += (s_result_end - s_result);
@@ -433,14 +442,8 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   
   difference1 num_partitions = ceil_div(num_elements1, partition_size);
 
-  std::cerr << "num_partitions: " << num_partitions << std::endl;
-
 #ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "elements 1016 through 1023: " << std::endl;
-  for(int i = 1016; i < 1023; ++i)
-  {
-    std::cerr << (int) first1[i] << std::endl;
-  }
+  std::cerr << "num_partitions: " << num_partitions << std::endl;
 #endif
 
   // create the range [0, partition_size, 2*partition_size, 3*partition_size, ...]
@@ -453,13 +456,6 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   thrust::next::gather(partition_begin_indices1_guess, partition_begin_indices1_guess + partition_values.size(),
                        first1,
                        partition_values.begin());
-
-  std::cerr << "partition_values.size(): " << partition_values.size() << std::endl;
-  std::cerr << "splitters:" << std::endl;
-  for(int i = 0; i < partition_values.size(); ++i)
-  {
-    std::cerr << (int)partition_values[i] << std::endl;
-  }
 
   typename raw_buffer<value_type, cuda_device_space_tag>::iterator end = 
     thrust::unique(partition_values.begin(), partition_values.end());
@@ -476,72 +472,41 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
                       partition_values.begin(), partition_values.end(), 
                       partition_begin_indices2.begin(), comp);
 
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "set_intersection: partition_begin_indices2 after lower_bound: " << std::endl;
-  std::copy(partition_begin_indices2.begin(), partition_begin_indices2.end(),
-            std::ostream_iterator<int>(std::cerr, "\n"));
-#endif
-  
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_partitions);
   raw_buffer< value_type, cuda_device_space_tag> temp_result(num_elements1);
 
   thrust::device_vector<unsigned int> debug(1, 0);
 
+#ifdef THRUST_DEBUG_SET_INTERSECTION
   cudaPrintfInit();
+#endif
   
   set_intersection_detail::set_intersection_kernel<block_size><<< num_partitions, block_size >>>( 
   	first1, last1,
         first2, last2,
         temp_result.begin(), 
-//  	partition_begin_indices1,
   	partition_begin_indices1.begin(),
   	partition_begin_indices2.begin(),
   	result_partition_sizes.begin(), 
   	comp,
         thrust::raw_pointer_cast(&debug[0]));
 
-  cudaPrintfDisplay(stdout, true);
-
-  cudaPrintfEnd();
-
-  std::cerr << "debug: " << debug[0] << std::endl;
-
 #ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "set_intersection: result_partition_sizes before scan:" << std::endl;
-  std::copy(result_partition_sizes.begin(), result_partition_sizes.end(),
-            std::ostream_iterator<int>(std::cerr, "\n"));
-
-  // assert that the sum of partition sizes is leq the size of the input
-  std::cerr << "num_elements1: " << num_elements1 << std::endl;
-  std::cerr << "size of output: " << thrust::reduce(result_partition_sizes.begin(), result_partition_sizes.end()) << std::endl;
-  assert(thrust::reduce(result_partition_sizes.begin(), result_partition_sizes.end()) <= num_elements1);
+  cudaPrintfDisplay(stdout, true);
+  cudaPrintfEnd();
 #endif
+
 
   thrust::inclusive_scan(result_partition_sizes.begin(), result_partition_sizes.end(), result_partition_sizes.begin());
 
   // after the inclusive scan, we have the end of each segment
   raw_buffer<difference1, cuda_device_space_tag> &output_segment_end_indices = result_partition_sizes;
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "set_intersection: output_segment_end_indices after scan:" << std::endl;
-  std::copy(output_segment_end_indices.begin(), output_segment_end_indices.end(),
-            std::ostream_iterator<int>(std::cerr, "\n"));
-
-  std::cerr << "num_partitions: " << num_partitions << std::endl;
-#endif
   
   set_intersection_detail::grouped_gather<<< num_partitions, block_size >>>( 
   	result,
   	temp_result.begin(),
-//  	partition_begin_indices1,
   	partition_begin_indices1.begin(),
   	output_segment_end_indices.begin());
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "set_intersection: result_partition_sizes after gather:" << std::endl;
-  std::copy(result_partition_sizes.begin(), result_partition_sizes.end(),
-            std::ostream_iterator<int>(std::cerr, "\n"));
-#endif
 
   return result + result_partition_sizes[num_partitions - 1];
 } // end set_intersection
