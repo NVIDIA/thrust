@@ -24,6 +24,7 @@
 #include <thrust/random/detail/linear_feedback_shift_engine_wordmask.h>
 #include <iostream>
 #include <cstddef> // for size_t
+#include <thrust/random/detail/random_core_access.h>
 
 namespace thrust
 {
@@ -74,37 +75,54 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
     __host__ __device__
     void discard(unsigned long long z);
 
-    template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
-    friend __host__ __device__
-    bool operator==(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
-                    const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
-
-    template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
-    friend __host__ __device__
-    bool operator!=(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
-                    const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
-
-    template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
-             typename CharT, typename Traits>
-    friend std::basic_ostream<CharT,Traits>&
-    operator<<(std::basic_ostream<CharT,Traits> &os,
-               const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e);
-
-    template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
-             typename CharT, typename Traits>
-    friend std::basic_istream<CharT,Traits>&
-    operator>>(std::basic_istream<CharT,Traits> &is,
-               linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e);
-
     /*! \cond
      */
   private:
     result_type m_value;
+
+    friend struct thrust::random::detail::random_core_access;
+
+    __host__ __device__
+    bool equal(const linear_feedback_shift_engine &rhs) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& stream_out(std::basic_ostream<CharT,Traits> &os) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& stream_in(std::basic_istream<CharT,Traits> &is);
+
     /*! \endcond
      */
 }; // end linear_feedback_shift_engine
 
+
+template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
+__host__ __device__
+bool operator==(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
+                const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
+
+template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
+__host__ __device__
+bool operator!=(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
+                const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
+
+template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e);
+
+template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e);
+
+
 } // end random
+
+// import names into thrust::
+using random::linear_feedback_shift_engine;
 
 } // end thrust
 

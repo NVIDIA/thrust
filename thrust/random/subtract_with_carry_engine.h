@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/random/detail/random_core_access.h>
 
 #include <thrust/detail/cstdint.h>
 #include <cstddef> // for size_t
@@ -71,37 +72,50 @@ template<typename UIntType, size_t w, size_t s, size_t r>
     __host__ __device__
     void discard(unsigned long long z);
 
-    template<typename UIntType_, size_t w_, size_t s_, size_t r_>
-    friend __host__ __device__
-    bool operator==(const subtract_with_carry_engine<UIntType_,w_,s_,r_> &lhs,
-                    const subtract_with_carry_engine<UIntType_,w_,s_,r_> &rhs);
-
-    template<typename UIntType_, size_t w_, size_t s_, size_t r_>
-    friend __host__ __device__
-    bool operator!=(const subtract_with_carry_engine<UIntType_,w_,s_,r_>&lhs,
-                    const subtract_with_carry_engine<UIntType_,w_,s_,r_>&rhs);
-
-    template<typename UIntType_, size_t w_, size_t s_, size_t r_,
-             typename CharT, typename Traits>
-    friend std::basic_ostream<CharT,Traits>&
-    operator<<(std::basic_ostream<CharT,Traits> &os,
-               const subtract_with_carry_engine<UIntType_,w_,s_,r_> &e);
-
-    template<typename UIntType_, size_t w_, size_t s_, size_t r_,
-             typename CharT, typename Traits>
-    friend std::basic_istream<CharT,Traits>&
-    operator>>(std::basic_istream<CharT,Traits> &is,
-               subtract_with_carry_engine<UIntType_,w_,s_,r_> &e);
-
     /*! \cond
      */
   private:
     result_type m_x[long_lag];
     unsigned int m_k;
     int m_carry;
+
+    friend struct thrust::random::detail::random_core_access;
+
+    __host__ __device__
+    bool equal(const subtract_with_carry_engine &rhs) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& stream_out(std::basic_ostream<CharT,Traits> &os) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& stream_in(std::basic_istream<CharT,Traits> &is);
+
     /*! \endcond
      */
 }; // end subtract_with_carry_engine
+
+
+template<typename UIntType_, size_t w_, size_t s_, size_t r_>
+__host__ __device__
+bool operator==(const subtract_with_carry_engine<UIntType_,w_,s_,r_> &lhs,
+                const subtract_with_carry_engine<UIntType_,w_,s_,r_> &rhs);
+
+template<typename UIntType_, size_t w_, size_t s_, size_t r_>
+__host__ __device__
+bool operator!=(const subtract_with_carry_engine<UIntType_,w_,s_,r_>&lhs,
+                const subtract_with_carry_engine<UIntType_,w_,s_,r_>&rhs);
+
+template<typename UIntType_, size_t w_, size_t s_, size_t r_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const subtract_with_carry_engine<UIntType_,w_,s_,r_> &e);
+
+template<typename UIntType_, size_t w_, size_t s_, size_t r_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           subtract_with_carry_engine<UIntType_,w_,s_,r_> &e);
 
 
 // XXX N2111 uses uint_fast32_t here
@@ -110,7 +124,13 @@ typedef subtract_with_carry_engine<thrust::detail::uint32_t, 24, 10, 24> ranlux2
 // XXX N2111 uses uint_fast64_t here
 typedef subtract_with_carry_engine<thrust::detail::uint64_t, 48,  5, 12> ranlux48_base;
 
+
 } // end random
+
+// import names into thrust::
+using random::subtract_with_carry_engine;
+using random::ranlux24_base;
+using random::ranlux48_base;
 
 } // end thrust
 

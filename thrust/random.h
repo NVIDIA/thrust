@@ -50,22 +50,8 @@ typedef xor_combine_engine<
 
 } // end random
 
-// import random:: names into thrust::
-using random::linear_congruential_engine;
-using random::minstd_rand;
-using random::minstd_rand0;
-
-using random::linear_feedback_shift_engine;
-
-using random::subtract_with_carry_engine;
-using random::ranlux24_base;
-using random::ranlux48_base;
-
-using random::xor_combine_engine;
-
+// import names into thrust::
 using random::taus88;
-
-// XXX import random::uniform_real_distribution when it is non-experimental
 
 } // end thrust
 

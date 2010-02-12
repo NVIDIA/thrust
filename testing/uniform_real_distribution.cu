@@ -33,7 +33,7 @@ template<typename T>
   void operator()(void)
   {
     typedef typename thrust::minstd_rand Engine;
-    typedef typename thrust::experimental::random::uniform_real_distribution<float> Distribution;
+    typedef typename thrust::random::experimental::uniform_real_distribution<float> Distribution;
 
     Engine eng;
     Distribution dist(-13, 7);

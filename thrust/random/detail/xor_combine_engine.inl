@@ -15,6 +15,7 @@
  */
 
 #include <thrust/random/xor_combine_engine.h>
+#include <thrust/random/detail/random_core_access.h>
 
 namespace thrust
 {
@@ -104,11 +105,10 @@ template<typename Engine1, size_t s1,
 } // end xor_combine_engine::discard()
 
 
-template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
-         typename CharT, typename Traits>
-std::basic_ostream<CharT,Traits>&
-operator<<(std::basic_ostream<CharT,Traits> &os,
-           const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e)
+template<typename Engine1, size_t s1, typename Engine2, size_t s2>
+  template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& xor_combine_engine<Engine1,s1,Engine2,s2>
+      ::stream_out(std::basic_ostream<CharT,Traits> &os) const
 {
   typedef std::basic_ostream<CharT,Traits> ostream_type;
   typedef typename ostream_type::ios_base  ios_base;
@@ -122,7 +122,7 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
   os.fill(space);
 
   // output each base engine in turn
-  os << e.base1() << space << e.base2();
+  os << base1() << space << base2();
 
   // restore old flags and fill character
   os.flags(flags);
@@ -131,11 +131,10 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
 }
 
 
-template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
-         typename CharT, typename Traits>
-std::basic_istream<CharT,Traits>&
-operator>>(std::basic_istream<CharT,Traits> &is,
-           xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e)
+template<typename Engine1, size_t s1, typename Engine2, size_t s2>
+  template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& xor_combine_engine<Engine1,s1,Engine2,s2>
+      ::stream_in(std::basic_istream<CharT,Traits> &is)
 {
   typedef std::basic_istream<CharT,Traits> istream_type;
   typedef typename istream_type::ios_base  ios_base;
@@ -146,7 +145,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
   is.flags(ios_base::skipws);
 
   // input each base engine in turn
-  is >> e.m_b1 >> e.m_b2;
+  is >> m_b1 >> m_b2;
 
   // restore old flags
   is.flags(flags);
@@ -155,10 +154,38 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 
 template<typename Engine1, size_t s1, typename Engine2, size_t s2>
+  bool xor_combine_engine<Engine1,s1,Engine2,s2>
+    ::equal(const xor_combine_engine<Engine1,s1,Engine2,s2> &rhs) const
+{
+  return (m_b1 == rhs.m_b1) && (m_b2 == rhs.m_b2);
+}
+
+
+template<typename Engine1, size_t s1, typename Engine2, size_t s2,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const xor_combine_engine<Engine1,s1,Engine2,s2> &e)
+{
+  return thrust::random::detail::random_core_access::stream_out(os,e);
+}
+
+
+template<typename Engine1, size_t s1, typename Engine2, size_t s2,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           xor_combine_engine<Engine1,s1,Engine2,s2> &e)
+{
+  return thrust::random::detail::random_core_access::stream_in(is,e);
+}
+
+
+template<typename Engine1, size_t s1, typename Engine2, size_t s2>
 bool operator==(const xor_combine_engine<Engine1,s1,Engine2,s2> &lhs,
                 const xor_combine_engine<Engine1,s1,Engine2,s2> &rhs)
 {
-  return (lhs.m_b1 == rhs.m_b1) && (lhs.m_b2 == rhs.m_b2);
+  return thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 

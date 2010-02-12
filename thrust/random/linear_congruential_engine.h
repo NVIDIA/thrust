@@ -81,6 +81,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
      */
 }; // end linear_congruential
 
+
 template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
 __host__ __device__
 bool operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
@@ -109,6 +110,11 @@ typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 214748364
 typedef linear_congruential_engine<thrust::detail::uint32_t, 48271, 0, 2147483647> minstd_rand;
   
 } // end random
+
+// import names into thrust::
+using random::linear_congruential_engine;
+using random::minstd_rand;
+using random::minstd_rand0;
 
 } // end thrust
 

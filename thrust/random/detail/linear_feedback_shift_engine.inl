@@ -47,6 +47,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
   return m_value;
 } // end linear_feedback_shift_engine::operator()()
 
+
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
   void linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::discard(unsigned long long z)
@@ -58,11 +59,10 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 } // end linear_feedback_shift_engine::discard()
 
 
-template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
-         typename CharT, typename Traits>
-std::basic_ostream<CharT,Traits>&
-operator<<(std::basic_ostream<CharT,Traits> &os,
-           const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e)
+template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
+  template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& linear_feedback_shift_engine<UIntType,w,k,q,s>
+      ::stream_out(std::basic_ostream<CharT,Traits> &os) const
 {
   typedef std::basic_ostream<CharT,Traits> ostream_type;
   typedef typename ostream_type::ios_base  ios_base;
@@ -75,7 +75,7 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
   os.fill(os.widen(' '));
 
   // output one word of state
-  os << e.m_value;
+  os << m_value;
 
   // restore flags & fill character
   os.flags(flags);
@@ -85,11 +85,10 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
 }
 
 
-template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
-         typename CharT, typename Traits>
-std::basic_istream<CharT,Traits>&
-operator>>(std::basic_istream<CharT,Traits> &is,
-           linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e)
+template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
+  template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& linear_feedback_shift_engine<UIntType,w,k,q,s>
+      ::stream_in(std::basic_istream<CharT,Traits> &is)
 {
   typedef std::basic_istream<CharT,Traits> istream_type;
   typedef typename istream_type::ios_base     ios_base;
@@ -100,7 +99,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
   is.flags(ios_base::dec);
 
   // input one word of state
-  is >> e.m_value;
+  is >> m_value;
 
   // restore flags
   is.flags(flags);
@@ -110,10 +109,18 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
+  bool linear_feedback_shift_engine<UIntType,w,k,q,s>
+    ::equal(const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs) const
+{
+  return m_value == rhs.m_value;
+}
+
+
+template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 bool operator==(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
                 const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
 {
-  return lhs.m_value == rhs.m_value;
+  return thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -121,7 +128,27 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 bool operator!=(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
                 const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
 {
-  return (!lhs == rhs);
+  return !(lhs == rhs);
+}
+
+
+template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e)
+{
+  return thrust::random::detail::random_core_access::stream_out(os,e);
+}
+
+
+template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e)
+{
+  return thrust::random::detail::random_core_access::stream_in(is,e);
 }
 
 

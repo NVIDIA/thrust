@@ -90,6 +90,8 @@ template<typename RealType = double>
 
 } // end random
 
+// XXX import random::uniform_real_distribution when it is non-experimental
+
 } // end thrust
 
 #include <thrust/random/detail/uniform_real_distribution.inl>

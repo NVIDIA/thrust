@@ -17,6 +17,7 @@
 #include <thrust/random/linear_congruential_engine.h>
 #include <thrust/random/subtract_with_carry_engine.h>
 #include <thrust/random/detail/mod.h>
+#include <thrust/random/detail/random_core_access.h>
 
 namespace thrust
 {
@@ -93,11 +94,10 @@ template<typename UIntType, size_t w, size_t s, size_t r>
 } // end subtract_with_carry_engine::discard()
 
 
-template<typename UIntType, size_t w, size_t s, size_t r,
-         typename CharT, typename Traits>
-std::basic_ostream<CharT,Traits>&
-operator<<(std::basic_ostream<CharT,Traits> &os,
-           const subtract_with_carry_engine<UIntType,w,s,r> &e)
+template<typename UIntType, size_t w, size_t s, size_t r>
+  template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& subtract_with_carry_engine<UIntType,w,s,r>
+      ::stream_out(std::basic_ostream<CharT,Traits> &os) const
 {
   typedef std::basic_ostream<CharT,Traits> ostream_type;
   typedef typename ostream_type::ios_base     ios_base;
@@ -111,8 +111,8 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
   const UIntType long_lag = r;
                                                           
   for(size_t i = 0; i < r; ++i)
-    os << e.m_x[(i + e.m_k) % long_lag] << space;
-  os << e.m_carry;
+    os << m_x[(i + m_k) % long_lag] << space;
+  os << m_carry;
                                                                           
   os.flags(flags);
   os.fill(fill);
@@ -120,11 +120,10 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
 }
 
 
-template<typename UIntType, size_t w, size_t s, size_t r,
-         typename CharType, typename Traits>
-std::basic_istream<CharType,Traits>&
-operator>>(std::basic_istream<CharType,Traits> &is,
-           subtract_with_carry_engine<UIntType,w,s,r> &e)
+template<typename UIntType, size_t w, size_t s, size_t r>
+  template<typename CharType, typename Traits>
+    std::basic_istream<CharType,Traits>& subtract_with_carry_engine<UIntType,w,s,r>
+      ::stream_in(std::basic_istream<CharType,Traits> &is)
 {
   typedef std::basic_istream<CharType,Traits> istream_type;
   typedef typename istream_type::ios_base     ios_base;
@@ -133,10 +132,10 @@ operator>>(std::basic_istream<CharType,Traits> &is,
   is.flags(ios_base::dec | ios_base::skipws);
 
   for(size_t i = 0; i < r; ++i)
-    is >> e.m_x[i];
-  is >> e.m_carry;
+    is >> m_x[i];
+  is >> m_carry;
 
-  e.m_k = 0;
+  m_k = 0;
 
   is.flags(flags);
   return is;
@@ -144,27 +143,55 @@ operator>>(std::basic_istream<CharType,Traits> &is,
 
 
 template<typename UIntType, size_t w, size_t s, size_t r>
-bool operator==(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
-                const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
+  bool subtract_with_carry_engine<UIntType,w,s,r>
+    ::equal(const subtract_with_carry_engine<UIntType,w,s,r> &rhs) const
 {
   const UIntType long_lag = r;
 
   bool result = true;
   for(size_t i = 0; i < r; ++i)
   {
-    result &= (lhs.m_x[(i + lhs.m_k) % long_lag] == rhs.m_x[(i + rhs.m_k) % long_lag]);
+    result &= (m_x[(i + m_k) % long_lag] == rhs.m_x[(i + rhs.m_k) % long_lag]);
   }
 
   // XXX not sure if this last check is necessary
-  result &= (lhs.m_carry == rhs.m_carry);
+  result &= (m_carry == rhs.m_carry);
 
   return result;
 }
 
 
+template<typename UIntType, size_t w, size_t s, size_t r,
+         typename CharT, typename Traits>
+  std::basic_ostream<CharT,Traits>&
+    operator<<(std::basic_ostream<CharT,Traits> &os,
+               const subtract_with_carry_engine<UIntType,w,s,r> &e)
+{
+  return thrust::random::detail::random_core_access::stream_out(os,e);
+}
+
+
+template<typename UIntType, size_t w, size_t s, size_t r,
+         typename CharType, typename Traits>
+  std::basic_istream<CharType,Traits>&
+    operator>>(std::basic_istream<CharType,Traits> &is,
+               subtract_with_carry_engine<UIntType,w,s,r> &e)
+{
+  return thrust::random::detail::random_core_access::stream_in(is,e);
+}
+
+
 template<typename UIntType, size_t w, size_t s, size_t r>
-bool operator!=(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
-                const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
+  bool operator==(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
+                  const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
+{
+  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+}
+
+
+template<typename UIntType, size_t w, size_t s, size_t r>
+  bool operator!=(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
+                  const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
 {
   return !(lhs == rhs);
 }

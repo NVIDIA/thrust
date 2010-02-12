@@ -25,6 +25,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/random/detail/xor_combine_engine_max.h>
+#include <thrust/random/detail/random_core_access.h>
 #include <iostream>
 #include <cstddef> // for size_t
 
@@ -83,38 +84,58 @@ template<typename Engine1, size_t s1,
     __host__ __device__
     void discard(unsigned long long z);
 
-    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
-    friend __host__ __device__
-    bool operator==(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
-                    const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
-
-    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
-    friend __host__ __device__
-    bool operator!=(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
-                    const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
-
-    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
-             typename CharT, typename Traits>
-    friend std::basic_ostream<CharT,Traits>&
-    operator<<(std::basic_ostream<CharT,Traits> &os,
-               const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e);
-
-    template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
-             typename CharT, typename Traits>
-    friend std::basic_istream<CharT,Traits>&
-    operator>>(std::basic_istream<CharT,Traits> &is,
-               xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e);
-
     /*! \cond
      */
   private:
     base1_type m_b1;
     base2_type m_b2;
+
+    friend struct thrust::random::detail::random_core_access;
+
+    __host__ __device__
+    bool equal(const xor_combine_engine &rhs) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& stream_in(std::basic_istream<CharT,Traits> &is);
+
+    template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& stream_out(std::basic_ostream<CharT,Traits> &os) const;
+
     /*! \endcond
      */
 }; // end xor_combine_engine
 
+
+template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
+__host__ __device__
+bool operator==(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
+                const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
+
+
+template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
+__host__ __device__
+bool operator!=(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
+                const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
+
+
+template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e);
+
+
+template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &e);
+
+
 } // end random
+
+// import names into thrust::
+using random::xor_combine_engine;
 
 } // end thrust
 
