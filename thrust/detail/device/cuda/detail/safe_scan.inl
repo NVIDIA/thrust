@@ -240,7 +240,6 @@ void exclusive_update(OutputIterator output,
                       const unsigned int N,
                       const unsigned int interval_size,
                       OutputType * block_results,
-                      OutputType init,
                       BinaryFunction binary_op)
 {
     thrust::detail::device::cuda::extern_shared_ptr<OutputType> sdata;
@@ -249,7 +248,7 @@ void exclusive_update(OutputIterator output,
     const unsigned int interval_end   = min(interval_begin + interval_size, N);
 
     // value to add to this segment 
-    OutputType carry = init;
+    OutputType carry = block_results[gridDim.x]; // init
     if (blockIdx.x != 0)
     {
         OutputType tmp = block_results[blockIdx.x - 1];
@@ -428,13 +427,15 @@ OutputIterator exclusive_scan(InputIterator first,
              binary_op);
     }
 
+    // copy the initial value to the device
+    block_results[num_blocks] = init;
+
     // update intervals with result of second level scan
     exclusive_update<<<num_blocks, block_size, smem_size>>>
         (output,
          N,
          interval_size,
          thrust::raw_pointer_cast(&block_results[0]),
-         OutputType(init),
          binary_op);
 
     return output + N;
