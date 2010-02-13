@@ -220,19 +220,23 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
   first2 += dereference(partition_begin_indices2);
   result += dereference(partition_begin_indices1);
 
+  // allocate shared backing store
   const unsigned int array_size = align_size_to_int<block_size * sizeof(value_type)>::value;
-  __shared__ int _first2[array_size];
-  __shared__ int _first1[array_size];		
+  __shared__ int _shared1[array_size];		
+  __shared__ int _shared2[array_size];
   __shared__ int _result[array_size];
+
+  const pair<value_type*,value_type*> s_storage1 = make_pair(reinterpret_cast<value_type*>(_shared1),
+                                                             reinterpret_cast<value_type*>(_shared1) + block_size);
+  const pair<value_type*,value_type*> s_storage2 = make_pair(reinterpret_cast<value_type*>(_shared2),
+                                                             reinterpret_cast<value_type*>(_shared2) + block_size);
   
   value_type* s_result = reinterpret_cast<value_type*>(_result);
 
   // keep two ranges in shared memory
-  pair<value_type*,value_type*> s_range1 = make_pair(reinterpret_cast<value_type*>(_first1),
-                                                     reinterpret_cast<value_type*>(_first1));
-
-  pair<value_type*,value_type*> s_range2 = make_pair(reinterpret_cast<value_type*>(_first2),
-                                                     reinterpret_cast<value_type*>(_first2));
+  // these ranges begin empty, pointing to the end of their backing store
+  pair<value_type*,value_type*> s_range1 = make_pair(s_storage1.second, s_storage1.second);
+  pair<value_type*,value_type*> s_range2 = make_pair(s_storage2.second, s_storage2.second);
   
   bool fetch2 = true;
   bool fetch1 = true;
@@ -252,7 +256,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       //__syncthreads()
       //if(threadIdx.x == 0)
       //{
-      //  scalar::rotate(reinterpret_cast<value_type*>(_first1), s_range1.first, s_range1.second);
+      //  scalar::rotate(reinterpret_cast<value_type*>(s_storage1), s_range1.first, s_range1.second);
       //}
       //__syncthreads();
 
@@ -263,7 +267,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 #endif
 
       // reset s_range1 to point to the beginning of its shared storage
-      s_range1.first = reinterpret_cast<value_type*>(_first1);
+      s_range1.first = s_storage1.first;
 
       // copy from the input into shared mem
       s_range1.second = thrust::detail::device::cuda::block::copy(first1, end, s_range1.first);
@@ -275,6 +279,15 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     // bring the segment from the second range into shared memory
     if(fetch2)
     {
+      // push remaining input from the previous iteration to the front of the storage
+      // XXX rotate is actually redundant -- we don't need to keep [first,middle)
+      //__syncthreads()
+      //if(threadIdx.x == 0)
+      //{
+      //  scalar::rotate(reinterpret_cast<value_type*>(s_storage2), s_range2.first, s_range2.second);
+      //}
+      //__syncthreads();
+        
       RandomAccessIterator2 end = thrust::min(first2 + block_size, last2);
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
@@ -282,7 +295,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 #endif
 
       // reset s_range2 to point to the beginning of its shared storage
-      s_range2.first = reinterpret_cast<value_type*>(_first2);
+      s_range2.first = s_storage2.first;
 
       // copy from the input into shared mem
       s_range2.second = thrust::detail::device::cuda::block::copy(first2, end, s_range2.first);
@@ -294,14 +307,38 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     __syncthreads();
 
     // XXX bring these into registers rather than do multiple shared loads?
-    bool greater1 = comp(s_range2.second[-1], s_range1.second[-1]);
-    bool greater2 = comp(s_range1.second[-1], s_range2.second[-1]);
+    bool range2_has_strictly_lesser_bound = comp(s_range2.second[-1], s_range1.second[-1]);
+    bool range1_has_strictly_lesser_bound = comp(s_range1.second[-1], s_range2.second[-1]);
     
-    pair<value_type*,value_type*> &s_range_with_greater_bound = greater1 ? s_range1 : s_range2;
-    pair<value_type*,value_type*> &s_range_with_lesser_bound  = greater1 ? s_range2 : s_range1;
+    pair<value_type*,value_type*> &s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
+    pair<value_type*,value_type*> &s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
     
-    fetch1 = !greater1;
-    fetch2 = !greater2;
+//  // XXX i think we have to defer the decision to fetch until we know the result of the intersection
+    fetch1 = !range2_has_strictly_lesser_bound;
+    fetch2 = !range1_has_strictly_lesser_bound;
+
+    // check for special case where ranges' bounds are equivalent
+    if(!range1_has_strictly_lesser_bound && !range2_has_strictly_lesser_bound)
+    {
+      // in this case, we don't want to eject the smaller range because there's more
+      // left to search
+      if(range2_has_strictly_lesser_bound)
+      {
+        fetch2 = false;
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+        cuPrintf("Retaining range2 next round due to special case\n");
+#endif
+      }
+      else
+      {
+        fetch1 = false;
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+        cuPrintf("Retaining range1 next round due to special case\n");
+#endif
+      }
+    }
     
 #ifdef THRUST_DEBUG_SET_INTERSECTION
     if((s_range_with_lesser_bound.second - s_range_with_lesser_bound.first) > block_size)
@@ -326,6 +363,18 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       = block::set_intersection<block_size>(s_range_with_lesser_bound.first,  s_range_with_lesser_bound.second,
                                             s_range_with_greater_bound.first, s_range_with_greater_bound.second,
                                             s_result, comp);
+
+    // when s_range_with_greater_bound.second[-1] is not equivalent to s_range_with_lesser_bound.second[-1],
+    // (i.e., s_range_with_greater_bound truly has a greater bound)
+    // it's always safe to eject all of s_range_with_lesser_bound
+    // in this case, collapse s_range_with_lesser_bound to an empty range
+    // else, we need to retain elements that were not intersected.
+    // this is a special case that occurs in the presense of multisets.
+    if(range1_has_strictly_lesser_bound || range2_has_strictly_lesser_bound)
+    {
+      // ranges' bounds are not equivalent, it's safe to eject all of the range with lesser bound
+      s_range_with_lesser_bound.first = s_range_with_lesser_bound.second;
+    }
     
     // copy out to result, advance iterator
     result = thrust::detail::device::cuda::block::copy(s_result, s_result_end, result);
