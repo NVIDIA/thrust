@@ -226,6 +226,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
   __shared__ int _shared2[array_size];
   __shared__ int _result[array_size];
 
+  // XXX eliminate s_storageX.second -- it's redundant
   const pair<value_type*,value_type*> s_storage1 = make_pair(reinterpret_cast<value_type*>(_shared1),
                                                              reinterpret_cast<value_type*>(_shared1) + block_size);
   const pair<value_type*,value_type*> s_storage2 = make_pair(reinterpret_cast<value_type*>(_shared2),
@@ -238,67 +239,107 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
   pair<value_type*,value_type*> s_range1 = make_pair(s_storage1.second, s_storage1.second);
   pair<value_type*,value_type*> s_range2 = make_pair(s_storage2.second, s_storage2.second);
   
-  bool fetch2 = true;
-  bool fetch1 = true;
-  
   typename thrust::iterator_value<RandomAccessIterator6>::type result_partition_size(0);
   	
-  while(true)
+  while(first1 < last1 || first2 < last2)
   {
-    // XXX these copies are probably frequently the same length and could
-    //     be merged
-
-    // bring the segment from the first range into shared memory
-    if(fetch1)
+    // fetch into the first segment if there's input left and we have room
+    size_t num_elements_to_fetch = s_range1.first - s_storage1.first;
+    if((first1 < last1) && (num_elements_to_fetch > 0))
     {
       // push remaining input from the previous iteration to the front of the storage
       // XXX rotate is actually redundant -- we don't need to keep [first,middle)
-      //__syncthreads()
-      //if(threadIdx.x == 0)
-      //{
-      //  scalar::rotate(reinterpret_cast<value_type*>(s_storage1), s_range1.first, s_range1.second);
-      //}
-      //__syncthreads();
+      //     we should rotate *after* pulling in from gmem
+      if(s_range1.first != s_range1.second)
+      {
+        // note the block is convergent at these barriers
+        __syncthreads();
+        if(threadIdx.x == 0)
+        {
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+          cuPrintf("rotating s_range1\n");
 
-      RandomAccessIterator1 end = thrust::min(first1 + block_size, last1);
+          if(!comp(s_range1.first[0], s_range1.second[-1]))
+          {
+            cuPrintf("ERROR: s_range1 is not sorted before rotate!\n");
+          }
+#endif
+
+          scalar::rotate(s_storage1.first, s_range1.first, s_range1.second);
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+          if(!comp(s_storage1.first[0], s_range1.first[-1]))
+          {
+            cuPrintf("ERROR: s_range1 is not sorted after rotate!\n");
+          }
+#endif
+        }
+        __syncthreads();
+      }
+
+      // XXX ideally, the new end falls out of block::rotate
+      s_range1.second = s_storage1.second - num_elements_to_fetch;
+
+      RandomAccessIterator1 end = thrust::min(first1 + num_elements_to_fetch, last1);
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
       cuPrintf("Fetching %d from left side\n", (end - first1));
 #endif
 
+      // copy from the input into shared mem
+      s_range1.second = thrust::detail::device::cuda::block::copy(first1, end, s_range1.second);
+
       // reset s_range1 to point to the beginning of its shared storage
       s_range1.first = s_storage1.first;
-
-      // copy from the input into shared mem
-      s_range1.second = thrust::detail::device::cuda::block::copy(first1, end, s_range1.first);
 
       // bump the input iterator
       first1 = end;
     }
 
-    // bring the segment from the second range into shared memory
-    if(fetch2)
+    // fetch into the second segment if we have room
+    num_elements_to_fetch = s_range2.first - s_storage2.first;
+    if((first2 < last2) && (num_elements_to_fetch > 0))
     {
       // push remaining input from the previous iteration to the front of the storage
       // XXX rotate is actually redundant -- we don't need to keep [first,middle)
-      //__syncthreads()
-      //if(threadIdx.x == 0)
-      //{
-      //  scalar::rotate(reinterpret_cast<value_type*>(s_storage2), s_range2.first, s_range2.second);
-      //}
-      //__syncthreads();
-        
-      RandomAccessIterator2 end = thrust::min(first2 + block_size, last2);
+      //     we should rotate *after* pulling in from gmem
+      if(s_range2.first < s_range2.second)
+      {
+        // note the block is convergent at these barriers
+        __syncthreads();
+        if(threadIdx.x == 0)
+        {
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+          cuPrintf("rotating s_range2: [%d,%d]\n", s_range2.first[0], s_range2.second[-1]);
+
+          if(!comp(s_range2.first[0], s_range2.second[-1]))
+          {
+            cuPrintf("ERROR: s_range2 is not sorted before rotate!\n");
+          }
+#endif
+
+          scalar::rotate(s_storage2.first, s_range2.first, s_range2.second);
+        }
+        __syncthreads();
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
-      cuPrintf("Fetching %d from right side\n", (end - first2));
+        if(!comp(s_storage2.first[0], s_range2.first[-1]))
+        {
+          cuPrintf("ERROR: s_range2 with size %d is not sorted after rotate: [%d,%d]\n", s_range2.first - s_storage2.first, s_storage2.first[0], s_range2.first[-1]);
+        }
 #endif
+      }
+
+      // XXX ideally, the new end falls out of block::rotate
+      s_range2.second = s_storage2.second - num_elements_to_fetch;
+        
+      RandomAccessIterator2 end = thrust::min(first2 + num_elements_to_fetch, last2);
+
+      // copy from the input into shared mem
+      s_range2.second = thrust::detail::device::cuda::block::copy(first2, end, s_range2.second);
 
       // reset s_range2 to point to the beginning of its shared storage
       s_range2.first = s_storage2.first;
-
-      // copy from the input into shared mem
-      s_range2.second = thrust::detail::device::cuda::block::copy(first2, end, s_range2.first);
 
       // bump the input iterator
       first2 = end;
@@ -306,53 +347,34 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     
     __syncthreads();
 
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+    if(s_range1.first < s_range1.second)
+    {
+      if(!comp(s_range1.first[0], s_range1.second[-1]))
+      {
+        cuPrintf("ERROR: s_range1 is not sorted!\n");
+      }
+    }
+
+    if(s_range2.first < s_range2.second)
+    {
+      if(!comp(s_range2.first[0], s_range2.second[-1]))
+      {
+        cuPrintf("ERROR: s_range2 is not sorted!\n");
+      }
+    }
+#endif
+
     // XXX bring these into registers rather than do multiple shared loads?
     bool range2_has_strictly_lesser_bound = comp(s_range2.second[-1], s_range1.second[-1]);
     bool range1_has_strictly_lesser_bound = comp(s_range1.second[-1], s_range2.second[-1]);
     
     pair<value_type*,value_type*> &s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
     pair<value_type*,value_type*> &s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
-    
-//  // XXX i think we have to defer the decision to fetch until we know the result of the intersection
-    fetch1 = !range2_has_strictly_lesser_bound;
-    fetch2 = !range1_has_strictly_lesser_bound;
-
-    // check for special case where ranges' bounds are equivalent
-    if(!range1_has_strictly_lesser_bound && !range2_has_strictly_lesser_bound)
-    {
-      // in this case, we don't want to eject the smaller range because there's more
-      // left to search
-      if(range2_has_strictly_lesser_bound)
-      {
-        fetch2 = false;
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
-        cuPrintf("Retaining range2 next round due to special case\n");
-#endif
-      }
-      else
-      {
-        fetch1 = false;
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-        cuPrintf("Retaining range1 next round due to special case\n");
-#endif
-      }
-    }
-    
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-    if((s_range_with_lesser_bound.second - s_range_with_lesser_bound.first) > block_size)
-    {
-      cuPrintf("ERROR: range_with_lesser_bound.size(): %d\n", (s_range_with_lesser_bound.second - s_range_with_lesser_bound.first));
-    }
-
-    if((s_range_with_greater_bound.second - s_range_with_greater_bound.first) > block_size)
-    {
-      cuPrintf("ERROR: range_with_greater_bound.size(): %d\n", (s_range_with_greater_bound.second - s_range_with_greater_bound.first));
-    }
-
-    cuPrintf("lesser  range: [%d, %d]\n", s_range_with_lesser_bound.first[0],  s_range_with_lesser_bound.second[-1]);
-    cuPrintf("greater range: [%d, %d]\n", s_range_with_greater_bound.first[0], s_range_with_greater_bound.second[-1]);
+    cuPrintf("lesser  range: [%i, %i]\n", s_range_with_lesser_bound.first[0],  s_range_with_lesser_bound.second[-1]);
+    cuPrintf("greater range: [%i, %i]\n", s_range_with_greater_bound.first[0], s_range_with_greater_bound.second[-1]);
 #endif
 
     // XXX this spot is probably the point of parameterization for other related algorithms
@@ -381,16 +403,13 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
     if(s_result_end > s_result)
-      cuPrintf("Output %d, last result output: %d\n", (s_result_end - s_result), dereference(result-1));
+      cuPrintf("Output %d, last result output: %i\n", (s_result_end - s_result), (short)dereference(result-1));
     else
       cuPrintf("Nothing output that round\n");
 #endif
 
     // increment size of the output
     result_partition_size += (s_result_end - s_result);
-    
-    if(fetch1 && first1 >= last1) break;
-    if(fetch2 && first2 >= last2) break;
   }
   
   if(thread_idx == 0)
@@ -534,7 +553,8 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   	first1, last1,
         first2, last2,
         temp_result.begin(), 
-  	partition_begin_indices1.begin(),
+        partition_begin_indices1_guess,
+//  	partition_begin_indices1.begin(),
   	partition_begin_indices2.begin(),
   	result_partition_sizes.begin(), 
   	comp,
@@ -554,7 +574,8 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   set_intersection_detail::grouped_gather<<< num_partitions, block_size >>>( 
   	result,
   	temp_result.begin(),
-  	partition_begin_indices1.begin(),
+        partition_begin_indices1_guess,
+//  	partition_begin_indices1.begin(),
   	output_segment_end_indices.begin());
 
   return result + result_partition_sizes[num_partitions - 1];
