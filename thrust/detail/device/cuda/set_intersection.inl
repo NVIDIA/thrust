@@ -41,7 +41,7 @@
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
 
-//#define THRUST_DEBUG_SET_INTERSECTION
+#define THRUST_DEBUG_SET_INTERSECTION
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
 // XXX remove me
@@ -189,8 +189,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
                                         RandomAccessIterator4 partition_begin_indices1, 
                                         RandomAccessIterator5 partition_begin_indices2, 
                                         RandomAccessIterator6 result_partition_sizes, 
-                                        StrictWeakOrdering comp,
-                                        unsigned int *debug)
+                                        StrictWeakOrdering comp)
 {
 #ifdef THRUST_DEBUG_SET_INTERSECTION
   cuPrintfRestrict(0,CUPRINTF_UNRESTRICTED);
@@ -369,8 +368,11 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     bool range2_has_strictly_lesser_bound = comp(s_range2.second[-1], s_range1.second[-1]);
     bool range1_has_strictly_lesser_bound = comp(s_range1.second[-1], s_range2.second[-1]);
     
-    pair<value_type*,value_type*> &s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
-    pair<value_type*,value_type*> &s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
+    // XXX these references don't seem to work on tesla
+//    pair<value_type*,value_type*> &s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
+//    pair<value_type*,value_type*> &s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
+    pair<value_type*,value_type*> s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
+    pair<value_type*,value_type*> s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
     cuPrintf("lesser  range: [%i, %i]\n", s_range_with_lesser_bound.first[0],  s_range_with_lesser_bound.second[-1]);
@@ -397,6 +399,10 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       // ranges' bounds are not equivalent, it's safe to eject all of the range with lesser bound
       s_range_with_lesser_bound.first = s_range_with_lesser_bound.second;
     }
+
+    // XXX we wouldn't have to do this is if the references worked correctly on tesla
+    s_range1 = range2_has_strictly_lesser_bound ? s_range_with_greater_bound : s_range_with_lesser_bound;
+    s_range2 = range2_has_strictly_lesser_bound ? s_range_with_lesser_bound  : s_range_with_greater_bound;
     
     // copy out to result, advance iterator
     result = thrust::detail::device::cuda::block::copy(s_result, s_result_end, result);
@@ -519,15 +525,37 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   thrust::transform_iterator< mult_by<difference1>, counter1>
     partition_begin_indices1_guess
       = thrust::make_transform_iterator(counter1(0), mult_by<difference1>(partition_size));
+
   // XXX we could encapsulate this gather in a permutation_iterator
   raw_buffer<value_type, cuda_device_space_tag> partition_values(num_partitions);
   thrust::next::gather(partition_begin_indices1_guess, partition_begin_indices1_guess + partition_values.size(),
                        first1,
                        partition_values.begin());
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after gather: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
 
   typename raw_buffer<value_type, cuda_device_space_tag>::iterator end = 
     thrust::unique(partition_values.begin(), partition_values.end());
   num_partitions = end - partition_values.begin();
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after unique: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
   
   raw_buffer<difference1, cuda_device_space_tag> partition_begin_indices1(num_partitions);
   raw_buffer<difference2, cuda_device_space_tag> partition_begin_indices2(num_partitions);
@@ -535,15 +563,33 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   thrust::lower_bound(first1, last1,
                       partition_values.begin(), partition_values.end(), 
                       partition_begin_indices1.begin(), comp);
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after first lower_bound: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
   
   thrust::lower_bound(first2, last2,
                       partition_values.begin(), partition_values.end(), 
                       partition_begin_indices2.begin(), comp);
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after second lower_bound: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
 
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_partitions);
   raw_buffer< value_type, cuda_device_space_tag> temp_result(num_elements1);
-
-  thrust::device_vector<unsigned int> debug(1, 0);
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
   cudaPrintfInit();
@@ -557,16 +603,37 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
 //  	partition_begin_indices1.begin(),
   	partition_begin_indices2.begin(),
   	result_partition_sizes.begin(), 
-  	comp,
-        thrust::raw_pointer_cast(&debug[0]));
+  	comp);
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
+  std::cerr << "after set_intersection_kernel" << std::endl;
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after set_intersection_kernel: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
   cudaPrintfDisplay(stdout, true);
   cudaPrintfEnd();
 #endif
 
 
   thrust::inclusive_scan(result_partition_sizes.begin(), result_partition_sizes.end(), result_partition_sizes.begin());
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after inclusive_scan: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+  cudaPrintfDisplay(stdout, true);
+  cudaPrintfEnd();
+#endif
 
   // after the inclusive scan, we have the end of each segment
   raw_buffer<difference1, cuda_device_space_tag> &output_segment_end_indices = result_partition_sizes;
@@ -577,6 +644,16 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
         partition_begin_indices1_guess,
 //  	partition_begin_indices1.begin(),
   	output_segment_end_indices.begin());
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  {
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess)
+    {
+      std::cerr << "CUDA error after grouped_gather: " << cudaGetErrorString(error) << std::endl;
+      exit(-1);
+    }
+  }
+#endif
 
   return result + result_partition_sizes[num_partitions - 1];
 } // end set_intersection
