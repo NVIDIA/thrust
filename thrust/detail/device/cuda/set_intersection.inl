@@ -41,7 +41,7 @@
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
 
-#define THRUST_DEBUG_SET_INTERSECTION
+//#define THRUST_DEBUG_SET_INTERSECTION
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
 // XXX remove me
@@ -225,25 +225,21 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
   __shared__ int _shared2[array_size];
   __shared__ int _result[array_size];
 
-  // XXX eliminate s_storageX.second -- it's redundant
-  const pair<value_type*,value_type*> s_storage1 = make_pair(reinterpret_cast<value_type*>(_shared1),
-                                                             reinterpret_cast<value_type*>(_shared1) + block_size);
-  const pair<value_type*,value_type*> s_storage2 = make_pair(reinterpret_cast<value_type*>(_shared2),
-                                                             reinterpret_cast<value_type*>(_shared2) + block_size);
-  
-  value_type* s_result = reinterpret_cast<value_type*>(_result);
+  value_type *s_storage1 = reinterpret_cast<value_type*>(_shared1);
+  value_type *s_storage2 = reinterpret_cast<value_type*>(_shared2);
+  value_type *s_result   = reinterpret_cast<value_type*>(_result);
 
   // keep two ranges in shared memory
   // these ranges begin empty, pointing to the end of their backing store
-  pair<value_type*,value_type*> s_range1 = make_pair(s_storage1.second, s_storage1.second);
-  pair<value_type*,value_type*> s_range2 = make_pair(s_storage2.second, s_storage2.second);
+  pair<value_type*,value_type*> s_range1 = make_pair(s_storage1 + block_size, s_storage1 + block_size);
+  pair<value_type*,value_type*> s_range2 = make_pair(s_storage2 + block_size, s_storage2 + block_size);
   
   typename thrust::iterator_value<RandomAccessIterator6>::type result_partition_size(0);
   	
   while(first1 < last1 || first2 < last2)
   {
     // fetch into the first segment if there's input left and we have room
-    size_t num_elements_to_fetch = s_range1.first - s_storage1.first;
+    size_t num_elements_to_fetch = s_range1.first - s_storage1;
     if((first1 < last1) && (num_elements_to_fetch > 0))
     {
       // push remaining input from the previous iteration to the front of the storage
@@ -264,10 +260,10 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
           }
 #endif
 
-          scalar::rotate(s_storage1.first, s_range1.first, s_range1.second);
+          scalar::rotate(s_storage1, s_range1.first, s_range1.second);
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
-          if(!comp(s_storage1.first[0], s_range1.first[-1]))
+          if(!comp(s_storage1[0], s_range1.first[-1]))
           {
             cuPrintf("ERROR: s_range1 is not sorted after rotate!\n");
           }
@@ -276,8 +272,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
         __syncthreads();
       }
 
-      // XXX ideally, the new end falls out of block::rotate
-      s_range1.second = s_storage1.second - num_elements_to_fetch;
+      s_range1.second = (s_storage1 + block_size) - num_elements_to_fetch;
 
       RandomAccessIterator1 end = thrust::min(first1 + num_elements_to_fetch, last1);
 
@@ -289,14 +284,14 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       s_range1.second = thrust::detail::device::cuda::block::copy(first1, end, s_range1.second);
 
       // reset s_range1 to point to the beginning of its shared storage
-      s_range1.first = s_storage1.first;
+      s_range1.first = s_storage1;
 
       // bump the input iterator
       first1 = end;
     }
 
     // fetch into the second segment if we have room
-    num_elements_to_fetch = s_range2.first - s_storage2.first;
+    num_elements_to_fetch = s_range2.first - s_storage2;
     if((first2 < last2) && (num_elements_to_fetch > 0))
     {
       // push remaining input from the previous iteration to the front of the storage
@@ -317,20 +312,20 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
           }
 #endif
 
-          scalar::rotate(s_storage2.first, s_range2.first, s_range2.second);
+          scalar::rotate(s_storage2, s_range2.first, s_range2.second);
         }
         __syncthreads();
 
 #ifdef THRUST_DEBUG_SET_INTERSECTION
-        if(!comp(s_storage2.first[0], s_range2.first[-1]))
+        if(!comp(s_storage2[0], s_range2.first[-1]))
         {
-          cuPrintf("ERROR: s_range2 with size %d is not sorted after rotate: [%d,%d]\n", s_range2.first - s_storage2.first, s_storage2.first[0], s_range2.first[-1]);
+          cuPrintf("ERROR: s_range2 with size %d is not sorted after rotate: [%d,%d]\n", s_range2.first - s_storage2, s_storage2[0], s_range2.first[-1]);
         }
 #endif
       }
 
       // XXX ideally, the new end falls out of block::rotate
-      s_range2.second = s_storage2.second - num_elements_to_fetch;
+      s_range2.second = (s_storage2 + block_size) - num_elements_to_fetch;
         
       RandomAccessIterator2 end = thrust::min(first2 + num_elements_to_fetch, last2);
 
@@ -338,7 +333,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       s_range2.second = thrust::detail::device::cuda::block::copy(first2, end, s_range2.second);
 
       // reset s_range2 to point to the beginning of its shared storage
-      s_range2.first = s_storage2.first;
+      s_range2.first = s_storage2;
 
       // bump the input iterator
       first2 = end;
@@ -368,7 +363,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     bool range2_has_strictly_lesser_bound = comp(s_range2.second[-1], s_range1.second[-1]);
     bool range1_has_strictly_lesser_bound = comp(s_range1.second[-1], s_range2.second[-1]);
     
-    // XXX these references don't seem to work on tesla
 //    pair<value_type*,value_type*> &s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
 //    pair<value_type*,value_type*> &s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
     pair<value_type*,value_type*> s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
@@ -381,8 +375,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 
     // XXX this spot is probably the point of parameterization for other related algorithms
     value_type *s_result_end;
-
-    // this operation simultaneously updates shared ranges' begin pointers past the last common input element
     tie(s_range_with_lesser_bound.first, s_range_with_greater_bound.first, s_result_end)
       = block::set_intersection<block_size>(s_range_with_lesser_bound.first,  s_range_with_lesser_bound.second,
                                             s_range_with_greater_bound.first, s_range_with_greater_bound.second,
@@ -400,7 +392,7 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       s_range_with_lesser_bound.first = s_range_with_lesser_bound.second;
     }
 
-    // XXX we wouldn't have to do this is if the references worked correctly on tesla
+    // write the updated ranges back
     s_range1 = range2_has_strictly_lesser_bound ? s_range_with_greater_bound : s_range_with_lesser_bound;
     s_range2 = range2_has_strictly_lesser_bound ? s_range_with_lesser_bound  : s_range_with_greater_bound;
     
