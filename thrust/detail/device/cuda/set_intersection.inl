@@ -174,6 +174,66 @@ template<unsigned int N>
 };
 
 template<unsigned int block_size,
+         typename RandomAccessIterator,
+         typename Size,
+         typename T,
+         typename Range>
+__device__
+  RandomAccessIterator shift_and_fetch_n(RandomAccessIterator first,
+                                         RandomAccessIterator last,
+                                         Size n,
+                                         T *s_storage,
+                                         Range &s_range)
+{
+  // push remaining input from the previous iteration to the front of the storage
+  // XXX rotate is actually redundant -- we don't need to keep [first,middle)
+  //     we should rotate *after* pulling in from gmem
+  if(s_range.first != s_range.second)
+  {
+    // note the block is convergent at these barriers
+    __syncthreads();
+    if(threadIdx.x == 0)
+    {
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+      cuPrintf("rotating s_range\n");
+
+      if(!comp(s_range.first[0], s_range.second[-1]))
+      {
+        cuPrintf("ERROR: s_range is not sorted before rotate!\n");
+      }
+#endif
+
+      scalar::rotate(s_storage, s_range.first, s_range.second);
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+      if(!comp(s_storage[0], s_range.first[-1]))
+      {
+        cuPrintf("ERROR: s_range is not sorted after rotate!\n");
+      }
+#endif
+    }
+    __syncthreads();
+  }
+
+  s_range.second = (s_storage + block_size) - n;
+
+  RandomAccessIterator end = thrust::min(first + n, last);
+
+#ifdef THRUST_DEBUG_SET_INTERSECTION
+  cuPrintf("Fetching %d from left side\n", (end - first));
+#endif
+
+  // copy from the input into shared mem
+  s_range.second = thrust::detail::device::cuda::block::copy(first, end, s_range.second);
+
+  // reset s_range to point to the beginning of its shared storage
+  s_range.first = s_storage;
+
+  return end;
+}
+
+
+template<unsigned int block_size,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
@@ -242,101 +302,14 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     size_t num_elements_to_fetch = s_range1.first - s_storage1;
     if((first1 < last1) && (num_elements_to_fetch > 0))
     {
-      // push remaining input from the previous iteration to the front of the storage
-      // XXX rotate is actually redundant -- we don't need to keep [first,middle)
-      //     we should rotate *after* pulling in from gmem
-      if(s_range1.first != s_range1.second)
-      {
-        // note the block is convergent at these barriers
-        __syncthreads();
-        if(threadIdx.x == 0)
-        {
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-          cuPrintf("rotating s_range1\n");
-
-          if(!comp(s_range1.first[0], s_range1.second[-1]))
-          {
-            cuPrintf("ERROR: s_range1 is not sorted before rotate!\n");
-          }
-#endif
-
-          scalar::rotate(s_storage1, s_range1.first, s_range1.second);
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-          if(!comp(s_storage1[0], s_range1.first[-1]))
-          {
-            cuPrintf("ERROR: s_range1 is not sorted after rotate!\n");
-          }
-#endif
-        }
-        __syncthreads();
-      }
-
-      s_range1.second = (s_storage1 + block_size) - num_elements_to_fetch;
-
-      RandomAccessIterator1 end = thrust::min(first1 + num_elements_to_fetch, last1);
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-      cuPrintf("Fetching %d from left side\n", (end - first1));
-#endif
-
-      // copy from the input into shared mem
-      s_range1.second = thrust::detail::device::cuda::block::copy(first1, end, s_range1.second);
-
-      // reset s_range1 to point to the beginning of its shared storage
-      s_range1.first = s_storage1;
-
-      // bump the input iterator
-      first1 = end;
+      first1 = shift_and_fetch_n<block_size>(first1,last1,num_elements_to_fetch,s_storage1,s_range1);
     }
 
     // fetch into the second segment if we have room
     num_elements_to_fetch = s_range2.first - s_storage2;
     if((first2 < last2) && (num_elements_to_fetch > 0))
     {
-      // push remaining input from the previous iteration to the front of the storage
-      // XXX rotate is actually redundant -- we don't need to keep [first,middle)
-      //     we should rotate *after* pulling in from gmem
-      if(s_range2.first < s_range2.second)
-      {
-        // note the block is convergent at these barriers
-        __syncthreads();
-        if(threadIdx.x == 0)
-        {
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-          cuPrintf("rotating s_range2: [%d,%d]\n", s_range2.first[0], s_range2.second[-1]);
-
-          if(!comp(s_range2.first[0], s_range2.second[-1]))
-          {
-            cuPrintf("ERROR: s_range2 is not sorted before rotate!\n");
-          }
-#endif
-
-          scalar::rotate(s_storage2, s_range2.first, s_range2.second);
-        }
-        __syncthreads();
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-        if(!comp(s_storage2[0], s_range2.first[-1]))
-        {
-          cuPrintf("ERROR: s_range2 with size %d is not sorted after rotate: [%d,%d]\n", s_range2.first - s_storage2, s_storage2[0], s_range2.first[-1]);
-        }
-#endif
-      }
-
-      // XXX ideally, the new end falls out of block::rotate
-      s_range2.second = (s_storage2 + block_size) - num_elements_to_fetch;
-        
-      RandomAccessIterator2 end = thrust::min(first2 + num_elements_to_fetch, last2);
-
-      // copy from the input into shared mem
-      s_range2.second = thrust::detail::device::cuda::block::copy(first2, end, s_range2.second);
-
-      // reset s_range2 to point to the beginning of its shared storage
-      s_range2.first = s_storage2;
-
-      // bump the input iterator
-      first2 = end;
+      first2 = shift_and_fetch_n<block_size>(first2,last2,num_elements_to_fetch,s_storage2,s_range2);
     }
     
     __syncthreads();
