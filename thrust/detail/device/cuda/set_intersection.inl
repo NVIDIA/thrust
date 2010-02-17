@@ -41,15 +41,6 @@
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
 
-//#define THRUST_DEBUG_SET_INTERSECTION
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-// XXX remove me
-#include <cassert>
-#include <thrust/reduce.h>
-#include <thrust/cuPrintf.cu>
-#endif
-
 namespace thrust
 {
 namespace detail
@@ -266,10 +257,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
                                         RandomAccessIterator6 result_partition_sizes, 
                                         StrictWeakOrdering comp)
 {
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  cuPrintfRestrict(0,CUPRINTF_UNRESTRICTED);
-#endif
-
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   
   const unsigned int block_idx  = blockIdx.x;
@@ -330,18 +317,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       unsigned int num_old_elements = s_range1.second - s_range1.first;
       s_range1.first  = s_storage1;
       s_range1.second = s_storage1 + num_old_elements + num_new_elements;
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-      cuPrintf("fetched %d new elements from left side, %d old elements, s_range1.size(): %d, bounds: [%i,%i], %d remaining\n", num_new_elements, num_old_elements, (s_range1.second - s_range1.first), s_range1.first[0], s_range1.second[-1], last1 - first1);
-
-      if(s_range1.first < s_range1.second)
-      {
-        if(comp(s_range1.second[-1], s_range1.first[0]))
-        {
-          cuPrintf("ERROR: s_range1 is not sorted!: [%i,%i]\n", s_range1.first[0], s_range1.second[-1]);
-        }
-      }
-#endif
     }
 
     // fetch into the second segment if we have room
@@ -356,18 +331,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
       unsigned int num_old_elements = s_range2.second - s_range2.first;
       s_range2.first  = s_storage2;
       s_range2.second = s_storage2 + num_old_elements + num_new_elements;
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-      cuPrintf("fetched %d new elements from right side, %d old elements, s_range2.size(): %d, bounds: [%i,%i], %d remaining\n", num_new_elements, num_old_elements, (s_range2.second - s_range2.first), s_range2.first[0], s_range2.second[-1], last2 - first2);
-
-      if(s_range2.first < s_range2.second)
-      {
-        if(comp(s_range2.second[-1], s_range2.first[0]))
-        {
-          cuPrintf("ERROR: s_range2 is not sorted!: [%d,%d]\n", s_range2.first[0], s_range2.second[-1]);
-        }
-      }
-#endif
     }
 
     // XXX bring these into registers rather than do multiple shared loads?
@@ -376,11 +339,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     
     pair<value_type*,value_type*> s_range_with_greater_bound = range2_has_strictly_lesser_bound ? s_range1 : s_range2;
     pair<value_type*,value_type*> s_range_with_lesser_bound  = range2_has_strictly_lesser_bound ? s_range2 : s_range1;
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-    cuPrintf("round %d: lesser  range: [%i, %i], size %d\n", round, s_range_with_lesser_bound.first[0],  s_range_with_lesser_bound.second[-1], s_range_with_lesser_bound.second - s_range_with_lesser_bound.first);
-    cuPrintf("round %d: greater range: [%i, %i], size %d\n", round, s_range_with_greater_bound.first[0], s_range_with_greater_bound.second[-1], s_range_with_greater_bound.second - s_range_with_greater_bound.first);
-#endif
 
     // XXX this spot is probably the point of parameterization for other related algorithms
     value_type *s_result_end;
@@ -410,13 +368,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 
     __syncthreads();
 
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-    if(s_result_end > s_result)
-      cuPrintf("round %d: Output %d, last result output: %i\n", round, (s_result_end - s_result), dereference(result-1));
-    else
-      cuPrintf("round %d: Nothing output that round\n", round);
-#endif
-
     // increment size of the output
     result_partition_size += (s_result_end - s_result);
  
@@ -426,13 +377,6 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
     if(s_range1.first == s_range1.second && first1 == last1) break;
     if(s_range2.first == s_range2.second && first2 == last2) break;
   }
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  cuPrintf("first1 < last1: %u\n", (first1 < last1));
-  cuPrintf("first2 < last2: %u\n", (first2 < last2));
-  cuPrintf("s_range1 empty: %u\n", (s_range1.first < s_range1.second));
-  cuPrintf("s_range2 empty: %u\n", (s_range2.first < s_range2.second));
-#endif
   
   if(thread_idx == 0)
   {
@@ -533,10 +477,6 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   
   difference1 num_partitions = ceil_div(num_elements1, partition_size);
 
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "num_partitions: " << num_partitions << std::endl;
-#endif
-
   // create the range [0, partition_size, 2*partition_size, 3*partition_size, ...]
   typedef thrust::counting_iterator<difference1, cuda_device_space_tag> counter1;
   thrust::transform_iterator< mult_by<difference1>, counter1>
@@ -548,79 +488,25 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   thrust::next::gather(partition_begin_indices1_guess, partition_begin_indices1_guess + partition_values.size(),
                        first1,
                        partition_values.begin());
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after gather: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-#endif
 
+  // we require the partition splitters to be unique
   typename raw_buffer<value_type, cuda_device_space_tag>::iterator end = 
     thrust::unique(partition_values.begin(), partition_values.end());
   num_partitions = end - partition_values.begin();
 
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after unique: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-#endif
-  
   raw_buffer<difference1, cuda_device_space_tag> partition_begin_indices1(num_partitions);
   raw_buffer<difference2, cuda_device_space_tag> partition_begin_indices2(num_partitions);
 
   thrust::lower_bound(first1, last1,
                       partition_values.begin(), partition_values.end(), 
                       partition_begin_indices1.begin(), comp);
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after first lower_bound: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-#endif
 
   thrust::lower_bound(first2, last2,
                       partition_values.begin(), partition_values.end(), 
                       partition_begin_indices2.begin(), comp);
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after second lower_bound: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-#endif
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  for(unsigned int i = 0;
-      i < num_partitions - 1;
-      ++i)
-  {
-    std::cerr << "partition " << i << " lower bound: " << first1[partition_begin_indices1[i]] << std::endl;
-    std::cerr << "partition " << i << " upper bound: " << first1[partition_begin_indices1[i+1]] << std::endl;
-  }
-#endif
 
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_partitions);
   raw_buffer< value_type, cuda_device_space_tag> temp_result(num_elements1);
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  cudaPrintfInit();
-#endif
   
   set_intersection_detail::set_intersection_kernel<block_size><<< num_partitions, block_size >>>( 
   	first1, last1,
@@ -631,35 +517,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   	result_partition_sizes.begin(), 
   	comp);
 
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  std::cerr << "after set_intersection_kernel" << std::endl;
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after set_intersection_kernel: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-  cudaPrintfDisplay(stdout, true);
-  cudaPrintfEnd();
-#endif
-
-
   thrust::inclusive_scan(result_partition_sizes.begin(), result_partition_sizes.end(), result_partition_sizes.begin());
-
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after inclusive_scan: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-  cudaPrintfDisplay(stdout, true);
-  cudaPrintfEnd();
-#endif
 
   // after the inclusive scan, we have the end of each segment
   raw_buffer<difference1, cuda_device_space_tag> &output_segment_end_indices = result_partition_sizes;
@@ -669,16 +527,6 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   	temp_result.begin(),
   	partition_begin_indices1.begin(),
   	output_segment_end_indices.begin());
-#ifdef THRUST_DEBUG_SET_INTERSECTION
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess)
-    {
-      std::cerr << "CUDA error after grouped_gather: " << cudaGetErrorString(error) << std::endl;
-      exit(-1);
-    }
-  }
-#endif
 
   return result + result_partition_sizes[num_partitions - 1];
 } // end set_intersection
