@@ -483,7 +483,8 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
     partition_begin_indices1_guess
       = thrust::make_transform_iterator(counter1(0), mult_by<difference1>(partition_size));
 
-  // XXX we could encapsulate this gather in a permutation_iterator
+  // XXX we could encapsulate this gather in a permutation_iterator,
+  //     but the call to unique before confounds us a little
   raw_buffer<value_type, cuda_device_space_tag> partition_values(num_partitions);
   thrust::next::gather(partition_begin_indices1_guess, partition_begin_indices1_guess + partition_values.size(),
                        first1,
