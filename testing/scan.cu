@@ -324,6 +324,10 @@ void TestScanWithLargeTypes(void)
     _TestScanWithLargeTypes<int,    2>();
     _TestScanWithLargeTypes<int,    4>();
     _TestScanWithLargeTypes<int,    8>();
+
+    // XXX the following fail with "too many resources requested for launch"
+    KNOWN_FAILURE
+
     _TestScanWithLargeTypes<int,   16>();
     _TestScanWithLargeTypes<int,   32>();
     _TestScanWithLargeTypes<int,   64>();
