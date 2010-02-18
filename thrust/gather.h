@@ -66,12 +66,15 @@ namespace deprecated
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
  *
  *  thrust::device_vector<int> output(10);
- *  thrust::gather(output.begin(), output.end(),
- *                  map, input);
+ *  thrust::deprecated::gather(output.begin(), output.end(),
+ *                             map, input);
  *  // output is now {0, 0, 0, 0, 0, 1, 1, 1, 1, 1}
  *  \endcode
  *
  *  \note \p gather is the inverse of thrust::scatter.
+ *
+ *  \deprecated This function is deprecated and is scheduled for removal in Thrust v1.3.
+ *              Users should migrate to the preferred \p gather interface exposed by \p thrust::next::gather.
  */
 template<typename ForwardIterator,
          typename InputIterator,
@@ -100,6 +103,9 @@ THRUST_DEPRECATED
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c ForwardIterator's \c value_type.
  *
  *  \note \p gather_if is the inverse of thrust::scatter_if.
+ *
+ *  \deprecated This function is deprecated and is scheduled for removal in Thrust v1.3.
+ *              Users should migrate to the preferred \p gather_if interface exposed by \p thrust::next::gather_if.
  */
 template<typename ForwardIterator,
          typename InputIterator1,
@@ -114,7 +120,7 @@ THRUST_DEPRECATED
 
 /*! \p gather_if conditionally copies elements from a source array into a destination 
  *  range according to a map. For each output iterator \c i in the range 
- *  [\p first, \p last) such that the value of *(\p stencil + (\c i - \p first)) is \c true, 
+ *  [\p first, \p last) such that the value of <tt>pred(*(stencil + (i - first)))</tt> is \c true, 
  *  the value <tt>input[*(map + (i - first))]</tt> is assigned to *\p i. \p RandomAccessIterator
  *  must permit random access.  
  *
@@ -132,6 +138,9 @@ THRUST_DEPRECATED
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  \note \p gather_if is the inverse of thrust::scatter_if.
+ *
+ *  \deprecated This function is deprecated and is scheduled for removal in Thrust v1.3.
+ *              Users should migrate to the preferred \p gather_if interface exposed by \p thrust::next::gather_if.
  */
 template<typename ForwardIterator,
          typename InputIterator1,
@@ -153,8 +162,44 @@ THRUST_DEPRECATED
 namespace next
 {
 
-// XXX document these
-
+/*! \p gather copies elements from a source array into a destination range according 
+ *  to a map. For each input iterator \c i in the range <tt>[map_first, map_last)</tt>, the
+ *  value <tt>input_first[*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
+ *  \p RandomAccessIterator must permit random access. Gather operations between host and device memory
+ *  spaces are supported in both directions.
+ *
+ *  \param map_first Beginning of the range of gather locations.
+ *  \param map_last End of the range of gather locations.
+ *  \param input_first Beginning of the source range.
+ *  \param result Beginning of the destination range.
+ *
+ *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
+ *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access Iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  The following code snippet demonstrates how to use \p gather to reorder
+ *  a range.
+ *
+ *  \code
+ *  #include <thrust/gather.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  // mark odd indices with a 1; even indices with a 0
+ *  int input[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+ *
+ *  // gather all odd indices into the first half of the
+ *  // range, and even indices vice versa
+ *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+ *
+ *  thrust::device_vector<int> output(10);
+ *  thrust::next::gather(map, map + 10, input, output.begin());
+ *  // output is now {0, 0, 0, 0, 0, 1, 1, 1, 1, 1}
+ *  \endcode
+ *
+ *  \note \p gather is the inverse of thrust::scatter.
+ *
+ *  \deprecated This function is is scheduled for promotion to \p thrust::gather in Thrust v1.3.
+ */
 template<typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
@@ -164,6 +209,27 @@ template<typename InputIterator,
                         OutputIterator       result);
 
 
+/*! \p gather_if conditionally copies elements from a source array into a destination 
+ *  range according to a map. For each input iterator \c i in the range <tt>[map_first, map_last)</tt>,
+ *  such that the value of <tt>*(stencil + (i - map_first))</tt> is \c true, the value
+ *  <tt>input_first[*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
+ *  \p RandomAccessIterator must permit random access.
+ *
+ *  \param map_first Beginning of the range of gather locations.
+ *  \param map_last End of the range of gather locations.
+ *  \param stencil Beginning of the range of predicate values.
+ *  \param input_first Beginning of the source range.
+ *  \param result Beginning of the destination range.
+ *
+ *  \tparam InputIterator1 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator1's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
+ *  \tparam InputIterator2 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator2's \c value_type must be convertible to \c bool.
+ *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  \note \p gather_if is the inverse of thrust::scatter_if.
+ *
+ *  \deprecated This function is is scheduled for promotion to \p thrust::gather_if in Thrust v1.3.
+ */
 template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
@@ -175,6 +241,29 @@ template<typename InputIterator1,
                            OutputIterator       result);
 
 
+/*! \p gather_if conditionally copies elements from a source array into a destination 
+ *  range according to a map. For each input iterator \c i in the range <tt>[map_first, map_last)</tt>
+ *  such that the value of <tt>pred(*(stencil + (i - map_first)))</tt> is \c true,
+ *  the value <tt>input_first[*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
+ *  \p RandomAccessIterator must permit random access.
+ *
+ *  \param map_first Beginning of the range of gather locations.
+ *  \param map_last End of the range of gather locations.
+ *  \param stencil Beginning of the range of predicate values.
+ *  \param input_first Beginning of the source range.
+ *  \param result Beginning of the destination range.
+ *  \param pred Predicate to apply to the stencil values.
+ *
+ *  \tparam InputIterator1 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator1's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
+ *  \tparam InputIterator2 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator2's \c value_type must be convertible to \c Predicate's \c argument_type.
+ *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \note \p gather_if is the inverse of thrust::scatter_if.
+ *
+ *  \deprecated This function is is scheduled for promotion to \p thrust::gather_if in Thrust v1.3.
+ */
 template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
