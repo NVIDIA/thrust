@@ -121,7 +121,7 @@ template<typename T> struct is_pod
    : public integral_constant<
        bool,
        is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value
-#if THRUST_HOST_COMPILER   == THRUST_HOST_COMPILER_MSCC
+#if THRUST_HOST_COMPILER   == THRUST_HOST_COMPILER_MSVC
 // use intrinsic type traits
        || __is_pod(T)
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
@@ -138,7 +138,7 @@ template<typename T> struct has_trivial_constructor
   : public integral_constant<
       bool,
       is_pod<T>::value
-#if THRUST_HOST_COMPILER   == THRUST_HOST_COMPILER_MSCC
+#if THRUST_HOST_COMPILER   == THRUST_HOST_COMPILER_MSVC
       || __has_trivial_constructor(T)
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
