@@ -24,6 +24,7 @@
 #include <thrust/detail/cstdint.h>
 
 // RNGs
+#include <thrust/random/discard_block_engine.h>
 #include <thrust/random/linear_congruential_engine.h>
 #include <thrust/random/linear_feedback_shift_engine.h>
 #include <thrust/random/subtract_with_carry_engine.h>
@@ -38,6 +39,10 @@ namespace thrust
 namespace random
 {
 
+typedef discard_block_engine<ranlux24_base, 223, 23> ranlux24;
+
+typedef discard_block_engine<ranlux48_base, 389, 11> ranlux48;
+
 typedef xor_combine_engine<
   linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 31u, 13u, 12u>,
   0,
@@ -51,6 +56,8 @@ typedef xor_combine_engine<
 } // end random
 
 // import names into thrust::
+using random::ranlux24;
+using random::ranlux48;
 using random::taus88;
 
 } // end thrust

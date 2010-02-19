@@ -143,18 +143,18 @@ template<typename Engine>
 };
 
 
-template<typename Engine, unsigned long long state_10000>
+template<typename Engine, thrust::detail::uint64_t value_10000>
 void TestEngineValidation(void)
 {
   // test host
   thrust::host_vector<bool> h(1);
-  thrust::generate(h.begin(), h.end(), ValidateEngine<Engine,state_10000>());
+  thrust::generate(h.begin(), h.end(), ValidateEngine<Engine,value_10000>());
 
   ASSERT_EQUAL(true, h[0]);
 
   // test device
   thrust::device_vector<bool> d(1);
-  thrust::generate(d.begin(), d.end(), ValidateEngine<Engine,state_10000>());
+  thrust::generate(d.begin(), d.end(), ValidateEngine<Engine,value_10000>());
 
   ASSERT_EQUAL(true, d[0]);
 }
@@ -288,103 +288,85 @@ void TestRanlux24BaseMax(void)
 DECLARE_UNITTEST(TestRanlux24BaseMax);
 
 
-void TestRanlux24SaveRestore(void)
+void TestRanlux24BaseSaveRestore(void)
 {
   typedef thrust::random::ranlux24_base Engine;
 
   TestEngineSaveRestore<Engine>();
 }
-DECLARE_UNITTEST(TestRanlux24SaveRestore);
+DECLARE_UNITTEST(TestRanlux24BaseSaveRestore);
 
 
-void TestRanlux24Equal(void)
+void TestRanlux24BaseEqual(void)
 {
   typedef thrust::random::ranlux24_base Engine;
 
   TestEngineEqual<Engine>();
 }
-DECLARE_UNITTEST(TestRanlux24Equal);
+DECLARE_UNITTEST(TestRanlux24BaseEqual);
 
 
-void TestRanlux24Unequal(void)
+void TestRanlux24BaseUnequal(void)
 {
   typedef thrust::random::ranlux24_base Engine;
 
   TestEngineUnequal<Engine>();
 }
-DECLARE_UNITTEST(TestRanlux24Unequal);
+DECLARE_UNITTEST(TestRanlux24BaseUnequal);
 
 
 void TestRanlux48BaseValidation(void)
 {
-  // XXX nvcc 3.0 complains that the validation number is too large
-  KNOWN_FAILURE
+  typedef thrust::random::ranlux48_base Engine;
 
-//  typedef thrust::random::ranlux24_base Engine;
-//
-//  TestEngineValidation<Engine,61839128582725ull>();
+  TestEngineValidation<Engine,192113843633948ull>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseValidation);
 
 
 void TestRanlux48BaseMin(void)
 {
-  // XXX nvcc 3.0 complains that the shift count is too large
-  KNOWN_FAILURE
+  typedef thrust::random::ranlux48_base Engine;
 
-//  typedef thrust::random::ranlux48_base Engine;
-//
-//  TestEngineMin<Engine>();
+  TestEngineMin<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseMin);
 
 
 void TestRanlux48BaseMax(void)
 {
-  // XXX nvcc 3.0 complains that the shift count is too large
-  KNOWN_FAILURE
+  typedef thrust::random::ranlux48_base Engine;
 
-//  typedef thrust::random::ranlux48_base Engine;
-//
-//  TestEngineMax<Engine>();
+  TestEngineMax<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseMax);
 
 
-void TestRanlux48SaveRestore(void)
+void TestRanlux48BaseSaveRestore(void)
 {
-  // XXX nvcc 3.0 complains that the shift count is too large
-  KNOWN_FAILURE
+  typedef thrust::random::ranlux48_base Engine;
 
-//  typedef thrust::random::ranlux48_base Engine;
-//
-//  TestEngineSaveRestore<Engine>();
+  TestEngineSaveRestore<Engine>();
 }
-DECLARE_UNITTEST(TestRanlux48SaveRestore);
+DECLARE_UNITTEST(TestRanlux48BaseSaveRestore);
 
 
-void TestRanlux48Equal(void)
+void TestRanlux48BaseEqual(void)
 {
-  // XXX nvcc 3.0 complains that the shift count is too large
-  KNOWN_FAILURE
+  typedef thrust::random::ranlux48_base Engine;
 
-//  typedef thrust::random::ranlux48_base Engine;
-//
-//  TestEngineEqual<Engine>();
+  TestEngineEqual<Engine>();
 }
-DECLARE_UNITTEST(TestRanlux48Equal);
+DECLARE_UNITTEST(TestRanlux48BaseEqual);
 
 
-void TestRanlux48Unequal(void)
+void TestRanlux48BaseUnequal(void)
 {
-  // XXX nvcc 3.0 complains that the shift count is too large
-  KNOWN_FAILURE
+  typedef thrust::random::ranlux48_base Engine;
 
-// typedef thrust::random::ranlux48_base Engine;
-//
-// TestEngineUnequal<Engine>();
+  TestEngineUnequal<Engine>();
 }
-DECLARE_UNITTEST(TestRanlux48Unequal);
+DECLARE_UNITTEST(TestRanlux48BaseUnequal);
 
 
 void TestMinstdRandValidation(void)
@@ -526,9 +508,9 @@ void TestTaus88SaveRestore(void)
 {
   KNOWN_FAILURE;
 
-//  typedef thrust::random::taus88 Engine;
-//
-//  TestEngineSaveRestore<Engine>();
+  typedef thrust::random::taus88 Engine;
+
+  TestEngineSaveRestore<Engine>();
 }
 DECLARE_UNITTEST(TestTaus88SaveRestore);
 
@@ -550,4 +532,112 @@ void TestTaus88Unequal(void)
 }
 DECLARE_UNITTEST(TestTaus88Unequal);
 
+
+void TestRanlux24Validation(void)
+{
+  typedef thrust::random::ranlux24 Engine;
+
+  TestEngineValidation<Engine,9901578>();
+}
+DECLARE_UNITTEST(TestRanlux24Validation);
+
+
+void TestRanlux24Min(void)
+{
+  typedef thrust::random::ranlux24 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24Min);
+
+
+void TestRanlux24Max(void)
+{
+  typedef thrust::random::ranlux24 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24Max);
+
+
+void TestRanlux24SaveRestore(void)
+{
+  typedef thrust::random::ranlux24 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24SaveRestore);
+
+
+void TestRanlux24Equal(void)
+{
+  typedef thrust::random::ranlux24 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24Equal);
+
+
+void TestRanlux24Unequal(void)
+{
+  typedef thrust::random::ranlux24 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux24Unequal);
+
+
+
+void TestRanlux48Validation(void)
+{
+  typedef thrust::random::ranlux48 Engine;
+
+  TestEngineValidation<Engine,88229545517833ull>();
+}
+DECLARE_UNITTEST(TestRanlux48Validation);
+
+
+void TestRanlux48Min(void)
+{
+  typedef thrust::random::ranlux48 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48Min);
+
+
+void TestRanlux48Max(void)
+{
+  typedef thrust::random::ranlux48 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48Max);
+
+
+void TestRanlux48SaveRestore(void)
+{
+  typedef thrust::random::ranlux48 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48SaveRestore);
+
+
+void TestRanlux48Equal(void)
+{
+  typedef thrust::random::ranlux48 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48Equal);
+
+
+void TestRanlux48Unequal(void)
+{
+  typedef thrust::random::ranlux48 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestRanlux48Unequal);
 

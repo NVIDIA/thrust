@@ -15,11 +15,14 @@
  */
 
 
-/*! \file linear_congruential_engine.h
- *  \brief A linear congruential pseudorandom number engine.
+/*! \file discard_block_engine.h
+ *  \brief A random number engine which adapts a base engine and produces
+ *         numbers by discarding all but a contiguous blocks of its values.
  */
 
 #pragma once
+
+#include <thrust/detail/config.h>
 
 #include <thrust/detail/config.h>
 #include <iostream>
@@ -32,27 +35,35 @@ namespace thrust
 namespace random
 {
 
-template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  class linear_congruential_engine
+template<typename Engine, size_t p, size_t r>
+  class discard_block_engine
 {
   public:
     // types
-    typedef UIntType result_type;
+    typedef Engine base_type;
+    typedef typename base_type::result_type result_type;
 
     // engine characteristics
-    static const result_type multiplier = a;
-    static const result_type increment = c;
-    static const result_type modulus = m;
-    static const result_type min = c == 0u ? 1u : 0u;
-    static const result_type max = m - 1u;
-    static const result_type default_seed = 1u;
+    static const size_t block_size = p;
+    static const size_t used_block = r;
+    static const result_type min = base_type::min;
+    static const result_type max = base_type::max;
 
     // constructors and seeding functions
     __host__ __device__
-    explicit linear_congruential_engine(result_type s = default_seed);
+    discard_block_engine();
 
     __host__ __device__
-    void seed(result_type s = default_seed);
+    explicit discard_block_engine(const base_type &urng);
+
+    __host__ __device__
+    explicit discard_block_engine(result_type s);
+
+    __host__ __device__
+    void seed(void);
+
+    __host__ __device__
+    void seed(result_type s);
 
     // generating functions
     __host__ __device__
@@ -61,62 +72,59 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
     __host__ __device__
     void discard(unsigned long long z);
 
+    // property functions
+    __host__ __device__
+    const base_type &base(void) const;
+
     /*! \cond
      */
   private:
-    result_type m_x;
+    base_type m_e;
+    int m_n;
 
     friend struct thrust::random::detail::random_core_access;
 
     __host__ __device__
-    bool equal(const linear_congruential_engine &rhs) const;
+    bool equal(const discard_block_engine &rhs) const;
 
     template<typename CharT, typename Traits>
     std::basic_ostream<CharT,Traits>& stream_out(std::basic_ostream<CharT,Traits> &os) const;
 
     template<typename CharT, typename Traits>
     std::basic_istream<CharT,Traits>& stream_in(std::basic_istream<CharT,Traits> &is);
-
     /*! \endcond
      */
-}; // end linear_congruential_engine
+}; // end discard_block_engine
 
 
-template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
+template<typename Engine, size_t p, size_t r>
 __host__ __device__
-bool operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
-                const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
+bool operator==(const discard_block_engine<Engine,p,r> &lhs,
+                const discard_block_engine<Engine,p,r> &rhs);
 
-template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
+template<typename Engine, size_t p, size_t r>
 __host__ __device__
-bool operator!=(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
-                const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
+bool operator!=(const discard_block_engine<Engine,p,r> &lhs,
+                const discard_block_engine<Engine,p,r> &rhs);
 
-template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+template<typename Engine, size_t p, size_t r,
          typename CharT, typename Traits>
 std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
-           const linear_congruential_engine<UIntType_,a_,c_,m_> &e);
+           const discard_block_engine<Engine,p,r> &e);
 
-template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
+template<typename Engine, size_t p, size_t r,
          typename CharT, typename Traits>
 std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
-           linear_congruential_engine<UIntType_,a_,c_,m_> &e);
+           discard_block_engine<Engine,p,r> &e);
 
-
-// XXX the type N2111 used here was uint_fast32_t
-typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 2147483647> minstd_rand0;
-typedef linear_congruential_engine<thrust::detail::uint32_t, 48271, 0, 2147483647> minstd_rand;
-  
 } // end random
 
 // import names into thrust::
-using random::linear_congruential_engine;
-using random::minstd_rand;
-using random::minstd_rand0;
+using random::discard_block_engine;
 
 } // end thrust
 
-#include <thrust/random/detail/linear_congruential_engine.inl>
+#include <thrust/random/detail/discard_block_engine.inl>
 

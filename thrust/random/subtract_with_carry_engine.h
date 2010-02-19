@@ -40,7 +40,7 @@ template<typename UIntType, size_t w, size_t s, size_t r>
     /*! \cond
      */
   private:
-    static const UIntType modulus = 1 << w;
+    static const UIntType modulus = UIntType(1) << w;
     /*! \endcond
      */
 

@@ -29,6 +29,7 @@ for dir in directories:
     regexp = os.path.join(dir, ext)
     #sources.extend(env.Glob(regexp, strings = True))
     sources.extend(glob.glob(regexp))
+sources = ["random.cu", "utest.cpp", "testframework.cpp"]
 
 # add the directory containing this file to the include path
 this_file = inspect.currentframe().f_code.co_filename
