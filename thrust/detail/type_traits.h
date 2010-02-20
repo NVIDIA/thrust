@@ -187,6 +187,12 @@ template<typename T>
 }; // end remove_const
 
 template<typename T>
+  struct add_volatile
+{
+  typedef volatile T type;
+}; // end add_volatile
+
+template<typename T>
   struct remove_volatile
 {
   typedef T type;
@@ -197,6 +203,12 @@ template<typename T>
 {
   typedef T type;
 }; // end remove_volatile
+
+template<typename T>
+  struct add_cv
+{
+  typedef const volatile T type;
+}; // end add_cv
 
 template<typename T>
   struct remove_cv
@@ -390,6 +402,76 @@ template<typename T>
 
 template<typename> struct is_reference_to_const             : false_type {};
 template<typename T> struct is_reference_to_const<const T&> : true_type {};
+
+
+// make_unsigned follows
+
+namespace tt_detail
+{
+
+template<typename T> struct make_unsigned_simple;
+
+template<> struct make_unsigned_simple<char>                   { typedef unsigned char          type; };
+template<> struct make_unsigned_simple<signed char>            { typedef signed   char          type; };
+template<> struct make_unsigned_simple<unsigned char>          { typedef unsigned char          type; };
+template<> struct make_unsigned_simple<short>                  { typedef unsigned short         type; };
+template<> struct make_unsigned_simple<unsigned short>         { typedef unsigned short         type; };
+template<> struct make_unsigned_simple<int>                    { typedef unsigned int           type; };
+template<> struct make_unsigned_simple<unsigned int>           { typedef unsigned int           type; };
+template<> struct make_unsigned_simple<long int>               { typedef unsigned long int      type; };
+template<> struct make_unsigned_simple<unsigned long int>      { typedef unsigned long int      type; };
+template<> struct make_unsigned_simple<long long int>          { typedef unsigned long long int type; };
+template<> struct make_unsigned_simple<unsigned long long int> { typedef unsigned long long int type; };
+
+template<typename T>
+  struct make_unsigned_base
+{
+  // remove cv
+  typedef typename remove_cv<T>::type remove_cv_t;
+
+  // get the simple unsigned type
+  typedef typename make_unsigned_simple<remove_cv_t>::type unsigned_remove_cv_t;
+
+  // add back const, volatile, both, or neither to the simple result
+  typedef typename eval_if<
+    is_const<T>::value && is_volatile<T>::value,
+    // add cv back
+    add_cv<unsigned_remove_cv_t>,
+    // check const & volatile individually
+    eval_if<
+      is_const<T>::value,
+      // add c back
+      add_const<unsigned_remove_cv_t>,
+      eval_if<
+        is_volatile<T>::value,
+        // add v back
+        add_volatile<unsigned_remove_cv_t>,
+        // original type was neither cv, return the simple unsigned result
+        identity_<unsigned_remove_cv_t>
+      >
+    >
+  >::type type;
+};
+
+} // end tt_detail
+
+template<typename T>
+  struct make_unsigned
+    : tt_detail::make_unsigned_base<T>
+{};
+
+struct largest_available_float
+{
+#if defined(__CUDA_ARCH__)
+#  if (__CUDA_ARCH__ < 130)
+  typedef float type;
+#  else
+  typedef double type;
+#  endif
+#else
+  typedef double type;
+#endif
+};
 
 } // end detail
 

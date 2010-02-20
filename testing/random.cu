@@ -143,6 +143,90 @@ template<typename Engine>
 };
 
 
+template<typename Distribution, typename Engine>
+  struct ValidateDistributionMin
+{
+  typedef Engine random_engine;
+
+  __host__ __device__
+  ValidateDistributionMin(const Distribution &dd)
+    : d(dd)
+  {}
+
+  __host__ __device__
+  bool operator()(void)
+  {
+    Engine e;
+
+    bool result = true;
+
+    for(int i = 0; i < 10000; ++i)
+    {
+      result &= (d(e) >= d.min());
+    }
+
+    return result;
+  }
+
+  Distribution d;
+};
+
+
+template<typename Distribution, typename Engine>
+  struct ValidateDistributionMax
+{
+  typedef Engine random_engine;
+
+  __host__ __device__
+  ValidateDistributionMax(const Distribution &dd)
+    : d(dd)
+  {}
+
+  __host__ __device__
+  bool operator()(void)
+  {
+    Engine e;
+
+    bool result = true;
+
+    for(int i = 0; i < 10000; ++i)
+    {
+      result &= (d(e) <= d.max());
+    }
+
+    return result;
+  }
+
+  Distribution d;
+};
+
+
+template<typename Distribution>
+  struct ValidateDistributionEqual
+{
+  __host__ __device__
+  bool operator()(void) const
+  {
+    return d0 == d1;
+  }
+
+  Distribution d0, d1;
+};
+
+
+template<typename Distribution>
+  struct ValidateDistributionUnqual
+{
+  __host__ __device__
+  bool operator()(void) const
+  {
+    return d0 != d1;
+  }
+
+  Distribution d0, d1;
+};
+
+
 template<typename Engine, thrust::detail::uint64_t value_10000>
 void TestEngineValidation(void)
 {
@@ -640,4 +724,91 @@ void TestRanlux48Unequal(void)
   TestEngineUnequal<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48Unequal);
+
+
+template<typename Distribution, typename Validator>
+  void ValidateDistributionCharacteristic(void)
+{
+  typedef typename Validator::random_engine Engine;
+
+  // test default-constructed Distribution
+
+  // test host
+  thrust::host_vector<bool> h(1);
+  thrust::generate(h.begin(), h.end(), Validator(Distribution()));
+
+  ASSERT_EQUAL(true, h[0]);
+
+  // test device
+  thrust::device_vector<bool> d(1);
+  thrust::generate(d.begin(), d.end(), Validator(Distribution()));
+
+  ASSERT_EQUAL(true, d[0]);
+
+
+  // test distribution & engine with comparable ranges
+  // only do this if they have the same result_type
+  if(thrust::detail::is_same<typename Distribution::result_type, typename Engine::result_type>::value)
+  {
+    // test Distribution with same range as engine
+
+    // test host
+    thrust::generate(h.begin(), h.end(), Validator(Distribution(Engine::min, Engine::max)));
+
+    ASSERT_EQUAL(true, h[0]);
+
+    // test device
+    thrust::generate(d.begin(), d.end(), Validator(Distribution(Engine::min, Engine::max)));
+
+    ASSERT_EQUAL(true, d[0]);
+
+    // test Distribution with smaller range than engine
+
+    // test host
+    typename Distribution::result_type engine_range = Engine::max - Engine::min;
+    thrust::generate(h.begin(), h.end(), Validator(Distribution(engine_range/3, (2 * engine_range)/3)));
+
+    ASSERT_EQUAL(true, h[0]);
+
+    // test device
+    thrust::generate(d.begin(), d.end(), Validator(Distribution(engine_range/3, (2 * engine_range)/3)));
+
+    ASSERT_EQUAL(true, d[0]);
+  }
+
+
+  // test Distribution with a very small range
+
+  // test host
+  thrust::generate(h.begin(), h.end(), Validator(Distribution(1,6)));
+
+  ASSERT_EQUAL(true, h[0]);
+
+  // test device
+  thrust::generate(d.begin(), d.end(), Validator(Distribution(1,6)));
+
+  ASSERT_EQUAL(true, d[0]);
+}
+
+
+void TestUniformIntDistributionMin(void)
+{
+  typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
+  typedef thrust::random::experimental::uniform_int_distribution<unsigned int> uint_dist;
+  
+  ValidateDistributionCharacteristic<int_dist,  ValidateDistributionMin<int_dist,  thrust::minstd_rand> >();
+  ValidateDistributionCharacteristic<uint_dist, ValidateDistributionMin<uint_dist, thrust::minstd_rand> >();
+}
+DECLARE_UNITTEST(TestUniformIntDistributionMin);
+
+
+void TestUniformIntDistributionMax(void)
+{
+  typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
+  typedef thrust::random::experimental::uniform_int_distribution<unsigned int> uint_dist;
+  
+  ValidateDistributionCharacteristic<int_dist,  ValidateDistributionMax<int_dist,  thrust::minstd_rand> >();
+  ValidateDistributionCharacteristic<uint_dist, ValidateDistributionMax<uint_dist, thrust::minstd_rand> >();
+}
+DECLARE_UNITTEST(TestUniformIntDistributionMax);
 

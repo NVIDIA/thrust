@@ -31,6 +31,7 @@
 #include <thrust/random/xor_combine_engine.h>
 
 // distributions
+#include <thrust/random/uniform_int_distribution.h>
 #include <thrust/random/uniform_real_distribution.h>
 
 namespace thrust
