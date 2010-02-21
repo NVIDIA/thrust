@@ -135,6 +135,98 @@ template<typename IntType>
 } // end uniform_int_distribution::max()
 
 
+template<typename IntType>
+  bool uniform_int_distribution<IntType>
+    ::equal(const uniform_int_distribution &rhs) const
+{
+  return param() == rhs.param();
+}
+
+
+template<typename IntType>
+  template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>&
+      uniform_int_distribution<IntType>
+        ::stream_out(std::basic_ostream<CharT,Traits> &os) const
+{
+  typedef std::basic_ostream<CharT,Traits> ostream_type;
+  typedef typename ostream_type::ios_base  ios_base;
+
+  // save old flags and fill character
+  const typename ios_base::fmtflags flags = os.flags();
+  const CharT fill = os.fill();
+
+  const CharT space = os.widen(' ');
+  os.flags(ios_base::dec | ios_base::fixed | ios_base::left);
+  os.fill(space);
+
+  os << a() << space << b();
+
+  // restore old flags and fill character
+  os.flags(flags);
+  os.fill(fill);
+  return os;
+}
+
+
+template<typename IntType>
+  template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>&
+      uniform_int_distribution<IntType>
+        ::stream_in(std::basic_istream<CharT,Traits> &is)
+{
+  typedef std::basic_istream<CharT,Traits> istream_type;
+  typedef typename istream_type::ios_base  ios_base;
+
+  // save old flags
+  const typename ios_base::fmtflags flags = is.flags();
+
+  is.flags(ios_base::skipws);
+
+  is >> m_param.first >> m_param.second;
+
+  // restore old flags
+  is.flags(flags);
+  return is;
+}
+
+
+template<typename IntType>
+bool operator==(const uniform_int_distribution<IntType> &lhs,
+                const uniform_int_distribution<IntType> &rhs)
+{
+  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+}
+
+
+template<typename IntType>
+bool operator!=(const uniform_int_distribution<IntType> &lhs,
+                const uniform_int_distribution<IntType> &rhs)
+{
+  return !(lhs == rhs);
+}
+
+
+template<typename IntType,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const uniform_int_distribution<IntType> &d)
+{
+  return thrust::random::detail::random_core_access::stream_out(os,d);
+}
+
+
+template<typename IntType,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           uniform_int_distribution<IntType> &d)
+{
+  return thrust::random::detail::random_core_access::stream_in(is,d);
+}
+
+
 } // end experimental
 
 } // end random

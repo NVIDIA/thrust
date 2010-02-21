@@ -791,6 +791,24 @@ template<typename Distribution, typename Validator>
 }
 
 
+template<typename Distribution>
+  void TestDistributionSaveRestore(void)
+{
+  // create a default distribution
+  Distribution d0(7, 13);
+
+  // save it
+  std::stringstream ss;
+  ss << d0;
+
+  // restore old state
+  Distribution d1;
+  ss >> d1;
+
+  ASSERT_EQUAL(d0, d1);
+}
+
+
 void TestUniformIntDistributionMin(void)
 {
   typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
@@ -811,4 +829,15 @@ void TestUniformIntDistributionMax(void)
   ValidateDistributionCharacteristic<uint_dist, ValidateDistributionMax<uint_dist, thrust::minstd_rand> >();
 }
 DECLARE_UNITTEST(TestUniformIntDistributionMax);
+
+
+void TestUniformIntDistributionSaveRestore(void)
+{
+  typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
+  typedef thrust::random::experimental::uniform_int_distribution<unsigned int> uint_dist;
+
+  TestDistributionSaveRestore<int_dist>();
+  TestDistributionSaveRestore<uint_dist>();
+}
+DECLARE_UNITTEST(TestUniformIntDistributionSaveRestore);
 

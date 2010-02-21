@@ -24,6 +24,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
 #include <thrust/detail/integer_traits.h>
+#include <thrust/random/detail/random_core_access.h>
+#include <iostream>
 
 namespace thrust
 {
@@ -84,9 +86,43 @@ template<typename IntType = int>
      */
   private:
     param_type m_param;
+
+    friend struct thrust::random::detail::random_core_access;
+
+    __host__ __device__
+    bool equal(const uniform_int_distribution &rhs) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>& stream_out(std::basic_ostream<CharT,Traits> &os) const;
+
+    template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>& stream_in(std::basic_istream<CharT,Traits> &is);
     /*! \endcond
      */
 }; // end uniform_int_distribution
+
+
+template<typename IntType>
+__host__ __device__
+bool operator==(const uniform_int_distribution<IntType> &lhs,
+                const uniform_int_distribution<IntType> &rhs);
+
+template<typename IntType>
+__host__ __device__
+bool operator!=(const uniform_int_distribution<IntType> &lhs,
+                const uniform_int_distribution<IntType> &rhs);
+
+template<typename IntType,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const uniform_int_distribution<IntType> &d);
+
+template<typename IntType,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           uniform_int_distribution<IntType> &d);
 
 } // end experimental
 
