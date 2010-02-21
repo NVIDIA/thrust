@@ -33,8 +33,6 @@ namespace thrust
 namespace random
 {
 
-namespace experimental
-{
 
 template<typename IntType = int>
   class uniform_int_distribution
@@ -124,11 +122,10 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            uniform_int_distribution<IntType> &d);
 
-} // end experimental
 
 } // end random
 
-// XXX import random::uniform_int_distribution when it is non-experimental
+using random::uniform_int_distribution;
 
 } // end thrust
 

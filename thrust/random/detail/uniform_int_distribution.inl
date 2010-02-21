@@ -25,8 +25,6 @@ namespace thrust
 namespace random
 {
 
-namespace experimental
-{
 
 template<typename IntType>
   uniform_int_distribution<IntType>
@@ -226,8 +224,6 @@ operator>>(std::basic_istream<CharT,Traits> &is,
   return thrust::random::detail::random_core_access::stream_in(is,d);
 }
 
-
-} // end experimental
 
 } // end random
 

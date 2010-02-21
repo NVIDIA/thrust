@@ -30,15 +30,17 @@ struct estimate_pi : public thrust::unary_function<unsigned int,float>
     unsigned int seed = hash(thread_id);
 
     // seed a random number generator
-    // XXX use this with uniform_real_distribution
-    thrust::minstd_rand rng(seed);
+    thrust::default_random_engine rng(seed);
+
+    // create a mapping from random numbers to [0,1)
+    thrust::uniform_real_distribution<float> u01(0,1);
 
     // take N samples in a quarter circle
     for(unsigned int i = 0; i < N; ++i)
     {
       // draw a sample from the unit square
-      float x = static_cast<float>(rng()) / thrust::minstd_rand::max;
-      float y = static_cast<float>(rng()) / thrust::minstd_rand::max;
+      float x = u01(rng);
+      float y = u01(rng);
 
       // measure distance from the origin
       float dist = sqrtf(x*x + y*y);

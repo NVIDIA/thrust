@@ -23,27 +23,18 @@ namespace thrust
 namespace random
 {
 
-namespace experimental
-{
 
 template<typename RealType>
   uniform_real_distribution<RealType>
     ::uniform_real_distribution(RealType a, RealType b)
-      :m_a(a),m_b(b)
+      :m_param(a,b)
 {
 } // end uniform_real_distribution::uniform_real_distribution()
 
 template<typename RealType>
   uniform_real_distribution<RealType>
     ::uniform_real_distribution(const param_type &parm)
-      :m_a(parm.first),m_b(parm.second)
-{
-} // end uniform_real_distribution::uniform_real_distribution()
-
-template<typename RealType>
-  uniform_real_distribution<RealType>
-    ::uniform_real_distribution(const uniform_real_distribution &x)
-      :m_a(x.m_a),m_b(x.m_b)
+      :m_param(parm)
 {
 } // end uniform_real_distribution::uniform_real_distribution()
 
@@ -59,7 +50,7 @@ template<typename RealType>
       uniform_real_distribution<RealType>
         ::operator()(UniformRandomNumberGenerator &urng)
 {
-  return operator()(urng, thrust::make_pair(a(), b()));
+  return operator()(urng, m_param);
 } // end uniform_real::operator()()
 
 namespace detail
@@ -102,7 +93,7 @@ template<typename RealType>
     uniform_real_distribution<RealType>
       ::a(void) const
 {
-  return m_a;
+  return m_param.first;
 } // end uniform_real::a()
 
 template<typename RealType>
@@ -110,7 +101,7 @@ template<typename RealType>
     uniform_real_distribution<RealType>
       ::b(void) const
 {
-  return m_b;
+  return m_param.second;
 } // end uniform_real_distribution::b()
 
 template<typename RealType>
@@ -118,15 +109,14 @@ template<typename RealType>
     uniform_real_distribution<RealType>
       ::param(void) const
 {
-  return thrust::make_pair(a(),b());
+  return m_param;;
 } // end uniform_real_distribution::param()
 
 template<typename RealType>
   void uniform_real_distribution<RealType>
     ::param(const param_type &parm)
 {
-  m_a = parm.first;
-  m_b = parm.second;
+  m_param = parm;
 } // end uniform_real_distribution::param()
 
 template<typename RealType>
@@ -145,7 +135,98 @@ template<typename RealType>
   return b();
 } // end uniform_real_distribution::max()
 
-} // end experimental
+
+template<typename RealType>
+  bool uniform_real_distribution<RealType>
+    ::equal(const uniform_real_distribution &rhs) const
+{
+  return m_param == rhs.param();
+}
+
+
+template<typename RealType>
+  template<typename CharT, typename Traits>
+    std::basic_ostream<CharT,Traits>&
+      uniform_real_distribution<RealType>
+        ::stream_out(std::basic_ostream<CharT,Traits> &os) const
+{
+  typedef std::basic_ostream<CharT,Traits> ostream_type;
+  typedef typename ostream_type::ios_base  ios_base;
+
+  // save old flags and fill character
+  const typename ios_base::fmtflags flags = os.flags();
+  const CharT fill = os.fill();
+
+  const CharT space = os.widen(' ');
+  os.flags(ios_base::dec | ios_base::fixed | ios_base::left);
+  os.fill(space);
+
+  os << a() << space << b();
+
+  // restore old flags and fill character
+  os.flags(flags);
+  os.fill(fill);
+  return os;
+}
+
+
+template<typename RealType>
+  template<typename CharT, typename Traits>
+    std::basic_istream<CharT,Traits>&
+      uniform_real_distribution<RealType>
+        ::stream_in(std::basic_istream<CharT,Traits> &is)
+{
+  typedef std::basic_istream<CharT,Traits> istream_type;
+  typedef typename istream_type::ios_base  ios_base;
+
+  // save old flags
+  const typename ios_base::fmtflags flags = is.flags();
+
+  is.flags(ios_base::skipws);
+
+  is >> m_param.first >> m_param.second;
+
+  // restore old flags
+  is.flags(flags);
+  return is;
+}
+
+
+template<typename RealType>
+bool operator==(const uniform_real_distribution<RealType> &lhs,
+                const uniform_real_distribution<RealType> &rhs)
+{
+  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+}
+
+
+template<typename RealType>
+bool operator!=(const uniform_real_distribution<RealType> &lhs,
+                const uniform_real_distribution<RealType> &rhs)
+{
+  return !(lhs == rhs);
+}
+
+
+template<typename RealType,
+         typename CharT, typename Traits>
+std::basic_ostream<CharT,Traits>&
+operator<<(std::basic_ostream<CharT,Traits> &os,
+           const uniform_real_distribution<RealType> &d)
+{
+  return thrust::random::detail::random_core_access::stream_out(os,d);
+}
+
+
+template<typename RealType,
+         typename CharT, typename Traits>
+std::basic_istream<CharT,Traits>&
+operator>>(std::basic_istream<CharT,Traits> &is,
+           uniform_real_distribution<RealType> &d)
+{
+  return thrust::random::detail::random_core_access::stream_in(is,d);
+}
+
 
 } // end random
 

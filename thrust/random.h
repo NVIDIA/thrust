@@ -54,12 +54,16 @@ typedef xor_combine_engine<
   0
 > taus88;
 
+// this is implementation-defined; let it be minstd_rand for now
+typedef minstd_rand default_random_engine;
+
 } // end random
 
 // import names into thrust::
 using random::ranlux24;
 using random::ranlux48;
 using random::taus88;
+using random::default_random_engine;
 
 } // end thrust
 

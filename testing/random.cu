@@ -811,8 +811,8 @@ template<typename Distribution>
 
 void TestUniformIntDistributionMin(void)
 {
-  typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
-  typedef thrust::random::experimental::uniform_int_distribution<unsigned int> uint_dist;
+  typedef thrust::random::uniform_int_distribution<int>          int_dist;
+  typedef thrust::random::uniform_int_distribution<unsigned int> uint_dist;
   
   ValidateDistributionCharacteristic<int_dist,  ValidateDistributionMin<int_dist,  thrust::minstd_rand> >();
   ValidateDistributionCharacteristic<uint_dist, ValidateDistributionMin<uint_dist, thrust::minstd_rand> >();
@@ -822,8 +822,8 @@ DECLARE_UNITTEST(TestUniformIntDistributionMin);
 
 void TestUniformIntDistributionMax(void)
 {
-  typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
-  typedef thrust::random::experimental::uniform_int_distribution<unsigned int> uint_dist;
+  typedef thrust::random::uniform_int_distribution<int>          int_dist;
+  typedef thrust::random::uniform_int_distribution<unsigned int> uint_dist;
   
   ValidateDistributionCharacteristic<int_dist,  ValidateDistributionMax<int_dist,  thrust::minstd_rand> >();
   ValidateDistributionCharacteristic<uint_dist, ValidateDistributionMax<uint_dist, thrust::minstd_rand> >();
@@ -833,11 +833,44 @@ DECLARE_UNITTEST(TestUniformIntDistributionMax);
 
 void TestUniformIntDistributionSaveRestore(void)
 {
-  typedef thrust::random::experimental::uniform_int_distribution<int>          int_dist;
-  typedef thrust::random::experimental::uniform_int_distribution<unsigned int> uint_dist;
+  typedef thrust::random::uniform_int_distribution<int>          int_dist;
+  typedef thrust::random::uniform_int_distribution<unsigned int> uint_dist;
 
   TestDistributionSaveRestore<int_dist>();
   TestDistributionSaveRestore<uint_dist>();
 }
 DECLARE_UNITTEST(TestUniformIntDistributionSaveRestore);
+
+
+void TestUniformRealDistributionMin(void)
+{
+  typedef thrust::random::uniform_real_distribution<float>  float_dist;
+  typedef thrust::random::uniform_real_distribution<double> double_dist;
+  
+  ValidateDistributionCharacteristic<float_dist,  ValidateDistributionMin<float_dist,  thrust::minstd_rand> >();
+  ValidateDistributionCharacteristic<double_dist, ValidateDistributionMin<double_dist, thrust::minstd_rand> >();
+}
+DECLARE_UNITTEST(TestUniformRealDistributionMin);
+
+
+void TestUniformRealDistributionMax(void)
+{
+  typedef thrust::random::uniform_real_distribution<float>  float_dist;
+  typedef thrust::random::uniform_real_distribution<double> double_dist;
+  
+  ValidateDistributionCharacteristic<float_dist,  ValidateDistributionMax<float_dist,  thrust::minstd_rand> >();
+  ValidateDistributionCharacteristic<double_dist, ValidateDistributionMax<double_dist, thrust::minstd_rand> >();
+}
+DECLARE_UNITTEST(TestUniformRealDistributionMax);
+
+
+void TestUniformRealDistributionSaveRestore(void)
+{
+  typedef thrust::random::uniform_real_distribution<float>  float_dist;
+  typedef thrust::random::uniform_real_distribution<double> double_dist;
+
+  TestDistributionSaveRestore<float_dist>();
+  TestDistributionSaveRestore<double_dist>();
+}
+DECLARE_UNITTEST(TestUniformRealDistributionSaveRestore);
 
