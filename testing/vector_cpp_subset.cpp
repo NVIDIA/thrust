@@ -48,6 +48,33 @@ DECLARE_VECTOR_UNITTEST(TestVectorCppFrontBack);
 
 
 template <class Vector>
+void TestVectorCppData(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v(3);
+    v[0] = 0; v[1] = 1; v[2] = 2;
+
+    ASSERT_EQUAL(0,          *v.data());
+    ASSERT_EQUAL(1,          *(v.data() + 1));
+    ASSERT_EQUAL(2,          *(v.data() + 2));
+    ASSERT_EQUAL(&v.front(),  v.data());
+    ASSERT_EQUAL(&*v.begin(), v.data());
+    ASSERT_EQUAL(&v[0],       v.data());
+
+    const Vector &c_v = v;
+
+    ASSERT_EQUAL(0,            *c_v.data());
+    ASSERT_EQUAL(1,            *(c_v.data() + 1));
+    ASSERT_EQUAL(2,            *(c_v.data() + 2));
+    ASSERT_EQUAL(&c_v.front(),  c_v.data());
+    ASSERT_EQUAL(&*c_v.begin(), c_v.data());
+    ASSERT_EQUAL(&c_v[0],       c_v.data());
+}
+DECLARE_VECTOR_UNITTEST(TestVectorCppData);
+
+
+template <class Vector>
 void TestVectorCppElementAssignment(void)
 {
     typedef typename Vector::value_type T;
@@ -523,6 +550,33 @@ void TestVectorCppReserving(void)
     ASSERT_EQUAL(v.capacity(), old_capacity);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorCppReserving)
+
+
+
+template <class Vector>
+void TestVectorCppShrinkToFit(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v;
+
+    v.reserve(200);
+
+    ASSERT_GEQUAL(v.capacity(), 200);
+
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+
+    v.shrink_to_fit();
+
+    ASSERT_EQUAL(1, v[0]);
+    ASSERT_EQUAL(2, v[1]);
+    ASSERT_EQUAL(3, v[2]);
+    ASSERT_EQUAL(3, v.size());
+    ASSERT_EQUAL(3, v.capacity());
+}
+DECLARE_VECTOR_UNITTEST(TestVectorCppShrinkToFit)
 
 
 

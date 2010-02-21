@@ -274,6 +274,14 @@ template<typename T, typename Alloc>
 } // end vector_base::capacity()
 
 template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::shrink_to_fit(void)
+{
+  // use the swap trick
+  vector_base(*this).swap(*this);
+} // end vector_base::shrink_to_fit()
+
+template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::reference
     vector_base<T,Alloc>
       ::operator[](const size_type n)
@@ -416,6 +424,22 @@ template<typename T, typename Alloc>
 {
   return *(begin() + static_cast<difference_type>(size() - 1));
 } // end vector_base::vector_base
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::pointer
+    vector_base<T,Alloc>
+      ::data(void)
+{
+  return &front();
+} // end vector_base::data()
+
+template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::const_pointer
+    vector_base<T,Alloc>
+      ::data(void) const
+{
+  return &front();
+} // end vector_base::data()
 
 template<typename T, typename Alloc>
   vector_base<T,Alloc>

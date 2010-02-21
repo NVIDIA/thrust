@@ -168,6 +168,11 @@ template<typename T, typename Alloc>
     __host__ __device__
     size_type capacity(void) const;
 
+    /*! This method shrinks the capacity of this vector_base to exactly
+     *  fit its elements.
+     */
+    void shrink_to_fit(void);
+
     /*! \brief Subscript access to the data contained in this vector_dev.
      *  \param n The index of the element for which data should be accessed.
      *  \return Read/write reference to data.
@@ -304,6 +309,17 @@ template<typename T, typename Alloc>
      */
     __host__ __device__
     reference back(void);
+
+    /*! This method returns a pointer to this vector_base's first element.
+     *  \return A pointer to the first element of this vector_base.
+     */
+    __host__ __device__
+    pointer data(void);
+
+    /*! This method returns a const_pointer to this vector_base's first element.
+     *  \return a const_pointer to the first element of this vector_base.
+     */
+    const_pointer data(void) const;
 
     /*! This method resizes this vector_base to 0.
      */
