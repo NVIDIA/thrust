@@ -108,14 +108,13 @@ T scan_block_n(SharedArray array, const unsigned int n, T val, BinaryFunction bi
 
 template <typename InputIterator,
           typename OutputIterator,
-          typename BlockResultIterator,
           typename BinaryFunction>
 __global__
 void scan_intervals(InputIterator input,
                     const unsigned int N,
                     const unsigned int interval_size,
                     OutputIterator output,
-                    BlockResultIterator block_results,
+                    typename thrust::iterator_value<OutputIterator>::type * block_results,
                     BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
@@ -191,35 +190,30 @@ void scan_intervals(InputIterator input,
     // write interval sum
     if (threadIdx.x == 0)
     {
-        OutputIterator temp = output;
-        temp += (interval_end - 1);
-        block_results += blockIdx.x;
-        thrust::detail::device::dereference(block_results) = thrust::detail::device::dereference(temp);
+        OutputIterator temp = output + (interval_end - 1);
+        block_results[blockIdx.x] = thrust::detail::device::dereference(temp);
     }
 }
 
 
 template <typename OutputIterator,
-          typename BlockResultIterator,
+          typename OutputType,
           typename BinaryFunction>
 __global__
 void inclusive_update(OutputIterator output,
                       const unsigned int N,
                       const unsigned int interval_size,
-                      BlockResultIterator block_results,
+                      OutputType *   block_results,
                       BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-
     const unsigned int interval_begin = interval_size * blockIdx.x;
     const unsigned int interval_end   = min(interval_begin + interval_size, N);
 
     if (blockIdx.x == 0)
         return;
 
-    // value to add to this segment
-    block_results += blockIdx.x - 1;
-    OutputType sum = thrust::detail::device::dereference(block_results);
+    // value to add to this segment 
+    OutputType sum = block_results[blockIdx.x - 1];
     
     // advance result iterator
     output += interval_begin + threadIdx.x;
@@ -239,30 +233,25 @@ void inclusive_update(OutputIterator output,
 }
 
 template <typename OutputIterator,
-          typename BlockResultIterator,
+          typename OutputType,
           typename BinaryFunction>
 __global__
 void exclusive_update(OutputIterator output,
                       const unsigned int N,
                       const unsigned int interval_size,
-                      BlockResultIterator block_results,
+                      OutputType * block_results,
                       BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     thrust::detail::device::cuda::extern_shared_ptr<OutputType> sdata;
 
     const unsigned int interval_begin = interval_size * blockIdx.x;
     const unsigned int interval_end   = min(interval_begin + interval_size, N);
 
-    // value to add to this segment
-    block_results += gridDim.x;
-    OutputType carry = thrust::detail::device::dereference(block_results);
-    block_results -= gridDim.x;
-
+    // value to add to this segment 
+    OutputType carry = block_results[gridDim.x]; // init
     if (blockIdx.x != 0)
     {
-        block_results += blockIdx.x - 1;
-        OutputType tmp = thrust::detail::device::dereference(block_results);
+        OutputType tmp = block_results[blockIdx.x - 1];
         carry = binary_op(carry, tmp);
     }
 
@@ -308,15 +297,14 @@ OutputIterator inclusive_scan(InputIterator first,
         return output;
 
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-    typedef typename thrust::detail::raw_cuda_device_buffer<OutputType>::iterator BlockResultIterator;
 
     const unsigned int N = last - first;
     
     // determine maximal launch parameters
     const unsigned int smem_per_thread = sizeof(OutputType);
-    const unsigned int block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(scan_intervals<InputIterator,OutputIterator,BlockResultIterator,BinaryFunction>, smem_per_thread);
+    const unsigned int block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(scan_intervals<InputIterator,OutputIterator,BinaryFunction>, smem_per_thread);
     const unsigned int smem_size  = block_size * smem_per_thread;
-    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(scan_intervals<InputIterator,OutputIterator,BlockResultIterator,BinaryFunction>, block_size, smem_size);
+    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(scan_intervals<InputIterator,OutputIterator,BinaryFunction>, block_size, smem_size);
 
     // determine final launch parameters
     const unsigned int unit_size     = block_size;
@@ -340,20 +328,24 @@ OutputIterator inclusive_scan(InputIterator first,
          N,
          interval_size,
          output,
-         block_results.begin(),
+         thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
   
     {
-        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<BlockResultIterator,BlockResultIterator,BlockResultIterator,BinaryFunction>, smem_per_thread);
+#if CUDA_VERSION >= 3000
+        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<OutputType *, OutputType *, BinaryFunction>, smem_per_thread);
+#else
+        const unsigned int block_size_pass2 = 32;
+#endif        
         const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
 
         // second level inclusive scan of per-block results
         scan_intervals<<<         1, block_size_pass2, smem_size_pass2>>>
-            (block_results.begin(),
+            (thrust::raw_pointer_cast(&block_results[0]),
              num_blocks,
              interval_size,
-             block_results.begin(),
-             block_results.begin() + num_blocks,
+             thrust::raw_pointer_cast(&block_results[0]),
+             thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
              binary_op);
     }
     
@@ -362,7 +354,7 @@ OutputIterator inclusive_scan(InputIterator first,
         (output,
          N,
          interval_size,
-         block_results.begin(),
+         thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
 
     return output + N;
@@ -383,15 +375,14 @@ OutputIterator exclusive_scan(InputIterator first,
         return output;
 
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-    typedef typename thrust::detail::raw_cuda_device_buffer<OutputType>::iterator BlockResultIterator;
 
     const unsigned int N = last - first;
     
     // determine maximal launch parameters
     const unsigned int smem_per_thread = sizeof(OutputType);
-    const unsigned int block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(scan_intervals<InputIterator,OutputIterator,BlockResultIterator,BinaryFunction>, smem_per_thread);
+    const unsigned int block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(scan_intervals<InputIterator,OutputIterator,BinaryFunction>, smem_per_thread);
     const unsigned int smem_size  = block_size * smem_per_thread;
-    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(scan_intervals<InputIterator,OutputIterator,BlockResultIterator,BinaryFunction>, block_size, smem_size);
+    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(scan_intervals<InputIterator,OutputIterator,BinaryFunction>, block_size, smem_size);
 
     // determine final launch parameters
     const unsigned int unit_size     = block_size;
@@ -415,20 +406,24 @@ OutputIterator exclusive_scan(InputIterator first,
          N,
          interval_size,
          output,
-         block_results.begin(),
+         thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
         
     {
-        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<BlockResultIterator,BlockResultIterator,BlockResultIterator,BinaryFunction>, smem_per_thread);
+#if CUDA_VERSION >= 3000
+        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<OutputType *, OutputType *, BinaryFunction>, smem_per_thread);
+#else
+        const unsigned int block_size_pass2 = 32;
+#endif        
         const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
 
         // second level inclusive scan of per-block results
         scan_intervals<<<         1, block_size_pass2, smem_size_pass2>>>
-            (block_results.begin(),
+            (thrust::raw_pointer_cast(&block_results[0]),
              num_blocks,
              interval_size,
-             block_results.begin(),
-             block_results.begin() + num_blocks,
+             thrust::raw_pointer_cast(&block_results[0]),
+             thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
              binary_op);
     }
 
@@ -440,7 +435,7 @@ OutputIterator exclusive_scan(InputIterator first,
         (output,
          N,
          interval_size,
-         block_results.begin(),
+         thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
 
     return output + N;
