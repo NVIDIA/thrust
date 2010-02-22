@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <limits>
+#include <limits.h>
 
 namespace thrust
 {
