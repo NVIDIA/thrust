@@ -25,6 +25,7 @@
 #include <iostream>
 #include <thrust/detail/cstdint.h>
 #include <thrust/random/detail/random_core_access.h>
+#include <thrust/random/detail/linear_congruential_engine_discard.h>
 
 namespace thrust
 {
@@ -67,6 +68,8 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
     result_type m_x;
 
     friend struct thrust::random::detail::random_core_access;
+
+    template<typename,unsigned long long> friend struct thrust::random::detail::linear_congruential_engine_discard;
 
     __host__ __device__
     bool equal(const linear_congruential_engine &rhs) const;

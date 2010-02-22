@@ -59,10 +59,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
   void linear_congruential_engine<UIntType,a,c,m>
     ::discard(unsigned long long z)
 {
-  for(; z > 0; --z)
-  {
-    this->operator()();
-  } // end for
+  thrust::random::detail::linear_congruential_engine_discard<UIntType,c>::discard(*this,z);
 } // end linear_congruential_engine::discard()
 
 
