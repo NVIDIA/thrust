@@ -25,7 +25,7 @@ namespace random
 namespace detail
 {
 
-template<typename T, T a, T c, T m, bool>
+template<typename T, T a, T c, T m, bool = (m == 0)>
   struct static_mod
 {
   static const T q = m / a;
@@ -85,7 +85,7 @@ template<typename T, T a, T c, T m>
 __host__ __device__
   T mod(T x)
 {
-  static_mod<T,a,c,m, m == 0> f;
+  static_mod<T,a,c,m> f;
   return f(x);
 }; // end static_mod
 
