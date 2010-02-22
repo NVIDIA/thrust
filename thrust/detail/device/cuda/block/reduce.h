@@ -41,9 +41,6 @@ void reduce(ValueIterator data, BinaryFunction binary_op)
     if (block_size >=    8) { if (threadIdx.x <   4) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   4]); } __syncthreads(); }
     if (block_size >=    4) { if (threadIdx.x <   2) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   2]); } __syncthreads(); }
     if (block_size >=    2) { if (threadIdx.x <   1) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   1]); } __syncthreads(); }
-    
-    // XXX Not testing (threadIdx.x < X) for X <= 16 seems to break on G80
-    // XXX This appears to be due to (illegal) instruction reorderings in the nightly builds
 }
 
 template <typename ValueIterator, typename BinaryFunction>
