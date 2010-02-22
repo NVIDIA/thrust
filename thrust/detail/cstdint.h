@@ -63,7 +63,7 @@ template<int word_size = sizeof(int*)> struct divine_uint64_t;
 template<>
   struct divine_uint64_t<4>
 {
-  typedef unsigned long int type;
+  typedef unsigned long long int type;
 };
 
 // 64b machine type
