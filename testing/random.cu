@@ -3,9 +3,14 @@
 #include <thrust/generate.h>
 #include <sstream>
 
-template<typename Engine, typename Engine::result_type validation>
+template<typename Engine>
   struct ValidateEngine
 {
+  __host__ __device__
+  ValidateEngine(const typename Engine::result_type value_10000)
+    : m_value_10000(value_10000)
+  {}
+
   __host__ __device__
   bool operator()(void) const
   {
@@ -13,8 +18,10 @@ template<typename Engine, typename Engine::result_type validation>
     e.discard(9999);
 
     // get the 10Kth result
-    return e() == validation;
+    return e() == m_value_10000;
   }
+
+  const typename Engine::result_type m_value_10000;
 }; // end ValidateEngine
 
 
@@ -232,13 +239,13 @@ void TestEngineValidation(void)
 {
   // test host
   thrust::host_vector<bool> h(1);
-  thrust::generate(h.begin(), h.end(), ValidateEngine<Engine,value_10000>());
+  thrust::generate(h.begin(), h.end(), ValidateEngine<Engine>(value_10000));
 
   ASSERT_EQUAL(true, h[0]);
 
   // test device
   thrust::device_vector<bool> d(1);
-  thrust::generate(d.begin(), d.end(), ValidateEngine<Engine,value_10000>());
+  thrust::generate(d.begin(), d.end(), ValidateEngine<Engine>(value_10000));
 
   ASSERT_EQUAL(true, d[0]);
 }
