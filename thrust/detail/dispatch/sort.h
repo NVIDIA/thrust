@@ -52,7 +52,7 @@ template<typename RandomAccessIterator,
                    StrictWeakOrdering comp,
                    thrust::host_space_tag)
 {
-    thrust::detail::host::sort(begin, end, comp);
+    thrust::detail::host::stable_sort(begin, end, comp);
 }
 
 template<typename RandomAccessKeyIterator,
@@ -66,7 +66,7 @@ template<typename RandomAccessKeyIterator,
                    thrust::host_space_tag)
 
 {
-    thrust::detail::host::stable_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    thrust::detail::host::sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
 
 template<typename RandomAccessKeyIterator,
