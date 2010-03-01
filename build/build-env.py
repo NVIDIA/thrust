@@ -2,11 +2,13 @@ import os
 import inspect
 import platform
 
+
 def is_64bit():
   """ is this a 64-bit system? """
   return platform.machine()[-2:] == '64'
   #return platform.machine() == 'x86_64':
   #return platform.machine() == 'AMD64':
+
 
 def getTools():
   result = []
@@ -18,15 +20,18 @@ def getTools():
     result = ['default']
   return result;
 
+
 OldEnvironment = Environment;
+
 
 # this dictionary maps the name of a compiler program to a dictionary mapping the name of
 # a compiler switch of interest to the specific switch implementing the feature
 gCompilerOptions = {
-    'gcc' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : ''},
-    'g++' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : ''},
+    'gcc' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : ''},
+    'g++' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : ''},
     'cl'  : {'optimization' : '/Ox', 'debug' : '/Zi', 'exception_handling' : '/EHsc'}
   }
+
 
 # this dictionary maps the name of a linker program to a dictionary mapping the name of
 # a linker switch of interest to the specific switch implementing the feature
@@ -36,6 +41,7 @@ gLinkerOptions = {
     'link'  : {'debug' : '/debug'}
   }
 
+
 def getBackendDefine(backend):
   result = ''
   if backend == 'cuda':
@@ -43,6 +49,7 @@ def getBackendDefine(backend):
   elif backend == 'omp':
     result = '-DTHRUST_DEVICE_BACKEND=THRUST_DEVICE_BACKEND_OMP'
   return result
+
 
 def getCFLAGS(mode, backend, CC):
   result = []
@@ -66,6 +73,7 @@ def getCFLAGS(mode, backend, CC):
 
   return result
 
+
 def getCXXFLAGS(mode, backend, CXX):
   result = []
   if mode == 'release' or mode == 'emurelease':
@@ -85,6 +93,7 @@ def getCXXFLAGS(mode, backend, CXX):
 
   return result
 
+
 def getNVCCFLAGS(mode, backend):
   result = []
   if mode == 'emurelease' or mode == 'emudebug':
@@ -95,6 +104,7 @@ def getNVCCFLAGS(mode, backend):
   result.append(getBackendDefine(backend))
 
   return result
+
 
 # XXX this should actually be based on LINK,
 #     but that's apparently a dynamic variable which
@@ -112,7 +122,13 @@ def getLINKFLAGS(mode, backend, CXX):
   # link against omp
   if backend == 'omp':
     result.append('-lgomp')
+
+  # XXX make this portable
+  if backend == 'ocelot':
+    result.append(os.popen('OcelotConfig -l').read().split())
+
   return result
+
 
 def Environment():
   env = OldEnvironment(tools = getTools())
@@ -154,7 +170,6 @@ def Environment():
   # get linker switches
   env.Append(LINKFLAGS = getLINKFLAGS(mode, backend, env.subst('$LINK')))
    
-
   # set CUDA lib & include path
   if is_64bit():
       lib_folder = 'lib64'
@@ -170,11 +185,18 @@ def Environment():
   else:
     raise ValueError, "Unknown OS. What are the CUDA include & library paths?"
 
+  # set Ocelot lib path
+  if backend == 'ocelot':
+    if os.name == 'posix':
+      env.Append(LIBPATH = ['/usr/local/lib'])
+    else:
+      raise ValueError, "Unknown OS.  What is the Ocelot library path?"
+
   # add CUDA runtime library
   # XXX ideally this gets handled in nvcc.py if possible
   env.Append(LIBS = 'cudart')
 
-  # set komrade include path
+  # set thrust include path
   env.Append(CPPPATH = os.path.dirname(thisDir))
 
   # import the LD_LIBRARY_PATH so we can run commands which depend
@@ -184,4 +206,5 @@ def Environment():
     env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
 
   return env
+
 

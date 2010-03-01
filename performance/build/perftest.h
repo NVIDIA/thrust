@@ -1,6 +1,7 @@
 #include <thrusttest/unittest.h>
 #include <cuda_runtime.h>
 #include <cuda.h>
+#include <string>
 
 #define RECORD_RESULT(name, value, units)   { std::cout << "  <result  name=\"" << name << "\"  value=\"" << value  << "\"  units=\"" << units << "\"/>" << std::endl; }
 #define RECORD_TIME()                       RECORD_RESULT("Time", best_time, "seconds")
@@ -76,3 +77,25 @@ inline void RECORD_PLATFORM_INFO(void)
     std::cout << "  </compilation>" << std::endl;
     std::cout << "</platform>" << std::endl;
 }
+
+
+inline void PROCESS_ARGUMENTS(int argc, char **argv)
+{
+  for(size_t i = 1; i < argc; ++i)
+  {
+    if(std::string(argv[i]) == "--device")
+    {
+      ++i;
+      if(i == argc)
+      {
+        std::cerr << "usage: --device n" << std::endl;
+        exit(-1);
+      }
+
+      int device_index = atoi(argv[i]);
+      cudaSetDevice(device_index);
+    }
+  }
+}
+
+

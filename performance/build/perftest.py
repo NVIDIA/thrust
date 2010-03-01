@@ -84,13 +84,14 @@ def make_test_program(pname, functions, PREAMBLE = ""):
 
     #TODO output TestVariables in <testsuite> somewhere
 
-    parts.append("int main(void)")
+    parts.append("int main(int argc, char **argv)")
     parts.append("{")
-    parts.append("BEGIN_TESTSUITE(\"" + pname + "\")")
+    parts.append("PROCESS_ARGUMENTS(argc, argv);")
+    parts.append("BEGIN_TESTSUITE(\"" + pname + "\");")
     parts.append("RECORD_PLATFORM_INFO();")
     for fname,fcode in functions:
         parts.append(fname + "();")
-    parts.append("END_TESTSUITE()")
+    parts.append("END_TESTSUITE();")
     parts.append("}")
     parts.append("\n")
 
