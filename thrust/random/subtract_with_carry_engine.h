@@ -55,7 +55,10 @@ template<typename UIntType, size_t w, size_t s, size_t r>
     static const size_t short_lag = s;
     static const size_t long_lag = r;
     static const result_type min = 0;
-    static const result_type max = modulus - 1;
+
+    // XXX WAR nvcc 2.3 bug
+    //static const result_type max = modulus - 1;
+    static const result_type max = (UIntType(1) << w) - 1;
     static const result_type default_seed = 19780503u;
 
     // constructors and seeding functions
