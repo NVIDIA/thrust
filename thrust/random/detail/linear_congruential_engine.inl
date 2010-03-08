@@ -66,7 +66,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
     (*this)();
   }
 #else
-  thrust::random::detail::linear_congruential_engine_discard<UIntType,c>::discard(*this,z);
+  thrust::random::detail::linear_congruential_engine_discard::discard(*this,z);
 #endif
 } // end linear_congruential_engine::discard()
 
