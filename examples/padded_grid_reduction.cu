@@ -19,7 +19,7 @@ struct transform_tuple :
     public thrust::unary_function< thrust::tuple<IndexType,ValueType>, 
                                    thrust::tuple<bool,ValueType,ValueType> >
 {
-    typedef typename thrust::tuple<bool,ValueType>           InputTuple;
+    typedef typename thrust::tuple<IndexType,ValueType>      InputTuple;
     typedef typename thrust::tuple<bool,ValueType,ValueType> OutputTuple;
 
     IndexType n, N;
