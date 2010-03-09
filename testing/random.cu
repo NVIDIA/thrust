@@ -597,8 +597,6 @@ DECLARE_UNITTEST(TestTaus88Max);
 
 void TestTaus88SaveRestore(void)
 {
-  KNOWN_FAILURE;
-
   typedef thrust::random::taus88 Engine;
 
   TestEngineSaveRestore<Engine>();

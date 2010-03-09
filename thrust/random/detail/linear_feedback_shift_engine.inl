@@ -96,7 +96,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
   // save old flags
   const typename ios_base::fmtflags flags = is.flags();
 
-  is.flags(ios_base::dec);
+  is.flags(ios_base::skipws);
 
   // input one word of state
   is >> m_value;
