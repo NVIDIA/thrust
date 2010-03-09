@@ -21,6 +21,7 @@
 
 #include <thrust/detail/vector_base.h>
 #include <thrust/copy.h>
+#include <thrust/detail/move.h>
 #include <thrust/equal.h>
 #include <thrust/uninitialized_fill.h>
 #include <thrust/uninitialized_copy.h>
@@ -493,8 +494,8 @@ template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator vector_base<T,Alloc>
     ::erase(iterator first, iterator last)
 {
-  // copy the range [last,end()) to first
-  iterator i = thrust::copy(last, end(), first);
+  // move the range [last,end()) to first
+  iterator i = detail::move(last, end(), first);
 
   // destroy everything after i
   thrust::detail::destroy(i, end());
