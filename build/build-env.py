@@ -125,10 +125,16 @@ def getLINKFLAGS(mode, backend, CXX):
 
 
 def Environment():
-  env = OldEnvironment(tools = getTools())
+  # allow the user discretion to choose the MSVC version
+  vars = Variables()
+  if os.name == 'nt':
+    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
+
+  env = OldEnvironment(tools = getTools(), variables = vars)
 
   # scons has problems with finding the proper LIBPATH with Visual Studio Express 2008
   # help it out
+  # XXX we might be able to ditch this WAR
   if os.name == 'nt':
     if is_64bit():
       env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 8/VC/lib/amd64'])
