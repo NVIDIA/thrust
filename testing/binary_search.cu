@@ -311,6 +311,11 @@ struct TestVectorLowerBound
 {
   void operator()(const size_t n)
   {
+// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
+//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+    KNOWN_FAILURE;
+#else
     thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -327,6 +332,7 @@ struct TestVectorLowerBound
     thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_ALMOST_EQUAL(h_output, d_output);
+#endif
   }
 };
 VariableUnitTest<TestVectorLowerBound, NumericTypes> TestVectorLowerBoundInstance;
@@ -337,6 +343,11 @@ struct TestVectorUpperBound
 {
   void operator()(const size_t n)
   {
+// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
+//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+    KNOWN_FAILURE;
+#else
     thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -353,6 +364,7 @@ struct TestVectorUpperBound
     thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_ALMOST_EQUAL(h_output, d_output);
+#endif
   }
 };
 VariableUnitTest<TestVectorUpperBound, NumericTypes> TestVectorUpperBoundInstance;
@@ -362,6 +374,11 @@ struct TestVectorBinarySearch
 {
   void operator()(const size_t n)
   {
+// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
+//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+    KNOWN_FAILURE;
+#else
     thrust::host_vector<T>   h_vec = thrusttest::random_integers<T>(n);
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -378,6 +395,7 @@ struct TestVectorBinarySearch
     thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_ALMOST_EQUAL(h_output, d_output);
+#endif
   }
 };
 VariableUnitTest<TestVectorBinarySearch, NumericTypes> TestVectorBinarySearchInstance;
