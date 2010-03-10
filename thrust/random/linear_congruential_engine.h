@@ -134,11 +134,11 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
      */
     static const result_type modulus = m;
 
-    /*! The minimum value this \p linear_congruential_engine shall produce.
+    /*! The smallest value this \p linear_congruential_engine may potentially produce.
      */
     static const result_type min = c == 0u ? 1u : 0u;
 
-    /*! The maximum value this \p linear_congruential_engine shall produce.
+    /*! The largest value this \p linear_congruential_engine may potentially produce.
      */
     static const result_type max = m - 1u;
 
@@ -271,7 +271,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 2147483647> minstd_rand0;
 
 
-/*! \typdef minstd_rand
+/*! \typedef minstd_rand
  *  \brief A random number engine with predefined parameters which implements a version of
  *         the Minimal Standard random number generation algorithm.
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand

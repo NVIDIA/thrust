@@ -99,11 +99,11 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 
   public:
 
-    /*! The minimum value this \p linear_feedback_shift_engine shall produce.
+    /*! The smallest value this \p linear_feedback_shift_engine may potentially produce.
      */
     static const result_type min = 0;
 
-    /*! The maximum value this \p linear_feedback_shift_engine shall produce.
+    /*! The largest value this \p linear_feedback_shift_engine may potentially produce.
      */
     static const result_type max = wordmask;
 
@@ -116,7 +116,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
     /*! This constructor, which optionally accepts a seed, initializes a new
      *  \p linear_feedback_shift_engine.
      *  
-     *  \param s The seed used to intialize this \p linear_feedback_shift_engine's state.
+     *  \param value The seed used to intialize this \p linear_feedback_shift_engine's state.
      */
     __host__ __device__
     explicit linear_feedback_shift_engine(result_type value = default_seed);
@@ -124,7 +124,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
     /*! This method initializes this \p linear_feedback_shift_engine's state, and optionally accepts
      *  a seed value.
      *
-     *  \param s The seed used to initializes this \p linear_feedback_shift_engine's state.
+     *  \param value The seed used to initializes this \p linear_feedback_shift_engine's state.
      */
     __host__ __device__
     void seed(result_type value = default_seed);
