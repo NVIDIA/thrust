@@ -37,13 +37,45 @@
 namespace thrust
 {
 
+/*! \namespace random
+ *  \brief \p random is the namespace which contains random number engine class templates,
+ *  random number engine adaptor class templates, engines with predefined parameters,
+ *  and random number distribution class templates. They are provided in a separate namespace
+ *  for import convenience but are also aliased in the top-level \p thrust namespace for
+ *  easy access.
+ */
 namespace random
 {
 
+/*! \addtogroup predefined_random Random Number Engines with Predefined Parameters
+ *  \{
+ */
+
+/*! \typedef ranlux24
+ *  \brief A random number engine with predefined parameters which implements the
+ *         RANLUX level-3 random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24
+ *        shall produce the value \c 9901578 .
+ */
 typedef discard_block_engine<ranlux24_base, 223, 23> ranlux24;
 
+
+/*! \typedef ranlux48
+ *  \brief A random number engine with predefined parameters which implements the
+ *         RANLUX level-4 random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48
+ *        shall produce the value \c 88229545517833 .
+ */
 typedef discard_block_engine<ranlux48_base, 389, 11> ranlux48;
 
+
+/*! \typedef taus88
+ *  \brief A random number engine with predefined parameters which implements
+ *         L'Ecuyer's 1996 three-component Tausworthe random number generator.
+ *
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p taus88
+ *        shall produce the value \c 3535848941 .
+ */
 typedef xor_combine_engine<
   linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 31u, 13u, 12u>,
   0,
@@ -54,8 +86,15 @@ typedef xor_combine_engine<
   0
 > taus88;
 
-// this is implementation-defined; let it be minstd_rand for now
+/*! \typedef default_random_engine
+ *  \brief An implementation-defined "default" random number engine.
+ *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
+ *        in a future version.
+ */
 typedef minstd_rand default_random_engine;
+
+/*! \} // end predefined_random
+ */
 
 } // end random
 
