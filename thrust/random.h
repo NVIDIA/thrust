@@ -37,6 +37,12 @@
 namespace thrust
 {
 
+
+/*! \addtogroup random Random Number Generation
+ *  \{
+ */
+
+
 /*! \namespace random
  *  \brief \p random is the namespace which contains random number engine class templates,
  *  random number engine adaptor class templates, engines with predefined parameters,
@@ -48,6 +54,7 @@ namespace random
 {
 
 /*! \addtogroup predefined_random Random Number Engines with Predefined Parameters
+ *  \ingroup random
  *  \{
  */
 
@@ -97,6 +104,10 @@ typedef minstd_rand default_random_engine;
  */
 
 } // end random
+
+
+/*! \} // end random
+ */
 
 // import names into thrust::
 using random::ranlux24;

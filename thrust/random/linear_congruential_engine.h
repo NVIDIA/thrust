@@ -34,6 +34,7 @@ namespace random
 {
 
 /*! \addtogroup random_number_engine_templates Random Number Engine Class Templates
+ *  \ingroup random
  *  \{
  */
 
@@ -51,7 +52,7 @@ namespace random
  *  \note Inexperienced users should not use this class template directly.  Instead, use
  *  \p minstd_rand or \p minstd_rand0.
  *
- *  The following code snippet shows examples of use of a linear_congruential_engine instance:
+ *  The following code snippet shows examples of use of a \p linear_congruential_engine instance:
  *
  *  \code
  *  #include <thrust/random/linear_congruential_engine.h>
@@ -105,8 +106,8 @@ namespace random
  *
  *  \endcode
  *
- *  \see minstd_rand
- *  \see minstd_rand0
+ *  \see thrust::random::minstd_rand
+ *  \see thrust::random::minstd_rand0
  */
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
   class linear_congruential_engine
@@ -133,45 +134,45 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
      */
     static const result_type modulus = m;
 
-    /*! The minimum value this linear_congruential_engine shall produce.
+    /*! The minimum value this \p linear_congruential_engine shall produce.
      */
     static const result_type min = c == 0u ? 1u : 0u;
 
-    /*! The maximum value this linear_congruential_engine shall produce.
+    /*! The maximum value this \p linear_congruential_engine shall produce.
      */
     static const result_type max = m - 1u;
 
-    /*! The default seed of this linear_congruential_engine.
+    /*! The default seed of this \p linear_congruential_engine.
      */
     static const result_type default_seed = 1u;
 
     // constructors and seeding functions
 
     /*! This constructor, which optionally accepts a seed, initializes a new
-     *  linear_congruential_engine.
+     *  \p linear_congruential_engine.
      *  
-     *  \param s The seed used to intialize this linear_congruential_engine's state.
+     *  \param s The seed used to intialize this \p linear_congruential_engine's state.
      */
     __host__ __device__
     explicit linear_congruential_engine(result_type s = default_seed);
 
-    /*! This method initializes this linear_congruential_engine's state, and optionally accepts
+    /*! This method initializes this \p linear_congruential_engine's state, and optionally accepts
      *  a seed value.
      *
-     *  \param s The seed used to initializes this linear_congruential_engine's state.
+     *  \param s The seed used to initializes this \p linear_congruential_engine's state.
      */
     __host__ __device__
     void seed(result_type s = default_seed);
 
     // generating functions
 
-    /*! This member function produces a new random value and updates this linear_congruential_engine's state.
+    /*! This member function produces a new random value and updates this \p linear_congruential_engine's state.
      *  \return A new random number.
      */
     __host__ __device__
     result_type operator()(void);
 
-    /*! This member function advances this linear_congruential_engine's state a given number of times
+    /*! This member function advances this \p linear_congruential_engine's state a given number of times
      *  and discards the results.
      *
      *  \param z The number of random values to discard.
@@ -205,9 +206,9 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 }; // end linear_congruential_engine
 
 
-/*! This function checks two linear_congruential_engine s for equality.
- *  \param lhs The first linear_congruential_engine to test.
- *  \param rhs The second linear_congruential_engine to test.
+/*! This function checks two \p linear_congruential_engines for equality.
+ *  \param lhs The first \p linear_congruential_engine to test.
+ *  \param rhs The second \p linear_congruential_engine to test.
  *  \return \c true if \p lhs is equal to \p rhs; \c false, otherwise.
  */
 template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
@@ -216,9 +217,9 @@ bool operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
                 const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
 
 
-/*! This function checks two linear_congruential_engine s for inequality.
- *  \param lhs The first linear_congruential_engine to test.
- *  \param rhs The second linear_congruential_engine to test.
+/*! This function checks two \p linear_congruential_engines for inequality.
+ *  \param lhs The first \p linear_congruential_engine to test.
+ *  \param rhs The second \p linear_congruential_engine to test.
  *  \return \c true if \p lhs is not equal to \p rhs; \c false, otherwise.
  */
 template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
@@ -227,10 +228,10 @@ bool operator!=(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
                 const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs);
 
 
-/*! This function streams a linear_congruential_engine to a std::basic_ostream.
- *  \param os The basic_ostream to stream out to.
- *  \param e The linear_congruential_engine to stream out.
- *  \return os
+/*! This function streams a linear_congruential_engine to a \p std::basic_ostream.
+ *  \param os The \p basic_ostream to stream out to.
+ *  \param e The \p linear_congruential_engine to stream out.
+ *  \return \p os
  */
 template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
          typename CharT, typename Traits>
@@ -240,9 +241,9 @@ operator<<(std::basic_ostream<CharT,Traits> &os,
 
 
 /*! This function streams a linear_congruential_engine in from a std::basic_istream.
- *  \param is The basic_istream to stream from.
- *  \param e The linear_congruential_engine to stream in.
- *  \return is
+ *  \param is The \p basic_istream to stream from.
+ *  \param e The \p linear_congruential_engine to stream in.
+ *  \return \p is
  */
 template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_,
          typename CharT, typename Traits>
