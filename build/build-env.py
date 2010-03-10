@@ -27,9 +27,9 @@ OldEnvironment = Environment;
 # this dictionary maps the name of a compiler program to a dictionary mapping the name of
 # a compiler switch of interest to the specific switch implementing the feature
 gCompilerOptions = {
-    'gcc' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : ''},
-    'g++' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : ''},
-    'cl'  : {'optimization' : '/Ox', 'debug' : '/Zi', 'exception_handling' : '/EHsc'}
+    'gcc' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'g++' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'cl'  : {'optimization' : '/Ox', 'debug' : '/Zi', 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
   }
 
 
@@ -67,9 +67,8 @@ def getCFLAGS(mode, backend, CC):
   result.append(getBackendDefine(backend))
 
   # generate omp code
-  # XXX make this portable to msvc
   if backend == 'omp':
-    result.append('-fopenmp')
+    result.append(gCompilerOptions[CC]['omp'])
 
   return result
 
@@ -117,11 +116,6 @@ def getLINKFLAGS(mode, backend, CXX):
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
-
-  # XXX make this portable
-  # link against omp
-  if backend == 'omp':
-    result.append('-lgomp')
 
   # XXX make this portable
   if backend == 'ocelot':
@@ -195,6 +189,15 @@ def Environment():
   # add CUDA runtime library
   # XXX ideally this gets handled in nvcc.py if possible
   env.Append(LIBS = 'cudart')
+
+  # link against omp if necessary
+  if backend == 'omp':
+    if os.name == 'posix':
+      env.Append(LIBS = ['gomp'])
+    elif os.name == 'nt':
+      env.Append(LIBS = ['VCOMP'])
+    else:
+      raise ValueError, "Unknown OS.  What is the name of the OpenMP library?"
 
   # set thrust include path
   env.Append(CPPPATH = os.path.dirname(thisDir))
