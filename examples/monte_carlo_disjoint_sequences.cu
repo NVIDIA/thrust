@@ -20,9 +20,6 @@
 // past n states of the RNG. This function is accelerated and executes
 // in O(lg n) time.
 
-// use 30K subsequences of random numbers
-const int M = 30000;
-
 struct estimate_pi : public thrust::unary_function<unsigned int,float>
 {
   __host__ __device__
@@ -70,6 +67,9 @@ struct estimate_pi : public thrust::unary_function<unsigned int,float>
 
 int main(void)
 {
+  // use 30K subsequences of random numbers
+  int M = 30000;
+
   float estimate = thrust::transform_reduce(thrust::counting_iterator<int>(0),
                                             thrust::counting_iterator<int>(M),
                                             estimate_pi(),
