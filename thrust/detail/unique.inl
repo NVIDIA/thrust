@@ -91,28 +91,11 @@ template <typename ForwardIterator1,
                 ForwardIterator2 values_first,
                 BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator2>::value_type ValueType;
-  return thrust::unique_by_key
-      (keys_first, keys_last, values_first, binary_pred, thrust::project1st<ValueType,ValueType>());
-}
-
-template <typename ForwardIterator1,
-          typename ForwardIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(ForwardIterator1 keys_first, 
-                ForwardIterator1 keys_last,
-                ForwardIterator2 values_first,
-                BinaryPredicate binary_pred,
-                BinaryFunction binary_op)
-{
   return detail::dispatch::unique_by_key
-      (keys_first, keys_last, values_first, binary_pred, binary_op,
+      (keys_first, keys_last, values_first, binary_pred,
        typename thrust::iterator_space<ForwardIterator1>::type(),
        typename thrust::iterator_space<ForwardIterator2>::type());
 }
-
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -143,31 +126,11 @@ template <typename InputIterator1,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<InputIterator2>::value_type ValueType;
-  return thrust::unique_copy_by_key
-      (keys_first, keys_last, values_first, keys_output, values_output, binary_pred, thrust::project1st<ValueType,ValueType>());
-}
-
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred,
-                     BinaryFunction binary_op)
-{
   return detail::dispatch::unique_copy_by_key
-      (keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op,
+      (keys_first, keys_last, values_first, keys_output, values_output, binary_pred,
        typename thrust::iterator_space<InputIterator1>::type(),
        typename thrust::iterator_space<InputIterator2>::type(),
-       typename thrust::iterator_space<OutputIterator1>::type(),
+       typename thrust::iterator_space<OutputIterator2>::type(),
        typename thrust::iterator_space<OutputIterator2>::type());
 }
 

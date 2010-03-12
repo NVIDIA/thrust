@@ -63,6 +63,79 @@ template<typename InputIterator,
             typename thrust::iterator_space<InputIterator>::type());
 }
 
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output)
+{
+    typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
+
+    // use equal_to<KeyType> as default BinaryPredicate
+    return thrust::reduce_by_key(keys_first, keys_last, 
+                                 values_first,
+                                 keys_output,
+                                 values_output,
+                                 thrust::equal_to<KeyType>());
+}
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output,
+                BinaryPredicate binary_pred)
+{
+    typedef typename thrust::iterator_value<OutputIterator2>::type OutputType;
+
+    // use plus<OutputType> as default BinaryFunction
+    return thrust::reduce_by_key(keys_first, keys_last, 
+                                 values_first,
+                                 keys_output,
+                                 values_output,
+                                 binary_pred,
+                                 thrust::plus<OutputType>());
+}
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output,
+                BinaryPredicate binary_pred,
+                BinaryFunction binary_op)
+{
+    //dispatch on space 
+    return thrust::detail::dispatch::reduce_by_key
+            (keys_first, keys_last, 
+             values_first,
+             keys_output,
+             values_output,
+             binary_pred,
+             binary_op,
+             typename thrust::iterator_space<InputIterator1>::type(),
+             typename thrust::iterator_space<InputIterator2>::type(),
+             typename thrust::iterator_space<OutputIterator1>::type(),
+             typename thrust::iterator_space<OutputIterator2>::type());
+}
 
 } // end namespace thrust
 

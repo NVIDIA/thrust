@@ -1,7 +1,7 @@
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/generate.h>
-#include <thrust/unique.h>
+#include <thrust/reduce.h>
 #include <thrust/functional.h>
 #include <cstdlib>
 #include <iostream>
@@ -38,13 +38,13 @@ int main(void)
     thrust::device_vector<int> row_indices(R);
     
     // compute row sums by summing values with equal row indices
-    thrust::unique_copy_by_key(thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C)),
-                               thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C)) + (R*C),
-                               array.begin(),
-                               row_indices.begin(),
-                               row_sums.begin(),
-                               thrust::equal_to<int>(),
-                               thrust::plus<int>());
+    thrust::reduce_by_key(thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C)),
+                          thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C)) + (R*C),
+                          array.begin(),
+                          row_indices.begin(),
+                          row_sums.begin(),
+                          thrust::equal_to<int>(),
+                          thrust::plus<int>());
 
     // print data 
     for(int i = 0; i < R; i++)

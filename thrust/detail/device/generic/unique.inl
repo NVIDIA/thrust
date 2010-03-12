@@ -82,20 +82,15 @@ OutputIterator unique_copy(InputIterator first,
     return new_last;
 }
 
-template <typename ValueType, typename TailFlagType, typename AssociativeOperator>
+template <typename ValueType, typename TailFlagType>
 struct unique_by_key_functor
 {
-    AssociativeOperator binary_op;
-
     typedef typename thrust::tuple<ValueType, TailFlagType> result_type;
-
-    __host__ __device__
-    unique_by_key_functor(AssociativeOperator _binary_op) : binary_op(_binary_op) {}
 
     __host__ __device__
     result_type operator()(result_type a, result_type b)
     {
-        return result_type(thrust::get<1>(b) ? thrust::get<0>(b) : binary_op(thrust::get<0>(a), thrust::get<0>(b)),
+        return result_type(thrust::get<1>(b) ? thrust::get<0>(b) : thrust::get<0>(a),
                            thrust::get<1>(a) | thrust::get<1>(b));
     }
 };
@@ -143,14 +138,12 @@ OutputIterator unique_copy(InputIterator first,
 
 template <typename ForwardIterator1,
           typename ForwardIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first,
-                BinaryPredicate binary_pred,
-                BinaryFunction binary_op)
+                BinaryPredicate binary_pred)
 {
     typedef typename thrust::iterator_traits<ForwardIterator1>::value_type InputType1;
     typedef typename thrust::iterator_traits<ForwardIterator2>::value_type InputType2;
@@ -164,23 +157,21 @@ template <typename ForwardIterator1,
     InputBuffer2 vals(values_first, values_last);
 
     return thrust::detail::device::generic::unique_copy_by_key
-        (keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred, binary_op);
+        (keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
 }
 
 template <typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
   unique_copy_by_key(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output,
-                     BinaryPredicate binary_pred,
-                     BinaryFunction binary_op)
+                     BinaryPredicate binary_pred)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  KeyType;
@@ -214,7 +205,7 @@ template <typename InputIterator1,
         (thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
          thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
          thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
-         detail::unique_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
+         detail::unique_by_key_functor<ValueType, FlagType>());
 
     thrust::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin());
 

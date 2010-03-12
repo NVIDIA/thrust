@@ -256,6 +256,7 @@ OutputIterator unique_copy(InputIterator first,
  *
  *  \see unique
  *  \see unique_copy_by_key
+ *  \see reduce_by_key
  */
 template <typename ForwardIterator1,
           typename ForwardIterator2>
@@ -308,6 +309,7 @@ template <typename ForwardIterator1,
  *
  *  \see unique
  *  \see unique_copy_by_key
+ *  \see reduce_by_key
  */
 template <typename ForwardIterator1,
           typename ForwardIterator2,
@@ -317,68 +319,6 @@ template <typename ForwardIterator1,
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first,
                 BinaryPredicate binary_pred);
-
-
-/*! \p unique_by_key is a generalization of \p unique to key-value pairs.
- *  For each group of consecutive keys in the range <tt>[keys_first, keys_last)</tt>
- *  that are equal, \p unique_by_key removes all but the first element of 
- *  the group.  The corresponding values in the range are reduced using the
- *  \c BinaryFunction \c binary_op.  Specifically, if consecutive
- *  key iterators \c i and \c (i + 1) equal are such that <tt>binary_pred(*i, *(i+1))</tt>
- *  is \c true, then the corresponding values are reduced to a single value
- *  with \c binary_op.
- *
- *  This version of \p unique_by_key uses the function object \c binary_pred
- *  to test for equality and \c binary_op to reduce values with equal keys.
- *
- *  \param keys_first The beginning of the key range.
- *  \param keys_last  The end of the key range.
- *  \param values_first The beginning of the value range.
- *  \param binary_pred  The binary predicate used to determine equality.
- *  \param binary_op The binary function used to accumulate values.
- *  \return The end of the unique range <tt>[first, new_last)</tt>.
- *
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator1 is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator2 is mutable.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
- *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
- *          and \c BinaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
- *
- *  The following code snippet demonstrates how to use \p unique_by_key to
- *  compact a sequence of key/value pairs and sum values with equal keys.
- *
- *  \code
- *  #include <thrust/unique.h>
- *  ...
- *  const int N = 7;
- *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys
- *  int B[N] = {9, 8, 7, 6, 5, 4, 3}; // values
- *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int> binary_op;
- *  new_end = thrust::unique_by_key(keys, keys + N, values, binary_pred, binary_op);
- *
- *  // The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.
- *  // The first four values in B are now {9, 21, 9, 3} and new_end.second - B is 4.
- *  \endcode
- *
- *  \see unique
- *  \see unique_copy_by_key
- */
-template <typename ForwardIterator1,
-          typename ForwardIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(ForwardIterator1 keys_first, 
-                ForwardIterator1 keys_last,
-                ForwardIterator2 values_first,
-                BinaryPredicate binary_pred,
-                BinaryFunction binary_op);
 
 
 /*! \p unique_copy_by_key is a generalization of \p unique_copy to key-value pairs.
@@ -426,6 +366,7 @@ template <typename ForwardIterator1,
  *
  *  \see unique_copy
  *  \see unique_by_key
+ *  \see reduce_by_key
  */
 template <typename InputIterator1,
           typename InputIterator2,
@@ -486,6 +427,7 @@ template <typename InputIterator1,
  *
  *  \see unique_copy
  *  \see unique_by_key
+ *  \see reduce_by_key
  */
 template <typename InputIterator1,
           typename InputIterator2,
@@ -499,76 +441,6 @@ template <typename InputIterator1,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred);
-
-/*! \p unique_copy_by_key is a generalization of \p unique_copy to key-value pairs.
- *  For each group of consecutive keys in the range <tt>[keys_first, keys_last)</tt>
- *  that are equal, \p unique_copy_by_key copies the first element of the group to the
- *  \c keys_output. The corresponding values in the range are reduced using the
- *  \c BinaryFunction \c binary_op and the result copied to \c values_output. 
- *  Specifically, if consecutive key iterators \c i and \c (i + 1) equal are 
- *  such that <tt>binary_pred(*i, *(i+1))</tt> is \c true, then the corresponding
- *  values are reduced to a single value with \c binary_op.
- *
- *  This version of \p unique_copy_by_key uses the function object \c binary_pred
- *  to test for equality and \c binary_op to reduce values with equal keys.
- *
- *  \param keys_first The beginning of the input key range.
- *  \param keys_last  The end of the input key range.
- *  \param values_first The beginning of the input value range.
- *  \param keys_output The beginning of the output key range.
- *  \param values_output The beginning of the output value range.
- *  \param binary_pred  The binary predicate used to determine equality.
- *  \param binary_op The binary function used to accumulate values.
- *  \return A pair of iterators at end of the ranges <tt>[keys_output, keys_output_last)</tt> and <tt>[values_output, values_output_last)</tt>.
- *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
- *          and \p InputIterator1's \c value_type is convertible to \c OutputIterator1's \c value_type.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
- *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
- *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
- *          and \c BinaryFunction's \c result_type is convertible to \c OutputIterator2's \c value_type.
- *
- *  The following code snippet demonstrates how to use \p unique_copy_by_key to
- *  compact a sequence of key/value pairs and sum values with equal keys.
- *
- *  \code
- *  #include <thrust/unique.h>
- *  ...
- *  const int N = 7;
- *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys
- *  int B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values
- *  int C[N];                         // output keys
- *  int D[N];                         // output values
- *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int> binary_op;
- *  new_end = thrust::unique_copy_by_key(A, A + N, B, C, D, binary_pred, binary_op);
- *
- *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
- *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
- *  \endcode
- *
- *  \see unique_copy
- *  \see unique_by_key
- */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred,
-                     BinaryFunction binary_op);
 
 /*! \} // end stream_compaction
  */

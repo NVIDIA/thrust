@@ -56,16 +56,14 @@ template <typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
   unique_copy_by_key(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output,
-                     BinaryPredicate binary_pred,
-                     BinaryFunction binary_op)
+                     BinaryPredicate binary_pred)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
     typedef typename thrust::iterator_traits<OutputIterator2>::value_type OutputValueType;
@@ -82,11 +80,7 @@ template <typename InputIterator1,
             InputKeyType    key   = *keys_first;
             OutputValueType value = *values_first;
 
-            if (binary_pred(temp_key, key))
-            {
-                temp_value = binary_op(temp_value, value);
-            }
-            else
+            if (!binary_pred(temp_key, key))
             {
                 *keys_output   = temp_key;
                 *values_output = temp_value;
@@ -111,17 +105,16 @@ template <typename InputIterator1,
 
 template <typename ForwardIterator1,
           typename ForwardIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first,
-                BinaryPredicate binary_pred,
-                BinaryFunction binary_op)
+                BinaryPredicate binary_pred)
 {
+    // unique_copy_by_key() permits in-situ operation
     return thrust::detail::host::unique_copy_by_key
-        (keys_first, keys_last, values_first, keys_first, values_first, binary_pred, binary_op);
+        (keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
 }
 
 } // last namespace host

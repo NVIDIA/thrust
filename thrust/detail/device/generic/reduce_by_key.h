@@ -15,8 +15,8 @@
  */
 
 
-/*! \file unique.h
- *  \brief Generic device implementation of unique()
+/*! \file reduce_by_key.h
+ *  \brief Generic device implementation of reduce_by_key()
  */
 
 #pragma once
@@ -30,36 +30,14 @@ namespace device
 namespace generic
 {
 
-template <typename ForwardIterator,
-          typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first,
-                       ForwardIterator last,
-                       BinaryPredicate binary_pred);
-
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryPredicate>
-OutputIterator unique_copy(InputIterator first,
-                           InputIterator last,
-                           OutputIterator output,
-                           BinaryPredicate binary_pred);
-
-template <typename ForwardIterator1,
-          typename ForwardIterator2,
-          typename BinaryPredicate>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(ForwardIterator1 keys_first, 
-                ForwardIterator1 keys_last,
-                ForwardIterator2 values_first,
-                BinaryPredicate binary_pred);
-
 template <typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2,
-          typename BinaryPredicate>
+          typename BinaryPredicate,
+          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  reduce_by_key(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
@@ -71,5 +49,5 @@ template <typename InputIterator1,
 } // end namespace detail
 } // end namespace thrust
 
-#include "unique.inl"
+#include "reduce_by_key.inl"
 
