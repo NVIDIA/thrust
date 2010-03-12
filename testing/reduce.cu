@@ -198,7 +198,6 @@ void initialize_values(Vector& values)
 
 
 template<typename Vector>
-template<typename Vector>
 void TestReduceByKeySimple(void)
 {
     typedef typename Vector::value_type T;
