@@ -1,6 +1,13 @@
 #include <thrusttest/unittest.h>
 #include <thrust/reduce.h>
 
+template<typename T>
+struct is_equal_div_10_reduce
+{
+    __host__ __device__
+    bool operator()(const T x, const T& y) const { return ((int) x / 10) == ((int) y / 10); }
+};
+
 template <class Vector>
 void TestReduceSimple(void)
 {
@@ -232,7 +239,7 @@ void TestReduceByKeySimple(void)
     // test BinaryPredicate
     initialize_keys(keys);  initialize_values(values);
     
-    new_last = thrust::reduce_by_key(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_unique<T>());
+    new_last = thrust::reduce_by_key(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_reduce<T>());
 
     ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
     ASSERT_EQUAL(new_last.second - output_values.begin(), 3);
