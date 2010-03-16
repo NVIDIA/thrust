@@ -6,10 +6,15 @@
 #include <cmath>
 #include <limits>
 
-// Compyte the mean and variance values in a single reduction
+// This example computes several statistical properties of a data
+// series in a single reduction.  The algorithm is described in detail here:
+// http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Parallel_algorithm
+//
+// Thanks to Joseph Rhoads for contributing this example
 
-// summary_stats_data store the mean and variance
-// values that have been encountered so far
+
+// structure used to accumulate the moments and other 
+// statistical properties encountered so far.
 template <typename T>
 struct summary_stats_data
 {
@@ -118,12 +123,10 @@ int main(void)
     typedef float T;
 
     // initialize host array
-	//float x[4] = {4,7,13,16};
-	T base = std::pow(10,0)-1;
-    T x[] = {base+4, base+7,base+13, base+16};
+    T h_x[] = {4, 7, 13, 16};
 
     // transfer to device
-    thrust::device_vector<T> d_x(x, x + sizeof(x)/sizeof(T));
+    thrust::device_vector<T> d_x(h_x, h_x + sizeof(h_x) / sizeof(T));
 
     // setup arguments
     summary_stats_unary_op<T>  unary_op;
@@ -136,15 +139,15 @@ int main(void)
 	std::cout <<"******Summary Statistics Example*****"<<std::endl;
 	print_range("The data", d_x.begin(), d_x.end());
 
-    std::cout <<"Count       : "<< result.n << std::endl;
-	std::cout <<"Minimim     : "<< result.min <<std::endl;
-	std::cout <<"Maximum     : "<< result.max <<std::endl;
+    std::cout <<"Count              : "<< result.n << std::endl;
+	std::cout <<"Minimum            : "<< result.min <<std::endl;
+	std::cout <<"Maximum            : "<< result.max <<std::endl;
 
-    std::cout <<"Mean        : "<< result.mean << std::endl;
-    std::cout <<"Variance    : "<< result.variance() << std::endl;
-    std::cout <<"Standard Dev: "<< std::sqrt(result.variance_n()) << std::endl;
-	std::cout <<"Skewness    : "<< result.skewness() << std::endl;
-	std::cout <<"Kurtosis    : "<< result.kurtosis() << std::endl;
+    std::cout <<"Mean               : "<< result.mean << std::endl;
+    std::cout <<"Variance           : "<< result.variance() << std::endl;
+    std::cout <<"Standard Deviation : "<< std::sqrt(result.variance_n()) << std::endl;
+	std::cout <<"Skewness           : "<< result.skewness() << std::endl;
+	std::cout <<"Kurtosis           : "<< result.kurtosis() << std::endl;
 
     return 0;
 }
