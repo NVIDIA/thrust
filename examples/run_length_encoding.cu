@@ -35,9 +35,7 @@ int main(void)
                                     (input.begin(), input.end(),          // input key sequence
                                      thrust::constant_iterator<int>(1),   // input value sequence
                                      output.begin(),                      // output key sequence
-                                     lengths.begin(),                     // output value sequence
-                                     thrust::equal_to<char>(),            // BinaryPredicate used to compare keys
-                                     thrust::plus<int>()                  // BinaryFunction used to reduce values
+                                     lengths.begin()                      // output value sequence
                                      ).first - output.begin();            // compute the output size
     
     // print the output
