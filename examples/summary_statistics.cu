@@ -19,23 +19,23 @@ template <typename T>
 struct summary_stats_data
 {
     T n;
-	T min;
-	T max;
+    T min;
+    T max;
     T mean;
-	T M2;
-	T M3;
-	T M4;
-	
+    T M2;
+    T M3;
+    T M4;
+    
     // initialize to the identity element
-	summary_stats_data()
+    summary_stats_data()
         : n(0), min(std::numeric_limits<T>::max()), max(std::numeric_limits<T>::min()),
           mean(0), M2(0), M3(0), M4(0)
           {}
 
-	__host__ __device__ __inline__ T variance()   { return M2 / (n - 1); }
-	__host__ __device__ __inline__ T variance_n() { return M2 / n; }
-	__host__ __device__ __inline__ T skewness()   { return std::sqrt(n) * M3 / std::pow(M2, (T) 1.5); }
-	__host__ __device__ __inline__ T kurtosis()   { return n * M4 / (M2 * M2); }
+    __host__ __device__ T variance()   { return M2 / (n - 1); }
+    __host__ __device__ T variance_n() { return M2 / n; }
+    __host__ __device__ T skewness()   { return std::sqrt(n) * M3 / std::pow(M2, (T) 1.5); }
+    __host__ __device__ T kurtosis()   { return n * M4 / (M2 * M2); }
 };
 
 // stats_unary_op is a functor that takes in a value x and
@@ -51,9 +51,9 @@ struct summary_stats_unary_op
             result.min  = x;
             result.max  = x;
             result.mean = x;
-			result.M2   = 0;
-			result.M3   = 0;
-			result.M4   = 0;
+            result.M2   = 0;
+            result.M3   = 0;
+            result.M4   = 0;
 
             return result;
         }
@@ -79,29 +79,29 @@ struct summary_stats_binary_op
             T n2 = n  * n;
             T n3 = n2 * n;
 
-			T delta  = y.mean - x.mean;
+            T delta  = y.mean - x.mean;
             T delta2 = delta  * delta;
             T delta3 = delta2 * delta;
             T delta4 = delta3 * delta;
-			
-			//Basic number of samples (n), min, and max
+            
+            //Basic number of samples (n), min, and max
             result.n   = n;
             result.min = thrust::min(x.min, y.min);
             result.max = thrust::max(x.max, y.max);
 
             result.mean = x.mean + delta * y.n / n;
 
-			result.M2  = x.M2 + y.M2;
+            result.M2  = x.M2 + y.M2;
             result.M2 += delta2 * x.n * y.n / n;
 
-			result.M3  = x.M3 + y.M3;
+            result.M3  = x.M3 + y.M3;
             result.M3 += delta3 * x.n * y.n * (x.n - y.n) / n2; 
             result.M3 += (T) 3.0 * delta * (x.n * y.M2 - y.n * x.M2) / n;
-	
+    
             result.M4  = x.M4 + y.M4;
-			result.M4 += delta4 * x.n * y.n * (x.n * x.n - x.n * y.n + y.n * y.n) / n3;
-			result.M4 += (T) 6.0 * delta2 * (x.n * x.n * y.M2 + y.n * y.n * x.M2) / n2;
-			result.M4 += (T) 4.0 * delta * (x.n * y.M3 - y.n * x.M3) / n;
+            result.M4 += delta4 * x.n * y.n * (x.n * x.n - x.n * y.n + y.n * y.n) / n3;
+            result.M4 += (T) 6.0 * delta2 * (x.n * x.n * y.M2 + y.n * y.n * x.M2) / n2;
+            result.M4 += (T) 4.0 * delta * (x.n * y.M3 - y.n * x.M3) / n;
             
             return result;
         }
@@ -136,18 +136,17 @@ int main(void)
     // compute summary statistics
     summary_stats_data<T> result = thrust::transform_reduce(d_x.begin(), d_x.end(), unary_op, init, binary_op);
 
-	std::cout <<"******Summary Statistics Example*****"<<std::endl;
-	print_range("The data", d_x.begin(), d_x.end());
+    std::cout <<"******Summary Statistics Example*****"<<std::endl;
+    print_range("The data", d_x.begin(), d_x.end());
 
     std::cout <<"Count              : "<< result.n << std::endl;
-	std::cout <<"Minimum            : "<< result.min <<std::endl;
-	std::cout <<"Maximum            : "<< result.max <<std::endl;
-
+    std::cout <<"Minimum            : "<< result.min <<std::endl;
+    std::cout <<"Maximum            : "<< result.max <<std::endl;
     std::cout <<"Mean               : "<< result.mean << std::endl;
     std::cout <<"Variance           : "<< result.variance() << std::endl;
     std::cout <<"Standard Deviation : "<< std::sqrt(result.variance_n()) << std::endl;
-	std::cout <<"Skewness           : "<< result.skewness() << std::endl;
-	std::cout <<"Kurtosis           : "<< result.kurtosis() << std::endl;
+    std::cout <<"Skewness           : "<< result.skewness() << std::endl;
+    std::cout <<"Kurtosis           : "<< result.kurtosis() << std::endl;
 
     return 0;
 }
