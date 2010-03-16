@@ -160,11 +160,19 @@ template<typename InputIterator,
     temp[0] = init;
 
     // reduce input to per-block sums
-    reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first,                      n,              raw_pointer_cast(&temp[1]), binary_op);
+    reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
 
     // reduce per-block sums together with init
-    reduce_n_smem<<<         1, block_size, smem_size>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
-    
+    {
+#if CUDA_VERSION >= 3000
+        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(reduce_n_smem<OutputType *, OutputType, BinaryFunction>, smem_per_thread);
+#else
+        const unsigned int block_size_pass2 = 32;
+#endif        
+        const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
+        reduce_n_smem<<<1, block_size_pass2, smem_size_pass2>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
+    }
+
     return temp[0];
 } // end reduce_n()
 
@@ -195,8 +203,19 @@ template<typename InputIterator,
     // set first element of temp array to init
     temp[0] = init;
 
-    detail::reduce_n_gmem<<<num_blocks, block_size, 0>>>(first,                      n,              raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
-    detail::reduce_n_gmem<<<         1, block_size, 0>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), raw_pointer_cast(&shared_array[0]), binary_op);
+    // reduce input to per-block sums
+    detail::reduce_n_gmem<<<num_blocks, block_size, 0>>>(first, n, raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
+    
+    // reduce per-block sums together with init
+    {
+#if CUDA_VERSION >= 3000
+        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, smem_per_thread);
+#else
+        const unsigned int block_size_pass2 = 32;
+#endif        
+        const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
+        detail::reduce_n_gmem<<<1, block_size_pass2, smem_size_pass2>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), raw_pointer_cast(&shared_array[0]), binary_op);
+    }
     
     return temp[0];
 } // end reduce_n()
