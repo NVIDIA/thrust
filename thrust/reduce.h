@@ -16,8 +16,7 @@
 
 
 /*! \file reduce.h
- *  \brief Defines the interface to a templated
- *         reduction function.
+ *  \brief Defines the interface to reduction functions
  */
 
 #pragma once
@@ -41,8 +40,13 @@ namespace thrust
  *  <tt>std::accumulate</tt>. The primary difference between the two functions
  *  is that <tt>std::accumulate</tt> guarantees the order of summation, while
  *  \p reduce requires associativity of the binary operation to parallelize
- *  the reduction. If the sum operation is not commutative, then
- *  thrust::reduce should not be used.
+ *  the reduction.
+ *
+ *  Note that \p reduce also assumes that the binary reduction operator (in this
+ *  case operator+) is commutative.  If the reduction operator is not commutative
+ *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  \p inclusive_scan (which does not require commutativity) and select the
+ *  last element of the output array.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
@@ -79,8 +83,13 @@ template<typename InputIterator> typename
  *  <tt>std::accumulate</tt>. The primary difference between the two functions
  *  is that <tt>std::accumulate</tt> guarantees the order of summation, while
  *  \p reduce requires associativity of the binary operation to parallelize
- *  the reduction. If the sum operation is not commutative, then
- *  thrust::reduce should not be used.
+ *  the reduction.
+ *
+ *  Note that \p reduce also assumes that the binary reduction operator (in this
+ *  case operator+) is commutative.  If the reduction operator is not commutative
+ *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  \p inclusive_scan (which does not require commutativity) and select the
+ *  last element of the output array.
  *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
@@ -118,8 +127,13 @@ template<typename InputIterator, typename T>
  *  is similar to the C++ Standard Template Library's <tt>std::accumulate</tt>.
  *  The primary difference between the two functions is that <tt>std::accumulate</tt>
  *  guarantees the order of summation, while \p reduce requires associativity of
- *  \p binary_op to parallelize the reduction. If \p binary_op is not commutative,
- *  then thrust::reduce should not be used.
+ *  \p binary_op to parallelize the reduction.
+ *
+ *  Note that \p reduce also assumes that the binary reduction operator (in this
+ *  case \p binary_op) is commutative.  If the reduction operator is not commutative
+ *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  \p inclusive_scan (which does not require commutativity) and select the
+ *  last element of the output array.
  *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
