@@ -104,7 +104,7 @@
 #endif // (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
 
 #if defined(__DEVICE_EMULATION__)
-#if defined(__MSC_VER)
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 #pragma message("-----------------------------------------------------------------------")
 #pragma message("| WARNING: Thrust does not support device emulation                    ")
 #pragma message("-----------------------------------------------------------------------")
@@ -112,6 +112,6 @@
 #warning -----------------------------------------------------------------------
 #warning | WARNING: Thrust does not support device emulation                    
 #warning -----------------------------------------------------------------------
-#endif // __MSC_VER
+#endif // THRUST_HOST_COMPILER_MSVC
 #endif // __DEVICE_EMULATION__
 

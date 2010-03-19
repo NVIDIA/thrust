@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/sort.h>
 
-#if defined(__MSC_VER)
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 #pragma message("-----------------------------------------------------------------------")
 #pragma message("| DEPRECATION WARNING:                                                 ")
 #pragma message("| thrust/sorting/radix_sort.h has been deprecated and will be removed  ")
@@ -31,7 +31,7 @@
 #warning | thrust/sorting/radix_sort.h has been deprecated and will be removed
 #warning | Use the sorting functions defined in thrust/sort.h instead
 #warning -----------------------------------------------------------------------
-#endif
+#endif // THRUST_HOST_COMPILER_MSVC
 
 namespace thrust
 {
