@@ -33,6 +33,7 @@
 // distributions
 #include <thrust/random/uniform_int_distribution.h>
 #include <thrust/random/uniform_real_distribution.h>
+#include <thrust/random/normal_distribution.h>
 
 namespace thrust
 {
