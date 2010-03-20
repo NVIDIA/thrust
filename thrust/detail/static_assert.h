@@ -58,8 +58,7 @@ template<typename, bool x>
 } // end thrust
 
 #define THRUST_STATIC_ASSERT( B ) \
-// XXX nvcc 3.0b can't handle all this leetness
-//   typedef ::thrust::detail::static_assert_test<\
-//      sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-//         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
+   typedef ::thrust::detail::static_assert_test<\
+      sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
+         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
 

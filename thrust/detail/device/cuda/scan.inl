@@ -19,6 +19,7 @@
  *  \brief Inline file for scan.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/device/cuda/dispatch/scan.h>
 #include <thrust/detail/static_assert.h>
 
