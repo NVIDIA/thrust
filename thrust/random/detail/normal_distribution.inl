@@ -94,21 +94,6 @@ template<typename RealType>
 
   // Apply inverse error function
   return parm.first + parm.second * S3 * erfcinv(2 * p);
-
-//  // sample [0,1)
-//  thrust::uniform_real_distribution<result_type> u01;
-//  result_type z = u01(urng);
-//
-//  result_type S3 = static_cast<result_type>(-1.4142135623730950488016887242097); // -sqrt(2)
-//
-//  if(z > 0.5)
-//  {
-//    z = 1.0f - z;
-//    S3 = -S3;
-//  }
-//
-//  // Apply inverse error function
-//  return parm.first + parm.second * S3 * erfcinv(2 * z);
 } // end normal_distribution::operator()()
 
 
