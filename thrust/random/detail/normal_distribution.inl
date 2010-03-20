@@ -1,4 +1,5 @@
 /*
+ *
  *  Copyright 2008-2010 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,7 @@
 #include <thrust/random/normal_distribution.h>
 #include <thrust/random/uniform_real_distribution.h>
 #include <thrust/detail/cstdint.h>
+#include <thrust/detail/integer_traits.h>
 
 namespace thrust
 {
@@ -68,44 +70,45 @@ template<typename RealType>
         ::operator()(UniformRandomNumberGenerator &urng,
                      const param_type &parm)
 {
-// XXX use Tom's faster floating point conversion code in a specialization
-//  // Constants for conversion
-//  const result_type S1 = static_cast<result_type>(0.00000000023283064365386962890625);  // 2^(-32)
-//  const result_type S2 = static_cast<result_type>(0.000000000116415321826934814453125); // 2^(-33)
-//  result_type S3 = static_cast<result_type>(-1.4142135623730950488016887242097); // -sqrt(2)
-//
-//  // TODO:
-//  // What happens if urng range is not 0 to (2^32)-1?
-//  // What happens if urng is 64-bit?
-//  
-//  // Get the integer value
-//  typedef typename UniformRandomNumberGenerator::result_type uint_type;
-//  uint_type u = urng();
-//
-//  // Ensure the conversion to float will give a value in the range [0,0.5)
-//  if (u > 0x80000000)
-//  {
-//    u = 0xffffffff - u;
-//    S3 = -S3;
-//  }
-//
-//  // Convert to floating point
-//  result_type p = u*S1 + S2;
+  typedef typename UniformRandomNumberGenerator::result_type uint_type;
+  const uint_type urng_range = UniformRandomNumberGenerator::max - UniformRandomNumberGenerator::min;
 
-  // sample [0,1)
-  thrust::uniform_real_distribution<result_type> u01;
-  result_type z = u01(urng);
+  // Constants for conversion
+  const result_type S1 = static_cast<result_type>(1) / urng_range;
+  const result_type S2 = S1 / 2;
 
   result_type S3 = static_cast<result_type>(-1.4142135623730950488016887242097); // -sqrt(2)
+  
+  // Get the integer value
+  uint_type u = urng() - UniformRandomNumberGenerator::min;
 
-  if(z > 0.5)
+  // Ensure the conversion to float will give a value in the range [0,0.5)
+  if(u > (urng_range / 2))
   {
-    z = 1.0f - z;
+    u = urng_range - u;
     S3 = -S3;
   }
 
+  // Convert to floating point in [0,0.5)
+  result_type p = u*S1 + S2;
+
   // Apply inverse error function
-  return parm.first + parm.second * S3 * erfcinv(2 * z);
+  return parm.first + parm.second * S3 * erfcinv(2 * p);
+
+//  // sample [0,1)
+//  thrust::uniform_real_distribution<result_type> u01;
+//  result_type z = u01(urng);
+//
+//  result_type S3 = static_cast<result_type>(-1.4142135623730950488016887242097); // -sqrt(2)
+//
+//  if(z > 0.5)
+//  {
+//    z = 1.0f - z;
+//    S3 = -S3;
+//  }
+//
+//  // Apply inverse error function
+//  return parm.first + parm.second * S3 * erfcinv(2 * z);
 } // end normal_distribution::operator()()
 
 
