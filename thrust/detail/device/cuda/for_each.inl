@@ -21,6 +21,7 @@
 
 #include <limits>
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/device/dereference.h>
 #include <thrust/detail/device/cuda/launch_closure.h>
 #include <thrust/detail/static_assert.h>
