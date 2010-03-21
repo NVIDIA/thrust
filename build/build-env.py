@@ -90,6 +90,10 @@ def getCXXFLAGS(mode, backend, CXX):
   # get the define for the device backend
   result.append(getBackendDefine(backend))
 
+  # generate omp code
+  if backend == 'omp':
+    result.append(gCompilerOptions[CXX]['omp'])
+
   return result
 
 

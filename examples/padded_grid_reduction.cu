@@ -27,11 +27,11 @@ struct transform_tuple :
     transform_tuple(IndexType n, IndexType N) : n(n), N(N) {}
 
     __host__ __device__
-        OutputTuple operator()(const InputTuple& t) const
-        { 
-            bool is_valid = (thrust::get<0>(t) % N) < n;
-            return result_type(is_valid, thrust::get<1>(t), thrust::get<1>(t));
-        }
+    OutputTuple operator()(const InputTuple& t) const
+    { 
+        bool is_valid = (thrust::get<0>(t) % N) < n;
+        return OutputTuple(is_valid, thrust::get<1>(t), thrust::get<1>(t));
+    }
 };
 
 
@@ -45,19 +45,19 @@ struct reduce_tuple :
     typedef typename thrust::tuple<bool,ValueType,ValueType> Tuple;
 
     __host__ __device__
-        Tuple operator()(const Tuple& t0, const Tuple& t1) const
-        { 
-            if(thrust::get<0>(t0) && thrust::get<0>(t1)) // both valid
-                return result_type(true, 
-                                   min(thrust::get<1>(t0), thrust::get<1>(t1)),
-                                   max(thrust::get<2>(t0), thrust::get<2>(t1)));
-            else if (thrust::get<0>(t0))
-                return t0;
-            else if (thrust::get<0>(t1))
-                return t1;
-            else
-                return t1; // if neither is valid then it doesn't matter what we return
-        }
+    Tuple operator()(const Tuple& t0, const Tuple& t1) const
+    { 
+        if(thrust::get<0>(t0) && thrust::get<0>(t1)) // both valid
+            return Tuple(true, 
+                         min(thrust::get<1>(t0), thrust::get<1>(t1)),
+                         max(thrust::get<2>(t0), thrust::get<2>(t1)));
+        else if (thrust::get<0>(t0))
+            return t0;
+        else if (thrust::get<0>(t1))
+            return t1;
+        else
+            return t1; // if neither is valid then it doesn't matter what we return
+    }
 };
 
 int main(void)
