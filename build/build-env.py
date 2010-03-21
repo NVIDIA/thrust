@@ -27,8 +27,8 @@ OldEnvironment = Environment;
 # this dictionary maps the name of a compiler program to a dictionary mapping the name of
 # a compiler switch of interest to the specific switch implementing the feature
 gCompilerOptions = {
-    'gcc' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'g++' : {'optimization' : '-O3', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'gcc' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'g++' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
     'cl'  : {'optimization' : '/Ox', 'debug' : '/Zi', 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
   }
 
