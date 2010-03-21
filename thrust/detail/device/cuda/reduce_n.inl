@@ -209,7 +209,7 @@ template<typename InputIterator,
     // reduce per-block sums together with init
     {
 #if CUDA_VERSION >= 3000
-        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, smem_per_thread);
+        const unsigned int block_size_pass2 = std::min(block_size, thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, smem_per_thread));
 #else
         const unsigned int block_size_pass2 = 32;
 #endif        
