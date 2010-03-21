@@ -59,7 +59,7 @@ template<typename, bool x>
 } // end thrust
 
 // XXX nvcc 2.3 can't handle THRUST_STATIC_ASSERT
-#ifdef __CUDACC__ && (CUDA_VERSION < 3000)
+#if  defined(__CUDACC__) && (CUDA_VERSION < 3000)
 #define THRUST_STATIC_ASSERT( B )
 #else
 #define THRUST_STATIC_ASSERT( B ) \
