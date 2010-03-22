@@ -106,7 +106,7 @@
 
 // XXX nvcc < 3.0 strips #pragma, but also crashes upon THRUST_STATIC_ASSERT
 // #error out here if the user asks for OMP + nvcc 2.3
-#if (THRUST_DEVICE_COMPILER_NVCC == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+#if (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
 #error "This version of nvcc does not support OpenMP compilation.  Please upgrade to CUDA 3.0."
 #endif // nvcc 2.3 OMP guard
 
