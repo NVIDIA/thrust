@@ -50,7 +50,8 @@ OutputIterator copy_host_or_any_to_device(InputIterator first,
   THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
-  difference n = thrust::distance(first,last);
+  // difference n = thrust::distance(first,last); // XXX WAR crash VS2008 (64-bit)
+  difference n = last - first;
 
 #pragma omp parallel for
   for(difference i = 0;

@@ -42,7 +42,8 @@ OutputIterator copy_device_to_device(InputIterator first,
                                      OutputIterator result)
 {
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
-  difference n = thrust::distance(first,last);
+  // difference n = thrust::distance(first,last); // XXX WAR crash VS2008 (64-bit)
+  difference n = last - first;
 
 // are we compiling with omp support?
 // if no, we serialize on the "host"
