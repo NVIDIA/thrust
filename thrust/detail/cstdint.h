@@ -22,40 +22,6 @@ namespace thrust
 namespace detail
 {
 
-// an oracle to tell us how to define intptr_t
-template<int word_size = sizeof(int*)>
-  struct divine_intptr_t
-{
-  typedef      int type;
-};
-
-// use long int on 64b platforms
-template<>
-  struct divine_intptr_t<8>
-{
-  typedef long int type;
-};
-
-typedef divine_intptr_t<>::type   intptr_t;
-
-
-// an oracle to tell us how to define uintptr_t
-template<int word_size = sizeof(int*)>
-  struct divine_uintptr_t
-{
-  typedef unsigned int type;
-};
-
-// use unsigned long int on 64b platforms
-template<>
-  struct divine_uintptr_t<8>
-{
-  typedef unsigned long int type;
-};
-
-typedef divine_uintptr_t<>::type uintptr_t;
-
-
 // an oracle to tell us how to define uint64_t
 template<int word_size = sizeof(int*)> struct divine_uint64_t;
 
@@ -75,6 +41,28 @@ template<>
 
 typedef unsigned int            uint32_t;
 typedef divine_uint64_t<>::type uint64_t;
+
+
+// an oracle to tell us how to define intptr_t
+template<int word_size = sizeof(int*)> struct divine_intptr_t;
+
+// use uint32_t on 32b platforms
+template<>
+  struct divine_intptr_t<4>
+{
+  typedef thrust::detail::uint32_t type;
+};
+
+// use uint64_t on 64b platforms
+template<>
+  struct divine_intptr_t<8>
+{
+  typedef thrust::detail::uint64_t type;
+};
+
+typedef divine_intptr_t<>::type   intptr_t;
+typedef thrust::detail::intptr_t uintptr_t;
+
 
 } // end detail
 
