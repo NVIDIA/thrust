@@ -17,6 +17,13 @@
 #include <thrust/random/uniform_real_distribution.h>
 #include <math.h>
 
+// XXX WAR missing definitions on MSVC
+__host__ __device__
+double nextafter(double, double);
+
+__host__ __device__
+float nextafterf(float, float);
+
 namespace thrust
 {
 
