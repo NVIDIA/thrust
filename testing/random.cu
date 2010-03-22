@@ -123,8 +123,8 @@ template<typename Engine>
     result &= !(e0 != e1);
 
     // advance engines
-    e0.discard(10000);
-    e1.discard(10000);
+    e0.discard(1000);
+    e1.discard(1000);
     result &= !(e0 != e1);
 
     // test from identical seeds
@@ -141,8 +141,8 @@ template<typename Engine>
 
     // test different discards causes inequality
     Engine e6(13), e7(13);
-    e6.discard(5000);
-    e7.discard(10000);
+    e6.discard(500);
+    e7.discard(1000);
     result &= (e6 != e7);
 
     return result;
