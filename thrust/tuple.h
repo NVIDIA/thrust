@@ -369,7 +369,7 @@ __host__ __device__ inline
  */
 template<typename T0>
 __host__ __device__ inline
-tuple<T0&> tie(T0& t1);
+tuple<T0&> tie(T0& t0);
 
 /*! This version of \p tie creates a new \c tuple of references object which
  *  refers to this function's arguments.
