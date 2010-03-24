@@ -142,7 +142,7 @@ static const unsigned int warp_size = 32;
 
 inline unsigned int max_grid_size(const unsigned int block_size)
 {
-  return 3 * thrust::experimental::arch::max_active_threads() / block_size;
+  return std::min<unsigned int>(16384, 3 * thrust::experimental::arch::max_active_threads() / block_size);
 } // end max_grid_size()
 
 template<unsigned int N>
@@ -564,7 +564,8 @@ template<unsigned int log_tile_size,
 
   for(;
       block_idx < num_tile_pairs;
-      block_idx += gridDim.x, keys_result += num_splitters_per_grid, values_result += num_splitters_per_grid)
+      block_idx += gridDim.x, keys_result += num_splitters_per_grid, values_result += num_splitters_per_grid,
+      splitters_pos_first += num_splitters_per_tile * gridDim.x)
   {
     if(threadIdx.x == 0)
     {
@@ -944,13 +945,13 @@ template<typename RandomAccessIterator1,
   ++unused_variable_workaround;
 
   // Copy over the first merged splitter of each odd-even block pair to the output array
-  copy_first_splitters<log_block_size><<<num_oddeven_tile_pairs,1>>>(keys_first,
-                                                                     values_first,
-                                                                     splitters_pos_first, 
-                                                                     keys_result,
-                                                                     values_result,
-                                                                     log_num_merged_splitters_per_block,
-                                                                     num_oddeven_tile_pairs);
+  copy_first_splitters<log_block_size><<<grid_size,1>>>(keys_first,
+                                                        values_first,
+                                                        splitters_pos_first, 
+                                                        keys_result,
+                                                        values_result,
+                                                        log_num_merged_splitters_per_block,
+                                                        num_oddeven_tile_pairs);
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
   {
     cudaError_t error = cudaGetLastError();
