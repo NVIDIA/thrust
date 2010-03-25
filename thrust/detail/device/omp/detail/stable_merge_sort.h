@@ -15,7 +15,7 @@
  */
 
 
-/*! \file sort.h
+/*! \file stable_merge_sort.h
  *  \brief Interface to OpenMP sorting functions.
  */
 
@@ -29,25 +29,28 @@ namespace device
 {
 namespace omp
 {
+namespace detail
+{
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
-                 RandomAccessIterator last,
-                 StrictWeakOrdering comp);
+void stable_merge_sort(RandomAccessIterator first,
+                       RandomAccessIterator last,
+                       StrictWeakOrdering comp);
     
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 keys_first,
-                        RandomAccessIterator1 keys_last,
-                        RandomAccessIterator2 values_first,
-                        StrictWeakOrdering comp);
+void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first,
+                              StrictWeakOrdering comp);
 
+} // end namespace detail
 } // end namespace omp
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
 
-#include "sort.inl"
+#include "stable_merge_sort.inl"
 
