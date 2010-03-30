@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <set>
+#include <map>
 #include <iostream>
 
 #include <stdio.h>
@@ -93,6 +95,12 @@ inline std::string base_class_name(const char *name)
                         "");
 }
 
+enum TestStatus { Pass = 0, Failure = 1, KnownFailure = 2, Error = 3, UnknownException = 4};
+
+typedef std::set<std::string>              ArgumentSet;
+typedef std::map<std::string, std::string> ArgumentMap;
+
+
 class UnitTest {
     public:
         std::string name;
@@ -104,13 +112,12 @@ class UnitTest {
 class UnitTestDriver {
   std::vector<UnitTest *> _test_list;
 
-  bool run_tests(const std::vector<UnitTest *> &tests, const bool verbose);
+  bool run_tests(const std::vector<UnitTest *> &tests, const ArgumentMap& kwargs);
 
 public:
     
   void register_test(UnitTest *);
-  bool run_all_tests(const bool verbose);
-  bool run_tests(const std::vector<std::string> &tests, const bool verbose);
+  bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
 
   static UnitTestDriver &s_driver();
 };
