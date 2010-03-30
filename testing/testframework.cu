@@ -169,7 +169,6 @@ void report_results(std::vector< TestResult >& test_results)
 
 bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, const ArgumentMap& kwargs)
 {
-    bool all_passed = true;
     bool verbose = kwargs.count("verbose");
     bool concise = kwargs.count("concise");
     
@@ -365,8 +364,6 @@ UnitTestDriver::s_driver()
 
 int main(int argc, char **argv)
 {
-    bool verbose = false;
-
     ArgumentSet args;
     ArgumentMap kwargs;
 
@@ -390,7 +387,7 @@ int main(int argc, char **argv)
     bool passed = UnitTestDriver::s_driver().run_tests(args, kwargs);
 
     if (kwargs.count("concise"))
-        std::cout << ((passed) ? "PASSED" : "FAILURE") << std::endl;
+        std::cout << ((passed) ? "PASSED" : "FAILED") << std::endl;
    
     return (passed) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
