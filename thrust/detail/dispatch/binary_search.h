@@ -15,9 +15,8 @@
  */
 
 
-/*! \file gather.h
- *  \brief Defines the interface to the
- *         dispatch layer of the gather function.
+/*! \file binary_search.h
+ *  \brief Dispatch layer of the binary search functions.
  */
 
 #pragma once

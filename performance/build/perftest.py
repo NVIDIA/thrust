@@ -60,6 +60,7 @@ def generate_functions(pname, TestVariables, INITIALIZE, TIME, FINALIZE):
         for v in values:
             v = str(v)
             v = v.replace(" ","_")  # C++ tokens we don't want
+            v = v.replace(".","_")
             v = v.replace("<","_")
             v = v.replace(">","_")
             v = v.replace(",","_")
