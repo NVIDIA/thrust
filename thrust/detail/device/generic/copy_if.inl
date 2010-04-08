@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file copy.h
- *  \brief Device implementations for copy.
- */
-
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
@@ -30,7 +25,6 @@
 
 namespace thrust
 {
-
 namespace detail
 {
 
@@ -39,21 +33,23 @@ template<typename,typename> class raw_buffer;
 
 namespace device
 {
+namespace generic
+{
 
-template<typename RandomAccessDeviceIterator1,
-         typename RandomAccessDeviceIterator2,
-         typename RandomAccessDeviceIterator3,
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
          typename Predicate>
-   RandomAccessDeviceIterator3 copy_if(RandomAccessDeviceIterator1 first,
-                                       RandomAccessDeviceIterator1 last,
-                                       RandomAccessDeviceIterator2 stencil,
-                                       RandomAccessDeviceIterator3 result,
-                                       Predicate pred)
+   OutputIterator copy_if(InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator result,
+                          Predicate pred)
 {
     if (first == last)
         return result;
 
-    typedef typename thrust::iterator_traits<RandomAccessDeviceIterator1>::difference_type difference_type;
+    typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
 
     difference_type n = thrust::distance(first, last);
 
@@ -82,9 +78,8 @@ template<typename RandomAccessDeviceIterator1,
     return result + size_of_new_sequence;
 } // end copy_if()
 
-} // end device
-
-} // end detail
-
-} // end thrust
+} // end namespace generic
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 

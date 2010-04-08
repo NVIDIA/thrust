@@ -113,7 +113,7 @@ template <typename InputIterator1,
          thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
          detail::reduce_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
 
-    thrust::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin());
+    thrust::detail::device::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
 
     // number of unique keys
     FlagType N = scanned_tail_flags[n - 1] + 1;
