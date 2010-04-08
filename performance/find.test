@@ -1,0 +1,62 @@
+PREAMBLE = \
+    """
+    #include <thrust/find.h>
+    #include <thrust/reduce.h>
+    #include <thrust/extrema.h>
+
+    template <typename Vector>
+    void find_partial(const Vector& v)
+    {
+        thrust::find(v.begin(),  v.end(), 1);
+    }
+    
+    template <typename Vector>
+    void find_full(const Vector& v)
+    {
+        thrust::max_element(v.begin(), v.end());
+    }
+    
+    template <typename Vector>
+    void reduce_full(const Vector& v)
+    {
+        thrust::max_element(v.begin(), v.end());
+    }
+    """
+
+INITIALIZE = \
+    """
+    thrust::host_vector<$InputType>   h_input($InputSize, 0);
+    thrust::device_vector<$InputType> d_input($InputSize, 0);
+
+    size_t pos = $Fraction * $InputSize;
+
+    if (pos < $InputSize)
+    {
+        h_input[pos] = 1;
+        d_input[pos] = 1;
+    }
+
+    size_t h_index = thrust::find(h_input.begin(),  h_input.end(), 1) - h_input.begin();
+    size_t d_index = thrust::find(d_input.begin(),  d_input.end(), 1) - d_input.begin();
+
+    ASSERT_EQUAL(h_index, d_index);
+    """
+
+TIME = \
+    """
+    $Method(d_input);
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_BANDWIDTH(sizeof($InputType) *  double($InputSize));
+    """
+
+InputTypes = ['int']
+InputSizes = [2**23]
+Fractions  = [0.01, 0.99]
+Methods    = ['find_partial', 'find_full', 'reduce_full']
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes), ('Fraction', Fractions), ('Method', Methods)]
+

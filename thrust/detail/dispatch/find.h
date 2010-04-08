@@ -15,7 +15,7 @@
  */
 
 
-/*! \file gather.h
+/*! \file find.h
  *  \brief Dispatch layer of the find functions.
  */
 

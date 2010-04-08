@@ -16,13 +16,11 @@
 
 #include <thrust/detail/device/reduce.h>
 
-#include <thrust/functional.h>
 #include <thrust/tuple.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
 
-// Implementation of find_if() using short-circuiting
 // Contributed by Erich Elsen
 
 namespace thrust
@@ -33,6 +31,23 @@ namespace device
 {
 namespace generic
 {
+
+template <typename TupleType>
+struct find_if_functor
+{
+    __host__ __device__
+    TupleType operator()(const TupleType& lhs, const TupleType& rhs) const
+    {
+        // select the smallest index among true results
+        if (thrust::get<0>(lhs) && thrust::get<0>(rhs))
+            return TupleType(true, min(thrust::get<1>(lhs), thrust::get<1>(rhs)));
+        else if (thrust::get<0>(lhs))
+            return lhs;
+        else
+            return rhs;
+    }
+};
+    
 
 template <typename InputIterator, typename Predicate>
 InputIterator find_if(InputIterator first,
@@ -48,8 +63,11 @@ InputIterator find_if(InputIterator first,
 
     const difference_type n = thrust::distance(first, last);
 
+    // this implementation breaks up the sequence into separate intervals
+    // in an attempt to early-out as soon as a value is found
+
     // TODO incorporate sizeof(InputType) into interval_threshold and round to multiple of 32
-    const difference_type interval_threshold = n; //1 << 20; // XXX disabled until performance is sorted out
+    const difference_type interval_threshold = 1 << 20;
     const difference_type interval_size = std::min(interval_threshold, n);
 
     for(difference_type begin = 0; begin < n; begin += interval_size)
@@ -75,11 +93,11 @@ InputIterator find_if(InputIterator first,
               )
              ) + end,
              result_type(false, end),
-             thrust::maximum<result_type>()
+             find_if_functor<result_type>()
             );
 
         // see if we found something
-        if (thrust::get<1>(result) != end)
+        if (thrust::get<0>(result))
         {
             return first + thrust::get<1>(result);
         }
