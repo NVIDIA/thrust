@@ -59,15 +59,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
   void linear_congruential_engine<UIntType,a,c,m>
     ::discard(unsigned long long z)
 {
-// XXX WAR nvcc 2.3 crash
-#if (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
-  for(unsigned long long i = 0; i < z; ++i)
-  {
-    (*this)();
-  }
-#else
   thrust::random::detail::linear_congruential_engine_discard::discard(*this,z);
-#endif
 } // end linear_congruential_engine::discard()
 
 

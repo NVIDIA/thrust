@@ -99,12 +99,9 @@ template<typename UIntType, size_t w, size_t s, size_t r>
      */
     static const result_type min = 0;
 
-    // XXX WAR nvcc 2.3 bug
-    //static const result_type max = modulus - 1;
-
-    /*! This largest value this \p subtract_with_carry_engine may potentially produce.
+    /*! The largest value this \p subtract_with_carry_engine may potentially produce.
      */
-    static const result_type max = (UIntType(1) << w) - 1;
+    static const result_type max = modulus - 1;
 
     /*! The default seed of this \p subtract_with_carry_engine.
      */

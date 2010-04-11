@@ -23,17 +23,10 @@
 
 #include <cuda.h>
 
-// Thrust supports CUDA 2.3 and 3.0
-#if CUDA_VERSION < 2030
-#error "CUDA v2.3 or newer is required"
+// Thrust supports CUDA 3.0
+#if CUDA_VERSION < 3000
+#error "CUDA v3.0 or newer is required"
 #endif 
-
-// XXX WAR this problem with Snow Leopard + CUDA 2.3a
-#if defined(__APPLE__)
-#if _GLIBCXX_ATOMIC_BUILTINS == 1
-#undef _GLIBCXX_ATOMIC_BUILTINS
-#endif // _GLIBCXX_ATOMIC_BUILTINS
-#endif // __APPLE__
 
 #else
 
@@ -97,18 +90,6 @@
 #else
 #define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
 #endif // _OPENMP
-
-// check for nvcc < 3.0, which strips omp #pragmas
-#if (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
-#undef THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
-#define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
-#endif // (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000)
-
-// XXX nvcc < 3.0 strips #pragma, but also crashes upon THRUST_STATIC_ASSERT
-// #error out here if the user asks for OMP + nvcc 2.3
-#if (THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC) && (CUDA_VERSION < 3000) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
-#error "This version of nvcc does not support OpenMP compilation.  Please upgrade to CUDA 3.0."
-#endif // nvcc 2.3 OMP guard
 
 #if defined(__DEVICE_EMULATION__)
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC

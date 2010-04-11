@@ -58,13 +58,8 @@ template<typename, bool x>
 
 } // end thrust
 
-// XXX nvcc 2.3 can't handle THRUST_STATIC_ASSERT
-#if  defined(__CUDACC__) && (CUDA_VERSION < 3000)
-#define THRUST_STATIC_ASSERT( B )
-#else
 #define THRUST_STATIC_ASSERT( B ) \
    typedef ::thrust::detail::static_assert_test<\
       sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
          THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
-#endif // NVCC 2.3
 
