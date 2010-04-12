@@ -29,23 +29,21 @@ namespace thrust
 namespace detail
 {
 
-template <typename InputType1, typename InputType2, typename CountType>
-struct count_transform
+template <typename EqualityComparable1, typename EqualityComparable2>
+struct is_equal_to
+  : thrust::unary_function<EqualityComparable2,bool>
 {
   __host__ __device__ 
-  count_transform(InputType2 val) : rhs(val){}
+  is_equal_to(EqualityComparable1 val) : rhs(val){}
 
   __host__ __device__
-  CountType operator()(const InputType1& lhs)
+  bool operator()(const EqualityComparable2& lhs)
   {
-    if(lhs == rhs)
-      return 1;
-    else
-      return 0;
+    return lhs == rhs;
   } // end operator()()
 
-  InputType2 rhs;
-}; // end count_transform
+  EqualityComparable1 rhs;
+}; // end is_equal_to
 
 
 template <typename InputType, typename Predicate, typename CountType>
@@ -73,11 +71,8 @@ typename thrust::iterator_traits<InputIterator>::difference_type
 count(InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  typedef typename thrust::iterator_traits<InputIterator>::difference_type CountType;
   
-  thrust::detail::count_transform<InputType, EqualityComparable, CountType> unary_op(value);
-  thrust::plus<CountType> binary_op;
-  return thrust::transform_reduce(first, last, unary_op, CountType(0), binary_op);
+  return thrust::count_if(first, last, detail::is_equal_to<EqualityComparable,InputType>(value));
 } // end count()
 
 template <typename InputIterator, typename Predicate>
