@@ -180,6 +180,7 @@ struct binary_search_functor
         : begin(begin), end(end), comp(comp), func(func) {}
 
     template <typename Tuple>
+        __host__ __device__
         void operator()(Tuple t)
         {
             thrust::get<1>(t) = func(begin, end, thrust::get<0>(t), comp);
