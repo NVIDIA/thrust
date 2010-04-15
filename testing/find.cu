@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/find.h>
 
 template <typename T>

@@ -1,5 +1,5 @@
-#include "thrusttest/testframework.h"
-#include "thrusttest/exceptions.h"
+#include "unittest/testframework.h"
+#include "unittest/exceptions.h"
 
 #include <cuda_runtime.h>
 #include <iostream>
@@ -103,7 +103,7 @@ struct TestResult
         : status(status), name(u->name)
     { }
 
-    TestResult(const TestStatus status, const UnitTest * u, const thrusttest::UnitTestException& e)
+    TestResult(const TestStatus status, const UnitTest * u, const unittest::UnitTestException& e)
         : status(status), name(u->name), message(e.message)
     { }
 
@@ -212,15 +212,15 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
             // test passed
             record_result(TestResult(Pass, test), test_results);
         } 
-        catch (thrusttest::UnitTestFailure& f)
+        catch (unittest::UnitTestFailure& f)
         {
             record_result(TestResult(Failure, test, f), test_results);
         }
-        catch (thrusttest::UnitTestKnownFailure& f)
+        catch (unittest::UnitTestKnownFailure& f)
         {
             record_result(TestResult(KnownFailure, test, f), test_results);
         }
-        catch (thrusttest::UnitTestError& e)
+        catch (unittest::UnitTestError& e)
         {
             record_result(TestResult(Error, test, e), test_results);
         }

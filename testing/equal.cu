@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/equal.h>
 
 #include <thrust/functional.h>
@@ -30,8 +30,8 @@ DECLARE_VECTOR_UNITTEST(TestEqualSimple);
 template <typename T>
 void TestEqual(const size_t n)
 {
-    thrust::host_vector<T>   h_data1 = thrusttest::random_samples<T>(n);
-    thrust::host_vector<T>   h_data2 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data1 = unittest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data2 = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data1 = h_data1;
     thrust::device_vector<T> d_data2 = h_data2;
 

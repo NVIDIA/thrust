@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/iterator/permutation_iterator.h>
 
 #include <thrust/reduce.h>

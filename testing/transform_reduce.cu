@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/transform_reduce.h>
 
 #include <thrust/iterator/counting_iterator.h>
@@ -22,7 +22,7 @@ DECLARE_VECTOR_UNITTEST(TestTransformReduceSimple);
 template <typename T>
 void TestTransformReduce(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     T init = 13;
@@ -37,7 +37,7 @@ DECLARE_VARIABLE_UNITTEST(TestTransformReduce);
 template <typename T>
 void TestTransformReduceFromConst(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     T init = 13;

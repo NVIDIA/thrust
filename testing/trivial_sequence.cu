@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/detail/trivial_sequence.h>
 
 #include <thrust/iterator/zip_iterator.h> 

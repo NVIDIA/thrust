@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace thrusttest
+namespace unittest
 {
 
 // mark the absence of a type
@@ -256,5 +256,5 @@ template<typename TypeList1,
                     type_10, type_11, type_12, type_13, type_14, type_15, type_16, type_17, type_18, type_19> type;
 };
 
-} // end thrusttest
+} // end unittest
 

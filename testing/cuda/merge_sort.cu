@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
@@ -175,7 +175,7 @@ void TestMergeSortAscendingKey(const size_t n)
     typedef int T;
 #endif
 
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::sort(h_data.begin(), h_data.end(), thrust::less<T>());
@@ -196,7 +196,7 @@ void TestMergeSortDescendingKey(void)
 {
     const size_t n = 10027;
 
-    thrust::host_vector<int>   h_data = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_data = h_data;
 
     thrust::sort(h_data.begin(), h_data.end(), thrust::greater<int>());
@@ -210,10 +210,10 @@ DECLARE_UNITTEST(TestMergeSortDescendingKey);
 template <typename T>
 void TestMergeSortAscendingKeyValue(const size_t n)
 {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
     
-    thrust::host_vector<T>   h_values = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_values = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_values = h_values;
 
     thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::less<T>());
@@ -229,10 +229,10 @@ void TestMergeSortDescendingKeyValue(void)
 {
     const size_t n = 10027;
 
-    thrust::host_vector<int>   h_keys = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_keys = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_keys = h_keys;
     
-    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_values = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_values = h_values;
 
     thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<int>());

@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/segmented_scan.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/transform_iterator.h>
@@ -235,7 +235,7 @@ DECLARE_VECTOR_UNITTEST(TestSegmentedScanReusedKeys);
 template <typename T>
 void TestSegmentedScan(const size_t n)
 {
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<int>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
         h_input[i] = i % 10;
     thrust::device_vector<T> d_input = h_input;
@@ -286,7 +286,7 @@ void TestSegmentedScanMixedTypes(void)
 {
     const unsigned int n = 113;
 
-    thrust::host_vector<unsigned int> h_input = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_input = unittest::random_integers<unsigned int>(n);
     for(size_t i = 0; i < n; i++)
         h_input[i] %= 10;
     thrust::device_vector<unsigned int> d_input = h_input;
@@ -334,9 +334,9 @@ void TestSegmentedScanLargeInput()
     const unsigned int N = 1 << 20;
     const unsigned int K = 100;
 
-    thrust::host_vector<unsigned int> input_sizes = thrusttest::random_integers<unsigned int>(10);
+    thrust::host_vector<unsigned int> input_sizes = unittest::random_integers<unsigned int>(10);
         
-    thrust::host_vector<unsigned int>   h_input = thrusttest::random_integers<unsigned int>(N);
+    thrust::host_vector<unsigned int>   h_input = unittest::random_integers<unsigned int>(N);
     thrust::device_vector<unsigned int> d_input = h_input;
 
     thrust::host_vector<unsigned int>   h_output(N, 0);

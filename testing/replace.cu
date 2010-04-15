@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/replace.h>
 
 template <class Vector>
@@ -31,7 +31,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceSimple);
 template <typename T>
 void TestReplace(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     T old_value = 0;
@@ -77,7 +77,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceCopySimple);
 template <typename T>
 void TestReplaceCopy(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
     
     T old_value = 0;
@@ -164,7 +164,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceIfStencilSimple);
 template <typename T>
 void TestReplaceIf(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::replace_if(h_data.begin(), h_data.end(), less_than_five<T>(), (T) 0);
@@ -178,10 +178,10 @@ DECLARE_VARIABLE_UNITTEST(TestReplaceIf);
 template <typename T>
 void TestReplaceIfStencil(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
-    thrust::host_vector<T>   h_stencil = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_stencil = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_stencil = h_stencil;
 
     thrust::replace_if(h_data.begin(), h_data.end(), h_stencil.begin(), less_than_five<T>(), (T) 0);
@@ -258,7 +258,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceCopyIfStencilSimple);
 template <typename T>
 void TestReplaceCopyIf(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::host_vector<T>   h_dest(n);
@@ -275,10 +275,10 @@ DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIf);
 template <typename T>
 void TestReplaceCopyIfStencil(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
-    thrust::host_vector<T>   h_stencil = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_stencil = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_stencil = h_stencil;
 
     thrust::host_vector<T>   h_dest(n);

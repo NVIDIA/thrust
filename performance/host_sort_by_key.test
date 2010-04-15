@@ -6,7 +6,7 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$KeyType> h_keys = thrusttest::random_integers<$KeyType>($InputSize);
+    thrust::host_vector<$KeyType> h_keys = unittest::random_integers<$KeyType>($InputSize);
     thrust::host_vector<$KeyType> h_keys_copy(h_keys);
     thrust::host_vector<$KeyType> h_values($InputSize);
     

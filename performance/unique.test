@@ -5,7 +5,7 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$InputType> h_input = thrusttest::random_integers<$InputType>($InputSize);
+    thrust::host_vector<$InputType> h_input = unittest::random_integers<$InputType>($InputSize);
    
     // increase likelihood of equal consecutive elements
     for(size_t i = 0; i < $InputSize; i++)

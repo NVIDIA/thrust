@@ -66,9 +66,9 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$InputType>   h_x = thrusttest::random_samples<$InputType>($InputSize);
-    thrust::host_vector<$InputType>   h_y = thrusttest::random_samples<$InputType>($InputSize);
-    thrust::host_vector<$InputType>   h_z = thrusttest::random_samples<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_x = unittest::random_samples<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_y = unittest::random_samples<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_z = unittest::random_samples<$InputType>($InputSize);
     thrust::device_vector<$InputType> d_x = h_x;
     thrust::device_vector<$InputType> d_y = h_y;
     thrust::device_vector<$InputType> d_z = h_z;

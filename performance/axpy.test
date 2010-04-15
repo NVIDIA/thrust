@@ -50,8 +50,8 @@ INITIALIZE = \
     """
     //cublasInit();
 
-    thrust::host_vector<$InputType>   h_x = thrusttest::random_samples<$InputType>($InputSize);
-    thrust::host_vector<$InputType>   h_y = thrusttest::random_samples<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_x = unittest::random_samples<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_y = unittest::random_samples<$InputType>($InputSize);
     thrust::device_vector<$InputType> d_x = h_x;
     thrust::device_vector<$InputType> d_y = h_y;
 

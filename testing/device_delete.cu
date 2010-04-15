@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/device_vector.h>
 #include <thrust/device_ptr.h>
 #include <thrust/device_new.h>

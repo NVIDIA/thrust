@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/gather.h>
 
 #include <thrust/fill.h>
@@ -87,11 +87,11 @@ void TestGather(const size_t n)
     const size_t source_size = std::min((size_t) 10, 2 * n);
 
     // source vectors to gather from
-    thrust::host_vector<T>   h_source = thrusttest::random_samples<T>(source_size);
+    thrust::host_vector<T>   h_source = unittest::random_samples<T>(source_size);
     thrust::device_vector<T> d_source = h_source;
   
     // gather indices
-    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % source_size;
@@ -150,11 +150,11 @@ void TestGatherIf(const size_t n)
     const size_t source_size = std::min((size_t) 10, 2 * n);
 
     // source vectors to gather from
-    thrust::host_vector<T>   h_source = thrusttest::random_samples<T>(source_size);
+    thrust::host_vector<T>   h_source = unittest::random_samples<T>(source_size);
     thrust::device_vector<T> d_source = h_source;
   
     // gather indices
-    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] = h_map[i] % source_size;
@@ -162,7 +162,7 @@ void TestGatherIf(const size_t n)
     thrust::device_vector<unsigned int> d_map = h_map;
     
     // gather stencil
-    thrust::host_vector<unsigned int> h_stencil = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_stencil = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_stencil[i] = h_stencil[i] % 2;
@@ -354,11 +354,11 @@ void TestNextGather(const size_t n)
     const size_t source_size = std::min((size_t) 10, 2 * n);
 
     // source vectors to gather from
-    thrust::host_vector<T>   h_source = thrusttest::random_samples<T>(source_size);
+    thrust::host_vector<T>   h_source = unittest::random_samples<T>(source_size);
     thrust::device_vector<T> d_source = h_source;
   
     // gather indices
-    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % source_size;
@@ -410,11 +410,11 @@ void TestNextGatherIf(const size_t n)
     const size_t source_size = std::min((size_t) 10, 2 * n);
 
     // source vectors to gather from
-    thrust::host_vector<T>   h_source = thrusttest::random_samples<T>(source_size);
+    thrust::host_vector<T>   h_source = unittest::random_samples<T>(source_size);
     thrust::device_vector<T> d_source = h_source;
   
     // gather indices
-    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] = h_map[i] % source_size;
@@ -422,7 +422,7 @@ void TestNextGatherIf(const size_t n)
     thrust::device_vector<unsigned int> d_map = h_map;
     
     // gather stencil
-    thrust::host_vector<unsigned int> h_stencil = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_stencil = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_stencil[i] = h_stencil[i] % 2;

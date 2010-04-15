@@ -5,15 +5,15 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 
-#include <thrusttest/exceptions.h>
-#include <thrusttest/util.h>
+#include <unittest/exceptions.h>
+#include <unittest/util.h>
 
-#define ASSERT_EQUAL_QUIET(X,Y)  thrusttest::assert_equal_quiet((X),(Y), __FILE__, __LINE__)
-#define ASSERT_EQUAL(X,Y)        thrusttest::assert_equal((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_LEQUAL(X,Y)       thrusttest::assert_lequal((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_GEQUAL(X,Y)       thrusttest::assert_gequal((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_ALMOST_EQUAL(X,Y) thrusttest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
-#define KNOWN_FAILURE            { thrusttest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
+#define ASSERT_EQUAL_QUIET(X,Y)  unittest::assert_equal_quiet((X),(Y), __FILE__, __LINE__)
+#define ASSERT_EQUAL(X,Y)        unittest::assert_equal((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_LEQUAL(X,Y)       unittest::assert_lequal((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_GEQUAL(X,Y)       unittest::assert_gequal((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_ALMOST_EQUAL(X,Y) unittest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
+#define KNOWN_FAILURE            { unittest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
                     
 #define ASSERT_EQUAL_RANGES(X,Y,Z)  unittest::assert_equal((X),(Y),(Z), __FILE__,  __LINE__)
 
@@ -23,7 +23,7 @@
     }
 
 
-namespace thrusttest
+namespace unittest
 {
 
 static size_t MAX_OUTPUT_LINES = 10;
@@ -57,7 +57,7 @@ void assert_equal(const T1& a, const T2& b,
     typedef typename value_type<T1>::type T;
 
     if(!(T(a) == T(b))){
-        thrusttest::UnitTestFailure f;
+        unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << "values are not equal: " << a << " " << b;
         f << " [type='" << type_name<T1>() << "']";
@@ -71,7 +71,7 @@ void assert_equal_quiet(const T1& a, const T2& b,
                         const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a == b)){
-        thrusttest::UnitTestFailure f;
+        unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << "values are not equal.";
         f << " [type='" << type_name<T1>() << "']";
@@ -84,7 +84,7 @@ void assert_lequal(const T1& a, const T2& b,
                    const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a <= b)){
-        thrusttest::UnitTestFailure f;
+        unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << a << " is greater than " << b;
         f << " [type='" << type_name<T1>() << "']";
@@ -97,7 +97,7 @@ void assert_gequal(const T1& a, const T2& b,
                    const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a >= b)){
-        thrusttest::UnitTestFailure f;
+        unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << a << " is less than " << b;
         f << " [type='" << type_name<T1>() << "']";
@@ -129,7 +129,7 @@ void assert_almost_equal(const T1& a, const T2& b,
 
 {
     if(!almost_equal(a, b, a_tol, r_tol)){
-        thrusttest::UnitTestFailure f;
+        unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << "values are not approximately equal: " << (double) a << " " << (double) b;
         f << " [type='" << type_name<T1>() << "']";
@@ -160,7 +160,7 @@ void assert_equal(ForwardIterator first1, ForwardIterator last1, ForwardIterator
     
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
-    thrusttest::UnitTestFailure f;
+    unittest::UnitTestFailure f;
     f << "[" << filename << ":" << lineno << "] ";
     f << "Sequences are not equal [type='" << type_name<InputType>() << "']\n";
     f << "--------------------------------\n";
@@ -212,7 +212,7 @@ void assert_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vect
                   const std::string& filename = "unknown", int lineno = -1)
 {
     if(A.size() != B.size())
-        throw thrusttest::UnitTestError("Sequences have different sizes");
+        throw unittest::UnitTestError("Sequences have different sizes");
     assert_equal(A.begin(), A.end(), B.begin(), filename, lineno);
 }
 
@@ -222,7 +222,7 @@ void assert_almost_equal(const thrust::host_vector<T,Alloc>& A, const thrust::ho
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
     if(A.size() != B.size())
-        throw thrusttest::UnitTestError("Sequences have different sizes");
+        throw unittest::UnitTestError("Sequences have different sizes");
     assert_almost_equal(A.begin(), A.end(), B.begin(), filename, lineno, a_tol, r_tol);
 }
 
@@ -279,4 +279,4 @@ void assert_almost_equal(const thrust::device_vector<T,Alloc>& A, const thrust::
     assert_almost_equal(A_host, B_host, filename, lineno, a_tol, r_tol);
 }
 
-}; //end namespace thrusttest
+}; //end namespace unittest

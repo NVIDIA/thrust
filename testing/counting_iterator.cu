@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/sort.h>
 #include <thrust/binary_search.h>
@@ -107,7 +107,7 @@ void TestCountingIteratorLowerBound(void)
     size_t n = 10000;
     const size_t M = 100;
 
-    thrust::host_vector<unsigned int> h_data = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_data = unittest::random_integers<unsigned int>(n);
     for(unsigned int i = 0; i < n; ++i)
       h_data[i] %= M;
 

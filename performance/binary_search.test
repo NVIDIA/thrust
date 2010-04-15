@@ -6,7 +6,7 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$KeyType>   h_keys = thrusttest::random_integers<$KeyType>($InputSize);
+    thrust::host_vector<$KeyType>   h_keys = unittest::random_integers<$KeyType>($InputSize);
     thrust::device_vector<$KeyType> d_keys = h_keys;
     
     thrust::sort(h_keys.begin(), h_keys.end());
@@ -14,7 +14,7 @@ INITIALIZE = \
 
     ASSERT_EQUAL(d_keys, h_keys);
 
-    thrust::host_vector<$KeyType>   h_search = thrusttest::random_integers<$KeyType>($InputSize);
+    thrust::host_vector<$KeyType>   h_search = unittest::random_integers<$KeyType>($InputSize);
     thrust::device_vector<$KeyType> d_search = h_search;
     
     thrust::host_vector<unsigned int>    h_output($InputSize);

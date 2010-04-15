@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/for_each.h>
 #include <thrust/device_ptr.h>
 
@@ -53,7 +53,7 @@ void TestForEach(const size_t n)
 {
     const size_t output_size = std::min((size_t) 10, 2 * n);
     
-    thrust::host_vector<T> h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
 
     for(size_t i = 0; i < n; i++)
         h_input[i] =  ((size_t) h_input[i]) % output_size;

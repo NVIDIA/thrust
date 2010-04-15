@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 #include <thrust/host_vector.h>
@@ -12,7 +12,7 @@
 #include <thrust/detail/type_traits.h>
 #include <typeinfo>
 
-using namespace thrusttest;
+using namespace unittest;
 using namespace thrust;
 
 template<typename T>
@@ -299,9 +299,9 @@ struct TestZipIteratorTransform
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T> h_data0 = thrusttest::random_samples<T>(n);
-    thrust::host_vector<T> h_data1 = thrusttest::random_samples<T>(n);
-    thrust::host_vector<T> h_data2 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data0 = unittest::random_samples<T>(n);
+    thrust::host_vector<T> h_data1 = unittest::random_samples<T>(n);
+    thrust::host_vector<T> h_data2 = unittest::random_samples<T>(n);
 
     thrust::device_vector<T> d_data0 = h_data0;
     thrust::device_vector<T> d_data1 = h_data1;
@@ -354,8 +354,8 @@ struct TestZipIteratorReduce
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T> h_data0 = thrusttest::random_samples<T>(n);
-    thrust::host_vector<T> h_data1 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data0 = unittest::random_samples<T>(n);
+    thrust::host_vector<T> h_data1 = unittest::random_samples<T>(n);
 
     thrust::device_vector<T> d_data0 = h_data0;
     thrust::device_vector<T> d_data1 = h_data1;
@@ -386,8 +386,8 @@ struct TestZipIteratorScan
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T> h_data0 = thrusttest::random_samples<T>(n);
-    thrust::host_vector<T> h_data1 = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data0 = unittest::random_samples<T>(n);
+    thrust::host_vector<T> h_data1 = unittest::random_samples<T>(n);
 
     thrust::device_vector<T> d_data0 = h_data0;
     thrust::device_vector<T> d_data1 = h_data1;
@@ -583,8 +583,8 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
-      thrust::host_vector<T>   h1 = thrusttest::random_integers<T>(n);
-      thrust::host_vector<T>   h2 = thrusttest::random_integers<T>(n);
+      thrust::host_vector<T>   h1 = unittest::random_integers<T>(n);
+      thrust::host_vector<T>   h2 = unittest::random_integers<T>(n);
       
       thrust::device_vector<T> d1 = h1;
       thrust::device_vector<T> d2 = h2;
@@ -609,10 +609,10 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
-      thrust::host_vector<T>   h1 = thrusttest::random_integers<T>(n);
-      thrust::host_vector<T>   h2 = thrusttest::random_integers<T>(n);
-      thrust::host_vector<T>   h3 = thrusttest::random_integers<T>(n);
-      thrust::host_vector<T>   h4 = thrusttest::random_integers<T>(n);
+      thrust::host_vector<T>   h1 = unittest::random_integers<T>(n);
+      thrust::host_vector<T>   h2 = unittest::random_integers<T>(n);
+      thrust::host_vector<T>   h3 = unittest::random_integers<T>(n);
+      thrust::host_vector<T>   h4 = unittest::random_integers<T>(n);
       
       thrust::device_vector<T> d1 = h1;
       thrust::device_vector<T> d2 = h2;

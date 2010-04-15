@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/iterator/transform_iterator.h>
 
 #include <thrust/copy.h>
@@ -68,7 +68,7 @@ struct TestTransformIteratorReduce
 {
     void operator()(const size_t n)
     {
-        thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+        thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
         thrust::device_vector<T> d_data = h_data;
 
         // run on host

@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 
 /*********** BEGIN PREAMBLE SECTION ***********/
 $PREAMBLE

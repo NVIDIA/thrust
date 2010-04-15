@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/transform_scan.h>
 
 #include <thrust/functional.h>
@@ -61,7 +61,7 @@ DECLARE_VECTOR_UNITTEST(TestTransformScanSimple);
 template <typename T>
 void TestTransformScan(const size_t n)
 {
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     for(size_t i = 0; i < n; i++)
         h_input[i] = (((int) h_input[i]) % 81 - 40) / 4.0;  // floats will be XX.0, XX.25, XX.5, or XX.75
     thrust::device_vector<T> d_input = h_input;

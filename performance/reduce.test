@@ -5,7 +5,7 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$InputType>   h_input = thrusttest::random_integers<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_input = unittest::random_integers<$InputType>($InputSize);
     thrust::device_vector<$InputType> d_input = h_input;
 
     $InputType init = 13;

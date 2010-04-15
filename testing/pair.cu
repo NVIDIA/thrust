@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/host_vector.h>
 #include <thrust/pair.h>
 #include <thrust/tuple.h>
@@ -221,8 +221,8 @@ template <typename T>
   {
     typedef thrust::pair<T,T> P;
 
-    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
     thrust::host_vector<P>   h_result(n);
 
     thrust::device_vector<T> d_p1 = h_p1;
@@ -259,8 +259,8 @@ template <typename T>
   {
     typedef thrust::pair<T,T> P;
 
-    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
     thrust::host_vector<P>   h_pairs(n);
 
     // zip up pairs on the host
@@ -291,8 +291,8 @@ template <typename T>
   {
     typedef thrust::pair<T,T> P;
 
-    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
     thrust::host_vector<P>   h_pairs(n);
     thrust::host_vector<P>   h_output(n);
 
@@ -334,8 +334,8 @@ template <typename T>
   {
     typedef thrust::pair<T,T> P;
 
-    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
     thrust::host_vector<P>   h_pairs(n);
 
     // zip up pairs on the host
@@ -369,8 +369,8 @@ template <typename T>
   {
     typedef thrust::pair<T,T> P;
 
-    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
     thrust::host_vector<P>   h_pairs(n);
 
     // zip up pairs on the host
@@ -398,8 +398,8 @@ template <typename T>
     typedef thrust::pair<T,T> P;
 
     // host arrays
-    thrust::host_vector<T>   h_p1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
     thrust::host_vector<P>   h_pairs(n);
 
     thrust::host_vector<int> h_values(n);
@@ -430,7 +430,7 @@ struct TestPairGet
 {
   void operator()(void)
   {
-    thrust::host_vector<T> data = thrusttest::random_integers<T>(2);
+    thrust::host_vector<T> data = unittest::random_integers<T>(2);
 
     thrust::pair<T,T> p(data[0], data[1]);
 

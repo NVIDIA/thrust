@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/set_intersection.h>
 #include <thrust/functional.h>
 #include <thrust/sort.h>
@@ -33,7 +33,7 @@ DECLARE_VECTOR_UNITTEST(TestSetIntersectionSimple);
 template<typename T>
 void TestSetIntersection(const size_t n)
 {
-  thrust::host_vector<T> temp = thrusttest::random_integers<T>(2 * n);
+  thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
   thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
   thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
 
@@ -95,7 +95,7 @@ DECLARE_VECTOR_UNITTEST(TestSetIntersectionAscendingSimple);
 template<typename T>
 void TestSetIntersectionAscending(const size_t n)
 {
-  thrust::host_vector<T> temp = thrusttest::random_integers<T>(2 * n);
+  thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
   thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
   thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
 
@@ -132,7 +132,7 @@ DECLARE_VARIABLE_UNITTEST(TestSetIntersectionAscending);
 template<typename T>
 void TestSetIntersectionEquivalentRanges(const size_t n)
 {
-  thrust::host_vector<T> temp = thrusttest::random_integers<T>(n);
+  thrust::host_vector<T> temp = unittest::random_integers<T>(n);
   thrust::host_vector<T> h_a = temp;
   thrust::host_vector<T> h_b = temp;
 
@@ -167,7 +167,7 @@ DECLARE_VARIABLE_UNITTEST(TestSetIntersectionEquivalentRanges);
 template<typename T>
 void TestSetIntersectionMultiset(const size_t n)
 {
-  thrust::host_vector<T> temp = thrusttest::random_integers<T>(2 * n);
+  thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
 
   // restrict elements to [min,13)
   for(typename thrust::host_vector<T>::iterator i = temp.begin();
@@ -246,7 +246,7 @@ void TestSetIntersectionNonArithmetic(void)
 
   typedef non_arithmetic T;
 
-  thrust::host_vector<T> temp = thrusttest::random_integers<int>(2 * n);
+  thrust::host_vector<T> temp = unittest::random_integers<int>(2 * n);
   thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
   thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
 

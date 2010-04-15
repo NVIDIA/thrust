@@ -5,7 +5,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 
-namespace thrusttest
+namespace unittest
 {
 
 template<typename T>
@@ -14,5 +14,5 @@ template<typename T>
   return demangle(typeid(T).name());
 } // end type_name()
 
-} // end thrusttest
+} // end unittest
 

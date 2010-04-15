@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/adjacent_difference.h>
 
 template <class Vector>
@@ -40,7 +40,7 @@ DECLARE_VECTOR_UNITTEST(TestAjacentDifferenceSimple);
 template <typename T>
 void TestAjacentDifference(const size_t n)
 {
-    thrust::host_vector<T>   h_input = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_input = h_input;
 
     thrust::host_vector<T>   h_output(n);

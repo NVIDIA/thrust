@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/random.h>
 #include <thrust/generate.h>
 #include <sstream>

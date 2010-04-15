@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 
@@ -81,7 +81,7 @@ void TestInclusiveScan32(void)
     typedef int T;
     size_t n = 32;
 
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input = h_input;
     
     thrust::host_vector<T>   h_output(n);
@@ -101,7 +101,7 @@ void TestExclusiveScan32(void)
     size_t n = 32;
     T init = 13;
 
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input = h_input;
     
     thrust::host_vector<T>   h_output(n);
@@ -193,7 +193,7 @@ struct TestScanWithOperator
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input = h_input;
 
     thrust::host_vector<T>   h_output(n);
@@ -216,7 +216,7 @@ struct TestScan
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input = h_input;
 
     thrust::host_vector<T>   h_output(n);
@@ -255,7 +255,7 @@ void TestScanMixedTypes(void)
 {
     const unsigned int n = 113;
 
-    thrust::host_vector<unsigned int> h_input = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_input = unittest::random_integers<unsigned int>(n);
     for(size_t i = 0; i < n; i++)
         h_input[i] %= 10;
     thrust::device_vector<unsigned int> d_input = h_input;
@@ -328,15 +328,14 @@ void TestScanWithLargeTypes(void)
     // XXX the following fail with "too many resources requested for launch"
     KNOWN_FAILURE
 
-    _TestScanWithLargeTypes<int,   16>();
-    _TestScanWithLargeTypes<int,   32>();
-    _TestScanWithLargeTypes<int,   64>();
-#endif
-
+    //_TestScanWithLargeTypes<int,   16>();
+    //_TestScanWithLargeTypes<int,   32>();
+    //_TestScanWithLargeTypes<int,   64>();
     //_TestScanWithLargeTypes<int,  128>();
     //_TestScanWithLargeTypes<int,  256>();
     //_TestScanWithLargeTypes<int,  512>();
     //_TestScanWithLargeTypes<int, 1024>();
+#endif
 }
 DECLARE_UNITTEST(TestScanWithLargeTypes);
 

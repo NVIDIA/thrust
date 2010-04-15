@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/extrema.h>
 
 template <class Vector>
@@ -25,7 +25,7 @@ DECLARE_VECTOR_UNITTEST(TestMaxElementSimple);
 template<typename T>
 void TestMaxElement(const size_t n)
 {
-    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     typename thrust::host_vector<T>::iterator   h_max = thrust::max_element(h_data.begin(), h_data.end());

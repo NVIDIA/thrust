@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/inner_product.h>
 
 template <class Vector>
@@ -38,8 +38,8 @@ DECLARE_VECTOR_UNITTEST(TestInnerProductWithOperator);
 template <typename T>
 void TestInnerProduct(const size_t n)
 {
-    thrust::host_vector<T> h_v1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T> h_v2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T> h_v1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T> h_v2 = unittest::random_integers<T>(n);
 
     thrust::device_vector<T> d_v1 = h_v1;
     thrust::device_vector<T> d_v2 = h_v2;

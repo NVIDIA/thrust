@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/is_sorted.h>
 #include <thrust/sort.h>
 
@@ -41,7 +41,7 @@ void TestIsSorted(void)
 
     const size_t n = (1 << 16) + 13;
 
-    Vector v = thrusttest::random_integers<T>(n);
+    Vector v = unittest::random_integers<T>(n);
 
     v[0] = 1;
     v[1] = 0;
