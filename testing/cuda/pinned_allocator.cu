@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/experimental/cuda/pinned_allocator.h>
 #include <thrust/host_vector.h>
 #include <thrust/copy.h>
@@ -8,7 +8,7 @@ void TestPinnedAllocatorSimple(const size_t n)
 {
   typedef thrust::host_vector<T, thrust::experimental::cuda::pinned_allocator<T> > Vector;
 
-  Vector h_input = thrusttest::random_integers<T>(n);
+  Vector h_input = unittest::random_integers<T>(n);
   Vector h_output(n);
 
   thrust::copy(h_input.begin(), h_input.end(), h_output.begin());

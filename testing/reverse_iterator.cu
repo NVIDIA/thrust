@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/iterator/reverse_iterator.h>
 #include <thrust/sequence.h>
 #include <thrust/scan.h>
@@ -114,7 +114,7 @@ struct TestReverseIteratorExclusiveScan
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
 
     thrust::device_vector<T> d_data = h_data;
 

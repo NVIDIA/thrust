@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/uninitialized_fill.h>
 #include <thrust/device_malloc_allocator.h>
 
@@ -91,29 +91,29 @@ struct TestUninitializedFillNonPOD
     // XXX nvcc 3.0b can generate this code correctly,
     //     but leave this as a known fail for now
     KNOWN_FAILURE
-    typedef CopyConstructTest T;
-    thrust::device_ptr<T> v = thrust::device_malloc<T>(5);
+    //typedef CopyConstructTest T;
+    //thrust::device_ptr<T> v = thrust::device_malloc<T>(5);
 
-    T exemplar;
-    ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
-    ASSERT_EQUAL(false, exemplar.copy_constructed_on_host);
+    //T exemplar;
+    //ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
+    //ASSERT_EQUAL(false, exemplar.copy_constructed_on_host);
 
-    T host_copy_of_exemplar(exemplar);
-    ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
-    ASSERT_EQUAL(true,  exemplar.copy_constructed_on_host);
+    //T host_copy_of_exemplar(exemplar);
+    //ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
+    //ASSERT_EQUAL(true,  exemplar.copy_constructed_on_host);
 
-    // copy construct v from the exemplar
-    thrust::uninitialized_fill(v, v + 1, exemplar);
+    //// copy construct v from the exemplar
+    //thrust::uninitialized_fill(v, v + 1, exemplar);
 
-    T x;
-    ASSERT_EQUAL(false,  x.copy_constructed_on_device);
-    ASSERT_EQUAL(false,  x.copy_constructed_on_host);
+    //T x;
+    //ASSERT_EQUAL(false,  x.copy_constructed_on_device);
+    //ASSERT_EQUAL(false,  x.copy_constructed_on_host);
 
-    x = v[0];
-    ASSERT_EQUAL(true,   x.copy_constructed_on_device);
-    ASSERT_EQUAL(false,  x.copy_constructed_on_host);
+    //x = v[0];
+    //ASSERT_EQUAL(true,   x.copy_constructed_on_device);
+    //ASSERT_EQUAL(false,  x.copy_constructed_on_host);
 
-    thrust::device_free(v);
+    //thrust::device_free(v);
   }
 };
 DECLARE_UNITTEST(TestUninitializedFillNonPOD);

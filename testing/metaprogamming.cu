@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/detail/mpl/math.h>
 
 void TestLog2(void)

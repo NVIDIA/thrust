@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/swap_ranges.h>
 
 template <class Vector>
@@ -76,8 +76,8 @@ DECLARE_VECTOR_UNITTEST(TestSwapMixedRanges);
 template <typename T>
 void TestSwapRanges(const size_t n)
 {
-    thrust::host_vector<T> a1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T> a2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T> a1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T> a2 = unittest::random_integers<T>(n);
 
     thrust::host_vector<T>    h1 = a1;
     thrust::host_vector<T>    h2 = a2;

@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/unique.h>
 #include <thrust/functional.h>
 
@@ -54,7 +54,7 @@ struct TestUnique
 {
     void operator()(const size_t n)
     {
-        thrust::host_vector<T>   h_data = thrusttest::random_integers<bool>(n);
+        thrust::host_vector<T>   h_data = unittest::random_integers<bool>(n);
         thrust::device_vector<T> d_data = h_data;
 
         typename thrust::host_vector<T>::iterator   h_new_last;
@@ -121,7 +121,7 @@ struct TestUniqueCopy
 {
     void operator()(const size_t n)
     {
-        thrust::host_vector<T>   h_data = thrusttest::random_integers<bool>(n);
+        thrust::host_vector<T>   h_data = unittest::random_integers<bool>(n);
         thrust::device_vector<T> d_data = h_data;
         
         thrust::host_vector<T>   h_output(n);
@@ -279,8 +279,8 @@ struct TestUniqueByKey
     {
         typedef unsigned int V; // ValueType
 
-        thrust::host_vector<K>   h_keys = thrusttest::random_integers<bool>(n);
-        thrust::host_vector<V>   h_vals = thrusttest::random_integers<V>(n);
+        thrust::host_vector<K>   h_keys = unittest::random_integers<bool>(n);
+        thrust::host_vector<V>   h_vals = unittest::random_integers<V>(n);
         thrust::device_vector<K> d_keys = h_keys;
         thrust::device_vector<V> d_vals = h_vals;
 
@@ -319,8 +319,8 @@ struct TestUniqueCopyByKey
     {
         typedef unsigned int V; // ValueType
 
-        thrust::host_vector<K>   h_keys = thrusttest::random_integers<bool>(n);
-        thrust::host_vector<V>   h_vals = thrusttest::random_integers<V>(n);
+        thrust::host_vector<K>   h_keys = unittest::random_integers<bool>(n);
+        thrust::host_vector<V>   h_vals = unittest::random_integers<V>(n);
         thrust::device_vector<K> d_keys = h_keys;
         thrust::device_vector<V> d_vals = h_vals;
 

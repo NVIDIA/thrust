@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/count.h>
 
 template <class Vector>
@@ -18,7 +18,7 @@ DECLARE_VECTOR_UNITTEST(TestCountSimple);
 template <typename T>
 void TestCount(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     size_t cpu_result = thrust::count(h_data.begin(), h_data.end(), T(5));
@@ -53,7 +53,7 @@ DECLARE_VECTOR_UNITTEST(TestCountIfSimple);
 template <typename T>
 void TestCountIf(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     size_t cpu_result = thrust::count_if(h_data.begin(), h_data.end(), greater_than_five<T>());

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace thrusttest
+namespace unittest
 {
 
 class UnitTestException 
@@ -53,4 +53,4 @@ class UnitTestKnownFailure : public UnitTestException
 };
 
 
-}; //end namespace thrusttest
+}; //end namespace unittest

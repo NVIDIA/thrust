@@ -124,13 +124,13 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::any_of(A, A + 2, thrust::identity<bool>()); // returns false
- *  thrust::any_of(A, A + 3, thrust::identity<bool>()); // returns false
+ *  thrust::none_of(A, A + 2, thrust::identity<bool>()); // returns false
+ *  thrust::none_of(A, A + 3, thrust::identity<bool>()); // returns false
  *
- *  thrust::any_of(A + 2, A + 3, thrust::identity<bool>()); // returns true
+ *  thrust::none_of(A + 2, A + 3, thrust::identity<bool>()); // returns true
  *
  *  // empty range
- *  thrust::any_of(A, A, thrust::identity<bool>()); // returns true
+ *  thrust::none_of(A, A, thrust::identity<bool>()); // returns true
  *  \endcode
  *
  *  \see all_of

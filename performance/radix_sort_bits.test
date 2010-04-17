@@ -6,7 +6,7 @@ PREAMBLE = \
 INITIALIZE = \
     """
     const size_t InputSize = 1 << 24;
-    thrust::host_vector<$KeyType>   h_keys = thrusttest::random_integers<$KeyType>(InputSize);
+    thrust::host_vector<$KeyType>   h_keys = unittest::random_integers<$KeyType>(InputSize);
 
     // set upper bits to zero
     for(size_t i = 0; i < InputSize; i++)

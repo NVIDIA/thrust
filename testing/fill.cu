@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/fill.h>
 
 
@@ -72,7 +72,7 @@ DECLARE_VECTOR_UNITTEST(TestFillMixedTypes);
 template <typename T>
 void TestFill(size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::fill(h_data.begin() + std::min((size_t)1, n), h_data.begin() + std::min((size_t)3, n), (T) 0);

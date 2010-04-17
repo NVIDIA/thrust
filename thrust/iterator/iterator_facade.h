@@ -216,11 +216,13 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
     //
     // Curiously Recurring Template interface.
     //
+    __host__ __device__
     Derived& derived()
     {
       return *static_cast<Derived*>(this);
     }
 
+    __host__ __device__
     Derived const& derived() const
     {
       return *static_cast<Derived const*>(this);

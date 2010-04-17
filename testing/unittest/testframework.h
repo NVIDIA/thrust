@@ -12,15 +12,15 @@
 #include "util.h"
 
 // define some common lists of types
-typedef thrusttest::type_list<int,
+typedef unittest::type_list<int,
                                unsigned int,
                                float> ThirtyTwoBitTypes;
 
-typedef thrusttest::type_list<long long,
+typedef unittest::type_list<long long,
                                unsigned long long,
                                double> SixtyFourBitTypes;
 
-typedef thrusttest::type_list<char,
+typedef unittest::type_list<char,
                                signed char,
                                unsigned char,
                                short,
@@ -32,38 +32,38 @@ typedef thrusttest::type_list<char,
                                long long,
                                unsigned long long> IntegralTypes;
 
-typedef thrusttest::type_list<signed char,
+typedef unittest::type_list<signed char,
                                signed short,
                                signed int,
                                signed long,
                                signed long long> SignedIntegralTypes;
 
-typedef thrusttest::type_list<unsigned char,
+typedef unittest::type_list<unsigned char,
                                unsigned short,
                                unsigned int,
                                unsigned long,
                                unsigned long long> UnsignedIntegralTypes;
 
-typedef thrusttest::type_list<char,
+typedef unittest::type_list<char,
                                signed char,
                                unsigned char> ByteTypes;
 
-typedef thrusttest::type_list<char,
+typedef unittest::type_list<char,
                                signed char,
                                unsigned char,
                                short,
                                unsigned short> SmallIntegralTypes;
 
-typedef thrusttest::type_list<long long,
+typedef unittest::type_list<long long,
                               unsigned long long> LargeIntegralTypes;
 
-typedef thrusttest::type_list<float
+typedef unittest::type_list<float
 #if __CUDA_ARCH__ >= 130
                               , double
 #endif // __CUDA_ARCH__
                              > FloatTypes;
 
-typedef thrusttest::type_list<char,
+typedef unittest::type_list<char,
                               signed char,
                               unsigned char,
                               short,
@@ -173,14 +173,14 @@ template<template <typename> class TestName, typename TypeList>
 {
   public:
     SimpleUnitTest()
-      : UnitTest(base_class_name(thrusttest::type_name<TestName<int> >()).c_str()) {}
+      : UnitTest(base_class_name(unittest::type_name<TestName<int> >()).c_str()) {}
 
     void run()
     {
       // get the first type in the list
-      typedef typename thrusttest::get_type<TypeList,0>::type first_type;
+      typedef typename unittest::get_type<TypeList,0>::type first_type;
 
-      thrusttest::for_each_type<TypeList,TestName,first_type,0> for_each;
+      unittest::for_each_type<TypeList,TestName,first_type,0> for_each;
 
       // loop over the types
       for_each();
@@ -193,7 +193,7 @@ template<template <typename> class TestName, typename TypeList>
 {
   public:
     VariableUnitTest()
-      : UnitTest(base_class_name(thrusttest::type_name<TestName<int> >()).c_str()) {}
+      : UnitTest(base_class_name(unittest::type_name<TestName<int> >()).c_str()) {}
 
     void run()
     {
@@ -206,9 +206,9 @@ template<template <typename> class TestName, typename TypeList>
         for(size_t i = 0; i != num_sizes; ++i)               
         {                                                 
             // get the first type in the list
-            typedef typename thrusttest::get_type<TypeList,0>::type first_type;
+            typedef typename unittest::get_type<TypeList,0>::type first_type;
 
-            thrusttest::for_each_type<TypeList,TestName,first_type,0> loop;
+            unittest::for_each_type<TypeList,TestName,first_type,0> loop;
 
             // loop over the types
             loop(sizes[i]);
@@ -226,8 +226,8 @@ template<template <typename> class TestName,
   VectorUnitTest()
     : UnitTest("dummy_name")
   {
-    std::string test_name = base_class_name(thrusttest::type_name<TestName< Vector<int, Alloc<int> > > >());
-    std::string vector_name = base_class_name(thrusttest::type_name<Vector<int, Alloc<int> > >());
+    std::string test_name = base_class_name(unittest::type_name<TestName< Vector<int, Alloc<int> > > >());
+    std::string vector_name = base_class_name(unittest::type_name<Vector<int, Alloc<int> > >());
 
     std::string my_name = test_name + "<" + vector_name + ">";
 
@@ -237,15 +237,15 @@ template<template <typename> class TestName,
   void run()
   {
     // zip up the type list with Alloc
-    typedef typename thrusttest::transform1<TypeList, Alloc>::type AllocList;
+    typedef typename unittest::transform1<TypeList, Alloc>::type AllocList;
 
     // zip up the type list & alloc list with Vector
-    typedef typename thrusttest::transform2<TypeList, AllocList, Vector>::type VectorList;
+    typedef typename unittest::transform2<TypeList, AllocList, Vector>::type VectorList;
 
     // get the first type in the list
-    typedef typename thrusttest::get_type<VectorList,0>::type first_type;
+    typedef typename unittest::get_type<VectorList,0>::type first_type;
 
-    thrusttest::for_each_type<VectorList,TestName,first_type,0> loop;
+    unittest::for_each_type<VectorList,TestName,first_type,0> loop;
 
     // loop over the types
     loop(0);

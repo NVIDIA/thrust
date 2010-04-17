@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/detail/device/dereference.h>
 
 #include <thrust/device_vector.h>
@@ -30,7 +30,7 @@ void simple_copy(Iterator1 first1, Iterator1 last1, Iterator2 first2)
 
 void TestDeviceDereferenceDeviceVectorIterator(void)
 {
-    thrust::device_vector<int> input = thrusttest::random_integers<int>(100); 
+    thrust::device_vector<int> input = unittest::random_integers<int>(100); 
     thrust::device_vector<int> output(input.size(), 0);
 
     simple_copy(input.begin(), input.end(), output.begin());
@@ -41,7 +41,7 @@ DECLARE_UNITTEST(TestDeviceDereferenceDeviceVectorIterator);
 
 void TestDeviceDereferenceDevicePtr(void)
 {
-    thrust::device_vector<int> input = thrusttest::random_integers<int>(100); 
+    thrust::device_vector<int> input = unittest::random_integers<int>(100); 
     thrust::device_vector<int> output(input.size(), 0);
 
     thrust::device_ptr<int> _first1 = &input[0];
@@ -56,7 +56,7 @@ DECLARE_UNITTEST(TestDeviceDereferenceDevicePtr);
 
 void TestDeviceDereferenceTransformIterator(void)
 {
-    thrust::device_vector<int> input = thrusttest::random_integers<int>(100); 
+    thrust::device_vector<int> input = unittest::random_integers<int>(100); 
     thrust::device_vector<int> output(input.size(), 0);
 
     simple_copy(thrust::make_transform_iterator(input.begin(), thrust::identity<int>()),

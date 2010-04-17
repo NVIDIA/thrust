@@ -52,7 +52,7 @@ struct fill_functor
   fill_functor(T _exemplar) 
     : exemplar(_exemplar) {}
 
-  __device__
+  __host__ __device__
   T operator()(void)
   { 
     return exemplar;

@@ -6,7 +6,7 @@
 #include <cxxabi.h>
 #endif // __GNUC__
 
-namespace thrusttest
+namespace unittest
 {
 
 #ifdef _CXXABI_H
@@ -28,5 +28,5 @@ inline const char* demangle(const char* name)
 }
 #endif
 
-} // end thrusttest
+} // end unittest
 

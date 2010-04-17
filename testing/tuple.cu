@@ -1,11 +1,11 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/tuple.h>
 #include <thrust/sort.h>
 #include <thrust/scan.h>
 #include <thrust/generate.h>
 #include <thrust/is_sorted.h>
 
-using namespace thrusttest;
+using namespace unittest;
 using namespace thrust;
 
 template <typename T>
@@ -365,8 +365,8 @@ struct TestTupleStableSort
 {
   void operator()(const size_t n)
   {
-     thrust::host_vector<T> h_keys   = thrusttest::random_integers<T>(n);
-     thrust::host_vector<T> h_values = thrusttest::random_integers<T>(n);
+     thrust::host_vector<T> h_keys   = unittest::random_integers<T>(n);
+     thrust::host_vector<T> h_values = unittest::random_integers<T>(n);
 
      // zip up the data
      thrust::host_vector< tuple<T,T> > h_tuples(n);
@@ -408,8 +408,8 @@ struct TestTupleReduce
 {
   void operator()(const size_t n)
   {
-     thrust::host_vector<T> h_t1 = thrusttest::random_integers<T>(n);
-     thrust::host_vector<T> h_t2 = thrusttest::random_integers<T>(n);
+     thrust::host_vector<T> h_t1 = unittest::random_integers<T>(n);
+     thrust::host_vector<T> h_t2 = unittest::random_integers<T>(n);
 
      // zip up the data
      thrust::host_vector< tuple<T,T> > h_tuples(n);
@@ -436,8 +436,8 @@ struct TestTupleScan
 {
   void operator()(const size_t n)
   {
-     thrust::host_vector<T> h_t1 = thrusttest::random_integers<T>(n);
-     thrust::host_vector<T> h_t2 = thrusttest::random_integers<T>(n);
+     thrust::host_vector<T> h_t1 = unittest::random_integers<T>(n);
+     thrust::host_vector<T> h_t2 = unittest::random_integers<T>(n);
 
      // zip up the data
      thrust::host_vector< tuple<T,T> > h_tuples(n);
@@ -467,8 +467,8 @@ struct TestTupleTransform
 {
   void operator()(const size_t n)
   {
-     thrust::host_vector<T> h_t1 = thrusttest::random_integers<T>(n);
-     thrust::host_vector<T> h_t2 = thrusttest::random_integers<T>(n);
+     thrust::host_vector<T> h_t1 = unittest::random_integers<T>(n);
+     thrust::host_vector<T> h_t2 = unittest::random_integers<T>(n);
 
      // zip up the data
      thrust::host_vector< tuple<T,T> > h_tuples(n);

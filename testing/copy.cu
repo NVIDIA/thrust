@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/copy.h>
 
 #include <list>
@@ -223,7 +223,7 @@ DECLARE_VECTOR_UNITTEST(TestCopyIfSimple);
 template <typename T>
 void TestCopyIf(const size_t n)
 {
-    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::host_vector<T> h_result(n);
@@ -268,11 +268,11 @@ DECLARE_VECTOR_UNITTEST(TestCopyIfStencilSimple);
 template <typename T>
 void TestCopyIfStencil(const size_t n)
 {
-    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
-    thrust::host_vector<T> h_stencil = thrusttest::random_samples<T>(n);
-    thrust::device_vector<T> d_stencil = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_stencil = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_stencil = unittest::random_samples<T>(n);
 
     thrust::host_vector<T> h_result(n);
     thrust::device_vector<T> d_result(n);

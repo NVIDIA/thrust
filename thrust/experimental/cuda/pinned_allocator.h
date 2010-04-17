@@ -185,7 +185,6 @@ template<typename T>
      *  \return The maximum number of objects that may be allocated
      *          by a single call to \p allocate().
      */
-    __host__ __device__
     inline size_type max_size() const
     {
       return std::numeric_limits<size_type>::max() / sizeof(T);

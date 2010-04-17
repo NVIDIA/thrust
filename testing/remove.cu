@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/remove.h>
 #include <stdexcept>
 
@@ -194,7 +194,7 @@ DECLARE_VECTOR_UNITTEST(TestRemoveCopyIfStencilSimple);
 template<typename T>
 void TestRemoveIf(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     is_true_remove<T> pred;
@@ -215,7 +215,7 @@ DECLARE_VARIABLE_UNITTEST(TestRemoveIf);
 template<typename T>
 void TestRemove(const size_t n)
 {
-    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     T remove_me = 0;
@@ -235,7 +235,7 @@ DECLARE_VARIABLE_UNITTEST(TestRemove);
 template<typename T>
 void TestRemoveCopyIf(const size_t n)
 {
-    thrust::host_vector<T> h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::host_vector<T> h_result(n);
@@ -257,10 +257,10 @@ DECLARE_VARIABLE_UNITTEST(TestRemoveCopyIf);
 template<typename T>
 void TestRemoveIfStencil(const size_t n)
 {
-    thrust::host_vector<T> h_data   = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> h_data   = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
-    thrust::host_vector<bool>   h_stencil = thrusttest::random_samples<bool>(n);
+    thrust::host_vector<bool>   h_stencil = unittest::random_samples<bool>(n);
     thrust::device_vector<bool> d_stencil = h_stencil;
 
     is_true_remove<T> pred;
@@ -279,7 +279,7 @@ DECLARE_VARIABLE_UNITTEST(TestRemoveIfStencil);
 template<typename T>
 void TestRemoveCopy(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::host_vector<T>   h_result(n);
@@ -302,10 +302,10 @@ DECLARE_VARIABLE_UNITTEST(TestRemoveCopy);
 template<typename T>
 void TestRemoveCopyIfStencil(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
-    thrust::host_vector<bool>   h_stencil = thrusttest::random_samples<bool>(n);
+    thrust::host_vector<bool>   h_stencil = unittest::random_samples<bool>(n);
     thrust::device_vector<bool> d_stencil = h_stencil;
     
     thrust::host_vector<T>   h_output(n);

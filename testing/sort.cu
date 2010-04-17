@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
@@ -189,7 +189,7 @@ DECLARE_VECTOR_UNITTEST(TestStableSortByKeySimple);
 template <typename T>
 void TestSortAscendingKey(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::sort(h_data.begin(), h_data.end(), thrust::less<T>());
@@ -203,7 +203,7 @@ void TestSortDescendingKey(void)
 {
     const size_t n = 10027;
 
-    thrust::host_vector<int>   h_data = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_data = h_data;
 
     thrust::sort(h_data.begin(), h_data.end(), thrust::greater<int>());
@@ -217,7 +217,7 @@ DECLARE_UNITTEST(TestSortDescendingKey);
 template <typename T>
 void TestStableSortAscendingKey(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::stable_sort(h_data.begin(), h_data.end(), less_div_10<T>());
@@ -232,7 +232,7 @@ void TestStableSortDescendingKey(void)
 {
     const size_t n = 10027;
 
-    thrust::host_vector<int>   h_data = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_data = h_data;
 
     thrust::stable_sort(h_data.begin(), h_data.end(), greater_div_10<int>());
@@ -247,10 +247,10 @@ DECLARE_UNITTEST(TestStableSortDescendingKey);
 template <typename T>
 void TestSortAscendingKeyValue(const size_t n)
 {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
     
-    thrust::host_vector<T>   h_values = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_values = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_values = h_values;
 
     thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::less<T>());
@@ -266,10 +266,10 @@ void TestSortDescendingKeyValue(void)
 {
     const size_t n = 10027;
 
-    thrust::host_vector<int>   h_keys = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_keys = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_keys = h_keys;
     
-    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_values = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_values = h_values;
 
     thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<int>());
@@ -284,10 +284,10 @@ DECLARE_UNITTEST(TestSortDescendingKeyValue);
 template <typename T>
 void TestStableSortAscendingKeyValue(const size_t n)
 {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
     
-    thrust::host_vector<T>   h_values = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_values = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_values = h_values;
 
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), less_div_10<T>());
@@ -303,10 +303,10 @@ void TestStableSortDescendingKeyValue(void)
 {
     const size_t n = 10027;
 
-    thrust::host_vector<int>   h_keys = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_keys = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_keys = h_keys;
     
-    thrust::host_vector<int>   h_values = thrusttest::random_integers<int>(n);
+    thrust::host_vector<int>   h_values = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_values = h_values;
 
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), greater_div_10<int>());

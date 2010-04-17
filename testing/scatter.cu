@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/scatter.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/sequence.h>
@@ -112,7 +112,7 @@ void TestScatter(const size_t n)
     thrust::host_vector<T> h_input(n, (T) 1);
     thrust::device_vector<T> d_input(n, (T) 1);
    
-    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % output_size;
@@ -174,7 +174,7 @@ void TestScatterIf(const size_t n)
     thrust::host_vector<T> h_input(n, (T) 1);
     thrust::device_vector<T> d_input(n, (T) 1);
    
-    thrust::host_vector<unsigned int> h_map = thrusttest::random_integers<unsigned int>(n);
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
         h_map[i] =  h_map[i] % output_size;

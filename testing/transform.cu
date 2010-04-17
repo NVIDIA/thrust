@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/transform.h>
 #include <thrust/iterator/counting_iterator.h>
 
@@ -112,7 +112,7 @@ DECLARE_VECTOR_UNITTEST(TestTransformIfBinarySimple);
 template <typename T>
 void TestTransformUnary(const size_t n)
 {
-    thrust::host_vector<T>   h_input = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input = h_input;
 
     thrust::host_vector<T>   h_output(n);
@@ -140,9 +140,9 @@ struct is_positive
 template <typename T>
 void TestTransformIfUnary(const size_t n)
 {
-    thrust::host_vector<T>   h_input   = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_stencil = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_output  = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input   = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_output  = unittest::random_integers<T>(n);
 
     thrust::device_vector<T> d_input   = h_input;
     thrust::device_vector<T> d_stencil = h_stencil;
@@ -166,8 +166,8 @@ DECLARE_VARIABLE_UNITTEST(TestTransformIfUnary);
 template <typename T>
 void TestTransformBinary(const size_t n)
 {
-    thrust::host_vector<T>   h_input1 = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_input2 = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input2 = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input1 = h_input1;
     thrust::device_vector<T> d_input2 = h_input2;
 
@@ -190,10 +190,10 @@ DECLARE_VARIABLE_UNITTEST(TestTransformBinary);
 template <typename T>
 void TestTransformIfBinary(const size_t n)
 {
-    thrust::host_vector<T>   h_input1  = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_input2  = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_stencil = thrusttest::random_integers<T>(n);
-    thrust::host_vector<T>   h_output  = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input1  = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input2  = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_output  = unittest::random_integers<T>(n);
 
     thrust::device_vector<T> d_input1  = h_input1;
     thrust::device_vector<T> d_input2  = h_input2;
@@ -214,7 +214,7 @@ void TestTransformIfBinary(const size_t n)
     
     ASSERT_EQUAL(h_output, d_output);
 
-    h_stencil = thrusttest::random_integers<T>(n);
+    h_stencil = unittest::random_integers<T>(n);
     d_stencil = h_stencil;
     
     thrust::transform_if(h_input1.begin(), h_input1.end(),

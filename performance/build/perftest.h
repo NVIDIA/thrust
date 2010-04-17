@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <cuda_runtime.h>
 #include <cuda.h>
 #include <string>

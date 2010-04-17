@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>

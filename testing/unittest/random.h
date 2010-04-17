@@ -7,7 +7,7 @@
 
 const unsigned int DEFAULT_SEED = 13;
 
-namespace thrusttest
+namespace unittest
 {
 
 template<typename T>
@@ -110,5 +110,5 @@ thrust::host_vector<T> random_samples(const size_t N)
     return vec;
 }
 
-}; //end namespace thrusttest
+}; //end namespace unittest
 

@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
 #include <thrust/device_malloc_allocator.h>
@@ -8,7 +8,7 @@
 
 #if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
-using namespace thrusttest;
+using namespace unittest;
 
 template <class Vector>
 void InitializeSimpleKeyRadixSortTest(Vector& unsorted_keys, Vector& sorted_keys)
@@ -125,7 +125,7 @@ VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::device_ve
 
 //still need to do long/ulong and maybe double
 
-typedef thrusttest::type_list<char,
+typedef unittest::type_list<char,
                                signed char,
                                unsigned char,
                                short,
@@ -143,7 +143,7 @@ struct TestRadixSort
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
 
     thrust::stable_sort(h_keys.begin(), h_keys.end());
@@ -160,7 +160,7 @@ struct TestRadixSortByKey
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
     
     thrust::host_vector<unsigned int>   h_values(n);
@@ -183,7 +183,7 @@ struct TestRadixSortByKeyShortValues
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
     
     thrust::host_vector<short>   h_values(n);
@@ -205,7 +205,7 @@ struct TestRadixSortByKeyFloatValues
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
     
     thrust::host_vector<float>   h_values(n);
@@ -234,7 +234,7 @@ struct TestRadixSortVariableBits
     KNOWN_FAILURE;
 #else
     for(size_t num_bits = 0; num_bits < 8 * sizeof(T); num_bits += 7){
-        thrust::host_vector<T>  h_keys = thrusttest::random_integers<T>(n);
+        thrust::host_vector<T>  h_keys = unittest::random_integers<T>(n);
    
         size_t mask = (1 << num_bits) - 1;
         for(size_t i = 0; i < n; i++)
@@ -259,7 +259,7 @@ struct TestRadixSortByKeyVariableBits
   void operator()(const size_t n)
   {
     for(size_t num_bits = 0; num_bits < 8 * sizeof(T); num_bits += 7){
-        thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+        thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
    
         const T mask = (1 << num_bits) - 1;
         for(size_t i = 0; i < n; i++)
@@ -287,7 +287,7 @@ VariableUnitTest<TestRadixSortByKeyVariableBits, IntegralTypes> TestRadixSortByK
 //{   
 //    typedef unsigned long long T;
 //    const size_t n = (1 << 20) + 3;
-//    thrust::host_vector<T>   h_keys = thrusttest::random_integers<T>(n);
+//    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
 //    thrust::device_vector<T> d_keys = h_keys;
 //
 //    thrust::detail::device::cuda::detail::stable_radix_sort(h_keys.begin(), h_keys.end());

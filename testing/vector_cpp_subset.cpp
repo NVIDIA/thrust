@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/device_malloc_allocator.h>
 #include <vector>
 #include <list>
@@ -585,7 +585,7 @@ void TestVectorManipulation(size_t n)
 {
     typedef typename Vector::value_type T;
 
-    thrust::host_vector<T> src = thrusttest::random_samples<T>(n);
+    thrust::host_vector<T> src = unittest::random_samples<T>(n);
     ASSERT_EQUAL(src.size(), n);
 
     // basic initialization
@@ -819,8 +819,8 @@ struct TestVectorCppRangeInsert
 {
     void operator()(size_t n)
     {
-        thrust::host_vector<T>   h_src = thrusttest::random_samples<T>(n + 3);
-        thrust::host_vector<T>   h_dst = thrusttest::random_samples<T>(n);
+        thrust::host_vector<T>   h_src = unittest::random_samples<T>(n + 3);
+        thrust::host_vector<T>   h_dst = unittest::random_samples<T>(n);
 
         thrust::device_vector<T> d_src = h_src;
         thrust::device_vector<T> d_dst = h_dst;
@@ -993,7 +993,7 @@ struct TestVectorCppFillInsert
 {
     void operator()(size_t n)
     {
-        thrust::host_vector<T>   h_dst = thrusttest::random_samples<T>(n + 2);
+        thrust::host_vector<T>   h_dst = unittest::random_samples<T>(n + 2);
 
         thrust::device_vector<T> d_dst = h_dst;
 

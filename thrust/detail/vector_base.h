@@ -150,7 +150,6 @@ template<typename T, typename Alloc>
     /*! Returns the size() of the largest possible vector_base.
      *  \return The largest possible return value of size().
      */
-    __host__ __device__
     size_type max_size(void) const;
 
     /*! \brief If n is less than or equal to capacity(), this call has no effect.

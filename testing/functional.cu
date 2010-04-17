@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
 
@@ -13,7 +13,7 @@ void TestUnaryFunctional(void)
     typedef typename InputVector::value_type  InputType;
     typedef typename OutputVector::value_type OutputType;
     
-    thrust::host_vector<InputType>  std_input = thrusttest::random_samples<InputType>(NUM_SAMPLES);
+    thrust::host_vector<InputType>  std_input = unittest::random_samples<InputType>(NUM_SAMPLES);
     thrust::host_vector<OutputType> std_output(NUM_SAMPLES);
 
     InputVector  input = std_input;
@@ -31,8 +31,8 @@ void TestBinaryFunctional(void)
     typedef typename InputVector::value_type  InputType;
     typedef typename OutputVector::value_type OutputType;
     
-    thrust::host_vector<InputType>  std_input1 = thrusttest::random_samples<InputType>(NUM_SAMPLES);
-    thrust::host_vector<InputType>  std_input2 = thrusttest::random_samples<InputType>(NUM_SAMPLES);
+    thrust::host_vector<InputType>  std_input1 = unittest::random_samples<InputType>(NUM_SAMPLES);
+    thrust::host_vector<InputType>  std_input2 = unittest::random_samples<InputType>(NUM_SAMPLES);
     thrust::host_vector<OutputType> std_output(NUM_SAMPLES);
 
     // Replace zeros to avoid divide by zero exceptions

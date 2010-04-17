@@ -1,0 +1,45 @@
+PREAMBLE = \
+    """
+    #include <thrust/sort.h>
+    #include <thrust/binary_search.h>
+    """
+
+INITIALIZE = \
+    """
+    thrust::host_vector<$KeyType>   h_keys = unittest::random_integers<$KeyType>($InputSize);
+    thrust::device_vector<$KeyType> d_keys = h_keys;
+    
+    thrust::sort(h_keys.begin(), h_keys.end());
+    thrust::sort(d_keys.begin(), d_keys.end());
+
+    ASSERT_EQUAL(d_keys, h_keys);
+
+    thrust::host_vector<$KeyType>   h_search = unittest::random_integers<$KeyType>($InputSize);
+    thrust::device_vector<$KeyType> d_search = h_search;
+    
+    thrust::host_vector<unsigned int>    h_output($InputSize);
+    thrust::device_vector<unsigned int>  d_output($InputSize);
+
+    thrust::binary_search(h_keys.begin(), h_keys.end(), h_search.begin(), h_search.end(), h_output.begin());
+    thrust::binary_search(d_keys.begin(), d_keys.end(), d_search.begin(), d_search.end(), d_output.begin());
+
+    ASSERT_EQUAL(d_output, h_output);
+    """
+
+TIME = \
+    """
+    thrust::binary_search(d_keys.begin(), d_keys.end(), d_search.begin(), d_search.end(), d_output.begin());
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(double($InputSize));
+    """
+
+
+KeyTypes   = ['int']
+InputSizes = [2**24]
+
+TestVariables = [('KeyType', KeyTypes), ('InputSize', InputSizes)]
+

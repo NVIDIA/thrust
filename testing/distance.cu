@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/distance.h>
 
 // TODO expand this with other iterator types (forward, bidirectional, etc.)

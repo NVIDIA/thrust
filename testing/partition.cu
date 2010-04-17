@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/partition.h>
 
 #include <thrust/sort.h>
@@ -123,7 +123,7 @@ DECLARE_VECTOR_UNITTEST(TestStablePartitionCopySimple);
 template <typename T>
 void TestPartition(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     typename thrust::host_vector<T>::iterator   h_iter = thrust::partition(h_data.begin(), h_data.end(), is_even<T>());
@@ -141,7 +141,7 @@ DECLARE_VARIABLE_UNITTEST(TestPartition);
 template <typename T>
 void TestPartitionCopy(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::host_vector<T>   h_result(n);
@@ -162,7 +162,7 @@ DECLARE_VARIABLE_UNITTEST(TestPartitionCopy);
 template <typename T>
 void TestStablePartition(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     typename thrust::host_vector<T>::iterator   h_iter = thrust::stable_partition(h_data.begin(), h_data.end(), is_even<T>());
@@ -177,7 +177,7 @@ DECLARE_VARIABLE_UNITTEST(TestStablePartition);
 template <typename T>
 void TestStablePartitionCopy(const size_t n)
 {
-    thrust::host_vector<T>   h_data = thrusttest::random_integers<T>(n);
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_data = h_data;
 
     thrust::host_vector<T>   h_result(n);

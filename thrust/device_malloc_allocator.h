@@ -109,7 +109,6 @@ template<typename T>
       device_free(p);
     } // end deallocate()
 
-    __host__ __device__
     inline size_type max_size() const
     {
       return std::numeric_limits<size_type>::max() / sizeof(T);

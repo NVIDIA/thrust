@@ -1,0 +1,70 @@
+PREAMBLE = \
+    """
+    #include <thrust/transform.h>
+    #include <thrust/reduce.h>
+    #include <thrust/transform_reduce.h>
+    #include <thrust/functional.h>
+    
+    #include <cmath>
+
+    template <typename T>
+    struct square
+    {
+        __host__ __device__
+        T operator()(T x) const
+        {
+            return x * x;
+        }
+    };
+    
+    template <typename Vector>
+    typename Vector::value_type nrm2_fast(const Vector& x)
+    {
+        typedef typename Vector::value_type T;
+        return std::sqrt( thrust::transform_reduce(x.begin(), x.end(), square<T>(), T(0), thrust::plus<T>()) );
+    }
+    
+    template <typename Vector>
+    typename Vector::value_type nrm2_slow(const Vector& x)
+    {
+        typedef typename Vector::value_type T;
+        
+        Vector temp(x.size());
+        
+        // temp <- x * x
+        thrust::transform(x.begin(), x.end(), temp.begin(), square<T>());
+
+        return std::sqrt( thrust::reduce(temp.begin(), temp.end()) );
+    }
+
+    """
+
+INITIALIZE = \
+    """
+    thrust::host_vector<$InputType>   h_input = unittest::random_integers<bool>($InputSize);
+    thrust::device_vector<$InputType> d_input = h_input;
+
+    $InputType h_result = $Method(h_input);
+    $InputType d_result = $Method(d_input);
+
+    ASSERT_EQUAL(std::abs(h_result - d_result) / std::abs(h_result + d_result) < 1e-3, true);
+    """
+
+TIME = \
+    """
+    $Method(d_input);
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(double($InputSize));
+    RECORD_BANDWIDTH(sizeof($InputType) *  double($InputSize));
+    """
+
+InputTypes = ['float', 'double']
+InputSizes = [2**24]
+Methods    = ['nrm2_fast', 'nrm2_slow']
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes), ('Method', Methods)]
+

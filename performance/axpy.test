@@ -1,0 +1,84 @@
+PREAMBLE = \
+    """
+    #include <thrust/transform.h>
+    #include <thrust/functional.h>
+    
+    //#include <cublas.h>
+    
+    #include <cmath>
+
+    template <typename T>
+    struct axpy
+    {
+        T a;
+
+        axpy(T a) : a(a) {}
+
+        __host__ __device__
+        T operator()(T x, T y) const
+        {
+            return a * x + y;
+        }
+    };
+    
+    template <typename Vector>
+    void axpy_fast(const typename Vector::value_type a, const Vector& x, Vector& y)
+    {
+        typedef typename Vector::value_type T;
+        thrust::transform(x.begin(), x.end(), y.begin(), y.begin(), axpy<T>(a));
+    }
+    
+    template <typename Vector>
+    void axpy_slow(const typename Vector::value_type a, const Vector& x, Vector& y)
+    {
+        typedef typename Vector::value_type T;
+
+        // temp <- a
+        Vector temp(x.size(), a);
+   
+        // temp <- a * x
+        thrust::transform(x.begin(), x.end(), temp.begin(), temp.begin(), thrust::multiplies<float>());
+
+        // y <- a * x + y
+        thrust::transform(temp.begin(), temp.end(), y.begin(), y.begin(), thrust::plus<float>());
+    }
+    
+
+    """
+
+INITIALIZE = \
+    """
+    //cublasInit();
+
+    thrust::host_vector<$InputType>   h_x = unittest::random_samples<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_y = unittest::random_samples<$InputType>($InputSize);
+    thrust::device_vector<$InputType> d_x = h_x;
+    thrust::device_vector<$InputType> d_y = h_y;
+
+    $InputType a = 2.0;
+
+    $Method(a, h_x, h_y);
+    $Method(a, d_x, d_y);
+
+    ASSERT_EQUAL(h_x, d_x);
+    ASSERT_EQUAL(h_y, d_y);
+    """
+
+TIME = \
+    """
+    $Method(a, d_x, d_y);
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(2 * double($InputSize));
+    RECORD_BANDWIDTH(3* sizeof($InputType) *  double($InputSize));
+    """
+
+InputTypes = ['float', 'double']
+InputSizes = [2**24]
+Methods    = ['axpy_fast', 'axpy_slow']
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes), ('Method', Methods)]
+

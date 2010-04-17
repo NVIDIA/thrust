@@ -1,4 +1,4 @@
-#include <thrusttest/unittest.h>
+#include <unittest/unittest.h>
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/copy.h>
 #include <thrust/transform.h>
