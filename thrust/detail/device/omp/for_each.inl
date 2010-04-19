@@ -51,6 +51,10 @@ void for_each(InputIterator first,
   typedef typename thrust::iterator_difference<InputIterator>::type difference;
   difference n = thrust::distance(first,last);
 
+// do not attempt to compile the body of this function, which depends on #pragma omp,
+// without support from the compiler
+// XXX implement the body of this function in another file to eliminate this ugliness
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 #pragma omp parallel for
   for(difference i = 0;
       i < n;
@@ -59,6 +63,7 @@ void for_each(InputIterator first,
     InputIterator temp = first + i;
     f(dereference(temp));
   }
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 } 
 
 

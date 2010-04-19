@@ -53,6 +53,10 @@ OutputIterator copy_host_or_any_to_device(InputIterator first,
   // difference n = thrust::distance(first,last); // XXX WAR crash VS2008 (64-bit)
   difference n = last - first;
 
+// do not attempt to compile the body of this function, which depends on #pragma omp,
+// without support from the compiler
+// XXX implement the body of this function in another file to eliminate this ugliness
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 #pragma omp parallel for
   for(difference i = 0;
       i < n;
@@ -61,6 +65,7 @@ OutputIterator copy_host_or_any_to_device(InputIterator first,
     OutputIterator temp = result + i;
     dereference(temp) = first[i];
   }
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 
   return result + n;
 }
