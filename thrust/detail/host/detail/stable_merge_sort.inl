@@ -14,40 +14,6 @@
  *  limitations under the License.
  */
 
-/*
- * The merge() function is derived from the function of the same name
- * in stl_algo.h of the SGI STL implementation. The orginial license 
- * follows below.
- *
- * http://www.sgi.com/tech/stl/stl_algo.h
- */
-
-/*
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Hewlett-Packard Company makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- *
- *
- * Copyright (c) 1996
- * Silicon Graphics Computer Systems, Inc.
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Silicon Graphics makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- */
-
 
 #include <algorithm>
 
@@ -62,172 +28,255 @@ namespace host
 namespace detail
 {
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void merge_by_key(RandomAccessIterator1 keys_begin,
-                    RandomAccessIterator1 keys_middle,
-                    RandomAccessIterator1 keys_end,
-                    RandomAccessIterator2 values_begin,
-                    StrictWeakOrdering comp,
-                    size_t len1, size_t len2)
+//////////////
+// Key Sort //
+//////////////
+
+template <typename RandomAccessIterator,
+          typename StrictWeakOrdering>
+void insertion_sort(RandomAccessIterator first,
+                    RandomAccessIterator last,
+                    StrictWeakOrdering comp)
 {
-    if(len1 == 0 || len2 == 0)
-        return;
+    typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-    RandomAccessIterator2 values_middle = values_begin + len1;
+    if (first == last) return;
 
-    if(len1 + len2 == 2)
+    for(RandomAccessIterator i = first + 1; i != last; ++i)
     {
-        if(comp(*keys_middle, *keys_begin))
+        value_type tmp = *i;
+
+        if (comp(tmp, *first))
         {
-            std::iter_swap(keys_begin, keys_middle);
-            std::iter_swap(values_begin, values_middle);
-        } // end if
+            // tmp is the smallest value encountered so far
+            std::copy_backward(first, i, i + 1);
+            *first = tmp;
+        }
+        else
+        {
+            // tmp is not the smallest value, can avoid checking for j == first
+            RandomAccessIterator j = i;
+            RandomAccessIterator k = i - 1;
 
-        return;
-    } // end if
+            while(comp(tmp, *k))
+            {
+                *j = *k;
+                j = k;
+                --k;
+            }
 
-    RandomAccessIterator1 keys_first_cut = keys_begin;
-    RandomAccessIterator1 keys_second_cut = keys_middle;
-    RandomAccessIterator2 values_first_cut = values_begin;
-    RandomAccessIterator2 values_second_cut = values_middle;
+            *j = tmp;
+        }
+    }
+}
 
-    typename thrust::iterator_traits<RandomAccessIterator1>::difference_type len11 = 0;
-    typename thrust::iterator_traits<RandomAccessIterator1>::difference_type len22 = 0;
+template <typename RandomAccessIterator1,
+          typename RandomAccessIterator2,
+          typename StrictWeakOrdering>
+void insertion_sort_by_key(RandomAccessIterator1 first1,
+                           RandomAccessIterator1 last1,
+                           RandomAccessIterator2 first2,
+                           StrictWeakOrdering comp)
+{
+    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+    typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
-    if(len1 > len2)
+    if (first1 == last1) return;
+
+    RandomAccessIterator1 i1 = first1 + 1;
+    RandomAccessIterator2 i2 = first2 + 1;
+
+    for(; i1 != last1; ++i1, ++i2)
     {
-        len11 = len1 / 2;
-        std::advance(keys_first_cut, len11);
-        std::advance(values_first_cut, len11);
-        keys_second_cut = std::lower_bound(keys_middle, keys_end, *keys_first_cut, comp);
-        len22 = std::distance(keys_middle, keys_second_cut);
+        value_type1 tmp1 = *i1;
+        value_type2 tmp2 = *i2;
 
-        std::advance(values_second_cut, len22);
-    } // end if
+        if (comp(tmp1, *first1))
+        {
+            // tmp is the smallest value encountered so far
+            std::copy_backward(first1, i1, i1 + 1);
+            std::copy_backward(first2, i2, i2 + 1);
+            *first1 = tmp1;
+            *first2 = tmp2;
+        }
+        else
+        {
+            // tmp is not the smallest value, can avoid checking for j == first
+            RandomAccessIterator1 j1 = i1;
+            RandomAccessIterator1 k1 = i1 - 1;
+            
+            RandomAccessIterator2 j2 = i2;
+            RandomAccessIterator2 k2 = i2 - 1;
+
+            while(comp(tmp1, *k1))
+            {
+                *j1 = *k1;
+                *j2 = *k2;
+
+                j1 = k1;
+                j2 = k2;
+
+                --k1;
+                --k2;
+            }
+
+            *j1 = tmp1;
+            *j2 = tmp2;
+        }
+    }
+}
+
+template <typename RandomAccessIterator,
+          typename StrictWeakOrdering>
+void inplace_merge(RandomAccessIterator first,
+                   RandomAccessIterator middle,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp)
+{
+    typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
+
+    std::vector<value_type> a( first, middle);
+    std::vector<value_type> b(middle,   last);
+
+    std::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
+}
+
+template <typename RandomAccessIterator,
+          typename StrictWeakOrdering>
+void stable_merge_sort(RandomAccessIterator first,
+                       RandomAccessIterator last,
+                       StrictWeakOrdering comp)
+{
+    if (last - first < 32)
+    {
+        insertion_sort(first, last, comp);
+    }
     else
     {
-        len22 = len2 / 2;
-        std::advance(keys_second_cut, len22);
-        std::advance(values_second_cut, len22);
-        keys_first_cut = std::upper_bound(keys_begin, keys_middle, *keys_second_cut, comp);
-        len11 = std::distance(keys_begin, keys_first_cut);
+        RandomAccessIterator middle = first + (last - first) / 2;
 
-        std::advance(values_first_cut, len11);
-    } // end else
-
-    std::rotate(keys_first_cut, keys_middle, keys_second_cut);
-    std::rotate(values_first_cut, values_middle, values_second_cut);
-
-    RandomAccessIterator1 new_keys_middle = keys_first_cut;
-    std::advance(new_keys_middle, std::distance(keys_middle, keys_second_cut));
-
-    RandomAccessIterator2 new_values_middle = values_first_cut;
-    std::advance(new_values_middle, std::distance(values_middle, values_second_cut));
-
-    merge_by_key(keys_begin, keys_first_cut, new_keys_middle, values_begin,
-            comp, len11, len22);
-    merge_by_key(new_keys_middle, keys_second_cut, keys_end, new_values_middle,
-            comp, len1 - len11, len2 - len22);
-} // end merge_by_key()
+        stable_merge_sort(first, middle, comp);
+        stable_merge_sort(middle,  last, comp);
+        inplace_merge(first, middle, last, comp);
+    }
+}
 
 
-// \see http://thomas.baudel.name/Visualisation/VisuTri/inplacestablesort.html
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                                RandomAccessIterator1 keys_end,
-                                RandomAccessIterator2 values_begin,
-                                StrictWeakOrdering comp)
+////////////////////
+// Key-Value Sort //
+////////////////////
+
+template <typename RandomAccessIterator1,
+          typename RandomAccessIterator2,
+          typename RandomAccessIterator3,
+          typename RandomAccessIterator4,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename StrictWeakOrdering>
+void merge_by_key(RandomAccessIterator1 first1,
+                  RandomAccessIterator1 last1,
+                  RandomAccessIterator2 first2,
+                  RandomAccessIterator2 last2,
+                  RandomAccessIterator3 first3,
+                  RandomAccessIterator4 first4,
+                  OutputIterator1 output1,
+                  OutputIterator2 output2,
+                  StrictWeakOrdering comp)
 {
-    if(keys_end - keys_begin < 2) return;
-
-    RandomAccessIterator1   keys_middle   = keys_begin   + (keys_end - keys_begin)/2;
-    RandomAccessIterator2 values_middle = values_begin + (keys_end - keys_begin)/2;
-
-    // sort each side
-    thrust::detail::host::detail::stable_merge_sort_by_key(keys_begin,  keys_middle, values_begin,  comp);
-    thrust::detail::host::detail::stable_merge_sort_by_key(keys_middle, keys_end,    values_middle, comp);
-
-    // merge
-    merge_by_key(keys_begin, keys_middle, keys_end, values_begin,
-            comp, keys_middle - keys_begin, keys_end - keys_middle);
-} // end stable_merge_sort_by_key()
-
-
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void merge(RandomAccessIterator begin,
-             RandomAccessIterator middle,
-             RandomAccessIterator end,
-             StrictWeakOrdering comp,
-             size_t len1, size_t len2)
-{
-    if(len1 == 0 || len2 == 0)
-        return;
-
-    if(len1 + len2 == 2)
+    while(first1 != last1 && first2 != last2)
     {
-        if(comp(*middle, *begin))
+        if(!comp(*first2, *first1))
         {
-            std::iter_swap(begin, middle);
-        } // end if
+            // *first1 <= *first2
+            *output1 = *first1;
+            *output2 = *first3;
+            ++first1;
+            ++first3;
+        }
+        else
+        {
+            // *first1 > first2
+            *output1 = *first2;
+            *output2 = *first4;
+            ++first2;
+            ++first4;
+        }
 
-        return;
-    } // end if
-
-    RandomAccessIterator first_cut = begin;
-    RandomAccessIterator second_cut = middle;
-
-    typename thrust::iterator_traits<RandomAccessIterator>::difference_type len11 = 0;
-    typename thrust::iterator_traits<RandomAccessIterator>::difference_type len22 = 0;
-    if(len1 > len2)
+        ++output1;
+        ++output2;
+    }
+    
+    while(first1 != last1)
     {
-        len11 = len1 / 2;
-        std::advance(first_cut, len11);
-        second_cut = std::lower_bound(middle, end, *first_cut, comp);
-        len22 = std::distance(middle, second_cut);
-    } // end if
+        *output1 = *first1;
+        *output2 = *first3;
+        ++first1;
+        ++first3;
+        ++output1;
+        ++output2;
+    }
+    
+    while(first2 != last2)
+    {
+        *output1 = *first2;
+        *output2 = *first4;
+        ++first2;
+        ++first4;
+        ++output1;
+        ++output2;
+    }
+
+    // XXX this should really return pair(output1, output2)
+}
+
+template <typename RandomAccessIterator1,
+          typename RandomAccessIterator2,
+          typename StrictWeakOrdering>
+void inplace_merge_by_key(RandomAccessIterator1 first1,
+                          RandomAccessIterator1 middle1,
+                          RandomAccessIterator1 last1,
+                          RandomAccessIterator2 first2,
+                          StrictWeakOrdering comp)
+{
+    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+    typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+
+    RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
+    RandomAccessIterator2 last2   = first2 + (last1   - first1);
+
+    std::vector<value_type1> lhs1( first1, middle1);
+    std::vector<value_type1> rhs1(middle1,   last1);
+    std::vector<value_type2> lhs2( first2, middle2);
+    std::vector<value_type2> rhs2(middle2,   last2);
+
+    merge_by_key(lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
+                 lhs2.begin(), rhs2.begin(),
+                 first1, first2, comp);
+}
+
+template <typename RandomAccessIterator1,
+          typename RandomAccessIterator2,
+          typename StrictWeakOrdering>
+void stable_merge_sort_by_key(RandomAccessIterator1 first1,
+                              RandomAccessIterator1 last1,
+                              RandomAccessIterator2 first2,
+                              StrictWeakOrdering comp)
+{
+    if (last1 - first1 <= 32)
+    {
+        insertion_sort_by_key(first1, last1, first2, comp);
+    }
     else
     {
-        len22 = len2 / 2;
-        std::advance(second_cut, len22);
-        first_cut = std::upper_bound(begin, middle, *second_cut, comp);
-        len11 = std::distance(begin, first_cut);
-    } // end else
+        RandomAccessIterator1 middle1 = first1 + (last1 - first1) / 2;
+        RandomAccessIterator2 middle2 = first2 + (last1 - first1) / 2;
 
-    std::rotate(first_cut, middle, second_cut);
-
-    RandomAccessIterator new_middle = first_cut;
-    std::advance(new_middle, std::distance(middle, second_cut));
-
-    merge(begin, first_cut, new_middle,
-            comp, len11, len22);
-    merge(new_middle, second_cut, end,
-            comp, len1 - len11, len2 - len22);
-} // end merge()
-
-
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_merge_sort(RandomAccessIterator begin,
-                         RandomAccessIterator end,
-                         StrictWeakOrdering comp)
-{
-    if(end - begin < 2) return;
-
-    RandomAccessIterator middle = begin + (end - begin)/2;
-
-    // sort each side
-    stable_merge_sort(begin,  middle, comp);
-    stable_merge_sort(middle, end,    comp);
-
-    // merge
-    merge(begin, middle, end,
-            comp, middle - begin, end - middle);
-} // end stable_merge_sort()
+        stable_merge_sort_by_key(first1, middle1, first2,  comp);
+        stable_merge_sort_by_key(middle1,  last1, middle2, comp);
+        inplace_merge_by_key(first1, middle1, last1, first2, comp);
+    }
+}
+    
 
 } // end namespace detail
 } // end namespace host
