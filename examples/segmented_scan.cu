@@ -31,8 +31,9 @@ int main(void)
     thrust::device_vector<int> d_flags(flags, flags + N);
     thrust::device_vector<int> d_values(values, values + N);
     
-    std::cout << "keys:       ";  thrust::copy(d_keys.begin(),  d_keys.end(),  std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
-    std::cout << "head flags: ";  thrust::copy(d_flags.begin(), d_flags.end(), std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
+    std::cout << "input:      ";  thrust::copy(d_values.begin(), d_values.end(), std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
+    std::cout << "keys:       ";  thrust::copy(d_keys.begin(),   d_keys.end(),   std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
+    std::cout << "head flags: ";  thrust::copy(d_flags.begin(),  d_flags.end(),  std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
     
     // allocate storage for output
     thrust::device_vector<int> d_output(N);
