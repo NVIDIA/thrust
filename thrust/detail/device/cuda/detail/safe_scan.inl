@@ -323,23 +323,21 @@ OutputIterator inclusive_scan(InputIterator first,
     thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
-    scan_intervals<<<num_blocks, block_size, smem_size>>>
-        (first,
-         N,
-         interval_size,
-         output,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
-  
     {
-#if CUDA_VERSION >= 3000
+        scan_intervals<<<num_blocks, block_size, smem_size>>>
+            (first,
+             N,
+             interval_size,
+             output,
+             thrust::raw_pointer_cast(&block_results[0]),
+             binary_op);
+    }
+  
+    // second level inclusive scan of per-block results
+    {
         const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<OutputType *, OutputType *, BinaryFunction>, smem_per_thread);
-#else
-        const unsigned int block_size_pass2 = 32;
-#endif        
         const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
 
-        // second level inclusive scan of per-block results
         scan_intervals<<<         1, block_size_pass2, smem_size_pass2>>>
             (thrust::raw_pointer_cast(&block_results[0]),
              num_blocks,
@@ -348,14 +346,18 @@ OutputIterator inclusive_scan(InputIterator first,
              thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
              binary_op);
     }
-    
+   
     // update intervals with result of second level scan
-    inclusive_update<<<num_blocks, block_size>>>
-        (output,
-         N,
-         interval_size,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
+    {
+        const unsigned int block_size_pass3 = thrust::experimental::arch::max_blocksize_with_highest_occupancy(inclusive_update<OutputIterator,OutputType,BinaryFunction>, 0);
+
+        inclusive_update<<<num_blocks, block_size_pass3>>>
+            (output,
+             N,
+             interval_size,
+             thrust::raw_pointer_cast(&block_results[0]),
+             binary_op);
+    }
 
     return output + N;
 }
@@ -401,23 +403,22 @@ OutputIterator exclusive_scan(InputIterator first,
     thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
-    scan_intervals<<<num_blocks, block_size, smem_size>>>
-        (first,
-         N,
-         interval_size,
-         output,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
-        
     {
-#if CUDA_VERSION >= 3000
+        scan_intervals<<<num_blocks, block_size, smem_size>>>
+            (first,
+             N,
+             interval_size,
+             output,
+             thrust::raw_pointer_cast(&block_results[0]),
+             binary_op);
+    }
+        
+    
+    // second level inclusive scan of per-block results
+    {
         const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(scan_intervals<OutputType *, OutputType *, BinaryFunction>, smem_per_thread);
-#else
-        const unsigned int block_size_pass2 = 32;
-#endif        
         const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
 
-        // second level inclusive scan of per-block results
         scan_intervals<<<         1, block_size_pass2, smem_size_pass2>>>
             (thrust::raw_pointer_cast(&block_results[0]),
              num_blocks,
@@ -431,12 +432,17 @@ OutputIterator exclusive_scan(InputIterator first,
     block_results[num_blocks] = init;
 
     // update intervals with result of second level scan
-    exclusive_update<<<num_blocks, block_size, smem_size>>>
-        (output,
-         N,
-         interval_size,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
+    {
+        const unsigned int block_size_pass3 = thrust::experimental::arch::max_blocksize_with_highest_occupancy(exclusive_update<OutputIterator,OutputType,BinaryFunction>, smem_per_thread);
+        const unsigned int smem_size_pass3  = smem_per_thread * block_size_pass3;
+
+        exclusive_update<<<num_blocks, block_size_pass3, smem_size_pass3>>>
+            (output,
+             N,
+             interval_size,
+             thrust::raw_pointer_cast(&block_results[0]),
+             binary_op);
+    }
 
     return output + N;
 }
