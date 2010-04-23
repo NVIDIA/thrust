@@ -16,6 +16,7 @@
 
 
 #include <algorithm>
+#include <vector>
 
 #include <thrust/iterator/iterator_traits.h>
 
