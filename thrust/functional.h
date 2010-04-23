@@ -131,7 +131,7 @@ template<typename Argument1,
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/fill.h>
  *  #include <thrust/transform.h>
  *  ...
@@ -140,7 +140,7 @@ template<typename Argument1,
  *  thrust::device_vector<float> V2(N);
  *  thrust::device_vector<float> V3(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
@@ -172,7 +172,7 @@ template<typename T>
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/fill.h>
  *  #include <thrust/transform.h>
  *  ...
@@ -181,7 +181,7 @@ template<typename T>
  *  thrust::device_vector<float> V2(N);
  *  thrust::device_vector<float> V3(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
@@ -213,7 +213,7 @@ template<typename T>
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/fill.h>
  *  #include <thrust/transform.h>
  *  ...
@@ -222,7 +222,7 @@ template<typename T>
  *  thrust::device_vector<float> V2(N);
  *  thrust::device_vector<float> V3(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
@@ -254,7 +254,7 @@ template<typename T>
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/fill.h>
  *  #include <thrust/transform.h>
  *  ...
@@ -263,7 +263,7 @@ template<typename T>
  *  thrust::device_vector<float> V2(N);
  *  thrust::device_vector<float> V3(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
@@ -295,7 +295,7 @@ template<typename T>
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/fill.h>
  *  #include <thrust/transform.h>
  *  ...
@@ -304,7 +304,7 @@ template<typename T>
  *  thrust::device_vector<float> V2(N);
  *  thrust::device_vector<float> V3(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
@@ -336,14 +336,14 @@ template<typename T>
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/transform.h>
  *  ...
  *  const int N = 1000;
  *  thrust::device_vector<float> V1(N);
  *  thrust::device_vector<float> V2(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
  *                     thrust::negate<float>());
@@ -376,14 +376,14 @@ template<typename T>
  *  \code
  *  #include <thrust/device_vector.h>
  *  #include <thrust/functional.h>
- *  #include <thrust/range.h>
+ *  #include <thrust/sequence.h>
  *  #include <thrust/transform.h>
  *  ...
  *  const int N = 1000;
  *  thrust::device_vector<float> V1(N);
  *  thrust::device_vector<float> V2(N);
  *
- *  thrust::range(V1.begin(), V1.end(), 1, -1);
+ *  thrust::sequence(V1.begin(), V1.end(), 1, -1);
  *  // V1 is now {-1, -2, -3, ..., -1000}
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
