@@ -200,7 +200,7 @@ template<typename InputIterator,
  *  compact a sequence of key/value pairs and sum values with equal keys.
  *
  *  \code
- *  #include <thrust/unique.h>
+ *  #include <thrust/reduce.h>
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys
@@ -209,7 +209,6 @@ template<typename InputIterator,
  *  int D[N];                         // output values
  *
  *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
  *  new_end = thrust::reduce_by_key(A, A + N, B, C, D);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
@@ -261,7 +260,7 @@ template <typename InputIterator1,
  *  compact a sequence of key/value pairs and sum values with equal keys.
  *
  *  \code
- *  #include <thrust/unique.h>
+ *  #include <thrust/reduce.h>
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys
@@ -330,7 +329,7 @@ template <typename InputIterator1,
  *  compact a sequence of key/value pairs and sum values with equal keys.
  *
  *  \code
- *  #include <thrust/unique.h>
+ *  #include <thrust/reduce.h>
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys
