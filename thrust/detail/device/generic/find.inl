@@ -17,6 +17,7 @@
 #include <thrust/detail/device/reduce.h>
 
 #include <thrust/tuple.h>
+#include <thrust/extrema.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
@@ -40,7 +41,7 @@ struct find_if_functor
     {
         // select the smallest index among true results
         if (thrust::get<0>(lhs) && thrust::get<0>(rhs))
-            return TupleType(true, min(thrust::get<1>(lhs), thrust::get<1>(rhs)));
+            return TupleType(true, thrust::min(thrust::get<1>(lhs), thrust::get<1>(rhs)));
         else if (thrust::get<0>(lhs))
             return lhs;
         else

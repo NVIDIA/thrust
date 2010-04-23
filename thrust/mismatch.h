@@ -23,6 +23,8 @@
 
 #include <thrust/detail/config.h>
 
+#include <thrust/pair.h>
+
 namespace thrust
 {
 
