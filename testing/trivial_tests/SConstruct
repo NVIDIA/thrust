@@ -2,12 +2,39 @@ import os
 import glob
 from warnings import warn
 
+thrust_abspath = os.path.abspath("../../thrust/")
+
 # try to import an environment first
 try:
   Import('env')
 except:
   exec open("../../build/build-env.py")
   env = Environment()
+
+# this function builds a trivial source file from a Thrust header
+def trivial_source_from_header(source, target, env):
+  src_abspath = str(source[0])
+  src_relpath = os.path.relpath(src_abspath, thrust_abspath)
+  include = os.path.join('thrust', src_relpath)
+
+  target_filename = str(target[0])
+  fid = open(target_filename, 'w')
+  fid.write('#include <' + include + '>\n')
+  fid.close()
+
+
+# CUFile builds a trivial .cu file from a Thrust header
+cu_from_header_builder = Builder(action = trivial_source_from_header,
+                                 suffix = '.cu',
+                                 src_suffix = '.h')
+env.Append(BUILDERS = {'CUFile' : cu_from_header_builder})
+
+# CPPFile builds a trivial .cpp file from a Thrust header
+cpp_from_header_builder = Builder(action = trivial_source_from_header,
+                                  suffix = '.cpp',
+                                  src_suffix = '.h')
+env.Append(BUILDERS = {'CPPFile' : cpp_from_header_builder})
+
 
 # build and run the program that divines the version of the SM on gpu 0 of the build/test machine
 nvcc_options_file = env.Command('../../build/nvcc_options_file.txt',
@@ -16,51 +43,35 @@ nvcc_options_file = env.Command('../../build/nvcc_options_file.txt',
 
 env.Append(NVCCFLAGS = ['-optf=../../build/nvcc_options_file.txt'])
 
-# find all user-includable .h files in the thrust directory
+
+# find all user-includable .h files in the thrust tree and generate trivial source files #including them
 extensions = ['.h']
 folders = ['',              # main folder
            'iterator/',
            'experimental/',
            'sorting/']
 
-# XXX this code obnoxiously creates *.cpp & *.cu upon scons -c :)
+sources  = []
+
 for folder in folders:
   for ext in extensions:
-    pattern = os.path.join(os.path.abspath("../../thrust/" + folder), "*" + ext)
+    pattern = os.path.join(os.path.join(thrust_abspath, folder), "*" + ext)
     for fullpath in glob.glob(pattern):
       headerfilename = os.path.basename(fullpath)
-      # create a .cu file
-      fid = open(headerfilename.replace('.h', '.cu'), 'w')
-      fid.write('#include <thrust/' + folder + headerfilename + '>\n')
-      fid.close()
-      # create a .cpp file
-      fid = open(headerfilename.replace('.h', '_cpp.cpp'), 'w')
-      fid.write('#include <thrust/' + folder + headerfilename + '>\n')
-      fid.close()
+
+      cu  = env.CUFile(headerfilename.replace('.h', '.cu'), fullpath)
+      cpp = env.CPPFile(headerfilename.replace('.h', '_cpp.cpp'), fullpath)
+
+      sources.append(cu)
+      sources.append(cpp)
 
       # insure that all files #include <thrust/detail/config.h>
       fid = open(fullpath)
       if '#include <thrust/detail/config.h>' not in fid.read():
         warn('Header <thrust/' + folder + headerfilename + '> does not include <thrust/detail/config.h>')
 
-
-
-    
-fid = open('main.cu', 'w')
-fid.write('int main(void){ return 0; }\n')
-fid.close()
-
-# find all .cus & .cpps in the current directory
-sources = []
-extensions = ['*.cu', '*.cpp']
-for ext in extensions:
-  sources.extend(env.Glob(ext, strings = True))
-
-tester = env.Program('tester', sources)
+# and the file with main()
+sources.append('main.cu')
 env.Depends(sources, nvcc_options_file)
-
-# add all the .cu-generated linkinfo files to the clean list
-for src in sources:
-  if src.endswith('.cu'):
-    env.Clean(tester, src.replace(".cu", ".linkinfo"))
+tester = env.Program('tester', sources)
 
