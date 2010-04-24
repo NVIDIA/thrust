@@ -221,6 +221,7 @@ template<typename T>
      *  device_references to const T from device_references to T.
      */
     template<typename OtherT>
+    __host__ __device__
     device_reference(const device_reference<OtherT> &ref
 
 // XXX msvc screws this up
@@ -264,6 +265,7 @@ template<typename T>
      *  assert(ref == 13);
      *  \endcode
      */
+    __host__ __device__
     explicit device_reference(const pointer &ptr);
 
     /*! Address-of operator returns a \p device_ptr pointing to the object
@@ -273,6 +275,7 @@ template<typename T>
      *  \return A \p device_ptr pointing to the object this
      *  \p device_reference references.
      */
+    __host__ __device__
     pointer operator&(void) const;
 
     /*! Assignment operator copies the value of the given object to the
