@@ -211,6 +211,10 @@ namespace second_dispatch
         // decide whether to sort values indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
         static const bool sort_values_indirectly = sizeof(ValueType) != 4;
+
+        // XXX WAR nvcc 3.0 unused variable warning
+        (void) sort_values_indirectly;
+
         thrust::detail::device::cuda::third_dispatch::stable_merge_sort_by_key
             (permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
              thrust::detail::integral_constant<bool, sort_values_indirectly>());

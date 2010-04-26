@@ -332,7 +332,6 @@ void TestSegmentedScanLargeInput()
 {
     typedef int T;
     const unsigned int N = 1 << 20;
-    const unsigned int K = 100;
 
     thrust::host_vector<unsigned int> input_sizes = unittest::random_integers<unsigned int>(10);
         
@@ -345,7 +344,6 @@ void TestSegmentedScanLargeInput()
     for (unsigned int i = 0; i < input_sizes.size(); i++)
     {
         const unsigned int n = input_sizes[i] % N;
-        const unsigned int k = input_sizes[i] % K;
 
         // define segments
         thrust::host_vector<unsigned int> h_keys(n);

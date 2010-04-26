@@ -31,6 +31,7 @@
 #include <thrust/detail/device/scan.h>
 #include <thrust/detail/device/copy.h>
 #include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -129,8 +130,12 @@ OutputIterator unique_copy(InputIterator first,
   if(n < 2)
       return thrust::detail::device::copy(first, last, output);
 
+  // create an unsigned version of n (we know n is positive from the comparison above)
+  // to avoid a warning in the compare below
+  typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
+
   // use 32-bit indices when possible (almost always)
-  if (sizeof(difference_type) > sizeof(unsigned int) && n > std::numeric_limits<unsigned int>::max())
+  if (sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > std::numeric_limits<unsigned int>::max())
       return detail::unique_copy<difference_type>(first, last, output, binary_pred);
   else
       return detail::unique_copy<unsigned int>   (first, last, output, binary_pred);

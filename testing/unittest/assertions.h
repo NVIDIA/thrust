@@ -96,7 +96,7 @@ template <typename T1, typename T2>
 void assert_gequal(const T1& a, const T2& b, 
                    const std::string& filename = "unknown", int lineno = -1)
 {
-    if(!(a >= b)){
+    if(!(a >= T1(b))){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << a << " is less than " << b;
