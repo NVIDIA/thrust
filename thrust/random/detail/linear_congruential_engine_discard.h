@@ -88,6 +88,11 @@ struct linear_congruential_engine_discard
     const result_type c = LinearCongruentialEngine::increment;
     const result_type a = LinearCongruentialEngine::multiplier;
     const result_type m = LinearCongruentialEngine::modulus;
+    
+    // XXX WAR nvcc 3.0 unused variable warnings
+    (void) c;
+    (void) a;
+    (void) m;
 
     linear_congruential_engine_discard_implementation<result_type,a,c,m>::discard(lcg.m_x, z);
   }
