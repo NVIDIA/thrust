@@ -1,0 +1,77 @@
+PREAMBLE = \
+    """
+    #include <thrust/reduce.h>
+    #include <thrust/sequence.h>
+    #include <thrust/iterator/counting_iterator.h>
+    #include <thrust/iterator/zip_iterator.h>
+
+    using namespace thrust;
+
+    struct smaller_tuple
+    {
+      __host__ __device__
+      tuple<float,int> operator()(tuple<float,int> a, tuple<float,int> b)
+      {
+        if (a < b)
+          return a;
+        else
+          return b;
+      }
+    };
+    
+    int min_index_slow(device_vector<float>& values)
+    {
+      device_vector<int> indices(values.size());
+      sequence(indices.begin(), indices.end());
+
+      tuple<float,int> init(values[0],0);
+    
+      tuple<float,int> smallest = reduce(make_zip_iterator(make_tuple(values.begin(), indices.begin())),
+                                         make_zip_iterator(make_tuple(values.end(),   indices.end())),
+                                         init,
+                                         smaller_tuple());
+      return get<1>(smallest);
+    }
+    
+    int min_index_fast(device_vector<float>& values)
+    {
+      counting_iterator<int> begin(0);
+      counting_iterator<int> end(values.size());
+    
+      tuple<float,int> init(values[0],0);
+    
+      tuple<float,int> smallest = reduce(make_zip_iterator(make_tuple(values.begin(), begin)),
+                                         make_zip_iterator(make_tuple(values.end(),     end)),
+                                         init,
+                                         smaller_tuple());
+      return get<1>(smallest);
+    }
+
+
+
+    """
+
+INITIALIZE = \
+    """
+    thrust::host_vector<float>   h_input = unittest::random_integers<float>($InputSize);
+    thrust::device_vector<float> d_input = h_input;
+
+    """
+
+TIME = \
+    """
+    $Function(d_input);
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_THROUGHPUT(double($InputSize));
+    RECORD_BANDWIDTH(sizeof(float) *  double($InputSize));
+    """
+
+Functions  = ['min_index_slow','min_index_fast']
+InputSizes = [2**22]
+
+TestVariables = [('Function',Functions), ('InputSize', InputSizes)]
+
