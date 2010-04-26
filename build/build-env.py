@@ -1,4 +1,5 @@
 import os
+
 import inspect
 import platform
 
@@ -42,29 +43,17 @@ gLinkerOptions = {
   }
 
 
-def getBackendDefine(backend):
-  result = ''
-  if backend == 'cuda':
-    result = '-DTHRUST_DEVICE_BACKEND=THRUST_DEVICE_BACKEND_CUDA'
-  elif backend == 'omp':
-    result = '-DTHRUST_DEVICE_BACKEND=THRUST_DEVICE_BACKEND_OMP'
-  return result
-
-
 def getCFLAGS(mode, backend, CC):
   result = []
-  if mode == 'release' or mode == 'emurelease':
+  if mode == 'release':
     # turn on optimization
     result.append(gCompilerOptions[CC]['optimization'])
-  elif mode == 'debug' or mode == 'emudebug':
+  elif mode == 'debug':
     # turn on debug mode
     result.append(gCompilerOptions[CC]['debug'])
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
-
-  # get the define for the device backend
-  result.append(getBackendDefine(backend))
 
   # generate omp code
   if backend == 'omp':
@@ -75,10 +64,10 @@ def getCFLAGS(mode, backend, CC):
 
 def getCXXFLAGS(mode, backend, CXX):
   result = []
-  if mode == 'release' or mode == 'emurelease':
+  if mode == 'release':
     # turn on optimization
     result.append(gCompilerOptions[CXX]['optimization'])
-  elif mode == 'debug' or mode == 'emudebug':
+  elif mode == 'debug':
     # turn on debug mode
     result.append(gCompilerOptions[CXX]['debug'])
   # enable exception handling
@@ -87,9 +76,6 @@ def getCXXFLAGS(mode, backend, CXX):
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
 
-  # get the define for the device backend
-  result.append(getBackendDefine(backend))
-
   # generate omp code
   if backend == 'omp':
     result.append(gCompilerOptions[CXX]['omp'])
@@ -97,26 +83,21 @@ def getCXXFLAGS(mode, backend, CXX):
   return result
 
 
-def getNVCCFLAGS(mode, backend):
-  result = []
-  if mode == 'emurelease' or mode == 'emudebug':
-    # turn on emulation
-    result.append('-deviceemu')
-
-  # get the define for the device backend
-  result.append(getBackendDefine(backend))
-
+def getNVCCFLAGS(mode, backend, arch):
+  result = ['-arch=' + arch]
+  if mode == 'debug':
+    # turn on debug mode
+    # XXX make this work when we've debugged nvcc -G
+    #result.append('-G')
+    pass
   return result
 
 
-# XXX this should actually be based on LINK,
-#     but that's apparently a dynamic variable which
-#     is harder to figure out
-def getLINKFLAGS(mode, backend, CXX):
+def getLINKFLAGS(mode, backend, LINK):
   result = []
   if mode == 'debug':
     # turn on debug mode
-    result.append(gLinkerOptions[CXX]['debug'])
+    result.append(gLinkerOptions[LINK]['debug'])
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')
@@ -134,7 +115,33 @@ def Environment():
   if os.name == 'nt':
     vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
 
+  # add a variable to handle the device backend
+  backend_variable = EnumVariable('backend', 'The parallel device backend to target', 'cuda',
+                                  allowed_values = ('cuda', 'omp', 'ocelot'))
+  vars.Add(backend_variable)
+
+  # add a variable to handle RELEASE/DEBUG mode
+  vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
+                        allowed_values = ('release', 'debug')))
+
+  # add a variable to handle compute capability
+  vars.Add(EnumVariable('arch', 'Compute capability code generation', 'sm_10',
+                        allowed_values = ('sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20')))
+
+  # create an Environment
   env = OldEnvironment(tools = getTools(), variables = vars)
+
+  # get the absolute path to the directory containing
+  # this source file
+  thisFile = inspect.getabsfile(Environment)
+  thisDir = os.path.dirname(thisFile)
+
+  # enable nvcc
+  env.Tool('nvcc', toolpath = [os.path.join(thisDir)])
+
+  # get the preprocessor define to use for the backend
+  backend_define = { 'cuda' : 'THRUST_DEVICE_BACKEND_CUDA', 'omp' : 'THRUST_DEVICE_BACKEND_OMP', 'ocelot' : 'THRUST_DEVICE_BACKEND_CUDA' }[env['backend']] 
+  env.Append(CPPDEFINES = {'THRUST_DEVICE_BACKEND' : backend_define})
 
   # scons has problems with finding the proper LIBPATH with Visual Studio Express 2008
   # help it out
@@ -146,33 +153,17 @@ def Environment():
       env.Append(LIBPATH = ['C:/Program Files/Microsoft SDKs/Windows/v6.0A/Lib'])
       env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 9.0/VC/lib'])
 
-  # get the absolute path to the directory containing
-  # this source file
-  thisFile = inspect.getabsfile(Environment)
-  thisDir = os.path.dirname(thisFile)
-
-  # enable nvcc
-  env.Tool('nvcc', toolpath = [os.path.join(thisDir)])
-
-  mode = 'release'
-  if ARGUMENTS.get('mode'):
-    mode = ARGUMENTS['mode']
-
-  backend = 'cuda'
-  if ARGUMENTS.get('backend'):
-    backend = ARGUMENTS['backend']
-
   # get C compiler switches
-  env.Append(CFLAGS = getCFLAGS(mode, backend, env.subst('$CC')))
+  env.Append(CFLAGS = getCFLAGS(env['mode'], env['backend'], env.subst('$CC')))
 
   # get CXX compiler switches
-  env.Append(CXXFLAGS = getCXXFLAGS(mode, backend, env.subst('$CXX')))
+  env.Append(CXXFLAGS = getCXXFLAGS(env['mode'], env['backend'], env.subst('$CXX')))
 
   # get NVCC compiler switches
-  env.Append(NVCCFLAGS = getNVCCFLAGS(mode, backend))
+  env.Append(NVCCFLAGS = getNVCCFLAGS(env['mode'], env['backend'], env['arch']))
 
   # get linker switches
-  env.Append(LINKFLAGS = getLINKFLAGS(mode, backend, env.subst('$LINK')))
+  env.Append(LINKFLAGS = getLINKFLAGS(env['mode'], env['backend'], env.subst('$LINK')))
    
   # set CUDA lib & include path
   if is_64bit():
@@ -190,7 +181,7 @@ def Environment():
     raise ValueError, "Unknown OS. What are the CUDA include & library paths?"
 
   # set Ocelot lib path
-  if backend == 'ocelot':
+  if env['backend'] == 'ocelot':
     if os.name == 'posix':
       env.Append(LIBPATH = ['/usr/local/lib'])
     else:
@@ -201,7 +192,7 @@ def Environment():
   env.Append(LIBS = 'cudart')
 
   # link against omp if necessary
-  if backend == 'omp':
+  if env['backend'] == 'omp':
     if os.name == 'posix':
       env.Append(LIBS = ['gomp'])
     elif os.name == 'nt':
@@ -218,6 +209,8 @@ def Environment():
   if os.name == 'posix':
     env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
 
-  return env
+  # generate help text
+  Help(vars.GenerateHelpText(env))
 
+  return env
 

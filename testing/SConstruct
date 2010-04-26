@@ -13,13 +13,6 @@ except:
 if env['PLATFORM'] == "darwin":
   env.Append(LINKFLAGS = "-lstdc++")
 
-# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
-nvcc_options_file = env.Command('../build/nvcc_options_file.txt',
-                                env.Program('../build/print_sm_version.cpp'),
-                                os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > ../build/nvcc_options_file.txt'))
-
-env.Append(NVCCFLAGS = ['-optf=../build/nvcc_options_file.txt'])
-
 # find all .cus & .cpps in the current directory
 sources = []
 directories = ['.', 'cuda']
@@ -36,10 +29,4 @@ this_dir = os.path.dirname(this_file)
 env.Append(CPPPATH = [this_dir])
 
 tester = env.Program('tester', sources)
-env.Depends(sources, nvcc_options_file)
-
-# add all the .cu-generated linkinfo files to the clean list
-for src in sources:
-  if src.endswith('.cu'):
-    env.Clean(tester, src.replace("cu", "linkinfo"))
 

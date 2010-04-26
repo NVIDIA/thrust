@@ -36,14 +36,6 @@ cpp_from_header_builder = Builder(action = trivial_source_from_header,
 env.Append(BUILDERS = {'CPPFile' : cpp_from_header_builder})
 
 
-# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
-nvcc_options_file = env.Command('../../build/nvcc_options_file.txt',
-                                env.Program('../../build/print_sm_version.cpp'),
-                                os.path.join('"' + env.GetLaunchDir(), '../../build/print_sm_version" > ../../build/nvcc_options_file.txt'))
-
-env.Append(NVCCFLAGS = ['-optf=../../build/nvcc_options_file.txt'])
-
-
 # find all user-includable .h files in the thrust tree and generate trivial source files #including them
 extensions = ['.h']
 folders = ['',              # main folder
@@ -72,6 +64,5 @@ for folder in folders:
 
 # and the file with main()
 sources.append('main.cu')
-env.Depends(sources, nvcc_options_file)
 tester = env.Program('tester', sources)
 
