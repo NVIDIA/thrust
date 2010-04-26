@@ -240,12 +240,9 @@ template<typename InputIterator,
         return init;
 
     // whether to perform blockwise reductions in shared memory or global memory
-    static const bool use_smem = sizeof(OutputType) <= 64;
+    thrust::detail::integral_constant<bool, sizeof(OutputType) <= 64> use_smem;
 
-    // XXX WAR nvcc 3.0 unused variable warning
-    (void) use_smem;
-
-    return detail::reduce_n(first, n, init, binary_op, thrust::detail::integral_constant<bool, use_smem>());
+    return detail::reduce_n(first, n, init, binary_op, use_smem);
 } // end reduce_n()
 
 } // end namespace cuda
