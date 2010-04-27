@@ -176,7 +176,7 @@ template<typename Engine, size_t p, size_t r>
      */
   private:
     base_type m_e;
-    int m_n;
+    unsigned int m_n;
 
     friend struct thrust::random::detail::random_core_access;
 
