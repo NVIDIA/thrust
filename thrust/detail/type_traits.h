@@ -282,7 +282,7 @@ struct any_conversion
 }; // end any_conversion
 
 template<typename From, typename To>
-  struct is_convertible_simple
+  struct is_convertible_sfinae
 {
   private:
     typedef char                          one_byte;
@@ -294,28 +294,38 @@ template<typename From, typename To>
 
   public:
     static const bool value = sizeof(test(m_from, 0)) == 1;
-}; // end is_convertible_simple
+}; // end is_convertible_sfinae
 
-template<typename From, typename To,
-         bool = (is_void<From>::value || is_void<To>::value
-              // XXX maybe implement this later but i don't think we need it for anything right now -jph
-              //|| is_function<To>::value || is_array<To>::value
-              || (is_floating_point<typename
-                  remove_reference<From>::type>::value
-                  && is_int_or_cref<To>::value))>
-  struct is_convertible
-{
-  static const bool value = (is_convertible_simple<typename
-                             add_reference<From>::type, To>::value);
-}; // end is_convertible
 
 template<typename From, typename To>
-  struct is_convertible<From, To, true>
+  struct is_convertible_needs_simple_test
+{
+  static const bool from_is_void      = is_void<From>::value;
+  static const bool to_is_void        = is_void<To>::value;
+  static const bool from_is_float     = is_floating_point<typename remove_reference<From>::type>::value;
+  static const bool to_is_int_or_cref = is_int_or_cref<To>::value;
+
+  static const bool value = (from_is_void || to_is_void || (from_is_float && to_is_int_or_cref));
+}; // end is_convertible_needs_simple_test
+
+
+template<typename From, typename To,
+         bool = is_convertible_needs_simple_test<From,To>::value>
+  struct is_convertible
 {
   static const bool value = (is_void<To>::value
                              || (is_int_or_cref<To>::value
                                  && !is_void<From>::value));
 }; // end is_convertible
+
+
+template<typename From, typename To>
+  struct is_convertible<From, To, false>
+{
+  static const bool value = (is_convertible_sfinae<typename
+                             add_reference<From>::type, To>::value);
+}; // end is_convertible
+
 
 } // end tt_detail
 
