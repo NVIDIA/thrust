@@ -326,16 +326,6 @@ Tuple operator+(const Tuple &lhs, const Tuple &rhs)
                     get<1>(lhs) + get<1>(rhs));
 }
 
-struct SortTuplesByFirst
-{
-  template<typename T1, typename T2>
-  __host__ __device__
-  bool operator()(T1 &lhs, T2 &rhs)
-  {
-    return get<0>(lhs) < get<0>(rhs);
-  }
-};
-
 struct MakeTupleFunctor
 {
   template<typename T1, typename T2>
@@ -378,10 +368,10 @@ struct TestTupleStableSort
      thrust::device_vector< tuple<T,T> > d_tuples = h_tuples;
 
      // sort on host
-     thrust::stable_sort(h_tuples.begin(), h_tuples.end(), SortTuplesByFirst());
+     thrust::stable_sort(h_tuples.begin(), h_tuples.end());
 
      // sort on device
-     thrust::stable_sort(d_tuples.begin(), d_tuples.end(), SortTuplesByFirst());
+     thrust::stable_sort(d_tuples.begin(), d_tuples.end());
 
      ASSERT_EQUAL(true, thrust::is_sorted(d_tuples.begin(), d_tuples.end()));
 
