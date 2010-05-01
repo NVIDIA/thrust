@@ -30,38 +30,39 @@ namespace detail
 {
 
 
-//template<typename UIntType, int w, bool = (w < std::numeric_limits<UIntType>::digits) >
-//  struct lshift
-//{
-//  static const UIntType value = 0;
-//};
-//
-//
-//template<typename UIntType, int w>
-//  struct lshift<UIntType, w, true>
-//{
-//  static const UIntType value = 1u << w;
-//};
-
-
 namespace math = thrust::detail::mpl::math;
 
 
+namespace detail
+{
+
 // two cases for this function avoids compile-time warnings of overflow
-template<typename UIntType, int w,
+template<typename UIntType, UIntType w,
          UIntType lhs, UIntType rhs,
-         bool = (rhs < w)>
+         bool shift_will_overflow>
   struct lshift_w
 {
   static const UIntType value = 0;
 };
 
 
-template<typename UIntType, int w,
+template<typename UIntType, UIntType w,
          UIntType lhs, UIntType rhs>
-  struct lshift_w<UIntType,w,lhs,rhs,true>
+  struct lshift_w<UIntType,w,lhs,rhs,false>
 {
   static const UIntType value = lhs << rhs;
+};
+
+} // end detail
+
+
+template<typename UIntType, UIntType w,
+         UIntType lhs, UIntType rhs>
+  struct lshift_w
+{
+  static const bool shift_will_overflow = rhs >= w;
+
+  static const UIntType value = detail::lshift_w<UIntType, w, lhs, rhs, shift_will_overflow>::value;
 };
 
 
