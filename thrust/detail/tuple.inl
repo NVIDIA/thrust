@@ -214,13 +214,6 @@ struct get_class<0>
 }; // get get_class<0>
 
 
-// a helper function to provide a const null_type type temporary
-__host__ __device__
-inline const null_type cnull()
-{
-  return null_type();
-}
-
 template <bool If, class Then, class Else> struct IF
 {
   typedef Then RET;
@@ -307,7 +300,7 @@ template <class HT, class TT>
   cons( T1& t1, T2& t2, T3& t3, T4& t4, T5& t5,
         T6& t6, T7& t7, T8& t8, T9& t9, T10& t10 )
     : head (t1),
-      tail (t2, t3, t4, t5, t6, t7, t8, t9, t10, cnull())
+      tail (t2, t3, t4, t5, t6, t7, t8, t9, t10, static_cast<const null_type&>(null_type()))
       {}
 
   template <class T2, class T3, class T4, class T5,
@@ -316,7 +309,7 @@ template <class HT, class TT>
   cons( const null_type& /*t1*/, T2& t2, T3& t3, T4& t4, T5& t5,
         T6& t6, T7& t7, T8& t8, T9& t9, T10& t10 )
     : head (),
-      tail (t2, t3, t4, t5, t6, t7, t8, t9, t10, cnull())
+      tail (t2, t3, t4, t5, t6, t7, t8, t9, t10, static_cast<const null_type&>(null_type()))
       {}
 
 

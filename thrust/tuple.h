@@ -198,33 +198,55 @@ template <class T0, class T1, class T2, class T3, class T4,
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0)
-    : inherited(t0, detail::cnull(), detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull()) {}
+    : inherited(t0,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
         typename access_traits<T1>::parameter_type t1)
-    : inherited(t0, t1, detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull()) {}
+    : inherited(t0, t1,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
         typename access_traits<T1>::parameter_type t1,
         typename access_traits<T2>::parameter_type t2)
-    : inherited(t0, t1, t2, detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull()) {}
+    : inherited(t0, t1, t2,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
         typename access_traits<T1>::parameter_type t1,
         typename access_traits<T2>::parameter_type t2,
         typename access_traits<T3>::parameter_type t3)
-    : inherited(t0, t1, t2, t3, detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull(),
-                detail::cnull()) {}
+    : inherited(t0, t1, t2, t3,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
@@ -232,8 +254,12 @@ template <class T0, class T1, class T2, class T3, class T4,
         typename access_traits<T2>::parameter_type t2,
         typename access_traits<T3>::parameter_type t3,
         typename access_traits<T4>::parameter_type t4)
-    : inherited(t0, t1, t2, t3, t4, detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull(), detail::cnull()) {}
+    : inherited(t0, t1, t2, t3, t4,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
@@ -242,8 +268,11 @@ template <class T0, class T1, class T2, class T3, class T4,
         typename access_traits<T3>::parameter_type t3,
         typename access_traits<T4>::parameter_type t4,
         typename access_traits<T5>::parameter_type t5)
-    : inherited(t0, t1, t2, t3, t4, t5, detail::cnull(), detail::cnull(),
-                detail::cnull(), detail::cnull()) {}
+    : inherited(t0, t1, t2, t3, t4, t5,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
@@ -253,8 +282,10 @@ template <class T0, class T1, class T2, class T3, class T4,
         typename access_traits<T4>::parameter_type t4,
         typename access_traits<T5>::parameter_type t5,
         typename access_traits<T6>::parameter_type t6)
-    : inherited(t0, t1, t2, t3, t4, t5, t6, detail::cnull(),
-                detail::cnull(), detail::cnull()) {}
+    : inherited(t0, t1, t2, t3, t4, t5, t6,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
@@ -265,8 +296,9 @@ template <class T0, class T1, class T2, class T3, class T4,
         typename access_traits<T5>::parameter_type t5,
         typename access_traits<T6>::parameter_type t6,
         typename access_traits<T7>::parameter_type t7)
-    : inherited(t0, t1, t2, t3, t4, t5, t6, t7, detail::cnull(),
-                detail::cnull()) {}
+    : inherited(t0, t1, t2, t3, t4, t5, t6, t7,
+                static_cast<const null_type&>(null_type()),
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
@@ -278,7 +310,8 @@ template <class T0, class T1, class T2, class T3, class T4,
         typename access_traits<T6>::parameter_type t6,
         typename access_traits<T7>::parameter_type t7,
         typename access_traits<T8>::parameter_type t8)
-    : inherited(t0, t1, t2, t3, t4, t5, t6, t7, t8, detail::cnull()) {}
+    : inherited(t0, t1, t2, t3, t4, t5, t6, t7, t8,
+                static_cast<const null_type&>(null_type())) {}
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
