@@ -202,7 +202,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         UnitTest * test = tests_to_run[i];
 
         if (verbose)
-            std::cout << "Running " << test->name << "\r" << std::flush;
+            std::cout << "Running " << test->name << "..." << std::flush;
 
         try
         {
@@ -234,13 +234,13 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
                 switch(test_results.back().status)
                 {
                     case Pass:
-                        std::cout << "[PASS]             "; break;
+                        std::cout << "\r[PASS]             "; break;
                     case Failure:
-                        std::cout << "[FAILURE]          "; break;
+                        std::cout << "\r[FAILURE]          "; break;
                     case KnownFailure:
-                        std::cout << "[KNOWN FAILURE]    "; break;
+                        std::cout << "\r[KNOWN FAILURE]    "; break;
                     case Error:
-                        std::cout << "[ERROR]            "; break;
+                        std::cout << "\r[ERROR]            "; break;
                     default:
                         break;
                 }
