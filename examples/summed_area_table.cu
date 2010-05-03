@@ -52,10 +52,10 @@ void transpose(size_t m, size_t n, thrust::device_vector<T>& src, thrust::device
 {
     thrust::counting_iterator<size_t> indices(0);
     
-    thrust::next::gather(thrust::make_transform_iterator(indices, transpose_index(n, m)),
-                         thrust::make_transform_iterator(indices, transpose_index(n, m)) + dst.size(),
-                         src.begin(),
-                         dst.begin());
+    thrust::gather(thrust::make_transform_iterator(indices, transpose_index(n, m)),
+                   thrust::make_transform_iterator(indices, transpose_index(n, m)) + dst.size(),
+                   src.begin(),
+                   dst.begin());
 }
 
 

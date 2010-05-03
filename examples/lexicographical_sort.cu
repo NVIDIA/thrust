@@ -18,7 +18,7 @@ void update_permutation(KeyVector& keys, PermutationVector& permutation)
     KeyVector temp(keys.size());
 
     // permute the keys with the current reordering
-    thrust::next::gather(permutation.begin(), permutation.end(), keys.begin(), temp.begin());
+    thrust::gather(permutation.begin(), permutation.end(), keys.begin(), temp.begin());
 
     // stable_sort the permuted keys and update the permutation
     thrust::stable_sort_by_key(temp.begin(), temp.end(), permutation.begin());
@@ -32,7 +32,7 @@ void apply_permutation(KeyVector& keys, PermutationVector& permutation)
     KeyVector temp(keys.begin(), keys.end());
 
     // permute the keys
-    thrust::next::gather(permutation.begin(), permutation.end(), temp.begin(), keys.begin());
+    thrust::gather(permutation.begin(), permutation.end(), temp.begin(), keys.begin());
 }
 
 

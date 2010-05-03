@@ -486,9 +486,9 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   // XXX we could encapsulate this gather in a permutation_iterator,
   //     but the call to unique before confounds us a little
   raw_buffer<value_type, cuda_device_space_tag> partition_values(num_partitions);
-  thrust::next::gather(partition_begin_indices1_guess, partition_begin_indices1_guess + partition_values.size(),
-                       first1,
-                       partition_values.begin());
+  thrust::gather(partition_begin_indices1_guess, partition_begin_indices1_guess + partition_values.size(),
+                 first1,
+                 partition_values.begin());
 
   // we require the partition splitters to be unique
   typename raw_buffer<value_type, cuda_device_space_tag>::iterator end = 

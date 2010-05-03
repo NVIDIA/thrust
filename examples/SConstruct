@@ -1,4 +1,5 @@
 import os
+import inspect
 import glob
 
 # try to import an environment first
@@ -12,23 +13,15 @@ except:
 if env['PLATFORM'] == "darwin":
   env.Append(LINKFLAGS = "-lstdc++")
 
-# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
-nvcc_options_file = env.Command('../build/nvcc_options_file.txt',
-                                env.Program('../build/print_sm_version.cpp'),
-                                os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > nvcc_options_file.txt'))
-
-env.Append(NVCCFLAGS = ['-optf=nvcc_options_file.txt'])
-
-# find all .cus in the current directory
+# find all .cus & .cpps in the current directory
 sources = []
-extensions = ['.cu']
-for ext in extensions:
-  pattern = os.path.join(os.getcwd(), "*" + ext)
-  for fullpath in glob.glob(pattern):
-    basename = os.path.basename(fullpath)
-    sources.append(basename)
-
-env.Depends(sources, nvcc_options_file)
+directories = ['.', 'cuda']
+extensions = ['*.cu', '*.cpp']
+for dir in directories:
+  for ext in extensions:
+    regexp = os.path.join(dir, ext)
+    #sources.extend(env.Glob(regexp, strings = True))
+    sources.extend(glob.glob(regexp))
 
 # compile examples
 for src in sources:

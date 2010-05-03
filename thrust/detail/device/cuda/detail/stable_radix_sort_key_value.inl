@@ -166,12 +166,12 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
     thrust::detail::raw_cuda_device_buffer<ValueType> permuted_values(num_elements);
 
     // XXX these gathers could be fused with zip_iterator
-    thrust::next::gather(permutation.begin(), permutation.end(),
-                         thrust::device_ptr<KeyType>(keys),
-                         permuted_keys.begin());
-    thrust::next::gather(permutation.begin(), permutation.end(),
-                         thrust::device_ptr<ValueType>(values),
-                         permuted_values.begin());
+    thrust::gather(permutation.begin(), permutation.end(),
+                   thrust::device_ptr<KeyType>(keys),
+                   permuted_keys.begin());
+    thrust::gather(permutation.begin(), permutation.end(),
+                   thrust::device_ptr<ValueType>(values),
+                   permuted_values.begin());
 
     // now sort on the upper 32 bits of the keys
     thrust::transform(permuted_keys.begin(),
@@ -186,12 +186,12 @@ void stable_radix_sort_key_value_large_dev(KeyType * keys, ValueType * values, u
 
     // store sorted keys and values
     // XXX these gathers could be fused with zip_iterator
-    thrust::next::gather(permutation.begin(), permutation.end(),
-                         permuted_keys.begin(),
-                         thrust::device_ptr<KeyType>(keys));
-    thrust::next::gather(permutation.begin(), permutation.end(),
-                         permuted_values.begin(),
-                         thrust::device_ptr<ValueType>(values));
+    thrust::gather(permutation.begin(), permutation.end(),
+                   permuted_keys.begin(),
+                   thrust::device_ptr<KeyType>(keys));
+    thrust::gather(permutation.begin(), permutation.end(),
+                   permuted_values.begin(),
+                   thrust::device_ptr<ValueType>(values));
 }
 
     
@@ -264,9 +264,9 @@ void stable_radix_sort_key_value_dev_native_values(KeyType * keys, ValueIterator
     thrust::detail::raw_cuda_device_buffer<ValueType> temp_values(values, values + num_elements);
    
     // permute values
-    thrust::next::gather(permutation.begin(), permutation.end(),
-                         temp_values.begin(),
-                         values);
+    thrust::gather(permutation.begin(), permutation.end(),
+                   temp_values.begin(),
+                   values);
 }
 
 
