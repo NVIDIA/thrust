@@ -38,7 +38,7 @@ int main(void)
         y[i] = rand() / (RAND_MAX + 1.0f);
     }
 
-    // print the inital points
+    // print the initial points
     std::cout << "Generated " << N << " points" << std::endl;
     for(size_t i = 0; i < N; i++)
         std::cout << "(" << x[i] << "," << y[i] << ")" << std::endl;
