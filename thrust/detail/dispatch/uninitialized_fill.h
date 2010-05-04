@@ -75,11 +75,7 @@ template<typename ForwardIterator,
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
-  // XXX nvcc 3.0b can compile this, but leave it out until 3.0 final
-  //thrust::for_each(first, last, detail::copy_constructor<ValueType>(x));
-
-  // fallback to fill
-  thrust::fill(first, last, x);
+  thrust::for_each(first, last, detail::copy_constructor<ValueType>(x));
 } // end uninitialized_fill()
 
 } // end dispatch
