@@ -38,12 +38,13 @@ namespace cuda
 template<unsigned int DummyParameterToAvoidInstantiation>
 void free(thrust::device_ptr<void> ptr)
 {
-  cudaError_t error = cudaFree(ptr.get());
-
-  if(error)
-  {
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
-  } // end error
+    cudaFree(ptr.get());
+//  cudaError_t error = cudaFree(ptr.get());
+//
+//  if(error)
+//  {
+//    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
+//  } // end error
 } // end free()
 
 } // end namespace cuda
