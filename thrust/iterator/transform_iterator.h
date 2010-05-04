@@ -118,8 +118,8 @@ namespace thrust
  *    thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
  *    v[1] = 2.0f;
- *    v[3] = 3.0f;
- *    v[4] = 4.0f;
+ *    v[2] = 3.0f;
+ *    v[3] = 4.0f;
  *
  *    float sum_of_squares =
  *     thrust::reduce(thrust::make_transform_iterator(v.begin(), square()),
