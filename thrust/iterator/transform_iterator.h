@@ -62,9 +62,9 @@ namespace thrust
  *  \code
  *  #include <thrust/iterator/transform_iterator.h>
  *  #include <thrust/device_vector.h>
- *  #include <math.h>
- *  ...
- *  struct square_root
+ *  
+ *  // note: functor inherits from unary_function
+ *  struct square_root : public thrust::unary_function<float,float>
  *  {
  *    __host__ __device__
  *    float operator()(float x) const
@@ -72,24 +72,27 @@ namespace thrust
  *      return sqrtf(x);
  *    }
  *  };
- *  ...
- *  thrust::device_vector<float> v(4);
- *  v[0] = 1.0f;
- *  v[1] = 4.0f;
- *  v[2] = 9.0f;
- *  v[3] = 16.0f;
- *
- *  typedef thrust::device_vector<float>::iterator FloatIterator;
- *
- *  thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
- *
- *  *iter;   // returns 1.0f
- *  iter[0]; // returns 1.0f;
- *  iter[1]; // returns 2.0f;
- *  iter[2]; // returns 3.0f;
- *  iter[3]; // returns 4.0f;
- *
- *  // iter[4] is an out-of-bounds error
+ *  
+ *  int main(void)
+ *  {
+ *      thrust::device_vector<float> v(4);
+ *      v[0] = 1.0f;
+ *      v[1] = 4.0f;
+ *      v[2] = 9.0f;
+ *      v[3] = 16.0f;
+ *                                                                                             
+ *      typedef thrust::device_vector<float>::iterator FloatIterator;
+ *                                                                                             
+ *      thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
+ *                                                                                             
+ *      *iter;   // returns 1.0f
+ *      iter[0]; // returns 1.0f;
+ *      iter[1]; // returns 2.0f;
+ *      iter[2]; // returns 3.0f;
+ *      iter[3]; // returns 4.0f;
+ *                                                                                             
+ *      // iter[4] is an out-of-bounds error
+ *  }
  *  \endcode
  *
  *  This next example demonstrates how to use a \p transform_iterator with the
@@ -102,8 +105,9 @@ namespace thrust
  *  #include <thrust/device_vector.h>
  *  #include <thrust/reduce.h>
  *  #include <iostream>
- *
- *  struct square
+ *  
+ *  // note: functor inherits from unary_function
+ *  struct square : public thrust::unary_function<float,float>
  *  {
  *    __host__ __device__
  *    float operator()(float x) const
@@ -111,7 +115,7 @@ namespace thrust
  *      return x * x;
  *    }
  *  };
- *
+ *  
  *  int main(void)
  *  {
  *    // initialize a device array
@@ -120,11 +124,11 @@ namespace thrust
  *    v[1] = 2.0f;
  *    v[2] = 3.0f;
  *    v[3] = 4.0f;
- *
+ *  
  *    float sum_of_squares =
  *     thrust::reduce(thrust::make_transform_iterator(v.begin(), square()),
  *                    thrust::make_transform_iterator(v.end(),   square()));
- *
+ *  
  *    std::cout << "sum of squares: " << sum_of_squares << std::endl;
  *    return 0;
  *  }
