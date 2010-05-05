@@ -78,10 +78,6 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/is_sorted.html
  *  \see \c sort
  *  \see \c stable_sort
- *  \see \c sorting::merge_sort
- *  \see \c sorting::stable_merge_sort
- *  \see \c sorting::radix_sort
- *  \see \c sorting::stable_radix_sort
  *  \see \c less<T>
  */
 template <typename ForwardIterator>
@@ -134,8 +130,6 @@ bool is_sorted(ForwardIterator first, ForwardIterator last);
  *  \see http://www.sgi.com/tech/stl/is_sorted.html
  *  \see \c sort
  *  \see \c stable_sort
- *  \see \c sorting::merge_sort
- *  \see \c sorting::stable_merge_sort
  *  \see \c less<T>
  */
 template <typename ForwardIterator, typename StrictWeakOrdering>

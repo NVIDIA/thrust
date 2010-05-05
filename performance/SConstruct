@@ -29,12 +29,6 @@ report_builder = Builder(action = os.path.join('"' + env.GetLaunchDir(), '$SOURC
                          src_suffix = env['PROGSUFFIX'])
 env.Append(BUILDERS = {'Report' : report_builder})
 
-# build and run the program that divines the version of the SM on gpu 0 of the build/test machine
-nvcc_options_file = env.Command('nvcc_options_file.txt',
-                                env.Program('../build/print_sm_version.cpp'),
-                                os.path.join('"' + env.GetLaunchDir(), '../build/print_sm_version" > nvcc_options_file.txt'))
-
-env.Append(NVCCFLAGS = ['-optf=nvcc_options_file.txt'])
 env.Append(CPPPATH = ['../testing/'])
 
 cu_list = []
@@ -45,10 +39,9 @@ build_files = [os.path.join('build', f) for f in ['perftest.py', 'test_function_
 
 # describe dependency graph:
 # report -> program -> .cu -> .test
-#                        \ -> nvcc_options_file
 for test in glob.glob("*.test"):
   cu = env.CUFile(test)
-  env.Depends(cu, [nvcc_options_file] + build_files)
+  env.Depends(cu, build_files)
   cu_list.append(cu)
 
   prog = env.Program(cu)
