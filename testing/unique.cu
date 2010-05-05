@@ -178,6 +178,8 @@ void initialize_values(Vector& values)
 template<typename Vector>
 void TestUniqueByKeySimple(void)
 {
+// XXX disable tests on 3.1
+#if defined(__CUDACC__) && CUDA_VERSION!=3010
     typedef typename Vector::value_type T;
 
     Vector keys;
@@ -218,6 +220,9 @@ void TestUniqueByKeySimple(void)
     ASSERT_EQUAL(values[0], 0);
     ASSERT_EQUAL(values[1], 2);
     ASSERT_EQUAL(values[2], 7);
+#else
+	KNOWN_FAILURE;
+#endif //#if defined(__CUDACC__) && CUDA_VERSION!=3010
 }
 DECLARE_VECTOR_UNITTEST(TestUniqueByKeySimple);
 
@@ -225,6 +230,8 @@ DECLARE_VECTOR_UNITTEST(TestUniqueByKeySimple);
 template<typename Vector>
 void TestUniqueCopyByKeySimple(void)
 {
+// XXX disable tests on 3.1
+#if defined(__CUDACC__) && CUDA_VERSION!=3010
     typedef typename Vector::value_type T;
 
     Vector keys;
@@ -268,6 +275,9 @@ void TestUniqueCopyByKeySimple(void)
     ASSERT_EQUAL(output_values[0], 0);
     ASSERT_EQUAL(output_values[1], 2);
     ASSERT_EQUAL(output_values[2], 7);
+#else
+	KNOWN_FAILURE;
+#endif //#if defined(__CUDACC__) && CUDA_VERSION!=3010
 }
 DECLARE_VECTOR_UNITTEST(TestUniqueCopyByKeySimple);
 
@@ -277,6 +287,8 @@ struct TestUniqueByKey
 {
     void operator()(const size_t n)
     {
+// XXX disable tests on 3.1
+#if defined(__CUDACC__) && CUDA_VERSION!=3010
         typedef unsigned int V; // ValueType
 
         thrust::host_vector<K>   h_keys = unittest::random_integers<bool>(n);
@@ -307,6 +319,9 @@ struct TestUniqueByKey
 
         ASSERT_EQUAL(h_keys, d_keys);
         ASSERT_EQUAL(h_vals, d_vals);
+#else
+	KNOWN_FAILURE;
+#endif //#if defined(__CUDACC__) && CUDA_VERSION!=3010
     }
 };
 VariableUnitTest<TestUniqueByKey, IntegralTypes> TestUniqueByKeyInstance;
@@ -317,6 +332,8 @@ struct TestUniqueCopyByKey
 {
     void operator()(const size_t n)
     {
+// XXX disable tests on 3.1
+#if defined(__CUDACC__) && CUDA_VERSION!=3010
         typedef unsigned int V; // ValueType
 
         thrust::host_vector<K>   h_keys = unittest::random_integers<bool>(n);
@@ -352,6 +369,9 @@ struct TestUniqueCopyByKey
 
         ASSERT_EQUAL(h_keys_output, d_keys_output);
         ASSERT_EQUAL(h_vals_output, d_vals_output);
+#else
+	KNOWN_FAILURE;
+#endif //#if defined(__CUDACC__) && CUDA_VERSION!=3010
     }
 };
 VariableUnitTest<TestUniqueCopyByKey, IntegralTypes> TestUniqueCopyByKeyInstance;
