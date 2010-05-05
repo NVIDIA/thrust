@@ -352,7 +352,7 @@ void TestEngineUnequal(void)
 }
 
 // XXX disable ranlux tests for now (Thrust issue #124)
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
 void TestRanlux24BaseValidation(void)
 {
   typedef thrust::random::ranlux24_base Engine;
@@ -459,7 +459,7 @@ void TestRanlux48BaseUnequal(void)
   TestEngineUnequal<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48BaseUnequal);
-#endif //if defined(__CUDACC__) && CUDA_VERSION==3010
+#endif //if defined(__CUDACC__) && CUDA_VERSION==3000
 
 
 void TestMinstdRandValidation(void)
@@ -623,7 +623,7 @@ void TestTaus88Unequal(void)
 }
 DECLARE_UNITTEST(TestTaus88Unequal);
 
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
 void TestRanlux24Validation(void)
 {
   typedef thrust::random::ranlux24 Engine;
@@ -731,7 +731,7 @@ void TestRanlux48Unequal(void)
   TestEngineUnequal<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48Unequal);
-#endif //#if defined(__CUDACC__) && CUDA_VERSION==3010
+#endif //#if defined(__CUDACC__) && CUDA_VERSION==3000
 
 
 template<typename Distribution, typename Validator>

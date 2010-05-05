@@ -532,7 +532,7 @@ void TestVectorResizing(void)
     ASSERT_EQUAL(v.size(), 0);
 
 // TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
     // depending on sizeof(T), we will receive one
     // of two possible exceptions
     try
@@ -545,7 +545,7 @@ void TestVectorResizing(void)
       // reset the CUDA error
       cudaGetLastError();
     } // end catch
-#endif // defined(__CUDACC__) && CUDA_VERSION!=3010
+#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
     ASSERT_EQUAL(v.size(), 0);
 }
@@ -571,14 +571,14 @@ void TestVectorReserving(void)
     ASSERT_EQUAL(v.capacity(), old_capacity);
 
 // TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
     try
     {
       v.reserve(std::numeric_limits<size_t>::max());
     }
     catch(std::length_error e) {}
     catch(std::bad_alloc e) {}
-#endif // defined(__CUDACC__) && CUDA_VERSION!=3010
+#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
     ASSERT_EQUAL(v.capacity(), old_capacity);
 }

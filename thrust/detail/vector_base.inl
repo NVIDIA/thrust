@@ -676,12 +676,12 @@ template<typename T, typename Alloc>
       new_capacity = std::min<size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
       if(new_capacity > max_size())
       {
         throw std::length_error("insert(): insertion exceeds max_size().");
       } // end if
-#endif // defined(__CUDACC__) && CUDA_VERSION!=3010
+#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
       iterator new_begin = mAllocator.allocate(new_capacity);
       iterator new_end = new_begin;
@@ -791,12 +791,12 @@ template<typename T, typename Alloc>
       new_capacity = std::min<size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
       if(new_capacity > max_size())
       {
         throw std::length_error("insert(): insertion exceeds max_size().");
       } // end if
-#endif // defined(__CUDACC__) && CUDA_VERSION!=3010
+#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
       iterator new_begin = mAllocator.allocate(new_capacity);
       iterator new_end = new_begin;
@@ -996,12 +996,12 @@ template<typename T, typename Alloc>
   allocated_size = std::min<size_type>(allocated_size, max_size());
 
 // TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION!=3010
+#if defined(__CUDACC__) && CUDA_VERSION==3000
   if(requested_size > allocated_size)
   {
     throw std::length_error("assignment exceeds max_size().");
   } // end if
-#endif // defined(__CUDACC__) && CUDA_VERSION!=3010
+#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
   new_storage = mAllocator.allocate(allocated_size);
 
