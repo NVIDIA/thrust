@@ -26,22 +26,6 @@
 namespace thrust
 {
 
-namespace detail
-{
-
-template<typename T>
-  struct equal_to_value
-{
-  equal_to_value(const T &v):value(v){}
-
-  __host__ __device__
-  inline bool operator()(const T &x) { return x == value; }
-
-  const T value;
-}; // end equal_to_value
-
-} // end detail
-
 template<typename ForwardIterator,
          typename T>
   ForwardIterator remove(ForwardIterator first,

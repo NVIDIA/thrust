@@ -21,8 +21,10 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/device/scan.h>
 #include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/internal_functional.h>
+
+#include <thrust/detail/device/scan.h>
 
 namespace thrust
 {
@@ -78,7 +80,7 @@ template<typename InputIterator1,
 
         // compute head flags
         thrust::detail::raw_buffer<HeadFlagType,Space> flags(n);
-        flags[0] = 1; thrust::transform(first2, first2 + (n - 1), first2 + 1, flags.begin() + 1, thrust::not2(pred));
+        flags[0] = 1; thrust::transform(first2, first2 + (n - 1), first2 + 1, flags.begin() + 1, thrust::detail::not2(pred));
 
         // scan key-flag tuples, 
         // For additional details refer to Section 2 of the following paper
@@ -122,7 +124,7 @@ template<typename InputIterator1,
 
         // compute head flags
         thrust::detail::raw_buffer<HeadFlagType,Space> flags(n);
-        flags[0] = 1; thrust::transform(first2, last2 - 1, first2 + 1, flags.begin() + 1, thrust::not2(pred));
+        flags[0] = 1; thrust::transform(first2, last2 - 1, first2 + 1, flags.begin() + 1, thrust::detail::not2(pred));
 
         // shift input one to the right and initialize segments with init
         thrust::detail::raw_buffer<OutputType,Space> temp(n);

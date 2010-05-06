@@ -19,10 +19,61 @@
  *  \brief Non-public functionals used to implement algorithm internals.
  */
 
+#pragma once
+
 namespace thrust
 {
 namespace detail
 {
+
+// unary_negate does not need to know argument_type
+template <typename Predicate>
+struct unary_negate
+{
+    Predicate pred;
+
+    __host__ __device__
+    explicit unary_negate(const Predicate& pred) : pred(pred) {}
+
+    template <typename T>
+        __host__ __device__
+        bool operator()(const T& x)
+        {
+            return !pred(x);
+        }
+};
+
+// binary_negate does not need to know first_argument_type or second_argument_type
+template <typename Predicate>
+struct binary_negate
+{
+    Predicate pred;
+
+    __host__ __device__
+    explicit binary_negate(const Predicate& pred) : pred(pred) {}
+
+    template <typename T1, typename T2>
+        __host__ __device__
+        bool operator()(const T1& x, const T2& y)
+        {
+            return !pred(x,y);
+        }
+};
+
+template<typename Predicate>
+  __host__ __device__
+  thrust::detail::unary_negate<Predicate> not1(const Predicate &pred)
+{
+    return thrust::detail::unary_negate<Predicate>(pred);
+}
+
+template<typename Predicate>
+  __host__ __device__
+  thrust::detail::binary_negate<Predicate> not2(const Predicate &pred)
+{
+    return thrust::detail::binary_negate<Predicate>(pred);
+}
+
 
 // note that detail::equal_to does not force conversion from T2 -> T1 as equal_to does
 template <typename T1>

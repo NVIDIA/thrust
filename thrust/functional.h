@@ -777,16 +777,16 @@ template<typename T1, typename T2>
  *  \see not1
  */
 template<typename Predicate>
-struct unary_negate
+struct unary_negate 
+    : public thrust::unary_function<typename Predicate::argument_type, bool>
 {
   __host__ __device__
-  unary_negate(Predicate p) : pred(p){}
+  explicit unary_negate(Predicate p) : pred(p){}
 
   /*! Function call operator. The return value is <tt>!pred(x)</tt>.
    */
-  template<typename T>
   __host__ __device__
-  bool operator()(const T x) { return !pred(x); }
+  bool operator()(const typename Predicate::argument_type& x) { return !pred(x); }
 
   Predicate pred;
 }; // end unary_negate
@@ -823,15 +823,20 @@ template<typename Predicate>
  */
 template<typename Predicate>
 struct binary_negate
+    : public thrust::binary_function<typename Predicate::first_argument_type,
+                                     typename Predicate::second_argument_type,
+                                     bool>
 {
   __host__ __device__
-  binary_negate(Predicate p) : pred(p){}
+  explicit binary_negate(Predicate p) : pred(p){}
 
   /*! Function call operator. The return value is <tt>!pred(x,y)</tt>.
    */
-  template<typename T>
   __host__ __device__
-  bool operator()(const T x, const T y) { return !pred(x,y); }
+  bool operator()(const typename Predicate::first_argument_type& x, const typename Predicate::second_argument_type& y)
+  { 
+      return !pred(x,y); 
+  }
 
   Predicate pred;
 }; // end binary_negate

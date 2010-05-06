@@ -21,11 +21,11 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/functional.h>
 #include <thrust/transform.h>
 #include <thrust/scan.h>
 #include <thrust/scatter.h>
 
+#include <thrust/detail/internal_functional.h>
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
@@ -89,7 +89,7 @@ template<typename InputIterator1,
   if(n > 0)
   {
     // negate the predicate -- this tells us which elements to keep
-    thrust::unary_negate<Predicate> not_pred(pred);
+    thrust::detail::unary_negate<Predicate> not_pred(pred);
 
     // evaluate not_pred on [begin,end), store result to temp vector
     thrust::detail::raw_buffer<difference_type,Space> result_of_not_pred(n);

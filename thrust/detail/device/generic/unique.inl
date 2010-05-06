@@ -24,9 +24,10 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/transform.h>
 #include <thrust/scatter.h>
-#include <thrust/functional.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <limits>
+
+#include <thrust/detail/internal_functional.h>
 
 #include <thrust/detail/device/scan.h>
 #include <thrust/detail/device/copy.h>
@@ -63,8 +64,7 @@ OutputIterator unique_copy(InputIterator first,
     IndexBuffer is_first(n), scatter_to(n);
 
     // mark first element in each group
-    thrust::binary_negate<BinaryPredicate> not_binary_pred(binary_pred);
-    thrust::transform(first, last - 1, first + 1, is_first.begin() + 1, not_binary_pred); 
+    thrust::transform(first, last - 1, first + 1, is_first.begin() + 1, thrust::detail::not2(binary_pred)); 
 
     // ignore the first element for now 
     is_first[0] = 0; 
@@ -194,12 +194,12 @@ template <typename InputIterator1,
     
     // compute head flags
     thrust::detail::raw_buffer<FlagType,Space> head_flags(n);
-    thrust::transform(keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::not2(binary_pred));
+    thrust::transform(keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
     thrust::detail::raw_buffer<FlagType,Space> tail_flags(n); //COPY INSTEAD OF TRANSFORM
-    thrust::transform(keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::not2(binary_pred));
+    thrust::transform(keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag

@@ -17,9 +17,9 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/functional.h>
 #include <thrust/remove.h>
 
+#include <thrust/detail/internal_functional.h>
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
@@ -54,7 +54,7 @@ template<typename ForwardIterator1,
                                          ForwardIterator2 result,
                                          Predicate pred)
 {
-  thrust::unary_negate<Predicate> not_pred(pred);
+  thrust::detail::unary_negate<Predicate> not_pred(pred);
 
   // remove_copy_if the false partition to result
   ForwardIterator2 end_of_true_partition = thrust::remove_copy_if(first, last, result, not_pred);
