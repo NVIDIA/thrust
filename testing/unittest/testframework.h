@@ -107,17 +107,24 @@ class UnitTest {
         UnitTest() {}
         UnitTest(const char * name);
         virtual void run() {};
+
+        bool operator<(const UnitTest& u) const 
+        {
+            return name < u.name;
+        }
 };
 
-class UnitTestDriver {
-  std::vector<UnitTest *> _test_list;
 
-  bool run_tests(const std::vector<UnitTest *> &tests, const ArgumentMap& kwargs);
+class UnitTestDriver {
+  std::vector<UnitTest> test_list;
+
+  bool run_tests(std::vector<UnitTest> &tests, const ArgumentMap& kwargs);
 
 public:
     
-  void register_test(UnitTest *);
+  void register_test(const UnitTest& test);
   bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
+  void list_tests(void); 
 
   static UnitTestDriver &s_driver();
 };

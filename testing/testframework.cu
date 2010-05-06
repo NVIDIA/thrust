@@ -8,14 +8,14 @@
 #include <string>
 
 
-void UnitTestDriver::register_test(UnitTest *test)
+void UnitTestDriver::register_test(const UnitTest& test)
 {
-    UnitTestDriver::s_driver()._test_list.push_back(test);
+    UnitTestDriver::s_driver().test_list.push_back(test);
 }
 
 UnitTest::UnitTest(const char * _name) : name(_name)
 {
-  UnitTestDriver::s_driver().register_test(this);
+  UnitTestDriver::s_driver().register_test(*this);
 }
 
 
@@ -50,9 +50,10 @@ void usage(int argc, char** argv)
     std::cout << "Usage:\n";
     std::cout << "\t" << argv[0] << "\n";
     std::cout << "\t" << argv[0] << " TestName1 [TestName2 ...] \n";
-    std::cout << "\t" << argv[0] << " PartialTestName1 [PartialTestName2 ...] \n";
+    std::cout << "\t" << argv[0] << " PartialTestName1* [PartialTestName2* ...] \n";
     std::cout << "\t" << argv[0] << " --device=1\n";
     std::cout << "\t" << argv[0] << " --verbose or --concise\n";
+    std::cout << "\t" << argv[0] << " --list\n";
     std::cout << "\t" << argv[0] << " --help\n";
 }
 
@@ -99,12 +100,12 @@ struct TestResult
     std::string name;
     std::string message;
     
-    TestResult(const TestStatus status, const UnitTest * u)
-        : status(status), name(u->name)
+    TestResult(const TestStatus status, const UnitTest& u)
+        : status(status), name(u.name)
     { }
 
-    TestResult(const TestStatus status, const UnitTest * u, const unittest::UnitTestException& e)
-        : status(status), name(u->name), message(e.message)
+    TestResult(const TestStatus status, const UnitTest& u, const unittest::UnitTestException& e)
+        : status(status), name(u.name), message(e.message)
     { }
 
     bool operator<(const TestResult& tr) const
@@ -167,7 +168,18 @@ void report_results(std::vector< TestResult >& test_results)
     std::cout << num_errors << " errors" << std::endl;
 }
 
-bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, const ArgumentMap& kwargs)
+
+void UnitTestDriver::list_tests(void)
+{
+    // sort tests by name for deterministic results
+    std::sort(test_list.begin(), test_list.end());
+
+    for(size_t i = 0; i < test_list.size(); i++)
+        std::cout << test_list[i].name << std::endl;
+}
+
+
+bool UnitTestDriver::run_tests(std::vector<UnitTest>& tests_to_run, const ArgumentMap& kwargs)
 {
     bool verbose = kwargs.count("verbose");
     bool concise = kwargs.count("concise");
@@ -199,15 +211,15 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
 
 
     for(size_t i = 0; i < tests_to_run.size(); i++){
-        UnitTest * test = tests_to_run[i];
+        UnitTest& test = tests_to_run[i];
 
         if (verbose)
-            std::cout << "Running " << test->name << "..." << std::flush;
+            std::cout << "Running " << test.name << "..." << std::flush;
 
         try
         {
             // run the test
-            test->run();
+            test.run();
 
             // test passed
             record_result(TestResult(Pass, test), test_results);
@@ -245,7 +257,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
                         break;
                 }
 
-                std::cout << " " << test->name << std::endl;
+                std::cout << " " << test.name << std::endl;
             }
             else
             {
@@ -271,7 +283,7 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
         {
             if (!concise)
             {
-                std::cout << "\t[ERROR] CUDA Error detected after running " << test->name << ": [";
+                std::cout << "\t[ERROR] CUDA Error detected after running " << test.name << ": [";
                 std::cout << std::string(cudaGetErrorString(error));
                 std::cout << "]" << std::endl;
             }
@@ -296,59 +308,68 @@ bool UnitTestDriver::run_tests(const std::vector<UnitTest *> &tests_to_run, cons
 }
 
 
-// for sorting UnitTests by name
-struct UnitTest_name_cmp
-{
-    bool operator()(const UnitTest * a, const UnitTest * b) const {
-        return a->name < b->name;
-    }
-
-};
-
-
 bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwargs)
 {
     // sort tests by name for deterministic results
-    std::sort(_test_list.begin(), _test_list.end(), UnitTest_name_cmp());
+    std::sort(test_list.begin(), test_list.end());
 
     if (args.empty())
     {
         // run all tests
-        return run_tests(_test_list, kwargs);
+        return run_tests(test_list, kwargs);
     }
     else
     {
         // all non-keyword arguments are assumed to be test names or partial test names
 
-        typedef std::map<std::string, UnitTest*> TestMap;
-        typedef TestMap::iterator                TestMapIterator;
+        typedef std::map<std::string, UnitTest> TestMap;
+        typedef TestMap::iterator               TestMapIterator;
 
         TestMap test_map;
-        for(size_t i = 0; i < _test_list.size(); i++)
-            test_map[_test_list[i]->name] = _test_list[i];
+        for(size_t i = 0; i < test_list.size(); i++)
+            test_map[test_list[i].name] = test_list[i];
       
         // vector to accumulate tests
-        std::vector<UnitTest *> tests_to_run;
+        std::vector<UnitTest> tests_to_run;
 
         for(ArgumentSet::const_iterator iter = args.begin(); iter != args.end(); iter++)
         {
-            TestMapIterator lb = test_map.lower_bound(*iter);
+            const std::string& arg = *iter;
 
-            size_t len = iter->size();
+            size_t len = arg.size();
             size_t matches = 0;
 
-            while(lb != test_map.end())
+            if (arg[len-1] == '*')
             {
-                if (*iter != lb->first.substr(0,len))
-                    break;
+                // wildcard search
+                std::string search = arg.substr(0,len-1);
 
-                tests_to_run.push_back(lb->second); 
-                lb++;
-                matches++;
+                TestMapIterator lb = test_map.lower_bound(search);
+                while(lb != test_map.end())
+                {
+                    if (search != lb->first.substr(0,len-1))
+                        break;
+
+                    tests_to_run.push_back(lb->second); 
+                    lb++;
+                    matches++;
+                }
+            }
+            else
+            {
+                // non-wildcard search
+                TestMapIterator lb = test_map.find(arg);
+
+                if (lb != test_map.end())
+                {
+                    tests_to_run.push_back(lb->second); 
+                    matches++;
+                }
             }
 
+
             if (matches == 0)
-                std::cout << "[WARNING] found no test matching the name: " << *iter << std::endl;
+                std::cout << "[WARNING] found no test names matching the pattern: " << arg << std::endl;
         }
 
         return run_tests(tests_to_run, kwargs);
@@ -372,6 +393,12 @@ int main(int argc, char **argv)
     if(kwargs.count("help"))
     {
         usage(argc, argv);
+        return 0;
+    }
+
+    if(kwargs.count("list"))
+    {
+        UnitTestDriver::s_driver().list_tests();
         return 0;
     }
 
