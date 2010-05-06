@@ -44,7 +44,7 @@ class cuda_error_category
     {
       static const std::string unknown_err("Unknown error");
       const char *c_str = ::cudaGetLastError();
-      return c_tr ? std::string(c_str) : unknown_err;
+      return c_str ? std::string(c_str) : unknown_err;
     }
 
     inline virtual error_condition default_error_condition(int ev) const
