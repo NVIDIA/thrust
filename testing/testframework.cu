@@ -10,6 +10,8 @@
 
 void UnitTestDriver::register_test(UnitTest * test)
 {
+    if( UnitTestDriver::s_driver().test_map.count(test->name) )
+        std::cout << "[WARNING] Test name \"" << test->name << " already encountered " << std::endl;
     UnitTestDriver::s_driver().test_map[test->name] = test;
 }
 

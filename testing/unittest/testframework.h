@@ -83,9 +83,9 @@ typedef unittest::type_list<char,
 inline std::string base_class_name(const char *name)
 {
   std::string result = name;
-
+  
   // if the name begins with "struct ", chop it off
-  result.replace(result.find_first_of("struct ") == 0 ? 0 : result.size(),
+  result.replace(result.find("struct ") == 0 ? 0 : result.size(),
                  7,
                  "");
 
@@ -233,15 +233,9 @@ template<template <typename> class TestName,
     : public UnitTest
 {
   VectorUnitTest()
-    : UnitTest("dummy_name")
-  {
-    std::string test_name = base_class_name(unittest::type_name<TestName< Vector<int, Alloc<int> > > >());
-    std::string vector_name = base_class_name(unittest::type_name<Vector<int, Alloc<int> > >());
-
-    std::string my_name = test_name + "<" + vector_name + ">";
-
-    UnitTest::name = my_name.c_str();
-  }
+    : UnitTest((base_class_name(unittest::type_name<TestName< Vector<int, Alloc<int> > > >()) + "<" + 
+                base_class_name(unittest::type_name<Vector<int, Alloc<int> > >()) + ">").c_str())
+  { }
 
   void run()
   {

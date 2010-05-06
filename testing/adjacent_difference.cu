@@ -2,7 +2,7 @@
 #include <thrust/adjacent_difference.h>
 
 template <class Vector>
-void TestAjacentDifferenceSimple(void)
+void TestAdjacentDifferenceSimple(void)
 {
     typedef typename Vector::value_type T;
 
@@ -34,11 +34,11 @@ void TestAjacentDifferenceSimple(void)
     ASSERT_EQUAL(input[1], T(3));
     ASSERT_EQUAL(input[2], T(2));
 }
-DECLARE_VECTOR_UNITTEST(TestAjacentDifferenceSimple);
+DECLARE_VECTOR_UNITTEST(TestAdjacentDifferenceSimple);
 
 
 template <typename T>
-void TestAjacentDifference(const size_t n)
+void TestAdjacentDifference(const size_t n)
 {
     thrust::host_vector<T>   h_input = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_input = h_input;
@@ -73,5 +73,5 @@ void TestAjacentDifference(const size_t n)
     ASSERT_EQUAL(d_input, d_output); //computed previously
     
 }
-DECLARE_VARIABLE_UNITTEST(TestAjacentDifference);
+DECLARE_VARIABLE_UNITTEST(TestAdjacentDifference);
 
