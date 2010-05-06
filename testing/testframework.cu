@@ -8,14 +8,14 @@
 #include <string>
 
 
-void UnitTestDriver::register_test(const UnitTest& test)
+void UnitTestDriver::register_test(UnitTest * test)
 {
-    UnitTestDriver::s_driver().test_list.push_back(test);
+    UnitTestDriver::s_driver().test_map[test->name] = test;
 }
 
 UnitTest::UnitTest(const char * _name) : name(_name)
 {
-  UnitTestDriver::s_driver().register_test(*this);
+  UnitTestDriver::s_driver().register_test(this);
 }
 
 
@@ -171,15 +171,12 @@ void report_results(std::vector< TestResult >& test_results)
 
 void UnitTestDriver::list_tests(void)
 {
-    // sort tests by name for deterministic results
-    std::sort(test_list.begin(), test_list.end());
-
-    for(size_t i = 0; i < test_list.size(); i++)
-        std::cout << test_list[i].name << std::endl;
+    for(TestMap::iterator iter = test_map.begin(); iter != test_map.end(); iter++)
+        std::cout << iter->second->name << std::endl;
 }
 
 
-bool UnitTestDriver::run_tests(std::vector<UnitTest>& tests_to_run, const ArgumentMap& kwargs)
+bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs)
 {
     bool verbose = kwargs.count("verbose");
     bool concise = kwargs.count("concise");
@@ -211,7 +208,7 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest>& tests_to_run, const Argume
 
 
     for(size_t i = 0; i < tests_to_run.size(); i++){
-        UnitTest& test = tests_to_run[i];
+        UnitTest& test = *tests_to_run[i];
 
         if (verbose)
             std::cout << "Running " << test.name << "..." << std::flush;
@@ -310,27 +307,24 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest>& tests_to_run, const Argume
 
 bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwargs)
 {
-    // sort tests by name for deterministic results
-    std::sort(test_list.begin(), test_list.end());
-
     if (args.empty())
     {
         // run all tests
-        return run_tests(test_list, kwargs);
+        std::vector<UnitTest *> tests_to_run;
+
+        for(TestMap::iterator iter = test_map.begin(); iter != test_map.end(); iter++)
+            tests_to_run.push_back(iter->second);
+
+        return run_tests(tests_to_run, kwargs);
     }
     else
     {
         // all non-keyword arguments are assumed to be test names or partial test names
 
-        typedef std::map<std::string, UnitTest> TestMap;
         typedef TestMap::iterator               TestMapIterator;
 
-        TestMap test_map;
-        for(size_t i = 0; i < test_list.size(); i++)
-            test_map[test_list[i].name] = test_list[i];
-      
         // vector to accumulate tests
-        std::vector<UnitTest> tests_to_run;
+        std::vector<UnitTest *> tests_to_run;
 
         for(ArgumentSet::const_iterator iter = args.begin(); iter != args.end(); iter++)
         {

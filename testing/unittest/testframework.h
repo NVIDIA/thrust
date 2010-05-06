@@ -116,13 +116,15 @@ class UnitTest {
 
 
 class UnitTestDriver {
-  std::vector<UnitTest> test_list;
+  typedef std::map<std::string, UnitTest*> TestMap;
 
-  bool run_tests(std::vector<UnitTest> &tests, const ArgumentMap& kwargs);
+  TestMap test_map;
+
+  bool run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs);
 
 public:
     
-  void register_test(const UnitTest& test);
+  void register_test(UnitTest * test);
   bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
   void list_tests(void); 
 
