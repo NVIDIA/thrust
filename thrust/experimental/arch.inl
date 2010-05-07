@@ -185,8 +185,7 @@ size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
 
     size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
 
-    // TODO eliminate this constant (i assume this is warp_size)
-    size_t granularity        = 32;
+    size_t granularity        = properties.warpSize;
 
     size_t max_blocksize     = 0;
     size_t highest_occupancy = 0;
