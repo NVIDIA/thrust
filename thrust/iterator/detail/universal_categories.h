@@ -63,9 +63,16 @@ struct bidirectional_universal_iterator_tag
   operator detail::bidirectional_omp_device_iterator_tag () {return detail::bidirectional_omp_device_iterator_tag();};
 };
 
+
+// XXX WAR gcc-3.4 difficulties resolving the ambiguity in choosing between std::random_access_iterator_tag and
+//     std::input_iterator_tag when converting random_acces_universal_iterator_tag
+//     instead of inheriting from bidirectional_universal_iterator_tag, provide a conversion to it
+//     remove this WAR when we remove support for gcc-3.4
 struct random_access_universal_iterator_tag
-  : bidirectional_universal_iterator_tag
+//  : bidirectional_universal_iterator_tag
 {
+  operator bidirectional_universal_iterator_tag () {return bidirectional_universal_iterator_tag();}
+
   operator random_access_host_iterator_tag () {return random_access_host_iterator_tag();};
 
   operator detail::random_access_cuda_device_iterator_tag () {return detail::random_access_cuda_device_iterator_tag();};
