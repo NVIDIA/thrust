@@ -14,40 +14,50 @@
  *  limitations under the License.
  */
 
-
-/*! \file free.h
- *  \brief Defines the interface to free() on CUDA.
- */
-
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
-#include <cuda_runtime_api.h>
-#include <stdexcept>
-#include <string>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/device/generic/no_throw_free.h>
+#include <thrust/detail/device/cuda/no_throw_free.h>
 
 namespace thrust
 {
+
 namespace detail
 {
+
 namespace device
 {
-namespace cuda
+
+namespace dispatch
 {
+
 
 template<unsigned int DummyParameterToAvoidInstantiation>
-void free(thrust::device_ptr<void> ptr)
+  void no_throw_free(thrust::device_ptr<void> ptr,
+                     thrust::device_space_tag) throw()
 {
-  cudaError_t error = cudaFree(ptr.get());
+  thrust::detail::device::generic::no_throw_free<0>(ptr);
+} // end no_throw_free()
 
-  if(error)
-  {
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
-  } // end error
-} // end free()
 
-} // end namespace cuda
-} // end namespace device
-} // end namespace detail
-} // end namespace thrust
+template<unsigned int DummyParameterToAvoidInstantiation>
+  void no_throw_free(thrust::device_ptr<void> ptr,
+                     thrust::detail::cuda_device_space_tag) throw()
+{
+  thrust::detail::device::cuda::no_throw_free<0>(ptr);
+} // end no_throw_free()
+
+} // end dispatch
+
+
+} // end device
+
+} // end detail
+
+} // end thrust
+
 

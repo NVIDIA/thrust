@@ -14,40 +14,42 @@
  *  limitations under the License.
  */
 
-
-/*! \file free.h
- *  \brief Defines the interface to free() on CUDA.
- */
-
 #pragma once
 
-#include <thrust/device_ptr.h>
-#include <cuda_runtime_api.h>
-#include <stdexcept>
-#include <string>
+#include <thrust/device_free.h>
 
 namespace thrust
 {
+
 namespace detail
 {
+
 namespace device
 {
-namespace cuda
+
+namespace generic
 {
+
 
 template<unsigned int DummyParameterToAvoidInstantiation>
-void free(thrust::device_ptr<void> ptr)
+  void no_throw_free(thrust::device_ptr<void> ptr) throw()
 {
-  cudaError_t error = cudaFree(ptr.get());
-
-  if(error)
+  try
   {
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
-  } // end error
-} // end free()
+    thrust::device_free(ptr);
+  }
+  catch(...)
+  {
+    ;
+  }
+} // end no_throw_free()
 
-} // end namespace cuda
-} // end namespace device
-} // end namespace detail
+
+} // end generic
+
+} // end device
+
+} // end detail
+
 } // end namespace thrust
 
