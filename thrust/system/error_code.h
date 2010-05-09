@@ -24,7 +24,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/system/detail/posix_errno.h>
 #include <errno.h>
 #include <iostream>
 
