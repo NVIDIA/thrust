@@ -19,7 +19,7 @@
 
 #include <thrust/system/error_code.h>
 #include <thrust/functional.h>
-#include <cstdlib>
+#include <cstring>
 
 namespace thrust
 {
@@ -186,7 +186,12 @@ class system_error_category
         case ECANCELED:       return make_error_condition(operation_canceled);
         case EINPROGRESS:     return make_error_condition(operation_in_progress);
         case EPERM:           return make_error_condition(operation_not_permitted);
+
+// EOPNOTSUPP is the same as ENOTSUP on Linux
+#if EOPNOTSUPP != ENOTSUP
         case EOPNOTSUPP:      return make_error_condition(operation_not_supported);
+#endif
+
         case EWOULDBLOCK:     return make_error_condition(operation_would_block);
 
 // EOWNERDEAD is missing on Darwin
