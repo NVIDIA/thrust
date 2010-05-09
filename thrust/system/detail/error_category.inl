@@ -87,6 +87,8 @@ class generic_error_category
   : public error_category
 {
   public:
+    inline generic_error_category(void) {}
+
     inline virtual const char *name(void) const
     {
       return "generic";
@@ -108,6 +110,8 @@ class system_error_category
   : public error_category
 {
   public:
+    inline system_error_category(void) {}
+
     inline virtual const char *name(void) const
     {
       return "system";
@@ -120,6 +124,8 @@ class system_error_category
 
     inline virtual error_condition default_error_condition(int ev) const
     {
+      using namespace errc;
+
       switch(ev)
       {
         case EAFNOSUPPORT:    return make_error_condition(address_family_not_supported);
@@ -182,15 +188,30 @@ class system_error_category
         case EPERM:           return make_error_condition(operation_not_permitted);
         case EOPNOTSUPP:      return make_error_condition(operation_not_supported);
         case EWOULDBLOCK:     return make_error_condition(operation_would_block);
+
+// EOWNERDEAD is missing on Darwin
+#ifdef EOWNERDEAD
         case EOWNERDEAD:      return make_error_condition(owner_dead);
+#endif // EOWNERDEAD
+
         case EACCES:          return make_error_condition(permission_denied);
         case EPROTO:          return make_error_condition(protocol_error);
         case EPROTONOSUPPORT: return make_error_condition(protocol_not_supported);
         case EROFS:           return make_error_condition(read_only_file_system);
         case EDEADLK:         return make_error_condition(resource_deadlock_would_occur);
+
+// EAGAIN is the same as EWOULDBLOCK on Darwin
+#if EAGAIN != EWOULDBLOCK
         case EAGAIN:          return make_error_condition(resource_unavailable_try_again);
+#endif
+
         case ERANGE:          return make_error_condition(result_out_of_range);
+
+// ENOTRECOVERABLE is missing on Darwin
+#ifdef ENOTRECOVERABLE
         case ENOTRECOVERABLE: return make_error_condition(state_not_recoverable);
+#endif
+
         case ETIME:           return make_error_condition(stream_timeout);
         case ETXTBSY:         return make_error_condition(text_file_busy);
         case ETIMEDOUT:       return make_error_condition(timed_out);
@@ -202,11 +223,6 @@ class system_error_category
         case EPROTOTYPE:      return make_error_condition(wrong_protocol_type);
         default:              return error_condition(ev,system_category());
       }
-    }
-
-    inline virtual std::string message(int ev) const
-    {
-      return generic_category.message(ev);
     }
 }; // end system_category_result
 

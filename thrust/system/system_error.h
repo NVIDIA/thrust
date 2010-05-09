@@ -26,7 +26,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <thrust/system/system_code.h>
+#include <thrust/system/error_code.h>
 
 namespace thrust
 {
@@ -65,6 +65,8 @@ class system_error
     inline system_error(int ev, const error_category &ecat, const char *what_arg);
 
     inline system_error(int ev, const error_category &ecat);
+
+    inline virtual ~system_error(void) throw () {};
     
     inline const error_code &code(void) const throw();
 

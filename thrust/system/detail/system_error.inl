@@ -71,7 +71,7 @@ system_error
 
 system_error
   ::system_error(int ev, const error_category &ecat)
-    : std::runtimer_error(""), m_error_code(ev,ecat)
+    : std::runtime_error(""), m_error_code(ev,ecat)
 {
   ;
 } // end system_error::system_error()

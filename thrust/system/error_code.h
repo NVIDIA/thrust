@@ -24,10 +24,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <iostream>
-
-// N3000 [19.5] allows us to #include this (which includes the POSIX error macros)
+#include <thrust/system/detail/posix_errno.h>
 #include <errno.h>
+#include <iostream>
 
 namespace thrust
 {
@@ -37,6 +36,7 @@ namespace experimental
 
 namespace system
 {
+
 
 class error_condition;
 class error_code;
@@ -114,7 +114,12 @@ enum errc_t
   operation_not_permitted            = EPERM,
   operation_not_supported            = EOPNOTSUPP,
   operation_would_block              = EWOULDBLOCK,
+
+// EOWNERDEAD is missing on Darwin
+#ifdef EOWNERDEAD
   owner_dead                         = EOWNERDEAD,
+#endif
+
   permission_denied                  = EACCES,
   protocol_error                     = EPROTO,
   protocol_not_supported             = EPROTONOSUPPORT,
@@ -122,7 +127,12 @@ enum errc_t
   resource_deadlock_would_occur      = EDEADLK,
   resource_unavailable_try_again     = EAGAIN,
   result_out_of_range                = ERANGE,
+
+// ENOTRECOVERABLE is missing on Darwin
+#ifdef ENOTRECOVERABLE
   state_not_recoverable              = ENOTRECOVERABLE,
+#endif
+
   stream_timeout                     = ETIME,
   text_file_busy                     = ETXTBSY,
   timed_out                          = ETIMEDOUT,
@@ -173,16 +183,16 @@ class error_category
 
     /*! \return <tt>*this == &rhs</tt>
      */
-    bool operator==(const error_category &rhs) const;
+    inline bool operator==(const error_category &rhs) const;
 
     /*! \return <tt>!(*this == rhs)</tt>
      */
-    bool operator!=(const error_category &rhs) const;
+    inline bool operator!=(const error_category &rhs) const;
 
     /*! \return <tt>less<const error_category*>()(this, &rhs)</tt>
      *  \note \c less provides a total ordering for pointers.
      */
-    bool operator<(const error_category &rhs) const;
+    inline bool operator<(const error_category &rhs) const;
 }; // end error_category
 
 
@@ -245,7 +255,7 @@ class error_code
     /*! Postconditions: <tt>*this == make_error_code(e)</tt>.
      */
     template <typename ErrorCodeEnum>
-      typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type &
+      typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
         operator=(ErrorCodeEnum e);
 
     /*! Postconditions: <tt>value() == 0</tt> and <tt>category() == system_category()</tt>.
@@ -281,7 +291,7 @@ class error_code
      */
   private:
     int m_val;
-    const error_category &m_cat;
+    const error_category *m_cat;
     /*! \endcond
      */
 }; // end error_code
@@ -327,13 +337,13 @@ class error_condition
 
     template<typename ErrorConditionEnum>
       error_condition(ErrorConditionEnum e,
-        typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum> >::type * = 0);
+        typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0);
 
     // [19.5.3.3] modifiers
     inline void assign(int val, const error_category &cat);
 
     template<typename ErrorConditionEnum>
-      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>, error_code>::type &
+      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_code>::type &
         operator=(ErrorConditionEnum e);
 
     inline void clear(void);
@@ -429,7 +439,10 @@ using system::is_error_code_enum;
 using system::is_error_condition_enum;
 using system::make_error_code;
 using system::make_error_condition;
-using system::errc;
+
+// XXX replace with using system::errc upon c++0x
+namespace errc = system::errc;
+
 using system::generic_category;
 using system::system_category;
 

@@ -53,7 +53,7 @@ template <typename ErrorCodeEnum>
 } // end error_code::error_code()
 
 
-error_code
+void error_code
   ::assign(int val, const error_category &cat)
 {
   m_val = val;
@@ -62,11 +62,12 @@ error_code
 
 
 template <typename ErrorCodeEnum>
-  typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type &
+  typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
     error_code
       ::operator=(ErrorCodeEnum e)
 {
   *this = make_error_code(e);
+  return *this;
 } // end error_code::operator=()
 
 
@@ -74,7 +75,7 @@ void error_code
   ::clear(void)
 {
   m_val = 0;
-  m_cat = system_category();
+  m_cat = &system_category();
 } // end error_code::clear()
 
 
@@ -92,10 +93,10 @@ const error_category &error_code
 } // end error_code::category()
 
 
-const error_condition &error_code
+error_condition error_code
   ::default_error_condition(void) const
 {
-  return category().default_error_condition();
+  return category().default_error_condition(value());
 } // end error_code::default_error_condition()
 
 

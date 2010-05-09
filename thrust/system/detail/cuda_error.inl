@@ -28,13 +28,29 @@ namespace experimental
 namespace system
 {
 
+
+error_code make_error_code(cuda_errc::cuda_errc_t e)
+{
+  return error_code(static_cast<int>(e), cuda_category());
+} // end make_error_code()
+
+
+error_condition make_error_condition(cuda_errc::cuda_errc_t e)
+{
+  return error_condition(static_cast<int>(e), cuda_category());
+} // end make_error_condition()
+
+
 namespace detail
 {
+
 
 class cuda_error_category
   : public error_category
 {
   public:
+    inline cuda_error_category(void) {}
+
     inline virtual const char *name(void) const
     {
       return "cuda";
@@ -43,12 +59,14 @@ class cuda_error_category
     inline virtual std::string message(int ev) const
     {
       static const std::string unknown_err("Unknown error");
-      const char *c_str = ::cudaGetLastError();
+      const char *c_str = ::cudaGetErrorString(static_cast<cudaError_t>(ev));
       return c_str ? std::string(c_str) : unknown_err;
     }
 
     inline virtual error_condition default_error_condition(int ev) const
     {
+      using namespace cuda_errc;
+
       switch(ev)
       {
         case cudaSuccess:                      return make_error_condition(success);
@@ -82,7 +100,7 @@ class cuda_error_category
         case cudaErrorMixedDeviceExecution:    return make_error_condition(mixed_device_execution);
         case cudaErrorCudartUnloading:         return make_error_condition(cuda_runtime_unloading);
         case cudaErrorUnknown:                 return make_error_condition(unknown);
-        case cudaErrorUnotYetImplemented:      return make_error_condition(not_yet_implemented);
+        case cudaErrorNotYetImplemented:       return make_error_condition(not_yet_implemented);
         case cudaErrorMemoryValueTooLarge:     return make_error_condition(memory_value_too_large);
         case cudaErrorInvalidResourceHandle:   return make_error_condition(invalid_resource_handle);
         case cudaErrorNotReady:                return make_error_condition(not_ready);

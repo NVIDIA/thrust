@@ -23,12 +23,10 @@
 #include <algorithm>
 
 #include <thrust/detail/util/blocking.h>
+#include <thrust/system_error.h>
 
 // #include this for make_uint3
 #include <vector_functions.h>
-
-// #include this for runtime_error
-#include <stdexcept>
 
 namespace thrust
 {
@@ -46,15 +44,19 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   cudaError_t error = cudaGetDevice(&current_device);
 
   if(error)
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
+  {
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+  }
 
   if(current_device < 0)
-    throw std::runtime_error(std::string("No CUDA device found."));
+    throw thrust::experimental::system_error(thrust::experimental::cuda_errc::no_device, thrust::experimental::cuda_category());
   
   error = cudaGetDeviceProperties(&props, current_device);
 
-  if(error != cudaSuccess)
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
+  if(error)
+  {
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+  }
 } // end checked_get_current_device_properties()
 
 template <typename KernelFunction>
@@ -62,8 +64,10 @@ void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunct
 {
   cudaError_t error = cudaFuncGetAttributes(&attributes, kernel);
 
-  if(error != cudaSuccess)
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
+  if(error)
+  {
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+  }
 } // end checked_get_function_attributes()
 
 } // end detail

@@ -48,7 +48,7 @@ error_condition
 template<typename ErrorConditionEnum>
   error_condition
     ::error_condition(ErrorConditionEnum e,
-                      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum> >::type *)
+                      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type *)
 {
   *this = make_error_condition(e);
 } // end error_condition::error_condition()
@@ -58,16 +58,17 @@ void error_condition
   ::assign(int val, const error_category &cat)
 {
   m_val = val;
-  m_cat = cat;
+  m_cat = &cat;
 } // end error_category::assign()
 
 
 template<typename ErrorConditionEnum>
-  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>, error_code>::type &
+  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_code>::type &
     error_condition
       ::operator=(ErrorConditionEnum e)
 {
   *this = make_error_condition(e);
+  return *this;
 } // end error_condition::operator=()
 
 
@@ -75,12 +76,12 @@ void error_condition
   ::clear(void)
 {
   m_val = 0;
-  m_cat = generic_category();
+  m_cat = &generic_category();
 } // end error_condition::clear()
 
 
 int error_condition
-  ::value(void)
+  ::value(void) const
 {
   return m_val;
 } // end error_condition::value()
@@ -100,7 +101,7 @@ std::string error_condition
 } // end error_condition::message()
 
 
-bool error_condition
+error_condition
   ::operator bool (void) const
 {
   return value() != 0;

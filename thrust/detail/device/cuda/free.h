@@ -22,8 +22,8 @@
 #pragma once
 
 #include <thrust/device_ptr.h>
+#include <thrust/system_error.h>
 #include <cuda_runtime_api.h>
-#include <stdexcept>
 #include <string>
 
 namespace thrust
@@ -42,7 +42,7 @@ void free(thrust::device_ptr<void> ptr)
 
   if(error)
   {
-    throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
   } // end error
 } // end free()
 
