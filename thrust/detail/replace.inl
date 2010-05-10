@@ -23,9 +23,10 @@
 #include <thrust/transform.h>
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/internal_functional.h>
+
 namespace thrust
 {
-
 namespace detail
 {
 
@@ -72,7 +73,7 @@ template<typename T>
   T c;
 }; // end constant_unary
 
-}; // end detail  
+} // end namespace detail  
 
 template<typename InputIterator, typename OutputIterator, typename Predicate, typename T>
   OutputIterator replace_copy_if(InputIterator first, InputIterator last,
@@ -100,25 +101,6 @@ template<typename InputIterator1, typename InputIterator2, typename OutputIterat
   return thrust::transform(first, last, stencil, result, op);
 } // end replace_copy_if()
 
-namespace detail
-{
-
-template<typename ExemplarType>
-  struct if_equal_to_exemplar
-{
-  if_equal_to_exemplar(const ExemplarType &e):exemplar(e){}
-
-  template<typename ArgumentType>
-  __host__ __device__
-  bool operator()(const ArgumentType &x) const
-  {
-    return exemplar == x;
-  } // end operator()()
-
-  ExemplarType exemplar;
-}; // end if_equal_to_exemplar
-
-}; // end detail
 
 template<typename InputIterator, typename OutputIterator, typename T>
   OutputIterator replace_copy(InputIterator first, InputIterator last,
@@ -126,7 +108,7 @@ template<typename InputIterator, typename OutputIterator, typename T>
                               const T &old_value,
                               const T &new_value)
 {
-  thrust::detail::if_equal_to_exemplar<T> pred(old_value);
+  thrust::detail::equal_to_value<T> pred(old_value);
   return thrust::replace_copy_if(first, last, result, pred, new_value);
 } // end replace_copy()
 
@@ -162,9 +144,9 @@ template<typename ForwardIterator, typename T>
                const T &old_value,
                const T &new_value)
 {
-  detail::if_equal_to_exemplar<T> pred(old_value);
+  thrust::detail::equal_to_value<T> pred(old_value);
   return thrust::replace_if(first, last, pred, new_value);
 } // end replace()
 
-}; // end thrust
+} // end namespace thrust
 

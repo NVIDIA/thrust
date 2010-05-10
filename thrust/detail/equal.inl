@@ -21,35 +21,18 @@
 
 #include <thrust/inner_product.h>
 #include <thrust/functional.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
-
-namespace detail
-{
-
-// this differs from thrust::equal_to in that the types of the operands may differ
-template <typename T1, typename T2>
-struct operator_equal
-{
-    __host__ __device__
-        bool operator()(const T1 &lhs, const T2 &rhs) const 
-        {
-            return lhs == rhs;
-        }
-};
-
-} // end namespace detail
 
 template <typename InputIterator1, typename InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
-    typedef typename thrust::iterator_traits<InputIterator2>::value_type InputType2;
 
-    thrust::detail::operator_equal<InputType1, InputType2> eq;
-    return thrust::equal(first1, last1, first2, eq);
+    return thrust::equal(first1, last1, first2, thrust::detail::equal_to<InputType1>());
 }
 
 template <typename InputIterator1, typename InputIterator2, 

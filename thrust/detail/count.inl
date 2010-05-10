@@ -20,31 +20,13 @@
  */
 
 #include <thrust/count.h>
-#include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
-template <typename EqualityComparable1, typename EqualityComparable2>
-struct is_equal_to
-  : thrust::unary_function<EqualityComparable2,bool>
-{
-  __host__ __device__ 
-  is_equal_to(EqualityComparable1 val) : rhs(val){}
-
-  __host__ __device__
-  bool operator()(const EqualityComparable2& lhs)
-  {
-    return lhs == rhs;
-  } // end operator()()
-
-  EqualityComparable1 rhs;
-}; // end is_equal_to
-
 
 template <typename InputType, typename Predicate, typename CountType>
 struct count_if_transform
@@ -64,7 +46,7 @@ struct count_if_transform
   Predicate pred;
 }; // end count_if_transform
 
-} // end detail
+} // end namespace detail
 
 template <typename InputIterator, typename EqualityComparable>
 typename thrust::iterator_traits<InputIterator>::difference_type
@@ -72,7 +54,7 @@ count(InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   
-  return thrust::count_if(first, last, detail::is_equal_to<EqualityComparable,InputType>(value));
+  return thrust::count_if(first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
 } // end count()
 
 template <typename InputIterator, typename Predicate>
