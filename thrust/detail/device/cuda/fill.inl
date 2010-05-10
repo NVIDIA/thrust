@@ -73,9 +73,15 @@ template<typename Pointer, typename T>
 
   size_t n = last - first;
 
-  WideType wide_exemplar;
-  for(size_t i = 0; i < sizeof(WideType)/sizeof(OutputType); i++)
-      reinterpret_cast<OutputType *>(&wide_exemplar)[i] = static_cast<OutputType>(exemplar);
+  // use this union idiom to avoid warnings concerning type-punning
+  union
+  {
+    WideType wide_exemplar;
+    OutputType narrow_exemplars[sizeof(WideType) / sizeof(OutputType)];
+  } work_around_aliasing_warning;
+
+  for(size_t i = 0; i < sizeof(WideType)/sizeof(OutputType); ++i)
+    work_around_aliasing_warning.narrow_exemplars[i] = static_cast<OutputType>(exemplar);
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = thrust::raw_pointer_cast(last);
@@ -88,7 +94,7 @@ template<typename Pointer, typename T>
 
   thrust::detail::device::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(exemplar));
   thrust::detail::device::generate(block_first_wide, block_last_wide,
-                                   fill_functor<WideType>(wide_exemplar));
+                                   fill_functor<WideType>(work_around_aliasing_warning.wide_exemplar));
   thrust::detail::device::generate(thrust::device_pointer_cast(block_last_raw), last, fill_functor<OutputType>(exemplar));
 }
 
