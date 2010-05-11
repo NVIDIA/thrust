@@ -46,44 +46,6 @@ namespace generic
 namespace detail
 {
 
-template <typename IndexType,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryPredicate>
-OutputIterator unique_copy(InputIterator first,
-                           InputIterator last,
-                           OutputIterator output,
-                           BinaryPredicate binary_pred)
-{
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    typedef typename thrust::iterator_space<OutputIterator>::type Space;
-    
-    typedef raw_buffer<IndexType,Space> IndexBuffer;
-
-    IndexType n = last - first;
-  
-    IndexBuffer is_first(n), scatter_to(n);
-
-    // mark first element in each group
-    thrust::transform(first, last - 1, first + 1, is_first.begin() + 1, thrust::detail::not2(binary_pred)); 
-
-    // ignore the first element for now 
-    is_first[0] = 0; 
-    
-    // scan the predicates
-    thrust::inclusive_scan(is_first.begin(), is_first.end(), scatter_to.begin());
-    
-    // mark the first element before scatter 
-    is_first[0] = 1;
-    
-    // scatter first elements
-    thrust::scatter_if(first, last, scatter_to.begin(), is_first.begin(), output);
-    
-    OutputIterator new_last = output + scatter_to[n - 1] + 1;
-
-    return new_last;
-}
-
 template <typename ValueType, typename TailFlagType>
 struct unique_by_key_functor
 {
@@ -109,8 +71,7 @@ ForwardIterator unique(ForwardIterator first,
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
     typedef typename thrust::iterator_space<ForwardIterator>::type        Space;
 
-    typedef raw_buffer<InputType,Space> InputBuffer;
-    InputBuffer input(first, last);
+    thrust::detail::raw_buffer<InputType,Space> input(first, last);
 
     return thrust::detail::device::generic::unique_copy(input.begin(), input.end(), first, binary_pred);
 }
@@ -123,23 +84,19 @@ OutputIterator unique_copy(InputIterator first,
                            OutputIterator output,
                            BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
+    typedef typename thrust::iterator_space<OutputIterator>::type Space;
 
-  difference_type n = last - first;
+    // empty sequence
+    if(first == last)
+        return output;
 
-  // ranges with length 0 and 1 are already unique
-  if(n < 2)
-      return thrust::detail::device::copy(first, last, output);
+    thrust::detail::raw_buffer<int,Space> stencil(thrust::distance(first, last));
 
-  // create an unsigned version of n (we know n is positive from the comparison above)
-  // to avoid a warning in the compare below
-  typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
+    // mark first element in each group
+    stencil[0] = 1; 
+    thrust::transform(first, last - 1, first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
 
-  // use 32-bit indices when possible (almost always)
-  if (sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > std::numeric_limits<unsigned int>::max())
-      return detail::unique_copy<difference_type>(first, last, output, binary_pred);
-  else
-      return detail::unique_copy<unsigned int>   (first, last, output, binary_pred);
+    return thrust::detail::device::copy_if(first, last, stencil.begin(), output, thrust::identity<int>());
 }
 
 template <typename ForwardIterator1,
@@ -157,10 +114,8 @@ template <typename ForwardIterator1,
 
     ForwardIterator2 values_last = values_first + (keys_last - keys_first);
 
-    typedef raw_buffer<InputType1,Space> InputBuffer1;
-    typedef raw_buffer<InputType2,Space> InputBuffer2;
-    InputBuffer1 keys(keys_first, keys_last);
-    InputBuffer2 vals(values_first, values_last);
+    thrust::detail::raw_buffer<InputType1,Space> keys(keys_first, keys_last);
+    thrust::detail::raw_buffer<InputType2,Space> vals(values_first, values_last);
 
     return thrust::detail::device::generic::unique_copy_by_key
         (keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
