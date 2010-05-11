@@ -47,8 +47,12 @@ error_condition
 
 template<typename ErrorConditionEnum>
   error_condition
-    ::error_condition(ErrorConditionEnum e,
-                      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type *)
+    ::error_condition(ErrorConditionEnum e
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+                      , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type *
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+                     )
 {
   *this = make_error_condition(e);
 } // end error_condition::error_condition()
@@ -63,7 +67,12 @@ void error_condition
 
 
 template<typename ErrorConditionEnum>
-  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_code>::type &
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
+#else
+  error_condition &
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
     error_condition
       ::operator=(ErrorConditionEnum e)
 {
@@ -117,7 +126,7 @@ error_condition make_error_condition(errc::errc_t e)
 bool operator<(const error_condition &lhs,
                const error_condition &rhs)
 {
-  return (lhs.category() < rhs.category()) || ((lhs.category() == rhs.category()) && (lhs.value() < rhs.value()));
+  return lhs.category().operator<(rhs.category()) || (lhs.category().operator==(rhs.category()) && (lhs.value() < rhs.value()));
 } // end operator<()
 
 

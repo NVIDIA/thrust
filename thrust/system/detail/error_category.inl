@@ -54,7 +54,8 @@ bool error_category
 bool error_category
   ::equivalent(const error_code &code, int condition) const
 {
-  return *this == code.category() && code.value() == condition;
+  bool result = (this->operator==(code.category())) && (code.value() == condition);
+  return result;
 } // end error_code::equivalent()
 
 
@@ -68,7 +69,7 @@ bool error_category
 bool error_category
   ::operator!=(const error_category &rhs) const
 {
-  return !(*this == rhs);
+  return !this->operator==(rhs);
 } // end error_category::operator!=()
 
 
@@ -128,6 +129,8 @@ class system_error_category
 
       switch(ev)
       {
+// XXX eventually implement Windows error codes
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
         case EAFNOSUPPORT:    return make_error_condition(address_family_not_supported);
         case EADDRINUSE:      return make_error_condition(address_in_use);
         case EADDRNOTAVAIL:   return make_error_condition(address_not_available);
@@ -226,6 +229,8 @@ class system_error_category
         case ELOOP:           return make_error_condition(too_many_symbolic_link_levels);
         case EOVERFLOW:       return make_error_condition(value_too_large);
         case EPROTOTYPE:      return make_error_condition(wrong_protocol_type);
+#endif // THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+
         default:              return error_condition(ev,system_category());
       }
     }

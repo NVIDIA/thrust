@@ -46,8 +46,12 @@ error_code
 
 template <typename ErrorCodeEnum>
   error_code
-    ::error_code(ErrorCodeEnum e,
-                 typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type *)
+    ::error_code(ErrorCodeEnum e
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+                 , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type *
+#endif // THRUST_HOST_COMPILER_MSVC
+                )
 {
   *this = make_error_code(e);
 } // end error_code::error_code()
@@ -62,7 +66,12 @@ void error_code
 
 
 template <typename ErrorCodeEnum>
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
   typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
+#else
+  error_code &
+#endif // THRUST_HOST_COMPILER_MSVC
     error_code
       ::operator=(ErrorCodeEnum e)
 {
@@ -122,7 +131,10 @@ error_code make_error_code(errc::errc_t e)
 
 bool operator<(const error_code &lhs, const error_code &rhs)
 {
-  return (lhs.category() < rhs.category()) || (lhs.category() == rhs.category() && lhs.value() < rhs.value());
+  bool result = lhs.category().operator<(rhs.category());
+  result = result || lhs.category().operator==(rhs.category());
+  result = result || lhs.value() < rhs.value();
+  return result;
 } // end operator==()
 
 
@@ -136,7 +148,7 @@ template<typename charT, typename traits>
 
 bool operator==(const error_code &lhs, const error_code &rhs)
 {
-  return lhs.category() == rhs.category() && lhs.value() == rhs.value();
+  return lhs.category().operator==(rhs.category()) && lhs.value() == rhs.value();
 } // end operator==()
 
 
@@ -154,7 +166,7 @@ bool operator==(const error_condition &lhs, const error_code &rhs)
 
 bool operator==(const error_condition &lhs, const error_condition &rhs)
 {
-  return lhs.category() == rhs.category() && lhs.value() == rhs.value();
+  return lhs.category().operator==(rhs.category()) && lhs.value() == rhs.value();
 } // end operator==()
 
 

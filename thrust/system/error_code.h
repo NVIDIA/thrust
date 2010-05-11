@@ -39,7 +39,6 @@ namespace system
 
 class error_condition;
 class error_code;
-class error_condition;
 
 
 template<typename T> struct is_error_code_enum : public thrust::detail::false_type {};
@@ -53,6 +52,8 @@ namespace errc
 
 enum errc_t
 {
+// XXX eventually implement Windows error codes
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
   address_family_not_supported       = EAFNOSUPPORT,
   address_in_use                     = EADDRINUSE,
   address_not_available              = EADDRNOTAVAIL,
@@ -141,6 +142,7 @@ enum errc_t
   too_many_symbolic_link_levels      = ELOOP,
   value_too_large                    = EOVERFLOW,
   wrong_protocol_type                = EPROTOTYPE,
+#endif // THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 }; // end errc_t
 
 } // end namespace errc
@@ -242,8 +244,12 @@ class error_code
      *  Postconditions: <tt>*this == make_error_code(e)<tt>.
      */
     template <typename ErrorCodeEnum>
-      error_code(ErrorCodeEnum e,
-        typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0);
+      error_code(ErrorCodeEnum e
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+        , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
+#endif // THRUST_HOST_COMPILER_MSVC
+        );
 
     // [19.5.2.3] modifiers:
 
@@ -254,7 +260,12 @@ class error_code
     /*! Postconditions: <tt>*this == make_error_code(e)</tt>.
      */
     template <typename ErrorCodeEnum>
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
       typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
+#else
+      error_code &
+#endif // THRUST_HOST_COMPILER_MSVC
         operator=(ErrorCodeEnum e);
 
     /*! Postconditions: <tt>value() == 0</tt> and <tt>category() == system_category()</tt>.
@@ -335,14 +346,23 @@ class error_condition
     inline error_condition(int val, const error_category &cat);
 
     template<typename ErrorConditionEnum>
-      error_condition(ErrorConditionEnum e,
-        typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0);
+      error_condition(ErrorConditionEnum e
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+        , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+                     );
 
     // [19.5.3.3] modifiers
     inline void assign(int val, const error_category &cat);
 
     template<typename ErrorConditionEnum>
-      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_code>::type &
+// XXX WAR msvc's problem with enable_if
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
+#else
+      error_condition &
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
         operator=(ErrorConditionEnum e);
 
     inline void clear(void);
