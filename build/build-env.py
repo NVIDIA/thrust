@@ -141,7 +141,7 @@ def Environment():
 
   # get the preprocessor define to use for the backend
   backend_define = { 'cuda' : 'THRUST_DEVICE_BACKEND_CUDA', 'omp' : 'THRUST_DEVICE_BACKEND_OMP', 'ocelot' : 'THRUST_DEVICE_BACKEND_CUDA' }[env['backend']] 
-  env.Append(CPPDEFINES = {'THRUST_DEVICE_BACKEND' : backend_define})
+  env.Append(CFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
 
   # scons has problems with finding the proper LIBPATH with Visual Studio Express 2008
   # help it out
