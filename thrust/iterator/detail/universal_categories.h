@@ -69,9 +69,13 @@ struct bidirectional_universal_iterator_tag
 //     instead of inheriting from bidirectional_universal_iterator_tag, provide a conversion to it
 //     remove this WAR when we remove support for gcc-3.4
 struct random_access_universal_iterator_tag
-//  : bidirectional_universal_iterator_tag
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_GCC
+  : bidirectional_universal_iterator_tag
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_GCC
 {
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILIER_GCC
   operator bidirectional_universal_iterator_tag () {return bidirectional_universal_iterator_tag();}
+#endif // THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 
   operator random_access_host_iterator_tag () {return random_access_host_iterator_tag();};
 
