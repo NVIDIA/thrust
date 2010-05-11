@@ -19,22 +19,70 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
-#include <thrust/transform_scan.h>
-#include <thrust/scatter.h>
+
+#include <thrust/detail/internal_functional.h>
 #include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/type_traits.h>
+
+#include <thrust/detail/device/scan.h>
+#include <thrust/detail/device/scatter.h>
 
 namespace thrust
 {
 namespace detail
 {
-
-// forward declaration to WAR circular #inclusion
-template<typename,typename> class raw_buffer;
-
 namespace device
 {
 namespace generic
 {
+namespace detail
+{
+
+template<typename IndexType,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+OutputIterator copy_if(InputIterator1 first,
+                       InputIterator1 last,
+                       InputIterator2 stencil,
+                       OutputIterator result,
+                       Predicate pred)
+{
+    typedef typename thrust::iterator_space<OutputIterator>::type Space;
+
+    IndexType n = thrust::distance(first, last);
+    
+    // compute {0,1} predicates
+    thrust::detail::raw_buffer<IndexType, Space> predicates(n);
+    thrust::detail::device::transform(stencil,
+                                      stencil + n,
+                                      predicates.begin(),
+                                      thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
+
+    // scan {0,1} predicates
+    thrust::detail::raw_buffer<IndexType, Space> scatter_indices(n);
+    thrust::detail::device::exclusive_scan(predicates.begin(),
+                                           predicates.end(),
+                                           scatter_indices.begin(),
+                                           static_cast<IndexType>(0),
+                                           thrust::plus<IndexType>());
+
+    // scatter the true elements
+    thrust::detail::device::scatter_if(first,
+                                       last,
+                                       scatter_indices.begin(),
+                                       predicates.begin(),
+                                       result,
+                                       thrust::identity<IndexType>());
+
+    // find the end of the new sequence
+    IndexType output_size = scatter_indices[n - 1] + predicates[n - 1];
+
+    return result + output_size;
+}
+
+} // end namespace detail
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -46,36 +94,23 @@ template<typename InputIterator1,
                           OutputIterator result,
                           Predicate pred)
 {
-    if (first == last)
-        return result;
-
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
 
+    // empty sequence
+    if (first == last)
+        return result;
+    
     difference_type n = thrust::distance(first, last);
 
-    difference_type size_of_new_sequence = 0;
-
-    // scan pred(stencil) to a temp buffer
-    thrust::detail::raw_buffer<difference_type, device_space_tag> pred_scatter_indices(n);
-    thrust::transform_exclusive_scan(stencil,
-                                     stencil + n,
-                                     pred_scatter_indices.begin(),
-                                     pred,
-                                     static_cast<unsigned int>(0),
-                                     thrust::plus<unsigned int>());
-
-    // scatter the true elements
-    thrust::scatter_if(first,
-                       last,
-                       pred_scatter_indices.begin(),
-                       stencil,
-                       result,
-                       pred);
-
-    // find the end of the new sequence
-    size_of_new_sequence = pred_scatter_indices[n - 1] + (pred(*(stencil + (n-1))) ? 1 : 0);
-
-    return result + size_of_new_sequence;
+    // create an unsigned version of n (we know n is positive from the comparison above)
+    // to avoid a warning in the compare below
+    typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
+  
+    // use 32-bit indices when possible (almost always)
+    if (sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > std::numeric_limits<unsigned int>::max())
+        return detail::copy_if<difference_type>(first, last, stencil, result, pred);
+    else
+        return detail::copy_if<unsigned int>(first, last, stencil, result, pred);
 } // end copy_if()
 
 } // end namespace generic

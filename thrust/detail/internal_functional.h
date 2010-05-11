@@ -75,6 +75,24 @@ template<typename Predicate>
 }
 
 
+// convert a predicate to a 0 or 1 integral value
+template <typename Predicate, typename IntegralType>
+struct predicate_to_integral
+{
+    Predicate pred;
+
+    __host__ __device__
+    explicit predicate_to_integral(const Predicate& pred) : pred(pred) {}
+
+    template <typename T>
+        __host__ __device__
+        bool operator()(const T& x)
+        {
+            return pred(x) ? IntegralType(1) : IntegralType(0);
+        }
+};
+
+
 // note that detail::equal_to does not force conversion from T2 -> T1 as equal_to does
 template <typename T1>
 struct equal_to

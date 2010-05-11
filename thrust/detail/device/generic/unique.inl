@@ -22,17 +22,18 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/transform.h>
 #include <thrust/scatter.h>
-#include <thrust/iterator/zip_iterator.h>
+#include <thrust/scan.h>
 #include <limits>
 
+#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/detail/internal_functional.h>
 
 #include <thrust/detail/device/scan.h>
 #include <thrust/detail/device/copy.h>
-#include <thrust/detail/raw_buffer.h>
-#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
