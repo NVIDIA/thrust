@@ -384,6 +384,9 @@ template<typename T, typename Alloc>
     allocator_type mAllocator;
 
   private:
+    // whether or not value_type has a trivial copy constructor
+    typedef typename has_trivial_copy_constructor<value_type>::type has_trivial_copy_constructor;
+
     // these methods resolve the ambiguity of the constructor template of form (Iterator, Iterator)
     template<typename IteratorOrIntegralType>
       void init_dispatch(IteratorOrIntegralType begin, IteratorOrIntegralType end, false_type); 
@@ -443,6 +446,14 @@ template<typename T, typename Alloc>
                            ForwardIterator first, ForwardIterator last,
                            size_type &allocated_size,
                            iterator &new_storage);
+
+    // this method handles cross-space uninitialized_copy for types with trivial copy constructors
+    template<typename InputIterator, typename ForwardIterator>
+    ForwardIterator cross_space_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, true_type output_type_has_trivial_copy_constructor);
+
+    // this method handles cross-space uninitialized copy for types with non-trivial copy constructors
+    template<typename InputIterator, typename ForwardIterator>
+    ForwardIterator cross_space_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, false_type output_type_has_non_trivial_copy_constructor);
 }; // end vector_base
 
 } // end detail

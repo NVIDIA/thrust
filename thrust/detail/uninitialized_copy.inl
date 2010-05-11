@@ -21,8 +21,8 @@
 
 #include <thrust/uninitialized_copy.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/dispatch/uninitialized_copy.h>
-#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -33,13 +33,13 @@ template<typename InputIterator,
                                      InputIterator last,
                                      ForwardIterator result)
 {
-  typedef typename iterator_traits<ForwardIterator>::value_type ResultType;
+  typedef typename iterator_space<InputIterator>::type Space1;
+  typedef typename iterator_space<ForwardIterator>::type Space2;
 
-  // use a typedef here so old versions of gcc don't crash on OSX
-  typedef detail::has_trivial_copy_constructor<ResultType> ResultTypeHasTrivialCopyConstructor;
+  typedef typename thrust::detail::minimum_space<Space1,Space2>::type MinSpace;
 
-  return detail::dispatch::uninitialized_copy(first, last, result,
-           ResultTypeHasTrivialCopyConstructor());
+  // dispatch on space
+  return detail::dispatch::uninitialized_copy(first, last, result, MinSpace());
 } // end uninitialized_copy()
 
 } // end thrust

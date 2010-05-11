@@ -22,9 +22,10 @@
 
 #pragma once
 
-#include <thrust/copy.h>
-#include <thrust/for_each.h>
-#include <thrust/detail/type_traits.h>
+#include <memory>
+#include <thrust/detail/device/uninitialized_copy.h>
+#include <thrust/iterator/iterator_traits.h>
+
 
 namespace thrust
 {
@@ -35,51 +36,27 @@ namespace detail
 namespace dispatch
 {
 
-// trivial copy constructor path
-template<typename ForwardIterator,
-         typename OutputIterator>
-  OutputIterator uninitialized_copy(ForwardIterator first,
-                                    ForwardIterator last,
-                                    OutputIterator result,
-                                    thrust::detail::true_type) // has_trivial_copy_constructor
+template<typename InputIterator,
+         typename ForwardIterator>
+  ForwardIterator uninitialized_copy(InputIterator first,
+                                     InputIterator last,
+                                     ForwardIterator result,
+                                     thrust::host_space_tag)
 {
-  return thrust::copy(first, last, result);
+  return std::uninitialized_copy(first, last, result);
 } // end uninitialized_copy()
 
-namespace detail
+
+template<typename InputIterator,
+         typename ForwardIterator>
+  ForwardIterator uninitialized_copy(InputIterator first,
+                                     InputIterator last,
+                                     ForwardIterator result,
+                                     thrust::device_space_tag)
 {
+  return thrust::detail::device::uninitialized_copy(first, last, result);
+} // end uninitialized_copy()
 
-template<typename InputType,
-         typename OutputType>
-  struct uninitialized_copy_functor
-{
-
-  __host__ __device__
-  void operator()(const InputType &in, OutputType &out)
-  {
-    ::new(static_cast<void*>(&out)) OutputType(in);
-  } // end operator()()
-}; // end uninitialized_copy_functor
-
-} // end detail
-
-// non-trivial copy constructor path
-template<typename ForwardIterator,
-         typename OutputIterator>
-  OutputIterator uninitialized_copy(ForwardIterator first,
-                                    ForwardIterator last,
-                                    OutputIterator result,
-                                    thrust::detail::false_type) // has_trivial_copy_constructor
-{
-  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
-
-  // XXX nvcc can't compile this yet
-  // XXX we need a binary version of for_each
-  //thrust::for_each(first, last, result, detail::uninitialized_copy_functor<ValueType>);
-
-  // fallback to copy
-  return thrust::copy(first, last, result);
-} // end uninitialized_fill()
 
 } // end dispatch
 

@@ -139,7 +139,7 @@ template<typename ForwardIterator, typename T>
 
   // we're compiling with nvcc, launch a kernel
   const bool use_wide_fill = thrust::detail::is_trivial_iterator<ForwardIterator>::value
-      && thrust::detail::has_trivial_copy<OutputType>::value
+      && thrust::detail::has_trivial_assign<OutputType>::value
       && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
 
   // XXX WAR nvcc 3.0 usused variable warning

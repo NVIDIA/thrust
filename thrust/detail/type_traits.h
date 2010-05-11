@@ -149,15 +149,20 @@ template<typename T> struct has_trivial_constructor
       >
 {};
 
-// these two are synonyms for each other
-//template<typename T> struct has_trivial_copy : public std::tr1::has_trivial_copy<T> {};
-//template<typename T> struct has_trivial_copy_constructor : public std::tr1::has_trivial_copy<T> {};
-//
-//template<typename T> struct has_trivial_destructor : public std::tr1::has_trivial_destructor<T> {};
-//template<typename T> struct has_trivial_assign : public std::tr1::has_trivial_assign<T> {};
-
-template<typename T> struct has_trivial_copy : public is_pod<T> {};
-template<typename T> struct has_trivial_copy_constructor : public is_pod<T> {};
+template<typename T> struct has_trivial_copy_constructor
+  : public integral_constant<
+      bool,
+      is_pod<T>::value
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+      || __has_trivial_copy(T)
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+// only use the intrinsic for >= 4.3
+#if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
+      || __has_trivial_copy(T)
+#endif // GCC VERSION
+#endif // THRUST_HOST_COMPILER
+    >
+{};
 
 template<typename T> struct has_trivial_destructor : public is_pod<T> {};
 template<typename T> struct has_trivial_assign : public is_pod<T> {};

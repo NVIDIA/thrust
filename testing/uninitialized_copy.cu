@@ -7,50 +7,100 @@ void TestUninitializedCopySimplePOD(void)
 {
     typedef typename Vector::value_type T;
 
-    Vector v(5);
-    v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
+    Vector v1(5);
+    v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;
 
-    // copy to device_vector
-    thrust::host_vector<T> h(5);
-    thrust::uninitialized_copy(v.begin(), v.end(), h.begin());
-    ASSERT_EQUAL(h[0], 0);
-    ASSERT_EQUAL(h[1], 1);
-    ASSERT_EQUAL(h[2], 2);
-    ASSERT_EQUAL(h[3], 3);
-    ASSERT_EQUAL(h[4], 4);
-
-    // copy to device_vector
-    thrust::device_vector<T> d(5);
-    thrust::uninitialized_copy(v.begin(), v.end(), d.begin());
-    ASSERT_EQUAL(d[0], 0);
-    ASSERT_EQUAL(d[1], 1);
-    ASSERT_EQUAL(d[2], 2);
-    ASSERT_EQUAL(d[3], 3);
-    ASSERT_EQUAL(d[4], 4);
+    // copy to Vector
+    Vector v2(5);
+    thrust::uninitialized_copy(v1.begin(), v1.end(), v2.begin());
+    ASSERT_EQUAL(v2[0], 0);
+    ASSERT_EQUAL(v2[1], 1);
+    ASSERT_EQUAL(v2[2], 2);
+    ASSERT_EQUAL(v2[3], 3);
+    ASSERT_EQUAL(v2[4], 4);
 }
 DECLARE_VECTOR_UNITTEST(TestUninitializedCopySimplePOD);
 
 
-template<typename T>
-struct Wrap
+struct CopyConstructTest
 {
-  T x;
+  CopyConstructTest(void)
+    :copy_constructed_on_host(false),
+     copy_constructed_on_device(false)
+  {}
 
-  Wrap(void){}
+  __host__ __device__
+  CopyConstructTest(const CopyConstructTest &exemplar)
+  {
+#if __CUDA_ARCH__
+    copy_constructed_on_device = true;
+    copy_constructed_on_host   = false;
+#else
+    copy_constructed_on_device = false;
+    copy_constructed_on_device = true;
+#endif
+  }
 
-  explicit Wrap(T exemplar):x(exemplar){}
+  CopyConstructTest &operator=(const CopyConstructTest &x)
+  {
+    copy_constructed_on_host   = x.copy_constructed_on_host;
+    copy_constructed_on_device = x.copy_constructed_on_device;
+    return *this;
+  }
 
-  Wrap(const Wrap &exemplar):x(exemplar.x + 13){}
+  bool copy_constructed_on_host;
+  bool copy_constructed_on_device;
 };
 
-template <class Vector>
-struct TestUninitializedCopySimpleNonPOD
+
+struct TestUninitializedCopyNonPODDevice
 {
   void operator()(const size_t dummy)
   {
-    KNOWN_FAILURE
+    typedef CopyConstructTest T;
+
+    thrust::device_vector<T> v1(5), v2(5);
+
+    T x;
+    ASSERT_EQUAL(false, x.copy_constructed_on_device);
+    ASSERT_EQUAL(false, x.copy_constructed_on_host);
+
+    x = v1[0];
+    ASSERT_EQUAL(false, x.copy_constructed_on_device);
+    ASSERT_EQUAL(false, x.copy_constructed_on_host);
+
+    thrust::uninitialized_copy(v1.begin(), v1.end(), v2.begin());
+
+    x = v2[0];
+    ASSERT_EQUAL(true,  x.copy_constructed_on_device);
+    ASSERT_EQUAL(false, x.copy_constructed_on_host);
   }
 };
-VectorUnitTest<TestUninitializedCopySimpleNonPOD, unittest::type_list<Wrap<int>, Wrap<float> >, thrust::device_vector, thrust::device_malloc_allocator> gTestUninitializedCopyNonPODSimpleDeviceInstance;
-VectorUnitTest<TestUninitializedCopySimpleNonPOD, unittest::type_list<Wrap<int>, Wrap<float> >, thrust::host_vector, std::allocator>                    gTestUninitializedCopyNonPODSimpleHostInstance;
+DECLARE_UNITTEST(TestUninitializedCopyNonPODDevice);
+
+
+struct TestUninitializedCopyNonPODHost
+{
+  void operator()(const size_t dummy)
+  {
+    typedef CopyConstructTest T;
+
+    thrust::host_vector<T> v1(5), v2(5);
+
+    T x;
+    ASSERT_EQUAL(false, x.copy_constructed_on_device);
+    ASSERT_EQUAL(false, x.copy_constructed_on_host);
+
+    x = v1[0];
+    ASSERT_EQUAL(false, x.copy_constructed_on_device);
+    ASSERT_EQUAL(false, x.copy_constructed_on_host);
+
+    thrust::uninitialized_copy(v1.begin(), v1.end(), v2.begin());
+
+    x = v2[0];
+    ASSERT_EQUAL(false, x.copy_constructed_on_device);
+    ASSERT_EQUAL(true,  x.copy_constructed_on_host);
+  }
+};
+DECLARE_UNITTEST(TestUninitializedCopyNonPODHost);
 

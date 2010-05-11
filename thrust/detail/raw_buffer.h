@@ -161,6 +161,59 @@ template<typename T>
     raw_host_buffer(InputIterator first, InputIterator last):super_t(first,last){}
 }; // end raw_host_buffer
 
+
+// XXX eliminate this when we do ranges for real
+template<typename Iterator>
+  class iterator_range
+{
+  public:
+    iterator_range(Iterator first, Iterator last)
+      : m_begin(first), m_end(last) {}
+
+    Iterator begin(void) const { return m_begin; }
+    Iterator end(void) const { return m_end; }
+
+  private:
+    Iterator m_begin, m_end;
+};
+
+
+// if the space of Iterator1 is convertible to Iterator2, then just make a shallow
+// copy of the range.  else, use a raw_buffer
+template<typename Iterator1, typename Iterator2>
+  struct move_to_space_base
+    : public eval_if<
+        is_convertible<
+          typename thrust::iterator_space<Iterator1>::type,
+          typename thrust::iterator_space<Iterator2>::type
+        >::value,
+        identity_<
+          iterator_range<Iterator1>
+        >,
+        identity_<
+          raw_buffer<
+            typename thrust::iterator_value<Iterator1>::type,
+            typename thrust::iterator_space<Iterator2>::type
+          >
+        >
+      >
+{};
+
+
+template<typename Iterator1, typename Iterator2>
+  class move_to_space
+    : public move_to_space_base<
+        Iterator1,
+        Iterator2
+      >::type
+{
+  typedef typename move_to_space_base<Iterator1,Iterator2>::type super_t;
+
+  public:
+    move_to_space(Iterator1 first, Iterator1 last)
+      : super_t(first, last) {}
+};
+
 } // end detail
 
 } // end thrust
