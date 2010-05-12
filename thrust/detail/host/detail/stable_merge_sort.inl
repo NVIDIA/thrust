@@ -16,7 +16,7 @@
 
 
 #include <algorithm>
-#include <vector>
+#include <thrust/host_vector.h>
 
 #include <thrust/iterator/iterator_traits.h>
 
@@ -136,8 +136,8 @@ void inplace_merge(RandomAccessIterator first,
 {
     typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-    std::vector<value_type> a( first, middle);
-    std::vector<value_type> b(middle,   last);
+    thrust::host_vector<value_type> a( first, middle);
+    thrust::host_vector<value_type> b(middle,   last);
 
     std::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
@@ -245,10 +245,10 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
     RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
     RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-    std::vector<value_type1> lhs1( first1, middle1);
-    std::vector<value_type1> rhs1(middle1,   last1);
-    std::vector<value_type2> lhs2( first2, middle2);
-    std::vector<value_type2> rhs2(middle2,   last2);
+    thrust::host_vector<value_type1> lhs1( first1, middle1);
+    thrust::host_vector<value_type1> rhs1(middle1,   last1);
+    thrust::host_vector<value_type2> lhs2( first2, middle2);
+    thrust::host_vector<value_type2> rhs2(middle2,   last2);
 
     merge_by_key(lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
                  lhs2.begin(), rhs2.begin(),
