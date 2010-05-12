@@ -106,7 +106,8 @@ class UnitTest {
         std::string name;
         UnitTest() {}
         UnitTest(const char * name);
-        virtual void run() {};
+        virtual ~UnitTest() {}
+        virtual void run() {}
 
         bool operator<(const UnitTest& u) const 
         {
