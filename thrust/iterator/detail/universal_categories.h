@@ -73,7 +73,7 @@ struct random_access_universal_iterator_tag
   : bidirectional_universal_iterator_tag
 #endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_GCC
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILIER_GCC
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
   operator bidirectional_universal_iterator_tag () {return bidirectional_universal_iterator_tag();}
 #endif // THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 
