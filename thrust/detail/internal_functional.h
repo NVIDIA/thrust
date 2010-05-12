@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/tuple.h>
+
 namespace thrust
 {
 namespace detail
