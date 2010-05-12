@@ -75,28 +75,29 @@ template<typename InputIterator,
     // advance input
     input += i;
 
-    // local (per-thread) sum
-    OutputType sum;
-   
-    // initialize local sum 
     if (i < n)
     {
-        sum = thrust::detail::device::dereference(input);
-        i += grid_size;
-        input += grid_size;
-    }   
+        // initialize local sum 
+        OutputType sum = thrust::detail::device::dereference(input);
 
-    // accumulate local sum
-    while (i < n)
-    {
-        OutputType val = thrust::detail::device::dereference(input);
-        sum = binary_op(sum, val);
-        i += grid_size;
+        i     += grid_size;
         input += grid_size;
-    } 
 
-    // copy local sum to shared memory
-    shared_array[threadIdx.x] = sum;  __syncthreads();
+        // accumulate local sum
+        while (i < n)
+        {
+            OutputType val = thrust::detail::device::dereference(input);
+            sum = binary_op(sum, val);
+
+            i     += grid_size;
+            input += grid_size;
+        }
+
+        // copy local sum to shared memory
+        shared_array[threadIdx.x] = sum;
+    }
+
+    __syncthreads();
 
     // compute reduction across block
     thrust::detail::device::cuda::block::reduce_n(shared_array, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
