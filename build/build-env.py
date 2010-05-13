@@ -30,7 +30,7 @@ OldEnvironment = Environment;
 gCompilerOptions = {
     'gcc' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
     'g++' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'cl'  : {'optimization' : '/Ox', 'debug' : '/Zi', 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
+    'cl'  : {'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
   }
 
 
@@ -88,7 +88,7 @@ def getNVCCFLAGS(mode, backend, arch):
   if mode == 'debug':
     # turn on debug mode
     # XXX make this work when we've debugged nvcc -G
-    #result.append('-G')
+    result.append('-G')
     pass
   return result
 
