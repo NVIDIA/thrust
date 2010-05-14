@@ -186,6 +186,11 @@ DECLARE_VARIABLE_UNITTEST(TestGatherIf);
 template <typename Vector>
 void TestGatherCountingIterator(void)
 {
+
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_DEBUG != 0)
+    KNOWN_FAILURE;
+#endif
+
     typedef typename Vector::value_type T;
 
     Vector source(10);
