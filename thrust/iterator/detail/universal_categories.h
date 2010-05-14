@@ -64,24 +64,33 @@ struct bidirectional_universal_iterator_tag
 };
 
 
-// XXX WAR gcc-3.4 difficulties resolving the ambiguity in choosing between std::random_access_iterator_tag and
-//     std::input_iterator_tag when converting random_acces_universal_iterator_tag
-//     instead of inheriting from bidirectional_universal_iterator_tag, provide a conversion to it
-//     remove this WAR when we remove support for gcc-3.4
-struct random_access_universal_iterator_tag
-#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_GCC
-  : bidirectional_universal_iterator_tag
-#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_GCC
+namespace detail
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
-  operator bidirectional_universal_iterator_tag () {return bidirectional_universal_iterator_tag();}
-#endif // THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 
+// create this struct to control conversion precedence in random_access_universal_iterator_tag
+template<typename T>
+struct one_degree_of_separation
+  : T
+{
+};
+
+} // end detail
+
+
+struct random_access_universal_iterator_tag
+{
+  // these conversions are all P0
   operator random_access_host_iterator_tag () {return random_access_host_iterator_tag();};
+
+  operator random_access_device_iterator_tag () {return random_access_device_iterator_tag();};
 
   operator detail::random_access_cuda_device_iterator_tag () {return detail::random_access_cuda_device_iterator_tag();};
 
   operator detail::random_access_omp_device_iterator_tag () {return detail::random_access_omp_device_iterator_tag();};
+
+  // bidirectional_universal_iterator_tag is P1
+  operator detail::one_degree_of_separation<bidirectional_universal_iterator_tag> () {return detail::one_degree_of_separation<bidirectional_universal_iterator_tag>();}
+
 };
 
 

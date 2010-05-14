@@ -280,11 +280,7 @@ template<typename T>
                                  && !is_volatile<type_sans_ref>::value));
 }; // end is_int_or_cref
 
-struct any_conversion
-{
-  template <typename T> any_conversion(const volatile T&);
-  template <typename T> any_conversion(T&);
-}; // end any_conversion
+
 
 template<typename From, typename To>
   struct is_convertible_sfinae
@@ -293,12 +289,12 @@ template<typename From, typename To>
     typedef char                          one_byte;
     typedef struct { char two_chars[2]; } two_bytes;
 
-    static one_byte  test(To, int);
-    static two_bytes test(any_conversion, ...);
+    static one_byte  test(To);
+    static two_bytes test(...);
     static From      m_from;
 
   public:
-    static const bool value = sizeof(test(m_from, 0)) == 1;
+    static const bool value = sizeof(test(m_from)) == 1;
 }; // end is_convertible_sfinae
 
 
