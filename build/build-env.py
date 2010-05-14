@@ -30,7 +30,7 @@ OldEnvironment = Environment;
 gCompilerOptions = {
     'gcc' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
     'g++' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'cl'  : {'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
+    'cl'  : {'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG', '/MTd'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
   }
 
 
