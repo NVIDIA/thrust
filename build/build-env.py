@@ -88,7 +88,7 @@ def getNVCCFLAGS(mode, backend, arch):
   if mode == 'debug':
     # turn on debug mode
     # XXX make this work when we've debugged nvcc -G
-    result.append('-G')
+    #result.append('-G')
     pass
   return result
 
