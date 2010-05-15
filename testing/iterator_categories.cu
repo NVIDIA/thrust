@@ -18,6 +18,9 @@ struct converts_to_before
 
 void TestRandomAccessUniversalIteratorTagConversionPriorities(void)
 {
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+  KNOWN_FAILURE
+#else
   // random_access_universal_iterator_tag should convert to
   // random_access_iterator_tag
   // before
@@ -50,13 +53,14 @@ void TestRandomAccessUniversalIteratorTagConversionPriorities(void)
 
 
   // random_access_universal_iterator_tag should convert to
-  // random_acces_host_iterator_tag before
+  // random_access_host_iterator_tag before
   // bidirectional_universal_iterator_tag
   THRUST_STATIC_ASSERT( (converts_to_before<
                            thrust::random_access_universal_iterator_tag,
                            thrust::random_access_host_iterator_tag,
                            thrust::bidirectional_universal_iterator_tag
                          >::value) );
+#endif
 }
 DECLARE_UNITTEST(TestRandomAccessUniversalIteratorTagConversionPriorities);
 
@@ -158,6 +162,36 @@ void TestRandomAccessUniversalIteratorTagConversion(void)
   THRUST_STATIC_ASSERT( (thrust::detail::is_convertible<
                            thrust::random_access_universal_iterator_tag,
                            thrust::random_access_device_iterator_tag
+                         >::value) );
+
+
+  // universal tags
+  // random_access_universal_iterator_tag should convert to
+  // input_universal_iterator_tag
+  THRUST_STATIC_ASSERT( (thrust::detail::is_convertible<
+                           thrust::random_access_universal_iterator_tag,
+                           thrust::input_universal_iterator_tag
+                         >::value) );
+
+  // random_access_universal_iterator_tag should convert to
+  // forward_universal_iterator_tag
+  THRUST_STATIC_ASSERT( (thrust::detail::is_convertible<
+                           thrust::random_access_universal_iterator_tag,
+                           thrust::forward_universal_iterator_tag
+                         >::value) );
+
+  // random_access_universal_iterator_tag should convert to
+  // bidirectional_universal_iterator_tag
+  THRUST_STATIC_ASSERT( (thrust::detail::is_convertible<
+                           thrust::random_access_universal_iterator_tag,
+                           thrust::bidirectional_universal_iterator_tag
+                         >::value) );
+
+  // random_access_universal_iterator_tag should convert to
+  // random_access_universal_iterator_tag
+  THRUST_STATIC_ASSERT( (thrust::detail::is_convertible<
+                           thrust::random_access_universal_iterator_tag,
+                           thrust::random_access_universal_iterator_tag
                          >::value) );
 }
 DECLARE_UNITTEST(TestRandomAccessUniversalIteratorTagConversion);
