@@ -43,7 +43,7 @@ template<typename Range>
 {
   // XXX Boost treats const_iterator as an optional typedef
   //     we may wish to provide this option as well
-  typename Range::const_iterator type;
+  typedef typename Range::const_iterator type;
 };
 
 

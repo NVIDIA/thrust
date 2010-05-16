@@ -92,7 +92,7 @@ template<typename Range>
 
 // i assume this specialization is to handle const arrays
 template<typename Range>
-  struct range_size<const T> :
+  struct range_size<const Range> :
     detail::range_size<Range>
 {};
 

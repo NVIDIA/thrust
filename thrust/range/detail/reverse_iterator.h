@@ -24,7 +24,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/range/iterator.h>
+#include <thrust/range/detail/iterator.h>
 #include <thrust/iterator/reverse_iterator.h>
 
 

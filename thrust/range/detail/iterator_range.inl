@@ -41,7 +41,7 @@ template<typename Iterator>
 
 template<typename Iterator>
   template<typename OtherIterator>
-    iterator_range(void)
+    iterator_range<Iterator>
       ::iterator_range(OtherIterator begin, OtherIterator end)
         : m_begin(begin), m_end(end)
 {
@@ -57,6 +57,7 @@ template<typename Iterator>
 {
   m_begin = r.begin();
   m_end   = r.end();
+  return *this;
 } // end iterator_range::operator=()
 
 
@@ -79,7 +80,7 @@ template<typename Iterator>
 
 
 template<typename Iterator>
-  typename iterator_range<Iterator>::size_type
+  typename iterator_range<Iterator>::difference_type
     iterator_range<Iterator>
       ::size(void) const
 {
