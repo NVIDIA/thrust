@@ -38,6 +38,7 @@ namespace experimental
 
 // default
 template<typename Range>
+__host__ __device__
   inline typename range_iterator<Range>::type
     end(Range &r)
 {
@@ -47,6 +48,7 @@ template<typename Range>
 
 // arrays
 template<typename T, std::size_t sz>
+__host__ __device__
   inline T* end(T (&a)[sz])
 {
   return a + sz;
@@ -56,6 +58,7 @@ template<typename T, std::size_t sz>
 // const arrays
 // XXX possibly discardable per note in Boost
 template<typename T, std::size_t sz>
+__host__ __device__
   inline const T* end(const T (&a)[sz])
 {
   return a + sz;
