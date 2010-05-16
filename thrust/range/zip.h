@@ -22,7 +22,7 @@
 #include <thrust/range/end.h>
 #include <thrust/range/detail/zip_result.h>
 
-// XXX we will need to make a script to produce all the overloads
+// spawn more overloads
 
 namespace thrust
 {
