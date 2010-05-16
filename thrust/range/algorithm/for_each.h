@@ -14,21 +14,19 @@
  *  limitations under the License.
  */
 
-//  Copyright Thorsten Ottosen 2003-2004. Use, modification and
+//  Copyright Neil Groves 2009. Use, modification and
 //  distribution is subject to the Boost Software License, Version
 //  1.0. (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
+//
 //
 // For more information, see http://www.boost.org/libs/range/
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/pair.h>
-#include <thrust/tuple.h>
-
-#include <cstddef> // for std::size_t
-#include <utility> // for std::pair
+#include <thrust/range/begin.h>
+#include <thrust/range/end.h>
+#include <thrust/for_each.h>
 
 namespace thrust
 {
@@ -36,46 +34,25 @@ namespace thrust
 namespace experimental
 {
 
-
-// default
-template<typename Range>
-  struct range_mutable_iterator
+namespace range
 {
-  typedef typename Range::iterator type;
-};
 
 
-// std::pair
-template<typename Iterator>
-  struct range_mutable_iterator< std::pair<Iterator,Iterator> >
+template<typename SinglePassRange, typename UnaryFunction>
+  inline void for_each(SinglePassRange &rng, UnaryFunction f)
 {
-  typedef Iterator type;
-};
+  return thrust::for_each(begin(rng), end(rng), f);
+} // end for_each()
 
 
-// thrust::pair
-template<typename Iterator>
-  struct range_mutable_iterator< thrust::pair<Iterator,Iterator> >
+template<typename SinglePassRange, typename UnaryFunction>
+  inline void for_each(const SinglePassRange &rng, UnaryFunction f)
 {
-  typedef Iterator type;
-};
+  return thrust::for_each(begin(rng), end(rng), f);
+} // end for_each()
 
 
-// thrust::tuple
-template<typename Iterator>
-  struct range_mutable_iterator< thrust::tuple<Iterator,Iterator> >
-{
-  typedef Iterator type;
-};
-
-
-// array
-template<typename T, std::size_t sz>
-struct range_mutable_iterator< T[sz] >
-{
-  typedef T* type;
-};
-
+} // end range
 
 } // end experimental
 

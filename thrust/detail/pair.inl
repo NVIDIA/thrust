@@ -200,5 +200,40 @@ template<unsigned int N, typename T1, typename T2>
 } // end get()
 
 
+namespace experimental
+{
+
+
+template<typename InputIterator>
+  InputIterator begin(pair<InputIterator,InputIterator> &p)
+{
+  return p.first;
+} // end begin()
+
+
+template<typename InputIterator>
+  InputIterator begin(const pair<InputIterator,InputIterator> &p)
+{
+  return p.first;
+} // end begin()
+
+
+template<typename InputIterator>
+  InputIterator end(pair<InputIterator,InputIterator> &p)
+{
+  return p.second;
+} // end end()
+
+
+template<typename InputIterator>
+  InputIterator end(const pair<InputIterator,InputIterator> &p)
+{
+  return p.second;
+} // end end()
+
+
+} // end experimental
+
+
 } // end thrust
 

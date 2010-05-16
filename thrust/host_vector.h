@@ -147,6 +147,48 @@ template<typename T, typename Alloc = std::allocator<T> >
       :Parent(first, last) {}
 }; // end host_vector
 
+
+namespace experimental
+{
+
+// [24.6.5] range access
+
+// XXX move these implementations to device_vector.inl
+template<typename T, typename Alloc>
+  typename host_vector<T,Alloc>::iterator
+    begin(host_vector<T,Alloc> &v)
+{
+  return v.begin();
+} // end begin()
+
+
+template<typename T, typename Alloc>
+  typename host_vector<T,Alloc>::const_iterator
+    begin(const host_vector<T,Alloc> &v)
+{
+  return v.begin();
+} // end begin()
+
+
+// XXX move these implementations to host_vector.inl
+template<typename T, typename Alloc>
+  typename host_vector<T,Alloc>::iterator
+    end(host_vector<T,Alloc> &v)
+{
+  return v.end();
+} // end end()
+
+
+template<typename T, typename Alloc>
+  typename host_vector<T,Alloc>::const_iterator
+    end(const host_vector<T,Alloc> &v)
+{
+  return v.end();
+} // end end()
+
+
+} // end experimental
+
 /*! \}
  */
 

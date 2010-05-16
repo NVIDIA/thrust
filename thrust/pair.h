@@ -251,6 +251,32 @@ template<typename Pair> struct tuple_size;
 //    const typename tuple_element<N, pair<T1,T2> >::type &
 //      get(const pair<T1,T2> &p);
 
+namespace experimental
+{
+
+// [20.3.6] pair range access
+
+// we need both const and non-const overloads so that the primary non-const template
+// isn't selected (which doesn't work for pair)
+
+template<typename InputIterator>
+inline __host__ __device__
+  InputIterator begin(thrust::pair<InputIterator,InputIterator> &p);
+
+template<typename InputIterator>
+inline __host__ __device__
+  InputIterator begin(const thrust::pair<InputIterator,InputIterator> &p);
+
+template<typename InputIterator>
+inline __host__ __device__
+  InputIterator end(thrust::pair<InputIterator,InputIterator> &p);
+
+template<typename InputIterator>
+inline __host__ __device__
+  InputIterator end(const thrust::pair<InputIterator,InputIterator> &p);
+
+} // end experimental
+
 /*! \}
  */
 

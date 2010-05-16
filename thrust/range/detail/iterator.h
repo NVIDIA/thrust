@@ -26,8 +26,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/range/const_iterator.h>
-#include <thrust/range/mutable_iterator.h>
+#include <thrust/range/detail/const_iterator.h>
+#include <thrust/range/detail/mutable_iterator.h>
 
 
 namespace thrust
@@ -40,12 +40,12 @@ namespace experimental
 template<typename Range>
   struct range_iterator
     : thrust::detail::eval_if<
-        is_const<Range>::value,
+        thrust::detail::is_const<Range>::value,
         range_const_iterator<
           typename thrust::detail::remove_const<Range>::type
         >,
-        range_mutable_iterator<C>
-      >::type
+        range_mutable_iterator<Range>
+      >
 {};
 
 

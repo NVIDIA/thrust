@@ -24,7 +24,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/range/detail/range_iterator.h>
+#include <thrust/range/detail/iterator.h>
 
 #include <cstddef> // for std::size_t
 
