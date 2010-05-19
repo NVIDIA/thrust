@@ -55,13 +55,21 @@ template<typename SinglePassRange>
 
 
 template<typename T>
+  struct is_range
+    : thrust::detail::is_same<
+        typename range_iterator<T>::type,
+        typename range_iterator<T>::type
+      >
+{};
+
+
+template<typename T>
   struct is_adaptable_unary_function
     : thrust::detail::is_same<
         typename T::argument_type,
         typename T::argument_type
       >
-{
-};
+{};
 
 
 template<typename T>
@@ -70,8 +78,17 @@ template<typename T>
         typename T::first_argument_type,
         typename T::first_argument_type
       >
-{
-};
+{};
+
+
+template<typename Range>
+  struct ensure_range
+    : thrust::detail::enable_if<
+        is_range<
+          Range
+        >::value
+      >
+{};
 
 
 template<typename AdaptableUnaryFunction>
@@ -81,8 +98,7 @@ template<typename AdaptableUnaryFunction>
           AdaptableUnaryFunction
         >::value
       >
-{
-};
+{};
 
 
 template<typename AdaptableBinaryFunction>
@@ -97,6 +113,8 @@ template<typename AdaptableBinaryFunction>
 
 
 } // end detail
+
+// XXX should we implement transform() with transform(begin,end) or for_each(rng) ?
 
 
 // XXX Boost's versions which take iterator arguments
@@ -127,6 +145,19 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFun
   inline typename detail::transform_result<SinglePassRange2>::type
     transform(const SinglePassRange1 &rng,
               SinglePassRange2 &result,
+              UnaryFunction f)
+{
+  typedef typename detail::transform_result<SinglePassRange2>::type Result;
+
+  return Result(thrust::transform(begin(rng), end(rng), begin(result), f), end(result));
+} // end transform()
+
+
+// XXX add a second overload to accept temporary ranges for the second parameter from things like zip()
+template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFunction>
+  inline typename detail::transform_result<const SinglePassRange2>::type
+    transform(const SinglePassRange1 &rng,
+              const SinglePassRange2 &result,
               UnaryFunction f)
 {
   typedef typename detail::transform_result<SinglePassRange2>::type Result;

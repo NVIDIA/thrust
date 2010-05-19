@@ -31,6 +31,9 @@ namespace experimental
 {
 
 
+// XXX these should clip all ranges to the first range's size
+
+
 template<typename Range>
   typename detail::zip1_result<Range>::type
     zip(Range &rng)
