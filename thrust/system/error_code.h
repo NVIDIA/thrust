@@ -247,7 +247,7 @@ class error_code
       error_code(ErrorCodeEnum e
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-        , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
+        , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum> >::type * = 0
 #endif // THRUST_HOST_COMPILER_MSVC
         );
 
@@ -262,7 +262,7 @@ class error_code
     template <typename ErrorCodeEnum>
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-      typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
+      typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>, error_code>::type &
 #else
       error_code &
 #endif // THRUST_HOST_COMPILER_MSVC
@@ -349,7 +349,7 @@ class error_condition
       error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-        , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
+        , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum> >::type * = 0
 #endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
                      );
 
@@ -359,7 +359,7 @@ class error_condition
     template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
+      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>, error_condition>::type &
 #else
       error_condition &
 #endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC

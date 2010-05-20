@@ -40,7 +40,7 @@ template<typename T>
                            detail::is_convertible<
                              typename device_reference<OtherT>::pointer,
                              pointer
-                           >::value
+                           >
                          >::type *dummy
 #endif // _MSC_VER
                         )

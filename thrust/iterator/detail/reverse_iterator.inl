@@ -50,7 +50,7 @@ template<typename BidirectionalIterator>
                          thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
-                         >::value
+                         >
                        >::type *
 #endif // _MSC_VER
                      )

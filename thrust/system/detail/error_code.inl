@@ -49,7 +49,7 @@ template <typename ErrorCodeEnum>
     ::error_code(ErrorCodeEnum e
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-                 , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type *
+                 , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum> >::type *
 #endif // THRUST_HOST_COMPILER_MSVC
                 )
 {
@@ -68,7 +68,7 @@ void error_code
 template <typename ErrorCodeEnum>
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-  typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
+  typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>, error_code>::type &
 #else
   error_code &
 #endif // THRUST_HOST_COMPILER_MSVC

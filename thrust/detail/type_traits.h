@@ -391,13 +391,20 @@ template<typename T>
   typedef T type;
 }; // end identity
 
-template<bool, typename T = void> struct enable_if {};
-template<typename T>              struct enable_if<true, T> {typedef T type;};
+template<bool, typename T = void> struct enable_if_c { typedef T type; };
+template<typename T>              struct enable_if_c<false, T> {};
+
+template<typename Condition, typename T = void> struct enable_if : enable_if_c<Condition::value, T> {};
+
+template<bool, typename T> struct lazy_enable_if_c { typedef typename T::type type; };
+template<typename T> struct lazy_enable_if_c<false,T> {};
+
+template<typename Condition, typename T> struct lazy_enable_if : lazy_enable_if_c<Condition::value, T> {};
 
 
 template<typename T1, typename T2>
   struct enable_if_convertible
-    : enable_if< is_convertible<T1,T2>::value>
+    : enable_if_c<is_convertible<T1,T2>::value>
 {};
 
 
