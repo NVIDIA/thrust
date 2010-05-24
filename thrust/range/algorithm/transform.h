@@ -96,6 +96,15 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
               BinaryFunction f);
 
 
+template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename UnaryFunction, typename Predicate>
+  inline typename detail::unary_transform_if_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, UnaryFunction, Predicate>::type
+    transform_if(const SinglePassRange1 &rng,
+                 const SinglePassRange2 &stencil,
+                 SinglePassRange3 &result,
+                 UnaryFunction f,
+                 Predicate pred);
+
+
 // lazy versions
 
 // XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
