@@ -55,13 +55,30 @@ template<typename Iterator>
     __host__ __device__
     inline iterator_range(OtherIterator begin, OtherIterator end);
 
-    // XXX many constructors from a Range here, which we can ignore for now
+    // XXX boost uses tag dispatch for a couple of these constructors
+    //     do we need to care about that?
+    // XXX boost uses detail::adl_begin & detail::adl_end to implement these
+    //     do we need to?
+
+    template<typename ForwardRange>
+    __host__ __device__
+    inline iterator_range(const ForwardRange &r);
+
+    template<typename ForwardRange>
+    __host__ __device__
+    inline iterator_range(ForwardRange &r);
     
     template<typename OtherIterator>
     __host__ __device__
     inline iterator_range &operator=(const iterator_range<OtherIterator> &r);
 
-    // XXX many assigns from a Range here, which we can ignore for now
+    template<typename ForwardRange>
+    __host__ __device__
+    inline iterator_range &operator=(const ForwardRange &r);
+
+    template<typename ForwardRange>
+    __host__ __device__
+    inline iterator_range &operator=(ForwardRange &r);
 
     __host__ __device__
     inline iterator begin(void) const;

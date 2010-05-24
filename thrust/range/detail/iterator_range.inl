@@ -23,6 +23,10 @@
 
 #pragma once
 
+#include <thrust/range/iterator_range.h>
+#include <thrust/range/begin.h>
+#include <thrust/range/end.h>
+
 namespace thrust
 {
 
@@ -50,6 +54,28 @@ template<typename Iterator>
 
 
 template<typename Iterator>
+  template<typename ForwardRange>
+    iterator_range<Iterator>
+      ::iterator_range(const ForwardRange &r)
+        : m_begin(thrust::experimental::begin(r)),
+          m_end(thrust::experimental::end(r))
+{
+  ;
+} // end iterator_range::iterator_range()
+
+
+template<typename Iterator>
+  template<typename ForwardRange>
+    iterator_range<Iterator>
+      ::iterator_range(ForwardRange &r)
+        : m_begin(thrust::experimental::begin(r)),
+          m_end(thrust::experimental::end(r))
+{
+  ;
+} // end iterator_range::iterator_range()
+
+
+template<typename Iterator>
   template<typename OtherIterator>
     iterator_range<Iterator> &
       iterator_range<Iterator>
@@ -57,6 +83,30 @@ template<typename Iterator>
 {
   m_begin = r.begin();
   m_end   = r.end();
+  return *this;
+} // end iterator_range::operator=()
+
+
+template<typename Iterator>
+  template<typename ForwardRange>
+    iterator_range<Iterator> &
+      iterator_range<Iterator>
+        ::operator=(ForwardRange &r)
+{
+  m_begin = thrust::experimental::begin(r);
+  m_end   = thrust::experimental::end(r);
+  return *this;
+} // end iterator_range::operator=()
+
+
+template<typename Iterator>
+  template<typename ForwardRange>
+    iterator_range<Iterator> &
+      iterator_range<Iterator>
+        ::operator=(const ForwardRange &r)
+{
+  m_begin = thrust::experimental::begin(r);
+  m_end   = thrust::experimental::end(r);
   return *this;
 } // end iterator_range::operator=()
 
