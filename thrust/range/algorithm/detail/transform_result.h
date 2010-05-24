@@ -55,6 +55,13 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
 };
 
 
+template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename SinglePassRange4, typename BinaryFunction, typename Predicate>
+  struct binary_transform_if_result
+{
+  typedef iterator_range<typename range_iterator<SinglePassRange4>::type> type;
+};
+
+
 template<typename SinglePassRange, typename AdaptableUnaryFunction>
   struct lazy_unary_transform_result
     : thrust::detail::lazy_enable_if<
