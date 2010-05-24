@@ -125,18 +125,22 @@ VectorUnitTest<TestRadixSortKeyValueSimple, ThirtyTwoBitTypes, thrust::device_ve
 
 //still need to do long/ulong and maybe double
 
-typedef unittest::type_list<char,
-                               signed char,
-                               unsigned char,
-                               short,
-                               unsigned short,
-                               int,
-                               unsigned int,
-                               long,
-                               unsigned long,
-                               long long,
-                               unsigned long long,
-                               double> RadixSortKeyTypes;
+typedef unittest::type_list<
+#if !(defined(__GNUC__) && (__GNUC__ <= 4) && (__GNUC_MINOR__ <= 1))
+// XXX GCC 4.1 miscompiles the char sorts with -O2 for some reason
+                            char,
+                            signed char,
+                            unsigned char,
+#endif
+                            short,
+                            unsigned short,
+                            int,
+                            unsigned int,
+                            long,
+                            unsigned long,
+                            long long,
+                            unsigned long long,
+                            double> RadixSortKeyTypes;
 
 template <typename T>
 struct TestRadixSort
@@ -162,7 +166,7 @@ struct TestRadixSortByKey
   {
     thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_keys = h_keys;
-    
+
     thrust::host_vector<unsigned int>   h_values(n);
     thrust::device_vector<unsigned int> d_values(n);
     thrust::sequence(h_values.begin(), h_values.end());
@@ -228,11 +232,6 @@ struct TestRadixSortVariableBits
 {
   void operator()(const size_t n)
   {
-#if defined(__GNUC__) && (__GNUC__ <= 4) && (__GNUC_MINOR__ <= 1)
-    // some bizzare problem with VariableUnitTest in this particular case
-    // on GCC 4.1.2 (SUSE Linux)
-    KNOWN_FAILURE;
-#else
     for(size_t num_bits = 0; num_bits < 8 * sizeof(T); num_bits += 7){
         thrust::host_vector<T>  h_keys = unittest::random_integers<T>(n);
    
@@ -247,10 +246,9 @@ struct TestRadixSortVariableBits
     
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     }
-#endif
   }
 };
-VariableUnitTest<TestRadixSortVariableBits, IntegralTypes> TestRadixSortVariableBitsInstance;
+VariableUnitTest<TestRadixSortVariableBits, unittest::type_list<unsigned int> > TestRadixSortVariableBitsInstance;
 
 
 template <typename T>
@@ -280,7 +278,7 @@ struct TestRadixSortByKeyVariableBits
     }
   }
 };
-VariableUnitTest<TestRadixSortByKeyVariableBits, IntegralTypes> TestRadixSortByKeyVariableBitsInstance;
+VariableUnitTest<TestRadixSortByKeyVariableBits, unittest::type_list<unsigned int> > TestRadixSortByKeyVariableBitsInstance;
 
 
 //void TestRadixSortMemoryLeak(void)

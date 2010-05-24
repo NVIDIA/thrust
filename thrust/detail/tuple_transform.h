@@ -251,13 +251,14 @@ template<typename Tuple,
 };
 
 
-template<typename Tuple,
+template<template<typename> class UnaryMetaFunction,
+         typename Tuple,
          typename UnaryFunction>
 __host__ __device__
-typename tuple_meta_transform<Tuple,UnaryFunction::template apply>::type
+typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
 tuple_transform(const Tuple &t, UnaryFunction f)
 {
-  return tuple_transform_functor<Tuple,UnaryFunction::template apply,UnaryFunction>::do_it(t,f);
+  return tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction>::do_it(t,f);
 }
 
 } // end detail
