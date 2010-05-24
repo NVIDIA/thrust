@@ -15,7 +15,7 @@ if env['PLATFORM'] == "darwin":
 
 # find all .cus & .cpps in the current directory
 sources = []
-directories = ['.', 'cuda']
+directories = ['.', 'cuda', 'range']
 extensions = ['*.cu', '*.cpp']
 for dir in directories:
   for ext in extensions:
