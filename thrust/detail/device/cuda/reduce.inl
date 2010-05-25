@@ -86,7 +86,7 @@ template<typename InputIterator,
     size_t input_type_per_wide_type = sizeof(WideType) / sizeof(InputType);
     size_t n_wide = (last - first) / input_type_per_wide_type;
 
-    WideType * wide_first = reinterpret_cast<WideType *>(thrust::raw_pointer_cast(&*first));
+    const WideType * wide_first = reinterpret_cast<const WideType *>(thrust::raw_pointer_cast(&*first));
 
     OutputType result = thrust::detail::device::cuda::reduce_n
         (thrust::make_transform_iterator(wide_first, wide_unary_op<InputType,OutputType,BinaryFunction,WideType>(binary_op)),
