@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/has_nested_type.h>
 
 namespace thrust
 {
@@ -25,67 +26,15 @@ namespace detail
 {
 
 
-// XXX replicating this idiom will get old quick
-//     we need a __THRUST_DECLARE_HAS_NESTED_TYPE or something
+// some metafunctions which check for the nested types of the adaptable functions
 
-template<typename T>
-  struct has_result_type
-{
-  typedef char yes_type;
-  typedef int  no_type;
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_result_type, result_type);
 
-  template<typename S> static yes_type test(typename S::result_type *);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_argument_type, argument_type);
 
-  template<typename S> static no_type test(...);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_first_argument_type, first_argument_type);
 
-  static bool const value = sizeof(test<T>(0)) == sizeof(yes_type);
-  typedef thrust::detail::integral_constant<bool, value> type;
-}; // end has_result_type
-
-
-template<typename T>
-  struct has_argument_type
-{
-  typedef char yes_type;
-  typedef int  no_type;
-
-  template<typename S> static yes_type test(typename S::argument_type *);
-
-  template<typename S> static no_type test(...);
-
-  static bool const value = sizeof(test<T>(0)) == sizeof(yes_type);
-  typedef thrust::detail::integral_constant<bool, value> type;
-}; // end has_argument_type
-
-
-template<typename T>
-  struct has_first_argument_type
-{
-  typedef char yes_type;
-  typedef int  no_type;
-
-  template<typename S> static yes_type test(typename S::first_argument_type *);
-
-  template<typename S> static no_type test(...);
-
-  static bool const value = sizeof(test<T>(0)) == sizeof(yes_type);
-  typedef thrust::detail::integral_constant<bool, value> type;
-}; // end has_first_argument_type
-
-
-template<typename T>
-  struct has_second_argument_type
-{
-  typedef char yes_type;
-  typedef int  no_type;
-
-  template<typename S> static yes_type test(typename S::second_argument_type *);
-
-  template<typename S> static no_type test(...);
-
-  static bool const value = sizeof(test<T>(0)) == sizeof(yes_type);
-  typedef thrust::detail::integral_constant<bool, value> type;
-}; // end has_second_argument_type
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_second_argument_type, second_argument_type);
 
 
 template<typename T>
