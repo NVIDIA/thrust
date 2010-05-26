@@ -29,9 +29,9 @@ template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {
-  // dispatch on space
+  // dispatch on traversal
   return thrust::detail::dispatch::distance(first,last,
-    typename thrust::iterator_space<InputIterator>::type());
+    typename thrust::iterator_traversal<InputIterator>::type());
 } // end distance()
 
 } // end namespace thrust

@@ -22,7 +22,6 @@
 #pragma once
 
 #include <iterator>
-#include <thrust/detail/device/distance.h>
 
 namespace thrust
 {
@@ -33,39 +32,29 @@ namespace detail
 namespace dispatch
 {
 
-///////////////    
-// Host Path //
-///////////////
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last,
-             thrust::host_space_tag)
+             thrust::single_pass_traversal_tag)
 {
-  return std::distance(first, last);
+  typename thrust::iterator_traits<InputIterator>::difference_type result = 0;
+
+  while(first != last)
+  {
+    ++first;
+    ++result;
+  }
+
+  return result;
 } // end distance()
 
 
-/////////////////
-// Device Path //
-/////////////////
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last,
-             thrust::device_space_tag)
+             thrust::random_access_traversal_tag)
 {
-  return thrust::detail::device::distance(first, last);
-} // end distance()
-
-//////////////
-// Any Path //
-//////////////
-template<typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last,
-             thrust::any_space_tag)
-{
-  // default to device
-  return thrust::detail::device::distance(first, last);
+  return last - first;
 } // end distance()
 
 } // end namespace dispatch
