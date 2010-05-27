@@ -13,81 +13,88 @@
 
 // define some common lists of types
 typedef unittest::type_list<int,
-                               unsigned int,
-                               float> ThirtyTwoBitTypes;
+                            unsigned int,
+                            float> ThirtyTwoBitTypes;
 
 typedef unittest::type_list<long long,
-                               unsigned long long,
-                               double> SixtyFourBitTypes;
+                            unsigned long long,
+                            double> SixtyFourBitTypes;
 
 typedef unittest::type_list<char,
-                               signed char,
-                               unsigned char,
-                               short,
-                               unsigned short,
-                               int,
-                               unsigned int,
-                               long,
-                               unsigned long,
-                               long long,
-                               unsigned long long> IntegralTypes;
+                            signed char,
+                            unsigned char,
+                            short,
+                            unsigned short,
+                            int,
+                            unsigned int,
+                            long,
+                            unsigned long,
+                            long long,
+                            unsigned long long> IntegralTypes;
 
 typedef unittest::type_list<signed char,
-                               signed short,
-                               signed int,
-                               signed long,
-                               signed long long> SignedIntegralTypes;
+                            signed short,
+                            signed int,
+                            signed long,
+                            signed long long> SignedIntegralTypes;
 
 typedef unittest::type_list<unsigned char,
-                               unsigned short,
-                               unsigned int,
-                               unsigned long,
-                               unsigned long long> UnsignedIntegralTypes;
+                            unsigned short,
+                            unsigned int,
+                            unsigned long,
+                            unsigned long long> UnsignedIntegralTypes;
 
 typedef unittest::type_list<char,
-                               signed char,
-                               unsigned char> ByteTypes;
+                            signed char,
+                            unsigned char> ByteTypes;
 
 typedef unittest::type_list<char,
-                               signed char,
-                               unsigned char,
-                               short,
-                               unsigned short> SmallIntegralTypes;
+                            signed char,
+                            unsigned char,
+                            short,
+                            unsigned short> SmallIntegralTypes;
 
 typedef unittest::type_list<long long,
-                              unsigned long long> LargeIntegralTypes;
+                            unsigned long long> LargeIntegralTypes;
 
 typedef unittest::type_list<float
 #if __CUDA_ARCH__ >= 130
-                              , double
+                            , double
 #endif // __CUDA_ARCH__
                              > FloatTypes;
 
 typedef unittest::type_list<char,
-                              signed char,
-                              unsigned char,
-                              short,
-                              unsigned short,
-                              int,
-                              unsigned int,
-                              long,
-                              unsigned long,
-                              long long,
-                              unsigned long long,
-                              float
+                            signed char,
+                            unsigned char,
+                            short,
+                            unsigned short,
+                            int,
+                            unsigned int,
+                            long,
+                            unsigned long,
+                            long long,
+                            unsigned long long,
+                            float
 #if __CUDA_ARCH__ >= 130
-                              , double
+                            , double
 #endif // __CUDA_ARCH__
                               > NumericTypes;
+
+
+inline void chop_prefix(std::string& str, const std::string& prefix)
+{
+    str.replace(str.find(prefix) == 0 ? 0 : str.size(), prefix.size(), "");
+}
 
 inline std::string base_class_name(const char *name)
 {
   std::string result = name;
   
   // if the name begins with "struct ", chop it off
-  result.replace(result.find("struct ") == 0 ? 0 : result.size(),
-                 7,
-                 "");
+  chop_prefix(result, "struct ");
+  
+  // if the name begins with "class ", chop it off
+  chop_prefix(result, "class ");
 
   // chop everything including and after first "<"
   return result.replace(result.find_first_of("<"),
