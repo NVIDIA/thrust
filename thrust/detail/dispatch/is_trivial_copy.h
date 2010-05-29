@@ -30,7 +30,7 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace dispatch
 {
 
 
@@ -51,7 +51,7 @@ template<typename FromIterator, typename ToIterator>
       // && has_trivial_assign<typename thrust::iterator_value<ToIterator>::type>::value
     > {};
 
-} // end namespace device
+} // end namespace dispatch
 
 } // end namespace detail
 
