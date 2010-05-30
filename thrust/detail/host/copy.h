@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include <thrust/detail/host/dispatch/copy.h>
+#include <thrust/detail/dispatch/is_trivial_copy.h>
+
 namespace thrust
 {
 
@@ -28,6 +31,17 @@ namespace detail
 
 namespace host
 {
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy(InputIterator first,
+                      InputIterator last,
+                      OutputIterator result)
+{
+  return thrust::detail::host::dispatch::copy(first, last, result,
+      typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
+} // end copy()
 
 
 template<typename InputIterator1,

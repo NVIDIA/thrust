@@ -25,7 +25,6 @@
 #include <thrust/detail/type_traits.h>
 
 // host
-#include <algorithm>
 #include <thrust/detail/host/copy.h>
 
 // device
@@ -36,6 +35,23 @@ namespace thrust
 
 namespace detail
 {
+
+namespace device
+{
+
+// XXX WAR circular #inclusion with these forward declarations
+template<typename InputIterator, typename OutputIterator> OutputIterator copy(InputIterator, InputIterator, OutputIterator);
+
+template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
+  OutputIterator
+    copy_if(InputIterator1,
+            InputIterator1,
+            InputIterator2,
+            OutputIterator,
+            Predicate);
+
+
+} // end device
 
 namespace dispatch
 {
@@ -61,7 +77,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::host_space_tag)
 {
-    return std::copy(begin, end, result);
+    return thrust::detail::host::copy(begin, end, result);
 }
 
 ///////////////////////////

@@ -16,44 +16,40 @@
 
 #pragma once
 
-#include <thrust/device_ptr.h>
-#include <thrust/device_free.h>
+#include <thrust/detail/config.h>
+#include <cstring>
+
 
 namespace thrust
 {
 
-// XXX WAR circular #inclusion with forward declaration
-void device_free(thrust::device_ptr<void> ptr);
+namespace detail
+{
+
+namespace host
+{
 
 namespace detail
 {
 
-namespace device
+
+template<typename T>
+  T *trivial_copy(const T *first,
+                  const T *last,
+                        T *result)
 {
+  std::ptrdiff_t n = last - first;
+  std::memmove(result, first, n * sizeof(T));
+  return result + n;
+} // end trivial_copy()
 
-namespace generic
-{
-
-
-template<unsigned int DummyParameterToAvoidInstantiation>
-  void no_throw_free(thrust::device_ptr<void> ptr) throw()
-{
-  try
-  {
-    thrust::device_free(ptr);
-  }
-  catch(...)
-  {
-    ;
-  }
-} // end no_throw_free()
-
-
-} // end generic
-
-} // end device
 
 } // end detail
 
-} // end namespace thrust
+} // end host
+
+} // end detail
+
+} // end thrust
+
 
