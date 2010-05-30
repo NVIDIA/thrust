@@ -165,7 +165,6 @@ template<typename T> struct has_trivial_copy_constructor
 {};
 
 template<typename T> struct has_trivial_destructor : public is_pod<T> {};
-template<typename T> struct has_trivial_assign : public is_pod<T> {};
 
 template<typename T> struct is_const          : public false_type {};
 template<typename T> struct is_const<const T> : public true_type {};
@@ -487,4 +486,6 @@ struct largest_available_float
 } // end detail
 
 } // end thrust
+
+#include <thrust/detail/type_traits/has_trivial_assign.h>
 

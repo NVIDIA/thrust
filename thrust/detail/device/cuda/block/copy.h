@@ -71,13 +71,21 @@ __device__
                              RandomAccessIterator2 result,
                              thrust::detail::false_type is_trivial_copy)
 {
-  for(first += blockDim.x;
+  RandomAccessIterator2 end_of_output = result + (last - first);
+  
+  // advance iterators
+  first  += threadIdx.x;
+  result += threadIdx.x;
+
+  for(;
       first < last;
       first += blockDim.x,
       result += blockDim.x)
   {
     dereference(result) = dereference(first);
   } // end for
+
+  return end_of_output;
 } // end copy()
 
 } // end namespace dispatch
