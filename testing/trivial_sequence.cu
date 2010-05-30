@@ -30,6 +30,10 @@ void test(Iterator first, Iterator last)
 template <class Vector>
 void TestTrivialSequence(void)
 {
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER == 1400) && defined(_DEBUG)
+    // fails on msvc80 SP1 in debug mode
+    KNOWN_FAILURE;
+#else    
     Vector A(5);  A[0] =  0;  A[1] =  2;  A[2] =  1;  A[3] =  0;  A[4] =  1;  
     Vector B(5);  B[0] = 11;  B[1] = 11;  B[2] = 13;  B[3] = 10;  B[4] = 12;
 
@@ -42,6 +46,7 @@ void TestTrivialSequence(void)
     ASSERT_EQUAL(A[2], 1);  ASSERT_EQUAL(B[2], 13); 
     ASSERT_EQUAL(A[3], 0);  ASSERT_EQUAL(B[3], 10); 
     ASSERT_EQUAL(A[4], 1);  ASSERT_EQUAL(B[4], 12); 
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestTrivialSequence);
 
