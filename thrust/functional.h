@@ -54,7 +54,7 @@ template<typename Operation> struct binary_traits;
  *  struct sine : public thrust::unary_function<float,float>
  *  {
  *    __host__ __device__
- *    double operator()(float x) { return sinf(x); }
+ *    float operator()(float x) { return sinf(x); }
  *  };
  *  \endcode
  *
@@ -86,7 +86,7 @@ template<typename Argument,
  *  struct exponentiate : public thrust::binary_function<float,float,float>
  *  {
  *    __host__ __device__
- *    double operator()(float x, float y) { return powf(x,y); }
+ *    float operator()(float x, float y) { return powf(x,y); }
  *  };
  *  \endcode
  *
@@ -94,7 +94,7 @@ template<typename Argument,
  *  \c std::binary_function. We reserve it here for potential additional
  *  functionality at a later date.
  *
- *  \see http://www.sgi.com/tech/stl/unary_function.html
+ *  \see http://www.sgi.com/tech/stl/binary_function.html
  *  \see unary_function
  */
 template<typename Argument1,
