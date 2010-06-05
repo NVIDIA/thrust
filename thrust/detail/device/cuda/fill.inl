@@ -60,6 +60,63 @@ struct fill_functor
 }; // end fill_functor
 
 
+// XXX use this verbose idiom to WAR type-punning problems
+template<typename T, size_t num_narrow = sizeof(unsigned long long) / sizeof(T)> struct wide_type;
+
+template<typename T>
+struct wide_type<T,2>
+{
+  wide_type(const T &x)
+    : narrow_element1(x),
+      narrow_element2(x)
+  {}
+
+  T narrow_element1;
+  T narrow_element2;
+};
+
+template<typename T>
+struct wide_type<T,4>
+{
+  wide_type(const T &x)
+    : narrow_element1(x),
+      narrow_element2(x),
+      narrow_element3(x),
+      narrow_element4(x)
+  {}
+
+  T narrow_element1;
+  T narrow_element2;
+  T narrow_element3;
+  T narrow_element4;
+};
+
+
+template<typename T>
+struct wide_type<T,8>
+{
+  wide_type(const T &x)
+    : narrow_element1(x),
+      narrow_element2(x),
+      narrow_element3(x),
+      narrow_element4(x),
+      narrow_element5(x),
+      narrow_element6(x),
+      narrow_element7(x),
+      narrow_element8(x)
+  {}
+
+  T narrow_element1;
+  T narrow_element2;
+  T narrow_element3;
+  T narrow_element4;
+  T narrow_element5;
+  T narrow_element6;
+  T narrow_element7;
+  T narrow_element8;
+};
+
+
 template<typename Pointer, typename T>
   void wide_fill(Pointer first,
                  Pointer last,
@@ -67,21 +124,13 @@ template<typename Pointer, typename T>
 {
   typedef typename thrust::iterator_value<Pointer>::type OutputType;
 
-  typedef unsigned long long WideType; // type used to pack the Ts
-
   size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
 
   size_t n = last - first;
 
-  // use this union idiom to avoid warnings concerning type-punning
-  union
-  {
-    WideType wide_exemplar;
-    OutputType narrow_exemplars[sizeof(WideType) / sizeof(OutputType)];
-  } work_around_aliasing_warning;
-
-  for(size_t i = 0; i < sizeof(WideType)/sizeof(OutputType); ++i)
-    work_around_aliasing_warning.narrow_exemplars[i] = static_cast<OutputType>(exemplar);
+  // type used to pack the Ts
+  typedef wide_type<OutputType> WideType;
+  WideType wide_exemplar(static_cast<OutputType>(exemplar));
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = thrust::raw_pointer_cast(last);
@@ -94,7 +143,7 @@ template<typename Pointer, typename T>
 
   thrust::detail::device::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(exemplar));
   thrust::detail::device::generate(block_first_wide, block_last_wide,
-                                   fill_functor<WideType>(work_around_aliasing_warning.wide_exemplar));
+                                   fill_functor<WideType>(wide_exemplar));
   thrust::detail::device::generate(thrust::device_pointer_cast(block_last_raw), last, fill_functor<OutputType>(exemplar));
 }
 

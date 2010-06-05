@@ -19,7 +19,7 @@
 #include <thrust/copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/raw_buffer.h>
-#include <thrust/detail/device/is_trivial_copy.h>
+#include <thrust/detail/dispatch/is_trivial_copy.h>
 #include <thrust/detail/device/cuda/trivial_copy.h>
 
 namespace thrust
@@ -191,7 +191,7 @@ template<typename RandomAccessIterator1,
 {
   // dispatch on whether this is a trivial copy
   return copy_cross_space(begin, end, result, input_traversal, output_traversal,
-          typename is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
+          typename thrust::detail::dispatch::is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
 }
 
 /////////////////

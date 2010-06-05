@@ -24,6 +24,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/device/dereference.h>
 
+#include <thrust/detail/dispatch/is_trivial_copy.h>
 #include <thrust/detail/device/cuda/detail/trivial_copy.h>
 
 namespace thrust
@@ -70,13 +71,21 @@ __device__
                              RandomAccessIterator2 result,
                              thrust::detail::false_type is_trivial_copy)
 {
-  for(first += blockDim.x;
+  RandomAccessIterator2 end_of_output = result + (last - first);
+  
+  // advance iterators
+  first  += threadIdx.x;
+  result += threadIdx.x;
+
+  for(;
       first < last;
       first += blockDim.x,
       result += blockDim.x)
   {
     dereference(result) = dereference(first);
   } // end for
+
+  return end_of_output;
 } // end copy()
 
 } // end namespace dispatch
@@ -90,7 +99,7 @@ __device__
                              RandomAccessIterator2 result)
 {
   return detail::dispatch::copy(first, last, result,
-    typename is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
+    typename thrust::detail::dispatch::is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
 } // end copy()
 
 } // end namespace block

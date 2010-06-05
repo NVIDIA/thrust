@@ -27,6 +27,11 @@
 namespace thrust
 {
 
+
+// XXX WAR circular #inclusion with forward declaration
+template<typename T> thrust::device_ptr<T> device_malloc(const std::size_t n);
+
+
 namespace detail
 {
 
