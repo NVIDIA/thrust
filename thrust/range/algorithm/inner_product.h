@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/range/detail/difference_type.h>
 
 namespace thrust
 {
@@ -29,14 +28,20 @@ namespace range
 {
 
 
-template<typename SinglePassRange, typename EqualityComparable>
-  typename thrust::experimental::range_difference<SinglePassRange>::type
-    count(const SinglePassRange &rng, const EqualityComparable &value);
+template<typename SinglePassRange1, typename SinglePassRange2, typename T>
+  T inner_product(const SinglePassRange1 &rng1,
+                  const SinglePassRange2 &rng2,
+                  T init);
 
 
-template<typename SinglePassRange, typename Predicate>
-  typename thrust::experimental::range_difference<SinglePassRange>::type
-    count_if(const SinglePassRange &rng, Predicate pred);
+template<typename SinglePassRange1, typename SinglePassRange2, typename T,
+         typename BinaryOperation1, typename BinaryOperation2>
+  T inner_product(const SinglePassRange1 &rng1,
+                  const SinglePassRange2 &rng2,
+                  T init,
+                  BinaryOperation1 binary_op1,
+                  BinaryOperation2 binary_op2);
+
 
 
 } // end range
@@ -45,5 +50,5 @@ template<typename SinglePassRange, typename Predicate>
 
 } // end thrust
 
-#include <thrust/range/algorithm/detail/count.inl>
+#include <thrust/range/algorithm/detail/inner_product.inl>
 
