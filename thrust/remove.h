@@ -349,7 +349,7 @@ template<typename ForwardIterator,
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int S[N] = { 1, 1,  0, 1, 0, 1};
  *  int result[2];
- *  thrust::remove_copy_if(V, V + N, result, thrust::identity<int>());
+ *  thrust::remove_copy_if(V, V + N, S, result, thrust::identity<int>());
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-1, 1}
  *  \endcode

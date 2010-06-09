@@ -409,12 +409,14 @@ struct TestTupleReduce
 
      // copy to device
      thrust::device_vector< tuple<T,T> > d_tuples = h_tuples;
+     
+     tuple<T,T> zero(0,0);
 
      // sum on host
-     tuple<T,T> h_result = thrust::reduce(h_tuples.begin(), h_tuples.end());
+     tuple<T,T> h_result = thrust::reduce(h_tuples.begin(), h_tuples.end(), zero);
 
      // sum on device
-     tuple<T,T> d_result = thrust::reduce(d_tuples.begin(), d_tuples.end());
+     tuple<T,T> d_result = thrust::reduce(d_tuples.begin(), d_tuples.end(), zero);
 
      ASSERT_EQUAL_QUIET(h_result, d_result);
   }
