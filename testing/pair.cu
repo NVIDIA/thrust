@@ -289,6 +289,9 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef thrust::pair<T,T> P;
 
     thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
@@ -323,6 +326,7 @@ template <typename T>
     thrust::exclusive_scan(h_pairs.begin(), h_pairs.end(), h_output.begin(), init, thrust::maximum<P>());
     thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), init, thrust::maximum<P>());
     ASSERT_EQUAL_QUIET(h_output, d_output);
+#endif
   }
 };
 VariableUnitTest<TestPairScan, IntegralTypes> TestPairScanInstance;
@@ -332,6 +336,9 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef thrust::pair<T,T> P;
 
     thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
@@ -357,6 +364,7 @@ template <typename T>
     thrust::experimental::exclusive_segmented_scan(d_pairs.begin(), d_pairs.end(), d_keys.begin(), d_pairs.begin(), init, add_pairs());
 
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
+#endif
   }
 };
 VariableUnitTest<TestPairSegmentedScan, IntegralTypes> TestPairSegmentedScanInstance;
@@ -367,6 +375,9 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef thrust::pair<T,T> P;
 
     thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
@@ -385,6 +396,7 @@ template <typename T>
     thrust::stable_sort(d_pairs.begin(), d_pairs.end());
 
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
+#endif
   }
 };
 VariableUnitTest<TestPairStableSort, NumericTypes> TestPairStableSortInstance;
