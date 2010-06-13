@@ -57,7 +57,7 @@ template<typename InputType,
   struct uninitialized_copy_functor
 {
   __host__ __device__
-  void operator()(thrust::tuple<InputType&,OutputType&> t)
+  void operator()(thrust::tuple<const InputType&,OutputType&> t)
   {
     const InputType &in = thrust::get<0>(t);
     OutputType &out = thrust::get<1>(t);
