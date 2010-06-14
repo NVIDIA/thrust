@@ -34,14 +34,13 @@ namespace detail
 
 
 template<typename T>
-  T *trivial_copy(const T *first,
-                  const T *last,
-                        T *result)
+  T *trivial_copy_n(const T *first,
+                    std::ptrdiff_t n,
+                    T *result)
 {
-  std::ptrdiff_t n = last - first;
   std::memmove(result, first, n * sizeof(T));
   return result + n;
-} // end trivial_copy()
+} // end trivial_copy_n()
 
 
 } // end detail
