@@ -707,9 +707,13 @@ DECLARE_UNITTEST(TestRanlux24SaveRestore);
 
 void TestRanlux24Equal(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux24 Engine;
 
   TestEngineEqual<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux24Equal);
 
@@ -762,9 +766,13 @@ DECLARE_UNITTEST(TestRanlux48SaveRestore);
 
 void TestRanlux48Equal(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux48 Engine;
 
   TestEngineEqual<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux48Equal);
 
