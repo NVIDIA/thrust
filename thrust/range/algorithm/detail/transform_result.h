@@ -36,7 +36,7 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFun
   struct unary_transform_result
     : thrust::detail::enable_if_c<
         !thrust::detail::is_adaptable_binary_function<UnaryFunction>::value,
-        iterator_range<typename range_iterator<SinglePassRange2>::type>
+        iterator_range<SinglePassRange2>
       >
 {};
 
@@ -44,21 +44,21 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFun
 template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename BinaryFunction>
   struct binary_transform_result
 {
-  typedef iterator_range<typename range_iterator<SinglePassRange3>::type> type;
+  typedef iterator_range<SinglePassRange3> type;
 };
 
 
 template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename UnaryFunction, typename Predicate>
   struct unary_transform_if_result
 {
-  typedef iterator_range<typename range_iterator<SinglePassRange3>::type> type;
+  typedef iterator_range<SinglePassRange3> type;
 };
 
 
 template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename SinglePassRange4, typename BinaryFunction, typename Predicate>
   struct binary_transform_if_result
 {
-  typedef iterator_range<typename range_iterator<SinglePassRange4>::type> type;
+  typedef iterator_range<SinglePassRange4> type;
 };
 
 
