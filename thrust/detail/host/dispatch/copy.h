@@ -20,6 +20,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/host/detail/general_copy.h>
 #include <thrust/detail/host/detail/trivial_copy.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -53,9 +54,11 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::detail::true_type)
 {
-  return thrust::detail::host::detail::trivial_copy(&*first, &*last, &*result);
-} // end copy()
+  typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
+  const Size n = last - first;
+  return thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
+} // end copy()
 
 
 } // end dispatch

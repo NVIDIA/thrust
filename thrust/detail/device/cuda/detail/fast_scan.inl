@@ -138,11 +138,11 @@ void scan_intervals(InputIterator input,
             sdata[offset % K][offset / K] = thrust::detail::device::dereference(temp);
         }
        
-        __syncthreads();
-       
         // carry in
         if (threadIdx.x == 0 && base != interval_begin)
-            sdata[0][threadIdx.x] = binary_op(sdata[K][blockDim.x - 1], sdata[0][threadIdx.x]);
+            sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
+
+        __syncthreads();
 
         // scan local values
         OutputType sum = sdata[0][threadIdx.x];

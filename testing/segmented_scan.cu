@@ -6,6 +6,9 @@
 template <typename Vector>
 void TestInclusiveSegmentedScanSimple(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef typename Vector::value_type T;
 
     Vector input(7);
@@ -50,7 +53,7 @@ void TestInclusiveSegmentedScanSimple(void)
     ASSERT_EQUAL(output[4],  5);
     ASSERT_EQUAL(output[5],  6);
     ASSERT_EQUAL(output[6], 13);
-    
+#endif    
 }
 DECLARE_VECTOR_UNITTEST(TestInclusiveSegmentedScanSimple);
 
@@ -58,6 +61,9 @@ DECLARE_VECTOR_UNITTEST(TestInclusiveSegmentedScanSimple);
 template <typename Vector>
 void TestExclusiveSegmentedScanSimple(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef typename Vector::value_type T;
 
     Vector input(7);
@@ -102,6 +108,7 @@ void TestExclusiveSegmentedScanSimple(void)
     ASSERT_EQUAL(output[4], 10);
     ASSERT_EQUAL(output[5], 10);
     ASSERT_EQUAL(output[6], 16);
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestExclusiveSegmentedScanSimple);
 
@@ -119,6 +126,9 @@ struct head_flag_predicate
 template <typename Vector>
 void TestSegmentedScanHeadFlags(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef typename Vector::value_type T;
 
     Vector input(7);
@@ -153,6 +163,7 @@ void TestSegmentedScanHeadFlags(void)
     ASSERT_EQUAL(output[4], 10);
     ASSERT_EQUAL(output[5], 10);
     ASSERT_EQUAL(output[6], 16);
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestSegmentedScanHeadFlags);
 
@@ -160,6 +171,9 @@ DECLARE_VECTOR_UNITTEST(TestSegmentedScanHeadFlags);
 template <typename Vector>
 void TestInclusiveSegmentedScanTransformIterator(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef typename Vector::value_type T;
 
     Vector input(7);
@@ -187,6 +201,7 @@ void TestInclusiveSegmentedScanTransformIterator(void)
     ASSERT_EQUAL(output[4],  -5);
     ASSERT_EQUAL(output[5],  -6);
     ASSERT_EQUAL(output[6], -13);
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestInclusiveSegmentedScanTransformIterator);
 
@@ -194,6 +209,9 @@ DECLARE_VECTOR_UNITTEST(TestInclusiveSegmentedScanTransformIterator);
 template <typename Vector>
 void TestSegmentedScanReusedKeys(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef typename Vector::value_type T;
 
     Vector input(7);
@@ -228,6 +246,7 @@ void TestSegmentedScanReusedKeys(void)
     ASSERT_EQUAL(output[4], 10);
     ASSERT_EQUAL(output[5], 10);
     ASSERT_EQUAL(output[6], 16);
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestSegmentedScanReusedKeys);
 
@@ -235,6 +254,9 @@ DECLARE_VECTOR_UNITTEST(TestSegmentedScanReusedKeys);
 template <typename T>
 void TestSegmentedScan(const size_t n)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     thrust::host_vector<T>   h_input = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
         h_input[i] = i % 10;
@@ -278,12 +300,16 @@ void TestSegmentedScan(const size_t n)
     thrust::experimental::exclusive_segmented_scan(h_output.begin(), h_output.end(), h_keys.begin(), h_output.begin(), (T) 11);
     thrust::experimental::exclusive_segmented_scan(d_output.begin(), d_output.end(), d_keys.begin(), d_output.begin(), (T) 11);
     ASSERT_EQUAL(d_output, h_output);
+#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSegmentedScan);
 
 
 void TestSegmentedScanMixedTypes(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     const unsigned int n = 113;
 
     thrust::host_vector<unsigned int> h_input = unittest::random_integers<unsigned int>(n);
@@ -324,12 +350,16 @@ void TestSegmentedScanMixedTypes(void)
     thrust::experimental::exclusive_segmented_scan(h_input.begin(), h_input.end(), h_keys.begin(), h_int_output.begin(), (float) 3.5);
     thrust::experimental::exclusive_segmented_scan(d_input.begin(), d_input.end(), d_keys.begin(), d_int_output.begin(), (float) 3.5);
     ASSERT_EQUAL(d_int_output, h_int_output);
+#endif
 }
 DECLARE_UNITTEST(TestSegmentedScanMixedTypes);
 
 
 void TestSegmentedScanLargeInput()
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     typedef int T;
     const unsigned int N = 1 << 20;
 
@@ -362,6 +392,7 @@ void TestSegmentedScanLargeInput()
         thrust::experimental::inclusive_segmented_scan(d_input.begin(), d_input.begin() + n, d_keys.begin(), d_output.begin());
         ASSERT_EQUAL(d_output, h_output);
    }
+#endif
 }
 DECLARE_UNITTEST(TestSegmentedScanLargeInput);
 
@@ -400,6 +431,9 @@ void _TestSegmentedScanWithLargeTypes(void)
 
 void TestSegmentedScanWithLargeTypes(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
     _TestSegmentedScanWithLargeTypes<int,    1>();
     _TestSegmentedScanWithLargeTypes<int,    2>();
     _TestSegmentedScanWithLargeTypes<int,    4>();
@@ -411,6 +445,7 @@ void TestSegmentedScanWithLargeTypes(void)
     //_TestSegmentedScanWithLargeTypes<int,  256>();
     //_TestSegmentedScanWithLargeTypes<int,  512>();
     //_TestSegmentedScanWithLargeTypes<int, 1024>();
+#endif
 }
 DECLARE_UNITTEST(TestSegmentedScanWithLargeTypes);
 
