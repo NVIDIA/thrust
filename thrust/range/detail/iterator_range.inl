@@ -34,8 +34,8 @@ namespace experimental
 {
 
 
-template<typename Iterator>
-  iterator_range<Iterator>
+template<typename IteratorOrRange>
+  iterator_range<IteratorOrRange>
     ::iterator_range(void)
       : m_begin(iterator()), m_end(iterator())
 {
@@ -43,19 +43,19 @@ template<typename Iterator>
 } // end iterator_range::iterator_range()
 
 
-template<typename Iterator>
-  template<typename OtherIterator>
-    iterator_range<Iterator>
-      ::iterator_range(OtherIterator begin, OtherIterator end)
+template<typename IteratorOrRange>
+  template<typename Iterator>
+    iterator_range<IteratorOrRange>
+      ::iterator_range(Iterator begin, Iterator end)
         : m_begin(begin), m_end(end)
 {
   ;
 } // end iterator_range::iterator_range()
 
 
-template<typename Iterator>
+template<typename IteratorOrRange>
   template<typename ForwardRange>
-    iterator_range<Iterator>
+    iterator_range<IteratorOrRange>
       ::iterator_range(const ForwardRange &r)
         : m_begin(thrust::experimental::begin(r)),
           m_end(thrust::experimental::end(r))
@@ -64,9 +64,9 @@ template<typename Iterator>
 } // end iterator_range::iterator_range()
 
 
-template<typename Iterator>
+template<typename IteratorOrRange>
   template<typename ForwardRange>
-    iterator_range<Iterator>
+    iterator_range<IteratorOrRange>
       ::iterator_range(ForwardRange &r)
         : m_begin(thrust::experimental::begin(r)),
           m_end(thrust::experimental::end(r))
@@ -75,11 +75,11 @@ template<typename Iterator>
 } // end iterator_range::iterator_range()
 
 
-template<typename Iterator>
-  template<typename OtherIterator>
-    iterator_range<Iterator> &
-      iterator_range<Iterator>
-        ::operator=(const iterator_range<OtherIterator> &r)
+template<typename IteratorOrRange>
+  template<typename Iterator>
+    iterator_range<IteratorOrRange> &
+      iterator_range<IteratorOrRange>
+        ::operator=(const iterator_range<Iterator> &r)
 {
   m_begin = r.begin();
   m_end   = r.end();
@@ -87,10 +87,10 @@ template<typename Iterator>
 } // end iterator_range::operator=()
 
 
-template<typename Iterator>
+template<typename IteratorOrRange>
   template<typename ForwardRange>
-    iterator_range<Iterator> &
-      iterator_range<Iterator>
+    iterator_range<IteratorOrRange> &
+      iterator_range<IteratorOrRange>
         ::operator=(ForwardRange &r)
 {
   m_begin = thrust::experimental::begin(r);
@@ -99,10 +99,10 @@ template<typename Iterator>
 } // end iterator_range::operator=()
 
 
-template<typename Iterator>
+template<typename IteratorOrRange>
   template<typename ForwardRange>
-    iterator_range<Iterator> &
-      iterator_range<Iterator>
+    iterator_range<IteratorOrRange> &
+      iterator_range<IteratorOrRange>
         ::operator=(const ForwardRange &r)
 {
   m_begin = thrust::experimental::begin(r);
@@ -111,27 +111,27 @@ template<typename Iterator>
 } // end iterator_range::operator=()
 
 
-template<typename Iterator>
-  typename iterator_range<Iterator>::iterator
-    iterator_range<Iterator>
+template<typename IteratorOrRange>
+  typename iterator_range<IteratorOrRange>::iterator
+    iterator_range<IteratorOrRange>
       ::begin(void) const
 {
   return m_begin;
 } // end iterator_range::begin()
 
 
-template<typename Iterator>
-  typename iterator_range<Iterator>::iterator
-    iterator_range<Iterator>
+template<typename IteratorOrRange>
+  typename iterator_range<IteratorOrRange>::iterator
+    iterator_range<IteratorOrRange>
       ::end(void) const
 {
   return m_end;
 } // end iterator_range::end()
 
 
-template<typename Iterator>
-  typename iterator_range<Iterator>::difference_type
-    iterator_range<Iterator>
+template<typename IteratorOrRange>
+  typename iterator_range<IteratorOrRange>::difference_type
+    iterator_range<IteratorOrRange>
       ::size(void) const
 {
   // XXX this seems not generic
@@ -139,42 +139,42 @@ template<typename Iterator>
 } // end iterator_range::size()
 
 
-template<typename Iterator>
-  bool iterator_range<Iterator>
+template<typename IteratorOrRange>
+  bool iterator_range<IteratorOrRange>
     ::empty(void) const
 {
   return m_begin == m_end;
 } // end iterator_range::empty()
 
 
-template<typename Iterator>
-  iterator_range<Iterator>
+template<typename IteratorOrRange>
+  iterator_range<IteratorOrRange>
     ::operator bool (void) const
 {
   return !empty();
 } // end iterator_range::operator bool ()
 
 
-template<typename Iterator>
-  bool iterator_range<Iterator>
+template<typename IteratorOrRange>
+  bool iterator_range<IteratorOrRange>
     ::equal(const iterator_range& r) const
 {
   return m_begin == r.m_begin && m_end == r.m_end;
 } // end iterator_range::equal()
 
 
-template<typename Iterator>
-  typename iterator_range<Iterator>::reference
-    iterator_range<Iterator>
+template<typename IteratorOrRange>
+  typename iterator_range<IteratorOrRange>::reference
+    iterator_range<IteratorOrRange>
       ::front(void) const
 {
   return *begin();
 } // end iterator_range::front()
 
 
-template<typename Iterator>
-  typename iterator_range<Iterator>::reference
-    iterator_range<Iterator>
+template<typename IteratorOrRange>
+  typename iterator_range<IteratorOrRange>::reference
+    iterator_range<IteratorOrRange>
       ::back(void) const
 {
   iterator last(end());
@@ -183,9 +183,9 @@ template<typename Iterator>
 } // end iterator_range::front()
 
 
-template<typename Iterator>
-  typename iterator_range<Iterator>::reference
-    iterator_range<Iterator>
+template<typename IteratorOrRange>
+  typename iterator_range<IteratorOrRange>::reference
+    iterator_range<IteratorOrRange>
       ::operator[](difference_type at) const
 {
   return *(m_begin+at);
