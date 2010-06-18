@@ -42,41 +42,44 @@ template<typename T>
     // test equality
     ZipIterator iter1 = iter0;
     ZipIterator iter2 = make_zip_iterator(make_tuple(v0.begin(), v2.begin()));
+    ZipIterator iter3 = make_zip_iterator(make_tuple(v1.begin(), v2.begin()));
     ASSERT_EQUAL(true,  iter0 == iter1);
-    ASSERT_EQUAL(false, iter0 == iter2);
+    ASSERT_EQUAL(true,  iter0 == iter2);
+    ASSERT_EQUAL(false, iter0 == iter3);
 
     // test inequality
     ASSERT_EQUAL(false, iter0 != iter1);
-    ASSERT_EQUAL(true,  iter0 != iter2);
+    ASSERT_EQUAL(false, iter0 != iter2);
+    ASSERT_EQUAL(true,  iter0 != iter3);
 
     // test advance
-    ZipIterator iter3 = iter0 + 1;
-    ASSERT_EQUAL_QUIET(v0.begin() + 1, get<0>(iter3.get_iterator_tuple()));
-    ASSERT_EQUAL_QUIET(v1.begin() + 1, get<1>(iter3.get_iterator_tuple()));
+    ZipIterator iter4 = iter0 + 1;
+    ASSERT_EQUAL_QUIET(v0.begin() + 1, get<0>(iter4.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(v1.begin() + 1, get<1>(iter4.get_iterator_tuple()));
 
     // test pre-increment
-    ++iter3;
-    ASSERT_EQUAL_QUIET(v0.begin() + 2, get<0>(iter3.get_iterator_tuple()));
-    ASSERT_EQUAL_QUIET(v1.begin() + 2, get<1>(iter3.get_iterator_tuple()));
+    ++iter4;
+    ASSERT_EQUAL_QUIET(v0.begin() + 2, get<0>(iter4.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(v1.begin() + 2, get<1>(iter4.get_iterator_tuple()));
 
     // test post-increment
-    iter3++;
-    ASSERT_EQUAL_QUIET(v0.begin() + 3, get<0>(iter3.get_iterator_tuple()));
-    ASSERT_EQUAL_QUIET(v1.begin() + 3, get<1>(iter3.get_iterator_tuple()));
+    iter4++;
+    ASSERT_EQUAL_QUIET(v0.begin() + 3, get<0>(iter4.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(v1.begin() + 3, get<1>(iter4.get_iterator_tuple()));
 
     // test pre-decrement
-    --iter3;
-    ASSERT_EQUAL_QUIET(v0.begin() + 2, get<0>(iter3.get_iterator_tuple()));
-    ASSERT_EQUAL_QUIET(v1.begin() + 2, get<1>(iter3.get_iterator_tuple()));
+    --iter4;
+    ASSERT_EQUAL_QUIET(v0.begin() + 2, get<0>(iter4.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(v1.begin() + 2, get<1>(iter4.get_iterator_tuple()));
 
     // test post-decrement
-    iter3--;
-    ASSERT_EQUAL_QUIET(v0.begin() + 1, get<0>(iter3.get_iterator_tuple()));
-    ASSERT_EQUAL_QUIET(v1.begin() + 1, get<1>(iter3.get_iterator_tuple()));
+    iter4--;
+    ASSERT_EQUAL_QUIET(v0.begin() + 1, get<0>(iter4.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(v1.begin() + 1, get<1>(iter4.get_iterator_tuple()));
 
     // test difference
-    ASSERT_EQUAL( 1, iter3 - iter0);
-    ASSERT_EQUAL(-1, iter0 - iter3);
+    ASSERT_EQUAL( 1, iter4 - iter0);
+    ASSERT_EQUAL(-1, iter0 - iter4);
   }
 
   void operator()(void)
