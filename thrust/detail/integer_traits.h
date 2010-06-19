@@ -95,7 +95,7 @@ template<>
 template<>
   class integer_traits<unsigned int>
     : public std::numeric_limits<unsigned int>,
-      public integer_traits_base<unsigned int, 0, INT_MAX>
+      public integer_traits_base<unsigned int, 0, UINT_MAX>
 {};
 
 
