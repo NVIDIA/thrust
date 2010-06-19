@@ -70,8 +70,8 @@ template<typename InputIterator,
 {
   // inspect both spaces
   typedef typename thrust::detail::integral_constant<bool,
-    thrust::detail::is_convertible<Space1,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_convertible<Space2,thrust::detail::cuda_device_space_tag>::value
+    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
+    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
   > is_one_of_the_spaces_cuda;
 
   return copy(first, last, result,
