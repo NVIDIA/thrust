@@ -129,6 +129,8 @@ class system_error_category
 
       switch(ev)
       {
+// XXX refactor the body of this switch into separate functions for the different OSes
+//     the #ifs are ugly
 // XXX eventually implement Windows error codes
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
         case EAFNOSUPPORT:    return make_error_condition(address_family_not_supported);
@@ -229,8 +231,11 @@ class system_error_category
         case ELOOP:           return make_error_condition(too_many_symbolic_link_levels);
         case EOVERFLOW:       return make_error_condition(value_too_large);
         case EPROTOTYPE:      return make_error_condition(wrong_protocol_type);
-#endif // THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#endif // THRUST_HOST_COMPILER
 
+        // XXX a dummy case to avoid warnings of default with no case
+        case 0:
         default:              return error_condition(ev,system_category());
       }
     }
