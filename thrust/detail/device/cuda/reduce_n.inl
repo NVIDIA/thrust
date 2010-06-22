@@ -148,11 +148,11 @@ template<typename InputIterator,
                       thrust::detail::true_type)    // reduce in shared memory
 {
     // determine launch parameters
-    const unsigned int smem_per_thread = sizeof(OutputType);
-    const unsigned int block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
-    const unsigned int smem_size  = block_size * smem_per_thread;
-    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const unsigned int num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
+    const size_t smem_per_thread = sizeof(OutputType);
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
+    const size_t smem_size  = block_size * smem_per_thread;
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    const size_t num_blocks = std::min<unsigned int>(max_blocks, (n + (block_size - 1)) / block_size);
 
     // allocate storage for per-block results
     thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
@@ -161,7 +161,7 @@ template<typename InputIterator,
     temp[0] = init;
 
     // reduce input to per-block sums
-    reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
+    reduce_n_smem<<<(unsigned int)num_blocks, (unsigned int)block_size, (unsigned int)smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
 
     // reduce per-block sums together with init
     {
@@ -189,11 +189,11 @@ template<typename InputIterator,
                       thrust::detail::false_type)    // reduce in global memory
 {
     // determine launch parameters
-    const unsigned int smem_per_thread = 0;
-    const unsigned int block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
-    const unsigned int smem_size  = block_size * smem_per_thread;
-    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const unsigned int num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
+    const size_t smem_per_thread = 0;
+    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
+    const size_t smem_size  = block_size * smem_per_thread;
+    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    const size_t num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
 
     // allocate storage for per-block results
     thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
@@ -205,7 +205,7 @@ template<typename InputIterator,
     temp[0] = init;
 
     // reduce input to per-block sums
-    detail::reduce_n_gmem<<<num_blocks, block_size, 0>>>(first, n, raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
+    detail::reduce_n_gmem<<<(unsigned int)num_blocks, (unsigned int)block_size, 0>>>(first, n, raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
     
     // reduce per-block sums together with init
     {
