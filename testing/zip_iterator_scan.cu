@@ -23,9 +23,6 @@ struct TestZipIteratorScan
 {
   void operator()(const size_t n)
   {
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T> h_data0 = unittest::random_samples<T>(n);
     thrust::host_vector<T> h_data1 = unittest::random_samples<T>(n);
 
@@ -91,7 +88,6 @@ struct TestZipIteratorScan
                             TuplePlus<Tuple>());
     ASSERT_EQUAL_QUIET(h_result0, d_result0);
     ASSERT_EQUAL_QUIET(h_result1, d_result1);
-#endif
   }
 };
 VariableUnitTest<TestZipIteratorScan, SignedIntegralTypes> TestZipIteratorScanInstance;
