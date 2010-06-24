@@ -191,9 +191,6 @@ def Environment():
   # XXX ideally this gets handled in nvcc.py if possible
   env.Append(LIBS = ['cudart'])
 
-  # need cuda driver library for multi-gpu
-  env.Append(LIBS = ['cuda'])
-
   # link against omp if necessary
   if env['backend'] == 'omp':
     if os.name == 'posix':
