@@ -2,6 +2,17 @@
 #include <thrust/reduce.h>
 
 template<typename T>
+  struct max_functor
+    : thrust::binary_function<T,T,T>
+{
+  __host__ __device__
+  T operator()(T rhs, T lhs) const
+  {
+    return thrust::max(rhs,lhs);
+  }
+};
+
+template<typename T>
 struct is_equal_div_10_reduce
 {
     __host__ __device__
@@ -84,8 +95,8 @@ void TestReduceWithOperator(const size_t n)
 
     T init = 0;
 
-    T cpu_result = thrust::reduce(h_data.begin(), h_data.end(), init, thrust::maximum<T>());
-    T gpu_result = thrust::reduce(d_data.begin(), d_data.end(), init, thrust::maximum<T>());
+    T cpu_result = thrust::reduce(h_data.begin(), h_data.end(), init, max_functor<T>());
+    T gpu_result = thrust::reduce(d_data.begin(), d_data.end(), init, max_functor<T>());
 
     ASSERT_EQUAL(cpu_result, gpu_result);
 }

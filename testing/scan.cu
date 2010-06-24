@@ -2,6 +2,18 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 
+template<typename T>
+  struct max_functor
+    : thrust::binary_function<T,T,T>
+{
+  __host__ __device__
+  T operator()(T rhs, T lhs) const
+  {
+    return thrust::max(rhs,lhs);
+  }
+};
+
+
 template <class Vector>
 void TestScanSimple(void)
 {
@@ -199,12 +211,12 @@ struct TestScanWithOperator
     thrust::host_vector<T>   h_output(n);
     thrust::device_vector<T> d_output(n);
     
-    thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), thrust::maximum<T>());
-    thrust::inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), thrust::maximum<T>());
+    thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), max_functor<T>());
+    thrust::inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), max_functor<T>());
     ASSERT_EQUAL(d_output, h_output);
     
-    thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), T(13), thrust::maximum<T>());
-    thrust::exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), T(13), thrust::maximum<T>());
+    thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), T(13), max_functor<T>());
+    thrust::exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), T(13), max_functor<T>());
     ASSERT_EQUAL(d_output, h_output);
     }
 };
