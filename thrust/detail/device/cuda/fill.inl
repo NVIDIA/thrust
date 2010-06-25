@@ -28,7 +28,7 @@
 /////////////////////
 
 #include <thrust/detail/util/align.h>
-#include <thrust/detail/device/generate.h>
+#include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/extrema.h>
@@ -141,10 +141,10 @@ template<typename Pointer, typename T>
   thrust::device_ptr<WideType> block_first_wide = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_first_raw));
   thrust::device_ptr<WideType> block_last_wide  = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_last_raw));
 
-  thrust::detail::device::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(exemplar));
-  thrust::detail::device::generate(block_first_wide, block_last_wide,
-                                   fill_functor<WideType>(wide_exemplar));
-  thrust::detail::device::generate(thrust::device_pointer_cast(block_last_raw), last, fill_functor<OutputType>(exemplar));
+  thrust::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(exemplar));
+  thrust::generate(block_first_wide, block_last_wide,
+                   fill_functor<WideType>(wide_exemplar));
+  thrust::generate(thrust::device_pointer_cast(block_last_raw), last, fill_functor<OutputType>(exemplar));
 }
 
 template<typename ForwardIterator, typename T>
@@ -154,7 +154,7 @@ template<typename ForwardIterator, typename T>
             thrust::detail::false_type)
 {
   fill_functor<T> func(exemplar); 
-  thrust::detail::device::generate(first, last, func);
+  thrust::generate(first, last, func);
 }
 
 template<typename ForwardIterator, typename T>

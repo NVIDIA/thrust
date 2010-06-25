@@ -55,9 +55,10 @@ namespace thrust
  *  srand(13);
  *  thrust::generate(v.begin(), v.end(), rand);
  *
- *  // the elements of v are now with pseudo-random numbers
+ *  // the elements of v are now pseudo-random numbers
  *  \endcode
  *
+ *  \see generate_n
  *  \see http://www.sgi.com/tech/stl/generate.html
  */
 template<typename ForwardIterator,
@@ -65,6 +66,46 @@ template<typename ForwardIterator,
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
+
+
+/*! \p generate_n assigns the result of invoking \p gen, a function object that takes no arguments,
+ *  to each element in the range <tt>[first,first + n)</tt>. The return value is <tt>first + n</tt>.
+ *
+ *  \param first The first element in the range of interest.
+ *  \param n The size of the range of interest.
+ *  \param gen A function argument, taking no parameters, used to generate values to assign to
+ *             elements in the range <tt>[first,first + n)</tt>.
+ *
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam Size is an integral type (either signed or unsigned).
+ *  \tparam Generator is a model of <a href="http://www.sgi.com/tech/stl/Generator.html">Generator</a>,
+ *          and \p Generator's \c result_type is convertible to a type in \p OutputIterator's set of \c value_types.
+ *
+ *  The following code snippet demonstrates how to fill a \c host_vector with random numbers,
+ *  using the standard C library function \c rand.
+ *
+ *  \code
+ *  #include <thrust/generate.h>
+ *  #include <thrust/host_vector.h>
+ *  #include <stdlib.h>
+ *  ...
+ *  thrust::host_vector<int> v(10);
+ *  srand(13);
+ *  thrust::generate_n(v.begin(), 10, rand);
+ *
+ *  // the elements of v are now pseudo-random numbers
+ *  \endcode
+ *
+ *  \see generate
+ *  \see http://www.sgi.com/tech/stl/generate.html
+ */
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(OutputIterator first,
+                            Size n,
+                            Generator gen);
+
 
 /*! \} // end transformations
  */

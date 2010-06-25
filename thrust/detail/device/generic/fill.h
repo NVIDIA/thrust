@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <thrust/detail/device/generate.h>
+#include <thrust/generate.h>
 
 namespace thrust
 {
@@ -55,7 +55,7 @@ template<typename ForwardIterator, typename T>
             const T &exemplar)
 {
     // dispatch on space
-    thrust::detail::device::generate(first, last, detail::fill_functor<T>(exemplar));
+    thrust::generate(first, last, detail::fill_functor<T>(exemplar));
 }
 
 } // end namespace generic

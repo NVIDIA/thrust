@@ -32,24 +32,26 @@ namespace device
 namespace dispatch
 {
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename UnaryFunction>
-  void for_each(InputIterator first,
-                InputIterator last,
-                UnaryFunction f,
-                thrust::detail::omp_device_space_tag)
+  RandomAccessIterator for_each_n(RandomAccessIterator first,
+                                  Size n,
+                                  UnaryFunction f,
+                                  thrust::detail::omp_device_space_tag)
 {
-  thrust::detail::device::omp::for_each(first, last, f);
+  return thrust::detail::device::omp::for_each_n(first, n, f);
 }
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename UnaryFunction>
-  void for_each(InputIterator first,
-                InputIterator last,
-                UnaryFunction f,
-                thrust::detail::cuda_device_space_tag)
+  RandomAccessIterator for_each_n(RandomAccessIterator first,
+                                  Size n,
+                                  UnaryFunction f,
+                                  thrust::detail::cuda_device_space_tag)
 {
-  thrust::detail::device::cuda::for_each(first, last, f);
+  return thrust::detail::device::cuda::for_each_n(first, n, f);
 }
 
 } // end dispatch

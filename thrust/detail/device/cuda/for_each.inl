@@ -77,41 +77,39 @@ template<typename RandomAccessIterator,
 };
 
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f)
+RandomAccessIterator for_each_n(RandomAccessIterator first,
+                                Size n,
+                                UnaryFunction f)
 {
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-  if (first >= last) return;  //empty range
-
-  typedef typename thrust::iterator_traits<InputIterator>::difference_type difference_type;
-
-  difference_type n = last - first;
+  if (n <= 0) return first;  //empty range
   
-  if ((sizeof(difference_type) > sizeof(unsigned int))
-       && n > difference_type(std::numeric_limits<unsigned int>::max())) // convert to difference_type to avoid a warning
+  if ((sizeof(Size) > sizeof(unsigned int))
+       && n > Size(std::numeric_limits<unsigned int>::max())) // convert to Size to avoid a warning
   {
     // n is large, must use 64-bit indices
-    typedef for_each_n_closure<InputIterator, difference_type, UnaryFunction> Closure;
-    Closure closure(first, last - first, f);
-    launch_closure(closure, last - first);
+    typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
+    Closure closure(first, n, f);
+    launch_closure(closure, n);
   }
   else
   {
     // n is small, 32-bit indices are sufficient
-    typedef for_each_n_closure<InputIterator, unsigned int, UnaryFunction> Closure;
+    typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
     Closure closure(first, static_cast<unsigned int>(n), f);
     launch_closure(closure, static_cast<unsigned int>(n));
   }
 
+  return first + n;
 } 
 
 

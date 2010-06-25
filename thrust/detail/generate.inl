@@ -21,8 +21,8 @@
  */
 
 #include <thrust/generate.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/generate.h>
+#include <thrust/for_each.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -33,9 +33,20 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-  detail::dispatch::generate(first, last, gen,
-    typename thrust::iterator_space<ForwardIterator>::type());
+  return thrust::for_each(first, last, detail::generate_functor<Generator>(gen));
 } // end generate()
+
+
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(OutputIterator first,
+                            Size n,
+                            Generator gen)
+{
+  return detail::for_each_n(first, n, detail::generate_functor<Generator>(gen));
+} // end generate()
+
 
 } // end thrust
 

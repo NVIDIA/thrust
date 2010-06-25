@@ -141,6 +141,26 @@ struct tuple_equal_to
     Predicate pred;
 };
 
+
+template<typename Generator>
+  struct generate_functor
+{
+  typedef void result_type;
+
+  __host__ __device__
+  generate_functor(Generator g)
+    : gen(g) {}
+
+  template<typename T>
+  __host__ __device__
+  void operator()(T &x)
+  {
+    x = gen();
+  }
+
+  Generator gen;
+};
+
 } // end namespace detail
 } // end namespace thrust
 
