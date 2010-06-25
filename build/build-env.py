@@ -30,9 +30,9 @@ OldEnvironment = Environment;
 # this dictionary maps the name of a compiler program to a dictionary mapping the name of
 # a compiler switch of interest to the specific switch implementing the feature
 gCompilerOptions = {
-    'gcc' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'g++' : {'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'cl'  : {'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG', '/MTd'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
+    'gcc' : {'warn_all' : '-Wall', 'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'g++' : {'warn_all' : '-Wall', 'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'cl'  : {'warn_all' : '/Wall', 'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG', '/MTd'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
   }
 
 
@@ -61,6 +61,9 @@ def getCFLAGS(mode, backend, CC):
   if backend == 'omp':
     result.append(gCompilerOptions[CC]['omp'])
 
+  # turn on all warnings
+  result.append(gCompilerOptions[CC]['warn_all'])
+
   return result
 
 
@@ -81,6 +84,9 @@ def getCXXFLAGS(mode, backend, CXX):
   # generate omp code
   if backend == 'omp':
     result.append(gCompilerOptions[CXX]['omp'])
+
+  # turn on all warnings
+  result.append(gCompilerOptions[CXX]['warn_all'])
 
   return result
 
