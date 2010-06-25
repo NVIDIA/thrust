@@ -17,8 +17,13 @@
 #pragma once
 
 #include <thrust/iterator/iterator_facade.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/range/detail/iterator.h>
-#include <thrust/range/detail/
+#include <thrust/range/detail/value_type.h>
+#include <thrust/range/detail/space.h>
+#include <thrust/range/detail/reference.h>
+#include <thrust/range/detail/difference_type.h>
+#include <thrust/range/detail/pointer.h>
 
 namespace thrust
 {
@@ -31,13 +36,13 @@ template<typename Iterator> class segmented_iterator;
 template<typename Iterator>
   struct segmented_iterator_base
 {
-  typedef typename thrust::experimental::range_value<Iterator>::type        local_range;
-  typedef typename thrust::experimental::range_pointer<LocalRange>::type    pointer;
-  typedef typename thrust::experimental::range_value<LocalRange>::type      value_type;
-  typedef typename thrust::experimental::range_space<LocalRange>::type      space;
-  typedef thrust::bidirectional_traversal_tag                               traversal;
-  typedef typename thrust::experimental::range_reference<LocalRange>::type  reference;
-  typedef typename thrust::experimental::range_difference<LocalRange>::type difference;
+  typedef typename thrust::iterator_value<Iterator>::type                    local_range;
+  typedef typename thrust::experimental::range_pointer<local_range>::type    pointer;
+  typedef typename thrust::experimental::range_value<local_range>::type      value_type;
+  typedef typename thrust::experimental::range_space<local_range>::type      space;
+  typedef thrust::bidirectional_traversal_tag                                traversal;
+  typedef typename thrust::experimental::range_reference<local_range>::type  reference;
+  typedef typename thrust::experimental::range_difference<local_range>::type difference;
 
   typedef typename thrust::experimental::iterator_facade<
     segmented_iterator<Iterator>,
@@ -45,6 +50,8 @@ template<typename Iterator>
     value_type,
     space,
     traversal,
+    reference,
+    difference
   > type;
 };
 

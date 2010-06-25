@@ -18,6 +18,7 @@
 
 #include <thrust/range/begin.h>
 #include <thrust/range/end.h>
+#include <thrust/range/empty.h>
 
 namespace thrust
 {
@@ -122,6 +123,21 @@ template<typename Iterator>
   // decrement the local iterator
   --m_current_bucket;
 } // end segmented_iterator::decrement()
+
+
+template<typename Iterator>
+  segmented_iterator<Iterator>
+    make_segmented_iterator(Iterator first, Iterator last)
+{
+  return segmented_iterator<Iterator>(first,last);
+} // end make_segmented_iterator()
+
+template<typename Range>
+  segmented_iterator<typename thrust::experimental::range_iterator<Range>::type>
+    make_segmented_iterator(Range &rng)
+{
+  return segmented_iterator<typename thrust::experimental::range_iterator<Range>::type>(thrust::experimental::begin(rng), thrust::experimental::end(rng));
+} // end make_segmented_iterator
 
 
 } // end detail
