@@ -171,8 +171,9 @@ template <typename IteratorTuple>
     __host__ __device__
     typename super_t::reference dereference() const;
 
-    // Two zip_iterators are equal if all iterators in the iterator
-    // tuple are equal.
+    // Two zip_iterators are equal if the two first iterators of the
+    // tuple are equal. Note this differs from Boost's implementation, which
+    // considers the entire tuple.
     template<typename OtherIteratorTuple>
     __host__ __device__
     bool equal(const zip_iterator<OtherIteratorTuple> &other) const;

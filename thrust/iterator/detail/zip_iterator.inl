@@ -62,7 +62,7 @@ template <typename IteratorTuple>
     bool zip_iterator<IteratorTuple>
       ::equal(const zip_iterator<OtherIteratorTuple> &other) const
 {
-  return get_iterator_tuple() == other.get_iterator_tuple();
+  return get<0>(get_iterator_tuple()) == get<0>(other.get_iterator_tuple());
 } // end zip_iterator::equal()
 
 

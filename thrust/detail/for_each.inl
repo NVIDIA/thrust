@@ -39,5 +39,22 @@ void for_each(InputIterator first,
             typename thrust::iterator_space<InputIterator>::type());
 } // end for_each()
 
+namespace detail
+{
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+  OutputIterator for_each_n(OutputIterator first,
+                            Size n,
+                            UnaryFunction f)
+{
+    // dispatch on space
+    return thrust::detail::dispatch::for_each_n(first, n, f,
+            typename thrust::iterator_space<OutputIterator>::type());
+} // end for_each_n()
+
+} // end detail
+
 } // end namespace thrust
 

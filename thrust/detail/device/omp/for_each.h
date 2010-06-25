@@ -35,11 +35,12 @@ namespace omp
 {
 
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+RandomAccessIterator for_each_n(RandomAccessIterator first,
+                                Size n,
+                                UnaryFunction f);
 
 
 } // end namespace omp

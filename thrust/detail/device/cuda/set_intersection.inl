@@ -509,7 +509,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_partitions);
   raw_buffer< value_type, cuda_device_space_tag> temp_result(num_elements1);
   
-  set_intersection_detail::set_intersection_kernel<block_size><<< num_partitions, block_size >>>( 
+  set_intersection_detail::set_intersection_kernel<block_size><<<(unsigned int) num_partitions, (unsigned int) block_size >>>( 
   	first1, last1,
         first2, last2,
         temp_result.begin(), 
@@ -523,7 +523,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   // after the inclusive scan, we have the end of each segment
   raw_buffer<difference1, cuda_device_space_tag> &output_segment_end_indices = result_partition_sizes;
   
-  set_intersection_detail::grouped_gather<<< num_partitions, block_size >>>( 
+  set_intersection_detail::grouped_gather<<<(unsigned int) num_partitions, (unsigned int) block_size >>>( 
   	result,
   	temp_result.begin(),
   	partition_begin_indices1.begin(),

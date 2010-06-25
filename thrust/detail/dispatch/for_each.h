@@ -49,6 +49,27 @@ void for_each(InputIterator first,
 }
 
 
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f,
+                          thrust::host_space_tag)
+{
+  while(n)
+  {
+    // we can dereference an OutputIterator if f does not
+    // try to use the reference for anything besides assignment
+    f(*first);
+    --n;
+    ++first;
+  }
+
+  return first;
+}
+
+
 /////////////////
 // Device Path //
 /////////////////
@@ -61,6 +82,19 @@ void for_each(InputIterator first,
 {
     thrust::detail::device::for_each(first, last, f);
 }
+
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f,
+                          thrust::device_space_tag)
+{
+    return thrust::detail::device::for_each_n(first, n, f);
+}
+
 
 } // end dispatch
 

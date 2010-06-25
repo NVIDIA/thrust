@@ -34,36 +34,38 @@ namespace device
 namespace omp
 {
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f)
+RandomAccessIterator for_each_n(RandomAccessIterator first,
+                                Size n,
+                                UnaryFunction f)
 {
   // we're attempting to launch an omp kernel, assert we're compiling with omp support
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to OpenMP support in your compiler.                         X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
-  typedef typename thrust::iterator_difference<InputIterator>::type difference;
-  difference n = thrust::distance(first,last);
+  if (n <= 0) return first;  //empty range
 
 // do not attempt to compile the body of this function, which depends on #pragma omp,
 // without support from the compiler
 // XXX implement the body of this function in another file to eliminate this ugliness
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 #pragma omp parallel for
-  for(difference i = 0;
+  for(Size i = 0;
       i < n;
       ++i)
   {
-    InputIterator temp = first + i;
+    RandomAccessIterator temp = first + i;
     f(dereference(temp));
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+
+  return first + n;
 } 
 
 

@@ -428,9 +428,6 @@ struct TestTupleScan
 {
   void operator()(const size_t n)
   {
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
-    KNOWN_FAILURE;
-#else
      thrust::host_vector<T> h_t1 = unittest::random_integers<T>(n);
      thrust::host_vector<T> h_t2 = unittest::random_integers<T>(n);
 
@@ -452,7 +449,6 @@ struct TestTupleScan
      thrust::exclusive_scan(d_tuples.begin(), d_tuples.begin(), d_tuples.begin(), zero);
 
      ASSERT_EQUAL_QUIET(h_tuples, d_tuples);
-#endif
   }
 };
 VariableUnitTest<TestTupleScan, IntegralTypes> TestTupleScanInstance;

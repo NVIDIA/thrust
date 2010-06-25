@@ -1,3 +1,5 @@
+EnsureSConsVersion(1,2)
+
 import os
 
 import inspect
@@ -142,16 +144,7 @@ def Environment():
   # get the preprocessor define to use for the backend
   backend_define = { 'cuda' : 'THRUST_DEVICE_BACKEND_CUDA', 'omp' : 'THRUST_DEVICE_BACKEND_OMP', 'ocelot' : 'THRUST_DEVICE_BACKEND_CUDA' }[env['backend']] 
   env.Append(CFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
-
-  # scons has problems with finding the proper LIBPATH with Visual Studio Express 2008
-  # help it out
-  # XXX we might be able to ditch this WAR
-  if os.name == 'nt':
-    if is_64bit():
-      env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 8/VC/lib/amd64'])
-    else:
-      env.Append(LIBPATH = ['C:/Program Files/Microsoft SDKs/Windows/v6.0A/Lib'])
-      env.Append(LIBPATH = ['C:/Program Files/Microsoft Visual Studio 9.0/VC/lib'])
+  env.Append(CXXFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
 
   # get C compiler switches
   env.Append(CFLAGS = getCFLAGS(env['mode'], env['backend'], env.subst('$CC')))
