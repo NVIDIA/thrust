@@ -21,8 +21,10 @@
 
 #include <thrust/inner_product.h>
 #include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/inner_product.h>
+#include <thrust/detail/internal_functional.h>
+#include <thrust/tuple.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/transform_reduce.h>
 
 namespace thrust
 {
@@ -47,10 +49,14 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, OutputType init, 
               BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)
 {
-  // dispatch on space
-  return thrust::detail::dispatch::inner_product(first1, last1, first2, init, binary_op1, binary_op2,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type());
+  typedef thrust::zip_iterator<thrust::tuple<InputIterator1,InputIterator2> > ZipIter;
+
+  ZipIter first = thrust::make_zip_iterator(thrust::make_tuple(first1,first2));
+
+  // only the first iterator in the tuple is relevant for the purposes of last
+  ZipIter last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
+
+  return thrust::transform_reduce(first, last, detail::zipped_binary_op<OutputType,BinaryFunction2>(binary_op2), init, binary_op1);
 } // end inner_product()
 
 

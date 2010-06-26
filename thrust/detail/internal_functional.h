@@ -99,6 +99,8 @@ struct predicate_to_integral
 template <typename T1>
 struct equal_to
 {
+    typedef bool result_type;
+
     template <typename T2>
         __host__ __device__
         bool operator()(const T1& lhs, const T2& rhs) const
@@ -160,6 +162,27 @@ template<typename Generator>
 
   Generator gen;
 };
+
+
+template<typename ResultType, typename BinaryFunction>
+  struct zipped_binary_op
+{
+  typedef ResultType result_type;
+
+  __host__ __device__
+  zipped_binary_op(BinaryFunction binary_op)
+    : m_binary_op(binary_op) {}
+
+  template<typename Tuple>
+  __host__ __device__
+  inline result_type operator()(Tuple t)
+  {
+    return m_binary_op(thrust::get<0>(t), thrust::get<1>(t));
+  }
+
+  BinaryFunction m_binary_op;
+};
+
 
 } // end namespace detail
 } // end namespace thrust
