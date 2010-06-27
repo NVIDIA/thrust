@@ -791,6 +791,7 @@ namespace detail
 {
 
 template<class T1, class T2>
+__host__ __device__
 inline bool eq(const T1& lhs, const T2& rhs) {
   return lhs.get_head() == rhs.get_head() &&
          eq(lhs.get_tail(), rhs.get_tail());
@@ -799,47 +800,57 @@ template<>
 inline bool eq<null_type,null_type>(const null_type&, const null_type&) { return true; }
 
 template<class T1, class T2>
+__host__ __device__
 inline bool neq(const T1& lhs, const T2& rhs) {
   return lhs.get_head() != rhs.get_head()  ||
          neq(lhs.get_tail(), rhs.get_tail());
 }
 template<>
+__host__ __device__
 inline bool neq<null_type,null_type>(const null_type&, const null_type&) { return false; }
 
 template<class T1, class T2>
+__host__ __device__
 inline bool lt(const T1& lhs, const T2& rhs) {
   return lhs.get_head() < rhs.get_head()  ||
             !(rhs.get_head() < lhs.get_head()) &&
             lt(lhs.get_tail(), rhs.get_tail());
 }
 template<>
+__host__ __device__
 inline bool lt<null_type,null_type>(const null_type&, const null_type&) { return false; }
 
 template<class T1, class T2>
+__host__ __device__
 inline bool gt(const T1& lhs, const T2& rhs) {
   return lhs.get_head() > rhs.get_head()  ||
             !(rhs.get_head() > lhs.get_head()) &&
             gt(lhs.get_tail(), rhs.get_tail());
 }
 template<>
+__host__ __device__
 inline bool gt<null_type,null_type>(const null_type&, const null_type&) { return false; }
 
 template<class T1, class T2>
+__host__ __device__
 inline bool lte(const T1& lhs, const T2& rhs) {
   return lhs.get_head() <= rhs.get_head()  &&
           ( !(rhs.get_head() <= lhs.get_head()) ||
             lte(lhs.get_tail(), rhs.get_tail()));
 }
 template<>
+__host__ __device__
 inline bool lte<null_type,null_type>(const null_type&, const null_type&) { return true; }
 
 template<class T1, class T2>
+__host__ __device__
 inline bool gte(const T1& lhs, const T2& rhs) {
   return lhs.get_head() >= rhs.get_head()  &&
           ( !(rhs.get_head() >= lhs.get_head()) ||
             gte(lhs.get_tail(), rhs.get_tail()));
 }
 template<>
+__host__ __device__
 inline bool gte<null_type,null_type>(const null_type&, const null_type&) { return true; }
 
 } // end detail
@@ -849,6 +860,7 @@ inline bool gte<null_type,null_type>(const null_type&, const null_type&) { retur
 // equal ----
 
 template<class T1, class T2, class S1, class S2>
+__host__ __device__
 inline bool operator==(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2>& rhs)
 {
   // XXX support this eventually -jph
@@ -861,6 +873,7 @@ inline bool operator==(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S
 // not equal -----
 
 template<class T1, class T2, class S1, class S2>
+__host__ __device__
 inline bool operator!=(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2>& rhs)
 {
   // XXX support this eventually -jph
@@ -872,6 +885,7 @@ inline bool operator!=(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S
 
 // <
 template<class T1, class T2, class S1, class S2>
+__host__ __device__
 inline bool operator<(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2>& rhs)
 {
   // XXX support this eventually -jph
@@ -883,6 +897,7 @@ inline bool operator<(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2
 
 // >
 template<class T1, class T2, class S1, class S2>
+__host__ __device__
 inline bool operator>(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2>& rhs)
 {
   // XXX support this eventually -jph
@@ -894,6 +909,7 @@ inline bool operator>(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2
 
 // <=
 template<class T1, class T2, class S1, class S2>
+__host__ __device__
 inline bool operator<=(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2>& rhs)
 {
   // XXX support this eventually -jph
@@ -905,6 +921,7 @@ inline bool operator<=(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S
 
 // >=
 template<class T1, class T2, class S1, class S2>
+__host__ __device__
 inline bool operator>=(const detail::cons<T1, T2>& lhs, const detail::cons<S1, S2>& rhs)
 {
   // XXX support this eventually -jph

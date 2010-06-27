@@ -80,14 +80,11 @@ template<typename T>
       typedef device_allocator<U> other;
     }; // end rebind
 
-    __host__ __device__
     inline device_allocator() {}
 
-    __host__ __device__
     inline device_allocator(device_allocator const&) {}
 
     template<typename U>
-    __host__ __device__
     inline device_allocator(device_allocator<U> const&) {}
 }; // end device_allocator
 

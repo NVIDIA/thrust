@@ -66,28 +66,21 @@ template<typename T>
       typedef device_new_allocator<U> other;
     }; // end rebind
 
-    __host__ __device__
     inline device_new_allocator() {}
 
-    __host__ __device__
     inline ~device_new_allocator() {}
 
-    __host__ __device__
     inline device_new_allocator(device_new_allocator const&) {}
 
     template<typename U>
-    __host__ __device__
     inline device_new_allocator(device_new_allocator<U> const&) {}
 
     // address
-    __host__ __device__
     inline pointer address(reference r) { return &r; }
     
-    __host__ __device__
     inline const_pointer address(const_reference r) { return &r; }
 
     // memory allocation
-    __host__
     inline pointer allocate(size_type cnt,
                             const_pointer = const_pointer(static_cast<T*>(0)))
     {
@@ -100,23 +93,19 @@ template<typename T>
       return pointer(device_new<T>(cnt));
     } // end allocate()
 
-    __host__
     inline void deallocate(pointer p, size_type cnt)
     {
       // use "::operator delete" rather than keyword delete
       device_delete(p);
     } // end deallocate()
 
-    __host__ __device__
     inline size_type max_size() const
     {
       return std::numeric_limits<size_type>::max() / sizeof(T);
     } // end max_size()
 
-    __host__ __device__
     inline bool operator==(device_new_allocator const&) { return true; }
 
-    __host__ __device__
     inline bool operator!=(device_new_allocator const &a) {return !operator==(a); }
 }; // end device_new_allocator
 

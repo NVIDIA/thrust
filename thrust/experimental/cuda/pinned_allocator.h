@@ -89,17 +89,14 @@ template<typename T>
 
     /*! \p pinned_allocator's null constructor does nothing.
      */
-    __host__ __device__
     inline pinned_allocator() {}
 
     /*! \p pinned_allocator's null destructor does nothing.
      */
-    __host__ __device__
     inline ~pinned_allocator() {}
 
     /*! \p pinned_allocator's copy constructor does nothing.
      */
-    __host__ __device__
     inline pinned_allocator(pinned_allocator const &) {}
 
     /*! This version of \p pinned_allocator's copy constructor
@@ -108,7 +105,6 @@ template<typename T>
      *  does nothing.
      */
     template<typename U>
-    __host__ __device__
     inline pinned_allocator(pinned_allocator<U> const &) {}
 
     /*! This method returns the address of a \c reference of
@@ -117,7 +113,6 @@ template<typename T>
      *  \p r The \c reference of interest.
      *  \return \c r's address.
      */
-    __host__ __device__
     inline pointer address(reference r) { return &r; }
 
     /*! This method returns the address of a \c const_reference
@@ -126,7 +121,6 @@ template<typename T>
      *  \p r The \c const_reference of interest.
      *  \return \c r's address.
      */
-    __host__ __device__
     inline const_pointer address(const_reference r) { return &r; }
 
     /*! This method allocates storage for objects in pinned host
@@ -138,7 +132,6 @@ template<typename T>
      *        It is the responsibility of the caller to initialize the
      *        objects at the returned \c pointer. 
      */
-    __host__
     inline pointer allocate(size_type cnt,
                             const_pointer = 0)
     {
@@ -168,7 +161,6 @@ template<typename T>
      *        It is the responsibility of the caller to destroy
      *        the objects stored at \p p.
      */
-    __host__
     inline void deallocate(pointer p, size_type cnt)
     {
       cudaError_t error = cudaFreeHost(p);
@@ -185,7 +177,6 @@ template<typename T>
      *  \return The maximum number of objects that may be allocated
      *          by a single call to \p allocate().
      */
-    __host__ __device__
     inline size_type max_size() const
     {
       return std::numeric_limits<size_type>::max() / sizeof(T);
@@ -197,7 +188,6 @@ template<typename T>
      *  \param x The other \p pinned_allocator of interest.
      *  \return This method always returns \c true.
      */
-    __host__ __device__
     inline bool operator==(pinned_allocator const& x) { return true; }
 
     /*! This method tests this \p pinned_allocator for inequality
@@ -206,7 +196,6 @@ template<typename T>
      *  \param x The other \p pinned_allocator of interest.
      *  \return This method always returns \c false.
      */
-    __host__ __device__
     inline bool operator!=(pinned_allocator const &x) { return !operator==(x); }
 }; // end pinned_allocator
 
