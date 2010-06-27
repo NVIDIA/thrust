@@ -937,6 +937,9 @@ template<typename T>
      *
      *  \return A copy of the object referenced by this \p device_reference.
      */
+    // XXX add __host__ __device__ here to WAR nvcc 3.1 breakage
+    //     this should not imply device_reference can do conversion from __device__ code
+    __host__ __device__
     operator value_type (void) const;
 
   private:

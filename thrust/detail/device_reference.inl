@@ -139,6 +139,9 @@ template<typename T>
   device_reference<T>
     ::operator typename device_reference<T>::value_type (void) const
 {
+// XXX WAR nvcc 3.1's problems with this
+//     in __device__ code, return something bogus just to get it to compile
+#ifndef __CUDA_ARCH__
   // get our device space
   typedef typename thrust::iterator_space<pointer>::type space;
 
@@ -149,6 +152,9 @@ template<typename T>
   >::type interop;
 
   return convert(interop());
+#else
+  return value_type();
+#endif
 } // end device_reference::operator value_type ()
 
 template<typename T>
