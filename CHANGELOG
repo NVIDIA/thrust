@@ -1,4 +1,120 @@
 #######################################
+#           Thrust v1.2.0             #
+#######################################
+
+Summary
+    Thrust v1.2 introduces support for compilation to multicore CPUs
+    and the Ocelot virtual machine, and several new facilities for
+    pseudo-random number generation.  New algorithms such as set
+    intersection and segmented reduction have also been added.  Lastly,
+    improvements to the robustness of the CUDA backend ensure
+    correctness across a broad set of (uncommon) use cases.
+
+Breaking API Changes
+    thrust::gather's interface was incorrect and has been removed.
+    The old interface is deprecated but will be preserved for Thrust
+    version 1.2 at thrust::deprecated::gather &
+    thrust::deprecated::gather_if. The new interface is provided at
+    thrust::next::gather & thrust::next::gather_if.  The new interface
+    will be promoted to thrust:: in Thrust version 1.3. For more details,
+    please refer to this thread:
+    http://groups.google.com/group/thrust-users/browse_thread/thread/f5f0583cb97b51fd
+
+    The thrust::sorting namespace has been deprecated in favor of the
+    top-level sorting functions, such as thrust::sort() and
+    thrust::sort_by_key().
+
+New Features
+    Functions
+        reduce_by_key
+        set_intersection
+        tie
+        unique_copy
+        unique_by_key
+        unique_copy_by_key
+
+    Types
+        Random Number Generation
+            discard_block_engine
+            default_random_engine
+            linear_congruential_engine
+            linear_feedback_shift_engine
+            minstd_rand
+            minstd_rand0
+            normal_distribution (experimental)
+            ranlux24
+            ranlux48
+            ranlux24_base
+            ranlux48_base
+            subtract_with_carry_engine
+            taus88
+            uniform_int_distribution
+            uniform_real_distribution
+            xor_combine_engine
+        Functionals
+            project1st
+            project2nd
+
+    Fancy Iterators
+        permutation_iterator
+        reverse_iterator
+
+    Device support
+        Add support for multicore CPUs via OpenMP
+        Add support for Fermi-class GPUs
+        Add support for Ocelot virtual machine
+
+New Examples
+    cpp_integration
+    histogram
+    mode
+    monte_carlo
+    monte_carlo_disjoint_sequences
+    padded_grid_reduction
+    permutation_iterator
+    row_sum
+    run_length_encoding
+    segmented_scan
+    stream_compaction
+    summary_statistics
+    transform_iterator
+    word_count
+
+Other Enhancements
+    vector functions operator!=, rbegin, crbegin, rend, crend, data, & shrink_to_fit
+    integer sorting performance is improved when max is large but (max - min) is small and when min is negative
+    performance of inclusive_scan() and exclusive_scan() is improved by 20-25% for primitive types
+    support for nvcc 3.0
+
+Removed Functionality
+    removed support for equal between host & device sequences
+    removed support for gather() and scatter() between host & device sequences
+
+Bug Fixes
+    # 8 cause a compiler error if the required compiler is not found rather than a mysterious error at link time
+    # 42 device_ptr & device_reference are classes rather than structs, eliminating warnings on certain platforms
+    # 46 gather & scatter handle any space iterators correctly
+    # 51 thrust::experimental::arch functions gracefully handle unrecognized GPUs
+    # 52 avoid collisions with common user macros such as BLOCK_SIZE
+    # 62 provide better documentation for device_reference
+    # 68 allow built-in CUDA vector types to work with device_vector in pure C++ mode
+    # 102 eliminated a race condition in device_vector::erase
+    various compilation warnings eliminated
+
+Known Issues
+   inclusive_scan & exclusive_scan may fail with very large types
+   the Microsoft compiler may fail to compile code using both sort and binary search algorithms
+   uninitialized_fill & uninitialized_copy dispatch constructors on the host rather than the device
+   # 109 some algorithms may exhibit poor performance with the OpenMP backend with large numbers (>= 6) of CPU threads
+   default_random_engine::discard is not accelerated with nvcc 2.3
+
+Acknowledgments
+   Thanks to Gregory Diamos for contributing a CUDA implementation of set_intersection
+   Thanks to Ryuta Suzuki & Gregory Diamos for rigorously testing Thrust's unit tests and examples against Ocelot
+   Thanks to Tom Bradley for contributing an implementation of normal_distribution
+   Thanks to Joseph Rhoads for contributing the example summary_statistics
+
+#######################################
 #           Thrust v1.1.1             #
 #######################################
 
