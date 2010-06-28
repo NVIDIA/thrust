@@ -178,7 +178,6 @@ void initialize_values(Vector& values)
 template<typename Vector>
 void TestUniqueByKeySimple(void)
 {
-#if (THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC) || (CUDA_VERSION != 3010)
     typedef typename Vector::value_type T;
 
     Vector keys;
@@ -219,9 +218,6 @@ void TestUniqueByKeySimple(void)
     ASSERT_EQUAL(values[0], 0);
     ASSERT_EQUAL(values[1], 2);
     ASSERT_EQUAL(values[2], 7);
-#else
-    KNOWN_FAILURE;
-#endif
 }
 DECLARE_VECTOR_UNITTEST(TestUniqueByKeySimple);
 
@@ -229,7 +225,6 @@ DECLARE_VECTOR_UNITTEST(TestUniqueByKeySimple);
 template<typename Vector>
 void TestUniqueCopyByKeySimple(void)
 {
-#if (THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC) || (CUDA_VERSION != 3010)
     typedef typename Vector::value_type T;
 
     Vector keys;
@@ -244,7 +239,7 @@ void TestUniqueCopyByKeySimple(void)
     Vector output_values(values.size());
 
     new_last = thrust::unique_copy_by_key(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
-
+    
     ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
     ASSERT_EQUAL(new_last.second - output_values.begin(), 5);
     ASSERT_EQUAL(output_keys[0], 11);
@@ -263,7 +258,7 @@ void TestUniqueCopyByKeySimple(void)
     initialize_keys(keys);  initialize_values(values);
     
     new_last = thrust::unique_copy_by_key(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_unique<T>());
-
+    
     ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
     ASSERT_EQUAL(new_last.second - output_values.begin(), 3);
     ASSERT_EQUAL(output_keys[0], 11);
@@ -273,9 +268,6 @@ void TestUniqueCopyByKeySimple(void)
     ASSERT_EQUAL(output_values[0], 0);
     ASSERT_EQUAL(output_values[1], 2);
     ASSERT_EQUAL(output_values[2], 7);
-#else
-    KNOWN_FAILURE;
-#endif
 }
 DECLARE_VECTOR_UNITTEST(TestUniqueCopyByKeySimple);
 
