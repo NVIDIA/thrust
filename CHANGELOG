@@ -1,4 +1,19 @@
 #######################################
+#           Thrust v1.2.1             #
+#######################################
+
+Summary
+    Small fixes for compatibility with CUDA 3.1
+
+Known Issues
+   inclusive_scan & exclusive_scan may fail with very large types
+   the Microsoft compiler may fail to compile code using both sort and binary search algorithms
+   uninitialized_fill & uninitialized_copy dispatch constructors on the host rather than the device
+   # 109 some algorithms may exhibit poor performance with the OpenMP backend with large numbers (>= 6) of CPU threads
+   default_random_engine::discard is not accelerated with nvcc 2.3
+   nvcc 3.1 may fail to compile code using types derived from thrust::subtract_with_carry_engine, such as thrust::ranlux24 & thrust::ranlux48.
+
+#######################################
 #           Thrust v1.2.0             #
 #######################################
 
@@ -113,7 +128,6 @@ Acknowledgments
    Thanks to Ryuta Suzuki & Gregory Diamos for rigorously testing Thrust's unit tests and examples against Ocelot
    Thanks to Tom Bradley for contributing an implementation of normal_distribution
    Thanks to Joseph Rhoads for contributing the example summary_statistics
-
 
 #######################################
 #           Thrust v1.1.1             #
