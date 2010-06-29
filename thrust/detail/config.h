@@ -28,6 +28,18 @@
 #error "CUDA v2.3 or newer is required"
 #endif 
 
+#if CUDA_VERSION == 2030
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#pragma message("-----------------------------------------------------------------------")
+#pragma message("| WARNING: Thrust does not support CUDA 2.3                            ")
+#pragma message("-----------------------------------------------------------------------")
+#else
+#warning -----------------------------------------------------------------------
+#warning | WARNING: Thrust does not support CUDA 2.3
+#warning -----------------------------------------------------------------------
+#endif // THRUST_HOST_COMPILER_MSVC
+#endif 
+
 // XXX WAR this problem with Snow Leopard + CUDA 2.3a
 #if defined(__APPLE__)
 #if _GLIBCXX_ATOMIC_BUILTINS == 1
