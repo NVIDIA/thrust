@@ -165,157 +165,20 @@ void Test##OperatorName##FunctionalDevice(void)                                 
 DECLARE_UNITTEST(Test##OperatorName##FunctionalDevice);
 
 
-
-
 // Create the unit tests
-DECLARE_UNARY_ARITHMETIC_FUNCTIONAL_UNITTEST(negate, Negate);
-DECLARE_UNARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_not, LogicalNot);
+DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(plus,       Plus      );
+DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(minus,      Minus     );
+DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(multiplies, Multiplies);
+DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(divides,    Divides   );
 
-// Ad-hoc testing for other functionals
-template <class Vector>
-void TestIdentityFunctional(void)
-{
-    typedef typename Vector::value_type T;
+DECLARE_BINARY_INTEGER_ARITHMETIC_FUNCTIONAL_UNITTEST(modulus, Modulus);
 
-    Vector input(3);
-    input[0] = 0; input[1] = 1; input[2] = 2;
-
-    Vector output(3);
-
-    thrust::transform(input.begin(), input.end(), output.begin(), thrust::identity<T>());
-
-    ASSERT_EQUAL(input, output);
-}
-DECLARE_VECTOR_UNITTEST(TestIdentityFunctional);
-
-template <class Vector>
-void TestProject1stFunctional(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector lhs(3);
-    Vector rhs(3);
-    lhs[0] = 0;  rhs[0] = 3; 
-    lhs[1] = 1;  rhs[1] = 4;
-    lhs[2] = 2;  rhs[2] = 5;
-
-    Vector output(3);
-
-    thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), output.begin(), thrust::project1st<T,T>());
-
-    ASSERT_EQUAL(output, lhs);
-}
-DECLARE_VECTOR_UNITTEST(TestProject1stFunctional);
-
-template <class Vector>
-void TestProject2ndFunctional(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector lhs(3);
-    Vector rhs(3);
-    lhs[0] = 0;  rhs[0] = 3; 
-    lhs[1] = 1;  rhs[1] = 4;
-    lhs[2] = 2;  rhs[2] = 5;
-
-    Vector output(3);
-
-    thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), output.begin(), thrust::project2nd<T,T>());
-
-    ASSERT_EQUAL(output, rhs);
-}
-DECLARE_VECTOR_UNITTEST(TestProject2ndFunctional);
-
-template <class Vector>
-void TestMaximumFunctional(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector input1(3);
-    Vector input2(3);
-    input1[0] = 8; input1[1] = 3; input1[2] = 7;
-    input2[0] = 5; input2[1] = 6; input2[2] = 9;
-
-    Vector output(3);
-
-    thrust::transform(input1.begin(), input1.end(), 
-                      input2.begin(), 
-                      output.begin(), 
-                      thrust::maximum<T>());
-
-    ASSERT_EQUAL(output[0], 8);
-    ASSERT_EQUAL(output[1], 6);
-    ASSERT_EQUAL(output[2], 9);
-}
-DECLARE_VECTOR_UNITTEST(TestMaximumFunctional);
-
-template <class Vector>
-void TestMinimumFunctional(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector input1(3);
-    Vector input2(3);
-    input1[0] = 8; input1[1] = 3; input1[2] = 7;
-    input2[0] = 5; input2[1] = 6; input2[2] = 9;
-
-    Vector output(3);
-
-    thrust::transform(input1.begin(), input1.end(), 
-                      input2.begin(), 
-                      output.begin(), 
-                      thrust::minimum<T>());
-
-    ASSERT_EQUAL(output[0], 5);
-    ASSERT_EQUAL(output[1], 3);
-    ASSERT_EQUAL(output[2], 7);
-}
-DECLARE_VECTOR_UNITTEST(TestMinimumFunctional);
-
-template <class Vector>
-void TestNot1(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector input(5);
-    input[0] = 1; input[1] = 0; input[2] = 1; input[3] = 1; input[4] = 0;
-
-    Vector output(5);
-
-    thrust::transform(input.begin(), input.end(), 
-                      output.begin(), 
-                      thrust::not1(thrust::identity<T>()));
-
-    ASSERT_EQUAL(output[0], 0);
-    ASSERT_EQUAL(output[1], 1);
-    ASSERT_EQUAL(output[2], 0);
-    ASSERT_EQUAL(output[3], 0);
-    ASSERT_EQUAL(output[4], 1);
-}
-DECLARE_VECTOR_UNITTEST(TestNot1);
-
-template <class Vector>
-void TestNot2(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector input1(5);
-    Vector input2(5);
-    input1[0] = 1; input1[1] = 0; input1[2] = 1; input1[3] = 1; input1[4] = 0;
-    input2[0] = 1; input2[1] = 1; input2[2] = 0; input2[3] = 1; input2[4] = 1;
-
-    Vector output(5);
-
-    thrust::transform(input1.begin(), input1.end(), 
-                      input2.begin(),
-                      output.begin(), 
-                      thrust::not2(thrust::equal_to<T>()));
-
-    ASSERT_EQUAL(output[0], 0);
-    ASSERT_EQUAL(output[1], 1);
-    ASSERT_EQUAL(output[2], 1);
-    ASSERT_EQUAL(output[3], 0);
-    ASSERT_EQUAL(output[4], 1);
-}
-DECLARE_VECTOR_UNITTEST(TestNot2);
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(equal_to,      EqualTo     );
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(not_equal_to,  NotEqualTo  );
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(greater,       Greater     );
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(less,          Less        );
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(greater_equal, GreaterEqual);
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(less_equal,    LessEqual   );
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_and,   LogicalAnd  );
+DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_or,    LogicalOr   );
 
