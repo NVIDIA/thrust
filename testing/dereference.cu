@@ -7,6 +7,13 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// disable 'possible loss of data' warnings on MSVC
+#pragma warning(disable : 4244 4267)
+#endif
+
+
 template <typename Iterator1, typename Iterator2>
 #if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 __global__

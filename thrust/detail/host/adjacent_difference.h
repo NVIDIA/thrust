@@ -15,13 +15,13 @@
  */
 
 
-/*! \file mismatch.h
- *  \brief Search for differences between sequences [host].
+/*! \file adjacent_difference.h
+ *  \brief Host implementation of adjacent_difference.
  */
 
 #pragma once
 
-#include <thrust/pair.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -30,21 +30,28 @@ namespace detail
 namespace host
 {
 
-template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
-                                                      InputIterator1 last1,
-                                                      InputIterator2 first2,
-                                                      BinaryPredicate pred)
+template <class InputIterator, class OutputIterator, class BinaryFunction>
+OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   BinaryFunction binary_op)
 {
-    while (first1 != last1)
-    {
-        if (!pred(*first1, *first2))
-            break;
+    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
-        ++first1; ++first2;
+    if (first == last)
+        return result;
+
+    InputType curr = *first;
+
+    *result = curr;
+
+    while (++first != last)
+    {
+        InputType next = *first;
+        *++result = binary_op(next, curr);
+        curr = next;
     }
 
-    return thrust::make_pair(first1, first2);
+    return ++result;
 }
 
 } // end namespace host

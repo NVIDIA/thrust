@@ -38,7 +38,7 @@ template<>
 {
   float operator()(void) const
   {
-      return rand();
+      return (float) rand();
   }
 };
 
@@ -47,7 +47,7 @@ template<>
 {
   double operator()(void) const
   {
-      return rand();
+      return (double) rand();
   }
 };
 
@@ -67,7 +67,7 @@ template<>
 {
   float operator()(void) const
   {
-    return 20.0f * (rand() / (RAND_MAX + 1.0f)) - 10.0f;
+    return (float) (20.0 * (rand() / (RAND_MAX + 1.0)) - 10.0);
   }
 };
 
@@ -76,7 +76,7 @@ template<>
 {
   double operator()(void) const
   {
-    return 20.0 * (rand() / (RAND_MAX + 1.0)) - 10.0;
+    return (double) (20.0 * (rand() / (RAND_MAX + 1.0)) - 10.0);
   }
 };
 

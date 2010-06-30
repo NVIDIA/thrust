@@ -41,6 +41,16 @@
 
 #include <thrust/detail/device/cuda/block/merging_sort.h>
 
+
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(push)
+#pragma warning(disable : 4244 4267)
+#endif
+
+
+
 //#define THRUST_DEBUG_CUDA_MERGE_SORT
 
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
@@ -1385,6 +1395,12 @@ template<typename RandomAccessIterator1,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// reenable 'possible loss of data' warnings
+#pragma warning(pop)
+#endif
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

@@ -4,6 +4,11 @@
 
 #include <functional>
 #include <algorithm>
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// disable 'unary minus applied to unsigned type' warning on MSVC
+#pragma warning(disable : 4146)
+#endif
     
 const size_t NUM_SAMPLES = 10000;
 

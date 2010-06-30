@@ -293,7 +293,7 @@ template<typename From, typename To>
     static From      m_from;
 
   public:
-    static const bool value = sizeof(test(m_from)) == 1;
+    static const bool value = sizeof(test(m_from)) == sizeof(one_byte);
 }; // end is_convertible_sfinae
 
 

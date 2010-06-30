@@ -1,6 +1,11 @@
 #include <unittest/unittest.h>
 #include <thrust/generate.h>
 
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// disable 'possible loss of data' warnings on MSVC
+#pragma warning(disable : 4244 4267)
+#endif
+
 template<typename T>
 struct return_value
 {

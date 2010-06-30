@@ -236,12 +236,24 @@ void stable_radix_sort(RandomAccessIterator first,
     // RandomAccessIterator should be a trivial iterator
     KeyType * keys = thrust::raw_pointer_cast(&*first);
 
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(push)
+#pragma warning(disable : 4244 4267)
+#endif
+
     // we only handle < 2^32 elements right now
     unsigned int num_elements = last - first;
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// reenable 'possible loss of data' warnings
+#pragma warning(pop)
+#endif
 
     // dispatch on sizeof(KeyType)
     stable_radix_sort_key_dev(keys, num_elements, thrust::detail::integral_constant<int, sizeof(KeyType)>());
 }
+
 
 } // end namespace detail
 } // end namespace cuda

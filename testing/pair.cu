@@ -59,12 +59,12 @@ struct TestPairManipulation
     ASSERT_EQUAL(sp.second, p6.second);
 
     // test initialization from make_pair
-    P p7 = thrust::make_pair(6,7);
+    P p7 = thrust::make_pair(T(6),T(7));
     ASSERT_EQUAL(T(6), p7.first);
     ASSERT_EQUAL(T(7), p7.second);
 
     // test copy from make_pair
-    p7 = thrust::make_pair(8,9);
+    p7 = thrust::make_pair(T(8),T(9));
     ASSERT_EQUAL(T(8), p7.first);
     ASSERT_EQUAL(T(9), p7.second);
   }

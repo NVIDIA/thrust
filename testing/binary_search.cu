@@ -4,6 +4,11 @@
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warning on MSVC
+#pragma warning(disable : 4244)
+#endif
+
 //////////////////////
 // Scalar Functions //
 //////////////////////
