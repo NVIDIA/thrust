@@ -212,7 +212,7 @@ struct TestVectorLowerBound
 #endif
   }
 };
-VariableUnitTest<TestVectorLowerBound, NumericTypes> TestVectorLowerBoundInstance;
+VariableUnitTest<TestVectorLowerBound, SignedIntegralTypes> TestVectorLowerBoundInstance;
 
 
 template <typename T>
@@ -244,7 +244,7 @@ struct TestVectorUpperBound
 #endif
   }
 };
-VariableUnitTest<TestVectorUpperBound, NumericTypes> TestVectorUpperBoundInstance;
+VariableUnitTest<TestVectorUpperBound, SignedIntegralTypes> TestVectorUpperBoundInstance;
 
 template <typename T>
 struct TestVectorBinarySearch
@@ -275,5 +275,5 @@ struct TestVectorBinarySearch
 #endif
   }
 };
-VariableUnitTest<TestVectorBinarySearch, NumericTypes> TestVectorBinarySearchInstance;
+VariableUnitTest<TestVectorBinarySearch, SignedIntegralTypes> TestVectorBinarySearchInstance;
 
