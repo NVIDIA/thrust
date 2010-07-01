@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
 
 // do not attempt to compile this file with any other compiler

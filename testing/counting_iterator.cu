@@ -5,6 +5,11 @@
 #include <thrust/distance.h>
 
 
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// disable 'possible loss of data' warnings on MSVC
+#pragma warning(disable : 4244 4267)
+#endif
+
 void TestCountingIteratorCopyConstructor(void)
 {
     thrust::counting_iterator<int> iter0(100);

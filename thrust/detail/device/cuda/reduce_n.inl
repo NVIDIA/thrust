@@ -137,6 +137,17 @@ template<typename InputIterator,
     reduce_n_device(input, n, block_results, binary_op, shared_array + blockDim.x * blockIdx.x);
 } // end reduce_n_kernel()
 
+
+
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(push)
+#pragma warning(disable : 4244 4267)
+#endif
+
+
+
 template<typename InputIterator,
          typename SizeType,
          typename OutputType,
@@ -152,7 +163,7 @@ template<typename InputIterator,
     const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
     const size_t smem_size  = block_size * smem_per_thread;
     const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const size_t num_blocks = std::min<unsigned int>(max_blocks, (n + (block_size - 1)) / block_size);
+    const size_t num_blocks = std::min<size_t>(max_blocks, (n + (block_size - 1)) / block_size);
 
     // allocate storage for per-block results
     thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
@@ -161,16 +172,16 @@ template<typename InputIterator,
     temp[0] = init;
 
     // reduce input to per-block sums
-    reduce_n_smem<<<(unsigned int)num_blocks, (unsigned int)block_size, (unsigned int)smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
+    reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first, n, raw_pointer_cast(&temp[1]), binary_op);
 
     // reduce per-block sums together with init
     {
 #if CUDA_VERSION >= 3000
-        const unsigned int block_size_pass2 = thrust::experimental::arch::max_blocksize(reduce_n_smem<OutputType *, OutputType, BinaryFunction>, smem_per_thread);
+        const size_t block_size_pass2 = thrust::experimental::arch::max_blocksize(reduce_n_smem<OutputType *, OutputType, BinaryFunction>, smem_per_thread);
 #else
-        const unsigned int block_size_pass2 = 32;
+        const size_t block_size_pass2 = 32;
 #endif        
-        const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
+        const size_t smem_size_pass2  = smem_per_thread * block_size_pass2;
         reduce_n_smem<<<1, block_size_pass2, smem_size_pass2>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), binary_op);
     }
 
@@ -205,16 +216,16 @@ template<typename InputIterator,
     temp[0] = init;
 
     // reduce input to per-block sums
-    detail::reduce_n_gmem<<<(unsigned int)num_blocks, (unsigned int)block_size, 0>>>(first, n, raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
+    detail::reduce_n_gmem<<<num_blocks, block_size, 0>>>(first, n, raw_pointer_cast(&temp[1]), raw_pointer_cast(&shared_array[0]), binary_op);
     
     // reduce per-block sums together with init
     {
 #if CUDA_VERSION >= 3000
-        const unsigned int block_size_pass2 = std::min(block_size, thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, smem_per_thread));
+        const size_t block_size_pass2 = std::min(block_size, thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, smem_per_thread));
 #else
-        const unsigned int block_size_pass2 = 32;
+        const size_t block_size_pass2 = 32;
 #endif        
-        const unsigned int smem_size_pass2  = smem_per_thread * block_size_pass2;
+        const size_t smem_size_pass2  = smem_per_thread * block_size_pass2;
         detail::reduce_n_gmem<<<1, block_size_pass2, smem_size_pass2>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), raw_pointer_cast(&shared_array[0]), binary_op);
     }
     
@@ -222,6 +233,14 @@ template<typename InputIterator,
 } // end reduce_n()
 
 } // end namespace detail
+
+
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// reenable 'possible loss of data' warnings
+#pragma warning(pop)
+#endif
+
 
 
 // TODO add runtime switch for SizeType vs. unsigned int

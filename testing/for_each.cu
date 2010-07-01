@@ -2,6 +2,12 @@
 #include <thrust/for_each.h>
 #include <thrust/device_ptr.h>
 
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(disable : 4244 4267)
+#endif
+
 template <typename T>
 class mark_present_for_each
 {

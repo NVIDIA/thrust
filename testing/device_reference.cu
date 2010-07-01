@@ -71,7 +71,7 @@ void TestDeviceReferenceAssignmentFromDeviceReference(void)
 
     // test different types
     typedef float T1;
-    thrust::device_vector<T1> v1(1,0);
+    thrust::device_vector<T1> v1(1,0.0f);
     thrust::device_reference<T1> ref2 = v1[0];
 
     ref2 = ref1;

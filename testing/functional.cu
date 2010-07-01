@@ -4,6 +4,11 @@
 
 #include <functional>
 #include <algorithm>
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// disable 'unary minus applied to unsigned type' warning on MSVC
+#pragma warning(disable : 4146)
+#endif
     
 const size_t NUM_SAMPLES = 10000;
 
@@ -170,23 +175,6 @@ DECLARE_UNITTEST(Test##OperatorName##FunctionalDevice);
 // Create the unit tests
 DECLARE_UNARY_ARITHMETIC_FUNCTIONAL_UNITTEST(negate, Negate);
 DECLARE_UNARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_not, LogicalNot);
-
-DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(plus,       Plus      );
-DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(minus,      Minus     );
-DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(multiplies, Multiplies);
-DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(divides,    Divides   );
-
-DECLARE_BINARY_INTEGER_ARITHMETIC_FUNCTIONAL_UNITTEST(modulus, Modulus);
-
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(equal_to,      EqualTo     );
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(not_equal_to,  NotEqualTo  );
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(greater,       Greater     );
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(less,          Less        );
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(greater_equal, GreaterEqual);
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(less_equal,    LessEqual   );
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_and,   LogicalAnd  );
-DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_or,    LogicalOr   );
-
 
 // Ad-hoc testing for other functionals
 template <class Vector>

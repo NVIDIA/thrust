@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include <algorithm>
-
 #include <thrust/pair.h>
 
 namespace thrust
@@ -38,7 +36,15 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred)
 {
-    return std::mismatch(first1, last1, first2, pred);
+    while (first1 != last1)
+    {
+        if (!pred(*first1, *first2))
+            break;
+
+        ++first1; ++first2;
+    }
+
+    return thrust::make_pair(first1, first2);
 }
 
 } // end namespace host

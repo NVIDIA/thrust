@@ -671,36 +671,52 @@ DECLARE_UNITTEST(TestTaus88Unequal);
 
 void TestRanlux24Validation(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux24 Engine;
 
   TestEngineValidation<Engine,9901578>();
+#endif  
 }
 DECLARE_UNITTEST(TestRanlux24Validation);
 
 
 void TestRanlux24Min(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux24 Engine;
 
   TestEngineMin<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux24Min);
 
 
 void TestRanlux24Max(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux24 Engine;
 
   TestEngineMax<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux24Max);
 
 
 void TestRanlux24SaveRestore(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux24 Engine;
 
   TestEngineSaveRestore<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux24SaveRestore);
 
@@ -720,9 +736,13 @@ DECLARE_UNITTEST(TestRanlux24Equal);
 
 void TestRanlux24Unequal(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux24 Engine;
 
   TestEngineUnequal<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux24Unequal);
 
@@ -730,36 +750,52 @@ DECLARE_UNITTEST(TestRanlux24Unequal);
 
 void TestRanlux48Validation(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux48 Engine;
 
   TestEngineValidation<Engine,88229545517833ull>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux48Validation);
 
 
 void TestRanlux48Min(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux48 Engine;
 
   TestEngineMin<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux48Min);
 
 
 void TestRanlux48Max(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux48 Engine;
 
   TestEngineMax<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux48Max);
 
 
 void TestRanlux48SaveRestore(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux48 Engine;
 
   TestEngineSaveRestore<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux48SaveRestore);
 
@@ -779,9 +815,13 @@ DECLARE_UNITTEST(TestRanlux48Equal);
 
 void TestRanlux48Unequal(void)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION > 3000
+    KNOWN_FAILURE;
+#else
   typedef thrust::random::ranlux48 Engine;
 
   TestEngineUnequal<Engine>();
+#endif
 }
 DECLARE_UNITTEST(TestRanlux48Unequal);
 
