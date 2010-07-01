@@ -19,6 +19,7 @@
 #include <thrust/range/begin.h>
 #include <thrust/range/end.h>
 #include <thrust/range/empty.h>
+#include <thrust/iterator/detail/segmentation/segmented_iterator.h>
 
 namespace thrust
 {
