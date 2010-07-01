@@ -16,23 +16,20 @@
 
 
 /*! \file adjacent_difference.h
- *  \brief Defines the interface to the dispatch
- *         layer of the adjacent_difference function.
+ *  \brief Dispatch layer of the adjacent_difference function.
  */
 
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <numeric>
+#include <thrust/detail/host/adjacent_difference.h>
 #include <thrust/detail/device/adjacent_difference.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
@@ -46,7 +43,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    thrust::host_space_tag,
                                    thrust::host_space_tag)
 {
-    return std::adjacent_difference(first, last, result, binary_op);
+    return thrust::detail::host::adjacent_difference(first, last, result, binary_op);
 }
 
 
@@ -63,9 +60,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
     return thrust::detail::device::adjacent_difference(first, last, result, binary_op);
 }
 
-} // end dispatch
-
-} // end detail
-
-} // end thrust
+} // end namespace dispatch
+} // end namespace detail
+} // end namespace thrust
 

@@ -24,6 +24,8 @@
 #include <thrust/find.h>
 #include <thrust/iterator/iterator_traits.h>
 
+// TODO don't rely on (bool) pred(x) to convert non-boolean predicate results (produces MSVC warning C4800)
+
 namespace thrust
 {
 
