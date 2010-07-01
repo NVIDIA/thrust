@@ -49,11 +49,6 @@ template<typename Iterator>
     __host__ __device__
     inline segmented_iterator(const segmented_iterator &x);
 
-  private:
-    // shorthand parent types
-    typedef typename segmented_iterator_base<Iterator>::type super_t;
-    typedef typename super_t::reference                      reference;
-
     // an iterator that iterates across buckets
     typedef Iterator                                         bucket_iterator;
 
@@ -62,6 +57,19 @@ template<typename Iterator>
       typename iterator_value<bucket_iterator>::type
     >::type                                                  local_iterator;
 
+    __host__ __device__
+    local_iterator current_local(void) const;
+
+    __host__ __device__
+    bucket_iterator current_bucket(void) const;
+
+    __host__ __device__
+    bucket_iterator buckets_end(void) const;
+
+  private:
+    // shorthand parent types
+    typedef typename segmented_iterator_base<Iterator>::type super_t;
+
     // the current bucket
     bucket_iterator m_current_bucket;
 
@@ -69,14 +77,14 @@ template<typename Iterator>
     bucket_iterator m_buckets_end;
 
     // the current element within the current bucket
-    local_iterator  m_current;
+    local_iterator  m_current_local;
 
     // iterator core interface follows
     
     friend class thrust::experimental::iterator_core_access;
     
     __host__ __device__
-    reference dereference(void) const;
+    typename super_t::reference dereference(void) const;
 
     __host__ __device__
     bool equal(const segmented_iterator &x) const;
