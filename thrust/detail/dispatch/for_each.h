@@ -24,6 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <algorithm>
+#include <thrust/detail/host/for_each.h>
 #include <thrust/detail/device/for_each.h>
 
 namespace thrust
@@ -40,12 +41,12 @@ namespace dispatch
 ///////////////
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f,
-              thrust::host_space_tag)
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f,
+                       thrust::host_space_tag)
 {
-    std::for_each(first, last, f);
+  return thrust::detail::host::for_each(first,last,f);
 }
 
 
@@ -57,16 +58,7 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f,
                           thrust::host_space_tag)
 {
-  while(n)
-  {
-    // we can dereference an OutputIterator if f does not
-    // try to use the reference for anything besides assignment
-    f(*first);
-    --n;
-    ++first;
-  }
-
-  return first;
+  return thrust::detail::host::for_each_n(first,n,f);
 }
 
 
@@ -75,12 +67,12 @@ OutputIterator for_each_n(OutputIterator first,
 /////////////////
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f,
-              thrust::device_space_tag)
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f,
+                       thrust::device_space_tag)
 {
-    thrust::detail::device::for_each(first, last, f);
+  return thrust::detail::device::for_each(first, last, f);
 }
 
 
@@ -92,7 +84,7 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f,
                           thrust::device_space_tag)
 {
-    return thrust::detail::device::for_each_n(first, n, f);
+  return thrust::detail::device::for_each_n(first, n, f);
 }
 
 

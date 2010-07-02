@@ -14,12 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file for_each.h
- *  \brief Device implementation of for_each.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -27,8 +24,15 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace host
 {
+
+
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
 
 
 template<typename OutputIterator,
@@ -39,18 +43,11 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f);
 
 
-template<typename InputIterator,
-         typename UnaryFunction>
-InputIterator for_each(InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f);
+} // end host
 
+} // end detail
 
-} // end namespace device
+} // end thrust
 
-} // end namespace detail
-
-} // end namespace thrust
-
-#include <thrust/detail/device/for_each.inl>
+#include <thrust/detail/host/for_each.inl>
 

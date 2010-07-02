@@ -37,7 +37,7 @@ namespace device
 {
 
 // XXX WAR circluar #inclusion with this forward declaration
-template<typename InputIterator, typename UnaryFunction> void for_each(InputIterator, InputIterator, UnaryFunction);
+template<typename InputIterator, typename UnaryFunction> InputIterator for_each(InputIterator, InputIterator, UnaryFunction);
 
 namespace generic
 {

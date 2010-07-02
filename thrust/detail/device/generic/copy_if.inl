@@ -19,6 +19,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
+#include <thrust/transform.h>
 
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/raw_buffer.h>
@@ -93,10 +94,10 @@ OutputIterator copy_if(InputIterator1 first,
     
     // compute {0,1} predicates
     thrust::detail::raw_buffer<IndexType, Space> predicates(n);
-    thrust::detail::device::transform(stencil,
-                                      stencil + n,
-                                      predicates.begin(),
-                                      thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
+    thrust::transform(stencil,
+                      stencil + n,
+                      predicates.begin(),
+                      thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
 
     // scan {0,1} predicates
     thrust::detail::raw_buffer<IndexType, Space> scatter_indices(n);
