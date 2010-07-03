@@ -26,7 +26,7 @@
 #include <thrust/detail/type_traits.h>
 
 #include <thrust/detail/device/scan.h>
-#include <thrust/detail/device/scatter.h>
+#include <thrust/scatter.h>
 
 namespace thrust
 {
@@ -108,12 +108,12 @@ OutputIterator copy_if(InputIterator1 first,
                                            thrust::plus<IndexType>());
 
     // scatter the true elements
-    thrust::detail::device::scatter_if(first,
-                                       last,
-                                       scatter_indices.begin(),
-                                       predicates.begin(),
-                                       result,
-                                       thrust::identity<IndexType>());
+    thrust::scatter_if(first,
+                       last,
+                       scatter_indices.begin(),
+                       predicates.begin(),
+                       result,
+                       thrust::identity<IndexType>());
 
     // find the end of the new sequence
     IndexType output_size = scatter_indices[n - 1] + predicates[n - 1];

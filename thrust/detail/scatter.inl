@@ -20,8 +20,11 @@
  */
 
 #include <thrust/scatter.h>
+#include <thrust/functional.h>
+#include <thrust/copy.h>
+#include <thrust/transform.h>
+#include <thrust/iterator/permutation_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/scatter.h>
 
 namespace thrust
 {
@@ -34,11 +37,7 @@ template<typename InputIterator1,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-  // dispatch on space
-  thrust::detail::dispatch::scatter(first, last, map, output,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type(),
-    typename thrust::iterator_space<RandomAccessIterator>::type());
+  thrust::copy(first, last, thrust::make_permutation_iterator(output, map));
 } // end scatter()
 
 
@@ -53,7 +52,7 @@ template<typename InputIterator1,
                   RandomAccessIterator output)
 {
   // default predicate is identity
-  typedef typename thrust::iterator_traits<InputIterator3>::value_type StencilType;
+  typedef typename thrust::iterator_value<InputIterator3>::type StencilType;
   scatter_if(first, last, map, stencil, output, thrust::identity<StencilType>());
 } // end scatter_if()
 
@@ -70,12 +69,8 @@ template<typename InputIterator1,
                   RandomAccessIterator output,
                   Predicate pred)
 {
-  // dispatch on space
-  thrust::detail::dispatch::scatter_if(first, last, map, stencil, output, pred,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type(),
-    typename thrust::iterator_space<InputIterator3>::type(),
-    typename thrust::iterator_space<RandomAccessIterator>::type());
+  typedef typename thrust::iterator_value<InputIterator1>::type InputType;
+  thrust::transform_if(first, last, stencil, thrust::make_permutation_iterator(output, map), thrust::identity<InputType>(), pred);
 } // end scatter_if()
 
 } // end namespace thrust

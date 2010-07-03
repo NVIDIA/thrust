@@ -37,36 +37,27 @@ DECLARE_VECTOR_UNITTEST(TestScatterSimple);
 void TestScatterFromHostToDevice(void)
 {
     // source vector
-    thrust::host_vector<int> src(5);
-    src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4;
+    thrust::host_vector<int> h_src(5);
+    h_src[0] = 0; h_src[1] = 1; h_src[2] = 2; h_src[3] = 3; h_src[4] = 4;
 
     // scatter indices
-    thrust::host_vector<int> h_map(5);
-    h_map[0] = 6; h_map[1] = 3; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    thrust::device_vector<int> d_map = h_map;
+    thrust::device_vector<int> d_map(5);
+    d_map[0] = 6; d_map[1] = 3; d_map[2] = 1; d_map[3] = 7; d_map[4] = 2;
 
     // destination vector
-    thrust::device_vector<int> dst(8, (int) 0);
+    thrust::device_vector<int> d_dst(8, (int) 0);
 
     // expected result
-    thrust::device_vector<int> result = dst;
-    result[1] = 2;
-    result[2] = 4;
-    result[3] = 1;
-    result[7] = 3;
+    thrust::device_vector<int> reference = d_dst;
+    reference[1] = 2;
+    reference[2] = 4;
+    reference[3] = 1;
+    reference[7] = 3;
 
-    // with map on the host
-    thrust::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
-
-    ASSERT_EQUAL(result, dst);
-
-    // clear the destination vector
-    thrust::fill(dst.begin(), dst.end(), (int) 0);
-    
     // with map on the device
-    thrust::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
+    thrust::scatter(h_src.begin(), h_src.end(), d_map.begin(), d_dst.begin());
 
-    ASSERT_EQUAL(result, dst);
+    ASSERT_EQUAL(reference, d_dst);
 }
 DECLARE_UNITTEST(TestScatterFromHostToDevice);
 
@@ -74,32 +65,27 @@ DECLARE_UNITTEST(TestScatterFromHostToDevice);
 void TestScatterFromDeviceToHost(void)
 {
     // source vector
-    thrust::device_vector<int> src(5);
-    src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4;
+    thrust::device_vector<int> d_src(5);
+    d_src[0] = 0; d_src[1] = 1; d_src[2] = 2; d_src[3] = 3; d_src[4] = 4;
 
     // scatter indices
     thrust::host_vector<int> h_map(5);
     h_map[0] = 6; h_map[1] = 3; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    thrust::device_vector<int> d_map = h_map;
 
     // destination vector
-    thrust::host_vector<int> dst(8, (int) 0);
+    thrust::host_vector<int> h_dst(8, (int) 0);
 
     // expected result
-    thrust::host_vector<int> result = dst;
-    result[1] = 2;
-    result[2] = 4;
-    result[3] = 1;
-    result[7] = 3;
+    thrust::host_vector<int> reference(h_dst.size());
+    reference[1] = 2;
+    reference[2] = 4;
+    reference[3] = 1;
+    reference[7] = 3;
 
     // with map on the host
-    thrust::scatter(src.begin(), src.end(), h_map.begin(), dst.begin());
+    thrust::scatter(d_src.begin(), d_src.end(), h_map.begin(), h_dst.begin());
 
-    // clear the destination vector
-    thrust::fill(dst.begin(), dst.end(), (int) 0);
-    
-    // with map on the device
-    thrust::scatter(src.begin(), src.end(), d_map.begin(), dst.begin());
+    ASSERT_EQUAL(reference, h_dst);
 }
 DECLARE_UNITTEST(TestScatterFromDeviceToHost);
 
