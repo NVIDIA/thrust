@@ -30,15 +30,15 @@ namespace detail
 {
 
 template<typename T>
-  struct equal_to_value
+  struct equal_to_value_
 {
-  equal_to_value(const T &v):value(v){}
+  equal_to_value_(const T &v):value(v){}
 
   __host__ __device__
   inline bool operator()(const T &x) { return x == value; }
 
   const T value;
-}; // end equal_to_value
+}; // end equal_to_value_
 
 } // end detail
 
@@ -48,7 +48,7 @@ template<typename ForwardIterator,
                          ForwardIterator last,
                          const T &value)
 {
-  detail::equal_to_value<T> pred(value);
+  detail::equal_to_value_<T> pred(value);
 
   return thrust::remove_if(first, last, pred);
 } // end remove()
@@ -61,7 +61,7 @@ template<typename InputIterator,
                              OutputIterator result,
                              const T &value)
 {
-  detail::equal_to_value<T> pred(value);
+  detail::equal_to_value_<T> pred(value);
 
   return thrust::remove_copy_if(first, last, result, pred);
 } // end remove_copy()
