@@ -20,8 +20,10 @@
  */
 
 #include <thrust/swap_ranges.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/detail/dispatch/swap_ranges.h>
+#include <thrust/tuple.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/detail/internal_functional.h>
+#include <thrust/for_each.h>
 
 namespace thrust
 {
@@ -32,9 +34,13 @@ template<typename ForwardIterator1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-  return thrust::detail::dispatch::swap_ranges(first1, last1, first2,
-    typename thrust::iterator_space<ForwardIterator1>::type(),
-    typename thrust::iterator_space<ForwardIterator2>::type());
+  typedef thrust::tuple<ForwardIterator1,ForwardIterator2> IteratorTuple;
+  typedef thrust::zip_iterator<IteratorTuple>              ZipIterator;
+
+  ZipIterator result = thrust::detail::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1, first2)),
+                                                thrust::make_zip_iterator(thrust::make_tuple(last1,  first2)),
+                                                detail::swap_pair_elements());
+  return thrust::get<1>(result.get_iterator_tuple());
 } // end swap_ranges()
 
 } // end namespace thrust

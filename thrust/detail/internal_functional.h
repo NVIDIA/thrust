@@ -23,6 +23,7 @@
 
 #include <thrust/tuple.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/utility.h>
 
 namespace thrust
 {
@@ -371,6 +372,17 @@ template<typename Space, typename BinaryFunction, typename Predicate>
         thrust::detail::identity_<device_binary_transform_if_functor<BinaryFunction,Predicate> >
       >
 {};
+
+
+struct swap_pair_elements
+{
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  { 
+    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end swap_pair_elements
 
 
 } // end namespace detail
