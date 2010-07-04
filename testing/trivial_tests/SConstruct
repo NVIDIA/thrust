@@ -13,13 +13,15 @@ except:
 
 # this function builds a trivial source file from a Thrust header
 def trivial_source_from_header(source, target, env):
-  src_abspath = str(source[0])
-  src_relpath = os.path.relpath(src_abspath, thrust_abspath)
-  include = os.path.join('thrust', src_relpath)
-
   target_filename = str(target[0])
   fid = open(target_filename, 'w')
-  fid.write('#include <' + include + '>\n')
+
+  for src in source:
+    src_abspath = str(src)
+    src_relpath = os.path.relpath(src_abspath, thrust_abspath)
+    include = os.path.join('thrust', src_relpath)
+
+    fid.write('#include <' + include + '>\n')
   fid.close()
 
 
@@ -42,12 +44,15 @@ folders = ['',              # main folder
            'iterator/',
            'experimental/']
 
-sources  = []
+sources = []
+
+header_fullpaths = []
 
 for folder in folders:
   for ext in extensions:
     pattern = os.path.join(os.path.join(thrust_abspath, folder), "*" + ext)
     for fullpath in glob.glob(pattern):
+      header_fullpaths.append(fullpath)
       headerfilename = os.path.basename(fullpath)
 
       cu  = env.CUFile(headerfilename.replace('.h', '.cu'), fullpath)
@@ -60,6 +65,13 @@ for folder in folders:
       fid = open(fullpath)
       if '#include <thrust/detail/config.h>' not in fid.read():
         warn('Header <thrust/' + folder + headerfilename + '> does not include <thrust/detail/config.h>')
+
+# generate source files which #include all headers
+all_headers_cu  = env.CUFile('all_headers.cu', header_fullpaths)
+all_headers_cpp = env.CUFile('all_headers_cpp.cpp', header_fullpaths)
+
+sources.append(all_headers_cu)
+sources.append(all_headers_cpp)
 
 # and the file with main()
 sources.append('main.cu')
