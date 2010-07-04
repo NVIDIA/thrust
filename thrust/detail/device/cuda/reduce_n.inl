@@ -146,6 +146,64 @@ template<typename InputIterator,
 #pragma warning(disable : 4244 4267)
 #endif
 
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op,
+                                  thrust::detail::true_type) // reduce in shared memory
+{
+  // determine launch parameters
+  const size_t smem_per_thread = sizeof(OutputType);
+  const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
+  const size_t smem_size  = block_size * smem_per_thread;
+  const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
+  const size_t num_blocks = std::min<size_t>(max_blocks, (n + (block_size - 1)) / block_size);
+
+  return thrust::make_pair(num_blocks,block_size);
+} // end get_blocked_reduce_n_schedule()
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op,
+                                  thrust::detail::false_type) // reduce in global memory
+{
+  // determine launch parameters
+  const size_t smem_per_thread = 0;
+  const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
+  const size_t smem_size  = block_size * smem_per_thread;
+  const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
+  const size_t num_blocks = std::min<size_t>(max_blocks, (n + (block_size - 1)) / block_size);
+
+  return thrust::make_pair(num_blocks,block_size);
+} // end get_blocked_reduce_n_schedule()
+
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op)
+{
+  // whether to perform blockwise reductions in shared memory or global memory
+  thrust::detail::integral_constant<bool, sizeof(OutputType) <= 64> use_smem;
+
+  return thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first, n, init, use_smem);
+}
 
 
 template<typename InputIterator,
@@ -159,11 +217,13 @@ template<typename InputIterator,
                       thrust::detail::true_type)    // reduce in shared memory
 {
     // determine launch parameters
+    const thrust::pair<size_t,size_t> blocking = thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first,n,init,binary_op,thrust::detail::true_type());
+    const size_t num_blocks = blocking.first;
+    const size_t block_size = blocking.second;
+
+    // XXX avoid recomputing this here -- could be returned by the above call
     const size_t smem_per_thread = sizeof(OutputType);
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
-    const size_t smem_size  = block_size * smem_per_thread;
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_smem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const size_t num_blocks = std::min<size_t>(max_blocks, (n + (block_size - 1)) / block_size);
+    const size_t smem_size = block_size * smem_per_thread;
 
     // allocate storage for per-block results
     thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
@@ -200,11 +260,9 @@ template<typename InputIterator,
                       thrust::detail::false_type)    // reduce in global memory
 {
     // determine launch parameters
-    const size_t smem_per_thread = 0;
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, smem_per_thread);
-    const size_t smem_size  = block_size * smem_per_thread;
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(reduce_n_gmem<InputIterator, OutputType, BinaryFunction>, block_size, smem_size);
-    const size_t num_blocks = std::min(max_blocks, (n + (block_size - 1)) / block_size);
+    const thrust::pair<size_t,size_t> blocking = thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first,n,init,binary_op,thrust::detail::false_type());
+    const size_t num_blocks = blocking.first;
+    const size_t block_size = blocking.second;
 
     // allocate storage for per-block results
     thrust::detail::raw_cuda_device_buffer<OutputType> temp(num_blocks + 1);
@@ -221,12 +279,11 @@ template<typename InputIterator,
     // reduce per-block sums together with init
     {
 #if CUDA_VERSION >= 3000
-        const size_t block_size_pass2 = std::min(block_size, thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, smem_per_thread));
+        const size_t block_size_pass2 = std::min(block_size, thrust::experimental::arch::max_blocksize(reduce_n_gmem<OutputType *, OutputType, BinaryFunction>, 0));
 #else
         const size_t block_size_pass2 = 32;
 #endif        
-        const size_t smem_size_pass2  = smem_per_thread * block_size_pass2;
-        detail::reduce_n_gmem<<<1, block_size_pass2, smem_size_pass2>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), raw_pointer_cast(&shared_array[0]), binary_op);
+        detail::reduce_n_gmem<<<1, block_size_pass2>>>(raw_pointer_cast(&temp[0]), num_blocks + 1, raw_pointer_cast(&temp[0]), raw_pointer_cast(&shared_array[0]), binary_op);
     }
     
     return temp[0];

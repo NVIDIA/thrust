@@ -94,6 +94,25 @@ OutputType reduce(InputIterator first,
     return total_sum;
 }
 
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op)
+{
+  thrust::pair<SizeType,SizeType> result(0,0);
+
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+  result.first = std::min<SizeType>(omp_get_max_threads(), n);
+#endif
+
+  return result;
+} // end get_blocked_reduce_n_schedule()
+
 } // end namespace omp
 } // end namespace device
 } // end namespace detail

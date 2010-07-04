@@ -17,9 +17,8 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-
+#include <thrust/pair.h>
 #include <thrust/detail/device_ptr_category.h>
-
 #include <thrust/detail/device/cuda/reduce.h>
 #include <thrust/detail/device/omp/reduce.h>
 
@@ -70,6 +69,36 @@ template<typename InputIterator,
     // Use default backend
     return thrust::detail::device::dispatch::reduce(first, last, init, binary_op,
             thrust::detail::default_device_space_tag());
+}
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op,
+                                  thrust::detail::omp_device_space_tag)
+{
+  // OpenMP implementation
+  return thrust::detail::device::omp::get_blocked_reduce_n_schedule(first, n, init, binary_op);
+}
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op,
+                                  thrust::detail::cuda_device_space_tag)
+{
+  // CUDA implementation
+  return thrust::detail::device::cuda::get_blocked_reduce_n_schedule(first, n, init, binary_op);
 }
 
 } // end namespace dispatch

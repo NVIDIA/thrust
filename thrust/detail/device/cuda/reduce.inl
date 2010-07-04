@@ -26,7 +26,9 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/detail/static_assert.h>
+#include <thrust/pair.h>
 
+#include <thrust/detail/device/cuda/dispatch/reduce.h>
 #include <thrust/detail/device/cuda/reduce_n.h>
 
 namespace thrust
@@ -83,8 +85,7 @@ template<typename InputIterator,
     // TODO use simple threshold and ensure alignment of wide_first
 
     // process first part
-    size_t input_type_per_wide_type = sizeof(WideType) / sizeof(InputType);
-    size_t n_wide = (last - first) / input_type_per_wide_type;
+    size_t input_type_per_wide_type = sizeof(WideType) / sizeof(InputType); size_t n_wide = (last - first) / input_type_per_wide_type;
 
     const WideType * wide_first = reinterpret_cast<const WideType *>(thrust::raw_pointer_cast(&*first));
 
@@ -110,6 +111,16 @@ template<typename InputIterator,
     return thrust::detail::device::cuda::reduce_n(first, last - first, init, binary_op);
 }
 
+template<typename Iterator, typename InputType = typename thrust::iterator_value<Iterator>::type>
+  struct use_wide_reduction
+    : thrust::detail::integral_constant<
+        bool,
+        thrust::detail::is_pod<InputType>::value
+        && thrust::detail::is_trivial_iterator<Iterator>::value
+        && (sizeof(InputType) == 1 || sizeof(InputType) == 2)
+      >
+{};
+
 } // end namespace detail
 
 
@@ -127,17 +138,25 @@ template<typename InputIterator,
     // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
     // ========================================================================
     THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
-
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-
-    const bool use_wide_load = thrust::detail::is_pod<InputType>::value 
-                                    && thrust::detail::is_trivial_iterator<InputIterator>::value
-                                    && (sizeof(InputType) == 1 || sizeof(InputType) == 2);
-
-    // XXX WAR nvcc 3.0 unused variable warning
-    (void) use_wide_load;
                                     
-    return detail::reduce_device(first, last, init, binary_op, thrust::detail::integral_constant<bool, use_wide_load>());
+    return detail::reduce_device(first, last, init, binary_op,
+      typename detail::use_wide_reduction<InputIterator>::type());
+}
+
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op)
+{
+  // dispatch on whether or not to use the wide reduction
+  return thrust::detail::device::cuda::dispatch::get_blocked_reduce_n_schedule(first, n, init, binary_op,
+    typename detail::use_wide_reduction<RandomAccessIterator>::type());
 }
 
 } // end namespace cuda

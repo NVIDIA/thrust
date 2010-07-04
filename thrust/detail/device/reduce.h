@@ -65,6 +65,19 @@ template <typename InputIterator1,
     return thrust::detail::device::generic::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  SizeType get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                         SizeType n,
+                                         OutputType init,
+                                         BinaryFunction binary_op)
+{
+  return thrust::detail::device::dispatch::get_blocked_reduce_n_schedule(first, n, init, binary_op,
+           typename thrust::iterator_space<RandomAccessIterator>::type());
+}
+
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust

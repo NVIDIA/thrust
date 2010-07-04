@@ -15,13 +15,15 @@
  */
 
 
-/*! \file reduce_n.h
- *  \brief Reduce a sequence of elements with a given length.
- */
-
 #pragma once
 
 #include <thrust/pair.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/device/cuda/reduce_n.h>
+
+// XXX remove me when the below function is implemented
+#include <stdexcept>
+
 
 namespace thrust
 {
@@ -31,18 +33,7 @@ namespace device
 {
 namespace cuda
 {
-
-template<typename InputIterator,
-         typename SizeType,
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce_n(InputIterator first,
-                      SizeType n,
-                      OutputType init,
-                      BinaryFunction binary_op);
-
-
-namespace detail
+namespace dispatch
 {
 
 template<typename RandomAccessIterator,
@@ -52,14 +43,32 @@ template<typename RandomAccessIterator,
   thrust::pair<SizeType,SizeType>
     get_blocked_reduce_n_schedule(RandomAccessIterator first,
                                   SizeType n,
-                                  OutputType init);
+                                  OutputType init,
+                                  BinaryFunction binary_op,
+                                  thrust::detail::true_type) // use wide reduction
+{
+  throw std::runtime_error("Unimplemented function: get_blocked_reduce_n_schedule(use_wide_reduction)");
+  return thrust::pair<SizeType,SizeType>(0,0);
+}
 
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  thrust::pair<SizeType,SizeType>
+    get_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                  SizeType n,
+                                  OutputType init,
+                                  BinaryFunction binary_op,
+                                  thrust::detail::false_type) // use standard reduction
+{
+  // standard reduction
+  return thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first,n,init,binary_op);
+}
+
+} // end dispatch
+} // end cuda
+} // end device
 } // end detail
-
-} // end namespace cuda
-} // end namespace device
-} // end namespace detail
-} // end namespace thrust
-
-#include "reduce_n.inl"
+} // end thrust
 
