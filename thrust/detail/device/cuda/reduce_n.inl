@@ -202,7 +202,7 @@ template<typename RandomAccessIterator,
   // whether to perform blockwise reductions in shared memory or global memory
   thrust::detail::integral_constant<bool, sizeof(OutputType) <= 64> use_smem;
 
-  return thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first, n, init, use_smem);
+  return thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first, n, init, binary_op, use_smem);
 }
 
 
@@ -393,7 +393,7 @@ template<typename RandomAccessIterator1,
   // whether to perform blockwise reductions in shared memory or global memory
   thrust::detail::integral_constant<bool, sizeof(OutputType) <= 64> use_smem;
 
-  return detail::blocked_reduce_n(first, n, blocking, binary_op, use_smem);
+  return detail::blocked_reduce_n(first, n, blocking, binary_op, result, use_smem);
 } // end blocked_reduce_n()
 
 } // end namespace cuda
