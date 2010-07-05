@@ -41,6 +41,16 @@ template<typename InputIterator,
                       OutputType init,
                       BinaryFunction binary_op);
 
+template<typename RandomAccessIterator1,
+         typename SizeType,
+         typename BlockingPair,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void blocked_reduce_n(RandomAccessIterator1 first,
+                        SizeType n,
+                        BlockingPair blocking,
+                        BinaryFunction binary_op,
+                        RandomAccessIterator2 result);
 
 namespace detail
 {
