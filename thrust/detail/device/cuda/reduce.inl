@@ -70,11 +70,11 @@ template <typename InputType, typename OutputType, typename BinaryFunction, type
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce_device(InputIterator first,
-                           InputIterator last,
-                           OutputType init,
-                           BinaryFunction binary_op,
-                           thrust::detail::true_type)
+  OutputType reduce(InputIterator first,
+                    InputIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op,
+                    thrust::detail::true_type)
 {
     // "wide" reduction for small types like char, short, etc.
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
@@ -101,11 +101,11 @@ template<typename InputIterator,
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce_device(InputIterator first,
-                           InputIterator last,
-                           OutputType init,
-                           BinaryFunction binary_op,
-                           thrust::detail::false_type)
+  OutputType reduce(InputIterator first,
+                    InputIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op,
+                    thrust::detail::false_type)
 {
     // standard reduction
     return thrust::detail::device::cuda::reduce_n(first, last - first, init, binary_op);
@@ -139,7 +139,7 @@ template<typename InputIterator,
     // ========================================================================
     THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
                                     
-    return detail::reduce_device(first, last, init, binary_op,
+    return thrust::detail::device::cuda::detail::reduce(first, last, init, binary_op,
       typename detail::use_wide_reduction<InputIterator>::type());
 }
 
