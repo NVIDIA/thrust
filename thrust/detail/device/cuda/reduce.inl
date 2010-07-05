@@ -27,6 +27,8 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/pair.h>
+#include <thrust/distance.h>
+#include <thrust/detail/raw_buffer.h>
 
 #include <thrust/detail/device/cuda/dispatch/reduce.h>
 #include <thrust/detail/device/cuda/reduce_n.h>
@@ -107,8 +109,37 @@ template<typename InputIterator,
                     BinaryFunction binary_op,
                     thrust::detail::false_type)
 {
-    // standard reduction
-    return thrust::detail::device::cuda::reduce_n(first, last - first, init, binary_op);
+  // check for empty range
+  if(first == last) return init;
+
+  typedef typename thrust::iterator_difference<InputIterator>::type Size;
+  const Size n = thrust::distance(first,last);
+
+  // compute schedule for first stage
+  thrust::pair<Size,Size> blocking =
+    thrust::detail::device::cuda::get_blocked_reduce_n_schedule(first, n, init, binary_op);
+
+  const Size num_blocks = blocking.first;
+
+  // allocate storage for the initializer and partial sums
+  thrust::detail::raw_cuda_device_buffer<OutputType> partial_sums(1 + num_blocks);
+
+  // set first element of temp array to init
+  partial_sums[0] = init;
+
+  // accumulate partial sums
+  thrust::detail::device::cuda::blocked_reduce_n(first, n, blocking, binary_op, partial_sums.begin() + 1);
+
+  // compute schedule for second stage
+  // XXX we need a robust plan here, but we should avoid recalling the scheduler
+  // only use one warp
+  blocking.first  = 1;
+  blocking.second = 32;
+
+  // reduce partial sums
+  thrust::detail::device::cuda::blocked_reduce_n(partial_sums.begin(), 1 + num_blocks, blocking, binary_op, partial_sums.begin());
+
+  return partial_sums[0];
 }
 
 template<typename Iterator, typename InputType = typename thrust::iterator_value<Iterator>::type>
