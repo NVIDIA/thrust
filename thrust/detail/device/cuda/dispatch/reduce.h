@@ -41,11 +41,11 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init,
-                                  BinaryFunction binary_op,
-                                  thrust::detail::true_type) // use wide reduction
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init,
+                                            BinaryFunction binary_op,
+                                            thrust::detail::true_type) // use wide reduction
 {
   throw std::runtime_error("Unimplemented function: get_blocked_reduce_n_schedule(use_wide_reduction)");
   return thrust::pair<SizeType,SizeType>(0,0);
@@ -56,14 +56,14 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init,
-                                  BinaryFunction binary_op,
-                                  thrust::detail::false_type) // use standard reduction
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init,
+                                            BinaryFunction binary_op,
+                                            thrust::detail::false_type) // use standard reduction
 {
   // standard reduction
-  return thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first,n,init,binary_op);
+  return thrust::detail::device::cuda::detail::get_unordered_blocked_reduce_n_schedule(first,n,init,binary_op);
 }
 
 } // end dispatch

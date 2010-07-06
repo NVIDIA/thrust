@@ -99,10 +99,10 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init,
-                                  BinaryFunction binary_op)
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init,
+                                            BinaryFunction binary_op)
 {
   thrust::pair<SizeType,SizeType> result(0,0);
 
@@ -111,7 +111,7 @@ template<typename RandomAccessIterator,
 #endif
 
   return result;
-} // end get_blocked_reduce_n_schedule()
+} // end get_unordered_blocked_reduce_n_schedule()
 
 } // end namespace omp
 } // end namespace device

@@ -151,10 +151,10 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init,
-                                  BinaryFunction binary_op)
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init,
+                                            BinaryFunction binary_op)
 {
   // decide whether or not we will use smem
   size_t smem_per_thread = 0;
@@ -205,7 +205,7 @@ template<typename InputIterator,
                       thrust::detail::true_type)    // reduce in shared memory
 {
     // determine launch parameters
-    const thrust::pair<size_t,size_t> blocking = thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first,n,init,binary_op);
+    const thrust::pair<size_t,size_t> blocking = thrust::detail::device::cuda::detail::get_unordered_blocked_reduce_n_schedule(first,n,init,binary_op);
     const size_t num_blocks = blocking.first;
     const size_t block_size = blocking.second;
 
@@ -248,7 +248,7 @@ template<typename InputIterator,
                       thrust::detail::false_type)    // reduce in global memory
 {
     // determine launch parameters
-    const thrust::pair<size_t,size_t> blocking = thrust::detail::device::cuda::detail::get_blocked_reduce_n_schedule(first,n,init,binary_op);
+    const thrust::pair<size_t,size_t> blocking = thrust::detail::device::cuda::detail::get_unordered_blocked_reduce_n_schedule(first,n,init,binary_op);
     const size_t num_blocks = blocking.first;
     const size_t block_size = blocking.second;
 
@@ -283,12 +283,12 @@ template<typename RandomAccessIterator1,
          typename BlockingPair,
          typename BinaryFunction,
          typename RandomAccessIterator2>
-  void blocked_reduce_n(RandomAccessIterator1 first,
-                        SizeType n,
-                        BlockingPair blocking,
-                        BinaryFunction binary_op,
-                        RandomAccessIterator2 result,
-                        thrust::detail::true_type)   // reduce in shared memory
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType n,
+                                  BlockingPair blocking,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result,
+                                  thrust::detail::true_type)   // reduce in shared memory
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
@@ -300,7 +300,7 @@ template<typename RandomAccessIterator1,
 
   // reduce input to per-block sums
   reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first, n, thrust::raw_pointer_cast(&*result), binary_op);
-} // end blocked_reduce_n()
+} // end unordered_blocked_reduce_n()
 
 
 template<typename RandomAccessIterator1,
@@ -308,12 +308,12 @@ template<typename RandomAccessIterator1,
          typename BlockingPair,
          typename BinaryFunction,
          typename RandomAccessIterator2>
-  void blocked_reduce_n(RandomAccessIterator1 first,
-                        SizeType n,
-                        BlockingPair blocking,
-                        BinaryFunction binary_op,
-                        RandomAccessIterator2 result,
-                        thrust::detail::false_type)   // reduce in global memory
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType n,
+                                  BlockingPair blocking,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result,
+                                  thrust::detail::false_type)   // reduce in global memory
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
@@ -325,7 +325,7 @@ template<typename RandomAccessIterator1,
 
   // reduce input to per-block sums
   detail::reduce_n_gmem<<<num_blocks, block_size>>>(first, n, raw_pointer_cast(&*result), raw_pointer_cast(&shared_array[0]), binary_op);
-} // end blocked_reduce_n()
+} // end unordered_blocked_reduce_n()
 
 
 } // end namespace detail
@@ -366,11 +366,11 @@ template<typename RandomAccessIterator1,
          typename BlockingPair,
          typename BinaryFunction,
          typename RandomAccessIterator2>
-  void blocked_reduce_n(RandomAccessIterator1 first,
-                        SizeType n,
-                        BlockingPair blocking,
-                        BinaryFunction binary_op,
-                        RandomAccessIterator2 result)
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType n,
+                                  BlockingPair blocking,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
@@ -381,8 +381,8 @@ template<typename RandomAccessIterator1,
   // whether to perform blockwise reductions in shared memory or global memory
   thrust::detail::integral_constant<bool, sizeof(OutputType) <= 64> use_smem;
 
-  return detail::blocked_reduce_n(first, n, blocking, binary_op, result, use_smem);
-} // end blocked_reduce_n()
+  return detail::unordered_blocked_reduce_n(first, n, blocking, binary_op, result, use_smem);
+} // end unordered_blocked_reduce_n()
 
 } // end namespace cuda
 } // end namespace device

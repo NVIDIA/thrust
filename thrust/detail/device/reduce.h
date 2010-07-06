@@ -69,12 +69,12 @@ template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  SizeType get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                         SizeType n,
-                                         OutputType init,
-                                         BinaryFunction binary_op)
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op)
 {
-  return thrust::detail::device::dispatch::get_blocked_reduce_n_schedule(first, n, init, binary_op,
+  return thrust::detail::device::dispatch::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op,
            typename thrust::iterator_space<RandomAccessIterator>::type());
 }
 

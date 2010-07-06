@@ -177,7 +177,7 @@ void vector_to_pgm(thrust::host_vector<int> &t, int m, int n,char *out)
 
 /************Main Jfa loop********************/
 // Perform a jump with step k
-void jfa(thrust::device_vector<int>& in,thrust::device_vector<int>& out, uint k, int m, int n)
+void jfa(thrust::device_vector<int>& in,thrust::device_vector<int>& out, unsigned int k, int m, int n)
 {
    thrust::transform(
         thrust::make_zip_iterator(

@@ -76,14 +76,14 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init,
-                                  BinaryFunction binary_op,
-                                  thrust::detail::omp_device_space_tag)
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init,
+                                            BinaryFunction binary_op,
+                                            thrust::detail::omp_device_space_tag)
 {
   // OpenMP implementation
-  return thrust::detail::device::omp::get_blocked_reduce_n_schedule(first, n, init, binary_op);
+  return thrust::detail::device::omp::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
 }
 
 template<typename RandomAccessIterator,
@@ -91,14 +91,14 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init,
-                                  BinaryFunction binary_op,
-                                  thrust::detail::cuda_device_space_tag)
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init,
+                                            BinaryFunction binary_op,
+                                            thrust::detail::cuda_device_space_tag)
 {
   // CUDA implementation
-  return thrust::detail::device::cuda::get_blocked_reduce_n_schedule(first, n, init, binary_op);
+  return thrust::detail::device::cuda::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
 }
 
 } // end namespace dispatch

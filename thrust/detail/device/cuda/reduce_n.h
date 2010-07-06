@@ -46,11 +46,11 @@ template<typename RandomAccessIterator1,
          typename BlockingPair,
          typename BinaryFunction,
          typename RandomAccessIterator2>
-  void blocked_reduce_n(RandomAccessIterator1 first,
-                        SizeType n,
-                        BlockingPair blocking,
-                        BinaryFunction binary_op,
-                        RandomAccessIterator2 result);
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType n,
+                                  BlockingPair blocking,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result);
 
 namespace detail
 {
@@ -60,9 +60,9 @@ template<typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
   thrust::pair<SizeType,SizeType>
-    get_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                  SizeType n,
-                                  OutputType init);
+    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                            SizeType n,
+                                            OutputType init);
 
 } // end detail
 
