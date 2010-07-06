@@ -51,13 +51,31 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
 
   if(current_device < 0)
     throw thrust::experimental::system_error(thrust::experimental::cuda_errc::no_device, thrust::experimental::cuda_category());
-  
-  error = cudaGetDeviceProperties(&props, current_device);
 
-  if(error)
+  // cache the result of the introspection call because it is expensive
+  static std::map<int,cudaDeviceProp> properties_map;
+
+  // search the cache for the properties
+  typename std::map<int,cudaDeviceProp>::const_iterator iter = properties_map.find(current_device);
+
+  if(iter == properties_map.end())
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
-  }
+    // the properties weren't found, ask the runtime to generate them
+    error = cudaGetDeviceProperties(&props, current_device);
+
+    if(error)
+    {
+      throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    }
+
+    // insert the new entry
+    properties_map[current_device] = props;
+  } // end if
+  else
+  {
+    // use the cached value
+    props = iter->second;
+  } // end else
 } // end checked_get_current_device_properties()
 
 template <typename KernelFunction>
