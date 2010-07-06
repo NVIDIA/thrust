@@ -24,6 +24,7 @@
 
 #include <thrust/detail/util/blocking.h>
 #include <thrust/system_error.h>
+#include <map>
 
 // #include this for make_uint3
 #include <vector_functions.h>
@@ -62,12 +63,30 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
 template <typename KernelFunction>
 void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunction kernel)
 {
-  cudaError_t error = cudaFuncGetAttributes(&attributes, kernel);
+  // cache the result of the introspection call because it is expensive
+  static std::map<KernelFunction,cudaFuncAttributes> attributes_map;
 
-  if(error)
+  // search the cache for the attributes
+  typename std::map<KernelFunction,cudaFuncAttributes>::const_iterator iter = attributes_map.find(kernel);
+
+  if(iter == attributes_map.end())
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
-  }
+    // the attributes weren't found, ask the runtime to generate them
+    cudaError_t error = cudaFuncGetAttributes(&attributes, kernel);
+  
+    if(error)
+    {
+      throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    }
+
+    // insert the new entry
+    attributes_map[kernel] = attributes;
+  } // end if
+  else
+  {
+    // use the cached value
+    attributes = iter->second;
+  } // end else
 } // end checked_get_function_attributes()
 
 } // end detail
