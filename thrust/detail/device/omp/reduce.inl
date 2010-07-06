@@ -98,16 +98,15 @@ template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  thrust::pair<SizeType,SizeType>
-    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                            SizeType n,
-                                            OutputType init,
-                                            BinaryFunction binary_op)
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op)
 {
-  thrust::pair<SizeType,SizeType> result(0,0);
+  SizeType result = 0;
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-  result.first = std::min<SizeType>(omp_get_max_threads(), n);
+  result = std::min<SizeType>(omp_get_max_threads(), n);
 #endif
 
   return result;

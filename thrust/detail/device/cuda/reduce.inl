@@ -116,10 +116,7 @@ template<typename InputIterator,
   const Size n = thrust::distance(first,last);
 
   // compute schedule for first stage
-  thrust::pair<Size,Size> blocking =
-    thrust::detail::device::cuda::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
-
-  const Size num_blocks = blocking.first;
+  const Size num_blocks = thrust::detail::device::cuda::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
 
   // allocate storage for the initializer and partial sums
   thrust::detail::raw_cuda_device_buffer<OutputType> partial_sums(1 + num_blocks);
@@ -128,16 +125,10 @@ template<typename InputIterator,
   partial_sums[0] = init;
 
   // accumulate partial sums
-  thrust::detail::device::cuda::unordered_blocked_reduce_n(first, n, blocking, binary_op, partial_sums.begin() + 1);
-
-  // compute schedule for second stage
-  // XXX we need a robust plan here, but we should avoid recalling the scheduler
-  // only use one warp
-  blocking.first  = 1;
-  blocking.second = 32;
+  thrust::detail::device::cuda::unordered_blocked_reduce_n(first, n, num_blocks, binary_op, partial_sums.begin() + 1);
 
   // reduce partial sums
-  thrust::detail::device::cuda::unordered_blocked_reduce_n(partial_sums.begin(), 1 + num_blocks, blocking, binary_op, partial_sums.begin());
+  thrust::detail::device::cuda::unordered_blocked_reduce_n(partial_sums.begin(), 1 + num_blocks, 1, binary_op, partial_sums.begin());
 
   return partial_sums[0];
 }
@@ -179,11 +170,10 @@ template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  thrust::pair<SizeType,SizeType>
-    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                            SizeType n,
-                                            OutputType init,
-                                            BinaryFunction binary_op)
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op)
 {
   // dispatch on whether or not to use the wide reduction
   return thrust::detail::device::cuda::dispatch::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op,

@@ -59,10 +59,9 @@ template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  thrust::pair<SizeType,SizeType>
-    get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                            SizeType n,
-                                            OutputType init);
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init);
 
 } // end detail
 
