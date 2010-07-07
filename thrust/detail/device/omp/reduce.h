@@ -32,14 +32,6 @@ namespace device
 namespace omp
 {
 
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op);
-
 template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,

@@ -44,6 +44,15 @@ template<typename RandomAccessIterator1,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result)
 {
+  // we're attempting to launch an omp kernel, assert we're compiling with omp support
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to OpenMP support in your compiler.                         X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1,
+                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+
+  // check for empty input or output
   if(n == 0 || num_blocks == 0) return;
 
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
@@ -72,46 +81,6 @@ template<typename RandomAccessIterator1,
 } // end unordered_blocked_reduce_n()
 
 
-template <typename InputIterator,
-          typename OutputType,
-          typename BinaryFunction>
-OutputType reduce(InputIterator first,
-                  InputIterator last,
-                  OutputType init,
-                  BinaryFunction binary_op)
-{
-  // we're attempting to launch an omp kernel, assert we're compiling with omp support
-  // ========================================================================
-  // X Note to the user: If you've found this line due to a compiler error, X
-  // X you need to OpenMP support in your compiler.                         X
-  // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
-                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
-
-  // check for empty range
-  if(first == last) return init;
-
-  typedef typename thrust::iterator_difference<InputIterator>::type Size;
-  const Size n = thrust::distance(first,last);
-
-  // compute schedule for first stage
-  const Size num_blocks = thrust::detail::device::omp::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
-
-  // allocate storage for the initializer and partial sums
-  thrust::detail::raw_omp_device_buffer<OutputType> partial_sums(1 + num_blocks);
-
-  // set first element of temp array to init
-  partial_sums[0] = init;
-
-  // accumulate partial sums
-  thrust::detail::device::omp::unordered_blocked_reduce_n(first, n, num_blocks, binary_op, partial_sums.begin() + 1);
-
-  // reduce partial sums
-  thrust::detail::device::omp::unordered_blocked_reduce_n(partial_sums.begin(), 1 + num_blocks, 1, binary_op, partial_sums.begin());
-
-  return partial_sums[0];
-}
-
 template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,
@@ -129,6 +98,7 @@ template<typename RandomAccessIterator,
 
   return result;
 } // end get_unordered_blocked_reduce_n_schedule()
+
 
 } // end namespace omp
 } // end namespace device

@@ -18,9 +18,9 @@
 #pragma once
 
 #include <thrust/detail/device/generic/reduce.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/pair.h>
 #include <thrust/detail/device/reduce.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/backend_iterator_spaces.h>
 #include <thrust/detail/raw_buffer.h>
 
 namespace thrust
@@ -35,6 +35,26 @@ namespace device
 namespace generic
 {
 
+namespace detail
+{
+
+// this metafunction passes through a type unless it's any_space_tag,
+// in which case it returns default_device_space_tag
+template<typename Space>
+  struct any_space_to_default_device_space_tag
+{
+  typedef Space type;
+}; // end any_space_to_default_device_space_tag
+
+template<>
+  struct any_space_to_default_device_space_tag<thrust::any_space_tag>
+{
+  typedef thrust::detail::default_device_space_tag type;
+}; // end any_space_to_default_device_space_tag
+
+
+} // end detail
+
 template<typename RandomAccessIterator,
          typename SizeType,
          typename OutputType,
@@ -45,14 +65,12 @@ template<typename RandomAccessIterator,
                       BinaryFunction binary_op)
 {
   // compute schedule for first stage
-  const thrust::pair<SizeType,SizeType> blocking =
-    thrust::detail::device::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
-
-  const SizeType num_blocks = blocking.first;
+  const SizeType num_blocks = thrust::detail::device::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
   
   // allocate storage for the initializer and partial sums
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type Space;
-  thrust::detail::raw_device_buffer<OutputType,Space> partial_sums(1 + num_blocks);
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type PossiblyAnySpace;
+  typedef typename detail::any_space_to_default_device_space_tag<PossiblyAnySpace>::type Space;
+  thrust::detail::raw_buffer<OutputType,Space> partial_sums(1 + num_blocks);
   
   // set first element of temp array to init
   partial_sums[0] = init;

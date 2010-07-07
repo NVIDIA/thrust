@@ -18,8 +18,7 @@
 #pragma once
 
 #include <thrust/detail/device/cuda/dispatch/reduce.h>
-#include <thrust/detail/device/cuda/reduce_n.h>
-
+#include <thrust/detail/device/cuda/reduce.h>
 
 namespace thrust
 {
