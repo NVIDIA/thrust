@@ -17,10 +17,8 @@
 
 #pragma once
 
-#include <thrust/detail/type_traits.h>
-
-// XXX remove me when the below function is implemented
-#include <stdexcept>
+#include <thrust/detail/device/cuda/dispatch/reduce.h>
+#include <thrust/detail/device/cuda/reduce_n.h>
 
 
 namespace thrust
@@ -42,7 +40,12 @@ template<typename RandomAccessIterator,
                                                    SizeType n,
                                                    OutputType init,
                                                    BinaryFunction binary_op,
-                                                   thrust::detail::true_type); // use wide reduction
+                                                   thrust::detail::true_type)
+{
+  // wide reduction
+  return thrust::detail::device::cuda::get_unordered_blocked_wide_reduce_n_schedule(first,n,init,binary_op);
+}
+
 
 template<typename RandomAccessIterator,
          typename SizeType,
@@ -52,7 +55,12 @@ template<typename RandomAccessIterator,
                                                    SizeType n,
                                                    OutputType init,
                                                    BinaryFunction binary_op,
-                                                   thrust::detail::false_type); // use standard reduction
+                                                   thrust::detail::false_type)
+{
+  // standard reduction
+  return thrust::detail::device::cuda::get_unordered_blocked_standard_reduce_n_schedule(first,n,init,binary_op);
+}
+
 
 template<typename RandomAccessIterator1,
          typename SizeType,
@@ -63,7 +71,11 @@ template<typename RandomAccessIterator1,
                                   SizeType num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result,
-                                  thrust::detail::true_type); // use wide reduction
+                                  thrust::detail::true_type)  // use wide reduction
+{
+  return thrust::detail::device::cuda::unordered_blocked_wide_reduce_n(first,n,num_blocks,binary_op,result);
+} // end unordered_blocked_reduce_n()
+
 
 template<typename RandomAccessIterator1,
          typename SizeType,
@@ -74,7 +86,10 @@ template<typename RandomAccessIterator1,
                                   SizeType num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result,
-                                  thrust::detail::false_type); // use standard reduction
+                                  thrust::detail::false_type)  // use standard reduction
+{
+  return thrust::detail::device::cuda::unordered_blocked_standard_reduce_n(first,n,num_blocks,binary_op,result);
+} // end unordered_blocked_reduce_n()
 
 
 } // end dispatch
@@ -82,6 +97,4 @@ template<typename RandomAccessIterator1,
 } // end device
 } // end detail
 } // end thrust
-
-#include <thrust/detail/device/cuda/dispatch/reduce.inl>
 

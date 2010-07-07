@@ -41,15 +41,6 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op);
 
-template<typename RandomAccessIterator,
-         typename SizeType,
-         typename OutputType,
-         typename BinaryFunction>
-  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                                   SizeType n,
-                                                   OutputType init,
-                                                   BinaryFunction binary_op);
-
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail

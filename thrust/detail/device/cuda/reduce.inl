@@ -21,16 +21,12 @@
 
 #pragma once
 
-#include <thrust/device_ptr.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/transform_iterator.h>
 #include <thrust/detail/static_assert.h>
-#include <thrust/pair.h>
 #include <thrust/distance.h>
 #include <thrust/detail/raw_buffer.h>
 
-#include <thrust/detail/device/cuda/dispatch/reduce.h>
 #include <thrust/detail/device/cuda/reduce_n.h>
 
 namespace thrust
@@ -41,33 +37,6 @@ namespace device
 {
 namespace cuda
 {
-namespace detail
-{
-//////////////    
-// Functors //
-//////////////    
-template <typename InputType, typename OutputType, typename BinaryFunction, typename WideType>
-  struct wide_unary_op : public thrust::unary_function<WideType,OutputType>
-{
-    BinaryFunction binary_op;
-
-    __host__ __device__ 
-        wide_unary_op(BinaryFunction binary_op) 
-            : binary_op(binary_op) {}
-
-    __host__ __device__
-        OutputType operator()(WideType x)
-        {
-            WideType mask = ((WideType) 1 << (8 * sizeof(InputType))) - 1;
-
-            OutputType sum = static_cast<InputType>(x & mask);
-
-            for(unsigned int n = 1; n < sizeof(WideType) / sizeof(InputType); n++)
-                sum = binary_op(sum, static_cast<InputType>( (x >> (8 * n * sizeof(InputType))) & mask ) );
-
-            return sum;
-        }
-};
 
 template<typename InputIterator, 
          typename OutputType,
@@ -75,40 +44,15 @@ template<typename InputIterator,
   OutputType reduce(InputIterator first,
                     InputIterator last,
                     OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::detail::true_type)
+                    BinaryFunction binary_op)
 {
-    // "wide" reduction for small types like char, short, etc.
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    typedef unsigned int WideType;
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-    // note: this assumes that InputIterator is a InputType * and can be reinterpret_casted to WideType *
-   
-    // TODO use simple threshold and ensure alignment of wide_first
-
-    // process first part
-    size_t input_type_per_wide_type = sizeof(WideType) / sizeof(InputType); size_t n_wide = (last - first) / input_type_per_wide_type;
-
-    const WideType * wide_first = reinterpret_cast<const WideType *>(thrust::raw_pointer_cast(&*first));
-
-    OutputType result = thrust::detail::device::cuda::reduce_n
-        (thrust::make_transform_iterator(wide_first, wide_unary_op<InputType,OutputType,BinaryFunction,WideType>(binary_op)),
-         n_wide, init, binary_op);
-
-    // process tail
-    InputIterator tail_first = first + n_wide * input_type_per_wide_type;
-    return thrust::detail::device::cuda::reduce_n(tail_first, last - tail_first, result, binary_op);
-}
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::detail::false_type)
-{
   // check for empty range
   if(first == last) return init;
 
@@ -131,53 +75,6 @@ template<typename InputIterator,
   thrust::detail::device::cuda::unordered_blocked_reduce_n(partial_sums.begin(), 1 + num_blocks, 1, binary_op, partial_sums.begin());
 
   return partial_sums[0];
-}
-
-template<typename Iterator, typename InputType = typename thrust::iterator_value<Iterator>::type>
-  struct use_wide_reduction
-    : thrust::detail::integral_constant<
-        bool,
-        thrust::detail::is_pod<InputType>::value
-        && thrust::detail::is_trivial_iterator<Iterator>::value
-        && (sizeof(InputType) == 1 || sizeof(InputType) == 2)
-      >
-{};
-
-} // end namespace detail
-
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op)
-{
-    // we're attempting to launch a kernel, assert we're compiling with nvcc
-    // ========================================================================
-    // X Note to the user: If you've found this line due to a compiler error, X
-    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
-    // ========================================================================
-    THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
-                                    
-    return thrust::detail::device::cuda::detail::reduce(first, last, init, binary_op,
-      typename detail::use_wide_reduction<InputIterator>::type());
-}
-
-
-template<typename RandomAccessIterator,
-         typename SizeType,
-         typename OutputType,
-         typename BinaryFunction>
-  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                                   SizeType n,
-                                                   OutputType init,
-                                                   BinaryFunction binary_op)
-{
-  // dispatch on whether or not to use the wide reduction
-  return thrust::detail::device::cuda::dispatch::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op,
-    typename detail::use_wide_reduction<RandomAccessIterator>::type());
 }
 
 } // end namespace cuda
