@@ -49,6 +49,16 @@ template<typename RandomAccessIterator,
                                                    OutputType init,
                                                    BinaryFunction binary_op);
 
+template<typename RandomAccessIterator1,
+         typename SizeType,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType n,
+                                  SizeType num_blocks,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result);
+
 } // end namespace omp
 } // end namespace device
 } // end namespace detail
