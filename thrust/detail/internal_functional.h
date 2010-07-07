@@ -213,8 +213,9 @@ template<typename UnaryFunction>
   device_unary_transform_functor(UnaryFunction f_)
     :f(f_) {}
 
+  // add __host__ to allow the omp backend compile with nvcc
   template<typename Tuple>
-  __device__
+  __host__ __device__
   inline result_type operator()(Tuple t)
   {
     thrust::get<1>(t) = f(thrust::get<0>(t));
@@ -259,8 +260,9 @@ struct device_binary_transform_functor
     :f(f_)
   {}
 
+  // add __host__ to allow the omp backend compile with nvcc
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   { 
     thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
@@ -306,8 +308,9 @@ struct device_unary_transform_if_functor
   device_unary_transform_if_functor(UnaryFunction _unary_op, Predicate _pred)
     : unary_op(_unary_op), pred(_pred) {} 
   
+  // add __host__ to allow the omp backend compile with nvcc
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   {
     if(pred(thrust::get<1>(t)))
@@ -354,8 +357,9 @@ struct device_binary_transform_if_functor
   device_binary_transform_if_functor(BinaryFunction _binary_op, Predicate _pred)
     : binary_op(_binary_op), pred(_pred) {} 
 
+  // add __host__ to allow the omp backend compile with nvcc
   template <typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   {
     if(pred(thrust::get<2>(t)))
