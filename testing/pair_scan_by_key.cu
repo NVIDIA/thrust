@@ -1,7 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/pair.h>
 #include <thrust/transform.h>
-#include <thrust/segmented_scan.h>
+#include <thrust/scan.h>
 
 struct make_pair_functor
 {
@@ -43,16 +43,16 @@ template <typename T>
     thrust::device_vector<T> d_p2 = h_p2;
     thrust::device_vector<P> d_pairs = h_pairs;
 
-    thrust::host_vector<T> h_keys(n, 0);
+    thrust::host_vector<T> h_keys(n, 0);   // TODO make this more interesting
     thrust::device_vector<T> d_keys(n, 0);
 
     P init = thrust::make_pair(13,13);
 
     // scan on the host
-    thrust::experimental::exclusive_segmented_scan(h_pairs.begin(), h_pairs.end(), h_keys.begin(), h_pairs.begin(), init, add_pairs());
+    thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_pairs.begin(), h_pairs.begin(), init, thrust::equal_to<T>(), add_pairs());
 
     // scan on the device
-    thrust::experimental::exclusive_segmented_scan(d_pairs.begin(), d_pairs.end(), d_keys.begin(), d_pairs.begin(), init, add_pairs());
+    thrust::exclusive_scan_by_key(d_keys.begin(), d_keys.end(), d_pairs.begin(), d_pairs.begin(), init, thrust::equal_to<T>(), add_pairs());
 
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
   }

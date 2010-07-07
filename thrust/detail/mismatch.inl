@@ -19,10 +19,15 @@
  *  \brief Inline file for mismatch.h
  */
 
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/dispatch/mismatch.h>
+#include <thrust/mismatch.h>
+#include <thrust/pair.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/tuple.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/detail/internal_functional.h>
+#include <thrust/find.h>
 
 namespace thrust
 {
@@ -32,7 +37,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
+    typedef typename thrust::iterator_value<InputIterator1>::type InputType1;
 
     return thrust::mismatch(first1, last1, first2, thrust::detail::equal_to<InputType1>());
 }
@@ -43,9 +48,25 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred)
 {
-    return thrust::detail::dispatch::mismatch(first1, last1, first2, pred,
-            typename thrust::iterator_space<InputIterator1>::type(),
-            typename thrust::iterator_space<InputIterator2>::type());
+    // Contributed by Erich Elsen
+    
+    typedef thrust::tuple<InputIterator1,InputIterator2> IteratorTuple;
+    typedef thrust::zip_iterator<IteratorTuple>          ZipIterator;
+    typedef thrust::transform_iterator<
+      thrust::detail::tuple_equal_to<BinaryPredicate>,
+      ZipIterator
+    >                                                    XfrmIterator;
+
+    ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first1,first2));
+    ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
+
+    XfrmIterator xfrm_first  = thrust::make_transform_iterator(zipped_first, thrust::detail::tuple_equal_to<BinaryPredicate>(pred));
+    XfrmIterator xfrm_last   = thrust::make_transform_iterator(zipped_last,  thrust::detail::tuple_equal_to<BinaryPredicate>(pred));
+
+    XfrmIterator result = thrust::find_if(xfrm_first, xfrm_last, thrust::detail::equal_to_value<bool>(false));
+
+    return thrust::make_pair(thrust::get<0>(result.base().get_iterator_tuple()),
+                             thrust::get<1>(result.base().get_iterator_tuple()));
 }
 
 } // end namespace thrust

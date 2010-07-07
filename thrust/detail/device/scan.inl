@@ -15,11 +15,10 @@
  */
 
 
-/*! \file scan.h
- *  \brief Device implementations for scan.
- */
+#include <thrust/iterator/iterator_traits.h>
 
-#pragma once
+#include <thrust/detail/device/dispatch/scan.h>
+#include <thrust/detail/device/generic/scan_by_key.h>
 
 namespace thrust
 {
@@ -34,7 +33,13 @@ template<typename InputIterator,
   OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                AssociativeOperator binary_op);
+                                AssociativeOperator binary_op)
+{
+    return thrust::detail::device::dispatch::inclusive_scan(first, last, result, binary_op,
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
+}
+
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -44,7 +49,13 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                AssociativeOperator binary_op);
+                                AssociativeOperator binary_op)
+{
+    return thrust::detail::device::dispatch::exclusive_scan(first, last, result, init, binary_op,
+            typename thrust::iterator_space<InputIterator>::type(),
+            typename thrust::iterator_space<OutputIterator>::type());
+}
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -56,7 +67,10 @@ template<typename InputIterator1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
-                                       AssociativeOperator binary_op);
+                                       AssociativeOperator binary_op)
+{
+    return thrust::detail::device::generic::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op);
+}
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -70,11 +84,12 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        const T init,
                                        BinaryPredicate binary_pred,
-                                       AssociativeOperator binary_op);
+                                       AssociativeOperator binary_op)
+{
+    return thrust::detail::device::generic::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op);
+}
 
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/device/scan.inl>
 

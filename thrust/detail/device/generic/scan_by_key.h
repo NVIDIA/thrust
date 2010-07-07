@@ -15,8 +15,8 @@
  */
 
 
-/*! \file scan.h
- *  \brief Device implementations for scan.
+/*! \file scan_by_key.h
+ *  \brief Generic device implementations of key-value scans.
  */
 
 #pragma once
@@ -27,24 +27,8 @@ namespace detail
 {
 namespace device
 {
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename AssociativeOperator>
-  OutputIterator inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op);
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op);
+namespace generic
+{
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -72,9 +56,10 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op);
 
+} // end namespace generic
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/device/scan.inl>
+#include "scan_by_key.inl"
 

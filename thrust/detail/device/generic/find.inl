@@ -105,7 +105,7 @@ InputIterator find_if(InputIterator first,
     }
 
     //nothing was found if we reach here...
-    return last;
+    return first + n;
 }
 
 } // end namespace generic

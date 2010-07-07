@@ -25,10 +25,8 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace host
 {
 
@@ -87,9 +85,101 @@ template<typename InputIterator,
     return result;
 } 
 
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op)
+{
+    typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
+
+    if(first1 != last1)
+    {
+        KeyType   prev_key   = *first1;
+        ValueType prev_value = *first2;
+
+        *result = prev_value;
+
+        for(++first1, ++first2, ++result;
+                first1 != last1;
+                ++first1, ++first2, ++result)
+        {
+            KeyType key = *first1;
+
+            if (binary_pred(prev_key, key))
+                *result = prev_value = binary_op(prev_value, *first2);
+            else
+                *result = prev_value = *first2;
+
+            prev_key = key;
+        }
+    }
+
+    return result;
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       const T init,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op)
+{
+    typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
+    typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
+
+    if(first1 != last1)
+    {
+        KeyType   temp_key   = *first1;
+        ValueType temp_value = *first2;
+        
+        ValueType next = init;
+
+        // first one is init
+        *result = next;
+
+        next = binary_op(next, temp_value);
+
+        for(++first1, ++first2, ++result;
+                first1 != last1;
+                ++first1, ++first2, ++result)
+        {
+            KeyType key = *first1;
+
+            // use temp to permit in-place scans
+            temp_value = *first2;
+
+            if (!binary_pred(temp_key, key))
+                // reset sum
+                next = init;  
+                
+            *result = next;  
+            next = binary_op(next, temp_value);
+
+            temp_key = key;
+        }
+    }
+
+    return result;
+}
+
 } // end namespace host
-
 } // end namespace detail
-
 } // end namespace thrust
 

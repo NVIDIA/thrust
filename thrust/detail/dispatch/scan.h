@@ -69,6 +69,47 @@ template<typename InputIterator,
 }
 
 
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op,
+                                       thrust::host_space_tag,
+                                       thrust::host_space_tag,
+                                       thrust::host_space_tag)
+{
+    return thrust::detail::host::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op); 
+}
+
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       const T init,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op,
+                                       thrust::host_space_tag,
+                                       thrust::host_space_tag,
+                                       thrust::host_space_tag)
+{
+    return thrust::detail::host::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op); 
+}
+
+
 //////////////////
 // Device Paths //
 //////////////////
@@ -102,9 +143,47 @@ template<typename InputIterator,
     return thrust::detail::device::exclusive_scan(first, last, result, init, binary_op);
 }
 
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op,
+                                       thrust::device_space_tag,
+                                       thrust::device_space_tag,
+                                       thrust::device_space_tag)
+{
+    return thrust::detail::device::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op); 
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       const T init,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op,
+                                       thrust::device_space_tag,
+                                       thrust::device_space_tag,
+                                       thrust::device_space_tag)
+{
+    return thrust::detail::device::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op); 
+}
+
 } // end namespace dispatch
-
 } // end namespace detail
-
 } // end namespace thrust
 

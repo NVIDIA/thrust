@@ -302,7 +302,7 @@ void TestCopyDeviceThrow(void)
     {
         thrust::copy(null_device_ptr, null_device_ptr + 1, null_device_ptr);
     } // end try
-    catch(std::runtime_error &e)
+    catch(std::runtime_error)
     {
         caught_exception = true;
 

@@ -14,14 +14,13 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce.h
- *  \brief Device implementations for reduce.
- */
-
 #pragma once
 
-#include <thrust/pair.h>
+#include <thrust/detail/device/dispatch/reduce.h>
+#include <thrust/detail/device/generic/reduce_by_key.h>
+#include <thrust/detail/device/generic/reduce.h>
+
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -30,13 +29,18 @@ namespace detail
 namespace device
 {
 
+
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
   OutputType reduce(InputIterator first,
                     InputIterator last,
                     OutputType init,
-                    BinaryFunction binary_op);
+                    BinaryFunction binary_op)
+{
+  // use generic path
+  return thrust::detail::device::generic::reduce_n(first, last - first, init, binary_op);
+}
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -51,7 +55,11 @@ template <typename InputIterator1,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred,
-                     BinaryFunction binary_op);
+                     BinaryFunction binary_op)
+{
+  // use generic path
+  return thrust::detail::device::generic::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+}
 
 template<typename RandomAccessIterator,
          typename SizeType,
@@ -60,7 +68,11 @@ template<typename RandomAccessIterator,
   SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
                                                    SizeType n,
                                                    OutputType init,
-                                                   BinaryFunction binary_op);
+                                                   BinaryFunction binary_op)
+{
+  return thrust::detail::device::dispatch::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op,
+    typename thrust::iterator_space<RandomAccessIterator>::type());
+}
 
 template<typename RandomAccessIterator1,
          typename SizeType,
@@ -70,11 +82,14 @@ template<typename RandomAccessIterator1,
                                   SizeType n,
                                   SizeType num_blocks,
                                   BinaryFunction binary_op,
-                                  RandomAccessIterator2 result);
+                                  RandomAccessIterator2 result)
+{
+  return thrust::detail::device::dispatch::unordered_blocked_reduce_n(first, n, num_blocks, binary_op, result,
+    typename thrust::iterator_space<RandomAccessIterator1>::type());
+}
 
-} // end namespace device
-} // end namespace detail
-} // end namespace thrust
 
-#include <thrust/detail/device/reduce.inl>
+} // end device
+} // end detail
+} // end thrust
 

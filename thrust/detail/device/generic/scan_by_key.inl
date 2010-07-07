@@ -60,27 +60,26 @@ struct segmented_scan_functor
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
-         typename AssociativeOperator,
-         typename BinaryPredicate>
-  OutputIterator inclusive_segmented_scan(InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          OutputIterator result,
-                                          AssociativeOperator binary_op,
-                                          BinaryPredicate pred)
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
     typedef typename thrust::iterator_space<OutputIterator>::type Space;
     typedef unsigned int HeadFlagType;
-    
 
-    if(first1 != last1)
+    const size_t n = last1 - first1;
+
+    if(n != 0)
     {
-        const size_t n = last1 - first1;
-
         // compute head flags
         thrust::detail::raw_buffer<HeadFlagType,Space> flags(n);
-        flags[0] = 1; thrust::transform(first2, first2 + (n - 1), first2 + 1, flags.begin() + 1, thrust::detail::not2(pred));
+        flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
         // scan key-flag tuples, 
         // For additional details refer to Section 2 of the following paper
@@ -88,13 +87,13 @@ template<typename InputIterator1,
         //    NVIDIA Technical Report NVR-2008-003, December 2008
         //    http://mgarland.org/files/papers/nvr-2008-003.pdf
         thrust::detail::device::inclusive_scan
-            (thrust::make_zip_iterator(thrust::make_tuple(first1, flags.begin())),
-             thrust::make_zip_iterator(thrust::make_tuple(last1,  flags.end())),
+            (thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())),
+             thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())) + n,
              thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
              detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
     }
 
-    return result + (last1 - first1);
+    return result + n;
 }
 
 
@@ -102,33 +101,33 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename T,
-         typename AssociativeOperator,
-         typename BinaryPredicate>
-  OutputIterator exclusive_segmented_scan(InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          OutputIterator result,
-                                          const T init,
-                                          AssociativeOperator binary_op,
-                                          BinaryPredicate pred)
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       const T init,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    typedef typename thrust::iterator_space<OutputIterator>::type Space;
+    typedef typename thrust::iterator_space<OutputIterator>::type        Space;
     typedef unsigned int HeadFlagType;
 
-    if(first1 != last1)
-    {
-        const size_t n = last1 - first1;
+    const size_t n = last1 - first1;
 
+    if(n != 0)
+    {
         InputIterator2 last2 = first2 + n;
 
         // compute head flags
         thrust::detail::raw_buffer<HeadFlagType,Space> flags(n);
-        flags[0] = 1; thrust::transform(first2, last2 - 1, first2 + 1, flags.begin() + 1, thrust::detail::not2(pred));
+        flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
         // shift input one to the right and initialize segments with init
         thrust::detail::raw_buffer<OutputType,Space> temp(n);
-        thrust::replace_copy_if(first1, last1 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
+        thrust::replace_copy_if(first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
         temp[0] = init;
 
         // scan key-flag tuples, 
@@ -137,14 +136,13 @@ template<typename InputIterator1,
         //    NVIDIA Technical Report NVR-2008-003, December 2008
         //    http://mgarland.org/files/papers/nvr-2008-003.pdf
         thrust::detail::device::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())),
-                                               thrust::make_zip_iterator(thrust::make_tuple(temp.end(),   flags.end())),
+                                               thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())) + n,
                                                thrust::make_zip_iterator(thrust::make_tuple(result,       flags.begin())),
                                                detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
     }
 
-    return result + (last1 - first1);
+    return result + n;
 }
-
 
 } // end namespace generic
 } // end namespace device

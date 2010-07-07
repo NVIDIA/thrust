@@ -22,6 +22,8 @@
 #pragma once
 
 #include <thrust/tuple.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/utility.h>
 
 namespace thrust
 {
@@ -182,6 +184,209 @@ template<typename ResultType, typename BinaryFunction>
 
   BinaryFunction m_binary_op;
 };
+
+template<typename UnaryFunction>
+  struct host_unary_transform_functor
+{
+  typedef void result_type;
+
+  UnaryFunction f;
+
+  host_unary_transform_functor(UnaryFunction f_)
+    :f(f_) {}
+
+  template<typename Tuple>
+  __host__
+  inline result_type operator()(Tuple t)
+  {
+    thrust::get<1>(t) = f(thrust::get<0>(t));
+  }
+};
+
+template<typename UnaryFunction>
+  struct device_unary_transform_functor
+{
+  typedef void result_type;
+
+  UnaryFunction f;
+
+  device_unary_transform_functor(UnaryFunction f_)
+    :f(f_) {}
+
+  // add __host__ to allow the omp backend compile with nvcc
+  template<typename Tuple>
+  __host__ __device__
+  inline result_type operator()(Tuple t)
+  {
+    thrust::get<1>(t) = f(thrust::get<0>(t));
+  }
+};
+
+
+template<typename Space, typename UnaryFunction>
+  struct unary_transform_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_unary_transform_functor<UnaryFunction> >,
+        thrust::detail::identity_<device_unary_transform_functor<UnaryFunction> >
+      >
+{};
+
+
+template <typename BinaryFunction>
+struct host_binary_transform_functor
+{
+  BinaryFunction f;
+
+  host_binary_transform_functor(BinaryFunction f_)
+    :f(f_)
+  {}
+
+  template <typename Tuple>
+  __host__
+  void operator()(Tuple t)
+  { 
+    thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end binary_transform_functor
+
+
+template <typename BinaryFunction>
+struct device_binary_transform_functor
+{
+  BinaryFunction f;
+
+  device_binary_transform_functor(BinaryFunction f_)
+    :f(f_)
+  {}
+
+  // add __host__ to allow the omp backend compile with nvcc
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  { 
+    thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end binary_transform_functor
+
+
+template<typename Space, typename BinaryFunction>
+  struct binary_transform_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_binary_transform_functor<BinaryFunction> >,
+        thrust::detail::identity_<device_binary_transform_functor<BinaryFunction> >
+      >
+{};
+
+
+template <typename UnaryFunction, typename Predicate>
+struct host_unary_transform_if_functor
+{
+  UnaryFunction unary_op;
+  Predicate pred;
+  
+  host_unary_transform_if_functor(UnaryFunction _unary_op, Predicate _pred)
+    : unary_op(_unary_op), pred(_pred) {} 
+  
+  template <typename Tuple>
+  __host__
+  void operator()(Tuple t)
+  {
+    if(pred(thrust::get<1>(t)))
+      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+  }
+}; // end host_unary_transform_if_functor
+
+
+template <typename UnaryFunction, typename Predicate>
+struct device_unary_transform_if_functor
+{
+  UnaryFunction unary_op;
+  Predicate pred;
+  
+  device_unary_transform_if_functor(UnaryFunction _unary_op, Predicate _pred)
+    : unary_op(_unary_op), pred(_pred) {} 
+  
+  // add __host__ to allow the omp backend compile with nvcc
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  {
+    if(pred(thrust::get<1>(t)))
+      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+  }
+}; // end device_unary_transform_if_functor
+
+
+template<typename Space, typename UnaryFunction, typename Predicate>
+  struct unary_transform_if_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_unary_transform_if_functor<UnaryFunction,Predicate> >,
+        thrust::detail::identity_<device_unary_transform_if_functor<UnaryFunction,Predicate> >
+      >
+{};
+
+
+template <typename BinaryFunction, typename Predicate>
+struct host_binary_transform_if_functor
+{
+  BinaryFunction binary_op;
+  Predicate pred;
+
+  host_binary_transform_if_functor(BinaryFunction _binary_op, Predicate _pred)
+    : binary_op(_binary_op), pred(_pred) {} 
+
+  template <typename Tuple>
+  __host__
+  void operator()(Tuple t)
+  {
+    if(pred(thrust::get<2>(t)))
+      thrust::get<3>(t) = binary_op(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end host_binary_transform_if_functor
+
+
+template <typename BinaryFunction, typename Predicate>
+struct device_binary_transform_if_functor
+{
+  BinaryFunction binary_op;
+  Predicate pred;
+
+  device_binary_transform_if_functor(BinaryFunction _binary_op, Predicate _pred)
+    : binary_op(_binary_op), pred(_pred) {} 
+
+  // add __host__ to allow the omp backend compile with nvcc
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  {
+    if(pred(thrust::get<2>(t)))
+      thrust::get<3>(t) = binary_op(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end device_binary_transform_if_functor
+
+
+template<typename Space, typename BinaryFunction, typename Predicate>
+  struct binary_transform_if_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_binary_transform_if_functor<BinaryFunction,Predicate> >,
+        thrust::detail::identity_<device_binary_transform_if_functor<BinaryFunction,Predicate> >
+      >
+{};
+
+
+struct swap_pair_elements
+{
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  { 
+    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end swap_pair_elements
 
 
 } // end namespace detail

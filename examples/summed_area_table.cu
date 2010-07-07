@@ -2,7 +2,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/functional.h>
 #include <thrust/gather.h>
-#include <thrust/segmented_scan.h>
+#include <thrust/scan.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <iostream>
@@ -65,9 +65,9 @@ void scan_horizontally(size_t m, size_t n, thrust::device_vector<T>& d_data)
 {
     thrust::counting_iterator<size_t> indices(0);
 
-    thrust::experimental::inclusive_segmented_scan(d_data.begin(), d_data.end(),
-                                                   thrust::make_transform_iterator(indices, row_index(n)),
-                                                   d_data.begin());
+    thrust::inclusive_scan_by_key(d_data.begin(), d_data.end(),
+                                  thrust::make_transform_iterator(indices, row_index(n)),
+                                  d_data.begin());
 }
 
 // print an M-by-N array

@@ -14,32 +14,40 @@
  *  limitations under the License.
  */
 
-
-/*! \file swap_ranges.h
- *  \brief Device interface to swap_ranges.
- */
-
 #pragma once
 
-#include <thrust/detail/device/generic/swap_ranges.h>
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
+
 namespace detail
 {
-namespace device
+
+namespace host
 {
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2>
-  ForwardIterator2 swap_ranges(ForwardIterator1 first1,
-                               ForwardIterator1 last1,
-                               ForwardIterator2 first2)
-{
-    return thrust::detail::device::generic::swap_ranges(first1, last1, first2);
-}
 
-} // end namespace device
-} // end namespace detail
-} // end namespace thrust
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
+
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f);
+
+
+} // end host
+
+} // end detail
+
+} // end thrust
+
+#include <thrust/detail/host/for_each.inl>
 

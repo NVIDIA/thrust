@@ -36,8 +36,7 @@ namespace thrust
  *  the value \c *i is assigned to <tt>output[*(map + (i - first))]</tt>. The 
  *  output iterator must permit random access. If the same index 
  *  appears more than once in the range <tt>[map, map + (last - first))</tt>,
- *  the result is undefined. Scatter operations between host and 
- *  device memory spaces are supported (in both directions).
+ *  the result is undefined.
  *
  *  \param first Beginning of the sequence of values to scatter.
  *  \param last End of the sequence of values to scatter.

@@ -3,11 +3,6 @@
 #include <thrust/pair.h>
 #include <thrust/tuple.h>
 #include <thrust/transform.h>
-#include <thrust/reduce.h>
-#include <thrust/scan.h>
-#include <thrust/segmented_scan.h>
-#include <thrust/sort.h>
-
 
 struct make_pair_functor
 {
