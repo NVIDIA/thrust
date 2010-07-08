@@ -26,6 +26,7 @@
 #include <thrust/iterator/reverse_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/contiguous_storage.h>
 #include <thrust/utility.h>
 #include <vector>
 
@@ -38,19 +39,22 @@ namespace detail
 template<typename T, typename Alloc>
   class vector_base
 {
+  private:
+    typedef thrust::detail::contiguous_storage<T,Alloc> storage_type;
+
   public:
     // typedefs
-    typedef T                               value_type;
-    typedef typename Alloc::pointer         pointer;
-    typedef typename Alloc::const_pointer   const_pointer;
-    typedef typename Alloc::reference       reference;
-    typedef typename Alloc::const_reference const_reference;
-    typedef std::size_t                     size_type;
-    typedef typename Alloc::difference_type difference_type;
-    typedef Alloc                           allocator_type;
+    typedef typename storage_type::value_type      value_type;
+    typedef typename storage_type::pointer         pointer;
+    typedef typename storage_type::const_pointer   const_pointer;
+    typedef typename storage_type::reference       reference;
+    typedef typename storage_type::const_reference const_reference;
+    typedef typename storage_type::size_type       size_type;
+    typedef typename storage_type::difference_type difference_type;
+    typedef typename storage_type::allocator_type  allocator_type;
 
-    typedef normal_iterator<pointer>        iterator;
-    typedef normal_iterator<const_pointer>  const_iterator;
+    typedef typename storage_type::iterator        iterator;
+    typedef typename storage_type::const_iterator  const_iterator;
 
     typedef thrust::reverse_iterator<iterator>       reverse_iterator;
     typedef thrust::reverse_iterator<const_iterator> const_reverse_iterator;
@@ -371,17 +375,11 @@ template<typename T, typename Alloc>
     void assign(InputIterator first, InputIterator last);
 
   protected:
-    // An iterator pointing to the first element of this vector_base.
-    iterator mBegin;
+    // Our storage
+    storage_type m_storage;
 
     // The size of this vector_base, in number of elements.
-    size_type mSize;
-
-    // The capacity of this vector_base, in number of elements.
-    size_type mCapacity;
-
-    // Our allocator
-    allocator_type mAllocator;
+    size_type m_size;
 
   private:
     // whether or not value_type has a trivial copy constructor
@@ -444,8 +442,7 @@ template<typename T, typename Alloc>
     template<typename ForwardIterator>
     void allocate_and_copy(size_type requested_size,
                            ForwardIterator first, ForwardIterator last,
-                           size_type &allocated_size,
-                           iterator &new_storage);
+                           storage_type &new_storage);
 
     // this method handles cross-space uninitialized_copy for types with trivial copy constructors
     template<typename InputIterator, typename ForwardIterator>
