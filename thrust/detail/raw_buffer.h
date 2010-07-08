@@ -81,7 +81,9 @@ template<typename T, typename Space>
     > super_t;
 
   public:
-    explicit raw_buffer(typename super_t::size_type n);
+    typedef typename super_t::size_type size_type;
+
+    explicit raw_buffer(size_type n);
 
     template<typename InputIterator>
     raw_buffer(InputIterator first, InputIterator last);

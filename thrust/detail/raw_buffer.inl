@@ -28,7 +28,7 @@ namespace detail
 
 template<typename T, typename Space>
   raw_buffer<T,Space>
-    ::raw_buffer(typename super_t::size_type n)
+    ::raw_buffer(size_type n)
       :super_t(n)
 {
   ;
