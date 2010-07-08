@@ -13,6 +13,10 @@ except:
 if env['PLATFORM'] == "darwin":
   env.Append(LINKFLAGS = "-lstdc++")
 
+# on windows we have to do /bigobj
+if env['PLATFORM'] == "win32" or env['PLATFORM'] == "win64":
+  env.Append(CPPFLAGS = "/bigobj")
+
 # find all .cus & .cpps in the current directory
 sources = []
 directories = ['.', 'cuda']

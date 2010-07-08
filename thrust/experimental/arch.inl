@@ -56,7 +56,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   static std::map<int,cudaDeviceProp> properties_map;
 
   // search the cache for the properties
-  typename std::map<int,cudaDeviceProp>::const_iterator iter = properties_map.find(current_device);
+  std::map<int,cudaDeviceProp>::const_iterator iter = properties_map.find(current_device);
 
   if(iter == properties_map.end())
   {
@@ -82,10 +82,13 @@ template <typename KernelFunction>
 void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunction kernel)
 {
   // cache the result of the introspection call because it is expensive
-  static std::map<KernelFunction,cudaFuncAttributes> attributes_map;
+  // cache const void * rather than KernelFunction to avoid problems with long names on MSVC 2005
+  static std::map<const void *,cudaFuncAttributes> attributes_map;
+
+  const void *fun_ptr = kernel;
 
   // search the cache for the attributes
-  typename std::map<KernelFunction,cudaFuncAttributes>::const_iterator iter = attributes_map.find(kernel);
+  typename std::map<const void *,cudaFuncAttributes>::const_iterator iter = attributes_map.find(fun_ptr);
 
   if(iter == attributes_map.end())
   {
@@ -98,7 +101,7 @@ void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunct
     }
 
     // insert the new entry
-    attributes_map[kernel] = attributes;
+    attributes_map[fun_ptr] = attributes;
   } // end if
   else
   {
