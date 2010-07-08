@@ -23,6 +23,7 @@
 #include <thrust/detail/device/internal_allocator.h>
 #include <thrust/iterator/detail/normal_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/contiguous_storage.h>
 #include <memory>
 
 namespace thrust
@@ -68,54 +69,24 @@ template<typename T, typename Space>
 
 template<typename T, typename Space>
   class raw_buffer
+    : public contiguous_storage<
+               T,
+               typename choose_raw_buffer_allocator<T,Space>::type
+             >
 {
-  public:
-    typedef typename choose_raw_buffer_allocator<T,Space>::type allocator_type;
-    typedef T                                                   value_type;
-    typedef typename allocator_type::pointer                    pointer;
-    typedef typename allocator_type::const_pointer              const_pointer;
-    typedef typename allocator_type::reference                  reference;
-    typedef typename allocator_type::const_reference            const_reference;
-    typedef typename std::size_t                                size_type; 
-    typedef typename allocator_type::difference_type            difference_type;
+  private:
+    typedef contiguous_storage<
+      T,
+      typename choose_raw_buffer_allocator<T,Space>::type
+    > super_t;
 
-    typedef normal_iterator<pointer>                            iterator;
-    typedef normal_iterator<const_pointer>                      const_iterator;
+  public:
+    typedef typename super_t::size_type size_type;
 
     explicit raw_buffer(size_type n);
 
     template<typename InputIterator>
     raw_buffer(InputIterator first, InputIterator last);
-
-    ~raw_buffer(void);
-
-    size_type size(void) const;
-
-    iterator begin(void);
-
-    const_iterator begin(void) const;
-
-    const_iterator cbegin(void) const;
-
-    iterator end(void);
-
-    const_iterator end(void) const;
-
-    const_iterator cend(void) const;
-
-    reference operator[](size_type n);
-
-    const_reference operator[](size_type n) const;
-
-
-  protected:
-    allocator_type m_allocator;
-
-    iterator m_begin, m_end;
-
-  private:
-    // disallow assignment
-    raw_buffer &operator=(const raw_buffer &);
 }; // end raw_buffer
 
 

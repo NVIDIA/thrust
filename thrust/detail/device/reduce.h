@@ -63,12 +63,13 @@ template<typename RandomAccessIterator,
                                                    BinaryFunction binary_op);
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_reduce_n(RandomAccessIterator1 first,
-                                  SizeType n,
-                                  SizeType num_blocks,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result);
 

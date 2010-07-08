@@ -173,12 +173,13 @@ template <typename InputType, typename OutputType, typename BinaryFunction, type
 
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_reduce_n(RandomAccessIterator1 first,
-                                  SizeType n,
-                                  SizeType num_blocks,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result,
                                   thrust::detail::true_type)   // reduce in shared memory
@@ -196,12 +197,13 @@ template<typename RandomAccessIterator1,
 
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_reduce_n(RandomAccessIterator1 first,
-                                  SizeType n,
-                                  SizeType num_blocks,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result,
                                   thrust::detail::false_type)   // reduce in global memory
@@ -324,12 +326,13 @@ template<typename RandomAccessIterator,
 // TODO use closure approach to handle large iterators & functors (i.e. sum > 256 bytes)
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_wide_reduce_n(RandomAccessIterator1 first,
-                                       SizeType n,
-                                       SizeType num_blocks,
+                                       SizeType1 n,
+                                       SizeType2 num_blocks,
                                        BinaryFunction binary_op,
                                        RandomAccessIterator2 result)
 {
@@ -388,12 +391,13 @@ template<typename RandomAccessIterator1,
 
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_standard_reduce_n(RandomAccessIterator1 first,
-                                           SizeType n,
-                                           SizeType num_blocks,
+                                           SizeType1 n,
+                                           SizeType2 num_blocks,
                                            BinaryFunction binary_op,
                                            RandomAccessIterator2 result)
 {
@@ -411,12 +415,13 @@ template<typename RandomAccessIterator1,
 
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_reduce_n(RandomAccessIterator1 first,
-                                  SizeType n,
-                                  SizeType num_blocks,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result)
 {
