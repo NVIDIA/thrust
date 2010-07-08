@@ -56,7 +56,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   static std::map<int,cudaDeviceProp> properties_map;
 
   // search the cache for the properties
-  typename std::map<int,cudaDeviceProp>::const_iterator iter = properties_map.find(current_device);
+  std::map<int,cudaDeviceProp>::const_iterator iter = properties_map.find(current_device);
 
   if(iter == properties_map.end())
   {

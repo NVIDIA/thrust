@@ -35,12 +35,13 @@ namespace omp
 
 
 template<typename RandomAccessIterator1,
-         typename SizeType,
+         typename SizeType1,
+         typename SizeType2,
          typename BinaryFunction,
          typename RandomAccessIterator2>
   void unordered_blocked_reduce_n(RandomAccessIterator1 first,
-                                  SizeType n,
-                                  SizeType num_blocks,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
                                   BinaryFunction binary_op,
                                   RandomAccessIterator2 result)
 {
@@ -69,7 +70,7 @@ template<typename RandomAccessIterator1,
     OutputType thread_sum = thrust::detail::device::dereference(temp);
 
 #   pragma omp for 
-    for(SizeType i = num_blocks; i < n; i++)
+    for(SizeType1 i = SizeType1(num_blocks); i < n; i++)
     {
       RandomAccessIterator1 temp = first + i;
       thread_sum = binary_op(thread_sum, thrust::detail::device::dereference(temp));
