@@ -85,7 +85,7 @@ void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunct
   // cache const void * rather than KernelFunction to avoid problems with long names on MSVC 2005
   static std::map<const void *,cudaFuncAttributes> attributes_map;
 
-  const void *fun_ptr = kernel;
+  const void *fun_ptr = reinterpret_cast<const void *>(kernel);
 
   // search the cache for the attributes
   typename std::map<const void *,cudaFuncAttributes>::const_iterator iter = attributes_map.find(fun_ptr);
