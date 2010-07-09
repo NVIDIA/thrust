@@ -213,9 +213,15 @@ template<typename T, typename Alloc>
     ::resize(size_type new_size, value_type x)
 {
   if(new_size < size())
-    erase(begin() + new_size, end());
+  {
+    iterator new_end = begin();
+    thrust::advance(new_end, new_size);
+    erase(new_end, end());
+  }
   else
+  {
     insert(end(), new_size - size(), x);
+  }
 } // end vector_base::resize()
 
 template<typename T, typename Alloc>
@@ -265,7 +271,7 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::operator[](const size_type n)
 {
-  return *(begin() + n);
+  return m_storage[n];
 } // end vector_base::operator[]
 
 template<typename T, typename Alloc>
@@ -273,7 +279,7 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::operator[](const size_type n) const
 {
-  return *(begin() + n);
+  return m_storage[n];
 } // end vector_base::operator[]
 
 template<typename T, typename Alloc>
@@ -329,7 +335,9 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::end(void)
 {
-  return begin() + size();
+  iterator result = begin();
+  thrust::advance(result, size());
+  return result;
 } // end vector_base::end()
 
 template<typename T, typename Alloc>
@@ -337,7 +345,9 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::end(void) const
 {
-  return begin() + size();
+  const_iterator result = begin();
+  thrust::advance(result, size());
+  return result;
 } // end vector_base::end()
 
 template<typename T, typename Alloc>
@@ -393,7 +403,9 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::back(void) const
 {
-  return *(begin() + static_cast<difference_type>(size() - 1));
+  const_iterator ptr_to_back = end();
+  --ptr_to_back;
+  return *ptr_to_back;
 } // end vector_base::vector_base
 
 template<typename T, typename Alloc>
@@ -401,7 +413,9 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::back(void)
 {
-  return *(begin() + static_cast<difference_type>(size() - 1));
+  iterator ptr_to_back = end();
+  --ptr_to_back;
+  return *ptr_to_back;
 } // end vector_base::vector_base
 
 template<typename T, typename Alloc>
@@ -454,15 +468,20 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::pop_back(void)
 {
+  iterator e = end();
+  iterator ptr_to_back = e;
+  --ptr_to_back;
+  thrust::detail::destroy(ptr_to_back, e);
   --m_size;
-  thrust::detail::destroy(end(), end() + 1);
 } // end vector_base::pop_back()
 
 template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator vector_base<T,Alloc>
     ::erase(iterator pos)
 {
-  return erase(pos,pos+1);
+  iterator end = pos;
+  ++end;
+  return erase(pos,end);
 } // end vector_base::erase()
 
 template<typename T, typename Alloc>
@@ -516,13 +535,15 @@ template<typename T, typename Alloc>
       ::insert(iterator position, const T &x)
 {
   // find the index of the insertion
-  size_type index = position - begin();
+  size_type index = thrust::distance(begin(), position);
 
   // make the insertion
   insert(position, 1, x);
 
   // return an iterator pointing back to position
-  return begin() + index;
+  iterator result = begin();
+  thrust::advance(result, index);
+  return result;
 } // end vector_base::insert()
 
 template<typename T, typename Alloc>
@@ -725,6 +746,7 @@ template<typename T, typename Alloc>
         thrust::copy(position, old_end - n, old_end - copy_length);
 
         // finally, fill the range to the insertion point
+        // XXX use fill_n here
         thrust::fill(position, position + n, x);
       } // end if
       else
@@ -781,6 +803,7 @@ template<typename T, typename Alloc>
         new_end = cross_space_uninitialized_copy(begin(), position, new_storage.begin(), has_trivial_copy_constructor());
 
         // construct new elements to insert
+        // XXX use uninitialized_fill_n here
         thrust::uninitialized_fill(new_end, new_end + n, x);
         new_end += n;
 
@@ -922,7 +945,10 @@ template<typename T, typename Alloc>
     thrust::fill(begin(), end(), x);
 
     // construct uninitialized elements
-    thrust::uninitialized_fill(end(), end() + (n - size()), x);
+    // XXX use uninitialized_fill_n here and eliminate use of advance
+    iterator new_end = end();
+    thrust::advance(new_end, n - size());
+    thrust::uninitialized_fill(end(), new_end, x);
 
     // adjust size
     m_size += (n - size());
@@ -930,10 +956,13 @@ template<typename T, typename Alloc>
   else
   {
     // fill to existing elements
-    thrust::fill(begin(), begin() + n, x);
+    // XXX use fill_n here and eliminate use of advance
+    iterator new_end = begin();
+    thrust::advance(new_end, n);
+    thrust::fill(begin(), new_end, x);
 
     // erase the elements after the fill
-    erase(begin() + n, end());
+    erase(new_end, end());
   } // end else
 } // end vector_base::fill_assign()
 
@@ -972,7 +1001,10 @@ template<typename T, typename Alloc>
   {
     // something went wrong, so destroy & deallocate the new storage 
     // XXX seems like this destroys too many elements -- should just be last - first instead of requested_size
-    thrust::detail::destroy(new_storage.begin(), new_storage.begin() + requested_size);
+    // XXX use destroy_n here
+    iterator new_storage_end = new_storage.begin();
+    thrust::advance(new_storage_end, requested_size);
+    thrust::detail::destroy(new_storage.begin(), new_storage_end);
     new_storage.deallocate();
 
     // rethrow
