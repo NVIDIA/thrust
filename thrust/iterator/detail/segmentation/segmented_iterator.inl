@@ -20,6 +20,7 @@
 #include <thrust/range/end.h>
 #include <thrust/range/empty.h>
 #include <thrust/iterator/detail/segmentation/segmented_iterator_base.h>
+#include <iostream>
 
 namespace thrust
 {
@@ -124,6 +125,50 @@ template<typename Iterator>
   // decrement the local iterator
   --m_current_bucket;
 } // end segmented_iterator::decrement()
+
+
+template<typename Iterator>
+  void segmented_iterator<Iterator>
+    ::advance(typename super_t::difference_type n)
+{
+  // XXX why is this so complicated?
+  
+  // draw from the current partial bucket
+  typename super_t::difference_type current_bucket_size = thrust::experimental::end(*m_current_bucket) - m_current_local;
+  typename super_t::difference_type m = (n < current_bucket_size) ? n : current_bucket_size;
+
+  // advance the local
+  m_current_local += m;
+  n -= m;
+
+  if(m == current_bucket_size)
+  {
+    // we exhausted the current bucket
+    ++m_current_bucket;
+
+    if(m_current_bucket != m_buckets_end)
+    {
+      m_current_local = thrust::experimental::begin(*m_current_bucket);
+    }
+  }
+
+  while(n > 0 && m_current_bucket != m_buckets_end)
+  {
+    m_current_local = thrust::experimental::begin(*m_current_bucket);
+    current_bucket_size = thrust::experimental::end(*m_current_bucket) - m_current_local;
+    m = (n < current_bucket_size) ? n : current_bucket_size;
+
+    // advance the local
+    m_current_local += m;
+    n -= m;
+
+    if(m == current_bucket_size)
+    {
+      // we exhausted the current bucket
+      ++m_current_bucket;
+    }
+  } // end while
+} // end segmented_iterator::advance()
 
 
 template<typename Iterator>
