@@ -389,6 +389,39 @@ struct swap_pair_elements
 }; // end swap_pair_elements
 
 
+template<typename T>
+  struct host_destroy_functor
+{
+  __host__
+  void operator()(T &x) const
+  {
+    x.~T();
+  } // end operator()()
+}; // end host_destroy_functor
+
+
+template<typename T>
+  struct device_destroy_functor
+{
+  // add __host__ to allow the omp backend compile with nvcc
+  __host__ __device__
+  void operator()(T &x) const
+  {
+    x.~T();
+  } // end operator()()
+}; // end device_destroy_functor
+
+
+template<typename Space, typename T>
+  struct destroy_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_destroy_functor<T> >,
+        thrust::detail::identity_<device_destroy_functor<T> >
+      >
+{};
+
+
 } // end namespace detail
 } // end namespace thrust
 

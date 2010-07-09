@@ -22,6 +22,8 @@
 #pragma once
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/internal_functional.h>
 #include <thrust/for_each.h>
 
 namespace thrust
@@ -42,21 +44,6 @@ template<typename ForwardIterator>
   ;
 } // end destroy()
 
-namespace detail
-{
-
-template<typename T>
-  struct destroyer
-{
-  __host__ __device__
-  void operator()(T &x) const
-  {
-    x.~T();
-  } // end operator()()
-}; // end destroyer
-
-} // end detail
-
 template<typename ForwardIterator>
   void destroy(ForwardIterator first,
                ForwardIterator last,
@@ -64,7 +51,11 @@ template<typename ForwardIterator>
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type value_type;
 
-  detail::destroyer<value_type> op;
+  typename thrust::detail::destroy_functor<
+    typename thrust::iterator_space<ForwardIterator>::type,
+    value_type
+  >::type op;
+
   thrust::for_each(first, last, op);
 } // end destroy()
 
