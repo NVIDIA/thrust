@@ -22,13 +22,13 @@ INITIALIZE = \
 
     //cudaSetDevice(1);
 
-    thrust::host_vector<float> h_input   = unittest::random_integers<float>($InputSize);
-    thrust::host_vector<int>   h_stencil = unittest::random_integers<bool>($InputSize);
-    thrust::host_vector<float> h_output($InputSize, -1);
+    thrust::host_vector<int> h_input($InputSize); thrust::sequence(h_input.begin(), h_input.end());
+    thrust::host_vector<int> h_stencil = unittest::random_integers<bool>($InputSize);
+    thrust::host_vector<int> h_output($InputSize, -1);
 
-    thrust::device_vector<float> d_input   = h_input;
-    thrust::device_vector<int>   d_stencil = h_stencil;
-    thrust::device_vector<float> d_output  = h_output;
+    thrust::device_vector<int> d_input   = h_input;
+    thrust::device_vector<int> d_stencil = h_stencil;
+    thrust::device_vector<int> d_output  = h_output;
 
     typedef thrust::device_vector<int>::iterator OutputIterator;
     
@@ -53,7 +53,7 @@ FINALIZE = \
     """
 
 Functions  = ['thrust::copy_if','thrust::detail::device::cuda::copy_if']
-InputSizes = [2**20]
+InputSizes = [2**N for N in range(20, 27)]
 
 TestVariables = [('Function',Functions), ('InputSize', InputSizes)]
 
