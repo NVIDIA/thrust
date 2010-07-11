@@ -62,12 +62,49 @@ namespace thrust
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/fill.html
+ *  \see \c fill_n
  *  \see \c uninitialized_fill
  */
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value);
+
+/*! \p fill_n assigns the value \p value to every element in
+ *  the range <tt>[first, first+n)</tt>. That is, for every
+ *  iterator \c i in <tt>[first, first+n)</tt>, it performs
+ *  the assignment <tt>*i = value</tt>.
+ *
+ *  \param first The beginning of the sequence.
+ *  \param n The size of the sequence.
+ *  \param value The value to be copied.
+ *  \return <tt>first + n</tt>
+ *
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and \p T's \c value_type is convertible to a type in \p OutputIterator's set of \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
+ *  elements to a given value.
+ *
+ *  \code
+ *  #include <thrust/fill.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> v(4);
+ *  thrust::fill_n(v.begin(), v.size(), 137);
+ *
+ *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/fill_n.html
+ *  \see \c fill
+ *  \see \c uninitialized_fill_n
+ */
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value);
 
 /*! \} // end filling
  *  \} // transformations

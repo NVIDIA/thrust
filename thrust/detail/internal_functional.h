@@ -422,6 +422,22 @@ template<typename Space, typename T>
 {};
 
 
+template <typename T>
+struct fill_functor
+{
+  T exemplar;
+
+  fill_functor(T _exemplar) 
+    : exemplar(_exemplar) {}
+
+  __host__ __device__
+  T operator()(void)
+  { 
+    return exemplar;
+  }
+};
+
+
 } // end namespace detail
 } // end namespace thrust
 

@@ -31,14 +31,14 @@ namespace detail
 namespace device
 {
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar)
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &exemplar)
 {
-    // dispatch on space
-    thrust::detail::device::dispatch::fill(first, last, exemplar,
-            typename thrust::iterator_space<ForwardIterator>::type());
+  // dispatch on space
+  return thrust::detail::device::dispatch::fill_n(first, n, exemplar,
+    typename thrust::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace device
