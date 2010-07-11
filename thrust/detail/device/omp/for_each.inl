@@ -55,9 +55,12 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
 // without support from the compiler
 // XXX implement the body of this function in another file to eliminate this ugliness
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+  // use a signed type for the iteration variable or suffer the consequences of warnings
+  typedef typename thrust::iterator_difference<RandomAccessIterator>::type DifferenceType;
+  DifferenceType signed_n = n;
 #pragma omp parallel for
-  for(Size i = 0;
-      i < n;
+  for(DifferenceType i = 0;
+      i < signed_n;
       ++i)
   {
     RandomAccessIterator temp = first + i;

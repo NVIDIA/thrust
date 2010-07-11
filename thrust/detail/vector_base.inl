@@ -746,16 +746,12 @@ template<typename T, typename Alloc>
         thrust::copy(position, old_end - n, old_end - copy_length);
 
         // finally, fill the range to the insertion point
-        // XXX use fill_n here
-        thrust::fill(position, position + n, x);
+        thrust::fill_n(position, n, x);
       } // end if
       else
       {
         // construct new elements at the end of the vector
-        // XXX SGI's version uses uninitialized_fill_n here
-        thrust::uninitialized_fill(end(),
-                                   end() + (n - num_displaced_elements),
-                                   x);
+        thrust::uninitialized_fill_n(end(), n - num_displaced_elements, x);
 
         // extend the size
         m_size += n - num_displaced_elements;
@@ -803,8 +799,7 @@ template<typename T, typename Alloc>
         new_end = cross_space_uninitialized_copy(begin(), position, new_storage.begin(), has_trivial_copy_constructor());
 
         // construct new elements to insert
-        // XXX use uninitialized_fill_n here
-        thrust::uninitialized_fill(new_end, new_end + n, x);
+        thrust::uninitialized_fill_n(new_end, n, x);
         new_end += n;
 
         // construct copy displaced elements from the old storage to the new storage
@@ -945,10 +940,7 @@ template<typename T, typename Alloc>
     thrust::fill(begin(), end(), x);
 
     // construct uninitialized elements
-    // XXX use uninitialized_fill_n here and eliminate use of advance
-    iterator new_end = end();
-    thrust::advance(new_end, n - size());
-    thrust::uninitialized_fill(end(), new_end, x);
+    thrust::uninitialized_fill_n(end(), n - size(), x);
 
     // adjust size
     m_size += (n - size());
@@ -956,10 +948,7 @@ template<typename T, typename Alloc>
   else
   {
     // fill to existing elements
-    // XXX use fill_n here and eliminate use of advance
-    iterator new_end = begin();
-    thrust::advance(new_end, n);
-    thrust::fill(begin(), new_end, x);
+    iterator new_end = thrust::fill_n(begin(), n, x);
 
     // erase the elements after the fill
     erase(new_end, end());
