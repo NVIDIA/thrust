@@ -438,6 +438,21 @@ struct fill_functor
 };
 
 
+template<typename T>
+  struct uninitialized_fill_functor
+{
+  T exemplar;
+
+  uninitialized_fill_functor(T x):exemplar(x){}
+
+  __host__ __device__
+  void operator()(T &x)
+  {
+    ::new(static_cast<void*>(&x)) T(exemplar);
+  } // end operator()()
+}; // end uninitialized_fill_functor
+
+
 } // end namespace detail
 } // end namespace thrust
 
