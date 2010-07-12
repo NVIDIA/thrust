@@ -55,14 +55,6 @@ void TestRangeScatterFromHostToDevice(void)
 
     using namespace thrust::experimental::range;
 
-    // with map on the host
-    scatter(src, h_map, dst);
-
-    ASSERT_EQUAL(result, dst);
-
-    // clear the destination vector
-    fill(dst, (int) 0);
-    
     // with map on the device
     scatter(src, d_map, dst);
 
@@ -97,11 +89,7 @@ void TestRangeScatterFromDeviceToHost(void)
     // with map on the host
     scatter(src, h_map, dst);
 
-    // clear the destination vector
-    fill(dst, (int) 0);
-    
-    // with map on the device
-    scatter(src, d_map, dst);
+    ASSERT_EQUAL(result, dst);
 }
 DECLARE_UNITTEST(TestRangeScatterFromDeviceToHost);
 
