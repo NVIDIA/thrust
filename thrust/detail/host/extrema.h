@@ -25,12 +25,42 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace host
 {
+
+template <typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(ForwardIterator first, 
+                            ForwardIterator last,
+                            BinaryPredicate comp)
+{
+    ForwardIterator imin = first;
+
+    for (; first != last; first++)
+    {
+        if (comp(*first, *imin)) imin = first;
+    }
+
+    return imin;
+}
+
+
+template <typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(ForwardIterator first, 
+                            ForwardIterator last,
+                            BinaryPredicate comp)
+{
+    ForwardIterator imax = first;
+
+    for (; first != last; first++)
+    {
+        if (comp(*imax, *first)) imax = first;
+    }
+
+    return imax;
+}
+
 
 template <typename ForwardIterator, typename BinaryPredicate>
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
@@ -50,8 +80,6 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
 }
 
 } // end namespace host
-
 } // end namespace detail
-
 } // end namespace thrust
 

@@ -16,23 +16,20 @@
 
 
 /*! \file extrema.h
- *  \brief Dispatch layers for the min_element and max_element functions.
+ *  \brief Dispatch layers for the min_element, max_element and minmax_element functions.
  */
 
 #pragma once
 
 #include <thrust/iterator/iterator_categories.h>
 
-#include <algorithm>
 #include <thrust/detail/host/extrema.h>
 #include <thrust/detail/device/extrema.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
@@ -45,7 +42,7 @@ ForwardIterator min_element(ForwardIterator first,
                             BinaryPredicate comp, 
                             thrust::host_space_tag)
 {
-  return std::min_element(first, last, comp);
+  return thrust::detail::host::min_element(first, last, comp);
 } // end min_element()
 
 
@@ -55,7 +52,7 @@ ForwardIterator max_element(ForwardIterator first,
                             BinaryPredicate comp, 
                             thrust::host_space_tag)
 {
-  return std::max_element(first, last, comp);
+  return thrust::detail::host::max_element(first, last, comp);
 } // end max_element()
 
 
@@ -98,8 +95,6 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
 
 
 } // end namespace dispatch
-
 } // end namespace detail
-
 } // end namespace thrust
 
