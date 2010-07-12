@@ -20,10 +20,8 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace host
 {
 
@@ -50,12 +48,11 @@ OutputIterator for_each_n(OutputIterator first,
                           Size n,
                           UnaryFunction f)
 {
-  while(n)
+  for(Size i = 0; i != n; i++)
   {
     // we can dereference an OutputIterator if f does not
     // try to use the reference for anything besides assignment
     f(*first);
-    --n;
     ++first;
   }
 
@@ -63,9 +60,7 @@ OutputIterator for_each_n(OutputIterator first,
 } // end for_each_n()
 
 
-} // end host
-
-} // end detail
-
-} // end thrust
+} // end namespace host
+} // end namespace detail
+} // end namespace thrust
 

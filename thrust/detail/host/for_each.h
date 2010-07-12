@@ -20,10 +20,8 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace host
 {
 
@@ -43,11 +41,9 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f);
 
 
-} // end host
-
-} // end detail
-
-} // end thrust
+} // end namespace host
+} // end namespace detail
+} // end namespace thrust
 
 #include <thrust/detail/host/for_each.inl>
 
