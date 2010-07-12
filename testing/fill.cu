@@ -107,3 +107,113 @@ void TestFill(size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestFill);
 
+template <class Vector>
+void TestFillNSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v(5);
+    v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
+
+    typename Vector::iterator iter = thrust::fill_n(v.begin() + 1, 3, (T) 7);
+
+    ASSERT_EQUAL(v[0], 0);
+    ASSERT_EQUAL(v[1], 7);
+    ASSERT_EQUAL(v[2], 7);
+    ASSERT_EQUAL(v[3], 7);
+    ASSERT_EQUAL(v[4], 4);
+    ASSERT_EQUAL_QUIET(v.begin() + 4, iter);
+    
+    iter = thrust::fill_n(v.begin() + 0, 3, (T) 8);
+    
+    ASSERT_EQUAL(v[0], 8);
+    ASSERT_EQUAL(v[1], 8);
+    ASSERT_EQUAL(v[2], 8);
+    ASSERT_EQUAL(v[3], 7);
+    ASSERT_EQUAL(v[4], 4);
+    ASSERT_EQUAL_QUIET(v.begin() + 3, iter);
+    
+    iter = thrust::fill_n(v.begin() + 2, 3, (T) 9);
+    
+    ASSERT_EQUAL(v[0], 8);
+    ASSERT_EQUAL(v[1], 8);
+    ASSERT_EQUAL(v[2], 9);
+    ASSERT_EQUAL(v[3], 9);
+    ASSERT_EQUAL(v[4], 9);
+    ASSERT_EQUAL_QUIET(v.end(), iter);
+
+    iter = thrust::fill_n(v.begin(), v.size(), (T) 1);
+    
+    ASSERT_EQUAL(v[0], 1);
+    ASSERT_EQUAL(v[1], 1);
+    ASSERT_EQUAL(v[2], 1);
+    ASSERT_EQUAL(v[3], 1);
+    ASSERT_EQUAL(v[4], 1);
+    ASSERT_EQUAL_QUIET(v.end(), iter);
+}
+DECLARE_VECTOR_UNITTEST(TestFillNSimple);
+
+
+template <class Vector>
+void TestFillNMixedTypes(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v(4);
+
+    typename Vector::iterator iter = thrust::fill_n(v.begin(), v.size(), (long) 10);
+    
+    ASSERT_EQUAL(v[0], 10);
+    ASSERT_EQUAL(v[1], 10);
+    ASSERT_EQUAL(v[2], 10);
+    ASSERT_EQUAL(v[3], 10);
+    ASSERT_EQUAL_QUIET(v.end(), iter);
+    
+    iter = thrust::fill_n(v.begin(), v.size(), (float) 20);
+    
+    ASSERT_EQUAL(v[0], 20);
+    ASSERT_EQUAL(v[1], 20);
+    ASSERT_EQUAL(v[2], 20);
+    ASSERT_EQUAL(v[3], 20);
+    ASSERT_EQUAL_QUIET(v.end(), iter);
+}
+DECLARE_VECTOR_UNITTEST(TestFillNMixedTypes);
+
+
+template <typename T>
+void TestFillN(size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+
+    size_t begin_offset = std::min<size_t>(1,n);
+    thrust::fill_n(h_data.begin() + begin_offset, std::min((size_t)3, n) - begin_offset, (T) 0);
+    thrust::fill_n(d_data.begin() + begin_offset, std::min((size_t)3, n) - begin_offset, (T) 0);
+
+    ASSERT_EQUAL(h_data, d_data);
+
+    begin_offset = std::min<size_t>(117, n);
+    thrust::fill_n(h_data.begin() + begin_offset, std::min((size_t)367, n) - begin_offset, (T) 1);
+    thrust::fill_n(d_data.begin() + begin_offset, std::min((size_t)367, n) - begin_offset, (T) 1);
+
+    ASSERT_EQUAL(h_data, d_data);
+    
+    begin_offset = std::min<size_t>(8, n);
+    thrust::fill_n(h_data.begin() + begin_offset, std::min((size_t)259, n) - begin_offset, (T) 2);
+    thrust::fill_n(d_data.begin() + begin_offset, std::min((size_t)259, n) - begin_offset, (T) 2);
+
+    ASSERT_EQUAL(h_data, d_data);
+    
+    begin_offset = std::min<size_t>(3, n);
+    thrust::fill_n(h_data.begin() + begin_offset, h_data.size() - begin_offset, (T) 3);
+    thrust::fill_n(d_data.begin() + begin_offset, d_data.size() - begin_offset, (T) 3);
+
+    ASSERT_EQUAL(h_data, d_data);
+    
+    thrust::fill_n(h_data.begin(), h_data.size(), (T) 4);
+    thrust::fill_n(d_data.begin(), d_data.size(), (T) 4);
+
+    ASSERT_EQUAL(h_data, d_data);
+}
+DECLARE_VARIABLE_UNITTEST(TestFillN);
+

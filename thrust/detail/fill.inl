@@ -36,5 +36,15 @@ template<typename ForwardIterator, typename T>
     typename thrust::iterator_space<ForwardIterator>::type());
 } // end fill()
 
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &exemplar)
+{
+  // dispatch on space
+  return thrust::detail::dispatch::fill_n(first, n, exemplar,
+    typename thrust::iterator_space<OutputIterator>::type());
+} // end fill()
+
 } // end namespace thrust
 

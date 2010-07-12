@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file fill.h
- *  \brief Device implementation of fill.
- */
-
 #pragma once
 
 namespace thrust
@@ -30,15 +25,20 @@ namespace device
 namespace cuda
 {
 
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &value);
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+   OutputIterator copy_if(InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator result,
+                          Predicate pred);
 
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
 
-#include "fill.inl"
+#include <thrust/detail/device/cuda/copy_if.inl>
 

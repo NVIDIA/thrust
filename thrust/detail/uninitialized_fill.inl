@@ -41,5 +41,20 @@ template<typename ForwardIterator,
     ValueTypeHasTrivialCopyConstructor());
 } // end uninitialized_fill()
 
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(ForwardIterator first,
+                                       Size n,
+                                       const T &x)
+{
+  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
+
+  typedef detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+
+  return detail::dispatch::uninitialized_fill_n(first, n, x,
+    ValueTypeHasTrivialCopyConstructor());
+} // end uninitialized_fill_n()
+
 } // end thrust
 

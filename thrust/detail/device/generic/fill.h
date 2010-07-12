@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <thrust/detail/internal_functional.h>
 #include <thrust/generate.h>
 
 namespace thrust
@@ -31,31 +32,13 @@ namespace device
 {
 namespace generic
 {
-namespace detail
-{
-    template <typename T>
-    struct fill_functor
-    {
-      T exemplar;
-    
-      fill_functor(T _exemplar) 
-        : exemplar(_exemplar) {}
-    
-      __host__ __device__
-      T operator()(void)
-      { 
-          return exemplar;
-      }
-    };
-} // end namespace detail
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar)
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value)
 {
-    // dispatch on space
-    thrust::generate(first, last, detail::fill_functor<T>(exemplar));
+  return thrust::generate_n(first, n, thrust::detail::fill_functor<T>(value));
 }
 
 } // end namespace generic
