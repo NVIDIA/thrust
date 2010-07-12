@@ -17,11 +17,10 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/device_ptr_category.h>
-
-#include <thrust/detail/device/cuda/reduce.h>
+#include <thrust/pair.h>
 #include <thrust/detail/device/omp/reduce.h>
+#include <thrust/detail/device/cuda/reduce.h>
+#include <thrust/iterator/detail/backend_iterator_categories.h>
 
 namespace thrust
 {
@@ -32,45 +31,100 @@ namespace device
 namespace dispatch
 {
 
-template<typename InputIterator, 
+
+template<typename RandomAccessIterator,
+         typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::detail::omp_device_space_tag)
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op,
+                                                   thrust::detail::omp_device_space_tag)
 {
-    // OpenMP implementation
-    return thrust::detail::device::omp::reduce(first, last, init, binary_op);
+  // OpenMP implementation
+  return thrust::detail::device::omp::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
 }
 
-template<typename InputIterator, 
+template<typename RandomAccessIterator,
+         typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::detail::cuda_device_space_tag)
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op,
+                                                   thrust::detail::cuda_device_space_tag)
 {
-    // CUDA implementation
-    return thrust::detail::device::cuda::reduce(first, last, init, binary_op);
+  // CUDA implementation
+  return thrust::detail::device::cuda::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op);
 }
 
-template<typename InputIterator, 
+template<typename RandomAccessIterator,
+         typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::any_space_tag)
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op,
+                                                   thrust::any_space_tag)
 {
-    // Use default backend
-    return thrust::detail::device::dispatch::reduce(first, last, init, binary_op,
-            thrust::detail::default_device_space_tag());
+  // default implementation
+  return thrust::detail::device::dispatch::get_unordered_blocked_reduce_n_schedule(first, n, init, binary_op,
+    thrust::detail::default_device_space_tag());
 }
+
+
+template<typename RandomAccessIterator1,
+         typename SizeType1,
+         typename SizeType2,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result,
+                                  thrust::detail::omp_device_space_tag)
+{
+  // OpenMP implementation
+  return thrust::detail::device::omp::unordered_blocked_reduce_n(first, n, num_blocks, binary_op, result);
+}
+
+template<typename RandomAccessIterator1,
+         typename SizeType1,
+         typename SizeType2,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result,
+                                  thrust::detail::cuda_device_space_tag)
+{
+  // CUDA implementation
+  return thrust::detail::device::cuda::unordered_blocked_reduce_n(first, n, num_blocks, binary_op, result);
+}
+
+template<typename RandomAccessIterator1,
+         typename SizeType1,
+         typename SizeType2,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result,
+                                  thrust::any_space_tag)
+{
+  // default implementation
+  return thrust::detail::device::dispatch::unordered_blocked_reduce_n(first, n, num_blocks, binary_op, result,
+    thrust::detail::default_device_space_tag());
+}
+
 
 } // end namespace dispatch
 } // end namespace device

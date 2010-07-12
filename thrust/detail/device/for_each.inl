@@ -14,34 +14,50 @@
  *  limitations under the License.
  */
 
-
-/*! \file fill.h
- *  \brief Device implementation of fill.
- */
-
 #pragma once
 
-#include <thrust/detail/device/dispatch/fill.h>
+#include <thrust/detail/device/for_each.h>
+#include <thrust/distance.h>
+#include <thrust/detail/device/dispatch/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
+
 namespace detail
 {
+
 namespace device
 {
 
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &exemplar)
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f)
 {
   // dispatch on space
-  return thrust::detail::device::dispatch::fill_n(first, n, exemplar,
-    typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::device::dispatch::for_each_n(first, n, f,
+      typename thrust::iterator_space<OutputIterator>::type());
 }
 
+
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f)
+{
+  // all device iterators are random access right now, so this is safe
+  return thrust::detail::device::for_each_n(first, thrust::distance(first,last), f);
+}
+
+
 } // end namespace device
+
 } // end namespace detail
+
 } // end namespace thrust
 

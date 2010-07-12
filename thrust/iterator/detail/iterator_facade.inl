@@ -106,8 +106,8 @@ template<typename Traversal, typename ValueParam, typename Reference>
         thrust::detail::identity_<thrust::random_access_host_iterator_tag>,
         thrust::detail::eval_if<
           thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
-          thrust::bidirectional_host_iterator_tag,
-          thrust::forward_host_iterator_tag
+          thrust::detail::identity_<thrust::bidirectional_host_iterator_tag>,
+          thrust::detail::identity_<thrust::forward_host_iterator_tag>
         >
       >,
       thrust::detail::eval_if<
@@ -229,8 +229,8 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
         thrust::detail::eval_if<
           thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
-          thrust::bidirectional_universal_iterator_tag,
-          thrust::forward_universal_iterator_tag
+          thrust::detail::identity_<thrust::bidirectional_universal_iterator_tag>,
+          thrust::detail::identity_<thrust::forward_universal_iterator_tag>
         >
       >,
 

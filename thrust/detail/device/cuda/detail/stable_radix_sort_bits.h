@@ -187,7 +187,7 @@ template <>
   struct lower_32_bits<double>
 {
   __host__ __device__ unsigned int operator()(const unsigned long long &x) const {
-      return flip_double(x) & 0xffffffff;
+      return static_cast<unsigned int>(flip_double(x) & 0xffffffff);
   }
 };
 
@@ -195,7 +195,7 @@ template <>
   struct upper_32_bits<double>
 {
   __host__ __device__ unsigned int operator()(const unsigned long long &x) const {
-      return flip_double(x) >> 32;
+      return static_cast<unsigned int>(flip_double(x) >> 32);
   }
 };
 

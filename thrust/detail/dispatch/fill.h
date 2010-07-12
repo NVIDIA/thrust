@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <thrust/detail/device/fill.h>
+#include <thrust/distance.h>
 
 namespace thrust
 {
@@ -42,10 +43,19 @@ namespace dispatch
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
-            const T &exemplar,
+            const T &value,
             thrust::host_space_tag)
 {
-  std::fill(first, last, exemplar);
+  std::fill(first, last, value);
+}
+
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        thrust::host_space_tag)
+{
+  return thrust::generate_n(first, n, thrust::detail::fill_functor<T>(value));
 }
 
 /////////////////
@@ -54,10 +64,21 @@ template<typename ForwardIterator, typename T>
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
-            const T &exemplar,
+            const T &value,
             thrust::device_space_tag)
 {
-  thrust::detail::device::fill(first, last, exemplar);
+  // this is safe because all device iterators are
+  // random access at the moment
+  thrust::detail::device::fill_n(first, thrust::distance(first,last), value);
+}
+
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        thrust::device_space_tag)
+{
+  return thrust::detail::device::fill_n(first, n, value);
 }
 
 } // end namespace dispatch

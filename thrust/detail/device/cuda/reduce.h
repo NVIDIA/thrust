@@ -15,12 +15,13 @@
  */
 
 
-/*! \file reduce.h
- *  \brief Defines the interface to a function for
- *         computing a general reduction on the device.
+/*! \file reduce_n.h
+ *  \brief Reduce a sequence of elements with a given length.
  */
 
 #pragma once
+
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -31,18 +32,79 @@ namespace device
 namespace cuda
 {
 
-template<typename InputIterator, 
+template<typename InputIterator,
+         typename SizeType,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op);
+  OutputType reduce_n(InputIterator first,
+                      SizeType n,
+                      OutputType init,
+                      BinaryFunction binary_op);
+
+template<typename RandomAccessIterator1,
+         typename SizeType1,
+         typename SizeType2,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+                                  SizeType1 n,
+                                  SizeType2 num_blocks,
+                                  BinaryFunction binary_op,
+                                  RandomAccessIterator2 result);
+
+template<typename RandomAccessIterator1,
+         typename SizeType1,
+         typename SizeType2,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_standard_reduce_n(RandomAccessIterator1 first,
+                                           SizeType1 n,
+                                           SizeType2 num_blocks,
+                                           BinaryFunction binary_op,
+                                           RandomAccessIterator2 result);
+
+template<typename RandomAccessIterator1,
+         typename SizeType1,
+         typename SizeType2,
+         typename BinaryFunction,
+         typename RandomAccessIterator2>
+  void unordered_blocked_wide_reduce_n(RandomAccessIterator1 first,
+                                       SizeType1 n,
+                                       SizeType2 num_blocks,
+                                       BinaryFunction binary_op,
+                                       RandomAccessIterator2 result);
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+                                                   SizeType n,
+                                                   OutputType init,
+                                                   BinaryFunction binary_op);
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  SizeType get_unordered_blocked_standard_reduce_n_schedule(RandomAccessIterator first,
+                                                            SizeType n,
+                                                            OutputType init,
+                                                            BinaryFunction binary_op);
+
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  SizeType get_unordered_blocked_wide_reduce_n_schedule(RandomAccessIterator first,
+                                                        SizeType n,
+                                                        OutputType init,
+                                                        BinaryFunction binary_op);
 
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
 
-#include "reduce.inl"
+#include <thrust/detail/device/cuda/reduce.inl>
 

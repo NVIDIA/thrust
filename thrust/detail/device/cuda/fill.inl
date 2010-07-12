@@ -32,6 +32,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/extrema.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -43,21 +44,6 @@ namespace cuda
 {
 namespace detail
 {
-
-template <typename T>
-struct fill_functor
-{
-  T exemplar;
-
-  fill_functor(T _exemplar) 
-    : exemplar(_exemplar) {}
-
-  __host__ __device__
-  T operator()(void)
-  { 
-    return exemplar;
-  }
-}; // end fill_functor
 
 
 // XXX use this verbose idiom to WAR type-punning problems
@@ -117,23 +103,21 @@ struct wide_type<T,8>
 };
 
 
-template<typename Pointer, typename T>
-  void wide_fill(Pointer first,
-                 Pointer last,
-                 const T &exemplar)
+template<typename Pointer, typename Size, typename T>
+  Pointer wide_fill_n(Pointer first,
+                      Size n,
+                      const T &value)
 {
   typedef typename thrust::iterator_value<Pointer>::type OutputType;
 
   size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
 
-  size_t n = last - first;
-
   // type used to pack the Ts
   typedef wide_type<OutputType> WideType;
-  WideType wide_exemplar(static_cast<OutputType>(exemplar));
+  WideType wide_exemplar(static_cast<OutputType>(value));
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
-  OutputType *last_raw  = thrust::raw_pointer_cast(last);
+  OutputType *last_raw  = first_raw + n;
 
   OutputType *block_first_raw = thrust::min(first_raw + n,   thrust::detail::util::align_up(first_raw, ALIGNMENT_BOUNDARY));
   OutputType *block_last_raw  = thrust::max(block_first_raw, thrust::detail::util::align_down(last_raw, sizeof(WideType)));
@@ -141,60 +125,59 @@ template<typename Pointer, typename T>
   thrust::device_ptr<WideType> block_first_wide = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_first_raw));
   thrust::device_ptr<WideType> block_last_wide  = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_last_raw));
 
-  thrust::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(exemplar));
+  thrust::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(value));
   thrust::generate(block_first_wide, block_last_wide,
                    fill_functor<WideType>(wide_exemplar));
-  thrust::generate(thrust::device_pointer_cast(block_last_raw), last, fill_functor<OutputType>(exemplar));
+  thrust::generate(thrust::device_pointer_cast(block_last_raw), first + n, fill_functor<OutputType>(value));
+
+  return first + n;
 }
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar,
-            thrust::detail::false_type)
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        thrust::detail::false_type)
 {
-  fill_functor<T> func(exemplar); 
-  thrust::generate(first, last, func);
+  thrust::detail::fill_functor<T> func(value); 
+  return thrust::generate_n(first, n, func);
 }
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar,
-            thrust::detail::true_type)
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        thrust::detail::true_type)
 {
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  
+  if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
+  {
+      wide_fill_n(&*first, n, value);
+      return first + n;
+  }
 
-    
-    if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
-    {
-        wide_fill(&*first, &*last, exemplar);
-    }
-    else
-    {
-        fill(first, last, exemplar, thrust::detail::false_type());
-    }
+  return fill_n(first, n, value, thrust::detail::false_type());
 }
 
 } // end detail
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar)
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type      OutputType;
-  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
 
   // we're compiling with nvcc, launch a kernel
-  const bool use_wide_fill = thrust::detail::is_trivial_iterator<ForwardIterator>::value
+  const bool use_wide_fill = thrust::detail::is_trivial_iterator<OutputIterator>::value
       && thrust::detail::has_trivial_assign<OutputType>::value
       && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
 
   // XXX WAR nvcc 3.0 usused variable warning
   (void)use_wide_fill;
 
-  detail::fill(first, last, exemplar, thrust::detail::integral_constant<bool, use_wide_fill>());
+  return detail::fill_n(first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
 
 } // end namespace cuda
@@ -221,19 +204,21 @@ namespace device
 namespace cuda
 {
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar)
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type      OutputType;
-  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
 
   // we can't launch a kernel, implement this with a copy
-  IndexType n = thrust::distance(first,last);
   raw_host_buffer<OutputType> temp(n);
-  thrust::fill(temp.begin(), temp.end(), exemplar);
+  thrust::fill_n(temp.begin(), n, value);
+
+  // XXX implement this with copy_n
   thrust::copy(temp.begin(), temp.end(), first);
+
+  return first + n;
 }
 
 } // end namespace cuda

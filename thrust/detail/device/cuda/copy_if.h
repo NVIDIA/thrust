@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file scatter.h
- *  \brief Generic device implementations of scatter functions.
- */
-
 #pragma once
 
 namespace thrust
@@ -27,33 +22,23 @@ namespace detail
 {
 namespace device
 {
-namespace generic
+namespace cuda
 {
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename RandomAccessIterator>
-  void scatter(InputIterator1 first,
-               InputIterator1 last,
-               InputIterator2 map,
-               RandomAccessIterator output);
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename InputIterator3,
-         typename RandomAccessIterator,
+         typename OutputIterator,
          typename Predicate>
-  void scatter_if(InputIterator1 first,
-                  InputIterator1 last,
-                  InputIterator2 map,
-                  InputIterator3 stencil,
-                  RandomAccessIterator output,
-                  Predicate pred);
+   OutputIterator copy_if(InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator result,
+                          Predicate pred);
 
-} // end namespace generic
+} // end namespace cuda
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
 
-#include "scatter.inl"
+#include <thrust/detail/device/cuda/copy_if.inl>
 

@@ -115,3 +115,89 @@ struct TestUninitializedFillNonPOD
 };
 DECLARE_UNITTEST(TestUninitializedFillNonPOD);
 
+template <class Vector>
+void TestUninitializedFillNPOD(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v(5);
+    v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
+
+    T exemplar(7);
+
+    typename Vector::iterator iter = thrust::uninitialized_fill_n(v.begin() + 1, 3, exemplar);
+
+    ASSERT_EQUAL(v[0], 0);
+    ASSERT_EQUAL(v[1], exemplar);
+    ASSERT_EQUAL(v[2], exemplar);
+    ASSERT_EQUAL(v[3], exemplar);
+    ASSERT_EQUAL(v[4], 4);
+    ASSERT_EQUAL_QUIET(v.begin() + 4, iter);
+
+    exemplar = 8;
+    
+    iter = thrust::uninitialized_fill_n(v.begin() + 0, 3, exemplar);
+    
+    ASSERT_EQUAL(v[0], exemplar);
+    ASSERT_EQUAL(v[1], exemplar);
+    ASSERT_EQUAL(v[2], exemplar);
+    ASSERT_EQUAL(v[3], 7);
+    ASSERT_EQUAL(v[4], 4);
+    ASSERT_EQUAL_QUIET(v.begin() + 3, iter);
+
+    exemplar = 9;
+    
+    iter = thrust::uninitialized_fill_n(v.begin() + 2, 3, exemplar);
+    
+    ASSERT_EQUAL(v[0], 8);
+    ASSERT_EQUAL(v[1], 8);
+    ASSERT_EQUAL(v[2], exemplar);
+    ASSERT_EQUAL(v[3], exemplar);
+    ASSERT_EQUAL(v[4], 9);
+    ASSERT_EQUAL_QUIET(v.end(), iter);
+
+    exemplar = 1;
+
+    iter = thrust::uninitialized_fill_n(v.begin(), v.size(), exemplar);
+    
+    ASSERT_EQUAL(v[0], exemplar);
+    ASSERT_EQUAL(v[1], exemplar);
+    ASSERT_EQUAL(v[2], exemplar);
+    ASSERT_EQUAL(v[3], exemplar);
+    ASSERT_EQUAL(v[4], exemplar);
+    ASSERT_EQUAL_QUIET(v.end(), iter);
+}
+DECLARE_VECTOR_UNITTEST(TestUninitializedFillNPOD);
+
+
+struct TestUninitializedFillNNonPOD
+{
+  void operator()(const size_t dummy)
+  {
+    typedef CopyConstructTest T;
+    thrust::device_ptr<T> v = thrust::device_malloc<T>(5);
+
+    T exemplar;
+    ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
+    ASSERT_EQUAL(false, exemplar.copy_constructed_on_host);
+
+    T host_copy_of_exemplar(exemplar);
+    ASSERT_EQUAL(false, exemplar.copy_constructed_on_device);
+    ASSERT_EQUAL(true,  exemplar.copy_constructed_on_host);
+
+    // copy construct v from the exemplar
+    thrust::uninitialized_fill_n(v, 1, exemplar);
+
+    T x;
+    ASSERT_EQUAL(false,  x.copy_constructed_on_device);
+    ASSERT_EQUAL(false,  x.copy_constructed_on_host);
+
+    x = v[0];
+    ASSERT_EQUAL(true,   x.copy_constructed_on_device);
+    ASSERT_EQUAL(false,  x.copy_constructed_on_host);
+
+    thrust::device_free(v);
+  }
+};
+DECLARE_UNITTEST(TestUninitializedFillNNonPOD);
+

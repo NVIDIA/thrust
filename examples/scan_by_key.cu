@@ -1,6 +1,6 @@
 #include <thrust/device_vector.h>
 #include <thrust/copy.h>
-#include <thrust/segmented_scan.h>
+#include <thrust/scan.h>
 
 #include <iostream>
 #include <iterator>
@@ -38,19 +38,17 @@ int main(void)
     // allocate storage for output
     thrust::device_vector<int> d_output(N);
 
-    // segmented scan using keys
-    thrust::experimental::inclusive_segmented_scan
-                                (d_values.begin(), d_values.end(),
-                                 d_keys.begin(),
-                                 d_output.begin());
+    // scan using keys
+    thrust::inclusive_scan_by_key(d_values.begin(), d_values.end(),
+                                  d_keys.begin(),
+                                  d_output.begin());
     
-    // segmented scan using head flags
-    thrust::experimental::inclusive_segmented_scan
-                                (d_values.begin(), d_values.end(),
-                                 d_flags.begin(),
-                                 d_output.begin(),
-                                 thrust::plus<int>(),
-                                 head_flag_predicate<int>());
+    // scan using head flags
+    thrust::inclusive_scan_by_key(d_values.begin(), d_values.end(),
+                                  d_flags.begin(),
+                                  d_output.begin(),
+                                  head_flag_predicate<int>(),
+                                  thrust::plus<int>());
     
     std::cout << "output:     ";  thrust::copy(d_output.begin(), d_output.end(), std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
 

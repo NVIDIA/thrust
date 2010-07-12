@@ -1,5 +1,5 @@
 # get some standard definitions
-from common import *
+from build import *
 
 # Test generators are functions starting with the name Test*
 
@@ -71,27 +71,4 @@ def TestTransformUnaryGenerality():
 #           thrust::transform(x.begin(), x.end(), y.begin(), thrust::negate<float>());
 #           ASSERT_EQUAL(x, z);
 #           """
-
-
-
-## TEST DRIVER BEGINS HERE
-
-# The test driver (to be defined in separate file) picks up functions/classes
-generator_names = [name for name in locals().keys() if name.startswith('Test')]
-
-cpp_body = open('transform.cu').read()
-
-for generator_name in generator_names:
-    print "Generating tests from [%s]" % (generator_name,)
-    generator = locals()[generator_name]()
-        
-    fid = open(generator_name + '.cu', 'w')
-
-    fid.write(cpp_body)
-    fid.write('\n\n')
-
-    for n,test_body in enumerate(generator):
-        fid.write('void ' + generator_name + str(n) + '(void)\n{\n')
-        fid.write(test_body)
-        fid.write('\n}\n\n')
 

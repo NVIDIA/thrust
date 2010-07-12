@@ -28,50 +28,6 @@ void TestSwapRangesSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestSwapRangesSimple);
 
-template <class Vector>
-void TestSwapMixedRanges(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector v(5);
-    v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
-
-    thrust::device_vector<T> h(5);
-    h[0] = 5; h[1] = 6; h[2] = 7; h[3] = 8; h[4] = 9;
-    
-    thrust::device_vector<T> d(5);
-    d[0] = 10; d[1] = 11; d[2] = 12; d[3] = 13; d[4] = 14;
-
-    thrust::swap_ranges(v.begin(), v.end(), h.begin());
-
-    ASSERT_EQUAL(v[0], 5);
-    ASSERT_EQUAL(v[1], 6);
-    ASSERT_EQUAL(v[2], 7);
-    ASSERT_EQUAL(v[3], 8);
-    ASSERT_EQUAL(v[4], 9);
-    
-    ASSERT_EQUAL(h[0], 0);
-    ASSERT_EQUAL(h[1], 1);
-    ASSERT_EQUAL(h[2], 2);
-    ASSERT_EQUAL(h[3], 3);
-    ASSERT_EQUAL(h[4], 4);
-
-    thrust::swap_ranges(v.begin(), v.end(), d.begin());
-    
-    ASSERT_EQUAL(d[0], 5);
-    ASSERT_EQUAL(d[1], 6);
-    ASSERT_EQUAL(d[2], 7);
-    ASSERT_EQUAL(d[3], 8);
-    ASSERT_EQUAL(d[4], 9);
-    
-    ASSERT_EQUAL(v[0], 10);
-    ASSERT_EQUAL(v[1], 11);
-    ASSERT_EQUAL(v[2], 12);
-    ASSERT_EQUAL(v[3], 13);
-    ASSERT_EQUAL(v[4], 14);
-}
-DECLARE_VECTOR_UNITTEST(TestSwapMixedRanges);
-
 
 template <typename T>
 void TestSwapRanges(const size_t n)
@@ -91,13 +47,5 @@ void TestSwapRanges(const size_t n)
     ASSERT_EQUAL(d1, a2);
     ASSERT_EQUAL(h2, a1);
     ASSERT_EQUAL(d2, a1);
-
-    thrust::swap_ranges(h1.begin(), h1.end(), d2.begin());
-    thrust::swap_ranges(d1.begin(), d1.end(), h2.begin());
-    
-    ASSERT_EQUAL(h1, a1);  
-    ASSERT_EQUAL(d1, a1);
-    ASSERT_EQUAL(h2, a2);
-    ASSERT_EQUAL(h2, a2);
 }
 DECLARE_VARIABLE_UNITTEST(TestSwapRanges);

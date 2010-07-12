@@ -15,31 +15,38 @@
  */
 
 
-/*! \file swap_ranges.h
- *  \brief Generic device implementation of swap_ranges.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
+
 namespace detail
 {
+
 namespace device
 {
+
 namespace generic
 {
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2>
-  ForwardIterator2 swap_ranges(ForwardIterator1 first1,
-                               ForwardIterator1 last1,
-                               ForwardIterator2 first2);
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce_n(RandomAccessIterator first,
+                      SizeType n,
+                      OutputType init,
+                      BinaryFunction binary_op);
 
-} // end namespace generic
-} // end namespace device
-} // end namespace detail
-} // end namespace thrust
+} // end generic
 
-#include "swap_ranges.inl"
+} // end device
+
+} // end detail
+
+} // end thrust
+
+#include <thrust/detail/device/generic/reduce.inl>
 

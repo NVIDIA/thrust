@@ -23,6 +23,8 @@
 #include <thrust/iterator/permutation_iterator.h>
 
 #include <thrust/copy.h>
+#include <thrust/transform.h>
+#include <thrust/functional.h>
 
 namespace thrust
 {
@@ -73,11 +75,13 @@ template<typename InputIterator1,
                            OutputIterator       result,
                            Predicate            pred)
 {
-  return thrust::copy_when(thrust::make_permutation_iterator(input_first, map_first),
-                           thrust::make_permutation_iterator(input_first, map_last),
-                           stencil,
-                           result,
-                           pred);
+  typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
+  return thrust::transform_if(thrust::make_permutation_iterator(input_first, map_first),
+                              thrust::make_permutation_iterator(input_first, map_last),
+                              stencil,
+                              result,
+                              thrust::identity<InputType>(),
+                              pred);
 } // end gather_if()
 
 } // end namespace thrust

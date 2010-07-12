@@ -29,9 +29,9 @@ namespace detail
 template<typename T, typename Space>
   raw_buffer<T,Space>
     ::raw_buffer(size_type n)
+      :super_t(n)
 {
-  m_begin = m_allocator.allocate(n);
-  m_end = m_begin + n;
+  ;
 } // end raw_buffer::raw_buffer()
 
 
@@ -39,97 +39,11 @@ template<typename T, typename Space>
   template<typename InputIterator>
     raw_buffer<T,Space>
       ::raw_buffer(InputIterator first, InputIterator last)
+        : super_t()
 {
-  size_type n = thrust::distance(first,last);
-  m_begin = m_allocator.allocate(n);
-  m_end = m_begin + n;
-  thrust::copy(first, last, begin());
+  super_t::allocate(thrust::distance(first,last));
+  thrust::copy(first, last, super_t::begin());
 } // end raw_buffer::raw_buffer()
-
-
-template<typename T, typename Space>
-  raw_buffer<T,Space>
-    ::~raw_buffer(void)
-{
-  if(size() > 0)
-  {
-    m_allocator.deallocate(&*m_begin, size());
-    m_end = m_begin;
-  } // end if
-} // end raw_buffer::~raw_buffer()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::size_type raw_buffer<T,Space>
-    ::size(void) const
-{
-  return m_end - m_begin;
-} // end raw_buffer::size()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::iterator raw_buffer<T,Space>
-    ::begin(void)
-{
-  return m_begin;
-} // end raw_buffer::begin()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::const_iterator raw_buffer<T,Space>
-    ::begin(void) const
-{
-  return m_begin;
-} // end raw_buffer::begin()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::const_iterator raw_buffer<T,Space>
-    ::cbegin(void) const
-{
-  return m_begin;
-} // end raw_buffer::cbegin()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::iterator raw_buffer<T,Space>
-    ::end(void)
-{
-  return m_end;
-} // end raw_buffer::end()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::const_iterator raw_buffer<T,Space>
-    ::end(void) const
-{
-  return m_end;
-} // end raw_buffer::end()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::const_iterator raw_buffer<T,Space>
-    ::cend(void) const
-{
-  return m_end;
-} // end raw_buffer::cend()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::reference raw_buffer<T,Space>
-    ::operator[](size_type n)
-{
-  return m_begin[n];
-} // end raw_buffer::operator[]()
-
-
-template<typename T, typename Space>
-  typename raw_buffer<T,Space>::const_reference raw_buffer<T,Space>
-    ::operator[](size_type n) const
-{
-  return m_begin[n];
-} // end raw_buffer::operator[]()
-
 
 } // end detail
 

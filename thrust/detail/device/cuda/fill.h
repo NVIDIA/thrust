@@ -30,10 +30,10 @@ namespace device
 namespace cuda
 {
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &exemplar);
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value);
 
 } // end namespace cuda
 } // end namespace device
