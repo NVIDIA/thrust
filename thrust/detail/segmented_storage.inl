@@ -42,7 +42,6 @@ template<typename T, typename Allocator>
     ::segmented_storage(size_type n)
       :m_storage(choose_number_of_segments())
 {
-  std::cout << "Allocator: " << typeid(Allocator).name() << std::endl;
   allocate(n);
 } // end segmented_storage::segmented_storage()
 
