@@ -16,7 +16,7 @@
 
 
 /*! \file fill.h
- *  \brief Device implementation of fill.
+ *  \brief Host implementation of fill.
  */
 
 #pragma once
@@ -25,22 +25,36 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace host
 {
 
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
-            const T &value);
+            const T &value)
+{
+    while(first != last)
+    {
+        *first = value;
+        ++first;
+    }
+}
 
 template<typename OutputIterator, typename Size, typename T>
   OutputIterator fill_n(OutputIterator first,
                         Size n,
-                        const T &value);
+                        const T &value)
+{
+    for(Size i = 0; i != n; ++i)
+    {
+        *first = value;
+        ++first;
+    }
 
-} // end namespace device
+    return first;
+}
+
+} // end namespace host
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/device/fill.inl>
 

@@ -24,29 +24,26 @@
 
 #include <thrust/iterator/iterator_categories.h>
 
-#include <algorithm>
+#include <thrust/detail/host/fill.h>
 #include <thrust/detail/device/fill.h>
-#include <thrust/distance.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
-///////////////
-// Host Path //
-///////////////
+////////////////
+// Host Paths //
+////////////////
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value,
             thrust::host_space_tag)
 {
-  std::fill(first, last, value);
+  thrust::detail::host::fill(first, last, value);
 }
 
 template<typename OutputIterator, typename Size, typename T>
@@ -55,21 +52,19 @@ template<typename OutputIterator, typename Size, typename T>
                         const T &value,
                         thrust::host_space_tag)
 {
-  return thrust::generate_n(first, n, thrust::detail::fill_functor<T>(value));
+  return thrust::detail::host::fill_n(first, n, value);
 }
 
-/////////////////
-// Device Path //
-/////////////////
+//////////////////
+// Device Paths //
+//////////////////
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value,
             thrust::device_space_tag)
 {
-  // this is safe because all device iterators are
-  // random access at the moment
-  thrust::detail::device::fill_n(first, thrust::distance(first,last), value);
+  thrust::detail::device::fill(first, last, value);
 }
 
 template<typename OutputIterator, typename Size, typename T>
@@ -82,8 +77,6 @@ template<typename OutputIterator, typename Size, typename T>
 }
 
 } // end namespace dispatch
-
 } // end namespace detail
-
 } // end namespace thrust
 

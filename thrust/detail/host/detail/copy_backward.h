@@ -15,32 +15,33 @@
  */
 
 
-/*! \file fill.h
- *  \brief Device implementation of fill.
- */
-
-#pragma once
-
 namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace host
+{
+namespace detail
 {
 
-template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
-            ForwardIterator last,
-            const T &value);
+template <typename BidirectionalIterator1,
+          typename BidirectionalIterator2>
+BidirectionalIterator2 copy_backward(BidirectionalIterator1 first, 
+                                     BidirectionalIterator1 last, 
+                                     BidirectionalIterator2 result)
+{
+    while (first != last)
+    {
+        --last;
+        --result;
+        *result = *last;
+    }
 
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &value);
+    return result;
+}
 
-} // end namespace device
+} // end namespace detail
+} // end namespace host
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/device/fill.inl>
 

@@ -25,6 +25,7 @@
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/device/dereference.h>
 
+#include <thrust/detail/device/cuda/partition.h>
 #include <thrust/detail/device/cuda/block/reduce.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
 
@@ -224,25 +225,6 @@ void copy_if_intervals(InputIterator1 input,
 }
 
 
-template <typename T>
-thrust::pair<T,T> uniform_interval_splitting(const T N, const T granularity, const T max_intervals)
-{
-    const T grains  = thrust::detail::util::divide_ri(N, granularity);
-
-    // one grain per interval
-    if (grains <= max_intervals)
-        return thrust::make_pair(granularity, grains);
-
-    // insures that:
-    //     num_intervals * interval_size is >= N 
-    //   and 
-    //     (num_intervals - 1) * interval_size is < N
-    const T grains_per_interval = thrust::detail::util::divide_ri(grains, max_intervals);
-    const T interval_size       = grains_per_interval * granularity;
-    const T num_intervals       = thrust::detail::util::divide_ri(N, interval_size);
-
-    return thrust::make_pair(interval_size, num_intervals);
-}
 
 
 template<typename InputIterator1,

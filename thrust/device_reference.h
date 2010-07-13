@@ -937,6 +937,7 @@ template<typename T>
      *
      *  \return A copy of the object referenced by this \p device_reference.
      */
+    __host__ __device__
     operator value_type (void) const;
 
   private:
