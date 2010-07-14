@@ -190,6 +190,18 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
 
 // XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
 template<typename SinglePassRange, typename AdaptableUnaryFunction>
+  inline typename detail::lazy_unary_transform_result<SinglePassRange, AdaptableUnaryFunction>::type
+    transform(SinglePassRange &rng,
+              AdaptableUnaryFunction f)
+{
+  typedef typename detail::lazy_unary_transform_result<SinglePassRange, AdaptableUnaryFunction>::type Result;
+
+  return Result(make_transform_iterator(begin(rng), f), make_transform_iterator(end(rng), f));
+} // end transform()
+
+
+// XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
+template<typename SinglePassRange, typename AdaptableUnaryFunction>
   inline typename detail::lazy_unary_transform_result<const SinglePassRange, AdaptableUnaryFunction>::type
     transform(const SinglePassRange &rng,
               AdaptableUnaryFunction f)
