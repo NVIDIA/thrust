@@ -118,6 +118,13 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
 // lazy versions
 
 // XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
+// XXX we might need to use an rvalue reference for range instead of a normal reference
+template<typename SinglePassRange, typename AdaptableUnaryFunction>
+  inline typename detail::lazy_unary_transform_result<SinglePassRange, AdaptableUnaryFunction>::type
+    transform(SinglePassRange &rng,
+              AdaptableUnaryFunction f);
+
+// XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
 template<typename SinglePassRange, typename AdaptableUnaryFunction>
   inline typename detail::lazy_unary_transform_result<const SinglePassRange, AdaptableUnaryFunction>::type
     transform(const SinglePassRange &rng,
