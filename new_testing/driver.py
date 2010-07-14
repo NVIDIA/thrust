@@ -15,7 +15,7 @@ def generate_tests(modulename):
             
         fid = open(name + '.cu', 'w')
         
-        fid.write('#include "%s"\n' % (name,))
+        fid.write('#include "%s.h"\n\n' % (modulename,))
     
         for n,test in enumerate(generator):
             fid.write('void %s%d(void)\n{\n' % (name,n))

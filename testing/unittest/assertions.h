@@ -144,7 +144,7 @@ class almost_equal_to
         double a_tol, r_tol;
         almost_equal_to(double _a_tol = DEFAULT_ABSOLUTE_TOL, double _r_tol = DEFAULT_RELATIVE_TOL) : a_tol(_a_tol), r_tol(_r_tol) {}
         bool operator()(const T& a, const T& b) const {
-            return almost_equal(a, b, a_tol, r_tol);
+            return almost_equal((double) a, (double) b, a_tol, r_tol);
         }
 };
 

@@ -182,7 +182,7 @@ template<typename Value,
     }
 
   private:
-    const Value m_value;
+    Value m_value;
 
     /*! \endcond
      */

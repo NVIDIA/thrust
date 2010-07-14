@@ -8,24 +8,6 @@
 const size_t NUM_SAMPLES = 10000;
 
 template <class InputVector, class OutputVector, class Operator, class ReferenceOperator>
-void TestUnaryFunctional(void)
-{
-    typedef typename InputVector::value_type  InputType;
-    typedef typename OutputVector::value_type OutputType;
-    
-    thrust::host_vector<InputType>  std_input = unittest::random_samples<InputType>(NUM_SAMPLES);
-    thrust::host_vector<OutputType> std_output(NUM_SAMPLES);
-
-    InputVector  input = std_input;
-    OutputVector output(NUM_SAMPLES);
-
-    thrust::transform(    input.begin(),     input.end(),     output.begin(),          Operator());
-    thrust::transform(std_input.begin(), std_input.end(), std_output.begin(), ReferenceOperator());
-
-    ASSERT_EQUAL(output, std_output);
-}
-
-template <class InputVector, class OutputVector, class Operator, class ReferenceOperator>
 void TestBinaryFunctional(void)
 {
     typedef typename InputVector::value_type  InputType;
@@ -69,19 +51,6 @@ INSTANTIATE_INTEGER_TYPES(Macro, vector_type, operator_name)           \
 Macro(vector_type, operator_name, float)
 
 
-// op(T) -> T
-#define INSTANTIATE_UNARY_ARITHMETIC_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
-    TestUnaryFunctional< thrust::vector_type<data_type>,                                   \
-                         thrust::vector_type<data_type>,                                   \
-                         thrust::operator_name<data_type>,                                 \
-                         std::operator_name<data_type> >();
-// XXX revert OutputVector<T> back to bool
-// op(T) -> bool
-#define INSTANTIATE_UNARY_LOGICAL_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
-    TestUnaryFunctional< thrust::vector_type<data_type>,                                \
-                         thrust::vector_type<data_type>,                                \
-                         thrust::operator_name<data_type>,                              \
-                         std::operator_name<data_type> >();
 // op(T,T) -> T
 #define INSTANTIATE_BINARY_ARITHMETIC_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
     TestBinaryFunctional< thrust::vector_type<data_type>,                                   \
@@ -98,32 +67,6 @@ Macro(vector_type, operator_name, float)
 
 
 
-
-// op(T) -> T
-#define DECLARE_UNARY_ARITHMETIC_FUNCTIONAL_UNITTEST(operator_name, OperatorName)                          \
-void Test##OperatorName##FunctionalHost(void)                                                              \
-{                                                                                                          \
-    INSTANTIATE_ALL_TYPES( INSTANTIATE_UNARY_ARITHMETIC_FUNCTIONAL_TEST, host_vector,   operator_name);    \
-}                                                                                                          \
-DECLARE_UNITTEST(Test##OperatorName##FunctionalHost);                                                      \
-void Test##OperatorName##FunctionalDevice(void)                                                            \
-{                                                                                                          \
-    INSTANTIATE_ALL_TYPES( INSTANTIATE_UNARY_ARITHMETIC_FUNCTIONAL_TEST, device_vector, operator_name);    \
-}                                                                                                          \
-DECLARE_UNITTEST(Test##OperatorName##FunctionalDevice);
-
-// op(T) -> bool
-#define DECLARE_UNARY_LOGICAL_FUNCTIONAL_UNITTEST(operator_name, OperatorName)                             \
-void Test##OperatorName##FunctionalHost(void)                                                              \
-{                                                                                                          \
-    INSTANTIATE_ALL_TYPES( INSTANTIATE_UNARY_LOGICAL_FUNCTIONAL_TEST, host_vector,   operator_name);       \
-}                                                                                                          \
-DECLARE_UNITTEST(Test##OperatorName##FunctionalHost);                                                      \
-void Test##OperatorName##FunctionalDevice(void)                                                            \
-{                                                                                                          \
-    INSTANTIATE_ALL_TYPES( INSTANTIATE_UNARY_LOGICAL_FUNCTIONAL_TEST, device_vector, operator_name);       \
-}                                                                                                          \
-DECLARE_UNITTEST(Test##OperatorName##FunctionalDevice);
 
 // op(T,T) -> T
 #define DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(operator_name, OperatorName)                         \

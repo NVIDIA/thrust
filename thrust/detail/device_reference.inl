@@ -139,6 +139,7 @@ template<typename T>
   device_reference<T>
     ::operator typename device_reference<T>::value_type (void) const
 {
+#ifndef __CUDA_ARCH__
   // get our device space
   typedef typename thrust::iterator_space<pointer>::type space;
 
@@ -149,6 +150,9 @@ template<typename T>
   >::type interop;
 
   return convert(interop());
+#else
+  return *mPtr.get();
+#endif
 } // end device_reference::operator value_type ()
 
 template<typename T>

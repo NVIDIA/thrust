@@ -62,7 +62,7 @@ struct sequence_functor
   
   template <typename IntegerType>
       __host__ __device__
-  OutputType operator()(const IntegerType i) const { return init + step * i; }
+  OutputType operator()(const IntegerType i) const { return OutputType(init + step * i); }
 }; // end sequence_functor
 
 } // end namespace detail
