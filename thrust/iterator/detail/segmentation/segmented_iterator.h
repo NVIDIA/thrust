@@ -25,6 +25,7 @@
 #include <thrust/iterator/detail/segmentation/segmented_iterator_base.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/range/detail/iterator.h>
+#include <thrust/iterator/detail/segmentation/local_iterator.h>
 
 namespace thrust
 {
@@ -50,12 +51,10 @@ template<typename Iterator>
     inline segmented_iterator(const segmented_iterator &x);
 
     // an iterator that iterates across buckets
-    typedef Iterator                                         bucket_iterator;
+    typedef Iterator                                                          bucket_iterator;
 
     // an iterator that iterates locally to a bucket
-    typedef typename thrust::experimental::range_iterator<
-      typename iterator_value<bucket_iterator>::type
-    >::type                                                  local_iterator;
+    typedef typename thrust::detail::local_iterator<segmented_iterator>::type local_iterator;
 
     __host__ __device__
     local_iterator current_local(void) const;

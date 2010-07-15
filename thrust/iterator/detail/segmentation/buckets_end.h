@@ -17,8 +17,9 @@
 #pragma once
 
 #include <thrust/iterator/detail/segmentation/segmented_iterator.h>
-#include <thrust/iterator/iterator_adaptor.h>
+#include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/detail/segmentation/bucket_iterator.h>
+#include <thrust/range/algorithm/transform.h>
 
 namespace thrust
 {
@@ -37,15 +38,21 @@ template<typename Iterator>
 }
 
 
-template<typename Derived, typename Base, typename Pointer, typename Value, typename Space, typename Traversal, typename Reference, typename Difference>
+template<typename UnaryFunc, typename SegmentedIterator, typename Reference, typename Value>
   typename thrust::detail::bucket_iterator<
-    thrust::experimental::iterator_adaptor<
-      Derived,Base,Pointer,Value,Space,Traversal,Reference,Difference
+    thrust::transform_iterator<
+      UnaryFunc, SegmentedIterator, Reference, Value
     >
   >::type
-    buckets_end(thrust::experimental::iterator_adaptor<Derived,Base,Pointer,Value,Space,Traversal,Reference,Difference> iter)
+    buckets_end(thrust::transform_iterator<UnaryFunc,SegmentedIterator,Reference,Value> iter)
 {
-  return buckets_end(iter.base());
+  typedef typename thrust::detail::bucket_iterator<
+    thrust::transform_iterator<
+      UnaryFunc, SegmentedIterator, Reference, Value
+    >
+  >::type result_type;
+
+  return result_type(thrust::detail::buckets_end(iter.base()), iter.functor());
 }
 
 
