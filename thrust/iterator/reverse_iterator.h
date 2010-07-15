@@ -187,7 +187,6 @@ template<typename BidirectionalIterator>
   /*! \cond
    */
   private:
-    __host__ __device__
     typename super_t::reference dereference(void) const;
 
     __host__ __device__

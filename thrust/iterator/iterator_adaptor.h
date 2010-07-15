@@ -103,7 +103,6 @@ template <
 
   private: // Core iterator interface for iterator_facade
 
-    __host__ __device__
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
 
