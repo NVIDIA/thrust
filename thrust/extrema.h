@@ -31,28 +31,28 @@ namespace thrust
  */
 template<typename T, typename BinaryPredicate>
 __host__ __device__
-  T min(const T &lhs, const T &rhs, BinaryPredicate comp);
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 /*! \bug The correct form of min does not compile:
  *  const T &min(const T &lhs, const T &rhs);
  */
 template<typename T>
 __host__ __device__
-  T min(const T &lhs, const T &rhs);
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 /*! \bug The correct form of max does not compile:
  *  const T &max(const T &lhs, const T &rhs, BinaryPredicate comp);
  */
 template<typename T, typename BinaryPredicate>
 __host__ __device__
-  T max(const T &lhs, const T &rhs, BinaryPredicate comp);
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 /*! \bug The correct form of max does not compile:
  *       const T &max(const T &lhs, const T &rhs);
  */
 template<typename T>
 __host__ __device__
-  T max(const T &lhs, const T &rhs);
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 /*! \addtogroup reductions
  *  \{
