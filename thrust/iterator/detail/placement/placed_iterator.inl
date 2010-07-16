@@ -69,6 +69,13 @@ template<typename Iterator>
 } // end placed_iterator::dereference()
 
 
+template<typename Iterator>
+  placed_iterator<Iterator> make_placed_iterator(Iterator i, place p)
+{
+  return placed_iterator<Iterator>(i,p);
+} // end make_placed_iterator()
+
+
 } // end detail
 
 } // end thrust
