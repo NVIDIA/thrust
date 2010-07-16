@@ -317,7 +317,7 @@ OutputIterator inclusive_scan(InputIterator first,
     // determine final launch parameters
     const unsigned int unit_size     = block_size;
     const unsigned int num_units     = thrust::detail::util::divide_ri(N, unit_size);
-    const unsigned int num_blocks    = std::min(max_blocks, num_units);
+    const unsigned int num_blocks    = (std::min)(max_blocks, num_units);
     const unsigned int num_iters     = thrust::detail::util::divide_ri(num_units, num_blocks);
     const unsigned int interval_size = unit_size * num_iters;
     
@@ -397,7 +397,7 @@ OutputIterator exclusive_scan(InputIterator first,
     // determine final launch parameters
     const unsigned int unit_size     = block_size;
     const unsigned int num_units     = thrust::detail::util::divide_ri(N, unit_size);
-    const unsigned int num_blocks    = std::min(max_blocks, num_units);
+    const unsigned int num_blocks    = (std::min)(max_blocks, num_units);
     const unsigned int num_iters     = thrust::detail::util::divide_ri(num_units, num_blocks);
     const unsigned int interval_size = unit_size * num_iters;
     

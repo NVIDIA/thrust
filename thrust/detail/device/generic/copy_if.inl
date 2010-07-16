@@ -146,7 +146,7 @@ template<typename InputIterator1,
     typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
   
     // use 32-bit indices when possible (almost always)
-    if (sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > std::numeric_limits<unsigned int>::max())
+    if (sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
         return detail::copy_if<difference_type>(first, last, stencil, result, pred);
     else
         return detail::copy_if<unsigned int>(first, last, stencil, result, pred);

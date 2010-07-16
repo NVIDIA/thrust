@@ -229,7 +229,7 @@ size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
 {
     size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
 
-    size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
 
     size_t granularity        = properties.warpSize;
 
@@ -272,7 +272,7 @@ size_t max_blocksize(const cudaDeviceProp& properties,
                      const cudaFuncAttributes& attributes,
                      size_t dynamic_smem_bytes_per_thread)
 {
-    size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
 
     // TODO eliminate this constant (i assume this is warp_size)
     size_t granularity        = 32;

@@ -102,7 +102,7 @@ namespace merge_sort_dev_namespace
 // define our own min() rather than #include <thrust/extrema.h>
 template<typename T>
   __host__ __device__
-  T min(const T &lhs, const T &rhs)
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return lhs < rhs ? lhs : rhs;
 } // end min()

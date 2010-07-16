@@ -661,13 +661,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + std::max(old_size, num_new_elements);
+      size_type new_capacity = old_size + std::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
 
       // allocate exponentially larger new storage
-      new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
+      new_capacity = std::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = std::min<size_type>(new_capacity, max_size());
+      new_capacity = std::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
 #if defined(__CUDACC__) && CUDA_VERSION==3000
@@ -771,13 +771,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + std::max(old_size, n);
+      size_type new_capacity = old_size + std::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
+      new_capacity = std::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = std::min<size_type>(new_capacity, max_size());
+      new_capacity = std::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
 #if defined(__CUDACC__) && CUDA_VERSION==3000

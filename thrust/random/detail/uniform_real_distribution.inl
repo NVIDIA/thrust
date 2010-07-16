@@ -133,7 +133,7 @@ template<typename RealType>
 template<typename RealType>
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::min(void) const
+      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_real_distribution::min()
@@ -141,7 +141,7 @@ template<typename RealType>
 template<typename RealType>
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::max(void) const
+      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_real_distribution::max()

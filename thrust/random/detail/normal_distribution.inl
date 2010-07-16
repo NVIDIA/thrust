@@ -117,7 +117,7 @@ template<typename RealType>
 template<typename RealType>
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
-      ::min(void) const
+      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   // XXX this solution is pretty terrible
   const thrust::detail::uint32_t inf_as_int = 0x7f800000u;
@@ -129,7 +129,7 @@ template<typename RealType>
 template<typename RealType>
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
-      ::max(void) const
+      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   // XXX this solution is pretty terrible
   const thrust::detail::uint32_t inf_as_int = 0x7f800000u;

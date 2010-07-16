@@ -91,8 +91,8 @@ thrust::tuple<
     thrust::pair<RandomAccessIterator1,RandomAccessIterator1> matches1 = scalar::equal_range(first1, last1, first1[threadIdx.x], comp);
     matches2 = scalar::equal_range(first2, last2, first1[threadIdx.x], comp);
 
-    size_of_partial_intersection = thrust::min(matches1.second - matches1.first,
-                                               matches2.second - matches2.first);
+    size_of_partial_intersection = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (matches1.second - matches1.first,
+                                                                                  matches2.second - matches2.first);
 
     // compute the rank of the element in the first range
     unsigned int element_rank = threadIdx.x - (matches1.first - first1);
@@ -228,7 +228,7 @@ __device__
   }
 
   // compute the number of new elements to copy
-  unsigned int n = thrust::min(s_range.first - s_storage, last - first);
+  unsigned int n = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (s_range.first - s_storage, last - first);
 
   // copy from the input into shared mem
   thrust::detail::device::cuda::block::copy(first, first + n, s_storage + (s_range.second - s_range.first));
