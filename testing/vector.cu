@@ -452,9 +452,26 @@ void TestVectorEquality(void)
     d_b[0] = 0;    d_b[1] = 1;    d_b[2] = 3;
     d_b[0] = 0;    d_b[1] = 1;
 
+    std::vector<int> s_a(3);
+    std::vector<int> s_b(3);
+    std::vector<int> s_c(3);
+    s_a[0] = 0;    s_a[1] = 1;    s_a[2] = 2;
+    s_b[0] = 0;    s_b[1] = 1;    s_b[2] = 3;
+    s_b[0] = 0;    s_b[1] = 1;
+
     ASSERT_EQUAL((h_a == h_a), true); ASSERT_EQUAL((h_a == d_a), true); ASSERT_EQUAL((d_a == h_a), true);  ASSERT_EQUAL((d_a == d_a), true); 
     ASSERT_EQUAL((h_b == h_b), true); ASSERT_EQUAL((h_b == d_b), true); ASSERT_EQUAL((d_b == h_b), true);  ASSERT_EQUAL((d_b == d_b), true);
     ASSERT_EQUAL((h_c == h_c), true); ASSERT_EQUAL((h_c == d_c), true); ASSERT_EQUAL((d_c == h_c), true);  ASSERT_EQUAL((d_c == d_c), true);
+
+    // test vector vs device_vector
+    ASSERT_EQUAL((s_a == d_a), true); ASSERT_EQUAL((d_a == s_a), true); 
+    ASSERT_EQUAL((s_b == d_b), true); ASSERT_EQUAL((d_b == s_b), true);
+    ASSERT_EQUAL((s_c == d_c), true); ASSERT_EQUAL((d_c == s_c), true);
+
+    // test vector vs host_vector
+    ASSERT_EQUAL((s_a == h_a), true); ASSERT_EQUAL((h_a == s_a), true); 
+    ASSERT_EQUAL((s_b == h_b), true); ASSERT_EQUAL((h_b == s_b), true);
+    ASSERT_EQUAL((s_c == h_c), true); ASSERT_EQUAL((h_c == s_c), true);
 
     ASSERT_EQUAL((h_a == h_b), false); ASSERT_EQUAL((h_a == d_b), false); ASSERT_EQUAL((d_a == h_b), false); ASSERT_EQUAL((d_a == d_b), false); 
     ASSERT_EQUAL((h_b == h_a), false); ASSERT_EQUAL((h_b == d_a), false); ASSERT_EQUAL((d_b == h_a), false); ASSERT_EQUAL((d_b == d_a), false);
@@ -462,6 +479,22 @@ void TestVectorEquality(void)
     ASSERT_EQUAL((h_c == h_a), false); ASSERT_EQUAL((h_c == d_a), false); ASSERT_EQUAL((d_c == h_a), false); ASSERT_EQUAL((d_c == d_a), false);
     ASSERT_EQUAL((h_b == h_c), false); ASSERT_EQUAL((h_b == d_c), false); ASSERT_EQUAL((d_b == h_c), false); ASSERT_EQUAL((d_b == d_c), false);
     ASSERT_EQUAL((h_c == h_b), false); ASSERT_EQUAL((h_c == d_b), false); ASSERT_EQUAL((d_c == h_b), false); ASSERT_EQUAL((d_c == d_b), false);
+
+    // test vector vs device_vector
+    ASSERT_EQUAL((s_a == d_b), false); ASSERT_EQUAL((d_a == s_b), false); 
+    ASSERT_EQUAL((s_b == d_a), false); ASSERT_EQUAL((d_b == s_a), false);
+    ASSERT_EQUAL((s_a == d_c), false); ASSERT_EQUAL((d_a == s_c), false);
+    ASSERT_EQUAL((s_c == d_a), false); ASSERT_EQUAL((d_c == s_a), false);
+    ASSERT_EQUAL((s_b == d_c), false); ASSERT_EQUAL((d_b == s_c), false);
+    ASSERT_EQUAL((s_c == d_b), false); ASSERT_EQUAL((d_c == s_b), false);
+
+    // test vector vs host_vector
+    ASSERT_EQUAL((s_a == h_b), false); ASSERT_EQUAL((h_a == s_b), false); 
+    ASSERT_EQUAL((s_b == h_a), false); ASSERT_EQUAL((h_b == s_a), false);
+    ASSERT_EQUAL((s_a == h_c), false); ASSERT_EQUAL((h_a == s_c), false);
+    ASSERT_EQUAL((s_c == h_a), false); ASSERT_EQUAL((h_c == s_a), false);
+    ASSERT_EQUAL((s_b == h_c), false); ASSERT_EQUAL((h_b == s_c), false);
+    ASSERT_EQUAL((s_c == h_b), false); ASSERT_EQUAL((h_c == s_b), false);
 }
 DECLARE_UNITTEST(TestVectorEquality);
 
@@ -481,9 +514,26 @@ void TestVectorInequality(void)
     d_b[0] = 0;    d_b[1] = 1;    d_b[2] = 3;
     d_b[0] = 0;    d_b[1] = 1;
 
+    std::vector<int> s_a(3);
+    std::vector<int> s_b(3);
+    std::vector<int> s_c(3);
+    s_a[0] = 0;    s_a[1] = 1;    s_a[2] = 2;
+    s_b[0] = 0;    s_b[1] = 1;    s_b[2] = 3;
+    s_b[0] = 0;    s_b[1] = 1;
+
     ASSERT_EQUAL((h_a != h_a), false); ASSERT_EQUAL((h_a != d_a), false); ASSERT_EQUAL((d_a != h_a), false);  ASSERT_EQUAL((d_a != d_a), false); 
     ASSERT_EQUAL((h_b != h_b), false); ASSERT_EQUAL((h_b != d_b), false); ASSERT_EQUAL((d_b != h_b), false);  ASSERT_EQUAL((d_b != d_b), false);
     ASSERT_EQUAL((h_c != h_c), false); ASSERT_EQUAL((h_c != d_c), false); ASSERT_EQUAL((d_c != h_c), false);  ASSERT_EQUAL((d_c != d_c), false);
+
+    // test vector vs device_vector
+    ASSERT_EQUAL((s_a != d_a), false); ASSERT_EQUAL((d_a != s_a), false); 
+    ASSERT_EQUAL((s_b != d_b), false); ASSERT_EQUAL((d_b != s_b), false);
+    ASSERT_EQUAL((s_c != d_c), false); ASSERT_EQUAL((d_c != s_c), false);
+
+    // test vector vs host_vector
+    ASSERT_EQUAL((s_a != h_a), false); ASSERT_EQUAL((h_a != s_a), false); 
+    ASSERT_EQUAL((s_b != h_b), false); ASSERT_EQUAL((h_b != s_b), false);
+    ASSERT_EQUAL((s_c != h_c), false); ASSERT_EQUAL((h_c != s_c), false);
 
     ASSERT_EQUAL((h_a != h_b), true); ASSERT_EQUAL((h_a != d_b), true); ASSERT_EQUAL((d_a != h_b), true); ASSERT_EQUAL((d_a != d_b), true); 
     ASSERT_EQUAL((h_b != h_a), true); ASSERT_EQUAL((h_b != d_a), true); ASSERT_EQUAL((d_b != h_a), true); ASSERT_EQUAL((d_b != d_a), true);
@@ -491,6 +541,22 @@ void TestVectorInequality(void)
     ASSERT_EQUAL((h_c != h_a), true); ASSERT_EQUAL((h_c != d_a), true); ASSERT_EQUAL((d_c != h_a), true); ASSERT_EQUAL((d_c != d_a), true);
     ASSERT_EQUAL((h_b != h_c), true); ASSERT_EQUAL((h_b != d_c), true); ASSERT_EQUAL((d_b != h_c), true); ASSERT_EQUAL((d_b != d_c), true);
     ASSERT_EQUAL((h_c != h_b), true); ASSERT_EQUAL((h_c != d_b), true); ASSERT_EQUAL((d_c != h_b), true); ASSERT_EQUAL((d_c != d_b), true);
+
+    // test vector vs device_vector
+    ASSERT_EQUAL((s_a != d_b), true); ASSERT_EQUAL((d_a != s_b), true); 
+    ASSERT_EQUAL((s_b != d_a), true); ASSERT_EQUAL((d_b != s_a), true);
+    ASSERT_EQUAL((s_a != d_c), true); ASSERT_EQUAL((d_a != s_c), true);
+    ASSERT_EQUAL((s_c != d_a), true); ASSERT_EQUAL((d_c != s_a), true);
+    ASSERT_EQUAL((s_b != d_c), true); ASSERT_EQUAL((d_b != s_c), true);
+    ASSERT_EQUAL((s_c != d_b), true); ASSERT_EQUAL((d_c != s_b), true);
+
+    // test vector vs host_vector
+    ASSERT_EQUAL((s_a != h_b), true); ASSERT_EQUAL((h_a != s_b), true); 
+    ASSERT_EQUAL((s_b != h_a), true); ASSERT_EQUAL((h_b != s_a), true);
+    ASSERT_EQUAL((s_a != h_c), true); ASSERT_EQUAL((h_a != s_c), true);
+    ASSERT_EQUAL((s_c != h_a), true); ASSERT_EQUAL((h_c != s_a), true);
+    ASSERT_EQUAL((s_b != h_c), true); ASSERT_EQUAL((h_b != s_c), true);
+    ASSERT_EQUAL((s_c != h_b), true); ASSERT_EQUAL((h_c != s_b), true);
 }
 DECLARE_UNITTEST(TestVectorInequality);
 

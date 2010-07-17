@@ -81,14 +81,16 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
 template <typename KernelFunction>
 void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunction kernel)
 {
-  // cache the result of the introspection call because it is expensive
-  // cache const void * rather than KernelFunction to avoid problems with long names on MSVC 2005
-  static std::map<const void *,cudaFuncAttributes> attributes_map;
+  typedef void (*fun_ptr_type)();
 
-  const void *fun_ptr = reinterpret_cast<const void *>(kernel);
+  // cache the result of the introspection call because it is expensive
+  // cache fun_ptr_type rather than KernelFunction to avoid problems with long names on MSVC 2005
+  static std::map<fun_ptr_type,cudaFuncAttributes> attributes_map;
+
+  fun_ptr_type fun_ptr = reinterpret_cast<fun_ptr_type>(kernel);
 
   // search the cache for the attributes
-  typename std::map<const void *,cudaFuncAttributes>::const_iterator iter = attributes_map.find(fun_ptr);
+  typename std::map<fun_ptr_type,cudaFuncAttributes>::const_iterator iter = attributes_map.find(fun_ptr);
 
   if(iter == attributes_map.end())
   {
@@ -227,7 +229,7 @@ size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
 {
     size_t max_occupancy = max_active_threads_per_multiprocessor(properties);
 
-    size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
 
     size_t granularity        = properties.warpSize;
 
@@ -270,7 +272,7 @@ size_t max_blocksize(const cudaDeviceProp& properties,
                      const cudaFuncAttributes& attributes,
                      size_t dynamic_smem_bytes_per_thread)
 {
-    size_t largest_blocksize  = std::min(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
 
     // TODO eliminate this constant (i assume this is warp_size)
     size_t granularity        = 32;

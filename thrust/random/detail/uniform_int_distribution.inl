@@ -118,7 +118,7 @@ template<typename IntType>
 template<typename IntType>
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
-      ::min(void) const
+      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_int_distribution::min()
@@ -127,7 +127,7 @@ template<typename IntType>
 template<typename IntType>
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
-      ::max(void) const
+      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_int_distribution::max()

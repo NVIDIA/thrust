@@ -94,7 +94,7 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   if (n <= 0) return first;  //empty range
   
   if ((sizeof(Size) > sizeof(unsigned int))
-       && n > Size(std::numeric_limits<unsigned int>::max())) // convert to Size to avoid a warning
+       && n > Size((std::numeric_limits<unsigned int>::max)())) // convert to Size to avoid a warning
   {
     // n is large, must use 64-bit indices
     typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;

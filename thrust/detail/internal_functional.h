@@ -24,6 +24,7 @@
 #include <thrust/tuple.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/utility.h>
+#include <memory> // for ::new
 
 namespace thrust
 {

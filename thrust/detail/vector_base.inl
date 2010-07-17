@@ -530,6 +530,14 @@ template<typename T, typename Alloc>
 } // end vector_base::assign()
 
 template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::allocator_type
+    vector_base<T,Alloc>
+      ::get_allocator(void) const
+{
+  return m_storage.get_allocator();
+} // end vector_base::get_allocator()
+
+template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::insert(iterator position, const T &x)
@@ -661,13 +669,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + std::max(old_size, num_new_elements);
+      size_type new_capacity = old_size + std::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
 
       // allocate exponentially larger new storage
-      new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
+      new_capacity = std::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = std::min<size_type>(new_capacity, max_size());
+      new_capacity = std::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
 #if defined(__CUDACC__) && CUDA_VERSION==3000
@@ -771,13 +779,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + std::max(old_size, n);
+      size_type new_capacity = old_size + std::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = std::max<size_type>(new_capacity, 2 * capacity());
+      new_capacity = std::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = std::min<size_type>(new_capacity, max_size());
+      new_capacity = std::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
 #if defined(__CUDACC__) && CUDA_VERSION==3000

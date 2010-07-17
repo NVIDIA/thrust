@@ -187,14 +187,14 @@ template<typename IntType = int>
      *  \return The lower bound of this \p uniform_int_distribution's range.
      */
     __host__ __device__
-    result_type min(void) const;
+    result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the largest integer this \p uniform_int_distribution can potentially produce.
      *
      *  \return The upper bound of this \p uniform_int_distribution's range.
      */
     __host__ __device__
-    result_type max(void) const;
+    result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
      */

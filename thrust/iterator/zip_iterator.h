@@ -138,7 +138,7 @@ template <typename IteratorTuple>
   public:
     /*! Null constructor does nothing.
      */
-    __host__ __device__
+    inline __host__ __device__
     zip_iterator(void);
 
     /*! This constructor creates a new \p zip_iterator from a
@@ -146,7 +146,7 @@ template <typename IteratorTuple>
      *  
      *  \param iterator_tuple The \p tuple of iterators to copy from.
      */
-    __host__ __device__
+    inline __host__ __device__
     zip_iterator(IteratorTuple iterator_tuple);
 
     /*! This method returns a \c const reference to this \p zip_iterator's
@@ -155,7 +155,7 @@ template <typename IteratorTuple>
      *  \return A \c const reference to this \p zip_iterator's \p tuple
      *          of iterators.
      */
-    __host__ __device__
+    inline __host__ __device__
     const IteratorTuple &get_iterator_tuple() const;
 
     /*! \cond
@@ -168,31 +168,31 @@ template <typename IteratorTuple>
 
     // Dereferencing returns a tuple built from the dereferenced
     // iterators in the iterator tuple.
-    __host__ __device__
+    inline __host__ __device__
     typename super_t::reference dereference() const;
 
     // Two zip_iterators are equal if the two first iterators of the
     // tuple are equal. Note this differs from Boost's implementation, which
     // considers the entire tuple.
     template<typename OtherIteratorTuple>
-    __host__ __device__
+    inline __host__ __device__
     bool equal(const zip_iterator<OtherIteratorTuple> &other) const;
 
     // Advancing a zip_iterator means to advance all iterators in the tuple
-    __host__ __device__
+    inline __host__ __device__
     void advance(typename super_t::difference_type n);
 
     // Incrementing a zip iterator means to increment all iterators in the tuple
-    __host__ __device__
+    inline __host__ __device__
     void increment();
 
     // Decrementing a zip iterator means to decrement all iterators in the tuple
-    __host__ __device__
+    inline __host__ __device__
     void decrement();
 
     // Distance is calculated using the first iterator in the tuple.
     template<typename OtherIteratorTuple>
-    __host__ __device__
+    inline __host__ __device__
       typename super_t::difference_type
         distance_to(const zip_iterator<OtherIteratorTuple> &other) const;
 
@@ -212,7 +212,7 @@ template <typename IteratorTuple>
  *  \see zip_iterator
  */
 template<typename IteratorTuple>
-__host__ __device__
+inline __host__ __device__
 zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
 
 /*! \} // end fancyiterators

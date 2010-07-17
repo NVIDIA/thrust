@@ -264,7 +264,7 @@ struct tuple_meta_accumulate
 // for_each algorithm for tuples.
 //
 template<typename Fun>
-__host__ __device__
+inline __host__ __device__
 Fun tuple_for_each(thrust::null_type, Fun f)
 {
   return f;
@@ -272,7 +272,7 @@ Fun tuple_for_each(thrust::null_type, Fun f)
 
 
 template<typename Tuple, typename Fun>
-__host__ __device__
+inline __host__ __device__
 Fun tuple_for_each(Tuple& t, Fun f)
 { 
     f( t.get_head() );
