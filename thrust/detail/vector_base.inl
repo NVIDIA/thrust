@@ -530,6 +530,14 @@ template<typename T, typename Alloc>
 } // end vector_base::assign()
 
 template<typename T, typename Alloc>
+  typename vector_base<T,Alloc>::allocator_type
+    vector_base<T,Alloc>
+      ::get_allocator(void) const
+{
+  return m_storage.get_allocator();
+} // end vector_base::get_allocator()
+
+template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::insert(iterator position, const T &x)

@@ -374,6 +374,11 @@ template<typename T, typename Alloc>
     template<typename InputIterator>
     void assign(InputIterator first, InputIterator last);
 
+    /*! This method returns a copy of this vector's allocator.
+     *  \return A copy of the alloctor used by this vector.
+     */
+    allocator_type get_allocator(void) const;
+
   protected:
     // Our storage
     storage_type m_storage;
