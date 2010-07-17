@@ -17,8 +17,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/iterator/placement/place.h>
-#include <thrust/detail/iterator/placement/placed_iterator_base.h>
+#include <thrust/iterator/detail/placement/place.h>
+#include <thrust/iterator/detail/placement/placed_iterator_base.h>
+#include <thrust/detail/device/dereference.h>
 
 namespace thrust
 {
@@ -40,9 +41,12 @@ template<typename Iterator>
     __host__ __device__
     inline placed_iterator(void);
 
+    __host__ __device__
+    inline placed_iterator(Iterator i, place p = 0);
+
     template<typename OtherIterator>
     __host__ __device__
-    inline placed_iterator(OtherIterator i, place p = 0);
+    inline placed_iterator(placed_iterator<OtherIterator> i, place p = 0);
 
     __host__ __device__
     void set_place(place p);
@@ -56,10 +60,39 @@ template<typename Iterator>
     // iterator core interface follows
     friend class thrust::experimental::iterator_core_access;
 
+    __host__ __device__
     typename super_t::reference dereference(void) const;
 }; // end placed_iterator
 
 template<typename Iterator> placed_iterator<Iterator> make_placed_iterator(Iterator i, place p);
+
+namespace device
+{
+
+template<typename Iterator>
+  struct dereference_result< placed_iterator<Iterator> >
+    : dereference_result<Iterator>
+{
+}; // end dereference_result
+
+
+template<typename Iterator>
+  inline __host__ __device__
+    typename dereference_result< placed_iterator<Iterator> >::type
+      dereference(const placed_iterator<Iterator> &iter)
+{
+  return dereference(iter.base());
+} // end dereference()
+
+template<typename Iterator, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< placed_iterator<Iterator> >::type
+      dereference(const placed_iterator<Iterator> &iter, IndexType n)
+{
+  return dereference(iter.base(), n);
+} // end dereference()
+
+} // end device
 
 } // end detail
 

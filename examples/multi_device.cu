@@ -5,36 +5,21 @@
 #include <thrust/iterator/detail/placement/is_placed.h>
 #include <thrust/iterator/detail/placement/place.h>
 #include <cassert>
+#include <thrust/device_malloc_allocator.h>
+#include <thrust/detail/placed_allocator.h>
 
-inline cudaError_t cudaThreadExitActiveDevice(void)
-{
-    int oldDevice = -1;
-    cudaError_t error = cudaSuccess;
+typedef thrust::device_malloc_allocator<int> base_allocator_type;
+typedef thrust::detail::placed_allocator<int,base_allocator_type> placed_allocator;
+typedef thrust::device_vector<int,placed_allocator> device_vector_with_place;
 
-    // get the old device index
-    error = cudaGetDevice(&oldDevice);
-    if (cudaSuccess != error) {
-        return error;
-    }
-
-    // exit old device's context
-    error = cudaThreadExit();
-    if (cudaSuccess != error) {
-        return error;
-    }
-    thrust::detail::place_detail::contexts[oldDevice] = NULL;
-
-    return cudaSuccess;
-}
-
-int reduce(const thrust::host_vector<thrust::device_vector<int> > &vectors)
+int reduce(const thrust::host_vector<device_vector_with_place> &vectors)
 {
   int result = 0;
 
-  for(int p = 0; p < vectors.size(); ++p)
+  for(int i = 0; i < vectors.size(); ++i)
   {
-    thrust::detail::push_place(p);
-    result += thrust::reduce(vectors[p].begin(), vectors[p].end());
+    thrust::detail::push_place(vectors[i].get_allocator().get_place());
+    result += thrust::reduce(vectors[i].begin(), vectors[i].end());
     thrust::detail::pop_place();
   }
 
@@ -47,29 +32,21 @@ int main(void)
 
   int num_places = thrust::detail::num_places();
 
-  thrust::host_vector<thrust::device_vector<int> > vectors(num_places);
+  thrust::host_vector<device_vector_with_place> vectors(num_places);
 
-  for(int p = 0; p < num_places; ++p)
+  for(int i = 0; i < num_places; ++i)
   {
-    thrust::detail::push_place(p);
-    vectors[p].resize(N);
-    thrust::fill(vectors[p].begin(), vectors[p].end(), 13);
+    vectors[i].resize(N);
+
+    thrust::detail::push_place(vectors[i].get_allocator().get_place());
+    thrust::fill(vectors[i].begin(), vectors[i].end(), 13);
     thrust::detail::pop_place();
   }
 
-  assert(reduce(vectors) == 13 * N * num_places);
+  int result = reduce(vectors);
+  assert(result == 13 * N * num_places);
 
-  for(int p = 0; p < num_places; ++p)
-  {
-    thrust::detail::push_place(p);
-
-    // deallocate the vector while we're in the right place
-    vectors[p].resize(0);
-    vectors[p].shrink_to_fit();
-    cudaThreadExitActiveDevice();
-    thrust::detail::pop_place();
-  }
-
+  std::cout << "result: " << result << std::endl;
   return 0;
 }
 
