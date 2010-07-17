@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include <algorithm>
-
 namespace thrust
 {
 namespace detail
@@ -35,7 +33,16 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    return std::find_if(first, last, pred);
+    while(first != last)
+    {
+        if (pred(*first))
+            return first;
+
+        ++first;
+    }
+
+    // return first so zip_iterator works correctly
+    return first;
 }
 
 } // end namespace host

@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include <algorithm>
-
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -32,15 +30,6 @@ namespace detail
 namespace host
 {
 
-template <typename ForwardIterator,
-          typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first,
-                       ForwardIterator last,
-                       BinaryPredicate binary_pred)
-{
-    return std::unique(first, last, binary_pred);
-}
-
 template <typename InputIterator,
           typename OutputIterator,
           typename BinaryPredicate>
@@ -49,7 +38,41 @@ OutputIterator unique_copy(InputIterator first,
                            OutputIterator output,
                            BinaryPredicate binary_pred)
 {
-    return std::unique_copy(first, last, output, binary_pred);
+    typedef typename thrust::iterator_traits<InputIterator>::value_type T;
+
+    if(first != last)
+    {
+        T prev = *first;
+        
+        for(++first; first != last; ++first)
+        {
+            T temp = *first;
+
+            if (!binary_pred(prev, temp))
+            {
+                *output = prev;
+
+                ++output;
+
+                prev = temp;
+            }
+        }
+
+        *output = prev;
+        ++output;
+    }
+
+    return output;
+}
+
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(ForwardIterator first,
+                       ForwardIterator last,
+                       BinaryPredicate binary_pred)
+{
+    // unique_copy() permits in-situ operation
+    return thrust::detail::host::unique_copy(first, last, first, binary_pred);
 }
 
 template <typename InputIterator1,
