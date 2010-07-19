@@ -57,11 +57,8 @@ typedef unittest::type_list<char,
 typedef unittest::type_list<long long,
                             unsigned long long> LargeIntegralTypes;
 
-typedef unittest::type_list<float
-#if __CUDA_ARCH__ >= 130
-                            , double
-#endif // __CUDA_ARCH__
-                             > FloatTypes;
+typedef unittest::type_list<float,
+                            double> FloatingPointTypes;
 
 typedef unittest::type_list<char,
                             signed char,
@@ -74,11 +71,8 @@ typedef unittest::type_list<char,
                             unsigned long,
                             long long,
                             unsigned long long,
-                            float
-#if __CUDA_ARCH__ >= 130
-                            , double
-#endif // __CUDA_ARCH__
-                              > NumericTypes;
+                            float> NumericTypes;
+// exclude double from NumericTypes
 
 
 inline void chop_prefix(std::string& str, const std::string& prefix)

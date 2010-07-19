@@ -24,25 +24,25 @@ namespace thrust
 {
 
 template<typename T, typename BinaryPredicate>
-  T min(const T &lhs, const T &rhs, BinaryPredicate comp)
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
   return comp(lhs, rhs) ? lhs : rhs;
 } // end min()
 
 template<typename T>
-  T min(const T &lhs, const T &rhs)
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return lhs < rhs ? lhs : rhs;
 } // end min()
 
 template<typename T, typename BinaryPredicate>
-  T max(const T &lhs, const T &rhs, BinaryPredicate comp)
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
   return comp(lhs,rhs) ? rhs : lhs;
 } // end max()
 
 template<typename T>
-  T max(const T &lhs, const T &rhs)
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return lhs > rhs ? lhs : rhs;
 } // end max()

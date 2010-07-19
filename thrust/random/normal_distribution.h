@@ -183,14 +183,14 @@ template<typename RealType = double>
      *  \return The lower bound of this \p normal_distribution's half-open interval.
      */
     __host__ __device__
-    result_type min(void) const;
+    result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the smallest number larger than largest floating point number this \p uniform_real_distribution can potentially produce.
      *
      *  \return The upper bound of this \p normal_distribution's half-open interval.
      */
     __host__ __device__
-    result_type max(void) const;
+    result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
      */

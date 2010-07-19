@@ -41,7 +41,7 @@ struct find_if_functor
     {
         // select the smallest index among true results
         if (thrust::get<0>(lhs) && thrust::get<0>(rhs))
-            return TupleType(true, thrust::min(thrust::get<1>(lhs), thrust::get<1>(rhs)));
+            return TupleType(true, (thrust::min)(thrust::get<1>(lhs), thrust::get<1>(rhs)));
         else if (thrust::get<0>(lhs))
             return lhs;
         else
@@ -69,11 +69,11 @@ InputIterator find_if(InputIterator first,
 
     // TODO incorporate sizeof(InputType) into interval_threshold and round to multiple of 32
     const difference_type interval_threshold = 1 << 20;
-    const difference_type interval_size = std::min(interval_threshold, n);
+    const difference_type interval_size = (std::min)(interval_threshold, n);
 
     for(difference_type begin = 0; begin < n; begin += interval_size)
     {
-        difference_type end = thrust::min(begin + interval_size, n);
+        difference_type end = (thrust::min)(begin + interval_size, n);
 
         result_type result = thrust::detail::device::reduce
             (
