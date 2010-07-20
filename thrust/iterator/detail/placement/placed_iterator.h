@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/placement/place.h>
 #include <thrust/iterator/detail/placement/placed_iterator_base.h>
 #include <thrust/detail/device/dereference.h>
@@ -36,17 +37,19 @@ template<typename Iterator>
     typedef typename placed_iterator_base<Iterator>::type super_t;
 
   public:
-    typedef thrust::detail::place place;
+    typedef thrust::detail::place_detail::place<
+      typename thrust::iterator_space<Iterator>::type
+    > place;
 
     __host__ __device__
     inline placed_iterator(void);
 
     __host__ __device__
-    inline placed_iterator(Iterator i, place p = 0);
+    inline placed_iterator(Iterator i, place p = place());
 
     template<typename OtherIterator>
     __host__ __device__
-    inline placed_iterator(placed_iterator<OtherIterator> i, place p = 0);
+    inline placed_iterator(placed_iterator<OtherIterator> i, place p = place());
 
     __host__ __device__
     void set_place(place p);
