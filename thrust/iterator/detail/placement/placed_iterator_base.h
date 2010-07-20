@@ -26,6 +26,9 @@ namespace thrust
 namespace detail
 {
 
+// XXX WAR circular #inclusion with this forward declaration
+template<typename Iterator> struct has_place;
+
 template<typename UnplacedIterator> class placed_iterator;
 
 template<typename UnplacedIterator,
