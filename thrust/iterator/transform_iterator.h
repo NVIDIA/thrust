@@ -203,7 +203,6 @@ template <class UnaryFunc, class Iterator, class Reference = use_default, class 
     /*! \cond
      */
   private:
-    __host__ __device__
     typename super_t::reference dereference() const
     { 
       return m_f(*this->base());
@@ -230,7 +229,7 @@ template <class UnaryFunc, class Iterator, class Reference = use_default, class 
  *  \see transform_iterator
  */
 template <class UnaryFunc, class Iterator>
-__host__ __device__
+inline __host__ __device__
 transform_iterator<UnaryFunc, Iterator>
 make_transform_iterator(Iterator it, UnaryFunc fun)
 {

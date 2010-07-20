@@ -168,7 +168,6 @@ template <typename IteratorTuple>
 
     // Dereferencing returns a tuple built from the dereferenced
     // iterators in the iterator tuple.
-    inline __host__ __device__
     typename super_t::reference dereference() const;
 
     // Two zip_iterators are equal if the two first iterators of the

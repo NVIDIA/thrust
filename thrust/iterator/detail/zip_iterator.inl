@@ -53,7 +53,7 @@ template <typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  return thrust::detail::tuple_transform<detail::dereference_iterator::template apply>(get_iterator_tuple(), detail::dereference_iterator());
+  return thrust::detail::tuple_host_transform<detail::dereference_iterator::template apply>(get_iterator_tuple(), detail::dereference_iterator());
 } // end zip_iterator::dereference()
 
 
@@ -72,7 +72,10 @@ template <typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  tuple_for_each(m_iterator_tuple, detail::advance_iterator<typename super_t::difference_type>(n));
+  // dispatch on space
+  tuple_for_each(m_iterator_tuple,
+                 detail::advance_iterator<typename super_t::difference_type>(n),
+                 typename thrust::iterator_space<zip_iterator>::type());
 } // end zip_iterator::advance()
 
 
@@ -82,7 +85,9 @@ template <typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  tuple_for_each(m_iterator_tuple, detail::increment_iterator());
+  // dispatch on space
+  tuple_for_each(m_iterator_tuple, detail::increment_iterator(),
+                 typename thrust::iterator_space<zip_iterator>::type());
 } // end zip_iterator::increment()
 
 
@@ -92,7 +97,9 @@ template <typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  tuple_for_each(m_iterator_tuple, detail::decrement_iterator());
+  // dispatch on space
+  tuple_for_each(m_iterator_tuple, detail::decrement_iterator(),
+                 typename thrust::iterator_space<zip_iterator>::type());
 } // end zip_iterator::decrement()
 
 
@@ -137,7 +144,7 @@ template<typename IteratorTuple>
 {
   using namespace thrust::detail::tuple_impl_specific;
 
-  return thrust::detail::tuple_transform<thrust::detail::device_dereference_iterator::template apply>(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
+  return thrust::detail::tuple_host_device_transform<thrust::detail::device_dereference_iterator::template apply>(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
 }; // end dereference()
 
 
@@ -152,7 +159,7 @@ template<typename IteratorTuple, typename IndexType>
   thrust::detail::device_dereference_iterator_with_index<IndexType> f;
   f.n = n;
 
-  return thrust::detail::tuple_transform<thrust::detail::device_dereference_iterator_with_index<IndexType>::template apply>(iter.get_iterator_tuple(), f);
+  return thrust::detail::tuple_host_device_transform<thrust::detail::device_dereference_iterator_with_index<IndexType>::template apply>(iter.get_iterator_tuple(), f);
 }; // end dereference()
 
 

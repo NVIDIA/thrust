@@ -63,11 +63,11 @@ template<typename DiffType>
 class advance_iterator
 {
 public:
-  __host__ __device__
+  inline __host__ __device__
   advance_iterator(DiffType step) : m_step(step) {}
   
   template<typename Iterator>
-  __host__ __device__
+  inline __host__ __device__
   void operator()(Iterator& it) const
   { it += m_step; }
 
@@ -79,7 +79,7 @@ private:
 struct increment_iterator
 {
   template<typename Iterator>
-  __host__ __device__
+  inline __host__ __device__
   void operator()(Iterator& it)
   { ++it; }
 }; // end increment_iterator
@@ -88,7 +88,7 @@ struct increment_iterator
 struct decrement_iterator
 {
   template<typename Iterator>
-  __host__ __device__
+  inline __host__ __device__
   void operator()(Iterator& it)
   { --it; }
 }; // end decrement_iterator
@@ -105,9 +105,10 @@ struct dereference_iterator
   }; // end apply
 
   template<typename Iterator>
-  __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)
-  { return *it; }
+  {
+    return *it;
+  }
 }; // end dereference_iterator
 
 
@@ -263,22 +264,37 @@ struct tuple_meta_accumulate
 
 // for_each algorithm for tuples.
 //
-template<typename Fun>
+template<typename Fun, typename Space>
 inline __host__ __device__
-Fun tuple_for_each(thrust::null_type, Fun f)
+Fun tuple_for_each(thrust::null_type, Fun f, Space)
 {
   return f;
 } // end tuple_for_each()
 
 
-template<typename Tuple, typename Fun>
+template<typename Tuple, typename Fun, typename Space>
 inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f)
+Fun tuple_for_each(Tuple& t, Fun f, Space dispatch_tag)
 { 
-    f( t.get_head() );
-    return tuple_for_each(t.get_tail(), f);
+  f( t.get_head() );
+  return tuple_for_each(t.get_tail(), f, dispatch_tag);
 } // end tuple_for_each()
 
+
+template<typename Tuple, typename Fun>
+inline __host__ __device__
+Fun tuple_for_each(Tuple& t, Fun f, thrust::host_space_tag dispatch_tag)
+{ 
+// XXX this path is required in order to accomodate pure host iterators
+//     (such as std::vector::iterator) in a zip_iterator
+#ifndef __CUDA_ARCH__
+  f( t.get_head() );
+  return tuple_for_each(t.get_tail(), f, dispatch_tag);
+#else
+  // this code will never be called
+  return f;
+#endif
+} // end tuple_for_each()
 
 
 // Equality of tuples. NOTE: "==" for tuples currently (7/2003)

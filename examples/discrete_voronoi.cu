@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include <iomanip>
-#include <stdlib.h>
+#include <stdio.h>
 #include <cmath>
 
 // Compute an approximate Voronoi Diagram with a Jump Flooding Algorithm (JFA)

@@ -21,14 +21,10 @@
 
 #pragma once
 
-#include <algorithm>
-
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace host
 {
 
@@ -43,8 +39,8 @@ template<typename ForwardIterator,
     // advance iterators until pred(stencil) is true we reach the end of input
     while(first != last && !bool(pred(*stencil)))
     {
-        first++;
-        stencil++;
+        ++first;
+        ++stencil;
     }
 
     if(first == last)
@@ -53,18 +49,18 @@ template<typename ForwardIterator,
     // result always trails first 
     ForwardIterator result = first;
     
-    first++;
-    stencil++;
+    ++first;
+    ++stencil;
 
     while(first != last)
     {
         if(!bool(pred(*stencil)))
         {
             *result = *first;
-            result++;
+            ++result;
         }
-        first++;
-        stencil++;
+        ++first;
+        ++stencil;
     }
 
     return result;
@@ -78,7 +74,18 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-    return std::remove_copy_if(first, last, result, pred);
+    while (first != last)
+    {
+        if (!bool(pred(*first)))
+        {
+            *result = *first;
+            ++result;
+        }
+
+        ++first;
+    }
+
+    return result;
 }
 
 template<typename InputIterator1,
@@ -96,20 +103,17 @@ template<typename InputIterator1,
         if (!bool(pred(*stencil)))
         {
             *result = *first;
-            result++;
+            ++result;
         }
-        first++;
-        stencil++;
+
+        ++first;
+        ++stencil;
     }
 
     return result;
 }
 
-
-
 } // last namespace host
-
 } // last namespace detail
-
 } // last namespace thrust
 
