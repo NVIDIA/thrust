@@ -67,7 +67,7 @@ template<typename Pointer>
 
 
 template<typename Pointer>
-  inline __host__ __device__ make_normal_iterator(Pointer ptr)
+  inline __host__ __device__ normal_iterator<Pointer> make_normal_iterator(Pointer ptr)
 {
   return normal_iterator<Pointer>(ptr);
 }
