@@ -4,6 +4,7 @@
 #include <thrust/reduce.h>
 #include <thrust/iterator/detail/placement/is_placed.h>
 #include <thrust/iterator/detail/placement/place.h>
+#include <thrust/iterator/detail/placement/make_unplaced_iterator.h>
 #include <cassert>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/detail/placed_allocator.h>
@@ -19,7 +20,8 @@ int reduce(const thrust::host_vector<device_vector_with_place> &vectors)
   for(int i = 0; i < vectors.size(); ++i)
   {
     thrust::detail::push_place(vectors[i].get_allocator().get_place());
-    result += thrust::reduce(vectors[i].begin(), vectors[i].end());
+    result += thrust::reduce(thrust::detail::make_unplaced_iterator(vectors[i].begin()),
+                             thrust::detail::make_unplaced_iterator(vectors[i].end()));
     thrust::detail::pop_place();
   }
 
