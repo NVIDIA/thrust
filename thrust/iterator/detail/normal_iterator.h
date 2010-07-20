@@ -66,6 +66,13 @@ template<typename Pointer>
 }; // end normal_iterator
 
 
+template<typename Pointer>
+  inline __host__ __device__ make_normal_iterator(Pointer ptr)
+{
+  return normal_iterator<Pointer>(ptr);
+}
+
+
 template<typename T> struct is_trivial_iterator< normal_iterator<T> > : public true_type {};
 
 
