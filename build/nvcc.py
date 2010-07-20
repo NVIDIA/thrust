@@ -14,11 +14,38 @@ import SCons.Defaults
 import os
 import platform
 
-def is_64bit():
-  """ is this a 64-bit system? """
-  return platform.machine()[-2:] == '64'
-  #return platform.machine() == 'x86_64':
-  #return platform.machine() == 'AMD64':
+
+def get_cuda_paths():
+  """Determines CUDA {bin,lib,include} paths
+  
+  returns (bin_path,lib_path,inc_path)
+  """
+
+  # determine defaults
+  if os.name == 'nt':
+    bin_path = 'C:/CUDA/bin'
+    lib_path = 'C:/CUDA/lib'
+    inc_path = 'C:/CUDA/include'
+  elif os.name == 'posix':
+    bin_path = '/usr/local/cuda/bin'
+    lib_path = '/usr/local/cuda/lib'
+    inc_path = '/usr/local/cuda/include'
+  else:
+    raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
+   
+  if platform.machine()[-2:] == '64':
+    lib_path += '64'
+
+  # override with environement variables
+  if 'CUDA_BIN_PATH' in os.environ:
+    bin_path = os.path.abspath(os.environ['CUDA_BIN_PATH'])
+  if 'CUDA_LIB_PATH' in os.environ:
+    lib_path = os.path.abspath(os.environ['CUDA_LIB_PATH'])
+  if 'CUDA_INC_PATH' in os.environ:
+    inc_path = os.path.abspath(os.environ['CUDA_INC_PATH'])
+
+  return (bin_path,lib_path,inc_path)
+
 
 
 CUDASuffixes = ['.cu']
@@ -88,21 +115,9 @@ def generate(env):
   # CUDA files here, such as .gpu, etc.
 
   # XXX intelligently detect location of nvcc and cuda libraries here
-  if os.name == 'nt':
-    exe_path = 'C:/CUDA/bin'
-    lib_path = 'C:/CUDA/lib'
-    if is_64bit():
-      exe_path += '64'
-      lib_path += '64'
-  elif os.name == 'posix':
-    exe_path = '/usr/local/cuda/bin'
-    lib_path = '/usr/local/cuda/lib'
-    if is_64bit():
-      lib_path += '64'
-  else:
-    raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
-
-  env.PrependENVPath('PATH', exe_path)
+  (bin_path,lib_path,inc_path) = get_cuda_paths()
+    
+  env.PrependENVPath('PATH', bin_path)
 
 def exists(env):
   return env.Detect('nvcc')
