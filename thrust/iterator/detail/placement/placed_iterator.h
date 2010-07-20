@@ -29,23 +29,23 @@ namespace detail
 {
 
 
-template<typename Iterator>
+template<typename UnplacedIterator>
   class placed_iterator
-    : public placed_iterator_base<Iterator>::type
+    : public placed_iterator_base<UnplacedIterator>::type
 {
   private:
-    typedef typename placed_iterator_base<Iterator>::type super_t;
+    typedef typename placed_iterator_base<UnplacedIterator>::type super_t;
 
   public:
     typedef thrust::detail::place_detail::place<
-      typename thrust::iterator_space<Iterator>::type
+      typename thrust::iterator_space<UnplacedIterator>::type
     > place;
 
     __host__ __device__
     inline placed_iterator(void);
 
     __host__ __device__
-    inline placed_iterator(Iterator i, place p = place());
+    inline placed_iterator(UnplacedIterator i, place p = place());
 
     template<typename OtherIterator>
     __host__ __device__
@@ -67,30 +67,33 @@ template<typename Iterator>
     typename super_t::reference dereference(void) const;
 }; // end placed_iterator
 
-template<typename Iterator> placed_iterator<Iterator> make_placed_iterator(Iterator i, place p);
+template<typename UnplacedIterator> placed_iterator<UnplacedIterator> make_placed_iterator(UnplacedIterator i, place p);
+template<typename UnplacedIterator> placed_iterator<UnplacedIterator> make_placed_iterator(UnplacedIterator i, std::size_t p);
 
 namespace device
 {
 
-template<typename Iterator>
-  struct dereference_result< placed_iterator<Iterator> >
-    : dereference_result<Iterator>
+// XXX consider removing device::dereference for placed_iterator if
+//     we intend to always strip its place before kernel launch
+template<typename UnplacedIterator>
+  struct dereference_result< placed_iterator<UnplacedIterator> >
+    : dereference_result<UnplacedIterator>
 {
 }; // end dereference_result
 
 
-template<typename Iterator>
+template<typename UnplacedIterator>
   inline __host__ __device__
-    typename dereference_result< placed_iterator<Iterator> >::type
-      dereference(const placed_iterator<Iterator> &iter)
+    typename dereference_result< placed_iterator<UnplacedIterator> >::type
+      dereference(const placed_iterator<UnplacedIterator> &iter)
 {
   return dereference(iter.base());
 } // end dereference()
 
-template<typename Iterator, typename IndexType>
+template<typename UnplacedIterator, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< placed_iterator<Iterator> >::type
-      dereference(const placed_iterator<Iterator> &iter, IndexType n)
+    typename dereference_result< placed_iterator<UnplacedIterator> >::type
+      dereference(const placed_iterator<UnplacedIterator> &iter, IndexType n)
 {
   return dereference(iter.base(), n);
 } // end dereference()

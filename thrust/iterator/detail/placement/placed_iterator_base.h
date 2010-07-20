@@ -18,6 +18,7 @@
 
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/placement/has_place.h>
 
 namespace thrust
 {
@@ -25,19 +26,24 @@ namespace thrust
 namespace detail
 {
 
-template<typename Iterator> class placed_iterator;
+template<typename UnplacedIterator> class placed_iterator;
 
-template<typename Iterator>
+template<typename UnplacedIterator,
+         typename Enable =
+           typename thrust::detail::enable_if_c<
+             !thrust::detail::has_place<UnplacedIterator>::value
+           >::type
+        >
   struct placed_iterator_base
 {
   typedef thrust::experimental::iterator_adaptor<
-    placed_iterator<Iterator>,
-    Iterator,
-    typename thrust::iterator_pointer<Iterator>::type,
-    typename thrust::iterator_value<Iterator>::type,
-    typename thrust::iterator_space<Iterator>::type,
-    typename thrust::iterator_traversal<Iterator>::type,
-    typename thrust::iterator_reference<Iterator>::type
+    placed_iterator<UnplacedIterator>,
+    UnplacedIterator,
+    typename thrust::iterator_pointer<UnplacedIterator>::type,
+    typename thrust::iterator_value<UnplacedIterator>::type,
+    typename thrust::iterator_space<UnplacedIterator>::type,
+    typename thrust::iterator_traversal<UnplacedIterator>::type,
+    typename thrust::iterator_reference<UnplacedIterator>::type
   > type;
 }; // end placed_iterator_base
 
