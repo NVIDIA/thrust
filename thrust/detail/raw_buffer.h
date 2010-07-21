@@ -35,8 +35,8 @@ template<typename T> class device_malloc_allocator;
 namespace detail
 {
 
-// forward declaration of contiguous_storage
-template<typename,typename> class contiguous_storage;
+// forward declaration of normal_iterator
+template<typename> class normal_iterator;
 
 template<typename T, typename Space>
   struct choose_raw_buffer_allocator
