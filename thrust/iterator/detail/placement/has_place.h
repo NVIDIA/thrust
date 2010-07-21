@@ -16,13 +16,36 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
+//#include <thrust/detail/has_nested_type.h>
+//#include <thrust/iterator/transform_iterator.h>
+//#include <thrust/iterator/detail/segmentation/segmented_iterator.h>
+//#include <thrust/iterator/detail/segmentation/local_iterator.h>
+#include <thrust/iterator/detail/placement/get_place.h>
 
 namespace thrust
 {
 
 namespace detail
 {
+
+//__THRUST_DEFINE_HAS_NESTED_TYPE(has_place, place);
+//
+//template<typename Iterator>
+//  struct has_place<segmented_iterator<Iterator> >
+//    : has_place<
+//        typename local_iterator<
+//          segmented_iterator<Iterator>
+//        >::type
+//      >
+//{};
+//
+//template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
+//  struct has_place<transform_iterator<UnaryFunc,Iterator,Reference,Value> >
+//    : has_place<
+//        Iterator
+//      >::type
+//{};
+
 
 template<typename Iterator> struct has_place;
 

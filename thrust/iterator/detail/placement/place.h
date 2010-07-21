@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 namespace thrust
 {

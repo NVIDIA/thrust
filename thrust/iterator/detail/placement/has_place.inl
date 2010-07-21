@@ -15,7 +15,6 @@
  */
 
 #pragma once
-
 #include <thrust/iterator/detail/placement/has_place.h>
 #include <thrust/iterator/detail/placement/get_place.h>
 
