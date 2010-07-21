@@ -19,12 +19,8 @@
  *  \brief Inline file for logical.h.
  */
 
-#include <thrust/functional.h>
-#include <thrust/iterator/transform_iterator.h>
 #include <thrust/find.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// TODO don't rely on (bool) pred(x) to convert non-boolean predicate results (produces MSVC warning C4800)
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -32,23 +28,13 @@ namespace thrust
 template <class InputIterator, class Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    typedef typename thrust::transform_iterator<Predicate, InputIterator, bool> PredicateIterator;
-
-    PredicateIterator p_first(first, pred);
-    PredicateIterator p_last(last, pred);
-
-    return thrust::find(p_first, p_last, false) == p_last;
+    return thrust::find_if(first, last, thrust::detail::not1(pred)) == last;
 }
 
 template <class InputIterator, class Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    typedef typename thrust::transform_iterator<Predicate, InputIterator, bool> PredicateIterator;
-
-    PredicateIterator p_first(first, pred);
-    PredicateIterator p_last(last, pred);
-
-    return thrust::find(p_first, p_last, true) != p_last;
+    return thrust::find_if(first, last, pred) != last;
 }
 
 template <class InputIterator, class Predicate>
