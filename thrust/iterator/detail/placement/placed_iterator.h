@@ -59,8 +59,6 @@ template<typename Iterator>
     typename super_t::reference dereference(void) const;
 }; // end placed_iterator
 
-template<typename Iterator> placed_iterator<Iterator> make_placed_iterator(Iterator i, place p);
-
 } // end detail
 
 } // end thrust
