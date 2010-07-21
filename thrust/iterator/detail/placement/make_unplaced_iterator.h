@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/iterator/detail/placement/placed_iterator.h>
-#include <thrust/iterator/detail/normal_iterator.h>
 
 namespace thrust
 {
@@ -25,44 +24,11 @@ namespace thrust
 namespace detail
 {
 
-template<typename PlacedIterator> struct unplaced_iterator;
 
-// specialization for placed_iterator
-template<typename UnplacedIterator>
-  struct unplaced_iterator<placed_iterator<UnplacedIterator> >
-{
-  typedef UnplacedIterator type;
-};
-
-// specialization for normal_iterator
-template<typename PlacedPointer>
-  struct unplaced_iterator<normal_iterator<PlacedPointer> >
-{
-  private:
-    typedef typename unplaced_iterator<PlacedPointer>::type unplaced_pointer;
-
-  public:
-    typedef normal_iterator<unplaced_pointer> type;
-};
-
-
-template<typename UnplacedIterator>
-  inline typename unplaced_iterator<
-    placed_iterator<UnplacedIterator>
-  >::type
-    make_unplaced_iterator(placed_iterator<UnplacedIterator> iter)
+template<typename Iterator>
+  inline Iterator make_unplaced_iterator(placed_iterator<Iterator> iter)
 {
   return iter.base();
-} // end make_unplaced_iterator()
-
-
-template<typename PlacedPointer>
-  inline typename unplaced_iterator<
-    normal_iterator<PlacedPointer>
-  >::type
-    make_unplaced_iterator(normal_iterator<PlacedPointer> iter)
-{
-  return make_normal_iterator(make_unplaced_iterator(iter.base()));
 } // end make_unplaced_iterator()
 
 
