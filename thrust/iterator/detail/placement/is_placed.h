@@ -15,8 +15,11 @@
  */
 
 #pragma once
-#include <thrust/iterator/detail/placement/has_place.h>
-#include <thrust/iterator/detail/placement/get_place.h>
+
+#include <thrust/detail/has_nested_type.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/iterator/detail/segmentation/segmented_iterator.h>
+#include <thrust/iterator/detail/segmentation/local_iterator.h>
 
 namespace thrust
 {
@@ -24,33 +27,23 @@ namespace thrust
 namespace detail
 {
 
-namespace has_place_detail
-{
-  struct tag {};
-  struct any { template <class T> any(T const&); };
-
-  static tag get_place(any const &);
-
-  char (& test(tag) )[2];
-
-  template<typename T>
-  char test(T const &);
-
-  template<typename Iterator>
-    struct impl
-  {
-    static Iterator &test_me;
-    static const bool value = sizeof(has_place_detail::test(get_place(test_me))) == 1;
-  };
-}
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_place, place);
 
 template<typename Iterator>
-  struct has_place
-{
-  public:
-    static const bool value = has_place_detail::impl<Iterator>::value;
-}; // end has_place
+  struct has_place<segmented_iterator<Iterator> >
+    : has_place<
+        typename local_iterator<
+          segmented_iterator<Iterator>
+        >::type
+      >
+{};
 
+template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
+  struct has_place<transform_iterator<UnaryFunc,Iterator,Reference,Value> >
+    : has_place<
+        Iterator
+      >::type
+{};
 
 } // end detail
 

@@ -2,6 +2,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/fill.h>
 #include <thrust/reduce.h>
+#include <thrust/iterator/detail/placement/is_placed.h>
 #include <thrust/iterator/detail/placement/place.h>
 #include <thrust/iterator/detail/placement/make_unplaced_iterator.h>
 #include <cassert>
