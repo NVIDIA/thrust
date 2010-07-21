@@ -18,10 +18,9 @@
 
 #include <cuda.h>
 #include <cuda_runtime_api.h>
-#include <thrust/iterator/detail/placement/place.h>
+#include <thrust/iterator/detail/placement/placed.h>
 #include <thrust/system/system_error.h>
 #include <thrust/system/cuda_error.h>
-#include <stack>
 
 namespace thrust
 {
@@ -32,8 +31,7 @@ namespace detail
 namespace place_detail
 {
 
-const size_t max_active_cuda_device_count = 64;
-static CUcontext contexts[max_active_cuda_device_count] = {0};
+static CUcontext contexts[CUDA_MAX_ACTIVE_DEVICE_COUNT] = {0};
 
 // from Chris Cameron's implementation of cudaSetActiveDevice
 inline void set_place(place p)
@@ -46,7 +44,7 @@ inline void set_place(place p)
   error = cudaGetDevice(&old_device);
   if(cudaSuccess != error)
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category(), "set_place(): cudaGetDevice failed");
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
   }
 
   // save the current context to device index oldDevice
@@ -60,39 +58,39 @@ inline void set_place(place p)
     result = cuCtxDetach(old_context);
     if(CUDA_SUCCESS != result)
     {
-      throw thrust::experimental::system_error(result, thrust::experimental::cuda_category(), "set_place(): cuCtxDetach failed");
+      throw thrust::experimental::system_error(result, thrust::experimental::cuda_category(), "cuCtxDetach failed");
     }
   }
 
   // pop the current context
-  if(old_context)
+  if(oldContext)
   {
     result = cuCtxPopCurrent(&old_context);
     if(result != CUDA_SUCCESS)
     {
-      throw thrust::experimental::system_error(result, thrust::experimental::cuda_category(), "set_place(): cuCtxPopCurrent failed");
+      throw thrust::experimental::system_error(result, thrust::experimental::cuda_category(), "cuCtxPopCurrent failed");
     }
   }
 
   // set the runtime's active device
-  error = cudaSetDevice(p);
-  if(error)
+  error = cudaSetDevice(newDevice);
+  if(cudaSuccess == error)
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category(), "set_place(): cudaSetDevice failed");
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category(), "cudaSetDevice failed");
   }
 
   // if there's a context for this device, push it
-  if(p < 0 || p >= max_active_cuda_device_count)
+  if(newDevice < 0 || newDevice >= CUDA_MAX_ACTIVE_DEVICE_COUNT)
   {
-    throw thrust::experimental::system_error(cudaErrorInvalidValue, thrust::experimental::cuda_category(), "set_place(): device index out of range");
+    throw thrust::experimental::system_error(cudaErrorInvalidValue, thrust::experimental::cuda_category(), "device index out of range");
   }
 
-  if(contexts[p])
+  if(contexts[newDevice])
   {
-    result = cuCtxPushCurrent(contexts[p]);
+    result = cuCtxPushCurrent(contexts[newDevice]);
     if(result != CUDA_SUCCESS)
     {
-      throw thrust::experimental::system_error(result, thrust::experimental::cuda_category(), "set_place(): cuCtxPushCurrent failed");
+      throw thrust::experimental::system_error(result, thrust::experimental::cuda_category(), "cuCtxPushCurrent failed");
     }
   }
 }
@@ -108,21 +106,18 @@ inline std::stack<place> &get_place_stack(void)
 
 void push_place(place p)
 {
-  place_detail::get_place_stack().push(p);
+  place_detail::get_place_stack().push_back(p);
 
-  place_detail::set_place(get_current_place());
+  place_detail::set_place(get_current_place())
 }
 
 void pop_place(void)
 {
   if(!place_detail::get_place_stack().empty())
   {
-    place_detail::get_place_stack().pop();
+    place_detail::get_place_stack().pop_back();
 
-    if(!place_detail::get_place_stack().empty())
-    {
-      place_detail::set_place(get_current_place());
-    }
+    place_detail::set_place(get_current_place())
   }
   else
   {
@@ -132,19 +127,7 @@ void pop_place(void)
     
 place get_current_place(void)
 {
-  return place_detail::get_place_stack().top();
-}
-
-size_t num_places(void)
-{
-  int result = 0;
-  cudaError_t error = cudaGetDeviceCount(&result);
-  if(error)
-  {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category(), "num_places(): cudaGetDeviceCount failed");
-  }
-
-  return static_cast<size_t>(result);
+  return place_detail::get_place_stack().back();
 }
 
 } // end detail

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/detail/has_nested_type.h>
+#include <thrust/detail/has_nested_member.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/detail/segmentation/segmented_iterator.h>
 #include <thrust/iterator/detail/segmentation/local_iterator.h>
@@ -39,7 +39,7 @@ template<typename Iterator>
 {};
 
 template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
-  struct has_place<transform_iterator<UnaryFunc,Iterator,Reference,Value> >
+  struct has_place<transform_iterator<UnaryFunc,Iterator,Reference,Value>
     : has_place<
         Iterator
       >::type
