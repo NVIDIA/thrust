@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <thrust/functional.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/function_traits.h>
 #include <thrust/range/detail/zip_result.h>
