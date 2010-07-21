@@ -17,8 +17,6 @@
 #pragma once
 
 #include <thrust/iterator/detail/placement/get_place.h>
-#include <thrust/iterator/detail/placement/placed_iterator.h>
-#include <thrust/iterator/iterator_adaptor.h>
 
 namespace thrust
 {
