@@ -146,6 +146,23 @@ struct tuple_equal_to
     Predicate pred;
 };
 
+template <typename Predicate>
+struct tuple_not_equal_to
+{
+    typedef bool result_type;
+
+    __host__ __device__
+        tuple_not_equal_to(const Predicate& p) : pred(p) {}
+
+    template<typename Tuple>
+        __host__ __device__
+        bool operator()(const Tuple& t) const
+        { 
+            return !pred(thrust::get<0>(t), thrust::get<1>(t));
+        }
+
+    Predicate pred;
+};
 
 template<typename Generator>
   struct generate_functor
