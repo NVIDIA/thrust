@@ -2,72 +2,115 @@
 #include <thrust/device_vector.h>
 #include <thrust/fill.h>
 #include <thrust/reduce.h>
-#include <thrust/iterator/detail/placement/is_placed.h>
-#include <thrust/iterator/detail/placement/place.h>
-#include <cassert>
+#include "cuda_multidev.h"
 
-inline cudaError_t cudaThreadExitActiveDevice(void)
+template<typename Pointer>
+  struct placed_ptr
 {
-    int oldDevice = -1;
-    cudaError_t error = cudaSuccess;
+  placed_ptr(Pointer ptr, int place)
+    : ptr_(ptr), place_(place) {}
 
-    // get the old device index
-    error = cudaGetDevice(&oldDevice);
-    if (cudaSuccess != error) {
-        return error;
-    }
+  Pointer ptr_;
+  int place_;
+};
 
-    // exit old device's context
-    error = cudaThreadExit();
-    if (cudaSuccess != error) {
-        return error;
-    }
-    thrust::detail::place_detail::contexts[oldDevice] = NULL;
-
-    return cudaSuccess;
+template<typename Pointer>
+  int get_place(placed_ptr<Pointer> ptr)
+{
+  return ptr.place_;
 }
+
+template<typename Pointer>
+  Pointer get_pointer(placed_ptr<Pointer> ptr)
+{
+  return ptr.ptr_;
+}
+
+template<typename Pointer>
+  placed_ptr<Pointer> make_placed_pointer(Pointer ptr, int place)
+{
+  return placed_ptr<Pointer>(ptr,place);
+}
+
+template<typename Iterator>
+  struct has_place
+    : thrust::detail::false_type
+{};
+
+template<typename Pointer>
+  struct has_place<placed_ptr<Pointer> >
+    : thrust::detail::true_type
+{};
+
+
+template<typename Pointer>
+  struct has_place<thrust::detail::normal_iterator<Pointer> >
+    : has_place<Pointer>
+{};
+
 
 int reduce(const thrust::host_vector<thrust::device_vector<int> > &vectors)
 {
   int result = 0;
 
-  for(int p = 0; p < vectors.size(); ++p)
+  for(int d = 0; d < vectors.size(); ++d)
   {
-    thrust::detail::push_place(p);
-    result += thrust::reduce(vectors[p].begin(), vectors[p].end());
-    thrust::detail::pop_place();
+    cudaSetActiveDevice(d);
+    result += thrust::reduce(vectors[d].begin(), vectors[d].end());
   }
 
   return result;
 }
 
+template<typename Iterator> int reduce(Iterator,Iterator);
+
+namespace place_dispatch
+{
+
+template<typename Iterator>
+  int reduce(Iterator first, Iterator last, thrust::detail::false_type)
+{
+  return thrust::reduce(first, last);
+}
+
+template<typename Iterator>
+  int reduce(Iterator first, Iterator last, thrust::detail::true_type)
+{
+  cudaSetActiveDevice(get_place(first));
+  int result = ::reduce(get_ptr(first), get_ptr(last));
+  return result;
+}
+
+}
+
+template<typename Iterator>
+  int reduce(Iterator first, Iterator last)
+{
+  return place_dispatch::reduce(first, last, typename has_place<Iterator>::type());
+}
+
 int main(void)
 {
+  int num_devices = 0;
   int N = 1000;
 
-  int num_places = thrust::detail::num_places();
+  cudaGetDeviceCount(&num_devices);
 
-  thrust::host_vector<thrust::device_vector<int> > vectors(num_places);
+  thrust::host_vector<thrust::device_vector<int> > vectors(num_devices);
 
-  for(int p = 0; p < num_places; ++p)
+  for(int d = 0; d < num_devices; ++d)
   {
-    thrust::detail::push_place(p);
-    vectors[p].resize(N);
-    thrust::fill(vectors[p].begin(), vectors[p].end(), 13);
-    thrust::detail::pop_place();
+    cudaSetActiveDevice(d);
+    vectors[d].resize(N);
+    thrust::fill(vectors[d].begin(), vectors[d].end(), 13);
   }
 
-  assert(reduce(vectors) == 13 * N * num_places);
+  assert(reduce(vectors) == 13 * N * num_devices);
 
-  for(int p = 0; p < num_places; ++p)
+  for(int d = 0; d < num_devices; ++d)
   {
-    thrust::detail::push_place(p);
-
-    // deallocate the vector while we're in the right place
-    vectors[p].resize(0);
-    vectors[p].shrink_to_fit();
+    cudaSetActiveDevice(d);
     cudaThreadExitActiveDevice();
-    thrust::detail::pop_place();
   }
 
   return 0;

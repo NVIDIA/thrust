@@ -24,15 +24,11 @@ namespace thrust
 namespace detail
 {
 
-typedef int place;
-
 inline void push_place(place p);
 
 inline void pop_place(void);
 
 inline place get_current_place(void);
-
-inline size_t num_places(void);
 
 } // end detail
 
