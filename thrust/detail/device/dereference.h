@@ -39,9 +39,6 @@ template<typename Pointer>
 template<typename Iterator, typename Space>
   class forced_iterator;
 
-template<typename Iterator>
-  class placed_iterator;
-
 } // end detail
 
 
@@ -117,17 +114,15 @@ template<typename T, typename IndexType>
 
 
 // normal_iterator
-// XXX add enable_if<is_convertible<space<Pointer>, device_space_tag> >
-template<typename Pointer>
+template<typename T>
   inline __host__ __device__
-    typename dereference_result< normal_iterator<Pointer> >::type
-      dereference(const normal_iterator<Pointer> &iter);
+    typename dereference_result< normal_iterator< device_ptr<T> > >::type
+      dereference(const normal_iterator< device_ptr<T> > &iter);
 
-// XXX add enable_if<is_convertible<space<Iterator>, device_space_tag> >
-template<typename Pointer, typename IndexType>
+template<typename T, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< normal_iterator<Pointer> >::type
-      dereference(const normal_iterator<Pointer> &iter, IndexType n);
+    typename dereference_result< normal_iterator< device_ptr<T> > >::type
+      dereference(const normal_iterator< device_ptr<T> > &iter, IndexType n);
 
 
 // forced_iterator
@@ -214,21 +209,6 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
       dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n);
-
-
-// placed_iterator prototypes
-// XXX we should add enable_if<space<Iterator> == device>
-template<typename Iterator>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::placed_iterator<Iterator> >::type
-      dereference(const thrust::detail::placed_iterator<Iterator> &iter);
-
-// XXX we should add enable_if<space<Iterator> == device>
-template<typename Iterator, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::placed_iterator<Iterator> >::type
-      dereference(const thrust::detail::placed_iterator<Iterator> &iter, IndexType n);
-
 
 } // end device
 

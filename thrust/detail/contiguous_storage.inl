@@ -29,7 +29,7 @@ template<typename T, typename Alloc>
   contiguous_storage<T,Alloc>
     ::contiguous_storage(void)
       :m_allocator(),
-       m_begin(),
+       m_begin(pointer(static_cast<T*>(0))),
        m_size(0)
 {
   ;
@@ -39,7 +39,7 @@ template<typename T, typename Alloc>
   contiguous_storage<T,Alloc>
     ::contiguous_storage(size_type n)
       :m_allocator(),
-       m_begin(),
+       m_begin(pointer(static_cast<T*>(0))),
        m_size(0)
 {
   allocate(n);
@@ -135,7 +135,7 @@ template<typename T, typename Alloc>
   } // end if
   else
   {
-    m_begin = iterator();
+    m_begin = iterator(pointer(static_cast<T*>(0)));
     m_size = 0;
   } // end else
 } // end contiguous_storage::allocate()
@@ -147,7 +147,7 @@ template<typename T, typename Alloc>
   if(size() > 0)
   {
     m_allocator.deallocate(m_begin.base(), size());
-    m_begin = iterator();
+    m_begin = iterator(pointer(static_cast<T*>(0)));
     m_size = 0;
   } // end if
 } // end contiguous_storage::deallocate()
