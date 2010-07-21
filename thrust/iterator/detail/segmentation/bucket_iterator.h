@@ -16,13 +16,18 @@
 
 #pragma once
 
-#include <thrust/iterator/transform_iterator.h>
-#include <thrust/range/algorithm/transform.h>
-#include <thrust/range/detail/iterator.h>
-#include <thrust/detail/type_traits.h>
-
 namespace thrust
 {
+
+template<typename UnaryFunc, typename SegmentedIterator, typename Reference, typename Value> class transform_iterator;
+
+namespace experimental
+{
+
+template<typename Derived, typename Base, typename Pointer, typename Value, typename Space, typename Traversal, typename Reference, typename Difference>
+class iterator_adaptor;
+
+} // end experimental
 
 namespace detail
 {
@@ -30,10 +35,7 @@ namespace detail
 
 template<typename Iterator> class segmented_iterator;
 
-// forward declaration to WAR circular #inclusion
-template<typename> struct is_segmented;
-
-template<typename Iterator, typename Enable = void> struct bucket_iterator {};
+template<typename Iterator> struct bucket_iterator {};
 
 template<typename Iterator>
   struct bucket_iterator<thrust::detail::segmented_iterator<Iterator> >
@@ -41,77 +43,14 @@ template<typename Iterator>
   typedef typename thrust::detail::segmented_iterator<Iterator>::bucket_iterator type;
 };
 
-
-template<typename UnaryFunction, typename Range>
-struct transform_range_functor
-  : thrust::unary_function<
-      Range, 
-      typename thrust::experimental::range::detail::lazy_unary_transform_result<
-        Range,
-        UnaryFunction
-      >::type
-    >
-{
-  transform_range_functor(UnaryFunction f)
-    : m_f(f) {}
-
-  typedef typename thrust::experimental::range::detail::lazy_unary_transform_result<
-    Range,
-    UnaryFunction
-  >::type result_type;
-
-  // define this as __host__ __device__ to allow it to work with transform_iterator
-  // we will only ever use it from __host__ code
-  __host__ __device__
-  result_type operator()(Range &r)
-  {
-#ifndef __CUDA_ARCH__
-    return thrust::experimental::range::transform(r, m_f);
-#else
-    return result_type();
-#endif
-  }
-
-  // add a second overload to accept temporaries
-  // XXX change this to an rvalue reference upon arrival of c++0x
-  __host__ __device__
-  result_type operator()(const Range &r)
-  {
-#ifndef __CUDA_ARCH__
-    return thrust::experimental::range::transform(r, m_f);
-#else
-    return result_type();
-#endif
-  }
-
-  UnaryFunction m_f;
-}; // end transform_range_functor
-
-
-
-template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
+template<typename Derived, typename Base, typename Pointer, typename Value, typename Space, typename Traversal, typename Reference, typename Difference>
   struct bucket_iterator<
-    thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value>,
-    typename thrust::detail::enable_if<
-      is_segmented<Iterator>
-    >::type
+    thrust::experimental::iterator_adaptor<
+      Derived, Base, Pointer, Value, Space, Traversal, Reference, Difference
+    >
   >
-{
-  private:
-    // get the SegmentedIterator's bucket_iterator
-    typedef typename bucket_iterator<Iterator>::type                       base_range_iterator;
-
-    // get the value_type of the bucket_iterator -- this is the range we're going to transform
-    typedef typename thrust::iterator_value<base_range_iterator>::type     base_range;
-
-    // name a transform_range_functor
-    typedef transform_range_functor<UnaryFunc,base_range>                  xfrm_functor;
-
-  public:
-    // name a transform_iterator which will transform a base_range_iterator using the xfrm_functor
-    typedef thrust::transform_iterator<xfrm_functor,base_range_iterator>   type;
-};
-
+    : bucket_iterator<Base>
+{};
 
 } // end detail
 

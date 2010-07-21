@@ -17,26 +17,39 @@
 #pragma once
 
 #include <thrust/detail/has_nested_type.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/iterator/detail/segmentation/bucket_iterator.h>
 
 namespace thrust
 {
+
+namespace experimental
+{
+
+template<typename Derived, typename Base, typename Pointer, typename Value, typename Space, typename Traversal, typename Reference, typename Difference>
+class iterator_adaptor;
+
+} // end experimental
+
 
 namespace detail
 {
 
 
-// XXX this is a handy thing to have around -- move it to type_traits.h
-__THRUST_DEFINE_HAS_NESTED_TYPE(metafunction_has_result_type, type);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_local_iterator, local_iterator);
 
 
-// if bucket_iterator<Iterator>::type exists, then Iterator is segmented
 template<typename Iterator>
   struct is_segmented
-    : metafunction_has_result_type<
-        bucket_iterator<Iterator>
-      >
+    : has_local_iterator<Iterator>
+{};
+
+
+template<typename Derived, typename Base, typename Pointer, typename Value, typename Space, typename Traversal, typename Reference, typename Difference>
+  struct is_segmented<
+    thrust::experimental::iterator_adaptor<
+      Derived,Base,Pointer,Value,Space,Traversal,Reference,Difference
+    >
+  >
+    : has_local_iterator<Base>
 {};
 
 
