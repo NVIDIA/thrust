@@ -94,10 +94,6 @@ template<typename Iterator>
 
     __host__ __device__
     void decrement(void);
-
-    // XXX this needs to be removed because segmented_iterator isn't random access
-    __host__ __device__
-    void advance(typename super_t::difference_type n);
 }; // end segmented_iterator
 
 template<typename Iterator>
