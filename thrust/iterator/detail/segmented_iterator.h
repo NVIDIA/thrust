@@ -22,7 +22,7 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/detail/segmentation/segmented_iterator_base.h>
+#include <thrust/iterator/detail/segmented_iterator_base.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/range/detail/iterator.h>
 
@@ -100,5 +100,5 @@ template<typename Range>
 
 } // end thrust
 
-#include <thrust/iterator/detail/segmentation/segmented_iterator.inl>
+#include <thrust/iterator/detail/segmented_iterator.inl>
 
