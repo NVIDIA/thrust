@@ -27,8 +27,8 @@ namespace detail
 
 template<typename T, typename Alloc>
   contiguous_storage<T,Alloc>
-    ::contiguous_storage(const allocator_type &alloc)
-      :m_allocator(alloc),
+    ::contiguous_storage(void)
+      :m_allocator(),
        m_begin(),
        m_size(0)
 {
