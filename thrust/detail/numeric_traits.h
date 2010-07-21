@@ -68,21 +68,18 @@ template<typename Integer>
     //    >
     //  >
 {
-  private:
-    typedef std::numeric_limits<Integer> x;
-
   public:
     typedef typename
       eval_if<
-        x::is_signed &&
+        std::numeric_limits<Integer>::is_signed &&
         // digits is the number of no-sign bits
-        (!x::is_bounded || (int(x::digits) + 1 >= num_digits<intmax_t>::value)),
+        (!std::numeric_limits<Integer>::is_bounded || (int(std::numeric_limits<Integer>::digits) + 1 >= num_digits<intmax_t>::value)),
         identity_<Integer>,
         eval_if<
-          int(x::digits) + 1 < num_digits<signed int>::value,
+          int(std::numeric_limits<Integer>::digits) + 1 < num_digits<signed int>::value,
           identity_<signed int>,
           eval_if<
-            int(x::digits) + 1 < num_digits<signed long>::value,
+            int(std::numeric_limits<Integer>::digits) + 1 < num_digits<signed long>::value,
             identity_<signed long>,
             identity_<intmax_t>
           >
