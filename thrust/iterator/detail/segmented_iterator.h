@@ -110,3 +110,56 @@ template<typename Range>
 
 #include <thrust/iterator/detail/segmented_iterator.inl>
 
+  private:
+    // shorthand parent types
+    typedef typename segmented_iterator_base<Iterator>::type super_t;
+    typedef typename super_t::reference                      reference;
+
+    // an iterator that iterates across buckets
+    typedef Iterator                                         bucket_iterator;
+
+    // an iterator that iterates locally to a bucket
+    typedef typename thrust::experimental::range_iterator<
+      typename iterator_value<bucket_iterator>::type
+    >::type                                                  local_iterator;
+
+    // the current bucket
+    bucket_iterator m_current_bucket;
+
+    // the end of the buckets range
+    bucket_iterator m_buckets_end;
+
+    // the current element within the current bucket
+    local_iterator  m_current;
+
+    // iterator core interface follows
+    
+    friend class thrust::experimental::iterator_core_access;
+    
+    __host__ __device__
+    reference dereference(void) const;
+
+    __host__ __device__
+    bool equal(const segmented_iterator &x) const;
+
+    __host__ __device__
+    void increment(void);
+
+    __host__ __device__
+    void decrement(void);
+}; // end segmented_iterator
+
+template<typename Iterator>
+  segmented_iterator<Iterator>
+    make_segmented_iterator(Iterator first, Iterator last);
+
+template<typename Range>
+  segmented_iterator<typename thrust::experimental::range_iterator<Range>::type>
+    make_segmented_iterator(Range &rng);
+
+} // end detail
+
+} // end thrust
+
+#include <thrust/iterator/detail/segmented_iterator.inl>
+
