@@ -42,7 +42,6 @@ template<typename T, typename Allocator>
     ::segmented_storage(size_type n)
       :m_storage(choose_number_of_segments())
 {
-  std::cout << "Allocator: " << typeid(Allocator).name() << std::endl;
   allocate(n);
 } // end segmented_storage::segmented_storage()
 
@@ -130,25 +129,17 @@ template<typename T, typename Allocator>
   // if n is small, just give it all to the first segment
   const size_type size_per_segment = (n > m) ? (n / m) : n;
 
-  // if there are leftovers, give them to the first segment
-  size_type num_leftover = 0;
-  if(n > m * size_per_segment)
-  {
-    num_leftover = n - (m * size_per_segment);
-  }
-
   // XXX might want to parallelize this with for_each
   size_type i = 0;
   while(n > 0)
   {
     // XXX don't use thrust::min here to avoid bringing in all of extrema.h
-    const size_type size_to_allocate = ((size_per_segment < n) ? size_per_segment : n) + num_leftover;
+    const size_type size_to_allocate = (size_per_segment < n) ? size_per_segment : n;
 
     m_storage[i].allocate(size_to_allocate);
 
     n -= size_to_allocate;
     ++i;
-    num_leftover = 0;
   } // end while
 } // segmented_storage::allocate()
 
