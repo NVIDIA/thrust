@@ -24,33 +24,7 @@ namespace thrust
 namespace detail
 {
 
-namespace place_detail
-{
-
-template<typename Space>
-  class place
-{
-  public:
-    inline place(int resource = 0)
-      : m_resource(resource) {}
-
-    typedef Space space;
-
-    __host__ __device__
-    bool operator==(const place &rhs) const
-    {
-      return m_resource == rhs.m_resource;
-    }
-
-  private:
-    int m_resource;
-
-    friend struct place_core_access;
-};
-
-} // end place_detail
-
-typedef place_detail::place<thrust::detail::default_device_space_tag> place;
+typedef int place;
 
 inline void push_place(place p);
 
