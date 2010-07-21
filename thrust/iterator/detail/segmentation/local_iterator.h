@@ -16,27 +16,44 @@
 
 #pragma once
 
-#include <thrust/range/detail/iterator.h>
-#include <thrust/range/detail/value_type.h>
-#include <thrust/iterator/detail/segmentation/bucket_iterator.h>
-
 namespace thrust
 {
+
+template<typename UnaryFunc, typename SegmentedIterator, typename Reference, typename Value> class transform_iterator;
+
 
 namespace detail
 {
 
 
-// in general, a SegmentedIterator's local_iterator is the iterator
-// type of its bucket type
-template<typename SegmentedIterator>
-  struct local_iterator
-    : thrust::experimental::range_iterator<
-        typename thrust::iterator_value<
-          typename bucket_iterator<SegmentedIterator>::type
-        >::type
-      >
-{};
+template<typename Iterator> class segmented_iterator;
+
+template<typename Iterator> struct local_iterator {};
+
+
+template<typename Iterator>
+  struct local_iterator<thrust::detail::segmented_iterator<Iterator> >
+{
+  typedef typename thrust::detail::segmented_iterator<Iterator>::local_iterator type;
+};
+
+
+// this metafunction rebinds a segmented transform_iterator to yield a transformed local_iterator
+// it essentially removes one layer of segmentation
+template<typename UnaryFunc, typename SegmentedIterator, typename Reference, typename Value>
+  struct local_iterator<
+    thrust::transform_iterator<
+      UnaryFunc, SegmentedIterator, Reference, Value
+    >
+  >
+{
+  typedef typename thrust::transform_iterator<
+    UnaryFunc,
+    typename local_iterator<SegmentedIterator>::type,
+    Reference,
+    Value
+  > type;
+};
 
 
 } // end detail
