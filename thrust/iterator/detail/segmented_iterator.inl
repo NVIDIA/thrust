@@ -32,7 +32,7 @@ template<typename Iterator>
     ::segmented_iterator(void)
       : m_current_bucket(),
         m_buckets_end(),
-        m_current_local()
+        m_current()
 {
 } // end segmented_iterator::segmented_iterator()
 
@@ -52,7 +52,7 @@ template<typename Iterator>
 
   if(m_current_bucket != m_buckets_end)
   {
-    m_current_local = thrust::experimental::begin(*m_current_bucket);
+    m_current = thrust::experimental::begin(*m_current_bucket);
   } // end if
 } // end segmented_iterator::segmented_iterator()
 
@@ -62,17 +62,17 @@ template<typename Iterator>
     ::segmented_iterator(const segmented_iterator &x)
       : m_current_bucket(x.m_current_bucket),
         m_buckets_end(x.m_buckets_end),
-        m_current_local(x.m_current_local)
+        m_current(x.m_current)
 {
 } // end segmented_iterator::segmented_iterator()
 
 
 template<typename Iterator>
-  typename segmented_iterator<Iterator>::super_t::reference
+  typename segmented_iterator<Iterator>::reference
     segmented_iterator<Iterator>
       ::dereference(void) const
 {
-  return *m_current_local;
+  return *m_current;
 } // end segmented_iterator::dereference()
 
 
@@ -83,7 +83,7 @@ template<typename Iterator>
   // check the end of the buckets range, if they are equal, compare the current buckets
   // the iterators are equal if we're at the end of the range or if the local iterators match
   return (m_buckets_end == x.m_buckets_end) && (m_current_bucket == x.m_current_bucket)
-    && ((m_current_bucket == m_buckets_end) || (m_current_local == x.m_current_local));
+    && ((m_current_bucket == m_buckets_end) || (m_current == x.m_current));
 } // end segmented_iterator::equal()
 
 
@@ -92,10 +92,10 @@ template<typename Iterator>
     ::increment(void)
 {
   // increment the local iterator
-  ++m_current_local;
+  ++m_current;
 
   // skip past the current bucket if we're at the end and all empty buckets
-  while(m_current_local == thrust::experimental::end(*m_current_bucket))
+  while(m_current == thrust::experimental::end(*m_current_bucket))
   {
     // increment the bucket iterator
     ++m_current_bucket;
@@ -104,7 +104,7 @@ template<typename Iterator>
     if(m_current_bucket == m_buckets_end) break;
 
     // point to the beginning of the current bucket
-    m_current_local = thrust::experimental::begin(*m_current_bucket);
+    m_current = thrust::experimental::begin(*m_current_bucket);
   } // end while
 } // end segmented_iterator::increment()
 
@@ -114,40 +114,16 @@ template<typename Iterator>
     ::decrement(void)
 {
   // skip past the current bucket if we're at the beginning and all empty buckets
-  while(m_current_bucket == m_buckets_end || m_current_local == thrust::experimental::begin(*m_current_bucket))
+  while(m_current_bucket == m_buckets_end || m_current == thrust::experimental::begin(*m_current_bucket))
   {
     --m_current_bucket;
-    m_current_local = thrust::experimental::end(*m_current_bucket);
+    m_current = thrust::experimental::end(*m_current_bucket);
   } // end while
 
   // decrement the local iterator
   --m_current_bucket;
 } // end segmented_iterator::decrement()
 
-
-template<typename Iterator>
-  typename segmented_iterator<Iterator>::local_iterator
-    segmented_iterator<Iterator>
-      ::current_local(void) const
-{
-  return m_current_local;
-} // end segmented_iterator::current_local()
-
-template<typename Iterator>
-  typename segmented_iterator<Iterator>::bucket_iterator
-    segmented_iterator<Iterator>
-      ::current_bucket(void) const
-{
-  return m_current_bucket;
-} // end segmented_iterator::current()
-
-template<typename Iterator>
-  typename segmented_iterator<Iterator>::bucket_iterator
-    segmented_iterator<Iterator>
-      ::buckets_end(void) const
-{
-  return m_buckets_end;
-} // end segmented_iterator::buckets_end()
 
 template<typename Iterator>
   segmented_iterator<Iterator>
