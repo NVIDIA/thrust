@@ -19,7 +19,7 @@
 #include <thrust/iterator/detail/segmentation/segmented_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/contiguous_storage.h>
-#include <vector>
+#include <thrust/host_vector.h>
 
 namespace thrust
 {
@@ -32,27 +32,20 @@ namespace detail
 template<typename T, typename Allocator>
   class segmented_storage
 {
-  private:
-    typedef contiguous_storage<T,Allocator>                                  storage_type;
-    typedef std::vector<storage_type> range_of_segments_type;
+//  private:
+  public:
+    typedef contiguous_storage<T,Allocator>                          storage_type;
+    typedef thrust::host_vector<storage_type>                        range_of_segments_type;
 
   public:
     typedef Allocator                                                allocator_type;
     typedef T                                                        value_type;
-
-    // XXX the pointer type should be a special type that knows that it's safe to be random access
-    //     basically, that the size of each segment is the same (except for possibly unfull ones at the end)
-    //     blocked_iterator or something, which would adapt segmented_iterator
-    //     the only new method it would need would be blocked_iterator::advance()
     typedef thrust::detail::segmented_iterator<
       typename range_of_segments_type::iterator
     >                                                                pointer;
     typedef thrust::detail::segmented_iterator<
       typename range_of_segments_type::const_iterator
     >                                                                const_pointer;
-
-    // XXX we need a special segmented_reference type which retains info about the segmentation
-    //     basically just a wrapper for pointer/const_pointer with value_type conversion semantics
     typedef typename thrust::iterator_reference<pointer>::type       reference;
     typedef typename thrust::iterator_reference<const_pointer>::type const_reference;
 

@@ -133,8 +133,7 @@ template<typename T, typename Allocator>
   size_type i = 0;
   while(n > 0)
   {
-    // XXX don't use thrust::min here to avoid bringing in all of extrema.h
-    const size_type size_to_allocate = (size_per_segment < n) ? size_per_segment : n;
+    const size_type size_to_allocate = thrust::min(size_per_segment, n);
 
     m_storage[i].allocate(size_to_allocate);
 
@@ -165,7 +164,7 @@ template<typename T, typename Allocator>
     segmented_storage<T,Allocator>
       ::choose_number_of_segments(void)
 {
-  return 2;
+  return 20;
 } // end segmented_storage::choose_number_of_segments()
 
 
