@@ -40,7 +40,7 @@ template<typename T, typename Alloc>
     typedef thrust::detail::normal_iterator<pointer>       iterator;
     typedef thrust::detail::normal_iterator<const_pointer> const_iterator;
 
-    contiguous_storage(const allocator_type &alloc = allocator_type());
+    contiguous_storage(void);
 
     explicit contiguous_storage(size_type n);
 
