@@ -25,8 +25,8 @@ namespace detail
 {
 
 
-template<typename UnplacedIterator>
-  placed_iterator<UnplacedIterator>
+template<typename Iterator>
+  placed_iterator<Iterator>
     ::placed_iterator(void)
       : super_t(),
         m_place()
@@ -34,18 +34,18 @@ template<typename UnplacedIterator>
   ;
 } // end placed_iterator::placed_iterator()
 
-template<typename UnplacedIterator>
-  placed_iterator<UnplacedIterator>
-    ::placed_iterator(UnplacedIterator i, place p)
+template<typename Iterator>
+  placed_iterator<Iterator>
+    ::placed_iterator(Iterator i, place p)
       : super_t(i),
         m_place(p)
 {
   ;
 } // end placed_iterator::placed_iterator()
 
-template<typename UnplacedIterator>
+template<typename Iterator>
   template<typename OtherIterator>
-    placed_iterator<UnplacedIterator>
+    placed_iterator<Iterator>
       ::placed_iterator(placed_iterator<OtherIterator> i, place p)
         : super_t(i.base()),
           m_place(p)
@@ -53,42 +53,35 @@ template<typename UnplacedIterator>
   ;
 } // end placed_iterator::placed_iterator()
 
-template<typename UnplacedIterator>
-  void placed_iterator<UnplacedIterator>
+template<typename Iterator>
+  void placed_iterator<Iterator>
     ::set_place(place p)
 {
   m_place = p;
 } // end placed_iterator::set_place()
 
-template<typename UnplacedIterator>
-  typename placed_iterator<UnplacedIterator>::place
-    placed_iterator<UnplacedIterator>
+template<typename Iterator>
+  typename placed_iterator<Iterator>::place
+    placed_iterator<Iterator>
       ::get_place(void) const
 {
   return m_place;
 } // end placed_iterator::get_place()
 
 
-template<typename UnplacedIterator>
-  typename placed_iterator<UnplacedIterator>::super_t::reference
-    placed_iterator<UnplacedIterator>
+template<typename Iterator>
+  typename placed_iterator<Iterator>::super_t::reference
+    placed_iterator<Iterator>
       ::dereference(void) const
 {
   return *super_t::base();
 } // end placed_iterator::dereference()
 
 
-template<typename UnplacedIterator>
-  placed_iterator<UnplacedIterator> make_placed_iterator(UnplacedIterator i, place p)
+template<typename Iterator>
+  placed_iterator<Iterator> make_placed_iterator(Iterator i, place p)
 {
-  return placed_iterator<UnplacedIterator>(i,p);
-} // end make_placed_iterator()
-
-template<typename UnplacedIterator>
-  placed_iterator<UnplacedIterator> make_placed_iterator(UnplacedIterator i, std::size_t p)
-{
-  typedef typename placed_iterator<UnplacedIterator>::place place;
-  return make_placed_iterator(i, place(p));
+  return placed_iterator<Iterator>(i,p);
 } // end make_placed_iterator()
 
 
