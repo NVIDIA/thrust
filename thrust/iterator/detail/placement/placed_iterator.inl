@@ -35,19 +35,10 @@ template<typename Iterator>
 } // end placed_iterator::placed_iterator()
 
 template<typename Iterator>
-  placed_iterator<Iterator>
-    ::placed_iterator(Iterator i, place p)
-      : super_t(i),
-        m_place(p)
-{
-  ;
-} // end placed_iterator::placed_iterator()
-
-template<typename Iterator>
   template<typename OtherIterator>
     placed_iterator<Iterator>
-      ::placed_iterator(placed_iterator<OtherIterator> i, place p)
-        : super_t(i.base()),
+      ::placed_iterator(OtherIterator i, place p)
+        : super_t(i),
           m_place(p)
 {
   ;

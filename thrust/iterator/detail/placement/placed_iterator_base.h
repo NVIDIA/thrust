@@ -29,8 +29,17 @@ template<typename Iterator> class placed_iterator;
 
 template<typename Iterator>
   struct placed_iterator_base
+    : thrust::experimental<
+        placed_iterator<Iterator>,
+        Iterator,
+        typename thrust::iterator_pointer<Iterator>::type,
+        typename thrust::iterator_value<Iterator>::type,
+        typename thrust::iterator_space<Iterator>::type,
+        typename thrust::iterator_traversal<Iterator>::type,
+        typename thrust::iterator_reference<Iterator>::type
+      >
 {
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::experimental<
     placed_iterator<Iterator>,
     Iterator,
     typename thrust::iterator_pointer<Iterator>::type,

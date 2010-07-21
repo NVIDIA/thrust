@@ -75,10 +75,10 @@ namespace device
 
 
 // specialize dereference_result for normal_iterator with device_ptr as base
-template<typename Pointer>
-  struct dereference_result< normal_iterator<Pointer> >
+template<typename T>
+  struct dereference_result< normal_iterator< device_ptr<T> > >
 {
-  typedef typename dereference_result<Pointer>::type type;
+  typedef typename dereference_result< device_ptr<T> >::type type;
 }; // end dereference_result
 
 
@@ -93,20 +93,18 @@ template<typename T, typename IndexType>
     typename dereference_result< device_ptr<T> >::type
       dereference(device_ptr<T> iter, IndexType n);
 
-// XXX add enable_if<is_convertible<space<Pointer>, host>>
-template<typename Pointer>
+template<typename T>
   inline __host__ __device__
-    typename dereference_result< normal_iterator<Pointer> >::type
-      dereference(const normal_iterator<Pointer> &iter)
+    typename dereference_result< normal_iterator< device_ptr<T> > >::type
+      dereference(const normal_iterator< device_ptr<T> > &iter)
 {
   return dereference(iter.base());
 } // end dereference()
 
-// XXX add enable_if<is_convertible<space<Pointer>, host>>
-template<typename Pointer, typename IndexType>
+template<typename T, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< normal_iterator<Pointer> >::type
-      dereference(const normal_iterator<Pointer> &iter, IndexType n)
+    typename dereference_result< normal_iterator< device_ptr<T> > >::type
+      dereference(const normal_iterator< device_ptr<T> > &iter, IndexType n)
 {
   return dereference(iter.base(), n);
 } // end dereference()
