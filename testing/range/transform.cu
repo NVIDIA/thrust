@@ -232,24 +232,24 @@ void TestRangeTransformIfBinary(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestRangeTransformIfBinary);
 
 
-//template <class Vector>
-//void TestTransformUnaryLazySequence(void)
-//{
-//    typedef typename Vector::value_type T;
-//
-//    thrust::counting_iterator<T> first(1);
-//
-//    Vector output(3);
-//
-//    thrust::transform(first, first + 3, output.begin(), thrust::identity<T>());
-//    
-//    Vector result(3);
-//    result[0] = 1; result[1] = 2; result[2] = 3;
-//
-//    ASSERT_EQUAL(output, result);
-//}
-//DECLARE_VECTOR_UNITTEST(TestTransformUnaryLazySequence);
-//
+template <class Vector>
+void TestTransformUnaryLazySequence(void)
+{
+    typedef typename Vector::value_type T;
+
+    thrust::counting_iterator<T> first(1);
+
+    Vector output(3);
+
+    thrust::transform(first, first + 3, output.begin(), thrust::identity<T>());
+    
+    Vector result(3);
+    result[0] = 1; result[1] = 2; result[2] = 3;
+
+    ASSERT_EQUAL(output, result);
+}
+DECLARE_VECTOR_UNITTEST(TestTransformUnaryCountingIterator);
+
 //template <class Vector>
 //void TestTransformBinaryCountingIterator(void)
 //{
