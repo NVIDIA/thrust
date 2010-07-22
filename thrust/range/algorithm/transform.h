@@ -104,15 +104,6 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
                  UnaryFunction f,
                  Predicate pred);
 
-template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename SinglePassRange4, typename BinaryFunction, typename Predicate>
-  inline typename detail::binary_transform_if_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, SinglePassRange4, BinaryFunction, Predicate>::type
-    transform_if(const SinglePassRange1 &rng1,
-                 const SinglePassRange2 &rng2,
-                 const SinglePassRange3 &stencil,
-                 SinglePassRange4 &result,
-                 BinaryFunction f,
-                 Predicate pred);
-
 
 // lazy versions
 
