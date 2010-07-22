@@ -231,7 +231,7 @@ template<typename T>
                        detail::is_convertible<
                          typename device_reference<OtherT>::pointer,
                          pointer
-                       >
+                       >::value
                      >::type *dummy = 0
 #endif // __MSC_VER
                     );
