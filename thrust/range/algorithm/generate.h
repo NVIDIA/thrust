@@ -25,7 +25,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/range/algorithm/for_each.h>
+#include <thrust/range/begin.h>
+#include <thrust/range/end.h>
+#include <thrust/generate.h>
 
 namespace thrust
 {
@@ -37,32 +39,10 @@ namespace range
 {
 
 
-namespace detail
-{
-
-template<typename Generator>
-  struct generate_functor
-{
-  Generator gen;
-  
-  generate_functor(Generator g)
-    : gen(g){}
-  
-  template<typename T>
-  __host__ __device__
-  void operator()(T &x)
-  {
-    x = gen();
-  }
-} // end generate_functor
-
-} // end detail
-
-
 template<typename ForwardRange, typename Generator>
   inline ForwardRange &generate(ForwardRange &rng, Generator gen)
 {
-  for_each(rng, generate_functor<Generator>(gen));
+  thrust::generate(begin(rng), end(rng), gen);
   return rng;
 } // end generate()
 
