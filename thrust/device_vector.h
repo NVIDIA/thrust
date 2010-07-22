@@ -140,48 +140,6 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
       :Parent(first,last) {}
 }; // end device_vector
 
-
-namespace experimental
-{
-
-// [24.6.5] range access
-
-// XXX move these implementations to device_vector.inl
-template<typename T, typename Alloc>
-  typename device_vector<T,Alloc>::iterator
-    begin(device_vector<T,Alloc> &v)
-{
-  return v.begin();
-} // end begin()
-
-
-template<typename T, typename Alloc>
-  typename device_vector<T,Alloc>::const_iterator
-    begin(const device_vector<T,Alloc> &v)
-{
-  return v.begin();
-} // end begin()
-
-
-// XXX move these implementations to device_vector.inl
-template<typename T, typename Alloc>
-  typename device_vector<T,Alloc>::iterator
-    end(device_vector<T,Alloc> &v)
-{
-  return v.end();
-} // end end()
-
-
-template<typename T, typename Alloc>
-  typename device_vector<T,Alloc>::const_iterator
-    end(const device_vector<T,Alloc> &v)
-{
-  return v.end();
-} // end end()
-
-
-} // end experimental
-
 /*! \}
  */
 

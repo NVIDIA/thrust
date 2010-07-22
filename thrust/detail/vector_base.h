@@ -492,7 +492,6 @@ template<typename T1, typename Alloc1,
 bool operator<<(const std::vector<T1,Alloc1>&         lhs,
                 const detail::vector_base<T2,Alloc2>& rhs);
 
-
 } // end thrust
 
 #include <thrust/detail/vector_base.inl>

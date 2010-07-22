@@ -46,7 +46,7 @@ template<typename Range>
 
 
 // std::pair
-template<typename Iterator>
+template<typename Iterator,typename Iterator>
   struct range_mutable_iterator< std::pair<Iterator,Iterator> >
 {
   typedef Iterator type;
@@ -54,7 +54,7 @@ template<typename Iterator>
 
 
 // thrust::pair
-template<typename Iterator>
+template<typename Iterator,typename Iterator>
   struct range_mutable_iterator< thrust::pair<Iterator,Iterator> >
 {
   typedef Iterator type;
@@ -63,7 +63,7 @@ template<typename Iterator>
 
 // thrust::tuple
 template<typename Iterator>
-  struct range_mutable_iterator< thrust::tuple<Iterator,Iterator> >
+  struct range_const_iterator< thrust::tuple<Iterator,Iterator> >
 {
   typedef Iterator type;
 };
@@ -71,7 +71,7 @@ template<typename Iterator>
 
 // array
 template<typename T, std::size_t sz>
-struct range_mutable_iterator< T[sz] >
+struct range_const_iterator< T[sz] >
 {
   typedef T* type;
 };
