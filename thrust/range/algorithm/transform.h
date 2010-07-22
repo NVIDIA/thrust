@@ -29,7 +29,6 @@
 #include <thrust/transform.h>
 #include <thrust/range/iterator_range.h>
 #include <thrust/range/detail/iterator.h>
-#include <thrust/iterator/transform_iterator.h>
 
 namespace thrust
 {
@@ -76,37 +75,7 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
   typedef typename detail::transform_result<SinglePassRange3>::type Result;
 
   return Result(thrust::transform(begin(rng1), end(rng1), begin(rng2), begin(result), f), end(result));
-} // end transform()
-
-
-// deferred versions
-
-namespace detail
-{
-
-template<typename SinglePassRange, typename UnaryFunction>
-  struct deferred_unary_transform_result
-{
-  private:
-    typedef typename range_iterator<SinglePassRange>::type Iterator;
-    typedef transform_iterator<UnaryFunction,Iterator> XfrmIterator;
-
-  public:
-    typedef iterator_range<XfrmIterator> type;
-}; // end deferred_unary_transform_result
-
-} // end detail
-
-
-template<typename SinglePassRange, typename UnaryFunction>
-  inline typename detail::deferred_unary_transform_result<SinglePassRange, UnaryFunction>::type
-    transform(const SinglePassRange &rng,
-              UnaryFunction f)
-{
-  typedef typename detail::deferred_unary_transform_result<SinglePassRange, UnaryFunction>::type Result;
-
-  return Result(make_transform_iterator(begin(rng), f), make_transform_iterator(end(rng), f));
-} // end transform()
+} // end for_each()
 
 
 } // end range
