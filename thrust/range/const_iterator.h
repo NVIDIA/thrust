@@ -24,8 +24,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/pair.h>
-#include <thrust/tuple.h>
 
 #include <cstddef> // for std::size_t
 #include <utility> // for std::pair
@@ -63,12 +63,7 @@ template<typename Iterator>
 };
 
 
-// thrust::tuple
-template<typename Iterator>
-  struct range_const_iterator< thrust::tuple<Iterator,Iterator> >
-{
-  typedef Iterator type;
-};
+// XXX tuple<Iterator,Iterator> ?
 
 
 // array
