@@ -87,14 +87,6 @@ template<typename Iterator>
     void decrement(void);
 }; // end segmented_iterator
 
-template<typename Iterator>
-  segmented_iterator<Iterator>
-    make_segmented_iterator(Iterator first, Iterator last);
-
-template<typename Range>
-  segmented_iterator<typename thrust::experimental::range_iterator<Range>::type>
-    make_segmented_iterator(Range &rng);
-
 } // end detail
 
 } // end thrust

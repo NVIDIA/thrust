@@ -42,12 +42,7 @@ __host__ __device__
   inline typename range_iterator<Range>::type
     end(Range &r)
 {
-// XXX WAR nvcc's issues with calling __host__ or __device__ from __host__ __device__
-#ifndef __CUDA_ARCH__
   return r.end();
-#else
-  return typename range_iterator<Range>::type();
-#endif
 }
 
 
