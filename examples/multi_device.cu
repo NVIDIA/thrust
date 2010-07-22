@@ -36,12 +36,9 @@ int main(void)
 
   assert(reduce(vectors) == 13 * N * num_devices);
 
-  // explicitly dealloc so that we free on the right device upon teardown
   for(int d = 0; d < num_devices; ++d)
   {
     cudaSetActiveDevice(d);
-    vectors[d].clear();
-    vectors[d].shrink_to_fit();
     cudaThreadExitActiveDevice();
   }
 
