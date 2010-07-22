@@ -138,7 +138,7 @@ template<typename Iterator>
     iterator_range<Iterator>
       ::operator[](difference_type at) const
 {
-  return *(m_begin+at);
+  return m_begin[at];
 } // end operator[]()
 
 
