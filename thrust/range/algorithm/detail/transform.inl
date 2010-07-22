@@ -18,11 +18,6 @@
 
 #include <thrust/range/algorithm/transform.h>
 #include <thrust/range/algorithm/detail/transform_result.h>
-#include <thrust/range/algorithm/for_each.h>
-#include <thrust/range/zip.h>
-#include <thrust/range/iterator_range.h>
-#include <thrust/tuple.h>
-
 
 namespace thrust
 {
@@ -33,87 +28,8 @@ namespace experimental
 namespace range
 {
 
-namespace detail
-{
 
-// XXX these functors are duplicated from the ones in thrust/detail/device/generic/transform.inl
-//     put them some place common, maybe detail/functional.h
-template <typename UnaryFunction>
-struct unary_transform_functor
-{
-  UnaryFunction f;
-
-  unary_transform_functor(UnaryFunction f_)
-    :f(f_)
-  {}
-
-  template<typename Tuple>
-  __host__ __device__
-  void operator()(Tuple t)
-  {
-    thrust::get<1>(t) = f(thrust::get<0>(t));
-  }
-}; // end unary_transform_functor
-
-
-template <typename BinaryFunction>
-struct binary_transform_functor
-{
-  BinaryFunction f;
-
-  binary_transform_functor(BinaryFunction f_)
-    :f(f_)
-  {}
-
-  template <typename Tuple>
-  __host__ __device__
-  void operator()(Tuple t)
-  { 
-    thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
-  }
-}; // end binary_transform_functor
-
-
-template <typename UnaryFunction, typename Predicate>
-struct unary_transform_if_functor
-{
-  UnaryFunction unary_op;
-  Predicate pred;
-  
-  unary_transform_if_functor(UnaryFunction _unary_op, Predicate _pred)
-    : unary_op(_unary_op), pred(_pred) {} 
-  
-  template <typename Tuple>
-  __host__ __device__
-  void operator()(Tuple t)
-  {
-    if(pred(thrust::get<1>(t)))
-      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
-  }
-}; // end unary_transform_if_functor
-
-
-template <typename BinaryFunction, typename Predicate>
-struct binary_transform_if_functor
-{
-  BinaryFunction binary_op;
-  Predicate pred;
-
-  binary_transform_if_functor(BinaryFunction _binary_op, Predicate _pred)
-    : binary_op(_binary_op), pred(_pred) {} 
-
-  template <typename Tuple>
-  __host__ __device__
-  void operator()(Tuple t)
-  {
-    if(pred(thrust::get<2>(t)))
-      thrust::get<3>(t) = binary_op(thrust::get<0>(t), thrust::get<1>(t));
-  }
-}; // end binary_transform_if_functor
-  
-
-} // end detail
-
+// XXX should we implement transform() with transform(begin,end) or for_each(rng) ?
 
 template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFunction>
   inline typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type
@@ -121,10 +37,9 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFun
               SinglePassRange2 &result,
               UnaryFunction f)
 {
-  for_each(zip(rng,result), detail::unary_transform_functor<UnaryFunction>(f));
+  typedef typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type Result;
 
-  // XXX begin() + size() isn't generic
-  return make_iterator_range(begin(result) + rng.size(), end(result));
+  return Result(thrust::transform(begin(rng), end(rng), begin(result), f), end(result));
 } // end transform()
 
 
@@ -134,10 +49,9 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFun
               const SinglePassRange2 &result,
               UnaryFunction f)
 {
-  for_each(zip(rng,result), detail::unary_transform_functor<UnaryFunction>(f));
+  typedef typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type Result;
 
-  // XXX begin() + size() isn't generic
-  return make_iterator_range(begin(result) + rng.size(), end(result));
+  return Result(thrust::transform(begin(rng), end(rng), begin(result), f), end(result));
 } // end transform()
 
 
@@ -148,10 +62,9 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
               SinglePassRange3 &result,
               BinaryFunction f)
 {
-  for_each(zip(rng1,rng2,result), detail::binary_transform_functor<BinaryFunction>(f));
+  typedef typename detail::binary_transform_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, BinaryFunction>::type Result;
 
-  // XXX begin() + size() isn't generic
-  return make_iterator_range(begin(result) + rng1.size(), end(result));
+  return Result(thrust::transform(begin(rng1), end(rng1), begin(rng2), begin(result), f), end(result));
 } // end transform()
 
 
@@ -163,10 +76,8 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
                  UnaryFunction f,
                  Predicate pred)
 {
-  for_each(zip(rng,stencil,result), detail::unary_transform_if_functor<UnaryFunction,Predicate>(f, pred));
-
-  // XXX begin() + size() isn't generic
-  return make_iterator_range(begin(result) + rng.size(), end(result));
+  typedef typename detail::unary_transform_if_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, UnaryFunction, Predicate>::type Result;
+  return Result(thrust::transform_if(begin(rng), end(rng), begin(stencil), begin(result), f, pred), end(result));
 } // end transform_if()
 
 
@@ -179,10 +90,8 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
                  BinaryFunction f,
                  Predicate pred)
 {
-  for_each(zip(rng1,rng2,stencil,result), detail::binary_transform_if_functor<BinaryFunction,Predicate>(f, pred));
-
-  // XXX begin() + size() isn't generic
-  return make_iterator_range(begin(result) + rng1.size(), end(result));
+  typedef typename detail::binary_transform_if_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, SinglePassRange4, BinaryFunction, Predicate>::type Result;
+  return Result(thrust::transform_if(begin(rng1), end(rng1), begin(rng2), begin(stencil), begin(result), f, pred), end(result));
 } // end transform_if()
 
 
