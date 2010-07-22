@@ -39,10 +39,9 @@ namespace range
 
 
 template<typename ForwardRange, typename Generator>
-  inline ForwardRange &generate(ForwardRange &rng, Generator gen)
+  inline void generate(ForwardRange &rng, Generator gen)
 {
-  thrust::generate(begin(rng), end(rng), gen);
-  return rng;
+  return thrust::generate(begin(rng), end(rng), gen);
 } // end generate()
 
 
