@@ -25,7 +25,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/range/detail/metafunctions.h>
-#include <thrust/range/detail/is_range.h>
 #include <cstddef> // for std::size_t
 
 namespace thrust
@@ -34,32 +33,27 @@ namespace thrust
 namespace experimental
 {
 
-template<typename IteratorOrRange>
+template<typename Iterator>
   class iterator_range
 {
   private:
-    typedef iterator_range<IteratorOrRange> this_type;
+    typedef iterator_range<Iterator> this_type;
 
   public:
-    typedef typename thrust::detail::eval_if<
-      detail::is_range<IteratorOrRange>::value,
-      range_iterator<IteratorOrRange>,
-      thrust::detail::identity_<IteratorOrRange>
-    >::type                                              iterator;
-
-    typedef typename iterator_value<iterator>::type      value_type;
-    typedef typename iterator_difference<iterator>::type difference_type;
+    typedef typename iterator_value<Iterator>::type      value_type;
+    typedef typename iterator_difference<Iterator>::type difference_type;
     typedef std::size_t                                  size_type; 
-    typedef typename iterator_reference<iterator>::type  reference;
-    typedef iterator                                     const_iterator;
+    typedef typename iterator_reference<Iterator>::type  reference;
+    typedef Iterator                                     const_iterator;
+    typedef Iterator                                     iterator;
 
     __host__ __device__
     inline iterator_range(void);
 
     // constructor from a pair of iterators
-    template<typename Iterator>
+    template<typename OtherIterator>
     __host__ __device__
-    inline iterator_range(Iterator begin, Iterator end);
+    inline iterator_range(OtherIterator begin, OtherIterator end);
 
     // XXX boost uses tag dispatch for a couple of these constructors
     //     do we need to care about that?
@@ -74,9 +68,9 @@ template<typename IteratorOrRange>
     __host__ __device__
     inline iterator_range(ForwardRange &r);
     
-    template<typename Iterator>
+    template<typename OtherIterator>
     __host__ __device__
-    inline iterator_range &operator=(const iterator_range<Iterator> &r);
+    inline iterator_range &operator=(const iterator_range<OtherIterator> &r);
 
     template<typename ForwardRange>
     __host__ __device__
