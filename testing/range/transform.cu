@@ -21,31 +21,33 @@ void TestRangeTransformUnarySimple(void)
 DECLARE_VECTOR_UNITTEST(TestRangeTransformUnarySimple);
 
 
-template <class Vector>
-void TestRangeTransformIfUnarySimple(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector input(3);
-    Vector stencil(3);
-    Vector output(3);
-    Vector result(3);
-
-    input[0]   =  1; input[1]   = -2; input[2]   =  3;
-    output[0]  =  1; output[1]  =  2; output[2]  =  3; 
-    stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
-    result[0]  = -1; result[1]  =  2; result[2]  = -3;
-
-    size_t result_size = thrust::experimental::range::transform_if(input,
-                                                                   stencil,
-                                                                   output,
-                                                                   thrust::negate<T>(),
-                                                                   thrust::identity<T>());
-    
-    ASSERT_EQUAL(0, result_size);
-    ASSERT_EQUAL(output, result);
-}
-DECLARE_VECTOR_UNITTEST(TestRangeTransformIfUnarySimple);
+//template <class Vector>
+//void TestTransformIfUnarySimple(void)
+//{
+//    typedef typename Vector::value_type T;
+//    
+//    typename Vector::iterator iter;
+//
+//    Vector input(3);
+//    Vector stencil(3);
+//    Vector output(3);
+//    Vector result(3);
+//
+//    input[0]   =  1; input[1]   = -2; input[2]   =  3;
+//    output[0]  =  1; output[1]  =  2; output[2]  =  3; 
+//    stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
+//    result[0]  = -1; result[1]  =  2; result[2]  = -3;
+//
+//    iter = thrust::transform_if(input.begin(), input.end(),
+//                                stencil.begin(),
+//                                output.begin(),
+//                                thrust::negate<T>(),
+//                                thrust::identity<T>());
+//    
+//    ASSERT_EQUAL(iter - output.begin(), input.size());
+//    ASSERT_EQUAL(output, result);
+//}
+//DECLARE_VECTOR_UNITTEST(TestTransformIfUnarySimple);
 
 
 template <class Vector>
