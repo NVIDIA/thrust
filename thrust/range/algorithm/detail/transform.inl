@@ -81,20 +81,6 @@ template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePa
 } // end transform_if()
 
 
-template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename SinglePassRange4, typename BinaryFunction, typename Predicate>
-  inline typename detail::binary_transform_if_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, SinglePassRange4, BinaryFunction, Predicate>::type
-    transform_if(const SinglePassRange1 &rng1,
-                 const SinglePassRange2 &rng2,
-                 const SinglePassRange3 &stencil,
-                 SinglePassRange4 &result,
-                 BinaryFunction f,
-                 Predicate pred)
-{
-  typedef typename detail::binary_transform_if_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, SinglePassRange4, BinaryFunction, Predicate>::type Result;
-  return Result(thrust::transform_if(begin(rng1), end(rng1), begin(rng2), begin(stencil), begin(result), f, pred), end(result));
-} // end transform_if()
-
-
 // lazy versions
 
 // XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
