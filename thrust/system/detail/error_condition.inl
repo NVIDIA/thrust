@@ -50,7 +50,7 @@ template<typename ErrorConditionEnum>
     ::error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-                      , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum> >::type *
+                      , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type *
 #endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
                      )
 {
@@ -69,7 +69,7 @@ void error_condition
 template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>, error_condition>::type &
+  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
 #else
   error_condition &
 #endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC

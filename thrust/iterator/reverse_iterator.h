@@ -179,7 +179,7 @@ template<typename BidirectionalIterator>
                          thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
-                         >
+                         >::value
                        >::type * = 0
 #endif // _MSC_VER
                      );
