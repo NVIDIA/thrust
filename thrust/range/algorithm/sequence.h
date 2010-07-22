@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
 #include <thrust/range/algorithm/detail/sequence_result.h>
 
 namespace thrust

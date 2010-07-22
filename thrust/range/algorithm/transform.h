@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
 #include <thrust/range/begin.h>
 #include <thrust/range/end.h>
 #include <thrust/range/iterator_range.h>

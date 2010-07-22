@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
 #include <thrust/range/detail/value_type.h>
 
 namespace thrust
