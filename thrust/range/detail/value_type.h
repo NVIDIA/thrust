@@ -25,7 +25,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/range/detail/iterator.h>
 
 namespace thrust
 {
