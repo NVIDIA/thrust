@@ -75,7 +75,6 @@ template<typename Iterator>
     
     friend class thrust::experimental::iterator_core_access;
     
-    __host__ __device__
     reference dereference(void) const;
 
     __host__ __device__
