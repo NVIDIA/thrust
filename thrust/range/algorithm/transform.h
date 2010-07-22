@@ -35,8 +35,6 @@
 #include <thrust/functional.h>
 #include <thrust/tuple.h>
 
-#include <thrust/range/algorithm/detail/transform_result.h>
-
 namespace thrust
 {
 
@@ -46,6 +44,75 @@ namespace experimental
 namespace range
 {
 
+namespace detail
+{
+
+template<typename SinglePassRange>
+  struct transform_result
+{
+  typedef iterator_range<typename range_iterator<SinglePassRange>::type> type;
+};
+
+
+template<typename T>
+  struct is_range
+    : thrust::detail::is_same<
+        typename range_iterator<T>::type,
+        typename range_iterator<T>::type
+      >
+{};
+
+
+template<typename T>
+  struct is_adaptable_unary_function
+    : thrust::detail::is_same<
+        typename T::argument_type,
+        typename T::argument_type
+      >
+{};
+
+
+template<typename T>
+  struct is_adaptable_binary_function
+    : thrust::detail::is_same<
+        typename T::first_argument_type,
+        typename T::first_argument_type
+      >
+{};
+
+
+template<typename Range>
+  struct ensure_range
+    : thrust::detail::enable_if<
+        is_range<
+          Range
+        >::value
+      >
+{};
+
+
+template<typename AdaptableUnaryFunction>
+  struct ensure_adaptable_unary_function
+    : thrust::detail::enable_if<
+        is_adaptable_unary_function<
+          AdaptableUnaryFunction
+        >::value
+      >
+{};
+
+
+template<typename AdaptableBinaryFunction>
+  struct ensure_adaptable_binary_function
+    : thrust::detail::enable_if<
+        is_adaptable_binary_function<
+          AdaptableBinaryFunction
+        >::value
+      >
+{
+};
+
+
+} // end detail
 
 // XXX should we implement transform() with transform(begin,end) or for_each(rng) ?
 
@@ -72,80 +139,138 @@ namespace range
 //} // end transform()
 
 
-// these overloads differ from Boost.Range's transform in that they take their arguments
-// as ranges and return a range of the unconsumed portion of result
+// XXX these overloads differ from Boost.Range's transform in that they take their arguments
+//     as ranges and return a range of the unconsumed portion of result 
 template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFunction>
-  inline typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type
+  inline typename detail::transform_result<SinglePassRange2>::type
     transform(const SinglePassRange1 &rng,
               SinglePassRange2 &result,
               UnaryFunction f)
 {
-  typedef typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type Result;
+  typedef typename detail::transform_result<SinglePassRange2>::type Result;
 
   return Result(thrust::transform(begin(rng), end(rng), begin(result), f), end(result));
 } // end transform()
 
 
-// add a second overload to accept temporary ranges for the second parameter from things like zip()
-//
-// XXX change
-//
-//     const SinglePassRange2 &result
-//
-//     to
-//
-//     SinglePassRange2 &&result
-//
-//     upon addition of rvalue references
+// XXX add a second overload to accept temporary ranges for the second parameter from things like zip()
 template<typename SinglePassRange1, typename SinglePassRange2, typename UnaryFunction>
-  inline typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type
+  inline typename detail::transform_result<const SinglePassRange2>::type
     transform(const SinglePassRange1 &rng,
               const SinglePassRange2 &result,
               UnaryFunction f)
 {
-  typedef typename detail::unary_transform_result<SinglePassRange1, SinglePassRange2, UnaryFunction>::type Result;
+  typedef typename detail::transform_result<SinglePassRange2>::type Result;
 
   return Result(thrust::transform(begin(rng), end(rng), begin(result), f), end(result));
 } // end transform()
 
 
 template<typename SinglePassRange1, typename SinglePassRange2, typename SinglePassRange3, typename BinaryFunction>
-  inline typename detail::binary_transform_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, BinaryFunction>::type
+  inline typename detail::transform_result<SinglePassRange3>::type
     transform(const SinglePassRange1 &rng1,
               const SinglePassRange2 &rng2,
               SinglePassRange3 &result,
               BinaryFunction f)
 {
-  typedef typename detail::binary_transform_result<SinglePassRange1, SinglePassRange2, SinglePassRange3, BinaryFunction>::type Result;
+  typedef typename detail::transform_result<SinglePassRange3>::type Result;
 
   return Result(thrust::transform(begin(rng1), end(rng1), begin(rng2), begin(result), f), end(result));
 } // end transform()
 
 
-// lazy versions
+// deferred versions
+
+namespace detail
+{
+
+template<typename SinglePassRange, typename AdaptableUnaryFunction>
+  struct deferred_unary_transform_result
+{
+  private:
+    typedef typename range_iterator<SinglePassRange>::type Iterator;
+    typedef transform_iterator<AdaptableUnaryFunction,Iterator> XfrmIterator;
+
+  public:
+    typedef iterator_range<XfrmIterator> type;
+}; // end deferred_unary_transform_result
+
+
+template<typename AdaptableBinaryFunction>
+  struct unary_function_from_binary_function
+    : thrust::unary_function<
+        tuple<
+          typename AdaptableBinaryFunction::first_argument_type,
+          typename AdaptableBinaryFunction::second_argument_type
+        >,
+        typename AdaptableBinaryFunction::result_type
+      >
+{
+  typedef thrust::unary_function<
+    tuple<
+      typename AdaptableBinaryFunction::first_argument_type,
+      typename AdaptableBinaryFunction::second_argument_type
+    >,
+    typename AdaptableBinaryFunction::result_type
+  > super_t;
+
+  __host__ __device__
+  typename super_t::result_type
+  operator()(typename super_t::argument_type x) const
+  {
+    return f(get<0>(x), get<1>(x));
+  }
+
+  __host__ __device__
+  unary_function_from_binary_function(AdaptableBinaryFunction func)
+    : f(func) {}
+
+  AdaptableBinaryFunction f;
+};
+
+
+template<typename SinglePassRange1, typename SinglePassRange2, typename AdaptableBinaryFunction>
+  struct deferred_binary_transform_result
+{
+  private:
+    typedef unary_function_from_binary_function<AdaptableBinaryFunction> UnaryFunction;
+    typedef typename thrust::experimental::detail::zip2_result<SinglePassRange1,SinglePassRange2>::type ZipRange;
+
+  public:
+    typedef typename deferred_unary_transform_result<ZipRange, UnaryFunction>::type type;
+};
+
+
+} // end detail
+
 
 // XXX relax AdaptableUnaryFunction to UnaryFunction upon addition of decltype
 template<typename SinglePassRange, typename AdaptableUnaryFunction>
-  inline typename detail::lazy_unary_transform_result<const SinglePassRange, AdaptableUnaryFunction>::type
+  inline typename detail::deferred_unary_transform_result<const SinglePassRange, AdaptableUnaryFunction>::type
     transform(const SinglePassRange &rng,
               AdaptableUnaryFunction f)
 {
-  typedef typename detail::lazy_unary_transform_result<const SinglePassRange, AdaptableUnaryFunction>::type Result;
+  typedef typename detail::deferred_unary_transform_result<const SinglePassRange, AdaptableUnaryFunction>::type Result;
 
   return Result(make_transform_iterator(begin(rng), f), make_transform_iterator(end(rng), f));
 } // end transform()
 
 
-// XXX relax AdaptableBinaryFunction to BinaryFunction upon addition of decltype
-template<typename SinglePassRange1, typename SinglePassRange2, typename AdaptableBinaryFunction>
-  inline typename detail::lazy_binary_transform_result<const SinglePassRange1, const SinglePassRange2, AdaptableBinaryFunction>::type
-    transform(const SinglePassRange1 &rng1,
-              const SinglePassRange2 &rng2,
-              AdaptableBinaryFunction f)
-{
-  return transform(zip(rng1,rng2), detail::unary_function_of_tuple_from_binary_function<AdaptableBinaryFunction>(f));
-} // end transform()
-
+//template<typename SinglePassRange1, typename SinglePassRange2, typename AdaptableBinaryFunction>
+//  inline typename detail::deferred_binary_transform_result<const SinglePassRange1, const SinglePassRange2, AdaptableBinaryFunction>::type
+//    transform(const SinglePassRange1 &rng1,
+//              const SinglePassRange2 &rng2,
+//              AdaptableBinaryFunction f,
+//              
+//              typename detail::ensure_adaptable_binary_function<AdaptableBinaryFunction>::type * = 0)
+//{
+//  typedef detail::unary_function_from_binary_function<AdaptableBinaryFunction> Func;
+//  Func unary_f(f);
+//
+//  typename detail::deferred_binary_transform_result<const SinglePassRange1, const SinglePassRange2, AdaptableBinaryFunction>::type Result;
+//
+//  return Result(transform(zip(rng1,rng2), unary_f));
+//} // end transform()
 
 } // end range
 
