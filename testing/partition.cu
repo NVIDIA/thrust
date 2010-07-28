@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/partition.h>
 
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/sort.h>
 
 template<typename T>
@@ -15,6 +16,7 @@ template<typename Vector>
 void TestPartitionSimple(void)
 {
     typedef typename Vector::value_type T;
+    typedef typename Vector::iterator   Iterator;
 
     Vector data(5);
     data[0] = 1; 
@@ -23,7 +25,7 @@ void TestPartitionSimple(void)
     data[3] = 1; 
     data[4] = 2; 
 
-    typename Vector::iterator iter = thrust::partition(data.begin(), data.end(), is_even<T>());
+    Iterator iter = thrust::partition(data.begin(), data.end(), is_even<T>());
 
     Vector ref(5);
     ref[0] = 2;
@@ -32,7 +34,7 @@ void TestPartitionSimple(void)
     ref[3] = 1;
     ref[4] = 1;
 
-    ASSERT_EQUAL( int(iter - data.begin()), 2 );
+    ASSERT_EQUAL(iter - data.begin(), 2);
     ASSERT_EQUAL(data, ref);
 }
 DECLARE_VECTOR_UNITTEST(TestPartitionSimple);
@@ -70,6 +72,7 @@ template<typename Vector>
 void TestStablePartitionSimple(void)
 {
     typedef typename Vector::value_type T;
+    typedef typename Vector::iterator   Iterator;
 
     Vector data(5);
     data[0] =  1; 
@@ -78,7 +81,7 @@ void TestStablePartitionSimple(void)
     data[3] =  3; 
     data[4] =  2; 
 
-    thrust::stable_partition(data.begin(), data.end(), is_even<T>());
+    Iterator iter = thrust::stable_partition(data.begin(), data.end(), is_even<T>());
 
     Vector ref(5);
     ref[0] =  2;
@@ -87,6 +90,7 @@ void TestStablePartitionSimple(void)
     ref[3] =  1;
     ref[4] =  3;
 
+    ASSERT_EQUAL(iter - data.begin(), 2);
     ASSERT_EQUAL(data, ref);
 }
 DECLARE_VECTOR_UNITTEST(TestStablePartitionSimple);
@@ -190,4 +194,93 @@ void TestStablePartitionCopy(const size_t n)
     ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestStablePartitionCopy);
+
+
+struct is_ordered
+{
+    template <typename Tuple>
+    __host__ __device__
+    bool operator()(const Tuple& t) const
+    {
+        return thrust::get<0>(t) <= thrust::get<1>(t);
+    }
+};
+
+
+template<typename Vector>
+void TestPartitionZipIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data1(5);
+    Vector data2(5);
+
+    data1[0] = 1;  data2[0] = 2; 
+    data1[1] = 2;  data2[1] = 1;
+    data1[2] = 1;  data2[2] = 2;
+    data1[3] = 1;  data2[3] = 2;
+    data1[4] = 2;  data2[4] = 1;
+
+    typedef typename Vector::iterator           Iterator;
+    typedef thrust::tuple<Iterator,Iterator>    IteratorTuple;
+    typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+
+    ZipIterator begin = thrust::make_zip_iterator(thrust::make_tuple(data1.begin(), data2.begin()));
+    ZipIterator end   = thrust::make_zip_iterator(thrust::make_tuple(data1.end(),   data2.end()));
+
+    ZipIterator iter = thrust::partition(begin, end, is_ordered());
+
+    Vector ref1(5);
+    Vector ref2(5);
+
+    ref1[0] = 1; ref2[0] = 2;
+    ref1[1] = 1; ref2[1] = 2;
+    ref1[2] = 1; ref2[2] = 2;
+    ref1[3] = 2; ref2[3] = 1;
+    ref1[4] = 2; ref2[4] = 1;
+
+    ASSERT_EQUAL(iter - begin, 3);
+    ASSERT_EQUAL(data1, ref1);
+    ASSERT_EQUAL(data2, ref2);
+}
+DECLARE_VECTOR_UNITTEST(TestPartitionZipIterator);
+
+
+template<typename Vector>
+void TestStablePartitionZipIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data1(5);
+    Vector data2(5);
+
+    data1[0] = 1;  data2[0] = 2; 
+    data1[1] = 2;  data2[1] = 0;
+    data1[2] = 1;  data2[2] = 3;
+    data1[3] = 1;  data2[3] = 2;
+    data1[4] = 2;  data2[4] = 1;
+
+    typedef typename Vector::iterator           Iterator;
+    typedef thrust::tuple<Iterator,Iterator>    IteratorTuple;
+    typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+
+    ZipIterator begin = thrust::make_zip_iterator(thrust::make_tuple(data1.begin(), data2.begin()));
+    ZipIterator end   = thrust::make_zip_iterator(thrust::make_tuple(data1.end(),   data2.end()));
+
+    ZipIterator iter = thrust::stable_partition(begin, end, is_ordered());
+
+    Vector ref1(5);
+    Vector ref2(5);
+
+    ref1[0] = 1; ref2[0] = 2;
+    ref1[1] = 1; ref2[1] = 3;
+    ref1[2] = 1; ref2[2] = 2;
+    ref1[3] = 2; ref2[3] = 0;
+    ref1[4] = 2; ref2[4] = 1;
+
+    ASSERT_EQUAL(data1, ref1);
+    ASSERT_EQUAL(data2, ref2);
+    ASSERT_EQUAL(iter - begin, 3);
+}
+DECLARE_VECTOR_UNITTEST(TestStablePartitionZipIterator);
 

@@ -21,19 +21,23 @@
 
 #pragma once
 
-#include <thrust/distance.h>
-
-#include <algorithm>
-#include <thrust/partition.h>
-
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace host
 {
+
+template <typename ForwardIterator1,
+          typename ForwardIterator2>
+void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
+{
+    typedef typename thrust::iterator_value<ForwardIterator1>::type T;
+
+    T temp = *iter1;
+    *iter1 = *iter2;
+    *iter2 =  temp;
+}
 
 template<typename ForwardIterator,
          typename Predicate>
@@ -41,7 +45,27 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-    return std::partition(first, last, pred);
+    if (first == last)
+        return first;
+
+    while (pred(*first))
+    {
+        if (++first == last)
+            return first;
+    }
+
+    ForwardIterator next = first;
+
+    while (++next != last)
+    {
+        if (pred(*next))
+        {
+            iter_swap(first, next);
+            ++first;
+        }
+    }
+
+    return first;
 }
 
 
@@ -51,8 +75,36 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-    return std::stable_partition(first, last, pred);
+    typedef typename thrust::iterator_value<ForwardIterator>::type T;
+
+    typedef thrust::host_vector<T>        TempRange;
+    typedef typename TempRange::iterator  TempIterator;
+
+    TempRange temp(first, last);
+
+    for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
+    {
+        if (pred(*iter))
+        {
+            *first = *iter;
+            ++first;
+        }
+    }
+
+    ForwardIterator middle = first;
+
+    for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
+    {
+        if (!bool(pred(*iter)))
+        {
+            *first = *iter;
+            ++first;
+        }
+    }
+
+    return middle;
 }
+
 
 template<typename ForwardIterator1,
          typename ForwardIterator2,
@@ -87,8 +139,6 @@ template<typename ForwardIterator1,
 }
 
 } // end namespace host
-
 } // end namespace detail
-
 } // end namespace thrust
 
