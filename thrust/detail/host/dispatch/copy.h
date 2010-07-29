@@ -47,17 +47,18 @@ template<typename InputIterator,
 } // end copy()
 
 
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      thrust::detail::true_type)
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  RandomAccessIterator2 copy(RandomAccessIterator1 first,
+                             RandomAccessIterator1 last,
+                             RandomAccessIterator2 result,
+                             thrust::detail::true_type)
 {
-  typedef typename thrust::iterator_difference<InputIterator>::type Size;
+  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type Size;
 
   const Size n = last - first;
-  return thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
+  thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
+  return result + n;
 } // end copy()
 
 
