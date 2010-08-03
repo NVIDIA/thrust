@@ -25,5 +25,8 @@ for dir in directories:
 
 # compile examples
 for src in sources:
-  env.Program(src)
+  if src.endswith('opengl_interop.cu'):
+    env.Program(src, LINKFLAGS = ['-lGLEW', '-lglut'])
+  else:
+    env.Program(src)
 

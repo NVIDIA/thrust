@@ -15,7 +15,7 @@
  */
 
 /*! \file ogl_interop_allocator.h
- *  \brief A memory allocator for OpenGL buffer objects.
+ *  \brief A memory allocator for mapping memory from OpenGL buffer objects.
  */
 
 #pragma once
@@ -28,6 +28,27 @@
 #include <limits>
 #include <stdexcept>
 
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#pragma message("-----------------------------------------------------------------------")
+#pragma message("| WARNING: The functionality of ogl_interop_allocator currently relies ")
+#pragma message("|          on unsupported driver behavior. Do not use in production.   ")
+#pragma message("-----------------------------------------------------------------------")
+#else
+#warning -----------------------------------------------------------------------
+#warning | WARNING: The functionality of ogl_interop_allocator currently relies
+#warning |          on unsupported driver behavior. Do not use in production.
+#warning -----------------------------------------------------------------------
+#endif // THRUST_HOST_COMPILER_MSVC
+
+namespace thrust
+{
+
+namespace experimental
+{
+
+namespace cuda
+{
+
 template<typename T>
   class ogl_interop_allocator
 {
@@ -39,6 +60,8 @@ template<typename T>
     typedef thrust::device_reference<const T> const_reference;
     typedef std::size_t                       size_type;
     typedef typename pointer::difference_type difference_type;
+    
+    // XXX static_assert that iterator_space<pointer>::type is cuda_space_tag
 
     template<typename U>
       struct rebind
@@ -70,11 +93,20 @@ template<typename T>
 
     inline bool operator!=(const ogl_interop_allocator &rhs);
 
-    static inline GLuint get_buffer_object(pointer ptr);
+    static inline GLuint map_buffer(pointer ptr);
+    static inline void   unmap_buffer(GLuint buffer);
 
   private:
+    // a bidirectional mapping between raw CUDA pointers and GL resources
     static std::map<pointer, GLuint> s_pointer_to_buffer_object;
+    static std::map<GLuint, pointer> s_buffer_object_to_pointer;
 };
+
+} // end cuda
+
+} // end experimental
+
+} // end thrust
 
 #include <thrust/experimental/cuda/detail/ogl_interop_allocator.inl>
 

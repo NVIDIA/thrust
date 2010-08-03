@@ -15,9 +15,35 @@
  */
 
 #include <thrust/experimental/cuda/ogl_interop_allocator.h>
+#include <cuda_gl_interop.h>
+#include <thrust/system_error.h>
+#include <limits>
+
+// declare these functions here to avoid cross-platform GL header badness
+// #including cuda_gl_interop.h above ensures things like GLAPI, APIENTRY, GLenum, etc are defined
+// XXX this probably isn't even portable
+extern "C"
+{
+
+GLAPI void APIENTRY glBindBuffer(GLenum, GLuint);
+GLAPI void APIENTRY glDeleteBuffers(GLsizei, const GLuint *);
+GLAPI void APIENTRY glGenBuffers(GLsizei, GLuint *);
+GLAPI void APIENTRY glBufferData(GLenum, GLsizeiptr, const GLvoid *, GLenum);
+
+} // end extern "C"
+
+namespace thrust
+{
+
+namespace experimental
+{
+
+namespace cuda
+{
 
 // define this static data here to WAR linkage issues with older gcc
 template<typename T> std::map<typename ogl_interop_allocator<T>::pointer, GLuint> ogl_interop_allocator<T>::s_pointer_to_buffer_object;
+template<typename T> std::map<GLuint, typename ogl_interop_allocator<T>::pointer> ogl_interop_allocator<T>::s_buffer_object_to_pointer;
 
 template<typename T>
   ogl_interop_allocator<T>
@@ -66,61 +92,67 @@ template<typename T>
   GLuint buffer = 0;
   glGenBuffers(1, &buffer);
 
-  // XXX check GL error
-  if(glGetError())
+  // check GL error
+  if(GLenum gl_error = glGetError())
   {
-    std::cerr << "ogl_interop_allocator::allocate(): GL error after glGenBuffers" << std::endl;
-  }
+    throw std::runtime_error("ogl_interop_allocator::allocate(): error after glGenBuffers");
+  } // end if
 
   // bind the buffer object
   glBindBuffer(GL_ARRAY_BUFFER, buffer);
-  // XXX check GL error
-  if(glGetError())
+
+  // check GL error
+  if(GLenum gl_error = glGetError())
   {
-    std::cerr << "ogl_interop_allocator::allocate(): GL error after glBindBuffer" << std::endl;
-  }
+    throw std::runtime_error("ogl_interop_allocator::allocate(): error after glBindBuffer");
+  } // end if
 
   // XXX need to push/pop the correct GL state
   glBufferData(GL_ARRAY_BUFFER, cnt * sizeof(value_type), 0, GL_DYNAMIC_DRAW);
 
-  // XXX check GL error
-  if(glGetError())
+  // check GL error
+  if(GLenum gl_error = glGetError())
   {
-    std::cerr << "ogl_interop_allocator::allocate(): GL error after glBufferData" << std::endl;
-  }
+    throw std::runtime_error("ogl_interop_allocator::allocate(): error after glBufferData");
+  } // end if
+
+  // XXX instead of leaving GL in this weird state, push/pop it above
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-  // XXX check GL error
+  // check GL error
   if(glGetError())
   {
-    std::cerr << "ogl_interop_allocator::allocate(): GL error after glBindBuffer" << std::endl;
-  }
+    throw std::runtime_error("ogl_interop_allocator::allocate(): error after glBindBuffer");
+  } // end if
   
   // register buffer object with CUDA
   cudaError_t cuda_error = cudaGLRegisterBufferObject(buffer);
 
-  // XXX check CUDA error
+  // check CUDA error
   if(cuda_error)
   {
-    std::cerr << "ogl_interop_allocator::allocate(): CUDA error after cudaGLRegisterBufferObject" << std::endl;
-  }
+    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::allocate(): error after cudaGLRegisterBufferObject");
+  } // end if
 
   // get the pointer from CUDA
   T *raw_ptr = 0;
   cuda_error = cudaGLMapBufferObject((void**)&raw_ptr, buffer);
 
-  // XXX check CUDA error
+  // check CUDA error
   if(cuda_error)
   {
-    std::cerr << "ogl_interop_allocator::allocate(): CUDA error after cudaGLMapBufferObject" << std::endl;
-  }
+    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::allocate(): error after cudaGLMapBufferObject");
+  } // end if
 
   // make a pointer
   pointer result = thrust::device_pointer_cast(raw_ptr);
 
   // remember the mapping from ptr to buffer
   s_pointer_to_buffer_object.insert(std::make_pair(result, buffer));
+
+  // remember the mapping from buffer to ptr
+  s_buffer_object_to_pointer.insert(std::make_pair(buffer, result));
 
   return result;
 } // end ogl_interop_allocator::allocate()
@@ -130,24 +162,45 @@ template<typename T>
     ::deallocate(pointer p, size_type cnt)
 {
   // look up the buffer id
-  typename std::map<pointer, GLuint>::iterator buffer
+  typename std::map<pointer, GLuint>::iterator ptr_and_buffer
     = s_pointer_to_buffer_object.find(p);
 
-  // XXX throw an exception or something if p doesn't exist
-  // if(buffer == s_pointer_to_buffer_object.end()) ...
+  // throw an exception if p is invalid
+  if(ptr_and_buffer == s_pointer_to_buffer_object.end())
+  {
+    throw std::runtime_error("ogl_interop_allocator::deallocate(): invalid pointer");
+  } // end if
+
+  typename std::map<GLuint, pointer>::iterator buffer_and_ptr
+    = s_buffer_object_to_pointer.find(ptr_and_buffer->second);
+
+  // throw an exception if we can't find the inverse mapping
+  if(buffer_and_ptr == s_buffer_object_to_pointer.end())
+  {
+    throw std::runtime_error("ogl_interop_allocator::deallocate(): mapping is in inconsistent state");
+  } // end if
 
   // unmap the buffer object
-  cudaGLUnmapBufferObject(buffer->second);
+  cudaError_t cuda_error = cudaGLUnmapBufferObject(ptr_and_buffer->second);
 
-  // XXX check CUDA error
+  // check CUDA error
+  if(cuda_error)
+  {
+    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::deallocate(): error after cudaGLUnmapBufferObject");
+  } // end if
 
   // delete the buffer object
-  glDeleteBuffers(1, &buffer->second);
+  glDeleteBuffers(1, &ptr_and_buffer->second);
 
-  // XXX check GL error
+  // check GL error
+  if(GLenum gl_error = glGetError())
+  {
+    throw std::runtime_error("ogl_interop_allocator::deallocate(): error after glDeleteBuffers");
+  } // end if
 
-  // erase the entry
-  s_pointer_to_buffer_object.erase(buffer);
+  // erase the entries
+  s_pointer_to_buffer_object.erase(ptr_and_buffer);
+  s_buffer_object_to_pointer.erase(buffer_and_ptr);
 } // end ogl_interop_allocator::deallocate()
 
 
@@ -157,7 +210,7 @@ template<typename T>
       ::max_size(void) const
 {
   // XXX query ogl for the maximum size buffer
-  return 1000000000;
+  return std::numeric_limits<size_type>::max THRUST_PREVENT_MACRO_SUBSTITUTION ();
 } // end ogl_interop_allocator::max_size()
 
 
@@ -179,7 +232,7 @@ template<typename T>
 
 template<typename T>
   GLuint ogl_interop_allocator<T>
-    ::get_buffer_object(pointer ptr)
+    ::map_buffer(pointer ptr)
 {
   // look up the buffer id
   typename std::map<pointer, GLuint>::iterator result
@@ -187,10 +240,57 @@ template<typename T>
 
   if(result == s_pointer_to_buffer_object.end())
   {
-    return 0;
+    throw std::runtime_error("ogl_interop_allocator::map_buffer(): invalid ptr");
+  } // end if
+
+  // unmap the buffer from cuda
+  cudaError_t cuda_error = cudaGLUnmapBufferObject(result->second);
+
+  // check CUDA error
+  if(cuda_error)
+  {
+    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::map_buffer(): error after cudaGLUnmapBufferObject");
   } // end if
 
   return result->second;
-} // end ogl_interop_allocator::get_buffer_object()
+} // end ogl_interop_allocator::map_buffer()
 
+
+template<typename T>
+  void ogl_interop_allocator<T>
+    ::unmap_buffer(GLuint buffer)
+{
+  // find the old pointer associated with buffer
+  typename std::map<GLuint, pointer>::iterator old_mapping
+    = s_buffer_object_to_pointer.find(buffer);
+
+  // throw an exception if the buffer wasn't found in the map
+  if(old_mapping == s_buffer_object_to_pointer.end())
+  {
+    throw std::runtime_error("ogl_interop_allocator::unmap_buffer(): invalid buffer");
+  } // end if
+
+  // remap the buffer into cuda
+  value_type *new_ptr = 0;
+  cudaError_t error = cudaGLMapBufferObject((void**)&new_ptr, buffer);
+  
+  // check CUDA error
+  if(error)
+  {
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+  } // end if
+
+  // if a new mapping occurred, throw an exception
+  // the assumption is that the buffer is "pinned" to a CUDA address that shall not change
+  if(thrust::device_pointer_cast(new_ptr) != old_mapping->second)
+  {
+    throw std::runtime_error("ogl_interop_allocator::unmap_buffer(): operation resulted in a new mapping");
+  } // end if
+} // end ogl_interop_allocator::unmap_buffer()
+
+} // end cuda
+
+} // end experimental
+
+} // end thrust
 
