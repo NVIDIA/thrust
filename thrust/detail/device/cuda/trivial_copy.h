@@ -22,8 +22,8 @@
 #pragma once
 
 #include <cuda_runtime_api.h> // for cudaMemcpy
-#include <stdexcept>          // for std::runtime_error
 #include <string>
+#include <thrust/system_error.h>
 
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -45,11 +45,11 @@ namespace detail
 
 inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind)
 {
-    cudaError_t error = cudaMemcpy(dst,src,count,kind);
-    if(error)
-    {
-        throw std::runtime_error(std::string("CUDA error: ") + std::string(cudaGetErrorString(error)));
-    }
+  cudaError_t error = cudaMemcpy(dst,src,count,kind);
+  if(error)
+  {
+    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+  } // end error
 } // end checked_cudaMemcpy()
 
 
