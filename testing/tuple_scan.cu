@@ -45,10 +45,10 @@ struct TestTupleScan
      tuple<T,T> zero(0,0);
 
      // scan on host
-     thrust::exclusive_scan(h_tuples.begin(), h_tuples.begin(), h_tuples.begin(), zero);
+     thrust::exclusive_scan(h_tuples.begin(), h_tuples.end(), h_tuples.begin(), zero);
 
      // scan on device
-     thrust::exclusive_scan(d_tuples.begin(), d_tuples.begin(), d_tuples.begin(), zero);
+     thrust::exclusive_scan(d_tuples.begin(), d_tuples.end(), d_tuples.begin(), zero);
 
      ASSERT_EQUAL_QUIET(h_tuples, d_tuples);
   }
