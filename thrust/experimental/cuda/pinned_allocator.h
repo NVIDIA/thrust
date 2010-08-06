@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include <limits>
 #include <string>
+#include <thrust/system_error.h>
 
 namespace thrust
 {
@@ -175,7 +176,7 @@ template<typename T>
       
       if(error)
       {
-        throw std::runtime_error(std::string("CUDA error: ") + cudaGetErrorString(error));
+        throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
       } // end if
     } // end deallocate()
 
