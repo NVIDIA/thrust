@@ -20,13 +20,14 @@ extensions = ['*.cu', '*.cpp']
 for dir in directories:
   for ext in extensions:
     regexp = os.path.join(dir, ext)
-    #sources.extend(env.Glob(regexp, strings = True))
     sources.extend(glob.glob(regexp))
 
 # compile examples
 for src in sources:
   if src.endswith('opengl_interop.cu'):
-    env.Program(src, LINKFLAGS = ['-lGLEW', '-lglut'])
+    # disable this example while its build is broken
+    #env.Program(src, LINKFLAGS = ['-lGLEW', '-lglut'])
+    sources.remove(src)
   else:
     env.Program(src)
 
