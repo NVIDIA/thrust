@@ -47,21 +47,26 @@ template<typename ForwardIterator,
 } // end stable_partition()
 
 
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
+{
+  return thrust::detail::dispatch::partition_copy(first, last, out_true, out_false, pred,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator1>::type(),
+    typename thrust::iterator_space<OutputIterator2>::type());
+} // end partition_copy()
+
 namespace experimental
 {
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
-         typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred)
-{
-  return thrust::detail::dispatch::partition_copy(first, last, result, pred,
-    typename thrust::iterator_space<ForwardIterator1>::type(),
-    typename thrust::iterator_space<ForwardIterator2>::type());
-} // end partition_copy()
 
 template<typename ForwardIterator1,
          typename ForwardIterator2,

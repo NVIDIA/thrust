@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/pair.h>
+
 namespace thrust
 {
 namespace detail
@@ -127,15 +129,32 @@ template<typename ForwardIterator1,
     return middle;
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred)
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
 {
-    return thrust::experimental::stable_partition_copy(first, last, result, pred);
+  for(; first != last; ++first)
+  {
+    if(pred(*first))
+    {
+      *out_true = *first;
+      ++out_true;
+    } // end if
+    else
+    {
+      *out_false = *first;
+      ++out_false;
+    } // end else
+  }
+
+  return thrust::make_pair(out_true, out_false);
 }
 
 } // end namespace host

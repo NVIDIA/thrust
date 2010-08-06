@@ -16,6 +16,7 @@
 
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/pair.h>
 
 #include <thrust/remove.h>
 
@@ -74,15 +75,26 @@ template<typename ForwardIterator,
     return thrust::detail::device::generic::stable_partition(first, last, pred);
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred)
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
 {
-    return thrust::detail::device::generic::stable_partition_copy(first, last, result, pred);
+  thrust::detail::unary_negate<Predicate> not_pred(pred);
+
+  // remove_copy_if the true partition to out_true
+  OutputIterator1 end_of_true_partition = thrust::remove_copy_if(first, last, out_true, not_pred);
+
+  // remove_copy_if the false partition to out_false
+  OutputIterator2 end_of_false_partition = thrust::remove_copy_if(first, last, out_false, pred);
+
+  return thrust::make_pair(end_of_true_partition, end_of_false_partition);
 }
 
 } // end namespace generic

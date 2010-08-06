@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/device/generic/partition.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -59,15 +60,18 @@ template<typename ForwardIterator,
     return thrust::detail::device::generic::partition(first, last, pred);
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred)
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
 {
-    return thrust::detail::device::generic::partition_copy(first, last, result, pred);
+    return thrust::detail::device::generic::partition_copy(first, last, out_true, out_false, pred);
 }
 
 } // end namespace device

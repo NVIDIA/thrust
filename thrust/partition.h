@@ -23,6 +23,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -91,34 +92,33 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred);
 
-namespace experimental
-{
 /*! \p partition_copy differs from \ref partition only in that the reordered
- *  sequence is written to a difference output sequence, rather than in place.
+ *  sequence is written to difference output sequences, rather than in place.
  *
- *  \p partition_copy reorders the elements <tt>[first, last)</tt> based on the
- *  function object \p pred, such that all of the elements that satisfy \p pred precede the
- *  elements that fail to satisfy it. The postcondition is that, for some iterator
- *  \c middle in the range <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every
- *  iterator \c i in the range <tt>[first,middle)</tt> and \c false for every iterator
- *  \c i in the range <tt>[middle, last)</tt>. The return value of \p partition_copy is
- *  \c middle.
+ *  \p partition_copy copies the elements <tt>[first, last)</tt> based on the
+ *  function object \p pred. All of the elements that satisfy \p pred are copied
+ *  to the range beginning at \p out_true and all the elements that fail to satisfy it
+ *  are copied to the range beginning at \p out_false.
  *
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
- *  \param result The destination of the resulting sequence.
+ *  \param out_true The destination of the resulting sequence of elements which satisfy \p pred.
+ *  \param out_false The destination of the resulting sequence of elements which fail to satisfy \p pred.
  *  \param pred A function object which decides to which partition each element of the
  *              sequence <tt>[first, last)</tt> belongs.
- *  \return An iterator referring to the first element of the second partition, that is,
- *          the sequence of the elements which do not satisfy \p pred.
+ *  \return A \p pair p such that <tt>p.first</tt> is the end of the output range beginning
+ *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
+ *          \p out_false.
  *
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type and \p InputIterator's \c value_type
+ *          is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
+ *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
- *  The following code snippet demonstrates how to use \p partition_copy to reorder a
- *  sequence so that even numbers precede odd numbers.
+ *  The following code snippet demonstrates how to use \p partition_copy to separate a
+ *  sequence into two output sequences of even and odd numbers.
  *
  *  \code
  *  #include <thrust/partition.h>
@@ -135,33 +135,33 @@ namespace experimental
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  int result[10];
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::partition_copy(A, A + N, result,
- *                          is_even());
+ *  int *evens = result;
+ *  int *odds  = result + 5;
+ *  thrust::partition_copy(A, A + N, evens, odds, is_even());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+ *  // evens points to {2, 4, 6, 8, 10}
+ *  // odds points to {1, 3, 5, 7, 9}
  *  \endcode
  *
  *  \note The relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
  *  \ref stable_partition_copy, does guarantee to preserve the relative order.
  *
- *  \note \p partition_copy's interface differs from the proposed C++ STL function
- *  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf">std::partition_copy</a>
- *  due to the absence of a priori knowledge about the size of the two resulting sequences.
- *
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
  *  \see \p stable_partition_copy
  *  \see \p partition
  */
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred);
-
-} // end namespace experimental
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred);
 
 /*! \p stable_partition is much like \ref partition : it reorders the elements in the
  *  range <tt>[first, last)</tt> based on the function object \p pred, such that all of

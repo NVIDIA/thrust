@@ -48,17 +48,21 @@ template<typename ForwardIterator,
     return thrust::detail::host::partition(first, last, pred);
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred,
-                                  thrust::host_space_tag,
-                                  thrust::host_space_tag)
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred,
+                   thrust::host_space_tag,
+                   thrust::host_space_tag,
+                   thrust::host_space_tag)
 {
-    return thrust::detail::host::partition_copy(first, last, result, pred);
+    return thrust::detail::host::partition_copy(first, last, out_true, out_false, pred);
 }
 
 template<typename ForwardIterator,
@@ -98,17 +102,21 @@ template<typename ForwardIterator,
     return thrust::detail::device::partition(first, last, pred);
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 partition_copy(ForwardIterator1 first,
-                                  ForwardIterator1 last,
-                                  ForwardIterator2 result,
-                                  Predicate pred,
-                                  thrust::device_space_tag,
-                                  thrust::device_space_tag)
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred,
+                   thrust::device_space_tag,
+                   thrust::device_space_tag,
+                   thrust::device_space_tag)
 {
-    return thrust::detail::device::partition_copy(first, last, result, pred);
+    return thrust::detail::device::partition_copy(first, last, out_true, out_false, pred);
 }
 
 template<typename ForwardIterator,
