@@ -219,7 +219,7 @@ template<typename InputIterator,
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                const T init);
+                                T init);
 
 /*! \p exclusive_scan computes an exclusive prefix sum operation. The
  *  term 'exclusive' means that each result does not include the 
@@ -273,7 +273,7 @@ template<typename InputIterator,
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                const T init,
+                                T init,
                                 AssociativeOperator binary_op);
 
 
@@ -515,9 +515,9 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
   OutputIterator exclusive_scan_by_key(InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          OutputIterator result);
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result);
 
 /*! \p exclusive_scan_by_key computes an exclusive key-value or 'segmented' prefix 
  *  sum operation. The term 'exclusive' means that each result does not include
@@ -564,7 +564,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init);
+                                       T init);
 
 
 /*! \p exclusive_scan_by_key computes an exclusive key-value or 'segmented' prefix 
@@ -621,7 +621,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred);
 
 
@@ -698,7 +698,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op);
 

@@ -28,10 +28,8 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
@@ -99,7 +97,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op,
                                        thrust::host_space_tag,
@@ -173,7 +171,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op,
                                        thrust::device_space_tag,

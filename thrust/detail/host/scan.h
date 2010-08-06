@@ -137,7 +137,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {

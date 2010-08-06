@@ -74,7 +74,7 @@ template<typename InputIterator,
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                const T init)
+                                T init)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
@@ -89,7 +89,7 @@ template<typename InputIterator,
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                const T init,
+                                T init,
                                 AssociativeOperator binary_op)
 {
     // dispatch on space
@@ -169,7 +169,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init)
+                                       T init)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
     return thrust::exclusive_scan_by_key(first1, last1, first2, result, init, thrust::equal_to<InputType1>());
@@ -184,7 +184,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred)
 {
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
@@ -201,7 +201,7 @@ template<typename InputIterator1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
