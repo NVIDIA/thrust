@@ -194,6 +194,7 @@ template<typename OutputIterator, typename Size, typename T>
 #include <thrust/copy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/distance.h>
+#include <thrust/system_error.h>
 
 namespace thrust
 {
@@ -204,10 +205,14 @@ namespace device
 namespace cuda
 {
 
+namespace cpp_fill_dispatch
+{
+
 template<typename OutputIterator, typename Size, typename T>
   OutputIterator fill_n(OutputIterator first,
                         Size n,
-                        const T &value)
+                        const T &value,
+                        thrust::detail::false_type)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
 
@@ -219,7 +224,52 @@ template<typename OutputIterator, typename Size, typename T>
   thrust::copy(temp.begin(), temp.end(), first);
 
   return first + n;
-}
+} // end fill_n()
+
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        thrust::detail::true_type)
+{
+  // implement this with cudaMemset if value == 0
+  if(value == T(0))
+  {
+    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+    cudaError_t error = cudaMemset(thrust::raw_pointer_cast(&*first), 0, sizeof(OutputType) * n);
+    if(error)
+    {
+      throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    } // end if
+
+    return first + n;
+  } // end if
+
+  // use the general path
+  return cpp_fill_dispatch::fill_n(first, n, value, thrust::detail::false_type());
+} // end fill_n()
+
+} // end cpp_fill_dispatch
+
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value)
+{
+  typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+
+  // to possible implement this with cudaMemset, OutputIterator needs to be trivial,
+  // its value type needs to be numeric,
+  // and T needs to be numeric
+  typedef thrust::detail::integral_constant<
+    bool,
+    thrust::detail::is_trivial_iterator<OutputIterator>::value &&
+    thrust::detail::is_numeric<OutputType>::value &&
+    thrust::detail::is_numeric<T>::value
+  > could_be_trivial_fill;
+
+  return cpp_fill_dispatch::fill_n(first, n, value, could_be_trivial_fill());
+} // end fill_n()
 
 } // end namespace cuda
 } // end namespace device
