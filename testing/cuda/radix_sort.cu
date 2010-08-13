@@ -139,21 +139,22 @@ struct TestRadixSortVariableBits
 VariableUnitTest<TestRadixSortVariableBits, unittest::type_list<unsigned int> > TestRadixSortVariableBitsInstance;
 
 
-void TestRadixSortUnalignedSimple(void)
+template <typename T>
+struct TestRadixSortUnaligned
 {
-    typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
+  void operator()(const size_t n)
+  {
+    typedef thrust::device_vector<T> Vector;
 
-    Vector unsorted_keys;
-    Vector   sorted_keys;
-
-    InitializeSimpleKeyRadixSortTest(unsorted_keys, sorted_keys);
+    Vector unsorted_keys = unittest::random_integers<T>(n);
+    Vector   sorted_keys = unsorted_keys;
     
-    for(int offset = 1; offset < 16; offset++){
-        size_t n = unsorted_keys.size() + offset;
+    thrust::sort(sorted_keys.begin(), sorted_keys.end());
 
-        Vector unaligned_unsorted_keys(n, 0);
-        Vector   unaligned_sorted_keys(n, 0);
+    for(int offset = 1; offset < 16; offset++)
+    {
+        Vector unaligned_unsorted_keys(n + offset, 0);
+        Vector   unaligned_sorted_keys(n + offset, 0);
         
         thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
         thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
@@ -162,8 +163,9 @@ void TestRadixSortUnalignedSimple(void)
 
         ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
     }
-}
-DECLARE_UNITTEST(TestRadixSortUnalignedSimple);
+  }
+};
+VariableUnitTest<TestRadixSortUnaligned, unittest::type_list<char,short,int,long> > TestRadixSortUnalignedInstance;
 
 #endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 

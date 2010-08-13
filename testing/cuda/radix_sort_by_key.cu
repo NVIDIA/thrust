@@ -194,23 +194,28 @@ struct TestRadixSortByKeyVariableBits
 VariableUnitTest<TestRadixSortByKeyVariableBits, unittest::type_list<unsigned int> > TestRadixSortByKeyVariableBitsInstance;
 
 
-void TestRadixSortByKeyUnalignedSimple(void)
+template <typename T>
+struct TestRadixSortByKeyUnaligned
 {
-    typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
+  void operator()(const size_t n)
+  {
+    typedef thrust::device_vector<T>   Vector1;
+    typedef thrust::device_vector<int> Vector2;
 
-    Vector unsorted_keys, unsorted_values;
-    Vector   sorted_keys,   sorted_values;
+    Vector1 unsorted_keys = unittest::random_integers<T>(n);
+    Vector1   sorted_keys = unsorted_keys;
 
-    InitializeSimpleKeyValueRadixSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
+    Vector2 unsorted_values(n); thrust::sequence(unsorted_values.begin(), unsorted_values.end());
+    Vector2   sorted_values = unsorted_values;
+    
+    thrust::sort_by_key(sorted_keys.begin(), sorted_keys.end(), sorted_values.begin());
 
-    for(int offset = 1; offset < 16; offset++){
-        size_t n = unsorted_keys.size() + offset;
-
-        Vector   unaligned_unsorted_keys(n, 0);
-        Vector     unaligned_sorted_keys(n, 0);
-        Vector unaligned_unsorted_values(n, 0);
-        Vector   unaligned_sorted_values(n, 0);
+    for(int offset = 1; offset < 16; offset++)
+    {
+        Vector1   unaligned_unsorted_keys(n + offset, 0);
+        Vector1     unaligned_sorted_keys(n + offset, 0);
+        Vector2 unaligned_unsorted_values(n + offset, 0);
+        Vector2   unaligned_sorted_values(n + offset, 0);
         
         thrust::copy(  unsorted_keys.begin(),   unsorted_keys.end(),   unaligned_unsorted_keys.begin() + offset);
         thrust::copy(    sorted_keys.begin(),     sorted_keys.end(),     unaligned_sorted_keys.begin() + offset);
@@ -222,8 +227,9 @@ void TestRadixSortByKeyUnalignedSimple(void)
         ASSERT_EQUAL(  unaligned_unsorted_keys,   unaligned_sorted_keys);
         ASSERT_EQUAL(unaligned_unsorted_values, unaligned_sorted_values);
     }
-}
-DECLARE_UNITTEST(TestRadixSortByKeyUnalignedSimple);
+  }
+};
+VariableUnitTest<TestRadixSortByKeyUnaligned, unittest::type_list<char,short,int,long> > TestRadixSortByKeyUnalignedInstance;
 
 #endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
