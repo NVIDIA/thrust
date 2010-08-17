@@ -41,11 +41,21 @@ namespace detail
 /////////////
 // Structs //
 /////////////
+//
+template<typename T> struct war_nvcc_31_crash { typedef T type; };
+
+// promote small types to int to WAR nvcc 3.1 crash
+template<> struct war_nvcc_31_crash<char>           { typedef          int type; };
+template<> struct war_nvcc_31_crash<unsigned char>  { typedef unsigned int type; };
+
+template<> struct war_nvcc_31_crash<short>          { typedef          int type; };
+template<> struct war_nvcc_31_crash<unsigned short> { typedef unsigned int type; };
+
 template <typename InputType, typename IndexType>
 struct element_pair
 {
-    InputType value;
-    IndexType index;
+    typename war_nvcc_31_crash<InputType>::type value;
+    typename war_nvcc_31_crash<IndexType>::type index;
 }; // end element_pair
 
 template <typename InputType, typename IndexType>
