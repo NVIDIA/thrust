@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/pair.h>
+#include <thrust/host_vector.h>
 
 namespace thrust
 {
