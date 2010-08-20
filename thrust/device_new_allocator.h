@@ -110,7 +110,7 @@ template<typename T>
     __host__ __device__
     inline size_type max_size() const
     {
-      return std::numeric_limits<size_type>::max() / sizeof(T);
+      return std::numeric_limits<size_type>::max THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
     } // end max_size()
 
     __host__ __device__

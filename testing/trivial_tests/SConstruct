@@ -16,16 +16,9 @@ def trivial_source_from_header(source, target, env):
   target_filename = str(target[0])
   fid = open(target_filename, 'w')
 
-  # define min & max a la MSVC when compiling with cl.exe
-  # we must not trip over this
+  # make sure we don't trip over <windows.h> when compiling with cl.exe
   if env.subst('$CC') == 'cl':
-    fid.write('#ifndef min\n')
-    fid.write('#define min(X,Y) ((X) < (Y) ? (X) : (Y))\n')
-    fid.write('#endif\n')
-
-    fid.write('#ifndef max\n')
-    fid.write('#define max(X,Y) ((Y) < (X) ? (X) : (Y))\n')
-    fid.write('#endif\n')
+    fid.write('#include <windows.h>\n')
 
   for src in source:
     src_abspath = str(src)
