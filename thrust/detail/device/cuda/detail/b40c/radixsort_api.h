@@ -89,7 +89,12 @@
 #include "radixsort_spine_kernel.h"
 #include "radixsort_scanscatter_kernel.h"
 
-namespace b40c {
+namespace thrust {
+namespace detail {
+namespace device {
+namespace cuda   {
+namespace detail {
+namespace b40c   {
 
 
 /******************************************************************************
@@ -780,8 +785,10 @@ public:
 };
 
 
-
-
-
-} // namespace b40c
+} // end namespace b40c
+} // end namespace detail
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 

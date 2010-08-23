@@ -47,9 +47,12 @@
 
 #include "radixsort_kernel_common.h"
 
-namespace b40c {
-
-
+namespace thrust {
+namespace detail {
+namespace device {
+namespace cuda   {
+namespace detail {
+namespace b40c   {
 
 /******************************************************************************
  * Scans a cycle of RADIXSORT_CYCLE_ELEMENTS elements 
@@ -177,5 +180,10 @@ __global__ void SrtsScanSpine(
 } 
 
 
-} // namespace b40c
+} // end namespace b40c
+} // end namespace detail
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 

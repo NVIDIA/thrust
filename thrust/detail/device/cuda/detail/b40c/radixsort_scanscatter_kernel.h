@@ -47,8 +47,12 @@
 
 #include "radixsort_kernel_common.h"
 
-namespace b40c {
-
+namespace thrust {
+namespace detail {
+namespace device {
+namespace cuda   {
+namespace detail {
+namespace b40c   {
 
 /******************************************************************************
  * Appropriate substitutes to use for out-of-bounds key (and value) offsets 
@@ -1189,6 +1193,10 @@ void ScanScatterDigits(
 	}
 }
 
-
-} // namespace b40c
+} // end namespace b40c
+} // end namespace detail
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
+} // end namespace thrust
 
