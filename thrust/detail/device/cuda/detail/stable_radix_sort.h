@@ -48,7 +48,8 @@ void stable_radix_sort_by_key(RandomAccessIterator1 keys_first,
 } // end namespace detail
 } // end namespace thrust
 
-#ifdef THRUST_USE_MERRILL_RADIX_SORT
+
+#if !defined(THRUST_USE_MERRILL_RADIX_SORT) || (THRUST_USE_MERRILL_RADIX_SORT == 1)
 
 #include "stable_radix_sort_merrill.inl"
 
