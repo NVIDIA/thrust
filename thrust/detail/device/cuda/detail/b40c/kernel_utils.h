@@ -45,18 +45,18 @@ namespace b40c   {
 	#define __CUDA_ARCH__ 0
 #endif
 
-#define FERMI(version)								(version >= 200)
-#define LOG_WARP_THREADS							5									// 32 threads in a warp
-#define WARP_THREADS								(1 << LOG_WARP_THREADS)
-#define LOG_MEM_BANKS(version) 						((version >= 200) ? 5 : 4)			// 32 banks on fermi, 16 on tesla
-#define MEM_BANKS(version)							(1 << LOG_MEM_BANKS(version))
+#define B40C_FERMI(version)								(version >= 200)
+#define B40C_LOG_WARP_THREADS							5									// 32 threads in a warp
+#define B40C_WARP_THREADS								(1 << B40C_LOG_WARP_THREADS)
+#define B40C_LOG_MEM_BANKS(version) 					((version >= 200) ? 5 : 4)			// 32 banks on fermi, 16 on tesla
+#define B40C_MEM_BANKS(version)							(1 << B40C_LOG_MEM_BANKS(version))
 
+// TODO refactor these
 #if __CUDA_ARCH__ >= 200
 	#define FastMul(a, b) (a * b)
 #else
 	#define FastMul(a, b) (__umul24(a, b))
 #endif	
-
 
 #if __CUDA_ARCH__ >= 120
 	#define WarpVoteAll(active_threads, predicate) (__all(predicate))
@@ -87,7 +87,7 @@ namespace b40c   {
 /**
  * Select maximum
  */
-#define MAX(a, b) ((a > b) ? a : b)
+#define B40C_MAX(a, b) ((a > b) ? a : b)
 
 
 /**
@@ -218,7 +218,7 @@ __device__ __forceinline__ unsigned int TallyWarpVoteSm10(unsigned int predicate
 }
 
 
-__shared__ unsigned int vote_reduction[WARP_THREADS];
+__shared__ unsigned int vote_reduction[B40C_WARP_THREADS];
 
 /**
  * Tally a warp-vote regarding the given predicate

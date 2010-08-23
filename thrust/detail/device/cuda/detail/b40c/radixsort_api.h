@@ -325,7 +325,7 @@ BaseRadixSortingEnactor<K, V>::BaseRadixSortingEnactor(
 	_passes								= passes;
 	_num_elements 						= num_elements;
 	_keys_only 							= IsKeysOnly<V>();
-	_cycle_elements 					= RADIXSORT_CYCLE_ELEMENTS(_kernel_ptx_version , ConvertedKeyType, V);
+	_cycle_elements 					= B40C_RADIXSORT_CYCLE_ELEMENTS(_kernel_ptx_version , ConvertedKeyType, V);
 	_grid_size 							= GridSize(max_grid_size);
 	_swizzle_pointers_for_odd_passes	= swizzle_pointers_for_odd_passes;
 	
@@ -342,8 +342,8 @@ BaseRadixSortingEnactor<K, V>::BaseRadixSortingEnactor(
 	
 	_work_decomposition = work_decomposition;
 	
-	unsigned int spine_cycles = ((_grid_size * (1 << max_radix_bits)) + RADIXSORT_SPINE_CYCLE_ELEMENTS - 1) / RADIXSORT_SPINE_CYCLE_ELEMENTS;
-	_spine_elements = spine_cycles * RADIXSORT_SPINE_CYCLE_ELEMENTS;
+	unsigned int spine_cycles = ((_grid_size * (1 << max_radix_bits)) + B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS - 1) / B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;
+	_spine_elements = spine_cycles * B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;
 }
 
 
@@ -372,7 +372,7 @@ unsigned int BaseRadixSortingEnactor<K, V>::GridSize(int max_grid_size)
 			} else if (_device_sm_version < 200) {
 				
 				// GT200 (has some kind of TLB or icache drama)
-				unsigned int orig_max_grid_size = _device_props.multiProcessorCount * RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(_kernel_ptx_version);
+				unsigned int orig_max_grid_size = _device_props.multiProcessorCount * B40C_RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(_kernel_ptx_version);
 				if (_keys_only) { 
 					orig_max_grid_size *= (_num_elements + (1024 * 1024 * 96) - 1) / (1024 * 1024 * 96);
 				} else {
@@ -459,7 +459,7 @@ template <unsigned int PASS, unsigned int RADIX_BITS, unsigned int BIT, typename
 cudaError_t BaseRadixSortingEnactor<K, V>::
 DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 {
-	unsigned int threads = RADIXSORT_THREADS;
+	unsigned int threads = B40C_RADIXSORT_THREADS;
 	unsigned int dynamic_smem;
 
 	cudaFuncAttributes reduce_kernel_attrs, scan_scatter_attrs;
@@ -472,7 +472,7 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 
 	// Run tesla flush kernel if we have two or more threadblocks for each of the SMs
 	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > _device_props.multiProcessorCount * _cycle_elements * 2)) 
-			FlushKernel<void><<<_grid_size, RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+			FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
 
 	// GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
 	dynamic_smem = (_kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - reduce_kernel_attrs.sharedSizeBytes : 0;
@@ -492,7 +492,7 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 	// GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
 	dynamic_smem = (_kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - _spine_scan_kernel_attrs.sharedSizeBytes : 0;
 	
-	SrtsScanSpine<void><<<_grid_size, RADIXSORT_SPINE_THREADS, dynamic_smem>>>(
+	SrtsScanSpine<void><<<_grid_size, B40C_RADIXSORT_SPINE_THREADS, dynamic_smem>>>(
 		converted_storage.d_spine,
 		converted_storage.d_spine,
 		_spine_elements);
@@ -504,7 +504,7 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 	
 	// Run tesla flush kernel if we have two or more threadblocks for each of the SMs
 	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > _device_props.multiProcessorCount * _cycle_elements * 2)) 
-			FlushKernel<void><<<_grid_size, RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+			FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
 
 	ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor> <<<_grid_size, threads, 0>>>(
 		converted_storage.d_from_alt_storage,
@@ -556,9 +556,9 @@ EnactSort(RadixSortStorage<K, V> &problem_storage)
 		
 		printf("_device_sm_version: %d, _kernel_ptx_version: %d\n", _device_sm_version, _kernel_ptx_version);
 		printf("Bottom-level reduction & scan kernels:\n\tgrid_size: %d, \n\tthreads: %d, \n\tcycle_elements: %d, \n\tnum_big_blocks: %d, \n\tbig_block_elements: %d, \n\tnormal_block_elements: %d\n\textra_elements_last_block: %d\n\n",
-			_grid_size, RADIXSORT_THREADS, _cycle_elements, _work_decomposition.num_big_blocks, _work_decomposition.big_block_elements, _work_decomposition.normal_block_elements, _work_decomposition.extra_elements_last_block);
+			_grid_size, B40C_RADIXSORT_THREADS, _cycle_elements, _work_decomposition.num_big_blocks, _work_decomposition.big_block_elements, _work_decomposition.normal_block_elements, _work_decomposition.extra_elements_last_block);
 		printf("Top-level spine scan:\n\tgrid_size: %d, \n\tthreads: %d, \n\tspine_block_elements: %d\n\n", 
-			_grid_size, RADIXSORT_SPINE_THREADS, _spine_elements);
+			_grid_size, B40C_RADIXSORT_SPINE_THREADS, _spine_elements);
 	}	
 
 	cudaError_t retval = EnactDigitPlacePasses(converted_storage);

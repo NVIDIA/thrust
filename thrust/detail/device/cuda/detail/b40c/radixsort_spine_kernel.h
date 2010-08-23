@@ -67,7 +67,7 @@ __device__ __forceinline__ void SrtsScanCycle(
 	unsigned int smem[SMEM_ROWS][PARTIALS_PER_ROW + 1],
 	unsigned int *smem_offset,
 	unsigned int *smem_segment,
-	unsigned int warpscan[2][WARP_THREADS],
+	unsigned int warpscan[2][B40C_WARP_THREADS],
 	uint4 *in, 
 	uint4 *out,
 	unsigned int &carry)
@@ -81,13 +81,13 @@ __device__ __forceinline__ void SrtsScanCycle(
 
 	__syncthreads();
 
-	if (threadIdx.x < WARP_THREADS) {
+	if (threadIdx.x < B40C_WARP_THREADS) {
 
 		unsigned int partial_reduction = SerialReduce<PARTIALS_PER_SEG>(smem_segment);
 
-		unsigned int seed = WarpScan<WARP_THREADS, false>(warpscan, partial_reduction, 0);
+		unsigned int seed = WarpScan<B40C_WARP_THREADS, false>(warpscan, partial_reduction, 0);
 		seed += carry;		
-		carry += warpscan[1][WARP_THREADS - 1];	
+		carry += warpscan[1][B40C_WARP_THREADS - 1];	
 		
 		SerialScan<PARTIALS_PER_SEG>(smem_segment, seed);
 	}
@@ -121,16 +121,16 @@ __global__ void SrtsScanSpine(
 	unsigned int *d_ospine,
 	unsigned int normal_block_elements)
 {
-	const unsigned int LOG_RAKING_THREADS 		= LOG_WARP_THREADS;				
+	const unsigned int LOG_RAKING_THREADS 		= B40C_LOG_WARP_THREADS;				
 	const unsigned int RAKING_THREADS 			= 1 << LOG_RAKING_THREADS;		
 	
-	const unsigned int LOG_PARTIALS				= RADIXSORT_LOG_THREADS;				
+	const unsigned int LOG_PARTIALS				= B40C_RADIXSORT_LOG_THREADS;				
 	const unsigned int PARTIALS			 		= 1 << LOG_PARTIALS;
 	
 	const unsigned int LOG_PARTIALS_PER_SEG 	= LOG_PARTIALS - LOG_RAKING_THREADS;	
 	const unsigned int PARTIALS_PER_SEG 		= 1 << LOG_PARTIALS_PER_SEG;
 
-	const unsigned int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < LOG_MEM_BANKS(__CUDA_ARCH__)) ? LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of 32 elts per row
+	const unsigned int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < B40C_LOG_MEM_BANKS(__CUDA_ARCH__)) ? B40C_LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of 32 elts per row
 	const unsigned int PARTIALS_PER_ROW			= 1 << LOG_PARTIALS_PER_ROW;
 	
 	const unsigned int LOG_SEGS_PER_ROW 		= LOG_PARTIALS_PER_ROW - LOG_PARTIALS_PER_SEG;	
@@ -139,7 +139,7 @@ __global__ void SrtsScanSpine(
 	const unsigned int SMEM_ROWS 				= PARTIALS / PARTIALS_PER_ROW;
 	
 	__shared__ unsigned int smem[SMEM_ROWS][PARTIALS_PER_ROW + 1];
-	__shared__ unsigned int warpscan[2][WARP_THREADS];
+	__shared__ unsigned int warpscan[2][B40C_WARP_THREADS];
 
 	unsigned int *smem_segment;
 	unsigned int carry;
@@ -159,7 +159,7 @@ __global__ void SrtsScanSpine(
 		col = (threadIdx.x & (SEGS_PER_ROW - 1)) << LOG_PARTIALS_PER_SEG;
 		smem_segment = &smem[row][col];
 	
-		if (threadIdx.x < WARP_THREADS) {
+		if (threadIdx.x < B40C_WARP_THREADS) {
 			carry = 0;
 			warpscan[0][threadIdx.x] = 0;
 		}
@@ -175,7 +175,7 @@ __global__ void SrtsScanSpine(
 			(uint4 *) &d_ospine[block_offset], 
 			carry);
 
-		block_offset += RADIXSORT_SPINE_CYCLE_ELEMENTS;
+		block_offset += B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;
 	}
 } 
 

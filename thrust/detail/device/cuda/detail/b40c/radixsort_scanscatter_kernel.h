@@ -176,10 +176,10 @@ __device__ __forceinline__ void ReadSets(
 	if (UNGUARDED_IO) {
 
 		// N.B. -- I wish we could do some pragma unrolling here too, but the compiler makes it 1% slower
-		if (SETS_PER_PASS > 0) pairs[0] = d_in[threadIdx.x + BASE2 + (RADIXSORT_THREADS * 0)];
-		if (SETS_PER_PASS > 1) pairs[1] = d_in[threadIdx.x + BASE2 + (RADIXSORT_THREADS * 1)];
-		if (SETS_PER_PASS > 2) pairs[2] = d_in[threadIdx.x + BASE2 + (RADIXSORT_THREADS * 2)];
-		if (SETS_PER_PASS > 3) pairs[3] = d_in[threadIdx.x + BASE2 + (RADIXSORT_THREADS * 3)];
+		if (SETS_PER_PASS > 0) pairs[0] = d_in[threadIdx.x + BASE2 + (B40C_RADIXSORT_THREADS * 0)];
+		if (SETS_PER_PASS > 1) pairs[1] = d_in[threadIdx.x + BASE2 + (B40C_RADIXSORT_THREADS * 1)];
+		if (SETS_PER_PASS > 2) pairs[2] = d_in[threadIdx.x + BASE2 + (B40C_RADIXSORT_THREADS * 2)];
+		if (SETS_PER_PASS > 3) pairs[3] = d_in[threadIdx.x + BASE2 + (B40C_RADIXSORT_THREADS * 3)];
 
 		#pragma unroll 
 		for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
@@ -194,10 +194,10 @@ __device__ __forceinline__ void ReadSets(
 		// N.B. --  I wish we could do some pragma unrolling here, but the compiler won't let 
 		// us with user-defined value types (e.g., Fribbitz): "Advisory: Loop was not unrolled, cannot deduce loop trip count"
 		
-		if (SETS_PER_PASS > 0) GuardedReadSet<T, PreprocessFunctor>(in, pairs[0], (threadIdx.x << 1) + (BASE2 << 1) + (RADIXSORT_THREADS * 2 * 0), extra);
-		if (SETS_PER_PASS > 1) GuardedReadSet<T, PreprocessFunctor>(in, pairs[1], (threadIdx.x << 1) + (BASE2 << 1) + (RADIXSORT_THREADS * 2 * 1), extra);
-		if (SETS_PER_PASS > 2) GuardedReadSet<T, PreprocessFunctor>(in, pairs[2], (threadIdx.x << 1) + (BASE2 << 1) + (RADIXSORT_THREADS * 2 * 2), extra);
-		if (SETS_PER_PASS > 3) GuardedReadSet<T, PreprocessFunctor>(in, pairs[3], (threadIdx.x << 1) + (BASE2 << 1) + (RADIXSORT_THREADS * 2 * 3), extra);
+		if (SETS_PER_PASS > 0) GuardedReadSet<T, PreprocessFunctor>(in, pairs[0], (threadIdx.x << 1) + (BASE2 << 1) + (B40C_RADIXSORT_THREADS * 2 * 0), extra);
+		if (SETS_PER_PASS > 1) GuardedReadSet<T, PreprocessFunctor>(in, pairs[1], (threadIdx.x << 1) + (BASE2 << 1) + (B40C_RADIXSORT_THREADS * 2 * 1), extra);
+		if (SETS_PER_PASS > 2) GuardedReadSet<T, PreprocessFunctor>(in, pairs[2], (threadIdx.x << 1) + (BASE2 << 1) + (B40C_RADIXSORT_THREADS * 2 * 2), extra);
+		if (SETS_PER_PASS > 3) GuardedReadSet<T, PreprocessFunctor>(in, pairs[3], (threadIdx.x << 1) + (BASE2 << 1) + (B40C_RADIXSORT_THREADS * 2 * 3), extra);
 	}
 }
 
@@ -467,30 +467,30 @@ __device__ __forceinline__ void ScatterSets(
 	// N.B. -- I wish we could do some pragma unrolling here too, but the compiler makes it 1% slower 
 		
 	if (SETS_PER_PASS > 0) { 
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 0) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 0) < extra[0])) 
 			d_out[offsets[0].x] = pairs[0].x;
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 1) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 1) < extra[0])) 
 			d_out[offsets[0].y] = pairs[0].y;
 	}
 
 	if (SETS_PER_PASS > 1) { 
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 2) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 2) < extra[0])) 
 			d_out[offsets[1].x] = pairs[1].x;
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 3) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 3) < extra[0])) 
 			d_out[offsets[1].y] = pairs[1].y;
 	}
 
 	if (SETS_PER_PASS > 2) { 
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 4) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 4) < extra[0])) 
 			d_out[offsets[2].x] = pairs[2].x;
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 5) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 5) < extra[0])) 
 			d_out[offsets[2].y] = pairs[2].y;
 	}
 
 	if (SETS_PER_PASS > 3) { 
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 6) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 6) < extra[0])) 
 			d_out[offsets[3].x] = pairs[3].x;
-		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (RADIXSORT_THREADS * 7) < extra[0])) 
+		if (UNGUARDED_IO || (threadIdx.x + BASE4 + (B40C_RADIXSORT_THREADS * 7) < extra[0])) 
 			d_out[offsets[3].y] = pairs[3].y;
 	}
 }
@@ -530,8 +530,8 @@ __device__ __forceinline__ void ExchangePairs(
 		#pragma unroll 
 		for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
 			const int BLOCK = ((PASS * SETS_PER_PASS) + SET) * 2;
-			pairs[PASS][SET].x = swap[threadIdx.x + (RADIXSORT_THREADS * (BLOCK + 0))];
-			pairs[PASS][SET].y = swap[threadIdx.x + (RADIXSORT_THREADS * (BLOCK + 1))];
+			pairs[PASS][SET].x = swap[threadIdx.x + (B40C_RADIXSORT_THREADS * (BLOCK + 0))];
+			pairs[PASS][SET].y = swap[threadIdx.x + (B40C_RADIXSORT_THREADS * (BLOCK + 1))];
 		}
 	}
 }
@@ -568,8 +568,8 @@ __device__ __forceinline__ void SwapAndScatterSm13(
 		#pragma unroll 
 		for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
 			const int BLOCK = ((PASS * SETS_PER_PASS) + SET) * 2;
-			offsets[PASS][SET].x = threadIdx.x + (RADIXSORT_THREADS * (BLOCK + 0)) + carry[DecodeDigit<K, RADIX_DIGITS, BIT>(keypairs[PASS][SET].x)];
-			offsets[PASS][SET].y = threadIdx.x + (RADIXSORT_THREADS * (BLOCK + 1)) + carry[DecodeDigit<K, RADIX_DIGITS, BIT>(keypairs[PASS][SET].y)];
+			offsets[PASS][SET].x = threadIdx.x + (B40C_RADIXSORT_THREADS * (BLOCK + 0)) + carry[DecodeDigit<K, RADIX_DIGITS, BIT>(keypairs[PASS][SET].x)];
+			offsets[PASS][SET].y = threadIdx.x + (B40C_RADIXSORT_THREADS * (BLOCK + 1)) + carry[DecodeDigit<K, RADIX_DIGITS, BIT>(keypairs[PASS][SET].y)];
 		}
 	}
 	
@@ -577,7 +577,7 @@ __device__ __forceinline__ void SwapAndScatterSm13(
 	#pragma unroll 
 	for (int PASS = 0; PASS < (int) PASSES_PER_CYCLE; PASS++) {
 		const int BLOCK = PASS * SETS_PER_PASS * 2;
-		ScatterSets<K, UNGUARDED_IO, PASSES_PER_CYCLE, SETS_PER_PASS, PostprocessFunctor>(d_out_keys, keypairs[PASS], offsets[PASS], RADIXSORT_THREADS * BLOCK, extra);
+		ScatterSets<K, UNGUARDED_IO, PASSES_PER_CYCLE, SETS_PER_PASS, PostprocessFunctor>(d_out_keys, keypairs[PASS], offsets[PASS], B40C_RADIXSORT_THREADS * BLOCK, extra);
 	}
 
 	if (!IsKeysOnly<V>()) {
@@ -590,8 +590,8 @@ __device__ __forceinline__ void SwapAndScatterSm13(
 		// N.B. -- I wish we could do some pragma unrolling here too, but the compiler won't comply, 
 		// telling me "Advisory: Loop was not unrolled, unexpected control flow"
 
-		if (PASSES_PER_CYCLE > 0) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[0], RADIXSORT_THREADS * SETS_PER_PASS * 0, extra);
-		if (PASSES_PER_CYCLE > 1) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[1], RADIXSORT_THREADS * SETS_PER_PASS * 1, extra);
+		if (PASSES_PER_CYCLE > 0) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[0], B40C_RADIXSORT_THREADS * SETS_PER_PASS * 0, extra);
+		if (PASSES_PER_CYCLE > 1) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[1], B40C_RADIXSORT_THREADS * SETS_PER_PASS * 1, extra);
 		
 		// Swap data according to ranks
 		ExchangePairs<V, PASSES_PER_CYCLE, SETS_PER_PASS>((V*) exchange, datapairs, ranks);
@@ -600,7 +600,7 @@ __device__ __forceinline__ void SwapAndScatterSm13(
 		#pragma unroll 
 		for (int PASS = 0; PASS < (int) PASSES_PER_CYCLE; PASS++) {
 			const int BLOCK = PASS * SETS_PER_PASS * 2;
-			ScatterSets<V, UNGUARDED_IO, PASSES_PER_CYCLE, SETS_PER_PASS, NopFunctor<V> >(d_out_values, datapairs[PASS], offsets[PASS], RADIXSORT_THREADS * BLOCK, extra);
+			ScatterSets<V, UNGUARDED_IO, PASSES_PER_CYCLE, SETS_PER_PASS, NopFunctor<V> >(d_out_values, datapairs[PASS], offsets[PASS], B40C_RADIXSORT_THREADS * BLOCK, extra);
 		}
 	}
 }
@@ -627,7 +627,7 @@ __device__ __forceinline__ void ScatterPass(
 	unsigned int base_digit,				
 	PostprocessFunctor postprocess = PostprocessFunctor())				
 {
-	const unsigned int LOG_STORE_TXN_THREADS = LOG_MEM_BANKS(__CUDA_ARCH__);
+	const unsigned int LOG_STORE_TXN_THREADS = B40C_LOG_MEM_BANKS(__CUDA_ARCH__);
 	const unsigned int STORE_TXN_THREADS = 1 << LOG_STORE_TXN_THREADS;
 	
 	int store_txn_idx = threadIdx.x & (STORE_TXN_THREADS - 1);
@@ -672,7 +672,7 @@ __device__ __forceinline__ void SwapAndScatterPairs(
 	unsigned int digit_scan[2][RADIX_DIGITS], 
 	int extra[1])				
 {
-	const unsigned int SCATTER_PASS_DIGITS = RADIXSORT_WARPS * (WARP_THREADS / MEM_BANKS(__CUDA_ARCH__));
+	const unsigned int SCATTER_PASS_DIGITS = B40C_RADIXSORT_WARPS * (B40C_WARP_THREADS / B40C_MEM_BANKS(__CUDA_ARCH__));
 	const unsigned int SCATTER_PASSES = RADIX_DIGITS / SCATTER_PASS_DIGITS;
 
 	// Push in pairs
@@ -726,8 +726,8 @@ __device__ __forceinline__ void SwapAndScatterSm10(
 
 		// Read input data
 		typename VecType<V, 2>::Type datapairs[PASSES_PER_CYCLE][SETS_PER_PASS];
-		if (PASSES_PER_CYCLE > 0) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[0], RADIXSORT_THREADS * SETS_PER_PASS * 0, extra);
-		if (PASSES_PER_CYCLE > 1) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[1], RADIXSORT_THREADS * SETS_PER_PASS * 1, extra);
+		if (PASSES_PER_CYCLE > 0) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[0], B40C_RADIXSORT_THREADS * SETS_PER_PASS * 0, extra);
+		if (PASSES_PER_CYCLE > 1) ReadSets<V, UNGUARDED_IO, SETS_PER_PASS, NopFunctor<V> >(d_in_values, datapairs[1], B40C_RADIXSORT_THREADS * SETS_PER_PASS * 1, extra);
 
 		// Swap and scatter data
 		SwapAndScatterPairs<V, RADIX_DIGITS, PASSES_PER_CYCLE, SETS_PER_PASS, UNGUARDED_IO, NopFunctor<V> >(
@@ -811,8 +811,8 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
 	// telling me "Advisory: Loop was not unrolled, unexpected control flow construct"
 	
 	// Read Keys
-	if (PASSES_PER_CYCLE > 0) ReadSets<K, UNGUARDED_IO, SETS_PER_PASS, PreprocessFunctor>(d_in_keys, keypairs[0], RADIXSORT_THREADS * SETS_PER_PASS * 0, extra);		 
-	if (PASSES_PER_CYCLE > 1) ReadSets<K, UNGUARDED_IO, SETS_PER_PASS, PreprocessFunctor>(d_in_keys, keypairs[1], RADIXSORT_THREADS * SETS_PER_PASS * 1, extra); 	
+	if (PASSES_PER_CYCLE > 0) ReadSets<K, UNGUARDED_IO, SETS_PER_PASS, PreprocessFunctor>(d_in_keys, keypairs[0], B40C_RADIXSORT_THREADS * SETS_PER_PASS * 0, extra);		 
+	if (PASSES_PER_CYCLE > 1) ReadSets<K, UNGUARDED_IO, SETS_PER_PASS, PreprocessFunctor>(d_in_keys, keypairs[1], B40C_RADIXSORT_THREADS * SETS_PER_PASS * 1, extra); 	
 	
 	//-------------------------------------------------------------------------
 	// Lane-scanning Passes
@@ -944,7 +944,7 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
  ******************************************************************************/
 
 template <typename K, typename V, unsigned int PASS, unsigned int RADIX_BITS, unsigned int BIT, typename PreprocessFunctor, typename PostprocessFunctor>
-__launch_bounds__ (RADIXSORT_THREADS, RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(__CUDA_ARCH__))
+__launch_bounds__ (B40C_RADIXSORT_THREADS, B40C_RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(__CUDA_ARCH__))
 __global__ 
 void ScanScatterDigits(
 	bool *d_from_alt_storage,
@@ -961,20 +961,20 @@ void ScanScatterDigits(
 	const unsigned int LOG_SCAN_LANES_PER_SET	= (RADIX_BITS > 2) ? RADIX_BITS - 2 : 0;					// Always at one lane per set
 	const unsigned int SCAN_LANES_PER_SET		= 1 << LOG_SCAN_LANES_PER_SET;								// N.B.: we have "declared but never referenced" warnings for these, but they're actually used for template instantiation
 	
-	const unsigned int LOG_SETS_PER_PASS		= RADIXSORT_LOG_SETS_PER_PASS(__CUDA_ARCH__);			
+	const unsigned int LOG_SETS_PER_PASS		= B40C_RADIXSORT_LOG_SETS_PER_PASS(__CUDA_ARCH__);			
 	const unsigned int SETS_PER_PASS			= 1 << LOG_SETS_PER_PASS;
 	
-	const unsigned int LOG_PASSES_PER_CYCLE		= RADIXSORT_LOG_PASSES_PER_CYCLE(__CUDA_ARCH__, K, V);			
+	const unsigned int LOG_PASSES_PER_CYCLE		= B40C_RADIXSORT_LOG_PASSES_PER_CYCLE(__CUDA_ARCH__, K, V);			
 	const unsigned int PASSES_PER_CYCLE			= 1 << LOG_PASSES_PER_CYCLE;
 
 	const unsigned int LOG_SCAN_LANES_PER_PASS	= LOG_SETS_PER_PASS + LOG_SCAN_LANES_PER_SET;
 	const unsigned int SCAN_LANES_PER_PASS		= 1 << LOG_SCAN_LANES_PER_PASS;
 	
-	const unsigned int LOG_PARTIALS_PER_LANE 	= RADIXSORT_LOG_THREADS;
+	const unsigned int LOG_PARTIALS_PER_LANE 	= B40C_RADIXSORT_LOG_THREADS;
 	
 	const unsigned int LOG_PARTIALS_PER_PASS	= LOG_SCAN_LANES_PER_PASS + LOG_PARTIALS_PER_LANE;
 
-	const unsigned int LOG_RAKING_THREADS_PER_PASS 		= RADIXSORT_LOG_RAKING_THREADS_PER_PASS(__CUDA_ARCH__);
+	const unsigned int LOG_RAKING_THREADS_PER_PASS 		= B40C_RADIXSORT_LOG_RAKING_THREADS_PER_PASS(__CUDA_ARCH__);
 	const unsigned int RAKING_THREADS_PER_PASS			= 1 << LOG_RAKING_THREADS_PER_PASS;
 
 	const unsigned int LOG_RAKING_THREADS_PER_LANE 		= LOG_RAKING_THREADS_PER_PASS - LOG_SCAN_LANES_PER_PASS;
@@ -983,7 +983,7 @@ void ScanScatterDigits(
 	const unsigned int LOG_PARTIALS_PER_SEG 	= LOG_PARTIALS_PER_LANE - LOG_RAKING_THREADS_PER_LANE;
 	const unsigned int PARTIALS_PER_SEG 		= 1 << LOG_PARTIALS_PER_SEG;
 
-	const unsigned int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < LOG_MEM_BANKS(__CUDA_ARCH__)) ? LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of MEM_BANKS partials per row
+	const unsigned int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < B40C_LOG_MEM_BANKS(__CUDA_ARCH__)) ? B40C_LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of MEM_BANKS partials per row
 	const unsigned int PARTIALS_PER_ROW			= 1 << LOG_PARTIALS_PER_ROW;
 	const unsigned int PADDED_PARTIALS_PER_ROW 	= PARTIALS_PER_ROW + 1;
 
@@ -1000,8 +1000,8 @@ void ScanScatterDigits(
 	
 	const unsigned int SCAN_LANE_BYTES			= ROWS_PER_PASS * PADDED_PARTIALS_PER_ROW * sizeof(unsigned int);
 	const unsigned int MAX_EXCHANGE_BYTES		= (sizeof(K) > sizeof(V)) ? 
-													RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(K) : 
-													RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(V);
+													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(K) : 
+													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(V);
 	const unsigned int EXCHANGE_PADDING_QUADS	= (MAX_EXCHANGE_BYTES > SCAN_LANE_BYTES) ? (MAX_EXCHANGE_BYTES - SCAN_LANE_BYTES + sizeof(unsigned int) - 1) / sizeof(unsigned int) : 0;
 
 
@@ -1034,7 +1034,7 @@ void ScanScatterDigits(
 		block_offset = work_decomposition.big_block_elements * blockIdx.x;
 		block_elements = work_decomposition.big_block_elements;
 	} else {
-		block_offset = (work_decomposition.normal_block_elements * blockIdx.x) + (work_decomposition.num_big_blocks * RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V));
+		block_offset = (work_decomposition.normal_block_elements * blockIdx.x) + (work_decomposition.num_big_blocks * B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V));
 		block_elements = work_decomposition.normal_block_elements;
 	}
 	oob[0] = block_offset + block_elements;	// out-of-bounds
@@ -1131,7 +1131,7 @@ void ScanScatterDigits(
 				base_partial,
 				raking_partial);		
 	
-			block_offset += RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V);
+			block_offset += B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V);
 		}
 	
 		if (extra[0]) {
@@ -1170,7 +1170,7 @@ void ScanScatterDigits(
 				base_partial,
 				raking_partial);		
 
-			block_offset += RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V);
+			block_offset += B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V);
 		}
 
 		if (extra[0]) {
