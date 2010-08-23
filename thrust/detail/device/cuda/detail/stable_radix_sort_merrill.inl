@@ -23,7 +23,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
 
-#include "b40c/radixsort_api.cu"
+#include <thrust/detail/device/cuda/detail/b40c/radixsort_api.h>
 
 namespace thrust
 {

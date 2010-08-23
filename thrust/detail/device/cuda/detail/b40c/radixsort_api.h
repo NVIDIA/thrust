@@ -85,9 +85,9 @@
 #include <math.h> 
 #include <float.h>
 
-#include "kernel/radixsort_reduction_kernel.cu"
-#include "kernel/radixsort_spine_kernel.cu"
-#include "kernel/radixsort_scanscatter_kernel.cu"
+#include "radixsort_reduction_kernel.h"
+#include "radixsort_spine_kernel.h"
+#include "radixsort_scanscatter_kernel.h"
 
 namespace b40c {
 

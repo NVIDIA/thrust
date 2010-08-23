@@ -45,9 +45,9 @@
 
 #pragma once
 
-#include "../common/b40c_kernel_utils.cu"
-#include "../common/b40c_vector_types.cu"
-#include "radixsort_key_conversion.cu"
+#include "kernel_utils.h"
+#include "vector_types.h"
+#include "radixsort_key_conversion.h"
 
 namespace b40c {
 
