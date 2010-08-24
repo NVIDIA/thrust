@@ -77,6 +77,14 @@ def generate(env):
   Add Builders and construction variables for CUDA compilers to an Environment.
   """
 
+  # create a builder that makes PTX files from .cu files
+  ptx_builder = SCons.Builder.Builder(action = '$NVCC -ptx $NVCCFLAGS $_NVCCWRAPCFLAGS $NVCCWRAPCCFLAGS $_NVCCCOMCOM $SOURCES -o $TARGET',
+                                      emitter = {},
+                                      suffix = '.ptx',
+                                      src_suffix = CUDASuffixes)
+  env['BUILDERS']['PTXFile'] = ptx_builder
+
+  # create builders that make static & shared objects from .cu files
   static_obj, shared_obj = SCons.Tool.createObjBuilders(env)
 
   for suffix in CUDASuffixes:
