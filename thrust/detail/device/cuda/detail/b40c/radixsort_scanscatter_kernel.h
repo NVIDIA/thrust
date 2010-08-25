@@ -1070,7 +1070,8 @@ void ScanScatterDigits(
 			from_alt_storage = (PASS == 0) ? false : d_from_alt_storage[PASS & 0x1];
 
 			// Read carry in parallel 
-			unsigned int my_digit_carry = d_spine[(gridDim.x * threadIdx.x) + blockIdx.x];
+			unsigned int spine_digit_offset = FastMul(gridDim.x, threadIdx.x);
+			unsigned int my_digit_carry = d_spine[spine_digit_offset + blockIdx.x];
 			carry[threadIdx.x] = my_digit_carry;
 
 			// Determine whether or not we have work to do and setup the next round 
@@ -1078,22 +1079,20 @@ void ScanScatterDigits(
 			// from the number of non-zero-and-non-oob digit carries.  First block 
 			// needs someone else's because he always writes the zero offset.
 			
+			unsigned int predicate;
 			if (PreprocessFunctor::MustApply() || PostprocessFunctor::MustApply()) {
 
 				non_trivial_digit_pass = true;
 
-			} else if (blockIdx.x == 0) {
-				
-				// First CTA
-				unsigned int predicate = ((my_digit_carry > 0) && (my_digit_carry < work_decomposition.num_elements));
-				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, scan_lanes) > 0);
-				
 			} else {
+
+				if (blockIdx.x > 0) {
+					// Non-first CTA : use digit-carry from first block
+					my_digit_carry = d_spine[spine_digit_offset];
+				}
 				
-				// Non-first CTA : use digit-carry from last block
-				my_digit_carry = d_spine[(gridDim.x * threadIdx.x) + gridDim.x - 1];
-				unsigned int predicate = ((my_digit_carry > 0) && (my_digit_carry < work_decomposition.num_elements));
-				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, scan_lanes) > 1);
+				predicate = ((my_digit_carry > 0) && (my_digit_carry < work_decomposition.num_elements));
+				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, scan_lanes) > 0);
 			}
 
 			// Let the next round know which set of buffers to use
