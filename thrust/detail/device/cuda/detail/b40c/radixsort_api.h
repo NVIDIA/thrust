@@ -213,18 +213,18 @@ protected:
 	/**
 	 * Constructor.
 	 */
-	BaseRadixSortingEnactor(unsigned int passes, unsigned int radix_bits, unsigned int num_elements, int max_grid_size, bool swizzle_pointers_for_odd_passes = true); 
+	BaseRadixSortingEnactor(unsigned int passes, unsigned int radix_bits, unsigned int num_elements, unsigned int max_grid_size, bool swizzle_pointers_for_odd_passes = true); 
 	
 	/**
 	 * Heuristic for determining the number of CTAs to launch.
 	 *   
 	 * @param[in] 		max_grid_size  
-	 * 		Maximum allowable number of CTAs to launch.  A value of -1 indicates 
+	 * 		Maximum allowable number of CTAs to launch.  A value of 0 indicates 
 	 * 		that the default value should be used.
 	 * 
 	 * @return The actual number of CTAs that should be launched
 	 */
-	unsigned int GridSize(int max_grid_size);
+	unsigned int GridSize(unsigned int max_grid_size);
 
 	/**
 	 * Performs a distribution sorting pass over a single digit place
@@ -298,7 +298,7 @@ BaseRadixSortingEnactor<K, V>::BaseRadixSortingEnactor(
 	unsigned int passes, 
 	unsigned int max_radix_bits, 
 	unsigned int num_elements, 
-	int max_grid_size,
+	unsigned int max_grid_size,
 	bool swizzle_pointers_for_odd_passes) 
 {
 	//
@@ -349,12 +349,12 @@ BaseRadixSortingEnactor<K, V>::BaseRadixSortingEnactor(
 
 
 template <typename K, typename V>
-unsigned int BaseRadixSortingEnactor<K, V>::GridSize(int max_grid_size)
+unsigned int BaseRadixSortingEnactor<K, V>::GridSize(unsigned int max_grid_size)
 {
 	const unsigned int SINGLE_CTA_CUTOFF = 0;		// right now zero; we have no single-cta sorting
 
 	// find maximum number of threadblocks if "use-default"
-	if (max_grid_size == -1) {
+	if (max_grid_size == 0) {
 
 		if (_num_elements <= SINGLE_CTA_CUTOFF) {
 
@@ -645,10 +645,10 @@ public:
 	 * 		Length (in elements) of the input to a sorting operation
 	 * 
 	 * @param[in] 		max_grid_size  
-	 * 		Maximum allowable number of CTAs to launch.  The default value of -1 indicates 
+	 * 		Maximum allowable number of CTAs to launch.  The default value of 0 indicates 
 	 * 		that the dispatch logic should select an appropriate value for the target device.
 	 */	
-	RadixSortingEnactor(unsigned int num_elements, int max_grid_size = -1) : Base::BaseRadixSortingEnactor(2, 4, num_elements, max_grid_size) {}
+	RadixSortingEnactor(unsigned int num_elements, unsigned int max_grid_size = 0) : Base::BaseRadixSortingEnactor(2, 4, num_elements, max_grid_size) {}
 
 };
 
@@ -684,10 +684,10 @@ public:
 	 * 		Length (in elements) of the input to a sorting operation
 	 * 
 	 * @param[in] 		max_grid_size  
-	 * 		Maximum allowable number of CTAs to launch.  The default value of -1 indicates 
+	 * 		Maximum allowable number of CTAs to launch.  The default value of 0 indicates 
 	 * 		that the dispatch logic should select an appropriate value for the target device.
 	 */	
-	RadixSortingEnactor(unsigned int num_elements, int max_grid_size = -1) : Base::BaseRadixSortingEnactor(4, 4, num_elements, max_grid_size) {}
+	RadixSortingEnactor(unsigned int num_elements, unsigned int max_grid_size = 0) : Base::BaseRadixSortingEnactor(4, 4, num_elements, max_grid_size) {}
 
 };
 
@@ -726,10 +726,10 @@ public:
 	 * 		Length (in elements) of the input to a sorting operation
 	 * 
 	 * @param[in] 		max_grid_size  
-	 * 		Maximum allowable number of CTAs to launch.  The default value of -1 indicates 
+	 * 		Maximum allowable number of CTAs to launch.  The default value of 0 indicates 
 	 * 		that the dispatch logic should select an appropriate value for the target device.
 	 */	
-	RadixSortingEnactor(unsigned int num_elements, int max_grid_size = -1) : Base::BaseRadixSortingEnactor(8, 4, num_elements, max_grid_size) {}
+	RadixSortingEnactor(unsigned int num_elements, unsigned int max_grid_size = 0) : Base::BaseRadixSortingEnactor(8, 4, num_elements, max_grid_size) {}
 
 };
 
@@ -777,10 +777,10 @@ public:
 	 * 		Length (in elements) of the input to a sorting operation
 	 * 
 	 * @param[in] 		max_grid_size  
-	 * 		Maximum allowable number of CTAs to launch.  The default value of -1 indicates 
+	 * 		Maximum allowable number of CTAs to launch.  The default value of 0 indicates 
 	 * 		that the dispatch logic should select an appropriate value for the target device.
 	 */	
-	RadixSortingEnactor(unsigned int num_elements, int max_grid_size = -1) : Base::BaseRadixSortingEnactor(16, 4, num_elements, max_grid_size) {}
+	RadixSortingEnactor(unsigned int num_elements, unsigned max_grid_size = 0) : Base::BaseRadixSortingEnactor(16, 4, num_elements, max_grid_size) {}
 
 };
 

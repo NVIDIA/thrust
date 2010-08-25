@@ -1046,7 +1046,7 @@ void ScanScatterDigits(
 	unsigned int *base_partial = scan_lanes + (row * PADDED_PARTIALS_PER_ROW) + col; 								
 	
 	// location for raking across all sets within a pass
-	unsigned int *raking_partial;										
+	unsigned int *raking_partial = 0;										
 
 	if (threadIdx.x < RAKING_THREADS_PER_PASS) {
 

@@ -141,8 +141,8 @@ __global__ void SrtsScanSpine(
 	__shared__ unsigned int smem[SMEM_ROWS][PARTIALS_PER_ROW + 1];
 	__shared__ unsigned int warpscan[2][B40C_WARP_THREADS];
 
-	unsigned int *smem_segment;
-	unsigned int carry;
+	unsigned int *smem_segment = 0;
+	unsigned int carry = 0;
 
 	unsigned int row = threadIdx.x >> LOG_PARTIALS_PER_ROW;		
 	unsigned int col = threadIdx.x & (PARTIALS_PER_ROW - 1);			
