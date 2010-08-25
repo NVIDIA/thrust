@@ -780,7 +780,7 @@ public:
 	 * 		Maximum allowable number of CTAs to launch.  The default value of 0 indicates 
 	 * 		that the dispatch logic should select an appropriate value for the target device.
 	 */	
-	RadixSortingEnactor(unsigned int num_elements, unsigned max_grid_size = 0) : Base::BaseRadixSortingEnactor(16, 4, num_elements, max_grid_size) {}
+	RadixSortingEnactor(unsigned int num_elements, unsigned int max_grid_size = 0) : Base::BaseRadixSortingEnactor(16, 4, num_elements, max_grid_size) {}
 
 };
 
