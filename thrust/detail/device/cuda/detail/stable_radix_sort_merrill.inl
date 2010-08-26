@@ -14,6 +14,11 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+
+// do not attempt to compile this file with any other compiler
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
 #include <thrust/copy.h>
 #include <thrust/gather.h>
 #include <thrust/sequence.h>
@@ -22,6 +27,12 @@
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(push)
+#pragma warning(disable : 4244 4267)
+#endif
 
 #include <thrust/detail/device/cuda/detail/b40c/radixsort_api.h>
 
@@ -196,4 +207,13 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// reenable 'possible loss of data' warnings
+#pragma warning(pop)
+#endif
+
+
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

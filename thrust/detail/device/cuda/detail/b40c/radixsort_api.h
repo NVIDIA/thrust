@@ -288,7 +288,11 @@ public:
 	 * @return cudaSuccess on success, error enumeration otherwise
 	 */
 	cudaError_t EnactSort(RadixSortStorage<K, V> &problem_storage);	
-	
+
+    /*
+     * Destructor
+     */
+    virtual ~BaseRadixSortingEnactor() {}
 };
 
 
