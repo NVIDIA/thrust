@@ -79,8 +79,6 @@ struct TestRadixSortKeySimple
 VectorUnitTest<TestRadixSortKeySimple, ThirtyTwoBitTypes, thrust::device_vector, thrust::device_malloc_allocator> TestRadixSortKeySimpleDeviceInstance;
 
 
-//still need to do long/ulong and maybe double
-
 typedef unittest::type_list<
 #if !(defined(__GNUC__) && (__GNUC__ <= 4) && (__GNUC_MINOR__ <= 1))
 // XXX GCC 4.1 miscompiles the char sorts with -O2 for some reason
@@ -96,6 +94,7 @@ typedef unittest::type_list<
                             unsigned long,
                             long long,
                             unsigned long long,
+                            float,
                             double> RadixSortKeyTypes;
 
 template <typename T>
@@ -113,59 +112,6 @@ struct TestRadixSort
   }
 };
 VariableUnitTest<TestRadixSort, RadixSortKeyTypes> TestRadixSortInstance;
-
-
-template <typename T>
-struct TestRadixSortVariableBits
-{
-  void operator()(const size_t n)
-  {
-    for(size_t num_bits = 0; num_bits < 8 * sizeof(T); num_bits += 7){
-        thrust::host_vector<T>  h_keys = unittest::random_integers<T>(n);
-   
-        size_t mask = (1 << num_bits) - 1;
-        for(size_t i = 0; i < n; i++)
-            h_keys[i] &= mask;
-
-        thrust::device_vector<T> d_keys = h_keys;
-    
-        thrust::stable_sort(h_keys.begin(), h_keys.end());
-        thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
-    
-        ASSERT_ALMOST_EQUAL(h_keys, d_keys);
-    }
-  }
-};
-VariableUnitTest<TestRadixSortVariableBits, unittest::type_list<unsigned int> > TestRadixSortVariableBitsInstance;
-
-
-template <typename T>
-struct TestRadixSortUnaligned
-{
-  void operator()(const size_t n)
-  {
-    typedef thrust::device_vector<T> Vector;
-
-    Vector unsorted_keys = unittest::random_integers<T>(n);
-    Vector   sorted_keys = unsorted_keys;
-    
-    thrust::sort(sorted_keys.begin(), sorted_keys.end());
-
-    for(int offset = 1; offset < 16; offset++)
-    {
-        Vector unaligned_unsorted_keys(n + offset, 0);
-        Vector   unaligned_sorted_keys(n + offset, 0);
-        
-        thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
-        thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
-   
-        thrust::detail::device::cuda::detail::stable_radix_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
-
-        ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
-    }
-  }
-};
-VariableUnitTest<TestRadixSortUnaligned, unittest::type_list<char,short,int,long> > TestRadixSortUnalignedInstance;
 
 #endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
