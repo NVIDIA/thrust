@@ -36,21 +36,24 @@ void TestInnerProductWithOperator(void)
 DECLARE_VECTOR_UNITTEST(TestInnerProductWithOperator);
 
 template <typename T>
-void TestInnerProduct(const size_t n)
+struct TestInnerProduct
 {
-    thrust::host_vector<T> h_v1 = unittest::random_integers<T>(n);
-    thrust::host_vector<T> h_v2 = unittest::random_integers<T>(n);
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T> h_v1 = unittest::random_integers<T>(n);
+        thrust::host_vector<T> h_v2 = unittest::random_integers<T>(n);
 
-    thrust::device_vector<T> d_v1 = h_v1;
-    thrust::device_vector<T> d_v2 = h_v2;
+        thrust::device_vector<T> d_v1 = h_v1;
+        thrust::device_vector<T> d_v2 = h_v2;
 
-    T init = 13;
+        T init = 13;
 
-    T cpu_result = thrust::inner_product(h_v1.begin(), h_v1.end(), h_v2.begin(), init);
-    T gpu_result = thrust::inner_product(d_v1.begin(), d_v1.end(), d_v2.begin(), init);
+        T expected = thrust::inner_product(h_v1.begin(), h_v1.end(), h_v2.begin(), init);
+        T result   = thrust::inner_product(d_v1.begin(), d_v1.end(), d_v2.begin(), init);
 
-    ASSERT_ALMOST_EQUAL(cpu_result, gpu_result);
-}
-DECLARE_VARIABLE_UNITTEST(TestInnerProduct);
+        ASSERT_EQUAL(expected, result);
+    }
+};
+VariableUnitTest<TestInnerProduct, IntegralTypes> TestInnerProductInstance;
 
 

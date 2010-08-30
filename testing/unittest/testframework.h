@@ -160,12 +160,15 @@ class TEST##UnitTest : public UnitTest {                         \
     public:                                                      \
     TEST##UnitTest() : UnitTest(#TEST) {}                        \
     void run(){                                                  \
-        size_t sizes[] =   {0, 1, 2, 5, 13, 127,                 \
+        size_t sizes[] =                                         \
+           {0, 1, 2, 3, 4, 5, 10, 16, 13, 31, 32, 33,            \
+            61, 63, 64, 67, 75, 97, 100, 127, 128, 129,          \
             251, 256, 259, 1023,                                 \
             1024, 1025, 10000, 12345,                            \
-            (1<<16) - 3, 1<<16, (1<<16) + 3};                    \
+            (1<<16) - 3, 1<<16, (1<<16) + 3                      \
+           };                                                    \
         size_t num_sizes = sizeof(sizes) / sizeof(size_t);       \
-        for(size_t i = 0; i != num_sizes; ++i)                      \
+        for(size_t i = 0; i != num_sizes; ++i)                   \
         {                                                        \
             TEST<char>(sizes[i]);                                \
             TEST<unsigned char>(sizes[i]);                       \
@@ -209,10 +212,12 @@ template<template <typename> class TestName, typename TypeList>
     void run()
     {
         size_t sizes[] =
-           {0, 1, 2, 5, 13, 127,          
+           {0, 1, 2, 3, 4, 5, 10, 16, 13, 31, 32, 33,
+            61, 63, 64, 67, 75, 97, 100, 127, 128, 129,
             251, 256, 259, 1023,                          
             1024, 1025, 10000, 12345,                     
-            (1<<16) - 3, 1<<16, (1<<16) + 3};             
+            (1<<16) - 3, 1<<16, (1<<16) + 3
+           };             
         size_t num_sizes = sizeof(sizes) / sizeof(size_t);
         for(size_t i = 0; i != num_sizes; ++i)               
         {                                                 
