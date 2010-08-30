@@ -195,6 +195,7 @@ template<typename OutputIterator, typename Size, typename T>
 #include <thrust/device_ptr.h>
 #include <thrust/distance.h>
 #include <thrust/system_error.h>
+#include <cstring>
 
 namespace thrust
 {
@@ -233,7 +234,9 @@ template<typename OutputIterator, typename Size, typename T>
                         thrust::detail::true_type)
 {
   // implement this with cudaMemset if value == 0
-  if(value == T(0))
+  // compare byte-by-byte rather than with == to capture subtleties of floating point -0.0
+  const T zero = T(0);
+  if(std::strncmp(reinterpret_cast<const char*>(&value), reinterpret_cast<const char*>(&zero), sizeof(T)) == 0)
   {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     cudaError_t error = cudaMemset(thrust::raw_pointer_cast(&*first), 0, sizeof(OutputType) * n);
