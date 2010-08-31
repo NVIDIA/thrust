@@ -19,15 +19,18 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/transform_iterator.h>
 
 #include <thrust/detail/util/blocking.h>
 
 #include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/internal_functional.h>
 #include <thrust/detail/device/dereference.h>
 
 #include <thrust/detail/device/cuda/partition.h>
 #include <thrust/detail/device/cuda/block/reduce.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
+
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 // temporarily disable 'possible loss of data' warnings on MSVC
@@ -47,12 +50,14 @@ namespace cuda
 
 template <unsigned int CTA_SIZE,
           typename InputIterator,
+          typename IndexType,
           typename OutputIterator,
           typename BinaryFunction>
+__launch_bounds__(CTA_SIZE,1)
 __global__
 void reduce_intervals(InputIterator input,
-                      const unsigned int n,
-                      const unsigned int interval_size,
+                      const IndexType n,
+                      const IndexType interval_size,
                       OutputIterator output,
                       BinaryFunction binary_op)
 {
@@ -60,10 +65,10 @@ void reduce_intervals(InputIterator input,
 
     __shared__ OutputType shared_array[CTA_SIZE];
 
-    const unsigned int interval_begin = interval_size * blockIdx.x;
-    const unsigned int interval_end   = min(interval_begin + interval_size, n);
+    const IndexType interval_begin = interval_size * blockIdx.x;
+    const IndexType interval_end   = min(interval_begin + interval_size, n);
 
-    unsigned int i = interval_begin + threadIdx.x;
+    IndexType i = interval_begin + threadIdx.x;
 
     // advance input
     input += i;
@@ -93,7 +98,7 @@ void reduce_intervals(InputIterator input,
     __syncthreads();
 
     // compute reduction across block
-    thrust::detail::device::cuda::block::reduce_n(shared_array, min(interval_end - interval_begin, CTA_SIZE), binary_op);
+    thrust::detail::device::cuda::block::reduce_n(shared_array, min(interval_end - interval_begin, IndexType(CTA_SIZE)), binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
@@ -107,29 +112,29 @@ template <unsigned int CTA_SIZE,
           typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
+          typename IndexType,
           typename OutputIterator>
+__launch_bounds__(CTA_SIZE,1)
 __global__
 void copy_if_intervals(InputIterator1 input,
                        InputIterator2 stencil,
                        InputIterator3 offsets,
-                       const unsigned int N,
-                       const unsigned int interval_size,
+                       const IndexType N,
+                       const IndexType interval_size,
                        OutputIterator output)
 {
-    typedef typename thrust::iterator_value<InputIterator3>::type IndexType;
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     
     thrust::plus<IndexType> binary_op;
 
     __shared__ IndexType sdata[CTA_SIZE];  __syncthreads();
 
-    const unsigned int interval_begin = interval_size * blockIdx.x;
-    const unsigned int interval_end   = min(interval_begin + interval_size, N);
+    const IndexType interval_begin = interval_size * blockIdx.x;
+    const IndexType interval_end   = min(interval_begin + interval_size, N);
 
-    unsigned int base = interval_begin;
+    IndexType base = interval_begin;
 
     IndexType predicate = 0;
-
 
     // initial offset
     if (threadIdx.x == 0)
@@ -137,7 +142,6 @@ void copy_if_intervals(InputIterator1 input,
         if (blockIdx.x == 0)
         {
             sdata[CTA_SIZE - 1] = 0;
-
         }
         else
         {
@@ -158,7 +162,7 @@ void copy_if_intervals(InputIterator1 input,
         // carry in
         if (threadIdx.x == 0)
         {
-            OutputType tmp = sdata[CTA_SIZE - 1];
+            IndexType tmp = sdata[CTA_SIZE - 1];
             sdata[0] = binary_op(tmp, predicate);
         }
 
@@ -199,7 +203,7 @@ void copy_if_intervals(InputIterator1 input,
         // carry in
         if (threadIdx.x == 0)
         {
-            OutputType tmp = sdata[CTA_SIZE - 1];
+            IndexType tmp = sdata[CTA_SIZE - 1];
             sdata[0] = binary_op(tmp, predicate);
         }
 
@@ -209,7 +213,6 @@ void copy_if_intervals(InputIterator1 input,
             sdata[threadIdx.x] = predicate;
 
         __syncthreads();
-
 
         // scan block
         block::inplace_inclusive_scan<CTA_SIZE>(sdata, binary_op);
@@ -226,7 +229,6 @@ void copy_if_intervals(InputIterator1 input,
 
 
 
-
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -237,39 +239,40 @@ template<typename InputIterator1,
                           OutputIterator output,
                           Predicate pred)
 {
-    // TODO do dynamic dispatch between uint & ptrdiff_t
-    typedef unsigned int IndexType;
+    typedef typename thrust::iterator_difference<InputIterator1>::type IndexType;
+    typedef typename thrust::iterator_value<OutputIterator>::type      OutputType;
 
     if (first == last)
         return output;
 
-    const unsigned int CTA_SIZE = 128;
-    
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+    const IndexType CTA_SIZE      = 256;
+    const IndexType N             = last - first;
+    const IndexType max_intervals = 3 * (thrust::experimental::arch::max_active_threads() / CTA_SIZE);
 
-    const unsigned int N = last - first;
+    thrust::pair<IndexType, IndexType> splitting = uniform_interval_splitting<IndexType>(N, 32, max_intervals);
 
-    const unsigned int max_intervals = 300; // TODO choose this in a more principled way
+    const IndexType interval_size = splitting.first;
+    const IndexType num_intervals = splitting.second;
 
-    thrust::pair<unsigned int, unsigned int> splitting = uniform_interval_splitting<unsigned int>(N, 32, max_intervals);
+    thrust::detail::raw_cuda_device_buffer<IndexType> block_results(num_intervals);
 
-    const unsigned int interval_size = splitting.first;
-    const unsigned int num_intervals = splitting.second;
+    typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;
+    typedef thrust::transform_iterator<PredicateToIndexTransform, InputIterator2, IndexType> PredicateToIndexIterator;
 
-    thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_intervals);
+    PredicateToIndexIterator predicate_stencil(stencil, PredicateToIndexTransform(pred));
 
     reduce_intervals<CTA_SIZE> <<<num_intervals, CTA_SIZE>>>
-        (stencil,
+        (predicate_stencil,
          N,
          interval_size,
          block_results.begin(),
          thrust::plus<IndexType>());
 
     thrust::detail::device::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
-    
+
     copy_if_intervals<CTA_SIZE> <<<num_intervals, CTA_SIZE>>>
         (first,
-         stencil,
+         predicate_stencil,
          block_results.begin(),
          N,
          interval_size,

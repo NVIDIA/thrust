@@ -19,7 +19,6 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/device/dispatch/copy.h>
-#include <thrust/detail/device/generic/copy_if.h>
 
 namespace thrust
 {
@@ -30,11 +29,11 @@ namespace device
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator begin, 
-                      InputIterator end, 
+  OutputIterator copy(InputIterator  first, 
+                      InputIterator  last, 
                       OutputIterator result)
 {
-  return thrust::detail::device::dispatch::copy(begin, end, result,
+  return thrust::detail::device::dispatch::copy(first, last, result,
     typename thrust::iterator_space<InputIterator>::type(),
     typename thrust::iterator_space<OutputIterator>::type());
 }
@@ -50,7 +49,10 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
-  return thrust::detail::device::generic::copy_if(first, last, stencil, result, pred);
+  return thrust::detail::device::dispatch::copy_if(first, last, stencil, result, pred,
+    typename thrust::iterator_space<InputIterator1>::type(),
+    typename thrust::iterator_space<InputIterator2>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
 }
 
 } // end namespace device
