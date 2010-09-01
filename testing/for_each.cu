@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/for_each.h>
 #include <thrust/device_ptr.h>
+#include <thrust/iterator/counting_iterator.h>
 
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
@@ -16,18 +17,6 @@ class mark_present_for_each
         __host__ __device__ void operator()(T x){ ptr[(int) x] = 1; }
 };
 
-template <typename T>
-  T *get_pointer(T *ptr)
-{
-  return ptr;
-}
-
-template <typename T>
-  T *get_pointer(const thrust::device_ptr<T> ptr)
-{
-  return ptr.get();
-}
-
 template <class Vector>
 void TestForEachSimple(void)
 {
@@ -39,7 +28,7 @@ void TestForEachSimple(void)
     input[0] = 3; input[1] = 2; input[2] = 3; input[3] = 4; input[4] = 6;
 
     mark_present_for_each<T> f;
-    f.ptr = get_pointer(&output[0]);
+    f.ptr = thrust::raw_pointer_cast(output.data());
 
     thrust::for_each(input.begin(), input.end(), f);
 
@@ -52,6 +41,26 @@ void TestForEachSimple(void)
     ASSERT_EQUAL(output[6], 1);
 }
 DECLARE_VECTOR_UNITTEST(TestForEachSimple);
+
+
+void TestForEachSimpleAnySpace(void)
+{
+    thrust::device_vector<int> output(7, 0);
+
+    mark_present_for_each<int> f;
+    f.ptr = thrust::raw_pointer_cast(output.data());
+
+    thrust::for_each(thrust::make_counting_iterator(0), thrust::make_counting_iterator(5), f);
+
+    ASSERT_EQUAL(output[0], 1);
+    ASSERT_EQUAL(output[1], 1);
+    ASSERT_EQUAL(output[2], 1);
+    ASSERT_EQUAL(output[3], 1);
+    ASSERT_EQUAL(output[4], 1);
+    ASSERT_EQUAL(output[5], 0);
+    ASSERT_EQUAL(output[6], 0);
+}
+DECLARE_UNITTEST(TestForEachSimpleAnySpace);
 
 
 template <typename T>
@@ -99,7 +108,7 @@ void TestForEachLargeRegisterFootprint()
 
     thrust::device_vector<int> data(N, 12345);
 
-    thrust::device_vector<int *> input(1, get_pointer(&data[0])); // length is irrelevant
+    thrust::device_vector<int *> input(1, thrust::raw_pointer_cast(&data[0])); // length is irrelevant
     
     thrust::for_each(input.begin(), input.end(), CopyFunctorWithManyRegisters<N>());
 }

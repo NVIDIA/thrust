@@ -40,6 +40,7 @@ template<typename RandomAccessIterator,
                                   UnaryFunction f,
                                   thrust::detail::omp_device_space_tag)
 {
+  // OpenMP implementation
   return thrust::detail::device::omp::for_each_n(first, n, f);
 }
 
@@ -51,7 +52,21 @@ template<typename RandomAccessIterator,
                                   UnaryFunction f,
                                   thrust::detail::cuda_device_space_tag)
 {
+  // CUDA implementation
   return thrust::detail::device::cuda::for_each_n(first, n, f);
+}
+
+template<typename RandomAccessIterator,
+         typename Size,
+         typename UnaryFunction>
+  RandomAccessIterator for_each_n(RandomAccessIterator first,
+                                  Size n,
+                                  UnaryFunction f,
+                                  thrust::any_space_tag)
+{
+  // default implementation
+  return thrust::detail::device::dispatch::for_each_n(first, n, f,
+    thrust::detail::default_device_space_tag());
 }
 
 } // end dispatch

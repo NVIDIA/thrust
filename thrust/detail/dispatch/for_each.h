@@ -84,6 +84,34 @@ OutputIterator for_each_n(OutputIterator first,
   return thrust::detail::device::for_each_n(first, n, f);
 }
 
+
+/////////////////
+// Any Path //
+/////////////////
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f,
+                       thrust::any_space_tag)
+{
+  // default to device path
+  return thrust::detail::dispatch::for_each(first, last, f, thrust::device_space_tag());
+}
+
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f,
+                          thrust::any_space_tag)
+{
+  // default to device path
+  return thrust::detail::dispatch::for_each_n(first, n, f, thrust::device_space_tag());
+}
+
 } // end namespace dispatch
 } // end namespace detail
 } // end namespace thrust
