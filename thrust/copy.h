@@ -39,7 +39,9 @@ namespace thrust
  *  the assignments *\p result = *\p first, *(\p result + \c 1) = *(\p first + \c 1),
  *  and so on. Generally, for every integer \c n from \c 0 to \p last - \p first, \p copy
  *  performs the assignment *(\p result + \c n) = *(\p first + \c n). Unlike
- *  \c std::copy, \p copy offers no guarantee on order of operation.
+ *  \c std::copy, \p copy offers no guarantee on order of operation.  As a result,
+ *  calling \p copy with overlapping source and destination ranges has undefined
+ *  behavior.
  *
  *  The return value is \p result + (\p last - \p first).
  *
