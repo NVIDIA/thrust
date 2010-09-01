@@ -25,8 +25,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/device_ptr_category.h>
+#include <thrust/detail/device_ptr_traits.h>
 #include <ostream>
+#include <cstddef>
 
 namespace thrust
 {
@@ -62,11 +63,11 @@ template<typename T> class device_ptr
 {
   public:
     // define iterator_traits types
-    typedef thrust::detail::device_ptr_category        iterator_category;
-    typedef typename detail::remove_const<T>::type     value_type;
-    typedef ptrdiff_t                                  difference_type;
-    typedef device_ptr                                 pointer;
-    typedef device_reference<T>                        reference;
+    typedef typename thrust::detail::device_ptr_traits<T>::iterator_category iterator_category;
+    typedef typename thrust::detail::device_ptr_traits<T>::value_type        value_type;
+    typedef typename thrust::detail::device_ptr_traits<T>::difference_type   difference_type;
+    typedef typename thrust::detail::device_ptr_traits<T>::pointer           pointer;
+    typedef typename thrust::detail::device_ptr_traits<T>::reference         reference;
 
     /*! \p device_ptr's null constructor initializes its raw pointer to \c 0.
      */

@@ -21,8 +21,12 @@
 
 namespace thrust
 {
+
+template<typename> class device_ptr;
+
 namespace detail
 {
+
 
 // XXX device_ptr_category needs to be f(default_device_space_tag, random_access_traversal_tag)
 #if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
@@ -32,6 +36,29 @@ typedef thrust::detail::random_access_omp_device_iterator_tag device_ptr_categor
 #else
 #error "Unknown device backend."
 #endif // THRUST_DEVICE_BACKEND
+
+
+template<typename T>
+  struct device_ptr_traits
+{
+  typedef thrust::detail::device_ptr_category        iterator_category;
+  typedef typename detail::remove_const<T>::type     value_type;
+  typedef std::ptrdiff_t                             difference_type;
+  typedef device_ptr<T>                              pointer;
+  typedef device_reference<T>                        reference;
+}; // end device_ptr_traits
+
+
+template<>
+  struct device_ptr_traits<void>
+{
+  typedef thrust::detail::device_ptr_category        iterator_category;
+  typedef void                                       value_type;
+  typedef std::ptrdiff_t                             difference_type;
+  typedef device_ptr<void>                           pointer;
+  typedef void                                       reference;
+}; // end device_ptr_traits
+
 
 } // end detail
 } // end thrust

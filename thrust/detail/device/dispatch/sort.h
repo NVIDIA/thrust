@@ -18,8 +18,6 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/device_ptr_category.h>
-
 #include <thrust/detail/device/cuda/sort.h>
 #include <thrust/detail/device/omp/sort.h>
 
