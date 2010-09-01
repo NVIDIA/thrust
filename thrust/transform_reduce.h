@@ -58,9 +58,9 @@ namespace thrust
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>,
- *          and \p UnaryFunction's \c result_type is convertible to \p BinaryFunction's \c second_argument_type.
+ *          and \p UnaryFunction's \c result_type is convertible to \c OutputType.
  *  \tparam OutputType is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
- *          and is convertible to \p BinaryFunction's \c first_argument_type.
+ *          and is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type.
  *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>,
  *          and \p BinaryFunction's \c result_type is convertible to \p OutputType.
  *
@@ -74,9 +74,9 @@ namespace thrust
  *  ...
  *  int data[6] = {-1, 0, -2, -2, 1, -3};
  *  int result = thrust::transform_reduce(data, data + 6,
- *                                         thrust::absolute_value<int>(),
- *                                         0,
- *                                         thrust::maximum<int>());
+ *                                        thrust::absolute_value<int>(),
+ *                                        0,
+ *                                        thrust::maximum<int>());
  *  // result == 3
  *  \endcode
  *

@@ -142,13 +142,11 @@ template<typename InputIterator, typename T>
  *  \return The result of the reduction.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *          and \c InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>
- *          and \c OutputIterator's \c value_type is convertible to both \c AssociativeOperator's \c first_argument_type and
- *          \c second_argument_type.
- *  \tparam T is convertible to \c OutputIterator's \c value_type.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
- *          and \c AssociativeOperator's \c result_type is convertible to \c OutputIterator's \c value_type.
+ *          and \c InputIterator's \c value_type is convertible to \c T.
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type.
+ *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>,
+ *          and \p BinaryFunction's \c result_type is convertible to \p OutputType.
  *
  *  The following code snippet demonstrates how to use \p reduce to
  *  compute the maximum value of a sequence of integers.
@@ -158,12 +156,14 @@ template<typename InputIterator, typename T>
  *  #include <thrust/functional.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(data, data + 6, -1,
- *                               thrust::maximum<int>());
+ *  int result = thrust::reduce(data, data + 6,
+ *                              -1,
+ *                              thrust::maximum<int>());
  *  // result == 3
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/accumulate.html
+ *  \see transform_reduce
  */
 template<typename InputIterator,
          typename T,
