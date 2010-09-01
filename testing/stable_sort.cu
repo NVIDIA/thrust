@@ -90,7 +90,7 @@ DECLARE_UNITTEST(TestStableSortDescendingKey);
 
 
 template <typename T>
-struct comp_mod3 : public thrust::binary_function<T,T,bool>
+struct comp_mod3
 {
     T * table;
 

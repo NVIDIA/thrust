@@ -272,7 +272,7 @@ DECLARE_VECTOR_UNITTEST(TestTransformBinaryCountingIterator);
 
 
 template <typename T>
-struct plus_mod3 : public thrust::binary_function<T,T,T>
+struct plus_mod3
 {
     T * table;
 

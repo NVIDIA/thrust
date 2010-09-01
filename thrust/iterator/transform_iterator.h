@@ -134,17 +134,63 @@ namespace thrust
  *  }
  *  \endcode
  *
+ *  Note that in the previous two examples the transform functor (namely \c square_root 
+ *  and \c square) inherits from \c thrust::unary_function.  Inheriting from 
+ *  \c thrust::unary_function ensures that a functor is a valid \c AdaptableUnaryFunction
+ *  and provides all the necessary \c typedef declarations.  The \p transform_iterator
+ *  can also be applied to a \c UnaryFunction that does not inherit from 
+ *  \c thrust::unary_function using an optional template argument.  The following example
+ *  illustrates how to use the third template argument to specify the \c result_type of
+ *  the function.   
+ *
+ *  \code
+ *  #include <thrust/iterator/transform_iterator.h>
+ *  #include <thrust/device_vector.h>
+ *  
+ *  // note: functor *does not* inherit from unary_function
+ *  struct square_root
+ *  {
+ *    __host__ __device__
+ *    float operator()(float x) const
+ *    {
+ *      return sqrtf(x);
+ *    }
+ *  };
+ *  
+ *  int main(void)
+ *  {
+ *      thrust::device_vector<float> v(4);
+ *      v[0] = 1.0f;
+ *      v[1] = 4.0f;
+ *      v[2] = 9.0f;
+ *      v[3] = 16.0f;
+ *                                                                                             
+ *      typedef thrust::device_vector<float>::iterator FloatIterator;
+ *      
+ *      // note: float result_type is specified explicitly
+ *      thrust::transform_iterator<square_root, FloatIterator, float> iter(v.begin(), square_root());
+ *                                                                                             
+ *      *iter;   // returns 1.0f
+ *      iter[0]; // returns 1.0f;
+ *      iter[1]; // returns 2.0f;
+ *      iter[2]; // returns 3.0f;
+ *      iter[3]; // returns 4.0f;
+ *                                                                                             
+ *      // iter[4] is an out-of-bounds error
+ *  }
+ *  \endcode
+ *
  *  \see make_transform_iterator
  */
-template <class UnaryFunc, class Iterator, class Reference = use_default, class Value = use_default>
+template <class AdaptableUnaryFunction, class Iterator, class Reference = use_default, class Value = use_default>
   class transform_iterator
-    : public detail::transform_iterator_base<UnaryFunc, Iterator, Reference, Value>::type
+    : public detail::transform_iterator_base<AdaptableUnaryFunction, Iterator, Reference, Value>::type
 {
   /*! \cond
    */
   public:
     typedef typename
-    detail::transform_iterator_base<UnaryFunc, Iterator, Reference, Value>::type
+    detail::transform_iterator_base<AdaptableUnaryFunction, Iterator, Reference, Value>::type
     super_t;
 
     friend class experimental::iterator_core_access;
@@ -157,19 +203,19 @@ template <class UnaryFunc, class Iterator, class Reference = use_default, class 
     __host__ __device__
     transform_iterator() {}
   
-    /*! This constructor takes as arguments an \c Iterator and a \c UnaryFunc
+    /*! This constructor takes as arguments an \c Iterator and an \c AdaptableUnaryFunction
      *  and copies them to a new \p transform_iterator.
      *
-     *  \param x An \c Iterator pointing to the input to this \p transform_iterator's \c UnaryFunc.
-     *  \param f A \c UnaryFunc used to transform the objects pointed to by \p x.
+     *  \param x An \c Iterator pointing to the input to this \p transform_iterator's \c AdaptableUnaryFunction.
+     *  \param f An \c AdaptableUnaryFunction used to transform the objects pointed to by \p x.
      */
     __host__ __device__
-    transform_iterator(Iterator const& x, UnaryFunc f)
+    transform_iterator(Iterator const& x, AdaptableUnaryFunction f)
       : super_t(x), m_f(f) {
     }
   
     /*! This explicit constructor copies the value of a given \c Iterator and creates
-     *  this \p transform_iterator's \c UnaryFunc using its null constructor.
+     *  this \p transform_iterator's \c AdaptableUnaryFunction using its null constructor.
      *
      *  \param x An \c Iterator to copy.
      */
@@ -179,25 +225,25 @@ template <class UnaryFunc, class Iterator, class Reference = use_default, class 
 
 //  // XXX figure this out
 //    template<
-//        class OtherUnaryFunction
+//        class OtherAdaptableUnaryFunction
 //      , class OtherIterator
 //      , class OtherReference
 //      , class OtherValue>
 //    transform_iterator(
-//         transform_iterator<OtherUnaryFunction, OtherIterator, OtherReference, OtherValue> const& t
+//         transform_iterator<OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue> const& t
 //       , typename enable_if_convertible<OtherIterator, Iterator>::type* = 0
 //#if !BOOST_WORKAROUND(BOOST_MSVC, == 1310)
-//       , typename enable_if_convertible<OtherUnaryFunction, UnaryFunc>::type* = 0
+//       , typename enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0
 //#endif 
 //    )
 //      : super_t(t.base()), m_f(t.functor())
 //   {}
 
-    /*! This method returns a copy of this \p transform_iterator's \c UnaryFunc.
-     *  \return A copy of this \p transform_iterator's \c UnaryFunc.
+    /*! This method returns a copy of this \p transform_iterator's \c AdaptableUnaryFunction.
+     *  \return A copy of this \p transform_iterator's \c AdaptableUnaryFunction.
      */
     __host__ __device__
-    UnaryFunc functor() const
+    AdaptableUnaryFunction functor() const
       { return m_f; }
 
     /*! \cond
@@ -210,7 +256,7 @@ template <class UnaryFunc, class Iterator, class Reference = use_default, class 
 
     // tag this as mutable per Dave Abrahams in this thread:
     // http://lists.boost.org/Archives/boost/2004/05/65332.php
-    mutable UnaryFunc m_f;
+    mutable AdaptableUnaryFunction m_f;
 
     /*! \endcond
      */
@@ -218,22 +264,22 @@ template <class UnaryFunc, class Iterator, class Reference = use_default, class 
 
 
 /*! \p make_transform_iterator creates a \p transform_iterator
- *  from an \c Iterator and \c UnaryFunc.
+ *  from an \c Iterator and \c AdaptableUnaryFunction.
  *
  *  \param it The \c Iterator pointing to the input range of the
  *            newly created \p transform_iterator.
- *  \param fun The \c UnaryFunc used to transform the range pointed
+ *  \param fun The \c AdaptableUnaryFunction used to transform the range pointed
  *             bo by \p it in the newly created \p transform_iterator.
  *  \return A new \p transform_iterator which transforms the range at
  *          \p it by \p fun.
  *  \see transform_iterator
  */
-template <class UnaryFunc, class Iterator>
+template <class AdaptableUnaryFunction, class Iterator>
 inline __host__ __device__
-transform_iterator<UnaryFunc, Iterator>
-make_transform_iterator(Iterator it, UnaryFunc fun)
+transform_iterator<AdaptableUnaryFunction, Iterator>
+make_transform_iterator(Iterator it, AdaptableUnaryFunction fun)
 {
-  return transform_iterator<UnaryFunc, Iterator>(it, fun);
+  return transform_iterator<AdaptableUnaryFunction, Iterator>(it, fun);
 } // end make_transform_iterator
 
 /*! \} // end fancyiterators

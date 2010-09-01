@@ -3,7 +3,6 @@
 
 template<typename T>
   struct max_functor
-    : thrust::binary_function<T,T,T>
 {
   __host__ __device__
   T operator()(T rhs, T lhs) const
@@ -103,7 +102,7 @@ DECLARE_VARIABLE_UNITTEST(TestReduceWithOperator);
 
 
 template <typename T>
-struct plus_mod3 : public thrust::binary_function<T,T,T>
+struct plus_mod3
 {
     T * table;
 
