@@ -242,11 +242,12 @@ __device__
 template<unsigned int block_size,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
-	 typename RandomAccessIterator3,
+         typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename RandomAccessIterator5,
          typename RandomAccessIterator6,
          typename StrictWeakOrdering>
+__launch_bounds__(block_size, 1)         
 __global__ void set_intersection_kernel(RandomAccessIterator1 first1, 
                                         RandomAccessIterator1 last1,
                                         RandomAccessIterator2 first2,
@@ -386,10 +387,12 @@ __global__ void set_intersection_kernel(RandomAccessIterator1 first1,
 }
 
 
-template<typename RandomAccessIterator1,
+template<unsigned int block_size,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4>
+__launch_bounds__(block_size, 1)         
 __global__
 void grouped_gather(RandomAccessIterator1 result,
                     RandomAccessIterator2 first,
@@ -523,7 +526,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   // after the inclusive scan, we have the end of each segment
   raw_buffer<difference1, cuda_device_space_tag> &output_segment_end_indices = result_partition_sizes;
   
-  set_intersection_detail::grouped_gather<<<(unsigned int) num_partitions, (unsigned int) block_size >>>( 
+  set_intersection_detail::grouped_gather<block_size><<<(unsigned int) num_partitions, (unsigned int) block_size >>>( 
   	result,
   	temp_result.begin(),
   	partition_begin_indices1.begin(),

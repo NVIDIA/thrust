@@ -107,6 +107,7 @@ template <unsigned int CTA_SIZE,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
+__launch_bounds__(CTA_SIZE,1)          
 __global__
 void scan_intervals(InputIterator input,
                     const unsigned int N,
@@ -268,6 +269,7 @@ template <unsigned int CTA_SIZE,
           typename OutputIterator,
           typename OutputType,
           typename BinaryFunction>
+__launch_bounds__(CTA_SIZE,1)          
 __global__
 void inclusive_update(OutputIterator output,
                       const unsigned int N,
@@ -305,6 +307,7 @@ template <unsigned int CTA_SIZE,
           typename OutputIterator,
           typename OutputType,
           typename BinaryFunction>
+__launch_bounds__(CTA_SIZE,1)          
 __global__
 void exclusive_update(OutputIterator output,
                       const unsigned int N,
