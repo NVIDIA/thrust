@@ -103,7 +103,7 @@ void TestUniqueCopyByKeySimple(void)
     Vector output_keys(keys.size());
     Vector output_values(values.size());
 
-    new_last = thrust::unique_copy_by_key(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
+    new_last = thrust::unique_by_key_copy(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
 
     ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
     ASSERT_EQUAL(new_last.second - output_values.begin(), 5);
@@ -122,7 +122,7 @@ void TestUniqueCopyByKeySimple(void)
     // test BinaryPredicate
     initialize_keys(keys);  initialize_values(values);
     
-    new_last = thrust::unique_copy_by_key(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_unique<T>());
+    new_last = thrust::unique_by_key_copy(keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_unique<T>());
 
     ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
     ASSERT_EQUAL(new_last.second - output_values.begin(), 3);
@@ -202,8 +202,8 @@ struct TestUniqueCopyByKey
         typedef typename thrust::pair<HostKeyIterator,  HostValIterator>   HostIteratorPair;
         typedef typename thrust::pair<DeviceKeyIterator,DeviceValIterator> DeviceIteratorPair;
 
-        HostIteratorPair   h_last = thrust::unique_copy_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_keys_output.begin(), h_vals_output.begin());
-        DeviceIteratorPair d_last = thrust::unique_copy_by_key(d_keys.begin(), d_keys.end(), d_vals.begin(), d_keys_output.begin(), d_vals_output.begin());
+        HostIteratorPair   h_last = thrust::unique_by_key_copy(h_keys.begin(), h_keys.end(), h_vals.begin(), h_keys_output.begin(), h_vals_output.begin());
+        DeviceIteratorPair d_last = thrust::unique_by_key_copy(d_keys.begin(), d_keys.end(), d_vals.begin(), d_keys_output.begin(), d_vals_output.begin());
 
         ASSERT_EQUAL(h_last.first  - h_keys_output.begin(), d_last.first  - d_keys_output.begin());
         ASSERT_EQUAL(h_last.second - h_vals_output.begin(), d_last.second - d_vals_output.begin());

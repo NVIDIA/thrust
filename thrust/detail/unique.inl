@@ -102,14 +102,14 @@ template <typename InputIterator1,
           typename OutputIterator1,
           typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output)
 {
   typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  return thrust::unique_copy_by_key
+  return thrust::unique_by_key_copy
       (keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
 }
 
@@ -119,14 +119,14 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred)
 {
-  return detail::dispatch::unique_copy_by_key
+  return detail::dispatch::unique_by_key_copy
       (keys_first, keys_last, values_first, keys_output, values_output, binary_pred,
        typename thrust::iterator_space<InputIterator1>::type(),
        typename thrust::iterator_space<InputIterator2>::type(),

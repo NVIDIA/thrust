@@ -81,7 +81,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
@@ -135,8 +135,8 @@ template <typename ForwardIterator1,
                 ForwardIterator2 values_first,
                 BinaryPredicate binary_pred)
 {
-    // unique_copy_by_key() permits in-situ operation
-    return thrust::detail::host::unique_copy_by_key
+    // unique_by_key_copy() permits in-situ operation
+    return thrust::detail::host::unique_by_key_copy
         (keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
 }
 

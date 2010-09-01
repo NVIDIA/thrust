@@ -96,7 +96,7 @@ template <typename ForwardIterator1,
     thrust::detail::raw_buffer<InputType1,Space> keys(keys_first, keys_last);
     thrust::detail::raw_buffer<InputType2,Space> vals(values_first, values_last);
 
-    return thrust::detail::device::generic::unique_copy_by_key
+    return thrust::detail::device::generic::unique_by_key_copy
         (keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
 }
 
@@ -106,7 +106,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,

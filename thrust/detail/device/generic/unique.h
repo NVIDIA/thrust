@@ -59,7 +59,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,

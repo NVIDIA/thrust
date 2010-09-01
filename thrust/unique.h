@@ -255,7 +255,7 @@ OutputIterator unique_copy(InputIterator first,
  *  \endcode
  *
  *  \see unique
- *  \see unique_copy_by_key
+ *  \see unique_by_key_copy
  *  \see reduce_by_key
  */
 template <typename ForwardIterator1,
@@ -308,7 +308,7 @@ template <typename ForwardIterator1,
  *  \endcode
  *
  *  \see unique
- *  \see unique_copy_by_key
+ *  \see unique_by_key_copy
  *  \see reduce_by_key
  */
 template <typename ForwardIterator1,
@@ -321,14 +321,14 @@ template <typename ForwardIterator1,
                 BinaryPredicate binary_pred);
 
 
-/*! \p unique_copy_by_key is a generalization of \p unique_copy to key-value pairs.
+/*! \p unique_by_key_copy is a generalization of \p unique_copy to key-value pairs.
  *  For each group of consecutive keys in the range <tt>[keys_first, keys_last)</tt>
- *  that are equal, \p unique_copy_by_key copies the first element of the group to
+ *  that are equal, \p unique_by_key_copy copies the first element of the group to
  *  a range beginning with \c keys_output and the corresponding values from the range
  *  <tt>[values_first, values_first + (keys_last - keys_first))</tt> are copied to a range
  *  beginning with \c values_output.
  *
- *  This version of \p unique_copy_by_key uses \c operator== to test for equality and
+ *  This version of \p unique_by_key_copy uses \c operator== to test for equality and
  *  \c project1st to reduce values with equal keys.
  *
  *  \param keys_first The beginning of the input key range.
@@ -345,7 +345,7 @@ template <typename ForwardIterator1,
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *
- *  The following code snippet demonstrates how to use \p unique_copy_by_key to
+ *  The following code snippet demonstrates how to use \p unique_by_key_copy to
  *  compact a sequence of key/value pairs and with equal keys.
  *
  *  \code
@@ -358,7 +358,7 @@ template <typename ForwardIterator1,
  *  int D[N];                         // output values
  *
  *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::unique_copy_by_key(A, A + N, B, C, D);
+ *  new_end = thrust::unique_by_key_copy(A, A + N, B, C, D);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.
@@ -373,20 +373,20 @@ template <typename InputIterator1,
           typename OutputIterator1,
           typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output);
 
-/*! \p unique_copy_by_key is a generalization of \p unique_copy to key-value pairs.
+/*! \p unique_by_key_copy is a generalization of \p unique_copy to key-value pairs.
  *  For each group of consecutive keys in the range <tt>[keys_first, keys_last)</tt>
- *  that are equal, \p unique_copy_by_key copies the first element of the group to
+ *  that are equal, \p unique_by_key_copy copies the first element of the group to
  *  a range beginning with \c keys_output and the corresponding values from the range
  *  <tt>[values_first, values_first + (keys_last - keys_first))</tt> are copied to a range
  *  beginning with \c values_output.
  *
- *  This version of \p unique_copy_by_key uses the function object \c binary_pred
+ *  This version of \p unique_by_key_copy uses the function object \c binary_pred
  *  to test for equality and \c project1st to reduce values with equal keys.
  *
  *  \param keys_first The beginning of the input key range.
@@ -405,7 +405,7 @@ template <typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *
- *  The following code snippet demonstrates how to use \p unique_copy_by_key to
+ *  The following code snippet demonstrates how to use \p unique_by_key_copy to
  *  compact a sequence of key/value pairs and with equal keys.
  *
  *  \code
@@ -419,7 +419,7 @@ template <typename InputIterator1,
  *
  *  thrust::pair<int*,int*> new_end;
  *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::unique_copy_by_key(A, A + N, B, C, D, binary_pred);
+ *  new_end = thrust::unique_by_key_copy(A, A + N, B, C, D, binary_pred);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.
@@ -435,7 +435,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_copy_by_key(InputIterator1 keys_first, 
+  unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
                      OutputIterator1 keys_output,
