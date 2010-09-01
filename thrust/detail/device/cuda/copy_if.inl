@@ -124,55 +124,38 @@ void copy_if_intervals(InputIterator1 input,
                        OutputIterator output)
 {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-    
-    thrust::plus<IndexType> binary_op;
+   
+    typedef unsigned int PredicateType;
 
-    __shared__ IndexType sdata[CTA_SIZE];  __syncthreads();
+    thrust::plus<PredicateType> binary_op;
+
+    __shared__ PredicateType sdata[CTA_SIZE];  __syncthreads();
 
     const IndexType interval_begin = interval_size * blockIdx.x;
     const IndexType interval_end   = min(interval_begin + interval_size, N);
 
     IndexType base = interval_begin;
 
-    IndexType predicate = 0;
+    PredicateType predicate = 0;
+    
+    // advance input iterators to this thread's starting position
+    input   += interval_begin + threadIdx.x;
+    stencil += interval_begin + threadIdx.x;
 
-    // initial offset
-    if (threadIdx.x == 0)
+    // advance output to this interval's starting position
+    if (blockIdx.x != 0)
     {
-        if (blockIdx.x == 0)
-        {
-            sdata[CTA_SIZE - 1] = 0;
-        }
-        else
-        {
-            InputIterator3 temp = offsets + (blockIdx.x - 1);
-            sdata[CTA_SIZE - 1] = thrust::detail::device::dereference(temp);
-        }
+        InputIterator3 temp = offsets + (blockIdx.x - 1);
+        output += thrust::detail::device::dereference(temp);
     }
 
     // process full blocks
-    for(; base + CTA_SIZE <= interval_end; base += CTA_SIZE)
+    while(base + CTA_SIZE <= interval_end)
     {
         // read data
-        {
-            InputIterator2 temp = stencil + (base + threadIdx.x);
-            predicate = thrust::detail::device::dereference(temp);
-        }
+        sdata[threadIdx.x] = predicate = thrust::detail::device::dereference(stencil);
        
-        // carry in
-        if (threadIdx.x == 0)
-        {
-            IndexType tmp = sdata[CTA_SIZE - 1];
-            sdata[0] = binary_op(tmp, predicate);
-        }
-
         __syncthreads();
-
-        if (threadIdx.x != 0)
-            sdata[threadIdx.x] = predicate;
-
-        __syncthreads();
-
 
         // scan block
         block::inplace_inclusive_scan<CTA_SIZE>(sdata, binary_op);
@@ -180,10 +163,19 @@ void copy_if_intervals(InputIterator1 input,
         // write data
         if (predicate)
         {
-            InputIterator1 temp1 = input  + (base + threadIdx.x);
             OutputIterator temp2 = output + (sdata[threadIdx.x] - 1);
-            thrust::detail::device::dereference(temp2) = thrust::detail::device::dereference(temp1);
+            thrust::detail::device::dereference(temp2) = thrust::detail::device::dereference(input);
         }
+
+        // advance inputs by CTA_SIZE
+        base    += CTA_SIZE;
+        input   += CTA_SIZE;
+        stencil += CTA_SIZE;
+
+        // advance output by number of true predicates
+        output += sdata[CTA_SIZE - 1];
+
+        __syncthreads();
     }
 
     // process partially full block at end of input (if necessary)
@@ -191,27 +183,10 @@ void copy_if_intervals(InputIterator1 input,
     {
         // read data
         if (base + threadIdx.x < interval_end)
-        {
-            InputIterator2 temp = stencil + (base + threadIdx.x);
-            predicate = thrust::detail::device::dereference(temp);
-        }
+            sdata[threadIdx.x] = predicate = thrust::detail::device::dereference(stencil);
         else
-        {
-            predicate = 0;
-        }
+            sdata[threadIdx.x] = predicate = 0;
         
-        // carry in
-        if (threadIdx.x == 0)
-        {
-            IndexType tmp = sdata[CTA_SIZE - 1];
-            sdata[0] = binary_op(tmp, predicate);
-        }
-
-        __syncthreads();
-
-        if (threadIdx.x != 0)
-            sdata[threadIdx.x] = predicate;
-
         __syncthreads();
 
         // scan block
@@ -220,9 +195,8 @@ void copy_if_intervals(InputIterator1 input,
         // write data
         if (predicate) // expects predicate=false for >= interval_end
         {
-            InputIterator1 temp1 = input  + (base + threadIdx.x);
             OutputIterator temp2 = output + (sdata[threadIdx.x] - 1);
-            thrust::detail::device::dereference(temp2) = thrust::detail::device::dereference(temp1);
+            thrust::detail::device::dereference(temp2) = thrust::detail::device::dereference(input);
         }
     }
 }
@@ -247,7 +221,7 @@ template<typename InputIterator1,
 
     const IndexType CTA_SIZE      = 256;
     const IndexType N             = last - first;
-    const IndexType max_intervals = 3 * (thrust::experimental::arch::max_active_threads() / CTA_SIZE);
+    const IndexType max_intervals = 3 * (thrust::experimental::arch::max_active_threads() / CTA_SIZE);  // TODO put this in a common place
 
     thrust::pair<IndexType, IndexType> splitting = uniform_interval_splitting<IndexType>(N, 32, max_intervals);
 
@@ -256,6 +230,7 @@ template<typename InputIterator1,
 
     thrust::detail::raw_cuda_device_buffer<IndexType> block_results(num_intervals);
 
+    // convert stencil into an iterator that produces integral values in {0,1}
     typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;
     typedef thrust::transform_iterator<PredicateToIndexTransform, InputIterator2, IndexType> PredicateToIndexIterator;
 
