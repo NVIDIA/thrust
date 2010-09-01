@@ -42,6 +42,10 @@ namespace thrust
 {
 namespace detail
 {
+
+// XXX WAR circular inclusion problem with this forward declaration
+template <typename> class raw_cuda_device_buffer;
+
 namespace device
 {
 namespace cuda
