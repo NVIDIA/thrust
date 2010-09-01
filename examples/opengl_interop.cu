@@ -95,8 +95,8 @@ bool init_gl(void)
 void display(void)
 {
   // transform the mesh
-  thrust::counting_iterator<int,thrust::device_space_tag> first(0);
-  thrust::counting_iterator<int,thrust::device_space_tag> last(g_mesh_width * g_mesh_height);
+  thrust::counting_iterator<int> first(0);
+  thrust::counting_iterator<int> last(g_mesh_width * g_mesh_height);
 
   thrust::transform(first, last,
                     g_vec.begin(),
