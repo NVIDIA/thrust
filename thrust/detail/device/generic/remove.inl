@@ -41,7 +41,6 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  // XXX do we need to call destructors for elements which get removed?
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
   typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
@@ -60,7 +59,6 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  // XXX do we need to call destructors for elements which get removed?
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
   typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
