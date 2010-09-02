@@ -1,53 +1,55 @@
 #pragma once
 
-#include <stdlib.h>
-#include <vector>
-
 #include <thrust/host_vector.h>
-
-const unsigned int DEFAULT_SEED = 13;
+#include <thrust/random.h>
+#include <thrust/detail/type_traits.h>
 
 namespace unittest
 {
 
-template<typename T>
+inline unsigned int hash(unsigned int a)
+{
+    a = (a+0x7ed55d16) + (a<<12);
+    a = (a^0xc761c23c) ^ (a>>19);
+    a = (a+0x165667b1) + (a<<5);
+    a = (a+0xd3a2646c) ^ (a<<9);
+    a = (a+0xfd7046c5) + (a<<3);
+    a = (a^0xb55a4f09) ^ (a>>16);
+    return a;
+}
+
+template<typename T, bool is_float = thrust::detail::is_floating_point<T>::value>
   struct random_integer
 {
-  T operator()(void) const
+  T operator()(unsigned int i) const
   {
-      T value = 0;
-        
-      for(size_t i = 0; i < sizeof(T); i++)
-          value ^= T(rand() & 0xff) << (8*i);
+      thrust::default_random_engine rng(hash(i));
+      thrust::uniform_int_distribution<T> dist;
 
-      return value;
+      return static_cast<T>(dist(rng));
+  }
+};
+
+template<typename T>
+  struct random_integer<T,true>
+{
+  T operator()(unsigned int i) const
+  {
+      thrust::default_random_engine rng(hash(i));
+
+      return static_cast<T>(rng());
   }
 };
 
 template<>
-  struct random_integer<bool>
+  struct random_integer<bool,false>
 {
-  bool operator()(void) const
+  bool operator()(unsigned int i) const
   {
-    return rand() > RAND_MAX/2 ? false : true;
-  }
-};
+      thrust::default_random_engine rng(hash(i));
+      thrust::uniform_int_distribution<unsigned int> dist(0,1);
 
-template<>
-  struct random_integer<float>
-{
-  float operator()(void) const
-  {
-      return (float) rand();
-  }
-};
-
-template<>
-  struct random_integer<double>
-{
-  double operator()(void) const
-  {
-      return (double) rand();
+      return static_cast<bool>(dist(rng));
   }
 };
 
@@ -55,43 +57,25 @@ template<>
 template<typename T>
   struct random_sample
 {
-  T operator()(void) const
+  T operator()(unsigned int i) const
   {
-    random_integer<T> rnd;
-    return rnd() % 21 - 10;
+      thrust::default_random_engine rng(hash(i));
+      thrust::uniform_int_distribution<unsigned int> dist(0,20);
+
+      return static_cast<T>(dist(rng));
   } 
 }; 
-
-template<>
-  struct random_sample<float>
-{
-  float operator()(void) const
-  {
-    return (float) (20.0 * (rand() / (RAND_MAX + 1.0)) - 10.0);
-  }
-};
-
-template<>
-  struct random_sample<double>
-{
-  double operator()(void) const
-  {
-    return (double) (20.0 * (rand() / (RAND_MAX + 1.0)) - 10.0);
-  }
-};
 
 
 
 template<typename T>
 thrust::host_vector<T> random_integers(const size_t N)
 {
-    srand(DEFAULT_SEED);
-
     thrust::host_vector<T> vec(N);
-    random_integer<T> rnd;
-
-    for(size_t i = 0; i < N; i++)
-        vec[i] = rnd();
+    thrust::transform(thrust::make_counting_iterator(0u),
+                      thrust::make_counting_iterator(N),
+                      vec.begin(),
+                      random_integer<T>());
 
     return vec;
 }
@@ -99,13 +83,11 @@ thrust::host_vector<T> random_integers(const size_t N)
 template<typename T>
 thrust::host_vector<T> random_samples(const size_t N)
 {
-    srand(DEFAULT_SEED);
-
     thrust::host_vector<T> vec(N);
-    random_sample<T> rnd;
-
-    for(size_t i = 0; i < N; i++)
-        vec[i] = rnd();
+    thrust::transform(thrust::make_counting_iterator(0u),
+                      thrust::make_counting_iterator(N),
+                      vec.begin(),
+                      random_sample<T>());
 
     return vec;
 }
