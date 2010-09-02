@@ -37,16 +37,23 @@ namespace system
 {
 
 
+/*! \addtogroup system
+ *  \{
+ */
+
 class error_condition;
 class error_code;
 
-
+/*! A metafunction returning whether or not the parameter is an \p error_code enum.
+ */
 template<typename T> struct is_error_code_enum : public thrust::detail::false_type {};
 
+/*! A metafunction returning whether or not the parameter is an \p error_condition enum.
+ */
 template<typename T> struct is_error_condition_enum : public thrust::detail::false_type {};
 
 
-// XXX N3000 prefers enum class errc { ... }
+// XXX N3092 prefers enum class errc { ... }
 namespace errc
 {
 
@@ -153,9 +160,16 @@ template<> struct is_error_condition_enum<errc::errc_t> : public thrust::detail:
 
 // [19.5.1.1] class error_category
 
+/*! \brief The class \p error_category serves as a base class for types used to identify the
+ *         source and encoding of a particular category of error code. Classes may be derived
+ *         from \p error_category to support categories of errors in addition to those defined
+ *         in the C++ International Standard.
+ */
 class error_category
 {
   public:
+    /*! Destructor does nothing.
+     */
     inline virtual ~error_category(void);
 
     // XXX enable upon c++0x
@@ -225,23 +239,27 @@ inline const error_category &system_category(void);
 // [19.5.2] Class error_code
 
 
+/*! \brief The class \p error_code describes an object used to hold error code values, such as
+ *         those originating from the operating system or other low-level application program
+ *         interfaces.
+ */
 class error_code
 {
   public:
     // [19.5.2.2] constructors:
 
     /*! Effects: Constructs an object of type \p error_code.
-     *  Postconditions: <tt>value() == 0</tt> and <tt>category() == &system_category()</tt>.
+     *  \post <tt>value() == 0</tt> and <tt>category() == &system_category()</tt>.
      */
     inline error_code(void);
 
     /*! Effects: Constructs an object of type \p error_code.
-     *  Postconditions: <tt>value() == val</tt> and <tt>category() == &cat</tt>.
+     *  \post <tt>value() == val</tt> and <tt>category() == &cat</tt>.
      */
     inline error_code(int val, const error_category &cat);
 
     /*! Effects: Constructs an object of type \p error_code.
-     *  Postconditions: <tt>*this == make_error_code(e)<tt>.
+     *  \post <tt>*this == make_error_code(e)</tt>.
      */
     template <typename ErrorCodeEnum>
       error_code(ErrorCodeEnum e
@@ -253,11 +271,11 @@ class error_code
 
     // [19.5.2.3] modifiers:
 
-    /*! Postconditions: <tt>value() == val</tt> and <tt>category() == &cat</tt>.
+    /*! \post <tt>value() == val</tt> and <tt>category() == &cat</tt>.
      */
     inline void assign(int val, const error_category &cat);
 
-    /*! Postconditions: <tt>*this == make_error_code(e)</tt>.
+    /*! \post <tt>*this == make_error_code(e)</tt>.
      */
     template <typename ErrorCodeEnum>
 // XXX WAR msvc's problem with enable_if
@@ -268,7 +286,7 @@ class error_code
 #endif // THRUST_HOST_COMPILER_MSVC
         operator=(ErrorCodeEnum e);
 
-    /*! Postconditions: <tt>value() == 0</tt> and <tt>category() == system_category()</tt>.
+    /*! \post <tt>value() == 0</tt> and <tt>category() == system_category()</tt>.
      */
     inline void clear(void);
 
@@ -331,7 +349,7 @@ template <typename charT, typename traits>
 // [19.5.3] class error_condition
 
 
-/*! The class \p error_condition describes an object used to hold values identifying
+/*! \brief The class \p error_condition describes an object used to hold values identifying
  *  error conditions.
  *
  *  \note \p error_condition values are portable abstractions, while \p error_code values
@@ -341,10 +359,24 @@ class error_condition
 {
   public:
     // [19.5.3.2] constructors
+
+    /*! Constructs an object of type \p error_condition.
+     *  \post <tt>value() == 0</tt>.
+     *  \post <tt>category() == generic_category()</tt>.
+     */
     inline error_condition(void);
 
+    /*! Constructs an object of type \p error_condition.
+     *  \post <tt>value() == val</tt>.
+     *  \post <tt>category() == cat</tt>.
+     */
     inline error_condition(int val, const error_category &cat);
 
+    /*! Constructs an object of type \p error_condition.
+     *  \post <tt>*this == make_error_condition(e)</tt>.
+     *  \note This constructor shall not participate in overload resolution unless
+     *        <tt>is_error_condition_enum<ErrorConditionEnum>::value</tt> is <tt>true</tt>.
+     */
     template<typename ErrorConditionEnum>
       error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
@@ -354,8 +386,21 @@ class error_condition
                      );
 
     // [19.5.3.3] modifiers
+
+    /*! Assigns to this \p error_code object from an error value and an \p error_category.
+     *  \param val The new value to return from <tt>value()</tt>.
+     *  \param cat The new \p error_category to return from <tt>category()</tt>.
+     *  \post <tt>value() == val</tt>.
+     *  \post <tt>category() == cat</tt>.
+     */
     inline void assign(int val, const error_category &cat);
 
+    /*! Assigns to this \p error_code object from an error condition enumeration.
+     *  \return *this
+     *  \post <tt>*this == make_error_condition(e)</tt>.
+     *  \note This operator shall not participate in overload resolution unless
+     *        <tt>is_error_condition_enum<ErrorConditionEnum>::value</tt> is <tt>true</tt>.
+     */
     template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
 #if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
@@ -365,18 +410,31 @@ class error_condition
 #endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
         operator=(ErrorConditionEnum e);
 
+    /*! Clears this \p error_code object.
+     *  \post <tt>value == 0</tt>
+     *  \post <tt>category() == generic_category()</tt>.
+     */
     inline void clear(void);
 
     // [19.5.3.4] observers
+
+    /*! \return The value encoded by this \p error_condition.
+     */
     inline int value(void) const;
 
+    /*! \return A <tt>const</tt> reference to the \p error_category encoded by this \p error_condition.
+     */
     inline const error_category &category(void) const;
 
+    /*! \return <tt>category().message(value())</tt>.
+     */
     inline std::string message(void) const;
 
     // XXX replace below with this upon c++0x
     //explicit operator bool (void) const;
     
+    /*! \return <tt>value() != 0</tt>.
+     */
     inline operator bool (void) const;
 
     /*! \cond
@@ -447,8 +505,12 @@ inline bool operator!=(const error_condition &lhs, const error_code &rhs);
  */
 inline bool operator!=(const error_condition &lhs, const error_condition &rhs);
 
+/*! \} // end system
+ */
+
 
 } // end system
+
 
 // import names into thrust::
 using system::error_category;

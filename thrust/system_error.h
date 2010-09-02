@@ -21,6 +21,35 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+
+namespace thrust
+{
+
+namespace experimental
+{
+
+/*! \addtogroup system System Diagnostics
+ *  \{
+ */
+
+/*! \namespace system
+ *  \brief \p system is the namespace which contains classes reporting error
+ *         conditions originating from the operating system or other low-level
+ *         application program interfaces such as the CUDA runtime.
+ *         They are provided in a separate namespace for import convenience but are
+ *         also aliased in the top-level \p thrust namespace for easy access.
+ */
+namespace system
+{
+} // end system
+
+/*! \} // end system
+ */
+
+} // end experimental
+
+} // end thrust
+
 #include <thrust/system/error_code.h>
 #include <thrust/system/cuda_error.h>
 #include <thrust/system/system_error.h>

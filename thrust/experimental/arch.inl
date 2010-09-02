@@ -50,7 +50,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   }
 
   if(current_device < 0)
-    throw thrust::experimental::system_error(thrust::experimental::cuda_errc::no_device, thrust::experimental::cuda_category());
+    throw thrust::experimental::system_error(cudaErrorNoDevice, thrust::experimental::cuda_category());
 
   // cache the result of the introspection call because it is expensive
   static std::map<int,cudaDeviceProp> properties_map;
