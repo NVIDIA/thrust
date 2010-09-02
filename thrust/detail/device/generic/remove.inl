@@ -36,23 +36,39 @@ namespace generic
 {
 
 template<typename ForwardIterator,
-         typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(ForwardIterator begin,
-                            ForwardIterator end,
-                            InputIterator stencil,
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
                             Predicate pred)
 {
   // XXX do we need to call destructors for elements which get removed?
-
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
   typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
   // create temporary storage for an intermediate result
-  thrust::detail::raw_buffer<InputType,Space> temp(begin, end);
+  thrust::detail::raw_buffer<InputType,Space> temp(first, last);
 
   // remove into temp
-  return thrust::detail::device::generic::remove_copy_if(temp.begin(), temp.end(), stencil, begin, pred);
+  return thrust::detail::device::generic::remove_copy_if(temp.begin(), temp.end(), temp.begin(), first, pred);
+}
+
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil,
+                            Predicate pred)
+{
+  // XXX do we need to call destructors for elements which get removed?
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+
+  // create temporary storage for an intermediate result
+  thrust::detail::raw_buffer<InputType,Space> temp(first, last);
+
+  // remove into temp
+  return thrust::detail::device::generic::remove_copy_if(temp.begin(), temp.end(), stencil, first, pred);
 } 
 
 template<typename InputIterator,
@@ -71,14 +87,14 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(InputIterator1 begin,
-                                InputIterator1 end,
+  OutputIterator remove_copy_if(InputIterator1 first,
+                                InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
                                 Predicate pred)
 {
-    return thrust::detail::device::copy_if(begin, end, stencil, result, thrust::detail::not1(pred));
-} // end remove_copy_if()
+    return thrust::detail::device::copy_if(first, last, stencil, result, thrust::detail::not1(pred));
+}
 
 } // end namespace generic
 } // end namespace device

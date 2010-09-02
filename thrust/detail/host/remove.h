@@ -29,6 +29,38 @@ namespace host
 {
 
 template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred)
+{
+    // advance iterators until pred(*first) is true or we reach the end of input
+    while(first != last && !bool(pred(*first)))
+        ++first;
+
+    if(first == last)
+        return first;
+
+    // result always trails first 
+    ForwardIterator result = first;
+    
+    ++first;
+
+    while(first != last)
+    {
+        if(!bool(pred(*first)))
+        {
+            *result = *first;
+            ++result;
+        }
+        ++first;
+    }
+
+    return result;
+}
+
+
+template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
   ForwardIterator remove_if(ForwardIterator first,
@@ -36,7 +68,7 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-    // advance iterators until pred(stencil) is true we reach the end of input
+    // advance iterators until pred(*stencil) is true or we reach the end of input
     while(first != last && !bool(pred(*stencil)))
     {
         ++first;
@@ -65,6 +97,7 @@ template<typename ForwardIterator,
 
     return result;
 }
+
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -113,7 +146,7 @@ template<typename InputIterator1,
     return result;
 }
 
-} // last namespace host
-} // last namespace detail
-} // last namespace thrust
+} // end namespace host
+} // end namespace detail
+} // end namespace thrust
 

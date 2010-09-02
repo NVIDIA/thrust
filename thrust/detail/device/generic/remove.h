@@ -31,6 +31,12 @@ namespace generic
 {
 
 template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred);
+
+template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
   ForwardIterator remove_if(ForwardIterator first,

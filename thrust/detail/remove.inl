@@ -56,7 +56,8 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  return thrust::remove_if(first, last, first, pred);
+  return detail::dispatch::remove_if(first, last, pred,
+    typename thrust::iterator_space<ForwardIterator>::type());
 } // end remove_if()
 
 template<typename ForwardIterator,

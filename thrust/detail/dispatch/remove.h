@@ -28,16 +28,24 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace dispatch
 {
 
 ////////////////
 // Host Paths //
 ////////////////
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred,
+                            thrust::host_space_tag)
+{
+  return thrust::detail::host::remove_if(first, last, pred);
+}
+
 template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
@@ -87,6 +95,16 @@ template<typename InputIterator1,
 // Device Paths //
 //////////////////
 template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred,
+                            thrust::device_space_tag)
+{
+  return thrust::detail::device::remove_if(first, last, pred);
+}
+
+template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
   ForwardIterator remove_if(ForwardIterator first,
@@ -131,8 +149,6 @@ template<typename InputIterator1,
 }
 
 } // end namespace dispatch
-
 } // end namespace detail
-
 } // end namespace thrust
 

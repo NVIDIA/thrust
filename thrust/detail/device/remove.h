@@ -31,6 +31,15 @@ namespace device
 {
 
 template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator remove_if(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred)
+{
+    return thrust::detail::device::generic::remove_if(first, last, pred);
+}
+
+template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
   ForwardIterator remove_if(ForwardIterator first,
