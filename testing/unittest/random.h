@@ -72,8 +72,8 @@ template<typename T>
 thrust::host_vector<T> random_integers(const size_t N)
 {
     thrust::host_vector<T> vec(N);
-    thrust::transform(thrust::make_counting_iterator(0u),
-                      thrust::make_counting_iterator(N),
+    thrust::transform(thrust::counting_iterator<size_t>(0),
+                      thrust::counting_iterator<size_t>(N),
                       vec.begin(),
                       random_integer<T>());
 
@@ -84,8 +84,8 @@ template<typename T>
 thrust::host_vector<T> random_samples(const size_t N)
 {
     thrust::host_vector<T> vec(N);
-    thrust::transform(thrust::make_counting_iterator(0u),
-                      thrust::make_counting_iterator(N),
+    thrust::transform(thrust::counting_iterator<size_t>(0),
+                      thrust::counting_iterator<size_t>(N),
                       vec.begin(),
                       random_sample<T>());
 
