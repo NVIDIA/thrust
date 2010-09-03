@@ -17,7 +17,6 @@
 #include <thrust/random/uniform_int_distribution.h>
 #include <thrust/random/uniform_real_distribution.h>
 #include <thrust/detail/type_traits.h>
-#include <math.h>
 
 namespace thrust
 {
@@ -74,9 +73,11 @@ template<typename IntType>
   const float_type real_min(parm.first);
   const float_type real_max(parm.second);
 
-  uniform_real_distribution<float_type> real_dist(real_min, detail::nextafter(real_max, real_max + float_type(1)));
+  // add one to the right end of the interval because it is half-open
+  // XXX adding 1.0 to a potentially large floating point number seems like a bad idea
+  uniform_real_distribution<float_type> real_dist(real_min, real_max + float_type(1));
 
-  return static_cast<result_type>(real_dist(urng) + float_type(0.5));
+  return static_cast<result_type>(real_dist(urng));
 } // end uniform_int_distribution::operator()()
 
 

@@ -15,18 +15,6 @@
  */
 
 #include <thrust/random/uniform_real_distribution.h>
-#include <math.h>
-
-
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// XXX WAR missing definitions on MSVC
-__host__ __device__
-double nextafter(double, double);
-
-__host__ __device__
-float nextafterf(float, float);
-#endif // THRUST_HOST_COMPILER_MSVC
-
 
 namespace thrust
 {
@@ -64,23 +52,6 @@ template<typename RealType>
   return operator()(urng, m_param);
 } // end uniform_real::operator()()
 
-namespace detail
-{
-
-__host__ __device__ __inline__
-double nextafter(double x, double y)
-{
-  return ::nextafter(x,y);
-}
-
-__host__ __device__ __inline__
-float nextafter(float x, float y)
-{
-  return ::nextafterf(x,y);
-}
-
-}
-
 template<typename RealType>
   template<typename UniformRandomNumberGenerator>
     typename uniform_real_distribution<RealType>::result_type
@@ -88,15 +59,16 @@ template<typename RealType>
         ::operator()(UniformRandomNumberGenerator &urng,
                      const param_type &parm)
 {
-  // call the urng & map its result to [0,1]
+  // call the urng & map its result to [0,1)
   result_type result = static_cast<result_type>(urng() - UniformRandomNumberGenerator::min);
-  result /= static_cast<result_type>(UniformRandomNumberGenerator::max - UniformRandomNumberGenerator::min);
 
-  // do not include parm.second in the result
-  // get the next value after parm.second in the direction of parm.first
-  // we need to do this because the range is half-open at parm.second
+  // adding one to the denominator ensures that the interval is half-open at 1.0
+  // XXX adding 1.0 to a potentially large floating point number seems like a bad idea
+  // XXX OTOH adding 1 to what is potentially UINT_MAX also seems like a bad idea
+  // XXX we could statically check if 1u + (max - min) is representable and do that, otherwise use the current implementation
+  result /= (result_type(1) + static_cast<result_type>(UniformRandomNumberGenerator::max - UniformRandomNumberGenerator::min));
 
-  return (result * (detail::nextafter(parm.second,parm.first) - parm.first)) + parm.first;
+  return (result * (parm.second - parm.first)) + parm.first;
 } // end uniform_real::operator()()
 
 template<typename RealType>
