@@ -26,10 +26,11 @@ FINALIZE = \
     """
     RECORD_TIME();
     RECORD_THROUGHPUT(double($InputSize));
+    RECORD_BANDWIDTH(4*sizeof($InputType)*double($InputSize));
     """
 
 InputTypes = SignedIntegerTypes
-InputSizes = StandardSizes
+InputSizes = [2**24] #StandardSizes
 
 TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes)]
 
