@@ -22,9 +22,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -86,8 +83,6 @@ const error_category &cuda_category(void)
 }
 
 } // end namespace system
-
-} // end namespace experimental
 
 } // end namespace thrust
 

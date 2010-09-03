@@ -22,9 +22,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -109,8 +106,6 @@ const char *system_error
 
 
 } // end system
-
-} // end experimental
 
 } // end thrust
 

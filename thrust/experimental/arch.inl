@@ -46,11 +46,11 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
 
   if(error)
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    throw thrust::system_error(error, thrust::cuda_category());
   }
 
   if(current_device < 0)
-    throw thrust::experimental::system_error(cudaErrorNoDevice, thrust::experimental::cuda_category());
+    throw thrust::system_error(cudaErrorNoDevice, thrust::cuda_category());
 
   // cache the result of the introspection call because it is expensive
   static std::map<int,cudaDeviceProp> properties_map;
@@ -65,7 +65,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
 
     if(error)
     {
-      throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+      throw thrust::system_error(error, thrust::cuda_category());
     }
 
     // insert the new entry
@@ -99,7 +99,7 @@ void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunct
   
     if(error)
     {
-      throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+      throw thrust::system_error(error, thrust::cuda_category());
     }
 
     // insert the new entry

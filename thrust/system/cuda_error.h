@@ -28,9 +28,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -133,8 +130,6 @@ using system::cuda_category;
 
 // XXX replace with using system::cuda_errc upon c++0x
 namespace cuda_errc = system::cuda_errc;
-
-} // end namespace experimental
 
 } // end namespace thrust
 

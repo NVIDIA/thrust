@@ -48,7 +48,7 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
   cudaError_t error = cudaMemcpy(dst,src,count,kind);
   if(error)
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    throw thrust::system_error(error, thrust::cuda_category());
   } // end error
 } // end checked_cudaMemcpy()
 

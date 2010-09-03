@@ -30,9 +30,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -513,8 +510,6 @@ namespace errc = system::errc;
 
 using system::generic_category;
 using system::system_category;
-
-} // end experimental
 
 } // end thrust
 

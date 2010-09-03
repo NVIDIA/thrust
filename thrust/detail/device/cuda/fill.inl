@@ -193,7 +193,7 @@ template<typename OutputIterator, typename Size, typename T>
     cudaError_t error = cudaMemset(thrust::raw_pointer_cast(&*first), 0, sizeof(OutputType) * n);
     if(error)
     {
-      throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+      throw thrust::system_error(error, thrust::cuda_category());
     } // end if
 
     return first + n;

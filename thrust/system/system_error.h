@@ -31,9 +31,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -174,8 +171,6 @@ class system_error
 
 // import names into thrust::
 using system::system_error;
-
-} // end namespace experimental
 
 } // end thrust
 

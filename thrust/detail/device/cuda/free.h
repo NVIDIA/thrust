@@ -42,7 +42,7 @@ void free(thrust::device_ptr<void> ptr)
 
   if(error)
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    throw thrust::system_error(error, thrust::cuda_category());
   } // end error
 } // end free()
 

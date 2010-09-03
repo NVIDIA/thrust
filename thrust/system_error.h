@@ -25,9 +25,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 /*! \addtogroup system System Diagnostics
  *  \{
  */
@@ -45,8 +42,6 @@ namespace system
 
 /*! \} // end system
  */
-
-} // end experimental
 
 } // end thrust
 

@@ -132,7 +132,7 @@ template<typename T>
   // check CUDA error
   if(cuda_error)
   {
-    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::allocate(): error after cudaGLRegisterBufferObject");
+    throw thrust::system_error(cuda_error, thrust::cuda_category(), "ogl_interop_allocator::allocate(): error after cudaGLRegisterBufferObject");
   } // end if
 
   // get the pointer from CUDA
@@ -142,7 +142,7 @@ template<typename T>
   // check CUDA error
   if(cuda_error)
   {
-    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::allocate(): error after cudaGLMapBufferObject");
+    throw thrust::system_error(cuda_error, thrust::cuda_category(), "ogl_interop_allocator::allocate(): error after cudaGLMapBufferObject");
   } // end if
 
   // make a pointer
@@ -186,7 +186,7 @@ template<typename T>
   // check CUDA error
   if(cuda_error)
   {
-    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::deallocate(): error after cudaGLUnmapBufferObject");
+    throw thrust::system_error(cuda_error, thrust::cuda_category(), "ogl_interop_allocator::deallocate(): error after cudaGLUnmapBufferObject");
   } // end if
 
   // delete the buffer object
@@ -249,7 +249,7 @@ template<typename T>
   // check CUDA error
   if(cuda_error)
   {
-    throw thrust::experimental::system_error(cuda_error, thrust::experimental::cuda_category(), "ogl_interop_allocator::map_buffer(): error after cudaGLUnmapBufferObject");
+    throw thrust::system_error(cuda_error, thrust::cuda_category(), "ogl_interop_allocator::map_buffer(): error after cudaGLUnmapBufferObject");
   } // end if
 
   return result->second;
@@ -277,7 +277,7 @@ template<typename T>
   // check CUDA error
   if(error)
   {
-    throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+    throw thrust::system_error(error, thrust::cuda_category());
   } // end if
 
   // if a new mapping occurred, throw an exception

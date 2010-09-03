@@ -22,9 +22,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -195,8 +192,6 @@ bool operator!=(const error_condition &lhs, const error_condition &rhs)
 
 
 } // end system
-
-} // end experimental
 
 } // end thrust
 

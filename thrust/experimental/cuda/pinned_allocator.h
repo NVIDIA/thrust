@@ -176,7 +176,7 @@ template<typename T>
       
       if(error)
       {
-        throw thrust::experimental::system_error(error, thrust::experimental::cuda_category());
+        throw thrust::system_error(error, thrust::cuda_category());
       } // end if
     } // end deallocate()
 

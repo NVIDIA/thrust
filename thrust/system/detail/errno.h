@@ -27,9 +27,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
-
 namespace system
 {
 
@@ -118,8 +115,6 @@ static const int emlink          = 9979;
 } // end detail
 
 } // end system
-
-} // end experimental
 
 } // end thrust
 
