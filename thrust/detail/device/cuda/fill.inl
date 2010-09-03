@@ -45,64 +45,6 @@ namespace cuda
 namespace detail
 {
 
-
-// XXX use this verbose idiom to WAR type-punning problems
-template<typename T, size_t num_narrow = sizeof(unsigned long long) / sizeof(T)> struct wide_type;
-
-template<typename T>
-struct wide_type<T,2>
-{
-  wide_type(const T &x)
-    : narrow_element1(x),
-      narrow_element2(x)
-  {}
-
-  T narrow_element1;
-  T narrow_element2;
-};
-
-template<typename T>
-struct wide_type<T,4>
-{
-  wide_type(const T &x)
-    : narrow_element1(x),
-      narrow_element2(x),
-      narrow_element3(x),
-      narrow_element4(x)
-  {}
-
-  T narrow_element1;
-  T narrow_element2;
-  T narrow_element3;
-  T narrow_element4;
-};
-
-
-template<typename T>
-struct wide_type<T,8>
-{
-  wide_type(const T &x)
-    : narrow_element1(x),
-      narrow_element2(x),
-      narrow_element3(x),
-      narrow_element4(x),
-      narrow_element5(x),
-      narrow_element6(x),
-      narrow_element7(x),
-      narrow_element8(x)
-  {}
-
-  T narrow_element1;
-  T narrow_element2;
-  T narrow_element3;
-  T narrow_element4;
-  T narrow_element5;
-  T narrow_element6;
-  T narrow_element7;
-  T narrow_element8;
-};
-
-
 template<typename Pointer, typename Size, typename T>
   Pointer wide_fill_n(Pointer first,
                       Size n,
@@ -112,9 +54,18 @@ template<typename Pointer, typename Size, typename T>
 
   size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
 
-  // type used to pack the Ts
-  typedef wide_type<OutputType> WideType;
-  WideType wide_exemplar(static_cast<OutputType>(value));
+  // type used to pack the OutputTypes
+  typedef unsigned long long WideType;
+
+  WideType   wide_exemplar;
+  OutputType narrow_exemplars[sizeof(WideType) / sizeof(OutputType)];
+
+  for (size_t i = 0; i < sizeof(WideType) / sizeof(OutputType); i++)
+      narrow_exemplars[i] = static_cast<OutputType>(value);
+
+  // cast through char * to avoid type punning warnings
+  for (size_t i = 0; i < sizeof(WideType); i++)
+      reinterpret_cast<char *>(&wide_exemplar)[i] = reinterpret_cast<char *>(narrow_exemplars)[i];
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = first_raw + n;
