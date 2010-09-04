@@ -54,9 +54,9 @@ OldEnvironment = Environment;
 # this dictionary maps the name of a compiler program to a dictionary mapping the name of
 # a compiler switch of interest to the specific switch implementing the feature
 gCompilerOptions = {
-    'gcc' : {'warn_all' : '-Wall', 'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'g++' : {'warn_all' : '-Wall', 'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
-    'cl'  : {'warn_all' : '/Wall', 'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG', '/MTd'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
+    'gcc' : {'warn_all' : '-Wall', 'warn_errors' : '-Werror', 'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'g++' : {'warn_all' : '-Wall', 'warn_errors' : '-Werror', 'optimization' : '-O2', 'debug' : '-g',  'exception_handling' : '',      'omp' : '-fopenmp'},
+    'cl'  : {'warn_all' : '/Wall', 'warn_errors' : '/WX',     'optimization' : '/Ox', 'debug' : ['/Zi', '-D_DEBUG', '/MTd'], 'exception_handling' : '/EHsc', 'omp' : '/openmp'}
   }
 
 
@@ -69,7 +69,7 @@ gLinkerOptions = {
   }
 
 
-def getCFLAGS(mode, backend, warn, CC):
+def getCFLAGS(mode, backend, warn, warnings_as_errors, CC):
   result = []
   if mode == 'release':
     # turn on optimization
@@ -89,10 +89,14 @@ def getCFLAGS(mode, backend, warn, CC):
     # turn on all warnings
     result.append(gCompilerOptions[CC]['warn_all'])
 
+  if warnings_as_errors:
+    # treat warnings as errors
+    result.append(gCompilerOptions[CC]['warn_errors'])
+
   return result
 
 
-def getCXXFLAGS(mode, backend, warn, CXX):
+def getCXXFLAGS(mode, backend, warn, warnings_as_errors, CXX):
   result = []
   if mode == 'release':
     # turn on optimization
@@ -113,6 +117,10 @@ def getCXXFLAGS(mode, backend, warn, CXX):
   if warn:
     # turn on all warnings
     result.append(gCompilerOptions[CXX]['warn_all'])
+
+  if warnings_as_errors:
+    # treat warnings as errors
+    result.append(gCompilerOptions[CXX]['warn_errors'])
 
   return result
 
@@ -163,7 +171,13 @@ def Environment():
                         allowed_values = ('sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20')))
 
   # add a variable to handle warnings
-  vars.Add(BoolVariable('Wall', 'Turn on all compilation warnings', 0))
+  if os.name == 'posix':
+    vars.Add(BoolVariable('Wall', 'Enable all compilation warnings', 1))
+  else:
+    vars.Add(BoolVariable('Wall', 'Enable all compilation warnings', 0))
+
+  # add a variable to treat warnings as errors
+  vars.Add(BoolVariable('Werror', 'Treat warnings as errors', 0))
 
   # create an Environment
   env = OldEnvironment(tools = getTools(), variables = vars)
@@ -182,10 +196,10 @@ def Environment():
   env.Append(CXXFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
 
   # get C compiler switches
-  env.Append(CFLAGS = getCFLAGS(env['mode'], env['backend'], env['Wall'], env.subst('$CC')))
+  env.Append(CFLAGS = getCFLAGS(env['mode'], env['backend'], env['Wall'], env['Werror'], env.subst('$CC')))
 
   # get CXX compiler switches
-  env.Append(CXXFLAGS = getCXXFLAGS(env['mode'], env['backend'], env['Wall'], env.subst('$CXX')))
+  env.Append(CXXFLAGS = getCXXFLAGS(env['mode'], env['backend'], env['Wall'], env['Werror'], env.subst('$CXX')))
 
   # get NVCC compiler switches
   env.Append(NVCCFLAGS = getNVCCFLAGS(env['mode'], env['backend'], env['arch']))
