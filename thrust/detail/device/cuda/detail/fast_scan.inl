@@ -120,6 +120,8 @@ void scan_intervals(InputIterator input,
 
     __shared__ OutputType sdata[K + 1][CTA_SIZE + 1];  // padded to avoid bank conflicts
     
+    __syncthreads(); // TODO figure out why this seems necessary now
+    
     const unsigned int interval_begin = interval_size * blockIdx.x;
     const unsigned int interval_end   = min(interval_begin + interval_size, N);
 
@@ -201,7 +203,7 @@ void scan_intervals(InputIterator input,
        
         // carry in
         if (threadIdx.x == 0 && base != interval_begin)
-            sdata[0][threadIdx.x] = binary_op(sdata[K][blockDim.x - 1], sdata[0][threadIdx.x]);
+            sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
 
         __syncthreads();
 
@@ -317,6 +319,8 @@ void exclusive_update(OutputIterator output,
                       BinaryFunction binary_op)
 {
     __shared__ OutputType sdata[CTA_SIZE];
+
+    __syncthreads(); // TODO figure out why this seems necessary now
 
     const unsigned int interval_begin = interval_size * blockIdx.x;
     const unsigned int interval_end   = min(interval_begin + interval_size, N);

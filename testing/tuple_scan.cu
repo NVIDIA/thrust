@@ -33,24 +33,29 @@ struct TestTupleScan
      thrust::host_vector<T> h_t1 = unittest::random_integers<T>(n);
      thrust::host_vector<T> h_t2 = unittest::random_integers<T>(n);
 
-     // zip up the data
-     thrust::host_vector< tuple<T,T> > h_tuples(n);
+     // initialize input
+     thrust::host_vector< tuple<T,T> > h_input(n);
      thrust::transform(h_t1.begin(), h_t1.end(),
-                       h_t2.begin(), h_tuples.begin(),
+                       h_t2.begin(), h_input.begin(),
                        MakeTupleFunctor());
-
-     // copy to device
-     thrust::device_vector< tuple<T,T> > d_tuples = h_tuples;
-
+     thrust::device_vector< tuple<T,T> > d_input = h_input;
+     
+     // allocate output
      tuple<T,T> zero(0,0);
+     thrust::host_vector  < tuple<T,T> > h_output(n, zero);
+     thrust::device_vector< tuple<T,T> > d_output(n, zero);
 
-     // scan on host
-     thrust::exclusive_scan(h_tuples.begin(), h_tuples.end(), h_tuples.begin(), zero);
+     // exclusive_scan
+     thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin());
+     thrust::inclusive_scan(d_input.begin(), d_input.end(), d_output.begin());
+     ASSERT_EQUAL_QUIET(h_output, d_output);
 
-     // scan on device
-     thrust::exclusive_scan(d_tuples.begin(), d_tuples.end(), d_tuples.begin(), zero);
+     // exclusive_scan
+     tuple<T,T> init(13,17);
+     thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), init);
+     thrust::exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), init);
 
-     ASSERT_EQUAL_QUIET(h_tuples, d_tuples);
+     ASSERT_EQUAL_QUIET(h_output, d_output);
   }
 };
 VariableUnitTest<TestTupleScan, IntegralTypes> TestTupleScanInstance;
