@@ -6,7 +6,7 @@ struct FixedVector
     T data[N];
     
     __host__ __device__
-    FixedVector() { }
+    FixedVector() : data() { }
 
     __host__ __device__
     FixedVector(T init)
