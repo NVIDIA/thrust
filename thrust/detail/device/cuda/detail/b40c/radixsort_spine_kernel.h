@@ -171,8 +171,8 @@ __global__ void SrtsScanSpine(
 		
 		SrtsScanCycle<SMEM_ROWS, RAKING_THREADS, PARTIALS_PER_ROW, PARTIALS_PER_SEG>(	
 			smem, smem_offset, smem_segment, warpscan,
-			(uint4 *) &d_ispine[block_offset], 
-			(uint4 *) &d_ospine[block_offset], 
+			(uint4 *) (void *) &d_ispine[block_offset], 
+			(uint4 *) (void *) &d_ospine[block_offset], 
 			carry);
 
 		block_offset += B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;
