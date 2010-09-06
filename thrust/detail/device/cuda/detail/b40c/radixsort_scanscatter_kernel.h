@@ -549,7 +549,7 @@ template <
 __device__ __forceinline__ void SwapAndScatterSm13(
 	typename VecType<K, 2>::Type keypairs[PASSES_PER_CYCLE][SETS_PER_PASS], 
 	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
-	unsigned int *exchange,
+	uint4 *exchange,
 	typename VecType<V, 2>::Type *d_in_values, 
 	K *d_out_keys, 
 	V *d_out_values, 
@@ -705,7 +705,7 @@ template <
 __device__ __forceinline__ void SwapAndScatterSm10(
 	typename VecType<K, 2>::Type keypairs[PASSES_PER_CYCLE][SETS_PER_PASS], 
 	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
-	unsigned int *exchange,
+	uint4 *exchange,
 	typename VecType<V, 2>::Type *d_in_values, 
 	K *d_out_keys, 
 	V *d_out_values, 
@@ -778,7 +778,7 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
 	typename VecType<V, 2>::Type 	*d_in_values, 
 	K								*d_out_keys, 
 	V								*d_out_values, 
-	unsigned int 					*exchange,								
+	uint4        					*exchange,								
 	unsigned int 					warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
 	unsigned int 					carry[RADIX_DIGITS],
 	unsigned int 					digit_scan[2][RADIX_DIGITS],						 
@@ -1002,7 +1002,7 @@ void ScanScatterDigits(
 	const unsigned int MAX_EXCHANGE_BYTES		= (sizeof(K) > sizeof(V)) ? 
 													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(K) : 
 													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(V);
-	const unsigned int EXCHANGE_PADDING_QUADS	= (MAX_EXCHANGE_BYTES > SCAN_LANE_BYTES) ? (MAX_EXCHANGE_BYTES - SCAN_LANE_BYTES + sizeof(unsigned int) - 1) / sizeof(unsigned int) : 0;
+	const unsigned int SCAN_LANE_UINT4S         = (B40C_MAX(MAX_EXCHANGE_BYTES, SCAN_LANE_BYTES) + sizeof(uint4) - 1) / sizeof(uint4);
 
 
 	// N.B.: We use the following voodoo incantations to elide the compiler's miserable 
@@ -1013,8 +1013,8 @@ void ScanScatterDigits(
 	SuppressUnusedConstantWarning(LOG_ROWS_PER_SET);
 	SuppressUnusedConstantWarning(ROWS_PER_LANE);
 
-	
-	__shared__ unsigned int 	scan_lanes[(ROWS_PER_PASS * PADDED_PARTIALS_PER_ROW) + EXCHANGE_PADDING_QUADS];
+    // scan_lanes is a uint4[] to avoid alignment issues when casting to (K *) and/or (V *)
+	__shared__ uint4            scan_lanes[SCAN_LANE_UINT4S];
 	__shared__ unsigned int 	warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE];		// One warpscan per fours-group
 	__shared__ unsigned int 	carry[RADIX_DIGITS];
 	__shared__ unsigned int 	digit_scan[2][RADIX_DIGITS];						 
@@ -1025,7 +1025,6 @@ void ScanScatterDigits(
 	_B40C_REG_MISER_QUALIFIER_ int extra[1];
 	_B40C_REG_MISER_QUALIFIER_ int oob[1];
 
-	
 	extra[0] = (blockIdx.x == gridDim.x - 1) ? work_decomposition.extra_elements_last_block : 0;
 
 	// calculate our threadblock's range
@@ -1043,7 +1042,7 @@ void ScanScatterDigits(
 	// location for placing 2-element partial reductions in the first lane of a pass	
 	unsigned int row = threadIdx.x >> LOG_PARTIALS_PER_ROW; 
 	unsigned int col = threadIdx.x & (PARTIALS_PER_ROW - 1); 
-	unsigned int *base_partial = scan_lanes + (row * PADDED_PARTIALS_PER_ROW) + col; 								
+	unsigned int *base_partial = reinterpret_cast<unsigned int *>(scan_lanes) + (row * PADDED_PARTIALS_PER_ROW) + col; 								
 	
 	// location for raking across all sets within a pass
 	unsigned int *raking_partial = 0;										
@@ -1092,7 +1091,7 @@ void ScanScatterDigits(
 				}
 				
 				predicate = ((my_digit_carry > 0) && (my_digit_carry < work_decomposition.num_elements));
-				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, scan_lanes) > 0);
+				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, reinterpret_cast<unsigned int *>(scan_lanes)) > 0);
 			}
 
 			// Let the next round know which set of buffers to use
@@ -1102,7 +1101,7 @@ void ScanScatterDigits(
 		// initialize raking segment
 		row = threadIdx.x >> LOG_SEGS_PER_ROW;
 		col = (threadIdx.x & (SEGS_PER_ROW - 1)) << LOG_PARTIALS_PER_SEG;
-		raking_partial = scan_lanes + (row * PADDED_PARTIALS_PER_ROW) + col; 
+		raking_partial = reinterpret_cast<unsigned int *>(scan_lanes) + (row * PADDED_PARTIALS_PER_ROW) + col; 
 	}
 
 	// Sync to acquire non_trivial_digit_pass and from_temp_storage
