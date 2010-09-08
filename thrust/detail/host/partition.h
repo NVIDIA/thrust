@@ -109,37 +109,16 @@ template<typename ForwardIterator,
 }
 
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
-         typename Predicate>
-  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
-                                         ForwardIterator1 last,
-                                         ForwardIterator2 result,
-                                         Predicate pred)
-{
-    for(ForwardIterator1 iter = first; iter != last; iter++)
-        if(pred(*iter))
-            *result++ = *iter;
-
-    ForwardIterator2 middle = result;
-    
-    for(ForwardIterator1 iter = first; iter != last; iter++)
-        if(!pred(*iter))
-            *result++ = *iter;
-
-    return middle;
-}
-
 template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(InputIterator first,
-                   InputIterator last,
-                   OutputIterator1 out_true,
-                   OutputIterator2 out_false,
-                   Predicate pred)
+    stable_partition_copy(InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
 {
   for(; first != last; ++first)
   {
@@ -157,6 +136,22 @@ template<typename InputIterator,
 
   return thrust::make_pair(out_true, out_false);
 }
+
+
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
+{
+  return thrust::detail::host::stable_partition_copy(first,last,out_true,out_false,pred);
+}
+
 
 } // end namespace host
 } // end namespace detail

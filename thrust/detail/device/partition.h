@@ -74,6 +74,20 @@ template<typename InputIterator,
     return thrust::detail::device::generic::partition_copy(first, last, out_true, out_false, pred);
 }
 
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+    return thrust::detail::device::generic::stable_partition_copy(first, last, out_true, out_false, pred);
+}
+
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust

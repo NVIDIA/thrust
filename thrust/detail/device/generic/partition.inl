@@ -19,6 +19,8 @@
 #include <thrust/pair.h>
 
 #include <thrust/remove.h>
+#include <thrust/count.h>
+#include <thrust/advance.h>
 
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/raw_buffer.h>
@@ -44,26 +46,36 @@ template<typename ForwardIterator,
   // copy input to temp buffer
   thrust::detail::raw_buffer<InputType,Space> temp(first, last);
 
-  return thrust::detail::device::generic::stable_partition_copy(temp.begin(), temp.end(), first, pred);
+  // count the size of the true partition
+  typename thrust::iterator_difference<ForwardIterator>::type num_true = thrust::count_if(first,last,pred);
+
+  // point to the beginning of the false partition
+  ForwardIterator out_false = first;
+  thrust::advance(out_false, num_true);
+
+  return thrust::detail::device::generic::stable_partition_copy(temp.begin(), temp.end(), first, out_false, pred).first;
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
-                                         ForwardIterator1 last,
-                                         ForwardIterator2 result,
-                                         Predicate pred)
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
 {
   thrust::detail::unary_negate<Predicate> not_pred(pred);
 
-  // remove_copy_if the false partition to result
-  ForwardIterator2 end_of_true_partition = thrust::remove_copy_if(first, last, result, not_pred);
+  // remove_copy_if the true partition to out_true
+  OutputIterator1 end_of_true_partition = thrust::remove_copy_if(first, last, out_true, not_pred);
 
-  // remove_copy_if the true partition to the end of the true partition
-  thrust::remove_copy_if(first, last, end_of_true_partition, pred);
+  // remove_copy_if the false partition to out_false
+  OutputIterator2 end_of_false_partition = thrust::remove_copy_if(first, last, out_false, pred);
 
-  return end_of_true_partition;
+  return thrust::make_pair(end_of_true_partition, end_of_false_partition);
 }
 
 template<typename ForwardIterator,
@@ -72,7 +84,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-    return thrust::detail::device::generic::stable_partition(first, last, pred);
+  return thrust::detail::device::generic::stable_partition(first, last, pred);
 }
 
 template<typename InputIterator,
@@ -86,15 +98,7 @@ template<typename InputIterator,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  thrust::detail::unary_negate<Predicate> not_pred(pred);
-
-  // remove_copy_if the true partition to out_true
-  OutputIterator1 end_of_true_partition = thrust::remove_copy_if(first, last, out_true, not_pred);
-
-  // remove_copy_if the false partition to out_false
-  OutputIterator2 end_of_false_partition = thrust::remove_copy_if(first, last, out_false, pred);
-
-  return thrust::make_pair(end_of_true_partition, end_of_false_partition);
+  return thrust::detail::device::generic::stable_partition_copy(first,last,out_true,out_false,pred);
 }
 
 } // end namespace generic

@@ -221,8 +221,6 @@ template<typename ForwardIterator,
                                    Predicate pred);
 
 
-namespace experimental
-{
 /*! \p stable_partition_copy is much like \ref partition_copy : it reorders the elements
  *  in the range <tt>[first, last)</tt> based on the function object \p pred, such that
  *  all of the elements that satisfy \p pred precede all of the elements that fail to
@@ -278,15 +276,16 @@ namespace experimental
  *  \see \p partition_copy
  *  \see \p stable_partition
  */
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename Predicate>
-  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
-                                         ForwardIterator1 last,
-                                         ForwardIterator2 result,
-                                         Predicate pred);
-
-} // end namespace experimental
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred);
 
 /*! \} // end stream_compaction
  */
