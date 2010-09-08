@@ -40,6 +40,7 @@
 #include <thrust/detail/device/cuda/scalar/binary_search.h>
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust
 {
@@ -520,6 +521,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   	partition_begin_indices2.begin(),
   	result_partition_sizes.begin(), 
   	comp);
+  synchronize_if_enabled("set_intersection_kernel");
 
   thrust::inclusive_scan(result_partition_sizes.begin(), result_partition_sizes.end(), result_partition_sizes.begin());
 
@@ -531,6 +533,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   	temp_result.begin(),
   	partition_begin_indices1.begin(),
   	output_segment_end_indices.begin());
+  synchronize_if_enabled("grouped_gather");
 
   return result + result_partition_sizes[num_partitions - 1];
 } // end set_intersection

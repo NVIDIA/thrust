@@ -105,3 +105,5 @@
 
 #define THRUST_PREVENT_MACRO_SUBSTITUTION
 
+#include <thrust/detail/debug.h>
+

@@ -24,6 +24,7 @@
 
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/device/dereference.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 // to configure launch parameters
 #include <thrust/experimental/arch.h>
@@ -407,6 +408,7 @@ OutputIterator inclusive_scan(InputIterator first,
          output,
          thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
+    synchronize_if_enabled("scan_intervals");
     
     // second level inclusive scan of per-block results
     scan_intervals<CTA_SIZE,K> <<<         1, CTA_SIZE>>>
@@ -416,6 +418,7 @@ OutputIterator inclusive_scan(InputIterator first,
          thrust::raw_pointer_cast(&block_results[0]),
          thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
          binary_op);
+    synchronize_if_enabled("scan_intervals");
     
     // update intervals with result of second level scan
     inclusive_update<256> <<<num_blocks, 256>>>
@@ -424,6 +427,7 @@ OutputIterator inclusive_scan(InputIterator first,
          interval_size,
          thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
+    synchronize_if_enabled("inclusive_update");
     
     return output + N;
 }
@@ -474,6 +478,7 @@ OutputIterator exclusive_scan(InputIterator first,
          output,
          thrust::raw_pointer_cast(&block_results[0]),
          binary_op);
+    synchronize_if_enabled("scan_intervals");
     
     // second level inclusive scan of per-block results
     scan_intervals<CTA_SIZE,K> <<<         1, CTA_SIZE>>>
@@ -483,6 +488,7 @@ OutputIterator exclusive_scan(InputIterator first,
          thrust::raw_pointer_cast(&block_results[0]),
          thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
          binary_op);
+    synchronize_if_enabled("scan_intervals");
 
     // update intervals with result of second level scan
     exclusive_update<256> <<<num_blocks, 256>>>
@@ -492,6 +498,7 @@ OutputIterator exclusive_scan(InputIterator first,
          thrust::raw_pointer_cast(&block_results[0]),
          OutputType(init),
          binary_op);
+    synchronize_if_enabled("exclusive_update");
     
     return output + N;
 }

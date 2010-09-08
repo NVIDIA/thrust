@@ -30,6 +30,7 @@
 #include <thrust/detail/device/cuda/partition.h>
 #include <thrust/detail/device/cuda/block/reduce.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
@@ -246,6 +247,7 @@ template<typename InputIterator1,
          interval_size,
          block_results.begin(),
          thrust::plus<IndexType>());
+    synchronize_if_enabled("reduce_intervals");
 
     thrust::detail::device::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
 
@@ -256,6 +258,7 @@ template<typename InputIterator1,
          N,
          interval_size,
          output);
+    synchronize_if_enabled("copy_if_intervals");
 
     return output + block_results[num_intervals - 1];
 }

@@ -38,6 +38,7 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 #include <thrust/detail/raw_buffer.h>
 
@@ -596,12 +597,14 @@ void radixSortStep(uint *keys,
             radixSortBlocks<nbits, startbit, false>
                 <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)tempValues, (uint4*)keys, (uint4*)values, numElements, block, preprocess);
+            synchronize_if_enabled("radixSortBlocks");
         }
         else
         {
             radixSortBlocks<nbits, startbit, true>
                 <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)tempValues, (uint4*)keys, (uint4*)values, numElements, block, preprocess);
+            synchronize_if_enabled("radixSortBlocks");
         }
     }
 
@@ -614,12 +617,14 @@ void radixSortStep(uint *keys,
             findRadixOffsets<startbit, false>
                 <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
+            synchronize_if_enabled("findRadixOffsets");
         }
         else
         {
             findRadixOffsets<startbit, true>
                 <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
+            synchronize_if_enabled("findRadixOffsets");
         }
     }
 
@@ -638,12 +643,14 @@ void radixSortStep(uint *keys,
                 reorderData<startbit, false, true><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderData");
             }
             else
             {
                 reorderData<startbit, false, false><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderData");
             }
         }
         else
@@ -653,12 +660,14 @@ void radixSortStep(uint *keys,
                 reorderData<startbit, true, true><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderData");
             }
             else
             {
                 reorderData<startbit, true, false><<<blocks, RadixSort::cta_size>>>
                     (keys, values, (uint2*)tempKeys, (uint2*)tempValues, 
                      blockOffsets, countersSum, counters, numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderData");
             }
         }
     }    
@@ -996,12 +1005,14 @@ void radixSortStepKeysOnly(uint *keys,
             radixSortBlocksKeysOnly<nbits, startbit, false>
                 <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)keys, numElements, block, preprocess);
+            synchronize_if_enabled("radixSortBlocksKeysOnly");
         }
         else
         {
             radixSortBlocksKeysOnly<nbits, startbit, true>
                 <<<blocks, RadixSort::cta_size, 4 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint4*)tempKeys, (uint4*)keys, numElements, block, preprocess);
+            synchronize_if_enabled("radixSortBlocksKeysOnly");
         }
     }
 
@@ -1014,12 +1025,14 @@ void radixSortStepKeysOnly(uint *keys,
             findRadixOffsets<startbit, false>
                 <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
+            synchronize_if_enabled("findRadixOffsets");
         }
         else
         {
             findRadixOffsets<startbit, true>
                 <<<blocks, RadixSort::cta_size, 3 * RadixSort::cta_size * sizeof(uint)>>>
                     ((uint2*)tempKeys, counters, blockOffsets, numElements, numBlocks2, block);
+            synchronize_if_enabled("findRadixOffsets");
         }
     }
 
@@ -1038,12 +1051,14 @@ void radixSortStepKeysOnly(uint *keys,
                 reorderDataKeysOnly<startbit, false, true><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderDataKeysOnly");
             }
             else
             {
                 reorderDataKeysOnly<startbit, false, false><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderDataKeysOnly");
             }
         }
         else
@@ -1053,12 +1068,14 @@ void radixSortStepKeysOnly(uint *keys,
                 reorderDataKeysOnly<startbit, true, true><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderDataKeysOnly");
             }
             else
             {
                 reorderDataKeysOnly<startbit, true, false><<<blocks, RadixSort::cta_size>>>
                     (keys, (uint2*)tempKeys, blockOffsets, countersSum, counters, 
                      numElements, numBlocks2, block, postprocess);
+                synchronize_if_enabled("reorderDataKeysOnly");
             }
         }
     }    

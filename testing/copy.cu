@@ -355,8 +355,8 @@ void TestCopyDeviceThrow(void)
     {
         caught_exception = true;
 
-        // reset the error
-        cudaGetLastError();
+        // kill the context so it can revive later
+        cudaThreadExit();
     } // end catch
 
     ASSERT_EQUAL(true, caught_exception);

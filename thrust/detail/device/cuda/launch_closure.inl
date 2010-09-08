@@ -26,6 +26,7 @@
 #include <thrust/experimental/arch.h>
 #include <thrust/detail/device/cuda/malloc.h>
 #include <thrust/detail/device/cuda/free.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust
 {
@@ -106,6 +107,7 @@ template<typename NullaryFunction, typename Size>
   void launch_closure(NullaryFunction f, Size n)
 {
   detail::closure_launcher<NullaryFunction>::launch(f, n);
+  synchronize_if_enabled("launch_closure");
 }
 
 } // end namespace cuda

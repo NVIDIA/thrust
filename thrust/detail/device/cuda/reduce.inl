@@ -33,6 +33,7 @@
 #include <thrust/detail/device/cuda/dispatch/reduce.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/functional.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust
 {
@@ -193,6 +194,7 @@ template<typename RandomAccessIterator1,
 
   // reduce input to per-block sums
   reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first, n, thrust::raw_pointer_cast(&*result), binary_op);
+  synchronize_if_enabled("reduce_n_smem");
 } // end unordered_blocked_reduce_n()
 
 
@@ -217,6 +219,7 @@ template<typename RandomAccessIterator1,
 
   // reduce input to per-block sums
   detail::reduce_n_gmem<<<num_blocks, block_size>>>(first, n, raw_pointer_cast(&*result), raw_pointer_cast(&shared_array[0]), binary_op);
+  synchronize_if_enabled("reduce_n_gmem");
 } // end unordered_blocked_reduce_n()
 
 

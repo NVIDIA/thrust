@@ -32,6 +32,7 @@
 #include <thrust/detail/device/cuda/warp/scan.h>
 
 #include <thrust/detail/device/dereference.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust
 {
@@ -644,6 +645,7 @@ template<typename InputIterator1,
     // first level scan
     segmented_scan::inclusive_scan_kernel<block_size> <<<num_blocks, block_size>>>
         (first1, first2, result, binary_op, pred, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
+    synchronize_if_enabled("inclusive_scan_kernel");
 
     ///////////////////////
     // second level scan
@@ -651,11 +653,13 @@ template<typename InputIterator1,
     segmented_scan::inclusive_scan_kernel<warp_size> <<<1, warp_size>>>
         (raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]), raw_pointer_cast(&d_final_val[0]), binary_op, segmented_scan::__segment_spans_interval(interval_size),
          num_warps, num_warps, raw_pointer_cast(&d_final_val[num_warps]), raw_pointer_cast(&d_segment_lengths[num_warps]));
+    synchronize_if_enabled("inclusive_scan_kernel");
         
     //////////////////////
     // update intervals
     segmented_scan::inclusive_update_kernel<block_size> <<<num_blocks, block_size>>>
         (result, binary_op, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
+    synchronize_if_enabled("inclusive_update_kernel");
 
     return result + n;
 } // end inclusive_segmented_scan()
@@ -712,6 +716,7 @@ template<typename InputIterator1,
     // first level scan
     segmented_scan::exclusive_scan_kernel<block_size> <<<num_blocks, block_size>>>
         (first1, first2, result, OutputType(init), binary_op, pred, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
+    synchronize_if_enabled("exclusive_scan_kernel");
 
     ///////////////////////
     // second level scan
@@ -719,11 +724,13 @@ template<typename InputIterator1,
     segmented_scan::inclusive_scan_kernel<warp_size> <<<1, warp_size>>>
         (raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]), raw_pointer_cast(&d_final_val[0]), binary_op, segmented_scan::__segment_spans_interval(interval_size),
          num_warps, num_warps, raw_pointer_cast(&d_final_val[num_warps]), raw_pointer_cast(&d_segment_lengths[num_warps]));
+    synchronize_if_enabled("inclusive_scan_kernel");
         
     //////////////////////
     // update intervals
     segmented_scan::exclusive_update_kernel<block_size> <<<num_blocks, block_size>>>
         (result, OutputType(init), binary_op, n, interval_size, raw_pointer_cast(&d_final_val[0]), raw_pointer_cast(&d_segment_lengths[0]));
+    synchronize_if_enabled("exclusive_update_kernel");
     
     return result + n;
 } // end exclusive_interval_scan()

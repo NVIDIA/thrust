@@ -34,6 +34,7 @@
 #include <thrust/detail/device/dereference.h>
 
 #include <thrust/detail/device/cuda/extern_shared_ptr.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 // to configure launch parameters
 #include <thrust/experimental/arch.h>
@@ -339,6 +340,7 @@ OutputIterator inclusive_scan(InputIterator first,
              output,
              thrust::raw_pointer_cast(&block_results[0]),
              binary_op);
+        synchronize_if_enabled("scan_intervals");
     }
   
     // second level inclusive scan of per-block results
@@ -353,6 +355,7 @@ OutputIterator inclusive_scan(InputIterator first,
              thrust::raw_pointer_cast(&block_results[0]),
              thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
              binary_op);
+        synchronize_if_enabled("scan_intervals");
     }
    
     // update intervals with result of second level scan
@@ -365,6 +368,7 @@ OutputIterator inclusive_scan(InputIterator first,
              interval_size,
              thrust::raw_pointer_cast(&block_results[0]),
              binary_op);
+        synchronize_if_enabled("inclusive_update");
     }
 
     return output + N;
@@ -419,6 +423,7 @@ OutputIterator exclusive_scan(InputIterator first,
              output,
              thrust::raw_pointer_cast(&block_results[0]),
              binary_op);
+        synchronize_if_enabled("scan_intervals");
     }
         
     
@@ -434,6 +439,7 @@ OutputIterator exclusive_scan(InputIterator first,
              thrust::raw_pointer_cast(&block_results[0]),
              thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
              binary_op);
+        synchronize_if_enabled("scan_intervals");
     }
 
     // copy the initial value to the device
@@ -450,6 +456,7 @@ OutputIterator exclusive_scan(InputIterator first,
              interval_size,
              thrust::raw_pointer_cast(&block_results[0]),
              binary_op);
+        synchronize_if_enabled("exclusive_update");
     }
 
     return output + N;
