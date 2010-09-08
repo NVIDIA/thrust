@@ -140,7 +140,6 @@ template<typename Incrementable,
   public:
     typedef Incrementable const & reference;
     typedef typename super_t::difference_type difference_type;
-    typedef counting_iterator device_dereferenceable_type;
 
     /*! \endcond
      */

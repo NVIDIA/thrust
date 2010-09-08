@@ -93,7 +93,7 @@ namespace device
 
 
 // specialize dereference_result for counting_iterator
-// transform_iterator returns the same reference on the device as on the host
+// counting_iterator returns the same reference on the device as on the host
 template <typename Incrementable, typename Space, typename Traversal, typename Difference>
   struct dereference_result<
     thrust::counting_iterator<
@@ -110,7 +110,7 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
     typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
       dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter)
 {
-  return *iter;
+  return iter.base();
 } // end dereference()
 
 template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>

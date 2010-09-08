@@ -18,6 +18,7 @@ struct MyStruct
     int key;
     float value;
 
+    __host__ __device__
     bool operator<(const MyStruct other) const
     {
         return key < other.key;

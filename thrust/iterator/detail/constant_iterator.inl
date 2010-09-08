@@ -46,7 +46,7 @@ template<typename Value, typename Incrementable, typename Space>
     typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
       dereference(const thrust::constant_iterator<Value,Incrementable,Space> &iter)
 {
-  return *iter;
+  return iter.value();
 } // end dereference()
 
 
