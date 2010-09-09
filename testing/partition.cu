@@ -12,6 +12,7 @@ struct is_even
     bool operator()(T x) const { return ((int) x % 2) == 0; }
 };
 
+typedef unittest::type_list<char,short,int> PartitionTypes;
 
 template<typename Vector>
 void TestPartitionSimple(void)
@@ -140,95 +141,124 @@ DECLARE_VECTOR_UNITTEST(TestStablePartitionCopySimple);
 
 
 template <typename T>
-void TestPartition(const size_t n)
+struct TestPartition
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        // setup ranges
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-    typename thrust::host_vector<T>::iterator   h_iter = thrust::partition(h_data.begin(), h_data.end(), is_even<T>());
-    typename thrust::device_vector<T>::iterator d_iter = thrust::partition(d_data.begin(), d_data.end(), is_even<T>());
+        typename thrust::host_vector<T>::iterator   h_iter = thrust::partition(h_data.begin(), h_data.end(), is_even<T>());
+        typename thrust::device_vector<T>::iterator d_iter = thrust::partition(d_data.begin(), d_data.end(), is_even<T>());
 
-    ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+        thrust::sort(h_data.begin(), h_iter); thrust::sort(h_iter, h_data.end());
+        thrust::sort(d_data.begin(), d_iter); thrust::sort(d_iter, d_data.end());
 
-    thrust::sort(h_data.begin(), h_iter); thrust::sort(h_iter, h_data.end());
-    thrust::sort(d_data.begin(), d_iter); thrust::sort(d_iter, d_data.end());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestPartition);
+        ASSERT_EQUAL(h_data, d_data);
+        ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+    }
+};
+VariableUnitTest<TestPartition, PartitionTypes> TestPartitionInstance;
 
 
 template <typename T>
-void TestPartitionCopy(const size_t n)
+struct TestPartitionCopy
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        // setup input ranges
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+        
+        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        size_t n_false = n - n_true;
 
-    thrust::host_vector<T>   h_true_results(thrust::count_if(h_data.begin(), h_data.end(), is_even<T>()));
-    thrust::host_vector<T>   h_false_results(n - h_true_results.size());
-    thrust::device_vector<T> d_true_results(h_true_results.size());
-    thrust::device_vector<T> d_false_results(h_false_results.size());
-    
-    thrust::pair<typename thrust::host_vector<T>::iterator, typename thrust::host_vector<T>::iterator> h_ends
-      = thrust::partition_copy(h_data.begin(), h_data.end(), h_true_results.begin(), h_false_results.begin(), is_even<T>());
+        // setup output ranges
+        thrust::host_vector<T>   h_true_results (n_true,  0);
+        thrust::host_vector<T>   h_false_results(n_false, 0);
+        thrust::device_vector<T> d_true_results (n_true,  0);
+        thrust::device_vector<T> d_false_results(n_false, 0);
 
-    thrust::pair<typename thrust::device_vector<T>::iterator, typename thrust::device_vector<T>::iterator> d_ends
-      = thrust::partition_copy(d_data.begin(), d_data.end(), d_true_results.begin(), d_false_results.begin(), is_even<T>());
+        thrust::pair<typename thrust::host_vector<T>::iterator, typename thrust::host_vector<T>::iterator> h_ends
+            = thrust::partition_copy(h_data.begin(), h_data.end(), h_true_results.begin(), h_false_results.begin(), is_even<T>());
 
-    thrust::sort(h_true_results.begin(), h_ends.first);
-    thrust::sort(h_false_results.begin(), h_ends.second);
+        thrust::pair<typename thrust::device_vector<T>::iterator, typename thrust::device_vector<T>::iterator> d_ends
+            = thrust::partition_copy(d_data.begin(), d_data.end(), d_true_results.begin(), d_false_results.begin(), is_even<T>());
 
-    thrust::sort(d_true_results.begin(), d_ends.first);
-    thrust::sort(d_false_results.begin(), d_ends.second);
+        // check true output
+        ASSERT_EQUAL(h_ends.first - h_true_results.begin(), n_true);
+        ASSERT_EQUAL(d_ends.first - d_true_results.begin(), n_true);
+        thrust::sort(h_true_results.begin(), h_true_results.end());
+        thrust::sort(d_true_results.begin(), d_true_results.end());
+        ASSERT_EQUAL(h_true_results, d_true_results);
 
-    ASSERT_EQUAL(h_ends.first - h_true_results.begin(), d_ends.first - d_true_results.begin());
-    ASSERT_EQUAL(h_ends.second - h_false_results.begin(), d_ends.second - d_false_results.begin());
-
-    ASSERT_EQUAL(h_true_results, d_true_results);
-    ASSERT_EQUAL(h_false_results, d_false_results);
-}
-DECLARE_VARIABLE_UNITTEST(TestPartitionCopy);
+        // check false output
+        ASSERT_EQUAL(h_ends.second - h_false_results.begin(), n_false);
+        ASSERT_EQUAL(d_ends.second - d_false_results.begin(), n_false);
+        thrust::sort(h_false_results.begin(), h_false_results.end());
+        thrust::sort(d_false_results.begin(), d_false_results.end());
+        ASSERT_EQUAL(h_false_results, d_false_results);
+    }
+};
+VariableUnitTest<TestPartitionCopy, PartitionTypes> TestPartitionCopyInstance;
 
 
 template <typename T>
-void TestStablePartition(const size_t n)
+struct TestStablePartition
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        // setup ranges
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-    typename thrust::host_vector<T>::iterator   h_iter = thrust::stable_partition(h_data.begin(), h_data.end(), is_even<T>());
-    typename thrust::device_vector<T>::iterator d_iter = thrust::stable_partition(d_data.begin(), d_data.end(), is_even<T>());
+        typename thrust::host_vector<T>::iterator   h_iter = thrust::stable_partition(h_data.begin(), h_data.end(), is_even<T>());
+        typename thrust::device_vector<T>::iterator d_iter = thrust::stable_partition(d_data.begin(), d_data.end(), is_even<T>());
 
-    ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestStablePartition);
+        ASSERT_EQUAL(h_data, d_data);
+        ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+    }
+};
+VariableUnitTest<TestStablePartition, PartitionTypes> TestStablePartitionInstance;
 
 
 template <typename T>
-void TestStablePartitionCopy(const size_t n)
+struct TestStablePartitionCopy
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        // setup input ranges
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+        
+        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        size_t n_false = n - n_true;
 
-    thrust::host_vector<T>   h_true_results(thrust::count_if(h_data.begin(), h_data.end(), is_even<T>()));
-    thrust::host_vector<T>   h_false_results(n - h_true_results.size());
-    thrust::device_vector<T> d_true_results(h_true_results.size());
-    thrust::device_vector<T> d_false_results(h_false_results.size());
-    
-    thrust::pair<typename thrust::host_vector<T>::iterator, typename thrust::host_vector<T>::iterator> h_ends
-      = thrust::stable_partition_copy(h_data.begin(), h_data.end(), h_true_results.begin(), h_false_results.begin(), is_even<T>());
+        // setup output ranges
+        thrust::host_vector<T>   h_true_results (n_true,  0);
+        thrust::host_vector<T>   h_false_results(n_false, 0);
+        thrust::device_vector<T> d_true_results (n_true,  0);
+        thrust::device_vector<T> d_false_results(n_false, 0);
 
-    thrust::pair<typename thrust::device_vector<T>::iterator, typename thrust::device_vector<T>::iterator> d_ends
-      = thrust::stable_partition_copy(d_data.begin(), d_data.end(), d_true_results.begin(), d_false_results.begin(), is_even<T>());
+        thrust::pair<typename thrust::host_vector<T>::iterator, typename thrust::host_vector<T>::iterator> h_ends
+            = thrust::stable_partition_copy(h_data.begin(), h_data.end(), h_true_results.begin(), h_false_results.begin(), is_even<T>());
 
-    ASSERT_EQUAL(h_ends.first - h_true_results.begin(), d_ends.first - d_true_results.begin());
-    ASSERT_EQUAL(h_ends.second - h_false_results.begin(), d_ends.second - d_false_results.begin());
+        thrust::pair<typename thrust::device_vector<T>::iterator, typename thrust::device_vector<T>::iterator> d_ends
+            = thrust::stable_partition_copy(d_data.begin(), d_data.end(), d_true_results.begin(), d_false_results.begin(), is_even<T>());
 
-    ASSERT_EQUAL(h_true_results, d_true_results);
-    ASSERT_EQUAL(h_false_results, d_false_results);
-}
-DECLARE_VARIABLE_UNITTEST(TestStablePartitionCopy);
+        // check true output
+        ASSERT_EQUAL(h_ends.first - h_true_results.begin(), n_true);
+        ASSERT_EQUAL(d_ends.first - d_true_results.begin(), n_true);
+        ASSERT_EQUAL(h_true_results, d_true_results);
+
+        // check false output
+        ASSERT_EQUAL(h_ends.second - h_false_results.begin(), n_false);
+        ASSERT_EQUAL(d_ends.second - d_false_results.begin(), n_false);
+        ASSERT_EQUAL(h_false_results, d_false_results);
+    }
+};
+VariableUnitTest<TestStablePartitionCopy, PartitionTypes> TestStablePartitionCopyInstance;
 
 
 struct is_ordered
