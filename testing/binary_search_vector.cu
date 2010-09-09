@@ -193,11 +193,8 @@ struct TestVectorLowerBound
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
     KNOWN_FAILURE;
 #else
-    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
-
-    thrust::sort(h_vec.begin(), h_vec.end());
-    thrust::sort(d_vec.begin(), d_vec.end());
 
     thrust::host_vector<T>   h_input = unittest::random_integers<T>(4*n);
     thrust::device_vector<T> d_input = h_input;
@@ -225,11 +222,8 @@ struct TestVectorUpperBound
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
     KNOWN_FAILURE;
 #else
-    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
-
-    thrust::sort(h_vec.begin(), h_vec.end());
-    thrust::sort(d_vec.begin(), d_vec.end());
 
     thrust::host_vector<T>   h_input = unittest::random_integers<T>(4*n);
     thrust::device_vector<T> d_input = h_input;
@@ -256,11 +250,8 @@ struct TestVectorBinarySearch
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
     KNOWN_FAILURE;
 #else
-    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
-
-    thrust::sort(h_vec.begin(), h_vec.end());
-    thrust::sort(d_vec.begin(), d_vec.end());
 
     thrust::host_vector<T>   h_input = unittest::random_integers<T>(4*n);
     thrust::device_vector<T> d_input = h_input;

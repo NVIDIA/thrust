@@ -67,19 +67,16 @@ template<typename T>
 void TestSetIntersectionEquivalentRanges(const size_t n)
 {
   thrust::host_vector<T> temp = unittest::random_integers<T>(n);
-  thrust::host_vector<T> h_a = temp;
-  thrust::host_vector<T> h_b = temp;
-
-  thrust::sort(h_a.begin(), h_a.end());
-  thrust::sort(h_b.begin(), h_b.end());
+  thrust::host_vector<T> h_a = temp; thrust::sort(h_a.begin(), h_a.end());
+  thrust::host_vector<T> h_b = h_a;
 
   thrust::device_vector<T> d_a = h_a;
   thrust::device_vector<T> d_b = h_b;
 
-  thrust::host_vector<T> h_result(n);
+  thrust::host_vector<T>   h_result(n);
   thrust::device_vector<T> d_result(n);
 
-  typename thrust::host_vector<T>::iterator h_end;
+  typename thrust::host_vector<T>::iterator   h_end;
   typename thrust::device_vector<T>::iterator d_end;
   
   h_end = thrust::set_intersection(h_a.begin(), h_a.end(),
