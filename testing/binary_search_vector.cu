@@ -205,7 +205,7 @@ struct TestVectorLowerBound
     thrust::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
     thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
-    ASSERT_ALMOST_EQUAL(h_output, d_output);
+    ASSERT_EQUAL(h_output, d_output);
 #endif
   }
 };
@@ -234,7 +234,7 @@ struct TestVectorUpperBound
     thrust::upper_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
     thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
-    ASSERT_ALMOST_EQUAL(h_output, d_output);
+    ASSERT_EQUAL(h_output, d_output);
 #endif
   }
 };
@@ -262,7 +262,7 @@ struct TestVectorBinarySearch
     thrust::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
     thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
-    ASSERT_ALMOST_EQUAL(h_output, d_output);
+    ASSERT_EQUAL(h_output, d_output);
 #endif
   }
 };

@@ -36,19 +36,22 @@ DECLARE_VECTOR_UNITTEST(TestReduceSimple);
 
 
 template <typename T>
-void TestReduce(const size_t n)
+struct TestReduce
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-    T init = 13;
+        T init = 13;
 
-    T cpu_result = thrust::reduce(h_data.begin(), h_data.end(), init);
-    T gpu_result = thrust::reduce(d_data.begin(), d_data.end(), init);
+        T h_result = thrust::reduce(h_data.begin(), h_data.end(), init);
+        T d_result = thrust::reduce(d_data.begin(), d_data.end(), init);
 
-    ASSERT_ALMOST_EQUAL(cpu_result, gpu_result);
-}
-DECLARE_VARIABLE_UNITTEST(TestReduce);
+        ASSERT_ALMOST_EQUAL(h_result, d_result);
+    }
+};
+VariableUnitTest<TestReduce, IntegralTypes> TestReduceInstance;
 
 
 template <class IntVector, class FloatVector>
