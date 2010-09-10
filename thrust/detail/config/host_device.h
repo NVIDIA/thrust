@@ -14,38 +14,31 @@
  *  limitations under the License.
  */
 
-
-/*! \file malloc.h
- *  \brief CUDA implementation of device malloc.
+/*! \file host_device.h
+ *  \brief Defines __host__ and __device__
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/device_ptr.h>
 
-namespace thrust
-{
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
-namespace detail
-{
+#include <host_defines.h>
 
-namespace device
-{
+#else
 
-namespace cuda
-{
+// since __host__ & __device__ might have already be defined, only
+// #define them if not defined already
+// XXX this will break if the client does #include <host_defines.h> later
 
-template<unsigned int DummyParameterToPreventInstantiation>
-thrust::device_ptr<void> malloc(const std::size_t n);
+#ifndef __host__
+#define __host__
+#endif // __host__
 
-} // end namespace cuda
+#ifndef __device__
+#define __device__
+#endif // __device__
 
-} // end namespace device
-
-} // end namespace detail
-
-} // end namespace thrust
-
-#include <thrust/detail/device/cuda/malloc.inl>
+#endif
 

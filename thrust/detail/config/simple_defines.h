@@ -14,38 +14,15 @@
  *  limitations under the License.
  */
 
-
-/*! \file malloc.h
- *  \brief CUDA implementation of device malloc.
+/*! \file simple_defines.h
+ *  \brief Primitive macros without dependencies.
  */
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/device_ptr.h>
+#define THRUST_UNKNOWN 0
+#define THRUST_FALSE   0
+#define THRUST_TRUE    1
 
-namespace thrust
-{
-
-namespace detail
-{
-
-namespace device
-{
-
-namespace cuda
-{
-
-template<unsigned int DummyParameterToPreventInstantiation>
-thrust::device_ptr<void> malloc(const std::size_t n);
-
-} // end namespace cuda
-
-} // end namespace device
-
-} // end namespace detail
-
-} // end namespace thrust
-
-#include <thrust/detail/device/cuda/malloc.inl>
+#define THRUST_PREVENT_MACRO_SUBSTITUTION
 

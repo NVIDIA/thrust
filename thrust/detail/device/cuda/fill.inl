@@ -142,10 +142,16 @@ template<typename OutputIterator, typename Size, typename T>
 // C++ (only) definition //
 ///////////////////////////
 
+// do not attempt to compile this code, which relies on 
+// CUDART, without system support
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+
 #include <thrust/copy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/distance.h>
 #include <thrust/system_error.h>
+#include <thrust/system/cuda_error.h>
+#include <cuda_runtime_api.h>
 #include <cstring>
 
 namespace thrust
@@ -229,6 +235,8 @@ template<typename OutputIterator, typename Size, typename T>
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#endif // THRUST_DEVICE_BACKEND
 
 #endif // THRUST_DEVICE_COMPILER_NVCC
 

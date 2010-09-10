@@ -24,6 +24,7 @@
 
 #include <thrust/detail/util/blocking.h>
 #include <thrust/system_error.h>
+#include <thrust/system/cuda_error.h>
 #include <map>
 
 // #include this for make_uint3

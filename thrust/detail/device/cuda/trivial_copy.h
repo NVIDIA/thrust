@@ -14,19 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file trivial_copy.h
- *  \brief Device implementations for copying memory between host and device.
- */
-
-#pragma once
-
-#include <cuda_runtime_api.h> // for cudaMemcpy
-#include <string>
-#include <thrust/system_error.h>
-
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -40,99 +28,20 @@ namespace device
 namespace cuda
 {
 
-namespace detail
-{
-
-inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind)
-{
-  cudaError_t error = cudaMemcpy(dst,src,count,kind);
-  if(error)
-  {
-    throw thrust::system_error(error, thrust::cuda_category());
-  } // end error
-} // end checked_cudaMemcpy()
-
-
-template<typename SrcSpace,
-         typename DstSpace>
-  struct is_host_to_device
-    : integral_constant<
-        bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::host_space_tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::device_space_tag>::value
-      >
-{};
-
-
-template<typename SrcSpace,
-         typename DstSpace>
-  struct is_device_to_host
-    : integral_constant<
-        bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::device_space_tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::host_space_tag>::value
-      >
-{};
-
-
-template<typename SrcSpace,
-         typename DstSpace>
-  struct is_device_to_device
-    : integral_constant<
-        bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::device_space_tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::device_space_tag>::value
-      >
-{};
-
-
-template<typename SrcSpace,
-         typename DstSpace>
-  struct cuda_memcpy_kind
-    : thrust::detail::eval_if<
-        is_host_to_device<SrcSpace,DstSpace>::value,
-        thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyHostToDevice>,
-
-        eval_if<
-          is_device_to_host<SrcSpace,DstSpace>::value,
-          thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToHost>,
-
-          eval_if<
-            is_device_to_device<SrcSpace,DstSpace>::value,
-            thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToDevice>,
-            void
-          >
-        >
-      >::type
-{};
-
-} // end namespace detail
-
-
 template<typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
   void trivial_copy_n(RandomAccessIterator1 first,
                       Size n,
-                      RandomAccessIterator2 result)
-{
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
+                      RandomAccessIterator2 result);
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type SrcSpace;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type DstSpace;
+} // end cuda
 
-  void *dst = thrust::raw_pointer_cast(&*result);
-  const void *src = thrust::raw_pointer_cast(&*first);
+} // end device
 
-  detail::checked_cudaMemcpy(dst, src, n * sizeof(T), detail::cuda_memcpy_kind<SrcSpace, DstSpace>::value);
-}
+} // end detail
 
+} // end thrust
 
-} // end namespace cuda
-
-} // end namespace device
-
-} // end namespace detail
-
-} // end namespace thrust
+#include <thrust/detail/device/cuda/trivial_copy.inl>
 

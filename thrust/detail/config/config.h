@@ -14,38 +14,17 @@
  *  limitations under the License.
  */
 
-
-/*! \file malloc.h
- *  \brief CUDA implementation of device malloc.
+/*! \file config.h
+ *  \brief Defines platform configuration.
  */
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/device_ptr.h>
+// XXX the order of these #includes matters
 
-namespace thrust
-{
-
-namespace detail
-{
-
-namespace device
-{
-
-namespace cuda
-{
-
-template<unsigned int DummyParameterToPreventInstantiation>
-thrust::device_ptr<void> malloc(const std::size_t n);
-
-} // end namespace cuda
-
-} // end namespace device
-
-} // end namespace detail
-
-} // end namespace thrust
-
-#include <thrust/detail/device/cuda/malloc.inl>
+#include <thrust/detail/config/simple_defines.h>
+#include <thrust/detail/config/compiler.h>
+#include <thrust/detail/config/host_device.h>
+#include <thrust/detail/config/device_backend.h>
+#include <thrust/detail/config/debug.h>
 

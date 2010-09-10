@@ -212,19 +212,18 @@ def Environment():
   env.Append(LIBPATH = [cuda_lib_path])
   env.Append(CPPPATH = [cuda_inc_path])
 
-  # set Ocelot lib path
+  # link against backend-specific runtimes
+  # XXX we shouldn't have to link against cudart unless we're using the
+  #     cuda runtime, but cudafe inserts some dependencies when compiling .cu files
+  # XXX ideally this gets handled in nvcc.py if possible
+  env.Append(LIBS = 'cudart')
+
   if env['backend'] == 'ocelot':
     if os.name == 'posix':
       env.Append(LIBPATH = ['/usr/local/lib'])
     else:
       raise ValueError, "Unknown OS.  What is the Ocelot library path?"
-
-  # add CUDA runtime library
-  # XXX ideally this gets handled in nvcc.py if possible
-  env.Append(LIBS = 'cudart')
-
-  # link against omp if necessary
-  if env['backend'] == 'omp':
+  elif env['backend'] == 'omp':
     if os.name == 'posix':
       env.Append(LIBS = ['gomp'])
     elif os.name == 'nt':

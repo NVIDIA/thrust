@@ -60,7 +60,6 @@ template<typename InputIterator1,
                          Predicate pred,
                          thrust::detail::false_type) // no space is CUDA
 {
-    std::cout << "omp path" << std::endl;
   return thrust::detail::device::generic::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
 

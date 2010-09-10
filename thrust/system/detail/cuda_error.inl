@@ -18,6 +18,7 @@
 #pragma once
 
 #include <thrust/system/cuda_error.h>
+#include <cuda_runtime_api.h>
 
 namespace thrust
 {
@@ -64,7 +65,7 @@ class cuda_error_category
     {
       using namespace cuda_errc;
 
-      if(ev < cudaErrorApiFailureBase)
+      if(ev < ::cudaErrorApiFailureBase)
       {
         return make_error_condition(static_cast<cuda_errc_t>(ev));
       }

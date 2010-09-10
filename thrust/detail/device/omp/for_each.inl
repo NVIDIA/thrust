@@ -44,7 +44,7 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   // we're attempting to launch an omp kernel, assert we're compiling with omp support
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
-  // X you need to OpenMP support in your compiler.                         X
+  // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
   THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );

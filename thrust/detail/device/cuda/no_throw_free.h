@@ -16,8 +16,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
-#include <cuda_runtime_api.h>
 
 namespace thrust
 {
@@ -33,18 +33,7 @@ namespace cuda
 
 
 template<unsigned int DummyParameterToAvoidInstantiation>
-  void no_throw_free(thrust::device_ptr<void> ptr) throw()
-{
-  try
-  {
-    // ignore the CUDA error if it exists
-    cudaFree(ptr.get());
-  }
-  catch(...)
-  {
-    ;
-  }
-} // end no_throw_free()
+  void no_throw_free(thrust::device_ptr<void> ptr) throw();
 
 
 } // end cuda
@@ -55,4 +44,5 @@ template<unsigned int DummyParameterToAvoidInstantiation>
 
 } // end namespace thrust
 
+#include <thrust/detail/device/cuda/no_throw_free.inl>
 

@@ -21,10 +21,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
-#include <thrust/system_error.h>
-#include <cuda_runtime_api.h>
-#include <string>
 
 namespace thrust
 {
@@ -36,18 +34,12 @@ namespace cuda
 {
 
 template<unsigned int DummyParameterToAvoidInstantiation>
-void free(thrust::device_ptr<void> ptr)
-{
-  cudaError_t error = cudaFree(ptr.get());
-
-  if(error)
-  {
-    throw thrust::system_error(error, thrust::cuda_category());
-  } // end error
-} // end free()
+void free(thrust::device_ptr<void> ptr);
 
 } // end namespace cuda
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/device/cuda/free.inl>
 

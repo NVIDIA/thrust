@@ -46,6 +46,5 @@ namespace system
 } // end thrust
 
 #include <thrust/system/error_code.h>
-#include <thrust/system/cuda_error.h>
 #include <thrust/system/system_error.h>
 

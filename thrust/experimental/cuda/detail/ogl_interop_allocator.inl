@@ -16,7 +16,7 @@
 
 #include <thrust/experimental/cuda/ogl_interop_allocator.h>
 #include <cuda_gl_interop.h>
-#include <thrust/system_error.h>
+#include <thrust/system/cuda_error.h>
 #include <limits>
 
 // declare these functions here to avoid cross-platform GL header badness

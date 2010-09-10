@@ -14,16 +14,16 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
 
 // do not attempt to compile this code, which relies on 
 // CUDART, without system support
-#if THRUST_DEVICE_BACKEND
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
-#include <thrust/detail/device/cuda/synchronize.h>
+#include <thrust/detail/device/cuda/no_throw_free.h>
 #include <cuda_runtime_api.h>
-#include <thrust/system/cuda_error.h>
-#include <thrust/system_error.h>
 
 namespace thrust
 {
@@ -37,22 +37,21 @@ namespace device
 namespace cuda
 {
 
-void synchronize(const char *message)
-{
-  cudaError_t error = cudaThreadSynchronize();
-  if(error)
-  {
-    throw thrust::system_error(error, thrust::cuda_category(), std::string("synchronize: ") + message);
-  } // end if
-} // end synchronize()
 
-void synchronize_if_enabled(const char *message)
+template<unsigned int DummyParameterToAvoidInstantiation>
+  void no_throw_free(thrust::device_ptr<void> ptr) throw()
 {
-// XXX this could potentially be a runtime decision
-#if __THRUST_SYNCHRONOUS
-  synchronize(message);
-#endif
-} // end synchronize_if_enabled()
+  try
+  {
+    // ignore the CUDA error if it exists
+    cudaFree(ptr.get());
+  }
+  catch(...)
+  {
+    ;
+  }
+} // end no_throw_free()
+
 
 } // end cuda
 
@@ -60,7 +59,7 @@ void synchronize_if_enabled(const char *message)
 
 } // end detail
 
-} // end thrust
+} // end namespace thrust
 
 #endif // THRUST_DEVICE_BACKEND
 

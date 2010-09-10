@@ -1,6 +1,5 @@
 import os
 import inspect
-import glob
 
 # try to import an environment first
 try:
@@ -19,13 +18,18 @@ if env['PLATFORM'] == "win32" or env['PLATFORM'] == "win64":
 
 # find all .cus & .cpps in the current directory
 sources = []
-directories = ['.', 'cuda']
+directories = ['.']
 extensions = ['*.cu', '*.cpp']
+
+if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
+  directories.append('cuda')
+elif env['backend'] == 'omp':
+  directories.append('omp')
+
 for dir in directories:
   for ext in extensions:
     regexp = os.path.join(dir, ext)
-    #sources.extend(env.Glob(regexp, strings = True))
-    sources.extend(glob.glob(regexp))
+    sources.extend(env.Glob(regexp))
 
 # add the directory containing this file to the include path
 this_file = inspect.currentframe().f_code.co_filename
