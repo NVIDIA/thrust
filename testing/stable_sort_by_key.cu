@@ -8,12 +8,6 @@ struct less_div_10
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 < ((int) rhs) / 10;}
 };
 
-template <typename T>
-struct greater_div_10
-{
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 > ((int) rhs) / 10;}
-};
-
 
 template <class Vector>
 void InitializeSimpleStableKeyValueSortTest(Vector& unsorted_keys, Vector& unsorted_values,
@@ -64,38 +58,43 @@ DECLARE_VECTOR_UNITTEST(TestStableSortByKeySimple);
 
 
 template <typename T>
-void TestStableSortAscendingKeyValue(const size_t n)
+struct TestStableSortByKey
 {
-    thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_keys = h_keys;
-    
-    thrust::host_vector<T>   h_values = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_values = h_values;
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_keys = h_keys;
 
-    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), less_div_10<T>());
-    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), less_div_10<T>());
+        thrust::host_vector<T>   h_values = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_values = h_values;
 
-    ASSERT_EQUAL(h_keys,   d_keys);
-    ASSERT_EQUAL(h_values, d_values);
-}
-DECLARE_VARIABLE_UNITTEST(TestStableSortAscendingKeyValue);
+        thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+        thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+
+        ASSERT_EQUAL(h_keys,   d_keys);
+        ASSERT_EQUAL(h_values, d_values);
+    }
+};
+VariableUnitTest<TestStableSortByKey, SignedIntegralTypes> TestStableSortByKeyInstance;
 
 
-void TestStableSortDescendingKeyValue(void)
+template <typename T>
+struct TestStableSortByKeySemantics
 {
-    const size_t n = 10027;
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_keys = h_keys;
 
-    thrust::host_vector<int>   h_keys = unittest::random_integers<int>(n);
-    thrust::device_vector<int> d_keys = h_keys;
-    
-    thrust::host_vector<int>   h_values = unittest::random_integers<int>(n);
-    thrust::device_vector<int> d_values = h_values;
+        thrust::host_vector<T>   h_values = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_values = h_values;
 
-    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), greater_div_10<int>());
-    thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), greater_div_10<int>());
+        thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), less_div_10<T>());
+        thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), less_div_10<T>());
 
-    ASSERT_EQUAL(h_keys,   d_keys);
-    ASSERT_EQUAL(h_values, d_values);
-}
-DECLARE_UNITTEST(TestStableSortDescendingKeyValue);
+        ASSERT_EQUAL(h_keys,   d_keys);
+        ASSERT_EQUAL(h_values, d_values);
+    }
+};
+VariableUnitTest<TestStableSortByKeySemantics, unittest::type_list<char,short,int> > TestStableSortByKeySemanticsInstance;
 

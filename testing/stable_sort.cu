@@ -8,14 +8,6 @@ struct less_div_10
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 < ((int) rhs) / 10;}
 };
 
-template <typename T>
-struct greater_div_10
-{
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 > ((int) rhs) / 10;}
-};
-
-
-
 template <class Vector>
 void InitializeSimpleStableKeySortTest(Vector& unsorted_keys, Vector& sorted_keys)
 {
@@ -61,32 +53,37 @@ DECLARE_VECTOR_UNITTEST(TestStableSortSimple);
 
 
 template <typename T>
-void TestStableSortAscendingKey(const size_t n)
+struct TestStableSort
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-    thrust::stable_sort(h_data.begin(), h_data.end(), less_div_10<T>());
-    thrust::stable_sort(d_data.begin(), d_data.end(), less_div_10<T>());
+        thrust::stable_sort(h_data.begin(), h_data.end(), less_div_10<T>());
+        thrust::stable_sort(d_data.begin(), d_data.end(), less_div_10<T>());
 
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestStableSortAscendingKey);
+        ASSERT_EQUAL(h_data, d_data);
+    }
+};
+VariableUnitTest<TestStableSort, SignedIntegralTypes> TestStableSortInstance;
 
 
-void TestStableSortDescendingKey(void)
+template <typename T>
+struct TestStableSortSemantics
 {
-    const size_t n = 10027;
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-    thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
-    thrust::device_vector<int> d_data = h_data;
+        thrust::stable_sort(h_data.begin(), h_data.end(), less_div_10<T>());
+        thrust::stable_sort(d_data.begin(), d_data.end(), less_div_10<T>());
 
-    thrust::stable_sort(h_data.begin(), h_data.end(), greater_div_10<int>());
-    thrust::stable_sort(d_data.begin(), d_data.end(), greater_div_10<int>());
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_UNITTEST(TestStableSortDescendingKey);
+        ASSERT_EQUAL(h_data, d_data);
+    }
+};
+VariableUnitTest<TestStableSortSemantics, unittest::type_list<char,short,int> > TestStableSortSemanticsInstance;
 
 
 template <typename T>
