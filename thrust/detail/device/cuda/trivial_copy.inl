@@ -24,6 +24,7 @@
 
 #include <thrust/detail/device/cuda/trivial_copy.h>
 #include <cuda_runtime_api.h>
+#include <thrust/system_error.h>
 #include <thrust/system/cuda_error.h>
 
 #include <thrust/iterator/iterator_categories.h>
