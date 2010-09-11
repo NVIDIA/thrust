@@ -606,6 +606,134 @@ template<typename T>
 /*! \}
  */
 
+/*! \addtogroup bitwise_operations Bitwise Operations
+ *  \ingroup predefined_function_objects
+ *  \{
+ */
+
+/*! \p bit_and is a function object. Specifically, it is an Adaptable Binary Function.
+ *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
+ *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x&y</tt>.
+ *
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and if \c x and \c y are objects of type \p T, then <tt>x&y</tt> must be defined and must have a return type that is convertible to \c T.
+ *
+ *  The following code snippet demonstrates how to use <tt>bit_and</tt> to take
+ *  the bitwise AND of one device_vector of \c ints by another.
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/sequence.h>
+ *  #include <thrust/fill.h>
+ *  #include <thrust/transform.h>
+ *  ...
+ *  const int N = 1000;
+ *  thrust::device_vector<int> V1(N);
+ *  thrust::device_vector<int> V2(N);
+ *  thrust::device_vector<int> V3(N);
+ *
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
+ *  thrust::fill(V2.begin(), V2.end(), 13);
+ *
+ *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    thrust::bit_and<int>());
+ *  // V3 is now {1&13, 2&13, 3&13, ..., 1000%13}
+ *  \endcode
+ *
+ *  \see binary_function
+ */
+template<typename T>
+  struct bit_and : public binary_function<T,T,T>
+{
+  /*! Function call operator. The return value is <tt>lhs & rhs</tt>.
+   */
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs & rhs;}
+}; // end bit_and
+
+/*! \p bit_or is a function object. Specifically, it is an Adaptable Binary Function.
+ *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
+ *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x|y</tt>.
+ *
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and if \c x and \c y are objects of type \p T, then <tt>x|y</tt> must be defined and must have a return type that is convertible to \c T.
+ *
+ *  The following code snippet demonstrates how to use <tt>bit_or</tt> to take
+ *  the bitwise OR of one device_vector of \c ints by another.
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/sequence.h>
+ *  #include <thrust/fill.h>
+ *  #include <thrust/transform.h>
+ *  ...
+ *  const int N = 1000;
+ *  thrust::device_vector<int> V1(N);
+ *  thrust::device_vector<int> V2(N);
+ *  thrust::device_vector<int> V3(N);
+ *
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
+ *  thrust::fill(V2.begin(), V2.end(), 13);
+ *
+ *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    thrust::bit_or<int>());
+ *  // V3 is now {1|13, 2|13, 3|13, ..., 1000|13}
+ *  \endcode
+ *
+ *  \see binary_function
+ */
+template<typename T>
+  struct bit_or : public binary_function<T,T,T>
+{
+  /*! Function call operator. The return value is <tt>lhs | rhs</tt>.
+   */
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs | rhs;}
+}; // end bit_or
+
+/*! \p bit_xor is a function object. Specifically, it is an Adaptable Binary Function.
+ *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
+ *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x^y</tt>.
+ *
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and if \c x and \c y are objects of type \p T, then <tt>x^y</tt> must be defined and must have a return type that is convertible to \c T.
+ *
+ *  The following code snippet demonstrates how to use <tt>bit_xor</tt> to take
+ *  the bitwise XOR of one device_vector of \c ints by another.
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/sequence.h>
+ *  #include <thrust/fill.h>
+ *  #include <thrust/transform.h>
+ *  ...
+ *  const int N = 1000;
+ *  thrust::device_vector<int> V1(N);
+ *  thrust::device_vector<int> V2(N);
+ *  thrust::device_vector<int> V3(N);
+ *
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
+ *  thrust::fill(V2.begin(), V2.end(), 13);
+ *
+ *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    thrust::bit_xor<int>());
+ *  // V3 is now {1^13, 2^13, 3^13, ..., 1000^13}
+ *  \endcode
+ *
+ *  \see binary_function
+ */
+template<typename T>
+  struct bit_xor : public binary_function<T,T,T>
+{
+  /*! Function call operator. The return value is <tt>lhs ^ rhs</tt>.
+   */
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs ^ rhs;}
+}; // end bit_xor
+
+/*! \}
+ */
+
 /*! \addtogroup generalized_identity_operations Generalized Identity Operations
  *  \ingroup predefined_function_objects
  *  \{

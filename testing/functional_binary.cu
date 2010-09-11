@@ -7,6 +7,39 @@
     
 const size_t NUM_SAMPLES = 10000;
 
+// STL doesn't necessarily have these available
+namespace ref
+{
+
+template<typename T>
+  struct bit_and
+{
+  T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs & rhs;
+  }
+};
+
+template<typename T>
+  struct bit_or
+{
+  T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs | rhs;
+  }
+};
+
+template<typename T>
+  struct bit_xor
+{
+  T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs ^ rhs;
+  }
+};
+
+}
+
 template <class InputVector, class OutputVector, class Operator, class ReferenceOperator>
 void TestBinaryFunctional(void)
 {
@@ -64,6 +97,12 @@ Macro(vector_type, operator_name, float)
                           thrust::vector_type<data_type>,                                \
                           thrust::operator_name<data_type>,                              \
                           std::operator_name<data_type> >();
+// bitwise_op(T,T) -> T
+#define INSTANTIATE_BINARY_BITWISE_FUNCTIONAL_TEST(vector_type, operator_name, data_type) \
+    TestBinaryFunctional< thrust::vector_type<data_type>,                                \
+                          thrust::vector_type<data_type>,                                \
+                          thrust::operator_name<data_type>,                              \
+                          ref::operator_name<data_type> >();
 
 
 
@@ -107,6 +146,19 @@ void Test##OperatorName##FunctionalDevice(void)                                 
 }                                                                                                       \
 DECLARE_UNITTEST(Test##OperatorName##FunctionalDevice);
 
+// op(T,T) -> T (for bitwise op and integer T only)
+#define DECLARE_BINARY_BITWISE_FUNCTIONAL_UNITTEST(operator_name, OperatorName)                         \
+void Test##OperatorName##FunctionalHost(void)                                                           \
+{                                                                                                       \
+    INSTANTIATE_INTEGER_TYPES( INSTANTIATE_BINARY_BITWISE_FUNCTIONAL_TEST, host_vector,   operator_name);   \
+}                                                                                                       \
+DECLARE_UNITTEST(Test##OperatorName##FunctionalHost);                                                   \
+void Test##OperatorName##FunctionalDevice(void)                                                         \
+{                                                                                                       \
+    INSTANTIATE_INTEGER_TYPES( INSTANTIATE_BINARY_BITWISE_FUNCTIONAL_TEST, device_vector, operator_name);   \
+}                                                                                                       \
+DECLARE_UNITTEST(Test##OperatorName##FunctionalDevice);
+
 
 // Create the unit tests
 DECLARE_BINARY_ARITHMETIC_FUNCTIONAL_UNITTEST(plus,       Plus      );
@@ -124,4 +176,8 @@ DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(greater_equal, GreaterEqual);
 DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(less_equal,    LessEqual   );
 DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_and,   LogicalAnd  );
 DECLARE_BINARY_LOGICAL_FUNCTIONAL_UNITTEST(logical_or,    LogicalOr   );
+
+DECLARE_BINARY_BITWISE_FUNCTIONAL_UNITTEST(bit_and,       BitAnd      );
+DECLARE_BINARY_BITWISE_FUNCTIONAL_UNITTEST(bit_or,        BitOr       );
+DECLARE_BINARY_BITWISE_FUNCTIONAL_UNITTEST(bit_xor,       BitXor      );
 
