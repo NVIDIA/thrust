@@ -43,8 +43,8 @@ template <typename T>
     thrust::device_vector<T> d_p2 = h_p2;
     thrust::device_vector<P> d_pairs = h_pairs;
 
-    thrust::host_vector<T> h_keys(n, 0);   // TODO make this more interesting
-    thrust::device_vector<T> d_keys(n, 0);
+    thrust::host_vector<T>   h_keys = unittest::random_integers<bool>(n);
+    thrust::device_vector<T> d_keys = h_keys;
 
     P init = thrust::make_pair(13,13);
 
@@ -57,5 +57,5 @@ template <typename T>
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
   }
 };
-VariableUnitTest<TestPairScanByKey, IntegralTypes> TestPairScanByKeyInstance;
+VariableUnitTest<TestPairScanByKey, unittest::type_list<char,short,int> > TestPairScanByKeyInstance;
 

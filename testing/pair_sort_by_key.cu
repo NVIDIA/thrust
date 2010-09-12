@@ -37,5 +37,5 @@ template <typename T>
     ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
   }
 };
-VariableUnitTest<TestPairStableSort, NumericTypes> TestPairStableSortInstance;
+VariableUnitTest<TestPairStableSort, unittest::type_list<char,short,int> > TestPairStableSortInstance;
 

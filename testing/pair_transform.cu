@@ -57,5 +57,5 @@ template <typename T>
     ASSERT_EQUAL_QUIET(h_result, d_result);
   }
 }; // end TestPairZip
-VariableUnitTest<TestPairTransform, IntegralTypes> TestPairTransformInstance;
+VariableUnitTest<TestPairTransform, unittest::type_list<char,short,int> > TestPairTransformInstance;
 

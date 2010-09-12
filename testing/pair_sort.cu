@@ -45,5 +45,5 @@ template <typename T>
     ASSERT_EQUAL(h_values, d_values);
   }
 };
-VariableUnitTest<TestPairStableSortByKey, NumericTypes> TestPairStableSortByKeyInstance;
+VariableUnitTest<TestPairStableSortByKey, unittest::type_list<char,short,int> > TestPairStableSortByKeyInstance;
 

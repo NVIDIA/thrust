@@ -61,5 +61,5 @@ struct TestTupleTransform
      ASSERT_EQUAL_QUIET(h_tuples, d_tuples);
   }
 };
-VariableUnitTest<TestTupleTransform, NumericTypes> TestTupleTransformInstance;
+VariableUnitTest<TestTupleTransform, SignedIntegralTypes> TestTupleTransformInstance;
 

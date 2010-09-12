@@ -72,5 +72,5 @@ struct TestTupleStableSort
      ASSERT_ALMOST_EQUAL(h_values, d_values);
   }
 };
-VariableUnitTest<TestTupleStableSort, NumericTypes> TestTupleStableSortInstance;
+VariableUnitTest<TestTupleStableSort, unittest::type_list<char,short,int> > TestTupleStableSortInstance;
 

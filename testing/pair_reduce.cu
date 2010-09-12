@@ -54,5 +54,5 @@ template <typename T>
     ASSERT_EQUAL_QUIET(h_result, d_result);
   }
 }; // end TestPairReduce
-VariableUnitTest<TestPairReduce, IntegralTypes> TestPairReduceInstance;
+VariableUnitTest<TestPairReduce, SignedIntegralTypes> TestPairReduceInstance;
 
