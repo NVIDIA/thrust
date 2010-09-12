@@ -36,7 +36,7 @@ struct TestRadixSortByKeyUnaligned
     
     thrust::sort_by_key(sorted_keys.begin(), sorted_keys.end(), sorted_values.begin());
 
-    for(int offset = 1; offset < 16; offset++)
+    for(int offset = 1; offset < 4; offset++)
     {
         Vector1   unaligned_unsorted_keys(n + offset, 0);
         Vector1     unaligned_sorted_keys(n + offset, 0);
