@@ -22,12 +22,12 @@
 
 #ifdef __CUDACC__
 
-#include <cuda_runtime_api.h>
+#include <cuda.h>
 
-// Thrust supports CUDART >= 3.0
-#if CUDART_VERSION < 3000
+// Thrust supports CUDA >= 3.0
+#if CUDA_VERSION < 3000
 #error "CUDA v3.0 or newer is required"
-#endif // CUDART_VERSION
+#endif // CUDA_VERSION
 
 #endif // __CUDACC__
 
