@@ -60,5 +60,5 @@ template <typename T>
 #endif      
   }
 };
-VariableUnitTest<TestZipIteratorStableSortByKey, SignedIntegralTypes> TestZipIteratorStableSortByKeyInstance;
+VariableUnitTest<TestZipIteratorStableSortByKey, unittest::type_list<char,short,int> > TestZipIteratorStableSortByKeyInstance;
 

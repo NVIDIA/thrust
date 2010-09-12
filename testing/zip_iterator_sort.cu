@@ -34,5 +34,5 @@ template <typename T>
 #endif      
   }
 };
-VariableUnitTest<TestZipIteratorStableSort, SignedIntegralTypes> TestZipIteratorStableSortInstance;
+VariableUnitTest<TestZipIteratorStableSort, unittest::type_list<char,short,int> > TestZipIteratorStableSortInstance;
 
