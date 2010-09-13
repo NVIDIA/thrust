@@ -1,6 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/fill.h>
-
+#include <thrust/iterator/zip_iterator.h>
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 // disable 'possible loss of data' warnings on MSVC
@@ -216,4 +216,30 @@ void TestFillN(size_t n)
     ASSERT_EQUAL(h_data, d_data);
 }
 DECLARE_VARIABLE_UNITTEST(TestFillN);
+
+
+template <typename Vector>
+void TestFillZipIterator(void)
+{
+#if 1
+    KNOWN_FAILURE;
+#else
+    typedef typename Vector::value_type T;
+
+    Vector v1(3,T(0));
+    Vector v2(3,T(0));
+
+    thrust::fill(thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())),
+                 thrust::make_zip_iterator(thrust::make_tuple(v1.end(),v2.end())),
+                 thrust::tuple<T,T>(4,7));
+
+    ASSERT_EQUAL(v1[0], 4);
+    ASSERT_EQUAL(v1[1], 4);
+    ASSERT_EQUAL(v1[2], 4);
+    ASSERT_EQUAL(v2[0], 7);
+    ASSERT_EQUAL(v2[1], 7);
+    ASSERT_EQUAL(v2[2], 7);
+#endif
+};
+DECLARE_VECTOR_UNITTEST(TestFillZipIterator);
 
