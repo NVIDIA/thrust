@@ -196,11 +196,11 @@ struct TestVectorLowerBound
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
-    thrust::host_vector<T>   h_input = unittest::random_integers<T>(4*n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(2*n);
     thrust::device_vector<T> d_input = h_input;
     
-    thrust::host_vector<int>   h_output(4*n);
-    thrust::device_vector<int> d_output(4*n);
+    thrust::host_vector<int>   h_output(2*n);
+    thrust::device_vector<int> d_output(2*n);
 
     thrust::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
     thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
@@ -225,11 +225,11 @@ struct TestVectorUpperBound
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
-    thrust::host_vector<T>   h_input = unittest::random_integers<T>(4*n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(2*n);
     thrust::device_vector<T> d_input = h_input;
     
-    thrust::host_vector<int>   h_output(4*n);
-    thrust::device_vector<int> d_output(4*n);
+    thrust::host_vector<int>   h_output(2*n);
+    thrust::device_vector<int> d_output(2*n);
 
     thrust::upper_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
     thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
@@ -253,11 +253,11 @@ struct TestVectorBinarySearch
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
-    thrust::host_vector<T>   h_input = unittest::random_integers<T>(4*n);
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(2*n);
     thrust::device_vector<T> d_input = h_input;
     
-    thrust::host_vector<int>   h_output(4*n);
-    thrust::device_vector<int> d_output(4*n);
+    thrust::host_vector<int>   h_output(2*n);
+    thrust::device_vector<int> d_output(2*n);
 
     thrust::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), h_output.begin());
     thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());

@@ -123,10 +123,10 @@ void usage(int argc, char** argv)
     std::cout << indent << indent << "--sizes=tiny    tests sizes up to " << tiny_threshold    << "\n";
     std::cout << indent << indent << "--sizes=small   tests sizes up to " << small_threshold   << "\n";
     std::cout << indent << indent << "--sizes=medium  tests sizes up to " << medium_threshold  << "\n";
-    std::cout << indent << indent << "--sizes=default tests sizes up to " << default_threshold << " (0.1 GB memory)\n";
-    std::cout << indent << indent << "--sizes=large   tests sizes up to " << large_threshold   << " (0.5 GB memory)\n";
-    std::cout << indent << indent << "--sizes=huge    tests sizes up to " << huge_threshold    << " (1.5 GB memory)\n";
-    std::cout << indent << indent << "--sizes=epic    tests sizes up to " << epic_threshold    << " (3.0 GB memory)\n";
+    std::cout << indent << indent << "--sizes=default tests sizes up to " << default_threshold << "\n";
+    std::cout << indent << indent << "--sizes=large   tests sizes up to " << large_threshold   << " (0.25 GB memory)\n";
+    std::cout << indent << indent << "--sizes=huge    tests sizes up to " << huge_threshold    << " (1.50 GB memory)\n";
+    std::cout << indent << indent << "--sizes=epic    tests sizes up to " << epic_threshold    << " (3.00 GB memory)\n";
     std::cout << indent << indent << "--sizes=max     tests all available sizes\n";
 }
 
