@@ -180,6 +180,23 @@ template<typename Generator>
     x = gen();
   }
 
+  // the above operator() does not work with zip_iterator
+  // because the tuples it produces upon dereference are
+  // temporary objects (which cannot bind to lvalue references)
+  //
+  // to WAR this, overload operator() so that we can generate
+  // to zip_iterator
+  //
+  // XXX change this to a single operator() which accepts
+  //     an rvalue reference upon c++0x (which either a named variable
+  //     or temporary can bind to)
+  template<typename HT, typename TT>
+  __host__ __device__
+  void operator()(cons<HT &, TT> x)
+  {
+    x = gen();
+  }
+
   Generator gen;
 };
 

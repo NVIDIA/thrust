@@ -221,25 +221,25 @@ DECLARE_VARIABLE_UNITTEST(TestFillN);
 template <typename Vector>
 void TestFillZipIterator(void)
 {
-#if 1
-    KNOWN_FAILURE;
-#else
     typedef typename Vector::value_type T;
 
     Vector v1(3,T(0));
     Vector v2(3,T(0));
+    Vector v3(3,T(0));
 
-    thrust::fill(thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())),
-                 thrust::make_zip_iterator(thrust::make_tuple(v1.end(),  v2.end())),
-                 thrust::tuple<T,T>(4,7));
+    thrust::fill(thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin(),v3.begin())),
+                 thrust::make_zip_iterator(thrust::make_tuple(v1.end(),v2.end(),v3.end())),
+                 thrust::tuple<T,T,T>(4,7,13));
 
-    ASSERT_EQUAL(v1[0], 4);
-    ASSERT_EQUAL(v1[1], 4);
-    ASSERT_EQUAL(v1[2], 4);
-    ASSERT_EQUAL(v2[0], 7);
-    ASSERT_EQUAL(v2[1], 7);
-    ASSERT_EQUAL(v2[2], 7);
-#endif
+    ASSERT_EQUAL(4,  v1[0]);
+    ASSERT_EQUAL(4,  v1[1]);
+    ASSERT_EQUAL(4,  v1[2]);
+    ASSERT_EQUAL(7,  v2[0]);
+    ASSERT_EQUAL(7,  v2[1]);
+    ASSERT_EQUAL(7,  v2[2]);
+    ASSERT_EQUAL(13, v3[0]);
+    ASSERT_EQUAL(13, v3[1]);
+    ASSERT_EQUAL(13, v3[2]);
 };
 DECLARE_VECTOR_UNITTEST(TestFillZipIterator);
 
