@@ -92,3 +92,45 @@ void TestGenerateN(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestGenerateN);
 
+
+template <typename Vector>
+void TestGenerateZipIterator(void)
+{
+#if 1
+    KNOWN_FAILURE;
+#else
+    typedef typename Vector::value_type T;
+
+    Vector v1(3,T(0));
+    Vector v2(3,T(0));
+
+    thrust::generate(thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())),
+                     thrust::make_zip_iterator(thrust::make_tuple(v1.end(),v2.end())),
+                     return_value< thrust::tuple<T,T> > (thrust::tuple<T,T>(4,7)));
+
+    ASSERT_EQUAL(v1[0], 4);
+    ASSERT_EQUAL(v1[1], 4);
+    ASSERT_EQUAL(v1[2], 4);
+    ASSERT_EQUAL(v2[0], 7);
+    ASSERT_EQUAL(v2[1], 7);
+    ASSERT_EQUAL(v2[2], 7);
+#endif
+};
+DECLARE_VECTOR_UNITTEST(TestGenerateZipIterator);
+
+
+void TestGenerateTuple(void)
+{
+    typedef int T;
+    typedef thrust::tuple<T,T> Tuple;
+
+    thrust::host_vector<Tuple>   h(3, Tuple(0,0));
+    thrust::device_vector<Tuple> d(3, Tuple(0,0));
+
+    thrust::generate(h.begin(), h.end(), return_value<Tuple>(Tuple(4,7)));
+    thrust::generate(d.begin(), d.end(), return_value<Tuple>(Tuple(4,7)));
+
+    ASSERT_EQUAL_QUIET(h, d);
+};
+DECLARE_UNITTEST(TestGenerateTuple);
+

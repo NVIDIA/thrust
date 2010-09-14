@@ -230,7 +230,7 @@ void TestFillZipIterator(void)
     Vector v2(3,T(0));
 
     thrust::fill(thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())),
-                 thrust::make_zip_iterator(thrust::make_tuple(v1.end(),v2.end())),
+                 thrust::make_zip_iterator(thrust::make_tuple(v1.end(),  v2.end())),
                  thrust::tuple<T,T>(4,7));
 
     ASSERT_EQUAL(v1[0], 4);
@@ -242,4 +242,21 @@ void TestFillZipIterator(void)
 #endif
 };
 DECLARE_VECTOR_UNITTEST(TestFillZipIterator);
+
+
+void TestFillTuple(void)
+{
+    typedef int T;
+    typedef thrust::tuple<T,T> Tuple;
+
+    thrust::host_vector<Tuple>   h(3, Tuple(0,0));
+    thrust::device_vector<Tuple> d(3, Tuple(0,0));
+
+    thrust::fill(h.begin(), h.end(), Tuple(4,7));
+    thrust::fill(d.begin(), d.end(), Tuple(4,7));
+
+    ASSERT_EQUAL_QUIET(h, d);
+};
+DECLARE_UNITTEST(TestFillTuple);
+
 
