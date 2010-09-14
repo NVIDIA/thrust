@@ -4,7 +4,9 @@
 #include <list>
 #include <iterator>
 #include <thrust/sequence.h>
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/constant_iterator.h>
 
 void TestCopyFromConstIterator(void)
 {
@@ -382,4 +384,43 @@ void TestCopyCountingIterator(void)
 }
 DECLARE_VECTOR_UNITTEST(TestCopyCountingIterator);
 
+template <typename Vector>
+void TestCopyZipIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v1(3); v1[0] = 1; v1[1] = 2; v1[2] = 3;
+    Vector v2(3); v2[0] = 4; v2[1] = 5; v2[2] = 6; 
+    Vector v3(3, T(0));
+    Vector v4(3, T(0));
+
+    thrust::copy(thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())),
+                 thrust::make_zip_iterator(thrust::make_tuple(v1.end(),v2.end())),
+                 thrust::make_zip_iterator(thrust::make_tuple(v3.begin(),v4.begin())));
+
+    ASSERT_EQUAL(v1, v3);
+    ASSERT_EQUAL(v2, v4);
+};
+DECLARE_VECTOR_UNITTEST(TestCopyZipIterator);
+
+template <typename Vector>
+void TestCopyConstantIteratorToZipIterator(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector v1(3,T(0));
+    Vector v2(3,T(0));
+
+    thrust::copy(thrust::make_constant_iterator(thrust::tuple<T,T>(4,7)),
+                 thrust::make_constant_iterator(thrust::tuple<T,T>(4,7)) + v1.size(),
+                 thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())));
+
+    ASSERT_EQUAL(v1[0], 4);
+    ASSERT_EQUAL(v1[1], 4);
+    ASSERT_EQUAL(v1[2], 4);
+    ASSERT_EQUAL(v2[0], 7);
+    ASSERT_EQUAL(v2[1], 7);
+    ASSERT_EQUAL(v2[2], 7);
+};
+DECLARE_VECTOR_UNITTEST(TestCopyConstantIteratorToZipIterator);
 
