@@ -1,8 +1,9 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/sort.h>
-#include <thrust/scan.h>
+#include <thrust/reduce.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/iterator/constant_iterator.h>
 
 #include <iostream>
 #include <iterator>
@@ -13,28 +14,15 @@
 //
 // [1] http://en.wikipedia.org/wiki/Mode_(statistics)
 
-template <typename Tuple>
-struct combine_counts : thrust::binary_function<Tuple,Tuple,Tuple>
-{
-    __host__ __device__
-    Tuple operator()(Tuple a, Tuple b)
-    {
-        if(thrust::get<0>(a) == thrust::get<0>(b))
-            return Tuple(thrust::get<0>(a), thrust::get<1>(a) + thrust::get<1>(b));
-        else
-            return Tuple(thrust::get<0>(b), thrust::get<1>(b));
-    }
-};
-
-
 int main(void)
 {
-    const size_t N = 30;
+    const size_t N = 3000;
+    const size_t M = 10;
 
     // generate random data on the host
     thrust::host_vector<int> h_data(N);
     for(size_t i = 0; i < N; i++)
-        h_data[i] = rand() % 10;
+        h_data[i] = rand() % M;
 
     // transfer data to device
     thrust::device_vector<int> d_data(h_data);
@@ -52,25 +40,25 @@ int main(void)
     thrust::copy(d_data.begin(), d_data.end(), std::ostream_iterator<int>(std::cout, " "));
     std::cout << std::endl;
 
-    // scan the values and counts together, adding the counts 
-    // together when the two values are equal
-    thrust::device_vector<unsigned int> d_counts(N, 1);
-    thrust::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(d_data.begin(), d_counts.begin())),
-                           thrust::make_zip_iterator(thrust::make_tuple(d_data.end(),   d_counts.end())),
-                           thrust::make_zip_iterator(thrust::make_tuple(d_data.begin(), d_counts.begin())),
-                           combine_counts< thrust::tuple<int,unsigned int> >());
+    // count multiplicity of each key
+    thrust::device_vector<int> d_output_keys(M);
+    thrust::device_vector<int> d_output_counts(M);
+    thrust::reduce_by_key(d_data.begin(), d_data.end(),
+                          thrust::constant_iterator<int>(1),
+                          d_output_keys.begin(),
+                          d_output_counts.begin());
     
     // print the counts
     std::cout << "counts" << std::endl;
-    thrust::copy(d_counts.begin(), d_counts.end(), std::ostream_iterator<int>(std::cout, " "));
+    thrust::copy(d_output_counts.begin(), d_output_counts.end(), std::ostream_iterator<int>(std::cout, " "));
     std::cout << std::endl;
 
     // find the index of the maximum count
-    thrust::device_vector<unsigned int>::iterator mode_iter;
-    mode_iter = thrust::max_element(d_counts.begin(), d_counts.end());
+    thrust::device_vector<int>::iterator mode_iter;
+    mode_iter = thrust::max_element(d_output_counts.begin(), d_output_counts.end());
 
-    int mode = d_data[mode_iter - d_counts.begin()];
-    unsigned int occurances = *mode_iter;
+    int mode = d_data[mode_iter - d_output_counts.begin()];
+    int occurances = *mode_iter;
     
     std::cout << "Modal value " << mode << " occurs " << occurances << " times " << std::endl;
     
