@@ -123,12 +123,69 @@ InputIterator find(InputIterator first,
  *  \endcode
  *
  *  \see find
+ *  \see find_if_not
  *  \see mismatch
  */
 template <typename InputIterator, typename Predicate>
 InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred);
+
+/*! \p find_if_not returns the first iterator \c i in the range 
+ *  <tt>[first, last)</tt> such that <tt>pred(*i)</tt> is \c false
+ *  or \c last if no such iterator exists.
+ *
+ *  \param first Beginning of the sequence to search.
+ *  \param last End of the sequence to search.
+ *  \param pred A predicate used to test range elements.
+ *  \return The first iterator \c i such that <tt>pred(*i)</tt> is \c false, or \c last.
+ *
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \code
+ *  #include <thrust/find.h>
+ *  #include <thrust/device_vector.h>
+ *
+ *  struct greater_than_four
+ *  {
+ *      bool operator()(int x)
+ *      {
+ *          return x > 4;
+ *      }
+ *  };
+ *
+ *  struct greater_than_ten
+ *  {
+ *      bool operator()(int x)
+ *      {
+ *          return x > 10;
+ *      }
+ *  };
+ *
+ *  ...
+ *  thrust::device_vector<int> input(4);
+ *
+ *  input[0] = 0;
+ *  input[1] = 5;
+ *  input[2] = 3;
+ *  input[3] = 7;
+ *
+ *  thrust::device_vector<int>::iterator iter;
+ *
+ *  iter = thrust::find_if_not(input.begin(), input.end(), greater_than_four()); // returns input.first()
+ *
+ *  iter = thrust::find_if_not(input.begin(), input.end(), greater_than_ten());  // returns input.first()
+ *  \endcode
+ *
+ *  \see find
+ *  \see find_if
+ *  \see mismatch
+ */
+template <typename InputIterator, typename Predicate>
+InputIterator find_if_not(InputIterator first,
+                          InputIterator last,
+                          Predicate pred);
 
 /*! \} // end searching
  */

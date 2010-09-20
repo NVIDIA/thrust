@@ -45,5 +45,13 @@ InputIterator find_if(InputIterator first,
                                     
 }
 
+template <typename InputIterator, typename Predicate>
+InputIterator find_if_not(InputIterator first,
+                          InputIterator last,
+                          Predicate pred)
+{
+    return thrust::find_if(first, last, thrust::detail::unary_negate<Predicate>(pred));
+}
+
 } // end namespace thrust
 
