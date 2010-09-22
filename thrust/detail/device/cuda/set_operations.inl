@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file set_intersection.inl
+/*! \file set_operations.inl
  *  \brief CUDA implementation of set_intersection,
  *         based on Gregory Diamos' original implementation.
  */

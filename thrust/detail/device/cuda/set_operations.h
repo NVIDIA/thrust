@@ -47,5 +47,5 @@ template<typename RandomAccessIterator1,
 
 } // end thrust
 
-#include <thrust/detail/device/cuda/set_intersection.inl>
+#include <thrust/detail/device/cuda/set_operations.inl>
 

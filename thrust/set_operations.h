@@ -15,8 +15,8 @@
  */
 
 
-/*! \file set_intersection.h
- *  \brief Set intersection for sorted ranges.
+/*! \file set_operations.h
+ *  \brief Set operations for sorted ranges.
  */
 
 #pragma once
@@ -109,5 +109,5 @@ template<typename InputIterator1,
 
 } // end thrust
 
-#include <thrust/detail/set_intersection.inl>
+#include <thrust/detail/set_operations.inl>
 

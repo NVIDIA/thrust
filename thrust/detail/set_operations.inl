@@ -14,14 +14,14 @@
  *  limitations under the License.
  */
 
-/*! \file set_intersection.inl
- *  \brief Inline file for set_intersection.h.
+/*! \file set_operations.inl
+ *  \brief Inline file for set_operations.h.
  */
 
-#include <thrust/set_intersection.h>
+#include <thrust/set_operations.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
-#include <thrust/detail/dispatch/set_intersection.h>
+#include <thrust/detail/dispatch/set_operations.h>
 
 namespace thrust
 {

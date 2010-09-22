@@ -14,10 +14,14 @@
  *  limitations under the License.
  */
 
+
+/*! \file set_operations.h
+ *  \brief Generic device implementation of the set operation functions.
+ */
+
 #pragma once
 
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/dispatch/set_intersection.h>
+#include <algorithm>
 
 namespace thrust
 {
@@ -26,6 +30,9 @@ namespace detail
 {
 
 namespace device
+{
+
+namespace generic
 {
 
 template<typename InputIterator1,
@@ -39,12 +46,10 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  // dispatch on space
-  return thrust::detail::device::dispatch::set_intersection(first1,last1,first2,last2,result,comp,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+  return std::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
+
+} // end generic
 
 } // end device
 

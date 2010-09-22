@@ -16,14 +16,17 @@
 
 #pragma once
 
-#include <thrust/set_intersection.h>
-#include <thrust/detail/host/set_intersection.h>
-#include <thrust/detail/device/set_intersection.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/device/cuda/set_operations.h>
+#include <thrust/detail/device/generic/set_operations.h>
 
 namespace thrust
 {
 
 namespace detail
+{
+
+namespace device
 {
 
 namespace dispatch
@@ -32,18 +35,22 @@ namespace dispatch
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename StrictWeakOrdering,
+         typename Space1,
+         typename Space2,
+         typename Space3>
   OutputIterator set_intersection(InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
                                   InputIterator2 last2,
                                   OutputIterator result,
                                   StrictWeakOrdering comp,
-                                  thrust::host_space_tag,
-                                  thrust::host_space_tag,
-                                  thrust::host_space_tag)
+                                  Space1,
+                                  Space2,
+                                  Space3)
 {
-  return thrust::detail::host::set_intersection(first1,last1,first2,last2,result,comp);
+  // generic backend
+  return thrust::detail::device::generic::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
 
 
@@ -57,15 +64,18 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result,
                                   StrictWeakOrdering comp,
-                                  thrust::device_space_tag,
-                                  thrust::device_space_tag,
-                                  thrust::device_space_tag)
+                                  thrust::detail::cuda_device_space_tag,
+                                  thrust::detail::cuda_device_space_tag,
+                                  thrust::detail::cuda_device_space_tag)
 {
-  return thrust::detail::device::set_intersection(first1,last1,first2,last2,result,comp);
+  // refinement for the CUDA backend
+  return thrust::detail::device::cuda::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
 
 
 } // end dispatch
+
+} // end device
 
 } // end detail
 

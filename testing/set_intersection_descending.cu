@@ -1,5 +1,5 @@
 #include <unittest/unittest.h>
-#include <thrust/set_intersection.h>
+#include <thrust/set_operations.h>
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 
