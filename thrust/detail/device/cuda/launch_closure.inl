@@ -23,7 +23,7 @@
 
 #include <algorithm>
 
-#include <thrust/experimental/arch.h>
+#include <thrust/detail/device/cuda/arch.h>
 #include <thrust/detail/device/cuda/malloc.h>
 #include <thrust/detail/device/cuda/free.h>
 #include <thrust/detail/device/cuda/synchronize.h>
@@ -66,8 +66,8 @@ template<typename NullaryFunction,
   template<typename Size>
   static void launch(NullaryFunction f, Size n)
   {
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, 0);
+    const size_t block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
+    const size_t max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, 0);
     const size_t num_blocks = (std::min)(max_blocks, ( n + (block_size - 1) ) / block_size);
 
     detail::launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size>>>(f);
@@ -80,8 +80,8 @@ template<typename NullaryFunction>
   template<typename Size>
   static void launch(NullaryFunction f, Size n)
   {
-    const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
-    const size_t max_blocks = thrust::experimental::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, 0);
+    const size_t block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
+    const size_t max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, 0);
     const size_t num_blocks = (std::min)(max_blocks, ( n + (block_size - 1) ) / block_size);
 
     // allocate device memory for the argument

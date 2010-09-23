@@ -41,6 +41,7 @@
 
 #include <thrust/detail/device/cuda/block/merging_sort.h>
 #include <thrust/detail/device/cuda/synchronize.h>
+#include <thrust/detail/device/cuda/arch.h>
 
 
 
@@ -125,7 +126,7 @@ static const unsigned int warp_size = 32;
 
 inline unsigned int max_grid_size(const unsigned int block_size)
 {
-  return std::min<unsigned int>(16384, 3 * thrust::experimental::arch::max_active_threads() / block_size);
+  return std::min<unsigned int>(16384, 3 * thrust::detail::device::cuda::arch::max_active_threads() / block_size);
 } // end max_grid_size()
 
 template<unsigned int N>

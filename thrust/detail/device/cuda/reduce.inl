@@ -23,7 +23,7 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 // to configure launch parameters
-#include <thrust/experimental/arch.h>
+#include <thrust/detail/device/cuda/arch.h>
 
 #include <thrust/detail/type_traits.h>
 
@@ -189,7 +189,7 @@ template<typename RandomAccessIterator1,
 
   // determine launch parameters
   const size_t smem_per_thread = sizeof(OutputType);
-  const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<RandomAccessIterator1, OutputType, BinaryFunction>, smem_per_thread);
+  const size_t block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<RandomAccessIterator1, OutputType, BinaryFunction>, smem_per_thread);
   const size_t smem_size = block_size * smem_per_thread;
 
   // reduce input to per-block sums
@@ -212,7 +212,7 @@ template<typename RandomAccessIterator1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
-  const size_t block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<RandomAccessIterator1, OutputType, BinaryFunction>, 0);
+  const size_t block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<RandomAccessIterator1, OutputType, BinaryFunction>, 0);
 
   // allocate storage for shared array
   thrust::detail::raw_cuda_device_buffer<OutputType> shared_array(block_size * num_blocks);
@@ -298,11 +298,11 @@ template<typename RandomAccessIterator,
   size_t block_size = 0;
   if(smem_per_thread > 0)
   {
-    block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
+    block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
   }
   else
   {
-    block_size = thrust::experimental::arch::max_blocksize_with_highest_occupancy(detail::reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
+    block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
   }
 
   const size_t smem_size = block_size * smem_per_thread;
@@ -311,11 +311,11 @@ template<typename RandomAccessIterator,
   size_t max_blocks = 0;
   if(smem_per_thread > 0)
   {
-    max_blocks = thrust::experimental::arch::max_active_blocks(detail::reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
   }
   else
   {
-    max_blocks = thrust::experimental::arch::max_active_blocks(detail::reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
   }
 
   // finalize the number of blocks to launch

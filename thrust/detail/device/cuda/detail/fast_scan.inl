@@ -27,7 +27,7 @@
 #include <thrust/detail/device/cuda/synchronize.h>
 
 // to configure launch parameters
-#include <thrust/experimental/arch.h>
+#include <thrust/detail/device/cuda/arch.h>
 
 #include <thrust/detail/device/cuda/partition.h>
 
@@ -385,7 +385,7 @@ OutputIterator inclusive_scan(InputIterator first,
     const unsigned int N = last - first;
     
     const unsigned int unit_size  = CTA_SIZE * K;
-    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(scan_intervals<CTA_SIZE,K,InputIterator,OutputIterator,BinaryFunction>, CTA_SIZE, 0);
+    const unsigned int max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(scan_intervals<CTA_SIZE,K,InputIterator,OutputIterator,BinaryFunction>, CTA_SIZE, 0);
     
     thrust::pair<unsigned int, unsigned int> splitting = uniform_interval_splitting<unsigned int>(N, unit_size, max_blocks);
     const unsigned int interval_size = splitting.first;
@@ -455,7 +455,7 @@ OutputIterator exclusive_scan(InputIterator first,
     const unsigned int N = last - first;
 
     const unsigned int unit_size  = CTA_SIZE * K;
-    const unsigned int max_blocks = thrust::experimental::arch::max_active_blocks(scan_intervals<CTA_SIZE,K,InputIterator,OutputIterator,BinaryFunction>, CTA_SIZE, 0);
+    const unsigned int max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(scan_intervals<CTA_SIZE,K,InputIterator,OutputIterator,BinaryFunction>, CTA_SIZE, 0);
     
     thrust::pair<unsigned int, unsigned int> splitting = uniform_interval_splitting<unsigned int>(N, unit_size, max_blocks);
     const unsigned int interval_size = splitting.first;

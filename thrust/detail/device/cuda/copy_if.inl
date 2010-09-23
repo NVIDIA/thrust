@@ -31,6 +31,7 @@
 #include <thrust/detail/device/cuda/block/reduce.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
 #include <thrust/detail/device/cuda/synchronize.h>
+#include <thrust/detail/device/cuda/arch.h>
 
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
@@ -226,7 +227,7 @@ template<typename InputIterator1,
 
     const IndexType CTA_SIZE      = 256;
     const IndexType N             = last - first;
-    const IndexType max_intervals = 3 * (thrust::experimental::arch::max_active_threads() / CTA_SIZE);  // TODO put this in a common place
+    const IndexType max_intervals = 3 * (thrust::detail::device::cuda::arch::max_active_threads() / CTA_SIZE);  // TODO put this in a common place
 
     thrust::pair<IndexType, IndexType> splitting = uniform_interval_splitting<IndexType>(N, 32, max_intervals);
 

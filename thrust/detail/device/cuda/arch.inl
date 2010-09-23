@@ -32,7 +32,11 @@
 
 namespace thrust
 {
-namespace experimental
+namespace detail
+{
+namespace device
+{
+namespace cuda
 {
 namespace arch
 {
@@ -300,6 +304,8 @@ size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread
 }
 
 } // end namespace arch
-} // end namespace experimental
+} // end namespace cuda
+} // end namespace device
+} // end namespace detail
 } // end namespace thrust
 
