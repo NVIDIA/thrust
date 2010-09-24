@@ -14,18 +14,55 @@
  *  limitations under the License.
  */
 
-
-/*! \file swap_ranges.h
- *  \brief Defines the interface to a swap
- *         function for CUDA containers.
+/*! \file swap.h
+ *  \brief Swap-related functions.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
 
+// empty Doxygen comment below so namespace thrust's documentation will be extracted
+
+/*!
+ */
 namespace thrust
 {
+
+/*! \addtogroup utility
+ *  \{
+ */
+
+/*! \p swap assigns the contents of \c a to \c b and the
+ *  contents of \c b to \c a. This is used as a primitive operation
+ *  by many other algorithms.
+ *  
+ *  \param a The first value of interest. After completion,
+ *           the value of b will be returned here.
+ *  \param b The second value of interest. After completion,
+ *           the value of a will be returned here.
+ *
+ *  \tparam Assignable is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
+ *
+ *  The following code snippet demonstrates how to use \p swap to
+ *  swap the contents of two variables.
+ *
+ *  \code
+ *  #include <thrust/swap.h>
+ *  ...
+ *  int x = 1;
+ *  int y = 2;
+ *  thrust::swap(x,h);
+ *
+ *  // x == 2, y == 1
+ *  \endcode
+ */
+template<typename Assignable1, typename Assignable2>
+__host__ __device__ 
+inline void swap(Assignable1 &a, Assignable2 &b);
+
+/*! \} // utility
+ */
 
 /*! \addtogroup copying
  *  \{
@@ -52,7 +89,7 @@ namespace thrust
  *  swap the contents of two \c thrust::device_vectors.
  *
  *  \code
- *  #include <thrust/swap_ranges.h>
+ *  #include <thrust/swap.h>
  *  #include <thrust/device_vector.h>
  *  ...
  *  thrust::device_vector<int> v1(2), v2(2);
@@ -78,7 +115,7 @@ template<typename ForwardIterator1,
 /*! \} // copying
  */
 
-} // end namespace thrust
+} // end thrust
 
-#include <thrust/detail/swap_ranges.inl>
+#include <thrust/detail/swap.inl>
 

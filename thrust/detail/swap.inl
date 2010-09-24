@@ -15,11 +15,7 @@
  */
 
 
-/*! \file utility.inl
- *  \brief Inline file for utility.h
- */
-
-#include <thrust/utility.h>
+#include <thrust/swap.h>
 
 namespace thrust
 {
@@ -32,5 +28,6 @@ template<typename Assignable1, typename Assignable2>
   b = temp;
 } // end swap()
 
-} // end thrust
+} // end namespace thrust
 
+#include <thrust/detail/swap_ranges.inl>

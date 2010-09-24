@@ -19,7 +19,6 @@
  *  \brief Inline file for swap_ranges.h.
  */
 
-#include <thrust/swap_ranges.h>
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/internal_functional.h>
@@ -27,6 +26,30 @@
 
 namespace thrust
 {
+
+namespace detail
+{
+
+// XXX define this here rather than in internal_functional.h
+// to avoid circular dependence between swap.h & internal_functional.h
+struct swap_pair_elements
+{
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  { 
+    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
+  }
+}; // end swap_pair_elements
+
+
+
+// XXX WAR circular #inclusion problems with this forward declaration
+template<typename I, typename F>
+I for_each(I, I, F);
+
+} // end detail
+
 
 template<typename ForwardIterator1,
          typename ForwardIterator2>

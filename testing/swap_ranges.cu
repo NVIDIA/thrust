@@ -1,5 +1,5 @@
 #include <unittest/unittest.h>
-#include <thrust/swap_ranges.h>
+#include <thrust/swap.h>
 
 template <class Vector>
 void TestSwapRangesSimple(void)

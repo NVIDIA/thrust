@@ -23,7 +23,6 @@
 
 #include <thrust/tuple.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/utility.h>
 #include <memory> // for ::new
 
 namespace thrust
@@ -413,17 +412,6 @@ template<typename Space, typename BinaryFunction, typename Predicate>
 {};
 
 
-struct swap_pair_elements
-{
-  template <typename Tuple>
-  __host__ __device__
-  void operator()(Tuple t)
-  { 
-    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
-  }
-}; // end swap_pair_elements
-
-
 template<typename T>
   struct host_destroy_functor
 {
@@ -438,7 +426,7 @@ template<typename T>
 template<typename T>
   struct device_destroy_functor
 {
-  // add __host__ to allow the omp backend compile with nvcc
+  // add __host__ to allow the omp backend to compile with nvcc
   __host__ __device__
   void operator()(T &x) const
   {

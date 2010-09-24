@@ -23,49 +23,20 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/swap.h>
 
-/*!
- * dummy comment here so namespace thrust's documentation will be extracted
- */
-namespace thrust
-{
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#pragma message("-----------------------------------------------------------------------")
+#pragma message("| DEPRECATION WARNING:                                                 ")
+#pragma message("| thrust/utility.h has been deprecated and will be removed             ")
+#pragma message("| Use thrust/swap.h instead                                            ")
+#pragma message("-----------------------------------------------------------------------")
+#else
+#warning -----------------------------------------------------------------------
+#warning | DEPRECATION WARNING: 
+#warning | thrust/utility.h has been deprecated and will be removed
+#warning | Use thrust/swap.h instead
+#warning -----------------------------------------------------------------------
+#endif // THRUST_HOST_COMPILER_MSVC
 
-/*! \addtogroup utility
- *  \{
- */
-
-/*! \p swap assigns the contents of \c a to \c b and the
- *  contents of \c b to \c a. This is used as a primitive operation
- *  by many other algorithms.
- *  
- *  \param a The first value of interest. After completion,
- *           the value of b will be returned here.
- *  \param b The second value of interest. After completion,
- *           the value of a will be returned here.
- *
- *  \tparam Assignable is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
- *
- *  The following code snippet demonstrates how to use \p swap to
- *  swap the contents of two variables.
- *
- *  \code
- *  #include <thrust/utility.h>
- *  ...
- *  int x = 1;
- *  int y = 2;
- *  thrust::swap(x,h);
- *
- *  // x == 2, y == 1
- *  \endcode
- */
-template<typename Assignable1, typename Assignable2>
-__host__ __device__ 
-inline void swap(Assignable1 &a, Assignable2 &b);
-
-/*! \} // utility
- */
-
-} // end thrust
-
-#include <thrust/detail/utility.inl>
 

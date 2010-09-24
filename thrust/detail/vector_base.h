@@ -27,7 +27,6 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/contiguous_storage.h>
-#include <thrust/utility.h>
 #include <vector>
 
 namespace thrust

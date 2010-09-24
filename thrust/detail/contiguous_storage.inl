@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/contiguous_storage.h>
-#include <thrust/utility.h>
+#include <thrust/swap.h>
 
 namespace thrust
 {

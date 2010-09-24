@@ -31,7 +31,7 @@
 
 #include <thrust/functional.h>
 #include <thrust/copy.h>
-#include <thrust/utility.h>
+#include <thrust/swap.h>
 
 #include <thrust/device_ptr.h>
 #include <thrust/detail/device/dereference.h>
