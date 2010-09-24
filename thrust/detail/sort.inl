@@ -21,6 +21,7 @@
 
 #include <thrust/sort.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/distance.h>
 #include <thrust/functional.h>
 #include <thrust/detail/dispatch/sort.h>
 
@@ -130,6 +131,51 @@ template<typename RandomAccessKeyIterator,
             typename thrust::iterator_space<RandomAccessKeyIterator>::type(),
             typename thrust::iterator_space<RandomAccessValueIterator>::type());
 }
+
+template<typename ForwardIterator>
+  bool is_sorted(ForwardIterator first,
+                 ForwardIterator last)
+{
+  return thrust::is_sorted_until(first, last) == last;
+} // end is_sorted()
+
+template<typename ForwardIterator,
+         typename Compare>
+  bool is_sorted(ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp)
+{
+  return thrust::is_sorted_until(first, last, comp) == last;
+} // end is_sorted()
+
+template<typename ForwardIterator>
+  ForwardIterator is_sorted_until(ForwardIterator first,
+                                  ForwardIterator last)
+{
+  typedef typename thrust::iterator_value<ForwardIterator>::type InputType;
+
+  return thrust::is_sorted_until(first, last, thrust::less<InputType>());
+} // end is_sorted_until()
+
+template<typename ForwardIterator,
+         typename Compare>
+  ForwardIterator is_sorted_until(ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp)
+{
+  if(thrust::distance(first,last) < 2) return last;
+
+  typedef thrust::tuple<ForwardIterator,ForwardIterator> IteratorTuple;
+  typedef thrust::zip_iterator<IteratorTuple>            ZipIterator;
+
+  ForwardIterator first_plus_one = first;
+  thrust::advance(first_plus_one, 1);
+
+  ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first_plus_one, first));
+  ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last, first));
+
+  return thrust::get<0>(thrust::find_if(zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<Compare>(comp)).get_iterator_tuple());
+} // end is_sorted_until()
 
 } // end namespace thrust
 

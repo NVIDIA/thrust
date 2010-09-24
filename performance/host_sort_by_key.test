@@ -1,7 +1,6 @@
 PREAMBLE = \
     """
     #include <thrust/sort.h>
-    #include <thrust/is_sorted.h>
     """
 
 INITIALIZE = \

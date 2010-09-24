@@ -1,6 +1,6 @@
 #include <thrust/host_vector.h>
 #include <thrust/generate.h>
-#include <thrust/is_sorted.h>
+#include <thrust/sort.h>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>

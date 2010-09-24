@@ -1,5 +1,4 @@
 #include <unittest/unittest.h>
-#include <thrust/is_sorted.h>
 #include <thrust/sort.h>
 
 template <class Vector>
@@ -33,6 +32,26 @@ void TestIsSortedSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestIsSortedSimple);
 
+template <class Vector>
+void TestIsSortedRepeatedElements(void)
+{
+  Vector v(10);
+
+  v[0] = 0;
+  v[1] = 1;
+  v[2] = 1;
+  v[3] = 2;
+  v[4] = 3;
+  v[5] = 4;
+  v[6] = 5;
+  v[7] = 5;
+  v[8] = 5;
+  v[9] = 6;
+
+  ASSERT_EQUAL(true, thrust::is_sorted(v.begin(), v.end()));
+}
+DECLARE_VECTOR_UNITTEST(TestIsSortedRepeatedElements);
+
 
 template <class Vector>
 void TestIsSorted(void)
@@ -53,3 +72,4 @@ void TestIsSorted(void)
     ASSERT_EQUAL(thrust::is_sorted(v.begin(), v.end()), true);
 }
 DECLARE_VECTOR_UNITTEST(TestIsSorted);
+

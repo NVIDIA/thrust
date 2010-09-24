@@ -129,12 +129,12 @@ struct equal_to_value
 };
 
 template <typename Predicate>
-struct tuple_equal_to
+struct tuple_binary_predicate
 {
     typedef bool result_type;
 
     __host__ __device__
-        tuple_equal_to(const Predicate& p) : pred(p) {}
+        tuple_binary_predicate(const Predicate& p) : pred(p) {}
 
     template<typename Tuple>
         __host__ __device__
@@ -147,12 +147,12 @@ struct tuple_equal_to
 };
 
 template <typename Predicate>
-struct tuple_not_equal_to
+struct tuple_not_binary_predicate
 {
     typedef bool result_type;
 
     __host__ __device__
-        tuple_not_equal_to(const Predicate& p) : pred(p) {}
+        tuple_not_binary_predicate(const Predicate& p) : pred(p) {}
 
     template<typename Tuple>
         __host__ __device__

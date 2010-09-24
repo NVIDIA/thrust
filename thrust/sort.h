@@ -380,6 +380,167 @@ template<typename RandomAccessKeyIterator,
 /*! \} // end sorting
  */
 
+/*! \addtogroup reductions
+ *  \{
+ *  \addtogroup predicates
+ *  \{
+ */
+
+/*! \p is_sorted returns \c true if the range <tt>[first, last)</tt> is
+ *  sorted in ascending order, and \c false otherwise.
+ *
+ *  Specifically, this version of \p is_sorted returns \c false if for
+ *  some iterator \c i in the range <tt>[first, last - 1)</tt> the
+ *  expression <tt>*(i + 1) < *i</tt> is \c true.
+ *
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
+ *  \return \c true, if the sequence is sorted; \c false, otherwise.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>,
+ *          and the ordering on objects of \p ForwardIterator's \c value_type is a <em>strict weak ordering</em>, as defined
+ *          in the <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a> requirements.
+ *
+ *
+ *  The following code demonstrates how to use \p is_sorted to test whether the
+ *  contents of a \c device_vector are stored in ascending order.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/sort.h>
+ *  ...
+ *  thrust::device_vector<int> v(6);
+ *  v[0] = 1;
+ *  v[1] = 4;
+ *  v[2] = 2;
+ *  v[3] = 8;
+ *  v[4] = 5;
+ *  v[5] = 7;
+ *
+ *  bool result = thrust::is_sorted(v.begin(), v.end());
+ *
+ *  // result == false
+ *
+ *  thrust::sort(v.begin(), v.end());
+ *  result = thrust::is_sorted(v.begin(), v.end());
+ *
+ *  // result == true
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/is_sorted.html
+ *  \see is_sorted_until
+ *  \see \c sort
+ *  \see \c stable_sort
+ *  \see \c less<T>
+ */
+template<typename ForwardIterator>
+  bool is_sorted(ForwardIterator first,
+                 ForwardIterator last);
+
+/*! \p is_sorted returns \c true if the range <tt>[first, last)</tt> is sorted in ascending 
+ *  order accoring to a user-defined comparison operation, and \c false otherwise.
+ *
+ *  Specifically, this version of \p is_sorted returns \c false if for some iterator \c i in
+ *  the range <tt>[first, last - 1)</tt> the expression <tt>comp(*(i + 1), *i)</tt> is \c true.
+ *
+ *  \param first The beginning of the sequence.
+ *  \param last  The end of the sequence.
+ *  \param comp  Comparison operator.
+ *  \return \c true, if the sequence is sorted according to comp; \c false, otherwise.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to both \c StrictWeakOrdering's \c first_argument_type
+ *          and \c second_argument_type.
+ *  \tparam Compare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p is_sorted to test whether the
+ *  contents of a \c device_vector are stored in descending order.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> v(6);
+ *  v[0] = 1;
+ *  v[1] = 4;
+ *  v[2] = 2;
+ *  v[3] = 8;
+ *  v[4] = 5;
+ *  v[5] = 7;
+ *
+ *  thrust::greater<int> comp;
+ *  bool result = thrust::is_sorted(v.begin(), v.end(), comp);
+ *
+ *  // result == false
+ *
+ *  thrust::sort(v.begin(), v.end(), comp);
+ *  result = thrust::is_sorted(v.begin(), v.end(), comp);
+ *
+ *  // result == true
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/is_sorted.html
+ *  \see \c sort
+ *  \see \c stable_sort
+ *  \see \c less<T>
+ */
+template<typename ForwardIterator, typename Compare>
+  bool is_sorted(ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp);
+
+/*! This version of \p is_sorted_until returns the last iterator \c i in <tt>[first,last]</tt> for
+ *  which the range <tt>[first,last)</tt> is sorted using \c operator<. If <tt>distance(first,last) < 2</tt>,
+ *  \p is_sorted_until simply returns \p last.
+ *
+ *  \param first The beginning of the range of interest.
+ *  \param last The end of the range of interest.
+ *  \return The last iterator in the input range for which it is sorted.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a> and
+ *          \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *
+ *  \see \p is_sorted
+ *  \see \p sort
+ *  \see \p sort_by_key
+ *  \see \p stable_sort
+ *  \see \p stable_sort_by_key
+ */
+template<typename ForwardIterator>
+  ForwardIterator is_sorted_until(ForwardIterator first,
+                                  ForwardIterator last);
+
+/*! This version of \p is_sorted_until returns the last iterator \c i in <tt>[first,last]</tt> for
+ *  which the range <tt>[first,last)</tt> is sorted using the function object \c comp. If <tt>distance(first,last) < 2</tt>,
+ *  \p is_sorted_until simply returns \p last.
+ *
+ *  \param first The beginning of the range of interest.
+ *  \param last The end of the range of interest.
+ *  \param comp The function object to use for comparison.
+ *  \return The last iterator in the input range for which it is sorted.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a> and
+ *          \p ForwardIterator's \c value_type is convertible to \p Compare's \c argument_type.
+ *  \tparam Compare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \see \p is_sorted
+ *  \see \p sort
+ *  \see \p sort_by_key
+ *  \see \p stable_sort
+ *  \see \p stable_sort_by_key
+ */
+template<typename ForwardIterator, typename Compare>
+  ForwardIterator is_sorted_until(ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp);
+
+/*! \} // end predicates
+ *  \} // end reductions
+ */
+
 } // end namespace thrust
 
 #include <thrust/detail/sort.inl>

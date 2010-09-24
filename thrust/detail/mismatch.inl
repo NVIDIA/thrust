@@ -53,7 +53,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
     ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first1,first2));
     ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
 
-    ZipIterator result = thrust::find_if(zipped_first, zipped_last, thrust::detail::tuple_not_equal_to<BinaryPredicate>(pred));
+    ZipIterator result = thrust::find_if_not(zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
 
     return thrust::make_pair(thrust::get<0>(result.get_iterator_tuple()),
                              thrust::get<1>(result.get_iterator_tuple()));
