@@ -77,7 +77,7 @@ namespace thrust
  *  sets of integers.
  *
  *  \code
- *  #include <thrust/set_intersection.h>
+ *  #include <thrust/set_operations.h>
  *  ...
  *  int A1[6] = {1, 3, 5, 7, 9, 11};
  *  int A2[7] = {1, 1, 2, 3, 5,  8, 13};
@@ -91,7 +91,7 @@ namespace thrust
  *  // values beyond result[2] are undefined
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_intersection.hgml
+ *  \see http://www.sgi.com/tech/stl/set_intersection.html
  *  \see \p sort
  *  \see \p is_sorted
  */
