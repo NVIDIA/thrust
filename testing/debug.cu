@@ -32,8 +32,6 @@ void TestTransformNullPtr(void)
     cudaThreadExit();
   }
 
-  std::cout << cudaGetErrorString(cudaGetLastError()) << std::endl;
-
   ASSERT_EQUAL(true,caught_exception);
 }
 DECLARE_UNITTEST(TestTransformNullPtr);

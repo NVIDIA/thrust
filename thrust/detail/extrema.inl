@@ -44,7 +44,7 @@ template<typename T, typename BinaryPredicate>
 template<typename T>
   T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
-  return lhs > rhs ? lhs : rhs;
+  return lhs < rhs ? rhs : lhs;
 } // end max()
 
 

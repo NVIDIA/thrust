@@ -361,6 +361,9 @@ template<typename T>
   __host__ __device__ T operator()(const T &x) const {return -x;}
 }; // end negate
 
+namespace deprecated
+{
+
 /*! \p absolute_value is a function object. Specifically, it is an Adaptable
  *  Unary Function. If \c f is an object of class <tt>absolute_value</tt>, and
  *  \c x is an object of class \c T, then <tt>f(x)</tt> returns
@@ -391,15 +394,26 @@ template<typename T>
  *  // V2 is now {1, 2, 3, ..., 1000}
  *  \endcode
  *
+ *  \deprecated \p absolute_value will be removed in the next version of Thrust.
+ *
  *  \see unary_function
  */
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#pragma deprecated(absolute_value)
+#endif
 template<typename T>
-  struct absolute_value : public unary_function<T,T>
+  struct 
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+__attribute__((deprecated))
+#endif
+    absolute_value : public unary_function<T,T>
 {
   /*! Function call operator. The return value is <tt>x < 0 ? -x : x</tt>.
    */
   __host__ __device__ T operator()(const T &x) const {return x < T(0) ? -x : x;}
 }; // end absolute_value
+
+} // end deprecated
 
 /*! \}
  */
@@ -794,9 +808,9 @@ template<typename T>
 template<typename T>
   struct maximum : public binary_function<T,T,T>
 {
-  /*! Function call operator. The return value is <tt>lhs > rhs ? lhs : rhs</tt>.
+  /*! Function call operator. The return value is <tt>rhs < lhs ? lhs : rhs</tt>.
    */
-  __host__ __device__ const T &operator()(const T &lhs, const T &rhs) const {return lhs > rhs ? lhs : rhs;}
+  __host__ __device__ const T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? rhs : lhs;}
 }; // end maximum
 
 /*! \p minimum is a function object that takes two arguments and returns the lesser
@@ -815,7 +829,7 @@ template<typename T>
  *  ...
  *  int x =  137;
  *  int y = -137;
- *  thrust::maximum<int> mn;
+ *  thrust::minimum<int> mn;
  *  assert(y == mn(x,y));
  *  \endcode
  *
@@ -826,9 +840,9 @@ template<typename T>
 template<typename T>
   struct minimum : public binary_function<T,T,T>
 {
-  /*! Function call operator. The return value is <tt>lhs > rhs ? lhs : rhs</tt>.
+  /*! Function call operator. The return value is <tt>lhs < rhs ? lhs : rhs</tt>.
    */
-  __host__ __device__ const T &operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
+  __host__ __device__ const T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
 }; // end minimum
 
 /*! \p project1st is a function object that takes two arguments and returns 
