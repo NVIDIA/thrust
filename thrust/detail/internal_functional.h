@@ -34,23 +34,27 @@ namespace detail
 template <typename Predicate>
 struct unary_negate
 {
+    typedef bool result_type;
+
     Predicate pred;
 
     __host__ __device__
     explicit unary_negate(const Predicate& pred) : pred(pred) {}
 
     template <typename T>
-        __host__ __device__
-        bool operator()(const T& x)
-        {
-            return !pred(x);
-        }
+    __host__ __device__
+    bool operator()(const T& x)
+    {
+        return !pred(x);
+    }
 };
 
 // binary_negate does not need to know first_argument_type or second_argument_type
 template <typename Predicate>
 struct binary_negate
 {
+    typedef bool result_type;
+
     Predicate pred;
 
     __host__ __device__

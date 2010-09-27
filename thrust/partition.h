@@ -267,8 +267,8 @@ template<typename ForwardIterator,
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  int result[10];
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::stable_partition_copy(A, A + N, result,
- *                                 is_even());
+ *  thrust::stable_partition_copy(A, A + N, result, is_even());
+ *
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 8, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  \endcode
@@ -291,6 +291,74 @@ template<typename InputIterator,
  */
 
 /*! \} // end reordering
+ */
+
+/*! \addtogroup searching
+ *  \{
+ */
+
+/*! \p partition_point returns an iterator pointing to the end of the true
+ *  partition of a partitioned range. \p partition_point requires the input range
+ *  <tt>[first,last)</tt> to be a partition; that is, all elements which satisfy
+ *  <tt>pred</tt> shall appear before those that do not.
+ *  \param first The beginning of the range to consider.
+ *  \param last The end of the range to consider.
+ *  \param pred A function object which decides to which partition each element of the
+ *              range <tt>[first, last)</tt> belongs.
+ *  \return An iterator \c mid such that <tt>all_of(first, mid, pred)</tt>
+ *          and <tt>none_of(mid, last, pred)</tt> are both true.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \note Though similar, \p partition_point is not redundant with \p find_if_not.
+ *        \p partition_point's precondition provides an opportunity for a
+ *        faster implemention.
+ *
+ *  \see \p partition
+ *  \see \p find_if_not
+ */
+template<typename ForwardIterator, typename Predicate>
+  ForwardIterator partition_point(ForwardIterator first,
+                                  ForwardIterator last,
+                                  Predicate pred);
+/*! \} // searching
+ */
+
+/*! \addtogroup reductions
+ *  \{
+ *  \addtogroup predicates
+ *  \{
+ */
+
+/*! \p is_partitioned returns \c true if the given range 
+ *  is partitioned with respect to a predicate, and \c false otherwise.
+ *
+ *  Specifically, \p is_partitioned returns \c true if <tt>[first, last)</tt>
+ *  is empty of if <tt>[first, last)</tt> is partitioned by \p pred, i.e. if
+ *  all elements that satisfy \p pred appear before those that do not.
+ *
+ *  \param first The beginning of the range to consider.
+ *  \param last The end of the range to consider.
+ *  \param pred A function object which decides to which partition each element of the
+ *         range <tt>[first, last)</tt> belongs.
+ *  \return \c true if the range <tt>[first, last)</tt> is partitioned with respect
+ *          to \p pred, or if <tt>[first, last)</tt> is empty. \c false, otherwise.
+ *
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  
+ *  \see \p partition
+ */
+template<typename InputIterator, typename Predicate>
+  bool is_partitioned(InputIterator first,
+                      InputIterator last,
+                      Predicate pred);
+
+/*! \} // end predicates
+ *  \} // end reductions
  */
 
 } // end thrust

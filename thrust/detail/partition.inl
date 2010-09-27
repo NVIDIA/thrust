@@ -21,6 +21,10 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/dispatch/partition.h>
+#include <thrust/find.h>
+#include <thrust/sort.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -81,6 +85,25 @@ template<typename InputIterator,
     typename thrust::iterator_space<OutputIterator1>::type(),
     typename thrust::iterator_space<OutputIterator2>::type());
 } // end stable_partition_copy()
+
+
+template<typename ForwardIterator, typename Predicate>
+  ForwardIterator partition_point(ForwardIterator first,
+                                  ForwardIterator last,
+                                  Predicate pred)
+{
+  return thrust::find_if_not(first, last, pred);
+} // end partition_point()
+
+
+template<typename InputIterator, typename Predicate>
+  bool is_partitioned(InputIterator first,
+                      InputIterator last,
+                      Predicate pred)
+{
+  return thrust::is_sorted(thrust::make_transform_iterator(first, thrust::detail::not1(pred)),
+                           thrust::make_transform_iterator(last,  thrust::detail::not1(pred)));
+} // end is_partitioned()
 
 
 } // end thrust

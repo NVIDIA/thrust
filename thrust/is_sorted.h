@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/sort.h>
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
