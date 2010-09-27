@@ -12,6 +12,10 @@
 
 void TestTransformNullPtr(void)
 {
+#if defined(__APPLE__)
+  KNOWN_FAILURE;
+#endif
+
   thrust::device_ptr<int> ptr = thrust::device_pointer_cast<int>(0);
 
   bool caught_exception = false;
@@ -28,12 +32,18 @@ void TestTransformNullPtr(void)
     cudaThreadExit();
   }
 
+  std::cout << cudaGetErrorString(cudaGetLastError()) << std::endl;
+
   ASSERT_EQUAL(true,caught_exception);
 }
 DECLARE_UNITTEST(TestTransformNullPtr);
 
 void TestReduceNullPtr(void)
 {
+#if defined(__APPLE__)
+  KNOWN_FAILURE;
+#endif
+
   thrust::device_ptr<int> ptr = thrust::device_pointer_cast<int>(0);
 
   bool caught_exception = false;
@@ -56,6 +66,10 @@ DECLARE_UNITTEST(TestReduceNullPtr);
 
 void TestExclusiveScanNullPtr(void)
 {
+#if defined(__APPLE__)
+  KNOWN_FAILURE;
+#endif
+
   thrust::device_ptr<int> ptr = thrust::device_pointer_cast<int>(0);
 
   bool caught_exception = false;
