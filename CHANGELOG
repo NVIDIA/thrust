@@ -3,11 +3,21 @@
 #######################################
 
 Summary
-    Faster primitives
-    Error reporting
-    Debug mode
-    Header reorg
-    Support for CUDA 3.2
+    Thrust v1.3.0 provides support for CUDA 3.2 in addition to many feature
+    and performance enhancements.
+    
+    Performance of the sort and sort_by_key algorithms is improved by as much 
+    as 3x in certain situations.  The performance of stream compaction algorithms,
+    such as copy_if, is improved by as much as 2x.  Reduction performance is 
+    also improved, particularly for small input sizes.
+    
+    CUDA errors are now converted to runtime exceptions using the system_error
+    interface.  Combined with a debug mode, also new in v1.3, runtime errors
+    can be located with greater precision.  For example ... TODO ...
+
+    Lastly, a few header files have been consolidated or renamed for clarity.
+    See the deprecations section below for additional details.
+
 
 Breaking API Changes
     Promotions
@@ -61,7 +71,7 @@ New Examples
     strided_range.cu
 
 Other Enhancements
-    Performance of thrust::sort given primitive input is substantially improved
+    Performance of thrust::sort and thrust::sort_by_key is substantially improved for primitive key types
     Performance of thrust::copy_if is substantially improved
     Performance of thrust::reduce and related reductions is improved
     THRUST_DEBUG mode added
@@ -71,6 +81,7 @@ Other Enhancements
     min & max usage no longer collides with <windows.h> definitions
     Compiling against the OpenMP backend no longer requires nvcc
     Performance of device_vector initialized in .cpp files is substantially improved in common cases
+    Performance of thrust::sort_by_key on the host is substantially improved
 
 Removed Functionality
     nvcc 2.3 is no longer supported
@@ -80,12 +91,13 @@ Bug Fixes
     thrust::uninitialized_copy and thrust::unintialized_fill now dispatch constructors on the device rather than the host
 
 Known Issues
+    #212 set_intersection is known to fail for large input sizes
 
 Acknowledgments
-   Thanks to Duane Merrill for contributing a fast CUDA sort implementation
-   Thanks to Erich Elsen for contributing an implementation of find_if
-   Thanks to Andrew Corrigan for contributing changes which allow the OpenMP backend to compile in the absence of nvcc
-   Thanks to Andrew Corrigan, David Coerjolly, Janick Martinez Esturo, Maxim Naumov, Michael Garland, and Ryuta Suzuki for bug reports
+    Thanks to Duane Merrill for contributing a fast CUDA radix sort implementation
+    Thanks to Erich Elsen for contributing an implementation of find_if
+    Thanks to Andrew Corrigan for contributing changes which allow the OpenMP backend to compile in the absence of nvcc
+    Thanks to Andrew Corrigan, Cliff Wooley, David Coeurjolly, Janick Martinez Esturo, John Bowers, Maxim Naumov, Michael Garland, and Ryuta Suzuki for bug reports
 
 #######################################
 #           Thrust v1.2.1             #
@@ -95,12 +107,12 @@ Summary
     Small fixes for compatibility with CUDA 3.1
 
 Known Issues
-   inclusive_scan & exclusive_scan may fail with very large types
-   the Microsoft compiler may fail to compile code using both sort and binary search algorithms
-   uninitialized_fill & uninitialized_copy dispatch constructors on the host rather than the device
-   # 109 some algorithms may exhibit poor performance with the OpenMP backend with large numbers (>= 6) of CPU threads
-   default_random_engine::discard is not accelerated with nvcc 2.3
-   nvcc 3.1 may fail to compile code using types derived from thrust::subtract_with_carry_engine, such as thrust::ranlux24 & thrust::ranlux48.
+    inclusive_scan & exclusive_scan may fail with very large types
+    the Microsoft compiler may fail to compile code using both sort and binary search algorithms
+    uninitialized_fill & uninitialized_copy dispatch constructors on the host rather than the device
+    # 109 some algorithms may exhibit poor performance with the OpenMP backend with large numbers (>= 6) of CPU threads
+    default_random_engine::discard is not accelerated with nvcc 2.3
+    nvcc 3.1 may fail to compile code using types derived from thrust::subtract_with_carry_engine, such as thrust::ranlux24 & thrust::ranlux48.
 
 #######################################
 #           Thrust v1.2.0             #
