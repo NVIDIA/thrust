@@ -45,7 +45,7 @@ struct unary_negate
     __host__ __device__
     bool operator()(const T& x)
     {
-        return !pred(x);
+        return !bool(pred(x));
     }
 };
 
@@ -64,7 +64,7 @@ struct binary_negate
         __host__ __device__
         bool operator()(const T1& x, const T2& y)
         {
-            return !pred(x,y);
+            return !bool(pred(x,y));
         }
 };
 

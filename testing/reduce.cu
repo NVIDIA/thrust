@@ -48,7 +48,7 @@ struct TestReduce
         T h_result = thrust::reduce(h_data.begin(), h_data.end(), init);
         T d_result = thrust::reduce(d_data.begin(), d_data.end(), init);
 
-        ASSERT_ALMOST_EQUAL(h_result, d_result);
+        ASSERT_EQUAL(h_result, d_result);
     }
 };
 VariableUnitTest<TestReduce, IntegralTypes> TestReduceInstance;

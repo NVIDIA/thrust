@@ -40,9 +40,9 @@ void TestPartitionPoint(void)
 
   Vector v = unittest::random_integers<T>(n);
 
-  Iterator ref = thrust::partition(v.begin(), v.end(), is_even<T>());
+  Iterator ref = thrust::stable_partition(v.begin(), v.end(), is_even<T>());
 
-  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(v.begin(), v.end(), is_even<T>()));
+  ASSERT_EQUAL(ref - v.begin(), thrust::partition_point(v.begin(), v.end(), is_even<T>()) - v.begin());
 }
 DECLARE_VECTOR_UNITTEST(TestPartitionPoint);
 

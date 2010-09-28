@@ -12,6 +12,17 @@ struct equal_to_value_pred
     bool operator()(T v) const { return v == value; }
 };
 
+template <typename T>
+struct not_equal_to_value_pred
+{
+    T value;
+
+    not_equal_to_value_pred(T value) : value(value) {}
+
+    __host__ __device__
+    bool operator()(T v) const { return v != value; }
+};
+
 template<typename T>
 struct less_than_value_pred
 {
@@ -87,4 +98,84 @@ void TestFindIfNotSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestFindIfNotSimple);
 
+
+template <typename T>
+struct TestFind
+{
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+
+        typename thrust::host_vector<T>::iterator   h_iter;
+        typename thrust::device_vector<T>::iterator d_iter;
+
+        h_iter = thrust::find(h_data.begin(), h_data.end(), T(0));
+        d_iter = thrust::find(d_data.begin(), d_data.end(), T(0));
+        ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+
+        for (size_t i = 1; i < n; i *= 2)
+        {
+            T sample = h_data[i];
+            h_iter = thrust::find(h_data.begin(), h_data.end(), sample);
+            d_iter = thrust::find(d_data.begin(), d_data.end(), sample);
+            ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+        }
+    }
+};
+VariableUnitTest<TestFind, SignedIntegralTypes> TestFindInstance;
+
+
+template <typename T>
+struct TestFindIf
+{
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+
+        typename thrust::host_vector<T>::iterator   h_iter;
+        typename thrust::device_vector<T>::iterator d_iter;
+
+        h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<T>(0));
+        d_iter = thrust::find_if(d_data.begin(), d_data.end(), equal_to_value_pred<T>(0));
+        ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+
+        for (size_t i = 1; i < n; i *= 2)
+        {
+            T sample = h_data[i];
+            h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<T>(sample));
+            d_iter = thrust::find_if(d_data.begin(), d_data.end(), equal_to_value_pred<T>(sample));
+            ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+        }
+    }
+};
+VariableUnitTest<TestFindIf, SignedIntegralTypes> TestFindIfInstance;
+
+
+template <typename T>
+struct TestFindIfNot
+{
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+
+        typename thrust::host_vector<T>::iterator   h_iter;
+        typename thrust::device_vector<T>::iterator d_iter;
+
+        h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<T>(0));
+        d_iter = thrust::find_if_not(d_data.begin(), d_data.end(), not_equal_to_value_pred<T>(0));
+        ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+
+        for (size_t i = 1; i < n; i *= 2)
+        {
+            T sample = h_data[i];
+            h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<T>(sample));
+            d_iter = thrust::find_if_not(d_data.begin(), d_data.end(), not_equal_to_value_pred<T>(sample));
+            ASSERT_EQUAL(h_iter - h_data.begin(), d_iter - d_data.begin());
+        }
+    }
+};
+VariableUnitTest<TestFindIfNot, SignedIntegralTypes> TestFindIfNotInstance;
 

@@ -50,7 +50,7 @@ InputIterator find_if_not(InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
-    return thrust::find_if(first, last, thrust::detail::unary_negate<Predicate>(pred));
+    return thrust::find_if(first, last, thrust::detail::not1(pred));
 }
 
 } // end namespace thrust
