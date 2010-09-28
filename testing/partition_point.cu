@@ -33,6 +33,9 @@ DECLARE_VECTOR_UNITTEST(TestPartitionPointSimple);
 template <class Vector>
 void TestPartitionPoint(void)
 {
+#if defined(CUDA_VERSION) && (CUDA_VERSION == 3020)
+  KNOWN_FAILURE;
+#else
   typedef typename Vector::value_type T;
   typedef typename Vector::iterator Iterator;
 
@@ -43,6 +46,7 @@ void TestPartitionPoint(void)
   Iterator ref = thrust::stable_partition(v.begin(), v.end(), is_even<T>());
 
   ASSERT_EQUAL(ref - v.begin(), thrust::partition_point(v.begin(), v.end(), is_even<T>()) - v.begin());
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestPartitionPoint);
 

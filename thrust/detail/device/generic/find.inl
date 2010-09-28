@@ -71,31 +71,32 @@ InputIterator find_if(InputIterator first,
     const difference_type interval_threshold = 1 << 20;
     const difference_type interval_size = (std::min)(interval_threshold, n);
 
-    for(difference_type begin = 0; begin < n; begin += interval_size)
-    {
-        difference_type end = (thrust::min)(begin + interval_size, n);
+    // XXX WAR nvcc 3.2 + linux codegen problems with this functionally equivalent predicate
+    typedef thrust::detail::unary_negate<thrust::detail::unary_negate<Predicate> > NotNotPred;
 
-        result_type result = thrust::detail::device::reduce
-            (
-             thrust::make_zip_iterator
-             (
-              thrust::make_tuple
-              (
-               thrust::transform_iterator<Predicate, InputIterator, bool>(first, pred),  // note: must specify Reference=bool
-               thrust::counting_iterator<difference_type>(0)
-              )
-             ) + begin,
-             thrust::make_zip_iterator
-             (
-              thrust::make_tuple
-              (
-               thrust::transform_iterator<Predicate, InputIterator, bool>(first, pred),  // note: must specify Reference=bool
-               thrust::counting_iterator<difference_type>(0)
-              )
-             ) + end,
-             result_type(false, end),
-             find_if_functor<result_type>()
-            );
+    typedef thrust::transform_iterator<NotNotPred, InputIterator, bool> XfrmIterator;
+    typedef thrust::tuple<XfrmIterator, thrust::counting_iterator<difference_type> > IteratorTuple;
+    typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+
+    NotNotPred not_not_pred = thrust::detail::not1(thrust::detail::not1(pred));
+
+    IteratorTuple iter_tuple = thrust::make_tuple(XfrmIterator(first, not_not_pred),
+                                                  thrust::counting_iterator<difference_type>(0));
+
+    ZipIterator begin = thrust::make_zip_iterator(iter_tuple);
+    ZipIterator end   = begin + n;
+
+    for(ZipIterator interval_begin = begin; interval_begin < end; interval_begin += interval_size)
+    {
+        ZipIterator interval_end = interval_begin + interval_size;
+        if(end < interval_end)
+        {
+          interval_end = end;
+        } // end if
+
+        result_type result = thrust::detail::device::reduce(interval_begin, interval_end,
+                                                            result_type(false,interval_end - begin),
+                                                            find_if_functor<result_type>());
 
         // see if we found something
         if (thrust::get<0>(result))

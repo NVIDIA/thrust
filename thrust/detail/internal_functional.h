@@ -119,7 +119,7 @@ struct equal_to
 template <typename T2>
 struct equal_to_value
 {
-    const T2 rhs;
+    T2 rhs;
 
     equal_to_value(const T2& rhs) : rhs(rhs) {}
 
