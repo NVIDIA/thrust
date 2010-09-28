@@ -92,6 +92,7 @@ Bug Fixes
 
 Known Issues
     #212 set_intersection is known to fail for large input sizes
+    partition_point is known to fail for 64b types with nvcc 3.2
 
 Acknowledgments
     Thanks to Duane Merrill for contributing a fast CUDA radix sort implementation
