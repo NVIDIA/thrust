@@ -303,6 +303,7 @@ Bug Fixes
 Known Issues
     Using functors with Thrust entry points may not compile on Mac OSX with gcc-4.0.1
     uninitialized_copy & uninitialized_fill dispatch constructors on the host rather than the device.
+    inclusive_scan, inclusive_scan_by_key, exclusive_scan, and exclusive_scan_by_key may fail when used with large types with the CUDA 3.1 driver
 
 
 #######################################
