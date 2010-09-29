@@ -99,6 +99,7 @@ Acknowledgments
     Thanks to Erich Elsen for contributing an implementation of find_if
     Thanks to Andrew Corrigan for contributing changes which allow the OpenMP backend to compile in the absence of nvcc
     Thanks to Andrew Corrigan, Cliff Wooley, David Coeurjolly, Janick Martinez Esturo, John Bowers, Maxim Naumov, Michael Garland, and Ryuta Suzuki for bug reports
+    Thanks to Cliff Woolley for help with testing
 
 #######################################
 #           Thrust v1.2.1             #
