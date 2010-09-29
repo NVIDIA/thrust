@@ -13,7 +13,7 @@ Summary
     
     CUDA errors are now converted to runtime exceptions using the system_error
     interface.  Combined with a debug mode, also new in v1.3, runtime errors
-    can be located with greater precision.  For example ... TODO ...
+    can be located with greater precision.
 
     Lastly, a few header files have been consolidated or renamed for clarity.
     See the deprecations section below for additional details.
