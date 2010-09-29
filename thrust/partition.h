@@ -221,32 +221,35 @@ template<typename ForwardIterator,
                                    Predicate pred);
 
 
-/*! \p stable_partition_copy is much like \ref partition_copy : it reorders the elements
- *  in the range <tt>[first, last)</tt> based on the function object \p pred, such that
- *  all of the elements that satisfy \p pred precede all of the elements that fail to
- *  satisfy it. The postcondition is that, for some iterator \p middle in the range
- *  <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every iterator \c i in the
- *  range <tt>[first,middle)</tt> and \c false for every iterator \c i in the range
- *  <tt>[middle, last)</tt>. The return value of \p stable_partition_copy is \c middle.
+/*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
+ *  sequence is written to difference output sequences, rather than in place.
+ *
+ *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
+ *  function object \p pred. All of the elements that satisfy \p pred are copied
+ *  to the range beginning at \p out_true and all the elements that fail to satisfy it
+ *  are copied to the range beginning at \p out_false.
  *
  *  \p stable_partition_copy differs from \ref partition_copy in that
  *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
  *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
- *  after \p stable_partition_copy that \c x precedes \c y.
+ *  after \p stable_partition_copy that \c x precedes \c y in the output.
  *
  *  \param first The first element of the sequence to reorder.
  *  \param last One position past the last element of the sequence to reorder.
- *  \param result The destination of the resulting sequence.
+ *  \param out_true The destination of the resulting sequence of elements which satisfy \p pred.
+ *  \param out_false The destination of the resulting sequence of elements which fail to satisfy \p pred.
  *  \param pred A function object which decides to which partition each element of the
- *              sequence [first, last) belongs.
- *  \return An iterator referring to the first element of the second partition, that is,
- *          the sequence of the elements which do not satisfy pred.
+ *              sequence <tt>[first, last)</tt> belongs.
+ *  \return A \p pair p such that <tt>p.first</tt> is the end of the output range beginning
+ *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
+ *          \p out_false.
  *
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator1's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
- *          and \p ForwardIterator2 is mutable.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type and \p InputIterator's \c value_type
+ *          is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
+ *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p stable_partition_copy to
@@ -267,12 +270,16 @@ template<typename ForwardIterator,
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  int result[10];
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::stable_partition_copy(A, A + N, result, is_even());
- *
- *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 8, 10}
+ *  int *evens = result;
+ *  int *odds  = result + 5;
+ *  thrust::stable_partition_copy(A, A + N, evens, odds, is_even());
+ *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+ *  // evens points to {2, 4, 6, 8, 10}
+ *  // odds points to {1, 3, 5, 7, 9}
  *  \endcode
  *
+ *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
  *  \see \p partition_copy
  *  \see \p stable_partition
  */

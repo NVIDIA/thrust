@@ -176,7 +176,7 @@ template<typename InputIterator,
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  int *new_end = thrust::remove(A, A + N, is_even());
+ *  int *new_end = thrust::remove_if(A, A + N, is_even());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode
