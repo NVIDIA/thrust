@@ -1,4 +1,39 @@
 #######################################
+#           Thrust v1.4.0             #
+#######################################
+
+Summary
+
+
+Breaking API Changes
+    Promotions
+
+    Deprecations
+
+    Eliminations
+
+New Features
+    Functions
+
+    Types
+
+    Device support
+
+New Examples
+
+Other Enhancements
+
+Removed Functionality
+
+Bug Fixes
+
+Known Issues
+    #212 set_intersection is known to fail for large input sizes
+    partition_point is known to fail for 64b types with nvcc 3.2
+
+Acknowledgments
+
+#######################################
 #           Thrust v1.3.0             #
 #######################################
 
