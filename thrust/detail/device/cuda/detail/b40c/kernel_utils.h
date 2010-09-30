@@ -28,6 +28,7 @@
 #pragma once
 
 #include <cuda.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust {
 namespace detail {
