@@ -2,12 +2,12 @@
 #include <thrust/reduce.h>
 
 template<typename T>
-  struct max_functor
+  struct plus_mod_10
 {
   __host__ __device__
   T operator()(T rhs, T lhs) const
   {
-    return thrust::max(rhs,lhs);
+    return ((lhs % 10) + (rhs % 10)) % 10;
   }
 };
 
@@ -89,19 +89,22 @@ DECLARE_UNITTEST(TestReduceMixedTypesDevice);
 
 
 template <typename T>
-void TestReduceWithOperator(const size_t n)
+struct TestReduceWithOperator
 {
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-    T init = 0;
+        T init = 3;
 
-    T cpu_result = thrust::reduce(h_data.begin(), h_data.end(), init, max_functor<T>());
-    T gpu_result = thrust::reduce(d_data.begin(), d_data.end(), init, max_functor<T>());
+        T cpu_result = thrust::reduce(h_data.begin(), h_data.end(), init, plus_mod_10<T>());
+        T gpu_result = thrust::reduce(d_data.begin(), d_data.end(), init, plus_mod_10<T>());
 
-    ASSERT_EQUAL(cpu_result, gpu_result);
-}
-DECLARE_VARIABLE_UNITTEST(TestReduceWithOperator);
+        ASSERT_EQUAL(cpu_result, gpu_result);
+    }
+};
+VariableUnitTest<TestReduceWithOperator, UnsignedIntegralTypes> TestReduceWithOperatorInstance;
 
 
 template <typename T>
