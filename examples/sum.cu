@@ -13,7 +13,18 @@ int main(void)
 
   // transfer to device and compute sum
   thrust::device_vector<int> d_vec = h_vec;
-  int x = thrust::reduce(d_vec.begin(), d_vec.end(), (int) 0,
-                          thrust::plus<int>());
+
+  // initial value of the reduction
+  int init = 0; 
+ 
+  // binary operation used to reduce values
+  thrust::plus<int> binary_op;
+
+  // compute sum on the device
+  int sum = thrust::reduce(d_vec.begin(), d_vec.end(), init, binary_op);
+
+  // print the sum
+  std::cout << "sum is " << sum << std::endl;
+
   return 0;
 }

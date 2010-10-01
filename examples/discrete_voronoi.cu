@@ -147,7 +147,7 @@ void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n)
 {
   srand(m*n);
 
-  for(unsigned int k=0; k< Nb; k++)
+  for(int k = 0; k < Nb; k++)
   {
       int index = (m * n) * (rand() / (RAND_MAX + 1.0f));
 

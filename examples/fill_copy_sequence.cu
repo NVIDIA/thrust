@@ -24,7 +24,7 @@ int main(void)
     thrust::copy(H.begin(), H.end(), D.begin());
 
     // print D
-    for(int i = 0; i < D.size(); i++)
+    for(size_t i = 0; i < D.size(); i++)
         std::cout << "D[" << i << "] = " << D[i] << std::endl;
 
     return 0;
