@@ -164,30 +164,6 @@ void TestCopyListTo(void)
 DECLARE_VECTOR_UNITTEST(TestCopyListTo);
 
 
-template <class Vector>
-void TestCopyWhenSimple(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector v(5);
-    v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
-
-    Vector stencil(5, (T) 0);
-    stencil[1] = 1; stencil[3] = 1; stencil[4] = 1;
-
-    Vector dest(5, (T) 10);
-
-    typename Vector::iterator dest_result = thrust::copy_when(v.begin(), v.end(), stencil.begin(), dest.begin());
-    ASSERT_EQUAL(dest[0], 10);
-    ASSERT_EQUAL(dest[1],  1);
-    ASSERT_EQUAL(dest[2], 10);
-    ASSERT_EQUAL(dest[3],  3);
-    ASSERT_EQUAL(dest[4],  4);
-    ASSERT_EQUAL_QUIET(dest_result, dest.end());
-}
-DECLARE_VECTOR_UNITTEST(TestCopyWhenSimple);
-
-
 template<typename T>
 struct is_even
 {
