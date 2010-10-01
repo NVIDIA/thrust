@@ -24,7 +24,7 @@
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#include <thrust/experimental/arch.h>
+#include <thrust/detail/device/cuda/arch.h>
 #include <thrust/functional.h>
 
 #include <thrust/detail/raw_buffer.h>
@@ -627,7 +627,7 @@ template<typename InputIterator1,
 
     static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
 
-    const unsigned int max_blocks = experimental::arch::max_active_threads()/block_size;
+    const unsigned int max_blocks = thrust::detail::device::cuda::arch::max_active_threads()/block_size;
     const unsigned int warps_per_block = block_size/warp_size;
 
     const unsigned int num_units  = thrust::detail::util::divide_ri(n, warp_size);
@@ -698,7 +698,7 @@ template<typename InputIterator1,
     
     static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
 
-    const unsigned int max_blocks = experimental::arch::max_active_threads()/block_size;
+    const unsigned int max_blocks = thrust::detail::device::cuda::arch::max_active_threads()/block_size;
     const unsigned int warps_per_block = block_size/warp_size;
 
     const unsigned int num_units  = thrust::detail::util::divide_ri(n, warp_size);
