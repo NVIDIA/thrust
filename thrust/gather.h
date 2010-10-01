@@ -67,8 +67,6 @@ namespace thrust
  *  \endcode
  *
  *  \note \p gather is the inverse of thrust::scatter.
- *
- *  \deprecated This function is is scheduled for promotion to \p thrust::gather in Thrust v1.3.
  */
 template<typename InputIterator,
          typename RandomAccessIterator,
@@ -97,8 +95,6 @@ template<typename InputIterator,
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
  *  \note \p gather_if is the inverse of thrust::scatter_if.
- *
- *  \deprecated This function is is scheduled for promotion to \p thrust::gather_if in Thrust v1.3.
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -131,8 +127,6 @@ template<typename InputIterator1,
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  \note \p gather_if is the inverse of thrust::scatter_if.
- *
- *  \deprecated This function is is scheduled for promotion to \p thrust::gather_if in Thrust v1.3.
  */
 template<typename InputIterator1,
          typename InputIterator2,
