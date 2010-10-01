@@ -2,7 +2,6 @@
 #include <thrust/tuple.h>
 #include <thrust/sort.h>
 #include <thrust/transform.h>
-#include <thrust/is_sorted.h>
 
 using namespace unittest;
 using namespace thrust;
