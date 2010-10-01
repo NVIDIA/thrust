@@ -361,60 +361,6 @@ template<typename T>
   __host__ __device__ T operator()(const T &x) const {return -x;}
 }; // end negate
 
-namespace deprecated
-{
-
-/*! \p absolute_value is a function object. Specifically, it is an Adaptable
- *  Unary Function. If \c f is an object of class <tt>absolute_value</tt>, and
- *  \c x is an object of class \c T, then <tt>f(x)</tt> returns
- *  <tt>x < 0 ? -x : x</tt>.
- *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
- *          and \p T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          and \c T(0) must be defined.
- *
- *  The following code snippet demonstrates how to use \p absolute_value to
- *  find the magnitudes of a device_vector of \c floats.
- *
- *  \code
- *  #include <thrust/device_vector.h>
- *  #include <thrust/functional.h>
- *  #include <thrust/sequence.h>
- *  #include <thrust/transform.h>
- *  ...
- *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
- *
- *  thrust::sequence(V1.begin(), V1.end(), 1, -1);
- *  // V1 is now {-1, -2, -3, ..., -1000}
- *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
- *                     thrust::absolute_value<float>());
- *  // V2 is now {1, 2, 3, ..., 1000}
- *  \endcode
- *
- *  \deprecated \p absolute_value will be removed in the next version of Thrust.
- *
- *  \see unary_function
- */
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-#pragma deprecated(absolute_value)
-#endif
-template<typename T>
-  struct 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
-__attribute__((deprecated))
-#endif
-    absolute_value : public unary_function<T,T>
-{
-  /*! Function call operator. The return value is <tt>x < 0 ? -x : x</tt>.
-   */
-  __host__ __device__ T operator()(const T &x) const {return x < T(0) ? -x : x;}
-}; // end absolute_value
-
-} // end deprecated
-
 /*! \}
  */
 

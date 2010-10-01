@@ -71,10 +71,21 @@ namespace thrust
  *  \code
  *  #include <thrust/transform_reduce.h>
  *  #include <thrust/functional.h>
+ *
+ *  template<typename T>
+ *  struct absolute_value : public unary_function<T,T>
+ *  {
+ *    __host__ __device__ T operator()(const T &x) const
+ *    {
+ *      return x < T(0) ? -x : x;
+ *    }
+ *  };
+ *
  *  ...
+ *
  *  int data[6] = {-1, 0, -2, -2, 1, -3};
  *  int result = thrust::transform_reduce(data, data + 6,
- *                                        thrust::absolute_value<int>(),
+ *                                        absolute_value<int>(),
  *                                        0,
  *                                        thrust::maximum<int>());
  *  // result == 3
