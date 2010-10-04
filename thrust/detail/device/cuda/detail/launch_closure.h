@@ -30,8 +30,22 @@ namespace device
 namespace cuda
 {
 
+namespace detail
+{
+
+template<typename NullaryFunction>
+  static size_t block_size_with_maximal_occupancy(void);
+
 template<typename NullaryFunction, typename Size>
   void launch_closure(NullaryFunction f, Size n);
+
+template<typename NullaryFunction, typename Size1, typename Size2>
+  void launch_closure(NullaryFunction f, Size1 num_blocks, Size2 block_size);
+
+template<typename NullaryFunction, typename Size1, typename Size2, typename Size3>
+  void launch_closure(NullaryFunction f, Size1 num_blocks, Size2 block_size, Size3 smem_size);
+
+} // end detail
 
 } // end cuda
   
@@ -41,5 +55,5 @@ template<typename NullaryFunction, typename Size>
 
 } // end thrust
 
-#include <thrust/detail/device/cuda/launch_closure.inl>
+#include <thrust/detail/device/cuda/detail/launch_closure.inl>
 

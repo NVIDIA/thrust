@@ -19,11 +19,9 @@
  *  \brief Inline file for for_each.h.
  */
 
-#include <limits>
-
 #include <thrust/detail/config.h>
 #include <thrust/detail/device/dereference.h>
-#include <thrust/detail/device/cuda/launch_closure.h>
+#include <thrust/detail/device/cuda/detail/launch_closure.h>
 #include <thrust/detail/static_assert.h>
 
 namespace thrust
@@ -34,6 +32,7 @@ namespace device
 {
 namespace cuda
 {
+
 
 template<typename RandomAccessIterator,
          typename Size,
@@ -74,7 +73,7 @@ template<typename RandomAccessIterator,
     }
   }
 #endif // THRUST_DEVICE_COMPILER_NVCC
-};
+}; // end or_each_n_closure
 
 
 template<typename RandomAccessIterator,
@@ -99,19 +98,18 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
     // n is large, must use 64-bit indices
     typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
     Closure closure(first, n, f);
-    launch_closure(closure, n);
+    thrust::detail::device::cuda::detail::launch_closure(closure, n);
   }
   else
   {
     // n is small, 32-bit indices are sufficient
     typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
     Closure closure(first, static_cast<unsigned int>(n), f);
-    launch_closure(closure, static_cast<unsigned int>(n));
+    thrust::detail::device::cuda::detail::launch_closure(closure, static_cast<unsigned int>(n));
   }
 
   return first + n;
 } 
-
 
 } // end namespace cuda
 } // end namespace device
