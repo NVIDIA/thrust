@@ -28,6 +28,7 @@
 #pragma once
 
 #include <cuda.h>
+#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust {
 namespace detail {
@@ -156,13 +157,13 @@ __device__ __forceinline__ void SuppressUnusedConstantWarning(const T) {}
  * Perform a warp-synchrounous prefix scan.  Allows for diverting a warp's
  * threads into separate scan problems (multi-scan). 
  */
-template <unsigned int NUM_ELEMENTS, bool MULTI_SCAN> 
-__device__ __forceinline__ unsigned int WarpScan(
-	volatile unsigned int warpscan[][NUM_ELEMENTS],
-	unsigned int partial_reduction,
-	unsigned int copy_section) {
+template <int NUM_ELEMENTS, bool MULTI_SCAN>
+__device__ __forceinline__ int WarpScan(
+	volatile int warpscan[][NUM_ELEMENTS],
+	int partial_reduction,
+	int copy_section) {
 	
-	unsigned int warpscan_idx;
+	int warpscan_idx;
 	if (MULTI_SCAN) {
 		warpscan_idx = threadIdx.x & (NUM_ELEMENTS - 1);
 	} else {
@@ -192,11 +193,11 @@ __device__ __forceinline__ unsigned int WarpScan(
 /**
  * Perform a warp-synchronous reduction
  */
-template <unsigned int NUM_ELEMENTS>
+template <int NUM_ELEMENTS>
 __device__ __forceinline__ void WarpReduce(
-	unsigned int idx, 
-	volatile unsigned int *storage, 
-	unsigned int partial_reduction) 
+	int idx,
+	volatile int *storage,
+	int partial_reduction)
 {
 	storage[idx] = partial_reduction;
 
@@ -211,28 +212,28 @@ __device__ __forceinline__ void WarpReduce(
 /**
  * Tally a warp-vote regarding the given predicate using the supplied storage
  */
-template <unsigned int ACTIVE_THREADS>
-__device__ __forceinline__ unsigned int TallyWarpVoteSm10(unsigned int predicate, unsigned int storage[]) {
+template <int ACTIVE_THREADS>
+__device__ __forceinline__ int TallyWarpVoteSm10(int predicate, int storage[]) {
 	WarpReduce<ACTIVE_THREADS>(threadIdx.x, storage, predicate);
 	return storage[0];
 }
 
 
-__shared__ unsigned int vote_reduction[B40C_WARP_THREADS];
+__shared__ int vote_reduction[B40C_WARP_THREADS];
 
 /**
  * Tally a warp-vote regarding the given predicate
  */
-template <unsigned int ACTIVE_THREADS>
-__device__ __forceinline__ unsigned int TallyWarpVoteSm10(unsigned int predicate) {
+template <int ACTIVE_THREADS>
+__device__ __forceinline__ int TallyWarpVoteSm10(int predicate) {
 	return TallyWarpVoteSm10<ACTIVE_THREADS>(predicate, vote_reduction);
 }
 
 /**
  * Emulate the __all() warp vote instruction
  */
-template <unsigned int ACTIVE_THREADS>
-__device__ __forceinline__ unsigned int EmulatedWarpVoteAll(unsigned int predicate) {
+template <int ACTIVE_THREADS>
+__device__ __forceinline__ int EmulatedWarpVoteAll(int predicate) {
 	return (TallyWarpVoteSm10<ACTIVE_THREADS>(predicate) == ACTIVE_THREADS);
 }
 
@@ -240,11 +241,11 @@ __device__ __forceinline__ unsigned int EmulatedWarpVoteAll(unsigned int predica
 /**
  * Have each thread concurrently perform a serial reduction over its specified segment 
  */
-template <unsigned int LENGTH>
-__device__ __forceinline__ unsigned int 
-SerialReduce(unsigned int segment[]) {
+template <int LENGTH>
+__device__ __forceinline__ int
+SerialReduce(int segment[]) {
 	
-	unsigned int reduce = segment[0];
+	int reduce = segment[0];
 
 	#pragma unroll
 	for (int i = 1; i < (int) LENGTH; i++) {
@@ -258,11 +259,11 @@ SerialReduce(unsigned int segment[]) {
 /**
  * Have each thread concurrently perform a serial scan over its specified segment
  */
-template <unsigned int LENGTH>
+template <int LENGTH>
 __device__ __forceinline__
-void SerialScan(unsigned int segment[], unsigned int seed0) {
+void SerialScan(int segment[], int seed0) {
 	
-	unsigned int seed1;
+	int seed1;
 
 	#pragma unroll	
 	for (int i = 0; i < (int) LENGTH; i += 2) {

@@ -93,44 +93,44 @@ __device__ __forceinline__ unsigned long long DefaultextraValue<unsigned long lo
  * Cycle-processing Routines
  ******************************************************************************/
 
-template <typename K, unsigned long long RADIX_DIGITS, unsigned int BIT>
-__device__ __forceinline__ unsigned int DecodeDigit(K key) 
+template <typename K, long long RADIX_DIGITS, int BIT>
+__device__ __forceinline__ int DecodeDigit(K key) 
 {
 	const K DIGIT_MASK = RADIX_DIGITS - 1;
 	return (key >> BIT) & DIGIT_MASK;
 }
 
 
-template <typename K, unsigned long long RADIX_DIGITS, unsigned int BIT, unsigned int PADDED_PARTIALS_PER_LANE>
+template <typename K, long long RADIX_DIGITS, int BIT, int PADDED_PARTIALS_PER_LANE>
 __device__ __forceinline__ void DecodeDigit(
 	K key, 
-	unsigned int &digit, 
-	unsigned int &flag_offset,		// in bytes
-	const unsigned int SET_OFFSET)
+	int &digit, 
+	int &flag_offset,		// in bytes
+	const int SET_OFFSET)
 {
-	const unsigned int PADDED_BYTES_PER_LANE 	= PADDED_PARTIALS_PER_LANE * 4;
-	const unsigned int SET_OFFSET_BYTES 		= SET_OFFSET * 4;
+	const int PADDED_BYTES_PER_LANE 	= PADDED_PARTIALS_PER_LANE * 4;
+	const int SET_OFFSET_BYTES 		= SET_OFFSET * 4;
 	const K QUAD_MASK 							= (RADIX_DIGITS < 4) ? 0x1 : 0x3;
 	
 	digit = DecodeDigit<K, RADIX_DIGITS, BIT>(key);
-	unsigned int lane = digit >> 2;
-	unsigned int quad_byte = digit & QUAD_MASK;
+	int lane = digit >> 2;
+	int quad_byte = digit & QUAD_MASK;
 
 	flag_offset = SET_OFFSET_BYTES + FastMul(lane, PADDED_BYTES_PER_LANE) + quad_byte;
 }
 
 
-template <typename K, unsigned long long RADIX_DIGITS, unsigned int BIT, unsigned int SETS_PER_PASS, unsigned int SCAN_LANES_PER_SET, unsigned int PADDED_PARTIALS_PER_LANE>
+template <typename K, long long RADIX_DIGITS, int BIT, int SETS_PER_PASS, int SCAN_LANES_PER_SET, int PADDED_PARTIALS_PER_LANE>
 __device__ __forceinline__ void DecodeDigits(
 	typename VecType<K, 2>::Type keypairs[SETS_PER_PASS],
-	uint2 digits[SETS_PER_PASS],
-	uint2 flag_offsets[SETS_PER_PASS])		// in bytes 
+	int2 digits[SETS_PER_PASS],
+	int2 flag_offsets[SETS_PER_PASS])		// in bytes 
 {
 
 	#pragma unroll
 	for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
 		
-		const unsigned int SET_OFFSET = SET * SCAN_LANES_PER_SET * PADDED_PARTIALS_PER_LANE;
+		const int SET_OFFSET = SET * SCAN_LANES_PER_SET * PADDED_PARTIALS_PER_LANE;
 
 		DecodeDigit<K, RADIX_DIGITS, BIT, PADDED_PARTIALS_PER_LANE>(
 				keypairs[SET].x, digits[SET].x, flag_offsets[SET].x, SET_OFFSET);
@@ -165,11 +165,11 @@ __device__ __forceinline__ void GuardedReadSet(
 }
 
 
-template <typename T, bool UNGUARDED_IO, unsigned int SETS_PER_PASS, typename PreprocessFunctor>
+template <typename T, bool UNGUARDED_IO, int SETS_PER_PASS, typename PreprocessFunctor>
 __device__ __forceinline__ void ReadSets(
 	typename VecType<T, 2>::Type *d_in, 
 	typename VecType<T, 2>::Type pairs[SETS_PER_PASS],
-	const unsigned int BASE2,
+	const int BASE2,
 	int extra[1],
 	PreprocessFunctor preprocess = PreprocessFunctor())				
 {
@@ -202,11 +202,11 @@ __device__ __forceinline__ void ReadSets(
 }
 
 
-template <unsigned int SETS_PER_PASS>
+template <int SETS_PER_PASS>
 __device__ __forceinline__ void PlacePartials(
 	unsigned char * base_partial,
-	uint2 digits[SETS_PER_PASS],
-	uint2 flag_offsets[SETS_PER_PASS]) 
+	int2 digits[SETS_PER_PASS],
+	int2 flag_offsets[SETS_PER_PASS]) 
 {
 	#pragma unroll
 	for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
@@ -216,12 +216,12 @@ __device__ __forceinline__ void PlacePartials(
 }
 
 
-template <unsigned int SETS_PER_PASS>
+template <int SETS_PER_PASS>
 __device__ __forceinline__ void ExtractRanks(
 	unsigned char * base_partial,
-	uint2 digits[SETS_PER_PASS],
-	uint2 flag_offsets[SETS_PER_PASS],
-	uint2 ranks[SETS_PER_PASS]) 
+	int2 digits[SETS_PER_PASS],
+	int2 flag_offsets[SETS_PER_PASS],
+	int2 ranks[SETS_PER_PASS]) 
 {
 	#pragma unroll
 	for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
@@ -231,11 +231,11 @@ __device__ __forceinline__ void ExtractRanks(
 }
 
 
-template <unsigned int RADIX_DIGITS, unsigned int SETS_PER_PASS>
+template <int RADIX_DIGITS, int SETS_PER_PASS>
 __device__ __forceinline__ void UpdateRanks(
-	uint2 digits[SETS_PER_PASS],
-	uint2 ranks[SETS_PER_PASS],
-	unsigned int digit_counts[SETS_PER_PASS][RADIX_DIGITS])
+	int2 digits[SETS_PER_PASS],
+	int2 ranks[SETS_PER_PASS],
+	int digit_counts[SETS_PER_PASS][RADIX_DIGITS])
 {
 	// N.B.: I wish we could pragma unroll here, but doing so currently 
 	// results in the 3.1 compilier on 64-bit platforms generating bad
@@ -259,11 +259,11 @@ __device__ __forceinline__ void UpdateRanks(
 	}	
 }
 
-template <unsigned int RADIX_DIGITS, unsigned int PASSES_PER_CYCLE, unsigned int SETS_PER_PASS>
+template <int RADIX_DIGITS, int PASSES_PER_CYCLE, int SETS_PER_PASS>
 __device__ __forceinline__ void UpdateRanks(
-	uint2 digits[PASSES_PER_CYCLE][SETS_PER_PASS],
-	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
-	unsigned int digit_counts[PASSES_PER_CYCLE][SETS_PER_PASS][RADIX_DIGITS])
+	int2 digits[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int digit_counts[PASSES_PER_CYCLE][SETS_PER_PASS][RADIX_DIGITS])
 {
 	// N.B.: I wish we could pragma unroll here, but doing so currently 
 	// results in the 3.1 compilier on 64-bit platforms generating bad
@@ -277,18 +277,18 @@ __device__ __forceinline__ void UpdateRanks(
 
 
 
-template <unsigned int SCAN_LANES_PER_PASS, unsigned int LOG_RAKING_THREADS_PER_LANE, unsigned int RAKING_THREADS_PER_LANE, unsigned int PARTIALS_PER_SEG>
+template <int SCAN_LANES_PER_PASS, int LOG_RAKING_THREADS_PER_LANE, int RAKING_THREADS_PER_LANE, int PARTIALS_PER_SEG>
 __device__ __forceinline__ void PrefixScanOverLanes(
-	unsigned int 	raking_segment[],
-	unsigned int 	warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
-	unsigned int 	copy_section)
+	int 	raking_segment[],
+	int 	warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
+	int 	copy_section)
 {
 	// Upsweep rake
-	unsigned int partial_reduction = SerialReduce<PARTIALS_PER_SEG>(raking_segment);
+	int partial_reduction = SerialReduce<PARTIALS_PER_SEG>(raking_segment);
 
 	// Warpscan reduction in digit warpscan_lane
-	unsigned int warpscan_lane = threadIdx.x >> LOG_RAKING_THREADS_PER_LANE;
-	unsigned int group_prefix = WarpScan<RAKING_THREADS_PER_LANE, true>(
+	int warpscan_lane = threadIdx.x >> LOG_RAKING_THREADS_PER_LANE;
+	int group_prefix = WarpScan<RAKING_THREADS_PER_LANE, true>(
 		warpscan[warpscan_lane], 
 		partial_reduction,
 		copy_section);
@@ -299,14 +299,14 @@ __device__ __forceinline__ void PrefixScanOverLanes(
 }
 
 
-template <unsigned int SCAN_LANES_PER_PASS, unsigned int RAKING_THREADS_PER_LANE, unsigned int SETS_PER_PASS, unsigned int SCAN_LANES_PER_SET>
+template <int SCAN_LANES_PER_PASS, int RAKING_THREADS_PER_LANE, int SETS_PER_PASS, int SCAN_LANES_PER_SET>
 __device__ __forceinline__ void RecoverDigitCounts(
-	unsigned int warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
-	unsigned int counts[SETS_PER_PASS],
-	unsigned int copy_section)
+	int warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
+	int counts[SETS_PER_PASS],
+	int copy_section)
 {
-	unsigned int my_lane = threadIdx.x >> 2;
-	unsigned int my_quad_byte = threadIdx.x & 3;
+	int my_lane = threadIdx.x >> 2;
+	int my_quad_byte = threadIdx.x & 3;
 	
 	#pragma unroll
 	for (int SET = 0; SET < (int) SETS_PER_PASS; SET++) {
@@ -315,10 +315,10 @@ __device__ __forceinline__ void RecoverDigitCounts(
 	}
 }
 
-template<unsigned int RADIX_DIGITS>
+template<int RADIX_DIGITS>
 __device__ __forceinline__ void CorrectUnguardedSetOverflow(
-	uint2 			set_digits,
-	unsigned int 	&set_count)				
+	int2 			set_digits,
+	int 	&set_count)				
 {
 	if (WarpVoteAll(RADIX_DIGITS, set_count <= 1)) {
 		// All first-pass, first set keys have same digit. 
@@ -326,10 +326,10 @@ __device__ __forceinline__ void CorrectUnguardedSetOverflow(
 	}
 }
 
-template <unsigned int RADIX_DIGITS, unsigned int SETS_PER_PASS>
+template <int RADIX_DIGITS, int SETS_PER_PASS>
 __device__ __forceinline__ void CorrectUnguardedPassOverflow(
-	uint2 			pass_digits[SETS_PER_PASS],
-	unsigned int 	pass_counts[SETS_PER_PASS])				
+	int2 			pass_digits[SETS_PER_PASS],
+	int 	pass_counts[SETS_PER_PASS])				
 {
 	// N.B. -- I wish we could do some pragma unrolling here too, but the compiler won't comply, 
 	// telling me "Advisory: Loop was not unrolled, unexpected call OPs"
@@ -341,10 +341,10 @@ __device__ __forceinline__ void CorrectUnguardedPassOverflow(
 }
 
 
-template <unsigned int RADIX_DIGITS, unsigned int PASSES_PER_CYCLE, unsigned int SETS_PER_PASS>
+template <int RADIX_DIGITS, int PASSES_PER_CYCLE, int SETS_PER_PASS>
 __device__ __forceinline__ void CorrectUnguardedCycleOverflow(
-	uint2 			cycle_digits[PASSES_PER_CYCLE][SETS_PER_PASS],
-	unsigned int 	cycle_counts[PASSES_PER_CYCLE][SETS_PER_PASS])
+	int2 			cycle_digits[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int 	cycle_counts[PASSES_PER_CYCLE][SETS_PER_PASS])
 {
 	// N.B. -- I wish we could do some pragma unrolling here too, but the compiler won't comply, 
 	// telling me "Advisory: Loop was not unrolled, unexpected call OPs"
@@ -354,8 +354,8 @@ __device__ __forceinline__ void CorrectUnguardedCycleOverflow(
 }
 
 
-template <unsigned int RADIX_DIGITS>
-__device__ __forceinline__ void CorrectLastLaneOverflow(unsigned int &count, int extra[1]) 
+template <int RADIX_DIGITS>
+__device__ __forceinline__ void CorrectLastLaneOverflow(int &count, int extra[1]) 
 {
 	if (WarpVoteAll(RADIX_DIGITS, count == 0) && (threadIdx.x == RADIX_DIGITS - 1)) {
 		// We're 'f' and we overflowed b/c of invalid 'f' placemarkers; the number of valid items in this set is the count of valid f's 
@@ -364,16 +364,16 @@ __device__ __forceinline__ void CorrectLastLaneOverflow(unsigned int &count, int
 }
 		
 
-template <unsigned int RADIX_DIGITS, unsigned int PASSES_PER_CYCLE, unsigned int SETS_PER_PASS, unsigned int SETS_PER_CYCLE, bool UNGUARDED_IO>
+template <int RADIX_DIGITS, int PASSES_PER_CYCLE, int SETS_PER_PASS, int SETS_PER_CYCLE, bool UNGUARDED_IO>
 __device__ __forceinline__ void CorrectForOverflows(
-	uint2 digits[PASSES_PER_CYCLE][SETS_PER_PASS],
-	unsigned int counts[PASSES_PER_CYCLE][SETS_PER_PASS], 
+	int2 digits[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int counts[PASSES_PER_CYCLE][SETS_PER_PASS], 
 	int extra[1])				
 {
 	if (!UNGUARDED_IO) {
 
 		// Correct any overflow in the partially-filled last lane
-		unsigned int *linear_counts = (unsigned int *) counts;
+		int *linear_counts = (int *) counts;
 		CorrectLastLaneOverflow<RADIX_DIGITS>(linear_counts[SETS_PER_CYCLE - 1], extra);
 	}
 
@@ -383,26 +383,26 @@ __device__ __forceinline__ void CorrectForOverflows(
 
 template <
 	typename K,
-	unsigned int BIT, 
-	unsigned int RADIX_DIGITS,
-	unsigned int SCAN_LANES_PER_SET,
-	unsigned int SETS_PER_PASS,
-	unsigned int RAKING_THREADS_PER_PASS,
-	unsigned int SCAN_LANES_PER_PASS,
-	unsigned int LOG_RAKING_THREADS_PER_LANE,
-	unsigned int RAKING_THREADS_PER_LANE,
-	unsigned int PARTIALS_PER_SEG,
-	unsigned int PADDED_PARTIALS_PER_LANE,
-	unsigned int PASSES_PER_CYCLE>
+	int BIT, 
+	int RADIX_DIGITS,
+	int SCAN_LANES_PER_SET,
+	int SETS_PER_PASS,
+	int RAKING_THREADS_PER_PASS,
+	int SCAN_LANES_PER_PASS,
+	int LOG_RAKING_THREADS_PER_LANE,
+	int RAKING_THREADS_PER_LANE,
+	int PARTIALS_PER_SEG,
+	int PADDED_PARTIALS_PER_LANE,
+	int PASSES_PER_CYCLE>
 __device__ __forceinline__ void ScanPass(
-	unsigned int 					*base_partial,
-	unsigned int					*raking_partial,
-	unsigned int 					warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
-	typename VecType<K, 2>::Type 	keypairs[SETS_PER_PASS],
-	uint2 							digits[SETS_PER_PASS],
-	uint2 							flag_offsets[SETS_PER_PASS],
-	uint2							ranks[SETS_PER_PASS],
-	unsigned int 					copy_section)
+	int *base_partial,
+	int	*raking_partial,
+	int warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
+	typename VecType<K, 2>::Type keypairs[SETS_PER_PASS],
+	int2 digits[SETS_PER_PASS],
+	int2 flag_offsets[SETS_PER_PASS],
+	int2 ranks[SETS_PER_PASS],
+	int copy_section)
 {
 	// Reset smem
 	#pragma unroll
@@ -449,12 +449,12 @@ __device__ __forceinline__ void ScanPass(
  * scattering) in order to to facilitate coalesced global scattering
  ******************************************************************************/
 
-template <typename T, bool UNGUARDED_IO, unsigned int PASSES_PER_CYCLE, unsigned int SETS_PER_PASS, typename PostprocessFunctor>
+template <typename T, bool UNGUARDED_IO, int PASSES_PER_CYCLE, int SETS_PER_PASS, typename PostprocessFunctor>
 __device__ __forceinline__ void ScatterSets(
 	T *d_out, 
 	typename VecType<T, 2>::Type pairs[SETS_PER_PASS],
-	uint2 offsets[SETS_PER_PASS],
-	const unsigned int BASE4,
+	int2 offsets[SETS_PER_PASS],
+	const int BASE4,
 	int extra[1],
 	PostprocessFunctor postprocess = PostprocessFunctor())				
 {
@@ -495,11 +495,11 @@ __device__ __forceinline__ void ScatterSets(
 	}
 }
 
-template <typename T, unsigned int PASSES_PER_CYCLE, unsigned int SETS_PER_PASS>
+template <typename T, int PASSES_PER_CYCLE, int SETS_PER_PASS>
 __device__ __forceinline__ void PushPairs(
 	T *swap, 
 	typename VecType<T, 2>::Type pairs[PASSES_PER_CYCLE][SETS_PER_PASS],
-	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS])				
+	int2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS])				
 {
 	#pragma unroll 
 	for (int PASS = 0; PASS < (int) PASSES_PER_CYCLE; PASS++) {
@@ -512,11 +512,11 @@ __device__ __forceinline__ void PushPairs(
 	}
 }
 	
-template <typename T, unsigned int PASSES_PER_CYCLE, unsigned int SETS_PER_PASS>
+template <typename T, int PASSES_PER_CYCLE, int SETS_PER_PASS>
 __device__ __forceinline__ void ExchangePairs(
 	T *swap, 
 	typename VecType<T, 2>::Type pairs[PASSES_PER_CYCLE][SETS_PER_PASS],
-	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS])				
+	int2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS])				
 {
 	// Push in Pairs
 	PushPairs<T, PASSES_PER_CYCLE, SETS_PER_PASS>(swap, pairs, ranks);
@@ -540,23 +540,23 @@ __device__ __forceinline__ void ExchangePairs(
 template <
 	typename K,
 	typename V,	
-	unsigned int RADIX_DIGITS, 
-	unsigned int BIT, 
-	unsigned int PASSES_PER_CYCLE,
-	unsigned int SETS_PER_PASS,
+	int RADIX_DIGITS, 
+	int BIT, 
+	int PASSES_PER_CYCLE,
+	int SETS_PER_PASS,
 	bool UNGUARDED_IO,
 	typename PostprocessFunctor>
 __device__ __forceinline__ void SwapAndScatterSm13(
 	typename VecType<K, 2>::Type keypairs[PASSES_PER_CYCLE][SETS_PER_PASS], 
-	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
-	uint4 *exchange,
+	int2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int4 *exchange,
 	typename VecType<V, 2>::Type *d_in_values, 
 	K *d_out_keys, 
 	V *d_out_values, 
-	unsigned int carry[RADIX_DIGITS], 
+	int carry[RADIX_DIGITS], 
 	int extra[1])				
 {
-	uint2 offsets[PASSES_PER_CYCLE][SETS_PER_PASS];
+	int2 offsets[PASSES_PER_CYCLE][SETS_PER_PASS];
 	
 	// Swap keys according to ranks
 	ExchangePairs<K, PASSES_PER_CYCLE, SETS_PER_PASS>((K*) exchange, keypairs, ranks);				
@@ -615,20 +615,20 @@ __device__ __forceinline__ void SwapAndScatterSm13(
 
 template <
 	typename T, 
-	unsigned int RADIX_DIGITS,
+	int RADIX_DIGITS,
 	bool UNGUARDED_IO,
 	typename PostprocessFunctor> 
 __device__ __forceinline__ void ScatterPass(
 	T *swapmem,
 	T *d_out, 
-	unsigned int digit_scan[2][RADIX_DIGITS], 
-	unsigned int carry[RADIX_DIGITS], 
+	int digit_scan[2][RADIX_DIGITS], 
+	int carry[RADIX_DIGITS], 
 	int extra[1],
-	unsigned int base_digit,				
+	int base_digit,				
 	PostprocessFunctor postprocess = PostprocessFunctor())				
 {
-	const unsigned int LOG_STORE_TXN_THREADS = B40C_LOG_MEM_BANKS(__CUDA_ARCH__);
-	const unsigned int STORE_TXN_THREADS = 1 << LOG_STORE_TXN_THREADS;
+	const int LOG_STORE_TXN_THREADS = B40C_LOG_MEM_BANKS(__CUDA_ARCH__);
+	const int STORE_TXN_THREADS = 1 << LOG_STORE_TXN_THREADS;
 	
 	int store_txn_idx = threadIdx.x & (STORE_TXN_THREADS - 1);
 	int store_txn_digit = threadIdx.x >> LOG_STORE_TXN_THREADS;
@@ -658,22 +658,22 @@ __device__ __forceinline__ void ScatterPass(
 
 template <
 	typename T,
-	unsigned int RADIX_DIGITS, 
-	unsigned int PASSES_PER_CYCLE,
-	unsigned int SETS_PER_PASS,
+	int RADIX_DIGITS, 
+	int PASSES_PER_CYCLE,
+	int SETS_PER_PASS,
 	bool UNGUARDED_IO,
 	typename PostprocessFunctor>
 __device__ __forceinline__ void SwapAndScatterPairs(
 	typename VecType<T, 2>::Type pairs[PASSES_PER_CYCLE][SETS_PER_PASS], 
-	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
 	T *exchange,
 	T *d_out, 
-	unsigned int carry[RADIX_DIGITS], 
-	unsigned int digit_scan[2][RADIX_DIGITS], 
+	int carry[RADIX_DIGITS], 
+	int digit_scan[2][RADIX_DIGITS], 
 	int extra[1])				
 {
-	const unsigned int SCATTER_PASS_DIGITS = B40C_RADIXSORT_WARPS * (B40C_WARP_THREADS / B40C_MEM_BANKS(__CUDA_ARCH__));
-	const unsigned int SCATTER_PASSES = RADIX_DIGITS / SCATTER_PASS_DIGITS;
+	const int SCATTER_PASS_DIGITS = B40C_RADIXSORT_WARPS * (B40C_WARP_THREADS / B40C_MEM_BANKS(__CUDA_ARCH__));
+	const int SCATTER_PASSES = RADIX_DIGITS / SCATTER_PASS_DIGITS;
 
 	// Push in pairs
 	PushPairs<T, PASSES_PER_CYCLE, SETS_PER_PASS>(exchange, pairs, ranks);
@@ -697,20 +697,20 @@ __device__ __forceinline__ void SwapAndScatterPairs(
 template <
 	typename K,
 	typename V,	
-	unsigned int RADIX_DIGITS, 
-	unsigned int PASSES_PER_CYCLE,
-	unsigned int SETS_PER_PASS,
+	int RADIX_DIGITS, 
+	int PASSES_PER_CYCLE,
+	int SETS_PER_PASS,
 	bool UNGUARDED_IO,
 	typename PostprocessFunctor>
 __device__ __forceinline__ void SwapAndScatterSm10(
 	typename VecType<K, 2>::Type keypairs[PASSES_PER_CYCLE][SETS_PER_PASS], 
-	uint2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
-	uint4 *exchange,
+	int2 ranks[PASSES_PER_CYCLE][SETS_PER_PASS],
+	int4 *exchange,
 	typename VecType<V, 2>::Type *d_in_values, 
 	K *d_out_keys, 
 	V *d_out_values, 
-	unsigned int carry[RADIX_DIGITS], 
-	unsigned int digit_scan[2][RADIX_DIGITS], 
+	int carry[RADIX_DIGITS], 
+	int digit_scan[2][RADIX_DIGITS], 
 	int extra[1])				
 {
 	// Swap and scatter keys
@@ -743,53 +743,53 @@ __device__ __forceinline__ void SwapAndScatterSm10(
 template <
 	typename K,
 	typename V,	
-	unsigned int BIT, 
+	int BIT, 
 	bool UNGUARDED_IO,
-	unsigned int RADIX_DIGITS,
-	unsigned int LOG_SCAN_LANES_PER_SET,
-	unsigned int SCAN_LANES_PER_SET,
-	unsigned int SETS_PER_PASS,
-	unsigned int PASSES_PER_CYCLE,
-	unsigned int LOG_SCAN_LANES_PER_PASS,
-	unsigned int SCAN_LANES_PER_PASS,
-	unsigned int LOG_PARTIALS_PER_LANE,
-	unsigned int LOG_PARTIALS_PER_PASS,
-	unsigned int LOG_RAKING_THREADS_PER_PASS,
-	unsigned int RAKING_THREADS_PER_PASS,
-	unsigned int LOG_RAKING_THREADS_PER_LANE,
-	unsigned int RAKING_THREADS_PER_LANE,
-	unsigned int LOG_PARTIALS_PER_SEG,
-	unsigned int PARTIALS_PER_SEG,
-	unsigned int LOG_PARTIALS_PER_ROW,
-	unsigned int PARTIALS_PER_ROW,
-	unsigned int LOG_SEGS_PER_ROW,	
-	unsigned int SEGS_PER_ROW,
-	unsigned int LOG_ROWS_PER_SET,
-	unsigned int LOG_ROWS_PER_LANE,
-	unsigned int ROWS_PER_LANE,
-	unsigned int LOG_ROWS_PER_PASS,
-	unsigned int ROWS_PER_PASS,
-	unsigned int MAX_EXCHANGE_BYTES,
+	int RADIX_DIGITS,
+	int LOG_SCAN_LANES_PER_SET,
+	int SCAN_LANES_PER_SET,
+	int SETS_PER_PASS,
+	int PASSES_PER_CYCLE,
+	int LOG_SCAN_LANES_PER_PASS,
+	int SCAN_LANES_PER_PASS,
+	int LOG_PARTIALS_PER_LANE,
+	int LOG_PARTIALS_PER_PASS,
+	int LOG_RAKING_THREADS_PER_PASS,
+	int RAKING_THREADS_PER_PASS,
+	int LOG_RAKING_THREADS_PER_LANE,
+	int RAKING_THREADS_PER_LANE,
+	int LOG_PARTIALS_PER_SEG,
+	int PARTIALS_PER_SEG,
+	int LOG_PARTIALS_PER_ROW,
+	int PARTIALS_PER_ROW,
+	int LOG_SEGS_PER_ROW,	
+	int SEGS_PER_ROW,
+	int LOG_ROWS_PER_SET,
+	int LOG_ROWS_PER_LANE,
+	int ROWS_PER_LANE,
+	int LOG_ROWS_PER_PASS,
+	int ROWS_PER_PASS,
+	int MAX_EXCHANGE_BYTES,
 	typename PreprocessFunctor,
 	typename PostprocessFunctor>
 
 __device__ __forceinline__ void SrtsScanDigitCycle(
-	typename VecType<K, 2>::Type 	*d_in_keys, 
-	typename VecType<V, 2>::Type 	*d_in_values, 
-	K								*d_out_keys, 
-	V								*d_out_values, 
-	uint4        					*exchange,								
-	unsigned int 					warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
-	unsigned int 					carry[RADIX_DIGITS],
-	unsigned int 					digit_scan[2][RADIX_DIGITS],						 
-	unsigned int 					digit_counts[PASSES_PER_CYCLE][SETS_PER_PASS][RADIX_DIGITS],
-	int 							extra[1],
-	unsigned int 					*base_partial,
-	unsigned int 					*raking_partial)		
+	typename VecType<K, 2>::Type *d_in_keys, 
+	typename VecType<V, 2>::Type *d_in_values, 
+	K *d_out_keys, 
+	V *d_out_values, 
+	int4 *exchange,								
+	int	warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE],
+	int	carry[RADIX_DIGITS],
+	int	digit_scan[2][RADIX_DIGITS],						 
+	int	digit_counts[PASSES_PER_CYCLE][SETS_PER_PASS][RADIX_DIGITS],
+	int	extra[1],
+	int	*base_partial,
+	int	*raking_partial)		
 {
 	
-	const unsigned int PADDED_PARTIALS_PER_LANE 		= ROWS_PER_LANE * (PARTIALS_PER_ROW + 1);	 
-	const unsigned int SETS_PER_CYCLE 					= PASSES_PER_CYCLE * SETS_PER_PASS;
+	const int PADDED_PARTIALS_PER_LANE 		= ROWS_PER_LANE * (PARTIALS_PER_ROW + 1);	 
+	const int SETS_PER_CYCLE 				= PASSES_PER_CYCLE * SETS_PER_PASS;
 
 	// N.B.: We use the following voodoo incantations to elide the compiler's miserable 
 	// "declared but never referenced" warnings for these (which are actually used for 
@@ -798,9 +798,9 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
 	SuppressUnusedConstantWarning(SETS_PER_CYCLE);
 	
 	typename VecType<K, 2>::Type 	keypairs[PASSES_PER_CYCLE][SETS_PER_PASS];
-	uint2 							digits[PASSES_PER_CYCLE][SETS_PER_PASS];
-	uint2 							flag_offsets[PASSES_PER_CYCLE][SETS_PER_PASS];		// a byte offset
-	uint2 							ranks[PASSES_PER_CYCLE][SETS_PER_PASS];
+	int2 							digits[PASSES_PER_CYCLE][SETS_PER_PASS];
+	int2 							flag_offsets[PASSES_PER_CYCLE][SETS_PER_PASS];		// a byte offset
+	int2 							ranks[PASSES_PER_CYCLE][SETS_PER_PASS];
 
 	
 	//-------------------------------------------------------------------------
@@ -840,7 +840,7 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
 	// Recover second-half digit-counts, scan across all digit-counts
 	if (threadIdx.x < RADIX_DIGITS) {
 
-		unsigned int counts[PASSES_PER_CYCLE][SETS_PER_PASS];
+		int counts[PASSES_PER_CYCLE][SETS_PER_PASS];
 
 		// Recover digit-counts
 
@@ -857,8 +857,8 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
 				digits, counts, extra);
 
 		// Scan across my digit counts for each set 
-		unsigned int exclusive_total = 0;
-		unsigned int inclusive_total = 0;
+		int exclusive_total = 0;
+		int inclusive_total = 0;
 		
 		#pragma unroll
 		for (int PASS = 0; PASS < (int) PASSES_PER_CYCLE; PASS++) {
@@ -872,10 +872,10 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
 		}
 
 		// second half of carry update
-		unsigned int my_carry = carry[threadIdx.x] + digit_scan[1][threadIdx.x];
+		int my_carry = carry[threadIdx.x] + digit_scan[1][threadIdx.x];
 
 		// Perform overflow-free SIMD Kogge-Stone across digits
-		unsigned int digit_prefix = WarpScan<RADIX_DIGITS, false>(
+		int digit_prefix = WarpScan<RADIX_DIGITS, false>(
 				digit_scan, 
 				inclusive_total,
 				0);
@@ -943,12 +943,19 @@ __device__ __forceinline__ void SrtsScanDigitCycle(
  * Scan/Scatter Kernel Entry Point
  ******************************************************************************/
 
-template <typename K, typename V, unsigned int PASS, unsigned int RADIX_BITS, unsigned int BIT, typename PreprocessFunctor, typename PostprocessFunctor>
+template <
+	typename K, 
+	typename V, 
+	int PASS, 
+	int RADIX_BITS, 
+	int BIT, 
+	typename PreprocessFunctor, 
+	typename PostprocessFunctor>
 __launch_bounds__ (B40C_RADIXSORT_THREADS, B40C_RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(__CUDA_ARCH__))
 __global__ 
 void ScanScatterDigits(
 	bool *d_from_alt_storage,
-	unsigned int* d_spine,
+	int* d_spine,
 	K* d_in_keys,
 	K* d_out_keys,
 	V* d_in_values,
@@ -956,53 +963,53 @@ void ScanScatterDigits(
 	CtaDecomposition work_decomposition)
 {
 
-	const unsigned int RADIX_DIGITS 			= 1 << RADIX_BITS;
+	const int RADIX_DIGITS 				= 1 << RADIX_BITS;
 	
-	const unsigned int LOG_SCAN_LANES_PER_SET	= (RADIX_BITS > 2) ? RADIX_BITS - 2 : 0;					// Always at one lane per set
-	const unsigned int SCAN_LANES_PER_SET		= 1 << LOG_SCAN_LANES_PER_SET;								// N.B.: we have "declared but never referenced" warnings for these, but they're actually used for template instantiation
+	const int LOG_SCAN_LANES_PER_SET	= (RADIX_BITS > 2) ? RADIX_BITS - 2 : 0;					// Always at one lane per set
+	const int SCAN_LANES_PER_SET		= 1 << LOG_SCAN_LANES_PER_SET;								// N.B.: we have "declared but never referenced" warnings for these, but they're actually used for template instantiation
 	
-	const unsigned int LOG_SETS_PER_PASS		= B40C_RADIXSORT_LOG_SETS_PER_PASS(__CUDA_ARCH__);			
-	const unsigned int SETS_PER_PASS			= 1 << LOG_SETS_PER_PASS;
+	const int LOG_SETS_PER_PASS			= B40C_RADIXSORT_LOG_SETS_PER_PASS(__CUDA_ARCH__);			
+	const int SETS_PER_PASS				= 1 << LOG_SETS_PER_PASS;
 	
-	const unsigned int LOG_PASSES_PER_CYCLE		= B40C_RADIXSORT_LOG_PASSES_PER_CYCLE(__CUDA_ARCH__, K, V);			
-	const unsigned int PASSES_PER_CYCLE			= 1 << LOG_PASSES_PER_CYCLE;
+	const int LOG_PASSES_PER_CYCLE		= B40C_RADIXSORT_LOG_PASSES_PER_CYCLE(__CUDA_ARCH__, K, V);			
+	const int PASSES_PER_CYCLE			= 1 << LOG_PASSES_PER_CYCLE;
 
-	const unsigned int LOG_SCAN_LANES_PER_PASS	= LOG_SETS_PER_PASS + LOG_SCAN_LANES_PER_SET;
-	const unsigned int SCAN_LANES_PER_PASS		= 1 << LOG_SCAN_LANES_PER_PASS;
+	const int LOG_SCAN_LANES_PER_PASS	= LOG_SETS_PER_PASS + LOG_SCAN_LANES_PER_SET;
+	const int SCAN_LANES_PER_PASS		= 1 << LOG_SCAN_LANES_PER_PASS;
 	
-	const unsigned int LOG_PARTIALS_PER_LANE 	= B40C_RADIXSORT_LOG_THREADS;
+	const int LOG_PARTIALS_PER_LANE 	= B40C_RADIXSORT_LOG_THREADS;
 	
-	const unsigned int LOG_PARTIALS_PER_PASS	= LOG_SCAN_LANES_PER_PASS + LOG_PARTIALS_PER_LANE;
+	const int LOG_PARTIALS_PER_PASS		= LOG_SCAN_LANES_PER_PASS + LOG_PARTIALS_PER_LANE;
 
-	const unsigned int LOG_RAKING_THREADS_PER_PASS 		= B40C_RADIXSORT_LOG_RAKING_THREADS_PER_PASS(__CUDA_ARCH__);
-	const unsigned int RAKING_THREADS_PER_PASS			= 1 << LOG_RAKING_THREADS_PER_PASS;
+	const int LOG_RAKING_THREADS_PER_PASS 		= B40C_RADIXSORT_LOG_RAKING_THREADS_PER_PASS(__CUDA_ARCH__);
+	const int RAKING_THREADS_PER_PASS			= 1 << LOG_RAKING_THREADS_PER_PASS;
 
-	const unsigned int LOG_RAKING_THREADS_PER_LANE 		= LOG_RAKING_THREADS_PER_PASS - LOG_SCAN_LANES_PER_PASS;
-	const unsigned int RAKING_THREADS_PER_LANE 			= 1 << LOG_RAKING_THREADS_PER_LANE;
+	const int LOG_RAKING_THREADS_PER_LANE 		= LOG_RAKING_THREADS_PER_PASS - LOG_SCAN_LANES_PER_PASS;
+	const int RAKING_THREADS_PER_LANE 			= 1 << LOG_RAKING_THREADS_PER_LANE;
 
-	const unsigned int LOG_PARTIALS_PER_SEG 	= LOG_PARTIALS_PER_LANE - LOG_RAKING_THREADS_PER_LANE;
-	const unsigned int PARTIALS_PER_SEG 		= 1 << LOG_PARTIALS_PER_SEG;
+	const int LOG_PARTIALS_PER_SEG 		= LOG_PARTIALS_PER_LANE - LOG_RAKING_THREADS_PER_LANE;
+	const int PARTIALS_PER_SEG 			= 1 << LOG_PARTIALS_PER_SEG;
 
-	const unsigned int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < B40C_LOG_MEM_BANKS(__CUDA_ARCH__)) ? B40C_LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of MEM_BANKS partials per row
-	const unsigned int PARTIALS_PER_ROW			= 1 << LOG_PARTIALS_PER_ROW;
-	const unsigned int PADDED_PARTIALS_PER_ROW 	= PARTIALS_PER_ROW + 1;
+	const int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < B40C_LOG_MEM_BANKS(__CUDA_ARCH__)) ? B40C_LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of MEM_BANKS partials per row
+	const int PARTIALS_PER_ROW			= 1 << LOG_PARTIALS_PER_ROW;
+	const int PADDED_PARTIALS_PER_ROW 	= PARTIALS_PER_ROW + 1;
 
-	const unsigned int LOG_SEGS_PER_ROW 		= LOG_PARTIALS_PER_ROW - LOG_PARTIALS_PER_SEG;	
-	const unsigned int SEGS_PER_ROW				= 1 << LOG_SEGS_PER_ROW;
+	const int LOG_SEGS_PER_ROW 			= LOG_PARTIALS_PER_ROW - LOG_PARTIALS_PER_SEG;	
+	const int SEGS_PER_ROW				= 1 << LOG_SEGS_PER_ROW;
 
-	const unsigned int LOG_ROWS_PER_SET 		= LOG_PARTIALS_PER_PASS - LOG_PARTIALS_PER_ROW;
+	const int LOG_ROWS_PER_SET 			= LOG_PARTIALS_PER_PASS - LOG_PARTIALS_PER_ROW;
 
-	const unsigned int LOG_ROWS_PER_LANE 		= LOG_PARTIALS_PER_LANE - LOG_PARTIALS_PER_ROW;
-	const unsigned int ROWS_PER_LANE 			= 1 << LOG_ROWS_PER_LANE;
+	const int LOG_ROWS_PER_LANE 		= LOG_PARTIALS_PER_LANE - LOG_PARTIALS_PER_ROW;
+	const int ROWS_PER_LANE 			= 1 << LOG_ROWS_PER_LANE;
 
-	const unsigned int LOG_ROWS_PER_PASS 		= LOG_SCAN_LANES_PER_PASS + LOG_ROWS_PER_LANE;
-	const unsigned int ROWS_PER_PASS 			= 1 << LOG_ROWS_PER_PASS;
+	const int LOG_ROWS_PER_PASS 		= LOG_SCAN_LANES_PER_PASS + LOG_ROWS_PER_LANE;
+	const int ROWS_PER_PASS 			= 1 << LOG_ROWS_PER_PASS;
 	
-	const unsigned int SCAN_LANE_BYTES			= ROWS_PER_PASS * PADDED_PARTIALS_PER_ROW * sizeof(unsigned int);
-	const unsigned int MAX_EXCHANGE_BYTES		= (sizeof(K) > sizeof(V)) ? 
+	const int SCAN_LANE_BYTES			= ROWS_PER_PASS * PADDED_PARTIALS_PER_ROW * sizeof(int);
+	const int MAX_EXCHANGE_BYTES		= (sizeof(K) > sizeof(V)) ? 
 													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(K) : 
 													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(V);
-	const unsigned int SCAN_LANE_UINT4S         = (B40C_MAX(MAX_EXCHANGE_BYTES, SCAN_LANE_BYTES) + sizeof(uint4) - 1) / sizeof(uint4);
+	const int SCAN_LANE_INT4S         = (B40C_MAX(MAX_EXCHANGE_BYTES, SCAN_LANE_BYTES) + sizeof(int4) - 1) / sizeof(int4);
 
 
 	// N.B.: We use the following voodoo incantations to elide the compiler's miserable 
@@ -1013,14 +1020,14 @@ void ScanScatterDigits(
 	SuppressUnusedConstantWarning(LOG_ROWS_PER_SET);
 	SuppressUnusedConstantWarning(ROWS_PER_LANE);
 
-    // scan_lanes is a uint4[] to avoid alignment issues when casting to (K *) and/or (V *)
-	__shared__ uint4            scan_lanes[SCAN_LANE_UINT4S];
-	__shared__ unsigned int 	warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE];		// One warpscan per fours-group
-	__shared__ unsigned int 	carry[RADIX_DIGITS];
-	__shared__ unsigned int 	digit_scan[2][RADIX_DIGITS];						 
-	__shared__ unsigned int 	digit_counts[PASSES_PER_CYCLE][SETS_PER_PASS][RADIX_DIGITS];
-	__shared__ bool 			non_trivial_digit_pass;
-	__shared__ bool				from_alt_storage;
+    // scan_lanes is a int4[] to avoid alignment issues when casting to (K *) and/or (V *)
+	__shared__ int4		scan_lanes[SCAN_LANE_INT4S];
+	__shared__ int 		warpscan[SCAN_LANES_PER_PASS][3][RAKING_THREADS_PER_LANE];		// One warpscan per fours-group
+	__shared__ int 		carry[RADIX_DIGITS];
+	__shared__ int 		digit_scan[2][RADIX_DIGITS];						 
+	__shared__ int 		digit_counts[PASSES_PER_CYCLE][SETS_PER_PASS][RADIX_DIGITS];
+	__shared__ bool 	non_trivial_digit_pass;
+	__shared__ bool		from_alt_storage;
 	
 	_B40C_REG_MISER_QUALIFIER_ int extra[1];
 	_B40C_REG_MISER_QUALIFIER_ int oob[1];
@@ -1028,7 +1035,7 @@ void ScanScatterDigits(
 	extra[0] = (blockIdx.x == gridDim.x - 1) ? work_decomposition.extra_elements_last_block : 0;
 
 	// calculate our threadblock's range
-	unsigned int block_elements, block_offset;
+	int block_elements, block_offset;
 	if (blockIdx.x < work_decomposition.num_big_blocks) {
 		block_offset = work_decomposition.big_block_elements * blockIdx.x;
 		block_elements = work_decomposition.big_block_elements;
@@ -1040,12 +1047,12 @@ void ScanScatterDigits(
 
 	
 	// location for placing 2-element partial reductions in the first lane of a pass	
-	unsigned int row = threadIdx.x >> LOG_PARTIALS_PER_ROW; 
-	unsigned int col = threadIdx.x & (PARTIALS_PER_ROW - 1); 
-	unsigned int *base_partial = reinterpret_cast<unsigned int *>(scan_lanes) + (row * PADDED_PARTIALS_PER_ROW) + col; 								
+	int row = threadIdx.x >> LOG_PARTIALS_PER_ROW; 
+	int col = threadIdx.x & (PARTIALS_PER_ROW - 1); 
+	int *base_partial = reinterpret_cast<int *>(scan_lanes) + (row * PADDED_PARTIALS_PER_ROW) + col; 								
 	
 	// location for raking across all sets within a pass
-	unsigned int *raking_partial = 0;										
+	int *raking_partial = 0;										
 
 	if (threadIdx.x < RAKING_THREADS_PER_PASS) {
 
@@ -1069,8 +1076,8 @@ void ScanScatterDigits(
 			from_alt_storage = (PASS == 0) ? false : d_from_alt_storage[PASS & 0x1];
 
 			// Read carry in parallel 
-			unsigned int spine_digit_offset = FastMul(gridDim.x, threadIdx.x);
-			unsigned int my_digit_carry = d_spine[spine_digit_offset + blockIdx.x];
+			int spine_digit_offset = FastMul(gridDim.x, threadIdx.x);
+			int my_digit_carry = d_spine[spine_digit_offset + blockIdx.x];
 			carry[threadIdx.x] = my_digit_carry;
 
 			// Determine whether or not we have work to do and setup the next round 
@@ -1078,7 +1085,7 @@ void ScanScatterDigits(
 			// from the number of non-zero-and-non-oob digit carries.  First block 
 			// needs someone else's because he always writes the zero offset.
 			
-			unsigned int predicate;
+			int predicate;
 			if (PreprocessFunctor::MustApply() || PostprocessFunctor::MustApply()) {
 
 				non_trivial_digit_pass = true;
@@ -1091,7 +1098,7 @@ void ScanScatterDigits(
 				}
 				
 				predicate = ((my_digit_carry > 0) && (my_digit_carry < work_decomposition.num_elements));
-				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, reinterpret_cast<unsigned int *>(scan_lanes)) > 0);
+				non_trivial_digit_pass = (TallyWarpVote(RADIX_DIGITS, predicate, reinterpret_cast<int *>(scan_lanes)) > 0);
 			}
 
 			// Let the next round know which set of buffers to use
@@ -1101,7 +1108,7 @@ void ScanScatterDigits(
 		// initialize raking segment
 		row = threadIdx.x >> LOG_SEGS_PER_ROW;
 		col = (threadIdx.x & (SEGS_PER_ROW - 1)) << LOG_PARTIALS_PER_SEG;
-		raking_partial = reinterpret_cast<unsigned int *>(scan_lanes) + (row * PADDED_PARTIALS_PER_ROW) + col; 
+		raking_partial = reinterpret_cast<int *>(scan_lanes) + (row * PADDED_PARTIALS_PER_ROW) + col; 
 	}
 
 	// Sync to acquire non_trivial_digit_pass and from_temp_storage
@@ -1116,8 +1123,8 @@ void ScanScatterDigits(
 		while (block_offset < oob[0]) {
 	
 			SrtsScanDigitCycle<K, V, BIT, true, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				(typename VecType<K, 2>::Type *) (void *) &d_in_keys[block_offset], 
-				(typename VecType<V, 2>::Type *) (void *) &d_in_values[block_offset], 
+				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_in_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_in_values[block_offset]), 
 				d_out_keys, 
 				d_out_values, 
 				scan_lanes,
@@ -1135,8 +1142,8 @@ void ScanScatterDigits(
 		if (extra[0]) {
 			
 			SrtsScanDigitCycle<K, V, BIT, false, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				(typename VecType<K, 2>::Type *) (void *) &d_in_keys[block_offset], 
-				(typename VecType<V, 2>::Type *) (void *) &d_in_values[block_offset], 
+				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_in_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_in_values[block_offset]), 
 				d_out_keys, 
 				d_out_values, 
 				scan_lanes,
@@ -1155,8 +1162,8 @@ void ScanScatterDigits(
 		while (block_offset < oob[0]) {
 
 			SrtsScanDigitCycle<K, V, BIT, true, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				(typename VecType<K, 2>::Type *) (void *) &d_out_keys[block_offset], 
-				(typename VecType<V, 2>::Type *) (void *) &d_out_values[block_offset], 
+				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_out_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_out_values[block_offset]), 
 				d_in_keys, 
 				d_in_values, 
 				scan_lanes,
@@ -1174,8 +1181,8 @@ void ScanScatterDigits(
 		if (extra[0]) {
 			
 			SrtsScanDigitCycle<K, V, BIT, false, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				(typename VecType<K, 2>::Type *) (void *) &d_out_keys[block_offset], 
-				(typename VecType<V, 2>::Type *) (void *) &d_out_values[block_offset], 
+				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_out_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_out_values[block_offset]), 
 				d_in_keys, 
 				d_in_values, 
 				scan_lanes,
