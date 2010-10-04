@@ -360,7 +360,7 @@ int BaseRadixSortingEnactor<K, V>::GridSize(int max_grid_size)
 	// find maximum number of threadblocks if "use-default"
 	if (max_grid_size == 0) {
 
-		if (_num_elements <= SINGLE_CTA_CUTOFF) {
+		if (_num_elements <= static_cast<unsigned int>(SINGLE_CTA_CUTOFF)) {
 
 			// The problem size is too small to warrant a two-level reduction: 
 			// use only one stream-processor
@@ -384,7 +384,7 @@ int BaseRadixSortingEnactor<K, V>::GridSize(int max_grid_size)
 				}
 				max_grid_size = orig_max_grid_size;
 
-				if (_num_elements / _cycle_elements > max_grid_size) {
+				if (_num_elements / _cycle_elements > static_cast<unsigned int>(max_grid_size)) {
 	
 					double multiplier1 = 4.0;
 					double multiplier2 = 16.0;
@@ -475,7 +475,7 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 	//
 
 	// Run tesla flush kernel if we have two or more threadblocks for each of the SMs
-	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > _device_props.multiProcessorCount * _cycle_elements * 2)) { 
+	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > static_cast<unsigned int>(_device_props.multiProcessorCount * _cycle_elements * 2))) { 
 		FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
 		synchronize_if_enabled("FlushKernel");
 	}
@@ -511,7 +511,7 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 	//
 	
 	// Run tesla flush kernel if we have two or more threadblocks for each of the SMs
-	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > _device_props.multiProcessorCount * _cycle_elements * 2)) { 
+	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > static_cast<unsigned int>(_device_props.multiProcessorCount * _cycle_elements * 2))) { 
 		FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
 		synchronize_if_enabled("FlushKernel");
 	}
