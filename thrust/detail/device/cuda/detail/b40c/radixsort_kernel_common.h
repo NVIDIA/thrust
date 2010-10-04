@@ -91,8 +91,8 @@ namespace b40c   {
 
 // Number of raking passes per cycle
 #define B40C_SM20_LOG_PASSES_PER_CYCLE(K, V)					(((B40C_MAX(sizeof(K), sizeof(V)) > 4) || _B40C_LP64_) ? 0 : 1)	// 2 passes on GF100 (only one for large keys/values, or for 64-bit device pointers)
-#define B40C_SM12_LOG_PASSES_PER_CYCLE(K, V)					(B40C_MAX(sizeof(K), sizeof(V)) > 4 ? 0 : 1)						// 2 passes on GT200 (only for large keys/values)
-#define B40C_SM10_LOG_PASSES_PER_CYCLE(K, V)					(0)															// 1 pass on G80
+#define B40C_SM12_LOG_PASSES_PER_CYCLE(K, V)					(B40C_MAX(sizeof(K), sizeof(V)) > 4 ? 0 : 1)					// 2 passes on GT200 (only for large keys/values)
+#define B40C_SM10_LOG_PASSES_PER_CYCLE(K, V)					(0)																// 1 pass on G80
 #define B40C_RADIXSORT_LOG_PASSES_PER_CYCLE(version, K, V)	((version >= 200) ? B40C_SM20_LOG_PASSES_PER_CYCLE(K, V) : 	\
 				    										 (version >= 120) ? B40C_SM12_LOG_PASSES_PER_CYCLE(K, V) : 	\
 					    														B40C_SM10_LOG_PASSES_PER_CYCLE(K, V))		
