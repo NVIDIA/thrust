@@ -69,7 +69,7 @@ void stable_radix_sort(RandomAccessIterator first,
     
     // allocate temporary buffers
     thrust::detail::raw_cuda_device_buffer<K>            temp_keys(num_elements);
-    thrust::detail::raw_cuda_device_buffer<unsigned int> temp_spine(sorter.SpineElements());
+    thrust::detail::raw_cuda_device_buffer<int>          temp_spine(sorter.SpineElements());
     thrust::detail::raw_cuda_device_buffer<bool>         temp_from_alt(2);
 
     // define storage
@@ -129,7 +129,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
     // allocate temporary buffers
     thrust::detail::raw_cuda_device_buffer<K>            temp_keys(num_elements);
     thrust::detail::raw_cuda_device_buffer<V>            temp_values(num_elements);
-    thrust::detail::raw_cuda_device_buffer<unsigned int> temp_spine(sorter.SpineElements());
+    thrust::detail::raw_cuda_device_buffer<int>          temp_spine(sorter.SpineElements());
     thrust::detail::raw_cuda_device_buffer<bool>         temp_from_alt(2);
 
     // define storage
