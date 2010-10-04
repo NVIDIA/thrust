@@ -49,7 +49,7 @@ template<>
       thrust::default_random_engine rng(hash(i));
       thrust::uniform_int_distribution<unsigned int> dist(0,1);
 
-      return static_cast<bool>(dist(rng));
+      return dist(rng) == 1;
   }
 };
 

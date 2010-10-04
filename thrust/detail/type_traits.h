@@ -282,8 +282,9 @@ template<typename T>
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 // temporarily disable 'possible loss of data' warnings on MSVC
+// temporarily disable 'forcing value to bool 'true' or 'false' (performance warning)'
 #pragma warning(push)
-#pragma warning(disable : 4244)
+#pragma warning(disable : 4244 4800)
 #endif
 
 template<typename From, typename To>
