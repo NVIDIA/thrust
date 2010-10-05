@@ -24,7 +24,9 @@
 
 #include <thrust/detail/config/simple_defines.h>
 #include <thrust/detail/config/compiler.h>
-#include <thrust/detail/config/host_device.h>
+// device_backend.h must be #included as early as possible
+// because other config headers depend on it
 #include <thrust/detail/config/device_backend.h>
+#include <thrust/detail/config/host_device.h>
 #include <thrust/detail/config/debug.h>
 
