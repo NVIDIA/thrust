@@ -28,6 +28,8 @@
 #include <thrust/detail/device/scan.h>
 #include <thrust/scatter.h>
 
+#include <limits>
+
 namespace thrust
 {
 namespace detail

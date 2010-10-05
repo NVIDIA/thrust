@@ -31,9 +31,9 @@
 #include <thrust/detail/device/cuda/block/reduce.h>
 #include <thrust/detail/device/cuda/extern_shared_ptr.h>
 #include <thrust/detail/device/cuda/dispatch/reduce.h>
+#include <thrust/detail/device/cuda/detail/launch_closure.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/functional.h>
-#include <thrust/detail/device/cuda/synchronize.h>
 
 namespace thrust
 {
@@ -112,34 +112,67 @@ template<typename InputIterator,
 
 } // end reduce_n_device()
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename OutputType,
          typename BinaryFunction>
-  __global__ void
-  reduce_n_smem(InputIterator input,
-                const unsigned int n,
-                OutputType * block_results,  
-                BinaryFunction binary_op)
+  struct reduce_n_smem_closure
 {
+  RandomAccessIterator first;
+  Size n;
+  OutputType *block_results;
+  BinaryFunction binary_op;
+
+  reduce_n_smem_closure(RandomAccessIterator first_,
+                        Size n_,
+                        OutputType *block_results_,
+                        BinaryFunction binary_op_)
+    : first(first_),
+      n(n_),
+      block_results(block_results_),
+      binary_op(binary_op_)
+  {}
+
+  __device__
+  void operator()(void)
+  {
     thrust::detail::device::cuda::extern_shared_ptr<OutputType> shared_ptr;
     OutputType *shared_array = shared_ptr;
 
-    reduce_n_device(input, n, block_results, binary_op, shared_array);
-} // end reduce_n_kernel()
+    reduce_n_device(first, n, block_results, binary_op, shared_array);
+  }
+}; // end reduce_n_smem_closure
 
-
-template<typename InputIterator,
+template<typename RandomAccessIterator,
+         typename Size,
          typename OutputType,
          typename BinaryFunction>
-  __global__ void
-  reduce_n_gmem(InputIterator input,
-                const unsigned int n,
-                OutputType * block_results,  
-                OutputType * shared_array,
-                BinaryFunction binary_op)
+  struct reduce_n_gmem_closure
 {
-    reduce_n_device(input, n, block_results, binary_op, shared_array + blockDim.x * blockIdx.x);
-} // end reduce_n_kernel()
+  RandomAccessIterator first;
+  Size n;
+  OutputType *block_results;
+  OutputType *shared_array;
+  BinaryFunction binary_op;
+
+  reduce_n_gmem_closure(RandomAccessIterator first_,
+                        Size n_,
+                        OutputType *block_results_,
+                        OutputType *shared_array_,
+                        BinaryFunction binary_op_)
+    : first(first_),
+      n(n_),
+      block_results(block_results_),
+      shared_array(shared_array_),
+      binary_op(binary_op_)
+  {}
+
+  __device__
+  void operator()(void)
+  {
+    reduce_n_device(first, n, block_results, binary_op, shared_array + blockDim.x * blockIdx.x);
+  }
+}; // end reduce_n_gmem_closure
 
 
 template <typename InputType, typename OutputType, typename BinaryFunction, typename WideType>
@@ -187,14 +220,16 @@ template<typename RandomAccessIterator1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
+  typedef reduce_n_smem_closure<RandomAccessIterator1,SizeType1,OutputType,BinaryFunction> Closure;
+
   // determine launch parameters
   const size_t smem_per_thread = sizeof(OutputType);
-  const size_t block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(reduce_n_smem<RandomAccessIterator1, OutputType, BinaryFunction>, smem_per_thread);
+  const size_t block_size = thrust::detail::device::cuda::detail::block_size_with_maximal_occupancy<Closure>(smem_per_thread);
   const size_t smem_size = block_size * smem_per_thread;
 
-  // reduce input to per-block sums
-  reduce_n_smem<<<num_blocks, block_size, smem_size>>>(first, n, thrust::raw_pointer_cast(&*result), binary_op);
-  synchronize_if_enabled("reduce_n_smem");
+  Closure closure(first, n, thrust::raw_pointer_cast(&*result), binary_op);
+
+  launch_closure(closure, num_blocks, block_size, smem_size);
 } // end unordered_blocked_reduce_n()
 
 
@@ -212,14 +247,16 @@ template<typename RandomAccessIterator1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
-  const size_t block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(reduce_n_gmem<RandomAccessIterator1, OutputType, BinaryFunction>, 0);
+  typedef reduce_n_gmem_closure<RandomAccessIterator1,SizeType1,OutputType,BinaryFunction> Closure;
+
+  const size_t block_size = thrust::detail::device::cuda::detail::block_size_with_maximal_occupancy<Closure>();
 
   // allocate storage for shared array
   thrust::detail::raw_cuda_device_buffer<OutputType> shared_array(block_size * num_blocks);
 
-  // reduce input to per-block sums
-  detail::reduce_n_gmem<<<num_blocks, block_size>>>(first, n, raw_pointer_cast(&*result), raw_pointer_cast(&shared_array[0]), binary_op);
-  synchronize_if_enabled("reduce_n_gmem");
+  Closure closure(first, n, raw_pointer_cast(&*result), raw_pointer_cast(&shared_array[0]), binary_op);
+
+  launch_closure(closure, num_blocks, block_size);
 } // end unordered_blocked_reduce_n()
 
 
@@ -287,39 +324,27 @@ template<typename RandomAccessIterator,
                                                             OutputType init,
                                                             BinaryFunction binary_op)
 {
-  // decide whether or not we will use smem
-  size_t smem_per_thread = 0;
+  // choose configuration based on whether or not we will use smem
+  size_t num_blocks = 0;
   if(sizeof(OutputType) <= 64)
   {
-    smem_per_thread = sizeof(OutputType);
-  }
+    const size_t smem_per_thread = sizeof(OutputType);
 
-  // choose block_size
-  size_t block_size = 0;
-  if(smem_per_thread > 0)
-  {
-    block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
+    // use the smem closure
+    typedef detail::reduce_n_smem_closure<RandomAccessIterator,SizeType,OutputType,BinaryFunction> Closure;
+  
+    const size_t block_size = thrust::detail::device::cuda::detail::block_size_with_maximal_occupancy<Closure>(smem_per_thread);
+    const size_t smem_size = block_size * smem_per_thread;
+    num_blocks = thrust::detail::device::cuda::detail::num_blocks_with_maximal_occupancy<Closure>(n, block_size, smem_size);
   }
   else
   {
-    block_size = thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, smem_per_thread);
-  }
+    // use the gmem closure
+    typedef detail::reduce_n_gmem_closure<RandomAccessIterator,SizeType,OutputType,BinaryFunction> Closure;
 
-  const size_t smem_size = block_size * smem_per_thread;
-
-  // choose the maximum number of blocks we can launch
-  size_t max_blocks = 0;
-  if(smem_per_thread > 0)
-  {
-    max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::reduce_n_smem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
+    const size_t block_size = thrust::detail::device::cuda::detail::block_size_with_maximal_occupancy<Closure>();
+    num_blocks = thrust::detail::device::cuda::detail::num_blocks_with_maximal_occupancy<Closure>(n, block_size);
   }
-  else
-  {
-    max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::reduce_n_gmem<RandomAccessIterator, OutputType, BinaryFunction>, block_size, smem_size);
-  }
-
-  // finalize the number of blocks to launch
-  const size_t num_blocks = std::min<size_t>(max_blocks, (n + (block_size - 1)) / block_size);
 
   return num_blocks;
 }

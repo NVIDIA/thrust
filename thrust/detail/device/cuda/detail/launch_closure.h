@@ -34,7 +34,10 @@ namespace detail
 {
 
 template<typename NullaryFunction>
-  static size_t block_size_with_maximal_occupancy(void);
+  size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0);
+
+template<typename NullaryFunction, typename Size1, typename Size2>
+  size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block = 0);
 
 template<typename NullaryFunction, typename Size>
   void launch_closure(NullaryFunction f, Size n);

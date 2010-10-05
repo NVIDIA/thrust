@@ -24,6 +24,8 @@
 #include <thrust/detail/device/cuda/detail/launch_closure.h>
 #include <thrust/detail/static_assert.h>
 
+#include <limits>
+
 namespace thrust
 {
 namespace detail

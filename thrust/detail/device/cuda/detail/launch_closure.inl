@@ -22,7 +22,6 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <algorithm>
-#include <limits>
 
 #include <thrust/detail/device/cuda/arch.h>
 #include <thrust/detail/device/cuda/malloc.h>
@@ -67,15 +66,15 @@ template<typename NullaryFunction,
          bool launch_by_value = sizeof(NullaryFunction) <= 256>
   struct closure_launcher_base
 {
-  inline static size_t block_size_with_maximal_occupancy(void)
+  inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
   {
-    return thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>);
+    return thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>, dynamic_smem_bytes_per_thread);
   }
 
   template<typename Size1, typename Size2>
-  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size)
+  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
   {
-    const size_t max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, 0);
+    const size_t max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
     return (std::min)(max_blocks, ( n + (block_size - 1) ) / block_size);
   }
 
@@ -91,15 +90,15 @@ template<typename NullaryFunction,
 template<typename NullaryFunction>
   struct closure_launcher_base<NullaryFunction,false>
 {
-  inline static size_t block_size_with_maximal_occupancy(void)
+  inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
   {
     return thrust::detail::device::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
   }
 
   template<typename Size1, typename Size2>
-  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size)
+  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
   {
-    const size_t max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, 0);
+    const size_t max_blocks = thrust::detail::device::cuda::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
     return (std::min)(max_blocks, ( n + (block_size - 1) ) / block_size);
   }
 
@@ -135,7 +134,7 @@ template<typename NullaryFunction>
   static thrust::pair<size_t,size_t> configuration_with_maximal_occupancy(Size n)
   {
     const size_t block_size = super_t::block_size_with_maximal_occupancy();
-    const size_t num_blocks = num_blocks_with_maximal_occupancy(n, block_size);
+    const size_t num_blocks = super_t::num_blocks_with_maximal_occupancy(n, block_size, 0u);
 
     return thrust::make_pair(num_blocks, block_size);
   }
@@ -156,10 +155,16 @@ template<typename NullaryFunction>
 
 
 template<typename NullaryFunction>
-  static size_t block_size_with_maximal_occupancy(void)
+  size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread)
 {
-  return closure_launcher<NullaryFunction>::block_size_with_maximal_occupancy();
+  return closure_launcher<NullaryFunction>::block_size_with_maximal_occupancy(dynamic_smem_bytes_per_thread);
 } // end block_size_with_maximal_occupancy()
+
+template<typename NullaryFunction, typename Size1, typename Size2>
+  size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
+{
+  return closure_launcher<NullaryFunction>::num_blocks_with_maximal_occupancy(n, block_size, dynamic_smem_bytes_per_block);
+} // end num_blocks_with_maximal_occupancy()
 
 template<typename NullaryFunction, typename Size>
   void launch_closure(NullaryFunction f, Size n)
