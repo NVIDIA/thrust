@@ -166,8 +166,8 @@ __global__ void SrtsScanSpine(
 			smem_offset, 
 			smem_segment, 
 			warpscan,
-			reinterpret_cast<int4 *>(&d_ispine[block_offset]), 
-			reinterpret_cast<int4 *>(&d_ospine[block_offset]), 
+			reinterpret_cast<int4 *>((void *) &d_ispine[block_offset]), 
+			reinterpret_cast<int4 *>((void *) &d_ospine[block_offset]), 
 			carry);
 
 		block_offset += B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;

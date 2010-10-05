@@ -1123,8 +1123,8 @@ void ScanScatterDigits(
 		while (block_offset < oob[0]) {
 	
 			SrtsScanDigitCycle<K, V, BIT, true, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_in_keys[block_offset]), 
-				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_in_values[block_offset]), 
+				reinterpret_cast<typename VecType<K, 2>::Type *>((void *) &d_in_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>((void *) &d_in_values[block_offset]), 
 				d_out_keys, 
 				d_out_values, 
 				scan_lanes,
@@ -1142,8 +1142,8 @@ void ScanScatterDigits(
 		if (extra[0]) {
 			
 			SrtsScanDigitCycle<K, V, BIT, false, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_in_keys[block_offset]), 
-				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_in_values[block_offset]), 
+				reinterpret_cast<typename VecType<K, 2>::Type *>((void *) &d_in_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>((void *) &d_in_values[block_offset]), 
 				d_out_keys, 
 				d_out_values, 
 				scan_lanes,
@@ -1162,8 +1162,8 @@ void ScanScatterDigits(
 		while (block_offset < oob[0]) {
 
 			SrtsScanDigitCycle<K, V, BIT, true, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_out_keys[block_offset]), 
-				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_out_values[block_offset]), 
+				reinterpret_cast<typename VecType<K, 2>::Type *>((void *) &d_out_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>((void *) &d_out_values[block_offset]), 
 				d_in_keys, 
 				d_in_values, 
 				scan_lanes,
@@ -1181,8 +1181,8 @@ void ScanScatterDigits(
 		if (extra[0]) {
 			
 			SrtsScanDigitCycle<K, V, BIT, false, RADIX_DIGITS, LOG_SCAN_LANES_PER_SET, SCAN_LANES_PER_SET, SETS_PER_PASS, PASSES_PER_CYCLE, LOG_SCAN_LANES_PER_PASS, SCAN_LANES_PER_PASS, LOG_PARTIALS_PER_LANE, LOG_PARTIALS_PER_PASS, LOG_RAKING_THREADS_PER_PASS, RAKING_THREADS_PER_PASS, LOG_RAKING_THREADS_PER_LANE, RAKING_THREADS_PER_LANE, LOG_PARTIALS_PER_SEG, PARTIALS_PER_SEG, LOG_PARTIALS_PER_ROW, PARTIALS_PER_ROW, LOG_SEGS_PER_ROW, SEGS_PER_ROW, LOG_ROWS_PER_SET, LOG_ROWS_PER_LANE, ROWS_PER_LANE, LOG_ROWS_PER_PASS, ROWS_PER_PASS, MAX_EXCHANGE_BYTES, PreprocessFunctor, PostprocessFunctor>(	
-				reinterpret_cast<typename VecType<K, 2>::Type *>(&d_out_keys[block_offset]), 
-				reinterpret_cast<typename VecType<V, 2>::Type *>(&d_out_values[block_offset]), 
+				reinterpret_cast<typename VecType<K, 2>::Type *>((void *) &d_out_keys[block_offset]), 
+				reinterpret_cast<typename VecType<V, 2>::Type *>((void *) &d_out_values[block_offset]), 
 				d_in_keys, 
 				d_in_values, 
 				scan_lanes,
