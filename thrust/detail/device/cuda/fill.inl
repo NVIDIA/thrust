@@ -190,12 +190,13 @@ template<typename OutputIterator, typename Size, typename T>
                         const T &value,
                         thrust::detail::true_type)
 {
+  typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+
   // implement this with cudaMemset if value == 0
-  // compare byte-by-byte rather than with == to capture subtleties of floating point -0.0
-  const T zero = T(0);
-  if(std::strncmp(reinterpret_cast<const char*>(&value), reinterpret_cast<const char*>(&zero), sizeof(T)) == 0)
+  // compare to reference 0 to capture subtleties of floating point -0.0
+
+  if(OutputType(0) == OutputType(value))
   {
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     cudaError_t error = cudaMemset(thrust::raw_pointer_cast(&*first), 0, sizeof(OutputType) * n);
     if(error)
     {
