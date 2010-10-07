@@ -5,6 +5,7 @@
 template <class Vector>
 void TestVectorManipulation(size_t n)
 {
+    typedef typename Vector::iterator   Iterator;
     typedef typename Vector::value_type T;
 
     thrust::host_vector<T> src = unittest::random_samples<T>(n);
@@ -38,6 +39,11 @@ void TestVectorManipulation(size_t n)
     Vector tail(vec1.begin() + n, vec1.end());
     ASSERT_EQUAL( (tail == std::vector<T>(20, (T) 11)), true);
 
+    // shrinking a vector should not invalidate iterators
+    Iterator first = vec1.begin();
+    vec1.resize(10);
+    ASSERT_EQUAL_QUIET(first, vec1.begin());
+
     vec1.resize(0);
     ASSERT_EQUAL(vec1.size(), 0);
     ASSERT_EQUAL(vec1.empty(), true);
@@ -50,7 +56,8 @@ void TestVectorManipulation(size_t n)
 
     // push_back
     Vector vec2;
-    for(size_t i = 0; i < 10; ++i){
+    for(size_t i = 0; i < 10; ++i)
+    {
         ASSERT_EQUAL(vec2.size(), i);
         vec2.push_back( (T) i );
         ASSERT_EQUAL(vec2.size(), i + 1);
@@ -60,7 +67,8 @@ void TestVectorManipulation(size_t n)
     }
 
     // pop_back
-    for(size_t i = 10; i > 0; --i){
+    for(size_t i = 10; i > 0; --i)
+    {
         ASSERT_EQUAL(vec2.size(), i);
         ASSERT_EQUAL(vec2.back(), i-1);
         vec2.pop_back();
