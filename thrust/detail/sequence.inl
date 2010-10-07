@@ -33,8 +33,8 @@ template<typename ForwardIterator>
   void sequence(ForwardIterator first,
                 ForwardIterator last)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
-  thrust::sequence(first, last, OutputType(0), OutputType(1));
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type T;
+  thrust::sequence(first, last, T(0));
 } // end sequence()
 
 
@@ -62,7 +62,20 @@ struct sequence_functor
   
   template <typename IntegerType>
       __host__ __device__
-  OutputType operator()(const IntegerType i) const { return OutputType(init + step * i); }
+  OutputType operator()(const IntegerType i) const
+  {
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(push)
+#pragma warning(disable : 4244 4267)
+#endif
+      return OutputType(init + step * i);
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+// reenable 'possible loss of data' warnings
+#pragma warning(pop)
+#endif
+
+  }
 }; // end sequence_functor
 
 } // end namespace detail

@@ -1,10 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/sequence.h>
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// disable 'possible loss of data' warnings on MSVC
-#pragma warning(disable : 4244 4267)
-#endif
 
 template <class Vector>
 void TestSequenceSimple(void)
@@ -60,5 +56,11 @@ void TestSequence(size_t n)
     thrust::sequence(d_data.begin(), d_data.end(), T(10), T(2));
 
     ASSERT_EQUAL(h_data, d_data);
+    
+    thrust::sequence(h_data.begin(), h_data.end(), size_t(10), size_t(2));
+    thrust::sequence(d_data.begin(), d_data.end(), size_t(10), size_t(2));
+
+    ASSERT_EQUAL(h_data, d_data);
 }
 DECLARE_VARIABLE_UNITTEST(TestSequence);
+
