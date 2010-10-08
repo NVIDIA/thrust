@@ -17,9 +17,11 @@
 #pragma once
 
 #ifndef THRUST_DEBUG
-#  if (NDEBUG || DEBUG || _DEBUG)
-#    define THRUST_DEBUG 1
-#  endif // (NDEBUG || DEBUG)
+#  ifndef NDEBUG
+#    if (DEBUG || _DEBUG)
+#      define THRUST_DEBUG 1
+#    endif // (DEBUG || _DEBUG)
+#  endif // NDEBUG
 #endif // THRUST_DEBUG
 
 #if THRUST_DEBUG
