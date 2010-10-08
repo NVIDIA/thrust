@@ -89,6 +89,8 @@
 #include "radixsort_spine_kernel.h"
 #include "radixsort_scanscatter_kernel.h"
 
+#include <thrust/swap.h>
+
 namespace thrust {
 namespace detail {
 namespace device {
@@ -588,9 +590,9 @@ EnactSort(RadixSortStorage<K, V> &problem_storage)
 			cudaMemcpyDeviceToHost);
 	
 		if (problem_storage.using_alternate_storage) {
-			Swap<K*>(problem_storage.d_keys, problem_storage.d_alt_keys);
+            thrust::swap<K*>(problem_storage.d_keys, problem_storage.d_alt_keys);
 			if (!_keys_only) {
-				Swap<V*>(problem_storage.d_values, problem_storage.d_alt_values);
+                thrust::swap<V*>(problem_storage.d_values, problem_storage.d_alt_values);
 			}
 		}
 	}

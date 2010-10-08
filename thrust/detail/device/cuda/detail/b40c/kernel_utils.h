@@ -92,17 +92,6 @@ namespace b40c   {
 
 
 /**
- * Perform a swap
- */
-template <typename T> 
-void __host__ __device__ __forceinline__ Swap(T &a, T &b) {
-	T temp = a;
-	a = b;
-	b = temp;
-}
-
-
-/**
  * MagnitudeShift().  Allows you to shift left for positive magnitude values, 
  * right for negative.   
  * 
