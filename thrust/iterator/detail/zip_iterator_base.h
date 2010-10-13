@@ -395,6 +395,14 @@ template<typename IteratorTuple>
 }; // end tuple_of_value_types
 
 
+struct minimum_category_lambda
+{
+  template<typename T1, typename T2>
+    struct apply : minimum_category<T1,T2>
+  {};
+};
+
+
 
 // Metafunction to obtain the minimal traversal tag in a tuple
 // of iterators.
@@ -409,9 +417,17 @@ struct minimum_traversal_category_in_iterator_tuple
       
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
       tuple_of_traversal_tags
-    , minimum_category<>
+    , minimum_category_lambda
     , thrust::random_access_traversal_tag
   >::type type;
+};
+
+
+struct minimum_space_lambda
+{
+  template<typename T1, typename T2>
+    struct apply : minimum_space<T1,T2>
+  {};
 };
 
 
@@ -428,7 +444,7 @@ struct minimum_space_in_iterator_tuple
 
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
     tuple_of_space_tags,
-    minimum_space<>,
+    minimum_space_lambda,
     thrust::any_space_tag
   >::type type;
 };
