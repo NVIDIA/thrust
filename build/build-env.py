@@ -77,6 +77,7 @@ def getCFLAGS(mode, backend, warn, warnings_as_errors, CC):
   elif mode == 'debug':
     # turn on debug mode
     result.append(gCompilerOptions[CC]['debug'])
+    result.append('-DTHRUST_DEBUG')
   # force 32b code on darwin
   if platform.platform()[:6] == 'Darwin':
     result.append('-m32')

@@ -169,7 +169,7 @@ void assert_equal(ForwardIterator first1, ForwardIterator last1, ForwardIterator
         if(!op(*first1, *first2)){
             mismatches++;
             if(mismatches <= MAX_OUTPUT_LINES)
-                f << "  [" << i << "] " << *first1 << "  " << *first2 << "\n";
+                f << "  [" << i << "] " << (unsigned int)*first1 << "  " << (unsigned int)*first2 << "\n";
         }
 
         first1++;
