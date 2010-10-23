@@ -30,8 +30,7 @@ TIME = \
 FINALIZE = \
     """
     RECORD_TIME();
-    RECORD_THROUGHPUT(double($InputSize));
-    RECORD_BANDWIDTH(sizeof($KeyType) *  double($InputSize));
+    RECORD_BANDWIDTH(4 * sizeof($KeyType) * double($InputSize));
     """
 
 
