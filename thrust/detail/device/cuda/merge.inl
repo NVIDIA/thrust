@@ -29,8 +29,11 @@
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
 #include <thrust/detail/device/cuda/block/copy.h>
+#include <thrust/detail/device/cuda/block/merge.h>
 #include <thrust/detail/device/cuda/scalar/binary_search.h>
 #include <thrust/detail/device/cuda/synchronize.h>
+#include <thrust/detail/device/generic/scalar/select.h>
+#include <thrust/sort.h>
 
 namespace thrust
 {
@@ -40,6 +43,31 @@ namespace device
 {
 namespace cuda
 {
+
+namespace scalar
+{
+
+template<typename ForwardIterator,
+         typename StrictWeakCompare>
+__device__ __forceinline__
+  bool is_sorted(ForwardIterator first,
+                 ForwardIterator last,
+                 StrictWeakCompare comp)
+{
+  ForwardIterator next = first;
+  ++next;
+  for(; next < last; ++first, ++next)
+  {
+    if(comp(*next, *first))
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+}
 
 namespace merge_detail
 {
@@ -82,22 +110,24 @@ __global__ void merge_kernel(RandomAccessIterator1 first1,
   splitter_ranks2 += partition_idx;
 
   // find the end of the input if this is not the last block
-  // the end of merged partition i is at splitter_ranks1[i+1] + splitter_ranks2[i+1]
+  // the end of merged partition i is at splitter_ranks1[i] + splitter_ranks2[i]
   if(partition_idx != gridDim.x - 1)
   {
-    RandomAccessIterator3 temp1 = splitter_ranks1 + 1;
-    RandomAccessIterator4 temp2 = splitter_ranks2 + 1;
+    RandomAccessIterator3 temp1 = splitter_ranks1;
+    RandomAccessIterator4 temp2 = splitter_ranks2;
 
     last1 = first1 + dereference(temp1);
     last2 = first2 + dereference(temp2);
   }
 
   // find the beginning of the input and output if this is not the first block
-  // merged partition i begins at splitter_ranks1[i] + splitter_ranks2[i]
+  // merged partition i begins at splitter_ranks1[i-1] + splitter_ranks2[i-1]
   if(partition_idx != 0)
   {
     RandomAccessIterator3 temp1 = splitter_ranks1;
+    --temp1;
     RandomAccessIterator4 temp2 = splitter_ranks2;
+    --temp2;
 
     // advance the input to point to the beginning
     first1 += dereference(temp1);
@@ -120,83 +150,39 @@ __global__ void merge_kernel(RandomAccessIterator1 first1,
   value_type *s_input2 = reinterpret_cast<value_type*>(_shared2);
   value_type *s_result = reinterpret_cast<value_type*>(_result);
 
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  difference1 s_input1_size = 0;
-
-  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-  difference2 s_input2_size = 0;
-
-  // consume input into our storage over multiple rounds
-  while(first1 < last1 && first2 < last2)
+  if(first1 < last1 && first2 < last2)
   {
-    // fetch into the first segment if there's input left
-    if(first1 < last1)
-    {
-      s_input1_size = thrust::min<difference1>(block_size, last1 - first1);
+    typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
 
-      block::copy(first1, first1 + s_input1_size, s_input1);
-      first1 += s_input1_size;
-    }
+    typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
-    // fetch into the second segment if there's input left
-    if(first2 < last2)
-    {
-      s_input2_size = thrust::min<difference2>(block_size, last2 - first2);
+    // load the first segment
+    difference1 s_input1_size = thrust::min<difference1>(block_size, last1 - first1);
 
-      block::copy(first2, first2 + s_input2_size, s_input2);
-      first2 += s_input2_size;
-    }
+    block::copy(first1, first1 + s_input1_size, s_input1);
+    first1 += s_input1_size;
+
+    // load the second segment
+    difference2 s_input2_size = thrust::min<difference2>(block_size, last2 - first2);
+
+    block::copy(first2, first2 + s_input2_size, s_input2);
+    first2 += s_input2_size;
 
     __syncthreads();
 
-    // find the rank of each element in the other array
-    unsigned int rank2 = 0;
-    if(threadIdx.x < s_input1_size)
-    {
-      value_type x = s_input1[threadIdx.x];
-
-      // lower_bound ensures that x sorts before any equivalent element of s_input2
-      // this ensures stability
-      rank2 = scalar::lower_bound(s_input2, s_input2 + s_input2_size, x, comp) - s_input2;
-    }
-
-    unsigned int rank1 = 0;
-    if(threadIdx.x < s_input2_size)
-    {
-      value_type x = s_input2[threadIdx.x];
-
-      // upper_bound ensures that x sorts after any equivalent element of s_input1
-      // this ensures stability
-      rank1 = scalar::upper_bound(s_input1, s_input1 + s_input1_size, x, comp) - s_input1;
-    }
-
-    __syncthreads();
-
-    if(threadIdx.x < s_input1_size)
-    {
-      // scatter each element from input1
-      s_result[threadIdx.x + rank2] = s_input1[threadIdx.x];
-    }
-
-    if(threadIdx.x < s_input2_size)
-    {
-      // scatter each element from input2
-      s_result[threadIdx.x + rank1] = s_input2[threadIdx.x];
-    }
+    block::merge(s_input1, s_input1 + s_input1_size,
+                 s_input2, s_input2 + s_input2_size,
+                 s_result,
+                 comp);
 
     __syncthreads();
 
     // store to gmem
     result = block::copy(s_result, s_result + s_input1_size + s_input2_size, result);
-
-    __syncthreads();
   }
 
   // simply copy any remaining input
-  if(first1 < last1)
-    block::copy(first1, last1, result);
-  else if(first2 < last2)
-    block::copy(first2, last2, result);
+  block::copy(first2, last2, block::copy(first1, last1, result));
 }
 
 
@@ -213,6 +199,111 @@ struct mult_by
   {
     return _value * v;
   }
+};
+
+template<typename Iterator1, typename Iterator2>
+  struct select_functor
+{
+  Iterator1 first1, last1;
+  Iterator2 first2, last2;
+
+  select_functor(Iterator1 f1, Iterator1 l1,
+                 Iterator2 f2, Iterator2 l2)
+    : first1(f1), last1(l1), first2(f2), last2(l2)
+  {}
+  
+  // satisfy AdaptableUnaryFunction
+  typedef typename thrust::iterator_value<Iterator1>::type      result_type;
+  typedef typename thrust::iterator_difference<Iterator1>::type argument_type;
+
+  __host__ __device__
+  result_type operator()(argument_type k)
+  {
+    typedef typename thrust::iterator_value<Iterator1>::type value_type;
+    return thrust::detail::device::generic::scalar::select(first1, last1, first2, last2, k, thrust::less<value_type>());
+  }
+}; // end select_functor
+
+template<typename Iterator1, typename Iterator2>
+  class merge_iterator
+{
+  typedef thrust::counting_iterator<typename thrust::iterator_difference<Iterator1>::type> counting_iterator;
+  typedef select_functor<Iterator1,Iterator2> function;
+
+  public:
+    typedef thrust::transform_iterator<function, counting_iterator> type;
+}; // end merge_iterator
+
+template<typename Iterator1, typename Iterator2>
+  typename merge_iterator<Iterator1,Iterator2>::type
+    make_merge_iterator(Iterator1 first1, Iterator1 last1,
+                        Iterator2 first2, Iterator2 last2)
+{
+  typedef typename thrust::iterator_difference<Iterator1>::type difference;
+  difference zero = 0;
+
+  select_functor<Iterator1,Iterator2> f(first1,last1,first2,last2);
+  return thrust::make_transform_iterator(thrust::make_counting_iterator<difference>(zero),
+                                         f);
+} // end make_merge_iterator()
+
+template<typename Integer>
+  class leapfrog_iterator
+{
+  typedef thrust::counting_iterator<Integer> counter;
+
+  public:
+    typedef thrust::transform_iterator<mult_by<Integer>, counter> type;
+}; // end leapfrog_iterator
+
+template<typename Integer>
+  typename leapfrog_iterator<Integer>::type
+    make_leapfrog_iterator(Integer init, Integer leap_size)
+{
+  return thrust::make_transform_iterator(thrust::make_counting_iterator<Integer>(init),
+                                         mult_by<Integer>(leap_size));
+} // end make_leapfrog_iterator()
+
+
+template<typename RandomAccessIterator>
+  class splitter_iterator
+{
+  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference;
+  typedef typename leapfrog_iterator<difference>::type leapfrog_iterator;
+
+  public:
+    typedef thrust::permutation_iterator<RandomAccessIterator, leapfrog_iterator> type;
+}; // end splitter_iterator
+
+template<typename RandomAccessIterator, typename Size>
+  typename splitter_iterator<RandomAccessIterator>::type
+    make_splitter_iterator(RandomAccessIterator iter, Size split_size)
+{
+  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference;
+  return thrust::make_permutation_iterator(iter, make_leapfrog_iterator<difference>(0, split_size));
+} // end make_splitter_iterator()
+
+
+template<typename Compare>
+  struct strong_compare
+{
+  strong_compare(Compare c)
+    : comp(c) {}
+
+  // T1 and T2 are tuples
+  template<typename T1, typename T2>
+  __host__ __device__
+  bool operator()(T1 lhs, T2 rhs)
+  {
+    if(comp(lhs.get<0>(), rhs.get<0>()))
+    {
+      return true;
+    }
+
+    return lhs.get<1>() < rhs.get<1>();
+  }
+
+  Compare comp;
 };
 
 } // end namespace merge_detail
@@ -248,56 +339,67 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   
+  // XXX vary block_size dynamically
   const size_t block_size = 128;
   const size_t partition_size = block_size;
   
   const difference1 num_partitions = ceil_div(num_elements1, partition_size);
+  const difference1 num_splitters_from_each_range  = num_partitions - 1;
 
-  // create the range [0, partition_size, 2*partition_size, 3*partition_size, ...]
-  typedef thrust::counting_iterator<difference1, cuda_device_space_tag> counter;
-  typedef thrust::transform_iterator<mult_by<difference1>, counter>    leapfrog_iterator;
-  leapfrog_iterator splitter_ranks1
-    = thrust::make_transform_iterator(counter(0), mult_by<difference1>(partition_size));
+  // zip up the ranges with a counter to disambiguate repeated elements during rank-finding
+  typedef thrust::tuple<RandomAccessIterator1,thrust::counting_iterator<difference1> > iterator_tuple1;
+  typedef thrust::tuple<RandomAccessIterator2,thrust::counting_iterator<difference2> > iterator_tuple2;
+  typedef thrust::zip_iterator<iterator_tuple1> iterator_and_counter1;
+  typedef thrust::zip_iterator<iterator_tuple2> iterator_and_counter2;
 
-  // create the range [first1[0], first1[partition_size], first1[2*partition_size], ...]
-  typedef thrust::permutation_iterator<RandomAccessIterator1, leapfrog_iterator> splitter_iterator;
-  splitter_iterator splitters_begin
-    = thrust::make_permutation_iterator(first1, splitter_ranks1);
+  iterator_and_counter1 first_and_counter1 =
+    thrust::make_zip_iterator(thrust::make_tuple(first1, thrust::make_counting_iterator<difference1>(0)));
+  iterator_and_counter1 last_and_counter1 = first_and_counter1 + num_elements1;
 
-  splitter_iterator splitters_end = splitters_begin + num_partitions;
+  // make the second range begin counting at num_elements1 so they sort after elements from the first range when ambiguous
+  iterator_and_counter2 first_and_counter2 =
+    thrust::make_zip_iterator(thrust::make_tuple(first2, thrust::make_counting_iterator<difference2>(num_elements1)));
+  iterator_and_counter2 last_and_counter2 = first_and_counter2 + num_elements2;
 
-  raw_buffer<difference2, cuda_device_space_tag> splitter_ranks2(num_partitions);
+  // create the range [first1[partition_size], first1[2*partition_size], first1[3*partition_size], ...]
+  typedef typename splitter_iterator<iterator_and_counter1>::type splitter_iterator1;
 
-  // find the rank of each splitter in the second range
-  thrust::lower_bound(first2, last2,
+  // we +1 to begin at first1[partition_size] instead of first1[0]
+  splitter_iterator1 splitters1_begin = make_splitter_iterator(first_and_counter1, partition_size) + 1;
+  splitter_iterator1 splitters1_end = splitters1_begin + num_splitters_from_each_range;
+
+  // create the range [first2[partition_size], first2[2*partition_size], first2[3*partition_size], ...]
+  typedef typename splitter_iterator<iterator_and_counter1>::type splitter_iterator2;
+
+  // we +1 to begin at first2[partition_size] instead of first1[0]
+  splitter_iterator2 splitters2_begin = make_splitter_iterator(first_and_counter2, partition_size) + 1;
+  splitter_iterator2 splitters2_end = splitters2_begin + num_splitters_from_each_range;
+
+  typedef typename merge_detail::merge_iterator<splitter_iterator1,splitter_iterator2>::type merge_iterator;
+
+  // "merge" the splitters
+  merge_iterator splitters_begin = merge_detail::make_merge_iterator(splitters1_begin, splitters1_end,
+                                                                     splitters2_begin, splitters2_end);
+  merge_iterator splitters_end   = splitters_begin + 2 * num_splitters_from_each_range;
+
+  size_t num_merged_partitions = 2 * num_splitters_from_each_range + 1;
+
+  raw_buffer<difference1, cuda_device_space_tag> splitter_ranks1(splitters_end - splitters_begin);
+  raw_buffer<difference2, cuda_device_space_tag> splitter_ranks2(splitters_end - splitters_begin);
+
+  // find the rank of each splitter in the other range
+  thrust::lower_bound(first_and_counter2, last_and_counter2,
                       splitters_begin, splitters_end, 
-                      splitter_ranks2.begin(), comp);
+                      splitter_ranks2.begin(), strong_compare<Compare>(comp));
 
-//  std::cerr << "splitter: " << std::endl;
-//  for(int i = 0; i < num_partitions; ++i)
-//  {
-//    std::cerr << "splitters[" << i << "]: " << (char)splitters_begin[i] << std::endl;
-//  }
-//
-//  std::cerr << "splitter_ranks1: " << std::endl;
-//  for(int i = 0; i < num_partitions; ++i)
-//  {
-//    std::cerr << "splitter_ranks1[" << i << "]: " << splitter_ranks1[i] << std::endl;
-//  }
-//
-//  std::cerr << "splitter_ranks2: " << std::endl;
-//  for(int i = 0; i < num_partitions; ++i)
-//  {
-//    std::cerr << "splitter_ranks2[" << i << "]: " << splitter_ranks2[i] << std::endl;
-//  }
-//
-//  std::cerr << "num_partitions: " << num_partitions << std::endl;
-//  std::cerr << "block_size: " << block_size << std::endl;
+  thrust::upper_bound(first_and_counter1, last_and_counter1,
+                      splitters_begin, splitters_end,
+                      splitter_ranks1.begin(), strong_compare<Compare>(comp));
 
-  merge_detail::merge_kernel<block_size><<<(unsigned int) num_partitions, (unsigned int) block_size >>>( 
+  merge_detail::merge_kernel<block_size><<<num_merged_partitions, (unsigned int) block_size >>>( 
   	first1, last1,
         first2, last2,
-  	splitter_ranks1,
+  	splitter_ranks1.begin(),
   	splitter_ranks2.begin(),
   	result, 
   	comp);
