@@ -388,6 +388,9 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
   raw_buffer<difference2, cuda_device_space_tag> splitter_ranks2(splitters_end - splitters_begin);
 
   // find the rank of each splitter in the other range
+  // XXX it's possible to fuse rank-finding with the merge_kernel below
+  //     this eliminates the temporary buffers splitter_ranks1 & splitter_ranks2
+  //     but this spills to lmem and causes a 10x speeddown
   thrust::lower_bound(first_and_counter2, last_and_counter2,
                       splitters_begin, splitters_end, 
                       splitter_ranks2.begin(), strong_compare<Compare>(comp));
