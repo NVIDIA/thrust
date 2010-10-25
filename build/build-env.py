@@ -238,7 +238,10 @@ def Environment():
   # on shared libraries
   # XXX we should probably just copy the entire environment
   if os.name == 'posix':
-    env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
+    if env['PLATFORM'] == "darwin":
+      env['ENV']['DYLD_LIBRARY_PATH'] = os.environ['DYLD_LIBRARY_PATH']
+    else:
+      env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
 
   # generate help text
   Help(vars.GenerateHelpText(env))
