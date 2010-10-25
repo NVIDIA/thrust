@@ -93,13 +93,13 @@ template<typename RandomAccessIterator1,
 
     if(comp(dereference(b),dereference(a)))
     {
-      first2 = b;
+      first2 += j;
       k -= j;
       size2 -= j;
     } // end if
     else
     {
-      first1 = a;
+      first1 += i;
       k -= i;
       size1 -= i;
     } // end else
@@ -112,7 +112,9 @@ template<typename RandomAccessIterator1,
   {
     // case 0
     // return min of a,b (a wins if equivalent)
-    return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (dereference(first1), dereference(first2), comp);
+    value_type1 x1 = dereference(first1);
+    value_type2 x2 = dereference(first2);
+    return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (x1, x2, comp);
   } // end if
   else if(size1 == 1)
   {
@@ -133,29 +135,40 @@ template<typename RandomAccessIterator1,
     // case 3
     // return the 2nd element of the merger of
     // [A[0], A[1]] and [B[0], B[1]]
-    if(comp(dereference(first2), dereference(first1)))
+    value_type1 x1 = dereference(first1);
+    value_type2 x2 = dereference(first2);
+    if(comp(x2, x1))
     {
       ++first2;
+      x2 = dereference(first2);
     } // end if
     else
     {
       ++first1;
+      x1 = dereference(first1);
     } // end else
 
-    return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (dereference(first1), dereference(first2), comp);
+    return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (x1, x2, comp);
   } // end else if
   else if(k + 1 == size1 + size2)
   {
     // case 4
     // return max(B[-1], A[-1])
-    first1 = last1;
+    // XXX iterator assignment seems to spill to lmem
+    //first1 = last1;
+    first1 += (last1 - first1);
     --first1;
 
-    first2 = last2;
+    // XXX assignment of iterators seems to spill to lmem
+    //first2 = last2;
+    first2 += (last2 - first2);
     --first2;
   } // end else if
 
-  return thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (dereference(first2),dereference(first1),comp);
+
+  value_type1 x1 = dereference(first1);
+  value_type2 x2 = dereference(first2);
+  return thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (x2,x1,comp);
 } // end select()
 
 
