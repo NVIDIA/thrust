@@ -87,6 +87,54 @@ template<typename InputIterator1,
                        InputIterator2 last2,
                        OutputIterator result);
 
+/*! \p merge combines two sorted ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt>
+ *  into a single sorted range. That is, it copies from <tt>[first1, last1)</tt> and
+ *  <tt>[first2, last2)</tt> into <tt>[result, result + (last1 - first1) + (last2 - first2))</tt>
+ *  such that the resulting range is in ascending order. \p merge is stable, meaning both that the
+ *  relative order of elements within each input range is preserved, and that for equivalent elements
+ *  in both input ranges the element from the first range precedes the element from the second. The
+ *  return value is <tt>result + (last1 - first1) + (last2 - first2)</tt>.
+ *
+ *  This version of \p merge compares elements using a function object \p comp.
+ *
+ *  \param first1 The beginning of the first input range.
+ *  \param last2 The end of the first input range.
+ *  \param first2 The beginning of the second input range.
+ *  \param last2 The end of the second input range.
+ *  \param result The beginning of the merged output.
+ *  \param comp Comparison operator.
+ *  \return The end of the output range.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
+ *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator2's \c value_type is convertable to \p StrictWeakCompare's \c second_argument_type.
+ *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use
+ *  \p merge to compute the merger of two sets of integers sorted in
+ *  ascending order.
+ *
+ *  \code
+ *  #include <thrust/merge.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  int A1[6] = {11, 9, 7, 5, 3, 1};
+ *  int A2[7] = {13, 8, 5, 3, 2, 1, 1};
+ *
+ *  int result[13];
+ *
+ *  int *result_end = thrust::merge(A1, A1 + 6, A2, A2 + 7, result, thrust::greater<int>());
+ *  // result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/merge.html
+ *  \see \p sort
+ *  \see \p is_sorted
+ */
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
