@@ -86,6 +86,8 @@ template<unsigned int N>
   static const unsigned int value = (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
 };
 
+// the iterator arguments are declared const because they are not to be
+// modified during "strip mining" in the merge implementation
 template<unsigned int block_size,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
@@ -105,18 +107,21 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
                              StrictWeakOrdering comp,
                              Size num_merged_partitions)
 {
-
-  typedef typename thrust::iterator_value<RandomAccessIterator5>::type value_type;
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+  typedef typename thrust::iterator_value<RandomAccessIterator5>::type value_type5;
 
   // allocate shared storage
-  const unsigned int array_size = align_size_to_int<block_size * sizeof(value_type)>::value;
-  __shared__ int _shared1[array_size];
-  __shared__ int _shared2[array_size];
-  __shared__ int _result[align_size_to_int<2 * block_size * sizeof(value_type)>::value];
+  const unsigned int array_size1 = align_size_to_int<block_size * sizeof(value_type1)>::value;
+  const unsigned int array_size2 = align_size_to_int<block_size * sizeof(value_type2)>::value;
+  const unsigned int array_size3 = align_size_to_int<2 * block_size * sizeof(value_type5)>::value;
+  __shared__ int _shared1[array_size1];
+  __shared__ int _shared2[array_size2];
+  __shared__ int _result[array_size3];
 
-  value_type *s_input1 = reinterpret_cast<value_type*>(_shared1);
-  value_type *s_input2 = reinterpret_cast<value_type*>(_shared2);
-  value_type *s_result = reinterpret_cast<value_type*>(_result);
+  value_type1 *s_input1 = reinterpret_cast<value_type1*>(_shared1);
+  value_type2 *s_input2 = reinterpret_cast<value_type2*>(_shared2);
+  value_type5 *s_result = reinterpret_cast<value_type5*>(_result);
 
   // advance splitter iterators
   splitter_ranks1 += blockIdx.x;
@@ -216,15 +221,37 @@ struct mult_by
   }
 };
 
-template<typename Iterator1, typename Iterator2>
+// this predicate tests two two-element tuples
+// we first use a Compare for the first element
+// if the first elements are equivalent, we use
+// < for the second elements
+template<typename Compare>
+  struct compare_first_less_second
+{
+  compare_first_less_second(Compare c)
+    : comp(c) {}
+
+  template<typename Tuple>
+  __host__ __device__
+  bool operator()(Tuple lhs, Tuple rhs)
+  {
+    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
+  }
+
+  Compare comp;
+}; // end compare_first_less_second
+
+template<typename Iterator1, typename Iterator2, typename Compare>
   struct select_functor
 {
   Iterator1 first1, last1;
   Iterator2 first2, last2;
+  Compare comp;
 
   select_functor(Iterator1 f1, Iterator1 l1,
-                 Iterator2 f2, Iterator2 l2)
-    : first1(f1), last1(l1), first2(f2), last2(l2)
+                 Iterator2 f2, Iterator2 l2,
+                 Compare c)
+    : first1(f1), last1(l1), first2(f2), last2(l2), comp(c)
   {}
   
   // satisfy AdaptableUnaryFunction
@@ -235,29 +262,30 @@ template<typename Iterator1, typename Iterator2>
   result_type operator()(argument_type k)
   {
     typedef typename thrust::iterator_value<Iterator1>::type value_type;
-    return thrust::detail::device::generic::scalar::select(first1, last1, first2, last2, k, thrust::less<value_type>());
+    return thrust::detail::device::generic::scalar::select(first1, last1, first2, last2, k, comp);
   }
 }; // end select_functor
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Compare>
   class merge_iterator
 {
   typedef thrust::counting_iterator<typename thrust::iterator_difference<Iterator1>::type> counting_iterator;
-  typedef select_functor<Iterator1,Iterator2> function;
+  typedef select_functor<Iterator1,Iterator2,Compare> function;
 
   public:
     typedef thrust::transform_iterator<function, counting_iterator> type;
 }; // end merge_iterator
 
-template<typename Iterator1, typename Iterator2>
-  typename merge_iterator<Iterator1,Iterator2>::type
+template<typename Iterator1, typename Iterator2, typename Compare>
+  typename merge_iterator<Iterator1,Iterator2,Compare>::type
     make_merge_iterator(Iterator1 first1, Iterator1 last1,
-                        Iterator2 first2, Iterator2 last2)
+                        Iterator2 first2, Iterator2 last2,
+                        Compare comp)
 {
   typedef typename thrust::iterator_difference<Iterator1>::type difference;
   difference zero = 0;
 
-  select_functor<Iterator1,Iterator2> f(first1,last1,first2,last2);
+  select_functor<Iterator1,Iterator2,Compare> f(first1,last1,first2,last2,comp);
   return thrust::make_transform_iterator(thrust::make_counting_iterator<difference>(zero),
                                          f);
 } // end make_merge_iterator()
@@ -390,11 +418,14 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
   splitter_iterator2 splitters2_begin = make_splitter_iterator(first_and_counter2, partition_size) + 1;
   splitter_iterator2 splitters2_end = splitters2_begin + num_splitters_from_each_range;
 
-  typedef typename merge_detail::merge_iterator<splitter_iterator1,splitter_iterator2>::type merge_iterator;
+  typedef compare_first_less_second<Compare> splitter_compare;
+
+  typedef typename merge_detail::merge_iterator<splitter_iterator1,splitter_iterator2,splitter_compare>::type merge_iterator;
 
   // "merge" the splitters
   merge_iterator splitters_begin = merge_detail::make_merge_iterator(splitters1_begin, splitters1_end,
-                                                                     splitters2_begin, splitters2_end);
+                                                                     splitters2_begin, splitters2_end,
+                                                                     splitter_compare(comp));
   merge_iterator splitters_end   = splitters_begin + 2 * num_splitters_from_each_range;
 
   size_t num_merged_partitions = 2 * num_splitters_from_each_range + 1;
