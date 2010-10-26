@@ -6,7 +6,7 @@ format = 'png'
 #output = print_results
 output = plot_results
 
-for function in ['fill', 'reduce', 'inner_product', 'gather']:
+for function in ['fill', 'reduce', 'inner_product', 'gather', 'merge']:
     output(function + '.xml', 'InputType', 'InputSize', 'Bandwidth', format=format)
 
 for function in ['inclusive_scan', 'inclusive_segmented_scan', 'unique']:
