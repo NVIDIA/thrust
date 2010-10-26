@@ -74,6 +74,12 @@ template<typename Key, typename Value>
   }
 
   __host__ __device__
+  bool operator>(const key_value &rhs) const
+  {
+    return key > rhs.key;
+  }
+
+  __host__ __device__
   bool operator==(const key_value &rhs) const
   {
     return key == rhs.key && value == rhs.value;
