@@ -111,6 +111,9 @@ inline size_t max_blocksize(const cudaDeviceProp& properties,
 template <typename KernelFunction>
 size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread = 0);
 
+template<typename KernelFunction, typename UnaryFunction>
+size_t max_blocksize_subject_to_smem_usage(KernelFunction kernel, UnaryFunction blocksize_to_dynamic_smem_usage);
+
 } // end namespace arch
 } // end namespace cuda
 } // end namespace device

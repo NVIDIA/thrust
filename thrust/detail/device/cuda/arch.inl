@@ -303,6 +303,43 @@ size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread
     return max_blocksize(properties, attributes, dynamic_smem_bytes_per_thread);
 }
 
+template<typename UnaryFunction>
+size_t max_blocksize_subject_to_smem_usage(const cudaDeviceProp& properties,
+                                           const cudaFuncAttributes& attributes,
+                                           UnaryFunction blocksize_to_dynamic_smem_usage)
+{
+    size_t largest_blocksize = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+    
+    // XXX eliminate this constant (i assume this is warp_size)
+    size_t granularity = 32;
+
+    for(int blocksize = largest_blocksize;
+        blocksize > 0;
+        blocksize -= granularity)
+    {
+        size_t total_smem_usage = blocksize_to_dynamic_smem_usage(blocksize) + attributes.sharedSizeBytes;
+
+        if(total_smem_usage <= properties.sharedMemPerBlock)
+        {
+            return blocksize;
+        }
+    }
+
+    return 0;
+}
+
+template<typename KernelFunction, typename UnaryFunction>
+size_t max_blocksize_subject_to_smem_usage(KernelFunction kernel, UnaryFunction blocksize_to_dynamic_smem_usage)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+
+    cudaFuncAttributes attributes;
+    detail::checked_get_function_attributes(attributes, kernel);
+
+    return max_blocksize_subject_to_smem_usage(properties, attributes, blocksize_to_dynamic_smem_usage);
+}
+
 } // end namespace arch
 } // end namespace cuda
 } // end namespace device

@@ -35,7 +35,8 @@
 #include <thrust/detail/device/cuda/scalar/binary_search.h>
 #include <thrust/detail/device/cuda/synchronize.h>
 #include <thrust/detail/device/generic/scalar/select.h>
-#include <thrust/sort.h>
+#include <thrust/detail/device/cuda/arch.h>
+#include <thrust/detail/device/cuda/extern_shared_ptr.h>
 
 namespace thrust
 {
@@ -45,31 +46,6 @@ namespace device
 {
 namespace cuda
 {
-
-namespace scalar
-{
-
-template<typename ForwardIterator,
-         typename StrictWeakCompare>
-__device__ __forceinline__
-  bool is_sorted(ForwardIterator first,
-                 ForwardIterator last,
-                 StrictWeakCompare comp)
-{
-  ForwardIterator next = first;
-  ++next;
-  for(; next < last; ++first, ++next)
-  {
-    if(comp(*next, *first))
-    {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-}
 
 namespace merge_detail
 {
@@ -83,22 +59,41 @@ T1 ceil_div(T1 up, T2 down)
 }
 
 template<unsigned int N>
-  struct align_size_to_int
+  struct static_align_size_to_int
 {
   static const unsigned int value = (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
 };
 
-// the iterator arguments are declared const because they are not to be
-// modified during "strip mining" in the merge implementation
-template<unsigned int block_size,
-         typename RandomAccessIterator1,
+__host__ __device__
+inline unsigned int align_size_to_int(unsigned int N)
+{
+  return (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
+}
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator5>
+unsigned int get_merge_kernel_per_block_dynamic_smem_usage(unsigned int block_size)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+  typedef typename thrust::iterator_value<RandomAccessIterator5>::type value_type5;
+
+  // merge_kernel allocates memory aligned to int
+  const unsigned int array_size1 = align_size_to_int(block_size * sizeof(value_type1));
+  const unsigned int array_size2 = align_size_to_int(block_size * sizeof(value_type2));
+  const unsigned int array_size3 = align_size_to_int(2 * block_size * sizeof(value_type5));
+
+  return sizeof(int) * (array_size1 + array_size2 + array_size3);
+} // end get_merge_kernel_per_block_dynamic_smem_usage()
+
+template<typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename RandomAccessIterator5,
          typename StrictWeakOrdering,
          typename Size>
-__launch_bounds__(block_size, 1)         
 __global__ void merge_kernel(const RandomAccessIterator1 first1, 
                              const RandomAccessIterator1 last1,
                              const RandomAccessIterator2 first2,
@@ -114,12 +109,12 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
   typedef typename thrust::iterator_value<RandomAccessIterator5>::type value_type5;
 
   // allocate shared storage
-  const unsigned int array_size1 = align_size_to_int<block_size * sizeof(value_type1)>::value;
-  const unsigned int array_size2 = align_size_to_int<block_size * sizeof(value_type2)>::value;
-  const unsigned int array_size3 = align_size_to_int<2 * block_size * sizeof(value_type5)>::value;
-  __shared__ int _shared1[array_size1];
-  __shared__ int _shared2[array_size2];
-  __shared__ int _result[array_size3];
+  const unsigned int array_size1 = align_size_to_int(blockDim.x * sizeof(value_type1));
+  const unsigned int array_size2 = align_size_to_int(blockDim.x * sizeof(value_type2));
+  const unsigned int array_size3 = align_size_to_int(2 * blockDim.x * sizeof(value_type5));
+  int *_shared1 = extern_shared_ptr<int>();
+  int *_shared2 = _shared1 + array_size1;
+  int *_result  = _shared2 + array_size2;
 
   value_type1 *s_input1 = reinterpret_cast<value_type1*>(_shared1);
   value_type2 *s_input2 = reinterpret_cast<value_type2*>(_shared2);
@@ -178,13 +173,13 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
       typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
       // load the first segment
-      difference1 s_input1_size = thrust::min<difference1>(block_size, input_end1 - input_begin1);
+      difference1 s_input1_size = thrust::min<difference1>(blockDim.x, input_end1 - input_begin1);
 
       block::copy(input_begin1, input_begin1 + s_input1_size, s_input1);
       input_begin1 += s_input1_size;
 
       // load the second segment
-      difference2 s_input2_size = thrust::min<difference2>(block_size, input_end2 - input_begin2);
+      difference2 s_input2_size = thrust::min<difference2>(blockDim.x, input_end2 - input_begin2);
 
       block::copy(input_begin2, input_begin2 + s_input2_size, s_input2);
       input_begin2 += s_input2_size;
@@ -384,8 +379,23 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   
-  // XXX vary block_size dynamically
-  const size_t block_size = 512;
+  // prefer large blocks to keep the partitions as large as possible
+  const size_t block_size =
+    arch::max_blocksize_subject_to_smem_usage(merge_kernel<
+                                                RandomAccessIterator1,
+                                                RandomAccessIterator2,
+                                                typename raw_buffer<difference1,cuda_device_space_tag>::iterator,
+                                                typename raw_buffer<difference2,cuda_device_space_tag>::iterator,
+                                                RandomAccessIterator3,
+                                                Compare,
+                                                size_t
+                                              >,
+                                              get_merge_kernel_per_block_dynamic_smem_usage<
+                                                RandomAccessIterator1,
+                                                RandomAccessIterator2,
+                                                RandomAccessIterator3
+                                              >);
+
   const size_t partition_size = block_size;
   
   const difference1 num_partitions = ceil_div(num_elements1, partition_size);
@@ -451,7 +461,7 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
   size_t max_blocks = thrust::detail::device::cuda::arch::max_grid_dimensions().x;
   size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
 
-  merge_detail::merge_kernel<block_size><<<num_blocks, (unsigned int) block_size >>>( 
+  merge_detail::merge_kernel<<<num_blocks, (unsigned int) block_size, get_merge_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,RandomAccessIterator3>(block_size)>>>( 
   	first1, last1,
         first2, last2,
   	splitter_ranks1.begin(),
