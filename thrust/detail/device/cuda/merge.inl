@@ -28,6 +28,8 @@
 #include <thrust/detail/device/dereference.h>
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
+
+#include <thrust/detail/device/cuda/arch.h>
 #include <thrust/detail/device/cuda/block/copy.h>
 #include <thrust/detail/device/cuda/block/merge.h>
 #include <thrust/detail/device/cuda/scalar/binary_search.h>
@@ -446,7 +448,8 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
                       splitter_ranks1.begin(), strong_compare<Compare>(comp));
 
   // maximize the number of blocks we can launch
-  size_t num_blocks = thrust::min(num_merged_partitions, 64000u);
+  size_t max_blocks = thrust::detail::device::cuda::arch::max_grid_dimensions().x;
+  size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
 
   merge_detail::merge_kernel<block_size><<<num_blocks, (unsigned int) block_size >>>( 
   	first1, last1,
