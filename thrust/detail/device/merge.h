@@ -18,6 +18,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/device/dispatch/merge.h>
+#include <thrust/iterator/detail/minimum_space.h>
 
 namespace thrust
 {
