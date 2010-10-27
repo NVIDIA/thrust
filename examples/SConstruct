@@ -25,14 +25,9 @@ for dir in directories:
 # compile examples
 commands = []
 for src in sources:
-  if src.endswith('opengl_interop.cu'):
-    # disable this example while its build is broken
-    #env.Program(src, LINKFLAGS = ['-lGLEW', '-lglut'])
-    sources.remove(src)
-  else:
-    program = env.Program(src)
-    # add the program to the 'run_examples' alias
-    program_alias = env.Alias('run_examples', [program], program[0].abspath)
-    # always build the 'run_examples' target whether or not it needs it
-    env.AlwaysBuild(program_alias)
+  program = env.Program(src)
+  # add the program to the 'run_examples' alias
+  program_alias = env.Alias('run_examples', [program], program[0].abspath)
+  # always build the 'run_examples' target whether or not it needs it
+  env.AlwaysBuild(program_alias)
 
