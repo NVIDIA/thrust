@@ -18,7 +18,6 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
-#include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/tuple.h>
 #include <thrust/detail/device/generic/scalar/select.h>
@@ -203,39 +202,18 @@ template<typename RandomAccessIterator1,
 {
   using namespace get_set_operation_splitter_ranks_detail;
 
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-
-  const difference1 num_elements1 = last1 - first1;
-  const difference2 num_elements2 = last2 - first2;
-
-  // zip up the ranges with a counter to disambiguate repeated elements during rank-finding
-  typedef thrust::tuple<RandomAccessIterator1,thrust::counting_iterator<difference1> > iterator_tuple1;
-  typedef thrust::tuple<RandomAccessIterator2,thrust::counting_iterator<difference2> > iterator_tuple2;
-  typedef thrust::zip_iterator<iterator_tuple1> iterator_and_counter1;
-  typedef thrust::zip_iterator<iterator_tuple2> iterator_and_counter2;
-
-  iterator_and_counter1 first_and_counter1 =
-    thrust::make_zip_iterator(thrust::make_tuple(first1, thrust::make_counting_iterator<difference1>(0)));
-  iterator_and_counter1 last_and_counter1 = first_and_counter1 + num_elements1;
-
-  // make the second range begin counting at num_elements1 so they sort after elements from the first range when ambiguous
-  iterator_and_counter2 first_and_counter2 =
-    thrust::make_zip_iterator(thrust::make_tuple(first2, thrust::make_counting_iterator<difference2>(num_elements1)));
-  iterator_and_counter2 last_and_counter2 = first_and_counter2 + num_elements2;
-
   // create the range [first1[partition_size], first1[2*partition_size], first1[3*partition_size], ...]
-  typedef typename splitter_iterator<iterator_and_counter1>::type splitter_iterator1;
+  typedef typename splitter_iterator<RandomAccessIterator1>::type splitter_iterator1;
 
   // we +1 to begin at first1[partition_size] instead of first1[0]
-  splitter_iterator1 splitters1_begin = make_splitter_iterator(first_and_counter1, partition_size) + 1;
+  splitter_iterator1 splitters1_begin = make_splitter_iterator(first1, partition_size) + 1;
   splitter_iterator1 splitters1_end = splitters1_begin + num_splitters_from_each_range;
 
   // create the range [first2[partition_size], first2[2*partition_size], first2[3*partition_size], ...]
-  typedef typename splitter_iterator<iterator_and_counter1>::type splitter_iterator2;
+  typedef typename splitter_iterator<RandomAccessIterator2>::type splitter_iterator2;
 
   // we +1 to begin at first2[partition_size] instead of first1[0]
-  splitter_iterator2 splitters2_begin = make_splitter_iterator(first_and_counter2, partition_size) + 1;
+  splitter_iterator2 splitters2_begin = make_splitter_iterator(first2, partition_size) + 1;
   splitter_iterator2 splitters2_end = splitters2_begin + num_splitters_from_each_range;
 
   typedef compare_first_less_second<Compare> splitter_compare;
@@ -249,11 +227,11 @@ template<typename RandomAccessIterator1,
   merge_iterator splitters_end   = splitters_begin + 2 * num_splitters_from_each_range;
 
   // find the rank of each splitter in the other range
-  thrust::lower_bound(first_and_counter2, last_and_counter2,
+  thrust::lower_bound(first2, last2,
                       splitters_begin, splitters_end, 
                       splitter_ranks2, strong_compare<Compare>(comp));
 
-  thrust::upper_bound(first_and_counter1, last_and_counter1,
+  thrust::upper_bound(first1, last1,
                       splitters_begin, splitters_end,
                       splitter_ranks1, strong_compare<Compare>(comp));
 } // end get_set_operation_splitter_ranks()

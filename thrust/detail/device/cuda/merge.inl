@@ -28,6 +28,7 @@
 #include <thrust/detail/device/cuda/arch.h>
 #include <thrust/detail/device/cuda/extern_shared_ptr.h>
 #include <thrust/detail/device/cuda/detail/get_set_operation_splitter_ranks.h>
+#include <thrust/iterator/zip_iterator.h>
 
 namespace thrust
 {
@@ -77,6 +78,7 @@ unsigned int get_merge_kernel_per_block_dynamic_smem_usage(unsigned int block_si
 
   return sizeof(int) * (array_size1 + array_size2 + array_size3);
 } // end get_merge_kernel_per_block_dynamic_smem_usage()
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
@@ -193,6 +195,56 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
   } // end for partition
 } // end merge_kernel
 
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename Compare,
+         typename Size1,
+         typename Size2>
+  void get_merge_splitter_ranks(RandomAccessIterator1 first1,
+                                RandomAccessIterator1 last1,
+                                RandomAccessIterator2 first2,
+                                RandomAccessIterator2 last2,
+                                RandomAccessIterator3 splitter_ranks1,
+                                RandomAccessIterator4 splitter_ranks2,
+                                Compare comp,
+                                Size1 partition_size,
+                                Size2 num_splitters_from_each_range)
+{
+  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
+  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
+
+  const difference1 num_elements1 = last1 - first1;
+  const difference2 num_elements2 = last2 - first2;
+
+  // zip up the ranges with a counter to disambiguate repeated elements during rank-finding
+  typedef thrust::tuple<RandomAccessIterator1,thrust::counting_iterator<difference1> > iterator_tuple1;
+  typedef thrust::tuple<RandomAccessIterator2,thrust::counting_iterator<difference2> > iterator_tuple2;
+  typedef thrust::zip_iterator<iterator_tuple1> iterator_and_counter1;
+  typedef thrust::zip_iterator<iterator_tuple2> iterator_and_counter2;
+
+  iterator_and_counter1 first_and_counter1 =
+    thrust::make_zip_iterator(thrust::make_tuple(first1, thrust::make_counting_iterator<difference1>(0)));
+  iterator_and_counter1 last_and_counter1 = first_and_counter1 + num_elements1;
+
+  // make the second range begin counting at num_elements1 so they sort after elements from the first range when ambiguous
+  iterator_and_counter2 first_and_counter2 =
+    thrust::make_zip_iterator(thrust::make_tuple(first2, thrust::make_counting_iterator<difference2>(num_elements1)));
+  iterator_and_counter2 last_and_counter2 = first_and_counter2 + num_elements2;
+
+  using namespace thrust::detail::device::cuda::detail;
+  return get_set_operation_splitter_ranks(first_and_counter1, last_and_counter1,
+                                          first_and_counter2, last_and_counter2,
+                                          splitter_ranks1,
+                                          splitter_ranks2,
+                                          comp,
+                                          partition_size,
+                                          num_splitters_from_each_range);
+} // end get_merge_splitter_ranks()
+
+
 } // end namespace merge_detail
 
 
@@ -223,7 +275,6 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
 
   using namespace merge_detail;
   using namespace thrust::detail;
-  using namespace thrust::detail::device::cuda::detail;
 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   
@@ -257,13 +308,13 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
   // XXX it's possible to fuse rank-finding with the merge_kernel below
   //     this eliminates the temporary buffers splitter_ranks1 & splitter_ranks2
   //     but this spills to lmem and causes a 10x speeddown
-  get_set_operation_splitter_ranks(first1,last1,
-                                   first2,last2,
-                                   splitter_ranks1.begin(),
-                                   splitter_ranks2.begin(),
-                                   comp,
-                                   partition_size,
-                                   num_splitters_from_each_range);
+  get_merge_splitter_ranks(first1,last1,
+                           first2,last2,
+                           splitter_ranks1.begin(),
+                           splitter_ranks2.begin(),
+                           comp,
+                           partition_size,
+                           num_splitters_from_each_range);
 
   // maximize the number of blocks we can launch
   size_t max_blocks = thrust::detail::device::cuda::arch::max_grid_dimensions().x;
