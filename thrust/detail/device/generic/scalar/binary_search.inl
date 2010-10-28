@@ -17,10 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-
-// do not attempt to compile this file with anything other than nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 #include <thrust/pair.h>
 #include <thrust/detail/device/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -34,7 +30,7 @@ namespace detail
 namespace device
 {
 
-namespace cuda
+namespace generic
 {
 
 namespace scalar
@@ -43,7 +39,7 @@ namespace scalar
 // XXX generalize these upon implementation of scalar::distance & scalar::advance
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__device__
+__host__ __device__
 RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp)
@@ -77,7 +73,7 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
 }
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__device__
+__host__ __device__
 RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp)
@@ -111,7 +107,7 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
 }
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__device__
+__host__ __device__
   pair<RandomAccessIterator,RandomAccessIterator>
     equal_range(RandomAccessIterator first, RandomAccessIterator last,
                 const T &val,
@@ -156,9 +152,18 @@ __device__
   return thrust::make_pair(first,first);
 }
 
+
+template<typename RandomAccessIterator, typename T, typename Compare>
+__host__ __device__
+bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const T &value, Compare comp)
+{
+  RandomAccessIterator iter = thrust::detail::device::generic::scalar::lower_bound(first,last,value,comp);
+  return iter != last && !comp(value, *iter);
+}
+
 } // end scalar
 
-} // end cuda
+} // end generic
 
 } // end device
 
@@ -166,5 +171,5 @@ __device__
 
 } // end thrust
 
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/detail/device/generic/scalar/binary_search.inl>
 

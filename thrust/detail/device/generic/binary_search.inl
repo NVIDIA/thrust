@@ -27,6 +27,7 @@
 
 #include <thrust/detail/device/for_each.h>
 #include <thrust/detail/device/dereference.h>
+#include <thrust/detail/device/generic/scalar/binary_search.h>
 
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/type_traits.h>
@@ -42,109 +43,17 @@ namespace generic
 namespace detail
 {
 
-//template <class ForwardIterator, class BooleanType>
-//struct lower_bound_postprocess
-//{
-//};
-//
-//template <class ForwardIterator>
-//struct lower_bound_postprocess<ForwardIterator, thrust::detail::true_type>
-//{
-//    template <class DeviceIterator>
-//        __host__ __device__
-//    typename thrust::iterator_traits<DeviceIterator>::difference_type operator()(DeviceIterator final, DeviceIterator begin){
-//        return final - begin;
-//    }
-//};
-//
-//template <class ForwardIterator>
-//struct lower_bound_postprocess<ForwardIterator, thrust::detail::false_type>
-//{
-//    template <class DeviceIterator>
-//        __host__ __device__
-//    ForwardIterator operator()(DeviceIterator final, DeviceIterator begin){
-//        return ForwardIterator(final);
-//    }
-//};
-
-/////////////////////////////////
-// Per-thread search functions //
-/////////////////////////////////
-
-template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-__host__ __device__
-RandomAccessIterator __lower_bound(RandomAccessIterator begin, 
-                                   RandomAccessIterator end, 
-                                   const T& value,
-                                   StrictWeakOrdering comp)
-{
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::difference_type difference_type;
-
-    difference_type len = end - begin;
-    difference_type half;
-
-    RandomAccessIterator middle;
-
-    while (len > 0)
-    {
-        half = len >> 1;
-        middle = begin;
-        middle += half;
-
-        if (comp(thrust::detail::device::dereference(middle), value)) {
-            begin = middle;
-            ++begin;
-            len = len - half - 1;
-        } else {
-            len = half;
-        }
-    }
-
-    return begin;
-}
-
-template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-__host__ __device__
-RandomAccessIterator __upper_bound(RandomAccessIterator begin, 
-                                   RandomAccessIterator end, 
-                                   const T& value,
-                                   StrictWeakOrdering comp)
-{
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::difference_type difference_type;
-
-    difference_type len = end - begin;
-    difference_type half;
-
-    RandomAccessIterator middle;
-
-    while (len > 0)
-    {
-        half = len >> 1;
-        middle = begin;
-        middle += half;
-
-        if (comp(value, thrust::detail::device::dereference(middle))) {
-            len = half;
-        } else {
-            begin = middle;
-            ++begin;
-            len = len - half - 1;
-        }
-    }
-
-    return begin;
-}
-
 
 // short names to avoid nvcc bug
 struct lbf
 {
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
-        __host__ __device__
-        typename thrust::iterator_traits<RandomAccessIterator>::difference_type
-     operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
-         return __lower_bound(begin, end, value, comp) - begin;
-     }
+    __host__ __device__
+    typename thrust::iterator_traits<RandomAccessIterator>::difference_type
+    operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp)
+    {
+        return thrust::detail::device::generic::scalar::lower_bound(begin, end, value, comp) - begin;
+    }
 };
 
 struct ubf
@@ -153,7 +62,7 @@ struct ubf
         __host__ __device__
         typename thrust::iterator_traits<RandomAccessIterator>::difference_type
      operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
-         return __upper_bound(begin, end, value, comp) - begin;
+         return thrust::detail::device::generic::scalar::upper_bound(begin, end, value, comp) - begin;
      }
 };
 
@@ -162,7 +71,7 @@ struct bsf
     template <class RandomAccessIterator, class T, class StrictWeakOrdering>
         __host__ __device__
      bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
-         RandomAccessIterator iter = __lower_bound(begin, end, value, comp);
+         RandomAccessIterator iter = thrust::detail::device::generic::scalar::lower_bound(begin, end, value, comp);
          return iter != end && !comp(value, thrust::detail::device::dereference(iter));
      }
 };

@@ -37,10 +37,11 @@
 #include <thrust/detail/device/cuda/block/copy.h>
 #include <thrust/detail/device/cuda/block/inclusive_scan.h>
 #include <thrust/detail/device/cuda/scalar/rotate.h>
-#include <thrust/detail/device/cuda/scalar/binary_search.h>
 #include <thrust/pair.h>
 #include <thrust/extrema.h>
 #include <thrust/detail/device/cuda/synchronize.h>
+
+#include <thrust/detail/device/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -73,6 +74,8 @@ thrust::tuple<
                    RandomAccessIterator3 result,
                    StrictWeakOrdering comp)
 {
+  namespace gs = thrust::detail::device::generic::scalar;
+
   bool do_output_element = false;
 
   // these variables are needed outside of the branch for the last part of the algorithm
@@ -89,8 +92,8 @@ thrust::tuple<
     // 2. figure out how many n copies of our element exists in the second range
     // 3. keep the element if its rank < min(m,n)
 
-    thrust::pair<RandomAccessIterator1,RandomAccessIterator1> matches1 = scalar::equal_range(first1, last1, first1[threadIdx.x], comp);
-    matches2 = scalar::equal_range(first2, last2, first1[threadIdx.x], comp);
+    thrust::pair<RandomAccessIterator1,RandomAccessIterator1> matches1 = gs::equal_range(first1, last1, first1[threadIdx.x], comp);
+    matches2 = gs::equal_range(first2, last2, first1[threadIdx.x], comp);
 
     size_of_partial_intersection = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (matches1.second - matches1.first,
                                                                                   matches2.second - matches2.first);

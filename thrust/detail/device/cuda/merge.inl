@@ -24,7 +24,6 @@
 #include <thrust/detail/device/cuda/arch.h>
 #include <thrust/detail/device/cuda/block/copy.h>
 #include <thrust/detail/device/cuda/block/merge.h>
-#include <thrust/detail/device/cuda/scalar/binary_search.h>
 #include <thrust/detail/device/cuda/synchronize.h>
 #include <thrust/detail/device/cuda/arch.h>
 #include <thrust/detail/device/cuda/extern_shared_ptr.h>

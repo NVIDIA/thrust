@@ -16,7 +16,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/device/cuda/block/merge.h>
-#include <thrust/detail/device/cuda/scalar/binary_search.h>
+#include <thrust/detail/device/generic/scalar/binary_search.h>
 #include <thrust/detail/device/dereference.h>
 
 namespace thrust
@@ -58,7 +58,7 @@ __device__ __forceinline__
 
     // lower_bound ensures that x sorts before any equivalent element of input2
     // this ensures stability
-    rank2 = scalar::lower_bound(first2, last2, dereference(x), comp) - first2;
+    rank2 = thrust::detail::device::generic::scalar::lower_bound(first2, last2, dereference(x), comp) - first2;
   } // end if
 
   difference1 rank1 = 0;
@@ -69,7 +69,7 @@ __device__ __forceinline__
 
     // upper_bound ensures that x sorts before any equivalent element of input1
     // this ensures stability
-    rank1 = scalar::upper_bound(first1, last1, dereference(x), comp) - first1;
+    rank1 = thrust::detail::device::generic::scalar::upper_bound(first1, last1, dereference(x), comp) - first1;
   } // end if
 
   if(threadIdx.x < n1)
