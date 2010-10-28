@@ -66,12 +66,12 @@ int main(void)
     int n = 11;  // number of columns excluding padding
     int N = 16;  // number of columns including padding
 
-    thrust::device_vector<float> data(M * N, 9999);
+    thrust::device_vector<float> data(M * N, 9999.0f);
 
     // initialize valid values in grid
     for(int i = 0; i < M; i++)
         for(int j = 0; j < n; j++)
-            data[i * N + j] = rand() % 10000;
+            data[i * N + j] = static_cast<float>(rand() % 10000);
 
     // print full grid
     std::cout << "padded grid" << std::endl;

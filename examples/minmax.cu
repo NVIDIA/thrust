@@ -54,7 +54,7 @@ int main(void)
     int x[7] = {-1, 2, 7, -3, -4, 5};
 
     // transfer to device
-    thrust::device_vector<float> d_x(x, x + 7);
+    thrust::device_vector<int> d_x(x, x + 7);
 
     // setup arguments
     minmax_unary_op<int>  unary_op;

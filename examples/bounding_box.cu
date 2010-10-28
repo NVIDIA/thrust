@@ -58,7 +58,7 @@ int main(void)
 
     // generate some random points in the unit square
     for(size_t i = 0; i < N; i++)
-        points[i] = point2d( ((float) rand() / (RAND_MAX + 1.0)), ((float) rand() / (RAND_MAX + 1.0)) );
+        points[i] = point2d( ((float) rand() / (RAND_MAX + 1.0f)), ((float) rand() / (RAND_MAX + 1.0f)) );
 
     // initial bounding box contains first point
     bbox init = bbox(points[0], points[0]);

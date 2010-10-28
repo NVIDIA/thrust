@@ -141,7 +141,20 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
   __host__ __device__
   static Difference distance(Incrementable1 x, Incrementable2 y)
   {
-    return numeric_distance(x,y);
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if !defined(__CUDA_ARCH__)
+// temporarily disable 'possible loss of data' warnings on MSVC
+#pragma warning(push)
+#pragma warning(disable : 4244 4267)
+#endif
+#endif
+      return numeric_distance(x,y);
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if !defined(__CUDA_ARCH__)
+// reenable 'possible loss of data' warnings
+#pragma warning(pop)
+#endif
+#endif
   }
 };
 

@@ -63,7 +63,7 @@ int main(void)
     // generate random data series
     thrust::device_vector<float> data(n);
     for (size_t i = 0; i < n; i++)
-        data[i] = rand() % 9;
+        data[i] = static_cast<float>(rand() % 9);
 
     // allocate storage for averages
     thrust::device_vector<float> averages(data.size() - (w - 1));

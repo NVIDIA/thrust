@@ -73,7 +73,7 @@ template<thrust::detail::uint32_t a, thrust::detail::uint32_t m>
       multiplier = (multiplier * multiplier) % modulus;
     }
 
-    state = (multiplier_to_z * state) % modulus;
+    state = static_cast<thrust::detail::uint32_t>((multiplier_to_z * state) % modulus);
   }
 }; // end linear_congruential_engine_discard
 

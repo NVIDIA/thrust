@@ -65,14 +65,18 @@ struct sequence_functor
   OutputType operator()(const IntegerType i) const
   {
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if !defined(__CUDA_ARCH__)
 // temporarily disable 'possible loss of data' warnings on MSVC
 #pragma warning(push)
 #pragma warning(disable : 4244 4267)
 #endif
+#endif
       return OutputType(init + step * i);
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if !defined(__CUDA_ARCH__)
 // reenable 'possible loss of data' warnings
 #pragma warning(pop)
+#endif
 #endif
 
   }
