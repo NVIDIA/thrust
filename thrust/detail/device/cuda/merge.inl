@@ -196,6 +196,28 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
 } // end merge_kernel
 
 
+// this predicate tests two two-element tuples
+// we first use a Compare for the first element
+// if the first elements are equivalent, we use
+// < for the second elements
+template<typename Compare>
+  struct compare_first_less_second
+{
+  compare_first_less_second(Compare c)
+    : comp(c) {}
+
+  template<typename T1, typename T2>
+  __host__ __device__
+  bool operator()(T1 lhs, T2 rhs)
+  {
+    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
+  }
+
+  Compare comp;
+}; // end compare_first_less_second
+
+
+
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
@@ -234,12 +256,15 @@ template<typename RandomAccessIterator1,
     thrust::make_zip_iterator(thrust::make_tuple(first2, thrust::make_counting_iterator<difference2>(num_elements1)));
   iterator_and_counter2 last_and_counter2 = first_and_counter2 + num_elements2;
 
+  // take into account the tuples when comparing
+  typedef compare_first_less_second<Compare> splitter_compare;
+
   using namespace thrust::detail::device::cuda::detail;
   return get_set_operation_splitter_ranks(first_and_counter1, last_and_counter1,
                                           first_and_counter2, last_and_counter2,
                                           splitter_ranks1,
                                           splitter_ranks2,
-                                          comp,
+                                          splitter_compare(comp),
                                           partition_size,
                                           num_splitters_from_each_range);
 } // end get_merge_splitter_ranks()
