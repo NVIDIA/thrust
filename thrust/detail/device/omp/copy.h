@@ -47,6 +47,24 @@ OutputIterator copy(InputIterator first,
   return thrust::detail::device::omp::dispatch::copy(first, last, result, minimum_traversal());
 } 
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+OutputIterator copy_n(InputIterator first,
+                      Size n,
+                      OutputIterator result)
+{
+  typedef typename thrust::iterator_traversal<InputIterator>::type traversal1;
+  typedef typename thrust::iterator_traversal<OutputIterator>::type traversal2;
+
+  // XXX minimum_traversal doesn't exist, but it should?
+  //typedef typename thrust::detail::minimum_traversal<traversal1,traversal2>::type minimum_traversal;
+  typedef typename thrust::detail::minimum_category<traversal1,traversal2>::type minimum_traversal;
+
+  // dispatch on min traversal
+  return thrust::detail::device::omp::dispatch::copy_n(first, n, result, minimum_traversal());
+} 
+
 
 } // end namespace omp
 } // end namespace device

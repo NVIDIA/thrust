@@ -69,13 +69,56 @@ namespace thrust
  *  thrust::copy(vec0.begin(), vec0.end(),
  *                vec1.begin());
  *
- *  // vec1 now contains the contents of vec0
+ *  // vec1 is now a copy of vec0
  *  \endcode
  */
 template<typename InputIterator, typename OutputIterator>
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result);
+
+/*! \p copy_n copies elements from the range <tt>[first, first + n)</tt> to the range
+ *  <tt>[result, result + n)</tt>. That is, it performs the assignments <tt>*result = *first, *(result + 1) = *(first + 1)</tt>,
+ *  and so on. Generally, for every integer \c i from \c 0 to \c n, \p copy
+ *  performs the assignment *(\p result + \c i) = *(\p first + \c i). Unlike
+ *  \c std::copy_n, \p copy_n offers no guarantee on order of operation. As a result,
+ *  calling \p copy_n with overlapping source and destination ranges has undefined
+ *  behavior.
+ *
+ *  The return value is \p result + \p n.
+ *
+ *  \param first The beginning of the range to copy.
+ *  \param n The number of elements to copy.
+ *  \param result The beginning destination range.
+ *  \return The end of the destination range.
+ *
+ *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam Size is an integral type.
+ *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  The following code snippet demonstrates how to use \p copy
+ *  to copy from one range to another.
+ *
+ *  \code
+ *  #include <thrust/copy.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  size_t n = 100;
+ *  thrust::device_vector<int> vec0(n);
+ *  thrust::device_vector<int> vec1(n);
+ *  ...
+ *  thrust::copy_n(vec0.begin(), n, vec1.begin());
+ *
+ *  // vec1 is now a copy of vec0
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/copy_n.html
+ *  \see thrust::copy
+ */
+template<typename InputIterator, typename Size, typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator last);
 
 /*! \} // end copying
  */

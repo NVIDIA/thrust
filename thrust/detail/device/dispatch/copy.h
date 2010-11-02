@@ -49,6 +49,17 @@ template<typename InputIterator,
   return thrust::detail::device::omp::copy(first, last, result);
 } // end copy()
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::false_type) // no space is CUDA
+{
+  return thrust::detail::device::omp::copy_n(first, n, result);
+} // end copy_n()
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -76,6 +87,17 @@ template<typename InputIterator,
 {
   return thrust::detail::device::cuda::copy(first, last, result);
 } // end copy()
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::true_type) // at least one of the spaces is CUDA
+{
+  return thrust::detail::device::cuda::copy_n(first, n, result);
+} // end copy_n()
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -114,6 +136,27 @@ template<typename InputIterator,
   return copy(first, last, result,
     is_one_of_the_spaces_cuda());
 } // end copy()
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator,
+         typename Space1,
+         typename Space2>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        Space1,
+                        Space2)
+{
+  // inspect both spaces
+  typedef typename thrust::detail::integral_constant<bool,
+    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
+    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
+  > is_one_of_the_spaces_cuda;
+
+  return copy_n(first, n, result,
+    is_one_of_the_spaces_cuda());
+} // end copy_n()
 
 template<typename InputIterator1,
          typename InputIterator2,
