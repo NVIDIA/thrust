@@ -3,7 +3,7 @@
 #include <thrust/generate.h>
 #include <thrust/reduce.h>
 #include <thrust/functional.h>
-#include <cstdlib>
+#include <thrust/random.h>
 #include <iostream>
 #include <iomanip>
 
@@ -27,11 +27,13 @@ int main(void)
 {
     int R = 5;     // number of rows
     int C = 8;     // number of columns
+    thrust::default_random_engine rng;
+    thrust::uniform_int_distribution<int> dist(0, 2);
 
     // initialize data
     thrust::device_vector<int> array(R * C);
     for (size_t i = 0; i < array.size(); i++)
-        array[i] = rand() % 3;
+        array[i] = dist(rng);
     
     // allocate storage for row sums and indices
     thrust::device_vector<int> row_sums(R);

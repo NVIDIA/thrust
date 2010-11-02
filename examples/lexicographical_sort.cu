@@ -4,8 +4,8 @@
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 #include <thrust/gather.h>
+#include <thrust/random.h>
 #include <iostream>
-#include <cstdlib>
 
 // This example shows how to perform a lexicographical sort on multiple keys.
 //
@@ -39,9 +39,11 @@ void apply_permutation(KeyVector& keys, PermutationVector& permutation)
 thrust::host_vector<int> random_vector(size_t N)
 {
     thrust::host_vector<int> vec(N);
+    static thrust::default_random_engine rng;
+    static thrust::uniform_int_distribution<int> dist(0, 9);
 
     for (size_t i = 0; i < N; i++)
-        vec[i] = rand() % 10;
+        vec[i] = dist(rng);
 
     return vec;
 }

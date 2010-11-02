@@ -3,6 +3,7 @@
 #include <thrust/tuple.h>
 #include <thrust/extrema.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/random.h>
 #include <iostream>
 
 #include <iomanip>
@@ -145,12 +146,12 @@ float timer_stop_and_display()
 
 void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n)
 {
-  srand(m*n);
+  thrust::default_random_engine rng;
+  thrust::uniform_int_distribution<int> dist(0, m * n - 1);
 
   for(int k = 0; k < Nb; k++)
   {
-      int index = static_cast<int>((m * n) * (rand() / (RAND_MAX + 1.0f)));
-
+      int index = dist(rng);
       t[index] = index + 1;
   }
 }

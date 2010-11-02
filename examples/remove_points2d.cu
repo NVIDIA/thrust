@@ -1,5 +1,6 @@
 #include <thrust/host_vector.h>
 #include <thrust/remove.h>
+#include <thrust/random.h>
 
 // This example generates random points in the 
 // unit square [0,1)x[0,1) and then removes all 
@@ -30,12 +31,14 @@ int main(void)
     const size_t N = 20;
 
     // generate random points in the unit square on the host
+    thrust::default_random_engine rng;
+    thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
     thrust::host_vector<float> x(N);
     thrust::host_vector<float> y(N);
     for(size_t i = 0; i < N; i++)
     {
-        x[i] = rand() / (RAND_MAX + 1.0f);
-        y[i] = rand() / (RAND_MAX + 1.0f);
+        x[i] = u01(rng);
+        y[i] = u01(rng);
     }
 
     // print the initial points

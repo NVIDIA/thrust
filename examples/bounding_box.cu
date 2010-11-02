@@ -1,9 +1,7 @@
 #include <thrust/transform_reduce.h>
 #include <thrust/device_vector.h>
 #include <thrust/pair.h>
-
-#include <stdlib.h>  // for rand()
-
+#include <thrust/random.h>
 
 // This example shows how to compute a bounding box
 // for a set of points in two dimensions.
@@ -52,13 +50,15 @@ struct bbox_transformation : public thrust::unary_function<point2d,bbox>
 int main(void)
 {
     const size_t N = 40;
+    thrust::default_random_engine rng;
+    thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
     
     // allocate storage for points
     thrust::device_vector<point2d> points(N);
 
     // generate some random points in the unit square
     for(size_t i = 0; i < N; i++)
-        points[i] = point2d( ((float) rand() / (RAND_MAX + 1.0f)), ((float) rand() / (RAND_MAX + 1.0f)) );
+        points[i] = point2d(u01(rng), u01(rng));
 
     // initial bounding box contains first point
     bbox init = bbox(points[0], points[0]);
