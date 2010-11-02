@@ -42,6 +42,7 @@ int main(void)
     }
 
     // print the initial points
+    std::cout << std::fixed;
     std::cout << "Generated " << N << " points" << std::endl;
     for(size_t i = 0; i < N; i++)
         std::cout << "(" << x[i] << "," << y[i] << ")" << std::endl;

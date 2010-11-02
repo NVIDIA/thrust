@@ -73,7 +73,7 @@ int main(void)
     bbox result = thrust::transform_reduce(points.begin(), points.end(), unary_op, init, binary_op);
 
     // print output
-    std::cout << "bounding box ";
+    std::cout << "bounding box " << std::fixed;
     std::cout << "(" << result.first.x  << "," << result.first.y  << ") ";
     std::cout << "(" << result.second.x << "," << result.second.y << ")" << std::endl;
 
