@@ -64,9 +64,7 @@ struct sequence_functor
       __host__ __device__
   OutputType operator()(const IntegerType i) const
   {
-      THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
-      return OutputType(init + step * i);
-      THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+      __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(return OutputType(init + step * i));
   }
 }; // end sequence_functor
 
