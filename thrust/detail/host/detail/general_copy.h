@@ -43,6 +43,19 @@ template<typename InputIterator,
 } // end general_copy()
 
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator general_copy_n(InputIterator first,
+                                Size n,
+                                OutputIterator result)
+{
+  for(; n > Size(0); ++first, ++result, --n)
+    *result = *first;
+  return result;
+} // end general_copy_n()
+
+
 } // end detail
 
 } // end host

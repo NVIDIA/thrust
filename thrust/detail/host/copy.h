@@ -43,6 +43,17 @@ template<typename InputIterator,
       typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
 } // end copy()
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result)
+{
+  return thrust::detail::host::dispatch::copy_n(first, n, result,
+      typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
+} // end copy()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
