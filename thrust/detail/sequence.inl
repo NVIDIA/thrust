@@ -64,21 +64,9 @@ struct sequence_functor
       __host__ __device__
   OutputType operator()(const IntegerType i) const
   {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-#if !defined(__CUDA_ARCH__)
-// temporarily disable 'possible loss of data' warnings on MSVC
-#pragma warning(push)
-#pragma warning(disable : 4244 4267)
-#endif
-#endif
+      THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
       return OutputType(init + step * i);
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-#if !defined(__CUDA_ARCH__)
-// reenable 'possible loss of data' warnings
-#pragma warning(pop)
-#endif
-#endif
-
+      THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
   }
 }; // end sequence_functor
 
