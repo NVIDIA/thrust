@@ -80,20 +80,8 @@ OutputIterator copy_if(InputIterator1 first,
 {
     typedef typename thrust::iterator_space<OutputIterator>::type Space;
 
+    __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// temporarily disable 'possible loss of data' warnings on MSVC
-#pragma warning(push)
-#pragma warning(disable : 4244 4267)
-#endif
-
-    IndexType n = thrust::distance(first, last);
-
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// reenable 'possible loss of data' warnings
-#pragma warning(pop)
-#endif
-    
     // compute {0,1} predicates
     thrust::detail::raw_buffer<IndexType, Space> predicates(n);
     thrust::transform(stencil,

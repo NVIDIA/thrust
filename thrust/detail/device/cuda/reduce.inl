@@ -199,11 +199,7 @@ template <typename InputType, typename OutputType, typename BinaryFunction, type
 };
 
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// temporarily disable 'possible loss of data' warnings on MSVC
-#pragma warning(push)
-#pragma warning(disable : 4244 4267)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 
 template<typename RandomAccessIterator1,
@@ -274,11 +270,7 @@ template<typename Iterator, typename InputType = typename thrust::iterator_value
 } // end namespace detail
 
 
-
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// reenable 'possible loss of data' warnings
-#pragma warning(pop)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
 
 template<typename RandomAccessIterator,
