@@ -210,7 +210,7 @@ template<typename Compare>
   __host__ __device__
   bool operator()(T1 lhs, T2 rhs)
   {
-    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
+    return comp(thrust::get<0>(lhs), thrust::get<0>(rhs)) || (!comp(thrust::get<0>(rhs), thrust::get<0>(lhs)) && thrust::get<1>(lhs) < thrust::get<1>(rhs));
   }
 
   Compare comp;
