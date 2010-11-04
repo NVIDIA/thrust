@@ -7,9 +7,6 @@
 template<typename Vector>
 void TestMergeSimple(void)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   typedef typename Vector::iterator Iterator;
 
   Vector a(3), b(4);
@@ -34,7 +31,6 @@ void TestMergeSimple(void)
 
   ASSERT_EQUAL_QUIET(result.end(), end);
   ASSERT_EQUAL(ref, result);
-#endif
 }
 DECLARE_VECTOR_UNITTEST(TestMergeSimple);
 
@@ -42,9 +38,6 @@ DECLARE_VECTOR_UNITTEST(TestMergeSimple);
 template<typename T>
   void TestMerge(size_t n)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   thrust::host_vector<T> h_a = unittest::random_integers<T>(n);
   thrust::host_vector<T> h_b = unittest::random_integers<T>(n);
 
@@ -69,7 +62,6 @@ template<typename T>
                         d_result.begin());
 
   ASSERT_EQUAL(h_result, d_result);
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestMerge);
 
@@ -77,9 +69,6 @@ DECLARE_VARIABLE_UNITTEST(TestMerge);
 template<typename U>
   void TestMergeKeyValue(size_t n)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   typedef key_value<U,U> T;
 
   thrust::host_vector<U> h_keys_a   = unittest::random_integers<U>(n);
@@ -116,16 +105,12 @@ template<typename U>
                         d_result.begin());
 
   ASSERT_EQUAL_QUIET(h_result, d_result);
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestMergeKeyValue);
 
 template<typename T>
   void TestMergeAscending(size_t n)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   thrust::host_vector<T> h_a = unittest::random_integers<T>(n);
   thrust::host_vector<T> h_b = unittest::random_integers<T>(n);
 
@@ -152,7 +137,6 @@ template<typename T>
                         thrust::greater<T>());
 
   ASSERT_EQUAL(h_result, d_result);
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestMergeAscending);
 
@@ -160,9 +144,6 @@ DECLARE_VARIABLE_UNITTEST(TestMergeAscending);
 template<typename U>
   void TestMergeKeyValueAscending(size_t n)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   typedef key_value<U,U> T;
 
   thrust::host_vector<U> h_keys_a   = unittest::random_integers<U>(n);
@@ -201,7 +182,6 @@ template<typename U>
                         thrust::greater<T>());
 
   ASSERT_EQUAL_QUIET(h_result, d_result);
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestMergeKeyValueAscending);
 

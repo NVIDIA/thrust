@@ -29,9 +29,6 @@ template<typename Iterator1, typename Iterator2>
 template<typename T>
   void TestSelect(const size_t n)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   if(n == 0) return;
 
   typedef typename thrust::device_vector<T>::iterator iterator;
@@ -72,16 +69,12 @@ template<typename T>
 
     ASSERT_EQUAL(ref[k[i]], (T) result[0]);
   }
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSelect);
 
 template<typename U>
   void TestSelectKeyValue(const size_t n)
 {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  KNOWN_FAILURE;
-#else
   if(n == 0) return;
 
   typedef key_value<U,U> T;
@@ -134,7 +127,6 @@ template<typename U>
 
     ASSERT_EQUAL(ref[k[i]], (T) result[0]);
   }
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSelectKeyValue);
 
