@@ -18,11 +18,16 @@
  *  \brief An iterator which iterates over a permutation of a range.
  */
 
-// thrust::permutation_iterator is derived from
-// boost::permutation_iterator of the Boost Iterator
-// Library, which is the work of
-// David Abrahams, Jeremy Siek, & Thomas Witt.
-// See http://www.boost.org for details.
+/*
+ * (C) Copyright Toon Knapen    2001.
+ * (C) Copyright David Abrahams 2003.
+ * (C) Copyright Roland Richter 2003.
+ * 
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying NOTICE file for the complete license)
+ *
+ * For more information, see http://www.boost.org
+ */
 
 #pragma once
 

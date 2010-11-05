@@ -23,11 +23,14 @@
  *         class.
  */
 
-// thrust::counting_iterator is derived from
-// boost::counting_iterator of the Boost Iterator
-// Library, which is the work of
-// David Abrahams, Jeremy Siek, & Thomas Witt.
-// See http://www.boost.org for details.
+/*
+ * Copyright David Abrahams 2003.
+ * 
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying NOTICE file for the complete license)
+ *
+ * For more information, see http://www.boost.org
+ */
 
 #pragma once
 
