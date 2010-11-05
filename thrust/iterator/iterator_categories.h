@@ -20,6 +20,16 @@
  *         Based on STL & Boost's iterator categories.
  */
 
+/*
+ * (C) Copyright Jeremy Siek 2002.
+ * 
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying NOTICE file for the complete license)
+ *
+ * For more information, see http://www.boost.org
+ */
+
+
 #pragma once
 
 #include <thrust/detail/config.h>

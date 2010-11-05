@@ -22,11 +22,16 @@
  *         of another iterator.
  */
 
-// thrust::transform_iterator is derived from
-// boost::transform_iterator of the Boost Iterator
-// Library, which is the work of
-// David Abrahams, Jeremy Siek, & Thomas Witt.
-// See http://www.boost.org for details.
+/*
+ * (C) Copyright David Abrahams 2002.
+ * (C) Copyright Jeremy Siek    2002.
+ * (C) Copyright Thomas Witt    2002.
+ * 
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying NOTICE file for the complete license)
+ *
+ * For more information, see http://www.boost.org
+ */
 
 #pragma once
 

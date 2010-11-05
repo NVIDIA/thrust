@@ -19,11 +19,14 @@
  *         Based on Boost's linear_feedback_shift class template.
  */
 
-// thrust::random::linear_feedback_shift_engine is derived from
-// boost::linear_feedback_shift of the Boost Random Number Library,
-// which is the work of Jens Maurer.
-// See http://www.boost.org for details.
-
+/*
+ * Copyright Jens Maurer 2002
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying NOTICE file for the complete license)
+ *
+ * For more information, see http://www.boost.org
+ */
 
 #pragma once
 
