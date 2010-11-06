@@ -141,48 +141,26 @@ void TestSetIntersectionMultiset(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestSetIntersectionMultiset);
 
 
-struct non_arithmetic
+template<typename U>
+  void TestSetIntersectionKeyValue(size_t n)
 {
-  __host__ __device__
-  non_arithmetic(void)
-    {}
+  typedef key_value<U,U> T;
 
-  __host__ __device__
-  non_arithmetic(const non_arithmetic &x)
-    : key(x.key) {}
+  thrust::host_vector<U> h_keys_a   = unittest::random_integers<U>(n);
+  thrust::host_vector<U> h_values_a = unittest::random_integers<U>(n);
 
-  __host__ __device__
-  non_arithmetic(const int k)
-    : key(k) {}
+  thrust::host_vector<U> h_keys_b   = unittest::random_integers<U>(n);
+  thrust::host_vector<U> h_values_b = unittest::random_integers<U>(n);
 
-  __host__ __device__
-  bool operator<(const non_arithmetic &rhs) const
+  thrust::host_vector<T> h_a(n), h_b(n);
+  for(size_t i = 0; i < n; ++i)
   {
-    return key < rhs.key;
+    h_a[i] = T(h_keys_a[i], h_values_a[i]);
+    h_b[i] = T(h_keys_b[i], h_values_b[i]);
   }
 
-  __host__ __device__
-  bool operator==(const non_arithmetic &rhs) const
-  {
-    return key == rhs.key;
-  }
-
-  int key;
-};
-
-
-void TestSetIntersectionNonArithmetic(void)
-{
-  const unsigned int n = 12345;
-
-  typedef non_arithmetic T;
-
-  thrust::host_vector<T> temp = unittest::random_integers<int>(2 * n);
-  thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
-  thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
-
-  thrust::sort(h_a.begin(), h_a.end());
-  thrust::sort(h_b.begin(), h_b.end());
+  thrust::stable_sort(h_a.begin(), h_a.end());
+  thrust::stable_sort(h_b.begin(), h_b.end());
 
   thrust::device_vector<T> d_a = h_a;
   thrust::device_vector<T> d_b = h_b;
@@ -206,6 +184,5 @@ void TestSetIntersectionNonArithmetic(void)
 
   ASSERT_EQUAL_QUIET(h_result, d_result);
 }
-DECLARE_UNITTEST(TestSetIntersectionNonArithmetic);
-
+DECLARE_VARIABLE_UNITTEST(TestSetIntersectionKeyValue);
 

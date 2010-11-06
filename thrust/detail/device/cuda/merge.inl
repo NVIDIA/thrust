@@ -200,6 +200,8 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
 // we first use a Compare for the first element
 // if the first elements are equivalent, we use
 // < for the second elements
+// XXX set_intersection duplicates this
+//     move it some place common
 template<typename Compare>
   struct compare_first_less_second
 {

@@ -18,34 +18,34 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace device
 {
-
 namespace cuda
+{
+namespace block
 {
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
+__device__ __forceinline__
+  RandomAccessIterator4 set_intersection(RandomAccessIterator1 first1,
                                          RandomAccessIterator1 last1,
                                          RandomAccessIterator2 first2,
                                          RandomAccessIterator2 last2,
-                                         RandomAccessIterator3 result,
+                                         RandomAccessIterator3 temporary,
+                                         RandomAccessIterator4 result,
                                          StrictWeakOrdering comp);
 
+} // end block
 } // end cuda
-
 } // end device
-
 } // end detail
-
 } // end thrust
 
-#include <thrust/detail/device/cuda/set_operations.inl>
+#include <thrust/detail/device/cuda/block/set_intersection.inl>
 

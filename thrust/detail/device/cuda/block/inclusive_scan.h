@@ -51,6 +51,32 @@ __device__
   if(block_size > 512) { if (threadIdx.x >= 512) { val = binary_op(first[threadIdx.x - 512], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
 } // end inplace_inclusive_scan()
 
+
+template<typename RandomAccessIterator,
+         typename Size,
+         typename BinaryFunction>
+__device__
+void inplace_inclusive_scan_n(RandomAccessIterator first,
+                              Size n,
+                              BinaryFunction binary_op)
+{
+  typename thrust::iterator_value<RandomAccessIterator>::type val = first[threadIdx.x];
+  __syncthreads();
+
+  // assume n <= 2048
+  if(n >    1) { if (threadIdx.x < n && threadIdx.x >=    1) { val = binary_op(first[threadIdx.x -    1], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >    2) { if (threadIdx.x < n && threadIdx.x >=    2) { val = binary_op(first[threadIdx.x -    2], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } 
+  if(n >    4) { if (threadIdx.x < n && threadIdx.x >=    4) { val = binary_op(first[threadIdx.x -    4], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >    8) { if (threadIdx.x < n && threadIdx.x >=    8) { val = binary_op(first[threadIdx.x -    8], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >   16) { if (threadIdx.x < n && threadIdx.x >=   16) { val = binary_op(first[threadIdx.x -   16], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >   32) { if (threadIdx.x < n && threadIdx.x >=   32) { val = binary_op(first[threadIdx.x -   32], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >   64) { if (threadIdx.x < n && threadIdx.x >=   64) { val = binary_op(first[threadIdx.x -   64], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >  128) { if (threadIdx.x < n && threadIdx.x >=  128) { val = binary_op(first[threadIdx.x -  128], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >  256) { if (threadIdx.x < n && threadIdx.x >=  256) { val = binary_op(first[threadIdx.x -  256], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n >  512) { if (threadIdx.x < n && threadIdx.x >=  512) { val = binary_op(first[threadIdx.x -  512], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  if(n > 1024) { if (threadIdx.x < n && threadIdx.x >= 1024) { val = binary_op(first[threadIdx.x - 1024], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+} // end inplace_inclusive_scan()
+
 } // end namespace block
 } // end namespace cuda
 } // end namespace device

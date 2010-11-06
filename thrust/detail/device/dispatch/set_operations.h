@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/cuda/set_operations.h>
+#include <thrust/detail/device/cuda/set_intersection.h>
 #include <thrust/detail/device/generic/set_operations.h>
 
 namespace thrust

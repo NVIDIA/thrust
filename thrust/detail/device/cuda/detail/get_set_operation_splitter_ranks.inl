@@ -186,7 +186,10 @@ template<typename RandomAccessIterator1,
                       splitters_begin, splitters_end, 
                       splitter_ranks2, comp);
 
-  thrust::upper_bound(first1, last1,
+//  thrust::upper_bound(first1, last1,
+//                      splitters_begin, splitters_end,
+//                      splitter_ranks1, comp);
+  thrust::lower_bound(first1, last1,
                       splitters_begin, splitters_end,
                       splitter_ranks1, comp);
 } // end get_set_operation_splitter_ranks()
