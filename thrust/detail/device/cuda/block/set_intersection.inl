@@ -33,34 +33,6 @@ namespace cuda
 namespace block
 {
 
-namespace set_intersection_detail
-{
-
-// this predicate tests two two-element tuples
-// we first use a Compare for the first element
-// if the first elements are equivalent, we use
-// < for the second elements
-// XXX merge duplicates this
-//     move it some place common
-template<typename Compare>
-  struct compare_first_less_second
-{
-  __host__ __device__
-  compare_first_less_second(Compare c)
-    : comp(c) {}
-
-  template<typename T1, typename T2>
-  __host__ __device__
-  bool operator()(T1 lhs, T2 rhs)
-  {
-    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
-  }
-
-  Compare comp;
-}; // end compare_first_less_second
-
-} // end set_intersection_detail
-
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -76,12 +48,12 @@ __device__ __forceinline__
                                          RandomAccessIterator4 result,
                                          StrictWeakOrdering comp)
 {
-  using namespace set_intersection_detail;
-
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
   difference1 n1 = last1 - first1;
+
+  if(n1 == 0) return result;
 
   // search for all matches in the second range for each element in the first
   bool found = false;

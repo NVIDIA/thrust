@@ -31,6 +31,8 @@
 #include <thrust/scan.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
+#include <thrust/functional.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -253,45 +255,59 @@ void grouped_gather(const RandomAccessIterator1 result,
 } // end grouped_gather
 
 
-template<typename Compare>
-  struct equivalence_from_compare
+// this functor keeps an iterator pointing to a sorted range and a Compare
+// operator() takes an index as an argument, looks up x = first[index]
+// and returns x's rank in the segment of elements equivalent to x
+template<typename RandomAccessIterator, typename Compare>
+  struct nth_occurrence_functor
+    : thrust::unary_function<
+        typename thrust::iterator_difference<RandomAccessIterator>::type,
+        typename thrust::iterator_difference<RandomAccessIterator>::type
+      >
 {
-  equivalence_from_compare(Compare c)
-    : comp(c) {}
+  nth_occurrence_functor(RandomAccessIterator f, Compare c)
+    : first(f), comp(c) {}
 
-  template<typename T1, typename T2>
+  template<typename Index>
   __host__ __device__
-  bool operator()(T1 &lhs, T2 &rhs)
+  typename thrust::iterator_difference<RandomAccessIterator>::type operator()(Index index)
   {
-    // two elements are equivalent if neither sorts before the other
-    return !comp(lhs, rhs) && !comp(rhs, lhs);
-  }
-  
-  Compare comp;
-}; // end equivalence_from_compare
+    RandomAccessIterator x = first;
+    x += index;
 
-
-// this predicate tests two two-element tuples
-// we first use a Compare for the first element
-// if the first elements are equivalent, we use
-// < for the second elements
-// XXX set_intersection duplicates this
-//     move it some place common
-template<typename Compare>
-  struct compare_first_less_second
-{
-  compare_first_less_second(Compare c)
-    : comp(c) {}
-
-  template<typename T1, typename T2>
-  __host__ __device__
-  bool operator()(T1 lhs, T2 rhs)
-  {
-    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
+    return x - thrust::detail::device::generic::scalar::lower_bound(first,x,dereference(x),comp);
   }
 
+  RandomAccessIterator first;
   Compare comp;
-}; // end compare_first_less_second
+}; // end nth_occurrence_functor
+
+
+template<typename RandomAccessIterator, typename Compare>
+  class rank_iterator
+{
+  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference;
+  typedef thrust::counting_iterator<difference> counter;
+
+  public:
+    typedef thrust::transform_iterator<
+      nth_occurrence_functor<RandomAccessIterator,Compare>,
+      counter
+    > type;
+}; // end rank_iterator
+
+
+template<typename RandomAccessIterator, typename Compare>
+  typename rank_iterator<RandomAccessIterator,Compare>::type
+    make_rank_iterator(RandomAccessIterator iter, Compare comp)
+{
+  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference;
+  typedef thrust::counting_iterator<difference> CountingIterator;
+
+  nth_occurrence_functor<RandomAccessIterator,Compare> f(iter,comp);
+
+  return thrust::make_transform_iterator(CountingIterator(0), f);
+} // end make_rank_iterator()
 
 
 template<typename RandomAccessIterator1,
@@ -319,37 +335,25 @@ template<typename RandomAccessIterator1,
   const difference1 num_elements1 = last1 - first1;
   const difference2 num_elements2 = last2 - first2;
 
+  typedef typename rank_iterator<RandomAccessIterator1,Compare>::type RankIterator1;
+  typedef typename rank_iterator<RandomAccessIterator2,Compare>::type RankIterator2;
+
   // enumerate each key within its sub-segment of equivalent keys
-  // XXX replace these explicit ranges with fancy iterators
-  raw_buffer<difference1, cuda_device_space_tag> key_ranks1(num_elements1);
-  raw_buffer<difference2, cuda_device_space_tag> key_ranks2(num_elements2);
-
-  thrust::exclusive_scan_by_key(first1, last1,
-                                thrust::make_constant_iterator<difference1>(1),
-                                key_ranks1.begin(),
-                                difference1(0),
-                                equivalence_from_compare<Compare>(comp));
-
-  thrust::exclusive_scan_by_key(first2, last2,
-                                thrust::make_constant_iterator<difference2>(1),
-                                key_ranks2.begin(),
-                                difference2(0),
-                                equivalence_from_compare<Compare>(comp));
+  RankIterator1 key_ranks1 = make_rank_iterator(first1, comp);
+  RankIterator2 key_ranks2 = make_rank_iterator(first2, comp);
 
   // zip up the keys with their ranks to disambiguate repeated elements during rank-finding
-  typedef typename raw_buffer<difference1, cuda_device_space_tag>::iterator RankIterator1;
-  typedef typename raw_buffer<difference2, cuda_device_space_tag>::iterator RankIterator2;
   typedef thrust::tuple<RandomAccessIterator1,RankIterator1> iterator_tuple1;
   typedef thrust::tuple<RandomAccessIterator2,RankIterator2> iterator_tuple2;
   typedef thrust::zip_iterator<iterator_tuple1> iterator_and_rank1;
   typedef thrust::zip_iterator<iterator_tuple2> iterator_and_rank2;
 
   iterator_and_rank1 first_and_rank1 =
-    thrust::make_zip_iterator(thrust::make_tuple(first1, key_ranks1.begin()));
+    thrust::make_zip_iterator(thrust::make_tuple(first1, key_ranks1));
   iterator_and_rank1 last_and_rank1 = first_and_rank1 + num_elements1;
 
   iterator_and_rank2 first_and_rank2 =
-    thrust::make_zip_iterator(thrust::make_tuple(first2, key_ranks2.begin()));
+    thrust::make_zip_iterator(thrust::make_tuple(first2, key_ranks2));
   iterator_and_rank2 last_and_rank2 = first_and_rank2 + num_elements2;
 
   // take into account the tuples when comparing
@@ -445,7 +449,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
   // maximize the number of blocks we can launch
   const size_t max_blocks = thrust::detail::device::cuda::arch::max_grid_dimensions().x;
   const size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
-  const size_t dynamic_smem_size = get_set_intersection_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,RandomAccessIterator3>(block_size);
+  const size_t dynamic_smem_size = get_set_intersection_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,typename raw_buffer<value_type1,cuda_device_space_tag>::iterator>(block_size);
 
   set_intersection_detail::set_intersection_kernel<<<num_blocks, static_cast<unsigned int>(block_size), static_cast<unsigned int>(dynamic_smem_size)>>>( 
   	first1, last1,
@@ -464,7 +468,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
                          result_partition_sizes.begin());
 
   // gather from temporary_results to result
-  // XXX use a different heuristic for this kernel config
+  // no real need to choose a new config for this launch
   grouped_gather<<<num_blocks, static_cast<unsigned int>(block_size)>>>(
                  result,
                  temporary_results.begin(),

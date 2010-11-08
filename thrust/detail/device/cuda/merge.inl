@@ -29,6 +29,7 @@
 #include <thrust/detail/device/cuda/extern_shared_ptr.h>
 #include <thrust/detail/device/cuda/detail/get_set_operation_splitter_ranks.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -194,30 +195,6 @@ __global__ void merge_kernel(const RandomAccessIterator1 first1,
     block::copy(input_begin2, input_end2, block::copy(input_begin1, input_end1, output_begin));
   } // end for partition
 } // end merge_kernel
-
-
-// this predicate tests two two-element tuples
-// we first use a Compare for the first element
-// if the first elements are equivalent, we use
-// < for the second elements
-// XXX set_intersection duplicates this
-//     move it some place common
-template<typename Compare>
-  struct compare_first_less_second
-{
-  compare_first_less_second(Compare c)
-    : comp(c) {}
-
-  template<typename T1, typename T2>
-  __host__ __device__
-  bool operator()(T1 lhs, T2 rhs)
-  {
-    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
-  }
-
-  Compare comp;
-}; // end compare_first_less_second
-
 
 
 template<typename RandomAccessIterator1,

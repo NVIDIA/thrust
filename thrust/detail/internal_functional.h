@@ -480,6 +480,27 @@ template<typename T>
 }; // end uninitialized_fill_functor
 
 
+// this predicate tests two two-element tuples
+// we first use a Compare for the first element
+// if the first elements are equivalent, we use
+// < for the second elements
+template<typename Compare>
+  struct compare_first_less_second
+{
+  compare_first_less_second(Compare c)
+    : comp(c) {}
+
+  template<typename T1, typename T2>
+  __host__ __device__
+  bool operator()(T1 lhs, T2 rhs)
+  {
+    return comp(lhs.get<0>(), rhs.get<0>()) || (!comp(rhs.get<0>(), lhs.get<0>()) && lhs.get<1>() < rhs.get<1>());
+  }
+
+  Compare comp;
+}; // end compare_first_less_second
+
+
 } // end namespace detail
 } // end namespace thrust
 
