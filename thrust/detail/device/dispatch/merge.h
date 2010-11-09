@@ -35,17 +35,14 @@ namespace dispatch
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
-         typename StrictWeakOrdering,
-         typename Space1,
-         typename Space2,
-         typename Space3>
-  OutputIterator set_intersection(InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result,
-                                  StrictWeakOrdering comp,
-                                  thrust::detail::omp_device_space_tag)
+         typename StrictWeakOrdering>
+  OutputIterator merge(InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result,
+                       StrictWeakOrdering comp,
+                       thrust::detail::omp_device_space_tag)
 {
   // omp backend
   return thrust::detail::device::omp::merge(first1,last1,first2,last2,result,comp);
@@ -56,13 +53,13 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result,
-                                  StrictWeakOrdering comp,
-                                  thrust::detail::cuda_device_space_tag)
+  OutputIterator merge(InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result,
+                       StrictWeakOrdering comp,
+                       thrust::detail::cuda_device_space_tag)
 {
   // CUDA backend
   return thrust::detail::device::cuda::merge(first1,last1,first2,last2,result,comp);

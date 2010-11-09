@@ -45,11 +45,7 @@
 
 
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// temporarily disable 'possible loss of data' warnings on MSVC
-#pragma warning(push)
-#pragma warning(disable : 4244 4267)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 
 namespace thrust
@@ -1234,10 +1230,7 @@ template<typename RandomAccessIterator1,
 } // end namespace thrust
 
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// reenable 'possible loss of data' warnings
-#pragma warning(pop)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

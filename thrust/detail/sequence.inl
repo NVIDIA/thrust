@@ -64,17 +64,7 @@ struct sequence_functor
       __host__ __device__
   OutputType operator()(const IntegerType i) const
   {
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// temporarily disable 'possible loss of data' warnings on MSVC
-#pragma warning(push)
-#pragma warning(disable : 4244 4267)
-#endif
-      return OutputType(init + step * i);
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// reenable 'possible loss of data' warnings
-#pragma warning(pop)
-#endif
-
+      __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(return OutputType(init + step * i));
   }
 }; // end sequence_functor
 

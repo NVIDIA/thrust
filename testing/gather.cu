@@ -6,10 +6,7 @@
 #include <thrust/sequence.h>
 
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// disable 'possible loss of data' warnings on MSVC
-#pragma warning(disable : 4244 4267)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 
 template <class Vector>
@@ -236,3 +233,4 @@ void TestGatherCountingIterator(void)
 }
 DECLARE_VECTOR_UNITTEST(TestGatherCountingIterator);
 
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

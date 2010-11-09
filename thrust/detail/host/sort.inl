@@ -23,8 +23,6 @@
 
 #include <thrust/detail/host/detail/stable_merge_sort.h>
 
-#include <algorithm>
-
 namespace thrust
 {
 namespace detail
@@ -42,7 +40,7 @@ template<typename RandomAccessIterator,
     thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
  
     // perform the sort
-    std::sort(keys.begin(), keys.end(), comp);
+    thrust::detail::host::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
   
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
@@ -59,7 +57,7 @@ template<typename RandomAccessIterator,
     thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
 
     // perform the sort
-    std::stable_sort(keys.begin(), keys.end(), comp);
+    thrust::detail::host::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
   
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)

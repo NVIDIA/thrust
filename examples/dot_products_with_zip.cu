@@ -3,8 +3,7 @@
 #include <thrust/functional.h>
 #include <thrust/transform.h>
 #include <thrust/iterator/zip_iterator.h>
-
-#include <cstdlib> // for rand()
+#include <thrust/random.h>
 
 
 // This example shows how thrust::zip_iterator can be used to create a 
@@ -33,12 +32,15 @@ struct DotProduct : public thrust::binary_function<Float3,Float3,float>
 
 
 
-// Return a host vector with random values in the range [0,1]
+// Return a host vector with random values in the range [0,1)
 thrust::host_vector<float> random_vector(const size_t N)
 {
+    thrust::default_random_engine rng;
+    thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
     thrust::host_vector<float> temp(N);
-    for(size_t i = 0; i < N; i++)
-        temp[i] = (float) rand() / (float) RAND_MAX;
+    for(size_t i = 0; i < N; i++) {
+        temp[i] = u01(rng);
+    }
     return temp;
 }
 
@@ -111,6 +113,7 @@ int main(void)
     // (0.394383,0.640368,0.180886) * (0.0138811,0.24875,0.0221609) = 0.168775
     // (0.783099,0.717092,0.426423) * (0.622212,0.0699601,0.234811) = 0.63755
     // (0.79844,0.460067,0.0470658) * (0.0391351,0.742097,0.354747) = 0.389358
+    std::cout << std::fixed;
     for(size_t i = 0; i < 4; i++)
     {
         Float3 a = A_first[i];

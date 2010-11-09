@@ -4,16 +4,17 @@
 #include <thrust/sort.h>
 #include <thrust/binary_search.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/random.h>
 
 #include <cuda.h>   // for float2
-#include <stdlib.h> // for rand()
 #include <iostream>
 
 // return a random float2 in [0,1)^2
 float2 make_random_float2(void)
 {
-  return make_float2(static_cast<float>(min(RAND_MAX-1,rand())) / (RAND_MAX),
-                     static_cast<float>(min(RAND_MAX-1,rand())) / (RAND_MAX));
+  static thrust::default_random_engine rng;
+  static thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
+  return make_float2(u01(rng), u01(rng));
 }
 
 // hash a point in the unit square to the index of
@@ -28,8 +29,8 @@ struct point_to_bucket_index : public thrust::unary_function<float2,unsigned int
   unsigned int operator()(float2 p) const
   {
     // find the raster indices of p's bucket
-    unsigned int x = p.x * w;
-    unsigned int y = p.y * h;
+    unsigned int x = static_cast<unsigned int>(p.x * w);
+    unsigned int y = static_cast<unsigned int>(p.y * h);
 
     // return the bucket's linear index
     return y * w + x;
@@ -40,7 +41,7 @@ struct point_to_bucket_index : public thrust::unary_function<float2,unsigned int
 
 int main(void)
 {
-  const size_t N = 100000;
+  const size_t N = 1000000;
 
   // allocate some random points in the unit square on the host
   thrust::host_vector<float2> h_points(N);

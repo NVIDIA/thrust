@@ -47,6 +47,18 @@ template<typename InputIterator,
 } // end copy()
 
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::false_type)
+{
+  return thrust::detail::host::detail::general_copy_n(first, n, result);
+} // end copy_n()
+
+
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
   RandomAccessIterator2 copy(RandomAccessIterator1 first,
@@ -60,6 +72,19 @@ template<typename RandomAccessIterator1,
   thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
   return result + n;
 } // end copy()
+
+
+template<typename RandomAccessIterator1,
+         typename Size,
+         typename RandomAccessIterator2>
+  RandomAccessIterator2 copy_n(RandomAccessIterator1 first,
+                               Size n,
+                               RandomAccessIterator2 result,
+                               thrust::detail::true_type)
+{
+  thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
+  return result + n;
+} // end copy_n()
 
 
 } // end dispatch

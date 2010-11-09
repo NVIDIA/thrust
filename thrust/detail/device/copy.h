@@ -38,6 +38,18 @@ template<typename InputIterator,
     typename thrust::iterator_space<OutputIterator>::type());
 }
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator  first, 
+                        Size n, 
+                        OutputIterator result)
+{
+  return thrust::detail::device::dispatch::copy_n(first, n, result,
+    typename thrust::iterator_space<InputIterator>::type(),
+    typename thrust::iterator_space<OutputIterator>::type());
+}
+
 
 template<typename InputIterator1,
          typename InputIterator2,

@@ -141,7 +141,7 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
   __host__ __device__
   static Difference distance(Incrementable1 x, Incrementable2 y)
   {
-    return numeric_distance(x,y);
+      return static_cast<Difference>(numeric_distance(x,y));
   }
 };
 

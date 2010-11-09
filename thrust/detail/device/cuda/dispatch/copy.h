@@ -53,6 +53,17 @@ template<typename InputIterator,
     return thrust::detail::device::cuda::copy_device_to_device(begin, end, result);
 }
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::cuda_device_space_tag)
+{
+    return thrust::detail::device::cuda::copy_device_to_device(first, first + n, result);
+}
+
 
 ///////////////
 // Any Paths //
@@ -68,6 +79,17 @@ template<typename InputIterator,
     return thrust::detail::device::cuda::copy_device_to_device(begin, end, result);
 }
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::any_space_tag)
+{
+    return thrust::detail::device::cuda::copy_device_to_device(first, first + n, result);
+}
+
 
 //////////////////////
 // Cross-Space Path //
@@ -78,9 +100,20 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::false_type cross_space_copy)
+                      thrust::detail::false_type intra_space_copy)
 {
   return thrust::detail::device::cuda::copy_cross_space(first, last, result);
+}
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::false_type intra_space_copy)
+{
+  return thrust::detail::device::cuda::copy_cross_space_n(first, n, result);
 }
 
 
@@ -93,7 +126,7 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::true_type cross_space_copy)
+                      thrust::detail::true_type intra_space_copy)
 {
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -102,6 +135,23 @@ template<typename InputIterator,
   typedef typename thrust::detail::minimum_space<space1,space2>::type minimum_space;
 
   return copy(first, last, result, minimum_space());
+}
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::true_type intra_space_copy)
+{
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  // find the minimum space of the two
+  typedef typename thrust::detail::minimum_space<space1,space2>::type minimum_space;
+
+  return copy_n(first, n, result, minimum_space());
 }
 
 
@@ -117,6 +167,21 @@ template<typename InputIterator,
                       Space2)
 {
   return copy(first, last, result,
+    typename thrust::detail::is_one_convertible_to_the_other<Space1,Space2>::type());
+}
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator,
+         typename Space1,
+         typename Space2>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        Space1,
+                        Space2)
+{
+  return copy_n(first, n, result,
     typename thrust::detail::is_one_convertible_to_the_other<Space1,Space2>::type());
 }
 

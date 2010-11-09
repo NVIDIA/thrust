@@ -4,10 +4,7 @@
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// temporarily disable 'possible loss of data' warning on MSVC
-#pragma warning(disable : 4244)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 //////////////////////
 // Scalar Functions //
@@ -131,3 +128,4 @@ void TestScalarEqualRangeSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestScalarEqualRangeSimple);
 
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

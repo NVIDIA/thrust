@@ -101,6 +101,19 @@ OutputIterator copy(InputIterator first,
     typename thrust::iterator_space<OutputIterator>::type());
 } 
 
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+OutputIterator copy_n(InputIterator first,
+                      Size n,
+                      OutputIterator result,
+                      thrust::random_access_traversal_tag)
+{
+  // implement with copy
+  return thrust::detail::device::omp::dispatch::copy(first, first + n, result,
+    thrust::random_access_traversal_tag());
+} 
+
 // incrementable to incrementable
 template<typename InputIterator,
          typename OutputIterator>
@@ -111,6 +124,20 @@ OutputIterator copy(InputIterator first,
 {
   // serialize on the host
   return std::copy(first,last,result);
+}
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+OutputIterator copy_n(InputIterator first,
+                      Size n,
+                      OutputIterator result,
+                      thrust::incrementable_traversal_tag)
+{
+  // serialize on the host
+  for(; n > Size(0); ++first, ++result, --n)
+    *result = *first;
+  return result;
 }
 
 } // end dispatch

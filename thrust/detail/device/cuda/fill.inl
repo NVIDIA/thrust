@@ -177,11 +177,7 @@ template<typename OutputIterator, typename Size, typename T>
   // we can't launch a kernel, implement this with a copy
   raw_host_buffer<OutputType> temp(n);
   thrust::fill_n(temp.begin(), n, value);
-
-  // XXX implement this with copy_n
-  thrust::copy(temp.begin(), temp.end(), first);
-
-  return first + n;
+  return thrust::copy_n(temp.begin(), n, first);
 } // end fill_n()
 
 template<typename OutputIterator, typename Size, typename T>

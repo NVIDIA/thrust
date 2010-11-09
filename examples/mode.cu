@@ -5,10 +5,10 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
+#include <thrust/random.h>
 
 #include <iostream>
 #include <iterator>
-#include <cstdlib>
 
 // This example compute the mode [1] of a set of numbers.  If there
 // are multiple modes, one with the smallest value it returned.
@@ -19,11 +19,13 @@ int main(void)
 {
     const size_t N = 30;
     const size_t M = 10;
+    thrust::default_random_engine rng;
+    thrust::uniform_int_distribution<int> dist(0, M - 1);
 
     // generate random data on the host
     thrust::host_vector<int> h_data(N);
     for(size_t i = 0; i < N; i++)
-        h_data[i] = rand() % M;
+        h_data[i] = dist(rng);
 
     // transfer data to device
     thrust::device_vector<int> d_data(h_data);

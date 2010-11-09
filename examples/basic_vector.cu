@@ -18,7 +18,7 @@ int main(void)
     std::cout << "H has size " << H.size() << std::endl;
 
     // print contents of H
-    for(int i = 0; i < H.size(); i++)
+    for(size_t i = 0; i < H.size(); i++)
         std::cout << "H[" << i << "] = " << H[i] << std::endl;
 
     // resize H
@@ -34,7 +34,7 @@ int main(void)
     D[1] = 88;
     
     // print contents of D
-    for(int i = 0; i < D.size(); i++)
+    for(size_t i = 0; i < D.size(); i++)
         std::cout << "D[" << i << "] = " << D[i] << std::endl;
 
     // H and D are automatically deleted when the function returns

@@ -38,11 +38,31 @@ template<typename InputIterator,
                       InputIterator last,
                       OutputIterator result)
 {
-  // XXX make sure this isn't necessary
+  // make sure this isn't necessary
   if(first == last) 
     return result;
 
   return thrust::detail::dispatch::copy(first, last, result,
+          typename thrust::iterator_space<InputIterator>::type(),
+          typename thrust::iterator_space<OutputIterator>::type());
+}
+
+////////////
+// copy_n //
+////////////
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result)
+{
+  // make sure this isn't necessary
+  if(n <= Size(0)) 
+    return result;
+
+  return thrust::detail::dispatch::copy_n(first, n, result,
           typename thrust::iterator_space<InputIterator>::type(),
           typename thrust::iterator_space<OutputIterator>::type());
 }

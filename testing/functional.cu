@@ -5,10 +5,7 @@
 #include <functional>
 #include <algorithm>
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-// disable 'unary minus applied to unsigned type' warning on MSVC
-#pragma warning(disable : 4146)
-#endif
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
     
 const size_t NUM_SAMPLES = 10000;
 
@@ -324,3 +321,4 @@ void TestNot2(void)
 }
 DECLARE_VECTOR_UNITTEST(TestNot2);
 
+__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

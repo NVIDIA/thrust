@@ -19,8 +19,14 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 
-// based on Boost's BOOST_STATIC_ASSERT
-// see www.boost.org for details.
+/*
+ * (C) Copyright John Maddock 2000.
+ * 
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying NOTICE file for the complete license)
+ *
+ * For more information, see http://www.boost.org
+ */
 
 //
 // Helper macro THRUST_JOIN (based on BOOST_JOIN):

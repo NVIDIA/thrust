@@ -5,10 +5,10 @@
 #include <thrust/binary_search.h>
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/adjacent_difference.h>
+#include <thrust/random.h>
 
 #include <iostream>
 #include <iterator>
-#include <cstdlib>
 
 // This example compute the histogram [1] and cumulative
 // histogram of an array of integer values.
@@ -18,12 +18,15 @@
 
 int main(void)
 {
+    thrust::default_random_engine rng;
+    thrust::uniform_int_distribution<int> dist(0, 9);
+
     const size_t N = 30;
 
     // generate random data on the host
     thrust::host_vector<int> h_data(N);
     for(size_t i = 0; i < N; i++)
-        h_data[i] = rand() % 10;
+        h_data[i] = dist(rng);
 
     // transfer data to device
     thrust::device_vector<int> d_data(h_data);

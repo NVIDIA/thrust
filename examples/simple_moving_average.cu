@@ -3,6 +3,7 @@
 #include <thrust/transform.h>
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
+#include <thrust/random.h>
 #include <iostream>
 
 // Efficiently computes the simple moving average (SMA) [1] of a data series
@@ -62,8 +63,10 @@ int main(void)
 
     // generate random data series
     thrust::device_vector<float> data(n);
+    thrust::default_random_engine rng;
+    thrust::uniform_real_distribution<float> dist(0.0f, 8.0f);
     for (size_t i = 0; i < n; i++)
-        data[i] = rand() % 9;
+        data[i] = dist(rng);
 
     // allocate storage for averages
     thrust::device_vector<float> averages(data.size() - (w - 1));
