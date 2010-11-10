@@ -176,28 +176,25 @@ template<typename Generator>
   generate_functor(Generator g)
     : gen(g) {}
 
+  // operator() does not take an lvalue reference because some iterators
+  // produce temporary proxy references when dereferenced. for example,
+  // consider the temporary tuple of references produced by zip_iterator.
+  // such temporaries cannot bind to an lvalue reference.
+  //
+  // to WAR this, accept a const reference (which is bindable to a temporary),
+  // and const_cast in the implementation.
+  //
+  // XXX change to an rvalue reference upon c++0x (which either a named variable
+  //     or temporary can bind to)
   template<typename T>
   __host__ __device__
-  void operator()(T &x)
+  void operator()(const T &x)
   {
-    x = gen();
-  }
+    // we have to be naughty and const_cast this to get it to work
+    T &lvalue = const_cast<T&>(x);
 
-  // the above operator() does not work with zip_iterator
-  // because the tuples it produces upon dereference are
-  // temporary objects (which cannot bind to lvalue references)
-  //
-  // to WAR this, overload operator() so that we can generate
-  // to zip_iterator
-  //
-  // XXX change this to a single operator() which accepts
-  //     an rvalue reference upon c++0x (which either a named variable
-  //     or temporary can bind to)
-  template<typename HT, typename TT>
-  __host__ __device__
-  void operator()(cons<HT &, TT> x)
-  {
-    x = gen();
+    // this assigns correctly whether x is a true reference or proxy
+    lvalue = gen();
   }
 
   Generator gen;
