@@ -141,7 +141,7 @@ template<typename Incrementable,
     friend class thrust::experimental::iterator_core_access;
 
   public:
-    typedef Incrementable const & reference;
+    typedef typename super_t::reference       reference;
     typedef typename super_t::difference_type difference_type;
 
     /*! \endcond

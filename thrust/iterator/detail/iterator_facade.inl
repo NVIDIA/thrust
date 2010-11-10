@@ -34,6 +34,9 @@ namespace detail
 
 // adapted from http://www.boost.org/doc/libs/1_37_0/libs/iterator/doc/iterator_facade.html#iterator-category
 //
+// in our implementation, R need not be a reference type to result in a category
+// derived from forward_XXX_iterator_tag
+//
 // iterator-category(T,V,R) :=
 //   if(T is convertible to input_host_iterator_tag
 //      || T is convertible to output_host_iterator_tag
@@ -50,8 +53,7 @@ namespace detail
 //     1. X is convertible to X1, and not to any more-derived
 //        type, where X1 is defined by:
 //
-//        if (R is a reference type
-//            && T is convertible to forward_traversal_tag)
+//        if (T is convertible to forward_traversal_tag)
 //        {
 //          if (T is convertible to random_access_traversal_tag)
 //            X1 = random_access_host_iterator_tag
@@ -97,10 +99,7 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_host :
     thrust::detail::eval_if<
-      thrust::detail::and_<
-        thrust::detail::is_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
-      >::value,
+      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
         thrust::detail::identity_<thrust::random_access_host_iterator_tag>,
@@ -127,10 +126,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_device :
     thrust::detail::eval_if<
-      thrust::detail::and_<
-        thrust::detail::is_device_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
-      >::value,
+      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
         thrust::detail::identity_<thrust::random_access_device_iterator_tag>,
@@ -157,10 +153,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_cuda_device :
     thrust::detail::eval_if<
-      thrust::detail::and_<
-        thrust::detail::is_device_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
-      >::value,
+      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
         thrust::detail::identity_<thrust::detail::random_access_cuda_device_iterator_tag>,
@@ -187,10 +180,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_omp_device :
     thrust::detail::eval_if<
-      thrust::detail::and_<
-        thrust::detail::is_device_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
-      >::value,
+      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
         thrust::detail::identity_<thrust::detail::random_access_omp_device_iterator_tag>,
@@ -218,10 +208,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_any :
     thrust::detail::eval_if<
 
-      thrust::detail::and_<
-        thrust::detail::is_reference<Reference>,
-        thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>
-      >::value,
+      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
 
       thrust::detail::eval_if<
         thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,

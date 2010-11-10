@@ -75,6 +75,10 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
     >
   >::type difference;
 
+  // our implementation departs from Boost's in that counting_iterator::dereference
+  // returns a copy of its counter, rather than a reference to it. returning a reference
+  // to the internal state of an iterator causes subtle bugs (consider the temporary
+  // iterator created in the expression *(iter + i) ) and has no compelling use case
   typedef thrust::experimental::iterator_adaptor<
     counting_iterator<Incrementable, Space, Traversal, Difference>, // self
     Incrementable,                                                  // Base
@@ -82,7 +86,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
     Incrementable,                                                  // Value
     space,
     traversal,
-    Incrementable const &,
+    Incrementable,
     difference
   > type;
 }; // end counting_iterator_base
