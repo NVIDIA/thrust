@@ -35,8 +35,13 @@ template<typename Value,
 {
   typedef Value              value_type;
 
-  // the reference type is just a const reference to the value_type
-  typedef const value_type & reference;
+  // the reference type is the same as the value_type.
+  // we wish to avoid returning a reference to the internal state
+  // of the constant_iterator, which is prone to subtle bugs.
+  // consider the temporary iterator created in the expression
+  // *(iter + i)
+  typedef value_type         reference;
+
   typedef const value_type * pointer;
 
   // the incrementable type is int unless otherwise specified
