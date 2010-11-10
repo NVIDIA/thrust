@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/iterator/permutation_iterator.h>
+#include <thrust/iterator/counting_iterator.h>
 
 #include <thrust/reduce.h>
 #include <thrust/transform_reduce.h>
@@ -276,4 +277,43 @@ void TestPermutationIteratorHostDeviceScatter(void)
     ASSERT_EQUAL(h_output[7], 10);
 }
 DECLARE_UNITTEST(TestPermutationIteratorHostDeviceScatter);
+
+template <typename Vector>
+void TestPermutationIteratorWithCountingIterator(void)
+{
+  typedef typename Vector::value_type T;
+  typedef typename Vector::iterator Iterator;
+  
+  typename thrust::counting_iterator<T> input(0), index(0);
+
+  // test copy()
+  {
+    Vector output(4,0);
+
+    thrust::copy(thrust::make_permutation_iterator(input, index),
+                 thrust::make_permutation_iterator(input, index + output.size()),
+                 output.begin());
+
+    ASSERT_EQUAL(output[0], 0);
+    ASSERT_EQUAL(output[1], 1);
+    ASSERT_EQUAL(output[2], 2);
+    ASSERT_EQUAL(output[3], 3);
+  }
+
+  // test copy()
+  {
+    Vector output(4,0);
+
+    thrust::transform(thrust::make_permutation_iterator(input, index),
+                      thrust::make_permutation_iterator(input, index + 4),
+                      output.begin(),
+                      thrust::identity<T>());
+
+    ASSERT_EQUAL(output[0], 0);
+    ASSERT_EQUAL(output[1], 1);
+    ASSERT_EQUAL(output[2], 2);
+    ASSERT_EQUAL(output[3], 3);
+  }
+}
+DECLARE_VECTOR_UNITTEST(TestPermutationIteratorWithCountingIterator);
 
