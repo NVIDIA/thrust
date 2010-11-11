@@ -271,12 +271,12 @@ template<typename RandomAccessIterator1,
  *  \see \p stable_sort_by_key
  *  \see \p sort
  */
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(RandomAccessKeyIterator keys_first,
-                   RandomAccessKeyIterator keys_last,
-                   RandomAccessValueIterator values_first,
+  void sort_by_key(RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp);
 
 /*! \p stable_sort_by_key performs a key-value sort. That is, \p stable_sort_by_key
@@ -327,11 +327,11 @@ template<typename RandomAccessKeyIterator,
  *  \see \p sort_by_key
  *  \see \p stable_sort
  */
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_sort_by_key(RandomAccessKeyIterator keys_first,
-                          RandomAccessKeyIterator keys_last,
-                          RandomAccessValueIterator values_first);
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first);
 
 /*! \p stable_sort_by_key performs a key-value sort. That is, \p stable_sort_by_key
  *  sorts the elements in <tt>[keys_first, keys_last)</tt> and <tt>[values_first,
@@ -369,12 +369,12 @@ template<typename RandomAccessKeyIterator,
  *  \see \p sort_by_key
  *  \see \p stable_sort
  */
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(RandomAccessKeyIterator keys_first,
-                          RandomAccessKeyIterator keys_last,
-                          RandomAccessValueIterator values_first,
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp);
 
 /*! \} // end sorting

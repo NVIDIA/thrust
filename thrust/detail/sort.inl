@@ -80,56 +80,56 @@ template<typename RandomAccessIterator,
 // Key-Value Sorts //
 /////////////////////
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void sort_by_key(RandomAccessKeyIterator keys_first,
-                   RandomAccessKeyIterator keys_last,
-                   RandomAccessValueIterator values_first)
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void sort_by_key(RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first)
 {
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
 
     // default comparison method is less<KeyType>
     sort_by_key(keys_first, keys_last, values_first, thrust::less<KeyType>());
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(RandomAccessKeyIterator keys_first,
-                   RandomAccessKeyIterator keys_last,
-                   RandomAccessValueIterator values_first,
+  void sort_by_key(RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
     // dispatch on space
     thrust::detail::dispatch::sort_by_key(keys_first, keys_last, values_first, comp,
-            typename thrust::iterator_space<RandomAccessKeyIterator>::type(),
-            typename thrust::iterator_space<RandomAccessValueIterator>::type());
+            typename thrust::iterator_space<RandomAccessIterator1>::type(),
+            typename thrust::iterator_space<RandomAccessIterator2>::type());
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator>
-  void stable_sort_by_key(RandomAccessKeyIterator keys_first,
-                          RandomAccessKeyIterator keys_last,
-                          RandomAccessValueIterator values_first)
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first)
 {
-    typedef typename thrust::iterator_traits<RandomAccessKeyIterator>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
 
     // default comparison method is less<KeyType>
     thrust::stable_sort_by_key(keys_first, keys_last, values_first, thrust::less<KeyType>());
 }
 
-template<typename RandomAccessKeyIterator,
-         typename RandomAccessValueIterator,
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(RandomAccessKeyIterator keys_first,
-                          RandomAccessKeyIterator keys_last,
-                          RandomAccessValueIterator values_first,
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
     // dispatch on space
     thrust::detail::dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp,
-            typename thrust::iterator_space<RandomAccessKeyIterator>::type(),
-            typename thrust::iterator_space<RandomAccessValueIterator>::type());
+            typename thrust::iterator_space<RandomAccessIterator1>::type(),
+            typename thrust::iterator_space<RandomAccessIterator2>::type());
 }
 
 template<typename ForwardIterator>
