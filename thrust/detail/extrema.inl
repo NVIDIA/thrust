@@ -26,13 +26,13 @@ namespace thrust
 template<typename T, typename BinaryPredicate>
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
-  return comp(lhs, rhs) ? lhs : rhs;
+  return comp(rhs, lhs) ? rhs : lhs;
 } // end min()
 
 template<typename T>
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
-  return lhs < rhs ? lhs : rhs;
+  return rhs < lhs ? rhs : lhs;
 } // end min()
 
 template<typename T, typename BinaryPredicate>
