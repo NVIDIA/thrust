@@ -20,6 +20,7 @@
 
 #include <thrust/set_operations.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/functional.h>
 #include <thrust/detail/dispatch/set_operations.h>
 
@@ -57,6 +58,37 @@ template<typename InputIterator1,
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
   return thrust::set_intersection(first1, last1, first2, last2, result, thrust::less<value_type>());
 } // end set_intersection()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result,
+                           StrictWeakOrdering comp)
+{
+  return thrust::detail::dispatch::set_intersection(first1, last1,
+                                                    first2, last2,
+                                                    result, comp,
+    typename thrust::detail::minimum_space<InputIterator1,InputIterator2,OutputIterator>::type());
+} // end set_union()
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::set_union(first1, last1, first2, last2, result, thrust::less<value_type>());
+} // end set_union()
 
 } // end thrust
 

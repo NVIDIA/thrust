@@ -17,8 +17,8 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/cuda/set_intersection.h>
-#include <thrust/detail/device/generic/set_operations.h>
+#include <thrust/detail/device/cuda/set_operations.h>
+#include <thrust/detail/device/omp/set_operations.h>
 
 namespace thrust
 {
@@ -45,12 +45,12 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result,
                                   StrictWeakOrdering comp,
-                                  Space1,
-                                  Space2,
-                                  Space3)
+                                  thrust::detail::omp_device_space_tag,
+                                  thrust::detail::omp_device_space_tag,
+                                  thrust::detail::omp_device_space_tag)
 {
-  // generic backend
-  return thrust::detail::device::generic::set_intersection(first1,last1,first2,last2,result,comp);
+  // omp backend
+  return thrust::detail::device::omp::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
 
 
@@ -71,6 +71,41 @@ template<typename InputIterator1,
   // refinement for the CUDA backend
   return thrust::detail::device::cuda::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering,
+         typename Space>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result,
+                           StrictWeakOrdering comp,
+                           thrust::detail::omp_device_space_tag)
+{
+  // omp backend
+  return thrust::detail::device::omp::set_union(first1,last1,first2,last2,result,comp);
+} // end set_union()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result,
+                           StrictWeakOrdering comp,
+                           thrust::detail::cuda_device_space_tag)
+{
+  // CUDA backend
+  return thrust::detail::device::cuda::set_intersection(first1,last1,first2,last2,result,comp);
+} // end set_union()
 
 
 } // end dispatch

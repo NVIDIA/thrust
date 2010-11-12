@@ -39,6 +39,16 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
                                        RandomAccessIterator3 result,
                                        Compare comp);
 
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2, 
+	 typename RandomAccessIterator3,
+         typename Compare>
+RandomAccessIterator3 set_union(RandomAccessIterator1 first1,
+                                RandomAccessIterator1 last1,
+                                RandomAccessIterator2 first2,
+                                RandomAccessIterator2 last2,
+                                RandomAccessIterator3 result,
+                                Compare comp);
 
 } // end cuda
 } // end device
@@ -46,4 +56,5 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
 } // end thrust
 
 #include <thrust/detail/device/cuda/set_intersection.inl>
+#include <thrust/detail/device/cuda/set_union.inl>
 

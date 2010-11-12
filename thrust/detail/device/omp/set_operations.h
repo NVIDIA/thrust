@@ -16,7 +16,7 @@
 
 
 /*! \file set_operations.h
- *  \brief Generic device implementation of the set operation functions.
+ *  \brief OpenMP device implementation of the set operation functions.
  */
 
 #pragma once
@@ -32,7 +32,7 @@ namespace detail
 namespace device
 {
 
-namespace generic
+namespace omp
 {
 
 template<typename InputIterator1,
@@ -49,7 +49,21 @@ template<typename InputIterator1,
   return std::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
 
-} // end generic
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result,
+                           StrictWeakOrdering comp)
+{
+  return std::set_union(first1,last1,first2,last2,result,comp);
+} // end set_union()
+
+} // end omp
 
 } // end device
 

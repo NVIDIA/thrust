@@ -104,6 +104,133 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result);
 
+/*! \p set_union constructs a sorted range that is the union of the sorted ranges
+ *  <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt>. The return value is the
+ *  end of the output range.
+ *
+ *  In the simplest case, \p set_union performs the "union" operation from set
+ *  theory: the output range contains a copy of every element that is contained in
+ *  <tt>[first1, last1)</tt>, <tt>[first2, last1)</tt>, or both. The general case
+ *  is more complicated, because the input ranges may contain duplicate elements.
+ *  The generalization is that if <tt>[first1, last1)</tt> contains \c m elements
+ *  that are equivalent to each other and if <tt>[first2, last2)</tt> contains \c n
+ *  elements that are equivalent to them, then all \c m elements from the first
+ *  range shall be copied to the output range, in order, and then <tt>max(n - m, 0)</tt>
+ *  elements from the second range shall be copied to the output, in order.
+ *
+ *  This version of \p set_union compares elements using \c operator<.
+ *
+ *  \param first1 The beginning of the first input range.
+ *  \param first2 The end of the first input range.
+ *  \param first2 The beginning of the second input range.
+ *  \param last2 The end of the second input range.
+ *  \return The end of the output range.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
+ *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
+ *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  The following code snippet demonstrates how to use \p set_union to compute the union of
+ *  two sets of integers sorted in ascending order.
+ *
+ *  \code
+ *  #include <thrust/set_operations.h>
+ *  ...
+ *  int A1[6] = {0, 2, 4, 6, 8, 10, 12};
+ *  int A2[5] = {1, 3, 5, 7, 9};
+ *
+ *  int result[11];
+ *
+ *  int *result_end = thrust::set_union(A1, A1 + 6, A2, A2 + 5, result);
+ *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/set_union.html
+ *  \see \p merge
+ *  \see \p sort
+ *  \see \p is_sorted
+ */
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result);
+
+/*! \p set_union constructs a sorted range that is the union of the sorted ranges
+ *  <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt>. The return value is the
+ *  end of the output range.
+ *
+ *  In the simplest case, \p set_union performs the "union" operation from set
+ *  theory: the output range contains a copy of every element that is contained in
+ *  <tt>[first1, last1)</tt>, <tt>[first2, last1)</tt>, or both. The general case
+ *  is more complicated, because the input ranges may contain duplicate elements.
+ *  The generalization is that if <tt>[first1, last1)</tt> contains \c m elements
+ *  that are equivalent to each other and if <tt>[first2, last2)</tt> contains \c n
+ *  elements that are equivalent to them, then all \c m elements from the first
+ *  range shall be copied to the output range, in order, and then <tt>max(n - m, 0)</tt>
+ *  elements from the second range shall be copied to the output, in order.
+ *
+ *  This version of \p set_union compares elements using a function object \p comp.
+ *
+ *  \param first1 The beginning of the first input range.
+ *  \param first2 The end of the first input range.
+ *  \param first2 The beginning of the second input range.
+ *  \param last2 The end of the second input range.
+ *  \param comp Comparison operator.
+ *  \return The end of the output range.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
+ *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator2's \c value_type is convertable to \p StrictWeakCompare's \c second_argument_type.
+ *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p set_union to compute the union of
+ *  two sets of integers sorted in ascending order.
+ *
+ *  \code
+ *  #include <thrust/set_operations.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  int A1[6] = {12, 10, 8, 6, 4, 2, 12};
+ *  int A2[5] = {9, 7, 5, 3, 1};
+ *
+ *  int result[11];
+ *
+ *  int *result_end = thrust::set_union(A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/set_union.html
+ *  \see \p merge
+ *  \see \p sort
+ *  \see \p is_sorted
+ */
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator set_union(InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result,
+                           StrictWeakCompare comp);
+
 /*! \} // end set_operations
  */
 

@@ -75,6 +75,7 @@ namespace thrust
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/merge.html
+ *  \see \p set_union
  *  \see \p sort
  *  \see \p is_sorted
  */

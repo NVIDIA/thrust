@@ -15,8 +15,8 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/cuda/block/merge.h>
 #include <thrust/detail/device/generic/scalar/binary_search.h>
+#include <thrust/detail/device/cuda/block/inclusive_scan.h>
 #include <thrust/detail/device/dereference.h>
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
