@@ -54,10 +54,18 @@ T1 ceil_div(T1 up, T2 down)
   return (rem != 0) ? div + 1 : div;
 }
 
+/*! \param num_elements The minimum number of array elements of type \p T desired.
+ *  \return The minimum number of elements >= \p num_elements such that the size
+ *          of an array of elements of type \p T is aligned to \c int.
+ *  \note Another way to interpret this function is that it returns the minimum number
+ *        of \c ints that would accomodate a contiguous array of \p num_elements \p Ts.
+ */
+template<typename T>
 __host__ __device__
-inline unsigned int align_size_to_int(unsigned int N)
+inline unsigned int align_size_to_int(unsigned int num_elements)
 {
-  return (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
+  unsigned int num_bytes = num_elements * sizeof(T);
+  return (num_bytes / sizeof(int)) + ((num_bytes % sizeof(int)) ? 1 : 0);
 }
 
 template<typename RandomAccessIterator1,
@@ -69,10 +77,10 @@ unsigned int get_set_intersection_kernel_per_block_dynamic_smem_usage(unsigned i
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   // set_intersection_kernel allocates memory aligned to int
-  const unsigned int array_size1 = align_size_to_int(block_size * sizeof(value_type1));
-  const unsigned int array_size2 = align_size_to_int(block_size * sizeof(value_type2));
-  const unsigned int array_size3 = align_size_to_int(block_size * sizeof(int));
-  const unsigned int array_size4 = align_size_to_int(block_size * sizeof(value_type1));
+  const unsigned int array_size1 = align_size_to_int<value_type1>(block_size);
+  const unsigned int array_size2 = align_size_to_int<value_type2>(block_size);
+  const unsigned int array_size3 = align_size_to_int<int>(block_size);
+  const unsigned int array_size4 = align_size_to_int<value_type1>(block_size);
 
   return sizeof(int) * (array_size1 + array_size2 + array_size3 + array_size4);
 } // end get_set_intersection_kernel_per_block_dynamic_smem_usage()
@@ -100,10 +108,10 @@ __global__ void set_intersection_kernel(const RandomAccessIterator1 first1,
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   // allocate shared storage
-  const unsigned int array_size1 = align_size_to_int(blockDim.x * sizeof(value_type1));
-  const unsigned int array_size2 = align_size_to_int(blockDim.x * sizeof(value_type2));
-  const unsigned int array_size3 = align_size_to_int(blockDim.x * sizeof(int));
-  const unsigned int array_size4 = align_size_to_int(blockDim.x * sizeof(value_type1));
+  const unsigned int array_size1 = align_size_to_int<value_type1>(blockDim.x);
+  const unsigned int array_size2 = align_size_to_int<value_type2>(blockDim.x);
+  const unsigned int array_size3 = align_size_to_int<int>(blockDim.x);
+  const unsigned int array_size4 = align_size_to_int<value_type1>(blockDim.x);
   int *_shared1  = extern_shared_ptr<int>();
   int *_shared2  = _shared1 + array_size1;
   int *s_scratch = _shared2 + array_size2;
