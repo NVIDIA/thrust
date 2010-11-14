@@ -44,7 +44,7 @@ namespace dispatch
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__device__
+  __forceinline__ __device__
   RandomAccessIterator2 copy(RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
                              RandomAccessIterator2 result,
@@ -65,7 +65,7 @@ __device__
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__device__
+  __forceinline__ __device__
   RandomAccessIterator2 copy(RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
                              RandomAccessIterator2 result,
@@ -93,13 +93,19 @@ __device__
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__device__
+  __forceinline__ __device__
   RandomAccessIterator2 copy(RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
                              RandomAccessIterator2 result)
 {
   return detail::dispatch::copy(first, last, result,
-    typename thrust::detail::dispatch::is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
+#if __CUDA_ARCH__ < 200
+      // does not work reliably on pre-Fermi due to "Warning: ... assuming global memory space" issues
+      false_type()
+#else
+      typename thrust::detail::dispatch::is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type()
+#endif
+      );
 } // end copy()
 
 } // end namespace block
