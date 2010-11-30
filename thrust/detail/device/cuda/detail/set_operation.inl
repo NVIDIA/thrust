@@ -270,6 +270,7 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename Compare,
+         typename Pair,
          typename SplittingFunction,
          typename BlockConvergentSetOperation>
   RandomAccessIterator3 set_operation(RandomAccessIterator1 first1,
@@ -278,6 +279,7 @@ template<typename RandomAccessIterator1,
                                       RandomAccessIterator2 last2,
                                       RandomAccessIterator3 result,
                                       Compare comp,
+                                      Pair range_of_size_of_result,
                                       SplittingFunction split,
                                       BlockConvergentSetOperation set_op)
 {
@@ -334,8 +336,9 @@ template<typename RandomAccessIterator1,
   // allocate storage to store each intersected partition's size
   raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_merged_partitions);
 
-  // allocate storage to store the largest possible intersection
-  raw_buffer<typename thrust::iterator_value<RandomAccessIterator1>::type, cuda_device_space_tag> temporary_results(num_elements1);
+  // allocate storage to store the largest possible result
+  // XXX if the size of the result is known a priori (i.e., first == second), we don't need this temporary
+  raw_buffer<typename thrust::iterator_value<RandomAccessIterator1>::type, cuda_device_space_tag> temporary_results(range_of_size_of_result.second);
 
   // maximize the number of blocks we can launch
   const size_t max_blocks = thrust::detail::device::cuda::arch::max_grid_dimensions().x;

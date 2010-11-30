@@ -233,7 +233,9 @@ def Environment():
       raise ValueError, "Unknown OS.  What is the name of the OpenMP library?"
 
   # set thrust include path
-  env.Append(CPPPATH = os.path.dirname(thisDir))
+  # this needs to come before the CUDA include path appended above,
+  # which may include a different version of thrust
+  env.Prepend(CPPPATH = os.path.dirname(thisDir))
 
   # import the LD_LIBRARY_PATH so we can run commands which depend
   # on shared libraries

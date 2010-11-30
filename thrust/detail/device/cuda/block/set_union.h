@@ -24,32 +24,28 @@ namespace device
 {
 namespace cuda
 {
-namespace detail
+namespace block
 {
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
-         typename Compare,
-         typename Pair,
-         typename SplittingFunction,
-         typename BlockConvergentSetOperation>
-  RandomAccessIterator3 set_operation(RandomAccessIterator1 first1,
-                                      RandomAccessIterator1 last1,
-                                      RandomAccessIterator2 first2,
-                                      RandomAccessIterator2 last2,
-                                      RandomAccessIterator3 result,
-                                      Compare comp,
-                                      Pair range_of_size_of_result,
-                                      SplittingFunction split,
-                                      BlockConvergentSetOperation set_op);
+         typename RandomAccessIterator4,
+         typename StrictWeakOrdering>
+__device__ __forceinline__
+  RandomAccessIterator4 set_union(RandomAccessIterator1 first1,
+                                  RandomAccessIterator1 last1,
+                                  RandomAccessIterator2 first2,
+                                  RandomAccessIterator2 last2,
+                                  RandomAccessIterator3 temporary,
+                                  RandomAccessIterator4 result,
+                                  StrictWeakOrdering comp);
 
-
-} // end detail
+} // end block
 } // end cuda
 } // end device
 } // end detail
 } // end thrust
 
-#include <thrust/detail/device/cuda/detail/set_operation.inl>
+#include <thrust/detail/device/cuda/block/set_union.inl>
 

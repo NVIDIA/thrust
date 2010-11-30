@@ -71,10 +71,14 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_intersection(first1, last1,
-                                                    first2, last2,
-                                                    result, comp,
-    typename thrust::detail::minimum_space<InputIterator1,InputIterator2,OutputIterator>::type());
+  return thrust::detail::dispatch::set_union(first1, last1,
+                                             first2, last2,
+                                             result, comp,
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
 } // end set_union()
 
 template<typename InputIterator1,

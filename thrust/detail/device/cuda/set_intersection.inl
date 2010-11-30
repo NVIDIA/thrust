@@ -209,6 +209,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
                                first2, last2,
                                result,
                                comp,
+                               thrust::make_pair(0u, num_elements1),
                                set_intersection_detail::split_for_set_intersection(),
                                set_intersection_detail::block_convergent_set_intersection_functor());
 } // end set_intersection
