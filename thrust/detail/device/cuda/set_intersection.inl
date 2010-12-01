@@ -19,10 +19,10 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/pair.h>
 #include <thrust/detail/device/cuda/block/set_intersection.h>
-#include <thrust/detail/device/cuda/detail/get_set_operation_splitter_ranks.h>
+#include <thrust/detail/device/cuda/detail/split_for_set_operation.h>
 #include <thrust/detail/device/cuda/detail/set_operation.h>
-#include <thrust/iterator/zip_iterator.h>
 
 namespace thrust
 {
@@ -62,125 +62,6 @@ struct block_convergent_set_intersection_functor
   } // end operator()()
 }; // end block_convergent_set_intersection_functor
 
-
-
-// this functor keeps an iterator pointing to a sorted range and a Compare
-// operator() takes an index as an argument, looks up x = first[index]
-// and returns x's rank in the segment of elements equivalent to x
-template<typename RandomAccessIterator, typename Compare>
-  struct nth_occurrence_functor
-    : thrust::unary_function<
-        typename thrust::iterator_difference<RandomAccessIterator>::type,
-        typename thrust::iterator_difference<RandomAccessIterator>::type
-      >
-{
-  nth_occurrence_functor(RandomAccessIterator f, Compare c)
-    : first(f), comp(c) {}
-
-  template<typename Index>
-  __host__ __device__ __forceinline__
-  typename thrust::iterator_difference<RandomAccessIterator>::type operator()(Index index)
-  {
-    RandomAccessIterator x = first;
-    x += index;
-
-    return x - thrust::detail::device::generic::scalar::lower_bound(first,x,dereference(x),comp);
-  }
-
-  RandomAccessIterator first;
-  Compare comp;
-}; // end nth_occurrence_functor
-
-
-template<typename RandomAccessIterator, typename Compare>
-  class rank_iterator
-{
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference;
-  typedef thrust::counting_iterator<difference> counter;
-
-  public:
-    typedef thrust::transform_iterator<
-      nth_occurrence_functor<RandomAccessIterator,Compare>,
-      counter
-    > type;
-}; // end rank_iterator
-
-
-template<typename RandomAccessIterator, typename Compare>
-  typename rank_iterator<RandomAccessIterator,Compare>::type
-    make_rank_iterator(RandomAccessIterator iter, Compare comp)
-{
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference;
-  typedef thrust::counting_iterator<difference> CountingIterator;
-
-  nth_occurrence_functor<RandomAccessIterator,Compare> f(iter,comp);
-
-  return thrust::make_transform_iterator(CountingIterator(0), f);
-} // end make_rank_iterator()
-
-
-struct split_for_set_intersection
-{
-  template<typename RandomAccessIterator1,
-           typename RandomAccessIterator2,
-           typename RandomAccessIterator3,
-           typename RandomAccessIterator4,
-           typename Compare,
-           typename Size1,
-           typename Size2>
-    void operator()(RandomAccessIterator1 first1,
-                    RandomAccessIterator1 last1,
-                    RandomAccessIterator2 first2,
-                    RandomAccessIterator2 last2,
-                    RandomAccessIterator3 splitter_ranks1,
-                    RandomAccessIterator4 splitter_ranks2,
-                    Compare comp,
-                    Size1 partition_size,
-                    Size2 num_splitters_from_each_range)
-  {
-    using namespace thrust::detail;
-  
-    typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-    typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-  
-    const difference1 num_elements1 = last1 - first1;
-    const difference2 num_elements2 = last2 - first2;
-  
-    typedef typename rank_iterator<RandomAccessIterator1,Compare>::type RankIterator1;
-    typedef typename rank_iterator<RandomAccessIterator2,Compare>::type RankIterator2;
-  
-    // enumerate each key within its sub-segment of equivalent keys
-    RankIterator1 key_ranks1 = make_rank_iterator(first1, comp);
-    RankIterator2 key_ranks2 = make_rank_iterator(first2, comp);
-  
-    // zip up the keys with their ranks to disambiguate repeated elements during rank-finding
-    typedef thrust::tuple<RandomAccessIterator1,RankIterator1> iterator_tuple1;
-    typedef thrust::tuple<RandomAccessIterator2,RankIterator2> iterator_tuple2;
-    typedef thrust::zip_iterator<iterator_tuple1> iterator_and_rank1;
-    typedef thrust::zip_iterator<iterator_tuple2> iterator_and_rank2;
-  
-    iterator_and_rank1 first_and_rank1 =
-      thrust::make_zip_iterator(thrust::make_tuple(first1, key_ranks1));
-    iterator_and_rank1 last_and_rank1 = first_and_rank1 + num_elements1;
-  
-    iterator_and_rank2 first_and_rank2 =
-      thrust::make_zip_iterator(thrust::make_tuple(first2, key_ranks2));
-    iterator_and_rank2 last_and_rank2 = first_and_rank2 + num_elements2;
-  
-    // take into account the tuples when comparing
-    typedef compare_first_less_second<Compare> splitter_compare;
-  
-    using namespace thrust::detail::device::cuda::detail;
-    return get_set_operation_splitter_ranks(first_and_rank1, last_and_rank1,
-                                            first_and_rank2, last_and_rank2,
-                                            splitter_ranks1,
-                                            splitter_ranks2,
-                                            splitter_compare(comp),
-                                            partition_size,
-                                            num_splitters_from_each_range);
-  } // end operator()
-}; // end split_for_set_intersection
-
 } // end namespace set_intersection_detail
 
 
@@ -210,7 +91,7 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
                                result,
                                comp,
                                thrust::make_pair(0u, num_elements1),
-                               set_intersection_detail::split_for_set_intersection(),
+                               detail::split_for_set_operation(),
                                set_intersection_detail::block_convergent_set_intersection_functor());
 } // end set_intersection
 
