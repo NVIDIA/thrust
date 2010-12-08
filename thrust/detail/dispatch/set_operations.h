@@ -29,22 +29,37 @@ namespace detail
 namespace dispatch
 {
 
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result,
-                                  StrictWeakOrdering comp,
-                                  thrust::host_space_tag,
-                                  thrust::host_space_tag,
-                                  thrust::host_space_tag)
+  OutputIterator set_difference(InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result,
+                                StrictWeakOrdering comp,
+                                thrust::host_space_tag)
 {
-  return thrust::detail::host::set_intersection(first1,last1,first2,last2,result,comp);
-} // end set_intersection()
+  return thrust::detail::host::set_difference(first1,last1,first2,last2,result,comp);
+} // end set_difference()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_difference(InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result,
+                                StrictWeakOrdering comp,
+                                thrust::device_space_tag)
+{
+  return thrust::detail::device::set_difference(first1,last1,first2,last2,result,comp);
+} // end set_difference()
 
 
 template<typename InputIterator1,
@@ -57,11 +72,24 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result,
                                   StrictWeakOrdering comp,
-                                  thrust::device_space_tag,
-                                  thrust::device_space_tag,
                                   thrust::device_space_tag)
 {
   return thrust::detail::device::set_intersection(first1,last1,first2,last2,result,comp);
+} // end set_intersection()
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_intersection(InputIterator1 first1,
+                                  InputIterator1 last1,
+                                  InputIterator2 first2,
+                                  InputIterator2 last2,
+                                  OutputIterator result,
+                                  StrictWeakOrdering comp,
+                                  thrust::host_space_tag)
+{
+  return thrust::detail::host::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
 
 

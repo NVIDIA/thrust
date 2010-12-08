@@ -33,6 +33,26 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
+  OutputIterator set_difference(InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result,
+                                StrictWeakOrdering comp)
+{
+  // dispatch on space
+  return thrust::detail::device::dispatch::set_difference(first1,last1,first2,last2,result,comp,
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
+} // end set_difference()
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
   OutputIterator set_intersection(InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,

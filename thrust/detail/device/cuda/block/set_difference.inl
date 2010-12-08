@@ -40,13 +40,13 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
 __device__ __forceinline__
-  RandomAccessIterator4 set_intersection(RandomAccessIterator1 first1,
-                                         RandomAccessIterator1 last1,
-                                         RandomAccessIterator2 first2,
-                                         RandomAccessIterator2 last2,
-                                         RandomAccessIterator3 temporary,
-                                         RandomAccessIterator4 result,
-                                         StrictWeakOrdering comp)
+  RandomAccessIterator4 set_difference(RandomAccessIterator1 first1,
+                                       RandomAccessIterator1 last1,
+                                       RandomAccessIterator2 first2,
+                                       RandomAccessIterator2 last2,
+                                       RandomAccessIterator3 temporary,
+                                       RandomAccessIterator4 result,
+                                       StrictWeakOrdering comp)
 {
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
@@ -55,7 +55,7 @@ __device__ __forceinline__
 
   if(n1 == 0) return result;
 
-  // search for all matches in the second range for each element in the first
+  // search for all non-matches in the second range for each element in the first
   bool needs_output = false;
   if(threadIdx.x < n1)
   {
@@ -71,11 +71,11 @@ __device__ __forceinline__
 
     difference2 num_matches = matches.second - matches.first;
 
-    // the element needs output if its rank is less than the number of matches
-    needs_output = rank < num_matches;
+    // the element needs output if its rank is gequal than the number of matches
+    needs_output = rank >= num_matches;
   } // end if
 
-  // mark whether my element was found or not in the scratch array
+  // mark whether my element needs output in the scratch array
   RandomAccessIterator3 temp = temporary;
   temp += threadIdx.x;
   dereference(temp) = needs_output;
@@ -103,11 +103,12 @@ __device__ __forceinline__
   } // end if
 
   return result + temporary[n1-1];
-} // end set_intersection
+} // end set_difference
 
 } // end block
 } // end cuda
 } // end device
 } // end detail
 } // end thrust
+
 

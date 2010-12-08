@@ -1,0 +1,45 @@
+PREAMBLE = \
+    """
+    #include <thrust/set_operations.h>
+    #include <thrust/sort.h>
+    #include <algorithm>
+    """
+
+INITIALIZE = \
+    """
+    thrust::host_vector<$InputType> h_a = unittest::random_integers<$InputType>($InputSize);
+    thrust::host_vector<$InputType> h_b = unittest::random_integers<$InputType>($InputSize);
+    thrust::sort(h_a.begin(), h_a.end());
+    thrust::sort(h_b.begin(), h_b.end());
+
+    thrust::host_vector<$InputType> h_result(h_a.size());
+    thrust::host_vector<$InputType>::iterator new_end = 
+      thrust::set_difference(h_a.begin(), h_a.end(), h_b.begin(), h_b.end(), h_result.begin());
+    h_result.resize(new_end - h_result.begin());
+
+    thrust::device_vector<$InputType> d_a = h_a, d_b = h_b;
+
+    thrust::device_vector<$InputType> d_result(h_result.size());
+    thrust::set_difference(d_a.begin(), d_a.end(), d_b.begin(), d_b.end(), d_result.begin());
+
+    ASSERT_EQUAL(h_result, d_result);
+    """
+
+TIME = \
+    """
+    thrust::set_difference(d_a.begin(), d_a.end(), d_b.begin(), d_b.end(), d_result.begin());
+    """
+
+FINALIZE = \
+    """
+    RECORD_TIME();
+    RECORD_BANDWIDTH((2 * double($InputSize) + d_result.size()) * sizeof($InputType));
+    RECORD_SORTING_RATE(2 * double($InputSize))
+    """
+
+
+InputTypes = ['char', 'short', 'int', 'long', 'float', 'double']
+InputSizes = [2**N for N in range(10, 25)]
+
+TestVariables = [('InputType', InputTypes), ('InputSize', InputSizes)]
+

@@ -27,6 +27,42 @@
 namespace thrust
 {
 
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_difference(InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result,
+                                StrictWeakOrdering comp)
+{
+  return thrust::detail::dispatch::set_difference(first1, last1,
+                                                  first2, last2,
+                                                  result, comp,
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
+} // end set_difference()
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_difference(InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::set_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+} // end set_difference()
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -41,9 +77,11 @@ template<typename InputIterator1,
   return thrust::detail::dispatch::set_intersection(first1, last1,
                                                     first2, last2,
                                                     result, comp,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
 } // end set_intersection()
 
 template<typename InputIterator1,
