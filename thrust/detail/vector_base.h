@@ -480,17 +480,38 @@ template<typename T, typename Alloc>
  */
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
-bool operator<<(const detail::vector_base<T1,Alloc1>& lhs,
+bool operator==(const detail::vector_base<T1,Alloc1>& lhs,
                 const detail::vector_base<T2,Alloc2>& rhs);
     
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
-bool operator<<(const detail::vector_base<T1,Alloc1>& lhs,
+bool operator==(const detail::vector_base<T1,Alloc1>& lhs,
                 const std::vector<T2,Alloc2>&         rhs);
 
 template<typename T1, typename Alloc1,
          typename T2, typename Alloc2>
-bool operator<<(const std::vector<T1,Alloc1>&         lhs,
+bool operator==(const std::vector<T1,Alloc1>&         lhs,
+                const detail::vector_base<T2,Alloc2>& rhs);
+
+/*! This operator allows comparison between two vectors.
+ *  \param lhs The first \p vector to compare.
+ *  \param rhs The second \p vector to compare.
+ *  \return \c false if and only if each corresponding element in either
+ *          \p vector equals the other; \c true, otherwise.
+ */
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator!=(const detail::vector_base<T1,Alloc1>& lhs,
+                const detail::vector_base<T2,Alloc2>& rhs);
+    
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator!=(const detail::vector_base<T1,Alloc1>& lhs,
+                const std::vector<T2,Alloc2>&         rhs);
+
+template<typename T1, typename Alloc1,
+         typename T2, typename Alloc2>
+bool operator!=(const std::vector<T1,Alloc1>&         lhs,
                 const detail::vector_base<T2,Alloc2>& rhs);
 
 } // end thrust
