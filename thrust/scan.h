@@ -300,10 +300,10 @@ template<typename InputIterator,
  *  operator used to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
- *  \param first1 The beginning of the input sequence.
- *  \param last1 The end of the input sequence.
- *  \param first2 The beginning of the key sequence.
- *  \param result The beginning of the output sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
+ *  \param first2 The beginning of the input value sequence.
+ *  \param result The beginning of the output value sequence.
  *  \return The end of the output sequence.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
@@ -357,10 +357,10 @@ template<typename InputIterator1,
  *  operator used to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
- *  \param first1 The beginning of the input sequence.
- *  \param last1 The end of the input sequence.
- *  \param first2 The beginning of the key sequence.
- *  \param result The beginning of the output sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
+ *  \param first2 The beginning of the input value sequence.
+ *  \param result The beginning of the output value sequence.
  *  \param binary_pred  The binary predicate used to determine equality of keys.
  *  \return The end of the output sequence.
  *
@@ -420,10 +420,10 @@ template<typename InputIterator1,
  *  \c binary_op to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
- *  \param first1 The beginning of the input sequence.
- *  \param last1 The end of the input sequence.
- *  \param first2 The beginning of the key sequence.
- *  \param result The beginning of the output sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
+ *  \param first2 The beginning of the input value sequence.
+ *  \param result The beginning of the output value sequence.
  *  \param binary_pred  The binary predicate used to determine equality of keys.
  *  \param binary_op The associatve operator used to 'sum' values.
  *  \return The end of the output sequence.
@@ -490,8 +490,8 @@ template<typename InputIterator1,
  *
  *  Refer to the most general form of \p exclusive_scan_by_key for additional details.
  *
- *  \param first1 The beginning of the input key sequence.
- *  \param last1 The end of the input key sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
  *  \param result The beginning of the output value sequence.
  *
@@ -529,8 +529,8 @@ template<typename InputIterator1,
  *  This version of \p exclusive_scan_by_key uses the value \c init to
  *  initialize the exclusive scan operation.
  *
- *  \param first1 The beginning of the input key sequence.
- *  \param last1 The end of the input key sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
  *  \param result The beginning of the output value sequence.
  *  \param init The initial of the exclusive sum value.
@@ -582,8 +582,8 @@ template<typename InputIterator1,
  *  <tt>i+1</tt> in the range <tt>[first1, last1)</tt> belong to the same segment if
  *  <tt>binary_pred(*i, *(i+1))</tt> is true, and belong to different segments otherwise.
  *
- *  \param first1 The beginning of the input key sequence.
- *  \param last1 The end of the input key sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
  *  \param result The beginning of the output value sequence.
  *  \param init The initial of the exclusive sum value.
@@ -645,8 +645,8 @@ template<typename InputIterator1,
  *  \c binary_op to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
- *  \param first1 The beginning of the input key sequence.
- *  \param last1 The end of the input key sequence.
+ *  \param first1 The beginning of the key sequence.
+ *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
  *  \param result The beginning of the output value sequence.
  *  \param init The initial of the exclusive sum value.

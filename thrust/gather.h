@@ -57,13 +57,13 @@ namespace thrust
  *  // mark odd indices with a 1; even indices with a 0
  *  int input[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
  *
- *  // gather all odd indices into the first half of the
- *  // range, and even indices vice versa
+ *  // gather all even indices into the first half of the range
+ *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
  *
  *  thrust::device_vector<int> output(10);
  *  thrust::gather(map, map + 10, input, output.begin());
- *  // output is now {0, 0, 0, 0, 0, 1, 1, 1, 1, 1}
+ *  // output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  \endcode
  *
  *  \note \p gather is the inverse of thrust::scatter.
