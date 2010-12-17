@@ -84,29 +84,41 @@ struct permutation_iterator_friend;
  *  #include <thrust/device_vector.h>
  *  ...
  *  thrust::device_vector<float> values(4);
- *  values[0] = 0.0f;
- *  values[1] = 1.0f;
- *  values[2] = 2.0f;
- *  values[3] = 3.0f;
+ *  values[0] = 10.0f;
+ *  values[1] = 20.0f;
+ *  values[2] = 30.0f;
+ *  values[3] = 40.0f;
+ *  values[4] = 50.0f;
+ *  values[5] = 60.0f;
+ *  values[6] = 70.0f;
+ *  values[7] = 80.0f;
  *
  *  thrust::device_vector<int> indices(4);
  *  indices[0] = 2;
- *  indices[1] = 3;
+ *  indices[1] = 6;
  *  indices[2] = 1;
- *  indices[3] = 0;
+ *  indices[3] = 3;
  *
  *  typedef thrust::device_vector<float>::iterator ElementIterator;
  *  typedef thrust::device_vector<int>::iterator   IndexIterator;
  *
  *  thrust::permutation_iterator<ElementIterator,IndexIterator> iter(values.begin(), indices.begin());
  *
- *  *iter;   // returns 2.0f;
- *  iter[0]; // returns 2.0f;
- *  iter[1]; // returns 3.0f;
- *  iter[2]; // returns 1.0f;
- *  iter[3]; // returns 0.0f;
+ *  *iter;   // returns 30.0f;
+ *  iter[0]; // returns 30.0f;
+ *  iter[1]; // returns 70.0f;
+ *  iter[2]; // returns 20.0f;
+ *  iter[3]; // returns 40.0f;
  *
  *  // iter[4] is an out-of-bounds error
+ *
+ *  *iter   = -1.0f; // sets values[2] to -1.0f;
+ *  iter[0] = -1.0f; // sets values[2] to -1.0f;
+ *  iter[1] = -1.0f; // sets values[6] to -1.0f;
+ *  iter[2] = -1.0f; // sets values[1] to -1.0f;
+ *  iter[3] = -1.0f; // sets values[3] to -1.0f;
+ *
+ *  // values is now {10, -1, -1, -1, 50, 60, -1, 80}
  *  \endcode
  *
  *  \see make_permutation_iterator
