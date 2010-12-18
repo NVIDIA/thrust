@@ -30,11 +30,10 @@ namespace thrust
  *  \{
  */
 
-/*! \p sequence fills the sequence <tt>[first, last)</tt> with a sequence of numbers.
+/*! \p sequence fills the range <tt>[first, last)</tt> with a sequence of numbers.
  *
- *  Specifically, this version of \p sequence assigns \c *first the value \c 0
- *  and assigns each iterator \c i in the sequence <tt>[first, last)</tt> the
- *  value <tt>(i - first)</tt>.
+ *  For each iterator \c i in the range <tt>[first, last)</tt>, this version of 
+ *  \p sequence performs the assignment <tt>*i =  (i - first)</tt>.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
@@ -66,11 +65,10 @@ template<typename ForwardIterator>
                 ForwardIterator last);
 
 
-/*! \p sequence fills the sequence <tt>[first, last)</tt> with a sequence of numbers.
+/*! \p sequence fills the range <tt>[first, last)</tt> with a sequence of numbers.
  *
- *  Specifically, this version of \p sequence assigns \c *first the value \p init
- *  and assigns each iterator \c i in the sequence <tt>[first, last)</tt> the
- *  value <tt>init + (i - first)</tt>.
+ *  For each iterator \c i in the range <tt>[first, last)</tt>, this version of 
+ *  \p sequence performs the assignment <tt>*i =  init + (i - first)</tt>.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
@@ -84,7 +82,7 @@ template<typename ForwardIterator>
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p sequence to fill a range
- *  with a sequence of numbers starting from an intial value.
+ *  with a sequence of numbers starting from the value 1.
  *
  *  \code
  *  #include <thrust/sequence.h>
@@ -106,11 +104,10 @@ template<typename ForwardIterator, typename T>
                 T init);
 
 
-/*! \p sequence fills the sequence <tt>[first, last)</tt> with a sequence of numbers.
+/*! \p sequence fills the range <tt>[first, last)</tt> with a sequence of numbers.
  *
- *  Specifically, this version of \p sequence assigns \c *first the value \p init
- *  and assigns each iterator \c i in the sequence <tt>[first, last)</tt> the
- *  <tt>value init + step * (i - first)</tt>.
+ *  For each iterator \c i in the range <tt>[first, last)</tt>, this version of 
+ *  \p sequence performs the assignment <tt>*i =  init + step * (i - first)</tt>.
  *
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
@@ -125,7 +122,7 @@ template<typename ForwardIterator, typename T>
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p sequence to fill a range
- *  with a sequence of numbers starting from an intial value with a step size.
+ *  with a sequence of numbers starting from the value 1 with a step size of 3.
  *
  *  \code
  *  #include <thrust/sequence.h>
