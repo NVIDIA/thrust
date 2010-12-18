@@ -1,9 +1,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/copy.h>
 #include <thrust/scan.h>
-
 #include <iostream>
-#include <iterator>
 
 // BinaryPredicate for the head flag segment representation
 // equivalent to thrust::not2(thrust::project2nd<int,int>()));
@@ -18,6 +16,14 @@ struct head_flag_predicate
     }
 };
 
+template <typename Vector>
+void print(const Vector& v)
+{
+  for(size_t i = 0; i < v.size(); i++)
+    std::cout << v[i] << " ";
+  std::cout << "\n";
+}
+
 int main(void)
 {
     int keys[]   = {0,0,0,1,1,2,2,2,2,3,4,4,5,5,5};  // segments represented with keys
@@ -27,30 +33,59 @@ int main(void)
     int N = sizeof(keys) / sizeof(int); // number of elements
 
     // copy input data to device
-    thrust::device_vector<int> d_keys(keys, keys + N);
-    thrust::device_vector<int> d_flags(flags, flags + N);
+    thrust::device_vector<int> d_keys  (keys,   keys   + N);
+    thrust::device_vector<int> d_flags (flags,  flags  + N);
     thrust::device_vector<int> d_values(values, values + N);
-    
-    std::cout << "input:      ";  thrust::copy(d_values.begin(), d_values.end(), std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
-    std::cout << "keys:       ";  thrust::copy(d_keys.begin(),   d_keys.end(),   std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
-    std::cout << "head flags: ";  thrust::copy(d_flags.begin(),  d_flags.end(),  std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
     
     // allocate storage for output
     thrust::device_vector<int> d_output(N);
 
-    // scan using keys
-    thrust::inclusive_scan_by_key(d_values.begin(), d_values.end(),
-                                  d_keys.begin(),
-                                  d_output.begin());
+    // inclusive scan using keys
+    thrust::inclusive_scan_by_key
+      (d_keys.begin(), d_keys.end(),
+       d_values.begin(),
+       d_output.begin());
+   
+    std::cout << "Inclusive Segmented Scan w/ Key Sequence\n";
+    std::cout << " keys          : ";  print(d_keys);
+    std::cout << " input values  : ";  print(d_values);
+    std::cout << " output values : ";  print(d_output);
     
-    // scan using head flags
-    thrust::inclusive_scan_by_key(d_values.begin(), d_values.end(),
-                                  d_flags.begin(),
-                                  d_output.begin(),
-                                  head_flag_predicate<int>(),
-                                  thrust::plus<int>());
+    // inclusive scan using head flags
+    thrust::inclusive_scan_by_key
+      (d_flags.begin(), d_flags.end(),
+       d_values.begin(), 
+       d_output.begin(),
+       head_flag_predicate<int>());
     
-    std::cout << "output:     ";  thrust::copy(d_output.begin(), d_output.end(), std::ostream_iterator<int>(std::cout, " ")); std::cout << std::endl;
+    std::cout << "\nInclusive Segmented Scan w/ Head Flag Sequence\n";
+    std::cout << " head flags    : ";  print(d_flags);
+    std::cout << " input values  : ";  print(d_values);
+    std::cout << " output values : ";  print(d_output);
+    
+    // exclusive scan using keys
+    thrust::exclusive_scan_by_key
+      (d_keys.begin(), d_keys.end(),
+       d_values.begin(),
+       d_output.begin());
+   
+    std::cout << "\nExclusive Segmented Scan w/ Key Sequence\n";
+    std::cout << " keys          : ";  print(d_keys);
+    std::cout << " input values  : ";  print(d_values);
+    std::cout << " output values : ";  print(d_output);
+    
+    // exclusive scan using head flags
+    thrust::exclusive_scan_by_key
+      (d_flags.begin(), d_flags.end(),
+       d_values.begin(), 
+       d_output.begin(),
+       0,
+       head_flag_predicate<int>());
+    
+    std::cout << "\nExclusive Segmented Scan w/ Head Flag Sequence\n";
+    std::cout << " head flags    : ";  print(d_flags);
+    std::cout << " input values  : ";  print(d_values);
+    std::cout << " output values : ";  print(d_output);
 
 
     return 0;
