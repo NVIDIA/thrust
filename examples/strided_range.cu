@@ -11,6 +11,11 @@
 #include <ostream>
 
 // this example illustrates how to make strided access to a range of values
+// examples:
+//   strided_range([0, 1, 2, 3, 4, 5, 6], 1) -> [0, 1, 2, 3, 4, 5, 6] 
+//   strided_range([0, 1, 2, 3, 4, 5, 6], 2) -> [0, 2, 4, 6]
+//   strided_range([0, 1, 2, 3, 4, 5, 6], 3) -> [0, 3, 6]
+//   ...
 
 template <typename Iterator>
 class strided_range
@@ -21,9 +26,9 @@ class strided_range
 
     struct stride_functor : public thrust::unary_function<difference_type,difference_type>
     {
-        int stride;
+        difference_type stride;
 
-        stride_functor(int stride)
+        stride_functor(difference_type stride)
             : stride(stride) {}
 
         __host__ __device__
@@ -41,7 +46,7 @@ class strided_range
     typedef PermutationIterator iterator;
 
     // construct strided_range for the range [first,last)
-    strided_range(Iterator first, Iterator last, int stride)
+    strided_range(Iterator first, Iterator last, difference_type stride)
         : first(first), last(last), stride(stride) {}
    
     iterator begin(void) const
@@ -55,7 +60,7 @@ class strided_range
     }
     
     protected:
-    int stride;
+    difference_type stride;
     Iterator first;
     Iterator last;
 };

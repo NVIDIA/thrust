@@ -11,6 +11,11 @@
 #include <ostream>
 
 // this example illustrates how to make repeated access to a range of values
+// examples:
+//   repeated_range([0, 1, 2, 3], 1) -> [0, 1, 2, 3] 
+//   repeated_range([0, 1, 2, 3], 2) -> [0, 0, 1, 1, 2, 2, 3, 3]
+//   repeated_range([0, 1, 2, 3], 3) -> [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3] 
+//   ...
 
 template <typename Iterator>
 class repeated_range
@@ -21,7 +26,7 @@ class repeated_range
 
     struct repeat_functor : public thrust::unary_function<difference_type,difference_type>
     {
-        int repeats;
+        difference_type repeats;
 
         repeat_functor(difference_type repeats)
             : repeats(repeats) {}
@@ -41,7 +46,7 @@ class repeated_range
     typedef PermutationIterator iterator;
 
     // construct repeated_range for the range [first,last)
-    repeated_range(Iterator first, Iterator last, int repeats)
+    repeated_range(Iterator first, Iterator last, difference_type repeats)
         : first(first), last(last), repeats(repeats) {}
    
     iterator begin(void) const
@@ -55,7 +60,7 @@ class repeated_range
     }
     
     protected:
-    int repeats;
+    difference_type repeats;
     Iterator first;
     Iterator last;
     
@@ -70,7 +75,7 @@ int main(void)
     data[3] = 40;
 
     // print the initial data
-    std::cout << "data:        ";
+    std::cout << "range        ";
     thrust::copy(data.begin(), data.end(), std::ostream_iterator<int>(std::cout, " "));  std::cout << std::endl;
 
     typedef thrust::device_vector<int>::iterator Iterator;
