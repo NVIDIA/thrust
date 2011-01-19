@@ -4,6 +4,7 @@
 #include <thrust/transform_reduce.h>
 
 #include <iostream>
+#include <iomanip>
 
 // we could vary M & N to find the perf sweet spot
 
@@ -70,7 +71,8 @@ int main(void)
                                             thrust::plus<float>());
   estimate /= M;
 
-  std::cout << "pi is around " << estimate << std::endl;
+  std::cout << std::setprecision(3);
+  std::cout << "pi is approximately " << estimate << std::endl;
 
   return 0;
 }
