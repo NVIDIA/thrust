@@ -11,7 +11,7 @@ struct point2d
     float x, y;
 
     __host__ __device__
-    point2d() {}
+    point2d() : x(0), y(0) {}
     
     __host__ __device__
     point2d(float _x, float _y) : x(_x), y(_y) {}
@@ -58,7 +58,11 @@ int main(void)
 
     // generate some random points in the unit square
     for(size_t i = 0; i < N; i++)
-        points[i] = point2d(u01(rng), u01(rng));
+    {
+        float x = u01(rng);
+        float y = u01(rng);
+        points[i] = point2d(x,y);
+    }
 
     // initial bounding box contains first point
     bbox init = bbox(points[0], points[0]);

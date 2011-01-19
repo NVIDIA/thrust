@@ -8,13 +8,16 @@
 
 #include <cuda.h>   // for float2
 #include <iostream>
+#include <iomanip>
 
 // return a random float2 in [0,1)^2
 float2 make_random_float2(void)
 {
   static thrust::default_random_engine rng;
   static thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
-  return make_float2(u01(rng), u01(rng));
+  float x = u01(rng);
+  float y = u01(rng);
+  return make_float2(x,y);
 }
 
 // hash a point in the unit square to the index of
@@ -92,6 +95,7 @@ int main(void)
   // write out bucket (150, 50)'s list of points
   unsigned int bucket_idx = 50 * w + 150;
   std::cout << "bucket (150, 50)'s list of points:" << std::endl;
+  std::cout << std::fixed << std::setprecision(6);
   for(unsigned int point_idx = bucket_begin[bucket_idx];
       point_idx != bucket_end[bucket_idx];
       ++point_idx)

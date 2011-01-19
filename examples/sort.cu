@@ -8,7 +8,7 @@
 
 void initialize(thrust::device_vector<int>& v)
 {
-  thrust::default_random_engine rng(12345);
+  thrust::default_random_engine rng(123456);
   thrust::uniform_int_distribution<int> dist(10, 99);
   for(size_t i = 0; i < v.size(); i++)
     v[i] = dist(rng);
@@ -16,7 +16,7 @@ void initialize(thrust::device_vector<int>& v)
 
 void initialize(thrust::device_vector<float>& v)
 {
-  thrust::default_random_engine rng(12345);
+  thrust::default_random_engine rng(123456);
   thrust::uniform_int_distribution<int> dist(2, 19);
   for(size_t i = 0; i < v.size(); i++)
     v[i] = dist(rng) / 2.0f;
@@ -24,15 +24,19 @@ void initialize(thrust::device_vector<float>& v)
 
 void initialize(thrust::device_vector< thrust::pair<int,int> >& v)
 {
-  thrust::default_random_engine rng(12345);
+  thrust::default_random_engine rng(123456);
   thrust::uniform_int_distribution<int> dist(0,9);
   for(size_t i = 0; i < v.size(); i++)
-    v[i] = thrust::make_pair(dist(rng),dist(rng));
+  {
+    int a = dist(rng);
+    int b = dist(rng);
+    v[i] = thrust::make_pair(a,b);
+  }
 }
 
 void initialize(thrust::device_vector<int>& v1, thrust::device_vector<int>& v2)
 {
-  thrust::default_random_engine rng(12345);
+  thrust::default_random_engine rng(123456);
   thrust::uniform_int_distribution<int> dist(10, 99);
   for(size_t i = 0; i < v1.size(); i++)
   {
