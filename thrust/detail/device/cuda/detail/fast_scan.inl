@@ -53,14 +53,13 @@ namespace fast_scan
 
 template <unsigned int CTA_SIZE,
           typename SharedArray,
-          typename T,
           typename BinaryFunction>
           __device__
-T scan_block(SharedArray array, T val, BinaryFunction binary_op)
+void scan_block(SharedArray array, BinaryFunction binary_op)
 {
-    array[threadIdx.x] = val;
+    typedef typename thrust::iterator_value<SharedArray>::type T;
 
-    __syncthreads();
+    T val = array[threadIdx.x];
 
     if (CTA_SIZE >   1) { if(threadIdx.x >=   1) { T tmp = array[threadIdx.x -   1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
     if (CTA_SIZE >   2) { if(threadIdx.x >=   2) { T tmp = array[threadIdx.x -   2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
@@ -72,20 +71,17 @@ T scan_block(SharedArray array, T val, BinaryFunction binary_op)
     if (CTA_SIZE > 128) { if(threadIdx.x >= 128) { T tmp = array[threadIdx.x - 128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
     if (CTA_SIZE > 256) { if(threadIdx.x >= 256) { T tmp = array[threadIdx.x - 256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
     if (CTA_SIZE > 512) { if(threadIdx.x >= 512) { T tmp = array[threadIdx.x - 512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
-
-    return val;
 }
 
 template <unsigned int CTA_SIZE,
           typename SharedArray,
-          typename T,
           typename BinaryFunction>
           __device__
-void scan_block_n(SharedArray array, const unsigned int n, T val, BinaryFunction binary_op)
+void scan_block_n(SharedArray array, const unsigned int n, BinaryFunction binary_op)
 {
-    array[threadIdx.x] = val;
+    typedef typename thrust::iterator_value<SharedArray>::type T;
 
-    __syncthreads();
+    T val = array[threadIdx.x];
 
     if (CTA_SIZE >   1) { if(threadIdx.x < n && threadIdx.x >=   1) { T tmp = array[threadIdx.x -   1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
     if (CTA_SIZE >   2) { if(threadIdx.x < n && threadIdx.x >=   2) { T tmp = array[threadIdx.x -   2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
@@ -140,7 +136,13 @@ void scan_intervals(InputIterator input,
        
         // carry in
         if (threadIdx.x == 0 && base != interval_begin)
-            sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
+        {
+            //sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
+            //// XXX WAR sm_10 issue
+            OutputType tmp1 = sdata[K][CTA_SIZE - 1];
+            OutputType tmp2 = sdata[0][0];
+            sdata[0][0] = binary_op(tmp1, tmp2);
+        }
 
         __syncthreads();
 
@@ -155,7 +157,8 @@ void scan_intervals(InputIterator input,
         }
 
         // second level scan
-        scan_block<CTA_SIZE>(&sdata[K][0], sum, binary_op);
+        sdata[K][threadIdx.x] = sum;  __syncthreads();
+        scan_block<CTA_SIZE>(&sdata[K][0], binary_op);
        
         // update local values
         if (threadIdx.x > 0)
@@ -200,7 +203,13 @@ void scan_intervals(InputIterator input,
        
         // carry in
         if (threadIdx.x == 0 && base != interval_begin)
-            sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
+        {
+            //sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
+            //// XXX WAR sm_10 issue
+            OutputType tmp1 = sdata[K][CTA_SIZE - 1];
+            OutputType tmp2 = sdata[0][0];
+            sdata[0][0] = binary_op(tmp1, tmp2);
+        }
 
         __syncthreads();
 
@@ -220,7 +229,8 @@ void scan_intervals(InputIterator input,
         }
 
         // second level scan
-        scan_block_n<CTA_SIZE>(&sdata[K][0], offset_end / K, sum, binary_op);
+        sdata[K][threadIdx.x] = sum;  __syncthreads();
+        scan_block_n<CTA_SIZE>(&sdata[K][0], offset_end / K, binary_op);
        
         // update local values
         if (threadIdx.x > 0)
