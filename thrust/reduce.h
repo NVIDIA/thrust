@@ -218,7 +218,7 @@ template<typename InputIterator,
  *  \see reduce
  *  \see unique_copy
  *  \see unique_by_key
- *  \see unique_copy_key
+ *  \see unique_by_key_copy
  */
 template <typename InputIterator1,
           typename InputIterator2,
@@ -279,7 +279,7 @@ template <typename InputIterator1,
  *  \see reduce
  *  \see unique_copy
  *  \see unique_by_key
- *  \see unique_copy_key
+ *  \see unique_by_key_copy
  */
 template <typename InputIterator1,
           typename InputIterator2,
@@ -349,7 +349,7 @@ template <typename InputIterator1,
  *  \see reduce
  *  \see unique_copy
  *  \see unique_by_key
- *  \see unique_copy_key
+ *  \see unique_by_key_copy
  */
 template <typename InputIterator1,
           typename InputIterator2,
