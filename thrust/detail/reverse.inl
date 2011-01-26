@@ -20,8 +20,12 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/reverse.h>
+
+#include <thrust/advance.h>
+#include <thrust/distance.h>
 #include <thrust/copy.h>
+#include <thrust/swap.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/reverse_iterator.h>
 
 namespace thrust
@@ -31,13 +35,15 @@ template<typename BidirectionalIterator>
   void reverse(BidirectionalIterator first,
                BidirectionalIterator last)
 {
-  // XXX specialize this implementation later to avoid the temporary buffer
-  typedef typename thrust::iterator_traits<BidirectionalIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<BidirectionalIterator>::type Space;
+  typedef typename thrust::iterator_difference<BidirectionalIterator>::type difference_type;
 
-  thrust::detail::raw_buffer<InputType,Space> temp(first,last);
+  // find the midpoint of [first,last)
+  difference_type N = thrust::distance(first, last);
+  BidirectionalIterator mid(first);
+  thrust::advance(mid, N / 2);
 
-  thrust::reverse_copy(temp.begin(), temp.end(), first);
+  // swap elements of [first,mid) with [last - 1, mid)
+  thrust::swap_ranges(first, mid, thrust::make_reverse_iterator(last));
 } // end reverse()
 
 template<typename BidirectionalIterator,

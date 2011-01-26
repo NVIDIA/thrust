@@ -9,16 +9,16 @@ void TestReverseSimple(void)
   Vector data(5);
   data[0] = 1;
   data[1] = 2;
-  data[2] = 1;
-  data[3] = 1;
-  data[4] = 2;
+  data[2] = 3;
+  data[3] = 4;
+  data[4] = 5;
 
   thrust::reverse(data.begin(), data.end());
 
   Vector ref(5);
-  ref[0] = 2;
-  ref[1] = 1;
-  ref[2] = 1;
+  ref[0] = 5;
+  ref[1] = 4;
+  ref[2] = 3;
   ref[3] = 2;
   ref[4] = 1;
 
@@ -34,18 +34,18 @@ void TestReverseCopySimple(void)
   Vector input(5);
   input[0] = 1;
   input[1] = 2;
-  input[2] = 1;
-  input[3] = 1;
-  input[4] = 2;
+  input[2] = 3;
+  input[3] = 4;
+  input[4] = 5;
 
   Vector output(5);
 
   Iterator iter = thrust::reverse_copy(input.begin(), input.end(), output.begin());
 
   Vector ref(5);
-  ref[0] = 2;
-  ref[1] = 1;
-  ref[2] = 1;
+  ref[0] = 5;
+  ref[1] = 4;
+  ref[2] = 3;
   ref[3] = 2;
   ref[4] = 1;
 
