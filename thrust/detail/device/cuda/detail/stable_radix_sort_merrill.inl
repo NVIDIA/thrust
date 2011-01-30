@@ -62,8 +62,8 @@ void stable_radix_sort(RandomAccessIterator first,
         return;
     }
     
-    thrust::detail::device::cuda::detail::b40c::RadixSortingEnactor<K> sorter(num_elements);
-    thrust::detail::device::cuda::detail::b40c::RadixSortStorage<K>    storage;
+    thrust::detail::device::cuda::detail::b40c_thrust::RadixSortingEnactor<K> sorter(num_elements);
+    thrust::detail::device::cuda::detail::b40c_thrust::RadixSortStorage<K>    storage;
     
     // allocate temporary buffers
     thrust::detail::raw_cuda_device_buffer<K>            temp_keys(num_elements);
@@ -121,8 +121,8 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
         return;
     }
    
-    thrust::detail::device::cuda::detail::b40c::RadixSortingEnactor<K,V> sorter(num_elements);
-    thrust::detail::device::cuda::detail::b40c::RadixSortStorage<K,V>    storage;
+    thrust::detail::device::cuda::detail::b40c_thrust::RadixSortingEnactor<K,V> sorter(num_elements);
+    thrust::detail::device::cuda::detail::b40c_thrust::RadixSortStorage<K,V>    storage;
     
     // allocate temporary buffers
     thrust::detail::raw_cuda_device_buffer<K>            temp_keys(num_elements);

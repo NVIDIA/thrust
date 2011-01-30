@@ -52,7 +52,7 @@ namespace detail {
 namespace device {
 namespace cuda   {
 namespace detail {
-namespace b40c   {
+namespace b40c_thrust   {
 
 /******************************************************************************
  * Scans a cycle of RADIXSORT_CYCLE_ELEMENTS elements 
@@ -175,7 +175,7 @@ __global__ void SrtsScanSpine(
 } 
 
 
-} // end namespace b40c
+} // end namespace b40c_thrust
 } // end namespace detail
 } // end namespace cuda
 } // end namespace device

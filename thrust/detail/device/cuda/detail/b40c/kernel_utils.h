@@ -35,7 +35,7 @@ namespace detail {
 namespace device {
 namespace cuda   {
 namespace detail {
-namespace b40c   {
+namespace b40c_thrust   {
 
 //------------------------------------------------------------------------------
 // Device properties 
@@ -276,7 +276,7 @@ __global__ void FlushKernel(void)
 }
 
 
-} // end namespace b40c
+} // end namespace b40c_thrust
 } // end namespace detail
 } // end namespace cuda
 } // end namespace device

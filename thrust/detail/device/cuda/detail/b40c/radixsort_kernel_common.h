@@ -54,7 +54,7 @@ namespace detail {
 namespace device {
 namespace cuda   {
 namespace detail {
-namespace b40c   {
+namespace b40c_thrust   {
 
 
 /******************************************************************************
@@ -164,7 +164,7 @@ struct CtaDecomposition {
 };
 
 
-} // end namespace b40c
+} // end namespace b40c_thrust
 } // end namespace detail
 } // end namespace cuda
 } // end namespace device

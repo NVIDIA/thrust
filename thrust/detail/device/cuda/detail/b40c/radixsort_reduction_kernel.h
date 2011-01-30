@@ -52,7 +52,7 @@ namespace detail {
 namespace device {
 namespace cuda   {
 namespace detail {
-namespace b40c   {
+namespace b40c_thrust   {
 
 /******************************************************************************
  * Defines
@@ -292,11 +292,11 @@ __device__ __forceinline__ int ProcessLoads(
 	int local_counts[LANES_PER_WARP][4])
 {
 	// Unroll batches of loads with occasional reduction to avoid overflow
-	while (loads >= 128) {
+	while (loads >= 32) {
 	
-		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 128>::BlockOfLoads(d_in_keys, offset, encoded_carry);
-		offset += B40C_RADIXSORT_THREADS * 128;
-		loads -= 128;
+		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 32>::BlockOfLoads(d_in_keys, offset, encoded_carry);
+		offset += B40C_RADIXSORT_THREADS * 32;
+		loads -= 32;
 
 		// Reduce int local count registers to prevent overflow
 		ReduceEncodedCounts<RADIX_DIGITS, SCAN_LANES, LANES_PER_WARP, BIT, false>(
@@ -310,39 +310,17 @@ __device__ __forceinline__ int ProcessLoads(
 	int retval = loads;
 	
 	// Wind down loads in decreasing batch sizes
-	if (loads >= 64) {
-		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 64>::BlockOfLoads(d_in_keys, offset, encoded_carry);
-		offset += B40C_RADIXSORT_THREADS * 64;
-		loads -= 64;
-	}
-	if (loads >= 32) {
-		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 32>::BlockOfLoads(d_in_keys, offset, encoded_carry);
-		offset += B40C_RADIXSORT_THREADS * 32;
-		loads -= 32;
-	}
-	if (loads >= 16) {
-		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 16>::BlockOfLoads(d_in_keys, offset, encoded_carry);
-		offset += B40C_RADIXSORT_THREADS * 16;
-		loads -= 16;
-	}
-	if (loads >= 8) {
-		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 8>::BlockOfLoads(d_in_keys, offset, encoded_carry);
-		offset += B40C_RADIXSORT_THREADS * 8;
-		loads -= 8;
-	}
-	if (loads >= 4) {
+
+	while (loads >= 4) {
 		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 4>::BlockOfLoads(d_in_keys, offset, encoded_carry);
 		offset += B40C_RADIXSORT_THREADS * 4;
 		loads -= 4;
-	}
-	if (loads >= 2) {
-		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 2>::BlockOfLoads(d_in_keys, offset, encoded_carry);
-		offset += B40C_RADIXSORT_THREADS * 2;
-		loads -= 2;
-	}
-	if (loads) {
+	} 
+
+	while (loads) {
 		LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 1>::BlockOfLoads(d_in_keys, offset, encoded_carry);
 		offset += B40C_RADIXSORT_THREADS * 1;
+		loads--;
 	}
 	
 	return retval;
@@ -452,7 +430,7 @@ void RakingReduction(
 	}
 } 
 
-} // end namespace b40c
+} // end namespace b40c_thrust
 } // end namespace detail
 } // end namespace cuda
 } // end namespace device
