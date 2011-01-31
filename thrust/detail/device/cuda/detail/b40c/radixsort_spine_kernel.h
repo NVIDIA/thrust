@@ -134,6 +134,9 @@ __global__ void SrtsScanSpine(
 	__shared__ int smem[SMEM_ROWS][PARTIALS_PER_ROW + 1];
 	__shared__ int warpscan[2][B40C_WARP_THREADS];
 
+  // WAR spurious unused constant warning
+  SuppressUnusedConstantWarning(PARTIALS_PER_SEG);
+
 	int *smem_segment = 0;
 	int carry = 0;
 
