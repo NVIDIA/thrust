@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2011 NVIDIA Corporation
+ *  Copyright 2008-2010 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
-#include <thrust/detail/device/cuda/block/set_difference.h>
+#include <thrust/detail/device/cuda/block/set_symmetric_difference.h>
 #include <thrust/detail/device/cuda/detail/split_for_set_operation.h>
 #include <thrust/detail/device/cuda/detail/set_operation.h>
 
@@ -33,16 +33,16 @@ namespace device
 namespace cuda
 {
 
-namespace set_difference_detail
+namespace set_symmetric_difference_detail
 {
 
-struct block_convergent_set_difference_functor
+struct block_convergent_set_symmetric_difference_functor
 {
   __host__ __device__ __forceinline__
   static size_t get_min_size_of_result_in_number_of_elements(size_t size_of_range1,
                                                              size_t size_of_range2)
   {
-    // set_difference could result in 0 output
+    // set_symmetric_difference could result in zero output
     return 0u;
   }
 
@@ -50,14 +50,15 @@ struct block_convergent_set_difference_functor
   static size_t get_max_size_of_result_in_number_of_elements(size_t size_of_range1,
                                                              size_t size_of_range2)
   {
-    // set_difference could output all of range1
-    return size_of_range1;
+    // set_intersection could output all of range1 and range2
+    return size_of_range1 + size_of_range2;
   }
 
   __host__ __device__ __forceinline__
   static unsigned int get_temporary_array_size_in_number_of_bytes(unsigned int block_size)
   {
-    return block_size * sizeof(int);
+    // set_symmetric_difference needs temporary arrays for both inputs range1 and range2
+    return 2 * block_size * sizeof(int);
   }
 
   // operator() simply calls the block-wise function
@@ -74,31 +75,33 @@ struct block_convergent_set_difference_functor
                                      RandomAccessIterator3 result,
                                      StrictWeakOrdering comp)
   {
-    return block::set_difference(first1,last1,first2,last2,reinterpret_cast<int*>(temporary),result,comp);
+    return block::set_symmetric_difference(first1,last1,first2,last2,reinterpret_cast<int*>(temporary),result,comp);
   } // end operator()()
-}; // end block_convergent_set_difference_functor
+}; // end block_convergent_set_symmetric_difference_functor
 
-} // end namespace set_difference_detail
+
+} // end namespace set_symmetric_difference_detail
 
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_difference(RandomAccessIterator1 first1,
-                                     RandomAccessIterator1 last1,
-                                     RandomAccessIterator2 first2,
-                                     RandomAccessIterator2 last2,
-                                     RandomAccessIterator3 result,
-                                     Compare comp)
+RandomAccessIterator3 set_symmetric_difference(RandomAccessIterator1 first1,
+                                               RandomAccessIterator1 last1,
+                                               RandomAccessIterator2 first2,
+                                               RandomAccessIterator2 last2,
+                                               RandomAccessIterator3 result,
+                                               Compare comp)
 {
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
   const difference1 num_elements1 = last1 - first1;
+  const difference2 num_elements2 = last2 - first2;
 
   // check for trivial problem
-  if(num_elements1 == 0)
+  if(num_elements1 == 0 && num_elements2 == 0)
     return result;
 
   return detail::set_operation(first1, last1,
@@ -106,8 +109,8 @@ RandomAccessIterator3 set_difference(RandomAccessIterator1 first1,
                                result,
                                comp,
                                detail::split_for_set_operation(),
-                               set_difference_detail::block_convergent_set_difference_functor());
-} // end set_difference
+                               set_symmetric_difference_detail::block_convergent_set_symmetric_difference_functor());
+} // end set_symmetric_difference
 
 } // end namespace cuda
 } // end namespace device

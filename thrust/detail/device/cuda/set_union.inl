@@ -39,8 +39,26 @@ namespace set_union_detail
 struct block_convergent_set_union_functor
 {
   __host__ __device__ __forceinline__
-  static unsigned int get_temporary_array_size(unsigned int block_size)
+  static size_t get_min_size_of_result_in_number_of_elements(size_t size_of_range1,
+                                                             size_t size_of_range2)
   {
+    // set_union outputs at least all of range1
+    return size_of_range1;
+  }
+
+  __host__ __device__ __forceinline__
+  static size_t get_max_size_of_result_in_number_of_elements(size_t size_of_range1,
+                                                             size_t size_of_range2)
+  {
+    // set_symmetric_difference could output all of range1 and range2
+    return size_of_range1 + size_of_range2;
+  }
+
+  __host__ __device__ __forceinline__
+  static unsigned int get_temporary_array_size_in_number_of_bytes(unsigned int block_size)
+  {
+    // this isn't a typo -- set_union only needs a temporary array for one of the input
+    // ranges, not both
     return block_size * sizeof(int);
   }
 
@@ -91,7 +109,6 @@ RandomAccessIterator3 set_union(RandomAccessIterator1 first1,
                                first2, last2,
                                result,
                                comp,
-                               thrust::make_pair(thrust::max<size_t>(num_elements1, num_elements2), num_elements1 + num_elements2),
                                detail::split_for_set_operation(),
                                set_union_detail::block_convergent_set_union_functor());
 } // end set_union

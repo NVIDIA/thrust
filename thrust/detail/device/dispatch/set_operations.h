@@ -105,6 +105,40 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
+  OutputIterator set_symmetric_difference(InputIterator1 first1,
+                                          InputIterator1 last1,
+                                          InputIterator2 first2,
+                                          InputIterator2 last2,
+                                          OutputIterator result,
+                                          StrictWeakOrdering comp,
+                                          thrust::detail::omp_device_space_tag)
+{
+  // omp backend
+  return thrust::detail::device::omp::set_symmetric_difference(first1,last1,first2,last2,result,comp);
+} // end set_symmetric_difference()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_symmetric_difference(InputIterator1 first1,
+                                          InputIterator1 last1,
+                                          InputIterator2 first2,
+                                          InputIterator2 last2,
+                                          OutputIterator result,
+                                          StrictWeakOrdering comp,
+                                          thrust::detail::cuda_device_space_tag)
+{
+  // refinement for the CUDA backend
+  return thrust::detail::device::cuda::set_symmetric_difference(first1,last1,first2,last2,result,comp);
+} // end set_symmetric_difference()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
   OutputIterator set_union(InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,

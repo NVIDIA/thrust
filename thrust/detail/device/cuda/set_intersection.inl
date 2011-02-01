@@ -39,7 +39,23 @@ namespace set_intersection_detail
 struct block_convergent_set_intersection_functor
 {
   __host__ __device__ __forceinline__
-  static unsigned int get_temporary_array_size(unsigned int block_size)
+  static size_t get_min_size_of_result_in_number_of_elements(size_t size_of_range1,
+                                                             size_t size_of_range2)
+  {
+    // set_intersection could result in zero output
+    return 0u;
+  }
+
+  __host__ __device__ __forceinline__
+  static size_t get_max_size_of_result_in_number_of_elements(size_t size_of_range1,
+                                                             size_t size_of_range2)
+  {
+    // set_intersection could output all of range1
+    return size_of_range1;
+  }
+
+  __host__ __device__ __forceinline__
+  static unsigned int get_temporary_array_size_in_number_of_bytes(unsigned int block_size)
   {
     return block_size * sizeof(int);
   }
@@ -90,7 +106,6 @@ RandomAccessIterator3 set_intersection(RandomAccessIterator1 first1,
                                first2, last2,
                                result,
                                comp,
-                               thrust::make_pair(0u, num_elements1),
                                detail::split_for_set_operation(),
                                set_intersection_detail::block_convergent_set_intersection_functor());
 } // end set_intersection

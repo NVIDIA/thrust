@@ -80,11 +80,11 @@ unsigned int get_set_operation_kernel_per_block_dynamic_smem_usage(unsigned int 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
-  // set_intersection_kernel allocates memory aligned to int
+  // set_operation_kernel allocates memory aligned to int
   const unsigned int array_size1 = align_array_size_to_int<value_type1>(block_size);
   const unsigned int array_size2 = align_array_size_to_int<value_type2>(block_size);
-  const unsigned int array_size3 = align_array_size_to_int<value_type1>(block_size);
-  const unsigned int array_size4 = align_size_to_int(BlockConvergentSetOperation::get_temporary_array_size(block_size));
+  const unsigned int array_size3 = align_size_to_int(BlockConvergentSetOperation::get_temporary_array_size_in_number_of_bytes(block_size));
+  const unsigned int array_size4 = align_size_to_int(sizeof(value_type1) * BlockConvergentSetOperation::get_max_size_of_result_in_number_of_elements(block_size,block_size));
 
   return sizeof(int) * (array_size1 + array_size2 + array_size3 + array_size4);
 } // end get_set_operation_kernel_per_block_dynamic_smem_usage()
@@ -117,15 +117,16 @@ __global__ void set_operation_kernel(const RandomAccessIterator1 first1,
   // allocate shared storage
   const unsigned int array_size1 = align_array_size_to_int<value_type1>(blockDim.x);
   const unsigned int array_size2 = align_array_size_to_int<value_type2>(blockDim.x);
-  const unsigned int array_size3 = align_array_size_to_int<value_type1>(blockDim.x);
-  int  *_shared1  = extern_shared_ptr<int>();
-  int  *_shared2  = _shared1 + array_size1;
-  int  *_shared3  = _shared2 + array_size2;
-  void *s_scratch = _shared3 + array_size3;
+  const unsigned int array_size3 = align_size_to_int(set_operation.get_temporary_array_size_in_number_of_bytes(blockDim.x));
+  int *_shared1  = extern_shared_ptr<int>();
+  int *_shared2  = _shared1 + array_size1;
+  int *_shared3  = _shared2 + array_size2;
+  int *_shared4  = _shared3 + array_size3;
 
-  value_type1 *s_input1 = reinterpret_cast<value_type1*>(_shared1);
-  value_type2 *s_input2 = reinterpret_cast<value_type2*>(_shared2);
-  value_type1 *s_result = reinterpret_cast<value_type1*>(_shared3);
+  value_type1 *s_input1  = reinterpret_cast<value_type1*>(_shared1);
+  value_type2 *s_input2  = reinterpret_cast<value_type2*>(_shared2);
+  void        *s_scratch = reinterpret_cast<void*>(_shared3);
+  value_type1 *s_result  = reinterpret_cast<value_type1*>(_shared4);
 
   // advance per-partition iterators
   splitter_ranks1        += blockIdx.x;
@@ -147,7 +148,6 @@ __global__ void set_operation_kernel(const RandomAccessIterator1 first1,
     RandomAccessIterator5 output_begin = result;
 
     // find the end of the input if this is not the last block
-    // the end of merged partition i is at splitter_ranks1[i] + splitter_ranks2[i]
     if(partition_idx != num_partitions - 1)
     {
       RandomAccessIterator3 rank1 = splitter_ranks1;
@@ -158,20 +158,24 @@ __global__ void set_operation_kernel(const RandomAccessIterator1 first1,
     }
 
     // find the beginning of the input and output if this is not the first partition
-    // merged partition i begins at splitter_ranks1[i-1]
     if(partition_idx != 0)
     {
+      typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
+      typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
       RandomAccessIterator3 rank1 = splitter_ranks1;
       --rank1;
       RandomAccessIterator4 rank2 = splitter_ranks2;
       --rank2;
 
-      // advance the input to point to the beginning
-      input_begin1 += dereference(rank1);
-      input_begin2 += dereference(rank2);
+      difference1 size_of_preceding_input1 = dereference(rank1);
+      difference2 size_of_preceding_input2 = dereference(rank2);
 
-      // advance the result to point to the beginning of the output
-      output_begin += dereference(rank1);
+      // advance the input to point to the beginning
+      input_begin1 += size_of_preceding_input1;
+      input_begin2 += size_of_preceding_input2;
+
+      // conservatively advance the result to point to the beginning of the output
+      output_begin += set_operation.get_max_size_of_result_in_number_of_elements(size_of_preceding_input1,size_of_preceding_input2);
     }
 
     // the result is empty to begin with
@@ -211,28 +215,33 @@ __global__ void set_operation_kernel(const RandomAccessIterator1 first1,
 } // end set_operation_kernel()
 
 
-template<typename RandomAccessIterator1,
+template<typename BlockConvergentSetOperation,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
+         typename RandomAccessIterator5,
          typename Size>
 __global__
 void grouped_gather(const RandomAccessIterator1 result,
                     const RandomAccessIterator2 first,
                     RandomAccessIterator3 splitter_ranks1,
-                    RandomAccessIterator4 size_of_result_before_and_including_each_partition,
+                    RandomAccessIterator4 splitter_ranks2,
+                    RandomAccessIterator5 size_of_result_before_and_including_each_partition,
                     Size num_partitions)
 {
   using namespace thrust::detail::device;
 
   // advance iterators
   splitter_ranks1                                     += blockIdx.x;
+  splitter_ranks2                                     += blockIdx.x;
   size_of_result_before_and_including_each_partition  += blockIdx.x;
 
   for(Size partition_idx                                 = blockIdx.x;
       partition_idx                                      < num_partitions;
       partition_idx                                      += gridDim.x,
       splitter_ranks1                                    += gridDim.x,
+      splitter_ranks2                                    += gridDim.x,
       size_of_result_before_and_including_each_partition += gridDim.x)
   {
     RandomAccessIterator1 output_begin = result;
@@ -243,10 +252,19 @@ void grouped_gather(const RandomAccessIterator1 result,
       = dereference(size_of_result_before_and_including_each_partition);
     if(partition_idx != 0)
     {
-      // advance iterator to the beginning of this partition's input
-      RandomAccessIterator3 rank = splitter_ranks1;
-      --rank;
-      input_begin += dereference(rank);
+      // advance iterators to the beginning of this partition's input
+      RandomAccessIterator3 rank1 = splitter_ranks1;
+      --rank1;
+      RandomAccessIterator4 rank2 = splitter_ranks2;
+      --rank2;
+
+      typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference;
+
+      difference size_of_preceding_input1 = dereference(rank1);
+      difference size_of_preceding_input2 = dereference(rank2);
+
+      input_begin +=
+        BlockConvergentSetOperation::get_max_size_of_result_in_number_of_elements(size_of_preceding_input1,size_of_preceding_input2);
 
       // subtract away the previous element of size_of_result_preceding_each_partition
       // resulting in this size of this partition
@@ -270,7 +288,6 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename Compare,
-         typename Pair,
          typename SplittingFunction,
          typename BlockConvergentSetOperation>
   RandomAccessIterator3 set_operation(RandomAccessIterator1 first1,
@@ -279,7 +296,6 @@ template<typename RandomAccessIterator1,
                                       RandomAccessIterator2 last2,
                                       RandomAccessIterator3 result,
                                       Compare comp,
-                                      Pair range_of_size_of_result,
                                       SplittingFunction split,
                                       BlockConvergentSetOperation set_op)
 {
@@ -338,7 +354,8 @@ template<typename RandomAccessIterator1,
 
   // allocate storage to store the largest possible result
   // XXX if the size of the result is known a priori (i.e., first == second), we don't need this temporary
-  raw_buffer<typename thrust::iterator_value<RandomAccessIterator1>::type, cuda_device_space_tag> temporary_results(range_of_size_of_result.second);
+  raw_buffer<typename thrust::iterator_value<RandomAccessIterator1>::type, cuda_device_space_tag>
+    temporary_results(set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
 
   // maximize the number of blocks we can launch
   const size_t max_blocks = thrust::detail::device::cuda::arch::max_grid_dimensions().x;
@@ -364,12 +381,14 @@ template<typename RandomAccessIterator1,
 
   // gather from temporary_results to result
   // no real need to choose a new config for this launch
-  grouped_gather<<<num_blocks, static_cast<unsigned int>(block_size)>>>(
-                 result,
-                 temporary_results.begin(),
-                 splitter_ranks1.begin(),
-                 result_partition_sizes.begin(),
-                 num_merged_partitions);
+  grouped_gather<BlockConvergentSetOperation>
+    <<<num_blocks, static_cast<unsigned int>(block_size)>>>(
+      result,
+      temporary_results.begin(),
+      splitter_ranks1.begin(),
+      splitter_ranks2.begin(),
+      result_partition_sizes.begin(),
+      num_merged_partitions);
   synchronize_if_enabled("grouped_gather");
 
   return result + result_partition_sizes[num_merged_partitions - 1];
