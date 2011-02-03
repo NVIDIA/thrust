@@ -22,6 +22,10 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+#include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/transform.h>
 #include <thrust/scatter.h>
 #include <thrust/iterator/zip_iterator.h>
@@ -81,9 +85,37 @@ template <typename InputIterator1,
 {
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  KeyType;
-    typedef typename thrust::iterator_traits<OutputIterator2>::value_type ValueType;
-    typedef typename thrust::iterator_space<OutputIterator1>::type Space;
+
+    typedef typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator1>::type,
+      typename thrust::iterator_space<OutputIterator2>::type
+    >::type Space;
+
     typedef unsigned int FlagType;  // TODO use difference_type
+
+    // the pseudocode for deducing the type of the temporary used below:
+    // 
+    // if BinaryFunction is AdaptableBinaryFunction
+    //   TemporaryType = AdaptableBinaryFunction::result_type
+    // else if OutputIterator2 is a "pure" output iterator
+    //   TemporaryType = InputIterator2::value_type
+    // else
+    //   TemporaryType = OutputIterator2::value_type
+    //
+    // XXX upon c++0x, TemporaryType needs to be:
+    // result_of<BinaryFunction>::type
+
+    typedef typename eval_if<
+      has_result_type<BinaryFunction>::value,
+      result_type<BinaryFunction>,
+      eval_if<
+        is_output_iterator<OutputIterator2>::value,
+        thrust::iterator_value<InputIterator2>,
+        thrust::iterator_value<OutputIterator2>
+      >
+    >::type ValueType;
 
     if (keys_first == keys_last)
         return thrust::make_pair(keys_output, values_output);

@@ -1,6 +1,10 @@
 #include <unittest/unittest.h>
 #include <thrust/transform.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/discard_iterator.h>
+#include <thrust/tuple.h>
+#include <thrust/pair.h>
+#include <thrust/iterator/zip_iterator.h>
 
 template <class Vector>
 void TestTransformUnarySimple(void)
@@ -126,6 +130,73 @@ void TestTransformUnary(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestTransformUnary);
 
 
+template <typename T>
+void TestTransformUnaryToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::discard_iterator<> h_result =
+      thrust::transform(h_input.begin(), h_input.end(), thrust::make_discard_iterator(), thrust::negate<T>());
+
+    thrust::discard_iterator<> d_result =
+      thrust::transform(d_input.begin(), d_input.end(), thrust::make_discard_iterator(), thrust::negate<T>());
+
+    thrust::discard_iterator<> reference(n);
+    
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestTransformUnaryToDiscardIterator);
+
+
+struct repeat2
+{
+  template<typename T>
+  __host__ __device__
+  thrust::pair<T,T> operator()(T x)
+  {
+    return thrust::make_pair(x,x);
+  }
+};
+
+
+template<typename T>
+void TestTransformUnaryToDiscardIteratorZipped(const size_t n)
+{
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::host_vector<T>   h_output(n);
+    thrust::device_vector<T> d_output(n);
+
+    typedef typename thrust::host_vector<T>::iterator Iterator1;
+    typedef typename thrust::device_vector<T>::iterator Iterator2;
+
+    typedef thrust::tuple<Iterator1,thrust::discard_iterator<> > Tuple1;
+    typedef thrust::tuple<Iterator2,thrust::discard_iterator<> > Tuple2;
+
+    typedef thrust::zip_iterator<Tuple1> ZipIterator1;
+    typedef thrust::zip_iterator<Tuple2> ZipIterator2;
+
+    ZipIterator1 z1(thrust::make_tuple(h_output.begin(), thrust::make_discard_iterator()));
+    ZipIterator2 z2(thrust::make_tuple(d_output.begin(), thrust::make_discard_iterator()));
+
+    ZipIterator1 h_result =
+      thrust::transform(h_input.begin(), h_input.end(), z1, repeat2());
+
+    ZipIterator2 d_result =
+      thrust::transform(d_input.begin(), d_input.end(), z2, repeat2());
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL(h_output, d_output);
+    
+    ASSERT_EQUAL_QUIET(reference, thrust::get<1>(h_result.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(reference, thrust::get<1>(d_result.get_iterator_tuple()));
+}
+DECLARE_VARIABLE_UNITTEST(TestTransformUnaryToDiscardIteratorZipped);
+
 struct is_positive
 {
   template<typename T>
@@ -164,6 +235,35 @@ DECLARE_VARIABLE_UNITTEST(TestTransformIfUnary);
 
 
 template <typename T>
+void TestTransformIfUnaryToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_input   = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
+
+    thrust::device_vector<T> d_input   = h_input;
+    thrust::device_vector<T> d_stencil = h_stencil;
+
+    thrust::discard_iterator<> h_result =
+      thrust::transform_if(h_input.begin(), h_input.end(),
+                           h_stencil.begin(),
+                           thrust::make_discard_iterator(),
+                           thrust::negate<T>(), is_positive());
+
+    thrust::discard_iterator<> d_result =
+      thrust::transform_if(d_input.begin(), d_input.end(),
+                           d_stencil.begin(),
+                           thrust::make_discard_iterator(),
+                           thrust::negate<T>(), is_positive());
+
+    thrust::discard_iterator<> reference(n);
+    
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestTransformIfUnaryToDiscardIterator);
+
+
+template <typename T>
 void TestTransformBinary(const size_t n)
 {
     thrust::host_vector<T>   h_input1 = unittest::random_integers<T>(n);
@@ -185,6 +285,27 @@ void TestTransformBinary(const size_t n)
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformBinary);
+
+
+template <typename T>
+void TestTransformBinaryToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_input1 = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input2 = unittest::random_integers<T>(n);
+    thrust::device_vector<T> d_input1 = h_input1;
+    thrust::device_vector<T> d_input2 = h_input2;
+
+    thrust::discard_iterator<> h_result =
+      thrust::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), thrust::make_discard_iterator(), thrust::minus<T>());
+    thrust::discard_iterator<> d_result =
+      thrust::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), thrust::make_discard_iterator(), thrust::minus<T>());
+
+    thrust::discard_iterator<> reference(n);
+    
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestTransformBinaryToDiscardIterator);
 
 
 template <typename T>
@@ -232,6 +353,39 @@ void TestTransformIfBinary(const size_t n)
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformIfBinary);
+
+
+template <typename T>
+void TestTransformIfBinaryToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_input1  = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_input2  = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
+
+    thrust::device_vector<T> d_input1  = h_input1;
+    thrust::device_vector<T> d_input2  = h_input2;
+    thrust::device_vector<T> d_stencil = h_stencil;
+
+    thrust::discard_iterator<> h_result =
+      thrust::transform_if(h_input1.begin(), h_input1.end(),
+                           h_input2.begin(),
+                           h_stencil.begin(),
+                           thrust::make_discard_iterator(),
+                           thrust::minus<T>(), is_positive());
+
+    thrust::discard_iterator<> d_result =
+      thrust::transform_if(d_input1.begin(), d_input1.end(),
+                           d_input2.begin(),
+                           d_stencil.begin(),
+                           thrust::make_discard_iterator(),
+                           thrust::minus<T>(), is_positive());
+
+    thrust::discard_iterator<> reference(n);
+    
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestTransformIfBinaryToDiscardIterator);
 
 
 template <class Vector>

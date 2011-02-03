@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/sequence.h>
+#include <thrust/iterator/discard_iterator.h>
 
 
 template <class Vector>
@@ -63,4 +64,19 @@ void TestSequence(size_t n)
     ASSERT_EQUAL(h_data, d_data);
 }
 DECLARE_VARIABLE_UNITTEST(TestSequence);
+
+template <typename T>
+void TestSequenceToDiscardIterator(size_t n)
+{
+    thrust::host_vector<T>   h_data(n);
+    thrust::device_vector<T> d_data(n);
+
+    thrust::sequence(thrust::discard_iterator<thrust::device_space_tag>(),
+                     thrust::discard_iterator<thrust::device_space_tag>(13),
+                     T(10),
+                     T(2));
+
+    // nothing to check -- just make sure it compiles
+}
+DECLARE_VARIABLE_UNITTEST(TestSequenceToDiscardIterator);
 

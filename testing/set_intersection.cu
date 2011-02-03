@@ -2,6 +2,7 @@
 #include <thrust/set_operations.h>
 #include <thrust/functional.h>
 #include <thrust/sort.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template<typename Vector>
 void TestSetIntersectionSimple(void)
@@ -61,6 +62,45 @@ void TestSetIntersection(const size_t n)
   ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestSetIntersection);
+
+
+template<typename T>
+void TestSetIntersectionToDiscardIterator(const size_t n)
+{
+  thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
+  thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
+  thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
+
+  thrust::sort(h_a.begin(), h_a.end());
+  thrust::sort(h_b.begin(), h_b.end());
+
+  thrust::device_vector<T> d_a = h_a;
+  thrust::device_vector<T> d_b = h_b;
+
+  thrust::discard_iterator<> h_result;
+  thrust::discard_iterator<> d_result;
+
+  thrust::host_vector<T> h_reference(n);
+  typename thrust::host_vector<T>::iterator h_end = 
+    thrust::set_intersection(h_a.begin(), h_a.end(),
+                             h_b.begin(), h_b.end(),
+                             h_reference.begin());
+  h_reference.erase(h_end, h_reference.end());
+  
+  h_result = thrust::set_intersection(h_a.begin(), h_a.end(),
+                                      h_b.begin(), h_b.end(),
+                                      thrust::make_discard_iterator());
+
+  d_result = thrust::set_intersection(d_a.begin(), d_a.end(),
+                                      d_b.begin(), d_b.end(),
+                                      thrust::make_discard_iterator());
+
+  thrust::discard_iterator<> reference(h_reference.size());
+
+  ASSERT_EQUAL_QUIET(reference, h_result);
+  ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestSetIntersectionToDiscardIterator);
 
 
 template<typename T>

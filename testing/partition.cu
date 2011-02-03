@@ -2,6 +2,7 @@
 #include <thrust/partition.h>
 #include <thrust/count.h>
 
+#include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/sort.h>
 
@@ -205,6 +206,109 @@ VariableUnitTest<TestPartitionCopy, PartitionTypes> TestPartitionCopyInstance;
 
 
 template <typename T>
+struct TestPartitionCopyToDiscardIterator
+{
+    void operator()(const size_t n)
+    {
+        // setup input ranges
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+        
+        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        size_t n_false = n - n_true;
+
+        // mask both ranges
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
+            thrust::partition_copy(h_data.begin(),
+                                   h_data.end(),
+                                   thrust::make_discard_iterator(),
+                                   thrust::make_discard_iterator(),
+                                   is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > d_result1 =
+            thrust::partition_copy(d_data.begin(),
+                                   d_data.end(),
+                                   thrust::make_discard_iterator(),
+                                   thrust::make_discard_iterator(),
+                                   is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > reference1 =
+            thrust::make_pair(thrust::make_discard_iterator(n_true),
+                              thrust::make_discard_iterator(n_false));
+
+        ASSERT_EQUAL_QUIET(reference1, h_result1);
+        ASSERT_EQUAL_QUIET(reference1, d_result1);
+
+
+        // mask the false range
+        thrust::host_vector<T> h_trues(n_true);
+        thrust::device_vector<T> d_trues(n_true);
+
+        thrust::pair<typename thrust::host_vector<T>::iterator, thrust::discard_iterator<> > h_result2 =
+            thrust::partition_copy(h_data.begin(),
+                                   h_data.end(),
+                                   h_trues.begin(),
+                                   thrust::make_discard_iterator(),
+                                   is_even<T>());
+
+        thrust::pair<typename thrust::device_vector<T>::iterator, thrust::discard_iterator<> > d_result2 =
+            thrust::partition_copy(d_data.begin(),
+                                   d_data.end(),
+                                   d_trues.begin(),
+                                   thrust::make_discard_iterator(),
+                                   is_even<T>());
+
+        thrust::pair<typename thrust::host_vector<T>::iterator, thrust::discard_iterator<> > h_reference2 =
+            thrust::make_pair(h_trues.begin() + n_true,
+                              thrust::make_discard_iterator(n_false));
+
+        thrust::pair<typename thrust::device_vector<T>::iterator, thrust::discard_iterator<> > d_reference2 =
+            thrust::make_pair(d_trues.begin() + n_true,
+                              thrust::make_discard_iterator(n_false));
+
+
+        ASSERT_EQUAL(h_trues, d_trues);
+        ASSERT_EQUAL_QUIET(h_reference2, h_result2);
+        ASSERT_EQUAL_QUIET(d_reference2, d_result2);
+
+
+
+        // mask the true range
+        thrust::host_vector<T> h_falses(n_false);
+        thrust::device_vector<T> d_falses(n_false);
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::host_vector<T>::iterator> h_result3 =
+            thrust::partition_copy(h_data.begin(),
+                                   h_data.end(),
+                                   thrust::make_discard_iterator(),
+                                   h_falses.begin(),
+                                   is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::device_vector<T>::iterator> d_result3 =
+            thrust::partition_copy(d_data.begin(),
+                                   d_data.end(),
+                                   thrust::make_discard_iterator(),
+                                   d_falses.begin(),
+                                   is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::host_vector<T>::iterator> h_reference3 =
+            thrust::make_pair(thrust::make_discard_iterator(n_true),
+                              h_falses.begin() + n_false);
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::device_vector<T>::iterator> d_reference3 =
+            thrust::make_pair(thrust::make_discard_iterator(n_true),
+                              d_falses.begin() + n_false);
+
+
+        ASSERT_EQUAL(h_falses, d_falses);
+        ASSERT_EQUAL_QUIET(h_reference3, h_result3);
+        ASSERT_EQUAL_QUIET(d_reference3, d_result3);
+    }
+};
+VariableUnitTest<TestPartitionCopyToDiscardIterator, PartitionTypes> TestPartitionCopyToDiscardIteratorInstance;
+
+
+template <typename T>
 struct TestStablePartition
 {
     void operator()(const size_t n)
@@ -259,6 +363,109 @@ struct TestStablePartitionCopy
     }
 };
 VariableUnitTest<TestStablePartitionCopy, PartitionTypes> TestStablePartitionCopyInstance;
+
+
+template <typename T>
+struct TestStablePartitionCopyToDiscardIterator
+{
+    void operator()(const size_t n)
+    {
+        // setup input ranges
+        thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_data = h_data;
+        
+        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        size_t n_false = n - n_true;
+
+        // mask both ranges
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
+            thrust::stable_partition_copy(h_data.begin(),
+                                          h_data.end(),
+                                          thrust::make_discard_iterator(),
+                                          thrust::make_discard_iterator(),
+                                          is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > d_result1 =
+            thrust::stable_partition_copy(d_data.begin(),
+                                          d_data.end(),
+                                          thrust::make_discard_iterator(),
+                                          thrust::make_discard_iterator(),
+                                          is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > reference1 =
+            thrust::make_pair(thrust::make_discard_iterator(n_true),
+                              thrust::make_discard_iterator(n_false));
+
+        ASSERT_EQUAL_QUIET(reference1, h_result1);
+        ASSERT_EQUAL_QUIET(reference1, d_result1);
+
+
+        // mask the false range
+        thrust::host_vector<T> h_trues(n_true);
+        thrust::device_vector<T> d_trues(n_true);
+
+        thrust::pair<typename thrust::host_vector<T>::iterator, thrust::discard_iterator<> > h_result2 =
+            thrust::stable_partition_copy(h_data.begin(),
+                                          h_data.end(),
+                                          h_trues.begin(),
+                                          thrust::make_discard_iterator(),
+                                          is_even<T>());
+
+        thrust::pair<typename thrust::device_vector<T>::iterator, thrust::discard_iterator<> > d_result2 =
+            thrust::stable_partition_copy(d_data.begin(),
+                                          d_data.end(),
+                                          d_trues.begin(),
+                                          thrust::make_discard_iterator(),
+                                          is_even<T>());
+
+        thrust::pair<typename thrust::host_vector<T>::iterator, thrust::discard_iterator<> > h_reference2 =
+            thrust::make_pair(h_trues.begin() + n_true,
+                              thrust::make_discard_iterator(n_false));
+
+        thrust::pair<typename thrust::device_vector<T>::iterator, thrust::discard_iterator<> > d_reference2 =
+            thrust::make_pair(d_trues.begin() + n_true,
+                              thrust::make_discard_iterator(n_false));
+
+
+        ASSERT_EQUAL(h_trues, d_trues);
+        ASSERT_EQUAL_QUIET(h_reference2, h_result2);
+        ASSERT_EQUAL_QUIET(d_reference2, d_result2);
+
+
+
+        // mask the true range
+        thrust::host_vector<T> h_falses(n_false);
+        thrust::device_vector<T> d_falses(n_false);
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::host_vector<T>::iterator> h_result3 =
+            thrust::stable_partition_copy(h_data.begin(),
+                                          h_data.end(),
+                                          thrust::make_discard_iterator(),
+                                          h_falses.begin(),
+                                          is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::device_vector<T>::iterator> d_result3 =
+            thrust::stable_partition_copy(d_data.begin(),
+                                          d_data.end(),
+                                          thrust::make_discard_iterator(),
+                                          d_falses.begin(),
+                                          is_even<T>());
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::host_vector<T>::iterator> h_reference3 =
+            thrust::make_pair(thrust::make_discard_iterator(n_true),
+                              h_falses.begin() + n_false);
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::device_vector<T>::iterator> d_reference3 =
+            thrust::make_pair(thrust::make_discard_iterator(n_true),
+                              d_falses.begin() + n_false);
+
+
+        ASSERT_EQUAL(h_falses, d_falses);
+        ASSERT_EQUAL_QUIET(h_reference3, h_result3);
+        ASSERT_EQUAL_QUIET(d_reference3, d_result3);
+    }
+};
+VariableUnitTest<TestStablePartitionCopyToDiscardIterator, PartitionTypes> TestStablePartitionCopyToDiscardIteratorInstance;
 
 
 struct is_ordered

@@ -63,7 +63,10 @@ OutputIterator unique_copy(InputIterator first,
                            OutputIterator output,
                            BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_space<OutputIterator>::type Space;
+    typedef typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type Space;
 
     // empty sequence
     if(first == last)
@@ -114,7 +117,12 @@ template <typename InputIterator1,
                      BinaryPredicate binary_pred)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
-    typedef typename thrust::iterator_space<OutputIterator1>::type            Space;
+    typedef typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator1>::type,
+      typename thrust::iterator_space<OutputIterator2>::type
+    >::type Space;
 
     // empty sequence
     if(keys_first == keys_last)

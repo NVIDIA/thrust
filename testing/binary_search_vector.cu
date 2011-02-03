@@ -3,6 +3,7 @@
 
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
+#include <thrust/iterator/discard_iterator.h>
 
 //////////////////////
 // Vector Functions //
@@ -267,4 +268,95 @@ struct TestVectorBinarySearch
   }
 };
 VariableUnitTest<TestVectorBinarySearch, SignedIntegralTypes> TestVectorBinarySearchInstance;
+
+template <typename T>
+struct TestVectorLowerBoundDiscardIterator
+{
+  void operator()(const size_t n)
+  {
+// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
+//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+    KNOWN_FAILURE;
+#else
+    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
+    thrust::device_vector<T> d_vec = h_vec;
+
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(2*n);
+    thrust::device_vector<T> d_input = h_input;
+    
+    thrust::discard_iterator<> h_result =
+      thrust::lower_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), thrust::make_discard_iterator());
+    thrust::discard_iterator<> d_result =
+      thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), thrust::make_discard_iterator());
+
+    thrust::discard_iterator<> reference(2*n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+#endif
+  }
+};
+VariableUnitTest<TestVectorLowerBoundDiscardIterator, SignedIntegralTypes> TestVectorLowerBoundDiscardIteratorInstance;
+
+
+template <typename T>
+struct TestVectorUpperBoundDiscardIterator
+{
+  void operator()(const size_t n)
+  {
+// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
+//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+    KNOWN_FAILURE;
+#else
+    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
+    thrust::device_vector<T> d_vec = h_vec;
+
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(2*n);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::discard_iterator<> h_result =
+      thrust::upper_bound(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), thrust::make_discard_iterator());
+    thrust::discard_iterator<> d_result =
+      thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), thrust::make_discard_iterator());
+
+    thrust::discard_iterator<> reference(2*n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+#endif
+  }
+};
+VariableUnitTest<TestVectorUpperBoundDiscardIterator, SignedIntegralTypes> TestVectorUpperBoundDiscardIteratorInstance;
+
+template <typename T>
+struct TestVectorBinarySearchDiscardIterator
+{
+  void operator()(const size_t n)
+  {
+// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
+//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+    KNOWN_FAILURE;
+#else
+    thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
+    thrust::device_vector<T> d_vec = h_vec;
+
+    thrust::host_vector<T>   h_input = unittest::random_integers<T>(2*n);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::discard_iterator<> h_result =
+      thrust::binary_search(h_vec.begin(), h_vec.end(), h_input.begin(), h_input.end(), thrust::make_discard_iterator());
+    thrust::discard_iterator<> d_result =
+      thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), thrust::make_discard_iterator());
+
+    thrust::discard_iterator<> reference(2*n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+#endif
+  }
+};
+VariableUnitTest<TestVectorBinarySearchDiscardIterator, SignedIntegralTypes> TestVectorBinarySearchDiscardIteratorInstance;
 

@@ -21,6 +21,10 @@
 
 #pragma once
 
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits/algorithm/intermediate_type_from_function_and_iterators.h>
+#include <thrust/detail/type_traits.h>
+
 namespace thrust
 {
 
@@ -67,19 +71,25 @@ template <typename InputIterator1,
                 BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
-    typedef typename thrust::iterator_traits<OutputIterator2>::value_type OutputValueType;
+    typedef typename thrust::iterator_traits<InputIterator2>::value_type  InputValueType;
+
+    typedef typename intermediate_type_from_function_and_iterators<
+      InputIterator2,
+      OutputIterator2,
+      BinaryFunction
+    >::type TemporaryType;
 
     if(keys_first != keys_last)
     {
-        InputKeyType    temp_key   = *keys_first;
-        OutputValueType temp_value = *values_first;
+        InputKeyType  temp_key   = *keys_first;
+        TemporaryType temp_value = *values_first;
         
         for(++keys_first, ++values_first;
                 keys_first != keys_last;
                 ++keys_first, ++values_first)
         {
-            InputKeyType    key   = *keys_first;
-            OutputValueType value = *values_first;
+            InputKeyType    key  = *keys_first;
+            InputValueType value = *values_first;
 
             if (binary_pred(temp_key, key))
             {

@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/unique.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template<typename T>
 struct is_equal_div_10_unique
@@ -144,33 +145,32 @@ struct TestUniqueCopy
 VariableUnitTest<TestUniqueCopy, IntegralTypes> TestUniqueCopyInstance;
 
 
-template <typename Vector>
-void initialize_keys(Vector& keys)
+template<typename T>
+struct TestUniqueCopyToDiscardIterator
 {
-    keys.resize(9);
-    keys[0] = 11;
-    keys[1] = 11;
-    keys[2] = 21;
-    keys[3] = 20;
-    keys[4] = 21;
-    keys[5] = 21;
-    keys[6] = 21;
-    keys[7] = 37;
-    keys[8] = 37;
-}
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T>   h_data = unittest::random_integers<bool>(n);
+        thrust::device_vector<T> d_data = h_data;
 
-template <typename Vector>
-void initialize_values(Vector& values)
-{
-    values.resize(9);
-    values[0] = 0; 
-    values[1] = 1;
-    values[2] = 2;
-    values[3] = 3;
-    values[4] = 4;
-    values[5] = 5;
-    values[6] = 6;
-    values[7] = 7;
-    values[8] = 8;
-}
+        thrust::host_vector<T> h_unique = h_data;
+        h_unique.erase(thrust::unique(h_unique.begin(), h_unique.end()), h_unique.end());
+
+        thrust::discard_iterator<> reference(h_unique.size());
+
+        typename thrust::host_vector<T>::iterator   h_new_last;
+        typename thrust::device_vector<T>::iterator d_new_last;
+
+        thrust::discard_iterator<> h_result =
+          thrust::unique_copy(h_data.begin(), h_data.end(), thrust::make_discard_iterator());
+
+        thrust::discard_iterator<> d_result =
+          thrust::unique_copy(d_data.begin(), d_data.end(), thrust::make_discard_iterator());
+
+        ASSERT_EQUAL_QUIET(reference, h_result);
+        ASSERT_EQUAL_QUIET(reference, d_result);
+    }
+};
+VariableUnitTest<TestUniqueCopyToDiscardIterator, IntegralTypes> TestUniqueCopyToDiscardIteratorInstance;
+
 

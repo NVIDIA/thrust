@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/fill.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/iterator/discard_iterator.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -45,6 +46,20 @@ void TestFillSimple(void)
     ASSERT_EQUAL(v[4], 1);
 }
 DECLARE_VECTOR_UNITTEST(TestFillSimple);
+
+
+void TestFillDiscardIterator(void)
+{
+    // there's no result to check because fill returns void
+    thrust::fill(thrust::discard_iterator<thrust::host_space_tag>(),
+                 thrust::discard_iterator<thrust::host_space_tag>(10),
+                 13);
+
+    thrust::fill(thrust::discard_iterator<thrust::device_space_tag>(),
+                 thrust::discard_iterator<thrust::device_space_tag>(10),
+                 13);
+}
+DECLARE_UNITTEST(TestFillDiscardIterator);
 
 
 template <class Vector>
@@ -149,6 +164,26 @@ void TestFillNSimple(void)
     ASSERT_EQUAL_QUIET(v.end(), iter);
 }
 DECLARE_VECTOR_UNITTEST(TestFillNSimple);
+
+
+void TestFillNDiscardIterator(void)
+{
+  thrust::discard_iterator<thrust::host_space_tag> h_result =
+    thrust::fill_n(thrust::discard_iterator<thrust::host_space_tag>(),
+                   10,
+                   13);
+
+  thrust::discard_iterator<thrust::device_space_tag> d_result =
+    thrust::fill_n(thrust::discard_iterator<thrust::device_space_tag>(),
+                   10,
+                   13);
+
+  thrust::discard_iterator<> reference(10);
+
+  ASSERT_EQUAL_QUIET(reference, h_result);
+  ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_UNITTEST(TestFillNDiscardIterator);
 
 
 template <class Vector>

@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/unique.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template<typename T>
 struct is_equal_div_10_unique
@@ -220,4 +221,103 @@ struct TestUniqueCopyByKey
     }
 };
 VariableUnitTest<TestUniqueCopyByKey, IntegralTypes> TestUniqueCopyByKeyInstance;
+
+template<typename K>
+struct TestUniqueCopyByKeyToDiscardIterator
+{
+    void operator()(const size_t n)
+    {
+        typedef unsigned int V; // ValueType
+
+        thrust::host_vector<K>   h_keys = unittest::random_integers<bool>(n);
+        thrust::host_vector<V>   h_vals = unittest::random_integers<V>(n);
+        thrust::device_vector<K> d_keys = h_keys;
+        thrust::device_vector<V> d_vals = h_vals;
+
+        thrust::host_vector<V>   h_vals_output(n);
+        thrust::device_vector<V> d_vals_output(n);
+
+        thrust::host_vector<K>   h_keys_output(n);
+        thrust::device_vector<K> d_keys_output(n);
+
+        thrust::host_vector<K> h_unique_keys = h_keys;
+        h_unique_keys.erase(thrust::unique(h_unique_keys.begin(), h_unique_keys.end()), h_unique_keys.end());
+
+        size_t num_unique_keys = h_unique_keys.size();
+
+
+        // mask both outputs
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
+          thrust::unique_by_key_copy(h_keys.begin(), h_keys.end(),
+                                     h_vals.begin(),
+                                     thrust::make_discard_iterator(),
+                                     thrust::make_discard_iterator());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > d_result1 =
+          thrust::unique_by_key_copy(d_keys.begin(), d_keys.end(),
+                                     d_vals.begin(),
+                                     thrust::make_discard_iterator(),
+                                     thrust::make_discard_iterator());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > reference1 =
+          thrust::make_pair(thrust::make_discard_iterator(num_unique_keys),
+                            thrust::make_discard_iterator(num_unique_keys));
+
+        ASSERT_EQUAL_QUIET(reference1, h_result1);
+        ASSERT_EQUAL_QUIET(reference1, d_result1);
+
+
+        // mask values output
+        thrust::pair<typename thrust::host_vector<K>::iterator, thrust::discard_iterator<> > h_result2 =
+          thrust::unique_by_key_copy(h_keys.begin(), h_keys.end(),
+                                     h_vals.begin(),
+                                     h_keys_output.begin(),
+                                     thrust::make_discard_iterator());
+
+        thrust::pair<typename thrust::device_vector<K>::iterator, thrust::discard_iterator<> > d_result2 =
+          thrust::unique_by_key_copy(d_keys.begin(), d_keys.end(),
+                                     d_vals.begin(),
+                                     d_keys_output.begin(),
+                                     thrust::make_discard_iterator());
+
+        thrust::pair<typename thrust::host_vector<K>::iterator, thrust::discard_iterator<> > h_reference2 =
+          thrust::make_pair(h_keys_output.begin() + num_unique_keys,
+                            thrust::make_discard_iterator(num_unique_keys));
+
+        thrust::pair<typename thrust::device_vector<K>::iterator, thrust::discard_iterator<> > d_reference2 =
+          thrust::make_pair(d_keys_output.begin() + num_unique_keys,
+                            thrust::make_discard_iterator(num_unique_keys));
+
+        ASSERT_EQUAL(h_keys_output, d_keys_output);
+        ASSERT_EQUAL_QUIET(h_reference2, h_result2);
+        ASSERT_EQUAL_QUIET(d_reference2, d_result2);
+
+
+        // mask keys output
+        thrust::pair<thrust::discard_iterator<>, typename thrust::host_vector<V>::iterator> h_result3 =
+          thrust::unique_by_key_copy(h_keys.begin(), h_keys.end(),
+                                     h_vals.begin(),
+                                     thrust::make_discard_iterator(),
+                                     h_vals_output.begin());
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::device_vector<V>::iterator> d_result3 =
+          thrust::unique_by_key_copy(d_keys.begin(), d_keys.end(),
+                                     d_vals.begin(),
+                                     thrust::make_discard_iterator(),
+                                     d_vals_output.begin());
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::host_vector<V>::iterator> h_reference3 =
+          thrust::make_pair(thrust::make_discard_iterator(num_unique_keys),
+                            h_vals_output.begin() + num_unique_keys);
+
+        thrust::pair<thrust::discard_iterator<>, typename thrust::device_vector<V>::iterator> d_reference3 =
+          thrust::make_pair(thrust::make_discard_iterator(num_unique_keys),
+                            d_vals_output.begin() + num_unique_keys);
+
+        ASSERT_EQUAL(h_vals_output, d_vals_output);
+        ASSERT_EQUAL_QUIET(h_reference3, h_result3);
+        ASSERT_EQUAL_QUIET(d_reference3, d_result3);
+    }
+};
+VariableUnitTest<TestUniqueCopyByKeyToDiscardIterator, IntegralTypes> TestUniqueCopyByKeyToDiscardIteratorInstance;
 

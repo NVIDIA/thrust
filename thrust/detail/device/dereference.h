@@ -57,6 +57,9 @@ template<typename Incrementable,
          typename Difference>
   class counting_iterator;
 
+template<typename Space>
+  class discard_iterator;
+
 template <typename IteratorTuple>
   class zip_iterator;
 
@@ -173,6 +176,18 @@ template<typename Value, typename Incrementable, typename Space, typename IndexT
   inline __host__ __device__
     typename dereference_result< thrust::constant_iterator<Value,Incrementable,Space> >::type
       dereference(const thrust::constant_iterator<Value,Incrementable,Space> &iter, IndexType n);
+
+
+// discard_iterator prototypes
+template<typename Space>
+  inline __host__ __device__
+    typename dereference_result< thrust::discard_iterator<Space> >::type
+      dereference(const thrust::discard_iterator<Space> &iter);
+
+template<typename Space, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::discard_iterator<Space> >::type
+      dereference(const thrust::discard_iterator<Space> &iter, IndexType n);
 
 
 // zip_iterator prototypes

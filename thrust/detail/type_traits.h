@@ -265,6 +265,29 @@ template<typename T>
 {
 }; // end is_same
 
+template<typename T1, typename T2>
+  struct lazy_is_same
+    : is_same<typename T1::type, typename T2::type>
+{
+}; // end lazy_is_same
+
+template<typename T1, typename T2>
+  struct is_different
+    : public true_type
+{
+}; // end is_different
+
+template<typename T>
+  struct is_different<T,T>
+    : public false_type
+{
+}; // end is_different
+
+template<typename T1, typename T2>
+  struct lazy_is_different
+    : is_different<typename T1::type, typename T2::type>
+{
+}; // end lazy_is_different
 
 namespace tt_detail
 {

@@ -35,9 +35,9 @@ namespace detail
 
 // XXX generalize this and put it in thrust:: namespace
 // consider defining disjoint_ranges() instead
-template <class DeviceIterator1, class DeviceIterator2, class Type1, class Type2>
+template <class DeviceIterator1, class DeviceIterator2>
 bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt,
-                  thrust::device_ptr<Type1>, thrust::device_ptr<Type2>)
+                  thrust::detail::true_type)
 {
     const void * first_ptr = thrust::raw_pointer_cast(&*first); 
     const void * last_ptr  = thrust::raw_pointer_cast(&*last);
@@ -45,9 +45,9 @@ bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 p
     return pt_ptr >= first_ptr && pt_ptr < last_ptr;
 }
 
-template <class DeviceIterator1, class DeviceIterator2, class DeviceIterator1Pointer, class DeviceIterator2Pointer>
+template <class DeviceIterator1, class DeviceIterator2>
 bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt,
-                  DeviceIterator1Pointer, DeviceIterator2Pointer)
+                  thrust::detail::false_type)
 {
     return false;
 }
@@ -56,8 +56,14 @@ template <class DeviceIterator1, class DeviceIterator2>
 bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt)
 {
     return within_range(first, last, pt,
-            typename thrust::iterator_traits<DeviceIterator1>::pointer(),
-            typename thrust::iterator_traits<DeviceIterator2>::pointer());
+            typename thrust::detail::and_<
+              typename thrust::detail::is_device_ptr<
+                typename thrust::iterator_pointer<DeviceIterator1>::type
+              >::type,
+              typename thrust::detail::is_device_ptr<
+                typename thrust::iterator_pointer<DeviceIterator2>::type
+              >::type
+            >::type());
 }
 
 } // end namespace detail

@@ -1,11 +1,9 @@
 #include <unittest/unittest.h>
 #include <thrust/scatter.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/discard_iterator.h>
 #include <thrust/sequence.h>
-
 #include <thrust/fill.h>
-#include <thrust/iterator/counting_iterator.h>
-#include <thrust/sequence.h>
 
 template <class Vector>
 void TestScatterSimple(void)
@@ -116,6 +114,29 @@ void TestScatter(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestScatter);
 
 
+template <typename T>
+void TestScatterToDiscardIterator(const size_t n)
+{
+    const size_t output_size = std::min((size_t) 10, 2 * n);
+    
+    thrust::host_vector<T> h_input(n, (T) 1);
+    thrust::device_vector<T> d_input(n, (T) 1);
+   
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
+
+    for(size_t i = 0; i < n; i++)
+        h_map[i] =  h_map[i] % output_size;
+    
+    thrust::device_vector<unsigned int> d_map = h_map;
+
+    thrust::scatter(h_input.begin(), h_input.end(), h_map.begin(), thrust::make_discard_iterator());
+    thrust::scatter(d_input.begin(), d_input.end(), d_map.begin(), thrust::make_discard_iterator());
+
+    // there's nothing to check -- just make sure it compiles
+}
+DECLARE_VARIABLE_UNITTEST(TestScatterToDiscardIterator);
+
+
 template <class Vector>
 void TestScatterIfSimple(void)
 {
@@ -176,6 +197,27 @@ void TestScatterIf(const size_t n)
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestScatterIf);
+
+
+template <typename T>
+void TestScatterIfToDiscardIterator(const size_t n)
+{
+    const size_t output_size = std::min((size_t) 10, 2 * n);
+    
+    thrust::host_vector<T> h_input(n, (T) 1);
+    thrust::device_vector<T> d_input(n, (T) 1);
+   
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
+
+    for(size_t i = 0; i < n; i++)
+        h_map[i] =  h_map[i] % output_size;
+    
+    thrust::device_vector<unsigned int> d_map = h_map;
+
+    thrust::scatter_if(h_input.begin(), h_input.end(), h_map.begin(), h_map.begin(), thrust::make_discard_iterator(), is_even_scatter_if<unsigned int>());
+    thrust::scatter_if(d_input.begin(), d_input.end(), d_map.begin(), d_map.begin(), thrust::make_discard_iterator(), is_even_scatter_if<unsigned int>());
+}
+DECLARE_VARIABLE_UNITTEST(TestScatterIfToDiscardIterator);
 
 
 template <typename Vector>

@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/replace.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template <class Vector>
 void TestReplaceSimple(void)
@@ -93,6 +94,29 @@ void TestReplaceCopy(const size_t n)
     ASSERT_ALMOST_EQUAL(h_dest, d_dest);
 }
 DECLARE_VARIABLE_UNITTEST(TestReplaceCopy);
+
+
+template <typename T>
+void TestReplaceCopyToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+    
+    T old_value = 0;
+    T new_value = 1;
+
+    thrust::discard_iterator<> h_result =
+      thrust::replace_copy(h_data.begin(), h_data.end(), thrust::make_discard_iterator(), old_value, new_value);
+
+    thrust::discard_iterator<> d_result =
+      thrust::replace_copy(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), old_value, new_value);
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestReplaceCopyToDiscardIterator);
 
 
 
@@ -272,6 +296,26 @@ void TestReplaceCopyIf(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIf);
 
+
+template <typename T>
+void TestReplaceCopyIfToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+
+    thrust::discard_iterator<> h_result =
+      thrust::replace_copy_if(h_data.begin(), h_data.end(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+
+    thrust::discard_iterator<> d_result =
+      thrust::replace_copy_if(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfToDiscardIterator);
+
 template <typename T>
 void TestReplaceCopyIfStencil(const size_t n)
 {
@@ -291,4 +335,26 @@ void TestReplaceCopyIfStencil(const size_t n)
     ASSERT_ALMOST_EQUAL(h_dest, d_dest);
 }
 DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfStencil);
+
+template <typename T>
+void TestReplaceCopyIfStencilToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+
+    thrust::host_vector<T>   h_stencil = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_stencil = h_stencil;
+
+    thrust::discard_iterator<> h_result =
+      thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+
+    thrust::discard_iterator<> d_result =
+      thrust::replace_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfStencilToDiscardIterator);
 

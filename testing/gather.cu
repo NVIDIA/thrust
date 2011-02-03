@@ -3,6 +3,7 @@
 
 #include <thrust/fill.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/discard_iterator.h>
 #include <thrust/sequence.h>
 
 
@@ -114,6 +115,37 @@ void TestGather(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestGather);
 
 
+template <typename T>
+void TestGatherToDiscardIterator(const size_t n)
+{
+    const size_t source_size = std::min((size_t) 10, 2 * n);
+
+    // source vectors to gather from
+    thrust::host_vector<T>   h_source = unittest::random_samples<T>(source_size);
+    thrust::device_vector<T> d_source = h_source;
+  
+    // gather indices
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
+
+    for(size_t i = 0; i < n; i++)
+        h_map[i] =  h_map[i] % source_size;
+    
+    thrust::device_vector<unsigned int> d_map = h_map;
+
+    thrust::discard_iterator<> h_result = 
+      thrust::gather(h_map.begin(), h_map.end(), h_source.begin(), thrust::make_discard_iterator());
+
+    thrust::discard_iterator<> d_result =
+      thrust::gather(d_map.begin(), d_map.end(), d_source.begin(), thrust::make_discard_iterator());
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestGatherToDiscardIterator);
+
+
 template <class Vector>
 void TestGatherIfSimple(void)
 {
@@ -178,12 +210,52 @@ void TestGatherIf(const size_t n)
     thrust::host_vector<T>   h_output(n);
     thrust::device_vector<T> d_output(n);
 
-    thrust::gather_if(h_map.begin(), h_map.begin(), h_stencil.begin(), h_source.begin(), h_output.begin(), is_even_gather_if<unsigned int>());
-    thrust::gather_if(d_map.begin(), d_map.begin(), d_stencil.begin(), d_source.begin(), d_output.begin(), is_even_gather_if<unsigned int>());
+    thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(), h_source.begin(), h_output.begin(), is_even_gather_if<unsigned int>());
+    thrust::gather_if(d_map.begin(), d_map.end(), d_stencil.begin(), d_source.begin(), d_output.begin(), is_even_gather_if<unsigned int>());
 
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestGatherIf);
+
+
+
+template <typename T>
+void TestGatherIfToDiscardIterator(const size_t n)
+{
+    const size_t source_size = std::min((size_t) 10, 2 * n);
+
+    // source vectors to gather from
+    thrust::host_vector<T>   h_source = unittest::random_samples<T>(source_size);
+    thrust::device_vector<T> d_source = h_source;
+  
+    // gather indices
+    thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
+
+    for(size_t i = 0; i < n; i++)
+        h_map[i] = h_map[i] % source_size;
+    
+    thrust::device_vector<unsigned int> d_map = h_map;
+    
+    // gather stencil
+    thrust::host_vector<unsigned int> h_stencil = unittest::random_integers<unsigned int>(n);
+
+    for(size_t i = 0; i < n; i++)
+        h_stencil[i] = h_stencil[i] % 2;
+    
+    thrust::device_vector<unsigned int> d_stencil = h_stencil;
+
+    thrust::discard_iterator<> h_result =
+      thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(), h_source.begin(), thrust::make_discard_iterator(), is_even_gather_if<unsigned int>());
+
+    thrust::discard_iterator<> d_result =
+      thrust::gather_if(d_map.begin(), d_map.end(), d_stencil.begin(), d_source.begin(), thrust::make_discard_iterator(), is_even_gather_if<unsigned int>());
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestGatherIfToDiscardIterator);
 
 
 template <typename Vector>

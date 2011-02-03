@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/scan.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template<typename T>
   struct max_functor
@@ -223,6 +224,39 @@ VariableUnitTest<TestScanWithOperator, IntegralTypes> TestScanWithOperatorInstan
 
 
 template <typename T>
+struct TestScanWithOperatorToDiscardIterator
+{
+  void operator()(const size_t n)
+  {
+    KNOWN_FAILURE;
+    //thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
+    //thrust::device_vector<T> d_input = h_input;
+
+    //thrust::discard_iterator<> reference(n);
+    //
+    //thrust::discard_iterator<> h_result =
+    //  thrust::inclusive_scan(h_input.begin(), h_input.end(), thrust::make_discard_iterator(), max_functor<T>());
+
+    //thrust::discard_iterator<> d_result =
+    //  thrust::inclusive_scan(d_input.begin(), d_input.end(), thrust::make_discard_iterator(), max_functor<T>());
+    //
+    //ASSERT_EQUAL(reference, h_result);
+    //ASSERT_EQUAL(reference, d_result);
+    //
+    //h_result =
+    //  thrust::exclusive_scan(h_input.begin(), h_input.end(), thrust::make_discard_iterator(), T(13), max_functor<T>());
+
+    //d_result =
+    //  thrust::exclusive_scan(d_input.begin(), d_input.end(), thrust::make_discard_iterator(), T(13), max_functor<T>());
+
+    //ASSERT_EQUAL(reference, h_result);
+    //ASSERT_EQUAL(reference, d_result);
+  }
+};
+VariableUnitTest<TestScanWithOperatorToDiscardIterator, IntegralTypes> TestScanWithOperatorToDiscardIteratorInstance;
+
+
+template <typename T>
 struct TestScan
 {
   void operator()(const size_t n)
@@ -260,6 +294,40 @@ struct TestScan
     }
 };
 VariableUnitTest<TestScan, IntegralTypes> TestScanInstance;
+
+
+template <typename T>
+struct TestScanToDiscardIterator
+{
+  void operator()(const size_t n)
+  {
+    KNOWN_FAILURE;
+
+    //thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
+    //thrust::device_vector<T> d_input = h_input;
+    //
+    //thrust::discard_iterator<> h_result =
+    //  thrust::inclusive_scan(h_input.begin(), h_input.end(), thrust::make_discard_iterator());
+
+    //thrust::discard_iterator<> d_result =
+    //  thrust::inclusive_scan(d_input.begin(), d_input.end(), thrust::make_discard_iterator());
+
+    //thrust::discard_iterator<> reference(n);
+
+    //ASSERT_EQUAL(reference, h_result);
+    //ASSERT_EQUAL(reference, d_result);
+    //
+    //h_result =
+    //  thrust::exclusive_scan(h_input.begin(), h_input.end(), thrust::make_discard_iterator(), (T) 11);
+
+    //d_result =
+    //  thrust::exclusive_scan(d_input.begin(), d_input.end(), thrust::make_discard_iterator(), (T) 11);
+
+    //ASSERT_EQUAL(reference, h_result);
+    //ASSERT_EQUAL(reference, d_result);
+  }
+};
+VariableUnitTest<TestScanToDiscardIterator, IntegralTypes> TestScanToDiscardIteratorInstance;
 
 
 void TestScanMixedTypes(void)

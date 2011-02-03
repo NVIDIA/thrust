@@ -1,9 +1,14 @@
 #include <unittest/unittest.h>
 #include <thrust/remove.h>
+#include <thrust/count.h>
+#include <thrust/functional.h>
 #include <stdexcept>
+#include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/zip_iterator.h>
 
 template<typename T>
 struct is_even
+  : thrust::unary_function<T,bool>
 {
     __host__ __device__
     bool operator()(T x) { return (static_cast<unsigned int>(x) & 1) == 0; }
@@ -11,6 +16,7 @@ struct is_even
 
 template<typename T>
 struct is_true
+  : thrust::unary_function<T,bool>
 {
     __host__ __device__
     bool operator()(T x) { return x ? true : false; }
@@ -274,14 +280,76 @@ DECLARE_VARIABLE_UNITTEST(TestRemoveCopy);
 
 
 template<typename T>
+void TestRemoveCopyToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+
+    size_t num_zeros = thrust::count(h_data.begin(), h_data.end(), T(0));
+    size_t num_nonzeros = h_data.size() - num_zeros;
+
+    thrust::discard_iterator<> h_result =
+      thrust::remove_copy(h_data.begin(), h_data.end(), thrust::make_discard_iterator(), T(0));
+
+    thrust::discard_iterator<> d_result =
+      thrust::remove_copy(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), T(0));
+
+    thrust::discard_iterator<> reference(num_nonzeros);
+    
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestRemoveCopyToDiscardIterator);
+
+
+template<typename T>
+void TestRemoveCopyToDiscardIteratorZipped(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+
+    thrust::host_vector<T> h_output(n);
+    thrust::device_vector<T> d_output(n);
+
+    size_t num_zeros = thrust::count(h_data.begin(), h_data.end(), T(0));
+    size_t num_nonzeros = h_data.size() - num_zeros;
+
+    typedef thrust::tuple<typename thrust::host_vector<T>::iterator, thrust::discard_iterator<> >   Tuple1;
+    typedef thrust::tuple<typename thrust::device_vector<T>::iterator, thrust::discard_iterator<> > Tuple2;
+
+    typedef thrust::zip_iterator<Tuple1> ZipIterator1;
+    typedef thrust::zip_iterator<Tuple2> ZipIterator2;
+
+    ZipIterator1 h_result =
+      thrust::remove_copy(thrust::make_zip_iterator(thrust::make_tuple(h_data.begin(), h_data.begin())),
+                          thrust::make_zip_iterator(thrust::make_tuple(h_data.end(), h_data.end())),
+                          thrust::make_zip_iterator(thrust::make_tuple(h_output.begin(),thrust::make_discard_iterator())),
+                          thrust::make_tuple(T(0),T(0)));
+
+    ZipIterator2 d_result =
+      thrust::remove_copy(thrust::make_zip_iterator(thrust::make_tuple(d_data.begin(), d_data.begin())),
+                          thrust::make_zip_iterator(thrust::make_tuple(d_data.end(), d_data.end())),
+                          thrust::make_zip_iterator(thrust::make_tuple(d_output.begin(),thrust::make_discard_iterator())),
+                          thrust::make_tuple(T(0),T(0)));
+
+    thrust::discard_iterator<> reference(num_nonzeros);
+    
+    ASSERT_EQUAL(h_output, d_output);
+    ASSERT_EQUAL_QUIET(reference, thrust::get<1>(h_result.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(reference, thrust::get<1>(d_result.get_iterator_tuple()));
+}
+DECLARE_VARIABLE_UNITTEST(TestRemoveCopyToDiscardIteratorZipped);
+
+
+template<typename T>
 void TestRemoveCopyIf(const size_t n)
 {
     thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
-    
+
     thrust::host_vector<T>   h_result(n);
     thrust::device_vector<T> d_result(n);
-
+    
     size_t h_size = thrust::remove_copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_true<T>()) - h_result.begin();
     size_t d_size = thrust::remove_copy_if(d_data.begin(), d_data.end(), d_result.begin(), is_true<T>()) - d_result.begin();
     
@@ -293,6 +361,28 @@ void TestRemoveCopyIf(const size_t n)
     ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestRemoveCopyIf);
+
+
+template<typename T>
+void TestRemoveCopyIfToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+
+    size_t num_false = thrust::count_if(h_data.begin(), h_data.end(), thrust::not1(is_true<T>()));
+
+    thrust::discard_iterator<> h_result =
+      thrust::remove_copy_if(h_data.begin(), h_data.end(), thrust::make_discard_iterator(), is_true<T>());
+
+    thrust::discard_iterator<> d_result =
+      thrust::remove_copy_if(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), is_true<T>());
+
+    thrust::discard_iterator<> reference(num_false);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestRemoveCopyIfToDiscardIterator);
 
 
 template<typename T>
@@ -318,4 +408,29 @@ void TestRemoveCopyIfStencil(const size_t n)
     ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestRemoveCopyIfStencil);
+
+
+template<typename T>
+void TestRemoveCopyIfStencilToDiscardIterator(const size_t n)
+{
+    thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
+    thrust::device_vector<T> d_data = h_data;
+    
+    thrust::host_vector<bool>   h_stencil = unittest::random_integers<bool>(n);
+    thrust::device_vector<bool> d_stencil = h_stencil;
+
+    size_t num_false = thrust::count_if(h_stencil.begin(), h_stencil.end(), thrust::not1(is_true<T>()));
+
+    thrust::discard_iterator<> h_result =
+      thrust::remove_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), thrust::make_discard_iterator(), is_true<T>());
+
+    thrust::discard_iterator<> d_result =
+      thrust::remove_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), thrust::make_discard_iterator(), is_true<T>());
+
+    thrust::discard_iterator<> reference(num_false);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestRemoveCopyIfStencilToDiscardIterator);
 

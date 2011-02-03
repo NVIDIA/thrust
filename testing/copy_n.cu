@@ -7,6 +7,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
+#include <thrust/iterator/discard_iterator.h>
 
 void TestCopyNFromConstIterator(void)
 {
@@ -39,6 +40,28 @@ void TestCopyNFromConstIterator(void)
     ASSERT_EQUAL_QUIET(d_result, d.end());
 }
 DECLARE_UNITTEST(TestCopyNFromConstIterator);
+
+void TestCopyNToDiscardIterator(void)
+{
+    typedef int T;
+
+    thrust::host_vector<T> h_input(5, 1);
+    thrust::device_vector<T> d_input = h_input;
+
+    // copy from host_vector
+    thrust::discard_iterator<> h_result =
+      thrust::copy_n(h_input.begin(), h_input.size(), thrust::make_discard_iterator());
+
+    // copy from device_vector
+    thrust::discard_iterator<> d_result =
+      thrust::copy_n(d_input.begin(), d_input.size(), thrust::make_discard_iterator());
+
+    thrust::discard_iterator<> reference(5);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_UNITTEST(TestCopyNToDiscardIterator);
 
 template <class Vector>
 void TestCopyNMatchingTypes(void)

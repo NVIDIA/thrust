@@ -22,6 +22,8 @@
 
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 #include <thrust/detail/dispatch/reduce.h>
 
@@ -97,15 +99,19 @@ template <typename InputIterator1,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_value<OutputIterator2>::type OutputType;
+    typedef typename thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIterator2>::value,
+      thrust::iterator_value<InputIterator2>,
+      thrust::iterator_value<OutputIterator2>
+    >::type T;
 
-    // use plus<OutputType> as default BinaryFunction
+    // use plus<T> as default BinaryFunction
     return thrust::reduce_by_key(keys_first, keys_last, 
                                  values_first,
                                  keys_output,
                                  values_output,
                                  binary_pred,
-                                 thrust::plus<OutputType>());
+                                 thrust::plus<T>());
 }
 
 template <typename InputIterator1,

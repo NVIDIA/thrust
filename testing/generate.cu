@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/generate.h>
+#include <thrust/iterator/discard_iterator.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -52,6 +53,22 @@ void TestGenerate(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestGenerate);
 
+template <typename T>
+void TestGenerateToDiscardIterator(const size_t n)
+{
+    T value = 13;
+    return_value<T> f(value);
+
+    thrust::discard_iterator<thrust::host_space_tag> h_first;
+    thrust::generate(h_first, h_first + 10, f);
+
+    thrust::discard_iterator<thrust::device_space_tag> d_first;
+    thrust::generate(d_first, d_first + 10, f);
+
+    // there's nothing to actually check except that it compiles
+}
+DECLARE_VARIABLE_UNITTEST(TestGenerateToDiscardIterator);
+
 template<class Vector>
 void TestGenerateNSimple(void)
 {
@@ -74,20 +91,23 @@ void TestGenerateNSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGenerateNSimple);
 
 template <typename T>
-void TestGenerateN(const size_t n)
+void TestGenerateNToDiscardIterator(const size_t n)
 {
-    thrust::host_vector<T> h_result(n);
-    thrust::device_vector<T> d_result(n);
-
     T value = 13;
     return_value<T> f(value);
 
-    thrust::generate_n(h_result.begin(), h_result.size(), f);
-    thrust::generate_n(d_result.begin(), d_result.size(), f);
+    thrust::discard_iterator<thrust::host_space_tag> h_result = 
+      thrust::generate_n(thrust::discard_iterator<thrust::host_space_tag>(), n, f);
 
-    ASSERT_EQUAL(h_result, d_result);
+    thrust::discard_iterator<thrust::device_space_tag> d_result = 
+      thrust::generate_n(thrust::discard_iterator<thrust::device_space_tag>(), n, f);
+
+    thrust::discard_iterator<> reference(n);
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
 }
-DECLARE_VARIABLE_UNITTEST(TestGenerateN);
+DECLARE_VARIABLE_UNITTEST(TestGenerateNToDiscardIterator);
 
 
 template <typename Vector>

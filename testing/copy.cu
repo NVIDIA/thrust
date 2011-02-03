@@ -7,6 +7,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
+#include <thrust/iterator/discard_iterator.h>
 
 void TestCopyFromConstIterator(void)
 {
@@ -39,6 +40,64 @@ void TestCopyFromConstIterator(void)
     ASSERT_EQUAL_QUIET(d_result, d.end());
 }
 DECLARE_UNITTEST(TestCopyFromConstIterator);
+
+void TestCopyToDiscardIterator(void)
+{
+    typedef int T;
+
+    thrust::host_vector<T> h_input(5,1);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::discard_iterator<> reference(5);
+
+    // copy from host_vector
+    thrust::discard_iterator<> h_result =
+      thrust::copy(h_input.begin(), h_input.end(), thrust::make_discard_iterator());
+
+    // copy from device_vector
+    thrust::discard_iterator<> d_result =
+      thrust::copy(d_input.begin(), d_input.end(), thrust::make_discard_iterator());
+
+    ASSERT_EQUAL_QUIET(reference, h_result);
+    ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_UNITTEST(TestCopyToDiscardIterator);
+
+void TestCopyToDiscardIteratorZipped(void)
+{
+    typedef int T;
+
+    thrust::host_vector<T> h_input(5,1);
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::host_vector<T>     h_output(5);
+    thrust::device_vector<T>   d_output(5);
+    thrust::discard_iterator<> reference(5);
+
+    typedef thrust::tuple<thrust::discard_iterator<>,typename thrust::host_vector<T>::iterator>   Tuple1;
+    typedef thrust::tuple<thrust::discard_iterator<>,typename thrust::device_vector<T>::iterator> Tuple2;
+
+    typedef thrust::zip_iterator<Tuple1> ZipIterator1;
+    typedef thrust::zip_iterator<Tuple2> ZipIterator2;
+
+    // copy from host_vector
+    ZipIterator1 h_result =
+      thrust::copy(thrust::make_zip_iterator(thrust::make_tuple(h_input.begin(),                 h_input.begin())),
+                   thrust::make_zip_iterator(thrust::make_tuple(h_input.end(),                   h_input.end())),
+                   thrust::make_zip_iterator(thrust::make_tuple(thrust::make_discard_iterator(), h_output.begin())));
+
+    // copy from device_vector
+    ZipIterator2 d_result =
+      thrust::copy(thrust::make_zip_iterator(thrust::make_tuple(d_input.begin(),                 d_input.begin())),
+                   thrust::make_zip_iterator(thrust::make_tuple(d_input.end(),                   d_input.end())),
+                   thrust::make_zip_iterator(thrust::make_tuple(thrust::make_discard_iterator(), d_output.begin())));
+
+    ASSERT_EQUAL(h_output, h_input);
+    ASSERT_EQUAL(d_output, d_input);
+    ASSERT_EQUAL_QUIET(reference, thrust::get<0>(h_result.get_iterator_tuple()));
+    ASSERT_EQUAL_QUIET(reference, thrust::get<0>(d_result.get_iterator_tuple()));
+}
+DECLARE_UNITTEST(TestCopyToDiscardIteratorZipped);
 
 template <class Vector>
 void TestCopyMatchingTypes(void)

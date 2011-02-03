@@ -3,6 +3,7 @@
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 #include <thrust/unique.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template<typename Vector>
 void TestMergeSimple(void)
@@ -64,6 +65,36 @@ template<typename T>
   ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestMerge);
+
+
+template<typename T>
+  void TestMergeToDiscardIterator(size_t n)
+{
+  thrust::host_vector<T> h_a = unittest::random_integers<T>(n);
+  thrust::host_vector<T> h_b = unittest::random_integers<T>(n);
+
+  thrust::stable_sort(h_a.begin(), h_a.end());
+  thrust::stable_sort(h_b.begin(), h_b.end());
+
+  thrust::device_vector<T> d_a = h_a;
+  thrust::device_vector<T> d_b = h_b;
+
+  thrust::discard_iterator<> h_result = 
+    thrust::merge(h_a.begin(), h_a.end(),
+                  h_b.begin(), h_b.end(),
+                  thrust::make_discard_iterator());
+
+  thrust::discard_iterator<> d_result = 
+    thrust::merge(d_a.begin(), d_a.end(),
+                  d_b.begin(), d_b.end(),
+                  thrust::make_discard_iterator());
+
+  thrust::discard_iterator<> reference(2 * n);
+
+  ASSERT_EQUAL_QUIET(reference, h_result);
+  ASSERT_EQUAL_QUIET(reference, d_result);
+}
+DECLARE_VARIABLE_UNITTEST(TestMergeToDiscardIterator);
 
 
 template<typename T>

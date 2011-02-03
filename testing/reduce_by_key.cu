@@ -1,5 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/reduce.h>
+#include <thrust/unique.h>
+#include <thrust/iterator/discard_iterator.h>
 
 template<typename T>
 struct is_equal_div_10_reduce
@@ -151,4 +153,55 @@ struct TestReduceByKey
     }
 };
 VariableUnitTest<TestReduceByKey, IntegralTypes> TestReduceByKeyInstance;
+
+template<typename K>
+struct TestReduceByKeyToDiscardIterator
+{
+    void operator()(const size_t n)
+    {
+        typedef unsigned int V; // ValueType
+
+        thrust::host_vector<K>   h_keys = unittest::random_integers<bool>(n);
+        thrust::host_vector<V>   h_vals = unittest::random_integers<V>(n);
+        thrust::device_vector<K> d_keys = h_keys;
+        thrust::device_vector<V> d_vals = h_vals;
+
+        thrust::host_vector<K>   h_keys_output(n);
+        thrust::host_vector<V>   h_vals_output(n);
+        thrust::device_vector<K> d_keys_output(n);
+        thrust::device_vector<V> d_vals_output(n);
+
+        typedef typename thrust::host_vector<K>::iterator   HostKeyIterator;
+        typedef typename thrust::host_vector<V>::iterator   HostValIterator;
+        typedef typename thrust::device_vector<K>::iterator DeviceKeyIterator;
+        typedef typename thrust::device_vector<V>::iterator DeviceValIterator;
+
+        typedef typename thrust::pair<HostKeyIterator,  HostValIterator>   HostIteratorPair;
+        typedef typename thrust::pair<DeviceKeyIterator,DeviceValIterator> DeviceIteratorPair;
+
+        thrust::host_vector<K> unique_keys = h_keys;
+        unique_keys.erase(thrust::unique(unique_keys.begin(), unique_keys.end()), unique_keys.end());
+
+        // mask both outputs
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
+          thrust::reduce_by_key(h_keys.begin(), h_keys.end(),
+                                h_vals.begin(),
+                                thrust::make_discard_iterator(),
+                                thrust::make_discard_iterator());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > d_result1 =
+          thrust::reduce_by_key(d_keys.begin(), d_keys.end(),
+                                d_vals.begin(),
+                                thrust::make_discard_iterator(),
+                                thrust::make_discard_iterator());
+
+        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > reference1 =
+          thrust::make_pair(thrust::make_discard_iterator(unique_keys.size()),
+                            thrust::make_discard_iterator(unique_keys.size()));
+
+        ASSERT_EQUAL_QUIET(reference1, h_result1);
+        ASSERT_EQUAL_QUIET(reference1, d_result1);
+    }
+};
+VariableUnitTest<TestReduceByKeyToDiscardIterator, IntegralTypes> TestReduceByKeyToDiscardIteratorInstance;
 
