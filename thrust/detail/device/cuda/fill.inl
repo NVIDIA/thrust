@@ -21,12 +21,6 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
-/////////////////////
-// NVCC definition //
-/////////////////////
-
 #include <thrust/detail/util/align.h>
 #include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -135,105 +129,4 @@ template<typename OutputIterator, typename Size, typename T>
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#else
-
-///////////////////////////
-// C++ (only) definition //
-///////////////////////////
-
-// do not attempt to compile this code, which relies on 
-// CUDART, without system support
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
-
-#include <thrust/copy.h>
-#include <thrust/device_ptr.h>
-#include <thrust/distance.h>
-#include <thrust/system_error.h>
-#include <thrust/system/cuda_error.h>
-#include <cuda_runtime_api.h>
-#include <cstring>
-
-namespace thrust
-{
-namespace detail
-{
-namespace device
-{
-namespace cuda
-{
-
-namespace cpp_fill_dispatch
-{
-
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &value,
-                        thrust::detail::false_type)
-{
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
-
-  // we can't launch a kernel, implement this with a copy
-  raw_host_buffer<OutputType> temp(n);
-  thrust::fill_n(temp.begin(), n, value);
-  return thrust::copy_n(temp.begin(), n, first);
-} // end fill_n()
-
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &value,
-                        thrust::detail::true_type)
-{
-  typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-
-  // implement this with cudaMemset if value == 0
-  // compare to reference 0 to capture subtleties of floating point -0.0
-
-  if(OutputType(0) == OutputType(value))
-  {
-    cudaError_t error = cudaMemset(thrust::raw_pointer_cast(&*first), 0, sizeof(OutputType) * n);
-    if(error)
-    {
-      throw thrust::system_error(error, thrust::cuda_category());
-    } // end if
-
-    return first + n;
-  } // end if
-
-  // use the general path
-  return cpp_fill_dispatch::fill_n(first, n, value, thrust::detail::false_type());
-} // end fill_n()
-
-} // end cpp_fill_dispatch
-
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &value)
-{
-  typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-
-  // to possible implement this with cudaMemset, OutputIterator needs to be trivial,
-  // its value type needs to be numeric,
-  // and T needs to be numeric
-  typedef thrust::detail::integral_constant<
-    bool,
-    thrust::detail::is_trivial_iterator<OutputIterator>::value &&
-    thrust::detail::is_numeric<OutputType>::value &&
-    thrust::detail::is_numeric<T>::value
-  > could_be_trivial_fill;
-
-  return cpp_fill_dispatch::fill_n(first, n, value, could_be_trivial_fill());
-} // end fill_n()
-
-} // end namespace cuda
-} // end namespace device
-} // end namespace detail
-} // end namespace thrust
-
-#endif // THRUST_DEVICE_BACKEND
-
-#endif // THRUST_DEVICE_COMPILER_NVCC
 
