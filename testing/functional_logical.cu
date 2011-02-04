@@ -17,9 +17,6 @@ void TestBinaryFunctional(void)
     thrust::host_vector<InputType>  std_input2 = unittest::random_samples<InputType>(NUM_SAMPLES);
     thrust::host_vector<OutputType> std_output(NUM_SAMPLES);
 
-    // Replace zeros to avoid divide by zero exceptions
-    std::replace(std_input2.begin(), std_input2.end(), (InputType) 0, (InputType) 1);
-
     InputVector input1 = std_input1; 
     InputVector input2 = std_input2; 
     OutputVector output(NUM_SAMPLES);
