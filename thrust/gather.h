@@ -35,8 +35,7 @@ namespace thrust
 /*! \p gather copies elements from a source array into a destination range according 
  *  to a map. For each input iterator \c i in the range <tt>[map_first, map_last)</tt>, the
  *  value <tt>input_first[*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
- *  \p RandomAccessIterator must permit random access. Gather operations between host and device memory
- *  spaces are supported in both directions.
+ *  \p RandomAccessIterator must permit random access.
  *
  *  \param map_first Beginning of the range of gather locations.
  *  \param map_last End of the range of gather locations.
@@ -54,16 +53,20 @@ namespace thrust
  *  #include <thrust/gather.h>
  *  #include <thrust/device_vector.h>
  *  ...
- *  // mark odd indices with a 1; even indices with a 0
- *  int input[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+ *  // mark even indices with a 1; odd indices with a 0
+ *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+ *  thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // gather all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+ *  thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> output(10);
- *  thrust::gather(map, map + 10, input, output.begin());
- *  // output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
+ *  thrust::device_vector<int> d_output(10);
+ *  thrust::gather(d_map.begin(), d_map.end(),
+ *                 d_values.begin(),
+ *                 d_output.begin());
+ *  // d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  \endcode
  *
  *  \note \p gather is the inverse of thrust::scatter.

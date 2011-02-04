@@ -54,16 +54,19 @@ namespace thrust
  *  #include <thrust/scatter.h>
  *  #include <thrust/device_vector.h>
  *  ...
- *  // mark odd indices with a 1; even indices with a 0
- *  int input[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+ *  // mark even indices with a 1; odd indices with a 0
+ *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+ *  thrust::device_vector<int> d_values(values, values + 10);
  *
- *  // scatter all odd indices into the first half of the
- *  // range, and even indices vice versa
+ *  // scatter all even indices into the first half of the
+ *  // range, and odd indices vice versa
  *  int map[10]   = {0, 5, 1, 6, 2, 7, 3, 8, 4, 9};
+ *  thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> output(10);
- *  thrust::scatter(input, input + 10,
- *                   map, output.begin());
+ *  thrust::device_vector<int> d_output(10);
+ *  thrust::scatter(d_values.begin(), d_values.end(),
+ *                  d_map.begin(), d_output.begin());
+ *  // d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  \endcode
  *
  *  \note \p scatter is the inverse of thrust::gather.

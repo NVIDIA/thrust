@@ -22,7 +22,6 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/permutation_iterator.h>
 
-#include <thrust/copy.h>
 #include <thrust/transform.h>
 #include <thrust/functional.h>
 
@@ -37,9 +36,10 @@ template<typename InputIterator,
                         RandomAccessIterator input_first,
                         OutputIterator       result)
 {
-  return thrust::copy(thrust::make_permutation_iterator(input_first, map_first),
-                      thrust::make_permutation_iterator(input_first, map_last),
-                      result);
+  return thrust::transform(thrust::make_permutation_iterator(input_first, map_first),
+                           thrust::make_permutation_iterator(input_first, map_last),
+                           result,
+                           thrust::identity<typename thrust::iterator_value<RandomAccessIterator>::type>());
 } // end gather()
 
 

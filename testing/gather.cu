@@ -34,58 +34,6 @@ void TestGatherSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGatherSimple);
 
 
-void TestGatherFromDeviceToHost(void)
-{
-    // source vector
-    thrust::device_vector<int> d_src(8);
-    d_src[0] = 0; d_src[1] = 1; d_src[2] = 2; d_src[3] = 3; d_src[4] = 4; d_src[5] = 5; d_src[6] = 6; d_src[7] = 7;
-
-    // gather indices
-    thrust::host_vector<int>   h_map(5); 
-    h_map[0] = 6; h_map[1] = 2; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    thrust::device_vector<int> d_map = h_map;
-   
-    // destination vector
-    thrust::host_vector<int> h_dst(5, (int) 0);
-
-    // with map on the device
-    thrust::gather(d_map.begin(), d_map.end(), d_src.begin(), h_dst.begin());
-
-    ASSERT_EQUAL(6, h_dst[0]);
-    ASSERT_EQUAL(2, h_dst[1]);
-    ASSERT_EQUAL(1, h_dst[2]);
-    ASSERT_EQUAL(7, h_dst[3]);
-    ASSERT_EQUAL(2, h_dst[4]);
-}
-DECLARE_UNITTEST(TestGatherFromDeviceToHost);
-
-
-void TestGatherFromHostToDevice(void)
-{
-    // source vector
-    thrust::host_vector<int> h_src(8);
-    h_src[0] = 0; h_src[1] = 1; h_src[2] = 2; h_src[3] = 3; h_src[4] = 4; h_src[5] = 5; h_src[6] = 6; h_src[7] = 7;
-
-    // gather indices
-    thrust::host_vector<int>   h_map(5); 
-    h_map[0] = 6; h_map[1] = 2; h_map[2] = 1; h_map[3] = 7; h_map[4] = 2;
-    thrust::device_vector<int> d_map = h_map;
-   
-    // destination vector
-    thrust::device_vector<int> d_dst(5, (int) 0);
-
-    // with map on the host
-    thrust::gather(h_map.begin(), h_map.end(), h_src.begin(), d_dst.begin());
-
-    ASSERT_EQUAL(6, d_dst[0]);
-    ASSERT_EQUAL(2, d_dst[1]);
-    ASSERT_EQUAL(1, d_dst[2]);
-    ASSERT_EQUAL(7, d_dst[3]);
-    ASSERT_EQUAL(2, d_dst[4]);
-}
-DECLARE_UNITTEST(TestGatherFromHostToDevice);
-
-
 template <typename T>
 void TestGather(const size_t n)
 {

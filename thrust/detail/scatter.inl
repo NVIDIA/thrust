@@ -21,10 +21,10 @@
 
 #include <thrust/scatter.h>
 #include <thrust/functional.h>
-#include <thrust/copy.h>
 #include <thrust/transform.h>
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -37,7 +37,10 @@ template<typename InputIterator1,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-  thrust::copy(first, last, thrust::make_permutation_iterator(output, map));
+  thrust::transform(first,
+                    last,
+                    thrust::make_permutation_iterator(output, map),
+                    thrust::identity<typename thrust::iterator_value<InputIterator1>::type>());
 } // end scatter()
 
 
