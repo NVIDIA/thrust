@@ -26,6 +26,7 @@
 #include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
 
 #include <thrust/gather.h>
+#include <thrust/reverse.h>
 #include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/raw_buffer.h>
@@ -52,7 +53,8 @@
  * 
  *   Summary of the stable_sort() dispatch procedure:
  *       Level 1:
- *          if is_primitive<KeyType> && is_equal< StrictWeakOrdering, less<KeyType> > 
+ *          if is_primitive<KeyType> && (is_equal< StrictWeakOrdering, less<KeyType> >  ||
+ *                                       is_equal< StrictWeakOrdering, greater<KeyType> > )
  *              stable_radix_sort()
  *          else
  *              Level2 stable_merge_sort()
@@ -261,9 +263,16 @@ namespace first_dispatch
                        thrust::detail::true_type)
     {
         // CUDA path for thrust::stable_sort with primitive keys
-        // (e.g. int, float, short, etc.) and the default less<T> comparison
-        // method is implemented with stable_radix_sort_by_key
+        // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
+        // method is implemented with stable_radix_sort
         thrust::detail::device::cuda::detail::stable_radix_sort(first, last);
+       
+        // if comp is greater<T> then reverse the keys
+        typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+        const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
+
+        if (reverse)
+          thrust::reverse(first, last);
     }
     
     template<typename RandomAccessIterator,
@@ -300,9 +309,27 @@ namespace first_dispatch
                               thrust::detail::true_type)
     {
         // device path for thrust::stable_sort_by_key with primitive keys
-        // (e.g. int, float, short, etc.) and the default less<T> comparison
+        // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
         // method is implemented with stable_radix_sort_by_key
+        
+        // if comp is greater<T> then reverse the keys and values
+        typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+        const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
+
+        // note, we also have to reverse the (unordered) input to preserve stability
+        if (reverse)
+        {
+          thrust::reverse(keys_first,  keys_last);
+          thrust::reverse(values_first, values_first + (keys_last - keys_first));
+        }
+
         thrust::detail::device::cuda::detail::stable_radix_sort_by_key(keys_first, keys_last, values_first);
+        
+        if (reverse)
+        {
+          thrust::reverse(keys_first,  keys_last);
+          thrust::reverse(values_first, values_first + (keys_last - keys_first));
+        }
     }
     
     template<typename RandomAccessIterator1,
@@ -350,7 +377,9 @@ template<typename RandomAccessIterator,
     // dispatch on whether we can use radix_sort
     typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
     static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
-                                       thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
+                                       (thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value ||
+                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value);
+
 
     // XXX WAR nvcc 3.0 unused variable warning
     (void) use_radix_sort;
@@ -377,7 +406,8 @@ template<typename RandomAccessIterator1,
     // dispatch on whether we can use radix_sort_by_key
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
-                                       thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value;
+                                       (thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value ||
+                                        thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value);
 
     // XXX WAR nvcc 3.0 unused variable warning
     (void) use_radix_sort;
