@@ -32,21 +32,21 @@ void TestMinMaxElement(const size_t n)
     typename thrust::device_vector<T>::iterator d_min;
     typename thrust::device_vector<T>::iterator d_max;
 
-//    h_min = thrust::minmax_element(h_data.begin(), h_data.end()).first;
+    h_min = thrust::minmax_element(h_data.begin(), h_data.end()).first;
     d_min = thrust::minmax_element(d_data.begin(), d_data.end()).first;
-//    h_max = thrust::minmax_element(h_data.begin(), h_data.end()).second;
-//    d_max = thrust::minmax_element(d_data.begin(), d_data.end()).second;
-//
-//    ASSERT_EQUAL(h_min - h_data.begin(), d_min - d_data.begin());
-//    ASSERT_EQUAL(h_max - h_data.begin(), d_max - d_data.begin());
-//    
-//    h_max = thrust::minmax_element(h_data.begin(), h_data.end(), thrust::greater<T>()).first;
-//    d_max = thrust::minmax_element(d_data.begin(), d_data.end(), thrust::greater<T>()).first;
-//    h_min = thrust::minmax_element(h_data.begin(), h_data.end(), thrust::greater<T>()).second;
-//    d_min = thrust::minmax_element(d_data.begin(), d_data.end(), thrust::greater<T>()).second;
-//
-//    ASSERT_EQUAL(h_min - h_data.begin(), d_min - d_data.begin());
-//    ASSERT_EQUAL(h_max - h_data.begin(), d_max - d_data.begin());
+    h_max = thrust::minmax_element(h_data.begin(), h_data.end()).second;
+    d_max = thrust::minmax_element(d_data.begin(), d_data.end()).second;
+
+    ASSERT_EQUAL(h_min - h_data.begin(), d_min - d_data.begin());
+    ASSERT_EQUAL(h_max - h_data.begin(), d_max - d_data.begin());
+    
+    h_max = thrust::minmax_element(h_data.begin(), h_data.end(), thrust::greater<T>()).first;
+    d_max = thrust::minmax_element(d_data.begin(), d_data.end(), thrust::greater<T>()).first;
+    h_min = thrust::minmax_element(h_data.begin(), h_data.end(), thrust::greater<T>()).second;
+    d_min = thrust::minmax_element(d_data.begin(), d_data.end(), thrust::greater<T>()).second;
+
+    ASSERT_EQUAL(h_min - h_data.begin(), d_min - d_data.begin());
+    ASSERT_EQUAL(h_max - h_data.begin(), d_max - d_data.begin());
 }
 DECLARE_VARIABLE_UNITTEST(TestMinMaxElement);
 
