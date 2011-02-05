@@ -113,9 +113,6 @@ DECLARE_VARIABLE_UNITTEST(TestGenerateNToDiscardIterator);
 template <typename Vector>
 void TestGenerateZipIterator(void)
 {
-#if 1
-    KNOWN_FAILURE;
-#else
     typedef typename Vector::value_type T;
 
     Vector v1(3,T(0));
@@ -131,7 +128,6 @@ void TestGenerateZipIterator(void)
     ASSERT_EQUAL(v2[0], 7);
     ASSERT_EQUAL(v2[1], 7);
     ASSERT_EQUAL(v2[2], 7);
-#endif
 };
 DECLARE_VECTOR_UNITTEST(TestGenerateZipIterator);
 
