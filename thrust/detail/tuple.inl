@@ -372,7 +372,7 @@ template <class HT>
   get_head() const { return head; }
 
   inline __host__ __device__
-  const null_type get_tail() const { return null_type(); }
+  null_type get_tail() const { return null_type(); }
 
   inline __host__ __device__
   cons() : head() {}
