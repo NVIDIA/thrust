@@ -66,10 +66,10 @@ __device__ __forceinline__
     difference1 rank = x - thrust::detail::device::generic::scalar::lower_bound(first1,x,dereference(x),comp);
 
     // count the number of equivalent elements of x in the second range
-    thrust::pair<RandomAccessIterator2,RandomAccessIterator2> matches = 
-      thrust::detail::device::generic::scalar::equal_range(first2,last2,dereference(x),comp);
+    RandomAccessIterator1 lb = thrust::detail::device::generic::scalar::lower_bound(first2,last2,dereference(x),comp);
+    RandomAccessIterator1 ub = thrust::detail::device::generic::scalar::upper_bound(lb,thrust::min<RandomAccessIterator1>(lb+rank+1u, last2), dereference(x),comp);
 
-    difference2 num_matches = matches.second - matches.first;
+    difference2 num_matches = ub - lb;
 
     // the element needs output if its rank is less than the number of matches
     needs_output = rank < num_matches;

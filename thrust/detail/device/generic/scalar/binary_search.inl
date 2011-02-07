@@ -113,43 +113,8 @@ __host__ __device__
                 const T &val,
                 BinaryPredicate comp)
 {
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference_type;
-
-  // XXX this should read difference_type len = distance(first,last);
-  difference_type len = last - first;
-
-  difference_type half;
-  RandomAccessIterator middle, left, right;
-
-  while(len > 0)
-  {
-    half = len >> 1;
-    middle = first;
-
-    // XXX this should read advance(middle,half);
-    middle += half;
-
-    if(comp(dereference(middle), val))
-    {
-      first = middle;
-      ++first;
-      len = len - half - 1;
-    }
-    else if(comp(val, dereference(middle)))
-    {
-      len = half;
-    }
-    else
-    {
-      left = scalar::lower_bound(first, middle, val, comp);
-      // XXX this should read advance(first, len);
-      first += len;
-      right = scalar::upper_bound(++middle, first, val, comp);
-      return thrust::make_pair(left, right);
-    }
-  }
-
-  return thrust::make_pair(first,first);
+  RandomAccessIterator lb = thrust::detail::device::generic::scalar::lower_bound(first, last, val, comp);
+  return thrust::make_pair(lb, thrust::detail::device::generic::scalar::upper_bound(lb, last, val, comp));
 }
 
 

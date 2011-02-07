@@ -29,7 +29,7 @@ report_builder = Builder(action = os.path.join('"' + env.GetLaunchDir(), '$SOURC
                          src_suffix = env['PROGSUFFIX'])
 env.Append(BUILDERS = {'Report' : report_builder})
 
-env.Append(CPPPATH = ['../testing/'])
+env.Append(CPPPATH = ['.', '../testing/'])
 
 cu_list = []
 program_list = []
