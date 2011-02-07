@@ -19,10 +19,6 @@
 
 #include <thrust/detail/config.h>
 
-// don't attempt to compile with any compiler other than nvcc
-// due to use of __shared__ below
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 namespace thrust
 {
 
@@ -38,6 +34,9 @@ namespace cuda
 template<typename T>
   class extern_shared_ptr
 {
+// don't attempt to compile with any compiler other than nvcc
+// due to use of __shared__ below
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   public:
     __device__
     inline operator T * (void)
@@ -52,6 +51,7 @@ template<typename T>
       extern __shared__ int4 smem[];
       return reinterpret_cast<const T*>(smem);
     }
+#endif // THRUST_DEVICE_COMPILER_NVCC
 }; // end extern_shared_ptr
 
 } // end cuda
@@ -61,6 +61,4 @@ template<typename T>
 } // end detail
 
 } // end thrust
-
-#endif // THRUST_DEVICE_COMPILER_NVCC
 

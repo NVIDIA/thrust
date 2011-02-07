@@ -19,9 +19,6 @@
  *  \brief Inline file for reduce.h
  */
 
-// do not attempt to compile this file with any other compiler
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 // to configure launch parameters
 #include <thrust/detail/device/cuda/arch.h>
 
@@ -71,6 +68,8 @@ template<typename InputIterator,
                   BinaryFunction binary_op,
                   SharedArray shared_array)
 {
+// reduce_n_device uses built-in variables
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     // perform one level of reduction, writing per-block results to 
     // global memory for subsequent processing (e.g. second level reduction) 
     const unsigned int grid_size = blockDim.x * gridDim.x;
@@ -109,7 +108,7 @@ template<typename InputIterator,
     // write result for this block to global mem 
     if (threadIdx.x == 0) 
         block_results[blockIdx.x] = shared_array[threadIdx.x];
-
+#endif // THRUST_DEVICE_COMPILER_NVCC
 } // end reduce_n_device()
 
 template<typename RandomAccessIterator,
@@ -167,11 +166,14 @@ template<typename RandomAccessIterator,
       binary_op(binary_op_)
   {}
 
+// operator() uses built-in variables
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   __device__
   void operator()(void)
   {
     reduce_n_device(first, n, block_results, binary_op, shared_array + blockDim.x * blockIdx.x);
   }
+#endif // THRUST_DEVICE_COMPILER_NVCC
 }; // end reduce_n_gmem_closure
 
 
@@ -214,6 +216,13 @@ template<typename RandomAccessIterator1,
                                   RandomAccessIterator2 result,
                                   thrust::detail::true_type)   // reduce in shared memory
 {
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
   typedef reduce_n_smem_closure<RandomAccessIterator1,SizeType1,OutputType,BinaryFunction> Closure;
@@ -241,6 +250,13 @@ template<typename RandomAccessIterator1,
                                   RandomAccessIterator2 result,
                                   thrust::detail::false_type)   // reduce in global memory
 {
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
   typedef reduce_n_gmem_closure<RandomAccessIterator1,SizeType1,OutputType,BinaryFunction> Closure;
@@ -469,6 +485,4 @@ template<typename RandomAccessIterator,
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
-
-#endif // THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC
 

@@ -16,6 +16,11 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
+// do not attempt to compile this file, which uses CUDA built-in variables, with any compiler other than nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
 namespace thrust
 {
 namespace detail
@@ -65,4 +70,6 @@ void reduce_n(ValueIterator data, const unsigned int n, BinaryFunction binary_op
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
