@@ -603,7 +603,7 @@ template<unsigned int block_size,
     dereference(result2_temp) = dereference(first2_temp);
   }
 
-  unsigned int i = warp_size - start_thread_aligned + threadIdx.x; 
+  int i = warp_size - start_thread_aligned + threadIdx.x; 
 
   // advance iterators
   first1  += i;
@@ -665,7 +665,7 @@ template<unsigned int block_size,
       dereference(result2_temp) = dereference(first2_temp);
   }
 
-  unsigned int i = warp_size - start_thread_aligned + threadIdx.x;
+  int i = warp_size - start_thread_aligned + threadIdx.x;
 
   // advance iterators
   first1  += i + src_offset;
