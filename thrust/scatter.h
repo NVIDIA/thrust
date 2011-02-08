@@ -99,6 +99,19 @@ template<typename InputIterator1,
  *  \tparam InputIterator3 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator3's \c value_type must be convertible to \c bool.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a>.
  *
+ *  \code
+ *  #include <thrust/scatter.h>
+ *  ...
+ *  int V[8] = {10, 20, 30, 40, 50, 60, 70, 80};
+ *  int M[8] = {0, 5, 1, 6, 2, 7, 3, 4};
+ *  int S[8] = {1, 0, 1, 0, 1, 0, 1, 0};
+ *  int D[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+ * 
+ *  thrust::scatter_if(V, V + 8, M, S, D);
+ * 
+ *  // D contains [10, 30, 50, 70, 0, 0, 0, 0];
+ *  \endcode
+ *
  *  \note \p scatter_if is the inverse of thrust::gather_if.
  */
 template<typename InputIterator1,
@@ -132,6 +145,31 @@ template<typename InputIterator1,
  *  \tparam InputIterator3 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator3's \c value_type must be convertible to \c Predicate's \c argument_type.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a>.
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \code
+ *  #include <thrust/scatter.h>
+ *
+ *  struct is_even
+ *  {
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return (x % 2) == 0;
+ *    }
+ *  };
+ *
+ *  ...
+ *
+ *  int V[8] = {10, 20, 30, 40, 50, 60, 70, 80};
+ *  int M[8] = {0, 5, 1, 6, 2, 7, 3, 4};
+ *  int S[8] = {2, 1, 2, 1, 2, 1, 2, 1};
+ *  int D[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+ * 
+ *  is_even pred;
+ *  thrust::scatter_if(V, V + 8, M, S, D, pred);
+ * 
+ *  // D contains [10, 30, 50, 70, 0, 0, 0, 0];
+ *  \endcode
  *  
  *  \note \p scatter_if is the inverse of thrust::gather_if.
  */

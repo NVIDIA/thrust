@@ -93,6 +93,19 @@ template<typename RandomAccessIterator>
  *          \c first_argument_type and \c second_argument_type.
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
+ *  The following code demonstrates how to sort integers in descending order
+ *  using the greater<int> comparison operator.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  const int N = 6;
+ *  int A[N] = {1, 4, 2, 8, 5, 7};
+ *  thrust::sort(A, A + N, thrust::greater<int>());
+ *  // A is now {8, 7, 5, 4, 2, 1};
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/sort.html
  *  \see \p stable_sort
  *  \see \p sort_by_key
@@ -171,6 +184,19 @@ template<typename RandomAccessIterator>
  *          \c first_argument_type and \c second_argument_type.
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
+ *  The following code demonstrates how to sort integers in descending order
+ *  using the greater<int> comparison operator.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  const int N = 6;
+ *  int A[N] = {1, 4, 2, 8, 5, 7};
+ *  thrust::sort(A, A + N, thrust::greater<int>());
+ *  // A is now {8, 7, 5, 4, 2, 1};
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/stable_sort.html
  *  \see \p sort
  *  \see \p stable_sort_by_key
@@ -214,7 +240,7 @@ template<typename RandomAccessIterator,
  *          and \p RandomAccessIterator2 is mutable.
  *
  *  The following code snippet demonstrates how to use \p sort_by_key to sort
- *  an array of characters using integers as sorting keys.
+ *  an array of character values using integers as sorting keys.
  *
  *  \code
  *  #include <thrust/sort.h>
@@ -266,6 +292,21 @@ template<typename RandomAccessIterator1,
  *  \tparam RandomAccessIterator2 is a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.hml">Random Access Iterator</a>,
  *          and \p RandomAccessIterator2 is mutable.
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p sort_by_key to sort
+ *  an array of character values using integers as sorting keys.  The keys
+ *  are sorted in descending order using the greater<int> comparison operator.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  ...
+ *  const int N = 6;
+ *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
+ *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
+ *  thrust::sort_by_key(keys, keys + N, values, thrust::greater<int>());
+ *  // keys is now   {  8,   7,   5,   4,   2,   1}
+ *  // values is now {'d', 'f', 'e', 'b', 'c', 'a'}
+ *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/sort.html
  *  \see \p stable_sort_by_key
@@ -364,6 +405,22 @@ template<typename RandomAccessIterator1,
  *  \tparam RandomAccessIterator2 is a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.hml">Random Access Iterator</a>,
  *          and \p RandomAccessIterator2 is mutable.
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p sort_by_key to sort
+ *  an array of character values using integers as sorting keys.  The keys
+ *  are sorted in descending order using the greater<int> comparison operator.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  ...
+ *  const int N = 6;
+ *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
+ *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
+ *  thrust::stable_sort_by_key(keys, keys + N, values, thrust::greater<int>());
+ *  // keys is now   {  8,   7,   5,   4,   2,   1}
+ *  // values is now {'d', 'f', 'e', 'b', 'c', 'a'}
+ *  \endcode
+ *
  *
  *  \see http://www.sgi.com/tech/stl/sort.html
  *  \see \p sort_by_key
@@ -502,6 +559,19 @@ template<typename ForwardIterator, typename Compare>
  *
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a> and
  *          \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  
+ *  \code
+ *  #include <thrust/sort.h>
+ *
+ *  ...
+ *   
+ *  int A[8] = {0, 1, 2, 3, 0, 1, 2, 3};
+ *  
+ *  int * B = thrust::is_sorted_until(A, A + 8);
+ *  
+ *  // B - A is 4
+ *  // [A, B) is sorted
+ *  \endcode
  *
  *  \see \p is_sorted
  *  \see \p sort
@@ -525,6 +595,21 @@ template<typename ForwardIterator>
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a> and
  *          \p ForwardIterator's \c value_type is convertible to \p Compare's \c argument_type.
  *  \tparam Compare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \code
+ *  #include <thrust/sort.h>
+ *  #include <thrust/functional.h>
+ *
+ *  ...
+ *   
+ *  int A[8] = {3, 2, 1, 0, 3, 2, 1, 0};
+ *  
+ *  thrust::greater<int> comp;
+ *  int * B = thrust::is_sorted_until(A, A + 8, comp);
+ *  
+ *  // B - A is 4
+ *  // [A, B) is sorted in descending order
+ *  \endcode
  *
  *  \see \p is_sorted
  *  \see \p sort

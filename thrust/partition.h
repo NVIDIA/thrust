@@ -323,6 +323,26 @@ template<typename InputIterator,
  *        \p partition_point's precondition provides an opportunity for a
  *        faster implemention.
  *
+ *  \code
+ *  #include <thrust/partition.h>
+ *
+ *  struct is_even
+ *  {
+ *    __host__ __device__
+ *    bool operator()(const int &x)
+ *    {
+ *      return (x % 2) == 0;
+ *    }
+ *  };
+ *  
+ *  ...
+ *
+ *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
+ *  int * B = thrust::partition_point(A, A + 10, is_even());
+ *  // B - A is 5
+ *  // [A, B) contains only even values
+ *  \endcode
+ *
  *  \see \p partition
  *  \see \p find_if_not
  */
@@ -357,6 +377,27 @@ template<typename ForwardIterator, typename Predicate>
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  
+ *  \code
+ *  #include <thrust/partition.h>
+ *
+ *  struct is_even
+ *  {
+ *    __host__ __device__
+ *    bool operator()(const int &x)
+ *    {
+ *      return (x % 2) == 0;
+ *    }
+ *  };
+ *  
+ *  ...
+ *
+ *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
+ *  int B[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+ *
+ *  thrust::is_partitioned(A, A + 10); // returns true
+ *  thrust::is_partitioned(B, B + 10); // returns false
+ *  \endcode
+ *
  *  \see \p partition
  */
 template<typename InputIterator, typename Predicate>

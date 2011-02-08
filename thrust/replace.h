@@ -56,16 +56,18 @@ namespace thrust
  *  \code
  *  #include <thrust/replace.h>
  *  #include <thrust/device_vector.h>
+ *
  *  ...
- *  thrust::device_vector<int> v(4);
- *  v[0] = 1;
- *  v[1] = 2;
- *  v[2] = 3;
- *  v[3] = 1;
+ *  
+ *  thrust::device_vector<int> A(4);
+ *  A[0] = 1;
+ *  A[1] = 2;
+ *  A[2] = 3;
+ *  A[3] = 1;
  *
- *  thrust::replace(v.begin(), v.end(), 1, 99);
+ *  thrust::replace(A.begin(), A.end(), 1, 99);
  *
- *  // v[0] == 99, v[3] == 99
+ *  // A contains [99, 2, 3, 99]
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/replace.html
@@ -109,17 +111,20 @@ template<typename ForwardIterator, typename T>
  *      return x < 0;
  *    }
  *  };
+ *
  *  ...
- *  thrust::device_vector<int> v(4);
- *  v[0] =  1;
- *  v[1] = -3;
- *  v[2] =  2;
- *  v[3] = -1;
+ *  
+ *  thrust::device_vector<int> A(4);
+ *  A[0] =  1;
+ *  A[1] = -3;
+ *  A[2] =  2;
+ *  A[3] = -1;
  *
  *  is_less_than_zero pred;
- *  thrust::replace_if(v.begin(), v.end(), pred, 0);
  *
- *  // v[1] == 0, v[3] == 0
+ *  thrust::replace_if(A.begin(), A.end(), pred, 0);
+ *
+ *  // A contains [1, 0, 2, 0]
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/replace_if.html
@@ -158,7 +163,7 @@ template<typename ForwardIterator, typename Predicate, typename T>
  *  \code
  *  #include <thrust/replace.h>
  *  #include <thrust/device_vector.h>
- *  ...
+ *
  *  struct is_less_than_zero
  *  {
  *    __host__ __device__
@@ -167,23 +172,25 @@ template<typename ForwardIterator, typename Predicate, typename T>
  *      return x < 0;
  *    }
  *  };
+ *  
  *  ...
- *  thrust::device_vector<int> v(4);
- *  v[0] =  1;
- *  v[1] = -3;
- *  v[2] =  2;
- *  v[3] = -1;
+ *  
+ *  thrust::device_vector<int> A(4);
+ *  A[0] =  10;
+ *  A[1] =  20;
+ *  A[2] =  30;
+ *  A[3] =  40;
  *
- *  thrust::device_vector<int> s(4);
- *  s[0] = -1;
- *  s[1] =  2;
- *  s[2] = -3;
- *  s[3] =  4;
+ *  thrust::device_vector<int> S(4);
+ *  S[0] = -1;
+ *  S[1] =  0;
+ *  S[2] = -1;
+ *  S[3] =  0;
  *
  *  is_less_than_zero pred;
- *  thrust::replace_if(v.begin(), v.end(), s.begin(), pred, 0);
+ *  thrust::replace_if(A.begin(), A.end(), S.begin(), pred, 0);
  *
- *  // v[0] == 0, v[2] == 0
+ *  // A contains [0, 20, 0, 40]
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/replace_if.html
@@ -219,6 +226,23 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
  *          \p T may be compared for equality with \p InputIterator's \c value_type,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
+ *  \code
+ *  #include <thrust/replace.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> A(4);
+ *  A[0] = 1;
+ *  A[1] = 2;
+ *  A[2] = 3;
+ *  A[3] = 1;
+ *
+ *  thrust::device_vector<int> B(4);
+ *
+ *  thrust::replace_copy(A.begin(), A.end(), B.begin(), 1, 99);
+ *
+ *  // B contains [99, 2, 3, 99]
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/replace_copy.html
  *  \see \c copy
  *  \see \c replace
@@ -251,6 +275,35 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
+ *
+ *  \code
+ *  #include <thrust/replace.h>
+ *  #include <thrust/device_vector.h>
+ *
+ *  struct is_less_than_zero
+ *  {
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x < 0;
+ *    }
+ *  };
+ *
+ *  ...
+ *  
+ *  thrust::device_vector<int> A(4);
+ *  A[0] =  1;
+ *  A[1] = -3;
+ *  A[2] =  2;
+ *  A[3] = -1;
+ 
+ *  thrust::device_vector<int> B(4);
+ *  is_less_than_zero pred;
+ *
+ *  thrust::replace_copy_if(A.begin(), A.end(), B.begin(), pred, 0);
+ *
+ *  // B contains [1, 0, 2, 0]
+ *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/replace_copy_if.html
  *  \see \c replace
@@ -286,6 +339,41 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
+ *
+ *  \code
+ *  #include <thrust/replace.h>
+ *  #include <thrust/device_vector.h>
+ *
+ *  struct is_less_than_zero
+ *  {
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x < 0;
+ *    }
+ *  };
+ *  
+ *  ...
+ *  
+ *  thrust::device_vector<int> A(4);
+ *  A[0] =  10;
+ *  A[1] =  20;
+ *  A[2] =  30;
+ *  A[3] =  40;
+ *
+ *  thrust::device_vector<int> S(4);
+ *  S[0] = -1;
+ *  S[1] =  0;
+ *  S[2] = -1;
+ *  S[3] =  0;
+ *
+ *  thrust::device_vector<int> B(4);
+ *  is_less_than_zero pred;
+ *
+ *  thrust::replace_if(A.begin(), A.end(), S.begin(), B.begin(), pred, 0);
+ *
+ *  // B contains [0, 20, 0, 40]
+ *  \endcode
  *
  *  \see \c replace_copy
  *  \see \c replace_if

@@ -63,12 +63,12 @@ namespace thrust
  *  \code
  *  #include <thrust/inner_product.h>
  *  ...
- *  float vec1[3] = {1.0f, 2.0f,  3.0f};
- *  float vec2[3] = {4.0f, 1.0f, -2.0f};
+ *  float vec1[3] = {1.0f, 2.0f, 5.0f};
+ *  float vec2[3] = {4.0f, 1.0f, 5.0f};
  *
  *  float result = thrust::inner_product(vec1, vec1 + 3, vec2, 0.0f);
  *
- *  // result == 0.0f
+ *  // result == 31.0f
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/inner_product.html
@@ -107,6 +107,21 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  *          and \p BinaryFunction1's \c return_type is convertible to \p OutputType.
  *  \tparam BinaryFunction2 is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>,
  *          and \p BinaryFunction2's \c return_type is convertible to \p BinaryFunction1's \c second_argument_type.
+ * 
+ *  \code
+ *  #include <thrust/inner_product.h>
+ *  ...
+ *  float vec1[3] = {1.0f, 2.0f, 5.0f};
+ *  float vec2[3] = {4.0f, 1.0f, 5.0f};
+ *
+ *  float init = 0.0f;
+ *  thrust::plus<float>       binary_op1;
+ *  thrust::multiplies<float> binary_op2;
+ *
+ *  float result = thrust::inner_product(vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);
+ *
+ *  // result == 31.0f
+ *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/inner_product.html
  */
