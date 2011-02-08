@@ -292,4 +292,96 @@ void TestFillTuple(void)
 DECLARE_UNITTEST(TestFillTuple);
 
 
+struct TypeWithTrivialAssigment
+{
+  int x, y, z;
+};
+
+void TestFillWithTrivialAssignment(void)
+{
+    typedef TypeWithTrivialAssigment T;
+
+    thrust::host_vector<T>   h(1);
+    thrust::device_vector<T> d(1);
+    
+    ASSERT_EQUAL(h[0].x, 0);
+    ASSERT_EQUAL(h[0].y, 0);
+    ASSERT_EQUAL(h[0].z, 0);
+    ASSERT_EQUAL(static_cast<T>(d[0]).x, 0);
+    ASSERT_EQUAL(static_cast<T>(d[0]).y, 0);
+    ASSERT_EQUAL(static_cast<T>(d[0]).z, 0);
+
+    T val;
+    val.x = 10;
+    val.y = 20;
+    val.z = -1;
+
+    thrust::fill(h.begin(), h.end(), val);
+    thrust::fill(d.begin(), d.end(), val);
+
+    ASSERT_EQUAL(h[0].x, 10);
+    ASSERT_EQUAL(h[0].y, 20);
+    ASSERT_EQUAL(h[0].z, -1);
+    ASSERT_EQUAL(static_cast<T>(d[0]).x, 10);
+    ASSERT_EQUAL(static_cast<T>(d[0]).y, 20);
+    ASSERT_EQUAL(static_cast<T>(d[0]).z, -1);
+};
+DECLARE_UNITTEST(TestFillWithTrivialAssignment);
+
+
+struct TypeWithNonTrivialAssigment
+{
+  int x, y, z;
+
+  __host__ __device__
+  TypeWithNonTrivialAssigment() : x(0), y(0), z(0) {}
+
+  __host__ __device__
+  TypeWithNonTrivialAssigment& operator=(const TypeWithNonTrivialAssigment& t)
+  {
+    x = t.x;
+    y = t.y;
+    z = t.x + t.y;
+    return *this;
+  }
+  
+  __host__ __device__
+  bool operator==(const TypeWithNonTrivialAssigment& t) const
+  {
+    return x == t.x && y == t.y && z == t.z;
+  }
+};
+
+void TestFillWithNonTrivialAssignment(void)
+{
+    typedef TypeWithNonTrivialAssigment T;
+
+    thrust::host_vector<T>   h(1);
+    thrust::device_vector<T> d(1);
+    
+    ASSERT_EQUAL(h[0].x, 0);
+    ASSERT_EQUAL(h[0].y, 0);
+    ASSERT_EQUAL(h[0].z, 0);
+    ASSERT_EQUAL(static_cast<T>(d[0]).x, 0);
+    ASSERT_EQUAL(static_cast<T>(d[0]).y, 0);
+    ASSERT_EQUAL(static_cast<T>(d[0]).z, 0);
+
+    T val;
+    val.x = 10;
+    val.y = 20;
+    val.z = -1;
+
+    thrust::fill(h.begin(), h.end(), val);
+    thrust::fill(d.begin(), d.end(), val);
+
+    ASSERT_EQUAL(h[0].x, 10);
+    ASSERT_EQUAL(h[0].y, 20);
+    ASSERT_EQUAL(h[0].z, 30);
+    ASSERT_EQUAL(static_cast<T>(d[0]).x, 10);
+    ASSERT_EQUAL(static_cast<T>(d[0]).y, 20);
+    ASSERT_EQUAL(static_cast<T>(d[0]).z, 30);
+};
+DECLARE_UNITTEST(TestFillWithNonTrivialAssignment);
+
+
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
