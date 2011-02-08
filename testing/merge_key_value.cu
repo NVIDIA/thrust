@@ -47,7 +47,7 @@ template<typename U>
 DECLARE_VARIABLE_UNITTEST(TestMergeKeyValue);
 
 template<typename U>
-  void TestMergeKeyValueAscending(size_t n)
+  void TestMergeKeyValueDescending(size_t n)
 {
   typedef key_value<U,U> T;
 
@@ -88,6 +88,6 @@ template<typename U>
 
   ASSERT_EQUAL_QUIET(h_result, d_result);
 }
-DECLARE_VARIABLE_UNITTEST(TestMergeKeyValueAscending);
+DECLARE_VARIABLE_UNITTEST(TestMergeKeyValueDescending);
 
 

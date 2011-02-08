@@ -98,7 +98,7 @@ DECLARE_VARIABLE_UNITTEST(TestMergeToDiscardIterator);
 
 
 template<typename T>
-  void TestMergeAscending(size_t n)
+  void TestMergeDescending(size_t n)
 {
   thrust::host_vector<T> h_a = unittest::random_integers<T>(n);
   thrust::host_vector<T> h_b = unittest::random_integers<T>(n);
@@ -127,5 +127,5 @@ template<typename T>
 
   ASSERT_EQUAL(h_result, d_result);
 }
-DECLARE_VARIABLE_UNITTEST(TestMergeAscending);
+DECLARE_VARIABLE_UNITTEST(TestMergeDescending);
 

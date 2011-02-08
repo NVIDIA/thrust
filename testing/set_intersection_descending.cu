@@ -4,7 +4,7 @@
 #include <thrust/sort.h>
 
 template<typename Vector>
-void TestSetIntersectionAscendingSimple(void)
+void TestSetIntersectionDescendingSimple(void)
 {
   typedef typename Vector::value_type T;
   typedef typename Vector::iterator Iterator;
@@ -27,11 +27,11 @@ void TestSetIntersectionAscendingSimple(void)
   ASSERT_EQUAL_QUIET(result.end(), end);
   ASSERT_EQUAL(ref, result);
 }
-DECLARE_VECTOR_UNITTEST(TestSetIntersectionAscendingSimple);
+DECLARE_VECTOR_UNITTEST(TestSetIntersectionDescendingSimple);
 
 
 template<typename T>
-void TestSetIntersectionAscending(const size_t n)
+void TestSetIntersectionDescending(const size_t n)
 {
   thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
   thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
@@ -64,5 +64,5 @@ void TestSetIntersectionAscending(const size_t n)
 
   ASSERT_EQUAL(h_result, d_result);
 }
-DECLARE_VARIABLE_UNITTEST(TestSetIntersectionAscending);
+DECLARE_VARIABLE_UNITTEST(TestSetIntersectionDescending);
 
