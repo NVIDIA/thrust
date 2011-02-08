@@ -92,6 +92,29 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *          and \p InputIterator2's \c value_type is convertible to \p BinaryPredicate's \c second_argument_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *
+ *  The following code snippet demonstrates how to use \p equal to compare the
+ *  elements in two ranges modulo 2.
+ *
+ *  \code
+ *  #include <thrust/equal.h>
+ *  
+ *  __host__ __device__
+ *  struct compare_modulo_two
+ *  {
+ *    bool operator()(int x, int y)
+ *    {
+ *      return (x % 2) == (y % 2);
+ *    }
+ *  };
+ *  ...
+ *  int x[5] = {0, 2, 4, 6, 8, 10};
+ *  int y[5] = {1, 3, 5, 7, 9, 11};
+ *
+ *  bool result = thrust::equal(x, x + 5, y, compare_modulo_two());
+ *
+ *  // result is true
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/equal.html
  */
 template <typename InputIterator1, typename InputIterator2, 

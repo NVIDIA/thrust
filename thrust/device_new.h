@@ -45,11 +45,6 @@ namespace thrust
  *  \param  n The number of objects to construct at \p p.
  *  \return p, casted to <tt>T</tt>'s type.
  *
- *  \bug Because <tt>nvcc</tt> cannot yet compile placement \c new
- *       syntax in device code, this version of \p device_new invokes
- *       <tt>T</tt>'s null constructor on the host, creates a temporary
- *       exemplar, and calls the copy constructor version of \p device_new.
- *
  *  \see device_ptr
  */
 template <typename T>
@@ -66,26 +61,6 @@ template <typename T>
  *  \param exemplar The value from which to copy.
  *  \param  n The number of objects to construct at \p p.
  *  \return p, casted to <tt>T</tt>'s type.
- *
- *  \bug Because <tt>nvcc</tt> cannot yet compile placement \c new
- *       syntax in device code, the behavior of this version of
- *       \p device_new is as if the following is its implementation:
- *
- *       \code
- *       #include <thrust/fill.h>
- *       template<typename T> device_ptr<T>
- *         device_new(device_ptr<void> p,
- *                    const T &exemplar,
- *                    const size_t n)
- *       {
- *         device_ptr<T> result(reinterpret_cast<T*>(p.get()));
- *         thrust::fill(result, result + n, exemplar);
- *         return result;
- *       }
- *       \endcode
- *
- *       Note that this code not invoke <tt>T</tt>'s copy constructor.
- *       Rather, it invokes <tt>T</tt>'s assignment operator.
  *
  *  \see device_ptr
  *  \see fill

@@ -97,7 +97,35 @@ template<typename InputIterator,
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
- *  \note \p gather_if is the inverse of thrust::scatter_if.
+ *  The following code snippet demonstrates how to use \p gather_if to gather selected values from
+ *  an input range.
+ *
+ *  \code
+ *  #include <thrust/gather.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *
+ *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+ *  thrust::device_vector<int> d_values(values, values + 10);
+ *
+ *  // select elements at even-indexed locations
+ *  int stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+ *  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+ *
+ *  // map all even indices into the first half of the range
+ *  // and odd indices to the last half of the range
+ *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+ *  thrust::device_vector<int> d_map(map, map + 10);
+ *
+ *  thrust::device_vector<int> d_output(10, 7);
+ *  thrust::gather_if(d_map.begin(), d_map.end(),
+ *                    d_stencil.begin(),
+ *                    d_values.begin(),
+ *                    d_output.begin());
+ *  // d_output is now {0, 2, 4, 6, 8, 7, 7, 7, 7, 7}
+ *  \endcode
+ *
+ *  \note \p gather_if is the inverse of \p scatter_if.
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -129,7 +157,45 @@ template<typename InputIterator1,
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
- *  \note \p gather_if is the inverse of thrust::scatter_if.
+ *  The following code snippet demonstrates how to use \p gather_if to gather selected values from
+ *  an input range based on an arbitrary selection function.
+ *
+ *  \code
+ *  #include <thrust/gather.h>
+ *  #include <thrust/device_vector.h>
+ *  
+ *  struct is_even
+ *  {
+ *    __host__ __device__
+ *    bool operator()(const int x)
+ *    {
+ *      return (x % 2) == 0;
+ *    }
+ *  };
+ *  ...
+ *
+ *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+ *  thrust::device_vector<int> d_values(values, values + 10);
+ *
+ *  // we will select an element when our stencil is even
+ *  int stencil[10] = {0, 3, 4, 1, 4, 1, 2, 7, 8, 9};
+ *  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+ *
+ *  // map all even indices into the first half of the range
+ *  // and odd indices to the last half of the range
+ *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+ *  thrust::device_vector<int> d_map(map, map + 10);
+ *
+ *  thrust::device_vector<int> d_output(10, 7);
+ *  thrust::gather_if(d_map.begin(), d_map.end(),
+ *                    d_stencil.begin(),
+ *                    d_values.begin(),
+ *                    d_output.begin(),
+ *                    is_even());
+ *  // d_output is now {0, 2, 4, 6, 8, 7, 7, 7, 7, 7}
+ *  \endcode
+ *
+ *  \note \p gather_if is the inverse of \p scatter_if.
  */
 template<typename InputIterator1,
          typename InputIterator2,

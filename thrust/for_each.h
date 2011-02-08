@@ -47,6 +47,34 @@ namespace thrust
  *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
+ *  The following code snippet demonstrates how to use \p for_each to print the elements
+ *  of a \p device_vector.
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <stdio.h>
+ *
+ *  struct printf_functor
+ *  {
+ *    __host__ __device__
+ *    void operator()(int x)
+ *    {
+ *      // note that using printf in a __device__ function requires
+ *      // code compiled for a GPU with compute capability 2.0 or
+ *      // higher (nvcc --arch=sm_20)
+ *      printf("%d\n");
+ *    }
+ *  };
+ *  ...
+ *  thrust::device_vector<int> d_vec(3);
+ *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
+ *
+ *  thrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());
+ *
+ *  // 0 1 2 is printed to standard output in some unspecified order
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/for_each.html
  */
 template<typename InputIterator,

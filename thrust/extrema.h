@@ -26,29 +26,149 @@ namespace thrust
  *  \brief Defines the interface to functions for computing extrema.
  */
 
-/*! \bug The correct form of min does not compile:
- *  const T &min(const T &lhs, const T &rhs, BinaryPredicate comp);
+/*! This version of \p min returns the smaller of two values, given a comparison operation.
+ *  \param lhs The first value to compare.
+ *  \param rhs The second value to compare.
+ *  \param comp A comparison operation.
+ *  \return The smaller element.
+ *
+ *  \tparam T is convertible to \p BinaryPredicate's first argument type and to its second argument type.
+ *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p min to compute the smaller of two
+ *  key-value objects.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *  ...
+ *  struct key_value
+ *  {
+ *    int key;
+ *    int value;
+ *  };
+ *
+ *  struct compare_key_value
+ *  {
+ *    __host__ __device__
+ *    bool operator()(key_value lhs, key_value rhs)
+ *    {
+ *      return lhs.key < rhs.key;
+ *    }
+ *  };
+ *
+ *  ...
+ *  key_value a = {13, 0};
+ *  key_value b = { 7, 1);
+ *
+ *  key_value smaller = thrust::min(a, b, compare_key_value());
+ *
+ *  // smaller is {7, 1}
+ *  \endcode
+ *
+ *  \note Returns the first argument when the arguments are equivalent.
+ *  \see max
  */
 template<typename T, typename BinaryPredicate>
 __host__ __device__
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
-/*! \bug The correct form of min does not compile:
- *  const T &min(const T &lhs, const T &rhs);
+/*! This version of \p min returns the smaller of two values.
+ *  \param lhs The first value to compare.
+ *  \param rhs The second value to compare.
+ *  \return The smaller element.
+ *
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *
+ *  The following code snippet demonstrates how to use \p min to compute the smaller of two
+ *  integers.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *  ...
+ *  int a = 13;
+ *  int b = 7;
+ *
+ *  int smaller = thrust::min(a, b);
+ *
+ *  // smaller is 7
+ *  \endcode
+ *
+ *  \note Returns the first argument when the arguments are equivalent.
+ *  \see max
  */
 template<typename T>
 __host__ __device__
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
-/*! \bug The correct form of max does not compile:
- *  const T &max(const T &lhs, const T &rhs, BinaryPredicate comp);
+/*! This version of \p max returns the larger of two values, given a comparison operation.
+ *  \param lhs The first value to compare.
+ *  \param rhs The second value to compare.
+ *  \param comp A comparison operation.
+ *  \return The larger element.
+ *
+ *  \tparam T is convertible to \p BinaryPredicate's first argument type and to its second argument type.
+ *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p max to compute the larger of two
+ *  key-value objects.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *  ...
+ *  struct key_value
+ *  {
+ *    int key;
+ *    int value;
+ *  };
+ *
+ *  struct compare_key_value
+ *  {
+ *    __host__ __device__
+ *    bool operator()(key_value lhs, key_value rhs)
+ *    {
+ *      return lhs.key < rhs.key;
+ *    }
+ *  };
+ *
+ *  ...
+ *  key_value a = {13, 0};
+ *  key_value b = { 7, 1);
+ *
+ *  key_value larger = thrust::max(a, b, compare_key_value());
+ *
+ *  // larger is {13, 0}
+ *  \endcode
+ *
+ *  \note Returns the first argument when the arguments are equivalent.
+ *  \see min
  */
 template<typename T, typename BinaryPredicate>
 __host__ __device__
   T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
-/*! \bug The correct form of max does not compile:
- *       const T &max(const T &lhs, const T &rhs);
+/*! This version of \p max returns the larger of two values.
+ *  \param lhs The first value to compare.
+ *  \param rhs The second value to compare.
+ *  \return The larger element.
+ *
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *
+ *  The following code snippet demonstrates how to use \p max to compute the larger of two
+ *  integers.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *  ...
+ *  int a = 13;
+ *  int b = 7;
+ *
+ *  int larger = thrust::min(a, b);
+ *
+ *  // larger is 13
+ *  \endcode
+ *
+ *  \note Returns the first argument when the arguments are equivalent.
+ *  \see min
  */
 template<typename T>
 __host__ __device__
@@ -120,6 +240,36 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *          \c first_argument_type and \c second_argument_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
  *
+ *  The following code snippet demonstrates how to use \p min_element to find the smallest element
+ *  of a collection of key-value pairs.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *
+ *  struct key_value
+ *  {
+ *    int key;
+ *    int value;
+ *  };
+ *
+ *  struct compare_key_value
+ *  {
+ *    __host__ __device__
+ *    bool operator()(key_value lhs, key_value rhs)
+ *    {
+ *      return lhs.key < rhs.key;
+ *    }
+ *  };
+ *
+ *  ...
+ *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
+ *
+ *  key_value *smallest = thrust::min_element(data, data + 4, compare_key_value());
+ *
+ *  // smallest == data + 1
+ *  // *smallest == {0,7}
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/min_element.html 
  */
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -184,6 +334,36 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *          \c first_argument_type and \c second_argument_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *
+ *  The following code snippet demonstrates how to use \p max_element to find the largest element
+ *  of a collection of key-value pairs.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *
+ *  struct key_value
+ *  {
+ *    int key;
+ *    int value;
+ *  };
+ *
+ *  struct compare_key_value
+ *  {
+ *    __host__ __device__
+ *    bool operator()(key_value lhs, key_value rhs)
+ *    {
+ *      return lhs.key < rhs.key;
+ *    }
+ *  };
+ *
+ *  ...
+ *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
+ *
+ *  key_value *largest = thrust::max_element(data, data + 4, compare_key_value());
+ *
+ *  // largest == data + 3
+ *  // *largest == {6,1}
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/max_element.html 
  */
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -240,6 +420,39 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p minmax_element to find the smallest and largest elements
+ *  of a collection of key-value pairs.
+ *
+ *  \code
+ *  #include <thrust/extrema.h>
+ *  #include <thrust/pair.h>
+ *
+ *  struct key_value
+ *  {
+ *    int key;
+ *    int value;
+ *  };
+ *
+ *  struct compare_key_value
+ *  {
+ *    __host__ __device__
+ *    bool operator()(key_value lhs, key_value rhs)
+ *    {
+ *      return lhs.key < rhs.key;
+ *    }
+ *  };
+ *
+ *  ...
+ *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
+ *
+ *  thrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(data, data + 4, compare_key_value());
+ *
+ *  // extrema.first   == data + 1
+ *  // *extrema.first  == {0,7}
+ *  // extrema.second  == data + 3
+ *  // *extrema.second == {6,1}
+ *  \endcode
  *
  *  \see min_element
  *  \see max_element

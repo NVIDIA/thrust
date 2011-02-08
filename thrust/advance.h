@@ -41,6 +41,21 @@ namespace thrust
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
  *  \tparam Distance is an integral type that is convertible to \p InputIterator's distance type. 
  *
+ *  The following code snippet demonstrates how to use \p advance to increment
+ *  an iterator a given number of times.
+ *
+ *  \code
+ *  #include <thrust/advance.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> vec(13);
+ *  thrust::device_vector<int>::iterator iter = vec.begin();
+ *
+ *  thrust::advance(iter, 7);
+ *
+ *  // iter - vec.begin() == 7
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/advance.html
  */
 template <typename InputIterator, typename Distance>

@@ -118,7 +118,7 @@ template<typename InputIterator, typename OutputIterator>
 template<typename InputIterator, typename Size, typename OutputIterator>
   OutputIterator copy_n(InputIterator first,
                         Size n,
-                        OutputIterator last);
+                        OutputIterator result);
 
 /*! \} // end copying
  */
@@ -206,6 +206,33 @@ template<typename InputIterator,
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
+ *  to copy numbers to an output range when corresponding stencil elements are even:
+ *
+ *  \code
+ *  #include <thrust/copy.h>
+ *  ...
+ *  struct is_even
+ *  {
+ *    __host__ __device__
+ *    bool operator()(const int x)
+ *    {
+ *      return (x % 2) == 0;
+ *    }
+ *  };
+ *  ...
+ *  int N = 6;
+ *  int data[N]    = { 0, 1,  2, 3, 4, 5};
+ *  int stencil[N] = {-2, 0, -1, 0, 1, 2};
+ *  int result[4];
+ *
+ *  thrust::copy_if(data, data + N, stencil, result, is_even());
+ *
+ *  // data remains    = { 0, 1,  2, 3, 4, 5};
+ *  // stencil remains = {-2, 0, -1, 0, 1, 2};
+ *  // result is now     { 0, 1,  3, 5}
+ *  \endcode
  *
  *  \see \c copy_when
  *  \see \c remove_copy_if

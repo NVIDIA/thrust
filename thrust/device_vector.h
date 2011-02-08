@@ -46,16 +46,8 @@ template<typename T, typename Alloc> class host_vector;
  *  automatic. The memory associated with a \p device_vector resides in the memory
  *  space of a parallel device.
  *
- *  Please refer to the <a href="http://www.sgi.com/tech/stl/Vector.html">C++ STL</a>
- *  for the documentation of \p device_vector's API.
- *
  *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see host_vector
- *
- *  \bug The following members do not exist yet:
- *       \p reverse_iterator, \p const_reverse_iterator, \p rbegin, \p rend,
- *       \p pop_back, \p insert, \p operator<.
- *
  */
 template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
   class device_vector

@@ -83,11 +83,6 @@ namespace thrust
  *  \see \c uninitialized_fill
  *  \see \c device_new
  *  \see \c device_malloc
- *
- *  \bug C++ placement new syntax is required by \c uninitialized_copy, but placement new is not yet
- *       supported in CUDA device functions by the CUDA compiler, <tt>nvcc</tt>.
- *       In the meantime, calls to \c uninitialized_copy on device memory will be replaced with
- *       \c copy.
  */
 template<typename InputIterator, typename ForwardIterator>
   ForwardIterator uninitialized_copy(InputIterator first,

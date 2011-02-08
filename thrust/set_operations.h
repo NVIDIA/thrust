@@ -47,9 +47,10 @@ namespace thrust
  *  This version of \p set_difference compares elements using \c operator<.
  *
  *  \param first1 The beginning of the first input range.
- *  \param first2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
+ *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -112,9 +113,10 @@ template<typename InputIterator1,
  *  This version of \p set_difference compares elements using a function object \p comp.
  *
  *  \param first1 The beginning of the first input range.
- *  \param first2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
+ *  \param result The beginning of the output range.
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *
@@ -329,9 +331,10 @@ template<typename InputIterator1,
  *  This version of \p set_union compares elements using \c operator<.
  *
  *  \param first1 The beginning of the first input range.
- *  \param first2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
+ *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -398,9 +401,10 @@ template<typename InputIterator1,
  *  This version of \p set_union compares elements using a function object \p comp.
  *
  *  \param first1 The beginning of the first input range.
- *  \param first2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
+ *  \param result The beginning of the output range.
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *
@@ -469,9 +473,10 @@ template<typename InputIterator1,
  *  This version of \p set_union compares elements using \c operator<.
  *
  *  \param first1 The beginning of the first input range.
- *  \param first2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
+ *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -536,9 +541,10 @@ template<typename InputIterator1,
  *  This version of \p set_union compares elements using a function object \p comp.
  *
  *  \param first1 The beginning of the first input range.
- *  \param first2 The end of the first input range.
+ *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
  *  \param last2 The end of the second input range.
+ *  \param result The beginning of the output range.
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *

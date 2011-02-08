@@ -42,6 +42,22 @@ namespace thrust
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
  *
+ *  The following code snippet demonstrates how to use \p distance to compute
+ *  the distance to one iterator from another.
+ *
+ *  \code
+ *  #include <thrust/distance.h>
+ *  #include <thrust/device_vector.h>
+ *  ...
+ *  thrust::device_vector<int> vec(13);
+ *  thrust::device_vector<int>::iterator iter1 = vec.begin();
+ *  thrust::device_vector<int>::iterator iter2 = iter1 + 7;
+ *
+ *  int d = thrust::distance(iter1, iter2);
+ *
+ *  // d is 7
+ *  \endcode
+ *
  *  \see http://www.sgi.com/tech/stl/distance.html
  */
 template<typename InputIterator>
