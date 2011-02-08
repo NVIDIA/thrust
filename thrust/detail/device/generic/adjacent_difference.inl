@@ -33,41 +33,19 @@ namespace generic
 namespace detail
 {
 
-// XXX generalize this and put it in thrust:: namespace
-// consider defining disjoint_ranges() instead
-template <class DeviceIterator1, class DeviceIterator2>
-bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt,
-                  thrust::detail::true_type)
+// TODO remove this when adjacent_difference supports in-place operation
+template <typename Iterator1, typename Iterator2>
+bool is_same_iterator(Iterator1, Iterator2)
 {
-    const void * first_ptr = thrust::raw_pointer_cast(&*first); 
-    const void * last_ptr  = thrust::raw_pointer_cast(&*last);
-    const void * pt_ptr    = thrust::raw_pointer_cast(&*pt);
-    return pt_ptr >= first_ptr && pt_ptr < last_ptr;
+  return false;
 }
-
-template <class DeviceIterator1, class DeviceIterator2>
-bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt,
-                  thrust::detail::false_type)
+template <typename Iterator1>
+bool is_same_iterator(Iterator1 iter1, Iterator1 iter2)
 {
-    return false;
-}
-
-template <class DeviceIterator1, class DeviceIterator2>
-bool within_range(DeviceIterator1 first, DeviceIterator1 last, DeviceIterator2 pt)
-{
-    return within_range(first, last, pt,
-            typename thrust::detail::and_<
-              typename thrust::detail::is_device_ptr<
-                typename thrust::iterator_pointer<DeviceIterator1>::type
-              >::type,
-              typename thrust::detail::is_device_ptr<
-                typename thrust::iterator_pointer<DeviceIterator2>::type
-              >::type
-            >::type());
+  return iter1 == iter2;
 }
 
 } // end namespace detail
-
 
 
 template <class InputIterator, class OutputIterator, class BinaryFunction>
@@ -83,7 +61,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
         // empty range, nothing to do
         return result; 
     }
-    else if(detail::within_range(first, last, result))
+    else if(detail::is_same_iterator(first, result))
     {
         // an in-place operation is requested, copy the input and call the entry point
         // XXX a special-purpose kernel would be faster here since
