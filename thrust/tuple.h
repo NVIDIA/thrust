@@ -41,6 +41,10 @@ namespace thrust
  *  \{
  */
 
+/*! \addtogroup tuple
+ *  \{
+ */
+
 /*! \cond
  */
 
@@ -151,12 +155,15 @@ get(const detail::cons<HT, TT>& t);
 
 
 
-/*! Thrust's \p tuple class is adapted from Boost's & the C++ STL's \c tuple type
- *  which wraps a fixed-length, heterogeneously-typed sequence of elements.
- *  Individual elements of a \p tuple may be accessed with the \p get function.
+/*! \p tuple is a class template that can be instantiated with up to ten arguments.
+ *  Each template argument specifies the type of element in the \p tuple.
+ *  Consequently, tuples are heterogeneous, fixed-size collections of values. An
+ *  instantiation of \p tuple with two arguments is similar to an instantiation
+ *  of \p pair with the same two arguments. Individual elements of a \p tuple may
+ *  be accessed with the \p get function.
  *
  *  \tparam TN The type of the <tt>N</tt> \c tuple element. Thrust's \p tuple
- *          type supports up to ten elements.
+ *          type currently supports up to ten elements.
  *
  *  The following code snippet demonstrates how to create a new \p tuple object
  *  and inspect and modify the value of its elements.
@@ -168,10 +175,10 @@ get(const detail::cons<HT, TT>& t);
  *  // create a tuple containing an int, a float, and a string
  *  thrust::tuple<int, float, const char*> t(13, 0.1f, "thrust");
  *
- *  // individual members are accessed with the free function \c get
+ *  // individual members are accessed with the free function get
  *  std::cout << "The first element's value is " << thrust::get<0>(t) << std::endl; 
  *
- *  // or the member function \c get
+ *  // or the member function get
  *  std::cout << "The second element's value is " << t.get<1>() << std::endl;
  *
  *  // we can also modify elements with the same function
@@ -196,10 +203,19 @@ template <class T0, class T1, class T2, class T3, class T4,
   private:
   typedef typename detail::map_tuple_to_cons<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>::type inherited;
 
+  /*! \endcond
+   */
+
   public:
+  /*! \p tuple's no-argument constructor initializes each element.
+   */
   inline __host__ __device__
   tuple(void) {}
 
+  /*! \p tuple's one-argument constructor copy constructs the first element from the given parameter
+   *     and intializes all other elements.
+   *  \param t0 The value to assign to this \p tuple's first element.
+   */
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0)
     : inherited(t0,
@@ -213,6 +229,12 @@ template <class T0, class T1, class T2, class T3, class T4,
                 static_cast<const null_type&>(null_type()),
                 static_cast<const null_type&>(null_type())) {}
 
+  /*! \p tuple's one-argument constructor copy constructs the first two elements from the given parameters
+   *     and intializes all other elements.
+   *  \param t0 The value to assign to this \p tuple's first element.
+   *  \param t1 The value to assign to this \p tuple's second element.
+   *  \note \p tuple's constructor has ten variants of this form, the rest of which are ommitted here for brevity.
+   */
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
         typename access_traits<T1>::parameter_type t1)
@@ -225,6 +247,9 @@ template <class T0, class T1, class T2, class T3, class T4,
                 static_cast<const null_type&>(null_type()),
                 static_cast<const null_type&>(null_type()),
                 static_cast<const null_type&>(null_type())) {}
+
+  /*! \cond
+   */
 
   inline __host__ __device__ 
   tuple(typename access_traits<T0>::parameter_type t0,
@@ -343,6 +368,12 @@ template <class T0, class T1, class T2, class T3, class T4,
     return *this;
   }
 
+  /*! \endcond
+   */
+
+  /*! This assignment operator allows assigning the first two elements of this \p tuple from a \p pair.
+   *  \param k A \p pair to assign from.
+   */
   template <class U1, class U2>
   __host__ __device__ inline
   tuple& operator=(const thrust::pair<U1, U2>& k) {
@@ -351,9 +382,6 @@ template <class T0, class T1, class T2, class T3, class T4,
     this->tail.head = k.second;
     return *this;
   }
-
-  /*! \endcond
-   */
 };
 
 /*! \cond
@@ -521,7 +549,10 @@ bool operator>(const null_type&, const null_type&);
 /*! \endcond
  */
 
-/*! \}
+/*! \} // tuple
+ */
+
+/*! \} // utility
  */
 
 } // end thrust

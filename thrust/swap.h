@@ -33,6 +33,10 @@ namespace thrust
  *  \{
  */
 
+/*! \addtogroup swap
+ *  \{
+ */
+
 /*! \p swap assigns the contents of \c a to \c b and the
  *  contents of \c b to \c a. This is used as a primitive operation
  *  by many other algorithms.
@@ -60,6 +64,9 @@ namespace thrust
 template<typename Assignable1, typename Assignable2>
 __host__ __device__ 
 inline void swap(Assignable1 &a, Assignable2 &b);
+
+/*! \} // swap
+ */
 
 /*! \} // utility
  */

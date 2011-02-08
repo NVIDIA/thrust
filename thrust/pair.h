@@ -31,8 +31,12 @@ namespace thrust
  *  \{
  */
 
-/*! \p pair is a generic data structure encapsulating two possibly
- *  heterogeneous objects.
+/*! \addtogroup pair
+ *  \{
+ */
+
+/*! \p pair is a generic data structure encapsulating a heterogeneous
+ *  pair of values.
  *
  *  \tparam T1 The type of \p pair's first object type.  There are no
  *          requirements on the type of \p T1. <tt>T1</tt>'s type is
@@ -251,7 +255,10 @@ template<typename Pair> struct tuple_size;
 //    const typename tuple_element<N, pair<T1,T2> >::type &
 //      get(const pair<T1,T2> &p);
 
-/*! \}
+/*! \} // pair
+ */
+
+/*! \} // utility
  */
 
 } // end thrust
