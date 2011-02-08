@@ -129,6 +129,20 @@ template<typename Value,
     constant_iterator(constant_iterator const &rhs)
       : super_t(rhs.base()), m_value(rhs.m_value) {}
 
+    /*! Copy constructor copies the value of another \p constant_iterator with related
+     *  Space type.
+     *
+     *  \param rhs The \p constant_iterator to copy.
+     */
+    template<typename OtherSpace>
+    __host__ __device__
+    constant_iterator(constant_iterator<Value,Incrementable,OtherSpace> const &rhs,
+                      typename thrust::detail::enable_if_convertible<
+                        typename thrust::iterator_space<constant_iterator<Value,Incrementable,OtherSpace> >::type,
+                        typename thrust::iterator_space<super_t>::type
+                      >::type * = 0)
+      : super_t(rhs.base()), m_value(rhs.value()) {}
+
     /*! This constructor receives a value to use as the constant value of this
      *  \p constant_iterator and an index specifying the location of this
      *  \p constant_iterator in a sequence.

@@ -161,6 +161,20 @@ template<typename Incrementable,
     __host__ __device__
     counting_iterator(counting_iterator const &rhs):super_t(rhs.base()){}
 
+    /*! Copy constructor copies the value of another counting_iterator 
+     *  with related Space type.
+     *
+     *  \param rhs The \p counting_iterator to copy.
+     */
+    template<typename OtherSpace>
+    __host__ __device__
+    counting_iterator(counting_iterator<Incrementable, OtherSpace, Traversal, Difference> const &rhs,
+                      typename thrust::detail::enable_if_convertible<
+                        typename thrust::iterator_space<counting_iterator<Incrementable,OtherSpace,Traversal,Difference> >::type,
+                        typename thrust::iterator_space<super_t>::type
+                      >::type * = 0)
+      : super_t(rhs.base()){}
+
     /*! This \c explicit constructor copies the value of an \c Incrementable
      *  into a new \p counting_iterator's \c Incrementable counter.
      *  

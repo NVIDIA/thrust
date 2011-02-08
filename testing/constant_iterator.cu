@@ -6,6 +6,18 @@
 
 using namespace thrust;
 
+void TestConstantIteratorConstructFromConvertibleSpace(void)
+{
+  constant_iterator<int> default_space(13);
+
+  constant_iterator<int, use_default, host_space_tag> host_space = default_space;
+  ASSERT_EQUAL(*default_space, *host_space);
+
+  constant_iterator<int, use_default, device_space_tag> device_space = default_space;
+  ASSERT_EQUAL(*default_space, *device_space);
+}
+DECLARE_UNITTEST(TestConstantIteratorConstructFromConvertibleSpace);
+
 void TestConstantIteratorIncrement(void)
 {
     constant_iterator<int> lhs(0,0);
