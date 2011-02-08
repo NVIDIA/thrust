@@ -43,7 +43,7 @@ namespace arch
 namespace detail
 {
 
-inline void checked_get_current_device_properties(cudaDeviceProp &props)
+inline void checked_get_current_device_properties(cudaDeviceProp &properties)
 {
   int current_device = -1;
 
@@ -66,7 +66,7 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
   if(iter == properties_map.end())
   {
     // the properties weren't found, ask the runtime to generate them
-    error = cudaGetDeviceProperties(&props, current_device);
+    error = cudaGetDeviceProperties(&properties, current_device);
 
     if(error)
     {
@@ -74,12 +74,12 @@ inline void checked_get_current_device_properties(cudaDeviceProp &props)
     }
 
     // insert the new entry
-    properties_map[current_device] = props;
+    properties_map[current_device] = properties;
   } // end if
   else
   {
     // use the cached value
-    props = iter->second;
+    properties = iter->second;
   } // end else
 } // end checked_get_current_device_properties()
 
@@ -119,6 +119,10 @@ void checked_get_function_attributes(cudaFuncAttributes& attributes, KernelFunct
 
 } // end detail
 
+size_t compute_capability(const cudaDeviceProp &properties)
+{
+  return 10 * properties.major + properties.minor;
+} // end compute_capability()
 
 size_t num_multiprocessors(const cudaDeviceProp& properties)
 {
@@ -187,6 +191,13 @@ size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp& properties,
 
 
 // Functions that query the runtime for device properties
+size_t compute_capability(void)
+{
+    cudaDeviceProp properties;  
+    detail::checked_get_current_device_properties(properties);
+    return compute_capability(properties);
+} // end compute_capability()
+
 
 size_t num_multiprocessors(void)
 {

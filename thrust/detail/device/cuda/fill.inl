@@ -28,6 +28,8 @@
 #include <thrust/extrema.h>
 #include <thrust/detail/internal_functional.h>
 
+#include <thrust/detail/device/cuda/arch.h>
+
 namespace thrust
 {
 namespace detail
@@ -39,7 +41,7 @@ namespace cuda
 namespace detail
 {
 
-template<typename Pointer, typename Size, typename T>
+template<typename WideType, typename Pointer, typename Size, typename T>
   Pointer wide_fill_n(Pointer first,
                       Size n,
                       const T &value)
@@ -47,9 +49,6 @@ template<typename Pointer, typename Size, typename T>
   typedef typename thrust::iterator_value<Pointer>::type OutputType;
 
   size_t ALIGNMENT_BOUNDARY = 128; // begin copying blocks at this byte boundary
-
-  // type used to pack the OutputTypes
-  typedef unsigned long long WideType;
 
   WideType   wide_exemplar;
   OutputType narrow_exemplars[sizeof(WideType) / sizeof(OutputType)];
@@ -98,11 +97,25 @@ template<typename OutputIterator, typename Size, typename T>
   
   if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
   {
-      wide_fill_n(&*first, n, value);
+      if (arch::compute_capability() < 20)
+      {
+        // 32-bit writes are faster on G80 and GT200
+        typedef unsigned int WideType;
+        wide_fill_n<WideType>(&*first, n, value);
+      }
+      else
+      {
+        // 64-bit writes are faster on Fermi
+        typedef unsigned long long WideType;
+        wide_fill_n<WideType>(&*first, n, value);
+      }
+
       return first + n;
   }
-
-  return fill_n(first, n, value, thrust::detail::false_type());
+  else
+  {
+    return fill_n(first, n, value, thrust::detail::false_type());
+  }
 }
 
 } // end detail

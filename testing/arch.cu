@@ -56,6 +56,28 @@ void set_func_attributes(cudaFuncAttributes& attributes,
     attributes.sharedSizeBytes    = sharedSizeBytes;
 }
 
+void TestComputeCapability(void)
+{
+    cudaDeviceProp properties;
+
+    set_compute_capability(properties, 1, 0);
+    ASSERT_EQUAL(compute_capability(properties), 10);
+
+    set_compute_capability(properties, 1, 1);
+    ASSERT_EQUAL(compute_capability(properties), 11);
+    
+    set_compute_capability(properties, 1, 3);
+    ASSERT_EQUAL(compute_capability(properties), 13);
+    
+    set_compute_capability(properties, 2, 0);
+    ASSERT_EQUAL(compute_capability(properties), 20);
+    
+    set_compute_capability(properties, 2, 1);
+    ASSERT_EQUAL(compute_capability(properties), 21);
+}
+DECLARE_UNITTEST(TestComputeCapability);
+
+
 void TestMaxActiveThreads(void)
 {
     cudaDeviceProp properties;

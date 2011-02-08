@@ -49,6 +49,15 @@ namespace cuda
 namespace arch
 {
 
+  
+/*! This function returns the compute capability of a device.
+ *  For example, returns 10 for sm_10 and 21 for sm_21
+ *  \return The compute capability as an integer
+ */
+
+inline size_t compute_capability(const cudaDeviceProp &properties);
+inline size_t compute_capability(void);
+
 /*! This function returns the number of streaming
  *  multiprocessors available for processing.
  *  \return The number of SMs available.

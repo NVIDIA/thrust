@@ -9,6 +9,7 @@ PREAMBLE = \
         T x;
 
         constant_functor(T x) : x(x) {}
+        __host__ __device__
         T operator()(void) const {return x;}
     };
 
