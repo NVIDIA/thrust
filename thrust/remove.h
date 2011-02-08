@@ -302,6 +302,8 @@ template<typename InputIterator,
  *  // Values beyond new_end are unspecified
  *  \endcode
  *
+ *  \note The range <tt>[first, last)</tt> is not permitted to overlap with the range <tt>[stencil, stencil + (last - first))</tt>.
+ *
  *  \see http://www.sgi.com/tech/stl/remove_if.html
  *  \see remove
  *  \see remove_copy
