@@ -18,6 +18,7 @@
 
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/swap.h>
+#include <utility> // for use of std::swap in the WAR below
 
 namespace thrust
 {
@@ -158,7 +159,10 @@ template<typename T, typename Alloc>
 {
   thrust::swap(m_begin, x.m_begin);
   thrust::swap(m_size, x.m_size);
-  thrust::swap(m_allocator, x.m_allocator);
+
+  // XXX WAR nvcc 4.0's "calling a __host__ function from a __host__ __device__ function is not allowed" warning
+  //thrust::swap(m_allocator, x.m_allocator);
+  std::swap(m_allocator, x.m_allocator);
 } // end contiguous_storage::swap()
 
 } // end detail

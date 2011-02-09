@@ -3,35 +3,76 @@
 #######################################
 
 Summary
-
+    Thrust v1.4.0 provides support for CUDA 4.0 in addition to many feature
+    and performance improvements.  New set theoretic algorithms operating on
+    sorted sequences have been added.  Additionally, a new fancy iterator
+    allows discarding redundant or otherwise unnecessary output from
+    algorithms, conserving memory storage and bandwidth.
 
 Breaking API Changes
-    Promotions
-
-    Deprecations
-
     Eliminations
+        thrust/is_sorted.h
+        thrust/utility.h
+        thrust/set_intersection.h
+        thrust/experimental/cuda/ogl_interop_allocator.h and the functionality therein
+        thrust::deprecated::copy_when
+        thrust::deprecated::absolute_value
 
 New Features
     Functions
+        copy_n
+        merge
+        set_difference
+        set_symmetric_difference
+        set_union
 
     Types
+        discard_iterator
 
     Device support
+        Compute Capability 2.1 GPUs such as GeForce GTX 580
 
 New Examples
+    run_length_decoding
 
 Other Enhancements
+    Compilation warnings are substantially reduced in various contexts.
+    The compilation time of thrust::sort, thrust::stable_sort, thrust::sort_by_key,
+    and thrust::stable_sort_by_key are substantially reduced.
+    A fast sort implementation is used when sorting primitive types with thrust::greater.
+    The performance of thrust::set_intersection is improved.
+    The performance of thrust::fill is improved on SM 1.x devices.
+    A code example is now provided in each algorithm's documentation.
+    thrust::reverse now operates in-place
 
 Removed Functionality
+    thrust::deprecated::copy_when
+    thrust::deprecated::absolute_value
+    thrust::experimental::cuda::ogl_interop_allocator
+    thrust::gather and thrust::scatter from host to device and vice versa are no longer supported.
+    Operations which modify the elements of a thrust::device_vector are no longer
+    available from source code compiled without nvcc when the device backend is CUDA.
+    Instead, use the idiom from the cpp_interop example.
 
 Bug Fixes
+    #212 set_intersection works correctly for large input sizes.
+    #275 counting_iterator and constant_iterator work correctly with OpenMP as the
+    backend when compiling with optimization
+    #256 min and max correctly return their first argument as a tie-breaker
+    #248 NDEBUG is interpreted correctly
 
 Known Issues
-    #212 set_intersection is known to fail for large input sizes
-    partition_point is known to fail for 64b types with nvcc 3.2
+    nvcc may generate code containing warnings when compiling some Thrust algorithms.
+    When compiling with -arch=sm_1x, some Thrust algorithms may cause nvcc to issue
+    benign pointer advisories.
+    When compiling with -arch=sm_1x and -G, some Thrust algorithms may fail to execute correctly.
+    thrust::inclusive_scan, thrust::exclusive_scan, thrust::inclusive_scan_by_key,
+    and thrust::exclusive_scan_by_key are currently incompatible with thrust::discard_iterator.
 
 Acknowledgments
+    Thanks to David Tarjan for improving the performance of set_intersection.
+    Thanks to Duane Merrill for continued help with sort.
+    Thanks to Nathan Whitehead for help with CUDA Toolkit integration.
 
 #######################################
 #           Thrust v1.3.0             #
