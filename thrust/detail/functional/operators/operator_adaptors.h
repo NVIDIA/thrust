@@ -24,6 +24,8 @@ namespace thrust
 {
 namespace detail
 {
+namespace functional
+{
 
 // this thing (which models Eval) is an adaptor for the unary
 // functors inside functional.h
@@ -107,6 +109,7 @@ template<template<typename> class BinaryOperator>
   } // end eval()
 }; // end binary_operator
 
+} // end functional
 } // end detail
 } // end thrust
 

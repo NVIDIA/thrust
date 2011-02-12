@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-// Based on Boost.Phoenix v1.2
-// Copyright (c) 2001-2002 Joel de Guzman
-
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/tuple.h>
+#include <thrust/detail/functional/actor.h>
+#include <thrust/detail/functional/value.h>
 
 namespace thrust
 {
@@ -29,39 +26,29 @@ namespace detail
 namespace functional
 {
 
-template<unsigned int i, typename Env>
-  struct argument_helper
+template<typename T>
+  struct as_actor
 {
-  typedef typename thrust::tuple_element<i,Env>::type type;
-};
+  typedef value<T> type;
 
-template<unsigned int i>
-  struct argument_helper<i,thrust::null_type>
+  static inline __host__ __device__ type convert(const T &x)
+  {
+    return val(x);
+  } // end convert()
+}; // end as_actor
+
+template<typename T> struct as_actor;
+
+template<typename Eval>
+  struct as_actor<actor<Eval> >
 {
-  typedef thrust::null_type type;
-};
+  typedef actor<Eval> type;
 
-
-template<unsigned int i>
-  class argument
-{
-  public:
-    template<typename Env>
-      struct result
-        : argument_helper<i,Env>
-    {
-    };
-
-    __host__ __device__
-    argument(void){}
-
-    template<typename Env>
-    __host__ __device__
-    typename result<Env>::type eval(const Env &e) const
-    {
-      return thrust::get<i>(e);
-    } // end eval()
-}; // end argument
+  static inline __host__ __device__ const type &convert(const actor<Eval> &x)
+  {
+    return x;
+  } // end convert()
+}; // end as_actor
 
 } // end functional
 } // end detail

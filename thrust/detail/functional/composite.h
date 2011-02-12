@@ -23,36 +23,35 @@ namespace thrust
 {
 namespace detail
 {
-
-struct composite_null_type {};
+namespace functional
+{
 
 // XXX we should just take a single EvalTuple
-// XXX use null_type instead of composite_null_type
 template<typename Eval0,
-         typename Eval1  = composite_null_type,
-         typename Eval2  = composite_null_type,
-         typename Eval3  = composite_null_type,
-         typename Eval4  = composite_null_type,
-         typename Eval5  = composite_null_type,
-         typename Eval6  = composite_null_type,
-         typename Eval7  = composite_null_type,
-         typename Eval8  = composite_null_type,
-         typename Eval9  = composite_null_type,
-         typename Eval10 = composite_null_type>
+         typename Eval1  = thrust::null_type,
+         typename Eval2  = thrust::null_type,
+         typename Eval3  = thrust::null_type,
+         typename Eval4  = thrust::null_type,
+         typename Eval5  = thrust::null_type,
+         typename Eval6  = thrust::null_type,
+         typename Eval7  = thrust::null_type,
+         typename Eval8  = thrust::null_type,
+         typename Eval9  = thrust::null_type,
+         typename Eval10 = thrust::null_type>
   class composite;
 
 template<typename Eval0, typename Eval1>
   class composite<
     Eval0,
     Eval1,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type
   >
 {
   public:
@@ -91,13 +90,13 @@ template<typename Eval0, typename Eval1, typename Eval2>
     Eval0,
     Eval1,
     Eval2,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type,
-    composite_null_type
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type,
+    thrust::null_type
   >
 {
   public:
@@ -149,6 +148,7 @@ __host__ __device__
   return actor<composite<Eval0,Eval1,Eval2> >(composite<Eval0,Eval1,Eval2>(e0,e1,e2));
 }
 
+} // end functional
 } // end detail
 } // end thrust
 

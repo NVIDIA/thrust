@@ -21,9 +21,11 @@
 
 namespace thrust
 {
-
 namespace detail
 {
+namespace functional
+{
+
 
 template<typename T>
   class value
@@ -59,7 +61,8 @@ actor<value<T> > val(const T &x)
   return value<T>(x);
 } // end val()
 
-} // end detail
 
+} // end functional
+} // end detail
 } // end thrust
 

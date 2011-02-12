@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/functional/actor.h>
+#include <thrust/detail/functional/as_actor.h>
 #include <thrust/detail/functional/composite.h>
 #include <thrust/detail/functional/operators/operator_adaptors.h>
 #include <thrust/functional.h>
@@ -26,49 +27,80 @@ namespace thrust
 {
 namespace detail
 {
+namespace functional
+{
 
-template<typename Eval1, typename Eval2>
+template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
     binary_operator<thrust::bit_and>,
-    actor<Eval1>,
-    actor<Eval2>
+    typename as_actor<T1>::type,
+    typename as_actor<T2>::type
   >
 >
-operator&(const actor<Eval1> &_1, const actor<Eval2> &_2)
+operator&(const T1 &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::bit_and>(), _1, _2);
+  return compose(binary_operator<thrust::bit_and>(),
+                 as_actor<T1>::convert(_1),
+                 as_actor<T2>::convert(_2));
 } // end operator&()
 
-template<typename Eval1, typename Eval2>
+template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
     binary_operator<thrust::bit_or>,
-    actor<Eval1>,
-    actor<Eval2>
+    typename as_actor<T1>::type,
+    typename as_actor<T2>::type
   >
 >
-operator|(const actor<Eval1> &_1, const actor<Eval2> &_2)
+operator|(const T1 &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::bit_or>(), _1, _2);
+  return compose(binary_operator<thrust::bit_or>(),
+                 as_actor<T1>::convert(_1),
+                 as_actor<T2>::convert(_2));
 } // end operator|()
 
-template<typename Eval1, typename Eval2>
+template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
     binary_operator<thrust::bit_xor>,
-    actor<Eval1>,
-    actor<Eval2>
+    typename as_actor<T1>::type,
+    typename as_actor<T2>::type
   >
 >
-operator^(const actor<Eval1> &_1, const actor<Eval2> &_2)
+operator^(const T1 &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::bit_xor>(), _1, _2);
+  return compose(binary_operator<thrust::bit_xor>(),
+                 as_actor<T1>::convert(_1),
+                 as_actor<T2>::convert(_2));
 } // end operator^()
 
+// there's no standard bit_not functional, so roll an ad hoc one here
+template<typename T>
+  struct bit_not
+    : public thrust::unary_function<T,T>
+{
+  __host__ __device__ T operator()(const T &x) const {return ~x;}
+}; // end bit_not
+
+template<typename Eval>
+__host__ __device__
+actor<
+  composite<
+    unary_operator<bit_not>,
+    actor<Eval>
+  >
+>
+__host__ __device__
+operator~(const actor<Eval> &_1)
+{
+  return compose(unary_operator<bit_not>(), _1);
+} // end operator~()
+
+} // end functional
 } // end detail
 } // end thrust
 

@@ -16,8 +16,9 @@
 
 namespace thrust
 {
-
 namespace detail
+{
+namespace functional
 {
 
 template<typename Eval>
@@ -163,7 +164,7 @@ template<typename Eval>
   return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9));
 } // end basic_environment::operator()
 
+} // end functional
 } // end detail
-
 } // end thrust
 

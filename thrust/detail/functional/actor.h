@@ -24,8 +24,9 @@
 
 namespace thrust
 {
-
 namespace detail
+{
+namespace functional
 {
 
 template<typename Action, typename Env>
@@ -101,8 +102,8 @@ template<typename Eval>
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8, T9 &_9) const;
 }; // end actor
 
+} // end functional
 } // end detail
-
 } // end thrust
 
 #include <thrust/detail/functional/actor.inl>

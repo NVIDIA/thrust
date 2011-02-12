@@ -24,17 +24,16 @@ namespace thrust
 {
 namespace detail
 {
+namespace functional
+{
 
 template<unsigned int i>
-struct placeholder
-  : thrust::detail::actor<thrust::detail::argument<i> >
+  struct placeholder
 {
-  __host__ __device__
-  inline placeholder(void)
-    : thrust::detail::actor<thrust::detail::argument<i> >()
-  {}
+  typedef actor<argument<i> > type;
 };
 
+} // end functional
 } // end detail
 } // end thrust
 

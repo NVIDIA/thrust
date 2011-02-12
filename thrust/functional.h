@@ -956,16 +956,16 @@ template<typename BinaryPredicate>
 namespace placeholders
 {
 
-static const thrust::detail::placeholder<0> _1;
-static const thrust::detail::placeholder<1> _2;
-static const thrust::detail::placeholder<2> _3;
-static const thrust::detail::placeholder<3> _4;
-static const thrust::detail::placeholder<4> _5;
-static const thrust::detail::placeholder<5> _6;
-static const thrust::detail::placeholder<6> _7;
-static const thrust::detail::placeholder<7> _8;
-static const thrust::detail::placeholder<8> _9;
-static const thrust::detail::placeholder<9> _10;
+static const typename thrust::detail::functional::placeholder<0>::type _1;
+static const typename thrust::detail::functional::placeholder<1>::type _2;
+static const typename thrust::detail::functional::placeholder<2>::type _3;
+static const typename thrust::detail::functional::placeholder<3>::type _4;
+static const typename thrust::detail::functional::placeholder<4>::type _5;
+static const typename thrust::detail::functional::placeholder<5>::type _6;
+static const typename thrust::detail::functional::placeholder<6>::type _7;
+static const typename thrust::detail::functional::placeholder<7>::type _8;
+static const typename thrust::detail::functional::placeholder<8>::type _9;
+static const typename thrust::detail::functional::placeholder<9>::type _10;
 
 } // end placeholders
 
