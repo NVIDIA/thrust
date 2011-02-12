@@ -33,16 +33,16 @@ namespace lambda
 namespace placeholders
 {
 
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<0> >  _1;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<1> >  _2;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<2> >  _3;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<3> >  _4;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<4> >  _5;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<5> >  _6;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<6> >  _7;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<7> >  _8;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<8> >  _9;
-extern const thrust::lambda::detail::actor<thrust::lambda::detail::argument<9> >  _10;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<0> >  _1;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<1> >  _2;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<2> >  _3;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<3> >  _4;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<4> >  _5;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<5> >  _6;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<6> >  _7;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<7> >  _8;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<8> >  _9;
+static const thrust::lambda::detail::actor<thrust::lambda::detail::argument<9> >  _10;
 
 } // end placeholders
 
