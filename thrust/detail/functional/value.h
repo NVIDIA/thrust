@@ -27,6 +27,9 @@ namespace functional
 {
 
 
+template<typename Eval> class actor;
+
+
 template<typename T>
   class value
 {

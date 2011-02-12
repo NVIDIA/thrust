@@ -18,7 +18,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/functional/actor.h>
-#include <thrust/detail/functional/as_actor.h>
 #include <thrust/detail/functional/composite.h>
 #include <thrust/detail/functional/operators/operator_adaptors.h>
 #include <thrust/functional.h>
@@ -99,6 +98,54 @@ operator~(const actor<Eval> &_1)
 {
   return compose(unary_operator<bit_not>(), _1);
 } // end operator~()
+
+// there's no standard bit_lshift functional, so roll an ad hoc one here
+template<typename T>
+  struct bit_lshift
+    : public thrust::binary_function<T,T,T>
+{
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs << rhs;}
+}; // end bit_lshift
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_lshift>,
+    typename as_actor<T1>::type,
+    typename as_actor<T2>::type
+  >
+>
+operator<<(const T1 &_1, const T2 &_2)
+{
+  return compose(binary_operator<bit_lshift>(),
+                 as_actor<T1>::convert(_1),
+                 as_actor<T2>::convert(_2));
+} // end operator<<()
+
+// there's no standard bit_rshift functional, so roll an ad hoc one here
+template<typename T>
+  struct bit_rshift
+    : public thrust::binary_function<T,T,T>
+{
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs >> rhs;}
+}; // end bit_rshift
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_rshift>,
+    typename as_actor<T1>::type,
+    typename as_actor<T2>::type
+  >
+>
+operator>>(const T1 &_1, const T2 &_2)
+{
+  return compose(binary_operator<bit_rshift>(),
+                 as_actor<T1>::convert(_1),
+                 as_actor<T2>::convert(_2));
+} // end operator>>()
 
 } // end functional
 } // end detail

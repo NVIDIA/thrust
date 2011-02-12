@@ -21,6 +21,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/tuple.h>
+#include <thrust/detail/functional/value.h>
 
 namespace thrust
 {
@@ -101,6 +102,30 @@ template<typename Eval>
   typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8, T9 &_9) const;
 }; // end actor
+
+// in general, as_actor should turn things into values
+template<typename T>
+  struct as_actor
+{
+  typedef value<T> type;
+
+  static inline __host__ __device__ type convert(const T &x)
+  {
+    return val(x);
+  } // end convert()
+}; // end as_actor
+
+// specialization for things which are already actors
+template<typename Eval>
+  struct as_actor<actor<Eval> >
+{
+  typedef actor<Eval> type;
+
+  static inline __host__ __device__ const type &convert(const actor<Eval> &x)
+  {
+    return x;
+  } // end convert()
+}; // end as_actor
 
 } // end functional
 } // end detail

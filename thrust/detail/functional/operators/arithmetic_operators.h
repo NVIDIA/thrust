@@ -18,7 +18,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/functional/actor.h>
-#include <thrust/detail/functional/as_actor.h>
 #include <thrust/detail/functional/composite.h>
 #include <thrust/detail/functional/operators/operator_adaptors.h>
 #include <thrust/functional.h>
