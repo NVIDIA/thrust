@@ -17,14 +17,12 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/lambda/detail/actor.h>
-#include <thrust/lambda/detail/composite.h>
-#include <thrust/lambda/detail/operators/operator_adaptors.h>
+#include <thrust/detail/functional/actor.h>
+#include <thrust/detail/functional/composite.h>
+#include <thrust/detail/functional/operators/operator_adaptors.h>
 #include <thrust/functional.h>
 
 namespace thrust
-{
-namespace lambda
 {
 namespace detail
 {
@@ -71,7 +69,5 @@ operator!(const actor<Eval> &_1)
 } // end operator!()
 
 } // end detail
-} // end lambda
 } // end thrust
-
 

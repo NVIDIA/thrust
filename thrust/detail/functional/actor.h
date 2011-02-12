@@ -25,9 +25,6 @@
 namespace thrust
 {
 
-namespace lambda
-{
-
 namespace detail
 {
 
@@ -106,9 +103,7 @@ template<typename Eval>
 
 } // end detail
 
-} // end lambda
-
 } // end thrust
 
-#include <thrust/lambda/detail/actor.inl>
+#include <thrust/detail/functional/actor.inl>
 

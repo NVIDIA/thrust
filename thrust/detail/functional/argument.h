@@ -14,57 +14,55 @@
  *  limitations under the License.
  */
 
+// Based on Boost.Phoenix v1.2
+// Copyright (c) 2001-2002 Joel de Guzman
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/lambda/detail/actor.h>
+#include <thrust/tuple.h>
 
 namespace thrust
-{
-
-namespace lambda
 {
 
 namespace detail
 {
 
-template<typename T>
-  class value
+template<unsigned int i, typename Env>
+  struct argument_helper
+{
+  typedef typename thrust::tuple_element<i,Env>::type type;
+};
+
+template<unsigned int i>
+  struct argument_helper<i,thrust::null_type>
+{
+  typedef thrust::null_type type;
+};
+
+
+template<unsigned int i>
+  class argument
 {
   public:
-
     template<typename Env>
       struct result
+        : argument_helper<i,Env>
     {
-      typedef T type;
     };
 
     __host__ __device__
-    value(const T &arg)
-      : m_val(arg)
-    {}
+    argument(void){}
 
     template<typename Env>
     __host__ __device__
-      T eval(const Env &) const
+    typename result<Env>::type eval(const Env &e) const
     {
-      return m_val;
-    }
-
-  private:
-    T m_val;
-}; // end value
-
-template<typename T>
-__host__ __device__
-actor<value<T> > val(const T &x)
-{
-  return value<T>(x);
-} // end val()
+      return thrust::get<i>(e);
+    } // end eval()
+}; // end argument
 
 } // end detail
-
-} // end lambda
 
 } // end thrust
 

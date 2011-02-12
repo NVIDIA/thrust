@@ -22,8 +22,6 @@
 
 namespace thrust
 {
-namespace lambda
-{
 namespace detail
 {
 
@@ -110,6 +108,5 @@ template<template<typename> class BinaryOperator>
 }; // end binary_operator
 
 } // end detail
-} // end lambda
 } // end thrust
 

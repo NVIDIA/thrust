@@ -24,6 +24,7 @@
 
 #include <thrust/detail/config.h>
 #include <functional>
+#include <thrust/detail/functional/placeholder.h>
 
 namespace thrust
 {
@@ -952,7 +953,24 @@ template<typename BinaryPredicate>
 /*! \}
  */
 
+namespace placeholders
+{
+
+static const thrust::detail::placeholder<0> _1;
+static const thrust::detail::placeholder<1> _2;
+static const thrust::detail::placeholder<2> _3;
+static const thrust::detail::placeholder<3> _4;
+static const thrust::detail::placeholder<4> _5;
+static const thrust::detail::placeholder<5> _6;
+static const thrust::detail::placeholder<6> _7;
+static const thrust::detail::placeholder<7> _8;
+static const thrust::detail::placeholder<8> _9;
+static const thrust::detail::placeholder<9> _10;
+
+} // end placeholders
+
 }; // end thrust
 
 #include <thrust/detail/functional.inl>
+#include <thrust/detail/functional/operators.h>
 

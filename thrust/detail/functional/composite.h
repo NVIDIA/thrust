@@ -16,12 +16,10 @@
 
 #pragma once
 
-#include <thrust/lambda/detail/actor.h>
+#include <thrust/detail/functional/actor.h>
 #include <thrust/tuple.h>
 
 namespace thrust
-{
-namespace lambda
 {
 namespace detail
 {
@@ -29,6 +27,7 @@ namespace detail
 struct composite_null_type {};
 
 // XXX we should just take a single EvalTuple
+// XXX use null_type instead of composite_null_type
 template<typename Eval0,
          typename Eval1  = composite_null_type,
          typename Eval2  = composite_null_type,
@@ -151,6 +150,5 @@ __host__ __device__
 }
 
 } // end detail
-} // end lambda
 } // end thrust
 

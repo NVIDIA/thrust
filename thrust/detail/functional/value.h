@@ -17,8 +17,49 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/lambda/detail/operators/arithmetic_operators.h>
-#include <thrust/lambda/detail/operators/relational_operators.h>
-#include <thrust/lambda/detail/operators/logical_operators.h>
-#include <thrust/lambda/detail/operators/bitwise_operators.h>
+#include <thrust/detail/functional/actor.h>
+
+namespace thrust
+{
+
+namespace detail
+{
+
+template<typename T>
+  class value
+{
+  public:
+
+    template<typename Env>
+      struct result
+    {
+      typedef T type;
+    };
+
+    __host__ __device__
+    value(const T &arg)
+      : m_val(arg)
+    {}
+
+    template<typename Env>
+    __host__ __device__
+      T eval(const Env &) const
+    {
+      return m_val;
+    }
+
+  private:
+    T m_val;
+}; // end value
+
+template<typename T>
+__host__ __device__
+actor<value<T> > val(const T &x)
+{
+  return value<T>(x);
+} // end val()
+
+} // end detail
+
+} // end thrust
 

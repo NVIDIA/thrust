@@ -17,9 +17,6 @@
 namespace thrust
 {
 
-namespace lambda
-{
-
 namespace detail
 {
 
@@ -167,8 +164,6 @@ template<typename Eval>
 } // end basic_environment::operator()
 
 } // end detail
-  
-} // end lambda
 
 } // end thrust
 
