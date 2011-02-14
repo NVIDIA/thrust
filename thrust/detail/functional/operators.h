@@ -22,4 +22,5 @@
 #include <thrust/detail/functional/operators/logical_operators.h>
 #include <thrust/detail/functional/operators/bitwise_operators.h>
 #include <thrust/detail/functional/operators/compound_assignment_operators.h>
+#include <thrust/detail/functional/operators/comma_operator.h>
 
