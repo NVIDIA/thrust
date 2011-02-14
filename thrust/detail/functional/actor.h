@@ -22,6 +22,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/tuple.h>
 #include <thrust/detail/functional/value.h>
+#include <thrust/detail/functional/composite.h>
+#include <thrust/detail/functional/operators/assignment_operator.h>
 
 namespace thrust
 {
@@ -101,6 +103,11 @@ template<typename Eval>
   __host__ __device__
   typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8, T9 &_9) const;
+
+  template<typename T>
+  __host__ __device__
+  typename assign_result<Eval,T>::type
+  operator=(const T &_1) const;
 }; // end actor
 
 // in general, as_actor should turn things into values

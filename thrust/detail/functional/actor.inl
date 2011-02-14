@@ -14,8 +14,14 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/functional/composite.h>
+#include <thrust/detail/functional/operators/assignment_operator.h>
+#include <thrust/functional.h>
+
 namespace thrust
 {
+
 namespace detail
 {
 namespace functional
@@ -163,6 +169,15 @@ template<typename Eval>
 {
   return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9));
 } // end basic_environment::operator()
+
+template<typename Eval>
+  template<typename T>
+    typename assign_result<Eval,T>::type
+      actor<Eval>
+        ::operator=(const T& _1) const
+{
+  return do_assign(*this,_1);
+} // end actor::operator=()
 
 } // end functional
 } // end detail
