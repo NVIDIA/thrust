@@ -28,7 +28,7 @@
 #include <thrust/detail/host/copy.h>
 
 // device
-#include <thrust/detail/device/copy.h>
+#include <thrust/detail/backend/copy.h>
 
 namespace thrust
 {
@@ -36,7 +36,7 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 // XXX WAR circular #inclusion with these forward declarations
@@ -53,7 +53,7 @@ template<typename InputIterator1, typename InputIterator2, typename OutputIterat
             Predicate);
 
 
-} // end device
+} // end backend
 
 namespace dispatch
 {
@@ -62,7 +62,7 @@ namespace dispatch
 // XXX idea: detect whether both spaces
 //     are convertible to host, if so
 //     dispatch host to host path
-//     if not, dispatch device::copy()
+//     if not, dispatch backend::copy()
 
 //////////
 // copy //
@@ -104,7 +104,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::device_space_tag)
 {
-    return thrust::detail::device::copy(begin, end, result);
+    return thrust::detail::backend::copy(begin, end, result);
 }
 
 template<typename InputIterator,
@@ -115,7 +115,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::device_space_tag)
 {
-    return thrust::detail::device::copy_n(begin, n, result);
+    return thrust::detail::backend::copy_n(begin, n, result);
 }
 
 ///////////////
@@ -129,7 +129,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::any_space_tag)
 {
-    return thrust::detail::device::copy(begin, end, result);
+    return thrust::detail::backend::copy(begin, end, result);
 }
 
 template<typename InputIterator,
@@ -140,7 +140,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::any_space_tag)
 {
-    return thrust::detail::device::copy_n(begin, n, result);
+    return thrust::detail::backend::copy_n(begin, n, result);
 }
 
 //////////////////////
@@ -154,7 +154,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::detail::false_type cross_space_copy)
 {
-  return thrust::detail::device::copy(first, last, result);
+  return thrust::detail::backend::copy(first, last, result);
 }
 
 template<typename InputIterator,
@@ -165,7 +165,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::detail::false_type cross_space_copy)
 {
-  return thrust::detail::device::copy_n(first, n, result);
+  return thrust::detail::backend::copy_n(first, n, result);
 }
 
 //////////////////////
@@ -277,7 +277,7 @@ template<typename InputIterator1,
                          thrust::device_space_tag,
                          thrust::device_space_tag)
 {
-  return thrust::detail::device::copy_if(first, last, stencil, result, pred);
+  return thrust::detail::backend::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
 
 } // end dispatch

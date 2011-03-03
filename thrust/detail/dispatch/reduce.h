@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/reduce.h>
-#include <thrust/detail/device/reduce.h>
+#include <thrust/detail/backend/reduce.h>
 
 namespace thrust
 {
@@ -84,7 +84,7 @@ template<typename InputIterator,
                     BinaryFunction binary_op,
                     thrust::device_space_tag)
 {
-    return thrust::detail::device::reduce(first, last, init, binary_op);
+    return thrust::detail::backend::reduce(first, last, init, binary_op);
 }
 
 template <typename InputIterator1,
@@ -106,7 +106,7 @@ template <typename InputIterator1,
                 thrust::device_space_tag,
                 thrust::device_space_tag)
 {
-    return thrust::detail::device::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+    return thrust::detail::backend::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 //////////////

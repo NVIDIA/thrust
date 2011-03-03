@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/binary_search.h>
-#include <thrust/detail/device/binary_search.h>
+#include <thrust/detail/backend/binary_search.h>
 
 namespace thrust
 {
@@ -120,7 +120,7 @@ ForwardIterator lower_bound(ForwardIterator begin,
                             StrictWeakOrdering comp,
                             thrust::device_space_tag)
 {
-    return thrust::detail::device::lower_bound(begin, end, value, comp);
+    return thrust::detail::backend::lower_bound(begin, end, value, comp);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -134,7 +134,7 @@ OutputIterator lower_bound(ForwardIterator begin,
                            thrust::device_space_tag,
                            thrust::device_space_tag)
 {
-    return thrust::detail::device::lower_bound(begin, end, values_begin, values_end, output, comp);
+    return thrust::detail::backend::lower_bound(begin, end, values_begin, values_end, output, comp);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -144,7 +144,7 @@ ForwardIterator upper_bound(ForwardIterator begin,
                             StrictWeakOrdering comp,
                             thrust::device_space_tag)
 {
-    return thrust::detail::device::upper_bound(begin, end, value, comp);
+    return thrust::detail::backend::upper_bound(begin, end, value, comp);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -158,7 +158,7 @@ OutputIterator upper_bound(ForwardIterator begin,
                            thrust::device_space_tag,
                            thrust::device_space_tag)
 {
-    return thrust::detail::device::upper_bound(begin, end, values_begin, values_end, output, comp);
+    return thrust::detail::backend::upper_bound(begin, end, values_begin, values_end, output, comp);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -168,7 +168,7 @@ bool binary_search(ForwardIterator begin,
                    StrictWeakOrdering comp,
                    thrust::device_space_tag)
 {
-    return thrust::detail::device::binary_search(begin, end, value, comp);
+    return thrust::detail::backend::binary_search(begin, end, value, comp);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -182,7 +182,7 @@ OutputIterator binary_search(ForwardIterator begin,
                              thrust::device_space_tag,
                              thrust::device_space_tag)
 {
-    return thrust::detail::device::binary_search(begin, end, values_begin, values_end, output, comp);
+    return thrust::detail::backend::binary_search(begin, end, values_begin, values_end, output, comp);
 }
 
 } // end dispatch

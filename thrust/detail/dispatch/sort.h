@@ -22,7 +22,7 @@
 #include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/sort.h>
-#include <thrust/detail/device/sort.h>
+#include <thrust/detail/backend/sort.h>
 
 namespace thrust
 {
@@ -95,7 +95,7 @@ template<typename RandomAccessIterator,
             StrictWeakOrdering comp,
             thrust::device_space_tag)
 {
-    thrust::detail::device::sort(begin, end, comp);
+    thrust::detail::backend::sort(begin, end, comp);
 }
 
 template<typename RandomAccessIterator,
@@ -105,7 +105,7 @@ template<typename RandomAccessIterator,
                    StrictWeakOrdering comp,
                    thrust::device_space_tag)
 {
-    thrust::detail::device::stable_sort(begin, end, comp);
+    thrust::detail::backend::stable_sort(begin, end, comp);
 }
 
 template<typename RandomAccessKeyIterator,
@@ -118,7 +118,7 @@ template<typename RandomAccessKeyIterator,
                    thrust::device_space_tag,
                    thrust::device_space_tag)
 {
-    thrust::detail::device::sort_by_key(keys_begin, keys_end, values_begin, comp);
+    thrust::detail::backend::sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
 
 template<typename RandomAccessKeyIterator,
@@ -131,7 +131,7 @@ template<typename RandomAccessKeyIterator,
                           thrust::device_space_tag,
                           thrust::device_space_tag)
 {
-    thrust::detail::device::stable_sort_by_key(keys_begin, keys_end, values_begin, comp);
+    thrust::detail::backend::stable_sort_by_key(keys_begin, keys_end, values_begin, comp);
 }
 
 } // end namespace dispatch

@@ -25,7 +25,7 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/device_ptr.h>
 
 namespace thrust
@@ -77,7 +77,7 @@ template<typename T> struct is_trivial_iterator< normal_iterator<T> > : public t
 
 
 
-namespace device
+namespace backend
 {
 
 
@@ -116,7 +116,7 @@ template<typename T, typename IndexType>
   return dereference(iter.base(), n);
 } // end dereference()
 
-} // end device
+} // end backend
 
 } // end detail
 

@@ -4,7 +4,7 @@
 #include <thrust/device_malloc_allocator.h>
 
 #include <thrust/sort.h>
-#include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
+#include <thrust/detail/backend/cuda/detail/stable_radix_sort.h>
 
 #if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
@@ -35,7 +35,7 @@ struct TestRadixSortVariableBits
         thrust::device_vector<T> d_keys = h_keys;
     
         thrust::stable_sort(h_keys.begin(), h_keys.end());
-        thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
+        thrust::detail::backend::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
     
         ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     }

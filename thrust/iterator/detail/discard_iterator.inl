@@ -16,7 +16,7 @@
 
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 namespace thrust
@@ -32,7 +32,7 @@ template<typename Space>
 {
 };
 
-namespace device
+namespace backend
 {
 
 
@@ -66,7 +66,7 @@ template<typename Space, typename IndexType>
 } // end dereference()
 
 
-} // end namespace device
+} // end namespace backend
 
 } // end namespace detail
 

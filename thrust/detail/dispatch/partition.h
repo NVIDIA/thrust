@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/partition.h>
-#include <thrust/detail/device/partition.h>
+#include <thrust/detail/backend/partition.h>
 
 namespace thrust
 {
@@ -116,7 +116,7 @@ template<typename ForwardIterator,
                             Predicate pred,
                             thrust::device_space_tag)
 {
-    return thrust::detail::device::partition(first, last, pred);
+    return thrust::detail::backend::partition(first, last, pred);
 }
 
 template<typename InputIterator,
@@ -133,7 +133,7 @@ template<typename InputIterator,
                    thrust::device_space_tag,
                    thrust::device_space_tag)
 {
-    return thrust::detail::device::partition_copy(first, last, out_true, out_false, pred);
+    return thrust::detail::backend::partition_copy(first, last, out_true, out_false, pred);
 }
 
 template<typename ForwardIterator,
@@ -143,7 +143,7 @@ template<typename ForwardIterator,
                                    Predicate pred,
                                    thrust::device_space_tag)
 {
-    return thrust::detail::device::stable_partition(first, last, pred);
+    return thrust::detail::backend::stable_partition(first, last, pred);
 }
 
 template<typename InputIterator,
@@ -160,7 +160,7 @@ template<typename InputIterator,
                    thrust::device_space_tag,
                    thrust::device_space_tag)
 {
-    return thrust::detail::device::stable_partition_copy(first, last, out_true, out_false, pred);
+    return thrust::detail::backend::stable_partition_copy(first, last, out_true, out_false, pred);
 }
 
 } // end namespace dispatch

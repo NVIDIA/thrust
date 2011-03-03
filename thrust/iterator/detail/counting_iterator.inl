@@ -19,7 +19,7 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/numeric_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 namespace thrust
@@ -92,7 +92,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
 }; // end counting_iterator_base
 
 
-namespace device
+namespace backend
 {
 
 
@@ -125,7 +125,7 @@ template<typename Incrementable, typename Space, typename Traversal, typename Di
   return iter[n];
 } // end dereference()
 
-} // end device
+} // end backend
 
 
 template<typename Difference, typename Incrementable1, typename Incrementable2>

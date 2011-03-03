@@ -123,7 +123,7 @@ template <typename IteratorTuple>
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 
@@ -163,7 +163,7 @@ template<typename IteratorTuple, typename IndexType>
 }; // end dereference()
 
 
-} // end device
+} // end backend
 
 } // end detail
 

@@ -18,7 +18,7 @@
 
 #include <thrust/merge.h>
 #include <thrust/detail/host/merge.h>
-#include <thrust/detail/device/merge.h>
+#include <thrust/detail/backend/merge.h>
 
 namespace thrust
 {
@@ -57,7 +57,7 @@ template<typename InputIterator1,
                        StrictWeakOrdering comp,
                        thrust::device_space_tag)
 {
-  return thrust::detail::device::merge(first1,last1,first2,last2,result,comp);
+  return thrust::detail::backend::merge(first1,last1,first2,last2,result,comp);
 } // end merge()
 
 

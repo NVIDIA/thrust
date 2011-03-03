@@ -16,7 +16,7 @@
 
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -24,7 +24,7 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 
@@ -59,7 +59,7 @@ template<typename Value, typename Incrementable, typename Space, typename IndexT
 } // end dereference()
 
 
-} // end namespace device
+} // end namespace backend
 
 } // end namespace detail
 

@@ -18,7 +18,7 @@
 
 #include <thrust/set_operations.h>
 #include <thrust/detail/host/set_operations.h>
-#include <thrust/detail/device/set_operations.h>
+#include <thrust/detail/backend/set_operations.h>
 
 namespace thrust
 {
@@ -58,7 +58,7 @@ template<typename InputIterator1,
                                 StrictWeakOrdering comp,
                                 thrust::device_space_tag)
 {
-  return thrust::detail::device::set_difference(first1,last1,first2,last2,result,comp);
+  return thrust::detail::backend::set_difference(first1,last1,first2,last2,result,comp);
 } // end set_difference()
 
 
@@ -74,7 +74,7 @@ template<typename InputIterator1,
                                   StrictWeakOrdering comp,
                                   thrust::device_space_tag)
 {
-  return thrust::detail::device::set_intersection(first1,last1,first2,last2,result,comp);
+  return thrust::detail::backend::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
 
 template<typename InputIterator1,
@@ -120,7 +120,7 @@ template<typename InputIterator1,
                                           StrictWeakOrdering comp,
                                           thrust::device_space_tag)
 {
-  return thrust::detail::device::set_symmetric_difference(first1,last1,first2,last2,result,comp);
+  return thrust::detail::backend::set_symmetric_difference(first1,last1,first2,last2,result,comp);
 } // end set_symmetric_difference()
 
 
@@ -152,7 +152,7 @@ template<typename InputIterator1,
                            StrictWeakOrdering comp,
                            thrust::device_space_tag)
 {
-  return thrust::detail::device::set_union(first1,last1,first2,last2,result,comp);
+  return thrust::detail::backend::set_union(first1,last1,first2,last2,result,comp);
 } // end set_union()
 
 

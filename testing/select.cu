@@ -1,5 +1,5 @@
 #include <unittest/unittest.h>
-#include <thrust/detail/device/generic/scalar/select.h>
+#include <thrust/detail/backend/generic/scalar/select.h>
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 #include <thrust/merge.h>
@@ -22,7 +22,7 @@ template<typename Iterator1, typename Iterator2>
   typename thrust::iterator_value<Iterator1>::type operator()(Dummy)
   {
     typedef typename thrust::iterator_value<Iterator1>::type value_type;
-    return thrust::detail::device::generic::scalar::select(first1, last1, first2, last2, k, thrust::less<value_type>());
+    return thrust::detail::backend::generic::scalar::select(first1, last1, first2, last2, k, thrust::less<value_type>());
   }
 };
 

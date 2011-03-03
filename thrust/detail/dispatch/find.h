@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/find.h>
-#include <thrust/detail/device/find.h>
+#include <thrust/detail/backend/find.h>
 
 namespace thrust
 {
@@ -54,7 +54,7 @@ InputIterator find_if(InputIterator first,
                       Predicate pred,
                       thrust::device_space_tag)
 {
-    return thrust::detail::device::find_if(first, last, pred);
+    return thrust::detail::backend::find_if(first, last, pred);
 }
 
 ///////////////
@@ -67,7 +67,7 @@ InputIterator find_if(InputIterator first,
                       thrust::any_space_tag)
 {
     // default to device
-    return thrust::detail::device::find_if(first, last, pred);
+    return thrust::detail::backend::find_if(first, last, pred);
 }
 
 } // end namespace dispatch

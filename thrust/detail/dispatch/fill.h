@@ -25,7 +25,7 @@
 #include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/fill.h>
-#include <thrust/detail/device/fill.h>
+#include <thrust/detail/backend/fill.h>
 
 namespace thrust
 {
@@ -64,7 +64,7 @@ template<typename ForwardIterator, typename T>
             const T &value,
             thrust::device_space_tag)
 {
-  thrust::detail::device::fill(first, last, value);
+  thrust::detail::backend::fill(first, last, value);
 }
 
 template<typename OutputIterator, typename Size, typename T>
@@ -73,7 +73,7 @@ template<typename OutputIterator, typename Size, typename T>
                         const T &value,
                         thrust::device_space_tag)
 {
-  return thrust::detail::device::fill_n(first, n, value);
+  return thrust::detail::backend::fill_n(first, n, value);
 }
 
 } // end namespace dispatch

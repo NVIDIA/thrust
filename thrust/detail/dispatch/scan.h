@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/scan.h>
-#include <thrust/detail/device/scan.h>
+#include <thrust/detail/backend/scan.h>
 
 namespace thrust
 {
@@ -122,7 +122,7 @@ template<typename InputIterator,
                                 thrust::device_space_tag,
                                 thrust::device_space_tag)
 {
-    return thrust::detail::device::inclusive_scan(first, last, result, binary_op);
+    return thrust::detail::backend::inclusive_scan(first, last, result, binary_op);
 }
 
 
@@ -138,7 +138,7 @@ template<typename InputIterator,
                                 thrust::device_space_tag,
                                 thrust::device_space_tag)
 {
-    return thrust::detail::device::exclusive_scan(first, last, result, init, binary_op);
+    return thrust::detail::backend::exclusive_scan(first, last, result, init, binary_op);
 }
 
 
@@ -157,7 +157,7 @@ template<typename InputIterator1,
                                        thrust::device_space_tag,
                                        thrust::device_space_tag)
 {
-    return thrust::detail::device::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op); 
+    return thrust::detail::backend::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op); 
 }
 
 
@@ -178,7 +178,7 @@ template<typename InputIterator1,
                                        thrust::device_space_tag,
                                        thrust::device_space_tag)
 {
-    return thrust::detail::device::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op); 
+    return thrust::detail::backend::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op); 
 }
 
 } // end namespace dispatch

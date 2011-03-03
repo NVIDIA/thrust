@@ -35,7 +35,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/permutation_iterator_base.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -43,7 +43,7 @@ namespace thrust
 namespace detail
 {
 
-// XXX remove when we no longer need device::dereference
+// XXX remove when we no longer need backend::dereference
 struct permutation_iterator_friend;
 
 }
@@ -184,7 +184,7 @@ template <typename ElementIterator,
     template<typename,typename> friend class permutation_iterator;
 
     // XXX WAR this problem with the omp compile
-    //     remove this when we no longer need device::dereference
+    //     remove this when we no longer need backend::dereference
     friend struct detail::permutation_iterator_friend;
 
     ElementIterator m_element_iterator;

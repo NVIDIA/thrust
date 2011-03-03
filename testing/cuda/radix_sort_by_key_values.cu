@@ -4,7 +4,7 @@
 #include <thrust/device_malloc_allocator.h>
 
 #include <thrust/sort.h>
-#include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
+#include <thrust/detail/backend/cuda/detail/stable_radix_sort.h>
 
 #if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
@@ -32,7 +32,7 @@ struct TestRadixSortByKeyShortValues
     thrust::sequence(d_values.begin(), d_values.end());
 
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::detail::backend::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -54,7 +54,7 @@ struct TestRadixSortByKeyLongLongValues
     thrust::sequence(d_values.begin(), d_values.end());
 
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
-    thrust::detail::device::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::detail::backend::cuda::detail::stable_radix_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);

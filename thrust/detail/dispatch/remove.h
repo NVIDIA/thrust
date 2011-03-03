@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/remove.h>
-#include <thrust/detail/device/remove.h>
+#include <thrust/detail/backend/remove.h>
 
 namespace thrust
 {
@@ -101,7 +101,7 @@ template<typename ForwardIterator,
                             Predicate pred,
                             thrust::device_space_tag)
 {
-  return thrust::detail::device::remove_if(first, last, pred);
+  return thrust::detail::backend::remove_if(first, last, pred);
 }
 
 template<typename ForwardIterator,
@@ -114,7 +114,7 @@ template<typename ForwardIterator,
                             thrust::device_space_tag,
                             thrust::device_space_tag)
 {
-  return thrust::detail::device::remove_if(first, last, stencil, pred);
+  return thrust::detail::backend::remove_if(first, last, stencil, pred);
 } 
 
 template<typename InputIterator,
@@ -129,7 +129,7 @@ template<typename InputIterator,
 {
   // Note: this version can't be implemented by passing 'first' as the stencil
   // argument of function below as it would violate InputIterator's semantics.
-  return thrust::detail::device::remove_copy_if(first, last, result, pred);
+  return thrust::detail::backend::remove_copy_if(first, last, result, pred);
 }
 
 template<typename InputIterator1,
@@ -145,7 +145,7 @@ template<typename InputIterator1,
                                 thrust::device_space_tag,
                                 thrust::device_space_tag)
 {
-  return thrust::detail::device::remove_copy_if(first, last, stencil, result, pred);
+  return thrust::detail::backend::remove_copy_if(first, last, stencil, result, pred);
 }
 
 } // end namespace dispatch

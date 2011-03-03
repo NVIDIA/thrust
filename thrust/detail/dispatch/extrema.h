@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/extrema.h>
-#include <thrust/detail/device/extrema.h>
+#include <thrust/detail/backend/extrema.h>
 
 namespace thrust
 {
@@ -73,7 +73,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp, 
                             thrust::device_space_tag)
 {
-  return thrust::detail::device::min_element(first, last, comp);
+  return thrust::detail::backend::min_element(first, last, comp);
 } // end min_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -81,7 +81,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp, 
                             thrust::device_space_tag)
 {
-  return thrust::detail::device::max_element(first, last, comp);
+  return thrust::detail::backend::max_element(first, last, comp);
 } // end max_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -90,7 +90,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
                                                              BinaryPredicate comp, 
                                                              thrust::device_space_tag)
 {
-  return thrust::detail::device::minmax_element(first, last, comp);
+  return thrust::detail::backend::minmax_element(first, last, comp);
 } // end minmax_element()
 
 

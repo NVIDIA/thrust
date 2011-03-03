@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/adjacent_difference.h>
-#include <thrust/detail/device/adjacent_difference.h>
+#include <thrust/detail/backend/adjacent_difference.h>
 
 namespace thrust
 {
@@ -57,7 +57,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    thrust::device_space_tag,
                                    thrust::device_space_tag)
 {
-    return thrust::detail::device::adjacent_difference(first, last, result, binary_op);
+    return thrust::detail::backend::adjacent_difference(first, last, result, binary_op);
 }
 
 } // end namespace dispatch

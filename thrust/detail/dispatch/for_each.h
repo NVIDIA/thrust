@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/host/for_each.h>
-#include <thrust/detail/device/for_each.h>
+#include <thrust/detail/backend/for_each.h>
 
 namespace thrust
 {
@@ -69,7 +69,7 @@ InputIterator for_each(InputIterator first,
                        UnaryFunction f,
                        thrust::device_space_tag)
 {
-  return thrust::detail::device::for_each(first, last, f);
+  return thrust::detail::backend::for_each(first, last, f);
 }
 
 
@@ -81,7 +81,7 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f,
                           thrust::device_space_tag)
 {
-  return thrust::detail::device::for_each_n(first, n, f);
+  return thrust::detail::backend::for_each_n(first, n, f);
 }
 
 

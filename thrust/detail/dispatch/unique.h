@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_categories.h>
 
 #include <thrust/detail/host/unique.h>
-#include <thrust/detail/device/unique.h>
+#include <thrust/detail/backend/unique.h>
 
 namespace thrust
 {
@@ -107,7 +107,7 @@ ForwardIterator unique(ForwardIterator first,
                        BinaryPredicate binary_pred,
                        thrust::device_space_tag)
 {
-    return thrust::detail::device::unique(first, last, binary_pred);
+    return thrust::detail::backend::unique(first, last, binary_pred);
 }
 
 template <typename InputIterator,
@@ -120,7 +120,7 @@ OutputIterator unique_copy(InputIterator first,
                            thrust::device_space_tag,
                            thrust::device_space_tag)
 {
-    return thrust::detail::device::unique_copy(first, last, output, binary_pred);
+    return thrust::detail::backend::unique_copy(first, last, output, binary_pred);
 }
 
 template <typename ForwardIterator1,
@@ -134,7 +134,7 @@ template <typename ForwardIterator1,
                 thrust::device_space_tag,
                 thrust::device_space_tag)
 {
-    return thrust::detail::device::unique_by_key
+    return thrust::detail::backend::unique_by_key
         (keys_first, keys_last, values_first, binary_pred);
 }
 
@@ -155,7 +155,7 @@ template <typename InputIterator1,
                      thrust::device_space_tag,
                      thrust::device_space_tag)
 {
-    return thrust::detail::device::unique_by_key_copy
+    return thrust::detail::backend::unique_by_key_copy
         (keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 }
 
