@@ -16,13 +16,15 @@
 
 
 /*! \file extrema.h
- *  \brief Device interface to extrema functions.
+ *  \brief Interface to extrema functions.
  */
 
 #pragma once
 
 #include <thrust/pair.h>
 #include <thrust/detail/backend/generic/extrema.h>
+#include <thrust/detail/backend/cpp/extrema.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -30,30 +32,103 @@ namespace detail
 {
 namespace backend
 {
+namespace dispatch
+{
+
+
+
+template <typename ForwardIterator, typename BinaryPredicate, typename Backend>
+ForwardIterator min_element(ForwardIterator first,
+                            ForwardIterator last,
+                            BinaryPredicate comp,
+                            Backend)
+{
+    return thrust::detail::backend::generic::min_element(first, last, comp);
+}
+
+template <typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(ForwardIterator first,
+                            ForwardIterator last,
+                            BinaryPredicate comp,
+                            thrust::host_space_tag)
+{
+    return thrust::detail::backend::cpp::min_element(first, last, comp);
+}
+
+
+template <typename ForwardIterator, typename BinaryPredicate, typename Backend>
+ForwardIterator max_element(ForwardIterator first,
+                            ForwardIterator last,
+                            BinaryPredicate comp,
+                            Backend)
+{
+    return thrust::detail::backend::generic::max_element(first, last, comp);
+}
+
+template <typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(ForwardIterator first,
+                            ForwardIterator last,
+                            BinaryPredicate comp,
+                            thrust::host_space_tag)
+{
+    return thrust::detail::backend::cpp::max_element(first, last, comp);
+}
+
+
+template <typename ForwardIterator, typename BinaryPredicate, typename Backend>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+                                                             ForwardIterator last,
+                                                             BinaryPredicate comp,
+                                                             Backend)
+{
+    return thrust::detail::backend::generic::minmax_element(first, last, comp);
+}
+
+template <typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+                                                             ForwardIterator last,
+                                                             BinaryPredicate comp,
+                                                             thrust::host_space_tag)
+{
+    return thrust::detail::backend::cpp::minmax_element(first, last, comp);
+}
+
+
+
+} // end namespace dispatch
+
+
 
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator min_element(ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-    return thrust::detail::backend::generic::min_element(first, last, comp);
+    return thrust::detail::backend::dispatch::min_element(first, last, comp,
+        typename thrust::iterator_space<ForwardIterator>::type());
 }
+
 
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-    return thrust::detail::backend::generic::max_element(first, last, comp);
+    return thrust::detail::backend::dispatch::max_element(first, last, comp,
+        typename thrust::iterator_space<ForwardIterator>::type());
 }
+
 
 template <typename ForwardIterator, typename BinaryPredicate>
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
-    return thrust::detail::backend::generic::minmax_element(first, last, comp);
+    return thrust::detail::backend::dispatch::minmax_element(first, last, comp,
+        typename thrust::iterator_space<ForwardIterator>::type());
 }
+
+
 
 } // end namespace backend
 } // end namespace detail
