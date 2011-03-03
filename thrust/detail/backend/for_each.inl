@@ -16,18 +16,21 @@
 
 #pragma once
 
-#include <thrust/detail/backend/for_each.h>
-#include <thrust/distance.h>
-#include <thrust/detail/backend/dispatch/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/backend/for_each.h>
+#include <thrust/detail/backend/cpp/for_each.h>
+#include <thrust/detail/backend/cuda/for_each.h>
+#include <thrust/detail/backend/omp/for_each.h>
+#include <thrust/detail/backend/generic/for_each.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
+{
+namespace dispatch
 {
 
 
@@ -36,13 +39,92 @@ template<typename OutputIterator,
          typename UnaryFunction>
 OutputIterator for_each_n(OutputIterator first,
                           Size n,
+                          UnaryFunction f,
+                          thrust::detail::omp_device_space_tag)
+{
+  return thrust::detail::backend::omp::for_each_n(first, n, f);
+}
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f,
+                          thrust::detail::cuda_device_space_tag)
+{
+  return thrust::detail::backend::cuda::for_each_n(first, n, f);
+}
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f,
+                          thrust::host_space_tag)
+{
+  return thrust::detail::backend::cpp::for_each_n(first, n, f);
+}
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
+                          UnaryFunction f,
+                          thrust::any_space_tag)
+{
+  return thrust::detail::backend::dispatch::for_each_n(first, n, f,
+    thrust::detail::default_device_space_tag());
+}
+
+
+template<typename InputIterator,
+         typename UnaryFunction,
+         typename Space>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f,
+                       Space)
+{
+  return thrust::detail::backend::generic::for_each(first, last, f);
+}
+
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f,
+                       thrust::host_space_tag)
+{
+  return thrust::detail::backend::cpp::for_each(first, last, f);
+}
+
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f,
+                       thrust::any_space_tag)
+{
+  return thrust::detail::backend::dispatch::for_each(first, last, f,
+    thrust::detail::default_device_space_tag());
+}
+
+
+} // end namespace dispatch
+
+template<typename OutputIterator,
+         typename Size,
+         typename UnaryFunction>
+OutputIterator for_each_n(OutputIterator first,
+                          Size n,
                           UnaryFunction f)
 {
-  // dispatch on space
   return thrust::detail::backend::dispatch::for_each_n(first, n, f,
       typename thrust::iterator_space<OutputIterator>::type());
 }
-
 
 template<typename InputIterator,
          typename UnaryFunction>
@@ -50,14 +132,11 @@ InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
 {
-  // all device iterators are random access right now, so this is safe
-  return thrust::detail::backend::for_each_n(first, thrust::distance(first,last), f);
+  return thrust::detail::backend::dispatch::for_each(first, last, f,
+      typename thrust::iterator_space<InputIterator>::type());
 }
 
-
 } // end namespace backend
-
 } // end namespace detail
-
 } // end namespace thrust
 

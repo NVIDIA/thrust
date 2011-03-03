@@ -22,7 +22,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 
@@ -41,9 +43,10 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f);
 
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/host/for_each.inl>
+#include <thrust/detail/backend/cpp/for_each.inl>
 
