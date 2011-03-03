@@ -82,10 +82,10 @@ namespace backend
 
 
 // specialize dereference_result for normal_iterator with device_ptr as base
-template<typename T>
-  struct dereference_result< normal_iterator< device_ptr<T> > >
+template<typename Pointer>
+  struct dereference_result< normal_iterator<Pointer> >
 {
-  typedef typename dereference_result< device_ptr<T> >::type type;
+  typedef typename dereference_result<Pointer>::type type;
 }; // end dereference_result
 
 
@@ -100,18 +100,18 @@ template<typename T, typename IndexType>
     typename dereference_result< device_ptr<T> >::type
       dereference(device_ptr<T> iter, IndexType n);
 
-template<typename T>
+template<typename Pointer>
   inline __host__ __device__
-    typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(const normal_iterator< device_ptr<T> > &iter)
+    typename dereference_result< normal_iterator<Pointer> >::type
+      dereference(const normal_iterator<Pointer> &iter)
 {
   return dereference(iter.base());
 } // end dereference()
 
-template<typename T, typename IndexType>
+template<typename Pointer, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(const normal_iterator< device_ptr<T> > &iter, IndexType n)
+    typename dereference_result< normal_iterator<Pointer> >::type
+      dereference(const normal_iterator<Pointer> &iter, IndexType n)
 {
   return dereference(iter.base(), n);
 } // end dereference()

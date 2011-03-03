@@ -117,15 +117,15 @@ template<typename T, typename IndexType>
 
 
 // normal_iterator
-template<typename T>
+template<typename Pointer>
   inline __host__ __device__
-    typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(const normal_iterator< device_ptr<T> > &iter);
+    typename dereference_result< normal_iterator<Pointer> >::type
+      dereference(const normal_iterator<Pointer> &iter);
 
-template<typename T, typename IndexType>
+template<typename Pointer, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< normal_iterator< device_ptr<T> > >::type
-      dereference(const normal_iterator< device_ptr<T> > &iter, IndexType n);
+    typename dereference_result< normal_iterator<Pointer> >::type
+      dereference(const normal_iterator<Pointer> &iter, IndexType n);
 
 
 // forced_iterator
