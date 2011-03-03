@@ -16,7 +16,7 @@
 
 
 /*! \file adjacent_difference.h
- *  \brief Host implementation of adjacent_difference.
+ *  \brief C++ implementation of adjacent_difference.
  */
 
 #pragma once
@@ -27,7 +27,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template <class InputIterator, class OutputIterator, class BinaryFunction>
@@ -54,7 +56,8 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
     return ++result;
 }
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

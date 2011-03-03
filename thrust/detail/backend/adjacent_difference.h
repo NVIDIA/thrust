@@ -21,7 +21,11 @@
 
 #pragma once
 
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
+
 #include <thrust/detail/backend/generic/adjacent_difference.h>
+#include <thrust/detail/backend/cpp/adjacent_difference.h>
 
 namespace thrust
 {
@@ -30,12 +34,39 @@ namespace detail
 namespace backend
 {
 
-template <class InputIterator, class OutputIterator, class BinaryFunction>
+namespace dispatch
+{
+
+template <typename InputIterator, typename OutputIterator, typename BinaryFunction, typename Space>
+OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   BinaryFunction binary_op,
+                                   Space)
+{
+    return thrust::detail::backend::generic::adjacent_difference(first, last, result, binary_op);
+}
+
+template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
+OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   BinaryFunction binary_op,
+                                   thrust::host_space_tag)
+{
+    return thrust::detail::backend::cpp::adjacent_difference(first, last, result, binary_op);
+}
+
+} // end namespace dispatch
+
+template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-    return thrust::detail::backend::generic::adjacent_difference(first, last, result, binary_op);
+    return thrust::detail::backend::dispatch::adjacent_difference(first, last, result, binary_op,
+        typename thrust::detail::minimum_space<
+          typename thrust::iterator_space<InputIterator>::type,
+          typename thrust::iterator_space<OutputIterator>::type
+        >::type());
 }
 
 } // end namespace backend
