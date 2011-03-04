@@ -16,7 +16,7 @@
 
 
 /*! \file find.h
- *  \brief Search for values in (unsorted) ranges [host].
+ *  \brief C++ implementation of find_if. 
  */
 
 #pragma once
@@ -25,7 +25,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template <typename InputIterator, typename Predicate>
@@ -45,7 +47,8 @@ InputIterator find_if(InputIterator first,
     return first;
 }
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

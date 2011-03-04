@@ -17,7 +17,9 @@
 
 #pragma once
 
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/generic/find.h>
+#include <thrust/detail/backend/cpp/find.h>
 
 namespace thrust
 {
@@ -25,14 +27,42 @@ namespace detail
 {
 namespace backend
 {
+namespace dispatch
+{
+
+
+template <typename InputIterator, typename Predicate, typename Backend>
+InputIterator find_if(InputIterator first,
+                      InputIterator last,
+                      Predicate pred,
+                      Backend)
+{
+  return thrust::detail::backend::generic::find_if(first, last, pred);
+}
+
+template <typename InputIterator, typename Predicate>
+InputIterator find_if(InputIterator first,
+                      InputIterator last,
+                      Predicate pred,
+                      thrust::host_space_tag)
+{
+  return thrust::detail::backend::cpp::find_if(first, last, pred);
+}
+
+
+
+} // end dispatch
+
 
 template <typename InputIterator, typename Predicate>
 InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    return thrust::detail::backend::generic::find_if(first, last, pred);
+  return thrust::detail::backend::dispatch::find_if(first, last, pred,
+      typename thrust::iterator_space<InputIterator>::type());
 }
+
 
 } // end namespace backend
 } // end namespace detail
