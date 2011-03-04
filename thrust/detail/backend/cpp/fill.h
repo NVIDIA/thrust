@@ -16,7 +16,7 @@
 
 
 /*! \file fill.h
- *  \brief Host implementation of fill.
+ *  \brief C++ implementation of fill.
  */
 
 #pragma once
@@ -25,8 +25,11 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
 {
+namespace cpp
+{
+
 
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
@@ -40,21 +43,9 @@ template<typename ForwardIterator, typename T>
     }
 }
 
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
-                        Size n,
-                        const T &value)
-{
-    for(Size i = 0; i != n; ++i)
-    {
-        *first = value;
-        ++first;
-    }
 
-    return first;
-}
-
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

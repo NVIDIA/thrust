@@ -15,10 +15,12 @@
  */
 
 
-#include <thrust/detail/backend/dispatch/fill.h>
+#include <thrust/detail/backend/fill.h>
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/distance.h>
+#include <thrust/detail/backend/cpp/fill.h>
+#include <thrust/detail/backend/cuda/fill.h>
+#include <thrust/detail/backend/generic/fill.h>
 
 namespace thrust
 {
@@ -26,15 +28,60 @@ namespace detail
 {
 namespace backend
 {
+namespace dispatch
+{
+
+
+
+template<typename ForwardIterator, typename T>
+  void fill(ForwardIterator first,
+            ForwardIterator last,
+            const T &value,
+            thrust::host_space_tag)
+{
+  thrust::detail::backend::cpp::fill(first, last, value);
+}
+
+template<typename ForwardIterator, typename T, typename Backend>
+  void fill(ForwardIterator first,
+            ForwardIterator last,
+            const T &value,
+            Backend)
+{
+  thrust::detail::backend::generic::fill(first, last, value);
+}
+
+
+template<typename OutputIterator, typename Size, typename T, typename Backend>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        Backend)
+{
+  return thrust::detail::backend::generic::fill_n(first, n, value);
+}
+
+template<typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(OutputIterator first,
+                        Size n,
+                        const T &value,
+                        thrust::detail::cuda_device_space_tag)
+{
+  return thrust::detail::backend::cuda::fill_n(first, n, value);
+}
+
+
+
+} // end namespace dispatch
+
 
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
-  // this is safe because all device iterators are
-  // random access at the moment
-  thrust::detail::backend::fill_n(first, thrust::distance(first,last), value);
+  thrust::detail::backend::dispatch::fill(first, last, value,
+    typename thrust::iterator_space<ForwardIterator>::type());
 }
 
 template<typename OutputIterator, typename Size, typename T>
@@ -42,7 +89,6 @@ template<typename OutputIterator, typename Size, typename T>
                         Size n,
                         const T &value)
 {
-  // dispatch on space
   return thrust::detail::backend::dispatch::fill_n(first, n, value,
     typename thrust::iterator_space<OutputIterator>::type());
 }

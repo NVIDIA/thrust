@@ -33,6 +33,7 @@ namespace backend
 namespace generic
 {
 
+
 template<typename OutputIterator, typename Size, typename T>
   OutputIterator fill_n(OutputIterator first,
                         Size n,
@@ -40,6 +41,16 @@ template<typename OutputIterator, typename Size, typename T>
 {
   return thrust::generate_n(first, n, thrust::detail::fill_functor<T>(value));
 }
+
+template<typename ForwardIterator, typename T>
+  void fill(ForwardIterator first,
+            ForwardIterator last,
+            const T &value)
+{
+  // this is safe because we know ForwardIterator is random access at this point
+  thrust::detail::backend::fill_n(first, thrust::distance(first,last), value);
+}
+
 
 } // end namespace generic
 } // end namespace backend
