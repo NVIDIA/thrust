@@ -53,7 +53,7 @@ template<typename ForwardIterator,
   ForwardIterator out_false = first;
   thrust::advance(out_false, num_true);
 
-  return thrust::detail::backend::generic::stable_partition_copy(temp.begin(), temp.end(), first, out_false, pred).first;
+  return thrust::stable_partition_copy(temp.begin(), temp.end(), first, out_false, pred).first;
 }
 
 template<typename InputIterator,
@@ -84,7 +84,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  return thrust::detail::backend::generic::stable_partition(first, last, pred);
+  return thrust::stable_partition(first, last, pred);
 }
 
 template<typename InputIterator,
@@ -98,7 +98,7 @@ template<typename InputIterator,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  return thrust::detail::backend::generic::stable_partition_copy(first,last,out_true,out_false,pred);
+  return thrust::stable_partition_copy(first,last,out_true,out_false,pred);
 }
 
 } // end namespace generic

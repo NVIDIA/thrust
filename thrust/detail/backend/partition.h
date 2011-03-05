@@ -21,7 +21,11 @@
 
 #pragma once
 
+#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/iterator_traits.h>
+
 #include <thrust/detail/backend/generic/partition.h>
+#include <thrust/detail/backend/cpp/partition.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -30,34 +34,48 @@ namespace detail
 {
 namespace backend
 {
+namespace dispatch
+{
+
+
+
+template<typename ForwardIterator,
+         typename Predicate,
+         typename Backend>
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
+                                   Predicate pred,
+                                   Backend)
+{
+    return thrust::detail::backend::generic::stable_partition(first, last, pred);
+}
 
 template<typename ForwardIterator,
          typename Predicate>
   ForwardIterator stable_partition(ForwardIterator first,
                                    ForwardIterator last,
-                                   Predicate pred)
+                                   Predicate pred,
+                                   thrust::host_space_tag)
 {
-    return thrust::detail::backend::generic::stable_partition(first, last, pred);
+    return thrust::detail::backend::cpp::stable_partition(first, last, pred);
 }
 
-template<typename ForwardIterator1,
-         typename ForwardIterator2,
-         typename Predicate>
-  ForwardIterator2 stable_partition_copy(ForwardIterator1 first,
-                                         ForwardIterator1 last,
-                                         ForwardIterator2 result,
-                                         Predicate pred)
-{
-    return thrust::detail::backend::generic::stable_partition_copy(first, last, result, pred);
-}
 
-template<typename ForwardIterator,
-         typename Predicate>
-  ForwardIterator partition(ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred)
+
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate,
+         typename Backend>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred,
+                          Backend)
 {
-    return thrust::detail::backend::generic::partition(first, last, pred);
+    return thrust::detail::backend::generic::stable_partition_copy(first, last, out_true, out_false, pred);
 }
 
 template<typename InputIterator,
@@ -65,13 +83,69 @@ template<typename InputIterator,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred,
+                          thrust::host_space_tag)
+{
+    return thrust::detail::backend::cpp::stable_partition_copy(first, last, out_true, out_false, pred);
+}
+
+
+
+template<typename ForwardIterator,
+         typename Predicate,
+         typename Backend>
+  ForwardIterator partition(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred,
+                            Backend)
+{
+    return thrust::detail::backend::generic::partition(first, last, pred);
+}
+
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator partition(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred,
+                            thrust::host_space_tag)
+{
+    return thrust::detail::backend::cpp::partition(first, last, pred);
+}
+
+
+
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate,
+         typename Backend>
+  thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
-                   Predicate pred)
+                   Predicate pred,
+                   Backend)
 {
     return thrust::detail::backend::generic::partition_copy(first, last, out_true, out_false, pred);
+}
+
+} // end namespace dispatch
+
+
+
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
+                                   Predicate pred)
+{
+    return thrust::detail::backend::dispatch::stable_partition(first, last, pred,
+        typename thrust::iterator_space<ForwardIterator>::type());
 }
 
 template<typename InputIterator,
@@ -85,7 +159,41 @@ template<typename InputIterator,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-    return thrust::detail::backend::generic::stable_partition_copy(first, last, out_true, out_false, pred);
+    return thrust::detail::backend::dispatch::stable_partition_copy(first, last, out_true, out_false, pred,
+        typename thrust::detail::minimum_space<
+          typename thrust::iterator_space<InputIterator>::type,
+          typename thrust::iterator_space<OutputIterator1>::type,
+          typename thrust::iterator_space<OutputIterator2>::type
+        >::type());
+}
+
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator partition(ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred)
+{
+    return thrust::detail::backend::dispatch::partition(first, last, pred,
+        typename thrust::iterator_space<ForwardIterator>::type());
+}
+
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
+{
+    return thrust::detail::backend::dispatch::partition_copy(first, last, out_true, out_false, pred,
+        typename thrust::detail::minimum_space<
+          typename thrust::iterator_space<InputIterator>::type,
+          typename thrust::iterator_space<OutputIterator1>::type,
+          typename thrust::iterator_space<OutputIterator2>::type
+        >::type());
 }
 
 } // end namespace backend

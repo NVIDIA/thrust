@@ -22,13 +22,15 @@
 #pragma once
 
 #include <thrust/pair.h>
-#include <thrust/host_vector.h>
+#include <thrust/detail/raw_buffer.h>
 
 namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template <typename ForwardIterator1,
@@ -80,8 +82,8 @@ template<typename ForwardIterator,
 {
     typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-    typedef thrust::host_vector<T>        TempRange;
-    typedef typename TempRange::iterator  TempIterator;
+    typedef thrust::detail::raw_host_buffer<T> TempRange;
+    typedef typename TempRange::iterator       TempIterator;
 
     TempRange temp(first, last);
 
@@ -138,22 +140,8 @@ template<typename InputIterator,
 }
 
 
-template<typename InputIterator,
-         typename OutputIterator1,
-         typename OutputIterator2,
-         typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(InputIterator first,
-                   InputIterator last,
-                   OutputIterator1 out_true,
-                   OutputIterator2 out_false,
-                   Predicate pred)
-{
-  return thrust::detail::host::stable_partition_copy(first,last,out_true,out_false,pred);
-}
-
-
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
