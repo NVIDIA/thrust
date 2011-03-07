@@ -16,7 +16,7 @@
 
 
 /*! \file remove.h
- *  \brief Host implementation remove functions.
+ *  \brief C++ implementation of remove algorithms.
  */
 
 #pragma once
@@ -25,7 +25,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template<typename ForwardIterator,
@@ -146,7 +148,8 @@ template<typename InputIterator1,
     return result;
 }
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
