@@ -15,19 +15,22 @@
  */
 
 
-/*! \file remove.h
- *  \brief Host implementation unique functions.
+/*! \file unique.h
+ *  \brief C++ implementation of unique functions.
  */
 
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template <typename InputIterator,
@@ -72,7 +75,7 @@ ForwardIterator unique(ForwardIterator first,
                        BinaryPredicate binary_pred)
 {
     // unique_copy() permits in-situ operation
-    return thrust::detail::host::unique_copy(first, last, first, binary_pred);
+    return thrust::detail::backend::cpp::unique_copy(first, last, first, binary_pred);
 }
 
 template <typename InputIterator1,
@@ -136,11 +139,11 @@ template <typename ForwardIterator1,
                 BinaryPredicate binary_pred)
 {
     // unique_by_key_copy() permits in-situ operation
-    return thrust::detail::host::unique_by_key_copy
-        (keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
+    return thrust::detail::backend::cpp::unique_by_key_copy(keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
 }
 
-} // last namespace host
-} // last namespace detail
-} // last namespace thrust
+} // end namespace cpp
+} // end namespace backend 
+} // end namespace detail
+} // end namespace thrust
 

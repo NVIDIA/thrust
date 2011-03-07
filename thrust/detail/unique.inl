@@ -22,7 +22,7 @@
 #include <thrust/unique.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/unique.h>
+#include <thrust/detail/backend/unique.h>
 
 namespace thrust
 {
@@ -42,8 +42,7 @@ ForwardIterator unique(ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
-  return detail::dispatch::unique(first, last, binary_pred,
-    typename thrust::iterator_space<ForwardIterator>::type());
+  return detail::backend::unique(first, last, binary_pred);
 } // end unique()
 
 
@@ -66,9 +65,7 @@ OutputIterator unique_copy(InputIterator first,
                            OutputIterator output,
                            BinaryPredicate binary_pred)
 {
-  return detail::dispatch::unique_copy(first, last, output, binary_pred,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+  return detail::backend::unique_copy(first, last, output, binary_pred);
 }
 
 template <typename ForwardIterator1,
@@ -91,10 +88,7 @@ template <typename ForwardIterator1,
                 ForwardIterator2 values_first,
                 BinaryPredicate binary_pred)
 {
-  return detail::dispatch::unique_by_key
-      (keys_first, keys_last, values_first, binary_pred,
-       typename thrust::iterator_space<ForwardIterator1>::type(),
-       typename thrust::iterator_space<ForwardIterator2>::type());
+  return detail::backend::unique_by_key(keys_first, keys_last, values_first, binary_pred);
 }
 
 template <typename InputIterator1,
@@ -126,12 +120,7 @@ template <typename InputIterator1,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred)
 {
-  return detail::dispatch::unique_by_key_copy
-      (keys_first, keys_last, values_first, keys_output, values_output, binary_pred,
-       typename thrust::iterator_space<InputIterator1>::type(),
-       typename thrust::iterator_space<InputIterator2>::type(),
-       typename thrust::iterator_space<OutputIterator2>::type(),
-       typename thrust::iterator_space<OutputIterator2>::type());
+  return detail::backend::unique_by_key_copy(keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 }
 
 } // end namespace thrust
