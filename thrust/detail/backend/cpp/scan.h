@@ -16,7 +16,7 @@
 
 
 /*! \file scan.h
- *  \brief Host implementations of scan functions.
+ *  \brief C++ implementations of scan functions.
  */
 
 #pragma once
@@ -27,7 +27,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template<typename InputIterator,
@@ -179,7 +181,8 @@ template<typename InputIterator1,
     return result;
 }
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
