@@ -20,11 +20,11 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template<typename InputIterator1,
@@ -83,9 +83,8 @@ template<typename InputIterator1,
   return std::set_union(first1,last1,first2,last2,result,comp);
 } // end set_union()
 
-} // end host
-
+} // end cpp
+} // end backend
 } // end detail
-
 } // end thrust
 
