@@ -16,15 +16,16 @@
 
 #pragma once
 
-#include <algorithm>
+#include <thrust/detail/backend/dereference.h>
+#include <thrust/copy.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template<typename InputIterator1,
@@ -38,12 +39,32 @@ template<typename InputIterator1,
                        OutputIterator result,
                        StrictWeakOrdering comp)
 {
-  return std::merge(first1,last1,first2,last2,result,comp);
+  while(first1 != last1 && first2 != last2)
+  {
+    if(comp(thrust::detail::backend::dereference(first2), 
+            thrust::detail::backend::dereference(first1)))
+    {
+      thrust::detail::backend::dereference(result) =
+        thrust::detail::backend::dereference(first2);
+
+      ++first2;
+    } // end if
+    else
+    {
+      thrust::detail::backend::dereference(result) =
+        thrust::detail::backend::dereference(first1);
+
+      ++first1;
+    } // end else
+
+    ++result;
+  } // end while
+
+  return thrust::copy(first2,last2, thrust::copy(first1, last1, result));
 } // end merge()
 
-} // end host
-
+} // end cpp
+} // end backend
 } // end detail
-
 } // end thrust
 

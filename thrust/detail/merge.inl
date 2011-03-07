@@ -21,7 +21,7 @@
 #include <thrust/merge.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
-#include <thrust/detail/dispatch/merge.h>
+#include <thrust/detail/backend/merge.h>
 
 namespace thrust
 {
@@ -37,14 +37,9 @@ template<typename InputIterator1,
                        OutputIterator result,
                        StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::merge(first1, last1,
-                                         first2, last2,
-                                         result, comp,
-    typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator>::type
-    >::type());
+  return thrust::detail::backend::merge(first1, last1,
+                                        first2, last2,
+                                        result, comp);
 } // end set_intersection()
 
 template<typename InputIterator1,
