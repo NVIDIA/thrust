@@ -16,7 +16,7 @@
 
 
 /*! \file reduce.h
- *  \brief Device implementations for reduce.
+ *  \brief Entry points for reduce backend.
  */
 
 #pragma once

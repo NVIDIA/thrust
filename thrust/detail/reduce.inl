@@ -25,7 +25,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
-#include <thrust/detail/dispatch/reduce.h>
+#include <thrust/detail/backend/reduce.h>
 
 namespace thrust
 {
@@ -60,9 +60,7 @@ template<typename InputIterator,
             T init,
             BinaryFunction binary_op)
 {
-    //dispatch on space 
-    return thrust::detail::dispatch::reduce(first, last, init, binary_op,
-            typename thrust::iterator_space<InputIterator>::type());
+    return thrust::detail::backend::reduce(first, last, init, binary_op);
 }
 
 template <typename InputIterator1,
@@ -129,18 +127,7 @@ template <typename InputIterator1,
                 BinaryPredicate binary_pred,
                 BinaryFunction binary_op)
 {
-    //dispatch on space 
-    return thrust::detail::dispatch::reduce_by_key
-            (keys_first, keys_last, 
-             values_first,
-             keys_output,
-             values_output,
-             binary_pred,
-             binary_op,
-             typename thrust::iterator_space<InputIterator1>::type(),
-             typename thrust::iterator_space<InputIterator2>::type(),
-             typename thrust::iterator_space<OutputIterator1>::type(),
-             typename thrust::iterator_space<OutputIterator2>::type());
+    return thrust::detail::backend::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 } // end namespace thrust

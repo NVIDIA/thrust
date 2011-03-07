@@ -16,7 +16,7 @@
 
 
 /*! \file reduce.h
- *  \brief Host implementation reduce.
+ *  \brief C++ implementation of reduce algorithms.
  */
 
 #pragma once
@@ -27,11 +27,11 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 
@@ -118,7 +118,8 @@ template <typename InputIterator1,
     return thrust::make_pair(keys_output, values_output);
 }
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
