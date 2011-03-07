@@ -68,9 +68,9 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_intersection(first1, last1,
-                                                    first2, last2,
-                                                    result, comp);
+  return thrust::detail::backend::set_intersection(first1, last1,
+                                                   first2, last2,
+                                                   result, comp);
 } // end set_intersection()
 
 template<typename InputIterator1,
@@ -98,9 +98,9 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_symmetric_difference(first1, last1,
-                                                            first2, last2,
-                                                            result, comp);
+  return thrust::detail::backend::set_symmetric_difference(first1, last1,
+                                                           first2, last2,
+                                                           result, comp);
 } // end set_symmetric_difference()
 
 template<typename InputIterator1,
@@ -128,9 +128,9 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_union(first1, last1,
-                                             first2, last2,
-                                             result, comp);
+  return thrust::detail::backend::set_union(first1, last1,
+                                            first2, last2,
+                                            result, comp);
 } // end set_union()
 
 template<typename InputIterator1,
