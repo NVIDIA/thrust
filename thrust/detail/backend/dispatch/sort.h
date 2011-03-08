@@ -30,28 +30,6 @@ namespace backend
 namespace dispatch
 {
 
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_sort(RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp,
-                   thrust::detail::omp_device_space_tag)
-{
-    // OpenMP implementation
-    thrust::detail::backend::omp::stable_sort(first, last, comp);
-}
-
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_sort(RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp,
-                   thrust::detail::cuda_device_space_tag)
-{
-    // CUDA implementation
-    thrust::detail::backend::cuda::stable_sort(first, last, comp);
-}
-
 template<typename RandomAccessKeyIterator,
          typename RandomAccessValueIterator,
          typename StrictWeakOrdering>

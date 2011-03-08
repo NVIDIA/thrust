@@ -26,7 +26,10 @@
 #include <thrust/detail/trivial_sequence.h>
 
 #include <thrust/detail/backend/dispatch/sort.h>
+
 #include <thrust/detail/backend/generic/sort.h>
+#include <thrust/detail/backend/cuda/sort.h>
+#include <thrust/detail/backend/omp/sort.h>
 
 namespace thrust
 {
@@ -48,6 +51,37 @@ template<typename RandomAccessIterator,
 {
   thrust::detail::backend::generic::sort(first,last,comp);
 } // end sort()
+
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(RandomAccessIterator first,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp,
+                   thrust::detail::cuda_device_space_tag)
+{
+    // ensure sequence has trivial iterators
+    // XXX this prologue belongs somewhere else
+    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+
+    thrust::detail::backend::cuda::stable_sort(keys.begin(), keys.end(), comp);
+
+    // copy results back, if necessary
+    // XXX this epilogue belongs somewhere else
+    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
+        thrust::copy(keys.begin(), keys.end(), first);
+}
+
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(RandomAccessIterator first,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp,
+                   thrust::detail::omp_device_space_tag)
+{
+    thrust::detail::backend::omp::stable_sort(first, last, comp);
+}
 
 
 template<typename RandomAccessIterator1,
@@ -84,17 +118,10 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-    // ensure sequence has trivial iterators
-    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+    thrust::detail::backend::dispatch::stable_sort(first, last, comp,
+        typename thrust::iterator_space<RandomAccessIterator>::type());
+} // end stable_sort()
 
-    // dispatch on space
-    thrust::detail::backend::dispatch::stable_sort(keys.begin(), keys.end(), comp,
-            typename thrust::iterator_space<RandomAccessIterator>::type());
-
-    // copy results back, if necessary
-    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
-        thrust::copy(keys.begin(), keys.end(), first);
-}
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -110,7 +137,8 @@ template<typename RandomAccessIterator1,
           typename thrust::iterator_space<RandomAccessIterator1>::type,
           typename thrust::iterator_space<RandomAccessIterator2>::type
         >::type());
-}
+} // end sort_by_key()
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -135,7 +163,8 @@ template<typename RandomAccessIterator1,
         thrust::copy(keys.begin(), keys.end(), keys_first);
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
         thrust::copy(values.begin(), values.end(), values_first);
-}
+} // end stable_sort_by_key()
+
 
 } // end namespace backend
 } // end namespace detail
