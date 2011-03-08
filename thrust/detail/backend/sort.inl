@@ -20,12 +20,10 @@
  */
 
 #include <thrust/copy.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
-
 #include <thrust/detail/trivial_sequence.h>
 
-#include <thrust/detail/backend/dispatch/sort.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 
 #include <thrust/detail/backend/generic/sort.h>
 #include <thrust/detail/backend/cuda/sort.h>
@@ -60,16 +58,16 @@ template<typename RandomAccessIterator,
                    StrictWeakOrdering comp,
                    thrust::detail::cuda_device_space_tag)
 {
-    // ensure sequence has trivial iterators
-    // XXX this prologue belongs somewhere else
-    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+  // ensure sequence has trivial iterators
+  // XXX this prologue belongs somewhere else
+  thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
 
-    thrust::detail::backend::cuda::stable_sort(keys.begin(), keys.end(), comp);
+  thrust::detail::backend::cuda::stable_sort(keys.begin(), keys.end(), comp);
 
-    // copy results back, if necessary
-    // XXX this epilogue belongs somewhere else
-    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
-        thrust::copy(keys.begin(), keys.end(), first);
+  // copy results back, if necessary
+  // XXX this epilogue belongs somewhere else
+  if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
+    thrust::copy(keys.begin(), keys.end(), first);
 }
 
 
@@ -80,7 +78,7 @@ template<typename RandomAccessIterator,
                    StrictWeakOrdering comp,
                    thrust::detail::omp_device_space_tag)
 {
-    thrust::detail::backend::omp::stable_sort(first, last, comp);
+  thrust::detail::backend::omp::stable_sort(first, last, comp);
 }
 
 
@@ -97,6 +95,43 @@ template<typename RandomAccessIterator1,
   thrust::detail::backend::generic::sort_by_key(keys_first,keys_last,values_first,comp);
 } // end sort_by_key()
 
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
+                          StrictWeakOrdering comp,
+                          thrust::detail::cuda_device_space_tag)
+{
+  // ensure sequences have trivial iterators
+  // XXX this prologue belongs somewhere else
+  RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
+  thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
+  thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_last);
+
+  thrust::detail::backend::cuda::stable_sort_by_key(keys.begin(), keys.end(), values.begin(), comp);
+
+  // copy results back, if necessary
+  // XXX this epilogue belongs somewhere else
+  if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
+    thrust::copy(keys.begin(), keys.end(), keys_first);
+  if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
+    thrust::copy(values.begin(), values.end(), values_first);
+} // end stable_sort_by_key()
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
+                          StrictWeakOrdering comp,
+                          thrust::detail::omp_device_space_tag)
+{
+  return thrust::detail::backend::omp::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+} // end stable_sort_by_key()
+
 
 } // end dispatch
 
@@ -107,8 +142,8 @@ template<typename RandomAccessIterator,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-    thrust::detail::backend::dispatch::sort(first, last, comp,
-        typename thrust::iterator_space<RandomAccessIterator>::type());
+  thrust::detail::backend::dispatch::sort(first, last, comp,
+    typename thrust::iterator_space<RandomAccessIterator>::type());
 } // end sort()
 
 
@@ -118,8 +153,8 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-    thrust::detail::backend::dispatch::stable_sort(first, last, comp,
-        typename thrust::iterator_space<RandomAccessIterator>::type());
+  thrust::detail::backend::dispatch::stable_sort(first, last, comp,
+    typename thrust::iterator_space<RandomAccessIterator>::type());
 } // end stable_sort()
 
 
@@ -131,12 +166,12 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-    thrust::detail::backend::dispatch::sort_by_key(keys_first, keys_last, values_first, comp,
-        typename thrust::detail::minimum_space<
-          typename thrust::iterator_space<RandomAccessIterator1>::type,
-          typename thrust::iterator_space<RandomAccessIterator1>::type,
-          typename thrust::iterator_space<RandomAccessIterator2>::type
-        >::type());
+  thrust::detail::backend::dispatch::sort_by_key(keys_first, keys_last, values_first, comp,
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<RandomAccessIterator1>::type,
+      typename thrust::iterator_space<RandomAccessIterator1>::type,
+      typename thrust::iterator_space<RandomAccessIterator2>::type
+    >::type());
 } // end sort_by_key()
 
 
@@ -148,21 +183,11 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-    // ensure sequences have trivial iterators
-    RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-    thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
-    thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_last);
-
-    // dispatch on space
-    thrust::detail::backend::dispatch::stable_sort_by_key(keys.begin(), keys.end(), values.begin(), comp,
-            typename thrust::iterator_space<RandomAccessIterator1>::type(),
-            typename thrust::iterator_space<RandomAccessIterator2>::type());
-
-    // copy results back, if necessary
-    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
-        thrust::copy(keys.begin(), keys.end(), keys_first);
-    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
-        thrust::copy(values.begin(), values.end(), values_first);
+  thrust::detail::backend::dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp,
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<RandomAccessIterator1>::type,
+      typename thrust::iterator_space<RandomAccessIterator2>::type
+    >::type());
 } // end stable_sort_by_key()
 
 
