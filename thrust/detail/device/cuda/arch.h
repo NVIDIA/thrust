@@ -24,15 +24,15 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/tuple.h>
 
 // #include this for size_t
 #include <cstddef>
 
-// #include this for dim3
-#include <vector_types.h>
-
-// #include this for cudaDeviceProp
-#include <cuda_runtime_api.h>
+// avoid #including a header,
+// just provide forward declarations
+struct cudaDeviceProp;
+struct cudaFuncAttributes;
 
 namespace thrust
 {
@@ -82,11 +82,11 @@ inline size_t max_active_threads(void);
 
 /*! This function returns the maximum size of each
  *  dimension of a grid of thread blocks.
- *  \return A dim3 containing, for each dimension, the maximum
+ *  \return A 3-tuple containing, for each dimension, the maximum
  *          size of a grid of thread blocks.
  */
-inline dim3 max_grid_dimensions(const cudaDeviceProp&);
-inline dim3 max_grid_dimensions(void);
+inline thrust::tuple<unsigned int,unsigned int,unsigned int> max_grid_dimensions(const cudaDeviceProp&);
+inline thrust::tuple<unsigned int,unsigned int,unsigned int> max_grid_dimensions(void);
 
 /*! This function returns the maximum number of
  *  blocks (of a particular kernel) that can be resident on

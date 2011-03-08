@@ -19,6 +19,13 @@
  *  \brief Inline file for arch.h.
  */
 
+#include <thrust/detail/config.h>
+
+// guard this file, which depends on CUDA, from compilers which aren't nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
+#include <cuda_runtime_api.h>
+
 #include <string>
 #include <algorithm>
 
@@ -26,9 +33,6 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda_error.h>
 #include <map>
-
-// #include this for make_uint3
-#include <vector_functions.h>
 
 namespace thrust
 {
@@ -153,9 +157,9 @@ size_t max_active_threads(const cudaDeviceProp& properties)
 } // end max_active_threads()
 
 
-dim3 max_grid_dimensions(const cudaDeviceProp& properties)
+thrust::tuple<unsigned int,unsigned int,unsigned int> max_grid_dimensions(const cudaDeviceProp& properties)
 {
-    return make_uint3(properties.maxGridSize[0], properties.maxGridSize[1], properties.maxGridSize[2]);
+    return thrust::make_tuple(properties.maxGridSize[0], properties.maxGridSize[1], properties.maxGridSize[2]);
 } // end max_grid_dimensions()
   
 
@@ -220,7 +224,7 @@ size_t max_active_threads(void)
     return max_active_threads(properties);
 }
 
-dim3 max_grid_dimensions(void)
+thrust::tuple<unsigned int,unsigned int,unsigned int> max_grid_dimensions(void)
 {
     cudaDeviceProp properties;  
     detail::checked_get_current_device_properties(properties);
@@ -356,4 +360,6 @@ size_t max_blocksize_subject_to_smem_usage(KernelFunction kernel, UnaryFunction 
 } // end namespace device
 } // end namespace detail
 } // end namespace thrust
+
+#endif // THRUST_DEVICE_COMPILER_NVCC
 
