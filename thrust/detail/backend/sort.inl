@@ -21,10 +21,12 @@
 
 #include <thrust/copy.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 
 #include <thrust/detail/trivial_sequence.h>
 
 #include <thrust/detail/backend/dispatch/sort.h>
+#include <thrust/detail/backend/generic/sort.h>
 
 namespace thrust
 {
@@ -32,6 +34,38 @@ namespace detail
 {
 namespace backend
 {
+namespace dispatch
+{
+
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering,
+         typename Backend>
+  void sort(RandomAccessIterator first,
+            RandomAccessIterator last,
+            StrictWeakOrdering comp,
+            Backend)
+{
+  thrust::detail::backend::generic::sort(first,last,comp);
+} // end sort()
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering,
+         typename Backend>
+  void sort_by_key(RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first,
+                   StrictWeakOrdering comp,
+                   Backend)
+{
+  thrust::detail::backend::generic::sort_by_key(keys_first,keys_last,values_first,comp);
+} // end sort_by_key()
+
+
+} // end dispatch
+
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -39,9 +73,10 @@ template<typename RandomAccessIterator,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-    // forward to stable_sort
-    thrust::detail::backend::stable_sort(first, last, comp);
-}
+    thrust::detail::backend::dispatch::sort(first, last, comp,
+        typename thrust::iterator_space<RandomAccessIterator>::type());
+} // end sort()
+
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -69,8 +104,12 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-    // forward to stable_sort_by_key
-    thrust::detail::backend::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+    thrust::detail::backend::dispatch::sort_by_key(keys_first, keys_last, values_first, comp,
+        typename thrust::detail::minimum_space<
+          typename thrust::iterator_space<RandomAccessIterator1>::type,
+          typename thrust::iterator_space<RandomAccessIterator1>::type,
+          typename thrust::iterator_space<RandomAccessIterator2>::type
+        >::type());
 }
 
 template<typename RandomAccessIterator1,
