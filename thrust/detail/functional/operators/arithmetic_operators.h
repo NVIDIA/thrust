@@ -144,6 +144,90 @@ operator%(const T1 &_1, const T2 &_2)
                  as_actor<T2>::convert(_2));
 } // end operator%()
 
+// there's no standard prefix_increment functional, so roll an ad hoc one here
+template<typename T>
+  struct prefix_increment
+    : public thrust::unary_function<T&,T&>
+{
+  __host__ __device__ T& operator()(T &x) const { return ++x; }
+}; // end prefix_increment
+
+template<typename Eval>
+__host__ __device__
+actor<
+  composite<
+    unary_operator<prefix_increment>,
+    actor<Eval>
+  >
+>
+operator++(const actor<Eval> &_1)
+{
+  return compose(unary_operator<prefix_increment>(), _1);
+} // end operator++()
+
+// there's no standard suffix_increment functional, so roll an ad hoc one here
+template<typename T>
+  struct suffix_increment
+    : public thrust::unary_function<T&,T>
+{
+  __host__ __device__ T operator()(T &x) const { return x++; }
+}; // end suffix_increment
+
+template<typename Eval>
+__host__ __device__
+actor<
+  composite<
+    unary_operator<suffix_increment>,
+    actor<Eval>
+  >
+>
+operator++(const actor<Eval> &_1, int)
+{
+  return compose(unary_operator<suffix_increment>(), _1);
+} // end operator++()
+
+// there's no standard prefix_decrement functional, so roll an ad hoc one here
+template<typename T>
+  struct prefix_decrement
+    : public thrust::unary_function<T&,T&>
+{
+  __host__ __device__ T& operator()(T &x) const { return --x; }
+}; // end prefix_decrement
+
+template<typename Eval>
+__host__ __device__
+actor<
+  composite<
+    unary_operator<prefix_decrement>,
+    actor<Eval>
+  >
+>
+operator--(const actor<Eval> &_1)
+{
+  return compose(unary_operator<prefix_decrement>(), _1);
+} // end operator--()
+
+// there's no standard suffix_decrement functional, so roll an ad hoc one here
+template<typename T>
+  struct suffix_decrement
+    : public thrust::unary_function<T&,T>
+{
+  __host__ __device__ T operator()(T &x) const { return x--; }
+}; // end suffix_decrement
+
+template<typename Eval>
+__host__ __device__
+actor<
+  composite<
+    unary_operator<suffix_decrement>,
+    actor<Eval>
+  >
+>
+operator--(const actor<Eval> &_1, int)
+{
+  return compose(unary_operator<suffix_decrement>(), _1);
+} // end operator--()
+
 } // end functional
 } // end detail
 } // end thrust
