@@ -15,21 +15,21 @@
  */
 
 /*! \file copy.h
- *  \brief Host implementations of copy functions.
+ *  \brief C++ implementations of copy functions.
  */
 
 #pragma once
 
-#include <thrust/detail/host/dispatch/copy.h>
+#include <thrust/detail/backend/cpp/dispatch/copy.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 
@@ -39,7 +39,7 @@ template<typename InputIterator,
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::detail::host::dispatch::copy(first, last, result,
+  return thrust::detail::backend::cpp::dispatch::copy(first, last, result,
       typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
 } // end copy()
 
@@ -50,7 +50,7 @@ template<typename InputIterator,
                         Size n,
                         OutputIterator result)
 {
-  return thrust::detail::host::dispatch::copy_n(first, n, result,
+  return thrust::detail::backend::cpp::dispatch::copy_n(first, n, result,
       typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
 } // end copy()
 
@@ -80,9 +80,9 @@ template<typename InputIterator1,
   return result;
 } // end copy_if()
 
-} // end host
 
+} // end cpp
+} // end backend
 } // end detail
-
 } // end thrust
 

@@ -19,7 +19,7 @@
  *  \brief Inline file for copy.h.
  */
 
-#include <thrust/detail/dispatch/copy.h>
+#include <thrust/detail/backend/copy.h>
 
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -42,9 +42,7 @@ template<typename InputIterator,
   if(first == last) 
     return result;
 
-  return thrust::detail::dispatch::copy(first, last, result,
-          typename thrust::iterator_space<InputIterator>::type(),
-          typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::backend::copy(first, last, result);
 }
 
 ////////////
@@ -62,9 +60,7 @@ template<typename InputIterator,
   if(n <= Size(0)) 
     return result;
 
-  return thrust::detail::dispatch::copy_n(first, n, result,
-          typename thrust::iterator_space<InputIterator>::type(),
-          typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::backend::copy_n(first, n, result);
 }
 
 
@@ -129,10 +125,7 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
-  return detail::dispatch::copy_if(first, last, stencil, result, pred,
-          typename thrust::iterator_space<InputIterator1>::type(),
-          typename thrust::iterator_space<InputIterator2>::type(),
-          typename thrust::iterator_space<OutputIterator>::type());
+  return detail::backend::copy_if(first, last, stencil, result, pred);
 }
 
 } // end namespace thrust

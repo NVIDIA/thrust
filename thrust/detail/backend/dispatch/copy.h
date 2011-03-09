@@ -19,6 +19,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/detail/backend/cpp/copy.h>
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/cuda/copy.h>
 #include <thrust/detail/backend/generic/copy_if.h>
@@ -33,20 +34,74 @@ namespace backend
 namespace dispatch
 {
 
-//////////////////
-// OpenMP Paths //
-//////////////////
+namespace detail
+{
 
-// omp path
-// XXX this dispatch process is pretty lousy,
-//     but we can't implement copy(host,omp) & copy(omp,host)
-//     with generic::copy
+// dispatch procedure:
+// 1. if either space is cuda, dispatch to cuda::copy
+// 2. else if either space is omp, dispatch to omp::copy
+// 3. else if either space is cpp, dispatch to cpp::copy
+// 4. else error
+
+template<typename Space1, typename Space2>
+  struct copy_case
+    : thrust::detail::eval_if<
+        thrust::detail::or_<
+          thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>,
+          thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>
+        >::value,
+        thrust::detail::identity_<thrust::detail::cuda_device_space_tag>,
+        thrust::detail::eval_if<
+          thrust::detail::or_<
+            thrust::detail::is_same<Space1,thrust::detail::omp_device_space_tag>,
+            thrust::detail::is_same<Space2,thrust::detail::omp_device_space_tag>
+          >::value,
+          thrust::detail::identity_<thrust::detail::omp_device_space_tag>,
+          thrust::detail::eval_if<
+            thrust::detail::or_<
+              thrust::detail::is_same<Space1,thrust::host_space_tag>,
+              thrust::detail::is_same<Space2,thrust::host_space_tag>
+            >::value,
+            thrust::detail::identity_<thrust::host_space_tag>,
+            thrust::detail::identity_<void>
+          >
+        >
+      >
+{};
+
+} // end detail
+
+
+
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::false_type) // no space is CUDA
+                      thrust::host_space_tag)
+{
+  return thrust::detail::backend::cpp::copy(first,last,result);
+} // end copy()
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::host_space_tag)
+{
+  return thrust::detail::backend::cpp::copy_n(first,n,result);
+} // end copy_n()
+
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy(InputIterator first,
+                      InputIterator last,
+                      OutputIterator result,
+                      thrust::detail::omp_device_space_tag)
 {
   return thrust::detail::backend::omp::copy(first, last, result);
 } // end copy()
@@ -57,10 +112,36 @@ template<typename InputIterator,
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::false_type) // no space is CUDA
+                        thrust::detail::omp_device_space_tag)
 {
   return thrust::detail::backend::omp::copy_n(first, n, result);
 } // end copy_n()
+
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy(InputIterator first,
+                      InputIterator last,
+                      OutputIterator result,
+                      thrust::detail::cuda_device_space_tag)
+{
+  return thrust::detail::backend::cuda::copy(first, last, result);
+} // end copy()
+
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result,
+                        thrust::detail::cuda_device_space_tag)
+{
+  return thrust::detail::backend::cuda::copy_n(first, n, result);
+} // end copy_n()
+
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -77,30 +158,19 @@ template<typename InputIterator1,
   return thrust::detail::backend::generic::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
 
-////////////////
-// CUDA Paths //
-////////////////
-
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy(InputIterator first,
-                      InputIterator last,
-                      OutputIterator result,
-                      thrust::detail::true_type) // at least one of the spaces is CUDA
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred,
+                         thrust::host_space_tag)
 {
-  return thrust::detail::backend::cuda::copy(first, last, result);
-} // end copy()
-
-template<typename InputIterator,
-         typename Size,
-         typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
-                        Size n,
-                        OutputIterator result,
-                        thrust::detail::true_type) // at least one of the spaces is CUDA
-{
-  return thrust::detail::backend::cuda::copy_n(first, n, result);
-} // end copy_n()
+  return thrust::detail::backend::cpp::copy_if(first, last, stencil, result, pred);
+} // end copy_if()
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -116,74 +186,37 @@ template<typename InputIterator1,
   return thrust::detail::backend::cuda::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
 
-//////////////////
-// Entry points //
-//////////////////
+
+
+// entry points
 
 template<typename InputIterator,
-         typename OutputIterator,
-         typename Space1,
-         typename Space2>
+         typename OutputIterator>
   OutputIterator copy(InputIterator first,
                       InputIterator last,
-                      OutputIterator result,
-                      Space1,
-                      Space2)
+                      OutputIterator result)
 {
-  // inspect both spaces
-  typedef typename thrust::detail::integral_constant<bool,
-    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
-  > is_one_of_the_spaces_cuda;
-
-  return copy(first, last, result,
-    is_one_of_the_spaces_cuda());
+  return thrust::detail::backend::dispatch::copy(first,last,result,
+    typename thrust::detail::backend::dispatch::detail::copy_case<
+      typename thrust::iterator_space<InputIterator>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
 } // end copy()
 
 template<typename InputIterator,
          typename Size,
-         typename OutputIterator,
-         typename Space1,
-         typename Space2>
-  OutputIterator copy_n(InputIterator first,
-                        Size n,
-                        OutputIterator result,
-                        Space1,
-                        Space2)
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator  first, 
+                        Size n, 
+                        OutputIterator result)
 {
-  // inspect both spaces
-  typedef typename thrust::detail::integral_constant<bool,
-    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value
-  > is_one_of_the_spaces_cuda;
-
-  return copy_n(first, n, result,
-    is_one_of_the_spaces_cuda());
-} // end copy_n()
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate,
-         typename Space1,
-         typename Space2,
-         typename Space3>
-   OutputIterator copy_if(InputIterator1 first,
-                          InputIterator1 last,
-                          InputIterator2 stencil,
-                          OutputIterator output,
-                          Predicate pred,
-                          Space1,
-                          Space2,
-                          Space3)
-{
-  return copy_if(first, last, stencil, output, pred,
-    typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
+  return thrust::detail::backend::dispatch::copy_n(first, n, result,
+    typename thrust::detail::backend::dispatch::detail::copy_case<
+      typename thrust::iterator_space<InputIterator>::type,
       typename thrust::iterator_space<OutputIterator>::type
     >::type());
-} // end copy_if()
+} // end copy_n()
+
 
 } // end namespace dispatch
 } // end namespace backend

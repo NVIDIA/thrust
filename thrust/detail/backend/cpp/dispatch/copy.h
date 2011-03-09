@@ -18,20 +18,18 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/host/detail/general_copy.h>
-#include <thrust/detail/host/detail/trivial_copy.h>
+#include <thrust/detail/backend/cpp/detail/general_copy.h>
+#include <thrust/detail/backend/cpp/detail/trivial_copy.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace host
+namespace backend
 {
-
-
+namespace cpp
+{
 namespace dispatch
 {
 
@@ -43,7 +41,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::detail::false_type)
 {
-  return thrust::detail::host::detail::general_copy(first, last, result);
+  return thrust::detail::backend::cpp::detail::general_copy(first, last, result);
 } // end copy()
 
 
@@ -55,7 +53,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::detail::false_type)
 {
-  return thrust::detail::host::detail::general_copy_n(first, n, result);
+  return thrust::detail::backend::cpp::detail::general_copy_n(first, n, result);
 } // end copy_n()
 
 
@@ -69,7 +67,7 @@ template<typename RandomAccessIterator1,
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type Size;
 
   const Size n = last - first;
-  thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
+  thrust::detail::backend::cpp::detail::trivial_copy_n(&*first, n, &*result);
   return result + n;
 } // end copy()
 
@@ -82,16 +80,14 @@ template<typename RandomAccessIterator1,
                                RandomAccessIterator2 result,
                                thrust::detail::true_type)
 {
-  thrust::detail::host::detail::trivial_copy_n(&*first, n, &*result);
+  thrust::detail::backend::cpp::detail::trivial_copy_n(&*first, n, &*result);
   return result + n;
 } // end copy_n()
 
 
 } // end dispatch
-
-} // end host
-
+} // end cpp
+} // end backend
 } // end detail
-
 } // end thrust
 

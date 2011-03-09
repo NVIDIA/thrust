@@ -17,38 +17,47 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <cstring>
-
 
 namespace thrust
 {
-
+namespace detail
+{
+namespace backend
+{
+namespace cpp
+{
 namespace detail
 {
 
-namespace host
-{
 
-namespace detail
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator general_copy(InputIterator first,
+                              InputIterator last,
+                              OutputIterator result)
 {
+  for(; first != last; ++first, ++result)
+    *result = *first;
+  return result;
+} // end general_copy()
 
 
-template<typename T>
-  T *trivial_copy_n(const T *first,
-                    std::ptrdiff_t n,
-                    T *result)
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator general_copy_n(InputIterator first,
+                                Size n,
+                                OutputIterator result)
 {
-  std::memmove(result, first, n * sizeof(T));
-  return result + n;
-} // end trivial_copy_n()
+  for(; n > Size(0); ++first, ++result, --n)
+    *result = *first;
+  return result;
+} // end general_copy_n()
 
 
 } // end detail
-
-} // end host
-
+} // end cpp
+} // end backend
 } // end detail
-
 } // end thrust
-
 

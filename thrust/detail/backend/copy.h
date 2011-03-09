@@ -18,6 +18,7 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/backend/dispatch/copy.h>
 
 namespace thrust
@@ -33,9 +34,7 @@ template<typename InputIterator,
                       InputIterator  last, 
                       OutputIterator result)
 {
-  return thrust::detail::backend::dispatch::copy(first, last, result,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::backend::dispatch::copy(first, last, result);
 }
 
 template<typename InputIterator,
@@ -45,9 +44,7 @@ template<typename InputIterator,
                         Size n, 
                         OutputIterator result)
 {
-  return thrust::detail::backend::dispatch::copy_n(first, n, result,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::backend::dispatch::copy_n(first, n, result);
 }
 
 
@@ -62,9 +59,11 @@ template<typename InputIterator1,
                          Predicate pred)
 {
   return thrust::detail::backend::dispatch::copy_if(first, last, stencil, result, pred,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
 }
 
 } // end namespace backend
