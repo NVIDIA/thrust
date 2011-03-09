@@ -26,17 +26,6 @@ namespace host
 namespace detail
 {
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator,
-          typename StrictWeakOrdering>
-OutputIterator merge(InputIterator1 first1,
-                     InputIterator1 last1,
-                     InputIterator2 first2,
-                     InputIterator2 last2,
-                     OutputIterator output,
-                     StrictWeakOrdering comp);
-
 template <typename RandomAccessIterator,
           typename StrictWeakOrdering>
 void inplace_merge(RandomAccessIterator first,

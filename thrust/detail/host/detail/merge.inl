@@ -17,7 +17,8 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/host_vector.h>
+#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/backend/merge.h>
 
 namespace thrust
 {
@@ -27,52 +28,6 @@ namespace host
 {
 namespace detail
 {
-
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator,
-          typename StrictWeakOrdering>
-OutputIterator merge(InputIterator1 first1,
-                     InputIterator1 last1,
-                     InputIterator2 first2,
-                     InputIterator2 last2,
-                     OutputIterator output,
-                     StrictWeakOrdering comp)
-{
-    while(first1 != last1 && first2 != last2)
-    {
-        if(!comp(*first2, *first1))
-        {
-            // *first1 <= *first2
-            *output = *first1;
-            ++first1;
-        }
-        else
-        {
-            // *first1 > first2
-            *output = *first2;
-            ++first2;
-        }
-
-        ++output;
-    }
-    
-    while(first1 != last1)
-    {
-        *output = *first1;
-        ++first1;
-        ++output;
-    }
-    
-    while(first2 != last2)
-    {
-        *output = *first2;
-        ++first2;
-        ++output;
-    }
-
-    return output;
-}
 
 
 template <typename RandomAccessIterator,
@@ -84,10 +39,10 @@ void inplace_merge(RandomAccessIterator first,
 {
     typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-    thrust::host_vector<value_type> a( first, middle);
-    thrust::host_vector<value_type> b(middle,   last);
+    thrust::detail::raw_host_buffer<value_type> a( first, middle);
+    thrust::detail::raw_host_buffer<value_type> b(middle,   last);
 
-    thrust::detail::host::detail::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
+    thrust::detail::backend::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 
@@ -171,10 +126,10 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
     RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
     RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-    thrust::host_vector<value_type1> lhs1( first1, middle1);
-    thrust::host_vector<value_type1> rhs1(middle1,   last1);
-    thrust::host_vector<value_type2> lhs2( first2, middle2);
-    thrust::host_vector<value_type2> rhs2(middle2,   last2);
+    thrust::detail::raw_host_buffer<value_type1> lhs1( first1, middle1);
+    thrust::detail::raw_host_buffer<value_type1> rhs1(middle1,   last1);
+    thrust::detail::raw_host_buffer<value_type2> lhs2( first2, middle2);
+    thrust::detail::raw_host_buffer<value_type2> rhs2(middle2,   last2);
 
     thrust::detail::host::detail::merge_by_key
         (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),

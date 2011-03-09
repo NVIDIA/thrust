@@ -23,6 +23,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/functional.h>
+#include <thrust/find.h>
 #include <thrust/detail/dispatch/sort.h>
 
 namespace thrust
