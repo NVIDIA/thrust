@@ -15,7 +15,7 @@
  */
 
 
-#include <thrust/detail/host/sort.h>
+#include <thrust/detail/backend/cpp/sort.h>
 
 #include <thrust/iterator/detail/forced_iterator.h> // XXX remove this we we have a proper OMP sort
 #include <thrust/iterator/iterator_traits.h>
@@ -52,11 +52,11 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
 {
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
 
-    // XXX use host stable_sort_by_key implementation for now
-    thrust::detail::host::stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()),
-                                             thrust::detail::make_forced_iterator(keys_last,    thrust::host_space_tag()),
-                                             thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()),
-                                             comp);
+    // XXX use cpp stable_sort_by_key implementation for now
+    thrust::detail::backend::cpp::stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()),
+                                                     thrust::detail::make_forced_iterator(keys_last,    thrust::host_space_tag()),
+                                                     thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()),
+                                                     comp);
 }
 
 } // end namespace omp

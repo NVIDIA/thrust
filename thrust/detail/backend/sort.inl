@@ -26,6 +26,7 @@
 #include <thrust/iterator/detail/minimum_space.h>
 
 #include <thrust/detail/backend/generic/sort.h>
+#include <thrust/detail/backend/cpp/sort.h>
 #include <thrust/detail/backend/cuda/sort.h>
 #include <thrust/detail/backend/omp/sort.h>
 
@@ -49,6 +50,28 @@ template<typename RandomAccessIterator,
 {
   thrust::detail::backend::generic::sort(first,last,comp);
 } // end sort()
+
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void sort(RandomAccessIterator first,
+            RandomAccessIterator last,
+            StrictWeakOrdering comp,
+            thrust::host_space_tag)
+{
+  thrust::detail::backend::cpp::sort(first,last,comp);
+} // end sort()
+
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(RandomAccessIterator first,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp,
+                   thrust::host_space_tag)
+{
+  thrust::detail::backend::cpp::stable_sort(first,last,comp);
+}
 
 
 template<typename RandomAccessIterator,
@@ -94,6 +117,33 @@ template<typename RandomAccessIterator1,
 {
   thrust::detail::backend::generic::sort_by_key(keys_first,keys_last,values_first,comp);
 } // end sort_by_key()
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void sort_by_key(RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first,
+                   StrictWeakOrdering comp,
+                   thrust::host_space_tag)
+{
+  thrust::detail::backend::cpp::sort_by_key(keys_first,keys_last,values_first,comp);
+} // end sort_by_key()
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
+                          StrictWeakOrdering comp,
+                          thrust::host_space_tag)
+{
+  thrust::detail::backend::cpp::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+} // end stable_sort_by_key()
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,

@@ -16,7 +16,7 @@
 
 
 /*! \file sort.h
- *  \brief Host interface to sorting functions.
+ *  \brief Interface to C++ sort functions.
  */
 
 #pragma once
@@ -25,7 +25,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
 template<typename RandomAccessIterator,
@@ -56,9 +58,10 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp);
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include "sort.inl"
+#include <thrust/detail/backend/cpp/sort.inl>
 

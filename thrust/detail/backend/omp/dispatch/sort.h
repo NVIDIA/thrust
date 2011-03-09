@@ -19,7 +19,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/device_ptr.h>
 #include <algorithm>
-#include <thrust/detail/host/sort.h>
+#include <thrust/detail/backend/cpp/sort.h>
 
 #include <thrust/iterator/detail/forced_iterator.h> // XXX remove this we we have a proper OMP sort
 
@@ -52,10 +52,10 @@ template<typename RandomAccessIterator, typename StrictWeakOrdering>
 void stable_sort(RandomAccessIterator first, RandomAccessIterator last, StrictWeakOrdering comp,
                  thrust::detail::false_type)
 {
-  // RandomAccessIterator is not trivial, so use host's stable_sort implementation
-  thrust::detail::host::stable_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()),
-                                    thrust::detail::make_forced_iterator(last,  thrust::host_space_tag()),
-                                    comp);
+  // RandomAccessIterator is not trivial, so use cpp's stable_sort implementation
+  thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()),
+                                            thrust::detail::make_forced_iterator(last,  thrust::host_space_tag()),
+                                            comp);
 }
 
 } // end dispatch

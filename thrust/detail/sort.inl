@@ -24,7 +24,7 @@
 #include <thrust/distance.h>
 #include <thrust/functional.h>
 #include <thrust/find.h>
-#include <thrust/detail/dispatch/sort.h>
+#include <thrust/detail/backend/sort.h>
 
 namespace thrust
 {
@@ -49,9 +49,7 @@ template<typename RandomAccessIterator,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-    // dispatch on space
-    thrust::detail::dispatch::sort(first, last, comp,
-            typename thrust::iterator_space<RandomAccessIterator>::type());
+    thrust::detail::backend::sort(first, last, comp);
 }
 
 template<typename RandomAccessIterator>
@@ -70,9 +68,7 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-    // dispatch on space
-    thrust::detail::dispatch::stable_sort(first, last, comp,
-            typename thrust::iterator_space<RandomAccessIterator>::type());
+    thrust::detail::backend::stable_sort(first, last, comp);
 }
 
 
@@ -101,10 +97,7 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-    // dispatch on space
-    thrust::detail::dispatch::sort_by_key(keys_first, keys_last, values_first, comp,
-            typename thrust::iterator_space<RandomAccessIterator1>::type(),
-            typename thrust::iterator_space<RandomAccessIterator2>::type());
+    thrust::detail::backend::sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 template<typename RandomAccessIterator1,
@@ -127,10 +120,7 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-    // dispatch on space
-    thrust::detail::dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp,
-            typename thrust::iterator_space<RandomAccessIterator1>::type(),
-            typename thrust::iterator_space<RandomAccessIterator2>::type());
+    thrust::detail::backend::stable_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 template<typename ForwardIterator>

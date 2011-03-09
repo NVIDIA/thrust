@@ -27,9 +27,12 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 
+// XXX this is redundant with generic::sort
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
   void sort(RandomAccessIterator first,
@@ -64,6 +67,7 @@ template<typename RandomAccessIterator,
         thrust::copy(keys.begin(), keys.end(), first);
 }
 
+// XXX this is redundant with generic::sort_by_key
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
@@ -73,7 +77,7 @@ template<typename RandomAccessIterator1,
                    StrictWeakOrdering comp)
 {
     // forward to stable_sort_by_key
-    thrust::detail::host::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+    thrust::detail::backend::cpp::stable_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 template<typename RandomAccessIterator1,
@@ -99,7 +103,8 @@ template<typename RandomAccessIterator1,
        thrust::copy(values.begin(), values.end(), values_first);
 }
 
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
