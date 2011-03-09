@@ -20,7 +20,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 namespace detail
 {
@@ -40,9 +42,10 @@ template<typename RandomAccessIterator1,
                                 StrictWeakOrdering comp);
 
 } // end namespace detail
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include "stable_merge_sort.inl"
+#include <thrust/detail/backend/cpp/detail/stable_merge_sort.inl>
 

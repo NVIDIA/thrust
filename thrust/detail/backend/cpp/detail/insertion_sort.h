@@ -16,13 +16,15 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/host/detail/copy_backward.h>
+#include <thrust/detail/backend/cpp/detail/copy_backward.h>
 
 namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 namespace detail
 {
@@ -44,7 +46,7 @@ void insertion_sort(RandomAccessIterator first,
         if (comp(tmp, *first))
         {
             // tmp is the smallest value encountered so far
-            thrust::detail::host::detail::copy_backward(first, i, i + 1);
+            thrust::detail::backend::cpp::detail::copy_backward(first, i, i + 1);
             *first = tmp;
         }
         else
@@ -89,8 +91,8 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
         if (comp(tmp1, *first1))
         {
             // tmp is the smallest value encountered so far
-            thrust::detail::host::detail::copy_backward(first1, i1, i1 + 1);
-            thrust::detail::host::detail::copy_backward(first2, i2, i2 + 1);
+            thrust::detail::backend::cpp::detail::copy_backward(first1, i1, i1 + 1);
+            thrust::detail::backend::cpp::detail::copy_backward(first2, i2, i2 + 1);
             *first1 = tmp1;
             *first2 = tmp2;
         }
@@ -122,7 +124,8 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
 }
 
 } // end namespace detail
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

@@ -21,7 +21,7 @@
 
 #include <thrust/detail/trivial_sequence.h>
 
-#include <thrust/detail/host/detail/stable_merge_sort.h>
+#include <thrust/detail/backend/cpp/detail/stable_merge_sort.h>
 
 namespace thrust
 {
@@ -40,7 +40,7 @@ template<typename RandomAccessIterator,
     thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
  
     // perform the sort
-    thrust::detail::host::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
+    thrust::detail::backend::cpp::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
   
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
@@ -57,7 +57,7 @@ template<typename RandomAccessIterator,
     thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
 
     // perform the sort
-    thrust::detail::host::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
+    thrust::detail::backend::cpp::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
   
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
@@ -90,7 +90,7 @@ template<typename RandomAccessIterator1,
     thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_last);
 
     // perform the sort
-    thrust::detail::host::detail::stable_merge_sort_by_key(keys.begin(), keys.end(), values.begin(), comp);
+    thrust::detail::backend::cpp::detail::stable_merge_sort_by_key(keys.begin(), keys.end(), values.begin(), comp);
 
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)

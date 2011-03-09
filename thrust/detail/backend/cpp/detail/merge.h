@@ -21,7 +21,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 namespace detail
 {
@@ -61,9 +63,10 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
                           StrictWeakOrdering comp);
 
 } // end namespace detail
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/host/detail/merge.inl>
+#include <thrust/detail/backend/cpp/detail/merge.inl>
 

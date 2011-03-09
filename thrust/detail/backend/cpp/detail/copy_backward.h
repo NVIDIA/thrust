@@ -19,7 +19,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 namespace detail
 {
@@ -41,7 +43,8 @@ BidirectionalIterator2 copy_backward(BidirectionalIterator1 first,
 }
 
 } // end namespace detail
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

@@ -24,7 +24,9 @@ namespace thrust
 {
 namespace detail
 {
-namespace host
+namespace backend
+{
+namespace cpp
 {
 namespace detail
 {
@@ -131,14 +133,15 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
     thrust::detail::raw_host_buffer<value_type2> lhs2( first2, middle2);
     thrust::detail::raw_host_buffer<value_type2> rhs2(middle2,   last2);
 
-    thrust::detail::host::detail::merge_by_key
+    thrust::detail::backend::cpp::detail::merge_by_key
         (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
          lhs2.begin(), rhs2.begin(),
          first1, first2, comp);
 }
 
 } // end namespace detail
-} // end namespace host
+} // end namespace cpp
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
