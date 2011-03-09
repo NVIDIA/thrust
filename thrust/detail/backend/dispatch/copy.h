@@ -22,8 +22,6 @@
 #include <thrust/detail/backend/cpp/copy.h>
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/cuda/copy.h>
-#include <thrust/detail/backend/generic/copy_if.h>
-#include <thrust/detail/backend/cuda/copy_if.h>
 
 namespace thrust
 {
@@ -140,51 +138,6 @@ template<typename InputIterator,
 {
   return thrust::detail::backend::cuda::copy_n(first, n, result);
 } // end copy_n()
-
-
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate,
-         typename Backend>
-  OutputIterator copy_if(InputIterator1 first,
-                         InputIterator1 last,
-                         InputIterator2 stencil,
-                         OutputIterator result,
-                         Predicate pred,
-                         Backend)
-{
-  return thrust::detail::backend::generic::copy_if(first, last, stencil, result, pred);
-} // end copy_if()
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(InputIterator1 first,
-                         InputIterator1 last,
-                         InputIterator2 stencil,
-                         OutputIterator result,
-                         Predicate pred,
-                         thrust::host_space_tag)
-{
-  return thrust::detail::backend::cpp::copy_if(first, last, stencil, result, pred);
-} // end copy_if()
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(InputIterator1 first,
-                         InputIterator1 last,
-                         InputIterator2 stencil,
-                         OutputIterator result,
-                         Predicate pred,
-                         thrust::detail::cuda_device_space_tag)
-{
-  return thrust::detail::backend::cuda::copy_if(first, last, stencil, result, pred);
-} // end copy_if()
 
 
 

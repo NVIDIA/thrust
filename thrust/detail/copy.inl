@@ -20,6 +20,7 @@
  */
 
 #include <thrust/detail/backend/copy.h>
+#include <thrust/detail/backend/copy_if.h>
 
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>

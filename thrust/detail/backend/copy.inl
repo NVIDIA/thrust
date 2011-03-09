@@ -14,14 +14,12 @@
  *  limitations under the License.
  */
 
-/*! \file copy.h
- *  \brief C++ implementations of copy functions.
- */
 
 #pragma once
 
-#include <thrust/detail/backend/cpp/dispatch/copy.h>
-#include <thrust/detail/dispatch/is_trivial_copy.h>
+#include <thrust/detail/backend/dispatch/copy.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 
 namespace thrust
 {
@@ -29,34 +27,27 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
-{
-
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator first,
-                      InputIterator last,
+  OutputIterator copy(InputIterator  first, 
+                      InputIterator  last, 
                       OutputIterator result)
 {
-  return thrust::detail::backend::cpp::dispatch::copy(first, last, result,
-      typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
-} // end copy()
+  return thrust::detail::backend::dispatch::copy(first, last, result);
+}
 
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
-                        Size n,
+  OutputIterator copy_n(InputIterator  first, 
+                        Size n, 
                         OutputIterator result)
 {
-  return thrust::detail::backend::cpp::dispatch::copy_n(first, n, result,
-      typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
-} // end copy()
+  return thrust::detail::backend::dispatch::copy_n(first, n, result);
+}
 
-
-} // end cpp
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 
