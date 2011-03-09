@@ -32,23 +32,6 @@ namespace backend
 namespace cpp
 {
 
-// XXX this is redundant with generic::sort
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void sort(RandomAccessIterator first,
-            RandomAccessIterator last,
-            StrictWeakOrdering comp)
-{
-    // ensure sequence has trivial iterators
-    thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
- 
-    // perform the sort
-    thrust::detail::backend::cpp::detail::stable_merge_sort(keys.begin(), keys.end(), comp);
-  
-    // copy results back, if necessary
-    if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
-        thrust::copy(keys.begin(), keys.end(), first);
-}
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -65,19 +48,6 @@ template<typename RandomAccessIterator,
     // copy results back, if necessary
     if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
         thrust::copy(keys.begin(), keys.end(), first);
-}
-
-// XXX this is redundant with generic::sort_by_key
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void sort_by_key(RandomAccessIterator1 keys_first,
-                   RandomAccessIterator1 keys_last,
-                   RandomAccessIterator2 values_first,
-                   StrictWeakOrdering comp)
-{
-    // forward to stable_sort_by_key
-    thrust::detail::backend::cpp::stable_sort_by_key(keys_first, keys_last, values_first, comp);
 }
 
 template<typename RandomAccessIterator1,
