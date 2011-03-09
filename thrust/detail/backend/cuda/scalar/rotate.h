@@ -22,7 +22,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace cuda
 {
@@ -112,7 +112,7 @@ __device__
 
 } // end scalar
 } // end cuda
-} // end device
+} // end backend
 } // end detail
 } // end thrust
 

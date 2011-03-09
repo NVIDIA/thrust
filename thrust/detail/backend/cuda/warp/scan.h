@@ -22,7 +22,7 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 namespace cuda
@@ -52,7 +52,7 @@ InputType scan(const unsigned int thread_lane, InputType val, InputIterator sdat
 
 } // end namespace cuda
 
-} // end namespace device
+} // end namespace backend
 
 } // end namespace detail
 

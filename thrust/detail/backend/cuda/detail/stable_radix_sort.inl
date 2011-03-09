@@ -38,7 +38,7 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
-#include <thrust/detail/device/cuda/synchronize.h>
+#include <thrust/detail/backend/cuda/synchronize.h>
 
 #include <thrust/detail/raw_buffer.h>
 
@@ -54,7 +54,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace cuda
 {
@@ -1277,7 +1277,7 @@ void radix_sort_by_key(unsigned int * keys,
 
 } // end namespace detail
 } // end namespace cuda
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

@@ -25,7 +25,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace cuda
 {
@@ -36,7 +36,7 @@ template<typename OutputIterator, typename Size, typename T>
                         const T &value);
 
 } // end namespace cuda
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

@@ -24,14 +24,14 @@
 
 #include <thrust/iterator/detail/forced_iterator.h> // XXX remove this we we have a proper OMP sort
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/omp/dispatch/sort.h>
+#include <thrust/detail/backend/omp/dispatch/sort.h>
 
 
 namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace omp
 {
@@ -112,7 +112,7 @@ void stable_merge_sort(RandomAccessIterator first,
 
 } // end namespace detail
 } // end namespace omp
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

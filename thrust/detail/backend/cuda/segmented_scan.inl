@@ -24,27 +24,25 @@
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#include <thrust/detail/device/cuda/arch.h>
+#include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/functional.h>
 
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/util/blocking.h>
-#include <thrust/detail/device/cuda/warp/scan.h>
+#include <thrust/detail/backend/cuda/warp/scan.h>
 
-#include <thrust/detail/device/dereference.h>
-#include <thrust/detail/device/cuda/synchronize.h>
+#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/backend/cuda/synchronize.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace device
+namespace backend
 {
-
 namespace cuda
 {
+
   
 typedef unsigned int FlagType;
 
@@ -68,11 +66,11 @@ InputType segscan_warp1(const unsigned int thread_lane, InputType val, FlagType 
 #if __CUDA_ARCH__ >= 120
     // optimization
     if (!__any(mindex))
-        return thrust::detail::device::cuda::warp::scan(thread_lane, val, sval, binary_op);
+        return thrust::detail::backend::cuda::warp::scan(thread_lane, val, sval, binary_op);
 #endif
 
     // (1) Convert head flags to min_indices form
-    mindex = thrust::detail::device::cuda::warp::scan(thread_lane, mindex, sflg, thrust::maximum<FlagType>());
+    mindex = thrust::detail::backend::cuda::warp::scan(thread_lane, mindex, sflg, thrust::maximum<FlagType>());
 
     // (2) Perform segmented scan across warp
     sval[threadIdx.x] = val;
@@ -100,12 +98,12 @@ void segscan_warp2(const unsigned int thread_lane, FlagType flg, InputIterator s
 //#if __CUDA_ARCH__ >= 120
 //    // optimization
 //    if (!__any(flg))
-//        thrust::detail::device::cuda::warp::scan(thread_lane, sval[threadIdx.x], sval, binary_op);
+//        thrust::detail::backend::cuda::warp::scan(thread_lane, sval[threadIdx.x], sval, binary_op);
 //#endif
 
     // (1) Convert head flags to min_indices form
     FlagType mindex = (flg) ? thread_lane : 0;
-    mindex = thrust::detail::device::cuda::warp::scan(thread_lane, mindex, sflg, thrust::maximum<FlagType>());
+    mindex = thrust::detail::backend::cuda::warp::scan(thread_lane, mindex, sflg, thrust::maximum<FlagType>());
 
     // (2) Perform segmented scan across warp
     if (thread_lane >= mindex +  1)  sval[threadIdx.x] = binary_op(sval[threadIdx.x -  1], sval[threadIdx.x]);
@@ -141,7 +139,7 @@ inclusive_update_kernel(OutputIterator result,
 
     for(unsigned int i = interval_begin + thread_lane; i < interval_end; i += 32)
     {
-        thrust::detail::device::dereference(result, i) = binary_op(carry, thrust::detail::device::dereference(result, i));
+        thrust::detail::backend::dereference(result, i) = binary_op(carry, thrust::detail::backend::dereference(result, i));
     }
 }
 
@@ -175,23 +173,23 @@ exclusive_update_kernel(OutputIterator result,
 
     if(i < interval_end)
     {
-        OutputType val = thrust::detail::device::dereference(result, i);
+        OutputType val = thrust::detail::backend::dereference(result, i);
         
         if (thread_lane == 0)
             val = carry;
         else
             val = binary_op(carry, val);
         
-        thrust::detail::device::dereference(result, i) = val;
+        thrust::detail::backend::dereference(result, i) = val;
     }
 
     for(i += 32; i < interval_end; i += 32)
     {
-        OutputType val = thrust::detail::device::dereference(result, i);
+        OutputType val = thrust::detail::backend::dereference(result, i);
 
         val = binary_op(carry, val);
 
-        thrust::detail::device::dereference(result, i) = val;
+        thrust::detail::backend::dereference(result, i) = val;
     }
 }
 
@@ -254,14 +252,14 @@ void inclusive_scan_kernel(InputIterator1 first1,
 
   if(i < interval_end)
   {
-      OutputType val = thrust::detail::device::dereference(first1, i);
-      KeyType    key = thrust::detail::device::dereference(first2, i);
+      OutputType val = thrust::detail::backend::dereference(first1, i);
+      KeyType    key = thrust::detail::backend::dereference(first2, i);
 
       // compute head flags
       skey[threadIdx.x] = key;
       if (thread_lane == 0)
       {
-          if(warp_id == 0 || !pred(thrust::detail::device::dereference(first2, i - 1), key))
+          if(warp_id == 0 || !pred(thrust::detail::backend::dereference(first2, i - 1), key))
               first_segment_end = i;
           mindex = thread_lane;
       }
@@ -277,7 +275,7 @@ void inclusive_scan_kernel(InputIterator1 first1,
 
       val = segscan_warp1(thread_lane, val, mindex, sval, sflg, binary_op);
 
-      thrust::detail::device::dereference(result, i) = val;
+      thrust::detail::backend::dereference(result, i) = val;
       
       i += 32;
   }
@@ -285,8 +283,8 @@ void inclusive_scan_kernel(InputIterator1 first1,
   
   while(i < interval_end)
   {
-      OutputType val = thrust::detail::device::dereference(first1, i);
-      KeyType    key = thrust::detail::device::dereference(first2, i);
+      OutputType val = thrust::detail::backend::dereference(first1, i);
+      KeyType    key = thrust::detail::backend::dereference(first2, i);
 
       if (thread_lane == 0)
       {
@@ -310,7 +308,7 @@ void inclusive_scan_kernel(InputIterator1 first1,
 
       val = segscan_warp1(thread_lane, val, mindex, sval, sflg, binary_op);
 
-      thrust::detail::device::dereference(result, i) = val;
+      thrust::detail::backend::dereference(result, i) = val;
       
       i += 32;
   }
@@ -322,7 +320,7 @@ void inclusive_scan_kernel(InputIterator1 first1,
   }
 
   // compute first segment boundary
-  first_segment_end = thrust::detail::device::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
+  first_segment_end = thrust::detail::backend::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
 
   // write out initial segment length
   if (thread_lane == 31)
@@ -332,27 +330,27 @@ void inclusive_scan_kernel(InputIterator1 first1,
 //  if(thread_lane == 0){
 //    unsigned int initial_segment_length = interval_end - interval_begin;
 //
-//    OutputType sum = thrust::detail::device::dereference(first1, i);
-//    thrust::detail::device::dereference(result, i) = sum;
+//    OutputType sum = thrust::detail::backend::dereference(first1, i);
+//    thrust::detail::backend::dereference(result, i) = sum;
 //
 //    i++;
 //    while( i < interval_end ){
-//        if (pred(thrust::detail::device::dereference(first2, i - 1), thrust::detail::device::dereference(first2, i)))
+//        if (pred(thrust::detail::backend::dereference(first2, i - 1), thrust::detail::backend::dereference(first2, i)))
 //        {
-//            sum = binary_op(sum, thrust::detail::device::dereference(first1, i));
+//            sum = binary_op(sum, thrust::detail::backend::dereference(first1, i));
 //        }
 //        else 
 //        {
-//            sum = thrust::detail::device::dereference(first1, i);
+//            sum = thrust::detail::backend::dereference(first1, i);
 //            initial_segment_length = min(initial_segment_length, i - interval_begin);
 //        }
 //
-//        thrust::detail::device::dereference(result, i) = sum;
+//        thrust::detail::backend::dereference(result, i) = sum;
 //        i++;
 //    }
 //
-//    if (warp_id > 0 && !pred(thrust::detail::device::dereference(first2, interval_begin - 1), 
-//                             thrust::detail::device::dereference(first2, interval_begin)))
+//    if (warp_id > 0 && !pred(thrust::detail::backend::dereference(first2, interval_begin - 1), 
+//                             thrust::detail::backend::dereference(first2, interval_begin)))
 //        initial_segment_length = 0; // segment does not overlap interval boundary
 //    
 //    final_val[warp_id] = sum;
@@ -425,13 +423,13 @@ void exclusive_scan_kernel(InputIterator1 first1,
 
   if(i < interval_end)
   {
-      sval[threadIdx.x] = thrust::detail::device::dereference(first1, i);
-      skey[threadIdx.x] = thrust::detail::device::dereference(first2, i);
+      sval[threadIdx.x] = thrust::detail::backend::dereference(first1, i);
+      skey[threadIdx.x] = thrust::detail::backend::dereference(first2, i);
 
       // compute head flags
       if (thread_lane == 0)
       {
-          if(warp_id == 0 || !pred(thrust::detail::device::dereference(first2, i - 1), skey[threadIdx.x]))
+          if(warp_id == 0 || !pred(thrust::detail::backend::dereference(first2, i - 1), skey[threadIdx.x]))
               first_segment_end = i;
           flg = 1;
       }
@@ -447,7 +445,7 @@ void exclusive_scan_kernel(InputIterator1 first1,
 
       segscan_warp2(thread_lane, flg, sval, sflg, binary_op);
   
-      first_segment_end = thrust::detail::device::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
+      first_segment_end = thrust::detail::backend::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
       
       if (thread_lane != 0)
           val = sval[threadIdx.x - 1]; // value to the left
@@ -458,7 +456,7 @@ void exclusive_scan_kernel(InputIterator1 first1,
           val = binary_op(init, val);
 
       // when thread_lane == 0 and warp_id != 0, result is bogus
-      thrust::detail::device::dereference(result, i) = val;
+      thrust::detail::backend::dereference(result, i) = val;
       
       i += 32;
   }
@@ -473,8 +471,8 @@ void exclusive_scan_kernel(InputIterator1 first1,
           key = skey[threadIdx.x + 31];
       }
              
-      sval[threadIdx.x] = thrust::detail::device::dereference(first1, i);
-      skey[threadIdx.x] = thrust::detail::device::dereference(first2, i);
+      sval[threadIdx.x] = thrust::detail::backend::dereference(first1, i);
+      skey[threadIdx.x] = thrust::detail::backend::dereference(first2, i);
 
       if (thread_lane == 0 && pred(key, skey[threadIdx.x]))
           sval[threadIdx.x] = binary_op(val, sval[threadIdx.x]);           // segment spans warp boundary
@@ -494,7 +492,7 @@ void exclusive_scan_kernel(InputIterator1 first1,
 
       segscan_warp2(thread_lane, flg, sval, sflg, binary_op);
 
-      first_segment_end = thrust::detail::device::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
+      first_segment_end = thrust::detail::backend::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
 
       if (thread_lane != 0)
           val = sval[threadIdx.x - 1]; // value to the left
@@ -504,7 +502,7 @@ void exclusive_scan_kernel(InputIterator1 first1,
       else if (first_segment_end < i)
           val = binary_op(init, val);
 
-      thrust::detail::device::dereference(result, i) = val;
+      thrust::detail::backend::dereference(result, i) = val;
      
       i += 32;
   }
@@ -516,7 +514,7 @@ void exclusive_scan_kernel(InputIterator1 first1,
   }
 
   // compute first segment boundary
-  first_segment_end = thrust::detail::device::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
+  first_segment_end = thrust::detail::backend::cuda::warp::scan(thread_lane, first_segment_end, sflg, thrust::minimum<FlagType>());
 
   // write out initial segment length
   if (thread_lane == 31)
@@ -527,36 +525,36 @@ void exclusive_scan_kernel(InputIterator1 first1,
 //  if(thread_lane == 0){
 //    unsigned int initial_segment_length = interval_end - interval_begin;
 //
-//    OutputType temp = thrust::detail::device::dereference(first1, i);
+//    OutputType temp = thrust::detail::backend::dereference(first1, i);
 //    OutputType next;
 //    
-//    if (warp_id == 0 || !pred(thrust::detail::device::dereference(first2, interval_begin - 1), 
-//                              thrust::detail::device::dereference(first2, interval_begin)))
+//    if (warp_id == 0 || !pred(thrust::detail::backend::dereference(first2, interval_begin - 1), 
+//                              thrust::detail::backend::dereference(first2, interval_begin)))
 //
 //    {
 //        initial_segment_length = 0; // segment does not overlap interval boundary
 //        next = binary_op(init, temp);
-//        thrust::detail::device::dereference(result, i) = init;
+//        thrust::detail::backend::dereference(result, i) = init;
 //    }
 //    else
 //    {
 //        next = temp;
-//        //thrust::detail::device::dereference(result, i) = ???; // no value to put here
+//        //thrust::detail::backend::dereference(result, i) = ???; // no value to put here
 //    }
 //      
 //
 //    i++;
 //
 //    while( i < interval_end ){
-//        temp = thrust::detail::device::dereference(first1, i);
+//        temp = thrust::detail::backend::dereference(first1, i);
 // 
-//        if (!pred(thrust::detail::device::dereference(first2, i - 1), thrust::detail::device::dereference(first2, i)))
+//        if (!pred(thrust::detail::backend::dereference(first2, i - 1), thrust::detail::backend::dereference(first2, i)))
 //        {
 //            next = init;
 //            initial_segment_length = min(initial_segment_length, i - interval_begin);
 //        }
 //
-//        thrust::detail::device::dereference(result, i) = next;
+//        thrust::detail::backend::dereference(result, i) = next;
 //        
 //        next = binary_op(next, temp);
 //
@@ -627,7 +625,7 @@ template<typename InputIterator1,
 
     static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
 
-    const unsigned int max_blocks = thrust::detail::device::cuda::arch::max_active_threads()/block_size;
+    const unsigned int max_blocks = thrust::detail::backend::cuda::arch::max_active_threads()/block_size;
     const unsigned int warps_per_block = block_size/warp_size;
 
     const unsigned int num_units  = thrust::detail::util::divide_ri(n, warp_size);
@@ -698,7 +696,7 @@ template<typename InputIterator1,
     
     static const size_t block_size = (blocksize_limit1 < blocksize_limit2) ? blocksize_limit1 : blocksize_limit2;
 
-    const unsigned int max_blocks = thrust::detail::device::cuda::arch::max_active_threads()/block_size;
+    const unsigned int max_blocks = thrust::detail::backend::cuda::arch::max_active_threads()/block_size;
     const unsigned int warps_per_block = block_size/warp_size;
 
     const unsigned int num_units  = thrust::detail::util::divide_ri(n, warp_size);
@@ -737,11 +735,8 @@ template<typename InputIterator1,
 
 
 } // end namespace cuda
-
-} // end namespace device
-
+} // end namespace backend
 } // end namespace detail
-
 } // end namespace thrust
 
 #endif // THRUST_DEVICE_COMPILER_NVCC

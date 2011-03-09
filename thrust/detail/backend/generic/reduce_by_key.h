@@ -16,7 +16,7 @@
 
 
 /*! \file reduce_by_key.h
- *  \brief Generic device implementation of reduce_by_key()
+ *  \brief Generic implementation of reduce_by_key()
  */
 
 #pragma once
@@ -25,7 +25,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace generic
 {
@@ -45,7 +45,7 @@ template <typename InputIterator1,
                      BinaryPredicate binary_pred);
 
 } // end namespace generic
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

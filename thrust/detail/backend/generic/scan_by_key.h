@@ -16,7 +16,7 @@
 
 
 /*! \file scan_by_key.h
- *  \brief Generic device implementations of key-value scans.
+ *  \brief Generic implementations of key-value scans.
  */
 
 #pragma once
@@ -25,7 +25,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace generic
 {
@@ -57,7 +57,7 @@ template<typename InputIterator1,
                                        AssociativeOperator binary_op);
 
 } // end namespace generic
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

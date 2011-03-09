@@ -16,7 +16,7 @@
 
 
 /*! \file copy.h
- *  \brief Generic device implementation of copy.
+ *  \brief Generic implementation of copy.
  */
 
 #pragma once
@@ -30,7 +30,7 @@ namespace thrust
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 // XXX WAR circular #inclusion problems
@@ -49,12 +49,12 @@ template<typename InputIterator,
                       OutputIterator result)
 {
   typedef typename thrust::iterator_value<InputIterator>::type T;
-  return thrust::detail::device::transform(first, last, result, thrust::identity<T>());
+  return thrust::detail::backend::transform(first, last, result, thrust::identity<T>());
 } // end copy()
 
 } // end generic
 
-} // end device
+} // end backend
 
 } // end detail
 

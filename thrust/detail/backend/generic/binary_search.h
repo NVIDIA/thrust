@@ -25,7 +25,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace generic
 {
@@ -73,7 +73,7 @@ OutputIterator binary_search(ForwardIterator begin,
                              StrictWeakOrdering comp);
 
 } // end namespace generic
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

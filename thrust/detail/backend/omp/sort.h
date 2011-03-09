@@ -25,7 +25,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace omp
 {
@@ -45,7 +45,7 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
                         StrictWeakOrdering comp);
 
 } // end namespace omp
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

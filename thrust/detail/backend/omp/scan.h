@@ -16,7 +16,7 @@
 
 
 /*! \file scan.h
- *  \brief Scan operations (parallel prefix-sum) [OpenMP]
+ *  \brief Interface to OpenMP implementation of scan functions.
  */
 
 #pragma once
@@ -25,7 +25,7 @@ namespace thrust
 {
 namespace detail
 {
-namespace device
+namespace backend
 {
 namespace omp
 {
@@ -49,7 +49,7 @@ template<typename InputIterator,
                                 AssociativeOperator binary_op);
 
 } // end namespace omp
-} // end namespace device
+} // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 

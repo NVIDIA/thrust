@@ -18,13 +18,10 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace device
+namespace backend
 {
-
 namespace omp
 {
 
@@ -35,11 +32,8 @@ OutputIterator copy_host_or_any_to_device(InputIterator first,
                                           OutputIterator result);
 
 } // end omp
-
 } // end backend
-
 } // end detail
-
 } // end thrust
 
 #include <thrust/detail/backend/omp/copy_host_or_any_to_device.inl>
