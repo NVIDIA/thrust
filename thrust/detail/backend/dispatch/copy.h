@@ -17,6 +17,8 @@
 #pragma once
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/cuda/copy.h>
 #include <thrust/detail/backend/generic/copy_if.h>
@@ -63,13 +65,14 @@ template<typename InputIterator,
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
-         typename Predicate>
+         typename Predicate,
+         typename Backend>
   OutputIterator copy_if(InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred,
-                         thrust::detail::false_type) // no space is CUDA
+                         Backend)
 {
   return thrust::detail::backend::generic::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
@@ -108,7 +111,7 @@ template<typename InputIterator1,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred,
-                         thrust::detail::true_type) // at least one of the spaces is CUDA
+                         thrust::detail::cuda_device_space_tag)
 {
   return thrust::detail::backend::cuda::copy_if(first, last, stencil, result, pred);
 } // end copy_if()
@@ -174,15 +177,12 @@ template<typename InputIterator1,
                           Space2,
                           Space3)
 {
-  // inspect all spaces
-  typedef typename thrust::detail::integral_constant<bool,
-    thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>::value ||
-    thrust::detail::is_same<Space3,thrust::detail::cuda_device_space_tag>::value
-  > is_one_of_the_spaces_cuda;
-
   return copy_if(first, last, stencil, output, pred,
-    is_one_of_the_spaces_cuda());
+    typename thrust::detail::minimum_space<
+      typename thrust::iterator_space<InputIterator1>::type,
+      typename thrust::iterator_space<InputIterator2>::type,
+      typename thrust::iterator_space<OutputIterator>::type
+    >::type());
 } // end copy_if()
 
 } // end namespace dispatch
