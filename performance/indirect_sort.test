@@ -15,8 +15,8 @@ PREAMBLE = \
         __host__ __device__
         bool operator()(IndexType a, IndexType b)
         {
-            return comp(thrust::detail::device::dereference(first, a),
-                        thrust::detail::device::dereference(first, b));
+            return comp(thrust::detail::backend::dereference(first, a),
+                        thrust::detail::backend::dereference(first, b));
         }    
     };
     
@@ -37,7 +37,7 @@ PREAMBLE = \
     
         thrust::device_vector<T> temp(first, last);
     
-        thrust::gather(first, last, permutation.begin(), temp.begin());
+        thrust::gather(permutation.begin(), permutation.end(), temp.begin(), first);
     }
     """
 

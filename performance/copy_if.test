@@ -1,6 +1,6 @@
 PREAMBLE = \
     """
-    #include <thrust/detail/device/cuda/copy_if.h>
+    #include <thrust/detail/backend/cuda/copy_if.h>
     #include <thrust/copy.h>
     #include <thrust/device_vector.h>
     #include <thrust/host_vector.h>
@@ -19,8 +19,6 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-
-    //cudaSetDevice(1);
 
     thrust::host_vector<int> h_input($InputSize); thrust::sequence(h_input.begin(), h_input.end());
     thrust::host_vector<int> h_stencil = unittest::random_integers<bool>($InputSize);
@@ -52,7 +50,7 @@ FINALIZE = \
     RECORD_BANDWIDTH((2*sizeof(int) + 2*sizeof(float)) *  double($InputSize));
     """
 
-Functions  = ['thrust::copy_if','thrust::detail::device::cuda::copy_if']
+Functions  = ['thrust::copy_if','thrust::detail::backend::cuda::copy_if']
 InputSizes = [2**N for N in range(20, 27)]
 
 TestVariables = [('Function',Functions), ('InputSize', InputSizes)]
