@@ -65,38 +65,6 @@ template<typename InputIterator,
 }
 
 
-///////////////
-// copy_when //
-///////////////
-
-template<typename InputIterator,
-         typename PredicateIterator,
-         typename OutputIterator>
-  OutputIterator copy_when(InputIterator first,
-                           InputIterator last,
-                           PredicateIterator stencil,
-                           OutputIterator result)
-{
-    // default predicate is identity
-    typedef typename thrust::iterator_traits<PredicateIterator>::value_type StencilType;
-    return thrust::copy_when(first, last, stencil, result, thrust::identity<StencilType>());
-}
-
-template<typename InputIterator,
-         typename PredicateIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_when(InputIterator first,
-                           InputIterator last,
-                           PredicateIterator stencil,
-                           OutputIterator result,
-                           Predicate pred)
-{
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    return thrust::transform_if(first, last, stencil, result, thrust::identity<InputType>(), pred);
-}
-
-
 /////////////
 // copy_if //
 /////////////
