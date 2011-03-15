@@ -8,7 +8,11 @@ struct FixedVector
     T data[N];
     
     __host__ __device__
-    FixedVector() : data() { }
+    FixedVector()
+    {
+        for(unsigned int i = 0; i < N; i++)
+            data[i] = T();
+    }
 
     __host__ __device__
     FixedVector(T init)
