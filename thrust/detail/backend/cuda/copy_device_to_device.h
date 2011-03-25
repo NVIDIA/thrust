@@ -22,14 +22,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/distance.h>
-#include <thrust/transform.h>
-#include <thrust/functional.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/raw_buffer.h>
-
-#include <thrust/detail/backend/cuda/trivial_copy.h>
 
 namespace thrust
 {
@@ -43,84 +35,12 @@ namespace backend
 namespace cuda
 {
 
-namespace detail
-{
 
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator copy_device_to_device(InputIterator begin, 
                                        InputIterator end, 
-                                       OutputIterator result,
-                                       thrust::detail::false_type)
-{
-    // general case (mixed types)
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    return thrust::transform(begin, end, result, thrust::identity<InputType>());
-#else
-    // we're not compiling with nvcc: copy [begin, end) to temp host memory
-    typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
-
-    raw_buffer<InputType, host_space_tag> temp1(begin, end);
-
-    // transform temp1 to OutputType in host memory
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    raw_buffer<OutputType, host_space_tag> temp2(temp1.begin(), temp1.end());
-
-    // copy temp2 to device
-    result = thrust::detail::backend::cuda::copy_cross_space(temp2.begin(), temp2.end(), result);
-
-    return result;
-#endif // THRUST_DEVICE_COMPILER_NVCC
-}
-
-
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result,
-                                       thrust::detail::true_type)
-{
-    // specialization for device to device when the value_types match, operator= is not overloaded,
-    // and the iterators are pointers
-
-    // how many elements to copy?
-    typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
-
-    thrust::detail::backend::cuda::trivial_copy_n(begin, n, result);
-
-    return result + n;
-}
-
-} // end namespace detail
-
-/////////////////
-// Entry Point //
-/////////////////
-
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result)
-{
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-    const bool use_trivial_copy = 
-        thrust::detail::is_same<InputType, OutputType>::value
-        && thrust::detail::is_trivial_iterator<InputIterator>::value 
-        && thrust::detail::is_trivial_iterator<OutputIterator>::value;
-
-    // XXX WAR nvcc 3.0 unused variable warning
-    (void) use_trivial_copy;
-
-    return detail::copy_device_to_device(begin, end, result,
-            thrust::detail::integral_constant<bool, use_trivial_copy>());
-
-}
+                                       OutputIterator result);
 
 } // end namespace cuda
 
@@ -129,4 +49,6 @@ template<typename InputIterator,
 } // end namespace detail
 
 } // end namespace thrust
+
+#include <thrust/detail/backend/cuda/copy_device_to_device.inl>
 
