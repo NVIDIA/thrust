@@ -19,7 +19,7 @@
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/gather.h>
 #include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>

@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/for_each.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 #include <thrust/distance.h>

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>

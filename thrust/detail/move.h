@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>

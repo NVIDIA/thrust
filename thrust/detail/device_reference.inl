@@ -20,7 +20,7 @@
  */
 
 #include <thrust/device_reference.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <iostream>

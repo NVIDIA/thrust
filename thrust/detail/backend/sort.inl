@@ -19,7 +19,7 @@
  *  \brief Inline file for sort.h
  */
 
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/trivial_sequence.h>
 
 #include <thrust/iterator/iterator_traits.h>

@@ -30,7 +30,7 @@
 #include <thrust/detail/internal_functional.h>
 
 #include <thrust/detail/backend/scan.h>
-#include <thrust/detail/backend/copy.h>
+#include <thrust/detail/backend/copy_if.h>
 
 namespace thrust
 {

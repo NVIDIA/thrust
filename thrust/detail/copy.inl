@@ -15,23 +15,13 @@
  */
 
 
-/*! \file copy.inl
- *  \brief Inline file for copy.h.
- */
-
+#include <thrust/detail/config.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/backend/copy.h>
-#include <thrust/detail/backend/copy_if.h>
-
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/transform.h>
 
 namespace thrust
 {
 
-//////////
-// copy //
-//////////
 
 template<typename InputIterator,
          typename OutputIterator>
@@ -46,10 +36,6 @@ template<typename InputIterator,
   return thrust::detail::backend::copy(first, last, result);
 }
 
-////////////
-// copy_n //
-////////////
-
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
@@ -62,39 +48,6 @@ template<typename InputIterator,
     return result;
 
   return thrust::detail::backend::copy_n(first, n, result);
-}
-
-
-/////////////
-// copy_if //
-/////////////
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(InputIterator first,
-                         InputIterator last,
-                         OutputIterator result,
-                         Predicate pred)
-{
-  // XXX it's potentially expensive to send [first,last) twice
-  //     we should probably specialize this case for POD
-  //     since we can safely keep the input in a temporary instead
-  //     of doing two loads
-  return thrust::copy_if(first, last, first, result, pred);
-}
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(InputIterator1 first,
-                         InputIterator1 last,
-                         InputIterator2 stencil,
-                         OutputIterator result,
-                         Predicate pred)
-{
-  return detail::backend::copy_if(first, last, stencil, result, pred);
 }
 
 } // end namespace thrust

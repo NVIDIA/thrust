@@ -14,38 +14,27 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/raw_buffer.h>
-#include <thrust/distance.h>
-#include <thrust/detail/copy.h>
+#pragma once
 
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
 
-namespace detail
-{
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy(InputIterator first,
+                      InputIterator last,
+                      OutputIterator result);
 
-
-template<typename T, typename Space>
-  raw_buffer<T,Space>
-    ::raw_buffer(size_type n)
-      :super_t(n)
-{
-  ;
-} // end raw_buffer::raw_buffer()
-
-
-template<typename T, typename Space>
-  template<typename InputIterator>
-    raw_buffer<T,Space>
-      ::raw_buffer(InputIterator first, InputIterator last)
-        : super_t()
-{
-  super_t::allocate(thrust::distance(first,last));
-  thrust::copy(first, last, super_t::begin());
-} // end raw_buffer::raw_buffer()
-
-} // end detail
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result);
 
 } // end thrust
+
+#include <thrust/detail/copy.inl>
 

@@ -21,7 +21,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/copy.h>
+#include <thrust/detail/backend/copy_if.h>
 
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/raw_buffer.h>

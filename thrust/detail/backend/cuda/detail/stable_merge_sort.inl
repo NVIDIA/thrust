@@ -30,7 +30,7 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/functional.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/swap.h>
 
 #include <thrust/device_ptr.h>

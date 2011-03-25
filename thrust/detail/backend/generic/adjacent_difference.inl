@@ -17,9 +17,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/device_ptr.h>
 #include <thrust/detail/raw_buffer.h>
-#include <thrust/copy.h>
 #include <thrust/transform.h>
 
 namespace thrust

@@ -20,7 +20,7 @@
  */
 
 #include <thrust/detail/vector_base.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/move.h>
 #include <thrust/equal.h>
 #include <thrust/uninitialized_fill.h>

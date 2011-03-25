@@ -250,5 +250,6 @@ template<typename InputIterator1,
 	
 } // end namespace thrust
 
-#include <thrust/detail/copy.inl>
+#include <thrust/detail/copy.h>
+#include <thrust/detail/copy_if.h>
 

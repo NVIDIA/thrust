@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 
 namespace thrust
 {
