@@ -23,7 +23,8 @@
 #include <thrust/detail/backend/cuda/malloc.h>
 #include <cuda_runtime_api.h>
 #include <thrust/device_ptr.h>
-#include <stdexcept>
+#include <thrust/system/cuda_error.h>
+#include <thrust/system/detail/bad_alloc.h>
 
 namespace thrust
 {
@@ -46,7 +47,7 @@ thrust::device_ptr<void> malloc(const std::size_t n)
 
   if(error)
   {
-    throw std::bad_alloc();
+    throw thrust::system::detail::bad_alloc(thrust::system::cuda_category().message(error).c_str());
   } // end if
 
   return thrust::device_ptr<void>(result);
