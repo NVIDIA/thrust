@@ -56,21 +56,11 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
       >
   >::type traversal;
 
-  // XXX this is equivalent to Boost's implementation
-  //typedef typename detail::ia_dflt_help<
-  //  Difference,
-  //  eval_if<
-  //    is_numeric<Incrementable>::value,
-  //    numeric_difference<Incrementable>,
-  //    iterator_difference<Incrementable>
-  //  >
-  //>::type difference;
-
   typedef typename thrust::experimental::detail::ia_dflt_help<
     Difference,
     thrust::detail::eval_if<
       thrust::detail::is_numeric<Incrementable>::value,
-      thrust::detail::identity_<std::ptrdiff_t>,
+      thrust::detail::numeric_difference<Incrementable>,
       thrust::iterator_difference<Incrementable>
     >
   >::type difference;
