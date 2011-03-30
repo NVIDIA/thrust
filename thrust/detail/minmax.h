@@ -23,24 +23,28 @@ namespace thrust
 
 
 template<typename T, typename BinaryPredicate>
+__host__ __device__
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
   return comp(rhs, lhs) ? rhs : lhs;
 } // end min()
 
 template<typename T>
+__host__ __device__
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return rhs < lhs ? rhs : lhs;
 } // end min()
 
 template<typename T, typename BinaryPredicate>
+__host__ __device__
   T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
   return comp(lhs,rhs) ? rhs : lhs;
 } // end max()
 
 template<typename T>
+__host__ __device__
   T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return lhs < rhs ? rhs : lhs;
