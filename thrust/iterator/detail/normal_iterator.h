@@ -56,11 +56,13 @@ template<typename Pointer>
     normal_iterator(Pointer p)
       : normal_iterator::iterator_adaptor_(p) {}
     
-    // XXX this needs enable_if_convertible
-    //     this is included primarily to create const_iterator from iterator
-    template<typename OtherIterator>
+    template<typename OtherPointer>
     __host__ __device__
-    normal_iterator(OtherIterator const & other)
+    normal_iterator(const normal_iterator<OtherPointer> &other,
+                    typename thrust::detail::enable_if_convertible<
+                      OtherPointer,
+                      Pointer
+                    >::type * = 0)
       : normal_iterator::iterator_adaptor_(other.base()) {}
 
 }; // end normal_iterator
@@ -100,6 +102,7 @@ template<typename T, typename IndexType>
     typename dereference_result< device_ptr<T> >::type
       dereference(device_ptr<T> iter, IndexType n);
 
+// XXX add enable_if<is_convertible<space<Pointer>, host>>
 template<typename Pointer>
   inline __host__ __device__
     typename dereference_result< normal_iterator<Pointer> >::type
@@ -108,6 +111,7 @@ template<typename Pointer>
   return dereference(iter.base());
 } // end dereference()
 
+// XXX add enable_if<is_convertible<space<Pointer>, host>>
 template<typename Pointer, typename IndexType>
   inline __host__ __device__
     typename dereference_result< normal_iterator<Pointer> >::type
