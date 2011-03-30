@@ -31,6 +31,7 @@
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/functional.h>
+#include <thrust/detail/minmax.h>
 
 namespace thrust
 {
@@ -58,12 +59,13 @@ namespace detail
  */
 
 template<typename InputIterator,
+         typename Size,
          typename OutputType,
          typename BinaryFunction,
          typename SharedArray>
   __device__ void
   reduce_n_device(InputIterator input,
-                  const unsigned int n,
+                  const Size n,
                   OutputType * block_results,  
                   BinaryFunction binary_op,
                   SharedArray shared_array)
@@ -73,7 +75,7 @@ template<typename InputIterator,
     // perform one level of reduction, writing per-block results to 
     // global memory for subsequent processing (e.g. second level reduction) 
     const unsigned int grid_size = blockDim.x * gridDim.x;
-    unsigned int i = blockDim.x * blockIdx.x + threadIdx.x;
+    Size i = blockDim.x * blockIdx.x + threadIdx.x;
 
     // advance input
     input += i;
@@ -102,8 +104,13 @@ template<typename InputIterator,
 
     __syncthreads();
 
+    // compute the size of the reduction
+    // use min<Size> because n - blockDim.x * blockIdx.x could be large
+    // but cast to unsigned int because we know the size has to be small enough to fit into __shared__
+    unsigned int block_reduction_size = static_cast<unsigned int>(thrust::min<Size>(n - blockDim.x * blockIdx.x, blockDim.x));
+
     // compute reduction across block
-    thrust::detail::backend::cuda::block::reduce_n(shared_array, min(n - blockDim.x * blockIdx.x, blockDim.x), binary_op);
+    thrust::detail::backend::cuda::block::reduce_n(shared_array, block_reduction_size, binary_op);
 
     // write result for this block to global mem 
     if (threadIdx.x == 0) 

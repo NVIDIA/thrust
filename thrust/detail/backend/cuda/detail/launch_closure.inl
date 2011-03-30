@@ -21,12 +21,11 @@
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#include <algorithm>
-
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/backend/cuda/malloc.h>
 #include <thrust/detail/backend/cuda/free.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
+#include <thrust/detail/minmax.h>
 
 namespace thrust
 {
@@ -75,7 +74,9 @@ template<typename NullaryFunction,
   static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
   {
     const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
-    return (std::min)(max_blocks, ( n + (block_size - 1) ) / block_size);
+
+    // use min<Size1> because n can be large, but cast the result to size_t
+    return static_cast<size_t>(thrust::min<Size1>(max_blocks, ( n + (block_size - 1) ) / block_size));
   }
 
   template<typename Size1, typename Size2, typename Size3>
@@ -99,7 +100,9 @@ template<typename NullaryFunction>
   static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
   {
     const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
-    return (std::min)(max_blocks, ( n + (block_size - 1) ) / block_size);
+
+    // use min<Size1> because n can be large, but cast the result to size_t
+    return static_cast<size_t>(thrust::min<Size1>(max_blocks, ( n + (block_size - 1) ) / block_size));
   }
 
   template<typename Size1, typename Size2, typename Size3>
