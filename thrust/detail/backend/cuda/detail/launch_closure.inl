@@ -26,6 +26,7 @@
 #include <thrust/detail/backend/cuda/free.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/minmax.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -75,8 +76,13 @@ template<typename NullaryFunction,
   {
     const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
 
-    // use min<Size1> because n can be large, but cast the result to size_t
-    return static_cast<size_t>(thrust::min<Size1>(max_blocks, ( n + (block_size - 1) ) / block_size));
+    typedef typename thrust::detail::larger_type<Size1,Size2>::type large_integer;
+
+    // promote both arguments to the larger of Size1 & Size2
+    const large_integer result = thrust::min<large_integer>(max_blocks, ( n + (block_size - 1) ) / block_size);
+
+    // due to min above, result is never larger than max_blocks, which is of type size_t
+    return static_cast<size_t>(result);
   }
 
   template<typename Size1, typename Size2, typename Size3>
@@ -101,8 +107,13 @@ template<typename NullaryFunction>
   {
     const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
 
-    // use min<Size1> because n can be large, but cast the result to size_t
-    return static_cast<size_t>(thrust::min<Size1>(max_blocks, ( n + (block_size - 1) ) / block_size));
+    typedef typename thrust::detail::larger_type<Size1,Size2>::type large_integer;
+
+    // promote both arguments to the larger of Size1 & Size2
+    const large_integer result = thrust::min<large_integer>(max_blocks, ( n + (block_size - 1) ) / block_size);
+
+    // due to min above, result is never larger than max_blocks, which is of type size_t
+    return static_cast<size_t>(result);
   }
 
   template<typename Size1, typename Size2, typename Size3>
