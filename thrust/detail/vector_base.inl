@@ -21,7 +21,7 @@
 
 #include <thrust/detail/vector_base.h>
 #include <thrust/detail/copy.h>
-#include <thrust/detail/move.h>
+#include <thrust/detail/overlapped_copy.h>
 #include <thrust/equal.h>
 #include <thrust/uninitialized_fill.h>
 #include <thrust/uninitialized_copy.h>
@@ -488,8 +488,9 @@ template<typename T, typename Alloc>
   typename vector_base<T,Alloc>::iterator vector_base<T,Alloc>
     ::erase(iterator first, iterator last)
 {
-  // move the range [last,end()) to first
-  iterator i = detail::move(last, end(), first);
+  // overlap copy the range [last,end()) to first
+  // XXX this copy only potentially overlaps
+  iterator i = thrust::detail::overlapped_copy(last, end(), first);
 
   // destroy everything after i
   thrust::detail::destroy(i, end());
@@ -633,12 +634,9 @@ template<typename T, typename Alloc>
         m_size += num_new_elements;
 
         // copy num_displaced_elements - num_new_elements elements to existing elements
-
-        // XXX SGI's version calls copy_backward here for some reason
-        //     maybe it's just more readable
-        // copy_backward(position, old_end - num_new_elements, old_end);
+        // this copy overlaps
         const size_type copy_length = (old_end - num_new_elements) - position;
-        thrust::copy(position, old_end - num_new_elements, old_end - copy_length);
+        thrust::detail::overlapped_copy(position, old_end - num_new_elements, old_end - copy_length);
 
         // finally, copy the range to the insertion point
         thrust::copy(first, last, position);
@@ -746,12 +744,9 @@ template<typename T, typename Alloc>
         m_size += n;
 
         // copy num_displaced_elements - n elements to existing elements
-
-        // XXX SGI's version calls copy_backward here for some reason
-        //     maybe it's just more readable
-        // copy_backward(position, old_end - n, old_end);
+        // this copy overlaps
         const size_type copy_length = (old_end - n) - position;
-        thrust::copy(position, old_end - n, old_end - copy_length);
+        thrust::detail::overlapped_copy(position, old_end - n, old_end - copy_length);
 
         // finally, fill the range to the insertion point
         thrust::fill_n(position, n, x);
