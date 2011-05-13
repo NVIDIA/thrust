@@ -51,7 +51,7 @@ template<typename ForwardIterator, typename T>
 namespace detail
 {
 
-template <typename OutputType, typename T>
+template <typename T>
 struct sequence_functor
 {
   const T init;
@@ -62,9 +62,9 @@ struct sequence_functor
   
   template <typename IntegerType>
       __host__ __device__
-  OutputType operator()(const IntegerType i) const
+  T operator()(const IntegerType i) const
   {
-      __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(return OutputType(init + step * i));
+    return init + step * i;
   }
 }; // end sequence_functor
 
@@ -77,10 +77,9 @@ template<typename ForwardIterator, typename T>
                 T init,
                 T step)
 {
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type OutputType;
     typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
 
-    detail::sequence_functor<OutputType,T> func(init, step);
+    detail::sequence_functor<T> func(init, step);
 
     thrust::counting_iterator<difference_type> iter(0);
 
