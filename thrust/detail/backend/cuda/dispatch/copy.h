@@ -134,7 +134,7 @@ template<typename InputIterator,
   // find the minimum space of the two
   typedef typename thrust::detail::minimum_space<space1,space2>::type minimum_space;
 
-  return copy(first, last, result, minimum_space());
+  return thrust::detail::backend::cuda::dispatch::copy(first, last, result, minimum_space());
 }
 
 template<typename InputIterator,
@@ -151,7 +151,7 @@ template<typename InputIterator,
   // find the minimum space of the two
   typedef typename thrust::detail::minimum_space<space1,space2>::type minimum_space;
 
-  return copy_n(first, n, result, minimum_space());
+  return thrust::detail::backend::cuda::dispatch::copy_n(first, n, result, minimum_space());
 }
 
 
@@ -166,7 +166,7 @@ template<typename InputIterator,
                       Space1,
                       Space2)
 {
-  return copy(first, last, result,
+  return thrust::detail::backend::cuda::dispatch::copy(first, last, result,
     typename thrust::detail::is_one_convertible_to_the_other<Space1,Space2>::type());
 }
 
@@ -181,7 +181,7 @@ template<typename InputIterator,
                         Space1,
                         Space2)
 {
-  return copy_n(first, n, result,
+  return thrust::detail::backend::cuda::dispatch::copy_n(first, n, result,
     typename thrust::detail::is_one_convertible_to_the_other<Space1,Space2>::type());
 }
 
