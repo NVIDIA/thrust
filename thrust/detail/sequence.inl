@@ -81,7 +81,11 @@ template<typename ForwardIterator, typename T>
 
     detail::sequence_functor<T> func(init, step);
 
-    thrust::counting_iterator<difference_type> iter(0);
+    // by default, counting_iterator uses a 64b difference_type on 32b platforms to avoid overflowing its counter.
+    // this causes problems when a zip_iterator is created in transform's implementation -- ForwardIterator is
+    // incremented by a 64b difference_type and some compilers warn
+    // to avoid this, specify the counting_iterator's difference_type to be the same as ForwardIterator's.
+    thrust::counting_iterator<difference_type, thrust::use_default, thrust::use_default, difference_type> iter(0);
 
     thrust::transform(iter, iter + thrust::distance(first, last), first, func);
 } // end sequence()
