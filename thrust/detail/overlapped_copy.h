@@ -20,14 +20,46 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/copy.h>
-#include <algorithm>
 
 namespace thrust
 {
 namespace detail
 {
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator sequential_copy(InputIterator first,
+                                 InputIterator last,
+                                 OutputIterator result)
+{
+  for(; first != last; ++first, ++result)
+  {
+    *result = *first;
+  } // end for
+
+  return result;
+} // end sequential_copy()
+
+
+template<typename BidirectionalIterator1,
+         typename BidirectionalIterator2>
+  BidirectionalIterator2 sequential_copy_backward(BidirectionalIterator1 first,
+                                                  BidirectionalIterator1 last,
+                                                  BidirectionalIterator2 result)
+{
+  for(; last != first; --last, --result)
+  {
+    *result = *last;
+  } // end for
+
+  return result;
+} // end sequential_copy_backward()
+
+
 namespace dispatch
 {
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
@@ -40,13 +72,14 @@ template<typename RandomAccessIterator1,
   {
     // result lies in [first, last)
     // it's safe to use std::copy_backward here
-    result = std::copy_backward(first, last, result + (last - first));
+    thrust::detail::sequential_copy_backward(first, last, result + (last - first));
+    result += (last - first);
   } // end if
   else
   {
     // result + (last - first) lies in [first, last)
-    // it's safe to use std::copy here
-    result = std::copy(first, last, result);
+    // it's safe to use sequential_copy here
+    result = thrust::detail::sequential_copy(first, last, result);
   } // end else
 
   return result;
