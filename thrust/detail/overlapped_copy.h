@@ -48,10 +48,12 @@ template<typename BidirectionalIterator1,
                                                   BidirectionalIterator1 last,
                                                   BidirectionalIterator2 result)
 {
-  for(; last != first; --last, --result)
+  // yes, we preincrement
+  // the ranges are open on the right, i.e. [first, last)
+  while(first != last)
   {
-    *result = *last;
-  } // end for
+    *--result = *--last;
+  } // end while
 
   return result;
 } // end sequential_copy_backward()
