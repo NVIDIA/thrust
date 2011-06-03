@@ -23,7 +23,7 @@ nvcc. In particular, we appreciate the work Bastiaan Aarts has done to enhance
 nvcc's C++ support.
 
 Lastly, Thrust has greatly benefited from the design and implementation of 
-the Boost Iterator, Tuple, System, Phoenix, and Random Number libraries [3].
+the Boost Iterator, Tuple, System, and Random Number libraries [3].
 
 [1] http://research.nvidia.com/users/jared-hoberock
 [2] http://research.nvidia.com/users/nathan-bell
