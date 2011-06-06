@@ -20,9 +20,8 @@
 
 #include <thrust/set_operations.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/functional.h>
-#include <thrust/detail/dispatch/set_operations.h>
+#include <thrust/detail/backend/set_operations.h>
 
 namespace thrust
 {
@@ -39,14 +38,9 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_difference(first1, last1,
-                                                  first2, last2,
-                                                  result, comp,
-    typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator>::type
-    >::type());
+  return thrust::detail::backend::set_difference(first1, last1,
+                                                 first2, last2,
+                                                 result, comp);
 } // end set_difference()
 
 template<typename InputIterator1,
@@ -74,14 +68,9 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_intersection(first1, last1,
-                                                    first2, last2,
-                                                    result, comp,
-    typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator>::type
-    >::type());
+  return thrust::detail::backend::set_intersection(first1, last1,
+                                                   first2, last2,
+                                                   result, comp);
 } // end set_intersection()
 
 template<typename InputIterator1,
@@ -109,14 +98,9 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_symmetric_difference(first1, last1,
-                                                            first2, last2,
-                                                            result, comp,
-    typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator>::type
-    >::type());
+  return thrust::detail::backend::set_symmetric_difference(first1, last1,
+                                                           first2, last2,
+                                                           result, comp);
 } // end set_symmetric_difference()
 
 template<typename InputIterator1,
@@ -144,14 +128,9 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  return thrust::detail::dispatch::set_union(first1, last1,
-                                             first2, last2,
-                                             result, comp,
-    typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator>::type
-    >::type());
+  return thrust::detail::backend::set_union(first1, last1,
+                                            first2, last2,
+                                            result, comp);
 } // end set_union()
 
 template<typename InputIterator1,

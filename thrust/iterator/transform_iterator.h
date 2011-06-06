@@ -40,6 +40,7 @@
 // #include the details first
 #include <thrust/iterator/detail/transform_iterator.inl>
 #include <thrust/iterator/iterator_facade.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -228,21 +229,20 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     explicit transform_iterator(Iterator const& x)
       : super_t(x) { }
 
-//  // XXX figure this out
-//    template<
-//        class OtherAdaptableUnaryFunction
-//      , class OtherIterator
-//      , class OtherReference
-//      , class OtherValue>
-//    transform_iterator(
-//         transform_iterator<OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue> const& t
-//       , typename enable_if_convertible<OtherIterator, Iterator>::type* = 0
-//#if !BOOST_WORKAROUND(BOOST_MSVC, == 1310)
-//       , typename enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0
-//#endif 
-//    )
-//      : super_t(t.base()), m_f(t.functor())
-//   {}
+    /*! This copy constructor creates a new \p transform_iterator from another
+     *  \p transform_iterator.
+     *
+     *  \param other The \p transform_iterator to copy.
+     */
+    template<typename OtherAdaptableUnaryFunction,
+             typename OtherIterator,
+             typename OtherReference,
+             typename OtherValue>
+    __host__ __device__
+    transform_iterator(const transform_iterator<OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue> &other,
+                       typename thrust::detail::enable_if_convertible<OtherIterator, Iterator>::type* = 0,
+                       typename thrust::detail::enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0)
+      : super_t(other.base()), m_f(other.functor()) {}
 
     /*! This method returns a copy of this \p transform_iterator's \c AdaptableUnaryFunction.
      *  \return A copy of this \p transform_iterator's \c AdaptableUnaryFunction.

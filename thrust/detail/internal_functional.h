@@ -168,12 +168,45 @@ struct tuple_not_binary_predicate
 };
 
 template<typename Generator>
-  struct generate_functor
+  struct host_generate_functor
 {
   typedef void result_type;
 
   __host__ __device__
-  generate_functor(Generator g)
+  host_generate_functor(Generator g)
+    : gen(g) {}
+
+  // operator() does not take an lvalue reference because some iterators
+  // produce temporary proxy references when dereferenced. for example,
+  // consider the temporary tuple of references produced by zip_iterator.
+  // such temporaries cannot bind to an lvalue reference.
+  //
+  // to WAR this, accept a const reference (which is bindable to a temporary),
+  // and const_cast in the implementation.
+  //
+  // XXX change to an rvalue reference upon c++0x (which either a named variable
+  //     or temporary can bind to)
+  template<typename T>
+  __host__
+  void operator()(const T &x)
+  {
+    // we have to be naughty and const_cast this to get it to work
+    T &lvalue = const_cast<T&>(x);
+
+    // this assigns correctly whether x is a true reference or proxy
+    lvalue = gen();
+  }
+
+  Generator gen;
+};
+
+template<typename Generator>
+  struct device_generate_functor
+{
+  typedef void result_type;
+
+  __host__ __device__
+  device_generate_functor(Generator g)
     : gen(g) {}
 
   // operator() does not take an lvalue reference because some iterators
@@ -199,6 +232,15 @@ template<typename Generator>
 
   Generator gen;
 };
+
+template<typename Space, typename Generator>
+  struct generate_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_generate_functor<Generator> >,
+        thrust::detail::identity_<device_generate_functor<Generator> >
+      >
+{};
 
 
 template<typename ResultType, typename BinaryFunction>

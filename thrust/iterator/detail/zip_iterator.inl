@@ -39,6 +39,19 @@ template <typename IteratorTuple>
 
 
 template <typename IteratorTuple>
+  template <typename OtherIteratorTuple>
+    zip_iterator<IteratorTuple>
+      ::zip_iterator(const zip_iterator<OtherIteratorTuple> &other,
+                     typename thrust::detail::enable_if_convertible<
+                       OtherIteratorTuple,
+                       IteratorTuple
+                     >::type *)
+        :m_iterator_tuple(other.get_iterator_tuple())
+{
+} // end zip_iterator::zip_iterator()
+
+
+template <typename IteratorTuple>
 const IteratorTuple &zip_iterator<IteratorTuple>
   ::get_iterator_tuple(void) const
 {
@@ -123,7 +136,7 @@ template <typename IteratorTuple>
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 
@@ -163,7 +176,7 @@ template<typename IteratorTuple, typename IndexType>
 }; // end dereference()
 
 
-} // end device
+} // end backend
 
 } // end detail
 

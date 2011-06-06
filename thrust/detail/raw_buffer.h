@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <thrust/detail/device/internal_allocator.h>
+#include <thrust/detail/backend/internal_allocator.h>
 #include <thrust/iterator/detail/normal_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/contiguous_storage.h>
@@ -58,7 +58,7 @@ template<typename T, typename Space>
             // XXX this check is technically incorrect: any could convert to device
             is_convertible<Space, thrust::device_space_tag>::value,
 
-            identity_< thrust::detail::device::internal_allocator<T> >,
+            identity_< thrust::detail::backend::internal_allocator<T> >,
 
             void
           >

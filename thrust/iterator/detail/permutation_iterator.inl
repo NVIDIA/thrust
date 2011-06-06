@@ -28,17 +28,17 @@ struct permutation_iterator_friend
 {
   template<typename ElementIterator, typename IndexIterator>
     static inline __host__ __device__
-      typename device::dereference_result< thrust::permutation_iterator<ElementIterator,IndexIterator> >::type
+      typename backend::dereference_result< thrust::permutation_iterator<ElementIterator,IndexIterator> >::type
         dereference(const thrust::permutation_iterator<ElementIterator,IndexIterator> &iter)
   {
-    return thrust::detail::device::dereference(iter.m_element_iterator + thrust::detail::device::dereference(iter.base()));
+    return thrust::detail::backend::dereference(iter.m_element_iterator + thrust::detail::backend::dereference(iter.base()));
   }
 };
 
 
 
 
-namespace device
+namespace backend
 {
 
 
@@ -70,7 +70,7 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
 } // end dereference()
 
 
-} // end device
+} // end backend
 
 } // end detail
 

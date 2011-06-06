@@ -23,7 +23,7 @@
 #pragma once
 
 #include <memory>
-#include <thrust/detail/device/uninitialized_copy.h>
+#include <thrust/detail/backend/uninitialized_copy.h>
 #include <thrust/iterator/iterator_traits.h>
 
 
@@ -54,7 +54,7 @@ template<typename InputIterator,
                                      ForwardIterator result,
                                      thrust::device_space_tag)
 {
-  return thrust::detail::device::uninitialized_copy(first, last, result);
+  return thrust::detail::backend::uninitialized_copy(first, last, result);
 } // end uninitialized_copy()
 
 

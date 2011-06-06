@@ -98,7 +98,7 @@ void TestMergeSortKeySimple(void)
 
     InitializeSimpleKeySortTest(unsorted_keys, sorted_keys);
 
-    thrust::detail::device::cuda::detail::stable_merge_sort(unsorted_keys.begin(), unsorted_keys.end(), thrust::less<T>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort(unsorted_keys.begin(), unsorted_keys.end(), thrust::less<T>());
 
     ASSERT_EQUAL(unsorted_keys, sorted_keys);
 }
@@ -115,7 +115,7 @@ void TestMergeSortKeyValueSimple(void)
 
     InitializeSimpleKeyValueSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
-    thrust::detail::device::cuda::detail::stable_merge_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), thrust::less<T>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort_by_key(unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), thrust::less<T>());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
@@ -133,7 +133,7 @@ void TestMergeSortStableKeySimple(void)
 
     InitializeSimpleStableKeySortTest(unsorted_keys, sorted_keys);
 
-    thrust::detail::device::cuda::detail::stable_merge_sort(unsorted_keys.begin(), unsorted_keys.end(), less_div_10<T>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort(unsorted_keys.begin(), unsorted_keys.end(), less_div_10<T>());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
 }
@@ -179,7 +179,7 @@ void TestMergeSortAscendingKey(const size_t n)
     thrust::device_vector<T> d_data = h_data;
 
     thrust::sort(h_data.begin(), h_data.end(), thrust::less<T>());
-    thrust::detail::device::cuda::detail::stable_merge_sort(d_data.begin(), d_data.end(), thrust::less<T>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort(d_data.begin(), d_data.end(), thrust::less<T>());
 
 #ifdef THRUST_DEBUG_CUDA_MERGE_SORT
     exit(0);
@@ -200,7 +200,7 @@ void TestMergeSortDescendingKey(void)
     thrust::device_vector<int> d_data = h_data;
 
     thrust::sort(h_data.begin(), h_data.end(), thrust::greater<int>());
-    thrust::detail::device::cuda::detail::stable_merge_sort(d_data.begin(), d_data.end(), thrust::greater<int>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort(d_data.begin(), d_data.end(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_data, d_data);
 }
@@ -217,7 +217,7 @@ void TestMergeSortAscendingKeyValue(const size_t n)
     thrust::device_vector<T> d_values = h_values;
 
     thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::less<T>());
-    thrust::detail::device::cuda::detail::stable_merge_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::less<T>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::less<T>());
 
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
@@ -236,7 +236,7 @@ void TestMergeSortDescendingKeyValue(void)
     thrust::device_vector<int> d_values = h_values;
 
     thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<int>());
-    thrust::detail::device::cuda::detail::stable_merge_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<int>());
+    thrust::detail::backend::cuda::detail::stable_merge_sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
@@ -263,7 +263,7 @@ void TestMergeSortUnalignedSimple(void)
         thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
         thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
    
-        thrust::detail::device::cuda::detail::stable_merge_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), thrust::less<T>());
+        thrust::detail::backend::cuda::detail::stable_merge_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), thrust::less<T>());
 
         ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
     }
@@ -295,10 +295,10 @@ void TestMergeSortByKeyUnalignedSimple(void)
         thrust::copy(unsorted_values.begin(), unsorted_values.end(), unaligned_unsorted_values.begin() + offset);
         thrust::copy(  sorted_values.begin(),   sorted_values.end(),   unaligned_sorted_values.begin() + offset);
    
-        thrust::detail::device::cuda::detail::stable_merge_sort_by_key(unaligned_unsorted_keys.begin() + offset, 
-                                                                       unaligned_unsorted_keys.end(), 
-                                                                       unaligned_unsorted_values.begin() + offset,
-                                                                       thrust::less<T>());
+        thrust::detail::backend::cuda::detail::stable_merge_sort_by_key(unaligned_unsorted_keys.begin() + offset, 
+                                                                        unaligned_unsorted_keys.end(), 
+                                                                        unaligned_unsorted_values.begin() + offset,
+                                                                        thrust::less<T>());
 
         ASSERT_EQUAL(unaligned_unsorted_values, unaligned_sorted_values);
     }

@@ -22,7 +22,7 @@
 
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -72,7 +72,7 @@ template <typename Iterator, typename Space>
 } // end make_forced_iterator
 
 
-namespace device
+namespace backend
 {
 
 
@@ -101,7 +101,7 @@ template<typename Iterator, typename Space, typename IndexType>
 } // end dereference()
 
 
-} // end device
+} // end backend
 
 } // end detail
 

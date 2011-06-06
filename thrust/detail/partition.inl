@@ -20,7 +20,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/partition.h>
+#include <thrust/detail/backend/partition.h>
 #include <thrust/find.h>
 #include <thrust/sort.h>
 #include <thrust/iterator/transform_iterator.h>
@@ -35,8 +35,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  return detail::dispatch::partition(first, last, pred,
-    typename thrust::iterator_space<ForwardIterator>::type());
+  return thrust::detail::backend::partition(first, last, pred);
 } // end partition()
 
 
@@ -46,8 +45,7 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  return detail::dispatch::stable_partition(first, last, pred,
-    typename thrust::iterator_space<ForwardIterator>::type());
+  return thrust::detail::backend::stable_partition(first, last, pred);
 } // end stable_partition()
 
 
@@ -62,10 +60,7 @@ template<typename InputIterator,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  return thrust::detail::dispatch::partition_copy(first, last, out_true, out_false, pred,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator1>::type(),
-    typename thrust::iterator_space<OutputIterator2>::type());
+  return thrust::detail::backend::partition_copy(first, last, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -80,10 +75,7 @@ template<typename InputIterator,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  return thrust::detail::dispatch::stable_partition_copy(first, last, out_true, out_false, pred,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator1>::type(),
-    typename thrust::iterator_space<OutputIterator2>::type());
+  return thrust::detail::backend::stable_partition_copy(first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 

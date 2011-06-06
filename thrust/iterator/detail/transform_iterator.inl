@@ -20,7 +20,7 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -89,7 +89,7 @@ struct transform_iterator_base
 };
 
 
-namespace device
+namespace backend
 {
 
 
@@ -118,7 +118,7 @@ template<typename UnaryFunc, typename Iterator, typename Reference, typename Val
   return iter.functor()( dereference(iter.base(), n) );
 } // end dereference()
 
-} // end device
+} // end backend
 
 } // end detail
 

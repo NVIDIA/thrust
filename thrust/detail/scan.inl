@@ -19,7 +19,7 @@
  *  \brief Inline file for scan.h.
  */
 
-#include <thrust/detail/dispatch/scan.h>
+#include <thrust/detail/backend/scan.h>
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
@@ -50,10 +50,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::inclusive_scan(first, last, result, binary_op,
-            typename thrust::iterator_space<InputIterator>::type(),
-            typename thrust::iterator_space<OutputIterator>::type());
+    return thrust::detail::backend::inclusive_scan(first, last, result, binary_op);
 }
 
 template<typename InputIterator,
@@ -92,10 +89,7 @@ template<typename InputIterator,
                                 T init,
                                 AssociativeOperator binary_op)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::exclusive_scan(first, last, result, init, binary_op,
-            typename thrust::iterator_space<InputIterator>::type(),
-            typename thrust::iterator_space<OutputIterator>::type());
+    return thrust::detail::backend::exclusive_scan(first, last, result, init, binary_op);
 }
 
 /////////////////////
@@ -140,12 +134,7 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::inclusive_scan_by_key
-        (first1, last1, first2, result, binary_pred, binary_op,
-            typename thrust::iterator_space<InputIterator1>::type(),
-            typename thrust::iterator_space<InputIterator2>::type(),
-            typename thrust::iterator_space<OutputIterator>::type());
+    return thrust::detail::backend::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op);
 }
 
 
@@ -205,12 +194,7 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::exclusive_scan_by_key
-        (first1, last1, first2, result, init, binary_pred, binary_op,
-            typename thrust::iterator_space<InputIterator1>::type(),
-            typename thrust::iterator_space<InputIterator2>::type(),
-            typename thrust::iterator_space<OutputIterator>::type());
+    return thrust::detail::backend::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op);
 }
 
 } // end namespace thrust

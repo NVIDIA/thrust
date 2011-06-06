@@ -513,6 +513,16 @@ struct largest_available_float
 #endif
 };
 
+// T1 wins if they are both the same size
+template<typename T1, typename T2>
+  struct larger_type
+    : thrust::detail::eval_if<
+        (sizeof(T2) > sizeof(T1)),
+        thrust::detail::identity_<T2>,
+        thrust::detail::identity_<T1>
+      >
+{};
+
 } // end detail
 
 } // end thrust

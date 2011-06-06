@@ -173,7 +173,6 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  // result is now {-2, 0, 0, 2}
  *  \endcode
  *
- *  \see \c copy_when
  *  \see \c remove_copy_if
  */
 template<typename InputIterator,
@@ -234,7 +233,6 @@ template<typename InputIterator,
  *  // result is now     { 0, 1,  3, 5}
  *  \endcode
  *
- *  \see \c copy_when
  *  \see \c remove_copy_if
  */
 template<typename InputIterator1,
@@ -252,5 +250,6 @@ template<typename InputIterator1,
 	
 } // end namespace thrust
 
-#include <thrust/detail/copy.inl>
+#include <thrust/detail/copy.h>
+#include <thrust/detail/copy_if.h>
 

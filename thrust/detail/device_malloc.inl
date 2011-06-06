@@ -20,7 +20,7 @@
  */
 
 #include <thrust/device_malloc.h>
-#include <thrust/detail/device/dispatch/malloc.h>
+#include <thrust/detail/backend/dispatch/malloc.h>
 
 namespace thrust
 {
@@ -29,7 +29,7 @@ thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
   typedef thrust::iterator_space< device_ptr<void> >::type space;
 
-  return thrust::detail::device::dispatch::malloc<0>(n, space());
+  return thrust::detail::backend::dispatch::malloc<0>(n, space());
 } // end device_malloc()
 
 template<typename T>

@@ -1,7 +1,7 @@
 PREAMBLE = \
     """
     #include <thrust/sort.h>
-    #include <thrust/detail/device/cuda/detail/stable_radix_sort.h>
+    #include <thrust/detail/backend/cuda/detail/stable_radix_sort.h>
     """
 
 INITIALIZE = \
@@ -12,7 +12,7 @@ INITIALIZE = \
     
     // test sort
     thrust::stable_sort(h_keys.begin(), h_keys.end());
-    thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
+    thrust::detail::backend::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
 
     ASSERT_EQUAL(d_keys, h_keys);
     """
@@ -20,7 +20,7 @@ INITIALIZE = \
 TIME = \
     """
     thrust::copy(d_keys_copy.begin(), d_keys_copy.end(), d_keys.begin());
-    thrust::detail::device::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
+    thrust::detail::backend::cuda::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
     """
 
 FINALIZE = \

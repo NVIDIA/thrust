@@ -25,7 +25,7 @@
 #include <thrust/detail/tuple_meta_transform.h>
 #include <thrust/detail/tuple_transform.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -42,7 +42,7 @@ struct _1;
 struct _2;
 
 
-namespace device
+namespace backend
 {
 
 
@@ -51,10 +51,10 @@ template<>
   struct dereference_result<_1>
 {
   template <class T>
-    struct apply : thrust::detail::device::dereference_result<T> {};
+    struct apply : thrust::detail::backend::dereference_result<T> {};
 }; // end dereference_result
 
-} // end device
+} // end backend
 
 
 // Functors to be used with tuple algorithms
@@ -118,14 +118,14 @@ struct device_dereference_iterator
   struct apply
   { 
     typedef typename
-      thrust::detail::device::dereference_result<Iterator>::type
+      thrust::detail::backend::dereference_result<Iterator>::type
     type;
   }; // end apply
 
   template<typename Iterator>
   __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)
-  { return ::thrust::detail::device::dereference(it); }
+  { return ::thrust::detail::backend::dereference(it); }
 }; // end device_dereference_iterator
 
 
@@ -136,14 +136,14 @@ struct device_dereference_iterator_with_index
   struct apply
   { 
     typedef typename
-      thrust::detail::device::dereference_result<Iterator>::type
+      thrust::detail::backend::dereference_result<Iterator>::type
     type;
   }; // end apply
 
   template<typename Iterator>
   __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)
-  { return ::thrust::detail::device::dereference(it, n); }
+  { return ::thrust::detail::backend::dereference(it, n); }
 
   IndexType n;
 }; // end device_dereference_iterator
@@ -376,7 +376,7 @@ template<typename IteratorTuple>
   struct tuple_of_dereference_result
     : tuple_meta_transform<
           IteratorTuple,
-          thrust::detail::device::dereference_result
+          thrust::detail::backend::dereference_result
         >
 {
 }; // end tuple_of_dereference_result

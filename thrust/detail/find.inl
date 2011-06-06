@@ -19,7 +19,7 @@
  *  \brief Inline file for find.h
  */
 
-#include <thrust/detail/dispatch/find.h>
+#include <thrust/detail/backend/find.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -39,10 +39,7 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::find_if(first, last, pred,
-            typename thrust::iterator_space<InputIterator>::type());
-                                    
+    return thrust::detail::backend::find_if(first, last, pred);
 }
 
 template <typename InputIterator, typename Predicate>

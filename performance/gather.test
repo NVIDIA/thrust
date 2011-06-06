@@ -7,7 +7,7 @@ PREAMBLE = \
 
 INITIALIZE = \
     """
-    thrust::host_vector<$InputType>   h_input = thrusttest::random_integers<$InputType>($InputSize);
+    thrust::host_vector<$InputType>   h_input = unittest::random_integers<$InputType>($InputSize);
     thrust::host_vector<int>          h_map(thrust::make_counting_iterator(0),
                                             thrust::make_counting_iterator($InputSize));
     std::random_shuffle(h_map.begin(), h_map.end());
@@ -17,15 +17,15 @@ INITIALIZE = \
     thrust::device_vector<int>        d_map = h_map;
     thrust::device_vector<$InputType> d_result($InputSize);
 
-    thrust::gather(h_result.begin(),  h_result.end(), h_map.begin(), h_input.begin());
-    thrust::gather(d_result.begin(),  d_result.end(), d_map.begin(), d_input.begin());
+    thrust::gather(h_map.begin(), h_map.end(), h_input.begin(), h_result.begin());
+    thrust::gather(d_map.begin(), d_map.end(), d_input.begin(), d_result.begin());
 
     ASSERT_EQUAL(h_result, d_result);
     """
 
 TIME = \
     """
-    thrust::gather(d_result.begin(),  d_result.end(), d_map.begin(), d_input.begin());
+    thrust::gather(d_map.begin(), d_map.end(), d_input.begin(), d_result.begin());
     """
 
 FINALIZE = \

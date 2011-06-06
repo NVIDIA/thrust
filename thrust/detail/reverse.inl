@@ -23,7 +23,7 @@
 
 #include <thrust/advance.h>
 #include <thrust/distance.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/swap.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/reverse_iterator.h>

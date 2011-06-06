@@ -15,7 +15,7 @@
  */
 
 #include <thrust/iterator/reverse_iterator.h>
-#include <thrust/detail/device/dereference.h>
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -107,7 +107,7 @@ reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalItera
 namespace detail
 {
 
-namespace device
+namespace backend
 {
 
 template<typename DeviceBidirectionalIterator>
@@ -134,7 +134,7 @@ template<typename BidirectionalIterator, typename IndexType>
   return dereference(temp);
 } // end dereference()
 
-} // end device
+} // end backend
 
 } // end detail
 

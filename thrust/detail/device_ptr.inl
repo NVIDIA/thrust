@@ -131,7 +131,7 @@ template<typename T>
 }; // end is_device_ptr
 
 
-namespace device
+namespace backend
 {
 
 
@@ -170,7 +170,7 @@ template<typename T, typename IndexType>
   return thrust::raw_pointer_cast(ptr)[n];
 } // dereference
 
-} // end device
+} // end backend
 
 } // end namespace detail
 

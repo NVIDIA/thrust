@@ -34,6 +34,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/detail/zip_iterator_base.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -152,6 +153,19 @@ template <typename IteratorTuple>
      */
     inline __host__ __device__
     zip_iterator(IteratorTuple iterator_tuple);
+
+    /*! This copy constructor creates a new \p zip_iterator from another
+     *  \p zip_iterator.
+     *
+     *  \param other The \p zip_iterator to copy.
+     */
+    template<typename OtherIteratorTuple>
+    inline __host__ __device__
+    zip_iterator(const zip_iterator<OtherIteratorTuple> &other,
+                 typename thrust::detail::enable_if_convertible<
+                   OtherIteratorTuple,
+                   IteratorTuple
+                 >::type * = 0);
 
     /*! This method returns a \c const reference to this \p zip_iterator's
      *  \p tuple of iterators.

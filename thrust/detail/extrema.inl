@@ -18,42 +18,18 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
 
-#include <thrust/detail/dispatch/extrema.h>
+#include <thrust/detail/backend/extrema.h>
 
 namespace thrust
 {
-
-template<typename T, typename BinaryPredicate>
-  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
-{
-  return comp(rhs, lhs) ? rhs : lhs;
-} // end min()
-
-template<typename T>
-  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
-{
-  return rhs < lhs ? rhs : lhs;
-} // end min()
-
-template<typename T, typename BinaryPredicate>
-  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
-{
-  return comp(lhs,rhs) ? rhs : lhs;
-} // end max()
-
-template<typename T>
-  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
-{
-  return lhs < rhs ? rhs : lhs;
-} // end max()
 
 
 template <typename ForwardIterator>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last)
 {
-    // use < predicate by default
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-    return thrust::min_element(first, last, thrust::less<InputType>());
+  // use < predicate by default
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  return thrust::min_element(first, last, thrust::less<InputType>());
 } // end min_element()
 
 
@@ -61,18 +37,16 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::min_element(first, last, comp,
-            typename thrust::iterator_space<ForwardIterator>::type());
+  return thrust::detail::backend::min_element(first, last, comp);
 } // end min_element()
 
 
 template <typename ForwardIterator>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last)
 {
-    // use < predicate by default
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-    return thrust::max_element(first, last, thrust::less<InputType>());
+  // use < predicate by default
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  return thrust::max_element(first, last, thrust::less<InputType>());
 } // end max_element()
 
 
@@ -80,9 +54,7 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::max_element(first, last, comp,
-            typename thrust::iterator_space<ForwardIterator>::type());
+  return thrust::detail::backend::max_element(first, last, comp);
 } // end max_element()
 
 
@@ -90,9 +62,9 @@ template <typename ForwardIterator>
 thrust::pair<ForwardIterator,ForwardIterator> 
                 minmax_element(ForwardIterator first, ForwardIterator last)
 {
-    // use < predicate by default
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-    return thrust::minmax_element(first, last, thrust::less<InputType>());
+  // use < predicate by default
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  return thrust::minmax_element(first, last, thrust::less<InputType>());
 } // end minmax_element()
 
 
@@ -101,9 +73,7 @@ thrust::pair<ForwardIterator,ForwardIterator>
                 minmax_element(ForwardIterator first, ForwardIterator last,
                                BinaryPredicate comp)
 {
-    // dispatch on space
-    return thrust::detail::dispatch::minmax_element(first, last, comp,
-            typename thrust::iterator_space<ForwardIterator>::type());
+  return thrust::detail::backend::minmax_element(first, last, comp);
 } // end minmax_element()
 
 

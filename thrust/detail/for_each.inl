@@ -19,7 +19,7 @@
  *  \brief Inline file for for_each.h.
  */
 
-#include <thrust/detail/dispatch/for_each.h>
+#include <thrust/detail/backend/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -36,9 +36,7 @@ template<typename OutputIterator,
                             Size n,
                             UnaryFunction f)
 {
-  // dispatch on space
-  return thrust::detail::dispatch::for_each_n(first, n, f,
-          typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::backend::for_each_n(first, n, f);
 } // end for_each_n()
 
 template<typename InputIterator,
@@ -47,8 +45,7 @@ template<typename InputIterator,
                          InputIterator last,
                          UnaryFunction f)
 {
-  return thrust::detail::dispatch::for_each(first, last, f,
-      typename thrust::iterator_space<InputIterator>::type());
+  return thrust::detail::backend::for_each(first, last, f);
 } // end for_each()
 
 

@@ -20,8 +20,7 @@
  */
 
 #include <thrust/remove.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/remove.h>
+#include <thrust/detail/backend/remove.h>
 
 namespace thrust
 {
@@ -56,8 +55,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  return detail::dispatch::remove_if(first, last, pred,
-    typename thrust::iterator_space<ForwardIterator>::type());
+  return detail::backend::remove_if(first, last, pred);
 } // end remove_if()
 
 template<typename ForwardIterator,
@@ -68,9 +66,7 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  return detail::dispatch::remove_if(first, last, stencil, pred,
-    typename thrust::iterator_space<ForwardIterator>::type(),
-    typename thrust::iterator_space<InputIterator>::type());
+  return detail::backend::remove_if(first, last, stencil, pred);
 } // end remove_if()
 
 template<typename InputIterator,
@@ -81,9 +77,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return detail::dispatch::remove_copy_if(first, last, result, pred,
-    typename thrust::iterator_space<InputIterator>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+  return detail::backend::remove_copy_if(first, last, result, pred);
 } // end remove_copy_if()
 
 template<typename InputIterator1,
@@ -96,10 +90,7 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return detail::dispatch::remove_copy_if(first, last, stencil, result, pred,
-    typename thrust::iterator_space<InputIterator1>::type(),
-    typename thrust::iterator_space<InputIterator2>::type(),
-    typename thrust::iterator_space<OutputIterator>::type());
+  return detail::backend::remove_copy_if(first, last, stencil, result, pred);
 } // end remove_copy_if()
 
 } // end namespace thrust

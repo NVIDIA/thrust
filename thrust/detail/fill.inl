@@ -21,7 +21,7 @@
 
 #include <thrust/fill.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/fill.h>
+#include <thrust/detail/backend/fill.h>
 
 namespace thrust
 {
@@ -29,21 +29,17 @@ namespace thrust
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
-            const T &exemplar)
+            const T &value)
 {
-  // dispatch on space
-  thrust::detail::dispatch::fill(first, last, exemplar,
-    typename thrust::iterator_space<ForwardIterator>::type());
+  thrust::detail::backend::fill(first, last, value);
 } // end fill()
 
 template<typename OutputIterator, typename Size, typename T>
   OutputIterator fill_n(OutputIterator first,
                         Size n,
-                        const T &exemplar)
+                        const T &value)
 {
-  // dispatch on space
-  return thrust::detail::dispatch::fill_n(first, n, exemplar,
-    typename thrust::iterator_space<OutputIterator>::type());
+  return thrust::detail::backend::fill_n(first, n, value);
 } // end fill()
 
 } // end namespace thrust

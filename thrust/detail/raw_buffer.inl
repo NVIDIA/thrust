@@ -16,7 +16,7 @@
 
 #include <thrust/detail/raw_buffer.h>
 #include <thrust/distance.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 
 
 namespace thrust

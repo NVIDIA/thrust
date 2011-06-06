@@ -3,6 +3,7 @@
 #include <thrust/sort.h>
 #include <thrust/binary_search.h>
 #include <thrust/distance.h>
+#include <thrust/detail/cstdint.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -139,5 +140,19 @@ void TestCountingIteratorLowerBound(void)
     ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_UNITTEST(TestCountingIteratorLowerBound);
+
+void TestCountingIteratorDifference(void)
+{
+    typedef thrust::counting_iterator<thrust::detail::uint64_t> Iterator;
+    typedef thrust::iterator_difference<Iterator>::type Difference;
+
+    Difference diff = std::numeric_limits<thrust::detail::uint32_t>::max() + 1;
+
+    Iterator first(0);
+    Iterator last = first + diff;
+
+    ASSERT_EQUAL(diff, last - first);
+}
+DECLARE_UNITTEST(TestCountingIteratorDifference);
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

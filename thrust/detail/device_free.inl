@@ -21,7 +21,7 @@
 
 #include <thrust/device_free.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/device/dispatch/free.h>
+#include <thrust/detail/backend/dispatch/free.h>
 
 namespace thrust
 {
@@ -29,7 +29,7 @@ namespace thrust
 void device_free(thrust::device_ptr<void> ptr)
 {
   typedef thrust::iterator_space< thrust::device_ptr<void> >::type space;
-  detail::device::dispatch::free<0>(ptr, space());
+  detail::backend::dispatch::free<0>(ptr, space());
 } // end device_free()
 
 } // end thrust
