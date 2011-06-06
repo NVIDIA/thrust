@@ -3,6 +3,7 @@
 #######################################
 
 Summary
+    New functionality for creating anonymous "lambda" functors has been added.
 
 Breaking API Changes
 
@@ -19,6 +20,7 @@ Bug Fixes
 Known Issues
 
 Acknowledgments
+    Thanks to Manjunath Kudlur for contributing his Carbon library, from which the lambda functionality is derived.
 
 #######################################
 #           Thrust v1.4.0             #

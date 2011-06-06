@@ -14,6 +14,15 @@
  *  limitations under the License.
  */
 
+// Portions of this code are derived from
+//
+// Manjunath Kudlur's Carbon library
+//
+// and
+//
+// Based on Boost.Phoenix v1.2
+// Copyright (c) 2001-2002 Joel de Guzman
+
 #pragma once
 
 #include <thrust/detail/functional/actor.h>
