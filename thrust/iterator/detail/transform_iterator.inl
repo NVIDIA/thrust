@@ -20,6 +20,7 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/result_of.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
@@ -31,32 +32,15 @@ template <class UnaryFunction, class Iterator, class Reference, class Value>
 namespace detail 
 {
 
-template <class UnaryFunc>
-struct function_object_result
-{
-  typedef typename UnaryFunc::result_type type;
-};
-
-// XXX function pointers don't compile yet
-//     enable this when they do
-//template <class Return, class Argument>
-//struct function_object_result<Return(*)(Argument)>
-//{
-//  typedef Return type;
-//};
-
 // Compute the iterator_adaptor instantiation to be used for transform_iterator
 template <class UnaryFunc, class Iterator, class Reference, class Value>
 struct transform_iterator_base
 {
  private:
-    // By default, dereferencing the iterator yields the same as
-    // the function.  Do we need to adjust the way
-    // function_object_result is computed for the standard
-    // proposal (e.g. using Doug's result_of)?
+    // By default, dereferencing the iterator yields the same as the function.
     typedef typename thrust::experimental::detail::ia_dflt_help<
-        Reference
-      , function_object_result<UnaryFunc>
+      Reference,
+      thrust::detail::result_of<UnaryFunc(typename thrust::iterator_value<Iterator>::type)>
     >::type reference;
 
     // To get the default for Value: remove any reference on the
@@ -65,8 +49,8 @@ struct transform_iterator_base
     // to key non-writability *only* on the Reference argument,
     // we'd need to strip constness here as well.
     typedef typename thrust::experimental::detail::ia_dflt_help<
-        Value
-      , thrust::detail::remove_reference<reference>
+      Value,
+      thrust::detail::remove_reference<reference>
     >::type cv_value_type;
 
     typedef typename thrust::iterator_traits<Iterator>::pointer pointer_;

@@ -30,6 +30,7 @@
 #include <thrust/detail/functional/value.h>
 #include <thrust/detail/functional/composite.h>
 #include <thrust/detail/functional/operators/assignment_operator.h>
+#include <thrust/detail/type_traits/result_of.h>
 
 namespace thrust
 {
@@ -149,6 +150,41 @@ template<typename T>
 } // end make_actor()
 
 } // end functional
+
+// provide specializations for result_of for nullary, unary, and binary invocations of actor
+template<typename Eval>
+  struct result_of<
+    thrust::detail::functional::actor<Eval>()
+  >
+{
+  typedef typename thrust::detail::functional::apply_actor<
+    thrust::detail::functional::actor<Eval>,
+    thrust::null_type
+  >::type type;
+}; // end result_of
+
+template<typename Eval, typename Arg1>
+  struct result_of<
+    thrust::detail::functional::actor<Eval>(Arg1)
+  >
+{
+  typedef typename thrust::detail::functional::apply_actor<
+    thrust::detail::functional::actor<Eval>,
+    thrust::tuple<Arg1>
+  >::type type;
+}; // end result_of
+
+template<typename Eval, typename Arg1, typename Arg2>
+  struct result_of<
+    thrust::detail::functional::actor<Eval>(Arg1,Arg2)
+  >
+{
+  typedef typename thrust::detail::functional::apply_actor<
+    thrust::detail::functional::actor<Eval>,
+    thrust::tuple<Arg1,Arg2>
+  >::type type;
+}; // end result_of
+
 } // end detail
 } // end thrust
 
