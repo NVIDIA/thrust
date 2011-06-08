@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
+#include <thrust/iterator/constant_iterator.h>
 
 static const size_t num_samples = 10000;
 
@@ -18,29 +19,43 @@ template<typename T, typename U>
   typedef thrust::device_vector<U> type;
 };
 
-#define BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(name, reference_operator, functor) \
+#define BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(name, op, reference_functor, type_list) \
 template<typename Vector> \
-  void TestFunctionalPlaceholders##name(void) \
+  struct TestFunctionalPlaceholders##name \
 { \
-  typedef typename Vector::value_type T; \
-  typedef typename rebind_vector<Vector,bool>::type bool_vector; \
-  Vector lhs = unittest::random_samples<T>(num_samples); \
-  Vector rhs = unittest::random_samples<T>(num_samples); \
+  void operator()(const size_t dummy) \
+  { \
+    static const size_t num_samples = 10000; \
+    const size_t zero = 0; \
+    typedef typename Vector::value_type T; \
+    typedef typename rebind_vector<Vector,bool>::type bool_vector; \
+    Vector lhs = unittest::random_samples<T>(num_samples); \
+    Vector rhs = unittest::random_samples<T>(num_samples); \
+    thrust::replace(rhs.begin(), rhs.end(), T(0), T(1)); \
 \
-  bool_vector reference(lhs.size()); \
-  thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), reference.begin(), functor<T>()); \
+    Vector reference(lhs.size()); \
+    Vector result(lhs.size()); \
+    using namespace thrust::placeholders; \
 \
-  using namespace thrust::placeholders; \
-  bool_vector result(lhs.size()); \
-  thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), result.begin(), _1 reference_operator _2); \
+    thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), reference.begin(), reference_functor<T>()); \
+    thrust::transform(lhs.begin(), lhs.end(), rhs.begin(), result.begin(), _1 op _2); \
+    ASSERT_ALMOST_EQUAL(reference, result); \
 \
-  ASSERT_EQUAL(reference, result); \
-} \
-DECLARE_VECTOR_UNITTEST(TestFunctionalPlaceholders##name);
+    thrust::transform(lhs.begin(), lhs.end(), thrust::make_constant_iterator<T>(1), reference.begin(), reference_functor<T>()); \
+    thrust::transform(lhs.begin(), lhs.end(), result.begin(), _1 op T(1)); \
+    ASSERT_ALMOST_EQUAL(reference, result); \
+\
+    thrust::transform(thrust::make_constant_iterator<T>(1,zero), thrust::make_constant_iterator<T>(1,num_samples), rhs.begin(), reference.begin(), reference_functor<T>()); \
+    thrust::transform(rhs.begin(), rhs.end(), result.begin(), T(1) op _1); \
+    ASSERT_ALMOST_EQUAL(reference, result); \
+  } \
+}; \
+VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::device_vector, thrust::device_malloc_allocator> TestFunctionalPlaceholders##name##DeviceInstance; \
+VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::host_vector, std::allocator> TestFunctionalPlaceholders##name##HostInstance;
 
-BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitAnd, &, thrust::bit_and);
-BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitOr,  |, thrust::bit_or);
-BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitXor, ^, thrust::bit_xor);
+BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitAnd, &, thrust::bit_and, SmallIntegralTypes);
+BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitOr,  |, thrust::bit_or,  SmallIntegralTypes);
+BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitXor, ^, thrust::bit_xor, SmallIntegralTypes);
 
 template<typename T>
   struct bit_negate_reference

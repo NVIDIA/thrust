@@ -69,15 +69,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<thrust::plus>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator+(const T1 &_1, const T2 &_2)
+operator+(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::plus>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator+()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::plus>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator+(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::plus>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator+()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::plus>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator+(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::plus>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator+()
 
 template<typename T1, typename T2>
@@ -86,14 +118,46 @@ actor<
   composite<
     binary_operator<thrust::minus>,
     typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator-(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::minus>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator-()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::minus>,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator-(const T1 &_1, const T2 &_2)
+operator-(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::minus>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator-()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::minus>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator-(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::minus>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator-()
 
 template<typename T1, typename T2>
@@ -102,14 +166,46 @@ actor<
   composite<
     binary_operator<thrust::multiplies>,
     typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator*(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::multiplies>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator*()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::multiplies>,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator*(const T1 &_1, const T2 &_2)
+operator*(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::multiplies>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator*()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::multiplies>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator*(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::multiplies>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator*()
 
 template<typename T1, typename T2>
@@ -117,15 +213,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<thrust::divides>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator/(const T1 &_1, const T2 &_2)
+operator/(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::divides>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator/()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::divides>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator/(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::divides>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator/()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::divides>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator/(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::divides>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator/()
 
 template<typename T1, typename T2>
@@ -133,15 +261,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<thrust::modulus>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator%(const T1 &_1, const T2 &_2)
+operator%(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::modulus>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator%()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::modulus>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator%(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::modulus>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator%()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::modulus>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator%(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::modulus>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator%()
 
 // there's no standard prefix_increment functional, so roll an ad hoc one here

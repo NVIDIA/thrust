@@ -40,15 +40,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<plus_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator+=(const T1 &_1, const T2 &_2)
+operator+=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<plus_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator+=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<plus_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator+=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<plus_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator+=()
 
 template<typename T>
@@ -63,15 +79,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<minus_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator-=(const T1 &_1, const T2 &_2)
+operator-=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<minus_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator-=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<minus_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator-=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<minus_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator-=()
 
 template<typename T>
@@ -86,15 +118,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<multiplies_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator*=(const T1 &_1, const T2 &_2)
+operator*=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<multiplies_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator*=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<multiplies_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator*=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<multiplies_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator*=()
 
 template<typename T>
@@ -109,15 +157,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<divides_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator/=(const T1 &_1, const T2 &_2)
+operator/=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<divides_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator/=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<divides_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator/=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<divides_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator/=()
 
 template<typename T>
@@ -132,15 +196,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<modulus_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator%=(const T1 &_1, const T2 &_2)
+operator%=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<modulus_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator%=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<modulus_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator%=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<modulus_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator%=()
 
 template<typename T>
@@ -155,15 +235,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_and_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator&=(const T1 &_1, const T2 &_2)
+operator&=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_and_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator&=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_and_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator&=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_and_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator&=()
 
 template<typename T>
@@ -178,15 +274,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_or_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator|=(const T1 &_1, const T2 &_2)
+operator|=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_or_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator|=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_or_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator|=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_or_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator|=()
 
 template<typename T>
@@ -201,15 +313,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_xor_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator^=(const T1 &_1, const T2 &_2)
+operator^=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_xor_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator|=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_xor_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator^=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_xor_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator|=()
 
 template<typename T>
@@ -224,15 +352,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_lshift_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator<<=(const T1 &_1, const T2 &_2)
+operator<<=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_lshift_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator<<=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_lshift_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator<<=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_lshift_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator<<=()
 
 template<typename T>
@@ -247,15 +391,31 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_rshift_equal>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator>>=(const T1 &_1, const T2 &_2)
+operator>>=(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_rshift_equal>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator>>=()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_rshift_equal>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator>>=(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_rshift_equal>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator>>=()
 
 } // end functional

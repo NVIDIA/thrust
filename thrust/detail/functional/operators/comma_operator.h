@@ -89,15 +89,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator_with_two_parms<thrust::project2nd>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
+  >
+>
+operator,(const actor<T1> &_1, const T2 &_2)
+{
+  return compose(binary_operator_with_two_parms<thrust::project2nd>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator,()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator_with_two_parms<thrust::project2nd>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator,(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator_with_two_parms<thrust::project2nd>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator,()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator_with_two_parms<thrust::project2nd>,
+    actor<T1>,
+    actor<T2>
   >
 >
 operator,(const T1 &_1, const T2 &_2)
 {
   return compose(binary_operator_with_two_parms<thrust::project2nd>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator,()
   
 } // end functional

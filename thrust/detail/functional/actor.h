@@ -140,6 +140,14 @@ template<typename Eval>
   } // end convert()
 }; // end as_actor
 
+template<typename T>
+  typename as_actor<T>::type
+  __host__ __device__
+    make_actor(const T &x)
+{
+  return as_actor<T>::convert(x);
+} // end make_actor()
+
 } // end functional
 } // end detail
 } // end thrust

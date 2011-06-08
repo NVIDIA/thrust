@@ -34,15 +34,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<thrust::bit_and>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator&(const T1 &_1, const T2 &_2)
+operator&(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::bit_and>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator&()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::bit_and>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator&(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::bit_and>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator&()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::bit_and>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator&(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::bit_and>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator&()
 
 template<typename T1, typename T2>
@@ -50,15 +82,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<thrust::bit_or>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator|(const T1 &_1, const T2 &_2)
+operator|(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::bit_or>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator|()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::bit_or>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator|(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::bit_or>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator|()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::bit_or>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator|(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::bit_or>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator|()
 
 template<typename T1, typename T2>
@@ -66,15 +130,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<thrust::bit_xor>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator^(const T1 &_1, const T2 &_2)
+operator^(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<thrust::bit_xor>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator^()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::bit_xor>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator^(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::bit_xor>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator^()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<thrust::bit_xor>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator^(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<thrust::bit_xor>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator^()
 
 // there's no standard bit_not functional, so roll an ad hoc one here
@@ -112,15 +208,47 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_lshift>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator<<(const T1 &_1, const T2 &_2)
+operator<<(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_lshift>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator<<()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_lshift>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator<<(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_lshift>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator<<()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_lshift>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator<<(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_lshift>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator<<()
 
 // there's no standard bit_rshift functional, so roll an ad hoc one here
@@ -136,19 +264,50 @@ __host__ __device__
 actor<
   composite<
     binary_operator<bit_rshift>,
-    typename as_actor<T1>::type,
+    actor<T1>,
     typename as_actor<T2>::type
   >
 >
-operator>>(const T1 &_1, const T2 &_2)
+operator>>(const actor<T1> &_1, const T2 &_2)
 {
   return compose(binary_operator<bit_rshift>(),
-                 as_actor<T1>::convert(_1),
-                 as_actor<T2>::convert(_2));
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator>>()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_rshift>,
+    typename as_actor<T1>::type,
+    actor<T2>
+  >
+>
+operator>>(const T1 &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_rshift>(),
+                 make_actor(_1),
+                 make_actor(_2));
+} // end operator>>()
+
+template<typename T1, typename T2>
+__host__ __device__
+actor<
+  composite<
+    binary_operator<bit_rshift>,
+    actor<T1>,
+    actor<T2>
+  >
+>
+operator>>(const actor<T1> &_1, const actor<T2> &_2)
+{
+  return compose(binary_operator<bit_rshift>(),
+                 make_actor(_1),
+                 make_actor(_2));
 } // end operator>>()
 
 } // end functional
 } // end detail
 } // end thrust
-
 
