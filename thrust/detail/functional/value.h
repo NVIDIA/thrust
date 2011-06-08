@@ -36,7 +36,7 @@ namespace functional
 {
 
 
-template<typename Eval> class actor;
+template<typename Eval> struct actor;
 
 
 template<typename T>
