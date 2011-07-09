@@ -28,23 +28,6 @@ namespace backend
 {
 namespace generic
 {
-namespace detail
-{
-
-// TODO remove this when adjacent_difference supports in-place operation
-template <typename Iterator1, typename Iterator2>
-bool is_same_iterator(Iterator1, Iterator2)
-{
-  return false;
-}
-template <typename Iterator1>
-bool is_same_iterator(Iterator1 iter1, Iterator1 iter2)
-{
-  return iter1 == iter2;
-}
-
-} // end namespace detail
-
 
 template <class InputIterator, class OutputIterator, class BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
@@ -59,20 +42,16 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
         // empty range, nothing to do
         return result; 
     }
-    else if(detail::is_same_iterator(first, result))
+    else 
     {
         // an in-place operation is requested, copy the input and call the entry point
         // XXX a special-purpose kernel would be faster here since
         // only block boundaries need to be copied
         thrust::detail::raw_buffer<InputType, Space> input_copy(first, last);
-        thrust::detail::backend::generic::adjacent_difference(input_copy.begin(), input_copy.end(), result, binary_op);
-    }
-    else
-    {
-        // XXX a special-purpose kernel would be faster here
+        
         *result = *first;
-        thrust::transform(first + 1, last, first, result + 1, binary_op); 
-    } // end else
+        thrust::transform(input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+    }
 
     return result + (last - first);
 }
