@@ -69,7 +69,8 @@
  *     
  *   Summary of the stable_sort_by_key() dispatch procedure:
  *       Level 1:
- *          if is_primitive<KeyType> && is_equal< StrictWeakOrdering, less<KeyType> > 
+ *          if is_primitive<KeyType> && (is_equal< StrictWeakOrdering, less<KeyType> >  ||
+ *                                       is_equal< StrictWeakOrdering, greater<KeyType> > )
  *              stable_radix_sort_by_key()
  *          else
  *              Level2 stable_merge_sort_by_key()
