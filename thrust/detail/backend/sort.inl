@@ -19,9 +19,6 @@
  *  \brief Inline file for sort.h
  */
 
-#include <thrust/detail/copy.h>
-#include <thrust/detail/trivial_sequence.h>
-
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>
 
@@ -70,16 +67,7 @@ template<typename RandomAccessIterator,
                    StrictWeakOrdering comp,
                    thrust::detail::cuda_device_space_tag)
 {
-  // ensure sequence has trivial iterators
-  // XXX this prologue belongs somewhere else
-  thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
-
-  thrust::detail::backend::cuda::stable_sort(keys.begin(), keys.end(), comp);
-
-  // copy results back, if necessary
-  // XXX this epilogue belongs somewhere else
-  if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
-    thrust::copy(keys.begin(), keys.end(), first);
+  thrust::detail::backend::cuda::stable_sort(first, last, comp);
 }
 
 
@@ -130,20 +118,7 @@ template<typename RandomAccessIterator1,
                           StrictWeakOrdering comp,
                           thrust::detail::cuda_device_space_tag)
 {
-  // ensure sequences have trivial iterators
-  // XXX this prologue belongs somewhere else
-  RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-  thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
-  thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_last);
-
-  thrust::detail::backend::cuda::stable_sort_by_key(keys.begin(), keys.end(), values.begin(), comp);
-
-  // copy results back, if necessary
-  // XXX this epilogue belongs somewhere else
-  if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
-    thrust::copy(keys.begin(), keys.end(), keys_first);
-  if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
-    thrust::copy(values.begin(), values.end(), values_first);
+  thrust::detail::backend::cuda::stable_sort_by_key(keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()
 
 template<typename RandomAccessIterator1,

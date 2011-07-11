@@ -1134,13 +1134,13 @@ template<typename RandomAccessIterator1,
 
   if(num_blocks%2)
   {
-    thrust::copy(device_pointer_cast(keys_first) + (num_blocks-1)*block_size,
-                 device_pointer_cast(keys_first) + n,
-                 device_pointer_cast(keys_result) + (num_blocks-1)*block_size);
+    thrust::copy(keys_first + (num_blocks-1)*block_size,
+                 keys_first + n,
+                 keys_result + (num_blocks-1)*block_size);
     
-    thrust::copy(device_pointer_cast(values_first) + (num_blocks-1)*block_size,
-                 device_pointer_cast(values_first) + n,
-                 device_pointer_cast(values_result) + (num_blocks-1)*block_size);
+    thrust::copy(values_first + (num_blocks-1)*block_size,
+                 values_first + n,
+                 values_result + (num_blocks-1)*block_size);
   }
 }
 
@@ -1193,13 +1193,16 @@ template<typename RandomAccessIterator1,
   merge_sort_dev_namespace::stable_odd_even_block_sort_kernel<block_size><<<grid_size, block_size>>>(keys_first, values_first, comp, n);
   synchronize_if_enabled("stable_odd_even_block_sort_kernel");
 
-  // scratch space
+  // allocate scratch space
   using namespace thrust::detail;
   raw_cuda_device_buffer<KeyType>   temp_keys(n);
-  raw_cuda_device_buffer<ValueType> temp_values(n);
+  raw_cuda_device_buffer<ValueType> temp_vals(n);
 
-  device_ptr<KeyType>   keys0   = &*keys_first,   keys1   = &temp_keys[0];
-  device_ptr<ValueType> values0 = &*values_first, values1 = &temp_values[0];
+  // give iterators simpler names
+  RandomAccessIterator1 keys0 = keys_first;
+  RandomAccessIterator2 vals0 = values_first;
+  typename raw_cuda_device_buffer<KeyType>::iterator   keys1 = temp_keys.begin();
+  typename raw_cuda_device_buffer<ValueType>::iterator vals1 = temp_vals.begin();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.
@@ -1208,9 +1211,10 @@ template<typename RandomAccessIterator1,
       tile_size < n;
       tile_size *= 2)
   {
-    merge_sort_dev_namespace::merge(keys0, values0, n, keys1, values1, tile_size, comp);
-    thrust::swap(keys0,   keys1);
-    thrust::swap(values0, values1);
+    if (iterations % 2)
+      merge_sort_dev_namespace::merge(keys1, vals1, n, keys0, vals0, tile_size, comp);
+    else
+      merge_sort_dev_namespace::merge(keys0, vals0, n, keys1, vals1, tile_size, comp);
     ++iterations;
   }
 
@@ -1218,8 +1222,8 @@ template<typename RandomAccessIterator1,
   // and not in the temporary arrays
   if(iterations % 2)
   {
-    thrust::copy(values0, values0 + n, values1);
-    thrust::copy(keys0,   keys0 + n,   keys1);
+    thrust::copy(vals1, vals1 + n, vals0);
+    thrust::copy(keys1, keys1 + n, keys0);
   }
 } // end stable_merge_sort_by_key()
 
