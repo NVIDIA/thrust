@@ -210,18 +210,18 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   void vector_base<T,Alloc>
-    ::resize(size_type new_size, value_type x)
+    ::resize(size_type new_size, const value_type &x)
 {
   if(new_size < size())
   {
     iterator new_end = begin();
     thrust::advance(new_end, new_size);
     erase(new_end, end());
-  }
+  } // end if
   else
   {
     insert(end(), new_size - size(), x);
-  }
+  } // end else
 } // end vector_base::resize()
 
 template<typename T, typename Alloc>

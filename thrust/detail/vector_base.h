@@ -132,7 +132,7 @@ template<typename T, typename Alloc>
      *  size this vector_base is truncated, otherwise this vector_base is
      *  extended and new elements are populated with given data.
      */
-    void resize(size_type new_size, value_type x = value_type());
+    void resize(size_type new_size, const value_type &x = value_type());
 
     /*! Returns the number of elements in this vector_base.
      */
