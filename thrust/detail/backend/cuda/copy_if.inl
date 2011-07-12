@@ -20,6 +20,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>
+#include <thrust/detail/minmax.h>
 
 #include <thrust/detail/util/blocking.h>
 
@@ -68,7 +69,7 @@ void reduce_intervals(InputIterator input,
     __shared__ OutputType shared_array[CTA_SIZE];
 
     const IndexType interval_begin = interval_size * blockIdx.x;
-    const IndexType interval_end   = min(interval_begin + interval_size, n);
+    const IndexType interval_end   = thrust::min<IndexType>(interval_begin + interval_size, n);
 
     IndexType i = interval_begin + threadIdx.x;
 
