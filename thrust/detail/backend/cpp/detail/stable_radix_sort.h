@@ -27,19 +27,15 @@ namespace cpp
 namespace detail
 {
 
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-void stable_merge_sort(RandomAccessIterator begin,
-                       RandomAccessIterator end,
-                       StrictWeakOrdering comp);
+template<typename RandomAccessIterator>
+void stable_radix_sort(RandomAccessIterator begin,
+                       RandomAccessIterator end);
 
 template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+         typename RandomAccessIterator2>
+void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
                               RandomAccessIterator1 keys_end,
-                              RandomAccessIterator2 values_begin,
-                              StrictWeakOrdering comp);
+                              RandomAccessIterator2 values_begin);
 
 } // end namespace detail
 } // end namespace cpp
@@ -47,5 +43,5 @@ void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/detail/stable_merge_sort.inl>
+#include <thrust/detail/backend/cpp/detail/stable_radix_sort.inl>
 
