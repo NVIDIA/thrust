@@ -41,7 +41,7 @@ namespace detail
 template <unsigned int N, unsigned int Cur>
 struct log2
 {
-    static const unsigned int value = log2<(N >> 1),Cur+1>::value;
+    static const unsigned int value = log2<N / 2,Cur+1>::value;
 };
 
 template <unsigned int Cur>
