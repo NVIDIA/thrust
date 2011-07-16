@@ -180,6 +180,9 @@ def Environment():
   # add a variable to treat warnings as errors
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', 0))
 
+  # add a variable to filter source files by a regex
+  vars.Add('tests', help='Filter test files using a regex')
+
   # create an Environment
   env = OldEnvironment(tools = getTools(), variables = vars)
 

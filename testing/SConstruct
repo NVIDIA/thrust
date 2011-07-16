@@ -31,6 +31,21 @@ for dir in directories:
     regexp = os.path.join(dir, ext)
     sources.extend(env.Glob(regexp))
 
+# filter test files using a regular expression
+if 'tests' in env:
+  import re
+
+  pattern = re.compile(env['tests'])
+
+  necessary_sources = set(['testframework.cu'])
+  filtered_sources  = []
+
+  for f in sources:
+    if str(f) in necessary_sources or pattern.search(f.get_contents()):
+      filtered_sources.append(f)
+
+  sources = filtered_sources
+
 # add the directory containing this file to the include path
 this_file = inspect.currentframe().f_code.co_filename
 this_dir = os.path.dirname(this_file)
