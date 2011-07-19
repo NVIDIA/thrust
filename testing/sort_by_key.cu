@@ -63,10 +63,9 @@ void TestSortAscendingKeyValue(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestSortAscendingKeyValue);
 
 
-void TestSortDescendingKeyValue(void)
+template <typename T>
+void TestSortDescendingKeyValue(const size_t n)
 {
-    const size_t n = 10027;
-
     thrust::host_vector<int>   h_keys = unittest::random_integers<int>(n);
     thrust::device_vector<int> d_keys = h_keys;
     
@@ -79,7 +78,7 @@ void TestSortDescendingKeyValue(void)
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
 }
-DECLARE_UNITTEST(TestSortDescendingKeyValue);
+DECLARE_VARIABLE_UNITTEST(TestSortDescendingKeyValue);
 
 
 template <class Vector>

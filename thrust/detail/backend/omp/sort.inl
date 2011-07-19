@@ -19,8 +19,6 @@
 
 #include <thrust/iterator/detail/forced_iterator.h> // XXX remove this we we have a proper OMP sort
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/omp/dispatch/sort.h>
-
 
 namespace thrust
 {
@@ -37,9 +35,10 @@ void stable_sort(RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
-    // dispatch on the trivialness of the iterator
-    thrust::detail::backend::omp::dispatch::stable_sort(first, last, comp,
-        thrust::detail::is_trivial_iterator<RandomAccessIterator>());
+    // XXX use cpp stable_sort implementation for now
+    thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first,   thrust::host_space_tag()),
+                                              thrust::detail::make_forced_iterator(last,    thrust::host_space_tag()),
+                                              comp);
 }
 
 template<typename RandomAccessIterator1,
@@ -50,8 +49,6 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
                         RandomAccessIterator2 values_first,
                         StrictWeakOrdering comp)
 {
-    typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
-
     // XXX use cpp stable_sort_by_key implementation for now
     thrust::detail::backend::cpp::stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()),
                                                      thrust::detail::make_forced_iterator(keys_last,    thrust::host_space_tag()),

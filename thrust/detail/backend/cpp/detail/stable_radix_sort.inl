@@ -102,9 +102,9 @@ struct RadixEncoder<long long> : public thrust::unary_function<long long, unsign
 template <>
 struct RadixEncoder<float> : public thrust::unary_function<float, unsigned int>
 {
-  unsigned int operator()(float& x) const
+  unsigned int operator()(float x) const
   {
-    unsigned int y = reinterpret_cast<unsigned int&>(x);
+    unsigned int y = reinterpret_cast<unsigned int&>(reinterpret_cast<char&>(x));
     unsigned int mask = -static_cast<int>(y >> 31) | (static_cast<unsigned int>(1) << 31);
     return y ^ mask;
   }
@@ -113,9 +113,9 @@ struct RadixEncoder<float> : public thrust::unary_function<float, unsigned int>
 template <>
 struct RadixEncoder<double> : public thrust::unary_function<double, unsigned long long>
 {
-  unsigned long long operator()(double& x) const
+  unsigned long long operator()(double x) const
   {
-    unsigned long long y = reinterpret_cast<unsigned long long&>(x);
+    unsigned long long y = reinterpret_cast<unsigned long long&>(reinterpret_cast<char &>(x));
     unsigned long long mask = -static_cast<long long>(y >> 63) | (static_cast<unsigned long long>(1) << 63);
     return y ^ mask;
   }
