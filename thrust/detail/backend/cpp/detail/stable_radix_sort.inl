@@ -22,7 +22,7 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -352,7 +352,7 @@ void stable_radix_sort(RandomAccessIterator first,
 
   size_t N = last - first;
   
-  thrust::detail::raw_host_buffer<KeyType> temp(N);
+  thrust::detail::uninitialized_array<KeyType, thrust::host_space_tag> temp(N);
   
   detail::radix_sort(first, temp.begin(), N);
 }
@@ -373,8 +373,8 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
 
   size_t N = last1 - first1;
   
-  thrust::detail::raw_host_buffer<KeyType> temp1(N);
-  thrust::host_vector<ValueType>           temp2(N);
+  thrust::detail::uninitialized_array<KeyType, thrust::host_space_tag> temp1(N);
+  thrust::host_vector<ValueType>                                       temp2(N);
 
   detail::radix_sort(first1, temp1.begin(), first2, temp2.begin(), N);
 }

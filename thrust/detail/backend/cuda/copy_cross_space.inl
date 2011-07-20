@@ -17,7 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/backend/cuda/copy_cross_space.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>
 #include <thrust/detail/backend/cuda/trivial_copy.h>
 
@@ -28,7 +28,7 @@ namespace detail
 {
 
 // XXX WAR circular #inclusion problem
-template<typename,typename> class raw_buffer;
+template<typename,typename> class uninitialized_array;
 
 namespace backend
 {
@@ -54,7 +54,7 @@ template<typename InputIterator,
   typedef typename thrust::iterator_space<InputIterator>::type InputSpace;
 
   // allocate temporary storage
-  thrust::detail::raw_buffer<InputType, InputSpace> temp(begin,end);
+  thrust::detail::uninitialized_array<InputType, InputSpace> temp(begin,end);
   result = thrust::copy(temp.begin(), temp.end(), result);
 
   return result;
@@ -73,7 +73,7 @@ template<typename InputIterator,
   typedef typename thrust::iterator_space<InputIterator>::type InputSpace;
 
   // allocate and copy to temporary storage in the input's space
-  thrust::detail::raw_buffer<InputType, InputSpace> temp(n);
+  thrust::detail::uninitialized_array<InputType, InputSpace> temp(n);
   thrust::copy_n(first, n, temp.begin());
 
   return thrust::copy(temp.begin(), temp.end(), result);
@@ -93,7 +93,7 @@ template<typename RandomAccessIterator,
   typedef typename thrust::iterator_space<OutputIterator>::type OutputSpace;
 
   // allocate temporary storage
-  thrust::detail::raw_buffer<InputType,OutputSpace> temp(begin,end);
+  thrust::detail::uninitialized_array<InputType,OutputSpace> temp(begin,end);
   result = thrust::copy(temp.begin(), temp.end(), result);
 
   return result;
@@ -112,7 +112,7 @@ template<typename RandomAccessIterator,
   typedef typename thrust::iterator_space<OutputIterator>::type OutputSpace;
 
   // allocate and copy to temporary storage in the output's space
-  thrust::detail::raw_buffer<InputType,OutputSpace> temp(n);
+  thrust::detail::uninitialized_array<InputType,OutputSpace> temp(n);
   thrust::copy_n(first, n, temp.begin());
 
   return thrust::copy(temp.begin(), temp.end(), result);
@@ -159,7 +159,7 @@ template<typename RandomAccessIterator1,
   typedef typename thrust::iterator_space<RandomAccessIterator1>::type InputSpace;
 
   // allocate temporary storage
-  thrust::detail::raw_buffer<OutputType,InputSpace> temp(begin, end);
+  thrust::detail::uninitialized_array<OutputType,InputSpace> temp(begin, end);
   result = thrust::copy(temp.begin(), temp.end(), result);
 
   return result;
@@ -179,7 +179,7 @@ template<typename RandomAccessIterator1,
   typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  thrust::detail::raw_buffer<InputType,OutputSpace> temp(n);
+  thrust::detail::uninitialized_array<InputType,OutputSpace> temp(n);
 
   // force a trivial copy
   thrust::detail::backend::cuda::trivial_copy_n(begin, n, temp.begin());

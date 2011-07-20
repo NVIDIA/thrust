@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/distance.h>
 #include <thrust/detail/copy.h>
 
@@ -27,23 +27,23 @@ namespace detail
 
 
 template<typename T, typename Space>
-  raw_buffer<T,Space>
-    ::raw_buffer(size_type n)
+  uninitialized_array<T,Space>
+    ::uninitialized_array(size_type n)
       :super_t(n)
 {
   ;
-} // end raw_buffer::raw_buffer()
+} // end uninitialized_array::uninitialized_array()
 
 
 template<typename T, typename Space>
   template<typename InputIterator>
-    raw_buffer<T,Space>
-      ::raw_buffer(InputIterator first, InputIterator last)
+    uninitialized_array<T,Space>
+      ::uninitialized_array(InputIterator first, InputIterator last)
         : super_t()
 {
   super_t::allocate(thrust::distance(first,last));
   thrust::copy(first, last, super_t::begin());
-} // end raw_buffer::raw_buffer()
+} // end uninitialized_array::uninitialized_array()
 
 } // end detail
 

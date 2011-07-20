@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <thrust/detail/raw_buffer.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust

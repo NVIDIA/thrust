@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/pair.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -82,8 +82,8 @@ template<typename ForwardIterator,
 {
     typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-    typedef thrust::detail::raw_host_buffer<T> TempRange;
-    typedef typename TempRange::iterator       TempIterator;
+    typedef thrust::detail::uninitialized_array<T,thrust::host_space_tag> TempRange;
+    typedef typename TempRange::iterator                                  TempIterator;
 
     TempRange temp(first, last);
 

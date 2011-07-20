@@ -30,7 +30,7 @@
 
 #include <thrust/detail/util/blocking.h>
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/backend/dereference.h>
 
 #include <thrust/detail/backend/cuda/extern_shared_ptr.h>
@@ -48,8 +48,8 @@ namespace thrust
 namespace detail
 {
 
-// forward declaration of raw_cuda_device_buffer
-template<typename> class raw_cuda_device_buffer;
+// forward declaration of uninitialized_array
+template<typename,typename> class uninitialized_array;
 
 namespace backend
 {
@@ -324,7 +324,7 @@ OutputIterator inclusive_scan(InputIterator first,
     //std::cout << "num_iters     " << num_iters     << std::endl;
     //std::cout << "interval_size " << interval_size << std::endl;
 
-    thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_blocks + 1);
+    thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
     {
@@ -407,7 +407,7 @@ OutputIterator exclusive_scan(InputIterator first,
     //std::cout << "num_iters     " << num_iters     << std::endl;
     //std::cout << "interval_size " << interval_size << std::endl;
 
-    thrust::detail::raw_cuda_device_buffer<OutputType> block_results(num_blocks + 1);
+    thrust::detail::uninitialized_array<OutputType, thrust::detail::cuda_device_space_tag> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
     {

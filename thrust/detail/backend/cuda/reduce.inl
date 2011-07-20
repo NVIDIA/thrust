@@ -24,7 +24,6 @@
 
 #include <thrust/detail/type_traits.h>
 
-#include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/extern_shared_ptr.h>
 #include <thrust/detail/backend/cuda/dispatch/reduce.h>
@@ -32,6 +31,7 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/functional.h>
 #include <thrust/detail/minmax.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -271,7 +271,7 @@ template<typename RandomAccessIterator1,
   const size_t block_size = thrust::detail::backend::cuda::detail::block_size_with_maximal_occupancy<Closure>();
 
   // allocate storage for shared array
-  thrust::detail::raw_cuda_device_buffer<OutputType> shared_array(block_size * num_blocks);
+  thrust::detail::uninitialized_array<OutputType, thrust::detail::cuda_device_space_tag> shared_array(block_size * num_blocks);
 
   Closure closure(first, n, raw_pointer_cast(&*result), raw_pointer_cast(&shared_array[0]), binary_op);
 

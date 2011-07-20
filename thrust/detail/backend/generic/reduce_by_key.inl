@@ -34,7 +34,7 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/backend/scan.h>
 #include <thrust/detail/backend/copy.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -126,18 +126,18 @@ template <typename InputIterator1,
     InputIterator2 values_last = values_first + n;
     
     // compute head flags
-    thrust::detail::raw_buffer<FlagType,Space> head_flags(n);
+    thrust::detail::uninitialized_array<FlagType,Space> head_flags(n);
     thrust::transform(keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
-    thrust::detail::raw_buffer<FlagType,Space> tail_flags(n); //COPY INSTEAD OF TRANSFORM
+    thrust::detail::uninitialized_array<FlagType,Space> tail_flags(n); //COPY INSTEAD OF TRANSFORM
     thrust::transform(keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag
-    thrust::detail::raw_buffer<ValueType,Space> scanned_values(n);
-    thrust::detail::raw_buffer<FlagType,Space>  scanned_tail_flags(n);
+    thrust::detail::uninitialized_array<ValueType,Space> scanned_values(n);
+    thrust::detail::uninitialized_array<FlagType,Space>  scanned_tail_flags(n);
     
     thrust::detail::backend::inclusive_scan
         (thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),

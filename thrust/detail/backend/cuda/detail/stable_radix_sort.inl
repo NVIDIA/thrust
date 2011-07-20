@@ -24,7 +24,7 @@
 #include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
 
@@ -49,6 +49,7 @@ template<typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
+    typedef thrust::detail::cuda_device_space_tag space;
     typedef typename thrust::iterator_value<RandomAccessIterator>::type K;
     
     unsigned int num_elements = last - first;
@@ -56,7 +57,7 @@ void stable_radix_sort(RandomAccessIterator first,
     // ensure data is properly aligned
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first), 2*sizeof(K)))
     {
-        thrust::detail::raw_cuda_device_buffer<K> aligned_keys(first, last);
+        thrust::detail::uninitialized_array<K, space> aligned_keys(first, last);
         stable_radix_sort(aligned_keys.begin(), aligned_keys.end());
         thrust::copy(aligned_keys.begin(), aligned_keys.end(), first);
         return;
@@ -66,9 +67,9 @@ void stable_radix_sort(RandomAccessIterator first,
     thrust::detail::backend::cuda::detail::b40c_thrust::RadixSortStorage<K>    storage;
     
     // allocate temporary buffers
-    thrust::detail::raw_cuda_device_buffer<K>            temp_keys(num_elements);
-    thrust::detail::raw_cuda_device_buffer<int>          temp_spine(sorter.SpineElements());
-    thrust::detail::raw_cuda_device_buffer<bool>         temp_from_alt(2);
+    thrust::detail::uninitialized_array<K,    space> temp_keys(num_elements);
+    thrust::detail::uninitialized_array<int,  space> temp_spine(sorter.SpineElements());
+    thrust::detail::uninitialized_array<bool, space> temp_from_alt(2);
 
     // define storage
     storage.d_keys             = thrust::raw_pointer_cast(&*first);
@@ -100,6 +101,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator2 first2,
                               thrust::detail::true_type)
 {
+    typedef thrust::detail::cuda_device_space_tag space;
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type K;
     typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
     
@@ -108,14 +110,14 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
     // ensure data is properly aligned
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first1), 2*sizeof(K)))
     {
-        thrust::detail::raw_cuda_device_buffer<K> aligned_keys(first1, last1);
+        thrust::detail::uninitialized_array<K,space> aligned_keys(first1, last1);
         stable_radix_sort_by_key(aligned_keys.begin(), aligned_keys.end(), first2);
         thrust::copy(aligned_keys.begin(), aligned_keys.end(), first1);
         return;
     }
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first2), 2*sizeof(V)))
     {
-        thrust::detail::raw_cuda_device_buffer<V> aligned_values(first2, first2 + num_elements);
+        thrust::detail::uninitialized_array<V,space> aligned_values(first2, first2 + num_elements);
         stable_radix_sort_by_key(first1, last1, aligned_values.begin());
         thrust::copy(aligned_values.begin(), aligned_values.end(), first2);
         return;
@@ -125,10 +127,10 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
     thrust::detail::backend::cuda::detail::b40c_thrust::RadixSortStorage<K,V>    storage;
     
     // allocate temporary buffers
-    thrust::detail::raw_cuda_device_buffer<K>            temp_keys(num_elements);
-    thrust::detail::raw_cuda_device_buffer<V>            temp_values(num_elements);
-    thrust::detail::raw_cuda_device_buffer<int>          temp_spine(sorter.SpineElements());
-    thrust::detail::raw_cuda_device_buffer<bool>         temp_from_alt(2);
+    thrust::detail::uninitialized_array<K,    space> temp_keys(num_elements);
+    thrust::detail::uninitialized_array<V,    space> temp_values(num_elements);
+    thrust::detail::uninitialized_array<int,  space> temp_spine(sorter.SpineElements());
+    thrust::detail::uninitialized_array<bool, space> temp_from_alt(2);
 
     // define storage
     storage.d_keys             = thrust::raw_pointer_cast(&*first1);
@@ -160,18 +162,19 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator2 first2,
                               thrust::detail::false_type)
 {
+    typedef thrust::detail::cuda_device_space_tag space;
     typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
     
     unsigned int num_elements = last1 - first1;
 
     // sort with integer values and then permute the real values accordingly
-    thrust::detail::raw_cuda_device_buffer<unsigned int> permutation(num_elements);
+    thrust::detail::uninitialized_array<unsigned int,space> permutation(num_elements);
     thrust::sequence(permutation.begin(), permutation.end());
 
     stable_radix_sort_by_key(first1, last1, permutation.begin());
     
     // copy values into temp vector and then permute
-    thrust::detail::raw_cuda_device_buffer<V> temp_values(first2, first2 + num_elements);
+    thrust::detail::uninitialized_array<V,space> temp_values(first2, first2 + num_elements);
    
     // permute values
     thrust::gather(permutation.begin(), permutation.end(),

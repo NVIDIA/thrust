@@ -24,7 +24,7 @@
 
 #include <thrust/detail/util/blocking.h>
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/backend/dereference.h>
 
@@ -43,7 +43,7 @@ namespace detail
 {
 
 // XXX WAR circular inclusion problem with this forward declaration
-template <typename> class raw_cuda_device_buffer;
+template <typename,typename> class uninitialized_array;
 
 namespace backend
 {
@@ -231,7 +231,7 @@ template<typename InputIterator1,
     const IndexType interval_size = splitting.first;
     const IndexType num_intervals = splitting.second;
 
-    thrust::detail::raw_cuda_device_buffer<IndexType> block_results(num_intervals);
+    thrust::detail::uninitialized_array<IndexType, thrust::detail::cuda_device_space_tag> block_results(num_intervals);
 
     // convert stencil into an iterator that produces integral values in {0,1}
     typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;

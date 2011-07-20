@@ -17,7 +17,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/transform.h>
 
 namespace thrust
@@ -47,7 +47,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
         // an in-place operation is requested, copy the input and call the entry point
         // XXX a special-purpose kernel would be faster here since
         // only block boundaries need to be copied
-        thrust::detail::raw_buffer<InputType, Space> input_copy(first, last);
+        thrust::detail::uninitialized_array<InputType, Space> input_copy(first, last);
         
         *result = *first;
         thrust::transform(input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file raw_buffer.h
+/*! \file uninitialized_array.h
  *  \brief Container-like class for wrapped malloc/free.
  */
 
@@ -39,7 +39,7 @@ namespace detail
 template<typename> class normal_iterator;
 
 template<typename T, typename Space>
-  struct choose_raw_buffer_allocator
+  struct choose_uninitialized_array_allocator
     : eval_if<
         // catch any_space_tag and output an error
         is_convertible<Space, thrust::any_space_tag>::value,
@@ -68,69 +68,26 @@ template<typename T, typename Space>
 
 
 template<typename T, typename Space>
-  class raw_buffer
+  class uninitialized_array
     : public contiguous_storage<
                T,
-               typename choose_raw_buffer_allocator<T,Space>::type
+               typename choose_uninitialized_array_allocator<T,Space>::type
              >
 {
   private:
     typedef contiguous_storage<
       T,
-      typename choose_raw_buffer_allocator<T,Space>::type
+      typename choose_uninitialized_array_allocator<T,Space>::type
     > super_t;
 
   public:
     typedef typename super_t::size_type size_type;
 
-    explicit raw_buffer(size_type n);
+    explicit uninitialized_array(size_type n);
 
     template<typename InputIterator>
-    raw_buffer(InputIterator first, InputIterator last);
-}; // end raw_buffer
-
-
-template<typename T>
-  class raw_omp_device_buffer
-    : public raw_buffer<T, thrust::detail::omp_device_space_tag >
-{
-  private:
-    typedef raw_buffer<T, thrust::detail::omp_device_space_tag > super_t;
-
-  public:
-    explicit raw_omp_device_buffer(typename super_t::size_type n):super_t(n){}
-
-    template<typename InputIterator>
-    raw_omp_device_buffer(InputIterator first, InputIterator last):super_t(first,last){}
-}; // end raw_omp_device_buffer
-
-template<typename T>
-  class raw_cuda_device_buffer
-    : public raw_buffer<T, thrust::detail::cuda_device_space_tag >
-{
-  private:
-    typedef raw_buffer<T, thrust::detail::cuda_device_space_tag > super_t;
-
-  public:
-    explicit raw_cuda_device_buffer(typename super_t::size_type n):super_t(n){}
-
-    template<typename InputIterator>
-    raw_cuda_device_buffer(InputIterator first, InputIterator last):super_t(first,last){}
-}; // end raw_cuda_device_buffer
-
-template<typename T>
-  class raw_host_buffer
-    : public raw_buffer<T, thrust::host_space_tag >
-{
-  private:
-    typedef raw_buffer<T, thrust::host_space_tag > super_t;
-
-  public:
-    explicit raw_host_buffer(typename super_t::size_type n):super_t(n){}
-
-    template<typename InputIterator>
-    raw_host_buffer(InputIterator first, InputIterator last):super_t(first,last){}
-}; // end raw_host_buffer
+    uninitialized_array(InputIterator first, InputIterator last);
+}; // end uninitialized_array
 
 
 // XXX eliminate this when we do ranges for real
@@ -150,7 +107,7 @@ template<typename Iterator>
 
 
 // if the space of Iterator1 is convertible to Iterator2, then just make a shallow
-// copy of the range.  else, use a raw_buffer
+// copy of the range.  else, use a uninitialized_array
 template<typename Iterator1, typename Iterator2>
   struct move_to_space_base
     : public eval_if<
@@ -162,7 +119,7 @@ template<typename Iterator1, typename Iterator2>
           iterator_range<Iterator1>
         >,
         identity_<
-          raw_buffer<
+          uninitialized_array<
             typename thrust::iterator_value<Iterator1>::type,
             typename thrust::iterator_space<Iterator2>::type
           >
@@ -189,5 +146,5 @@ template<typename Iterator1, typename Iterator2>
 
 } // end thrust
 
-#include <thrust/detail/raw_buffer.inl>
+#include <thrust/detail/uninitialized_array.inl>
 

@@ -24,7 +24,7 @@
 #include <thrust/detail/backend/copy_if.h>
 
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -45,7 +45,7 @@ template<typename ForwardIterator,
   typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
   // create temporary storage for an intermediate result
-  thrust::detail::raw_buffer<InputType,Space> temp(first, last);
+  thrust::detail::uninitialized_array<InputType,Space> temp(first, last);
 
   // remove into temp
   return thrust::detail::backend::generic::remove_copy_if(temp.begin(), temp.end(), temp.begin(), first, pred);
@@ -63,7 +63,7 @@ template<typename ForwardIterator,
   typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
   // create temporary storage for an intermediate result
-  thrust::detail::raw_buffer<InputType,Space> temp(first, last);
+  thrust::detail::uninitialized_array<InputType,Space> temp(first, last);
 
   // remove into temp
   return thrust::detail::backend::generic::remove_copy_if(temp.begin(), temp.end(), stencil, first, pred);

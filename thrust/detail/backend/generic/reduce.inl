@@ -21,7 +21,7 @@
 #include <thrust/detail/backend/reduce.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/backend_iterator_spaces.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -70,7 +70,7 @@ template<typename RandomAccessIterator,
   // allocate storage for the initializer and partial sums
   typedef typename thrust::iterator_space<RandomAccessIterator>::type PossiblyAnySpace;
   typedef typename detail::any_space_to_default_device_space_tag<PossiblyAnySpace>::type Space;
-  thrust::detail::raw_buffer<OutputType,Space> partial_sums(1 + num_blocks);
+  thrust::detail::uninitialized_array<OutputType,Space> partial_sums(1 + num_blocks);
   
   // set first element of temp array to init
   partial_sums[0] = init;

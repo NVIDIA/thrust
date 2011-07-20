@@ -35,8 +35,7 @@
 
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -1083,7 +1082,7 @@ bool vector_equal(InputIterator1 first1, InputIterator1 last1,
     typedef typename thrust::iterator_traits<InputIterator2>::value_type InputType2;
     
     // copy device sequence to host and compare on host
-    raw_host_buffer<InputType2> buffer(first2, first2 + thrust::distance(first1, last1));
+    uninitialized_array<InputType2, thrust::host_space_tag> buffer(first2, first2 + thrust::distance(first1, last1));
 
     return thrust::equal(first1, last1, buffer.begin());
 }
@@ -1100,7 +1099,7 @@ bool vector_equal(InputIterator1 first1, InputIterator1 last1,
     typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
     
     // copy device sequence to host and compare on host
-    raw_host_buffer<InputType1> buffer(first1, last1);
+    uninitialized_array<InputType1, thrust::host_space_tag> buffer(first1, last1);
 
     return thrust::equal(buffer.begin(), buffer.end(), first2);
 }

@@ -25,6 +25,7 @@
 #include <thrust/detail/backend/cuda/block/copy.h>
 #include <thrust/scan.h>
 #include <thrust/extrema.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -310,10 +311,10 @@ template<typename RandomAccessIterator1,
     arch::max_blocksize_subject_to_smem_usage(set_operation_kernel<
                                                 RandomAccessIterator1,
                                                 RandomAccessIterator2,
-                                                typename raw_buffer<difference1,cuda_device_space_tag>::iterator,
-                                                typename raw_buffer<difference2,cuda_device_space_tag>::iterator,
-                                                typename raw_buffer<value_type1,cuda_device_space_tag>::iterator,
-                                                typename raw_buffer<difference1,cuda_device_space_tag>::iterator,
+                                                typename uninitialized_array<difference1,cuda_device_space_tag>::iterator,
+                                                typename uninitialized_array<difference2,cuda_device_space_tag>::iterator,
+                                                typename uninitialized_array<value_type1,cuda_device_space_tag>::iterator,
+                                                typename uninitialized_array<difference1,cuda_device_space_tag>::iterator,
                                                 Compare,
                                                 BlockConvergentSetOperation,
                                                 size_t
@@ -332,8 +333,8 @@ template<typename RandomAccessIterator1,
   const size_t num_merged_partitions = 2 * num_splitters_from_each_range + 1;
 
   // allocate storage for splitter ranks
-  raw_buffer<difference1, cuda_device_space_tag> splitter_ranks1(2 * num_splitters_from_each_range);
-  raw_buffer<difference2, cuda_device_space_tag> splitter_ranks2(2 * num_splitters_from_each_range);
+  uninitialized_array<difference1, cuda_device_space_tag> splitter_ranks1(2 * num_splitters_from_each_range);
+  uninitialized_array<difference2, cuda_device_space_tag> splitter_ranks2(2 * num_splitters_from_each_range);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the kernel below
@@ -350,11 +351,11 @@ template<typename RandomAccessIterator1,
   using namespace thrust::detail;
 
   // allocate storage to store each intersected partition's size
-  raw_buffer<difference1, cuda_device_space_tag> result_partition_sizes(num_merged_partitions);
+  uninitialized_array<difference1, cuda_device_space_tag> result_partition_sizes(num_merged_partitions);
 
   // allocate storage to store the largest possible result
   // XXX if the size of the result is known a priori (i.e., first == second), we don't need this temporary
-  raw_buffer<typename thrust::iterator_value<RandomAccessIterator1>::type, cuda_device_space_tag>
+  uninitialized_array<typename thrust::iterator_value<RandomAccessIterator1>::type, cuda_device_space_tag>
     temporary_results(set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
 
   // maximize the number of blocks we can launch

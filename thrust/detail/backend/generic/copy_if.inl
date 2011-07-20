@@ -23,7 +23,7 @@
 #include <thrust/transform.h>
 
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/type_traits.h>
 
 #include <thrust/detail/backend/scan.h>
@@ -88,14 +88,14 @@ OutputIterator copy_if(InputIterator1 first,
     __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
 
     // compute {0,1} predicates
-    thrust::detail::raw_buffer<IndexType, Space> predicates(n);
+    thrust::detail::uninitialized_array<IndexType, Space> predicates(n);
     thrust::transform(stencil,
                       stencil + n,
                       predicates.begin(),
                       thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
 
     // scan {0,1} predicates
-    thrust::detail::raw_buffer<IndexType, Space> scatter_indices(n);
+    thrust::detail::uninitialized_array<IndexType, Space> scatter_indices(n);
     thrust::detail::backend::exclusive_scan(predicates.begin(),
                                             predicates.end(),
                                             scatter_indices.begin(),

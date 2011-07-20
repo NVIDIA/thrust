@@ -20,6 +20,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/copy.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -102,7 +103,7 @@ template<typename RandomAccessIterator1,
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
   // make a temporary copy of [first,last), and copy into it first
-  thrust::detail::raw_buffer<value_type, space> temp(first,last);
+  thrust::detail::uninitialized_array<value_type, space> temp(first,last);
   return thrust::copy(temp.begin(), temp.end(), result);
 } // end overlapped_copy()
 

@@ -29,7 +29,7 @@
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/generic/scalar/binary_search.h>
 
-#include <thrust/detail/raw_buffer.h>
+#include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -129,8 +129,8 @@ OutputType binary_search(ForwardIterator begin,
     // use the vectorized path to implement the scalar version
 
     // allocate device buffers for value and output
-    thrust::detail::raw_buffer<T,Space>          d_value(1);
-    thrust::detail::raw_buffer<OutputType,Space> d_output(1);
+    thrust::detail::uninitialized_array<T,Space>          d_value(1);
+    thrust::detail::uninitialized_array<OutputType,Space> d_output(1);
 
     // copy value to device
     d_value[0] = value;

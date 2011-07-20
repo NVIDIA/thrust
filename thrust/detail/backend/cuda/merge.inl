@@ -30,6 +30,7 @@
 #include <thrust/detail/backend/cuda/detail/get_set_operation_splitter_ranks.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/internal_functional.h>
+#include <thrust/detail/uninitialized_array.h>
 
 namespace thrust
 {
@@ -287,8 +288,8 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
     arch::max_blocksize_subject_to_smem_usage(merge_kernel<
                                                 RandomAccessIterator1,
                                                 RandomAccessIterator2,
-                                                typename raw_buffer<difference1,cuda_device_space_tag>::iterator,
-                                                typename raw_buffer<difference2,cuda_device_space_tag>::iterator,
+                                                typename uninitialized_array<difference1,cuda_device_space_tag>::iterator,
+                                                typename uninitialized_array<difference2,cuda_device_space_tag>::iterator,
                                                 RandomAccessIterator3,
                                                 Compare,
                                                 size_t
@@ -305,8 +306,8 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
   size_t num_merged_partitions = 2 * num_splitters_from_each_range + 1;
 
   // allocate storage for splitter ranks
-  raw_buffer<difference1, cuda_device_space_tag> splitter_ranks1(2 * num_splitters_from_each_range);
-  raw_buffer<difference2, cuda_device_space_tag> splitter_ranks2(2 * num_splitters_from_each_range);
+  uninitialized_array<difference1, cuda_device_space_tag> splitter_ranks1(2 * num_splitters_from_each_range);
+  uninitialized_array<difference2, cuda_device_space_tag> splitter_ranks2(2 * num_splitters_from_each_range);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the merge_kernel below

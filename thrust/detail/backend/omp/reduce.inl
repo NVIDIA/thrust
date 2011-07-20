@@ -21,7 +21,6 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
-#include <thrust/detail/raw_buffer.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
