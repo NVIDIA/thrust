@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <string>
+#include <limits>
 
 const size_t standard_test_sizes[] = 
         {0, 1, 2, 3, 4, 5, 8, 10, 13, 16, 17, 19, 27, 30, 31, 32,

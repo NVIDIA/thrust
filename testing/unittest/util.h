@@ -1,9 +1,7 @@
 #pragma once
 
+#include <iostream>
 #include "system.h"
-
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
 
 namespace unittest
 {
@@ -15,4 +13,24 @@ template<typename T>
 } // end type_name()
 
 } // end unittest
+
+template <typename Iterator>
+void PRINT(Iterator first, Iterator last)
+{
+  size_t n = 0;
+  for (Iterator i = first; i != last; i++, n++)
+    std::cout << ">>> [" << n << "] = " << *i << std::endl;
+}
+
+template <typename Container>
+void PRINT(const Container& c)
+{
+  PRINT(c.begin(), c.end());
+}
+
+template <size_t N>
+void PRINT(const char (&c)[N])
+{
+  std::cout << std::string(c, c + N) << std::endl;
+}
 
