@@ -37,7 +37,8 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator4,
          typename Compare,
          typename Size1,
-         typename Size2>
+         typename Size2,
+         typename Size3>
   void split_for_set_operation
     ::operator()(RandomAccessIterator1 first1,
                  RandomAccessIterator1 last1,
@@ -47,7 +48,8 @@ template<typename RandomAccessIterator1,
                  RandomAccessIterator4 splitter_ranks2,
                  Compare comp,
                  Size1 partition_size,
-                 Size2 num_splitters_from_each_range)
+                 Size2 num_splitters_from_range1,
+                 Size3 num_splitters_from_range2)
 {
   using namespace thrust::detail;
 
@@ -88,7 +90,8 @@ template<typename RandomAccessIterator1,
                                           splitter_ranks2,
                                           splitter_compare(comp),
                                           partition_size,
-                                          num_splitters_from_each_range);
+                                          num_splitters_from_range1,
+                                          num_splitters_from_range2);
 } // end split_for_set_operation::operator()
 
 } // end namespace detail

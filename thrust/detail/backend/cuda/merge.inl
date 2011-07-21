@@ -204,7 +204,8 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator4,
          typename Compare,
          typename Size1,
-         typename Size2>
+         typename Size2,
+         typename Size3>
   void get_merge_splitter_ranks(RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
                                 RandomAccessIterator2 first2,
@@ -213,7 +214,8 @@ template<typename RandomAccessIterator1,
                                 RandomAccessIterator4 splitter_ranks2,
                                 Compare comp,
                                 Size1 partition_size,
-                                Size2 num_splitters_from_each_range)
+                                Size2 num_splitters_from_range1,
+                                Size3 num_splitters_from_range2)
 {
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
@@ -246,7 +248,8 @@ template<typename RandomAccessIterator1,
                                           splitter_ranks2,
                                           splitter_compare(comp),
                                           partition_size,
-                                          num_splitters_from_each_range);
+                                          num_splitters_from_range1,
+                                          num_splitters_from_range2);
 } // end get_merge_splitter_ranks()
 
 
@@ -301,13 +304,17 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
                                               >);
 
   const size_t partition_size = block_size;
-  const difference1 num_partitions = ceil_div(num_elements1, partition_size);
-  const difference1 num_splitters_from_each_range  = num_partitions - 1;
-  size_t num_merged_partitions = 2 * num_splitters_from_each_range + 1;
+  const difference1 num_partitions1 = ceil_div(num_elements1, partition_size);
+  const difference1 num_splitters_from_range1 = num_partitions1 - 1;
+
+  const difference2 num_partitions2 = ceil_div(num_elements2, partition_size);
+  const difference2 num_splitters_from_range2 = num_partitions2 - 1;
+
+  size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 
   // allocate storage for splitter ranks
-  uninitialized_array<difference1, cuda_device_space_tag> splitter_ranks1(2 * num_splitters_from_each_range);
-  uninitialized_array<difference2, cuda_device_space_tag> splitter_ranks2(2 * num_splitters_from_each_range);
+  uninitialized_array<difference1, cuda_device_space_tag> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
+  uninitialized_array<difference2, cuda_device_space_tag> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the merge_kernel below
@@ -319,7 +326,8 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
                            splitter_ranks2.begin(),
                            comp,
                            partition_size,
-                           num_splitters_from_each_range);
+                           num_splitters_from_range1,
+                           num_splitters_from_range2);
 
   // maximize the number of blocks we can launch
   size_t max_blocks = thrust::get<0>(thrust::detail::backend::cuda::arch::max_grid_dimensions());

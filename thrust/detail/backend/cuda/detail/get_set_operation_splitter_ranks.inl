@@ -146,7 +146,8 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator4,
          typename Compare,
          typename Size1,
-         typename Size2>
+         typename Size2,
+         typename Size3>
   void get_set_operation_splitter_ranks(RandomAccessIterator1 first1,
                                         RandomAccessIterator1 last1,
                                         RandomAccessIterator2 first2,
@@ -155,7 +156,8 @@ template<typename RandomAccessIterator1,
                                         RandomAccessIterator4 splitter_ranks2,
                                         Compare comp,
                                         Size1 partition_size,
-                                        Size2 num_splitters_from_each_range)
+                                        Size2 num_splitters_from_range1,
+                                        Size3 num_splitters_from_range2)
 {
   using namespace get_set_operation_splitter_ranks_detail;
 
@@ -164,14 +166,14 @@ template<typename RandomAccessIterator1,
 
   // we +1 to begin at first1[partition_size] instead of first1[0]
   splitter_iterator1 splitters1_begin = make_splitter_iterator(first1, partition_size) + 1;
-  splitter_iterator1 splitters1_end = splitters1_begin + num_splitters_from_each_range;
+  splitter_iterator1 splitters1_end = splitters1_begin + num_splitters_from_range1;
 
   // create the range [first2[partition_size], first2[2*partition_size], first2[3*partition_size], ...]
   typedef typename splitter_iterator<RandomAccessIterator2>::type splitter_iterator2;
 
   // we +1 to begin at first2[partition_size] instead of first1[0]
   splitter_iterator2 splitters2_begin = make_splitter_iterator(first2, partition_size) + 1;
-  splitter_iterator2 splitters2_end = splitters2_begin + num_splitters_from_each_range;
+  splitter_iterator2 splitters2_end = splitters2_begin + num_splitters_from_range2;
 
   typedef typename merge_iterator<splitter_iterator1,splitter_iterator2,Compare>::type merge_iterator;
 
@@ -179,7 +181,7 @@ template<typename RandomAccessIterator1,
   merge_iterator splitters_begin = make_merge_iterator(splitters1_begin, splitters1_end,
                                                        splitters2_begin, splitters2_end,
                                                        comp);
-  merge_iterator splitters_end   = splitters_begin + 2 * num_splitters_from_each_range;
+  merge_iterator splitters_end   = splitters_begin + num_splitters_from_range1 + num_splitters_from_range2;
 
   // find the rank of each splitter in the other range
   thrust::lower_bound(first2, last2,

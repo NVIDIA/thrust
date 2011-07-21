@@ -35,7 +35,8 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator4,
          typename Compare,
          typename Size1,
-         typename Size2>
+         typename Size2,
+         typename Size3>
   void get_set_operation_splitter_ranks(RandomAccessIterator1 first1,
                                         RandomAccessIterator1 last1,
                                         RandomAccessIterator2 first2,
@@ -44,7 +45,8 @@ template<typename RandomAccessIterator1,
                                         RandomAccessIterator4 splitter_ranks2,
                                         Compare comp,
                                         Size1 partition_size,
-                                        Size2 num_splitters_from_each_range);
+                                        Size2 num_splitters_from_range1,
+                                        Size3 num_splitters_from_range2);
 
 } // end detail
 } // end cuda
