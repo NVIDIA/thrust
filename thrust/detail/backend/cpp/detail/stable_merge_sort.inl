@@ -17,8 +17,8 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/backend/cpp/merge.h>
 #include <thrust/detail/backend/cpp/detail/insertion_sort.h>
-#include <thrust/detail/backend/cpp/detail/merge.h>
 
 namespace thrust
 {
@@ -51,7 +51,7 @@ void stable_merge_sort(RandomAccessIterator first,
 
         thrust::detail::backend::cpp::detail::stable_merge_sort(first, middle, comp);
         thrust::detail::backend::cpp::detail::stable_merge_sort(middle,  last, comp);
-        thrust::detail::backend::cpp::detail::inplace_merge(first, middle, last, comp);
+        thrust::detail::backend::cpp::inplace_merge(first, middle, last, comp);
     }
 }
 
@@ -79,7 +79,7 @@ void stable_merge_sort_by_key(RandomAccessIterator1 first1,
 
         thrust::detail::backend::cpp::detail::stable_merge_sort_by_key(first1, middle1, first2,  comp);
         thrust::detail::backend::cpp::detail::stable_merge_sort_by_key(middle1,  last1, middle2, comp);
-        thrust::detail::backend::cpp::detail::inplace_merge_by_key(first1, middle1, last1, first2, comp);
+        thrust::detail::backend::cpp::inplace_merge_by_key(first1, middle1, last1, first2, comp);
     }
 }
 

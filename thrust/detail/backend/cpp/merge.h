@@ -16,9 +16,6 @@
 
 #pragma once
 
-#include <thrust/detail/backend/dereference.h>
-#include <thrust/detail/copy.h>
-
 namespace thrust
 {
 namespace detail
@@ -32,39 +29,51 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator merge(InputIterator1 first1,
-                       InputIterator1 last1,
-                       InputIterator2 first2,
-                       InputIterator2 last2,
-                       OutputIterator result,
-                       StrictWeakOrdering comp)
-{
-  while(first1 != last1 && first2 != last2)
-  {
-    if(comp(thrust::detail::backend::dereference(first2), 
-            thrust::detail::backend::dereference(first1)))
-    {
-      thrust::detail::backend::dereference(result) =
-        thrust::detail::backend::dereference(first2);
+OutputIterator merge(InputIterator1 first1,
+                     InputIterator1 last1,
+                     InputIterator2 first2,
+                     InputIterator2 last2,
+                     OutputIterator result,
+                     StrictWeakOrdering comp);
 
-      ++first2;
-    } // end if
-    else
-    {
-      thrust::detail::backend::dereference(result) =
-        thrust::detail::backend::dereference(first1);
+template <typename RandomAccessIterator,
+          typename StrictWeakOrdering>
+void inplace_merge(RandomAccessIterator first,
+                   RandomAccessIterator middle,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp);
 
-      ++first1;
-    } // end else
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename InputIterator3,
+          typename InputIterator4,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename StrictWeakOrdering>
+thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(InputIterator1 first1,
+                 InputIterator1 last1,
+                 InputIterator2 first2,
+                 InputIterator2 last2,
+                 InputIterator3 first3,
+                 InputIterator4 first4,
+                 OutputIterator1 output1,
+                 OutputIterator2 output2,
+                 StrictWeakOrdering comp);
 
-    ++result;
-  } // end while
-
-  return thrust::copy(first2,last2, thrust::copy(first1, last1, result));
-} // end merge()
+template <typename RandomAccessIterator1,
+          typename RandomAccessIterator2,
+          typename StrictWeakOrdering>
+void inplace_merge_by_key(RandomAccessIterator1 first1,
+                          RandomAccessIterator1 middle1,
+                          RandomAccessIterator1 last1,
+                          RandomAccessIterator2 first2,
+                          StrictWeakOrdering comp);
 
 } // end cpp
 } // end backend
 } // end detail
 } // end thrust
+
+#include <thrust/detail/backend/cpp/merge.inl>
 
