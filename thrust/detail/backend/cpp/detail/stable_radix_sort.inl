@@ -23,6 +23,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/cstdint.h>
 
 namespace thrust
 {
@@ -47,7 +48,7 @@ struct RadixEncoder<char> : public thrust::unary_function<char, unsigned char>
   unsigned char operator()(char x) const
   {
     if(std::numeric_limits<char>::is_signed)
-      return x ^ 0x80;
+      return x ^ static_cast<unsigned char>(1) << (8 * sizeof(unsigned char) - 1);
     else
       return x;
   }
@@ -100,24 +101,26 @@ struct RadixEncoder<long long> : public thrust::unary_function<long long, unsign
 
 // ideally we'd use uint32 here and uint64 below
 template <>
-struct RadixEncoder<float> : public thrust::unary_function<float, unsigned int>
+struct RadixEncoder<float> : public thrust::unary_function<float, thrust::detail::uint32_t>
 {
-  unsigned int operator()(float x) const
+  thrust::detail::uint32_t operator()(float x) const
   {
-    unsigned int y = reinterpret_cast<unsigned int&>(reinterpret_cast<char&>(x));
-    unsigned int mask = -static_cast<int>(y >> 31) | (static_cast<unsigned int>(1) << 31);
-    return y ^ mask;
+    union { float f; thrust::detail::uint32_t i; } u;
+    u.f = x;
+    thrust::detail::uint32_t mask = -static_cast<thrust::detail::int32_t>(u.i >> 31) | (static_cast<thrust::detail::uint32_t>(1) << 31);
+    return u.i ^ mask;
   }
 };
 
 template <>
-struct RadixEncoder<double> : public thrust::unary_function<double, unsigned long long>
+struct RadixEncoder<double> : public thrust::unary_function<double, thrust::detail::uint64_t>
 {
-  unsigned long long operator()(double x) const
+  thrust::detail::uint64_t operator()(double x) const
   {
-    unsigned long long y = reinterpret_cast<unsigned long long&>(reinterpret_cast<char &>(x));
-    unsigned long long mask = -static_cast<long long>(y >> 63) | (static_cast<unsigned long long>(1) << 63);
-    return y ^ mask;
+    union { double f; thrust::detail::uint64_t i; } u;
+    u.f = x;
+    thrust::detail::uint64_t mask = -static_cast<thrust::detail::int64_t>(u.i >> 63) | (static_cast<thrust::detail::uint64_t>(1) << 63);
+    return u.i ^ mask;
   }
 };
 
