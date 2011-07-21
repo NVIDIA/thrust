@@ -940,6 +940,12 @@ template<typename T>
     __host__ __device__
     operator value_type (void) const;
 
+    /*! swaps the value this \p device_reference references with another.
+     *  \p other The other \p device_reference with which to swap.
+     */
+    __host__ __device__
+    void swap(device_reference &other);
+
   private:
     // allow access to mPtr for other device_references
     template <typename OtherT> friend class device_reference;
@@ -956,7 +962,19 @@ template<typename T>
     inline value_type convert(thrust::detail::true_type spaces_are_interoperable) const;
 
     inline value_type convert(thrust::detail::false_type spaces_are_not_interoperable) const;
+
+    inline void swap(device_reference &other, thrust::detail::true_type spaces_are_interoperable);
+
+    inline void swap(device_reference &other, thrust::detail::false_type spaces_are_not_interoperable);
 }; // end device_reference
+
+/*! swaps the value of one \p device_reference with another.
+ *  \p x The first \p device_reference of interest.
+ *  \p y The second \p device_reference of interest.
+ */
+template<typename T>
+__host__ __device__
+void swap(device_reference<T> &x, device_reference<T> &y);
 
 /*! \}
  */

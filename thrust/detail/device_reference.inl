@@ -23,6 +23,7 @@
 #include <thrust/detail/copy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/swap.h>
 #include <iostream>
 
 namespace thrust
@@ -313,6 +314,50 @@ template<typename T>
   // the spaces are interoperable, just do a simple dereference
   return *mPtr.get();
 } // end device_reference::convert()
+
+template<typename T>
+  void device_reference<T>
+    ::swap(device_reference<T> &other)
+{
+#ifndef __CUDA_ARCH__
+  // get our device space
+  typedef typename thrust::iterator_space<pointer>::type space;
+
+  // test for interoperability with host_space
+  typedef typename thrust::detail::are_spaces_interoperable<
+    typename thrust::iterator_space<pointer>::type,
+    host_space_tag
+  >::type interop;
+
+  swap(other, interop());
+#else
+  thrust::swap(*mPtr.get(), *other.mPtr.get());
+#endif
+} // end device_reference::swap()
+
+template<typename T>
+  void device_reference<T>
+    ::swap(device_reference<T> &other,
+           thrust::detail::true_type)
+{
+  // the spaces are interoperable, just do a simple deref & swap
+  thrust::swap(*mPtr.get(), *other.mPtr.get());
+} // end device_reference::swap()
+
+template<typename T>
+  void device_reference<T>
+    ::swap(device_reference<T> &other,
+           thrust::detail::false_type)
+{
+  // dispatch swap_ranges
+  thrust::swap_ranges(mPtr, mPtr + 1, other.mPtr);
+} // end device_reference::swap()
+
+template<typename T>
+  void swap(device_reference<T> &x, device_reference<T> &y)
+{
+  return x.swap(y);
+} // end swap()
 
 } // end thrust
 
