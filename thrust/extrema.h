@@ -311,7 +311,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
 template <typename ForwardIterator>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
 
-/*! \p min_element finds the largest element in the range <tt>[first, last)</tt>.
+/*! \p max_element finds the largest element in the range <tt>[first, last)</tt>.
  *  It returns the first iterator \c i in <tt>[first, last)</tt>
  *  such that no other iterator in <tt>[first, last)</tt> points to a value larger
  *  than \c *i. The return value is \p last if and only if <tt>[first, last)</tt> is an
