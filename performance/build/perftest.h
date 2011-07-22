@@ -81,7 +81,7 @@ inline void RECORD_PLATFORM_INFO(void)
 
 inline void PROCESS_ARGUMENTS(int argc, char **argv)
 {
-  for(size_t i = 1; i < argc; ++i)
+  for(int i = 1; i < argc; ++i)
   {
     if(std::string(argv[i]) == "--device")
     {
