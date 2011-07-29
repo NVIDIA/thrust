@@ -25,7 +25,7 @@
 #include <thrust/detail/backend/dereference.h>
 
 #include <thrust/detail/dispatch/is_trivial_copy.h>
-#include <thrust/detail/backend/cuda/detail/trivial_copy.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -37,6 +37,81 @@ namespace cuda
 {
 namespace block
 {
+
+namespace trivial_copy_detail
+{
+
+
+template<typename Size>
+  inline __device__ thrust::pair<Size,Size> quotient_and_remainder(Size n, Size d)
+{
+  Size quotient  = n / d;
+  Size remainder = n - d * quotient; 
+  return thrust::make_pair(quotient,remainder);
+} // end quotient_and_remainder()
+
+
+// assumes the addresses dst & src are aligned to T boundaries
+template<typename T>
+  inline __device__ void aligned_copy(T *dst, const T *src, unsigned int num_elements)
+{
+  for(unsigned int i = threadIdx.x;
+      i < num_elements;
+      i += blockDim.x)
+  {
+    dst[i] = src[i];
+  }
+} // end aligned_copy()
+
+
+} // end namespace trivial_copy_detail
+
+
+inline __device__ void trivial_copy(void* destination_, const void* source_, size_t num_bytes)
+{
+  // reinterpret at bytes
+  char* destination  = reinterpret_cast<char*>(destination_);
+  const char* source = reinterpret_cast<const char*>(source_);
+  
+  // check alignment
+  // XXX can we do this in three steps?
+  //     1. copy until alignment is met
+  //     2. go hog wild
+  //     3. get the remainder
+  if(reinterpret_cast<size_t>(destination) % sizeof(uint2) != 0 || reinterpret_cast<size_t>(source) % sizeof(uint2) != 0)
+  {
+    for(unsigned int i = threadIdx.x; i < num_bytes; i += blockDim.x)
+    {
+      destination[i] = source[i];
+    }
+  }
+  else
+  {
+    // it's aligned; do a wide copy
+
+    // this pair stores the number of int2s in the aligned portion of the arrays
+    // and the number of bytes in the remainder
+    const thrust::pair<size_t,size_t> num_wide_elements_and_remainder_bytes = trivial_copy_detail::quotient_and_remainder(num_bytes, sizeof(int2));
+
+    // copy int2 elements
+    trivial_copy_detail::aligned_copy(reinterpret_cast<int2*>(destination),
+                                      reinterpret_cast<const int2*>(source),
+                                      num_wide_elements_and_remainder_bytes.first);
+
+    // XXX we could copy int elements here
+
+    // copy remainder byte by byte
+
+    // to find the beginning of the remainder arrays, we need to point at the beginning, and then skip the number of bytes in the aligned portion
+    // this is sizeof(int2) times the number of int2s comprising the aligned portion
+    const char *remainder_first  = reinterpret_cast<const char*>(source + sizeof(int2) * num_wide_elements_and_remainder_bytes.first);
+          char *remainder_result = reinterpret_cast<char*>(destination  + sizeof(int2) * num_wide_elements_and_remainder_bytes.first);
+
+    trivial_copy_detail::aligned_copy(remainder_result, remainder_first, num_wide_elements_and_remainder_bytes.second);
+  }
+} // end trivial_copy()
+
+
 namespace detail
 {
 namespace dispatch
@@ -59,7 +134,7 @@ template<typename RandomAccessIterator1,
         T *dst = &dereference(result);
 
   size_t n = (last - first);
-  cuda::detail::trivial_copy<cuda::detail::trivial_copy_block>(dst, src, n * sizeof(T));
+  thrust::detail::backend::cuda::block::trivial_copy(dst, src, n * sizeof(T));
   return result + n;
 } // end copy()
 
