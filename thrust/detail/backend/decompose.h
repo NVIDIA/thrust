@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include <thrust/extrema.h>
-
 namespace thrust
 {
 namespace detail
@@ -40,10 +38,12 @@ namespace backend
         __host__ __device__
           index_type end(void)   const { return m_end; }
 
+        __host__ __device__
+          index_type size(void)  const { return m_end - m_begin; }
+
       private:
         index_type m_begin;
         index_type m_end;
-
     };
 
   template <typename IndexType>
@@ -86,7 +86,7 @@ namespace backend
             else
             {
               index_type begin = m_large_interval * m_threshold + m_small_interval * (i - m_threshold);
-              index_type end   = thrust::min(begin + m_small_interval, m_N);
+              index_type end   = (begin + m_small_interval < m_N) ? begin + m_small_interval : m_N;
               return index_range<index_type>(begin, end);
             }
           }

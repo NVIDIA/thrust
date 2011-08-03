@@ -11,8 +11,9 @@ void TestUniformDecomposition(void)
    
     // [0,10)
     ASSERT_EQUAL(ud.size(), 1);
-    ASSERT_EQUAL(ud[0].begin(),  0);
-    ASSERT_EQUAL(ud[0].end(),   10);
+    ASSERT_EQUAL(ud[0].begin(),   0);
+    ASSERT_EQUAL(ud[0].end(),    10);
+    ASSERT_EQUAL(ud[0].size(),   10);
   }
   
   {
@@ -22,6 +23,7 @@ void TestUniformDecomposition(void)
     ASSERT_EQUAL(ud.size(), 1);
     ASSERT_EQUAL(ud[0].begin(),  0);
     ASSERT_EQUAL(ud[0].end(),   10);
+    ASSERT_EQUAL(ud[0].size(),  10);
   }
 
   {
@@ -31,8 +33,10 @@ void TestUniformDecomposition(void)
     ASSERT_EQUAL(ud.size(), 2);
     ASSERT_EQUAL(ud[0].begin(),  0);
     ASSERT_EQUAL(ud[0].end(),    5);
+    ASSERT_EQUAL(ud[0].size(),   5);
     ASSERT_EQUAL(ud[1].begin(),  5);
     ASSERT_EQUAL(ud[1].end(),    8);
+    ASSERT_EQUAL(ud[1].size(),   3);
   }
   
   {
@@ -42,8 +46,10 @@ void TestUniformDecomposition(void)
     ASSERT_EQUAL(ud.size(), 2);
     ASSERT_EQUAL(ud[0].begin(),  0);
     ASSERT_EQUAL(ud[0].end(),    5);
+    ASSERT_EQUAL(ud[0].size(),   5);
     ASSERT_EQUAL(ud[1].begin(),  5);
     ASSERT_EQUAL(ud[1].end(),    8);
+    ASSERT_EQUAL(ud[1].size(),   3);
   }
 
   {
@@ -53,8 +59,10 @@ void TestUniformDecomposition(void)
     ASSERT_EQUAL(ud.size(), 2);
     ASSERT_EQUAL(ud[0].begin(),  0);
     ASSERT_EQUAL(ud[0].end(),    5);
+    ASSERT_EQUAL(ud[0].size(),   5);
     ASSERT_EQUAL(ud[1].begin(),  5);
     ASSERT_EQUAL(ud[1].end(),   10);
+    ASSERT_EQUAL(ud[1].size(),   5);
   }
 
   {
@@ -64,10 +72,13 @@ void TestUniformDecomposition(void)
     ASSERT_EQUAL(ud.size(), 3);
     ASSERT_EQUAL(ud[0].begin(),  0);
     ASSERT_EQUAL(ud[0].end(),    4);
+    ASSERT_EQUAL(ud[0].size(),   4);
     ASSERT_EQUAL(ud[1].begin(),  4);
     ASSERT_EQUAL(ud[1].end(),    8);
+    ASSERT_EQUAL(ud[1].size(),   4);
     ASSERT_EQUAL(ud[2].begin(),  8);
     ASSERT_EQUAL(ud[2].end(),   10);
+    ASSERT_EQUAL(ud[2].size(),   2);
   }
 }
 DECLARE_UNITTEST(TestUniformDecomposition);
