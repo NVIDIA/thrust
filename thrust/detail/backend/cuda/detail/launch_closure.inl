@@ -66,23 +66,11 @@ template<typename NullaryFunction,
          bool launch_by_value = sizeof(NullaryFunction) <= 256>
   struct closure_launcher_base
 {
-  inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
+  typedef void (*launch_function_t)(NullaryFunction); 
+ 
+  static launch_function_t get_launch_function(void)
   {
-    return thrust::detail::backend::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_value<NullaryFunction>, dynamic_smem_bytes_per_thread);
-  }
-
-  template<typename Size1, typename Size2>
-  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
-  {
-    const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(detail::launch_closure_by_value<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
-
-    typedef typename thrust::detail::larger_type<Size1,Size2>::type large_integer;
-
-    // promote both arguments to the larger of Size1 & Size2
-    const large_integer result = thrust::min<large_integer>(max_blocks, ( n + (block_size - 1) ) / block_size);
-
-    // due to min above, result is never larger than max_blocks, which is of type size_t
-    return static_cast<size_t>(result);
+    return detail::launch_closure_by_value<NullaryFunction>;
   }
 
   template<typename Size1, typename Size2, typename Size3>
@@ -97,23 +85,11 @@ template<typename NullaryFunction,
 template<typename NullaryFunction>
   struct closure_launcher_base<NullaryFunction,false>
 {
-  inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
+  typedef void (*launch_function_t)(const NullaryFunction *); 
+ 
+  static launch_function_t get_launch_function(void)
   {
-    return thrust::detail::backend::cuda::arch::max_blocksize_with_highest_occupancy(detail::launch_closure_by_pointer<NullaryFunction>);
-  }
-
-  template<typename Size1, typename Size2>
-  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
-  {
-    const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(detail::launch_closure_by_pointer<NullaryFunction>, block_size, dynamic_smem_bytes_per_block);
-
-    typedef typename thrust::detail::larger_type<Size1,Size2>::type large_integer;
-
-    // promote both arguments to the larger of Size1 & Size2
-    const large_integer result = thrust::min<large_integer>(max_blocks, ( n + (block_size - 1) ) / block_size);
-
-    // due to min above, result is never larger than max_blocks, which is of type size_t
-    return static_cast<size_t>(result);
+    return detail::launch_closure_by_pointer<NullaryFunction>;
   }
 
   template<typename Size1, typename Size2, typename Size3>
@@ -144,11 +120,30 @@ template<typename NullaryFunction>
 {
   typedef closure_launcher_base<NullaryFunction> super_t;
 
+  inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
+  {
+    return thrust::detail::backend::cuda::arch::max_blocksize_with_highest_occupancy(super_t::get_launch_function(), dynamic_smem_bytes_per_thread);
+  }
+
+  template<typename Size1, typename Size2>
+  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
+  {
+    const size_t max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(super_t::get_launch_function(), block_size, dynamic_smem_bytes_per_block);
+
+    typedef typename thrust::detail::larger_type<Size1,Size2>::type large_integer;
+
+    // promote both arguments to the larger of Size1 & Size2
+    const large_integer result = thrust::min<large_integer>(max_blocks, ( n + (block_size - 1) ) / block_size);
+
+    // due to min above, result is never larger than max_blocks, which is of type size_t
+    return static_cast<size_t>(result);
+  }
+
   template<typename Size>
   static thrust::pair<size_t,size_t> configuration_with_maximal_occupancy(Size n)
   {
-    const size_t block_size = super_t::block_size_with_maximal_occupancy();
-    const size_t num_blocks = super_t::num_blocks_with_maximal_occupancy(n, block_size, 0u);
+    const size_t block_size = block_size_with_maximal_occupancy();
+    const size_t num_blocks = num_blocks_with_maximal_occupancy(n, block_size, 0u);
 
     return thrust::make_pair(num_blocks, block_size);
   }
