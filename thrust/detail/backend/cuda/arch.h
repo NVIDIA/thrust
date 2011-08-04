@@ -36,19 +36,14 @@ struct cudaFuncAttributes;
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
 namespace cuda
 {
-
 namespace arch
 {
-
   
 /*! This function returns the compute capability of a device.
  *  For example, returns 10 for sm_10 and 21 for sm_21

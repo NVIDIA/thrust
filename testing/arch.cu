@@ -8,38 +8,41 @@ using namespace thrust::detail::backend::cuda::arch;
 
 void set_compute_capability(cudaDeviceProp& properties, int major, int minor)
 {
-    properties.major = major;
-    properties.minor = minor;
+  properties.major = major;
+  properties.minor = minor;
 }
 
 void set_G80(cudaDeviceProp& properties)
 {
-    set_compute_capability(properties, 1, 0);
-    properties.multiProcessorCount = 16;
-    properties.sharedMemPerBlock   = 16384;
-    properties.regsPerBlock        = 8192;
-    properties.warpSize            = 32;
-    properties.maxThreadsPerBlock  = 512;
+  set_compute_capability(properties, 1, 0);
+  properties.multiProcessorCount         = 16;
+  properties.sharedMemPerBlock           = 16384;
+  properties.regsPerBlock                = 8192;
+  properties.warpSize                    = 32;
+  properties.maxThreadsPerBlock          = 512;
+  properties.maxThreadsPerMultiProcessor = 768;
 }
 
 void set_G84(cudaDeviceProp& properties)
 {
-    set_compute_capability(properties, 1, 1);
-    properties.multiProcessorCount = 4;
-    properties.sharedMemPerBlock   = 16384;
-    properties.regsPerBlock        = 8192;
-    properties.warpSize            = 32;
-    properties.maxThreadsPerBlock  = 512;
+  set_compute_capability(properties, 1, 1);
+  properties.multiProcessorCount         = 4;
+  properties.sharedMemPerBlock           = 16384;
+  properties.regsPerBlock                = 8192;
+  properties.warpSize                    = 32;
+  properties.maxThreadsPerBlock          = 512;
+  properties.maxThreadsPerMultiProcessor = 768;
 }
 
 void set_GT200(cudaDeviceProp& properties)
 {
-    set_compute_capability(properties, 1, 3);
-    properties.multiProcessorCount = 30;
-    properties.sharedMemPerBlock   = 16384;
-    properties.regsPerBlock        = 16384;
-    properties.warpSize            = 32;
-    properties.maxThreadsPerBlock  = 512;
+  set_compute_capability(properties, 1, 3);
+  properties.multiProcessorCount         = 30;
+  properties.sharedMemPerBlock           = 16384;
+  properties.regsPerBlock                = 16384;
+  properties.warpSize                    = 32;
+  properties.maxThreadsPerBlock          = 512;
+  properties.maxThreadsPerMultiProcessor = 1024;
 }
 
 void set_func_attributes(cudaFuncAttributes& attributes,
@@ -82,16 +85,13 @@ void TestMaxActiveThreads(void)
 {
     cudaDeviceProp properties;
 
-    set_compute_capability(properties, 1, 0);
+    set_G80(properties);
     ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 768);
     
-    set_compute_capability(properties, 1, 1);
+    set_G84(properties);
     ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 768);
     
-    set_compute_capability(properties, 1, 2);
-    ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 1024);
-    
-    set_compute_capability(properties, 1, 3);
+    set_GT200(properties);
     ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 1024);
 }
 DECLARE_UNITTEST(TestMaxActiveThreads);
