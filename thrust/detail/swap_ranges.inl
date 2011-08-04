@@ -37,8 +37,10 @@ struct swap_pair_elements
   template <typename Tuple>
   __host__ __device__
   void operator()(Tuple t)
-  { 
-    thrust::swap(thrust::get<0>(t), thrust::get<1>(t));
+  {
+    // use unqualified swap to allow ADL to catch any user-defined swap
+    using thrust::swap;
+    swap(thrust::get<0>(t), thrust::get<1>(t));
   }
 }; // end swap_pair_elements
 

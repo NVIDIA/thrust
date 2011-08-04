@@ -331,7 +331,9 @@ template<typename T>
 
   swap(other, interop());
 #else
-  thrust::swap(*mPtr.get(), *other.mPtr.get());
+  // use unqualified swap to ensure that user-defined swap gets caught by ADL
+  using thrust::swap;
+  swap(*mPtr.get(), *other.mPtr.get());
 #endif
 } // end device_reference::swap()
 
@@ -341,7 +343,9 @@ template<typename T>
            thrust::detail::true_type)
 {
   // the spaces are interoperable, just do a simple deref & swap
-  thrust::swap(*mPtr.get(), *other.mPtr.get());
+  // use unqualified swap to ensure that user-defined swap gets caught by ADL
+  using thrust::swap;
+  swap(*mPtr.get(), *other.mPtr.get());
 } // end device_reference::swap()
 
 template<typename T>

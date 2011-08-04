@@ -72,3 +72,100 @@ void TestSwapRangesForcedIterator(void)
 DECLARE_UNITTEST(TestSwapRangesForcedIterator);
 #endif
 
+struct type_with_swap
+{
+  inline __host__ __device__
+  type_with_swap()
+    : m_x(), m_swapped(false)
+  {}
+
+  inline __host__ __device__
+  type_with_swap(int x)
+    : m_x(x), m_swapped(false)
+  {}
+
+  inline __host__ __device__
+  type_with_swap(int x, bool s)
+    : m_x(x), m_swapped(s)
+  {}
+
+  inline __host__ __device__
+  type_with_swap(const type_with_swap &other)
+    : m_x(other.m_x), m_swapped(other.m_swapped)
+  {}
+
+  inline __host__ __device__
+  bool operator==(const type_with_swap &other) const
+  {
+    return m_x == other.m_x && m_swapped == other.m_swapped;
+  }
+
+  int m_x;
+  bool m_swapped;
+};
+
+inline __host__ __device__
+void swap(type_with_swap &a, type_with_swap &b)
+{
+  thrust::swap(a.m_x, b.m_x);
+  a.m_swapped = true;
+  b.m_swapped = true;
+}
+
+void TestSwapRangesUserSwap(void)
+{
+  thrust::host_vector<type_with_swap> h_A(3, type_with_swap(0));
+  thrust::host_vector<type_with_swap> h_B(3, type_with_swap(1));
+
+  thrust::device_vector<type_with_swap> d_A = h_A;
+  thrust::device_vector<type_with_swap> d_B = h_B;
+
+  // check that nothing is yet swapped
+  type_with_swap ref = type_with_swap(0, false);
+
+  ASSERT_EQUAL_QUIET(ref, h_A[0]);
+  ASSERT_EQUAL_QUIET(ref, h_A[1]);
+  ASSERT_EQUAL_QUIET(ref, h_A[2]);
+
+  ASSERT_EQUAL_QUIET(ref, d_A[0]);
+  ASSERT_EQUAL_QUIET(ref, d_A[1]);
+  ASSERT_EQUAL_QUIET(ref, d_A[2]);
+
+  ref = type_with_swap(1, false);
+
+  ASSERT_EQUAL_QUIET(ref, h_B[0]);
+  ASSERT_EQUAL_QUIET(ref, h_B[1]);
+  ASSERT_EQUAL_QUIET(ref, h_B[2]);
+
+  ASSERT_EQUAL_QUIET(ref, d_B[0]);
+  ASSERT_EQUAL_QUIET(ref, d_B[1]);
+  ASSERT_EQUAL_QUIET(ref, d_B[2]);
+
+  // swap the ranges
+
+  thrust::swap_ranges(h_A.begin(), h_A.end(), h_B.begin());
+  thrust::swap_ranges(d_A.begin(), d_A.end(), d_B.begin());
+
+  // check that things were swapped
+  ref = type_with_swap(1, true);
+
+  ASSERT_EQUAL_QUIET(ref, h_A[0]);
+  ASSERT_EQUAL_QUIET(ref, h_A[1]);
+  ASSERT_EQUAL_QUIET(ref, h_A[2]);
+
+  ASSERT_EQUAL_QUIET(ref, d_A[0]);
+  ASSERT_EQUAL_QUIET(ref, d_A[1]);
+  ASSERT_EQUAL_QUIET(ref, d_A[2]);
+
+  ref = type_with_swap(0, true);
+
+  ASSERT_EQUAL_QUIET(ref, h_B[0]);
+  ASSERT_EQUAL_QUIET(ref, h_B[1]);
+  ASSERT_EQUAL_QUIET(ref, h_B[2]);
+
+  ASSERT_EQUAL_QUIET(ref, d_B[0]);
+  ASSERT_EQUAL_QUIET(ref, d_B[1]);
+  ASSERT_EQUAL_QUIET(ref, d_B[2]);
+}
+DECLARE_UNITTEST(TestSwapRangesUserSwap);
+
