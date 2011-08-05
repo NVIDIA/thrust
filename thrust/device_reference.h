@@ -25,7 +25,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/reference_base.h>
 
 namespace thrust
 {
@@ -185,16 +185,33 @@ namespace thrust
  */
 template<typename T>
   class device_reference
+    : public thrust::detail::reference_base<
+               thrust::device_reference<T>,
+               T,
+               thrust::device_ptr<T>
+             >
 {
+  private:
+    typedef thrust::detail::reference_base<
+      thrust::device_reference<T>,
+      T,
+      thrust::device_ptr<T>
+    > super_t;
+
   public:
-    typedef device_ptr<T> pointer;
-    typedef typename detail::remove_const<T>::type value_type;
+    /*! The type of the value referenced by this type of \p device_reference.
+     */
+    typedef typename super_t::value_type value_type;
+
+    /*! The type of the expression <tt>&ref</tt>, where <tt>ref</tt> is a \p device_reference.
+     */
+    typedef typename super_t::pointer    pointer;
 
     /*! This copy constructor accepts a const reference to another
      *  \p device_reference. After this \p device_reference is constructed,
-     *  it shall refer to the same object as \p ref.
+     *  it shall refer to the same object as \p other.
      *  
-     *  \param ref A \p device_reference to copy from.
+     *  \param other A \p device_reference to copy from.
      *
      *  The following code snippet demonstrates the semantics of this
      *  copy constructor.
@@ -217,24 +234,18 @@ template<typename T>
      *  assert(ref == 13);
      *  \endcode
      *
-     *  \note This constructor is templated to initialization of const
-     *  device_references to const T from device_references to T.
+     *  \note This constructor is templated primarily to allow initialization of 
+     *  <tt>device_reference<const T></tt> from <tt>device_reference<T></tt>.
      */
     template<typename OtherT>
     __host__ __device__
-    device_reference(const device_reference<OtherT> &ref
-
-// XXX msvc screws this up
-#ifndef _MSC_VER
-                     , typename
-                     detail::enable_if<
-                       detail::is_convertible<
-                         typename device_reference<OtherT>::pointer,
-                         pointer
-                       >::value
-                     >::type *dummy = 0
-#endif // __MSC_VER
-                    );
+    device_reference(const device_reference<OtherT> &other,
+                     typename thrust::detail::enable_if_convertible<
+                       typename device_reference<OtherT>::pointer,
+                       pointer
+                     >::type * = 0)
+      : super_t(other)
+    {}
 
     /*! This copy constructor initializes this \p device_reference
      *  to refer to an object pointed to by the given \p device_ptr. After
@@ -266,8 +277,44 @@ template<typename T>
      *  \endcode
      */
     __host__ __device__
-    explicit device_reference(const pointer &ptr);
+    explicit device_reference(const pointer &ptr)
+      : super_t(ptr)
+    {}
 
+    /*! This assignment operator assigns the value of the object referenced by
+     *  the given \p device_reference to the object referenced by this
+     *  \p device_reference.
+     *
+     *  \param other The \p device_reference to assign from.
+     *  \return <tt>*this</tt>
+     */
+    device_reference &operator=(const device_reference &other);
+
+    /*! This assignment operator assigns the value of the object referenced by
+     *  the given \p device_reference to the object referenced by this
+     *  \p device_reference.
+     *
+     *  This operator is distinguished from the previous assignment operator
+     *  by being templated on the type of the other \p device_reference to copy from,
+     *  allowing assignment from a convertible type.
+     *
+     *  \param other The \p device_reference to assign from.
+     *  \return <tt>*this</tt>
+     */
+    template<typename OtherT>
+    device_reference &operator=(const device_reference<OtherT> &other);
+
+    /*! Assignment operator assigns the value of the given value to the
+     *  value referenced by this \p device_reference.
+     *  
+     *  \param x The value to assign from.
+     *  \return <tt>*this</tt>
+     */
+    device_reference &operator=(const value_type &x);
+
+// declare these members for the purpose of Doxygenating them
+// they actually exist in a derived-from class
+#if 0
     /*! Address-of operator returns a \p device_ptr pointing to the object
      *  referenced by this \p device_reference. It does not return the
      *  address of this \p device_reference.
@@ -278,36 +325,20 @@ template<typename T>
     __host__ __device__
     pointer operator&(void) const;
 
-    /*! Assignment operator copies the value of the given object to the
-     *  object referenced by this \p device_reference.
-     *  
-     *  \param v The value to copy from.
-     *  \return This \p device_reference.
-     */
-    device_reference &operator=(const T &v);
-
-    /*! Assignment operator copies the value of the object referenced by
-     *  the given \p device_reference to the object referenced by this
+    /*! Conversion operator converts this \p device_reference to T
+     *  by returning a copy of the object referenced by this
      *  \p device_reference.
      *
-     *  \param ref The \p device_reference to copy from.
-     *  \return This \p device_reference.
+     *  \return A copy of the object referenced by this \p device_reference.
      */
-    device_reference &operator=(const device_reference &ref);
+    __host__ __device__
+    operator value_type (void) const;
 
-    /*! Assignment operator copies the value of the object referenced by
-     *  the given \p device_reference to the object referenced by this
-     *  \p device_reference.
-     *
-     *  This operator is distinguished from the previous assignment operator
-     *  by being templated on the type of the other device_reference to copy from,
-     *  allowing copy from a convertible type.
-     *
-     *  \param ref The \p device_reference to copy from.
-     *  \return This \p device_reference.
+    /*! swaps the value this \p device_reference references with another.
+     *  \p other The other \p device_reference with which to swap.
      */
-    template<typename OtherT>
-    device_reference &operator=(const device_reference<OtherT> &ref);
+    __host__ __device__
+    void swap(device_reference &other);
 
     /*! Prefix increment operator increments the object referenced by this
      *  \p device_reference.
@@ -930,42 +961,7 @@ template<typename T>
      *  This may change in a later version.
      */
     device_reference &operator^=(const T &rhs);
-
-    /*! Conversion operator converts this \p device_reference to T
-     *  by returning a copy of the object referenced by this
-     *  \p device_reference.
-     *
-     *  \return A copy of the object referenced by this \p device_reference.
-     */
-    __host__ __device__
-    operator value_type (void) const;
-
-    /*! swaps the value this \p device_reference references with another.
-     *  \p other The other \p device_reference with which to swap.
-     */
-    __host__ __device__
-    void swap(device_reference &other);
-
-  private:
-    // allow access to mPtr for other device_references
-    template <typename OtherT> friend class device_reference;
-
-    // the pointer
-    const pointer mPtr;
-
-    template<typename Pointer>
-    inline void assign_from(Pointer src, thrust::detail::true_type spaces_are_interoperable);
-
-    template<typename Pointer>
-    inline void assign_from(Pointer src, thrust::detail::false_type spaces_are_not_interoperable);
-
-    inline value_type convert(thrust::detail::true_type spaces_are_interoperable) const;
-
-    inline value_type convert(thrust::detail::false_type spaces_are_not_interoperable) const;
-
-    inline void swap(device_reference &other, thrust::detail::true_type spaces_are_interoperable);
-
-    inline void swap(device_reference &other, thrust::detail::false_type spaces_are_not_interoperable);
+#endif // end doxygen-only members
 }; // end device_reference
 
 /*! swaps the value of one \p device_reference with another.

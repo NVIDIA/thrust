@@ -6,6 +6,7 @@ Summary
     New functionality for creating anonymous "lambda" functors has been added.
 
 Breaking API Changes
+    device_ptr<void> no longer unsafely converts to device_ptr<T> without an explicit cast. Use the expression device_pointer_cast(static_cast<int*>(void_ptr.get())) to convert, for example, device_ptr<void> to device_ptr<int>.
 
 New Features
 

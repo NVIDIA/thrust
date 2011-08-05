@@ -35,7 +35,8 @@ thrust::device_ptr<void> device_malloc(const std::size_t n)
 template<typename T>
   thrust::device_ptr<T> device_malloc(const std::size_t n)
 {
-  return thrust::device_malloc(n * sizeof(T));
+  thrust::device_ptr<void> void_ptr = thrust::device_malloc(n * sizeof(T));
+  return thrust::device_pointer_cast(static_cast<T*>(void_ptr.get()));
 } // end device_malloc()
 
 } // end thrust

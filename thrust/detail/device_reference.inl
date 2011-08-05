@@ -20,347 +20,58 @@
  */
 
 #include <thrust/device_reference.h>
-#include <thrust/detail/copy.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/swap.h>
-#include <iostream>
 
 namespace thrust
 {
 
 template<typename T>
-  template<typename OtherT>
+  device_reference<T> &
     device_reference<T>
-      ::device_reference(const device_reference<OtherT> &ref
-
-// XXX msvc screws this up
-#ifndef _MSC_VER
-                         , typename
-                         detail::enable_if<
-                           detail::is_convertible<
-                             typename device_reference<OtherT>::pointer,
-                             pointer
-                           >::value
-                         >::type *dummy
-#endif // _MSC_VER
-                        )
-        :mPtr(ref.mPtr)
+      ::operator=(const device_reference &other)
 {
-  ;
-} // end device_reference::device_reference()
-
-template<typename T>
-  device_reference<T>
-    ::device_reference(const pointer &ptr)
-      :mPtr(ptr)
-{
-  ;
-} // end device_reference::device_reference()
-
-template<typename T>
-  typename device_reference<T>::pointer device_reference<T>
-    ::operator&(void) const
-{
-  return mPtr;
-} // end device_reference::operator&()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator=(const T &v)
-{
-  // test for interoperability
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    thrust::host_space_tag
-  >::type interop;
-
-  assign_from(&v, interop());
+  super_t::operator=(other);
   return *this;
-} // end device_reference::operator=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator=(const device_reference &ref)
-{
-  // we're assigning from our own device space
-  typedef typename thrust::iterator_space<pointer>::type space;
-
-  // test for interoperability
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    space
-  >::type interop;
-
-  assign_from(&ref, interop()); 
-  return *this;
-} // end device_reference::operator=()
+} // end operator=()
 
 template<typename T>
   template<typename OtherT>
-    device_reference<T> &device_reference<T>
-      ::operator=(const device_reference<OtherT> &ref)
+    device_reference<T> &
+      device_reference<T>
+        ::operator=(const device_reference<OtherT> &other)
 {
-  // we're assigning from an alien space
-  typedef typename device_reference<OtherT>::pointer other_pointer;
-  typedef typename thrust::iterator_space<other_pointer>::type other_space;
-
-  // test for interoperability
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    other_space
-  >::type interop;
-
-  assign_from(&ref, interop());
+  super_t::operator=(other);
   return *this;
-} // end device_reference::operator=()
+} // end operator=()
 
 template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator++(void)
-{
-  value_type temp = *this;
-  ++temp;
-  *this = temp;
-  return *this;
-} // end device_reference::operator++()
-
-template<typename T>
-  typename device_reference<T>::value_type
+  device_reference<T> &
     device_reference<T>
-      ::operator++(int)
+      ::operator=(const value_type &x)
 {
-  value_type temp = *this;
-  value_type result = temp++;
-  *this = temp;
-  return result;
-} // end device_reference::operator++()
-
-template<typename T>
-  device_reference<T>
-    ::operator typename device_reference<T>::value_type (void) const
-{
-#ifndef __CUDA_ARCH__
-  // get our device space
-  typedef typename thrust::iterator_space<pointer>::type space;
-
-  // test for interoperability with host_space
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    host_space_tag
-  >::type interop;
-
-  return convert(interop());
-#else
-  return *mPtr.get();
-#endif
-} // end device_reference::operator value_type ()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator+=(const T &rhs)
-{
-  value_type temp = *this;
-  temp += rhs;
-  *this = temp;
+  super_t::operator=(x);
   return *this;
-} // end device_reference::operator+=()
+} // end operator=()
+
+namespace detail
+{
+
+// XXX iterator_facade tries to instantiate the Reference
+//     type when computing the answer to is_convertible<Reference,Value>
+//     we can't do that at that point because cuda_reference
+//     is not complete
+//     WAR the problem by specializing is_convertible
+template<typename T>
+  struct is_convertible<thrust::device_reference<T>, T>
+    : thrust::detail::true_type
+{};
+
+} // end detail
 
 template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator--(void)
+__host__ __device__
+void swap(device_reference<T> &a, device_reference<T> &b)
 {
-  value_type temp = *this;
-  --temp;
-  *this = temp;
-  return *this;
-} // end device_reference::operator--()
-
-template<typename T>
-  typename device_reference<T>::value_type
-    device_reference<T>
-      ::operator--(int)
-{
-  value_type temp = *this;
-  value_type result = temp--;
-  *this = temp;
-  return result;
-} // end device_reference::operator--()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator-=(const T &rhs)
-{
-  value_type temp = *this;
-  temp -= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator-=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator*=(const T &rhs)
-{
-  value_type temp = *this;
-  temp *= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator*=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator/=(const T &rhs)
-{
-  value_type temp = *this;
-  temp /= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator/=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator%=(const T &rhs)
-{
-  value_type temp = *this;
-  temp %= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator%=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator<<=(const T &rhs)
-{
-  value_type temp = *this;
-  temp <<= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator<<=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator>>=(const T &rhs)
-{
-  value_type temp = *this;
-  temp >>= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator>>=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator&=(const T &rhs)
-{
-  value_type temp = *this;
-  temp &= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator&=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator|=(const T &rhs)
-{
-  value_type temp = *this;
-  temp |= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator|=()
-
-template<typename T>
-  device_reference<T> &device_reference<T>
-    ::operator^=(const T &rhs)
-{
-  value_type temp = *this;
-  temp ^= rhs;
-  *this = temp;
-  return *this;
-} // end device_reference::operator^=()
-
-template<typename T>
-  template<typename Pointer>
-    void device_reference<T>
-      ::assign_from(Pointer src, thrust::detail::false_type)
-{
-  // dispatch copy in general
-  thrust::copy(src, src + 1, mPtr);
-} // end device_reference::assign_from()
-
-template<typename T>
-  template<typename Pointer>
-    void device_reference<T>
-      ::assign_from(Pointer src, thrust::detail::true_type)
-{
-  // the spaces are interoperable, just do a simple deref & assign
-  *mPtr.get() = *src;
-} // end device_reference::assign_from()
-
-template<typename T>
-  typename device_reference<T>::value_type
-    device_reference<T>
-      ::convert(thrust::detail::false_type) const
-{
-  // dispatch copy in general
-  value_type result;
-  thrust::copy(mPtr, mPtr + 1, &result);
-  return result;
-} // end device_reference::convert()
-
-template<typename T>
-  typename device_reference<T>::value_type
-    device_reference<T>
-      ::convert(thrust::detail::true_type) const
-{
-  // the spaces are interoperable, just do a simple dereference
-  return *mPtr.get();
-} // end device_reference::convert()
-
-template<typename T>
-  void device_reference<T>
-    ::swap(device_reference<T> &other)
-{
-#ifndef __CUDA_ARCH__
-  // get our device space
-  typedef typename thrust::iterator_space<pointer>::type space;
-
-  // test for interoperability with host_space
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    host_space_tag
-  >::type interop;
-
-  swap(other, interop());
-#else
-  // use unqualified swap to ensure that user-defined swap gets caught by ADL
-  using thrust::swap;
-  swap(*mPtr.get(), *other.mPtr.get());
-#endif
-} // end device_reference::swap()
-
-template<typename T>
-  void device_reference<T>
-    ::swap(device_reference<T> &other,
-           thrust::detail::true_type)
-{
-  // the spaces are interoperable, just do a simple deref & swap
-  // use unqualified swap to ensure that user-defined swap gets caught by ADL
-  using thrust::swap;
-  swap(*mPtr.get(), *other.mPtr.get());
-} // end device_reference::swap()
-
-template<typename T>
-  void device_reference<T>
-    ::swap(device_reference<T> &other,
-           thrust::detail::false_type)
-{
-  // dispatch swap_ranges
-  thrust::swap_ranges(mPtr, mPtr + 1, other.mPtr);
-} // end device_reference::swap()
-
-template<typename T>
-  void swap(device_reference<T> &x, device_reference<T> &y)
-{
-  return x.swap(y);
+  a.swap(b);
 } // end swap()
 
 } // end thrust

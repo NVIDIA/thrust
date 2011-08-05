@@ -29,22 +29,6 @@
 namespace thrust
 {
 
-// index operator
-template<typename T>
-  typename device_ptr<T>::reference device_ptr<T>
-    ::operator[](const difference_type &i) const
-{
-  return reference(device_pointer_cast(mPtr + i));
-} // end device_ptr::operator[]()
-
-// dereference operator
-template<typename T>
-  typename device_ptr<T>::reference device_ptr<T>
-    ::operator*(void) const
-{
-  return reference(device_pointer_cast(mPtr));
-} // end device_ptr::operator*()
-
 template<typename T>
   device_ptr<T> device_pointer_cast(T *ptr)
 {
@@ -69,49 +53,6 @@ template<typename T>
   return ptr;
 } // end raw_pointer_cast()
 
-// comparison operators follow
-
-// operator==
-template<typename T1, typename T2>
-  bool operator==(const device_ptr<T1> &lhs, const device_ptr<T2> &rhs)
-{
-  return lhs.get() == rhs.get();
-} // end operator==()
-
-// operator!=
-template<typename T1, typename T2>
-  bool operator!=(const device_ptr<T1> &lhs, const device_ptr<T2> &rhs)
-{
-  return !(lhs == rhs);
-} // end operator!=()
-
-// operator<
-template<typename T1, typename T2>
-  bool operator<(const device_ptr<T1> &lhs, const device_ptr<T2> &rhs)
-{
-  return lhs.get() < rhs.get();
-} // end operator<()
-
-// operator<=
-template<typename T1, typename T2>
-  bool operator<=(const device_ptr<T1> &lhs, const device_ptr<T2> &rhs)
-{
-  return lhs.get() <= rhs.get();
-} // end operator<=()
-
-// operator>
-template<typename T1, typename T2>
-  bool operator>(const device_ptr<T1> &lhs, const device_ptr<T2> &rhs)
-{
-  return lhs.get() > rhs.get();
-} // end operator>()
-
-// operator>=
-template<typename T1, typename T2>
-  bool operator>=(const device_ptr<T1> &lhs, const device_ptr<T2> &rhs)
-{
-  return lhs.get() >= rhs.get();
-} // end operator>=()
 
 // output to ostream
 template<class E, class T, class Y>
