@@ -222,9 +222,11 @@ template<typename InputIterator1,
     if (first == last)
         return output;
 
+    const cudaDeviceProp& properties = thrust::detail::backend::cuda::arch::device_properties();
     const IndexType CTA_SIZE      = 256;
     const IndexType N             = last - first;
-    const IndexType max_intervals = 3 * (thrust::detail::backend::cuda::arch::max_active_threads() / CTA_SIZE);  // TODO put this in a common place
+    const IndexType max_threads   = properties.maxThreadsPerMultiProcessor * properties.multiProcessorCount;
+    const IndexType max_intervals = 3 * max_threads / CTA_SIZE;  // TODO put this in a common place
 
     thrust::pair<IndexType, IndexType> splitting = uniform_interval_splitting<IndexType>(N, 32, max_intervals);
 

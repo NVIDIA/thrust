@@ -365,7 +365,7 @@ template<typename RandomAccessIterator1,
     temporary_results(set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
 
   // maximize the number of blocks we can launch
-  const size_t max_blocks = thrust::get<0>(thrust::detail::backend::cuda::arch::max_grid_dimensions());
+  const size_t max_blocks = thrust::detail::backend::cuda::arch::device_properties().maxGridSize[0];
   const size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
   const size_t dynamic_smem_size = get_set_operation_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,BlockConvergentSetOperation>(block_size);
 

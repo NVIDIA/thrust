@@ -81,22 +81,6 @@ void TestComputeCapability(void)
 DECLARE_UNITTEST(TestComputeCapability);
 
 
-void TestMaxActiveThreads(void)
-{
-    cudaDeviceProp properties;
-
-    set_G80(properties);
-    ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 768);
-    
-    set_G84(properties);
-    ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 768);
-    
-    set_GT200(properties);
-    ASSERT_EQUAL(max_active_threads_per_multiprocessor(properties), 1024);
-}
-DECLARE_UNITTEST(TestMaxActiveThreads);
-
-
 void TestMaxActiveBlocks(void)
 {
     cudaDeviceProp properties;

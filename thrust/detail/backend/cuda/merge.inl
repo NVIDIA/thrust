@@ -330,7 +330,7 @@ RandomAccessIterator3 merge(RandomAccessIterator1 first1,
                            num_splitters_from_range2);
 
   // maximize the number of blocks we can launch
-  size_t max_blocks = thrust::get<0>(thrust::detail::backend::cuda::arch::max_grid_dimensions());
+  size_t max_blocks = thrust::detail::backend::cuda::arch::device_properties().maxGridSize[0];
   size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
 
   merge_detail::merge_kernel<<<num_blocks, (unsigned int) block_size, get_merge_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,RandomAccessIterator3>(block_size)>>>( 

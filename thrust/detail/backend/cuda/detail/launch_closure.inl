@@ -30,16 +30,12 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
 namespace cuda
 {
-
 namespace detail
 {
 
@@ -119,6 +115,16 @@ template<typename NullaryFunction>
     : public closure_launcher_base<NullaryFunction>
 {
   typedef closure_launcher_base<NullaryFunction> super_t;
+  
+  static inline const cudaDeviceProp& device_properties(void)
+  {
+    return thrust::detail::backend::cuda::arch::device_properties();
+  }
+  
+  static inline const cudaFuncAttributes& function_attributes(void)
+  {
+    return thrust::detail::backend::cuda::arch::function_attributes(super_t::get_launch_function());
+  }
 
   inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
   {
