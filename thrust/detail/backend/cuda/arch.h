@@ -60,7 +60,7 @@ inline const cudaDeviceProp& device_properties(void);
  */
 template <typename KernelFunction>
 inline const cudaFuncAttributes& function_attributes(KernelFunction kernel);
-  
+
 /*! Returns the compute capability of a device in integer format.
  *  For example, returns 10 for sm_10 and 21 for sm_21
  *  \return The compute capability as an integer
@@ -77,6 +77,32 @@ inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     pro
                                                    const size_t CTA_SIZE,
                                                    const size_t dynamic_smem_bytes);
 
+/*! Returns a pair (block_size,blocks_per_multiprocessor)
+ *  where block_size is a valid block size chosen by
+ *  a heuristic and blocks_per_multiprocessor is the 
+ *  maximum number of such blocks that can execute on
+ *  a (streaming) multiprocessor at once.
+ *
+ *  \param properties CUDA device properties
+ *  \param attributes CUDA function attributes
+ */
+inline thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
+                                                               const cudaFuncAttributes& attributes);
+
+/*! Returns a pair (block_size,blocks_per_multiprocessor)
+ *  where block_size is a valid block size chosen by
+ *  a heuristic and blocks_per_multiprocessor is the 
+ *  maximum number of such blocks that can execute on
+ *  a (streaming) multiprocessor at once.
+ *
+ *  \param properties CUDA device properties
+ *  \param attributes CUDA function attributes
+ *  \param UnaryFunction Mapping from block size to (dynamic) shared memory allocation
+ */
+template <typename UnaryFunction>
+thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
+                                                        const cudaFuncAttributes& attributes,
+                                                        UnaryFunction block_size_to_smem_size);
 
 // TODO try to eliminate following functions
 

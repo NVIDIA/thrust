@@ -27,12 +27,12 @@
 #include <cuda_runtime_api.h>
 
 #include <map>
-#include <string>     // remove this?
+#include <string>     // TODO remove this?
 #include <algorithm>
 
-#include <thrust/detail/util/blocking.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda_error.h>
+#include <thrust/detail/util/blocking.h>
 
 namespace thrust
 {
@@ -44,6 +44,43 @@ namespace cuda
 {
 namespace arch
 {
+namespace detail
+{
+
+// granularity of shared memory allocation
+inline size_t smem_allocation_unit(const cudaDeviceProp&)
+{
+  return 512;
+}
+
+// granularity of register allocation
+inline size_t reg_allocation_unit(const cudaDeviceProp& properties)
+{
+  return (properties.major < 2 && properties.minor < 2) ? 256 : 512;
+}
+
+// granularity of warp allocation
+inline size_t warp_allocation_multiple(const cudaDeviceProp&)
+{
+  return 2;
+}
+
+inline size_t max_blocks_per_multiprocessor(const cudaDeviceProp&)
+{
+  return 8;
+}
+
+template <typename T>
+struct zero_function
+{
+  T operator()(T)
+  {
+    return 0;
+  }
+};
+
+} // end namespace detail
+
 
 inline const cudaDeviceProp& device_properties(int device_id)
 {
@@ -125,29 +162,29 @@ inline const cudaFuncAttributes& function_attributes(KernelFunction kernel)
 }
 
 
-size_t compute_capability(const cudaDeviceProp &properties)
+inline size_t compute_capability(const cudaDeviceProp &properties)
 {
   return 10 * properties.major + properties.minor;
 }
 
-size_t compute_capability(void)
+inline size_t compute_capability(void)
 {
   return compute_capability(device_properties());
 }
 
 
-size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     properties,
-                                            const cudaFuncAttributes& attributes,
-                                            size_t CTA_SIZE,
-                                            size_t dynamic_smem_bytes)
+inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     properties,
+                                                   const cudaFuncAttributes& attributes,
+                                                   size_t CTA_SIZE,
+                                                   size_t dynamic_smem_bytes)
 {
   // Determine the maximum number of CTAs that can be run simultaneously per SM
   // This is equivalent to the calculation done in the CUDA Occupancy Calculator spreadsheet
-  const size_t regAllocationUnit      = (properties.major < 2 && properties.minor < 2) ? 256 : 512; // in registers
-  const size_t warpAllocationMultiple = 2;
-  const size_t smemAllocationUnit     = 512;                                     // TODO centralize
+  const size_t regAllocationUnit      = detail::reg_allocation_unit(properties);
+  const size_t warpAllocationMultiple = detail::warp_allocation_multiple(properties);
+  const size_t smemAllocationUnit     = detail::smem_allocation_unit(properties);
   const size_t maxThreadsPerSM        = properties.maxThreadsPerMultiProcessor;  // 768, 1024, 1536, etc.
-  const size_t maxBlocksPerSM         = 8;
+  const size_t maxBlocksPerSM         = detail::max_blocks_per_multiprocessor(properties);
 
   // Number of warps (round up to nearest whole multiple of warp size & warp allocation multiple)
   const size_t numWarps = thrust::detail::util::round_i(thrust::detail::util::divide_ri(CTA_SIZE, properties.warpSize), warpAllocationMultiple);
@@ -165,6 +202,46 @@ size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     properties
   return std::min<size_t>(ctaLimitRegs, std::min<size_t>(ctaLimitSMem, std::min<size_t>(ctaLimitThreads, maxBlocksPerSM)));
 }
 
+
+
+inline thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
+                                                               const cudaFuncAttributes& attributes)
+{
+  return default_block_configuration(properties, attributes, detail::zero_function<size_t>());
+}
+
+template <typename UnaryFunction>
+thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
+                                                        const cudaFuncAttributes& attributes,
+                                                        UnaryFunction block_size_to_smem_size)
+{
+  size_t max_occupancy      = properties.maxThreadsPerMultiProcessor;
+  size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+  size_t granularity        = properties.warpSize;
+  size_t max_blocksize      = 0;
+  size_t highest_occupancy  = 0;
+
+  for(size_t blocksize = largest_blocksize; blocksize != 0; blocksize -= granularity)
+  {
+    size_t occupancy = blocksize * max_active_blocks_per_multiprocessor(properties, attributes, blocksize, block_size_to_smem_size(blocksize));
+
+    if (occupancy > highest_occupancy)
+    {
+      max_blocksize = blocksize;
+      highest_occupancy = occupancy;
+    }
+
+    // early out, can't do better
+    if (highest_occupancy == max_occupancy)
+      break;
+  }
+
+  return thrust::make_pair(max_blocksize, max_occupancy / max_blocksize);
+}
+
+
+
+// TODO try to eliminate following functions
 
 template <typename KernelFunction>
 size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes)
