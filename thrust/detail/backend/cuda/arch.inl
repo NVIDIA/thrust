@@ -33,6 +33,7 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda_error.h>
 #include <thrust/detail/util/blocking.h>
+#include <thrust/detail/backend/cuda/detail/launch_closure.h>
 
 namespace thrust
 {
@@ -161,7 +162,6 @@ inline const cudaFuncAttributes& function_attributes(KernelFunction kernel)
   }
 }
 
-
 inline size_t compute_capability(const cudaDeviceProp &properties)
 {
   return 10 * properties.major + properties.minor;
@@ -239,6 +239,19 @@ thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&   
   return thrust::make_pair(max_blocksize, max_occupancy / max_blocksize);
 }
 
+
+inline size_t proportional_smem_allocation(const cudaDeviceProp& properties,
+                                           const cudaFuncAttributes& attributes,
+                                           size_t blocks_per_processor)
+{
+  size_t smem_per_processor    = properties.sharedMemPerBlock;
+  size_t smem_allocation_unit  = thrust::detail::backend::cuda::arch::detail::smem_allocation_unit(properties);
+
+  size_t total_smem_per_block  = thrust::detail::util::round_z(smem_per_processor / blocks_per_processor, smem_allocation_unit);
+  size_t static_smem_per_block = attributes.sharedSizeBytes;
+  
+  return total_smem_per_block - static_smem_per_block;
+}
 
 
 // TODO try to eliminate following functions

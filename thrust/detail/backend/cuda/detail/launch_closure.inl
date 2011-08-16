@@ -14,10 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
-#include <thrust/detail/config.h>
-
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -40,37 +36,37 @@ namespace detail
 {
 
 
-template<typename NullaryFunction>
+template<typename Closure>
 __global__
-void launch_closure_by_value(NullaryFunction f)
+void launch_closure_by_value(Closure f)
 {
   f();
 }
 
 
-template<typename NullaryFunction>
+template<typename Closure>
 __global__
-void launch_closure_by_pointer(const NullaryFunction *f)
+void launch_closure_by_pointer(const Closure *f)
 {
   // copy to registers
-  NullaryFunction f_reg = *f;
+  Closure f_reg = *f;
   f_reg();
 }
 
 
-template<typename NullaryFunction,
-         bool launch_by_value = sizeof(NullaryFunction) <= 256>
+template<typename Closure,
+         bool launch_by_value = sizeof(Closure) <= 256>
   struct closure_launcher_base
 {
-  typedef void (*launch_function_t)(NullaryFunction); 
+  typedef void (*launch_function_t)(Closure); 
  
   static launch_function_t get_launch_function(void)
   {
-    return detail::launch_closure_by_value<NullaryFunction>;
+    return detail::launch_closure_by_value<Closure>;
   }
 
   template<typename Size1, typename Size2, typename Size3>
-  static void launch(NullaryFunction f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     detail::launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
     synchronize_if_enabled("launch_closure_by_value");
@@ -78,24 +74,24 @@ template<typename NullaryFunction,
 }; // end closure_launcher_base
 
 
-template<typename NullaryFunction>
-  struct closure_launcher_base<NullaryFunction,false>
+template<typename Closure>
+  struct closure_launcher_base<Closure,false>
 {
-  typedef void (*launch_function_t)(const NullaryFunction *); 
+  typedef void (*launch_function_t)(const Closure *); 
  
   static launch_function_t get_launch_function(void)
   {
-    return detail::launch_closure_by_pointer<NullaryFunction>;
+    return detail::launch_closure_by_pointer<Closure>;
   }
 
   template<typename Size1, typename Size2, typename Size3>
-  static void launch(NullaryFunction f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     // allocate device memory for the argument
-    thrust::device_ptr<void> temp_ptr = thrust::detail::backend::cuda::malloc<0>(sizeof(NullaryFunction));
+    thrust::device_ptr<void> temp_ptr = thrust::detail::backend::cuda::malloc<0>(sizeof(Closure));
 
-    // cast to NullaryFunction *
-    thrust::device_ptr<NullaryFunction> f_ptr(reinterpret_cast<NullaryFunction*>(temp_ptr.get()));
+    // cast to Closure *
+    thrust::device_ptr<Closure> f_ptr(reinterpret_cast<Closure*>(temp_ptr.get()));
 
     // copy
     *f_ptr = f;
@@ -110,11 +106,11 @@ template<typename NullaryFunction>
 };
 
 
-template<typename NullaryFunction>
+template<typename Closure>
   struct closure_launcher
-    : public closure_launcher_base<NullaryFunction>
+    : public closure_launcher_base<Closure>
 {
-  typedef closure_launcher_base<NullaryFunction> super_t;
+  typedef closure_launcher_base<Closure> super_t;
   
   static inline const cudaDeviceProp& device_properties(void)
   {
@@ -155,50 +151,56 @@ template<typename NullaryFunction>
   }
 
   template<typename Size>
-  static void launch(NullaryFunction f, Size n)
+  static void launch(Closure f, Size n)
   {
     thrust::pair<size_t, size_t> config = configuration_with_maximal_occupancy(n);
     super_t::launch(f, config.first, config.second, 0u);
   }
 
   template<typename Size1, typename Size2, typename Size3>
-  static void launch(NullaryFunction f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     super_t::launch(f,num_blocks,block_size,smem_size);
   }
 };
 
-
-template<typename NullaryFunction>
+template<typename Closure>
   size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread)
 {
-  return closure_launcher<NullaryFunction>::block_size_with_maximal_occupancy(dynamic_smem_bytes_per_thread);
+  return closure_launcher<Closure>::block_size_with_maximal_occupancy(dynamic_smem_bytes_per_thread);
 } // end block_size_with_maximal_occupancy()
 
-template<typename NullaryFunction, typename Size1, typename Size2>
+template<typename Closure, typename Size1, typename Size2>
   size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
 {
-  return closure_launcher<NullaryFunction>::num_blocks_with_maximal_occupancy(n, block_size, dynamic_smem_bytes_per_block);
+  return closure_launcher<Closure>::num_blocks_with_maximal_occupancy(n, block_size, dynamic_smem_bytes_per_block);
 } // end num_blocks_with_maximal_occupancy()
 
-template<typename NullaryFunction, typename Size>
-  void launch_closure(NullaryFunction f, Size n)
+template<typename Closure, typename Size>
+  void launch_closure(Closure f, Size n)
 {
-  closure_launcher<NullaryFunction>::launch(f,n);
+  closure_launcher<Closure>::launch(f,n);
 } // end launch_closure()
 
-template<typename NullaryFunction, typename Size1, typename Size2>
-  void launch_closure(NullaryFunction f, Size1 num_blocks, Size2 block_size)
+template<typename Closure, typename Size1, typename Size2>
+  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size)
 {
   launch_closure(f, num_blocks, block_size, 0u);
 } // end launch_closure()
 
-template<typename NullaryFunction, typename Size1, typename Size2, typename Size3>
-  void launch_closure(NullaryFunction f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+template<typename Closure, typename Size1, typename Size2, typename Size3>
+  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
 {
-  closure_launcher<NullaryFunction>::launch(f, num_blocks, block_size, smem_size);
+  closure_launcher<Closure>::launch(f, num_blocks, block_size, smem_size);
 } // end launch_closure()
 
+  
+template <typename Closure>
+const cudaFuncAttributes& closure_attributes(void)
+{
+  typedef typename thrust::detail::backend::cuda::detail::closure_launcher<Closure> Launcher;
+  return thrust::detail::backend::cuda::arch::function_attributes(Launcher::get_launch_function());
+}
 
 } // end detail
 } // end namespace cuda

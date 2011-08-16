@@ -104,6 +104,19 @@ thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&   
                                                         const cudaFuncAttributes& attributes,
                                                         UnaryFunction block_size_to_smem_size);
 
+
+/*! Returns the maximum amount of dynamic shared memory each block
+ *  can utilize without reducing thread occupancy.
+ *
+ *  \param properties CUDA device properties
+ *  \param attributes CUDA function attributes
+ *  \param blocks_per_processor Number of blocks per streaming multiprocessor
+ */
+inline size_t proportional_smem_allocation(const cudaDeviceProp& properties,
+                                           const cudaFuncAttributes& attributes,
+                                           size_t blocks_per_processor);
+
+
 // TODO try to eliminate following functions
 
 template <typename KernelFunction>

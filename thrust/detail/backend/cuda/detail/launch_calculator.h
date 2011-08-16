@@ -20,6 +20,7 @@
 
 // avoid #including a header,
 // just provide forward declarations
+struct cudaDeviceProp;
 struct cudaFuncAttributes;
 
 namespace thrust
@@ -33,28 +34,25 @@ namespace cuda
 namespace detail
 {
 
-// TODO remove
-template<typename Closure>
-  size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0);
-
-// TODO remove
-template<typename Closure, typename Size1, typename Size2>
-  size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block = 0);
-
-template<typename Closure, typename Size>
-  void launch_closure(Closure f, Size n);
-
-template<typename Closure, typename Size1, typename Size2>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size);
-
-template<typename Closure, typename Size1, typename Size2, typename Size3>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size);
-
-/*! Returns a reference to the cudaFuncAttributes structure
- *  that is associated with a given Closure
- */
 template <typename Closure>
-const cudaFuncAttributes& closure_attributes(void);
+class launch_calculator
+{
+  const cudaDeviceProp&     properties;
+  const cudaFuncAttributes& attributes;
+
+  public:
+  
+  launch_calculator(void);
+
+  launch_calculator(const cudaDeviceProp& properties, const cudaFuncAttributes& attributes);
+
+  thrust::tuple<size_t,size_t,size_t> with_variable_block_size(void);
+
+  template <typename UnaryFunction>
+  thrust::tuple<size_t,size_t,size_t> with_variable_block_size(UnaryFunction block_size_to_smem_size);
+  
+  thrust::tuple<size_t,size_t,size_t> with_variable_block_size_available_smem(void);
+};
 
 } // end namespace detail
 } // end namespace cuda
@@ -62,5 +60,5 @@ const cudaFuncAttributes& closure_attributes(void);
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cuda/detail/launch_closure.inl>
+#include <thrust/detail/backend/cuda/detail/launch_calculator.inl>
 
