@@ -20,9 +20,12 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/static_assert.h>
+
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
-#include <thrust/detail/static_assert.h>
+#include <thrust/detail/backend/cuda/detail/launch_calculator.h>
 
 #include <limits>
 
@@ -100,14 +103,34 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
     // n is large, must use 64-bit indices
     typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
     Closure closure(first, n, f);
-    thrust::detail::backend::cuda::detail::launch_closure(closure, n);
+
+    // calculate launch configuration
+    thrust::detail::backend::cuda::detail::launch_calculator<Closure> calculator;
+
+    thrust::tuple<size_t, size_t, size_t> config = calculator.with_variable_block_size();
+    size_t max_blocks = thrust::get<0>(config);
+    size_t block_size = thrust::get<1>(config);
+    size_t num_blocks = thrust::min(max_blocks, (static_cast<size_t>(n) + (block_size - 1)) / block_size);
+
+    // launch closure
+    thrust::detail::backend::cuda::detail::launch_closure(closure, num_blocks, block_size);
   }
   else
   {
     // n is small, 32-bit indices are sufficient
     typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
     Closure closure(first, static_cast<unsigned int>(n), f);
-    thrust::detail::backend::cuda::detail::launch_closure(closure, static_cast<unsigned int>(n));
+    
+    // calculate launch configuration
+    thrust::detail::backend::cuda::detail::launch_calculator<Closure> calculator;
+
+    thrust::tuple<size_t, size_t, size_t> config = calculator.with_variable_block_size();
+    size_t max_blocks = thrust::get<0>(config);
+    size_t block_size = thrust::get<1>(config);
+    size_t num_blocks = thrust::min(max_blocks, (static_cast<size_t>(n) + (block_size - 1)) / block_size);
+
+    // launch closure
+    thrust::detail::backend::cuda::detail::launch_closure(closure, num_blocks, block_size);
   }
 
   return first + n;

@@ -79,7 +79,7 @@ int main(void)
 
   // print results
   std::cout << "[ ";
-  for(int i = 0; i < N; i++)
+  for(size_t i = 0; i < N; i++)
     std::cout << data[i] << " ";
   std::cout << "]" << std::endl;
  

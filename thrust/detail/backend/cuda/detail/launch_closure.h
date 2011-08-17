@@ -41,6 +41,7 @@ template<typename Closure>
 template<typename Closure, typename Size1, typename Size2>
   size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block = 0);
 
+// TODO rename second parameter
 template<typename Closure, typename Size>
   void launch_closure(Closure f, Size n);
 

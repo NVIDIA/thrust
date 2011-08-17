@@ -141,22 +141,6 @@ template<typename Closure>
     return static_cast<size_t>(result);
   }
 
-  template<typename Size>
-  static thrust::pair<size_t,size_t> configuration_with_maximal_occupancy(Size n)
-  {
-    const size_t block_size = block_size_with_maximal_occupancy();
-    const size_t num_blocks = num_blocks_with_maximal_occupancy(n, block_size, 0u);
-
-    return thrust::make_pair(num_blocks, block_size);
-  }
-
-  template<typename Size>
-  static void launch(Closure f, Size n)
-  {
-    thrust::pair<size_t, size_t> config = configuration_with_maximal_occupancy(n);
-    super_t::launch(f, config.first, config.second, 0u);
-  }
-
   template<typename Size1, typename Size2, typename Size3>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
