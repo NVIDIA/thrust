@@ -18,7 +18,7 @@ if env['PLATFORM'] == "win32" or env['PLATFORM'] == "win64":
 
 # find all .cus & .cpps in the current directory
 sources = []
-directories = ['.']
+directories = ['.', 'backend']
 extensions = ['*.cu', '*.cpp']
 
 if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
