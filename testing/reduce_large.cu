@@ -31,10 +31,7 @@ void TestReduceWithLargeTypes(void)
     _TestReduceWithLargeTypes<int,   64>();
     _TestReduceWithLargeTypes<int,  128>(); 
     _TestReduceWithLargeTypes<int,  256>(); 
-    _TestReduceWithLargeTypes<int,  512>();
-    //_TestReduceWithLargeTypes<int, 1024>(); // out of memory
-    //_TestReduceWithLargeTypes<int, 2048>(); // uses too much local data
-    //_TestReduceWithLargeTypes<int, 4096>(); // uses too much local data
+    //_TestReduceWithLargeTypes<int,  512>(); // uses too much local data
 }
 DECLARE_UNITTEST(TestReduceWithLargeTypes);
 

@@ -18,6 +18,8 @@
 
 #include <thrust/detail/config.h>
 
+#include <thrust/tuple.h>
+
 // avoid #including a header,
 // just provide forward declarations
 struct cudaDeviceProp;

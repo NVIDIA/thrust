@@ -680,11 +680,16 @@ DECLARE_VECTOR_UNITTEST(TestVectorShrinkToFit)
 
 struct LargeStruct
 {
-    int data[100];
+  int data[100];
 
-    bool operator==(const LargeStruct & ls) const{
-        return std::equal(data, data + 100, ls.data);
-    }
+  __host__ __device__
+  bool operator==(const LargeStruct & ls) const
+  {
+    for (int i = 0; i < 100; i++)
+      if (data[i] != ls.data[i])
+        return false;
+    return true;
+  }
 };
 
 void TestVectorContainingLargeType(void)

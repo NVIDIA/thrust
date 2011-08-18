@@ -20,7 +20,6 @@
 #endif // omp support
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/distance.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
@@ -32,72 +31,93 @@ namespace backend
 namespace omp
 {
 
+// TODO re-enable parallel code and remove serial placeholder
 
-template<typename RandomAccessIterator1,
-         typename SizeType1,
-         typename SizeType2,
-         typename BinaryFunction,
-         typename RandomAccessIterator2>
-  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
-                                  SizeType1 n,
-                                  SizeType2 num_blocks,
-                                  BinaryFunction binary_op,
-                                  RandomAccessIterator2 result)
-{
-  // we're attempting to launch an omp kernel, assert we're compiling with omp support
-  // ========================================================================
-  // X Note to the user: If you've found this line due to a compiler error, X
-  // X you need to OpenMP support in your compiler.                         X
-  // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1,
-                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
-
-  // check for empty input or output
-  if(n == 0 || num_blocks == 0) return;
-
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
-
-// do not attempt to compile the body of this function, which calls omp functions, without
-// support from the compiler
-// XXX implement the body of this function in another file to eliminate this ugliness
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-# pragma omp parallel num_threads(num_blocks)
-  {
-    int thread_id = omp_get_thread_num();
-    
-    RandomAccessIterator1 temp = first + thread_id;
-    OutputType thread_sum = thrust::detail::backend::dereference(temp);
-
-#   pragma omp for 
-    for(SizeType1 i = SizeType1(num_blocks); i < n; i++)
-    {
-      RandomAccessIterator1 temp = first + i;
-      thread_sum = binary_op(thread_sum, thrust::detail::backend::dereference(temp));
-    }
-
-    result[thread_id] = thread_sum;
-  }
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
-} // end unordered_blocked_reduce_n()
-
-
-template<typename RandomAccessIterator,
-         typename SizeType,
+template<typename InputIterator,
+         typename Size,
          typename OutputType,
          typename BinaryFunction>
-  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
-                                                   SizeType n,
-                                                   OutputType init,
-                                                   BinaryFunction binary_op)
+  OutputType reduce_n(InputIterator first,
+                      Size n,
+                      OutputType init,
+                      BinaryFunction binary_op)
 {
-  SizeType result = 0;
+  OutputType sum = init;
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-  result = std::min<SizeType>(omp_get_max_threads(), n);
-#endif
+  for(Size i = 0; i <= n; i++)
+  {
+    sum = binary_op(sum, thrust::detail::backend::dereference(first));
+    ++first;
+  }
 
-  return result;
-} // end get_unordered_blocked_reduce_n_schedule()
+  return sum;
+}
+
+//template<typename RandomAccessIterator1,
+//         typename SizeType1,
+//         typename SizeType2,
+//         typename BinaryFunction,
+//         typename RandomAccessIterator2>
+//  void unordered_blocked_reduce_n(RandomAccessIterator1 first,
+//                                  SizeType1 n,
+//                                  SizeType2 num_blocks,
+//                                  BinaryFunction binary_op,
+//                                  RandomAccessIterator2 result)
+//{
+//  // we're attempting to launch an omp kernel, assert we're compiling with omp support
+//  // ========================================================================
+//  // X Note to the user: If you've found this line due to a compiler error, X
+//  // X you need to OpenMP support in your compiler.                         X
+//  // ========================================================================
+//  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1,
+//                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+//
+//  // check for empty input or output
+//  if(n == 0 || num_blocks == 0) return;
+//
+//  typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
+//
+//// do not attempt to compile the body of this function, which calls omp functions, without
+//// support from the compiler
+//// XXX implement the body of this function in another file to eliminate this ugliness
+//#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+//# pragma omp parallel num_threads(num_blocks)
+//  {
+//    int thread_id = omp_get_thread_num();
+//    
+//    RandomAccessIterator1 temp = first + thread_id;
+//    OutputType thread_sum = thrust::detail::backend::dereference(temp);
+//
+//#   pragma omp for 
+//    for(SizeType1 i = SizeType1(num_blocks); i < n; i++)
+//    {
+//      RandomAccessIterator1 temp = first + i;
+//      thread_sum = binary_op(thread_sum, thrust::detail::backend::dereference(temp));
+//    }
+//
+//    result[thread_id] = thread_sum;
+//  }
+//#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+//} // end unordered_blocked_reduce_n()
+//
+//
+//template<typename RandomAccessIterator,
+//         typename SizeType,
+//         typename OutputType,
+//         typename BinaryFunction>
+//  SizeType get_unordered_blocked_reduce_n_schedule(RandomAccessIterator first,
+//                                                   SizeType n,
+//                                                   OutputType init,
+//                                                   BinaryFunction binary_op)
+//{
+//  SizeType result = 0;
+//
+//#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+//  result = std::min<SizeType>(omp_get_max_threads(), n);
+//#endif
+//
+//  return result;
+//} // end get_unordered_blocked_reduce_n_schedule()
 
 
 } // end namespace omp
