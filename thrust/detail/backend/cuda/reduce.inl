@@ -21,15 +21,16 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/uninitialized_array.h>
 
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/backend/cuda/extern_shared_ptr.h>
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
 #include <thrust/detail/backend/cuda/detail/launch_calculator.h>
-
 
 namespace thrust
 {
@@ -39,6 +40,9 @@ namespace backend
 {
 namespace cuda
 {
+
+// guard built-in CUDA variables and types
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 /*
  * Reduce a vector of n elements using binary_op()
@@ -53,7 +57,6 @@ namespace cuda
  * Uses the same pattern as reduce6() in the CUDA SDK
  *
  */
-
 template <typename InputIterator,
           typename Size,
           typename T,
@@ -74,8 +77,6 @@ struct unordered_reduce_closure
   __device__ 
   void operator()(void)
   {
-// reduce_n uses built-in variables
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     thrust::detail::backend::cuda::extern_shared_ptr<OutputType>  shared_array;
 
@@ -140,7 +141,6 @@ struct unordered_reduce_closure
       output += blockIdx.x;
       dereference(output) = tmp;
     }
-#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
 
@@ -240,6 +240,8 @@ template<typename InputIterator,
 }
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
+#endif // THRUST_DEVICE_COMPILER_NVCC
 
 } // end namespace cuda
 } // end namespace backend

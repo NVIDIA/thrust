@@ -18,8 +18,8 @@
 #include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 #include <thrust/detail/backend/cpp/reduce.h>
-#include <thrust/detail/backend/omp/reduce.h>
 #include <thrust/detail/backend/cuda/reduce.h>
+#include <thrust/detail/backend/generic/reduce.h>
 #include <thrust/detail/backend/generic/reduce_by_key.h>
 
 namespace thrust
@@ -57,14 +57,15 @@ template<typename InputIterator,
 
 template<typename InputIterator, 
          typename OutputType,
-         typename BinaryFunction>
+         typename BinaryFunction,
+         typename Space>
   OutputType reduce(InputIterator first,
                     InputIterator last,
                     OutputType init,
                     BinaryFunction binary_op,
-                    thrust::detail::omp_device_space_tag)
+                    Space)
 {
-  return thrust::detail::backend::omp::reduce_n(first, last - first, init, binary_op);
+  return thrust::detail::backend::generic::reduce_n(first, last - first, init, binary_op);
 }
 
 template<typename InputIterator, 

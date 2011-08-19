@@ -15,11 +15,9 @@
  */
 
 
-/*! \file reduce.h
- *  \brief OpenMP implementation for reduce
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -27,22 +25,22 @@ namespace detail
 {
 namespace backend
 {
-namespace omp
+namespace generic
 {
 
-template<typename InputIterator,
-       typename Size,
-       typename OutputType,
-       typename BinaryFunction>
-OutputType reduce_n(InputIterator first,
-                    Size n,
-                    OutputType init,
-                    BinaryFunction binary_op);
+template<typename RandomAccessIterator,
+         typename SizeType,
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce_n(RandomAccessIterator first,
+                      SizeType n,
+                      OutputType init,
+                      BinaryFunction binary_op);
 
-} // end namespace omp
+} // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/reduce.inl>
+#include <thrust/detail/backend/generic/reduce.inl>
 

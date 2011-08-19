@@ -16,6 +16,11 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/backend/dereference.h>
+
+using thrust::detail::backend::dereference;
+
 namespace thrust
 {
 namespace detail
@@ -25,7 +30,6 @@ namespace backend
 namespace omp
 {
 
-// TODO parallelize this
 template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
@@ -36,26 +40,32 @@ void reduce_intervals(InputIterator input,
                       Decomposition decomp)
 {
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-  typedef typename Decomposition::index_type index_type;
-  
-  for(index_type i = 0; i < decomp.size(); ++i, ++output)
+  typedef thrust::detail::intptr_t index_type;
+
+  index_type n = static_cast<index_type>(decomp.size());
+
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+# pragma omp parallel for
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+  for(index_type i = 0; i < n; i++)
   {
     InputIterator begin = input + decomp[i].begin();
     InputIterator end   = input + decomp[i].end();
 
     if (begin != end)
     {
-      OutputType sum = *begin;
+      OutputType sum = dereference(begin);
 
       ++begin;
 
       while (begin != end)
       {
-        sum = binary_op(sum, *begin);
+        sum = binary_op(sum, dereference(begin));
         ++begin;
       }
 
-      *output = sum;
+      OutputIterator tmp = output + i;
+      dereference(tmp) = sum;
     }
   }
 }
