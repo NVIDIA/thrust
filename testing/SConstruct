@@ -16,15 +16,16 @@ if env['PLATFORM'] == "darwin":
 if env['PLATFORM'] == "win32" or env['PLATFORM'] == "win64":
   env.Append(CPPFLAGS = "/bigobj")
 
-# find all .cus & .cpps in the current directory
+# find all .cus & .cpps in the current and backend/ directories
 sources = []
 directories = ['.', 'backend']
 extensions = ['*.cu', '*.cpp']
 
+# finall all backend-specific files
 if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
-  directories.append('cuda')
+  directories.append(os.path.join('backend','cuda'))
 elif env['backend'] == 'omp':
-  directories.append('omp')
+  directories.append(os.path.join('backend','omp'))
 
 for dir in directories:
   for ext in extensions:
