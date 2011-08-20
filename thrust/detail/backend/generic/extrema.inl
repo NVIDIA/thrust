@@ -22,10 +22,12 @@
 #pragma once
 
 #include <thrust/pair.h>
+#include <thrust/reduce.h>
+#include <thrust/transform_reduce.h>
+
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/counting_iterator.h>
-
-#include <thrust/inner_product.h>
+#include <thrust/iterator/zip_iterator.h>
 
 namespace thrust
 {
@@ -38,50 +40,6 @@ namespace generic
 namespace detail
 {
 
-/////////////
-// Structs //
-/////////////
-//
-template<typename T> struct war_nvcc_31_crash { typedef T type; };
-
-// promote small types to int to WAR nvcc 3.1 crash
-template<> struct war_nvcc_31_crash<char>           { typedef          int type; };
-template<> struct war_nvcc_31_crash<unsigned char>  { typedef unsigned int type; };
-
-template<> struct war_nvcc_31_crash<short>          { typedef          int type; };
-template<> struct war_nvcc_31_crash<unsigned short> { typedef unsigned int type; };
-
-template <typename InputType, typename IndexType>
-struct element_pair
-{
-    typename war_nvcc_31_crash<InputType>::type value;
-    typename war_nvcc_31_crash<IndexType>::type index;
-}; // end element_pair
-
-template <typename InputType, typename IndexType>
-struct minmax_element_pair
-{
-    element_pair<InputType,IndexType> min_pair;
-    element_pair<InputType,IndexType> max_pair;
-}; // end minmax_element_pair
-
-
-///////////////
-// Functions //
-///////////////
-
-template <typename InputType, typename IndexType>
-__host__ __device__
-element_pair<InputType,IndexType> make_element_pair(const InputType &value,
-                                                    const IndexType &index)
-{
-  element_pair<InputType,IndexType> result;
-  result.value = value;
-  result.index = index;
-  return result;
-} // end make_element_pair()
-
-
 //////////////
 // Functors //
 //////////////
@@ -91,56 +49,56 @@ element_pair<InputType,IndexType> make_element_pair(const InputType &value,
 template <typename InputType, typename IndexType, typename BinaryPredicate>
 struct min_element_reduction
 {
-  typedef element_pair<InputType,IndexType> min_pair;
-  __host__ __device__ 
-
-  min_element_reduction(const BinaryPredicate& _comp) : comp(_comp){}
+  BinaryPredicate comp;
 
   __host__ __device__ 
-  element_pair<InputType, IndexType>
-  operator()(const element_pair<InputType, IndexType>& lhs, 
-             const element_pair<InputType, IndexType>& rhs ) const
+  min_element_reduction(BinaryPredicate comp) : comp(comp){}
+
+  __host__ __device__ 
+  thrust::tuple<InputType, IndexType>
+  operator()(const thrust::tuple<InputType, IndexType>& lhs, 
+             const thrust::tuple<InputType, IndexType>& rhs )
   {
-    if(comp(lhs.value,rhs.value))
+    if(comp(thrust::get<0>(lhs), thrust::get<0>(rhs)))
       return lhs;
-    if(comp(rhs.value,lhs.value))
+    if(comp(thrust::get<0>(rhs), thrust::get<0>(lhs)))
       return rhs;
 
-    if(lhs.index < rhs.index)
+    // values are equivalent, prefer value with smaller index
+    if(thrust::get<1>(lhs) < thrust::get<1>(rhs))
       return lhs;
     else
       return rhs;
   } // end operator()()
 
-  const BinaryPredicate comp;
 }; // end min_element_reduction
 
 
 template <typename InputType, typename IndexType, typename BinaryPredicate>
 struct max_element_reduction
 {
-  typedef element_pair<InputType,IndexType> max_pair;
+  BinaryPredicate comp;
 
   __host__ __device__ 
-  max_element_reduction(const BinaryPredicate& _comp) : comp(_comp){}
+  max_element_reduction(BinaryPredicate comp) : comp(comp){}
 
   __host__ __device__ 
-  element_pair<InputType, IndexType>
-  operator()(const element_pair<InputType, IndexType>& lhs, 
-             const element_pair<InputType, IndexType>& rhs ) const
+  thrust::tuple<InputType, IndexType>
+  operator()(const thrust::tuple<InputType, IndexType>& lhs, 
+             const thrust::tuple<InputType, IndexType>& rhs )
   {
-    if(comp(lhs.value, rhs.value))
+    if(comp(thrust::get<0>(lhs), thrust::get<0>(rhs)))
       return rhs;
-    if(comp(rhs.value, lhs.value))
+    if(comp(thrust::get<0>(rhs), thrust::get<0>(lhs)))
       return lhs;
 
-    if(lhs.index < rhs.index)
+    // values are equivalent, prefer value with smaller index
+    if(thrust::get<1>(lhs) < thrust::get<1>(rhs))
       return lhs;
     else
       return rhs;
   } // end operator()()
 
-  const BinaryPredicate comp;
 }; // end max_element_reduction
 
 // return the smaller & larger element making sure to prefer the 
@@ -148,98 +106,75 @@ struct max_element_reduction
 template <typename InputType, typename IndexType, typename BinaryPredicate>
 struct minmax_element_reduction
 {
-  typedef minmax_element_pair<InputType,IndexType> minmax_pair;
-  __host__ __device__ 
+  BinaryPredicate comp;
 
-  minmax_element_reduction(const BinaryPredicate& _comp) : comp(_comp){}
+  minmax_element_reduction(BinaryPredicate comp) : comp(comp){}
 
   __host__ __device__ 
-  minmax_element_pair<InputType, IndexType>
-  operator()(const minmax_element_pair<InputType, IndexType>& lhs, 
-             const minmax_element_pair<InputType, IndexType>& rhs ) const
+  thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >
+  operator()(const thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >& lhs, 
+             const thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >& rhs )
   {
-      minmax_element_pair<InputType,IndexType> result;
 
-      result.min_pair = min_element_reduction<InputType, IndexType, BinaryPredicate>(comp)(lhs.min_pair, rhs.min_pair);
-      result.max_pair = max_element_reduction<InputType, IndexType, BinaryPredicate>(comp)(lhs.max_pair, rhs.max_pair);
-
-      return result;
+    return thrust::make_tuple(min_element_reduction<InputType, IndexType, BinaryPredicate>(comp)(thrust::get<0>(lhs), thrust::get<0>(rhs)),
+                              max_element_reduction<InputType, IndexType, BinaryPredicate>(comp)(thrust::get<1>(lhs), thrust::get<1>(rhs)));
   } // end operator()()
-
-  const BinaryPredicate comp;
 }; // end minmax_element_reduction
 
-// binary function that create a element pair (Input,Index)
 template <typename InputType, typename IndexType>
-struct element_pair_functor
+struct duplicate_tuple
 {
-    __host__ __device__ 
-        element_pair<InputType, IndexType>
-        operator()(const InputType& i, const IndexType& n) const 
-        {
-            return make_element_pair(i, n);
-        } // end operator()
+  __host__ __device__ 
+  thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >
+  operator()(const thrust::tuple<InputType,IndexType>& t)
+  {
+    return thrust::make_tuple(t, t);
+  }
+}; // end duplicate_tuple
 
-}; // end element_pair_functor
-
-// binary function that create a minmax_element pair (Input,Index)
-template <typename InputType, typename IndexType>
-struct minmax_element_pair_functor
-{
-    __host__ __device__ 
-        minmax_element_pair<InputType, IndexType>
-        operator()(const InputType& i, const IndexType& n) const 
-        {
-            minmax_element_pair<InputType, IndexType> result;
-            result.min_pair = make_element_pair(i, n);
-            result.max_pair = make_element_pair(i, n);
-            return result;
-        } // end operator()
-
-}; // end element_pair_functor
-
-} // end detail
-
+} // end namespace detail
 
 
 template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
-                          BinaryPredicate comp)
+ForwardIterator min_element(ForwardIterator first,
+                            ForwardIterator last,
+                            BinaryPredicate comp)
 {
-    if (first == last)
-        return last;
+  if (first == last)
+    return last;
 
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
-    typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
+  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
-    thrust::counting_iterator<IndexType> index_first(0);
-    detail::element_pair<InputType, IndexType> init = detail::make_element_pair<InputType, IndexType>(*first, 0);
-    detail::min_element_reduction<InputType, IndexType, BinaryPredicate> binary_op1(comp);
-    detail::element_pair_functor<InputType, IndexType> binary_op2;
+  thrust::tuple<InputType, IndexType> result =
+    thrust::reduce
+      (thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
+       thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
+       thrust::tuple<InputType, IndexType>(*first, 0),
+       detail::min_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
-    detail::element_pair<InputType, IndexType> result = thrust::inner_product(first, last, index_first, init, binary_op1, binary_op2);
-
-    return first + result.index;
+  return first + thrust::get<1>(result);
 } // end min_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
-                          BinaryPredicate comp)
+ForwardIterator max_element(ForwardIterator first,
+                            ForwardIterator last,
+                            BinaryPredicate comp)
 {
-    if (first == last)
-        return last;
+  if (first == last)
+    return last;
 
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
-    typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
+  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
-    thrust::counting_iterator<IndexType> index_first(0);
-    detail::element_pair<InputType, IndexType> init = detail::make_element_pair<InputType, IndexType>(*first, 0);
-    detail::max_element_reduction<InputType, IndexType, BinaryPredicate> binary_op1(comp);
-    detail::element_pair_functor<InputType, IndexType> binary_op2;
+  thrust::tuple<InputType, IndexType> result =
+    thrust::reduce
+      (thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
+       thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
+       thrust::tuple<InputType, IndexType>(*first, 0),
+       detail::max_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
-    detail::element_pair<InputType, IndexType> result = thrust::inner_product(first, last, index_first, init, binary_op1, binary_op2);
-
-    return first + result.index;
+  return first + thrust::get<1>(result);
 } // end max_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -247,25 +182,21 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
-    if (first == last)
-        return thrust::make_pair(last, last);
+  if (first == last)
+    return thrust::make_pair(last, last);
 
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
-    typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
+  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
 
-    thrust::counting_iterator<IndexType> index_first(0);
+  thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> > result = 
+    thrust::transform_reduce
+      (thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
+       thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
+       detail::duplicate_tuple<InputType, IndexType>(),
+       detail::duplicate_tuple<InputType, IndexType>()(thrust::tuple<InputType, IndexType>(*first, 0)),
+       detail::minmax_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
-    detail::minmax_element_pair<InputType, IndexType> init;
-    init.min_pair = detail::make_element_pair<InputType, IndexType>(*first, 0);
-    init.max_pair = detail::make_element_pair<InputType, IndexType>(*first, 0);
-
-    detail::minmax_element_reduction<InputType, IndexType, BinaryPredicate> binary_op1(comp);
-
-    detail::minmax_element_pair_functor<InputType, IndexType> binary_op2;
-
-    detail::minmax_element_pair<InputType, IndexType> result = thrust::inner_product(first, last, index_first, init, binary_op1, binary_op2);
-
-    return thrust::make_pair(first + result.min_pair.index, first + result.max_pair.index);
+  return thrust::make_pair(first + thrust::get<1>(thrust::get<0>(result)), first + thrust::get<1>(thrust::get<1>(result)));
 } // end minmax_element()
 
 } // end namespace generic
