@@ -77,16 +77,7 @@ template<typename Derived, typename Value, typename Pointer>
     reference_base<Derived,Value,Pointer>
       ::operator=(const reference_base &other)
 {
-  // we're assigning from our own space
-  typedef typename thrust::iterator_space<pointer>::type space;
-
-  // test for interoperability
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    space
-  >::type interop;
-
-  assign_from(&other, interop()); 
+  assign_from(&other); 
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator=()
 
@@ -97,16 +88,7 @@ template<typename Derived, typename Value, typename Pointer>
       reference_base<Derived,Value,Pointer>
         ::operator=(const reference_base<OtherDerived,OtherValue,OtherPointer> &other)
 {
-  typedef typename reference_base<OtherDerived,OtherValue,OtherPointer>::pointer other_pointer;
-  typedef typename thrust::iterator_space<other_pointer>::type other_space;
-
-  // test for interoperability
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    other_space
-  >::type interop;
-
-  assign_from(&other, interop());
+  assign_from(&other);
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator=()
 
@@ -131,6 +113,50 @@ template<typename Derived, typename Value, typename Pointer>
   return *m_ptr.get();
 #endif
 } // end reference_base::operator value_type ()
+
+
+template<typename Derived,typename Value, typename Pointer>
+  template<typename OtherPointer>
+    void reference_base<Derived,Value,Pointer>
+      ::assign_from(OtherPointer src)
+{
+  // test for interoperability between three spaces:
+  // 1. the other reference's space
+  // 2. this reference's space
+  // 3. the space of the calling function
+  typedef typename thrust::iterator_space<OtherPointer>::type other_space;
+  typedef typename thrust::iterator_space<pointer>::type      this_space;
+
+  // XXX this could potentially be something other than host
+  typedef thrust::host_space_tag caller_space;
+
+  // test for interoperability between this and other
+  typedef typename thrust::detail::are_spaces_interoperable<
+    this_space,
+    other_space
+  >::type interop1;
+
+  // test for interoperability between caller and this
+  typedef typename thrust::detail::are_spaces_interoperable<
+    caller_space,
+    this_space
+  >::type interop2;
+
+  // test for interoperability between caller and other
+  typedef typename thrust::detail::are_spaces_interoperable<
+    caller_space,
+    this_space
+  >::type interop3;
+
+  // we require interoperability of everything
+  typedef thrust::detail::and_<
+    interop1,
+    interop2,
+    interop3
+  > interop;
+
+  assign_from(src, interop());
+} // end assign_from()
 
 
 template<typename Derived, typename Value, typename Pointer>

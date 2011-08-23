@@ -383,9 +383,9 @@ template <typename Condition1, typename Condition2, typename Condition3 = false_
 {
 }; // end or_
 
-template <typename Condition1, typename Condition2>
+template <typename Condition1, typename Condition2, typename Condition3 = true_type>
   struct and_
-    : public integral_constant<bool, Condition1::value && Condition2::value>
+    : public integral_constant<bool, Condition1::value && Condition2::value && Condition3::value>
 {
 }; // end and_
 

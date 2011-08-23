@@ -116,6 +116,9 @@ template<typename Derived, typename Value, typename Pointer>
     template <typename OtherDerived, typename OtherValue, typename OtherPointer> friend class reference_base;
 
     template<typename OtherPointer>
+    inline void assign_from(OtherPointer src);
+
+    template<typename OtherPointer>
     inline void assign_from(OtherPointer src, thrust::detail::true_type spaces_are_interoperable);
 
     template<typename OtherPointer>

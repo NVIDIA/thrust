@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 
+
+#include <thrust/detail/config.h>
+
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/cstdint.h>
@@ -39,6 +42,15 @@ void reduce_intervals(InputIterator input,
                       BinaryFunction binary_op,
                       Decomposition decomp)
 {
+  // we're attempting to launch an omp kernel, assert we're compiling with omp support
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to enable OpenMP support in your compiler.                  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
+                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
   typedef thrust::detail::intptr_t index_type;
 
@@ -68,6 +80,7 @@ void reduce_intervals(InputIterator input,
       dereference(tmp) = sum;
     }
   }
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 } // end namespace omp

@@ -169,6 +169,11 @@ template<typename Space1, typename Space2>
     : thrust::detail::false_type
 {};
 
+template<typename Space>
+  struct are_spaces_interoperable<Space,Space>
+    : thrust::detail::true_type
+{};
+
 template<>
   struct are_spaces_interoperable<
     thrust::host_space_tag,
