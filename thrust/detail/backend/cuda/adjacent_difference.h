@@ -16,7 +16,7 @@
 
 
 /*! \file adjacent_difference.h
- *  \brief adjacent_difference dispatch
+ *  \brief CUDA implementation of adjacent_difference.
  */
 
 #pragma once
@@ -27,15 +27,18 @@ namespace detail
 {
 namespace backend
 {
+namespace cuda
+{
 
 template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);
 
+} // end namespace cuda
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/adjacent_difference.inl>
+#include <thrust/detail/backend/cuda/adjacent_difference.inl>
 

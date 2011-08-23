@@ -17,12 +17,13 @@
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/backend/cuda/malloc.h>
 #include <thrust/detail/backend/cuda/free.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/detail/type_traits.h>
+#include <thrust/detail/backend/cuda/detail/launch_calculator.h>
 
 namespace thrust
 {
@@ -161,9 +162,10 @@ template<typename Closure, typename Size1, typename Size2>
 } // end num_blocks_with_maximal_occupancy()
 
 template<typename Closure, typename Size>
-  void launch_closure(Closure f, Size n)
+  void launch_closure(Closure f, Size num_blocks)
 {
-  closure_launcher<Closure>::launch(f,n);
+  thrust::detail::backend::cuda::detail::launch_calculator<Closure> calculator;
+  launch_closure(f, num_blocks, thrust::get<1>(calculator.with_variable_block_size()));
 } // end launch_closure()
 
 template<typename Closure, typename Size1, typename Size2>
