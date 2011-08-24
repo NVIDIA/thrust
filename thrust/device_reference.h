@@ -288,19 +288,6 @@ template<typename T>
      *  \param other The \p device_reference to assign from.
      *  \return <tt>*this</tt>
      */
-    device_reference &operator=(const device_reference &other);
-
-    /*! This assignment operator assigns the value of the object referenced by
-     *  the given \p device_reference to the object referenced by this
-     *  \p device_reference.
-     *
-     *  This operator is distinguished from the previous assignment operator
-     *  by being templated on the type of the other \p device_reference to copy from,
-     *  allowing assignment from a convertible type.
-     *
-     *  \param other The \p device_reference to assign from.
-     *  \return <tt>*this</tt>
-     */
     template<typename OtherT>
     device_reference &operator=(const device_reference<OtherT> &other);
 

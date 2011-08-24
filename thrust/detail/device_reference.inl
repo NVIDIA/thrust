@@ -25,22 +25,12 @@ namespace thrust
 {
 
 template<typename T>
-  device_reference<T> &
-    device_reference<T>
-      ::operator=(const device_reference &other)
-{
-  super_t::operator=(other);
-  return *this;
-} // end operator=()
-
-template<typename T>
   template<typename OtherT>
     device_reference<T> &
       device_reference<T>
         ::operator=(const device_reference<OtherT> &other)
 {
-  super_t::operator=(other);
-  return *this;
+  return super_t::operator=(other);
 } // end operator=()
 
 template<typename T>
@@ -48,8 +38,7 @@ template<typename T>
     device_reference<T>
       ::operator=(const value_type &x)
 {
-  super_t::operator=(x);
-  return *this;
+  return super_t::operator=(x);
 } // end operator=()
 
 namespace detail

@@ -26,11 +26,10 @@ namespace detail
 {
 
 // the base type for all of thrust's space-annotated references.
-// for reasonable reference-like semantics, derived types should reimplement the follwoing:
+// for reasonable reference-like semantics, derived types must reimplement the following:
 // 1. constructor from pointer
 // 2. copy constructor
 // 3. templated copy constructor from other reference
-// 3. assignment from reference
 // 4. templated assignment from other reference
 // 5. assignment from value_type
 template<typename Derived, typename Value, typename Pointer>
