@@ -22,3 +22,14 @@ void TestAssertGEqual(void)
 }
 DECLARE_UNITTEST(TestAssertGEqual);
 
+void TestTypeName(void)
+{
+    ASSERT_EQUAL(unittest::type_name<char>(),          "char");
+    ASSERT_EQUAL(unittest::type_name<signed char>(),   "signed char");
+    ASSERT_EQUAL(unittest::type_name<unsigned char>(), "unsigned char");
+    ASSERT_EQUAL(unittest::type_name<int>(),           "int");
+    ASSERT_EQUAL(unittest::type_name<float>(),         "float");
+    ASSERT_EQUAL(unittest::type_name<double>(),        "double");
+}
+DECLARE_UNITTEST(TestTypeName);
+

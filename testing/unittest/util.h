@@ -1,15 +1,16 @@
 #pragma once
 
 #include <iostream>
-#include "system.h"
+#include <string>
+#include <unittest/system.h>
 
 namespace unittest
 {
 
 template<typename T>
-  const char *type_name(void)
+  std::string type_name(void)
 {
-  return demangle(typeid(T).name());
+  return std::string(demangle(typeid(T).name()));
 } // end type_name()
 
 } // end unittest

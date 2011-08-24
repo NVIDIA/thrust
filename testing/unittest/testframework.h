@@ -80,7 +80,7 @@ inline void chop_prefix(std::string& str, const std::string& prefix)
     str.replace(str.find(prefix) == 0 ? 0 : str.size(), prefix.size(), "");
 }
 
-inline std::string base_class_name(const char *name)
+inline std::string base_class_name(const std::string& name)
 {
   std::string result = name;
   

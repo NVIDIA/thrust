@@ -330,10 +330,10 @@ template<typename RandomAccessIterator1,
   const difference2 num_elements2 = last2 - first2;
 
   const difference1 num_partitions1 = ceil_div(num_elements1, partition_size);
-  const difference2 num_splitters_from_range1 = num_partitions1 - 1;
+  const difference2 num_splitters_from_range1 = (num_partitions1 == 0) ? 0 : num_partitions1 - 1;
 
   const difference2 num_partitions2 = ceil_div(num_elements2, partition_size);
-  const difference2 num_splitters_from_range2 = num_partitions2 - 1;
+  const difference2 num_splitters_from_range2 = (num_partitions2 == 0) ? 0 : num_partitions2 - 1;
 
   const size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 

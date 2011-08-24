@@ -18,8 +18,10 @@
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/backend/copy.h>
 #include <thrust/detail/backend/cuda/block/set_difference.h>
 #include <thrust/detail/backend/cuda/detail/split_for_set_operation.h>
 #include <thrust/detail/backend/cuda/detail/set_operation.h>
@@ -96,10 +98,13 @@ RandomAccessIterator3 set_difference(RandomAccessIterator1 first1,
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
   const difference1 num_elements1 = last1 - first1;
+  const difference1 num_elements2 = last2 - first2;
 
   // check for trivial problem
   if(num_elements1 == 0)
     return result;
+  else if(num_elements2 == 0)
+    return thrust::detail::backend::copy(first1, last1, result);
 
   return detail::set_operation(first1, last1,
                                first2, last2,
