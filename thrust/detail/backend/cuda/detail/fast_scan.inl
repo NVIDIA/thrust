@@ -61,16 +61,17 @@ void scan_block(SharedArray array, BinaryFunction binary_op)
 
     T val = array[threadIdx.x];
 
-    if (CTA_SIZE >   1) { if(threadIdx.x >=   1) { T tmp = array[threadIdx.x -   1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >   2) { if(threadIdx.x >=   2) { T tmp = array[threadIdx.x -   2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >   4) { if(threadIdx.x >=   4) { T tmp = array[threadIdx.x -   4]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >   8) { if(threadIdx.x >=   8) { T tmp = array[threadIdx.x -   8]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >  16) { if(threadIdx.x >=  16) { T tmp = array[threadIdx.x -  16]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >  32) { if(threadIdx.x >=  32) { T tmp = array[threadIdx.x -  32]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >  64) { if(threadIdx.x >=  64) { T tmp = array[threadIdx.x -  64]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE > 128) { if(threadIdx.x >= 128) { T tmp = array[threadIdx.x - 128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE > 256) { if(threadIdx.x >= 256) { T tmp = array[threadIdx.x - 256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
-    if (CTA_SIZE > 512) { if(threadIdx.x >= 512) { T tmp = array[threadIdx.x - 512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
+    if (CTA_SIZE >    1) { if(threadIdx.x >=    1) { T tmp = array[threadIdx.x -    1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    2) { if(threadIdx.x >=    2) { T tmp = array[threadIdx.x -    2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    4) { if(threadIdx.x >=    4) { T tmp = array[threadIdx.x -    4]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    8) { if(threadIdx.x >=    8) { T tmp = array[threadIdx.x -    8]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >   16) { if(threadIdx.x >=   16) { T tmp = array[threadIdx.x -   16]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >   32) { if(threadIdx.x >=   32) { T tmp = array[threadIdx.x -   32]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >   64) { if(threadIdx.x >=   64) { T tmp = array[threadIdx.x -   64]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >  128) { if(threadIdx.x >=  128) { T tmp = array[threadIdx.x -  128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >  256) { if(threadIdx.x >=  256) { T tmp = array[threadIdx.x -  256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
+    if (CTA_SIZE >  512) { if(threadIdx.x >=  512) { T tmp = array[threadIdx.x -  512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
+    if (CTA_SIZE > 1024) { if(threadIdx.x >= 1024) { T tmp = array[threadIdx.x - 1024]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }  
 }
 
 template <unsigned int CTA_SIZE,
@@ -83,16 +84,112 @@ void scan_block_n(SharedArray array, const unsigned int n, BinaryFunction binary
 
     T val = array[threadIdx.x];
 
-    if (CTA_SIZE >   1) { if(threadIdx.x < n && threadIdx.x >=   1) { T tmp = array[threadIdx.x -   1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >   2) { if(threadIdx.x < n && threadIdx.x >=   2) { T tmp = array[threadIdx.x -   2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >   4) { if(threadIdx.x < n && threadIdx.x >=   4) { T tmp = array[threadIdx.x -   4]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >   8) { if(threadIdx.x < n && threadIdx.x >=   8) { T tmp = array[threadIdx.x -   8]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >  16) { if(threadIdx.x < n && threadIdx.x >=  16) { T tmp = array[threadIdx.x -  16]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >  32) { if(threadIdx.x < n && threadIdx.x >=  32) { T tmp = array[threadIdx.x -  32]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE >  64) { if(threadIdx.x < n && threadIdx.x >=  64) { T tmp = array[threadIdx.x -  64]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE > 128) { if(threadIdx.x < n && threadIdx.x >= 128) { T tmp = array[threadIdx.x - 128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE > 256) { if(threadIdx.x < n && threadIdx.x >= 256) { T tmp = array[threadIdx.x - 256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
-    if (CTA_SIZE > 512) { if(threadIdx.x < n && threadIdx.x >= 512) { T tmp = array[threadIdx.x - 512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    1) { if(threadIdx.x < n && threadIdx.x >=    1) { T tmp = array[threadIdx.x -    1]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    2) { if(threadIdx.x < n && threadIdx.x >=    2) { T tmp = array[threadIdx.x -    2]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    4) { if(threadIdx.x < n && threadIdx.x >=    4) { T tmp = array[threadIdx.x -    4]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >    8) { if(threadIdx.x < n && threadIdx.x >=    8) { T tmp = array[threadIdx.x -    8]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >   16) { if(threadIdx.x < n && threadIdx.x >=   16) { T tmp = array[threadIdx.x -   16]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >   32) { if(threadIdx.x < n && threadIdx.x >=   32) { T tmp = array[threadIdx.x -   32]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >   64) { if(threadIdx.x < n && threadIdx.x >=   64) { T tmp = array[threadIdx.x -   64]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >  128) { if(threadIdx.x < n && threadIdx.x >=  128) { T tmp = array[threadIdx.x -  128]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >  256) { if(threadIdx.x < n && threadIdx.x >=  256) { T tmp = array[threadIdx.x -  256]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE >  512) { if(threadIdx.x < n && threadIdx.x >=  512) { T tmp = array[threadIdx.x -  512]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+    if (CTA_SIZE > 1024) { if(threadIdx.x < n && threadIdx.x >= 1024) { T tmp = array[threadIdx.x - 1024]; val = binary_op(tmp, val); } __syncthreads(); array[threadIdx.x] = val; __syncthreads(); }
+}
+
+template <unsigned int CTA_SIZE,
+          unsigned int K,
+          bool FullBlock,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryFunction,
+          typename OutputType>
+__device__ __forceinline__
+void scan_body(const unsigned int base,
+               const unsigned int interval_begin,
+               const unsigned int interval_end,
+               InputIterator input,
+               OutputIterator output,
+               BinaryFunction binary_op,
+               OutputType (&sdata)[K + 1][CTA_SIZE + 1])
+{
+  // read data
+  for(unsigned int k = 0; k < K; k++)
+  {
+      const unsigned int offset = k*CTA_SIZE + threadIdx.x;
+
+      if (FullBlock || base + offset < interval_end)
+      {
+          InputIterator temp = input + (base + offset);
+          sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
+      }
+  }
+  
+  // carry in
+  if (threadIdx.x == 0 && base != interval_begin)
+  {
+      //sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
+      //// XXX WAR sm_10 issue
+      OutputType tmp1 = sdata[K][CTA_SIZE - 1];
+      OutputType tmp2 = sdata[0][0];
+      sdata[0][0] = binary_op(tmp1, tmp2);
+  }
+
+  __syncthreads();
+
+  // scan local values
+  OutputType sum = sdata[0][threadIdx.x];
+
+  const unsigned int offset_end = interval_end - base;
+
+  for(unsigned int k = 1; k < K; k++)
+  {
+      if (FullBlock || K * threadIdx.x + k < offset_end)
+      {
+          OutputType tmp = sdata[k][threadIdx.x];
+          sum = binary_op(sum, tmp);
+          sdata[k][threadIdx.x] = sum;
+      }
+  }
+
+  // second level scan
+  sdata[K][threadIdx.x] = sum;  __syncthreads();
+
+  if (FullBlock)
+    scan_block<CTA_SIZE>(&sdata[K][0], binary_op);
+  else
+    scan_block_n<CTA_SIZE>(&sdata[K][0], offset_end / K, binary_op);
+  
+  // update local values
+  if (threadIdx.x > 0)
+  {
+      sum = sdata[K][threadIdx.x - 1];
+
+      for(unsigned int k = 0; k < K; k++)
+      {
+          if (FullBlock || K * threadIdx.x + k < offset_end)
+          {
+              OutputType tmp = sdata[k][threadIdx.x];
+              sdata[k][threadIdx.x] = binary_op(sum, tmp);
+          }
+      }
+  }
+
+  __syncthreads();
+
+  // write data
+  for(unsigned int k = 0; k < K; k++)
+  {
+      const unsigned int offset = k*CTA_SIZE + threadIdx.x;
+
+      if (FullBlock || base + offset < interval_end)
+      {
+          OutputIterator temp = output + (base + offset);
+          thrust::detail::backend::dereference(temp) = sdata[offset % K][offset / K];
+      }
+  }   
+  
+  __syncthreads();
 }
 
 template <unsigned int CTA_SIZE,
@@ -124,152 +221,19 @@ void scan_intervals(InputIterator input,
 
     // process full units
     for(; base + unit_size <= interval_end; base += unit_size)
-    {
-        // read data
-        for(unsigned int k = 0; k < K; k++)
-        {
-            const unsigned int offset = k*CTA_SIZE + threadIdx.x;
-                
-            InputIterator temp = input + (base + offset);
-            sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
-        }
-       
-        // carry in
-        if (threadIdx.x == 0 && base != interval_begin)
-        {
-            //sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
-            //// XXX WAR sm_10 issue
-            OutputType tmp1 = sdata[K][CTA_SIZE - 1];
-            OutputType tmp2 = sdata[0][0];
-            sdata[0][0] = binary_op(tmp1, tmp2);
-        }
-
-        __syncthreads();
-
-        // scan local values
-        OutputType sum = sdata[0][threadIdx.x];
-
-        for(unsigned int k = 1; k < K; k++)
-        {
-            OutputType tmp = sdata[k][threadIdx.x];
-            sum = binary_op(sum, tmp);
-            sdata[k][threadIdx.x] = sum;
-        }
-
-        // second level scan
-        sdata[K][threadIdx.x] = sum;  __syncthreads();
-        scan_block<CTA_SIZE>(&sdata[K][0], binary_op);
-       
-        // update local values
-        if (threadIdx.x > 0)
-        {
-            sum = sdata[K][threadIdx.x - 1];
-
-            for(unsigned int k = 0; k < K; k++)
-            {
-                OutputType tmp = sdata[k][threadIdx.x];
-                sdata[k][threadIdx.x] = binary_op(sum, tmp);
-            }
-        }
-
-        __syncthreads();
-
-        // write data
-        for(unsigned int k = 0; k < K; k++)
-        {
-            const unsigned int offset = k*CTA_SIZE + threadIdx.x;
-
-            OutputIterator temp = output + (base + offset);
-            thrust::detail::backend::dereference(temp) = sdata[offset % K][offset / K];
-        }   
-        
-        __syncthreads();
-    }
+        scan_body<CTA_SIZE,K,true>(base, interval_begin, interval_end, input, output, binary_op, sdata);
 
     // process partially full unit at end of input (if necessary)
     if (base < interval_end)
-    {
-        // read data
-        for(unsigned int k = 0; k < K; k++)
-        {
-            const unsigned int offset = k*CTA_SIZE + threadIdx.x;
-
-            if (base + offset < interval_end)
-            {
-                InputIterator temp = input + (base + offset);
-                sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
-            }
-        }
-       
-        // carry in
-        if (threadIdx.x == 0 && base != interval_begin)
-        {
-            //sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
-            //// XXX WAR sm_10 issue
-            OutputType tmp1 = sdata[K][CTA_SIZE - 1];
-            OutputType tmp2 = sdata[0][0];
-            sdata[0][0] = binary_op(tmp1, tmp2);
-        }
-
-        __syncthreads();
-
-        // scan local values
-        OutputType sum = sdata[0][threadIdx.x];
-
-        const unsigned int offset_end = interval_end - base;
-
-        for(unsigned int k = 1; k < K; k++)
-        {
-            if (K * threadIdx.x + k < offset_end)
-            {
-                OutputType tmp = sdata[k][threadIdx.x];
-                sum = binary_op(sum, tmp);
-                sdata[k][threadIdx.x] = sum;
-            }
-        }
-
-        // second level scan
-        sdata[K][threadIdx.x] = sum;  __syncthreads();
-        scan_block_n<CTA_SIZE>(&sdata[K][0], offset_end / K, binary_op);
-       
-        // update local values
-        if (threadIdx.x > 0)
-        {
-            sum = sdata[K][threadIdx.x - 1];
-
-            for(unsigned int k = 0; k < K; k++)
-            {
-                if (K * threadIdx.x + k < offset_end)
-                {
-                    OutputType tmp = sdata[k][threadIdx.x];
-                    sdata[k][threadIdx.x] = binary_op(sum, tmp);
-                }
-            }
-        }
-
-        __syncthreads();
-
-        // write data
-        for(unsigned int k = 0; k < K; k++)
-        {
-            const unsigned int offset = k*CTA_SIZE + threadIdx.x;
-
-            if (base + offset < interval_end)
-            {
-                OutputIterator temp = output + (base + offset);
-                thrust::detail::backend::dereference(temp) = sdata[offset % K][offset / K];
-            }
-        }   
-
-    }
+        scan_body<CTA_SIZE,K,false>(base, interval_begin, interval_end, input, output, binary_op, sdata);
 
     __syncthreads();
     
     // write interval sum
     if (threadIdx.x == 0)
     {
-        OutputIterator temp = output + (interval_end - 1);
-        block_results[blockIdx.x] = thrust::detail::backend::dereference(temp);
+        unsigned int offset = ((interval_end - interval_begin) - 1) % (CTA_SIZE * K);
+        block_results[blockIdx.x] = sdata[offset % K][offset / K];
     }
 }
 
@@ -454,7 +418,7 @@ OutputIterator exclusive_scan(InputIterator first,
 
     // Good parameters for GT200
     const unsigned int CTA_SIZE = 128;
-    const unsigned int K        = 6;
+    const unsigned int K        = 4;
     
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 

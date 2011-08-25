@@ -5,6 +5,7 @@
 #include <thrust/sequence.h>
 #include <thrust/random.h>
 #include <iostream>
+#include <iomanip>
 
 // Efficiently computes the simple moving average (SMA) [1] of a data series
 // using a parallel prefix-sum or "scan" operation.
@@ -55,33 +56,36 @@ void simple_moving_average(const InputVector& data, size_t w, OutputVector& outp
 
 int main(void)
 {
-    // length of data series
-    size_t n = 30;
+  // length of data series
+  size_t n = 30;
 
-    // window size of the moving average
-    size_t w = 4;
+  // window size of the moving average
+  size_t w = 4;
 
-    // generate random data series
-    thrust::device_vector<float> data(n);
-    thrust::default_random_engine rng;
-    thrust::uniform_real_distribution<float> dist(0.0f, 8.0f);
-    for (size_t i = 0; i < n; i++)
-        data[i] = dist(rng);
+  // generate random data series
+  thrust::device_vector<float> data(n);
+  thrust::default_random_engine rng;
+  thrust::uniform_int_distribution<int> dist(0, 10);
+  for (size_t i = 0; i < n; i++)
+    data[i] = static_cast<float>(dist(rng));
 
-    // allocate storage for averages
-    thrust::device_vector<float> averages(data.size() - (w - 1));
+  // allocate storage for averages
+  thrust::device_vector<float> averages(data.size() - (w - 1));
 
-    // compute SMA using standard summation
-    simple_moving_average(data, w, averages);
-   
-    // print data series
-    std::cout << "data series: ";
-    for (size_t i = 0; i < data.size(); i++)
-        std::cout << data[i] << " ";
-    std::cout << std::endl;
+  // compute SMA using standard summation
+  simple_moving_average(data, w, averages);
+ 
+  // print data series
+  std::cout << "data series: [ ";
+  for (size_t i = 0; i < data.size(); i++)
+    std::cout << data[i] << " ";
+  std::cout << "]" << std::endl;
 
-    // print moving averages
-    for (size_t i = 0; i < averages.size(); i++)
-        std::cout << "avg [" << i << ":" << (i + w - 1) << "] = " << averages[i] << std::endl;
+  // print moving averages
+  std::cout << "simple moving averages (window = " << w << ")" << std::endl;
+  for (size_t i = 0; i < averages.size(); i++)
+    std::cout << "  [" << std::setw(2) << i << "," << std::setw(2) << (i + w) << ") = " << averages[i] << std::endl;
+
+  return 0;
 }
 
