@@ -20,16 +20,13 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/util/blocking.h>
-
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
 
 // to configure launch parameters
 #include <thrust/detail/backend/cuda/arch.h>
-
-#include <thrust/detail/backend/cuda/partition.h>
+#include <thrust/detail/backend/cuda/default_decomposition.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -193,27 +190,37 @@ void scan_body(const unsigned int base,
 }
 
 template <unsigned int CTA_SIZE,
-          unsigned int K,
           typename InputIterator,
           typename OutputIterator,
-          typename BinaryFunction>
+          typename BinaryFunction,
+          typename Decomposition>
 __launch_bounds__(CTA_SIZE,1)          
 __global__
 void scan_intervals(InputIterator input,
-                    const unsigned int N,
-                    const unsigned int interval_size,
                     OutputIterator output,
                     typename thrust::iterator_value<OutputIterator>::type * block_results,
-                    BinaryFunction binary_op)
+                    BinaryFunction binary_op,
+                    Decomposition decomp)
 {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+    typedef typename Decomposition::index_type                    IndexType;
+
+#if __CUDA_ARCH__ >= 200
+    const unsigned int SMEM = (48 * 1024) - 256;
+#else
+    const unsigned int SMEM = (16 * 1024) - 256;
+#endif
+    const unsigned int MAX_K = (SMEM / (sizeof(OutputType) * (CTA_SIZE + 1))) - 1;
+    const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
     __shared__ OutputType sdata[K + 1][CTA_SIZE + 1];  // padded to avoid bank conflicts
     
-    __syncthreads(); // TODO figure out why this seems necessary now
+    __syncthreads(); // XXX needed because CUDA fires default constructors now
     
-    const unsigned int interval_begin = interval_size * blockIdx.x;
-    const unsigned int interval_end   = min(interval_begin + interval_size, N);
+    thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
+
+    const unsigned int interval_begin = interval.begin();
+    const unsigned int interval_end   = interval.end();
 
     const unsigned int unit_size  = K * CTA_SIZE;
 
@@ -241,17 +248,21 @@ void scan_intervals(InputIterator input,
 template <unsigned int CTA_SIZE,
           typename OutputIterator,
           typename OutputType,
-          typename BinaryFunction>
+          typename BinaryFunction,
+          typename Decomposition>
 __launch_bounds__(CTA_SIZE,1)          
 __global__
 void inclusive_update(OutputIterator output,
-                      const unsigned int N,
-                      const unsigned int interval_size,
                       OutputType *   block_results,
-                      BinaryFunction binary_op)
+                      BinaryFunction binary_op,
+                      Decomposition decomp)
 {
-    const unsigned int interval_begin = interval_size * blockIdx.x;
-    const unsigned int interval_end   = min(interval_begin + interval_size, N);
+    typedef typename Decomposition::index_type                    IndexType;
+
+    thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
+
+    const unsigned int interval_begin = interval.begin();
+    const unsigned int interval_end   = interval.end();
 
     if (blockIdx.x == 0)
         return;
@@ -279,25 +290,29 @@ void inclusive_update(OutputIterator output,
 template <unsigned int CTA_SIZE,
           typename OutputIterator,
           typename OutputType,
-          typename BinaryFunction>
+          typename T,
+          typename BinaryFunction,
+          typename Decomposition>
 __launch_bounds__(CTA_SIZE,1)          
 __global__
 void exclusive_update(OutputIterator output,
-                      const unsigned int N,
-                      const unsigned int interval_size,
                       OutputType * block_results,
-                      OutputType init,
-                      BinaryFunction binary_op)
+                      T init,
+                      BinaryFunction binary_op,
+                      Decomposition decomp)
 {
-    __shared__ OutputType sdata[CTA_SIZE];
+    typedef typename Decomposition::index_type                    IndexType;
 
-    __syncthreads(); // TODO figure out why this seems necessary now
+    __shared__ OutputType sdata[CTA_SIZE];  __syncthreads(); // XXX needed because CUDA fires default constructors now
+    
+    thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
 
-    const unsigned int interval_begin = interval_size * blockIdx.x;
-    const unsigned int interval_end   = min(interval_begin + interval_size, N);
+    const unsigned int interval_begin = interval.begin();
+    const unsigned int interval_end   = interval.end();
 
     // value to add to this segment 
     OutputType carry = init;
+
     if(blockIdx.x != 0)
     {
         OutputType tmp = block_results[blockIdx.x - 1];
@@ -343,63 +358,47 @@ OutputIterator inclusive_scan(InputIterator first,
                               OutputIterator output,
                               BinaryFunction binary_op)
 {
-    if (first == last)
-        return output;
+  typedef typename thrust::iterator_value<OutputIterator>::type              OutputType;
+  typedef          unsigned int                                              IndexType;
+  typedef          thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
 
-    // Good parameters for GT200
-    const unsigned int CTA_SIZE = 128;
-    const unsigned int K        = 6;
-    
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+  if (first == last)
+      return output;
 
-    const unsigned int N = last - first;
-    
-    const unsigned int unit_size  = CTA_SIZE * K;
-    const unsigned int max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(scan_intervals<CTA_SIZE,K,InputIterator,OutputIterator,BinaryFunction>, CTA_SIZE, 0);
-    
-    thrust::pair<unsigned int, unsigned int> splitting = uniform_interval_splitting<unsigned int>(N, unit_size, max_blocks);
-    const unsigned int interval_size = splitting.first;
-    const unsigned int num_blocks    = splitting.second;
+  Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-    //std::cout << "N             " << N << std::endl;
-    //std::cout << "max_blocks    " << max_blocks    << std::endl;
-    //std::cout << "unit_size     " << unit_size     << std::endl;
-    //std::cout << "num_blocks    " << num_blocks    << std::endl;
-    //std::cout << "num_iters     " << num_iters     << std::endl;
-    //std::cout << "interval_size " << interval_size << std::endl;
-    
-    thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(num_blocks + 1);
-    
-    // first level scan of interval (one interval per block)
-    scan_intervals<CTA_SIZE,K> <<<num_blocks, CTA_SIZE>>>
-        (first,
-         N,
-         interval_size,
-         output,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
-    synchronize_if_enabled("scan_intervals");
-    
-    // second level inclusive scan of per-block results
-    scan_intervals<CTA_SIZE,K> <<<         1, CTA_SIZE>>>
-        (thrust::raw_pointer_cast(&block_results[0]),
-         num_blocks,
-         interval_size,
-         thrust::raw_pointer_cast(&block_results[0]),
-         thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
-         binary_op);
-    synchronize_if_enabled("scan_intervals");
-    
-    // update intervals with result of second level scan
-    inclusive_update<256> <<<num_blocks, 256>>>
-        (output,
-         N,
-         interval_size,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
-    synchronize_if_enabled("inclusive_update");
-    
-    return output + N;
+  thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(decomp.size() + 1);
+  
+  // TODO tune this
+  const static unsigned int CTA_SIZE = 256;
+
+  // first level scan of interval (one interval per block)
+  scan_intervals<CTA_SIZE> <<<decomp.size(), CTA_SIZE>>>
+      (first,
+       output,
+       thrust::raw_pointer_cast(&block_results[0]),
+       binary_op,
+       decomp);
+  synchronize_if_enabled("scan_intervals");
+  
+  // second level inclusive scan of per-block results
+  scan_intervals<CTA_SIZE> <<<         1, CTA_SIZE>>>
+      (thrust::raw_pointer_cast(&block_results[0]),
+       thrust::raw_pointer_cast(&block_results[0]),
+       thrust::raw_pointer_cast(&block_results[0]) + decomp.size(),
+       binary_op,
+       Decomposition(decomp.size(), 1, 1));
+  synchronize_if_enabled("scan_intervals");
+  
+  // update intervals with result of second level scan
+  inclusive_update<256> <<<decomp.size(), 256>>>
+      (output,
+       thrust::raw_pointer_cast(&block_results[0]),
+       binary_op,
+       decomp);
+  synchronize_if_enabled("inclusive_update");
+  
+  return output + (last - first);
 }
 
 
@@ -413,64 +412,48 @@ OutputIterator exclusive_scan(InputIterator first,
                               const T init,
                               BinaryFunction binary_op)
 {
-    if (first == last)
-        return output;
+  typedef typename thrust::iterator_value<OutputIterator>::type              OutputType;
+  typedef          unsigned int                                              IndexType;
+  typedef          thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
+  
+  if (first == last)
+      return output;
 
-    // Good parameters for GT200
-    const unsigned int CTA_SIZE = 128;
-    const unsigned int K        = 4;
-    
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+  Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-    const unsigned int N = last - first;
+  thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(decomp.size() + 1);
+  
+  // TODO tune this
+  const static unsigned int CTA_SIZE = 256;
 
-    const unsigned int unit_size  = CTA_SIZE * K;
-    const unsigned int max_blocks = thrust::detail::backend::cuda::arch::max_active_blocks(scan_intervals<CTA_SIZE,K,InputIterator,OutputIterator,BinaryFunction>, CTA_SIZE, 0);
-    
-    thrust::pair<unsigned int, unsigned int> splitting = uniform_interval_splitting<unsigned int>(N, unit_size, max_blocks);
-    const unsigned int interval_size = splitting.first;
-    const unsigned int num_blocks    = splitting.second;
+  // first level scan of interval (one interval per block)
+  scan_intervals<CTA_SIZE> <<<decomp.size(), CTA_SIZE>>>
+      (first,
+       output,
+       thrust::raw_pointer_cast(&block_results[0]),
+       binary_op,
+       decomp);
+  synchronize_if_enabled("scan_intervals");
+  
+  // second level inclusive scan of per-block results
+  scan_intervals<CTA_SIZE> <<<         1, CTA_SIZE>>>
+      (thrust::raw_pointer_cast(&block_results[0]),
+       thrust::raw_pointer_cast(&block_results[0]),
+       thrust::raw_pointer_cast(&block_results[0]) + decomp.size(),
+       binary_op,
+       Decomposition(decomp.size(), 1, 1));
+  synchronize_if_enabled("scan_intervals");
+  
+  // update intervals with result of second level scan
+  exclusive_update<256> <<<decomp.size(), 256>>>
+      (output,
+       thrust::raw_pointer_cast(&block_results[0]),
+       init,
+       binary_op,
+       decomp);
+  synchronize_if_enabled("exclusive_update");
 
-    //std::cout << "N             " << N << std::endl;
-    //std::cout << "max_blocks    " << max_blocks    << std::endl;
-    //std::cout << "unit_size     " << unit_size     << std::endl;
-    //std::cout << "num_blocks    " << num_blocks    << std::endl;
-    //std::cout << "num_iters     " << num_iters     << std::endl;
-    //std::cout << "interval_size " << interval_size << std::endl;
-
-    thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(num_blocks + 1);
-                
-    // first level scan of interval (one interval per block)
-    scan_intervals<CTA_SIZE,K> <<<num_blocks, CTA_SIZE>>>
-        (first,
-         N,
-         interval_size,
-         output,
-         thrust::raw_pointer_cast(&block_results[0]),
-         binary_op);
-    synchronize_if_enabled("scan_intervals");
-    
-    // second level inclusive scan of per-block results
-    scan_intervals<CTA_SIZE,K> <<<         1, CTA_SIZE>>>
-        (thrust::raw_pointer_cast(&block_results[0]),
-         num_blocks,
-         interval_size,
-         thrust::raw_pointer_cast(&block_results[0]),
-         thrust::raw_pointer_cast(&block_results[0]) + num_blocks,
-         binary_op);
-    synchronize_if_enabled("scan_intervals");
-
-    // update intervals with result of second level scan
-    exclusive_update<256> <<<num_blocks, 256>>>
-        (output,
-         N,
-         interval_size,
-         thrust::raw_pointer_cast(&block_results[0]),
-         OutputType(init),
-         binary_op);
-    synchronize_if_enabled("exclusive_update");
-    
-    return output + N;
+  return output + (last - first);
 }
 
 } // end namespace fast_scan
