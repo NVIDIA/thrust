@@ -102,9 +102,8 @@ template <unsigned int CTA_SIZE,
           typename BinaryFunction,
           typename OutputType>
 __device__ __forceinline__
-void scan_body(const unsigned int base,
-               const unsigned int interval_begin,
-               const unsigned int interval_end,
+void scan_body(const unsigned int n,
+               const bool carry_in,
                InputIterator input,
                OutputIterator output,
                BinaryFunction binary_op,
@@ -115,15 +114,15 @@ void scan_body(const unsigned int base,
   {
       const unsigned int offset = k*CTA_SIZE + threadIdx.x;
 
-      if (FullBlock || base + offset < interval_end)
+      if (FullBlock || offset < n)
       {
-          InputIterator temp = input + (base + offset);
+          InputIterator temp = input + offset;
           sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
       }
   }
   
   // carry in
-  if (threadIdx.x == 0 && base != interval_begin)
+  if (threadIdx.x == 0 && carry_in)
   {
       //sdata[0][0] = binary_op(sdata[K][CTA_SIZE - 1], sdata[0][0]);
       //// XXX WAR sm_10 issue
@@ -137,11 +136,11 @@ void scan_body(const unsigned int base,
   // scan local values
   OutputType sum = sdata[0][threadIdx.x];
 
-  const unsigned int offset_end = interval_end - base;
-
   for(unsigned int k = 1; k < K; k++)
   {
-      if (FullBlock || K * threadIdx.x + k < offset_end)
+      const unsigned int offset = K * threadIdx.x + k;
+
+      if (FullBlock || offset < n)
       {
           OutputType tmp = sdata[k][threadIdx.x];
           sum = binary_op(sum, tmp);
@@ -153,9 +152,9 @@ void scan_body(const unsigned int base,
   sdata[K][threadIdx.x] = sum;  __syncthreads();
 
   if (FullBlock)
-    scan_block<CTA_SIZE>(&sdata[K][0], binary_op);
+    scan_block<CTA_SIZE>(sdata[K], binary_op);
   else
-    scan_block_n<CTA_SIZE>(&sdata[K][0], offset_end / K, binary_op);
+    scan_block_n<CTA_SIZE>(sdata[K], n / K, binary_op);
   
   // update local values
   if (threadIdx.x > 0)
@@ -164,7 +163,9 @@ void scan_body(const unsigned int base,
 
       for(unsigned int k = 0; k < K; k++)
       {
-          if (FullBlock || K * threadIdx.x + k < offset_end)
+          const unsigned int offset = K * threadIdx.x + k;
+
+          if (FullBlock || offset < n)
           {
               OutputType tmp = sdata[k][threadIdx.x];
               sdata[k][threadIdx.x] = binary_op(sum, tmp);
@@ -179,9 +180,9 @@ void scan_body(const unsigned int base,
   {
       const unsigned int offset = k*CTA_SIZE + threadIdx.x;
 
-      if (FullBlock || base + offset < interval_end)
+      if (FullBlock || offset < n)
       {
-          OutputIterator temp = output + (base + offset);
+          OutputIterator temp = output + offset;
           thrust::detail::backend::dereference(temp) = sdata[offset % K][offset / K];
       }
   }   
@@ -219,27 +220,32 @@ void scan_intervals(InputIterator input,
     
     thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
 
-    const unsigned int interval_begin = interval.begin();
-    const unsigned int interval_end   = interval.end();
+    IndexType base = interval.begin();
 
-    const unsigned int unit_size  = K * CTA_SIZE;
+    input  += base;
+    output += base;
 
-    unsigned int base = interval_begin;
+    const unsigned int unit_size = K * CTA_SIZE;
 
     // process full units
-    for(; base + unit_size <= interval_end; base += unit_size)
-        scan_body<CTA_SIZE,K,true>(base, interval_begin, interval_end, input, output, binary_op, sdata);
+    while (base + unit_size <= interval.end())
+    {
+        scan_body<CTA_SIZE,K,true>(unit_size, base != interval.begin(), input, output, binary_op, sdata);
+        base   += K * CTA_SIZE;
+        input  += K * CTA_SIZE;
+        output += K * CTA_SIZE;
+    }
 
     // process partially full unit at end of input (if necessary)
-    if (base < interval_end)
-        scan_body<CTA_SIZE,K,false>(base, interval_begin, interval_end, input, output, binary_op, sdata);
+    if (base < interval.end())
+        scan_body<CTA_SIZE,K,false>(interval.end() - base, base != interval.begin(), input, output, binary_op, sdata);
 
     __syncthreads();
     
     // write interval sum
     if (threadIdx.x == 0)
     {
-        unsigned int offset = ((interval_end - interval_begin) - 1) % (CTA_SIZE * K);
+        unsigned int offset = (interval.size() - 1) % (CTA_SIZE * K);
         block_results[blockIdx.x] = sdata[offset % K][offset / K];
     }
 }
