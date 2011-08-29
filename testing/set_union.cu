@@ -58,8 +58,6 @@ DECLARE_VECTOR_UNITTEST(TestSetUnionWithEquivalentElementsSimple);
 template<typename T>
 void TestSetUnion(const size_t n)
 {
-  KNOWN_FAILURE;
-#if 0
   size_t sizes[]   = {0, 1, n / 2, n, n + 1, 2 * n};
   size_t num_sizes = sizeof(sizes) / sizeof(size_t);
 
@@ -96,15 +94,12 @@ void TestSetUnion(const size_t n)
 
     ASSERT_EQUAL(h_result, d_result);
   }
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSetUnion);
 
 template<typename T>
 void TestSetUnionToDiscardIterator(const size_t n)
 {
-  KNOWN_FAILURE;
-#if 0
   thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
   thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
   thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
@@ -118,9 +113,6 @@ void TestSetUnionToDiscardIterator(const size_t n)
   thrust::discard_iterator<> h_result;
   thrust::discard_iterator<> d_result;
 
-  // using host set_union here (instead of set_intersection)
-  // causes the device set_union below to throw an exception
-  // for no good reason afaict
   thrust::host_vector<T> h_reference(2 * n);
   typename thrust::host_vector<T>::iterator h_end = 
     thrust::set_union(h_a.begin(), h_a.end(),
@@ -140,7 +132,6 @@ void TestSetUnionToDiscardIterator(const size_t n)
 
   ASSERT_EQUAL_QUIET(reference, h_result);
   ASSERT_EQUAL_QUIET(reference, d_result);
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSetUnionToDiscardIterator);
 

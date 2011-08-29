@@ -152,7 +152,15 @@ __device__ __forceinline__
     dereference(dst) = dereference(src);
   } // end if
 
-  return result + n1 + temporary[n2-1];
+  // finding the size of the result:
+  // range 1: all of range 1 gets output, so add n1
+  // range 2: the temporary array contains, for each element inclusive,
+  //          the cumulative number of elements from the second range to output 
+  //          add the cumulative sum at the final element of the second range
+  //          but carefully handle the case where the range is empty
+  // XXX we could handle empty input as a special case at the beginning of the function
+
+  return result + n1 + (n2 ? temporary[n2-1] : 0);
 } // end set_union()
 
 
