@@ -31,8 +31,6 @@ DECLARE_VECTOR_UNITTEST(TestSetSymmetricDifferenceSimple);
 template<typename T>
 void TestSetSymmetricDifference(const size_t n)
 {
-  KNOWN_FAILURE;
-#if 0
   size_t sizes[]   = {0, 1, n / 2, n, n + 1, 2 * n};
   size_t num_sizes = sizeof(sizes) / sizeof(size_t);
 
@@ -69,7 +67,6 @@ void TestSetSymmetricDifference(const size_t n)
 
       ASSERT_EQUAL(h_result, d_result);
   }
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSetSymmetricDifference);
 

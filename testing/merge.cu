@@ -39,8 +39,6 @@ DECLARE_VECTOR_UNITTEST(TestMergeSimple);
 template<typename T>
   void TestMerge(size_t n)
 {
-  KNOWN_FAILURE;
-#if 0
   size_t sizes[]   = {0, 1, n / 2, n, n + 1, 2 * n};
   size_t num_sizes = sizeof(sizes) / sizeof(size_t);
 
@@ -77,7 +75,6 @@ template<typename T>
 
     ASSERT_EQUAL(h_result, d_result);
   }
-#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestMerge);
 

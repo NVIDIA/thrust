@@ -18,9 +18,8 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/generic/scalar/select.h>
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/extrema.h>
+#include <thrust/detail/minmax.h>
 
 namespace thrust
 {
@@ -32,7 +31,6 @@ namespace generic
 {
 namespace scalar
 {
-
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -47,129 +45,75 @@ template<typename RandomAccessIterator1,
            Size k,
            Compare comp)
 {
-  // check for trivial problem
-  if(first1 == last1)
-  {
-    first2 += k;
-    return dereference(first2);
-  }
-
-  if(first2 == last2)
-  {
-    first1 += k;
-    return dereference(first1);
-  }
-
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference;
 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
-  difference size1 = last1 - first1;
-  difference size2 = last2 - first2;
-
-  while(k > 1 && size1 > 1 && size2 > 1 && k + 1 < size1 + size2)
+  while (first1 != last1 && first2 != last2)
   {
-    // subdivide the problem
+    // shrink the ranges (if possible)
+    if (last1 - first1 > k + 1)
+      last1 = first1 + (k + 1);
+    if (last2 - first2 > k + 1)
+      last2 = first2 + (k + 1);
+    if (last1 - first1 < k)
+    {
+      first2 += k - (last1 - first1);
+      k = last1 - first1;
+    }
+    if (last2 - first2 < k)
+    {
+      first1 += k - (last2 - first2);
+      k = last2 - first2;
+    }
+
+    if (first1 == last1) break;
+    if (first2 == last2) break;
+
     Size i = k / 2;
 
-    // did we ask for too much from A?
-    if(k/2 >= size1)
+    RandomAccessIterator1 mid1 = first1 + i;
+    RandomAccessIterator2 mid2 = first2 + i;
+    
+    value_type1 a = dereference(mid1);
+    value_type1 b = dereference(mid2);
+
+    if (k == 0)
+      return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (a, b, comp);
+
+    // ensure forward progress
+    if (k % 2)
     {
-      i = size1 - 1;
-    } // end if
-    else if(k - 1 >= size2)
+      ++i;
+      ++mid1;
+      ++mid2;
+    }
+
+    if (comp(b,a))
     {
-      i = k - (size2 - 1);
-    } // end else if
-
-    Size j = k - i;
-
-    RandomAccessIterator1 a = first1;
-    a += i;
-
-    RandomAccessIterator2 b = first2;
-    b += j;
-
-    if(comp(dereference(b),dereference(a)))
-    {
-      first2 += j;
-      k -= j;
-      size2 -= j;
-    } // end if
+      last1  = mid1;
+      first2 = mid2;
+    }
     else
     {
-      first1 += i;
-      k -= i;
-      size1 -= i;
-    } // end else
-  } // end while
+      first1 = mid1;
+      last2  = mid2;
+    }
+      
+    k -= i;
+  }
 
-  // XXX consider just doing a serial merge here
-  //     to simplify this code as in case 3 below
-
-  if(k == 0)
+  // handle trivial problems
+  if(first1 == last1)
   {
-    // case 0
-    // return min of a,b (a wins if equivalent)
-    value_type1 x1 = dereference(first1);
-    value_type2 x2 = dereference(first2);
-    return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (x1, x2, comp);
-  } // end if
-  else if(size1 == 1)
+    first2 += k;  return dereference(first2);
+  } 
+  else
   {
-    // case 1
-    // b wins if equivalent
-    //return std::max(*(first2 + k - 1), a);
-    first2 += (k - 1);
-  } // end else if
-  else if(size2 == 1)
-  {
-    // case 2
-    // b wins if equivalent
-    //return std::max(b, *(first1 + k - 1));
-    first1 += k - 1;
-  } // end else if
-  else if(k == 1)
-  {
-    // case 3
-    // return the 2nd element of the merger of
-    // [A[0], A[1]] and [B[0], B[1]]
-    value_type1 x1 = dereference(first1);
-    value_type2 x2 = dereference(first2);
-    if(comp(x2, x1))
-    {
-      ++first2;
-      x2 = dereference(first2);
-    } // end if
-    else
-    {
-      ++first1;
-      x1 = dereference(first1);
-    } // end else
-
-    return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (x1, x2, comp);
-  } // end else if
-  else if(k + 1 == size1 + size2)
-  {
-    // case 4
-    // return max(B[-1], A[-1])
-    // XXX iterator assignment seems to spill to lmem
-    //first1 = last1;
-    first1 += (last1 - first1);
-    --first1;
-
-    // XXX assignment of iterators seems to spill to lmem
-    //first2 = last2;
-    first2 += (last2 - first2);
-    --first2;
-  } // end else if
-
-
-  value_type1 x1 = dereference(first1);
-  value_type2 x2 = dereference(first2);
-  return thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (x2,x1,comp);
-} // end select()
+    first1 += k;  return dereference(first1);
+  }
+}
 
 
 } // end scalar

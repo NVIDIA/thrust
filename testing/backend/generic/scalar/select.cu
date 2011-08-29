@@ -3,6 +3,7 @@
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 #include <thrust/merge.h>
+#include <thrust/sequence.h>
 
 template<typename Iterator1, typename Iterator2>
   struct select_functor
@@ -137,4 +138,76 @@ template<typename U>
 #endif
 }
 DECLARE_VARIABLE_UNITTEST(TestSelectKeyValue);
+
+
+struct compare_first
+{
+  template <typename Tuple>
+  __host__ __device__
+  bool operator()(const Tuple& a, const Tuple& b)
+  {
+    return thrust::get<0>(a) < thrust::get<0>(b);
+  }
+};
+
+
+void TestSelectSemantics(void)
+{
+  int A[] = {0,0,0,0,0,1,1,1,1,1,2,2,2,2,5,5,5,5,5,8,8,8,8};
+  int X[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  int B[] = {0,0,1,1,2,2,2,2,4,4,4,4,4,5,5,5,5,5,6,6,7,7,8,8,8,9};
+  int Y[] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+
+  // tests
+  int K[][3] = { { 0,0,0}, 
+                 { 4,0,0},
+                 { 5,0,1},
+                 { 6,0,1},
+                 { 7,1,0},
+                 { 8,1,0},
+                 {11,1,0},
+                 {11,1,0},
+                 {12,1,1},
+                 {13,1,1},
+                 {14,2,0},
+                 {17,2,0},
+                 {18,2,1},
+                 {21,2,1},
+                 {22,4,1},
+                 {26,4,1},
+                 {27,5,0},
+                 {31,5,0},
+                 {32,5,1},
+                 {36,5,1},
+                 {37,6,1},
+                 {39,7,1},
+                 {41,8,0},
+                 {45,8,1},
+                 {48,9,1},
+               };
+
+  size_t An = sizeof(A) / sizeof(int);
+  size_t Bn = sizeof(B) / sizeof(int);
+  size_t N = sizeof(K) / sizeof(int[3]);
+  
+  using thrust::detail::backend::generic::scalar::select;
+
+  for (size_t i = 0; i < N; i++)
+  {
+    thrust::tuple<int,int> result =
+      select(thrust::make_zip_iterator(thrust::make_tuple(&A[0],&X[0])),
+             thrust::make_zip_iterator(thrust::make_tuple(&A[0],&X[0])) + An,
+             thrust::make_zip_iterator(thrust::make_tuple(&B[0],&Y[0])),
+             thrust::make_zip_iterator(thrust::make_tuple(&B[0],&Y[0])) + Bn,
+             K[i][0],
+             compare_first());
+    
+    //std::cout << "Test #" << i << " " << K[i][0] << " " << K[i][1] << " " << K[i][2] << std::endl;
+    //std::cout << "      " << i << " " << K[i][0] << " " << thrust::get<0>(result) << " " << thrust::get<1>(result) << std::endl;
+
+    ASSERT_EQUAL(thrust::get<0>(result), K[i][1]);
+    ASSERT_EQUAL(thrust::get<1>(result), K[i][2]);
+  }
+}
+DECLARE_UNITTEST(TestSelectSemantics);
 
