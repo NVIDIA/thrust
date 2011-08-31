@@ -326,7 +326,7 @@ template<typename T>
 
 /*! \p negate is a function object. Specifically, it is an Adaptable Unary Function.
  *  If \c f is an object of class <tt>negate<T></tt>, and \c x is an object
- *  of class \c T, then <tt>f(x,y)</tt> returns <tt>-x</tt>.
+ *  of class \c T, then <tt>f(x)</tt> returns <tt>-x</tt>.
  *
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and if \c x is an object of type \p T, then <tt>-x</tt> must be defined and must have a return type that is convertible to \c T.
