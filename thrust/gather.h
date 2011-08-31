@@ -192,7 +192,7 @@ template<typename InputIterator1,
  *                    d_values.begin(),
  *                    d_output.begin(),
  *                    is_even());
- *  // d_output is now {0, 2, 4, 6, 8, 7, 7, 7, 7, 7}
+ *  // d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}
  *  \endcode
  *
  *  \note \p gather_if is the inverse of \p scatter_if.
