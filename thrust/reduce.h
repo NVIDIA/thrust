@@ -16,7 +16,7 @@
 
 
 /*! \file reduce.h
- *  \brief Defines the interface to reduction functions
+ *  \brief Functions for reducing a range to a single value
  */
 
 #pragma once

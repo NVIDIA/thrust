@@ -16,7 +16,7 @@
 
 
 /*! \file scan.h
- *  \brief Defines some functions for computing prefix sums.
+ *  \brief Functions for computing prefix sums
  */
 
 #pragma once

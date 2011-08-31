@@ -16,8 +16,7 @@
 
 
 /*! \file remove.h
- *  \brief Defines the interface to functions for removing elements
- *         from a sequence.
+ *  \brief Functions for removing elements from a range
  */
 
 #pragma once

@@ -16,8 +16,7 @@
 
 
 /*! \file device_malloc.h
- *  \brief Defines the entry point to a function
- *         for allocating device storage.
+ *  \brief Allocates storage in device memory
  */
 
 #pragma once

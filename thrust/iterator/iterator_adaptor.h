@@ -16,9 +16,7 @@
 
 
 /*! \file iterator_adaptor.h
- *  \brief Defines a class which implements a host/device
- *         iterator from a more primitive iterator-like type.
- *         Based on Boost's iterator_adaptor class.
+ *  \brief An iterator which adapts a base iterator
  */
 
 /*

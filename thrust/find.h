@@ -16,7 +16,7 @@
 
 
 /*! \file find.h
- *  \brief Search for values in (unsorted) ranges.
+ *  \brief Locating values in (unsorted) ranges
  */
 
 #pragma once

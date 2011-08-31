@@ -16,8 +16,7 @@
 
 
 /*! \file discard_iterator.h
- *  \brief Defines the interface to an iterator
- *         which ignores values assigned to its reference.
+ *  \brief An iterator which "discards" (ignores) values assigned to it upon dereference
  */
 
 #pragma once

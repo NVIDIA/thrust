@@ -16,7 +16,7 @@
 
 
 /*! \file device_delete.h
- *  \brief Defines the interface to a wrapper for cudaFree.
+ *  \brief Deletes variables in device memory
  */
 
 #pragma once

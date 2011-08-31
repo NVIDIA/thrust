@@ -16,7 +16,7 @@
 
 
 /*! \file transform_scan.h
- *  \brief Defines some functions for computing fused transform + scan operations.
+ *  \brief Fused transform / prefix-sum
  */
 
 #pragma once

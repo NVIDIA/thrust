@@ -16,7 +16,7 @@
 
 
 /*! \file uniform_real_distribution.h
- *  \brief A uniform distribution of real-valued numbers.
+ *  \brief A uniform distribution of real-valued numbers
  */
 
 #pragma once

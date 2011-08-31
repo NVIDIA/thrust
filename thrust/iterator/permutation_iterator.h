@@ -15,7 +15,7 @@
  */
 
 /*! \file permutation_iterator.h
- *  \brief An iterator which iterates over a permutation of a range.
+ *  \brief An iterator which performs a gather or scatter operation when dereferenced
  */
 
 /*

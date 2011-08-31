@@ -16,8 +16,7 @@
 
 
 /*! \file iterator_categories.h
- *  \brief Defines the categories of iterator supported by thrust.
- *         Based on STL & Boost's iterator categories.
+ *  \brief Types for reasoning about the categories of iterators
  */
 
 /*

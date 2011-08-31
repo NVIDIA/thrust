@@ -15,8 +15,7 @@
  */
 
 /*! \file pair.h
- *  \brief Defines the interface to a generic data structure
- *         encapsulating a pair of objects.
+ *  \brief A type encapsulating a heterogeneous pair of elements
  */
 
 #pragma once

@@ -16,8 +16,7 @@
 
 
 /*! \file functional.h
- *  \brief Defines templated functors and traits analogous to what
- *         is found in stl and boost's functional.
+ *  \brief Function objects and tools for manipulating them
  */
 
 #pragma once

@@ -14,8 +14,8 @@
  *  limitations under the License.
  */
 
-/*! \file system_error.h
- *  \brief System diagnostics.
+/*! \file thrust/system_error.h
+ *  \brief System diagnostics
  */
 
 #pragma once

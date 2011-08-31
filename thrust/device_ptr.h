@@ -16,8 +16,7 @@
 
 
 /*! \file device_ptr.h
- *  \brief Defines the interface to a pointer to
- *         a variable which resides on a parallel device.
+ *  \brief A pointer to a variable which resides in the "device" memory space
  */
 
 #pragma once

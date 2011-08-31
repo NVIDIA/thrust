@@ -16,9 +16,7 @@
 
 
 /*! \file device_new_allocator.h
- *  \brief Defines the interface to a
- *         standard C++ allocator class for
- *         allocating device memory with device_new.
+ *  \brief An allocator which allocates storage with \p device_new
  */
 
 #pragma once

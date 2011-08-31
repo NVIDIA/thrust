@@ -16,9 +16,7 @@
 
 
 /*! \file transform.h
- *  \brief Defines the interface to a function for
- *         transforming an input sequence into an output sequence
- *         by way of a function object.
+ *  \brief Transforms input ranges using a function object
  */
 
 #pragma once

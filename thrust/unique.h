@@ -16,7 +16,7 @@
 
 
 /*! \file unique.h
- *  \brief Move unique elements to the front of a sequence.
+ *  \brief Move unique elements to the front of a range
  */
 
 #pragma once

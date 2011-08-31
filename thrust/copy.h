@@ -16,7 +16,7 @@
 
 
 /*! \file copy.h
- *  \brief Defines the interface to copy between containers.
+ *  \brief Copies elements from one range to another
  */
 
 #pragma once

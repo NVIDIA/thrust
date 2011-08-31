@@ -16,8 +16,7 @@
 
 
 /*! \file gather.h
- *  \brief Defines the interface to a function which fills an array
- *         with an incoherent gather operation.
+ *  \brief Irregular copying from a source range
  */
 
 #pragma once

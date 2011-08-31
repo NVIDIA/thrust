@@ -15,7 +15,7 @@
  */
 
 /*! \file merge.h
- *  \brief Merge for sorted ranges.
+ *  \brief Merging sorted ranges
  */
 
 #pragma once

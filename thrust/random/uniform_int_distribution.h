@@ -15,8 +15,8 @@
  */
 
 
-/*! \file uniform_real_distribution.h
- *  \brief A uniform distribution of integer-valued numbers.
+/*! \file uniform_int_distribution.h
+ *  \brief A uniform distribution of integer-valued numbers
  */
 
 #pragma once

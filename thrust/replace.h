@@ -16,8 +16,7 @@
 
 
 /*! \file replace.h
- *  \brief Defines the interface to a family of 
- *         templated replace functions.
+ *  \brief Functions for replacing elements in a range with a particular value
  */
 
 #pragma once

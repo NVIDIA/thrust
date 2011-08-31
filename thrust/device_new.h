@@ -16,7 +16,7 @@
 
 
 /*! \file device_new.h
- *  \brief Defines the interface for a wrapper for cudaMalloc.
+ *  \brief Constructs new elements in device memory
  */
 
 #pragma once

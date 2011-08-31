@@ -16,9 +16,7 @@
 
 
 /*! \file uninitialized_fill.h
- *  \brief Defines the interface to the
- *         uninitialized_fill function.
- *  \see http://www.sgi.com/tech/stl/uninitialized_fill.html
+ *  \brief Copy construction into a range of uninitialized elements from a source value
  */
 
 #pragma once

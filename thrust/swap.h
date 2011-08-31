@@ -15,7 +15,7 @@
  */
 
 /*! \file swap.h
- *  \brief Swap-related functions.
+ *  \brief Functions for swapping the value of elements
  */
 
 #pragma once

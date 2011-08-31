@@ -16,8 +16,7 @@
 
 
 /*! \file device_free.h
- *  \brief Defines the entry point to a function
- *         for deallocating device storage.
+ *  \brief Deallocates storage allocated by \p device_malloc
  */
 
 #pragma once

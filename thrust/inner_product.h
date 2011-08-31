@@ -15,9 +15,8 @@
  */
 
 
-/*! \file reduce.h
- *  \brief Defines the interface to a templated
- *         inner_product functions.
+/*! \file inner_product.h
+ *  \brief Mathematical inner product between ranges
  */
 
 #pragma once

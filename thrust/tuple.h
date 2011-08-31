@@ -16,7 +16,7 @@
 
 
 /*! \file tuple.h
- *  \brief Defines a tuple type similar to std::tr1::tuple.
+ *  \brief A type encapsulating a heterogeneous collection of elements
  */
 
 /*

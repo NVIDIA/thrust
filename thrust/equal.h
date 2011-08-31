@@ -16,7 +16,7 @@
 
 
 /*! \file equal.h
- *  \brief Vectorwise equality function.
+ *  \brief Equality between ranges
  */
 
 #pragma once

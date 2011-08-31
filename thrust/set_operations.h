@@ -16,7 +16,7 @@
 
 
 /*! \file set_operations.h
- *  \brief Set operations for sorted ranges.
+ *  \brief Set theoretic operations for sorted ranges
  */
 
 #pragma once

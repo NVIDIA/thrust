@@ -15,9 +15,9 @@
  */
 
 
-/*! \file system_error.h
+/*! \file system/system_error.h
  *  \brief An exception object used to report error conditions that have an
- *         associated error code.
+ *         associated error code
  */
 
 #pragma once

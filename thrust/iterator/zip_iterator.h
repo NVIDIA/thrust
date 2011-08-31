@@ -16,9 +16,8 @@
 
 
 /*! \file zip_iterator.h
- *  \brief Defines the interface to an iterator
- *         whose reference is a tuple of the references
- *         of a tuple of iterators.
+ *  \brief An iterator which returns a tuple of the result of dereferencing
+ *         a tuple of iterators when dereferenced
  */
 
 /*

@@ -16,7 +16,7 @@
 
 
 /*! \file for_each.h
- *  \brief Defines the interface to for_each.
+ *  \brief Applies a function to each element in a range
  */
 
 #pragma once

@@ -16,7 +16,7 @@
 
 
 /*! \file generate.h
- *  \brief Defines the interface to generate.
+ *  \brief Fills a range with values "generated" from a function of no arguments
  */
 
 #pragma once

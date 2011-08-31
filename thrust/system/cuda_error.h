@@ -16,6 +16,7 @@
 
 
 /*! \file cuda_error.h
+ *  \brief CUDA-specific error reporting
  */
 
 #pragma once

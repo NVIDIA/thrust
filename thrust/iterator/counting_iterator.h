@@ -16,11 +16,8 @@
 
 
 /*! \file counting_iterator.h
- *  \brief Defines the interface to an iterator
- *         which adapts an incrementable type
- *         to return the current value of the incrementable
- *         upon operator*(). Based on Boost's counting_iterator
- *         class.
+ *  \brief An iterator which returns an increasing incrementable value
+ *         when dereferenced
  */
 
 /*

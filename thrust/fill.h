@@ -16,9 +16,7 @@
 
 
 /*! \file fill.h
- *  \brief Defines the interface to some
- *         methods for filling a device array
- *         with an exemplar.
+ *  \brief Fills a range with a constant value
  */
 
 #pragma once

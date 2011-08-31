@@ -16,9 +16,8 @@
 
 
 /*! \file constant_iterator.h
- *  \brief Defines the interface to an iterator
- *         which returns a constant value when
- *         dereferenced.
+ *  \brief An iterator which returns a constant value when
+ *         dereferenced
  */
 
 #pragma once

@@ -16,7 +16,7 @@
 
 
 /*! \file scatter.h
- *  \brief Defines the interface to a scatter function.
+ *  \brief Irregular copying to a destination range
  */
 
 #pragma once

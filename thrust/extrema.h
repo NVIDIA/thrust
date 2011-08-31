@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
+/*! \file extrema.h
+ *  \brief Functions for computing computing extremal values
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -21,10 +25,6 @@
 
 namespace thrust
 {
-
-/*! \file extrema.h
- *  \brief Defines the interface to functions for computing extrema.
- */
 
 /*! This version of \p min returns the smaller of two values, given a comparison operation.
  *  \param lhs The first value to compare.

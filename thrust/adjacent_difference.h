@@ -16,7 +16,7 @@
 
 
 /*! \file adjacent_difference.h
- *  \brief Compute difference between consecutive elements of a sequence.
+ *  \brief Compute difference between consecutive elements of a range
  */
 
 #pragma once

@@ -15,8 +15,7 @@
  */
 
 /*! \file pinned_allocator.h
- *  \brief A standard C++ allocator class for allocating
- *         pinned host memory with cudaMallocHost.
+ *  \brief An allocator which creates new elements in "pinned" memory with \p cudaMallocHost
  */
 
 #pragma once

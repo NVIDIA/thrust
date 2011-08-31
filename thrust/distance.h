@@ -16,8 +16,7 @@
 
 
 /*! \file distance.h
- *  \brief Defines the interface to a function for
- *         computing the size of an input range.
+ *  \brief Computes the size of a range
  */
 
 #pragma once

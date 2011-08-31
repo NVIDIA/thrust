@@ -16,7 +16,7 @@
 
 
 /*! \file iterator_traits.h
- *  \brief Defines a types traits class for iterators in thrust.
+ *  \brief Traits and metafunctions for reasoning about the traits of iterators
  */
 
 /*

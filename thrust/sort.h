@@ -16,8 +16,7 @@
 
 
 /*! \file sort.h
- *  \brief Defines the interface to various
- *         sorting functions.
+ *  \brief Functions for reorganizing ranges into sorted order
  */
 
 #pragma once

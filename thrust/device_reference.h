@@ -16,8 +16,7 @@
 
 
 /*! \file device_reference.h
- *  \brief Defines the interface to a reference to
- *         a variable which resides on a CUDA device.
+ *  \brief A reference to a variable which resides in the "device" memory space
  */
 
 #pragma once

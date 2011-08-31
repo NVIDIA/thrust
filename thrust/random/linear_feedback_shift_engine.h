@@ -16,7 +16,6 @@
 
 /*! \file linear_feedback_shift_engine.h
  *  \brief A linear feedback shift pseudorandom number generator.
- *         Based on Boost's linear_feedback_shift class template.
  */
 
 /*

@@ -16,7 +16,7 @@
 
 
 /*! \file reverse_iterator.h
- *  \brief An iterator adaptor which adapts another iterator to traverse backwards.
+ *  \brief An iterator adaptor which adapts another iterator to traverse backwards
  */
 
 /*

@@ -16,7 +16,7 @@
 
 
 /*! \file reverse.h
- *  \brief Reverses the order of a range.
+ *  \brief Reverses the order of a range
  */
 
 #pragma once

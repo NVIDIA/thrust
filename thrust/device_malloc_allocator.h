@@ -16,9 +16,7 @@
 
 
 /*! \file device_malloc_allocator.h
- *  \brief Defines the interface to a
- *         standard C++ allocator class for
- *         allocating device memory with device_malloc.
+ *  \brief An allocator which allocates storage with \p device_malloc
  */
 
 #pragma once

@@ -16,7 +16,7 @@
 
 
 /*! \file logical.h
- *  \brief Logical operations on ranges.
+ *  \brief Logical operations on ranges
  */
 
 #pragma once

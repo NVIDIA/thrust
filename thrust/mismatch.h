@@ -16,7 +16,7 @@
 
 
 /*! \file mismatch.h
- *  \brief Search for differences between sequences.
+ *  \brief Search for differences between ranges
  */
 
 #pragma once

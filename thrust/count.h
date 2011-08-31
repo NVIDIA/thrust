@@ -16,7 +16,7 @@
 
 
 /*! \file count.h
- *  \brief Defines the interface to templated count and count_if functions.
+ *  \brief Counting elements in a range
  */
 
 #pragma once

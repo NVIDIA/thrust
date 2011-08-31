@@ -15,7 +15,7 @@
  */
 
 /*! \file version.h
- *  \brief Compile-time macros encoding Thrust release version.
+ *  \brief Compile-time macros encoding Thrust release version
  *
  *         <thrust/version.h> is the only Thrust header that is guaranteed to
  *         change with every thrust release.

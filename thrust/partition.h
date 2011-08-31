@@ -16,8 +16,7 @@
 
 
 /*! \file partition.h
- *  \brief Defines the interface to a function performing
- *         a stream compaction computation.
+ *  \brief Reorganizes a range based on a predicate
  */
 
 #pragma once

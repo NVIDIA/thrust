@@ -16,10 +16,7 @@
 
 
 /*! \file transform_iterator.h
- *  \brief Defines the interface to an iterator
- *         whose value_type is the result of
- *         a unary function applied to the value_type
- *         of another iterator.
+ *  \brief An iterator which adapts another iterator by applying a function to the result of its dereference 
  */
 
 /*

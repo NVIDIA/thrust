@@ -16,9 +16,7 @@
 
 
 /*! \file uninitialized_copy.h
- *  \brief Defines the interface to the
- *         uninitialized_copy function.
- *  \see http://www.sgi.com/tech/stl/uninitialized_copy.html
+ *  \brief Copy construction into a range of uninitialized elements from a source range
  */
 
 #pragma once

@@ -15,9 +15,8 @@
  */
 
 
-/*! \file reduce.h
- *  \brief Defines the interface to a templated
- *         transformed reduction function.
+/*! \file transform_reduce.h
+ *  \brief Fused transform / reduction
  */
 
 #pragma once

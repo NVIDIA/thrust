@@ -16,7 +16,7 @@
 
 
 /*! \file sequence.h
- *  \brief Fills a sequence with a sequence of numbers.
+ *  \brief Fills a range with a sequence of numbers
  */
 
 #pragma once
