@@ -139,8 +139,75 @@ template<typename InputIterator1,
 
 /*! This version of \p transform_if conditionally applies a unary function
  *  to each element of an input sequence and stores the result in the corresponding 
- *  position in an output sequence if the corresponding position in a stencil sequence
+ *  position in an output sequence if the corresponding position in the input sequence
  *  satifies a predicate. Otherwise, the corresponding position in the
+ *  output sequence is not modified.
+ *
+ *  Specifically, for each iterator <tt>i</tt> in the range <tt>[first, last)</tt> the
+ *  predicate <tt>pred(*i)</tt> is evaluated. If this predicate
+ *  evaluates to \c true, the result of <tt>op(*i)</tt> is assigned to <tt>*o</tt>,
+ *  where <tt>o</tt> is the corresponding output iterator in the range
+ *  <tt>[result, result + (last - first) )</tt>. Otherwise, <tt>op(*i)</tt> is
+ *  not evaluated and no assignment occurs. The input and output sequences may coincide,
+ *  resulting in an in-place transformation.
+ *    
+ *  \param first The beginning of the input sequence.
+ *  \param last The end of the input sequence.
+ *  \param result The beginning of the output sequence.
+ *  \param op The tranformation operation.
+ *  \param pred The predicate operation.
+ *  \return The end of the output sequence.
+ *
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *                        and \c InputIterator's \c value_type is convertible to \c Predicate's \c argument_type,
+ *                        and \c InputIterator's \c value_type is convertible to \c UnaryFunction's \c argument_type.
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>.
+ *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
+ *                        and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p transform_if:
+ *
+ *  \code
+ *  #include <thrust/transform.h>
+ *  #include <thrust/functional.h>
+ *  
+ *  int data[10]    = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
+ *
+ *  struct is_odd
+ *  {
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x % 2;
+ *    }
+ *  };
+ * 
+ *  thrust::negate<int> op;
+ *  thrust::identity<int> identity;
+ *
+ *  // negate odd elements
+ *  thrust::transform_if(data, data + 10, data, op, is_odd()); // in-place transformation
+ *
+ *  // data is now {5, 0, 2, 3, 2, 4, 0, 1, 2, 8};
+ *  \endcode
+ *
+ *  \see thrust::transform
+ */
+template<typename InputIterator,
+         typename ForwardIterator,
+         typename UnaryFunction,
+         typename Predicate>
+  ForwardIterator transform_if(InputIterator first, InputIterator last,
+                               ForwardIterator result,
+                               UnaryFunction op,
+                               Predicate pred);
+
+
+/*! This version of \p transform_if conditionally applies a unary function
+ *  to each element of an input sequence and stores the result in the corresponding 
+ *  position in an output sequence if the corresponding position in a stencil sequence
+ *  satisfies a predicate. Otherwise, the corresponding position in the
  *  output sequence is not modified.
  *
  *  Specifically, for each iterator <tt>i</tt> in the range <tt>[first, last)</tt> the

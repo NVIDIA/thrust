@@ -109,6 +109,42 @@ template<typename InputIterator1,
 } // end transform()
 
 
+template<typename InputIterator,
+         typename ForwardIterator,
+         typename UnaryFunction,
+         typename Predicate>
+  ForwardIterator transform_if(InputIterator first, InputIterator last,
+                               ForwardIterator result,
+                               UnaryFunction unary_op,
+                               Predicate pred)
+{
+  // determine the minimal space of the two iterators
+  typedef typename thrust::iterator_space<InputIterator>::type        Space1;
+  typedef typename thrust::iterator_space<ForwardIterator>::type      Space2;
+
+  typedef typename thrust::detail::minimum_space<Space1,Space2>::type Space;
+
+  // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
+  //     a function which is only __host__ or __device__ by selecting a generic functor
+  //     which is one or the other
+  //     when nvcc is able to deal with this, remove this WAR
+  
+  // given the minimal space, determine the unary transform_if functor we need
+  typedef typename thrust::detail::unary_transform_if_functor<Space,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
+
+  // make an iterator tuple
+  typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
+  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+
+  ZipIterator zipped_result =
+    thrust::detail::for_each(thrust::make_zip_iterator(thrust::make_tuple(first,result)),
+                             thrust::make_zip_iterator(thrust::make_tuple(last,result)),
+                             UnaryTransformIfFunctor(unary_op,pred));
+
+  return thrust::get<1>(zipped_result.get_iterator_tuple());
+} // end transform_if()
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
@@ -134,7 +170,7 @@ template<typename InputIterator1,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal space, determine the unary transform_if functor we need
-  typedef typename thrust::detail::unary_transform_if_functor<Space,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
+  typedef typename thrust::detail::unary_transform_if_with_stencil_functor<Space,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,ForwardIterator> IteratorTuple;

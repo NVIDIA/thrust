@@ -28,6 +28,32 @@ DECLARE_VECTOR_UNITTEST(TestTransformUnarySimple);
 
 
 template <class Vector>
+void TestTransformIfUnaryNoStencilSimple(void)
+{
+    typedef typename Vector::value_type T;
+    
+    typename Vector::iterator iter;
+
+    Vector input(3);
+    Vector output(3);
+    Vector result(3);
+
+    input[0]   =  0; input[1]   = -2; input[2]   =  0;
+    output[0]  = -1; output[1]  = -2; output[2]  = -3; 
+    result[0]  = -1; result[1]  =  2; result[2]  = -3;
+
+    iter = thrust::transform_if(input.begin(), input.end(),
+                                output.begin(),
+                                thrust::negate<T>(),
+                                thrust::identity<T>());
+    
+    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(output, result);
+}
+DECLARE_VECTOR_UNITTEST(TestTransformIfUnaryNoStencilSimple);
+
+
+template <class Vector>
 void TestTransformIfUnarySimple(void)
 {
     typedef typename Vector::value_type T;
@@ -206,6 +232,28 @@ struct is_positive
     return x > 0;
   } // end operator()()
 }; // end is_positive
+
+
+template <typename T>
+void TestTransformIfUnaryNoStencil(const size_t n)
+{
+    thrust::host_vector<T>   h_input   = unittest::random_integers<T>(n);
+    thrust::host_vector<T>   h_output  = unittest::random_integers<T>(n);
+
+    thrust::device_vector<T> d_input   = h_input;
+    thrust::device_vector<T> d_output  = h_output;
+
+    thrust::transform_if(h_input.begin(), h_input.end(),
+                         h_output.begin(),
+                         thrust::negate<T>(), is_positive());
+
+    thrust::transform_if(d_input.begin(), d_input.end(),
+                         d_output.begin(),
+                         thrust::negate<T>(), is_positive());
+    
+    ASSERT_EQUAL(h_output, d_output);
+}
+DECLARE_VARIABLE_UNITTEST(TestTransformIfUnaryNoStencil);
 
 
 template <typename T>

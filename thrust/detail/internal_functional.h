@@ -362,16 +362,18 @@ struct host_unary_transform_if_functor
 {
   UnaryFunction unary_op;
   Predicate pred;
-  
-  host_unary_transform_if_functor(UnaryFunction _unary_op, Predicate _pred)
-    : unary_op(_unary_op), pred(_pred) {} 
-  
-  template <typename Tuple>
+
+  host_unary_transform_if_functor(UnaryFunction unary_op_, Predicate pred_)
+    : unary_op(unary_op_), pred(pred_) {}
+
+  template<typename Tuple>
   __host__
   void operator()(Tuple t)
   {
-    if(pred(thrust::get<1>(t)))
-      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+    if(pred(thrust::get<0>(t)))
+    {
+      thrust::get<1>(t) = unary_op(thrust::get<0>(t));
+    }
   }
 }; // end host_unary_transform_if_functor
 
@@ -381,17 +383,18 @@ struct device_unary_transform_if_functor
 {
   UnaryFunction unary_op;
   Predicate pred;
-  
-  device_unary_transform_if_functor(UnaryFunction _unary_op, Predicate _pred)
-    : unary_op(_unary_op), pred(_pred) {} 
-  
-  // add __host__ to allow the omp backend compile with nvcc
-  template <typename Tuple>
-  __host__ __device__
+
+  device_unary_transform_if_functor(UnaryFunction unary_op_, Predicate pred_)
+    : unary_op(unary_op_), pred(pred_) {}
+
+  template<typename Tuple>
+  __device__
   void operator()(Tuple t)
   {
-    if(pred(thrust::get<1>(t)))
-      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+    if(pred(thrust::get<0>(t)))
+    {
+      thrust::get<1>(t) = unary_op(thrust::get<0>(t));
+    }
   }
 }; // end device_unary_transform_if_functor
 
@@ -402,6 +405,55 @@ template<typename Space, typename UnaryFunction, typename Predicate>
         thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
         thrust::detail::identity_<host_unary_transform_if_functor<UnaryFunction,Predicate> >,
         thrust::detail::identity_<device_unary_transform_if_functor<UnaryFunction,Predicate> >
+      >
+{};
+
+
+template <typename UnaryFunction, typename Predicate>
+struct host_unary_transform_if_with_stencil_functor
+{
+  UnaryFunction unary_op;
+  Predicate pred;
+  
+  host_unary_transform_if_with_stencil_functor(UnaryFunction _unary_op, Predicate _pred)
+    : unary_op(_unary_op), pred(_pred) {} 
+  
+  template <typename Tuple>
+  __host__
+  void operator()(Tuple t)
+  {
+    if(pred(thrust::get<1>(t)))
+      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+  }
+}; // end host_unary_transform_if_with_stencil_functor
+
+
+template <typename UnaryFunction, typename Predicate>
+struct device_unary_transform_if_with_stencil_functor
+{
+  UnaryFunction unary_op;
+  Predicate pred;
+  
+  device_unary_transform_if_with_stencil_functor(UnaryFunction _unary_op, Predicate _pred)
+    : unary_op(_unary_op), pred(_pred) {} 
+  
+  // add __host__ to allow the omp backend compile with nvcc
+  template <typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  {
+    if(pred(thrust::get<1>(t)))
+      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+  }
+}; // end device_unary_transform_if_with_stencil_functor
+
+
+template<typename Space, typename UnaryFunction, typename Predicate>
+  struct unary_transform_if_with_stencil_functor
+    : thrust::detail::eval_if<
+        thrust::detail::is_convertible<Space, thrust::host_space_tag>::value,
+        thrust::detail::identity_<host_unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> >,
+        thrust::detail::identity_<device_unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> >
       >
 {};
 
