@@ -31,7 +31,6 @@
 
 // avoid #including a header,
 // just provide forward declarations
-struct cudaDeviceProp;
 struct cudaFuncAttributes;
 
 namespace thrust
@@ -45,15 +44,30 @@ namespace cuda
 namespace arch
 {
 
-/*! Returns a reference to the cudaDeviceProp structure
+struct device_properties_t
+{
+  // mirror the type and spelling of cudaDeviceProp's members
+  // keep these alphabetized
+  int    major;
+  int    maxGridSize[3];
+  int    maxThreadsPerBlock;
+  int    maxThreadsPerMultiProcessor;
+  int    minor;
+  int    multiProcessorCount;
+  int    regsPerBlock;
+  size_t sharedMemPerBlock;
+  int    warpSize;
+};
+
+/*! Returns a reference to the device_properties_t structure
  *  that is associated with a given device.
  */
-inline const cudaDeviceProp& device_properties(int device_id);
+inline const device_properties_t& device_properties(int device_id);
 
-/*! Returns a reference to the cudaDeviceProp structure
+/*! Returns a reference to the device_properties_t structure
  *  that is associated with the current device.
  */
-inline const cudaDeviceProp& device_properties(void);
+inline const device_properties_t& device_properties(void);
 
 /*! Returns a reference to the cudaFuncAttributes structure
  *  that is associated with a given __global__ function
@@ -65,15 +79,15 @@ inline const cudaFuncAttributes& function_attributes(KernelFunction kernel);
  *  For example, returns 10 for sm_10 and 21 for sm_21
  *  \return The compute capability as an integer
  */
-inline size_t compute_capability(const cudaDeviceProp &properties);
+inline size_t compute_capability(const device_properties_t &properties);
 inline size_t compute_capability(void);
 
 
 /*! Returns the maximum number of blocks (of a particular kernel)
  *  that can be resident on a single multiprocessor.
  */
-inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     properties,
-                                                   const cudaFuncAttributes& attributes,
+inline size_t max_active_blocks_per_multiprocessor(const device_properties_t& properties,
+                                                   const cudaFuncAttributes&  attributes,
                                                    const size_t CTA_SIZE,
                                                    const size_t dynamic_smem_bytes);
 
@@ -86,8 +100,8 @@ inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     pro
  *  \param properties CUDA device properties
  *  \param attributes CUDA function attributes
  */
-inline thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
-                                                               const cudaFuncAttributes& attributes);
+inline thrust::pair<size_t,size_t> default_block_configuration(const device_properties_t& properties,
+                                                               const cudaFuncAttributes&  attributes);
 
 /*! Returns a pair (block_size,blocks_per_multiprocessor)
  *  where block_size is a valid block size chosen by
@@ -100,8 +114,8 @@ inline thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceP
  *  \param UnaryFunction Mapping from block size to (dynamic) shared memory allocation
  */
 template <typename UnaryFunction>
-thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
-                                                        const cudaFuncAttributes& attributes,
+thrust::pair<size_t,size_t> default_block_configuration(const device_properties_t& properties,
+                                                        const cudaFuncAttributes&  attributes,
                                                         UnaryFunction block_size_to_smem_size);
 
 
@@ -112,8 +126,8 @@ thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&   
  *  \param attributes CUDA function attributes
  *  \param blocks_per_processor Number of blocks per streaming multiprocessor
  */
-inline size_t proportional_smem_allocation(const cudaDeviceProp& properties,
-                                           const cudaFuncAttributes& attributes,
+inline size_t proportional_smem_allocation(const device_properties_t& properties,
+                                           const cudaFuncAttributes&  attributes,
                                            size_t blocks_per_processor);
 
 
@@ -126,8 +140,8 @@ size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const siz
 /*! This function returns the block size that achieves the highest
  *  occupancy for a particular kernel & device.
  */
-inline size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp& properties,
-                                                   const cudaFuncAttributes& attributes,
+inline size_t max_blocksize_with_highest_occupancy(const device_properties_t& properties,
+                                                   const cudaFuncAttributes&  attributes,
                                                    size_t dynamic_smem_bytes_per_thread = 0);
 
 template <typename KernelFunction>
@@ -135,8 +149,8 @@ size_t max_blocksize_with_highest_occupancy(KernelFunction kernel, size_t dynami
 
 /*! This function returns the maximum block size for a given kernel and device.
  */
-inline size_t max_blocksize(const cudaDeviceProp&     properties,
-                            const cudaFuncAttributes& attributes,
+inline size_t max_blocksize(const device_properties_t& properties,
+                            const cudaFuncAttributes&  attributes,
                             size_t dynamic_smem_bytes_per_thread = 0);
 
 template <typename KernelFunction>

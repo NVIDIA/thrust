@@ -113,7 +113,7 @@ template<typename Closure>
 {
   typedef closure_launcher_base<Closure> super_t;
   
-  static inline const cudaDeviceProp& device_properties(void)
+  static inline const arch::device_properties_t& device_properties(void)
   {
     return thrust::detail::backend::cuda::arch::device_properties();
   }

@@ -6,13 +6,13 @@
 
 using namespace thrust::detail::backend::cuda::arch;
 
-void set_compute_capability(cudaDeviceProp& properties, int major, int minor)
+void set_compute_capability(device_properties_t& properties, int major, int minor)
 {
   properties.major = major;
   properties.minor = minor;
 }
 
-void set_G80(cudaDeviceProp& properties)
+void set_G80(device_properties_t& properties)
 {
   set_compute_capability(properties, 1, 0);
   properties.multiProcessorCount         = 16;
@@ -23,7 +23,7 @@ void set_G80(cudaDeviceProp& properties)
   properties.maxThreadsPerMultiProcessor = 768;
 }
 
-void set_G84(cudaDeviceProp& properties)
+void set_G84(device_properties_t& properties)
 {
   set_compute_capability(properties, 1, 1);
   properties.multiProcessorCount         = 4;
@@ -34,7 +34,7 @@ void set_G84(cudaDeviceProp& properties)
   properties.maxThreadsPerMultiProcessor = 768;
 }
 
-void set_GT200(cudaDeviceProp& properties)
+void set_GT200(device_properties_t& properties)
 {
   set_compute_capability(properties, 1, 3);
   properties.multiProcessorCount         = 30;
@@ -61,7 +61,7 @@ void set_func_attributes(cudaFuncAttributes& attributes,
 
 void TestComputeCapability(void)
 {
-    cudaDeviceProp properties;
+    device_properties_t properties;
 
     set_compute_capability(properties, 1, 0);
     ASSERT_EQUAL(compute_capability(properties), 10);
@@ -83,7 +83,7 @@ DECLARE_UNITTEST(TestComputeCapability);
 
 void TestMaxActiveBlocks(void)
 {
-    cudaDeviceProp properties;
+    device_properties_t properties;
     cudaFuncAttributes attributes;
 
     // Kernel #1 : Full Occupancy on all devices
@@ -126,7 +126,7 @@ DECLARE_UNITTEST(TestMaxActiveBlocks);
 
 void TestMaxBlocksizeWithHighestOccupancy(void)
 {
-    cudaDeviceProp properties;
+    device_properties_t properties;
     cudaFuncAttributes attributes;
     
     // Kernel #1 : Full Occupancy on all devices
@@ -164,7 +164,7 @@ DECLARE_UNITTEST(TestMaxBlocksizeWithHighestOccupancy);
 
 void TestMaxBlocksize(void)
 {
-    cudaDeviceProp properties;
+    device_properties_t properties;
     cudaFuncAttributes attributes;
     
     // Kernel #1 : Full Occupancy on all devices

@@ -49,24 +49,24 @@ namespace detail
 {
 
 // granularity of shared memory allocation
-inline size_t smem_allocation_unit(const cudaDeviceProp&)
+inline size_t smem_allocation_unit(const device_properties_t &)
 {
   return 512;
 }
 
 // granularity of register allocation
-inline size_t reg_allocation_unit(const cudaDeviceProp& properties)
+inline size_t reg_allocation_unit(const device_properties_t& properties)
 {
   return (properties.major < 2 && properties.minor < 2) ? 256 : 512;
 }
 
 // granularity of warp allocation
-inline size_t warp_allocation_multiple(const cudaDeviceProp&)
+inline size_t warp_allocation_multiple(const device_properties_t &)
 {
   return 2;
 }
 
-inline size_t max_blocks_per_multiprocessor(const cudaDeviceProp&)
+inline size_t max_blocks_per_multiprocessor(const device_properties_t &)
 {
   return 8;
 }
@@ -80,26 +80,51 @@ struct zero_function
   }
 };
 
+inline void get_device_properties(device_properties_t &p, int device_id)
+{
+  cudaDeviceProp properties;
+  
+  // the properties weren't found, ask the runtime to generate them
+  cudaError_t error = cudaGetDeviceProperties(&properties, device_id);
+  
+  if(error)
+    throw thrust::system_error(error, thrust::cuda_category());
+
+  // be careful about how this is initialized!
+  device_properties_t temp = {
+    properties.major,
+    {
+      properties.maxGridSize[0],
+      properties.maxGridSize[1],
+      properties.maxGridSize[2]
+    },
+    properties.maxThreadsPerBlock,
+    properties.maxThreadsPerMultiProcessor,
+    properties.minor,
+    properties.multiProcessorCount,
+    properties.regsPerBlock,
+    properties.sharedMemPerBlock,
+    properties.warpSize
+  };
+
+  p = temp;
+} // end get_device_properties()
+
 } // end namespace detail
 
 
-inline const cudaDeviceProp& device_properties(int device_id)
+inline const device_properties_t& device_properties(int device_id)
 {
   // cache the result of the introspection call because it is expensive
-  static std::map<int,cudaDeviceProp> properties_map;
+  static std::map<int,device_properties_t> properties_map;
 
   // search the cache for the properties
-  std::map<int,cudaDeviceProp>::const_iterator iter = properties_map.find(device_id);
+  std::map<int,device_properties_t>::const_iterator iter = properties_map.find(device_id);
 
   if(iter == properties_map.end())
   {
-    cudaDeviceProp properties;
-
-    // the properties weren't found, ask the runtime to generate them
-    cudaError_t error = cudaGetDeviceProperties(&properties, device_id);
-
-    if(error)
-      throw thrust::system_error(error, thrust::cuda_category());
+    device_properties_t properties;
+    detail::get_device_properties(properties, device_id);
 
     // insert the new entry and return a reference
     return properties_map[device_id] = properties;
@@ -111,7 +136,7 @@ inline const cudaDeviceProp& device_properties(int device_id)
   }
 }
 
-inline const cudaDeviceProp& device_properties(void)
+inline const device_properties_t& device_properties(void)
 {
   int device_id = -1;
 
@@ -162,7 +187,7 @@ inline const cudaFuncAttributes& function_attributes(KernelFunction kernel)
   }
 }
 
-inline size_t compute_capability(const cudaDeviceProp &properties)
+inline size_t compute_capability(const device_properties_t &properties)
 {
   return 10 * properties.major + properties.minor;
 }
@@ -173,8 +198,8 @@ inline size_t compute_capability(void)
 }
 
 
-inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     properties,
-                                                   const cudaFuncAttributes& attributes,
+inline size_t max_active_blocks_per_multiprocessor(const device_properties_t& properties,
+                                                   const cudaFuncAttributes&  attributes,
                                                    size_t CTA_SIZE,
                                                    size_t dynamic_smem_bytes)
 {
@@ -204,15 +229,15 @@ inline size_t max_active_blocks_per_multiprocessor(const cudaDeviceProp&     pro
 
 
 
-inline thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
-                                                               const cudaFuncAttributes& attributes)
+inline thrust::pair<size_t,size_t> default_block_configuration(const device_properties_t& properties,
+                                                               const cudaFuncAttributes&  attributes)
 {
   return default_block_configuration(properties, attributes, detail::zero_function<size_t>());
 }
 
 template <typename UnaryFunction>
-thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&     properties,
-                                                        const cudaFuncAttributes& attributes,
+thrust::pair<size_t,size_t> default_block_configuration(const device_properties_t& properties,
+                                                        const cudaFuncAttributes&  attributes,
                                                         UnaryFunction block_size_to_smem_size)
 {
   size_t max_occupancy      = properties.maxThreadsPerMultiProcessor;
@@ -240,8 +265,8 @@ thrust::pair<size_t,size_t> default_block_configuration(const cudaDeviceProp&   
 }
 
 
-inline size_t proportional_smem_allocation(const cudaDeviceProp& properties,
-                                           const cudaFuncAttributes& attributes,
+inline size_t proportional_smem_allocation(const device_properties_t& properties,
+                                           const cudaFuncAttributes&  attributes,
                                            size_t blocks_per_processor)
 {
   size_t smem_per_processor    = properties.sharedMemPerBlock;
@@ -259,14 +284,14 @@ inline size_t proportional_smem_allocation(const cudaDeviceProp& properties,
 template <typename KernelFunction>
 size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes)
 {
-  const cudaDeviceProp&     properties = device_properties();
-  const cudaFuncAttributes& attributes = function_attributes(kernel);
+  const device_properties_t& properties = device_properties();
+  const cudaFuncAttributes&  attributes = function_attributes(kernel);
 
   return properties.multiProcessorCount * max_active_blocks_per_multiprocessor(properties, attributes, CTA_SIZE, dynamic_smem_bytes);
 }
 
-size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp&     properties,
-                                            const cudaFuncAttributes& attributes,
+size_t max_blocksize_with_highest_occupancy(const device_properties_t& properties,
+                                            const cudaFuncAttributes&  attributes,
                                             size_t dynamic_smem_bytes_per_thread)
 {
   size_t max_occupancy      = properties.maxThreadsPerMultiProcessor;
@@ -296,16 +321,16 @@ size_t max_blocksize_with_highest_occupancy(const cudaDeviceProp&     properties
 template <typename KernelFunction>
 size_t max_blocksize_with_highest_occupancy(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread)
 {
-  const cudaDeviceProp&     properties = device_properties();
-  const cudaFuncAttributes& attributes = function_attributes(kernel);
+  const device_properties_t& properties = device_properties();
+  const cudaFuncAttributes&  attributes = function_attributes(kernel);
   
   return max_blocksize_with_highest_occupancy(properties, attributes, dynamic_smem_bytes_per_thread);
 }
 
 
 // TODO unify this with max_blocksize_with_highest_occupancy
-size_t max_blocksize(const cudaDeviceProp&     properties,
-                     const cudaFuncAttributes& attributes,
+size_t max_blocksize(const device_properties_t& properties,
+                     const cudaFuncAttributes&  attributes,
                      size_t dynamic_smem_bytes_per_thread)
 {
   size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
@@ -324,15 +349,15 @@ size_t max_blocksize(const cudaDeviceProp&     properties,
 template <typename KernelFunction>
 size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread)
 {
-  const cudaDeviceProp&     properties = device_properties();
-  const cudaFuncAttributes& attributes = function_attributes(kernel);
+  const device_properties_t& properties = device_properties();
+  const cudaFuncAttributes&  attributes = function_attributes(kernel);
 
   return max_blocksize(properties, attributes, dynamic_smem_bytes_per_thread);
 }
 
 template<typename UnaryFunction>
-size_t max_blocksize_subject_to_smem_usage(const cudaDeviceProp&     properties,
-                                           const cudaFuncAttributes& attributes,
+size_t max_blocksize_subject_to_smem_usage(const device_properties_t& properties,
+                                           const cudaFuncAttributes&  attributes,
                                            UnaryFunction blocksize_to_dynamic_smem_usage)
 {
   size_t largest_blocksize = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
@@ -354,8 +379,8 @@ size_t max_blocksize_subject_to_smem_usage(const cudaDeviceProp&     properties,
 template<typename KernelFunction, typename UnaryFunction>
 size_t max_blocksize_subject_to_smem_usage(KernelFunction kernel, UnaryFunction blocksize_to_dynamic_smem_usage)
 {
-  const cudaDeviceProp&     properties = device_properties();
-  const cudaFuncAttributes& attributes = function_attributes(kernel);
+  const device_properties_t& properties = device_properties();
+  const cudaFuncAttributes&  attributes = function_attributes(kernel);
   
   return max_blocksize_subject_to_smem_usage(properties, attributes, blocksize_to_dynamic_smem_usage);
 }

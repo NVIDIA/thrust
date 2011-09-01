@@ -25,18 +25,13 @@ namespace backend
 namespace cuda
 {
 
-// guard this file, which depends on CUDA, from compilers which aren't nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 template <typename IndexType>
 thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
   // TODO eliminate magical constant
-  const cudaDeviceProp& properties = thrust::detail::backend::cuda::arch::device_properties();
+  const arch::device_properties_t& properties = thrust::detail::backend::cuda::arch::device_properties();
   return thrust::detail::backend::uniform_decomposition<IndexType>(n, properties.maxThreadsPerBlock, 10 * properties.multiProcessorCount);
 }
-
-#endif // THRUST_DEVICE_COMPILER_NVCC
 
 } // end namespace cuda
 } // end namespace backend

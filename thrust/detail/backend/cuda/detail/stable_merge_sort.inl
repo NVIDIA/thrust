@@ -123,7 +123,7 @@ static const unsigned int warp_size = 32;
 
 inline unsigned int max_grid_size(const unsigned int block_size)
 {
-  const cudaDeviceProp& properties = thrust::detail::backend::cuda::arch::device_properties();
+  const arch::device_properties_t& properties = thrust::detail::backend::cuda::arch::device_properties();
 
   const unsigned int max_threads = properties.maxThreadsPerMultiProcessor * properties.multiProcessorCount;
   const unsigned int max_blocks  = properties.maxGridSize[0];
