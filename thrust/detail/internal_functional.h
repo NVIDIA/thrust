@@ -388,7 +388,7 @@ struct device_unary_transform_if_functor
     : unary_op(unary_op_), pred(pred_) {}
 
   template<typename Tuple>
-  __device__
+  __host__ __device__
   void operator()(Tuple t)
   {
     if(pred(thrust::get<0>(t)))
