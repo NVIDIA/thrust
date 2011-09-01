@@ -68,9 +68,12 @@ void stable_sort(RandomAccessIterator first,
     IndexType p_i = omp_get_thread_num();
 
     // every thread sorts its own tile
-    thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[p_i].begin(),
-                                              thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[p_i].end(),
-                                              comp);
+    if (p_i < decomp.size())
+    {
+      thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[p_i].begin(),
+                                                thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[p_i].end(),
+                                                comp);
+    }
 
     #pragma omp barrier
 
@@ -135,11 +138,14 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
     IndexType p_i = omp_get_thread_num();
 
     // every thread sorts its own tile
-    thrust::detail::backend::cpp::
-      stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[p_i].begin(),
-                         thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[p_i].end(),
-                         thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()) + decomp[p_i].begin(),
-                         comp);
+    if (p_i < decomp.size())
+    {
+      thrust::detail::backend::cpp::
+        stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[p_i].begin(),
+                           thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[p_i].end(),
+                           thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()) + decomp[p_i].begin(),
+                           comp);
+    }
 
     #pragma omp barrier
 
