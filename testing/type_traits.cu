@@ -96,3 +96,31 @@ void TestIsTrivialIterator(void)
 }
 DECLARE_UNITTEST(TestIsTrivialIterator);
 
+void TestIsCommutative(void)
+{
+  { typedef int T; typedef thrust::plus<T>        Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::multiplies<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::minimum<T>     Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::maximum<T>     Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::logical_or<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::logical_and<T> Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::bit_or<T>      Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::bit_and<T>     Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef int T; typedef thrust::bit_xor<T>     Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  
+  { typedef char      T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef short     T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef long      T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef long long T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef float     T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  { typedef double    T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, true); }
+  
+  { typedef int   T; typedef thrust::minus<T>   Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, false); }
+  { typedef int   T; typedef thrust::divides<T> Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, false); }
+  { typedef float T; typedef thrust::divides<T> Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, false); }
+  { typedef float T; typedef thrust::minus<T>   Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, false); }
+  
+  { typedef thrust::tuple<int,int> T; typedef thrust::plus<T>  Op; ASSERT_EQUAL((bool) thrust::detail::is_commutative<Op>::value, false); }
+}
+DECLARE_UNITTEST(TestIsCommutative);
+
