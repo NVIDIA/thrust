@@ -24,6 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/pointer_base.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 #include <ostream>
 
 namespace thrust
@@ -161,25 +162,16 @@ template<typename T>
 __host__ __device__
 inline device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr);
 
-/*! \p raw_pointer_cast creates a "raw" pointer <tt>T*</tt> from a device_ptr, simply
- *  returning the pointer wrapped by the device_ptr.
- *
- *  \param ptr The device_ptr of interest.
- *  \return <tt>ptr.get()</tt>.
- */
-template<typename T>
-__host__ __device__
-inline T *raw_pointer_cast(const device_ptr<T> &ptr);
-
-/*! \p raw_pointer_cast creates a copy of a "raw" pointer <tt>T*</tt>.
- *  This version is included merely for convenience.
+/*! \p raw_pointer_cast creates a "raw" pointer from a pointer-like type,
+ *  simply returning the wrapped pointer, should it exist.
  *
  *  \param ptr The pointer of interest.
- *  \return \p ptr
+ *  \return <tt>ptr.get()</tt>, if the expression is well formed; <tt>ptr</tt>, otherwise.
  */
-template<typename T>
+template<typename Pointer>
 __host__ __device__
-inline T *raw_pointer_cast(T *ptr);
+inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+  raw_pointer_cast(const Pointer &ptr);
 
 /*! \}
  */

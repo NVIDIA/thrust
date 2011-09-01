@@ -41,16 +41,11 @@ template<typename T>
   return ptr;
 } // end device_pointer_cast()
 
-template<typename T>
-  T *raw_pointer_cast(const device_ptr<T> &ptr)
+template<typename Pointer>
+  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+    raw_pointer_cast(const Pointer &ptr)
 {
-  return ptr.get();
-} // end raw_pointer_cast()
-
-template<typename T>
-  T *raw_pointer_cast(T *ptr)
-{
-  return ptr;
+  return thrust::detail::pointer_traits<Pointer>::get(ptr);
 } // end raw_pointer_cast()
 
 

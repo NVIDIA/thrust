@@ -25,6 +25,7 @@
 #include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/extrema.h>
 #include <thrust/detail/internal_functional.h>
 
@@ -66,13 +67,18 @@ template<typename WideType, typename Pointer, typename Size, typename T>
   OutputType *block_first_raw = (thrust::min)(first_raw + n,   thrust::detail::util::align_up(first_raw, ALIGNMENT_BOUNDARY));
   OutputType *block_last_raw  = (thrust::max)(block_first_raw, thrust::detail::util::align_down(last_raw, sizeof(WideType)));
 
-  thrust::device_ptr<WideType> block_first_wide = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_first_raw));
-  thrust::device_ptr<WideType> block_last_wide  = thrust::device_pointer_cast(reinterpret_cast<WideType*>(block_last_raw));
+  // rebind Pointer to WideType
+  typedef typename thrust::detail::rebind_pointer<Pointer,WideType>::type WidePtr;
+  typedef thrust::detail::pointer_traits<WidePtr> WideTraits;
 
-  thrust::generate(first, thrust::device_pointer_cast(block_first_raw), fill_functor<OutputType>(value));
+  // point to the widened range
+  WidePtr block_first_wide = WideTraits::pointer_to(reinterpret_cast<WideType&>(*block_first_raw));
+  WidePtr block_last_wide  = WideTraits::pointer_to(reinterpret_cast<WideType&>(*block_last_raw));
+
+  thrust::generate(first, Pointer(block_first_raw), fill_functor<OutputType>(value));
   thrust::generate(block_first_wide, block_last_wide,
                    fill_functor<WideType>(wide_exemplar));
-  thrust::generate(thrust::device_pointer_cast(block_last_raw), first + n, fill_functor<OutputType>(value));
+  thrust::generate(Pointer(block_last_raw), first + n, fill_functor<OutputType>(value));
 
   return first + n;
 }
