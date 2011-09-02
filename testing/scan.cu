@@ -395,10 +395,6 @@ void _TestScanWithLargeTypes(void)
 
 void TestScanWithLargeTypes(void)
 {
-#ifdef _MSC_VER
-    // XXX when compiling, these tests kill the backend for some reason on XP
-    KNOWN_FAILURE
-#else
     _TestScanWithLargeTypes<int,    1>();
     _TestScanWithLargeTypes<int,    2>();
     _TestScanWithLargeTypes<int,    4>();
@@ -414,7 +410,6 @@ void TestScanWithLargeTypes(void)
     //_TestScanWithLargeTypes<int,  256>();
     //_TestScanWithLargeTypes<int,  512>();
     //_TestScanWithLargeTypes<int, 1024>();
-#endif
 }
 DECLARE_UNITTEST(TestScanWithLargeTypes);
 
