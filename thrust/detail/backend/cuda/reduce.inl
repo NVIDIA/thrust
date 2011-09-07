@@ -176,7 +176,7 @@ template<typename InputIterator,
   // TODO chose this in a more principled manner
   size_t threshold = thrust::max<size_t>(2 * attributes.maxThreadsPerBlock, 1024);
 
-  const arch::device_properties_t& properties = thrust::detail::backend::cuda::arch::device_properties();
+  arch::device_properties_t properties = thrust::detail::backend::cuda::arch::device_properties();
 
   // launch configuration
   size_t num_blocks; 

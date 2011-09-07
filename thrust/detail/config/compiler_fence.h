@@ -14,20 +14,17 @@
  *  limitations under the License.
  */
 
-/*! \file config.h
- *  \brief Defines platform configuration.
- */
-
 #pragma once
 
-// XXX the order of these #includes matters
+#include <thrust/detail/config.h>
 
-#include <thrust/detail/config/simple_defines.h>
-#include <thrust/detail/config/compiler.h>
-// device_backend.h must be #included as early as possible
-// because other config headers depend on it
-#include <thrust/detail/config/device_backend.h>
-#include <thrust/detail/config/host_device.h>
-#include <thrust/detail/config/debug.h>
-#include <thrust/detail/config/compiler_fence.h>
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#include <intrin.h>
+#define __thrust_compiler_fence() _ReadWriteBarrier()
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#define __thrust_compiler_fence() __sync_synchronize()
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_UNKNOWN
+// allow the code to compile without any guarantees
+#define __thrust_compiler_fence()
+#endif
 

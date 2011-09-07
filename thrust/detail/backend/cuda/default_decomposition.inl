@@ -29,7 +29,7 @@ template <typename IndexType>
 thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
   // TODO eliminate magical constant
-  const arch::device_properties_t& properties = thrust::detail::backend::cuda::arch::device_properties();
+  arch::device_properties_t properties = thrust::detail::backend::cuda::arch::device_properties();
   return thrust::detail::backend::uniform_decomposition<IndexType>(n, properties.maxThreadsPerBlock, 10 * properties.multiProcessorCount);
 }
 

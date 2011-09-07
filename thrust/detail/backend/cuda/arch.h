@@ -62,12 +62,12 @@ struct device_properties_t
 /*! Returns a reference to the device_properties_t structure
  *  that is associated with a given device.
  */
-inline const device_properties_t& device_properties(int device_id);
+inline device_properties_t device_properties(int device_id);
 
 /*! Returns a reference to the device_properties_t structure
  *  that is associated with the current device.
  */
-inline const device_properties_t& device_properties(void);
+inline device_properties_t device_properties(void);
 
 /*! Returns a reference to the cudaFuncAttributes structure
  *  that is associated with a given __global__ function

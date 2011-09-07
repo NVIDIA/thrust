@@ -39,8 +39,8 @@ namespace detail
 template <typename Closure>
 class launch_calculator
 {
-  const arch::device_properties_t& properties;
-  const cudaFuncAttributes&        attributes;
+  arch::device_properties_t properties;
+  const cudaFuncAttributes& attributes;
 
   public:
   

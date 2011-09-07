@@ -84,7 +84,6 @@ inline void get_device_properties(device_properties_t &p, int device_id)
 {
   cudaDeviceProp properties;
   
-  // the properties weren't found, ask the runtime to generate them
   cudaError_t error = cudaGetDeviceProperties(&properties, device_id);
   
   if(error)
@@ -113,30 +112,37 @@ inline void get_device_properties(device_properties_t &p, int device_id)
 } // end namespace detail
 
 
-inline const device_properties_t& device_properties(int device_id)
+inline device_properties_t device_properties(int device_id)
 {
-  // cache the result of the introspection call because it is expensive
-  static std::map<int,device_properties_t> properties_map;
+  // cache the result of get_device_properties, because it is slow
+  // only cache the first few devices
+  static const int max_num_devices                              = 16;
 
-  // search the cache for the properties
-  std::map<int,device_properties_t>::const_iterator iter = properties_map.find(device_id);
+  static bool properties_exist[max_num_devices]                 = {0};
+  static device_properties_t device_properties[max_num_devices] = {0};
 
-  if(iter == properties_map.end())
+  if(device_id >= max_num_devices)
   {
-    device_properties_t properties;
-    detail::get_device_properties(properties, device_id);
+    device_properties_t result;
+    detail::get_device_properties(result, device_id);
+    return result;
+  }
 
-    // insert the new entry and return a reference
-    return properties_map[device_id] = properties;
-  }
-  else
+  if(!properties_exist[device_id])
   {
-    // return the cached value
-    return iter->second;
+    detail::get_device_properties(device_properties[device_id], device_id);
+
+    // disallow the compiler to move the write to properties_exist[device_id]
+    // before the initialization of device_properties[device_id]
+    __thrust_compiler_fence();
+    
+    properties_exist[device_id] = true;
   }
+
+  return device_properties[device_id];
 }
 
-inline const device_properties_t& device_properties(void)
+inline device_properties_t device_properties(void)
 {
   int device_id = -1;
 
@@ -284,7 +290,7 @@ inline size_t proportional_smem_allocation(const device_properties_t& properties
 template <typename KernelFunction>
 size_t max_active_blocks(KernelFunction kernel, const size_t CTA_SIZE, const size_t dynamic_smem_bytes)
 {
-  const device_properties_t& properties = device_properties();
+  device_properties_t properties = device_properties();
   const cudaFuncAttributes&  attributes = function_attributes(kernel);
 
   return properties.multiProcessorCount * max_active_blocks_per_multiprocessor(properties, attributes, CTA_SIZE, dynamic_smem_bytes);
@@ -321,7 +327,7 @@ size_t max_blocksize_with_highest_occupancy(const device_properties_t& propertie
 template <typename KernelFunction>
 size_t max_blocksize_with_highest_occupancy(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread)
 {
-  const device_properties_t& properties = device_properties();
+  device_properties_t properties = device_properties();
   const cudaFuncAttributes&  attributes = function_attributes(kernel);
   
   return max_blocksize_with_highest_occupancy(properties, attributes, dynamic_smem_bytes_per_thread);
@@ -349,7 +355,7 @@ size_t max_blocksize(const device_properties_t& properties,
 template <typename KernelFunction>
 size_t max_blocksize(KernelFunction kernel, size_t dynamic_smem_bytes_per_thread)
 {
-  const device_properties_t& properties = device_properties();
+  device_properties_t properties = device_properties();
   const cudaFuncAttributes&  attributes = function_attributes(kernel);
 
   return max_blocksize(properties, attributes, dynamic_smem_bytes_per_thread);
@@ -379,7 +385,7 @@ size_t max_blocksize_subject_to_smem_usage(const device_properties_t& properties
 template<typename KernelFunction, typename UnaryFunction>
 size_t max_blocksize_subject_to_smem_usage(KernelFunction kernel, UnaryFunction blocksize_to_dynamic_smem_usage)
 {
-  const device_properties_t& properties = device_properties();
+  device_properties_t properties = device_properties();
   const cudaFuncAttributes&  attributes = function_attributes(kernel);
   
   return max_blocksize_subject_to_smem_usage(properties, attributes, blocksize_to_dynamic_smem_usage);
