@@ -47,6 +47,7 @@ namespace cuda_errc
 enum cuda_errc_t
 {
   // from cuda/include/driver_types.h
+  // mirror their order
   success                      = cudaSuccess,
   missing_configuration        = cudaErrorMissingConfiguration,
   memory_allocation            = cudaErrorMemoryAllocation,
@@ -86,7 +87,7 @@ enum cuda_errc_t
   set_on_active_process_error  = cudaErrorSetOnActiveProcess,
   no_device                    = cudaErrorNoDevice,
   ecc_uncorrectable            = cudaErrorECCUncorrectable,
-  startup_failure              = cudaErrorStartupFailure,
+  startup_failure              = cudaErrorStartupFailure
 }; // end cuda_errc_t
 
 
