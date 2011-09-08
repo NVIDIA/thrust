@@ -109,30 +109,6 @@ inline void get_device_properties(device_properties_t &p, int device_id)
   p = temp;
 } // end get_device_properties()
 
-template<typename GlobalFunctionPointer>
-inline void get_function_attributes(function_attributes_t &a, GlobalFunctionPointer fcn_ptr)
-{
-  cudaFuncAttributes attributes;
-  
-  cudaError_t error = cudaFuncGetAttributes(&attributes, fcn_ptr);
-  
-  if(error)
-  {
-    throw thrust::system_error(error, thrust::cuda_category());
-  }
-
-  // be careful about how this is initialized!
-  function_attributes_t temp = {
-    attributes.constSizeBytes,
-    attributes.localSizeBytes,
-    attributes.maxThreadsPerBlock,
-    attributes.numRegs,
-    attributes.sharedSizeBytes
-  };
-
-  a = temp;
-} // end get_function_attributes()
-
 } // end namespace detail
 
 
@@ -186,29 +162,27 @@ inline function_attributes_t function_attributes(KernelFunction kernel)
 {
   typedef void (*fun_ptr_type)();
 
-  // cache the result of the introspection call because it is expensive
-  // cache fun_ptr_type rather than KernelFunction to avoid problems with long names on MSVC 2005
-  static std::map<fun_ptr_type,function_attributes_t> attributes_map;
-
   fun_ptr_type fun_ptr = reinterpret_cast<fun_ptr_type>(kernel);
 
-  // search the cache for the attributes
-  typename std::map<fun_ptr_type,function_attributes_t>::const_iterator iter = attributes_map.find(fun_ptr);
-
-  if(iter == attributes_map.end())
+  cudaFuncAttributes attributes;
+  
+  cudaError_t error = cudaFuncGetAttributes(&attributes, fun_ptr);
+  
+  if(error)
   {
-     // the attributes weren't found, ask the runtime to generate them
-    function_attributes_t attributes;
-    detail::get_function_attributes(attributes, fun_ptr);
+    throw thrust::system_error(error, thrust::cuda_category());
+  }
 
-    // insert the new entry and return a copy
-    return attributes_map[fun_ptr] = attributes;
-  }
-  else
-  {
-    // return a copy of the cached value
-    return iter->second;
-  }
+  // be careful about how this is initialized!
+  function_attributes_t result = {
+    attributes.constSizeBytes,
+    attributes.localSizeBytes,
+    attributes.maxThreadsPerBlock,
+    attributes.numRegs,
+    attributes.sharedSizeBytes
+  };
+
+  return result;
 }
 
 inline size_t compute_capability(const device_properties_t &properties)

@@ -185,7 +185,23 @@ template <typename Closure>
 arch::function_attributes_t closure_attributes(void)
 {
   typedef typename thrust::detail::backend::cuda::detail::closure_launcher<Closure> Launcher;
-  return thrust::detail::backend::cuda::arch::function_attributes(Launcher::get_launch_function());
+
+  // cache the result of function_attributes(), because it is slow
+  static bool result_exists                 = false;
+  static arch::function_attributes_t result = {0};
+
+  if(!result_exists)
+  {
+    result = thrust::detail::backend::cuda::arch::function_attributes(Launcher::get_launch_function());
+
+    // disallow the compiler to move the write to result_exists
+    // before the initialization of result
+    __thrust_compiler_fence();
+
+    result_exists = true;
+  }
+
+  return result;
 }
 
 } // end detail
