@@ -171,7 +171,7 @@ template<typename InputIterator,
 
   typedef unordered_reduce_closure<InputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;
     
-  const cudaFuncAttributes & attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
+  arch::function_attributes_t attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
   
   // TODO chose this in a more principled manner
   size_t threshold = thrust::max<size_t>(2 * attributes.maxThreadsPerBlock, 1024);
@@ -220,7 +220,7 @@ template<typename InputIterator,
   {
     typedef unordered_reduce_closure<OutputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;
 
-    const cudaFuncAttributes & attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
+    arch::function_attributes_t attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
 
     num_blocks = 1;
     block_size = thrust::min(output.size(), static_cast<size_t>(attributes.maxThreadsPerBlock));

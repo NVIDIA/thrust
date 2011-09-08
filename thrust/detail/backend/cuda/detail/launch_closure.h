@@ -17,10 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-
-// avoid #including a header,
-// just provide forward declarations
-struct cudaFuncAttributes;
+#include <thrust/detail/backend/cuda/arch.h>
 
 namespace thrust
 {
@@ -50,11 +47,11 @@ template<typename Closure, typename Size1, typename Size2>
 template<typename Closure, typename Size1, typename Size2, typename Size3>
   void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size);
 
-/*! Returns a reference to the cudaFuncAttributes structure
+/*! Returns a copy of the cudaFuncAttributes structure
  *  that is associated with a given Closure
  */
 template <typename Closure>
-const cudaFuncAttributes& closure_attributes(void);
+arch::function_attributes_t closure_attributes(void);
 
 } // end namespace detail
 } // end namespace cuda

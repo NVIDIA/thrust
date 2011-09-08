@@ -38,7 +38,7 @@ launch_calculator<Closure>::launch_calculator(void)
 {}
   
 template <typename Closure>
-launch_calculator<Closure>::launch_calculator(const arch::device_properties_t& properties, const cudaFuncAttributes& attributes)
+launch_calculator<Closure>::launch_calculator(const arch::device_properties_t& properties, const arch::function_attributes_t& attributes)
   : properties(properties),
     attributes(attributes)
 {}

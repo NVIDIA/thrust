@@ -21,10 +21,6 @@
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/tuple.h>
 
-// avoid #including a header,
-// just provide forward declarations
-struct cudaFuncAttributes;
-
 namespace thrust
 {
 namespace detail
@@ -39,14 +35,14 @@ namespace detail
 template <typename Closure>
 class launch_calculator
 {
-  arch::device_properties_t properties;
-  const cudaFuncAttributes& attributes;
+  arch::device_properties_t   properties;
+  arch::function_attributes_t attributes;
 
   public:
   
   launch_calculator(void);
 
-  launch_calculator(const arch::device_properties_t& properties, const cudaFuncAttributes& attributes);
+  launch_calculator(const arch::device_properties_t& properties, const arch::function_attributes_t& attributes);
 
   thrust::tuple<size_t,size_t,size_t> with_variable_block_size(void);
 

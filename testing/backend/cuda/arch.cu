@@ -45,7 +45,7 @@ void set_GT200(device_properties_t& properties)
   properties.maxThreadsPerMultiProcessor = 1024;
 }
 
-void set_func_attributes(cudaFuncAttributes& attributes,
+void set_func_attributes(function_attributes_t& attributes,
                          size_t constSizeBytes,           // Size of constant memory in bytes.
                          size_t localSizeBytes,           // Size of local memory in bytes.
                          int maxThreadsPerBlock,          // Maximum number of threads per block.
@@ -83,8 +83,8 @@ DECLARE_UNITTEST(TestComputeCapability);
 
 void TestMaxActiveBlocks(void)
 {
-    device_properties_t properties;
-    cudaFuncAttributes attributes;
+    device_properties_t   properties;
+    function_attributes_t attributes;
 
     // Kernel #1 : Full Occupancy on all devices
     set_func_attributes(attributes, 0, 0, 512, 10, 2048);
@@ -126,8 +126,8 @@ DECLARE_UNITTEST(TestMaxActiveBlocks);
 
 void TestMaxBlocksizeWithHighestOccupancy(void)
 {
-    device_properties_t properties;
-    cudaFuncAttributes attributes;
+    device_properties_t   properties;
+    function_attributes_t attributes;
     
     // Kernel #1 : Full Occupancy on all devices
     set_func_attributes(attributes, 0, 0, 512, 10, 2048);
@@ -164,8 +164,8 @@ DECLARE_UNITTEST(TestMaxBlocksizeWithHighestOccupancy);
 
 void TestMaxBlocksize(void)
 {
-    device_properties_t properties;
-    cudaFuncAttributes attributes;
+    device_properties_t   properties;
+    function_attributes_t attributes;
     
     // Kernel #1 : Full Occupancy on all devices
     set_func_attributes(attributes, 0, 0, 512, 10, 2048);

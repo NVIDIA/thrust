@@ -118,7 +118,7 @@ template<typename Closure>
     return thrust::detail::backend::cuda::arch::device_properties();
   }
   
-  static inline const cudaFuncAttributes& function_attributes(void)
+  static inline arch::function_attributes_t function_attributes(void)
   {
     return thrust::detail::backend::cuda::arch::function_attributes(super_t::get_launch_function());
   }
@@ -182,7 +182,7 @@ template<typename Closure, typename Size1, typename Size2, typename Size3>
 
   
 template <typename Closure>
-const cudaFuncAttributes& closure_attributes(void)
+arch::function_attributes_t closure_attributes(void)
 {
   typedef typename thrust::detail::backend::cuda::detail::closure_launcher<Closure> Launcher;
   return thrust::detail::backend::cuda::arch::function_attributes(Launcher::get_launch_function());
