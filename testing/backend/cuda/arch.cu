@@ -45,6 +45,17 @@ void set_GT200(device_properties_t& properties)
   properties.maxThreadsPerMultiProcessor = 1024;
 }
 
+void set_unknown(device_properties_t& properties)
+{
+  set_compute_capability(properties, 900, 1);
+  properties.multiProcessorCount         = 9001;
+  properties.sharedMemPerBlock           = 4 * 16384;
+  properties.regsPerBlock                = 32768;
+  properties.warpSize                    = 32;
+  properties.maxThreadsPerBlock          = 4096;
+  properties.maxThreadsPerMultiProcessor = 8192;
+}
+
 void set_func_attributes(function_attributes_t& attributes,
                          size_t constSizeBytes,           // Size of constant memory in bytes.
                          size_t localSizeBytes,           // Size of local memory in bytes.
@@ -198,6 +209,68 @@ void TestMaxBlocksize(void)
     set_GT200(properties); ASSERT_EQUAL(max_blocksize(properties, attributes), 512);
 }
 DECLARE_UNITTEST(TestMaxBlocksize);
+
+static bool validate_nonzero_results(const device_properties_t   &properties,
+                                     const function_attributes_t &attributes)
+{
+  bool result = true;
+
+  // validate that all these calls return something non-zero
+  result &= (max_active_blocks_per_multiprocessor(properties, attributes, 512, 512 * 4) > 0);
+  ASSERT_EQUAL(true, result);
+
+  thrust::pair<size_t, size_t> config = default_block_configuration(properties,attributes);
+
+  result &= (config.first > 0);
+  ASSERT_EQUAL(true, result);
+
+  result &= (config.second > 0);
+  ASSERT_EQUAL(true, result);
+
+  result &= max_blocksize_with_highest_occupancy(properties, attributes) > 0;
+  ASSERT_EQUAL(true, result);
+
+  result &= max_blocksize_with_highest_occupancy(properties, attributes, 4) > 0;
+  ASSERT_EQUAL(true, result);
+
+  result &= max_blocksize(properties, attributes) > 0;
+  ASSERT_EQUAL(true, result);
+
+  result &= max_blocksize(properties, attributes, 4) > 0;
+  ASSERT_EQUAL(true, result);
+
+  return result;
+}
+
+void TestUnknownDeviceRobustness(void)
+{
+    device_properties_t  properties;
+    function_attributes_t attributes;
+
+    // create an unknown device
+    set_unknown(properties);
+
+    // Kernel #1 : Full Occupancy on all real devices
+    set_func_attributes(attributes, 0, 0, 512, 10, 2048);
+    ASSERT_EQUAL(true, validate_nonzero_results(properties, attributes));
+
+    // Kernel #2 : 2/3rds Occupancy on G8x and 100% on GT200
+    set_func_attributes(attributes, 0, 0, 512, 16, 2048);
+    ASSERT_EQUAL(true, validate_nonzero_results(properties, attributes));
+
+    // Kernel #3 : 50% Occupancy on G8x and 75% on GT200
+    set_func_attributes(attributes, 0, 0, 512, 20, 2048);
+    ASSERT_EQUAL(true, validate_nonzero_results(properties, attributes));
+
+    // Kernel #4 : 1/3rds Occupancy on G8x and 50% on GT200
+    set_func_attributes(attributes, 0, 0, 384, 26, 2048);
+    ASSERT_EQUAL(true, validate_nonzero_results(properties, attributes));
+
+    // Kernel #5 :100% Occupancy on G8x and GT200
+    set_func_attributes(attributes, 0, 0, 512, 10, 8192);
+    ASSERT_EQUAL(true, validate_nonzero_results(properties, attributes));
+}
+DECLARE_UNITTEST(TestUnknownDeviceRobustness);
 
 #endif // defined(__CUDACC__)
 
