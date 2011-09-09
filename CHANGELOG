@@ -3,27 +3,44 @@
 #######################################
 
 Summary
-    New functionality for creating anonymous "lambda" functors has been added.
+    New functionality for creating anonymous "lambda" functions has been added.
+    <Summary of performance enhancements here>
 
 Breaking API Changes
     device_ptr<void> no longer unsafely converts to device_ptr<T> without an explicit cast. Use the expression device_pointer_cast(static_cast<int*>(void_ptr.get())) to convert, for example, device_ptr<void> to device_ptr<int>.
 
 New Features
     Functions
-        transform_if without stencil
+        stencil-less transform_if
+
+    Types
+        lambda placeholders
 
 New Examples
+    lambda
 
 Other Enhancements
+    <detailed performance enhancements here>
+    all of host_vector and device_vector's members are now documented
+    exception thrown by device_malloc failure now provides detailed information from CUDART
+    improved histogram example
+    device_reference now has a specialized swap
 
 Removed Functionality
 
 Bug Fixes
+     #44 allow host_vector to compile when value_type uses __align__
+    #198 allow adjacent_difference to permit safe in-situ operation
+    #303 make thrust thread-safe
+    #313 avoid race conditions in device_vector::insert
+    #314 avoid unintended adl invocation when dispatching copy
+    #365 fix merge and set operation failures
 
 Known Issues
 
 Acknowledgments
     Thanks to Manjunath Kudlur for contributing his Carbon library, from which the lambda functionality is derived.
+    Thanks to Jean-Francois Bastien for suggesting a fix for issue 303.
 
 #######################################
 #           Thrust v1.4.0             #
