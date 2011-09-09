@@ -182,25 +182,25 @@ struct TestReduceByKeyToDiscardIterator
         thrust::host_vector<K> unique_keys = h_keys;
         unique_keys.erase(thrust::unique(unique_keys.begin(), unique_keys.end()), unique_keys.end());
 
-        // mask both outputs
-        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
+        // discard key output
+        size_t h_size =
           thrust::reduce_by_key(h_keys.begin(), h_keys.end(),
                                 h_vals.begin(),
                                 thrust::make_discard_iterator(),
-                                thrust::make_discard_iterator());
+                                h_vals_output.begin()).second - h_vals_output.begin();
 
-        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > d_result1 =
+        size_t d_size =
           thrust::reduce_by_key(d_keys.begin(), d_keys.end(),
                                 d_vals.begin(),
                                 thrust::make_discard_iterator(),
-                                thrust::make_discard_iterator());
+                                d_vals_output.begin()).second - d_vals_output.begin();
 
-        thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > reference1 =
-          thrust::make_pair(thrust::make_discard_iterator(unique_keys.size()),
-                            thrust::make_discard_iterator(unique_keys.size()));
+        h_vals_output.resize(h_size);
+        d_vals_output.resize(d_size);
 
-        ASSERT_EQUAL_QUIET(reference1, h_result1);
-        ASSERT_EQUAL_QUIET(reference1, d_result1);
+        ASSERT_EQUAL(h_vals_output.size(), unique_keys.size());
+        ASSERT_EQUAL(d_vals_output.size(), unique_keys.size());
+        ASSERT_EQUAL(d_vals_output.size(), h_vals_output.size());
     }
 };
 VariableUnitTest<TestReduceByKeyToDiscardIterator, IntegralTypes> TestReduceByKeyToDiscardIteratorInstance;

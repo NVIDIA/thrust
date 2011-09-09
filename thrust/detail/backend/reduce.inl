@@ -19,6 +19,7 @@
 
 #include <thrust/detail/backend/cpp/reduce.h>
 #include <thrust/detail/backend/cuda/reduce.h>
+#include <thrust/detail/backend/cuda/reduce_by_key.h>
 #include <thrust/detail/backend/generic/reduce.h>
 #include <thrust/detail/backend/generic/reduce_by_key.h>
 
@@ -121,6 +122,25 @@ template<typename InputIterator1,
                      thrust::host_space_tag)
 {
   return thrust::detail::backend::cpp::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+}
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output,
+                     BinaryPredicate binary_pred,
+                     BinaryFunction binary_op,
+                     thrust::detail::cuda_device_space_tag)
+{
+  return thrust::detail::backend::cuda::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 } // end dispatch
