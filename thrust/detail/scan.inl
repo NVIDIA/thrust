@@ -21,8 +21,12 @@
 
 #include <thrust/detail/backend/scan.h>
 
-#include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/function_traits.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 namespace thrust
 {
@@ -36,21 +40,32 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
 
-    // assume plus as the associative operator
-    return thrust::inclusive_scan(first, last, result, thrust::plus<OutputType>());
+  typedef typename thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+  >::type ValueType;
+
+  // assume plus as the associative operator
+  return thrust::inclusive_scan(first, last, result, thrust::plus<ValueType>());
 } 
 
 template<typename InputIterator,
          typename OutputIterator,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                AssociativeOperator binary_op)
+                                BinaryFunction binary_op)
 {
-    return thrust::detail::backend::inclusive_scan(first, last, result, binary_op);
+  return thrust::detail::backend::inclusive_scan(first, last, result, binary_op);
 }
 
 template<typename InputIterator,
@@ -59,10 +74,21 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
 
-    // assume 0 as the initialization value
-    return thrust::exclusive_scan(first, last, result, OutputType(0));
+  typedef typename thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+  >::type ValueType;
+
+  // assume 0 as the initialization value
+  return thrust::exclusive_scan(first, last, result, ValueType(0));
 }
 
 template<typename InputIterator,
@@ -73,23 +99,21 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-    // assume plus as the associative operator
-    return thrust::exclusive_scan(first, last, result, init, thrust::plus<OutputType>());
+  // assume plus as the associative operator
+  return thrust::exclusive_scan(first, last, result, init, thrust::plus<T>());
 } 
 
 template<typename InputIterator,
          typename OutputIterator,
          typename T,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                AssociativeOperator binary_op)
+                                BinaryFunction binary_op)
 {
-    return thrust::detail::backend::exclusive_scan(first, last, result, init, binary_op);
+  return thrust::detail::backend::exclusive_scan(first, last, result, init, binary_op);
 }
 
 /////////////////////

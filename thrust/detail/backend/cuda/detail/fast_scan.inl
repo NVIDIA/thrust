@@ -22,6 +22,10 @@
 
 #include <thrust/detail/uninitialized_array.h>
 
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/function_traits.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
@@ -98,11 +102,11 @@ template <unsigned int CTA_SIZE,
           unsigned int K,
           bool FullBlock,
           typename InputIterator,
-          typename OutputType>
+          typename ValueType>
 __device__ __forceinline__
 void load_block(const unsigned int n,
                 InputIterator input,
-                OutputType (&sdata)[K][CTA_SIZE + 1])
+                ValueType (&sdata)[K][CTA_SIZE + 1])
 {
   for(unsigned int k = 0; k < K; k++)
   {
@@ -114,6 +118,8 @@ void load_block(const unsigned int n,
       sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
     }
   }
+
+  __syncthreads();
 }
 
 template <unsigned int CTA_SIZE,
@@ -121,12 +127,12 @@ template <unsigned int CTA_SIZE,
           bool Inclusive,
           bool FullBlock,
           typename OutputIterator,
-          typename OutputType>
+          typename ValueType>
 __device__ __forceinline__
 void store_block(const unsigned int n,
                  OutputIterator output,
-                 OutputType (&sdata)[K][CTA_SIZE + 1],
-                 OutputType& carry)
+                 ValueType (&sdata)[K][CTA_SIZE + 1],
+                 ValueType& carry)
 {
   if (Inclusive)
   {
@@ -161,61 +167,75 @@ template <unsigned int CTA_SIZE,
           bool FullBlock,
           typename InputIterator,
           typename BinaryFunction,
-          typename OutputType>
+          typename ValueType>
 __device__ __forceinline__
 void upsweep_body(const unsigned int n,
                   const bool carry_in,
                   InputIterator input,
                   BinaryFunction binary_op,
-                  OutputType (&sdata)[K][CTA_SIZE + 1],
-                  OutputType& carry)
+                  ValueType (&sdata)[K][CTA_SIZE + 1],
+                  ValueType& carry)
 {
   // read data
   load_block<CTA_SIZE,K,FullBlock>(n, input, sdata);
-  
-  __syncthreads();
+ 
+  // copy into local array
+  ValueType ldata[K];
+  for (unsigned int k = 0; k < K; k++)
+    ldata[k] = sdata[k][threadIdx.x];
+
+  // carry in
+  if (threadIdx.x == 0 && carry_in)
+  {
+    // XXX WAR sm_10 issue
+    ValueType tmp = carry;
+    ldata[0] = binary_op(tmp, ldata[0]);
+  }
 
   // scan local values
-  OutputType sum = sdata[0][threadIdx.x];
-
   for(unsigned int k = 1; k < K; k++)
   {
     const unsigned int offset = K * threadIdx.x + k;
 
     if (FullBlock || offset < n)
-    {
-      // XXX WAR sm_10 issue
-      OutputType tmp = sdata[k][threadIdx.x];
-      sum = binary_op(sum, tmp);
-    }
+      ldata[k] = binary_op(ldata[k-1],ldata[k]);
   }
-  
-  sdata[0][threadIdx.x] = sum;
+
+  sdata[K - 1][threadIdx.x] = ldata[K - 1];
 
   __syncthreads();
 
   // second level scan
-  if (FullBlock && sizeof(OutputType) > 1) // TODO investigate why this WAR is necessary
-    scan_block<CTA_SIZE>(sdata[0], binary_op); 
+  if (FullBlock && sizeof(ValueType) > 1) // TODO investigate why this WAR is necessary
+    scan_block<CTA_SIZE>(sdata[K - 1], binary_op); 
   else
-    scan_block_n<CTA_SIZE>(sdata[0], (n + (K - 1)) / K, binary_op);
+    scan_block_n<CTA_SIZE>(sdata[K - 1], n / K, binary_op);
 
   // store carry out
-  if (threadIdx.x == 0)
+  if (FullBlock)
   {
-    if (FullBlock)
-      sum = sdata[0][CTA_SIZE - 1];
-    else
-      sum = sdata[0][(n - 1) / K];
-
-    if (carry_in)
+     if (threadIdx.x == CTA_SIZE - 1)
+        carry = sdata[K - 1][threadIdx.x];
+  }
+  else
+  {
+    if (threadIdx.x == (n - 1) / K)
     {
-      // XXX WAR sm_10 issue
-      OutputType tmp = carry;
-      sum = binary_op(tmp, sum);
-    }
+      ValueType sum;
 
-    carry = sum;
+      for (unsigned int k = 0; k < K; k++)
+          if ((n - 1) % K == k)
+              sum = ldata[k];
+
+      if (threadIdx.x > 0)
+      {
+        // WAR sm_10 issue
+        ValueType tmp = sdata[K - 1][threadIdx.x - 1];
+        sum = binary_op(tmp, sum);
+      }
+
+      carry = sum;
+    }
   }
 
   __syncthreads();
@@ -228,47 +248,42 @@ template <unsigned int CTA_SIZE,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
-          typename OutputType>
+          typename ValueType>
 __device__ __forceinline__
 void scan_body(const unsigned int n,
                const bool carry_in,
                InputIterator input,
                OutputIterator output,
                BinaryFunction binary_op,
-               OutputType (&sdata)[K][CTA_SIZE + 1],
-               OutputType& carry)
+               ValueType (&sdata)[K][CTA_SIZE + 1],
+               ValueType& carry)
 {
   // read data
   load_block<CTA_SIZE,K,FullBlock>(n, input, sdata);
-  
+
+  // copy into local array
+  ValueType ldata[K];
+  for (unsigned int k = 0; k < K; k++)
+    ldata[k] = sdata[k][threadIdx.x];
+
   // carry in
-  if (carry_in)
+  if (threadIdx.x == 0 && carry_in)
   {
-    if (threadIdx.x == 0)
-    {
-      // XXX WAR sm_10 issue
-      OutputType tmp1 = carry;
-      OutputType tmp2 = sdata[0][0];
-      sdata[0][0] = binary_op(tmp1, tmp2);
-    }
+    // XXX WAR sm_10 issue
+    ValueType tmp = carry;
+    ldata[0] = binary_op(tmp, ldata[0]);
   }
 
-  __syncthreads();
-
   // scan local values
-  OutputType sum = sdata[0][threadIdx.x];
-
   for(unsigned int k = 1; k < K; k++)
   {
     const unsigned int offset = K * threadIdx.x + k;
 
     if (FullBlock || offset < n)
-    {
-      OutputType tmp = sdata[k][threadIdx.x];
-      sum = binary_op(sum, tmp);
-      sdata[k][threadIdx.x] = sum;
-    }
+      ldata[k] = binary_op(ldata[k-1],ldata[k]);
   }
+
+  sdata[K - 1][threadIdx.x] = ldata[K - 1];
 
   __syncthreads();
 
@@ -281,19 +296,19 @@ void scan_body(const unsigned int n,
   // update local values
   if (threadIdx.x > 0)
   {
-    sum = sdata[K - 1][threadIdx.x - 1];
+    ValueType left = sdata[K - 1][threadIdx.x - 1];
 
-    for(unsigned int k = 0; k < K - 1; k++)
+    for(unsigned int k = 0; k < K; k++)
     {
       const unsigned int offset = K * threadIdx.x + k;
 
       if (FullBlock || offset < n)
-      {
-        OutputType tmp = sdata[k][threadIdx.x];
-        sdata[k][threadIdx.x] = binary_op(sum, tmp);
-      }
+        ldata[k] = binary_op(left, ldata[k]);
     }
   }
+
+  for (unsigned int k = 0; k < K; k++)
+    sdata[k][threadIdx.x] = ldata[k];
 
   __syncthreads();
 
@@ -315,29 +330,29 @@ void scan_body(const unsigned int n,
 
 template <unsigned int CTA_SIZE,
           typename InputIterator,
-          typename OutputType,
+          typename ValueType,
           typename BinaryFunction,
           typename Decomposition>
 __launch_bounds__(CTA_SIZE,1)          
 __global__
 void upsweep_intervals(InputIterator input,
-                       OutputType * block_results,
+                       ValueType * block_results,
                        BinaryFunction binary_op,
                        Decomposition decomp)
 {
-    typedef typename Decomposition::index_type                    IndexType;
+    typedef typename Decomposition::index_type  IndexType;
 
 #if __CUDA_ARCH__ >= 200
     const unsigned int SMEM = (48 * 1024) - 256;
 #else
     const unsigned int SMEM = (16 * 1024) - 256;
 #endif
-    const unsigned int MAX_K = ((SMEM - 1 * sizeof(OutputType))/ (sizeof(OutputType) * (CTA_SIZE + 1)));
+    const unsigned int MAX_K = ((SMEM - 1 * sizeof(ValueType))/ (sizeof(ValueType) * (CTA_SIZE + 1)));
     const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
-    __shared__ OutputType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
     
-    __shared__ OutputType carry; // storage for carry out
+    __shared__ ValueType carry; // storage for carry out
     
     __syncthreads(); // XXX needed because CUDA fires default constructors now
     
@@ -378,30 +393,30 @@ template <unsigned int CTA_SIZE,
           bool Inclusive,
           typename InputIterator,
           typename OutputIterator,
+          typename ValueType,
           typename BinaryFunction,
           typename Decomposition>
 __launch_bounds__(CTA_SIZE,1)          
 __global__
 void downsweep_intervals(InputIterator input,
                          OutputIterator output,
-                         typename thrust::iterator_value<OutputIterator>::type * block_results,
+                         ValueType * block_results,
                          BinaryFunction binary_op,
                          Decomposition decomp)
 {
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-    typedef typename Decomposition::index_type                    IndexType;
+    typedef typename Decomposition::index_type IndexType;
 
 #if __CUDA_ARCH__ >= 200
     const unsigned int SMEM = (48 * 1024) - 256;
 #else
     const unsigned int SMEM = (16 * 1024) - 256;
 #endif
-    const unsigned int MAX_K = ((SMEM - 1 * sizeof(OutputType))/ (sizeof(OutputType) * (CTA_SIZE + 1)));
+    const unsigned int MAX_K = ((SMEM - 1 * sizeof(ValueType))/ (sizeof(ValueType) * (CTA_SIZE + 1)));
     const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
-    __shared__ OutputType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
     
-    __shared__ OutputType carry; // storage for carry in and carry out
+    __shared__ ValueType carry; // storage for carry in and carry out
 
     __syncthreads(); // XXX needed because CUDA fires default constructors now
 
@@ -451,7 +466,28 @@ OutputIterator inclusive_scan(InputIterator first,
                               OutputIterator output,
                               BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_value<OutputIterator>::type              OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if BinaryFunction is AdaptableBinaryFunction
+  //   TemporaryType = AdaptableBinaryFunction::result_type
+  // else if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<BinaryFunction>::type
+
+  typedef typename eval_if<
+    has_result_type<BinaryFunction>::value,
+    result_type<BinaryFunction>,
+    eval_if<
+      is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+    >
+  >::type ValueType;
+
   typedef          unsigned int                                              IndexType;
   typedef          thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
 
@@ -460,7 +496,7 @@ OutputIterator inclusive_scan(InputIterator first,
 
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-  thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(decomp.size());
+  thrust::detail::uninitialized_array<ValueType,thrust::detail::cuda_device_space_tag> block_results(decomp.size());
   
   // TODO tune this
   const static unsigned int CTA_SIZE = 32 * 7;
@@ -513,7 +549,28 @@ OutputIterator exclusive_scan(InputIterator first,
                               const T init,
                               BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_value<OutputIterator>::type              OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if BinaryFunction is AdaptableBinaryFunction
+  //   TemporaryType = AdaptableBinaryFunction::result_type
+  // else if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<BinaryFunction>::type
+
+  typedef typename eval_if<
+    has_result_type<BinaryFunction>::value,
+    result_type<BinaryFunction>,
+    eval_if<
+      is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+    >
+  >::type ValueType;
+
   typedef          unsigned int                                              IndexType;
   typedef          thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
 
@@ -522,7 +579,7 @@ OutputIterator exclusive_scan(InputIterator first,
 
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-  thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(decomp.size() + 1);
+  thrust::detail::uninitialized_array<ValueType,thrust::detail::cuda_device_space_tag> block_results(decomp.size() + 1);
   
   // TODO tune this
   const static unsigned int CTA_SIZE = 32 * 5;

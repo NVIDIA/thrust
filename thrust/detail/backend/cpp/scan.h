@@ -23,6 +23,10 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/function_traits.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+
 namespace thrust
 {
 namespace detail
@@ -34,57 +38,97 @@ namespace cpp
 
 template<typename InputIterator,
          typename OutputIterator,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                AssociativeOperator binary_op)
+                                BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if BinaryFunction is AdaptableBinaryFunction
+  //   TemporaryType = AdaptableBinaryFunction::result_type
+  // else if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<BinaryFunction>::type
 
-    if(first != last)
-    {
-        OutputType sum = *first;
+  typedef typename eval_if<
+    has_result_type<BinaryFunction>::value,
+    result_type<BinaryFunction>,
+    eval_if<
+      is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+    >
+  >::type ValueType;
 
-        *result = sum;
+  if(first != last)
+  {
+    ValueType sum = *first;
 
-        for(++first, ++result; first != last; ++first, ++result)
-            *result = sum = binary_op(sum, *first);
-    }
+    *result = sum;
 
-    return result;
+    for(++first, ++result; first != last; ++first, ++result)
+      *result = sum = binary_op(sum, *first);
+  }
+
+  return result;
 }
 
 
 template<typename InputIterator,
          typename OutputIterator,
          typename T,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                AssociativeOperator binary_op)
+                                BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if BinaryFunction is AdaptableBinaryFunction
+  //   TemporaryType = AdaptableBinaryFunction::result_type
+  // else if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<BinaryFunction>::type
 
-    if(first != last)
+  typedef typename eval_if<
+    has_result_type<BinaryFunction>::value,
+    result_type<BinaryFunction>,
+    eval_if<
+      is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+    >
+  >::type ValueType;
+
+  if(first != last)
+  {
+    ValueType tmp = *first;  // temporary value allows in-situ scan
+    ValueType sum =  init;
+
+    *result = sum;
+    sum = binary_op(sum, tmp);
+
+    for(++first, ++result; first != last; ++first, ++result)
     {
-        OutputType tmp = *first;  // temporary value allows in-situ scan
-        OutputType sum =  init;
-
-        *result = sum;
-        sum = binary_op(sum, tmp);
-
-        for(++first, ++result; first != last; ++first, ++result)
-        {
-            tmp = *first;
-            *result = sum;
-            sum = binary_op(sum, tmp);
-        }
+      tmp = *first;
+      *result = sum;
+      sum = binary_op(sum, tmp);
     }
+  }
 
-    return result;
+  return result;
 } 
 
 

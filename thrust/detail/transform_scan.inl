@@ -23,25 +23,50 @@
 
 #include <thrust/iterator/transform_iterator.h>
 
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/function_traits.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+
+
 namespace thrust
 {
 
 template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator transform_inclusive_scan(InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
                                           UnaryFunction unary_op,
-                                          AssociativeOperator binary_op)
+                                          BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if UnaryFunction is AdaptableUnaryFunction
+  //   TemporaryType = AdaptableUnaryFunction::result_type
+  // else if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<UnaryFunction>::type
 
-    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
-    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+  typedef typename thrust::detail::eval_if<
+    thrust::detail::has_result_type<UnaryFunction>::value,
+    thrust::detail::result_type<UnaryFunction>,
+    thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+    >
+  >::type ValueType;
 
-    return thrust::inclusive_scan(_first, _last, result, binary_op);
+  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
+  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
+
+  return thrust::inclusive_scan(_first, _last, result, binary_op);
 }
 
 
@@ -57,12 +82,32 @@ template<typename InputIterator,
                                           T init,
                                           AssociativeOperator binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    
-    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _first(first, unary_op);
-    thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> _last(last, unary_op);
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if UnaryFunction is AdaptableUnaryFunction
+  //   TemporaryType = AdaptableUnaryFunction::result_type
+  // else if OutputIterator is a "pure" output iterator
+  //   TemporaryType = InputIterator::value_type
+  // else
+  //   TemporaryType = OutputIterator::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<UnaryFunction>::type
 
-    return thrust::exclusive_scan(_first, _last, result, init, binary_op);
+  typedef typename thrust::detail::eval_if<
+    thrust::detail::has_result_type<UnaryFunction>::value,
+    thrust::detail::result_type<UnaryFunction>,
+    thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIterator>::value,
+      thrust::iterator_value<InputIterator>,
+      thrust::iterator_value<OutputIterator>
+    >
+  >::type ValueType;
+
+  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
+  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
+
+  return thrust::exclusive_scan(_first, _last, result, init, binary_op);
 }
 
 } // end namespace thrust

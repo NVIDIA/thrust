@@ -117,47 +117,45 @@ struct TestTransformScanToDiscardIterator
 {
     void operator()(const size_t n)
     {
-        KNOWN_FAILURE;
+        thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
+        thrust::device_vector<T> d_input = h_input;
 
-        //thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
-        //thrust::device_vector<T> d_input = h_input;
+        thrust::discard_iterator<> reference(n);
+        
+        thrust::discard_iterator<> h_result =
+          thrust::transform_inclusive_scan(h_input.begin(),
+                                           h_input.end(),
+                                           thrust::make_discard_iterator(),
+                                           thrust::negate<T>(),
+                                           thrust::plus<T>());
 
-        //thrust::discard_iterator<> reference(n);
-        //
-        //thrust::discard_iterator<> h_result =
-        //  thrust::transform_inclusive_scan(h_input.begin(),
-        //                                   h_input.end(),
-        //                                   thrust::make_discard_iterator(),
-        //                                   thrust::negate<T>(),
-        //                                   thrust::plus<T>());
+        thrust::discard_iterator<> d_result =
+          thrust::transform_inclusive_scan(d_input.begin(),
+                                           d_input.end(),
+                                           thrust::make_discard_iterator(),
+                                           thrust::negate<T>(),
+                                           thrust::plus<T>());
+        ASSERT_EQUAL_QUIET(reference, h_result);
+        ASSERT_EQUAL_QUIET(reference, d_result);
+        
+        h_result =
+          thrust::transform_exclusive_scan(h_input.begin(),
+                                           h_input.end(),
+                                           thrust::make_discard_iterator(),
+                                           thrust::negate<T>(),
+                                           (T) 11,
+                                           thrust::plus<T>());
 
-        //thrust::discard_iterator<> d_result =
-        //  thrust::transform_inclusive_scan(d_input.begin(),
-        //                                   d_input.end(),
-        //                                   thrust::make_discard_iterator(),
-        //                                   thrust::negate<T>(),
-        //                                   thrust::plus<T>());
-        //ASSERT_EQUAL(reference, h_result);
-        //ASSERT_EQUAL(reference, d_result);
-        //
-        //h_result =
-        //  thrust::transform_exclusive_scan(h_input.begin(),
-        //                                   h_input.end(),
-        //                                   thrust::make_discard_iterator(),
-        //                                   thrust::negate<T>(),
-        //                                   (T) 11,
-        //                                   thrust::plus<T>());
+        d_result =
+          thrust::transform_exclusive_scan(d_input.begin(),
+                                           d_input.end(),
+                                           thrust::make_discard_iterator(),
+                                           thrust::negate<T>(),
+                                           (T) 11,
+                                           thrust::plus<T>());
 
-        //d_result =
-        //  thrust::transform_exclusive_scan(d_input.begin(),
-        //                                   d_input.end(),
-        //                                   thrust::make_discard_iterator(),
-        //                                   thrust::negate<T>(),
-        //                                   (T) 11,
-        //                                   thrust::plus<T>());
-
-        //ASSERT_EQUAL(reference, h_result);
-        //ASSERT_EQUAL(reference, d_result);
+        ASSERT_EQUAL_QUIET(reference, h_result);
+        ASSERT_EQUAL_QUIET(reference, d_result);
     }
 };
 VariableUnitTest<TestTransformScanToDiscardIterator, IntegralTypes> TestTransformScanToDiscardIteratorInstance;
