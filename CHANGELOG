@@ -3,11 +3,21 @@
 #######################################
 
 Summary
-    New functionality for creating anonymous "lambda" functions has been added.
-    <Summary of performance enhancements here>
+    Thrust v1.5.0 provides introduces new programmer productivity and performance
+    enhancements. New functionality for creating anonymous "lambda" functions has
+    been added. A faster host sort provides 2-10x faster performance for sorting
+    arithmetic types on (single-threaded) CPUs. A new OpenMP sort provides
+    2.5x-3.0x speedup over the host sort using a quad-core CPU. When sorting
+    arithmetic types with the OpenMP backend the combined performance improvement
+    is 5.9x for 32-bit integers and ranges from 3.0x (64-bit types) to 14.2x
+    (8-bit types). A new CUDA reduce_by_key implementation provides 2-3x faster
+    performance.
 
 Breaking API Changes
-    device_ptr<void> no longer unsafely converts to device_ptr<T> without an explicit cast. Use the expression device_pointer_cast(static_cast<int*>(void_ptr.get())) to convert, for example, device_ptr<void> to device_ptr<int>.
+    device_ptr<void> no longer unsafely converts to device_ptr<T> without an
+    explicit cast. Use the expression
+    device_pointer_cast(static_cast<int*>(void_ptr.get()))
+    to convert, for example, device_ptr<void> to device_ptr<int>.
 
 New Features
     Functions
@@ -20,11 +30,16 @@ New Examples
     lambda
 
 Other Enhancements
-    <detailed performance enhancements here>
-    all of host_vector and device_vector's members are now documented
-    exception thrown by device_malloc failure now provides detailed information from CUDART
+    host sort is 2-10x faster for arithmetic types
+    OMP sort provides speedup over host sort
+    reduce_by_key is 2-3x faster
+    reduce_by_key no longer requires O(N) temporary storage
+    CUDA scan algorithms are 10-40% faster
+    host_vector and device_vector are now documented
+    out-of-memory exceptions now provide detailed information from CUDART
     improved histogram example
     device_reference now has a specialized swap
+    reduce_by_key and scan algorithms are compatible with discard_iterator
 
 Removed Functionality
 
@@ -37,6 +52,7 @@ Bug Fixes
     #365 fix merge and set operation failures
 
 Known Issues
+    None
 
 Acknowledgments
     Thanks to Manjunath Kudlur for contributing his Carbon library, from which the lambda functionality is derived.
