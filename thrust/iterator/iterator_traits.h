@@ -31,6 +31,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+// XXX eliminate this by #include <thrust/detail/config/default_host_space_tag.h> in config.h or similar
+#include <thrust/system/detail/cpp/tag.h>
 #include <iterator>
 
 namespace thrust
@@ -44,7 +46,9 @@ template<typename T>
 
 
 // define space tags
-struct host_space_tag {};
+
+// XXX host_space_tag should be a typedef of whatever the default host backend is
+typedef thrust::cpp::tag host_space_tag;
 
 struct device_space_tag {};
 
