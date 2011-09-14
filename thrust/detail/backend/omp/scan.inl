@@ -15,7 +15,9 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/detail/forced_iterator.h>
+
+#include <thrust/detail/backend/cpp/scan.h>
 
 namespace thrust
 {
@@ -29,57 +31,26 @@ namespace omp
 // TODO parallelize these
 template<typename InputIterator,
          typename OutputIterator,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                AssociativeOperator binary_op)
+                                BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-    if(first != last)
-    {
-        OutputType sum = thrust::detail::backend::dereference(first);
-
-        thrust::detail::backend::dereference(result) = sum;
-
-        for(++first, ++result; first != last; ++first, ++result)
-            thrust::detail::backend::dereference(result)
-              = sum = binary_op(sum, thrust::detail::backend::dereference(first));
-    }
-
-    return result;
+  return thrust::detail::backend::cpp::inclusive_scan(first, last, result, binary_op);
 }
 
 template<typename InputIterator,
          typename OutputIterator,
          typename T,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                AssociativeOperator binary_op)
+                                BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-    if(first != last)
-    {
-        OutputType tmp = thrust::detail::backend::dereference(first);  // temporary value allows in-situ scan
-        OutputType sum = init;
-
-        thrust::detail::backend::dereference(result) = sum;
-        sum = binary_op(sum, tmp);
-
-        for(++first, ++result; first != last; ++first, ++result)
-        {
-            tmp = thrust::detail::backend::dereference(first);
-            thrust::detail::backend::dereference(result) = sum;
-            sum = binary_op(sum, tmp);
-        }
-    }
-
-    return result;
+  return thrust::detail::backend::cpp::exclusive_scan(first, last, result, init, binary_op);
 }
 
 } // end namespace omp
