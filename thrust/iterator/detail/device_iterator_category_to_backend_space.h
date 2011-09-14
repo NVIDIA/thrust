@@ -34,21 +34,14 @@ template<typename DeviceCategory>
 
         detail::identity_<thrust::detail::cuda_device_space_tag>,
 
-        // convertible to omp?
+        // convertible to device_space_tag?
         eval_if<
-          is_convertible<DeviceCategory, thrust::detail::omp_device_iterator_tag>::value,
+          is_convertible<DeviceCategory, thrust::device_space_tag>::value,
+          
+          detail::identity_<thrust::device_space_tag>,
 
-          detail::identity_<thrust::detail::omp_device_space_tag>,
-
-          // convertible to device_space_tag?
-          eval_if<
-            is_convertible<DeviceCategory, thrust::device_space_tag>::value,
-            
-            detail::identity_<thrust::device_space_tag>,
-
-            // unknown space
-            detail::identity_<void>
-          >
+          // unknown space
+          detail::identity_<void>
         >
       >
 {};

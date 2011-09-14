@@ -19,6 +19,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/cuda/merge.h>
 #include <thrust/detail/backend/omp/merge.h>
+#include <thrust/system/omp/memory.h>
 
 namespace thrust
 {
@@ -42,7 +43,7 @@ template<typename InputIterator1,
                        InputIterator2 last2,
                        OutputIterator result,
                        StrictWeakOrdering comp,
-                       thrust::detail::omp_device_space_tag)
+                       thrust::omp::tag)
 {
   // omp backend
   return thrust::detail::backend::omp::merge(first1,last1,first2,last2,result,comp);

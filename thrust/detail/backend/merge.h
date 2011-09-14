@@ -20,6 +20,7 @@
 #include <thrust/detail/backend/cpp/merge.h>
 #include <thrust/detail/backend/cuda/merge.h>
 #include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/system/omp/memory.h>
 
 namespace thrust
 {
@@ -58,7 +59,7 @@ template<typename InputIterator1,
                        InputIterator2 last2,
                        OutputIterator result,
                        StrictWeakOrdering comp,
-                       thrust::detail::omp_device_space_tag)
+                       thrust::omp::tag)
 {
   return thrust::detail::backend::cpp::merge(first1,last1,first2,last2,result,comp);
 } // end merge()

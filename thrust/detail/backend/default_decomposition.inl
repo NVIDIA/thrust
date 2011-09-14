@@ -26,6 +26,7 @@
 #include <thrust/detail/backend/cpp/default_decomposition.h>
 #include <thrust/detail/backend/omp/default_decomposition.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
+#include <thrust/system/omp/memory.h>
 
 namespace thrust
 {
@@ -43,7 +44,7 @@ uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::host
 }
 
 template <typename IndexType>
-uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::detail::omp_device_space_tag)
+uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::omp::tag)
 {
   return thrust::detail::backend::omp::default_decomposition(n);
 }

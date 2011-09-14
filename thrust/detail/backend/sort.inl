@@ -26,6 +26,7 @@
 #include <thrust/detail/backend/cpp/sort.h>
 #include <thrust/detail/backend/cuda/sort.h>
 #include <thrust/detail/backend/omp/sort.h>
+#include <thrust/system/omp/memory.h>
 
 namespace thrust
 {
@@ -76,7 +77,7 @@ template<typename RandomAccessIterator,
   void stable_sort(RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp,
-                   thrust::detail::omp_device_space_tag)
+                   thrust::omp::tag)
 {
   thrust::detail::backend::omp::stable_sort(first, last, comp);
 }
@@ -128,7 +129,7 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp,
-                          thrust::detail::omp_device_space_tag)
+                          thrust::omp::tag)
 {
   return thrust::detail::backend::omp::stable_sort_by_key(keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()

@@ -14,29 +14,47 @@
  *  limitations under the License.
  */
 
-#pragma once
-
-// XXX eliminate this header
-
+// XXX remove me when omp::tag inherits cpp::tag
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/omp/memory.h>
+
+#pragma once
 
 namespace thrust
 {
+// put the canonical tag in the same ns as the backend's entry points
+// XXX omp's entry points should be under system, not backend
 namespace detail
 {
+namespace backend
+{
+namespace omp
+{
 
-// define these in detail for now
-struct cuda_device_space_tag : device_space_tag {};
+// XXX tag needs to inherit cpp::tag
+struct tag : thrust::device_space_tag {};
 
-#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
-typedef cuda_device_space_tag default_device_space_tag;
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
-typedef thrust::omp::tag  default_device_space_tag;
-#else
-#error Unknown device backend.
-#endif // THRUST_DEVICE_BACKEND
+} // end omp
+} // end backend
+} // end detail
 
-} // end namespace detail
-} // end namespace thrust
+namespace system
+{
+namespace omp
+{
+
+// alias omp's tag here
+using thrust::detail::backend::omp::tag;
+
+} // end omp
+} // end system
+
+// alias omp's tag at top-level
+namespace omp
+{
+
+using thrust::system::omp::tag;
+
+} // end omp
+
+} // end thrust
 

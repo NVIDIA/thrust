@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/omp/copy_device_to_device.h>
 #include <thrust/detail/backend/omp/copy_host_or_any_to_device.h>
 #include <thrust/detail/backend/omp/copy_device_to_host_or_any.h>
+#include <thrust/system/omp/memory.h>
 
 // for std::copy
 #include <algorithm>
@@ -51,8 +52,8 @@ template<typename InputIterator,
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
-                    thrust::detail::omp_device_space_tag,
-                    thrust::detail::omp_device_space_tag)
+                    thrust::omp::tag,
+                    thrust::omp::tag)
 {
   return thrust::detail::backend::omp::copy_device_to_device(first,last,result);
 }
@@ -66,7 +67,7 @@ OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
                     HostOrAnySpaceTag,
-                    thrust::detail::omp_device_space_tag)
+                    thrust::omp::tag)
 {
   return thrust::detail::backend::omp::copy_host_or_any_to_device(first,last,result);
 }
@@ -79,7 +80,7 @@ template<typename InputIterator,
 OutputIterator copy(InputIterator first,
                     InputIterator last,
                     OutputIterator result,
-                    thrust::detail::omp_device_space_tag,
+                    thrust::omp::tag,
                     HostOrAnySpaceTag)
 {
   return thrust::detail::backend::omp::copy_device_to_host_or_any(first,last,result);

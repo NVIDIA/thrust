@@ -37,6 +37,8 @@ template <typename> struct is_iterator_space;
 
 template <typename> struct device_iterator_category_to_backend_space;
 
+// XXX this should work entirely differently
+// we should just specialize this metafunction for iterator_category_with_space_and_traversal
 template<typename Category>
   struct iterator_category_to_space
     // convertible to any iterator?

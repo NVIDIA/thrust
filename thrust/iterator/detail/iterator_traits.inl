@@ -23,6 +23,9 @@
 #include <thrust/iterator/detail/iterator_category_to_traversal.h>
 #include <thrust/detail/type_traits.h>
 
+// XXX eliminate this #include when are_spaces_compatible no longer exists
+#include <thrust/system/omp/memory.h>
+
 
 #if __GNUC__
 // forward declaration of gnu's __normal_iterator
@@ -164,6 +167,7 @@ template<typename T>
     > {};
 
 // XXX this should be implemented better
+// XXX eliminate the need for this completely
 template<typename Space1, typename Space2>
   struct are_spaces_interoperable
     : thrust::detail::false_type
@@ -177,13 +181,13 @@ template<typename Space>
 template<>
   struct are_spaces_interoperable<
     thrust::host_space_tag,
-    thrust::detail::omp_device_space_tag
+    thrust::omp::tag
   > : thrust::detail::true_type
 {};
 
 template<>
   struct are_spaces_interoperable<
-    thrust::detail::omp_device_space_tag,
+    thrust::omp::tag,
     thrust::host_space_tag
   > : thrust::detail::true_type
 {};
