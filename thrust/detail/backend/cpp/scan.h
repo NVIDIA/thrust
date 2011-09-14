@@ -27,6 +27,8 @@
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -68,12 +70,12 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    ValueType sum = *first;
+    ValueType sum = dereference(first);
 
-    *result = sum;
+    dereference(result) = sum;
 
     for(++first, ++result; first != last; ++first, ++result)
-      *result = sum = binary_op(sum, *first);
+      dereference(result) = sum = binary_op(sum, dereference(first));
   }
 
   return result;
@@ -114,16 +116,16 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    ValueType tmp = *first;  // temporary value allows in-situ scan
-    ValueType sum =  init;
+    ValueType tmp = dereference(first);  // temporary value allows in-situ scan
+    ValueType sum = init;
 
     *result = sum;
     sum = binary_op(sum, tmp);
 
     for(++first, ++result; first != last; ++first, ++result)
     {
-      tmp = *first;
-      *result = sum;
+      tmp = dereference(first);
+      dereference(result) = sum;
       sum = binary_op(sum, tmp);
     }
   }
@@ -136,34 +138,34 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator inclusive_scan_by_key(InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
-                                       AssociativeOperator binary_op)
+                                       BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
     if(first1 != last1)
     {
-        KeyType   prev_key   = *first1;
-        ValueType prev_value = *first2;
+        KeyType   prev_key   = dereference(first1);
+        ValueType prev_value = dereference(first2);
 
-        *result = prev_value;
+        dereference(result) = prev_value;
 
         for(++first1, ++first2, ++result;
                 first1 != last1;
                 ++first1, ++first2, ++result)
         {
-            KeyType key = *first1;
+            KeyType key = dereference(first1);
 
             if (binary_pred(prev_key, key))
-                *result = prev_value = binary_op(prev_value, *first2);
+                dereference(result) = prev_value = binary_op(prev_value, dereference(first2));
             else
-                *result = prev_value = *first2;
+                dereference(result) = prev_value = dereference(first2);
 
             prev_key = key;
         }
@@ -178,27 +180,27 @@ template<typename InputIterator1,
          typename OutputIterator,
          typename T,
          typename BinaryPredicate,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator exclusive_scan_by_key(InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        T init,
                                        BinaryPredicate binary_pred,
-                                       AssociativeOperator binary_op)
+                                       BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
     if(first1 != last1)
     {
-        KeyType   temp_key   = *first1;
-        ValueType temp_value = *first2;
+        KeyType   temp_key   = dereference(first1);
+        ValueType temp_value = dereference(first2);
         
         ValueType next = init;
 
         // first one is init
-        *result = next;
+        dereference(result) = next;
 
         next = binary_op(next, temp_value);
 
@@ -206,16 +208,15 @@ template<typename InputIterator1,
                 first1 != last1;
                 ++first1, ++first2, ++result)
         {
-            KeyType key = *first1;
+            KeyType key = dereference(first1);
 
             // use temp to permit in-place scans
-            temp_value = *first2;
+            temp_value = dereference(first2);
 
             if (!binary_pred(temp_key, key))
-                // reset sum
-                next = init;  
+                next = init;  // reset sum
                 
-            *result = next;  
+            dereference(result) = next;  
             next = binary_op(next, temp_value);
 
             temp_key = key;
