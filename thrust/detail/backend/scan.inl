@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/cuda/scan.h>
 #include <thrust/detail/backend/omp/scan.h>
 #include <thrust/detail/backend/generic/scan_by_key.h>
+#include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
 namespace thrust
@@ -66,7 +67,7 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op,
-                                thrust::detail::cuda_device_space_tag)
+                                thrust::cuda::tag)
 {
     return thrust::detail::backend::cuda::inclusive_scan(first, last, result, binary_op);
 }
@@ -114,7 +115,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init,
                                 AssociativeOperator binary_op,
-                                thrust::detail::cuda_device_space_tag)
+                                thrust::cuda::tag)
 {
     return thrust::detail::backend::cuda::exclusive_scan(first, last, result, init, binary_op);
 }

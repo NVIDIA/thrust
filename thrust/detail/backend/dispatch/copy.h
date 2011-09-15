@@ -22,6 +22,7 @@
 #include <thrust/detail/backend/cpp/copy.h>
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/cuda/copy.h>
+#include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
 namespace thrust
@@ -46,10 +47,10 @@ template<typename Space1, typename Space2>
   struct copy_case
     : thrust::detail::eval_if<
         thrust::detail::or_<
-          thrust::detail::is_same<Space1,thrust::detail::cuda_device_space_tag>,
-          thrust::detail::is_same<Space2,thrust::detail::cuda_device_space_tag>
+          thrust::detail::is_same<Space1,thrust::cuda::tag>,
+          thrust::detail::is_same<Space2,thrust::cuda::tag>
         >::value,
-        thrust::detail::identity_<thrust::detail::cuda_device_space_tag>,
+        thrust::detail::identity_<thrust::cuda::tag>,
         thrust::detail::eval_if<
           thrust::detail::or_<
             thrust::detail::is_same<Space1,thrust::omp::tag>,
@@ -123,7 +124,7 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::cuda_device_space_tag)
+                      thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::copy(first, last, result);
 } // end copy()
@@ -135,7 +136,7 @@ template<typename InputIterator,
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::cuda_device_space_tag)
+                        thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::copy_n(first, n, result);
 } // end copy_n()

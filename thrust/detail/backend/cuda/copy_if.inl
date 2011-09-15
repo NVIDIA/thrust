@@ -35,6 +35,8 @@
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
 
+#include <thrust/system/cuda/memory.h>
+
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -164,7 +166,7 @@ template<typename InputIterator1,
 
   thrust::detail::backend::uniform_decomposition<IndexType> decomp = thrust::detail::backend::cuda::default_decomposition(last - first);
 
-  thrust::detail::uninitialized_array<IndexType, thrust::detail::cuda_device_space_tag> block_results(decomp.size());
+  thrust::detail::uninitialized_array<IndexType, thrust::cuda::tag> block_results(decomp.size());
 
   // convert stencil into an iterator that produces integral values in {0,1}
   typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;

@@ -39,6 +39,8 @@
 // to configure launch parameters
 #include <thrust/detail/backend/cuda/arch.h>
 
+#include <thrust/system/cuda/memory.h>
+
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -324,7 +326,7 @@ OutputIterator inclusive_scan(InputIterator first,
     //std::cout << "num_iters     " << num_iters     << std::endl;
     //std::cout << "interval_size " << interval_size << std::endl;
 
-    thrust::detail::uninitialized_array<OutputType,thrust::detail::cuda_device_space_tag> block_results(num_blocks + 1);
+    thrust::detail::uninitialized_array<OutputType,thrust::cuda::tag> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
     {
@@ -407,7 +409,7 @@ OutputIterator exclusive_scan(InputIterator first,
     //std::cout << "num_iters     " << num_iters     << std::endl;
     //std::cout << "interval_size " << interval_size << std::endl;
 
-    thrust::detail::uninitialized_array<OutputType, thrust::detail::cuda_device_space_tag> block_results(num_blocks + 1);
+    thrust::detail::uninitialized_array<OutputType, thrust::cuda::tag> block_results(num_blocks + 1);
                 
     // first level scan of interval (one interval per block)
     {

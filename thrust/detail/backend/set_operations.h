@@ -20,6 +20,7 @@
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/backend/cpp/set_operations.h>
 #include <thrust/detail/backend/cuda/set_operations.h>
+#include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
 namespace thrust
@@ -74,7 +75,7 @@ template<typename InputIterator1,
                                 InputIterator2 last2,
                                 OutputIterator result,
                                 StrictWeakOrdering comp,
-                                thrust::detail::cuda_device_space_tag)
+                                thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::set_difference(first1,last1,first2,last2,result,comp);
 } // end set_difference()
@@ -122,7 +123,7 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result,
                                   StrictWeakOrdering comp,
-                                  thrust::detail::cuda_device_space_tag)
+                                  thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::set_intersection(first1,last1,first2,last2,result,comp);
 } // end set_intersection()
@@ -170,7 +171,7 @@ template<typename InputIterator1,
                                           InputIterator2 last2,
                                           OutputIterator result,
                                           StrictWeakOrdering comp,
-                                          thrust::detail::cuda_device_space_tag)
+                                          thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::set_symmetric_difference(first1,last1,first2,last2,result,comp);
 } // end set_symmetric_difference()
@@ -218,7 +219,7 @@ template<typename InputIterator1,
                            InputIterator2 last2,
                            OutputIterator result,
                            StrictWeakOrdering comp,
-                           thrust::detail::cuda_device_space_tag)
+                           thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::set_union(first1,last1,first2,last2,result,comp);
 } // end set_union()

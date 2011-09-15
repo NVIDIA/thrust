@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/cpp/fill.h>
 #include <thrust/detail/backend/cuda/fill.h>
 #include <thrust/detail/backend/generic/fill.h>
+#include <thrust/system/cuda/memory.h>
 
 namespace thrust
 {
@@ -65,7 +66,7 @@ template<typename OutputIterator, typename Size, typename T>
   OutputIterator fill_n(OutputIterator first,
                         Size n,
                         const T &value,
-                        thrust::detail::cuda_device_space_tag)
+                        thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::fill_n(first, n, value);
 }

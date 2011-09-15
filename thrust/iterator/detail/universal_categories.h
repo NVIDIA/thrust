@@ -29,16 +29,12 @@ struct input_universal_iterator_tag
 {
   operator input_host_iterator_tag () {return input_host_iterator_tag();}
 
-  operator thrust::detail::input_cuda_device_iterator_tag () {return thrust::detail::input_cuda_device_iterator_tag();}
-
   operator input_device_iterator_tag () {return input_device_iterator_tag();}
 };
 
 struct output_universal_iterator_tag
 {
   operator output_host_iterator_tag () {return output_host_iterator_tag();}
-
-  operator detail::output_cuda_device_iterator_tag () {return detail::output_cuda_device_iterator_tag();}
 
   operator output_device_iterator_tag () {return output_device_iterator_tag();}
 };
@@ -48,8 +44,6 @@ struct forward_universal_iterator_tag
 {
   operator forward_host_iterator_tag () {return forward_host_iterator_tag();};
 
-  operator detail::forward_cuda_device_iterator_tag () {return detail::forward_cuda_device_iterator_tag();};
-
   operator forward_device_iterator_tag () {return forward_device_iterator_tag();};
 };
 
@@ -57,8 +51,6 @@ struct bidirectional_universal_iterator_tag
   : forward_universal_iterator_tag
 {
   operator bidirectional_host_iterator_tag () {return bidirectional_host_iterator_tag();};
-
-  operator detail::bidirectional_cuda_device_iterator_tag () {return detail::bidirectional_cuda_device_iterator_tag();};
 
   operator bidirectional_device_iterator_tag () {return bidirectional_device_iterator_tag();};
 };
@@ -83,8 +75,6 @@ struct random_access_universal_iterator_tag
   operator random_access_host_iterator_tag () {return random_access_host_iterator_tag();};
 
   operator random_access_device_iterator_tag () {return random_access_device_iterator_tag();};
-
-  operator detail::random_access_cuda_device_iterator_tag () {return detail::random_access_cuda_device_iterator_tag();};
 
   // bidirectional_universal_iterator_tag is P1
   operator detail::one_degree_of_separation<bidirectional_universal_iterator_tag> () {return detail::one_degree_of_separation<bidirectional_universal_iterator_tag>();}

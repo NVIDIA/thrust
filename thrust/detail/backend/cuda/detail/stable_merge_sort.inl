@@ -43,6 +43,7 @@
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/uninitialized_array.h>
+#include <thrust/system/cuda/memory.h>
 
 
 
@@ -1039,7 +1040,7 @@ template<typename RandomAccessIterator1,
 
   using namespace thrust::detail;
 
-  typedef thrust::detail::cuda_device_space_tag space;
+  typedef thrust::cuda::tag space;
 
   uninitialized_array<KeyType,      space>      splitters(num_splitters);
   uninitialized_array<unsigned int, space>      splitters_pos(num_splitters);
@@ -1203,14 +1204,14 @@ template<typename RandomAccessIterator1,
 
   // allocate scratch space
   using namespace thrust::detail;
-  uninitialized_array<KeyType,   cuda_device_space_tag> temp_keys(n);
-  uninitialized_array<ValueType, cuda_device_space_tag> temp_vals(n);
+  uninitialized_array<KeyType,   cuda::tag> temp_keys(n);
+  uninitialized_array<ValueType, cuda::tag> temp_vals(n);
 
   // give iterators simpler names
   RandomAccessIterator1 keys0 = keys_first;
   RandomAccessIterator2 vals0 = values_first;
-  typename uninitialized_array<KeyType,   cuda_device_space_tag>::iterator keys1 = temp_keys.begin();
-  typename uninitialized_array<ValueType, cuda_device_space_tag>::iterator vals1 = temp_vals.begin();
+  typename uninitialized_array<KeyType,   cuda::tag>::iterator keys1 = temp_keys.begin();
+  typename uninitialized_array<ValueType, cuda::tag>::iterator vals1 = temp_vals.begin();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.

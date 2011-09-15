@@ -23,6 +23,7 @@
 #include <thrust/detail/backend/cuda/for_each.h>
 #include <thrust/detail/backend/omp/for_each.h>
 #include <thrust/detail/backend/generic/for_each.h>
+#include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
 namespace thrust
@@ -52,7 +53,7 @@ template<typename OutputIterator,
 OutputIterator for_each_n(OutputIterator first,
                           Size n,
                           UnaryFunction f,
-                          thrust::detail::cuda_device_space_tag)
+                          thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::for_each_n(first, n, f);
 }

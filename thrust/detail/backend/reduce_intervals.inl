@@ -20,6 +20,7 @@
 #include <thrust/detail/backend/cpp/reduce_intervals.h>
 #include <thrust/detail/backend/omp/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
+#include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
 namespace thrust
@@ -52,7 +53,7 @@ void reduce_intervals(InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
                       Decomposition decomp,
-                      thrust::detail::cuda_device_space_tag)
+                      thrust::cuda::tag)
 {
   return thrust::detail::backend::cuda::reduce_intervals(input, output, binary_op, decomp);
 }

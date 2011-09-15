@@ -31,6 +31,7 @@
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
 #include <thrust/detail/backend/cuda/detail/launch_calculator.h>
+#include <thrust/system/cuda/memory.h>
 
 namespace thrust
 {
@@ -166,7 +167,7 @@ template<typename InputIterator,
   if (n == 0)
     return init;
 
-  typedef          uninitialized_array<OutputType, thrust::detail::cuda_device_space_tag> OutputArray;
+  typedef          uninitialized_array<OutputType, thrust::cuda::tag> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
   typedef unordered_reduce_closure<InputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;

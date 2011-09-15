@@ -31,6 +31,7 @@
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
+#include <thrust/system/cuda/memory.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -496,7 +497,7 @@ OutputIterator inclusive_scan(InputIterator first,
 
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-  thrust::detail::uninitialized_array<ValueType,thrust::detail::cuda_device_space_tag> block_results(decomp.size());
+  thrust::detail::uninitialized_array<ValueType,thrust::cuda::tag> block_results(decomp.size());
   
   // TODO tune this
   const static unsigned int CTA_SIZE = 32 * 7;
@@ -579,7 +580,7 @@ OutputIterator exclusive_scan(InputIterator first,
 
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-  thrust::detail::uninitialized_array<ValueType,thrust::detail::cuda_device_space_tag> block_results(decomp.size() + 1);
+  thrust::detail::uninitialized_array<ValueType,thrust::cuda::tag> block_results(decomp.size() + 1);
   
   // TODO tune this
   const static unsigned int CTA_SIZE = 32 * 5;

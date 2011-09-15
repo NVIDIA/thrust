@@ -30,6 +30,7 @@
 #include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/uninitialized_array.h>
+#include <thrust/system/cuda/memory.h>
 
 /*
  *  This file implements the following dispatch procedure for cuda::stable_sort()
@@ -115,7 +116,7 @@ namespace third_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        typedef thrust::detail::cuda_device_space_tag space;
+        typedef thrust::cuda::tag space;
 
         // sizeof(ValueType) != 4, use indirection and permute values
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
@@ -176,7 +177,7 @@ namespace second_dispatch
                              StrictWeakOrdering comp,
                              thrust::detail::true_type)
     {
-        typedef thrust::detail::cuda_device_space_tag space;
+        typedef thrust::cuda::tag space;
 
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
@@ -210,7 +211,7 @@ namespace second_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        typedef thrust::detail::cuda_device_space_tag space;
+        typedef thrust::cuda::tag space;
 
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;

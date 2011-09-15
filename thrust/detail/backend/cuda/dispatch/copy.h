@@ -22,6 +22,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/cuda/copy_cross_space.h>
 #include <thrust/detail/backend/cuda/copy_device_to_device.h>
+#include <thrust/system/cuda/memory.h>
 
 namespace thrust
 {
@@ -48,7 +49,7 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator begin,
                       InputIterator end,
                       OutputIterator result,
-                      thrust::detail::cuda_device_space_tag)
+                      thrust::cuda::tag)
 {
     return thrust::detail::backend::cuda::copy_device_to_device(begin, end, result);
 }
@@ -59,7 +60,7 @@ template<typename InputIterator,
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::cuda_device_space_tag)
+                        thrust::cuda::tag)
 {
     return thrust::detail::backend::cuda::copy_device_to_device(first, first + n, result);
 }

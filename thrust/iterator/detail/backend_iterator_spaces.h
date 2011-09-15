@@ -19,6 +19,7 @@
 // XXX eliminate this header
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
 namespace thrust
@@ -26,11 +27,8 @@ namespace thrust
 namespace detail
 {
 
-// define these in detail for now
-struct cuda_device_space_tag : device_space_tag {};
-
 #if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
-typedef cuda_device_space_tag default_device_space_tag;
+typedef thrust::cuda::tag default_device_space_tag;
 #elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
 typedef thrust::omp::tag  default_device_space_tag;
 #else

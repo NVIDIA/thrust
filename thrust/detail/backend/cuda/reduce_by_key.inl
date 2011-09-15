@@ -38,6 +38,7 @@
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
+#include <thrust/system/cuda/memory.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -513,10 +514,10 @@ template <typename InputIterator1,
     >::type ValueType;
    
     // temporary arrays
-    typedef thrust::detail::uninitialized_array<IndexType,thrust::detail::cuda_device_space_tag> IndexArray;
-    typedef thrust::detail::uninitialized_array<KeyType,thrust::detail::cuda_device_space_tag>   KeyArray;
-    typedef thrust::detail::uninitialized_array<ValueType,thrust::detail::cuda_device_space_tag> ValueArray;
-    typedef thrust::detail::uninitialized_array<bool,thrust::detail::cuda_device_space_tag>      BoolArray;
+    typedef thrust::detail::uninitialized_array<IndexType,thrust::cuda::tag> IndexArray;
+    typedef thrust::detail::uninitialized_array<KeyType,thrust::cuda::tag>   KeyArray;
+    typedef thrust::detail::uninitialized_array<ValueType,thrust::cuda::tag> ValueArray;
+    typedef thrust::detail::uninitialized_array<bool,thrust::cuda::tag>      BoolArray;
 
     // input size
     IndexType n = keys_last - keys_first;
