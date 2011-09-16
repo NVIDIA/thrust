@@ -78,7 +78,7 @@ OutputIterator for_each_n(OutputIterator first,
                           thrust::any_space_tag)
 {
   return thrust::detail::backend::dispatch::for_each_n(first, n, f,
-    thrust::detail::default_device_space_tag());
+    thrust::device_space_tag());
 }
 
 
@@ -111,7 +111,7 @@ InputIterator for_each(InputIterator first,
                        thrust::any_space_tag)
 {
   return thrust::detail::backend::dispatch::for_each(first, last, f,
-    thrust::detail::default_device_space_tag());
+    thrust::device_space_tag());
 }
 
 

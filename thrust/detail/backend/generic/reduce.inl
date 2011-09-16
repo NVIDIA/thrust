@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 #include <thrust/detail/uninitialized_array.h>
 
@@ -37,18 +36,18 @@ namespace detail
 
 // TODO move this into /detail/backend
 // this metafunction passes through a type unless it's any_space_tag,
-// in which case it returns default_device_space_tag
+// in which case it returns device_space_tag
 template<typename Space>
-  struct any_space_to_default_device_space_tag
+  struct any_space_to_device_space_tag
 {
   typedef Space type;
-}; // end any_space_to_default_device_space_tag
+}; // end any_space_to_device_space_tag
 
 template<>
-  struct any_space_to_default_device_space_tag<thrust::any_space_tag>
+  struct any_space_to_device_space_tag<thrust::any_space_tag>
 {
-  typedef thrust::detail::default_device_space_tag type;
-}; // end any_space_to_default_device_space_tag
+  typedef thrust::device_space_tag type;
+}; // end any_space_to_device_space_tag
 
 } // end namespace detail
 
@@ -62,7 +61,7 @@ template<typename RandomAccessIterator,
                       BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_space<RandomAccessIterator>::type PossiblyAnySpace;
-  typedef typename detail::any_space_to_default_device_space_tag<PossiblyAnySpace>::type Space;
+  typedef typename detail::any_space_to_device_space_tag<PossiblyAnySpace>::type Space;
 
   // determine first and second level decomposition
   thrust::detail::backend::uniform_decomposition<SizeType> decomp1 = thrust::detail::backend::default_decomposition<Space>(n);

@@ -15,7 +15,6 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 #include <thrust/detail/backend/cpp/reduce.h>
 #include <thrust/detail/backend/cuda/reduce.h>
@@ -80,7 +79,7 @@ template<typename InputIterator,
                     thrust::any_space_tag)
 {
   return thrust::detail::backend::dispatch::reduce(first, last, init, binary_op,
-      thrust::detail::default_device_space_tag());
+      thrust::device_space_tag());
 }
 
 
@@ -147,18 +146,18 @@ template<typename InputIterator1,
 } // end dispatch
 
 // this metafunction passes through a type unless it's any_space_tag,
-// in which case it returns default_device_space_tag
+// in which case it returns device_space_tag
 template<typename Space>
-  struct any_space_to_default_device_space_tag
+  struct any_space_to_device_space_tag
 {
   typedef Space type;
-}; // end any_space_to_default_device_space_tag
+}; // end any_space_to_device_space_tag
 
 template<>
-  struct any_space_to_default_device_space_tag<thrust::any_space_tag>
+  struct any_space_to_device_space_tag<thrust::any_space_tag>
 {
-  typedef thrust::detail::default_device_space_tag type;
-}; // end any_space_to_default_device_space_tag
+  typedef thrust::device_space_tag type;
+}; // end any_space_to_device_space_tag
 
 
 template<typename InputIterator, 

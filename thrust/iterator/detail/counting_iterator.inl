@@ -20,7 +20,6 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/numeric_traits.h>
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 namespace thrust
 {
@@ -39,12 +38,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
     // use any_space_tag if we are given use_default
     thrust::detail::is_same<Space,use_default>::value,
     thrust::detail::identity_<thrust::any_space_tag>,
-    thrust::detail::eval_if<
-      // use the default backend space if we are given device_space_tag
-      thrust::detail::is_same<Space,thrust::device_space_tag>::value,
-      thrust::detail::identity_<thrust::detail::default_device_space_tag>,
-      thrust::detail::identity_<Space>
-    >
+    thrust::detail::identity_<Space>
   >::type space;
 
   typedef typename thrust::experimental::detail::ia_dflt_help<

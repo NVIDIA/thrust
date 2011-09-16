@@ -19,7 +19,6 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/backend_iterator_spaces.h>
 #include <thrust/iterator/detail/is_iterator_category.h>
 
 namespace thrust

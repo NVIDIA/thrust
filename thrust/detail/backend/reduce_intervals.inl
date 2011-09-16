@@ -15,7 +15,6 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/backend_iterator_spaces.h>
 
 #include <thrust/detail/backend/cpp/reduce_intervals.h>
 #include <thrust/detail/backend/omp/reduce_intervals.h>
@@ -82,7 +81,7 @@ void reduce_intervals(InputIterator input,
                       thrust::any_space_tag)
 {
   return thrust::detail::backend::dispatch::reduce_intervals(input, output, binary_op, decomp,
-      thrust::detail::default_device_space_tag());
+      thrust::device_space_tag());
 }
 
 } // end dispatch

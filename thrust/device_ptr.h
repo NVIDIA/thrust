@@ -66,7 +66,7 @@ template<typename T>
                thrust::device_ptr<T>,
                T,
                thrust::device_reference<T>,
-               thrust::detail::default_device_space_tag
+               thrust::device_space_tag
              >
 {
   private:
@@ -74,7 +74,7 @@ template<typename T>
       thrust::device_ptr<T>,
       T,
       thrust::device_reference<T>,
-      thrust::detail::default_device_space_tag
+      thrust::device_space_tag
     > super_t;
 
   public:
