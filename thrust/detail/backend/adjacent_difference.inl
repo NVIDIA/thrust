@@ -21,6 +21,8 @@
 #include <thrust/detail/backend/cpp/adjacent_difference.h>
 #include <thrust/detail/backend/cuda/adjacent_difference.h>
 #include <thrust/detail/backend/generic/adjacent_difference.h>
+
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust
@@ -54,7 +56,7 @@ template <typename InputIterator, typename OutputIterator, typename BinaryFuncti
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op,
-                                   thrust::host_space_tag)
+                                   thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::adjacent_difference(first, last, result, binary_op);
 }

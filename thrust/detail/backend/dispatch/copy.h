@@ -22,6 +22,7 @@
 #include <thrust/detail/backend/cpp/copy.h>
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/cuda/copy.h>
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
@@ -59,10 +60,10 @@ template<typename Space1, typename Space2>
           thrust::detail::identity_<thrust::omp::tag>,
           thrust::detail::eval_if<
             thrust::detail::or_<
-              thrust::detail::is_same<Space1,thrust::host_space_tag>,
-              thrust::detail::is_same<Space2,thrust::host_space_tag>
+              thrust::detail::is_same<Space1,thrust::cpp::tag>,
+              thrust::detail::is_same<Space2,thrust::cpp::tag>
             >::value,
-            thrust::detail::identity_<thrust::host_space_tag>,
+            thrust::detail::identity_<thrust::cpp::tag>,
             thrust::detail::identity_<void>
           >
         >
@@ -78,7 +79,7 @@ template<typename InputIterator,
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::host_space_tag)
+                      thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::copy(first,last,result);
 } // end copy()
@@ -89,7 +90,7 @@ template<typename InputIterator,
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::host_space_tag)
+                        thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::copy_n(first,n,result);
 } // end copy_n()

@@ -24,6 +24,7 @@
 
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/cstdint.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -355,7 +356,7 @@ void stable_radix_sort(RandomAccessIterator first,
 
   size_t N = last - first;
   
-  thrust::detail::uninitialized_array<KeyType, thrust::host_space_tag> temp(N);
+  thrust::detail::uninitialized_array<KeyType, thrust::cpp::tag> temp(N);
   
   detail::radix_sort(first, temp.begin(), N);
 }
@@ -376,8 +377,9 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
 
   size_t N = last1 - first1;
   
-  thrust::detail::uninitialized_array<KeyType, thrust::host_space_tag> temp1(N);
-  thrust::host_vector<ValueType>                                       temp2(N);
+  thrust::detail::uninitialized_array<KeyType, thrust::cpp::tag> temp1(N);
+  // XXX why is host_vector used here?
+  thrust::host_vector<ValueType>                                 temp2(N);
 
   detail::radix_sort(first1, temp1.begin(), first2, temp2.begin(), N);
 }

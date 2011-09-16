@@ -27,6 +27,8 @@
 #include <thrust/detail/backend/cpp/binary_search.h>
 #include <thrust/detail/backend/generic/binary_search.h>
 
+#include <thrust/system/detail/cpp/tag.h>
+
 
 namespace thrust
 {
@@ -52,7 +54,7 @@ ForwardIterator lower_bound(ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp,
-                            thrust::host_space_tag)
+                            thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::lower_bound(begin, end, value, comp);
 }
@@ -72,7 +74,7 @@ ForwardIterator upper_bound(ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp,
-                            thrust::host_space_tag)
+                            thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::upper_bound(begin, end, value, comp);
 }
@@ -93,7 +95,7 @@ bool binary_search(ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
                    StrictWeakOrdering comp,
-                   thrust::host_space_tag)
+                   thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::binary_search(begin, end, value, comp);
 }

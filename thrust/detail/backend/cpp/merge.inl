@@ -19,6 +19,7 @@
 #include <thrust/detail/copy.h>
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/backend/dereference.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -74,8 +75,8 @@ void inplace_merge(RandomAccessIterator first,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::uninitialized_array<value_type, thrust::host_space_tag> a( first, middle);
-  thrust::detail::uninitialized_array<value_type, thrust::host_space_tag> b(middle,   last);
+  thrust::detail::uninitialized_array<value_type, thrust::cpp::tag> a( first, middle);
+  thrust::detail::uninitialized_array<value_type, thrust::cpp::tag> b(middle,   last);
 
   thrust::detail::backend::cpp::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
@@ -161,10 +162,10 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::uninitialized_array<value_type1,thrust::host_space_tag> lhs1( first1, middle1);
-  thrust::detail::uninitialized_array<value_type1,thrust::host_space_tag> rhs1(middle1,   last1);
-  thrust::detail::uninitialized_array<value_type2,thrust::host_space_tag> lhs2( first2, middle2);
-  thrust::detail::uninitialized_array<value_type2,thrust::host_space_tag> rhs2(middle2,   last2);
+  thrust::detail::uninitialized_array<value_type1,thrust::cpp::tag> lhs1( first1, middle1);
+  thrust::detail::uninitialized_array<value_type1,thrust::cpp::tag> rhs1(middle1,   last1);
+  thrust::detail::uninitialized_array<value_type2,thrust::cpp::tag> lhs2( first2, middle2);
+  thrust::detail::uninitialized_array<value_type2,thrust::cpp::tag> rhs2(middle2,   last2);
 
   thrust::detail::backend::cpp::merge_by_key
     (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),

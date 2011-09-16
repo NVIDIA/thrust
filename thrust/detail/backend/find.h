@@ -20,6 +20,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/generic/find.h>
 #include <thrust/detail/backend/cpp/find.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -44,7 +45,7 @@ template <typename InputIterator, typename Predicate>
 InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred,
-                      thrust::host_space_tag)
+                      thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::find_if(first, last, pred);
 }

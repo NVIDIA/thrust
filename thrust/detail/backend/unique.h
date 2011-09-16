@@ -25,6 +25,7 @@
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/backend/generic/unique.h>
 #include <thrust/detail/backend/cpp/unique.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -42,7 +43,7 @@ template<typename ForwardIterator,
 ForwardIterator unique(ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred,
-                       thrust::host_space_tag)
+                       thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::unique(first, last, binary_pred);
 }
@@ -68,7 +69,7 @@ OutputIterator unique_copy(InputIterator first,
                            InputIterator last,
                            OutputIterator output,
                            BinaryPredicate binary_pred,
-                           thrust::host_space_tag)
+                           thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::unique_copy(first, last, output, binary_pred);
 }
@@ -149,7 +150,7 @@ template<typename InputIterator1,
                      OutputIterator1 keys_output,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred,
-                     thrust::host_space_tag)
+                     thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::unique_by_key_copy(keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 }

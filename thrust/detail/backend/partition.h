@@ -28,6 +28,8 @@
 #include <thrust/detail/backend/cpp/partition.h>
 #include <thrust/pair.h>
 
+#include <thrust/system/detail/cpp/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -55,7 +57,7 @@ template<typename ForwardIterator,
   ForwardIterator stable_partition(ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred,
-                                   thrust::host_space_tag)
+                                   thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::stable_partition(first, last, pred);
 }
@@ -88,7 +90,7 @@ template<typename InputIterator,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred,
-                          thrust::host_space_tag)
+                          thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::stable_partition_copy(first, last, out_true, out_false, pred);
 }
@@ -111,7 +113,7 @@ template<typename ForwardIterator,
   ForwardIterator partition(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred,
-                            thrust::host_space_tag)
+                            thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::partition(first, last, pred);
 }

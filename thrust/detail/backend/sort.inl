@@ -26,6 +26,8 @@
 #include <thrust/detail/backend/cpp/sort.h>
 #include <thrust/detail/backend/cuda/sort.h>
 #include <thrust/detail/backend/omp/sort.h>
+
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
@@ -56,7 +58,7 @@ template<typename RandomAccessIterator,
   void stable_sort(RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp,
-                   thrust::host_space_tag)
+                   thrust::cpp::tag)
 {
   thrust::detail::backend::cpp::stable_sort(first,last,comp);
 }
@@ -105,7 +107,7 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp,
-                          thrust::host_space_tag)
+                          thrust::cpp::tag)
 {
   thrust::detail::backend::cpp::stable_sort_by_key(keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()

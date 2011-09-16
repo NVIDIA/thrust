@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/cpp/fill.h>
 #include <thrust/detail/backend/cuda/fill.h>
 #include <thrust/detail/backend/generic/fill.h>
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust
@@ -38,7 +39,7 @@ template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value,
-            thrust::host_space_tag)
+            thrust::cpp::tag)
 {
   thrust::detail::backend::cpp::fill(first, last, value);
 }

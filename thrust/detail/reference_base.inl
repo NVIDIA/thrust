@@ -21,6 +21,8 @@
 #include <thrust/swap.h>
 #include <iostream>
 
+#include <thrust/system/detail/cpp/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -63,7 +65,7 @@ template<typename Derived, typename Value, typename Pointer>
   // test for interoperability
   typedef typename thrust::detail::are_spaces_interoperable<
     typename thrust::iterator_space<pointer>::type,
-    thrust::host_space_tag
+    thrust::cpp::tag
   >::type interop;
 
   assign_from(&v, interop());
@@ -102,10 +104,10 @@ template<typename Derived, typename Value, typename Pointer>
   // get our device space
   typedef typename thrust::iterator_space<pointer>::type space;
 
-  // test for interoperability with host_space
+  // test for interoperability with cpp
   typedef typename thrust::detail::are_spaces_interoperable<
     typename thrust::iterator_space<pointer>::type,
-    host_space_tag
+    thrust::cpp::tag
   >::type interop;
 
   return convert(interop());
@@ -127,8 +129,8 @@ template<typename Derived,typename Value, typename Pointer>
   typedef typename thrust::iterator_space<OtherPointer>::type other_space;
   typedef typename thrust::iterator_space<pointer>::type      this_space;
 
-  // XXX this could potentially be something other than host
-  typedef thrust::host_space_tag caller_space;
+  // XXX this could potentially be something other than cpp
+  typedef thrust::cpp::tag caller_space;
 
   // test for interoperability between this and other
   typedef typename thrust::detail::are_spaces_interoperable<
@@ -209,10 +211,10 @@ template<typename Derived, typename Value, typename Pointer>
   // get our device space
   typedef typename thrust::iterator_space<pointer>::type space;
 
-  // test for interoperability with host_space
+  // test for interoperability with cpp
   typedef typename thrust::detail::are_spaces_interoperable<
     typename thrust::iterator_space<pointer>::type,
-    host_space_tag
+    thrust::cpp::tag
   >::type interop;
 
   swap(other, interop());

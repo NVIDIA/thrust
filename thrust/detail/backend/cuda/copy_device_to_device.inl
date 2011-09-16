@@ -24,6 +24,7 @@
 #include <thrust/detail/uninitialized_array.h>
 
 #include <thrust/detail/backend/cuda/trivial_copy.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -56,11 +57,11 @@ template<typename InputIterator,
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
-    uninitialized_array<InputType, host_space_tag> temp1(begin, end);
+    uninitialized_array<InputType, thrust::cpp::tag> temp1(begin, end);
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    uninitialized_array<OutputType, host_space_tag> temp2(temp1.begin(), temp1.end());
+    uninitialized_array<OutputType, thrust::cpp::tag> temp2(temp1.begin(), temp1.end());
 
     // copy temp2 to device
     result = thrust::detail::backend::cuda::copy_cross_space(temp2.begin(), temp2.end(), result);

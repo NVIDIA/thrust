@@ -21,6 +21,7 @@
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/copy.h>
 #include <thrust/detail/uninitialized_array.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -69,7 +70,7 @@ template<typename RandomAccessIterator1,
   RandomAccessIterator2 overlapped_copy(RandomAccessIterator1 first,
                                         RandomAccessIterator1 last,
                                         RandomAccessIterator2 result,
-                                        thrust::host_space_tag)
+                                        thrust::cpp::tag)
 {
   if(first < last && first <= result && result < last)
   {

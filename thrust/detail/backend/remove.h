@@ -23,6 +23,7 @@
 
 #include <thrust/detail/backend/generic/remove.h>
 #include <thrust/detail/backend/cpp/remove.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -52,7 +53,7 @@ template<typename ForwardIterator,
   ForwardIterator remove_if(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred,
-                            thrust::host_space_tag)
+                            thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::remove_if(first, last, pred);
 }
@@ -77,7 +78,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred,
-                            thrust::host_space_tag)
+                            thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::remove_if(first, last, stencil, pred);
 }
@@ -103,7 +104,7 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred,
-                                thrust::host_space_tag)
+                                thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::remove_copy_if(first, last, result, pred);
 }
@@ -133,7 +134,7 @@ template<typename InputIterator1,
                                 InputIterator2 stencil,
                                 OutputIterator result,
                                 Predicate pred,
-                                thrust::host_space_tag)
+                                thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::remove_copy_if(first, last, stencil, result, pred);
 }

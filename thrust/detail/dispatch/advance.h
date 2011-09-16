@@ -22,7 +22,10 @@
 #pragma once
 
 #include <iterator>
-#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cuda/memory.h>
+#include <thrust/system/omp/memory.h>
 
 namespace thrust
 {
@@ -35,30 +38,29 @@ namespace dispatch
 
 // XXX We really ought to dispatch on thrust::iterator_traversal instead
 
-///////////////    
-// Host Path //
-///////////////
 template<typename InputIterator, typename Distance>
 void advance(InputIterator &i, Distance n,
-             thrust::host_space_tag)
+             thrust::cpp::tag)
 {
     std::advance(i, n);
 }
 
-/////////////////
-// Device Path //
-/////////////////
 template<typename InputIterator, typename Distance>
 void advance(InputIterator &i, Distance n,
-             thrust::device_space_tag)
+             thrust::omp::tag)
 {
-    // device iterators are random access
+    // omp iterators are random access
     i += n;
 }
 
-//////////////
-// Any Path //
-//////////////
+template<typename InputIterator, typename Distance>
+void advance(InputIterator &i, Distance n,
+             thrust::cuda::tag)
+{
+    // cuda iterators are random access
+    i += n;
+}
+
 template<typename InputIterator, typename Distance>
 void advance(InputIterator &i, Distance n,
              thrust::any_space_tag)

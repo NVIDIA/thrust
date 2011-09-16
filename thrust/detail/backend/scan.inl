@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/cuda/scan.h>
 #include <thrust/detail/backend/omp/scan.h>
 #include <thrust/detail/backend/generic/scan_by_key.h>
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
@@ -41,7 +42,7 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op,
-                                thrust::host_space_tag)
+                                thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::inclusive_scan(first, last, result, binary_op);
 }
@@ -83,7 +84,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init,
                                 AssociativeOperator binary_op,
-                                thrust::host_space_tag)
+                                thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::exclusive_scan(first, last, result, init, binary_op);
 }
@@ -133,7 +134,7 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op,
-                                       thrust::host_space_tag)
+                                       thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op);
 }
@@ -172,7 +173,7 @@ template<typename InputIterator1,
                                        const T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op,
-                                       thrust::host_space_tag)
+                                       thrust::cpp::tag)
 {
     return thrust::detail::backend::cpp::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op);
 }

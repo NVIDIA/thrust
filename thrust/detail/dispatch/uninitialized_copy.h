@@ -25,6 +25,7 @@
 #include <memory>
 #include <thrust/detail/backend/uninitialized_copy.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 
 namespace thrust
@@ -41,18 +42,19 @@ template<typename InputIterator,
   ForwardIterator uninitialized_copy(InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result,
-                                     thrust::host_space_tag)
+                                     thrust::cpp::tag)
 {
   return std::uninitialized_copy(first, last, result);
 } // end uninitialized_copy()
 
 
 template<typename InputIterator,
-         typename ForwardIterator>
+         typename ForwardIterator,
+         typename Tag>
   ForwardIterator uninitialized_copy(InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result,
-                                     thrust::device_space_tag)
+                                     Tag)
 {
   return thrust::detail::backend::uninitialized_copy(first, last, result);
 } // end uninitialized_copy()

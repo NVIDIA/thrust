@@ -30,6 +30,9 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cuda/memory.h>
+
 namespace thrust
 {
 
@@ -57,33 +60,33 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
 
 template<typename SrcSpace,
          typename DstSpace>
-  struct is_host_to_device
+  struct is_cpp_to_cuda
     : integral_constant<
         bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::host_space_tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::device_space_tag>::value
+        thrust::detail::is_convertible<SrcSpace, thrust::cpp::tag>::value &&
+        thrust::detail::is_convertible<DstSpace, thrust::cuda::tag>::value
       >
 {};
 
 
 template<typename SrcSpace,
          typename DstSpace>
-  struct is_device_to_host
+  struct is_cuda_to_cpp
     : integral_constant<
         bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::device_space_tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::host_space_tag>::value
+        thrust::detail::is_convertible<SrcSpace, thrust::cuda::tag>::value &&
+        thrust::detail::is_convertible<DstSpace, thrust::cpp::tag>::value
       >
 {};
 
 
 template<typename SrcSpace,
          typename DstSpace>
-  struct is_device_to_device
+  struct is_cuda_to_cuda
     : integral_constant<
         bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::device_space_tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::device_space_tag>::value
+        thrust::detail::is_convertible<SrcSpace, thrust::cuda::tag>::value &&
+        thrust::detail::is_convertible<DstSpace, thrust::cuda::tag>::value
       >
 {};
 
@@ -92,15 +95,15 @@ template<typename SrcSpace,
          typename DstSpace>
   struct cuda_memcpy_kind
     : thrust::detail::eval_if<
-        is_host_to_device<SrcSpace,DstSpace>::value,
+        is_cpp_to_cuda<SrcSpace,DstSpace>::value,
         thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyHostToDevice>,
 
         eval_if<
-          is_device_to_host<SrcSpace,DstSpace>::value,
+          is_cuda_to_cpp<SrcSpace,DstSpace>::value,
           thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToHost>,
 
           eval_if<
-            is_device_to_device<SrcSpace,DstSpace>::value,
+            is_cuda_to_cuda<SrcSpace,DstSpace>::value,
             thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToDevice>,
             void
           >

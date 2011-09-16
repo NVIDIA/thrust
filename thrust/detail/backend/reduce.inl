@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/cuda/reduce_by_key.h>
 #include <thrust/detail/backend/generic/reduce.h>
 #include <thrust/detail/backend/generic/reduce_by_key.h>
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust
@@ -39,7 +40,7 @@ template<typename InputIterator,
                     InputIterator last,
                     OutputType init,
                     BinaryFunction binary_op,
-                    thrust::host_space_tag)
+                    thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::reduce(first, last, init, binary_op);
 }
@@ -119,7 +120,7 @@ template<typename InputIterator1,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred,
                      BinaryFunction binary_op,
-                     thrust::host_space_tag)
+                     thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }

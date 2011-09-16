@@ -25,6 +25,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <memory>
+#include <thrust/system/detail/cpp/tag.h>
 
 namespace thrust
 {
@@ -48,8 +49,8 @@ template<typename T, typename Space>
         void,
 
         eval_if<
-          // XXX this check is technically incorrect: any could convert to host
-          is_convertible<Space, thrust::host_space_tag>::value,
+          // XXX this check is technically incorrect: any could convert to cpp
+          is_convertible<Space, thrust::cpp::tag>::value,
 
           identity_< std::allocator<T> >,
 

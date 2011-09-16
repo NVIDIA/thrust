@@ -27,6 +27,7 @@
 
 #include <thrust/detail/backend/cpp/sort.h>
 #include <thrust/detail/backend/cpp/merge.h>
+#include <thrust/system/detail/cpp/tag.h>
 
 using thrust::detail::backend::index_range;
 using thrust::detail::backend::uniform_decomposition;
@@ -70,8 +71,8 @@ void stable_sort(RandomAccessIterator first,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[p_i].begin(),
-                                                thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[p_i].end(),
+      thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].begin(),
+                                                thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].end(),
                                                 comp);
     }
 
@@ -91,9 +92,9 @@ void stable_sort(RandomAccessIterator first,
         if((p_i % h) == 0 && c > b)
         {
             thrust::detail::backend::cpp::
-              inplace_merge(thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[a].begin(),
-                            thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[b].end(),
-                            thrust::detail::make_forced_iterator(first, thrust::host_space_tag()) + decomp[c].end(),
+              inplace_merge(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[a].begin(),
+                            thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[b].end(),
+                            thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[c].end(),
                             comp);
             b = c;
             c += h;
@@ -141,9 +142,9 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
     if (p_i < decomp.size())
     {
       thrust::detail::backend::cpp::
-        stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[p_i].begin(),
-                           thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[p_i].end(),
-                           thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()) + decomp[p_i].begin(),
+        stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].begin(),
+                           thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].end(),
+                           thrust::detail::make_forced_iterator(values_first, thrust::cpp::tag()) + decomp[p_i].begin(),
                            comp);
     }
 
@@ -163,10 +164,10 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
         if((p_i % h) == 0 && c > b)
         {
             thrust::detail::backend::cpp::
-              inplace_merge_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[a].begin(),
-                                   thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[b].end(),
-                                   thrust::detail::make_forced_iterator(keys_first,   thrust::host_space_tag()) + decomp[c].end(),
-                                   thrust::detail::make_forced_iterator(values_first, thrust::host_space_tag()) + decomp[a].begin(),
+              inplace_merge_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[a].begin(),
+                                   thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[b].end(),
+                                   thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[c].end(),
+                                   thrust::detail::make_forced_iterator(values_first, thrust::cpp::tag()) + decomp[a].begin(),
                                    comp);
             b = c;
             c += h;

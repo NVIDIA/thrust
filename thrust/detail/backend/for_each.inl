@@ -23,6 +23,8 @@
 #include <thrust/detail/backend/cuda/for_each.h>
 #include <thrust/detail/backend/omp/for_each.h>
 #include <thrust/detail/backend/generic/for_each.h>
+
+#include <thrust/system/detail/cpp/tag.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 
@@ -64,7 +66,7 @@ template<typename OutputIterator,
 OutputIterator for_each_n(OutputIterator first,
                           Size n,
                           UnaryFunction f,
-                          thrust::host_space_tag)
+                          thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::for_each_n(first, n, f);
 }
@@ -98,7 +100,7 @@ template<typename InputIterator,
 InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f,
-                       thrust::host_space_tag)
+                       thrust::cpp::tag)
 {
   return thrust::detail::backend::cpp::for_each(first, last, f);
 }
