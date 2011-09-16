@@ -27,7 +27,7 @@
 #include <thrust/detail/backend/cuda/sort.h>
 #include <thrust/detail/backend/omp/sort.h>
 
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 

@@ -22,7 +22,7 @@
 #include <thrust/detail/backend/cuda/adjacent_difference.h>
 #include <thrust/detail/backend/generic/adjacent_difference.h>
 
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust

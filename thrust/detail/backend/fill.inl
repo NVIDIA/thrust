@@ -21,7 +21,8 @@
 #include <thrust/detail/backend/cpp/fill.h>
 #include <thrust/detail/backend/cuda/fill.h>
 #include <thrust/detail/backend/generic/fill.h>
-#include <thrust/system/detail/cpp/tag.h>
+
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust

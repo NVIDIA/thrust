@@ -21,7 +21,8 @@
 #include <thrust/detail/backend/cuda/reduce_by_key.h>
 #include <thrust/detail/backend/generic/reduce.h>
 #include <thrust/detail/backend/generic/reduce_by_key.h>
-#include <thrust/system/detail/cpp/tag.h>
+
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust

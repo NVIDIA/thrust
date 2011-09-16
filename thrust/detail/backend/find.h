@@ -20,7 +20,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/generic/find.h>
 #include <thrust/detail/backend/cpp/find.h>
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 
 namespace thrust
 {

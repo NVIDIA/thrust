@@ -23,7 +23,7 @@
 
 #include <iterator>
 
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 

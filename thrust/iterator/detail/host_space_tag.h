@@ -18,7 +18,9 @@
 
 #include <thrust/detail/config.h>
 
-#include <thrust/system/detail/cpp/tag.h>
+// XXX configure this using THRUST_DEFAULT_HOST_BACKEND
+
+#include <thrust/system/cpp/memory.h>
 
 namespace thrust
 {

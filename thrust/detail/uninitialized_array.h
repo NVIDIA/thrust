@@ -25,7 +25,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <memory>
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 
 namespace thrust
 {

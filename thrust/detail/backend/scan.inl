@@ -21,7 +21,8 @@
 #include <thrust/detail/backend/cuda/scan.h>
 #include <thrust/detail/backend/omp/scan.h>
 #include <thrust/detail/backend/generic/scan_by_key.h>
-#include <thrust/system/detail/cpp/tag.h>
+
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 

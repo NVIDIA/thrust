@@ -23,7 +23,7 @@
 
 #include <thrust/detail/backend/generic/remove.h>
 #include <thrust/detail/backend/cpp/remove.h>
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 
 namespace thrust
 {

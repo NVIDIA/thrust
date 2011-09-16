@@ -22,7 +22,8 @@
 #include <thrust/detail/backend/cpp/copy.h>
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/cuda/copy.h>
-#include <thrust/system/detail/cpp/tag.h>
+
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/omp/memory.h>
 

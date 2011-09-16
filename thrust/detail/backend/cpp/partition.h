@@ -23,7 +23,7 @@
 
 #include <thrust/pair.h>
 #include <thrust/detail/uninitialized_array.h>
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 
 namespace thrust
 {

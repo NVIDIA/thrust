@@ -30,7 +30,7 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/system/detail/cpp/tag.h>
+#include <thrust/system/cpp/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust
