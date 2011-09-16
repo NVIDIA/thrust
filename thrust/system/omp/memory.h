@@ -30,8 +30,7 @@ namespace backend
 namespace omp
 {
 
-// XXX tag needs to inherit cpp::tag
-struct tag : thrust::device_space_tag {};
+struct tag {};
 
 } // end omp
 } // end backend

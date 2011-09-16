@@ -33,6 +33,8 @@
 #include <thrust/detail/config.h>
 // XXX eliminate this by #include <thrust/detail/config/default_host_space_tag.h> in config.h or similar
 #include <thrust/system/detail/cpp/tag.h>
+// XXX eliminate this by #include <thrust/detail/config/default_device_space_tag.h> in config.h or similar
+#include <thrust/iterator/detail/backend_iterator_spaces.h>
 #include <iterator>
 
 namespace thrust
@@ -50,7 +52,7 @@ template<typename T>
 // XXX host_space_tag should be a typedef of whatever the default host backend is
 typedef thrust::cpp::tag host_space_tag;
 
-struct device_space_tag {};
+typedef thrust::detail::default_device_space_tag device_space_tag;
 
 
 // define Boost's traversal tags

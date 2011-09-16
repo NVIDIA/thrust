@@ -21,6 +21,7 @@
 #include <thrust/detail/backend/generic/free.h>
 #include <thrust/detail/backend/cuda/free.h>
 #include <thrust/system/cuda/memory.h>
+#include <thrust/system/omp/memory.h>
 
 namespace thrust
 {
@@ -33,7 +34,7 @@ namespace dispatch
 
 template<unsigned int DummyParameterToAvoidInstantiation>
 void free(thrust::device_ptr<void> ptr,
-          thrust::device_space_tag)
+          thrust::omp::tag)
 {
   thrust::detail::backend::generic::free<0>(ptr);
 } // end free()

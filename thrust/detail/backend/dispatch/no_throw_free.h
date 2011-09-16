@@ -22,6 +22,7 @@
 
 #include <thrust/detail/backend/generic/no_throw_free.h>
 #include <thrust/detail/backend/cuda/no_throw_free.h>
+#include <thrust/system/omp/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust
@@ -39,7 +40,7 @@ namespace dispatch
 
 template<unsigned int DummyParameterToAvoidInstantiation>
   void no_throw_free(thrust::device_ptr<void> ptr,
-                     thrust::device_space_tag) throw()
+                     thrust::omp::tag) throw()
 {
   thrust::detail::backend::generic::no_throw_free<0>(ptr);
 } // end no_throw_free()

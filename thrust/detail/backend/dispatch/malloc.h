@@ -20,6 +20,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/generic/malloc.h>
 #include <thrust/detail/backend/cuda/malloc.h>
+#include <thrust/system/omp/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 namespace thrust
@@ -45,7 +46,7 @@ namespace dispatch
 
 template<unsigned int DummyParameterToAvoidInstantiation>
 thrust::device_ptr<void> malloc(const std::size_t n,
-                                thrust::device_space_tag)
+                                thrust::omp::tag)
 {
   return thrust::detail::backend::generic::malloc<0>(n);
 } // end malloc()

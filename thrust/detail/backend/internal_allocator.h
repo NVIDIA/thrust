@@ -38,7 +38,7 @@ namespace detail
 namespace backend
 {
 
-template<typename T>
+template<typename T, typename Backend>
   class internal_allocator
 {
   public:
@@ -54,7 +54,7 @@ template<typename T>
     template<typename U>
       struct rebind
     {
-      typedef internal_allocator<U> other;
+      typedef internal_allocator<U,Backend> other;
     }; // end rebind
 
     inline internal_allocator() {}
@@ -64,7 +64,7 @@ template<typename T>
     inline internal_allocator(internal_allocator const&) {}
 
     template<typename U>
-    inline internal_allocator(internal_allocator<U> const&) {}
+    inline internal_allocator(internal_allocator<U,Backend> const&) {}
 
     // address
     inline pointer address(reference r) { return &r; }
@@ -80,12 +80,12 @@ template<typename T>
         throw std::bad_alloc();
       } // end if
 
-      return pointer(device_malloc<T>(cnt));
+      return pointer(static_cast<T*>(thrust::detail::backend::dispatch::malloc<0>(sizeof(T) * cnt, Backend()).get()));
     } // end allocate()
 
     inline void deallocate(pointer p, size_type cnt) throw()
     {
-      thrust::detail::backend::no_throw_free(p);
+      thrust::detail::backend::dispatch::no_throw_free<0>(p, Backend());
     } // end deallocate()
 
     inline size_type max_size() const

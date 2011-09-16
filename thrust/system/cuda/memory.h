@@ -27,8 +27,7 @@ namespace backend
 namespace cuda
 {
 
-// XXX tag needs no base
-struct tag : thrust::device_space_tag {};
+struct tag {};
 
 } // end cuda
 } // end backend

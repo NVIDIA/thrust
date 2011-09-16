@@ -38,6 +38,7 @@ namespace detail
 // forward declaration of normal_iterator
 template<typename> class normal_iterator;
 
+// XXX eliminate this
 template<typename T, typename Space>
   struct choose_uninitialized_array_allocator
     : eval_if<
@@ -53,15 +54,7 @@ template<typename T, typename Space>
           identity_< std::allocator<T> >,
 
           // XXX add backend-specific allocators here?
-
-          eval_if<
-            // XXX this check is technically incorrect: any could convert to device
-            is_convertible<Space, thrust::device_space_tag>::value,
-
-            identity_< thrust::detail::backend::internal_allocator<T> >,
-
-            void
-          >
+          identity_< thrust::detail::backend::internal_allocator<T,Space> >
         >
       >
 {};
