@@ -20,16 +20,13 @@
 #include <thrust/device_ptr.h>
 #include <thrust/device_reference.h>
 #include <thrust/device_malloc.h>
+#include <thrust/detail/backend/dispatch/malloc.h>
 #include <thrust/detail/backend/no_throw_free.h>
 #include <limits>
 #include <stdexcept>
 
 namespace thrust
 {
-
-
-// XXX WAR circular #inclusion with forward declaration
-template<typename T> thrust::device_ptr<T> device_malloc(const std::size_t n);
 
 
 namespace detail
