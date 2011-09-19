@@ -27,7 +27,7 @@
 #include <thrust/detail/backend/cpp/binary_search.h>
 #include <thrust/detail/backend/generic/binary_search.h>
 
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 
 namespace thrust

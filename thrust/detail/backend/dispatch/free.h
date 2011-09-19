@@ -20,8 +20,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/generic/free.h>
 #include <thrust/detail/backend/cuda/free.h>
-#include <thrust/system/cuda/memory.h>
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {

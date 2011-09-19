@@ -22,7 +22,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/cuda/copy_cross_space.h>
 #include <thrust/detail/backend/cuda/copy_device_to_device.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

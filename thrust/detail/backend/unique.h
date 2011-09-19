@@ -25,7 +25,7 @@
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/backend/generic/unique.h>
 #include <thrust/detail/backend/cpp/unique.h>
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {

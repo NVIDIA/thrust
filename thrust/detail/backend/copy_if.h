@@ -23,8 +23,8 @@
 #include <thrust/detail/backend/generic/copy_if.h>
 #include <thrust/detail/backend/cpp/copy_if.h>
 #include <thrust/detail/backend/cuda/copy_if.h>
-#include <thrust/system/cpp/memory.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

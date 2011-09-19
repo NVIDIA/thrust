@@ -27,7 +27,7 @@
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN

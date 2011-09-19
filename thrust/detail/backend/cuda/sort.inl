@@ -30,7 +30,7 @@
 #include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/uninitialized_array.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 /*
  *  This file implements the following dispatch procedure for cuda::stable_sort()

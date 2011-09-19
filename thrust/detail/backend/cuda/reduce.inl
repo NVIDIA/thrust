@@ -31,7 +31,7 @@
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
 #include <thrust/detail/backend/cuda/detail/launch_calculator.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

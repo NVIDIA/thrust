@@ -22,8 +22,8 @@
 
 #include <thrust/detail/backend/generic/no_throw_free.h>
 #include <thrust/detail/backend/cuda/no_throw_free.h>
-#include <thrust/system/omp/memory.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

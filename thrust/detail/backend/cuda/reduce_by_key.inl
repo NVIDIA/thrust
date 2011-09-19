@@ -38,7 +38,7 @@
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 

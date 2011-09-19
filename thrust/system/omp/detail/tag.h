@@ -16,5 +16,41 @@
 
 #pragma once
 
-#include <thrust/system/omp/detail/tag.h>
+namespace thrust
+{
+// put the canonical tag in the same ns as the backend's entry points
+// XXX omp's entry points should be under system, not backend
+namespace detail
+{
+namespace backend
+{
+namespace omp
+{
+
+struct tag {};
+
+} // end omp
+} // end backend
+} // end detail
+
+namespace system
+{
+namespace omp
+{
+
+// alias omp's tag here
+using thrust::detail::backend::omp::tag;
+
+} // end omp
+} // end system
+
+// alias omp's tag at top-level
+namespace omp
+{
+
+using thrust::system::omp::tag;
+
+} // end omp
+
+} // end thrust
 

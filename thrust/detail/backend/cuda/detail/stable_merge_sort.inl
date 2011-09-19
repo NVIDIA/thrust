@@ -43,7 +43,7 @@
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/uninitialized_array.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 
 

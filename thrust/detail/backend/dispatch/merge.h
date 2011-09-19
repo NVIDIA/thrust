@@ -19,8 +19,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/backend/cuda/merge.h>
 #include <thrust/detail/backend/omp/merge.h>
-#include <thrust/system/cuda/memory.h>
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {

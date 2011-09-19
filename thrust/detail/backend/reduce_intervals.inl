@@ -20,9 +20,9 @@
 #include <thrust/detail/backend/omp/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 
-#include <thrust/system/cpp/memory.h>
-#include <thrust/system/cuda/memory.h>
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {

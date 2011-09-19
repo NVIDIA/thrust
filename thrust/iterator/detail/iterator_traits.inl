@@ -24,7 +24,7 @@
 #include <thrust/detail/type_traits.h>
 
 // XXX eliminate this #include when are_spaces_compatible no longer exists
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/omp/detail/tag.h>
 
 
 #if __GNUC__

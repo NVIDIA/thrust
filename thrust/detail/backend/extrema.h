@@ -25,7 +25,7 @@
 #include <thrust/detail/backend/generic/extrema.h>
 #include <thrust/detail/backend/cpp/extrema.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {

@@ -21,7 +21,7 @@
 #include <thrust/detail/backend/omp/copy_device_to_device.h>
 #include <thrust/detail/backend/omp/copy_host_or_any_to_device.h>
 #include <thrust/detail/backend/omp/copy_device_to_host_or_any.h>
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/omp/detail/tag.h>
 
 // for std::copy
 #include <algorithm>

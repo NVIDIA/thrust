@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 
 #if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -29,7 +29,7 @@ typedef thrust::cuda::tag device_space_tag;
 } // end thrust
 
 #elif  THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
