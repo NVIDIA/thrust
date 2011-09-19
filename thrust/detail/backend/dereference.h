@@ -30,6 +30,35 @@ namespace thrust
 template<typename T>
   class device_ptr;
 
+namespace system
+{
+
+namespace cpp
+{
+
+template<typename T>
+  class pointer;
+
+} // end cpp
+
+namespace omp
+{
+
+template<typename T>
+  class pointer;
+
+} // end omp
+
+namespace cuda
+{
+
+template<typename T>
+  class pointer;
+
+} // end cuda
+
+} // end system
+
 namespace detail
 {
 
@@ -224,6 +253,43 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
       dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n);
+
+
+// cpp::pointer prototypes
+template<typename T>
+  inline __host__ __device__
+    typename dereference_result< thrust::cpp::pointer<T> >::type
+      dereference(thrust::cpp::pointer<T> ptr);
+
+template<typename T, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::cpp::pointer<T> >::type
+      dereference(thrust::cpp::pointer<T> ptr, IndexType n);
+
+
+// omp::pointer prototypes
+template<typename T>
+  inline __host__ __device__
+    typename dereference_result< thrust::omp::pointer<T> >::type
+      dereference(thrust::omp::pointer<T> ptr);
+
+template<typename T, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::omp::pointer<T> >::type
+      dereference(thrust::omp::pointer<T> ptr, IndexType n);
+
+
+// cuda::pointer prototypes
+template<typename T>
+  inline __host__ __device__
+    typename dereference_result< thrust::cuda::pointer<T> >::type
+      dereference(thrust::cuda::pointer<T> ptr);
+
+template<typename T, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::cuda::pointer<T> >::type
+      dereference(thrust::cuda::pointer<T> ptr, IndexType n);
+
 
 } // end backend
 
