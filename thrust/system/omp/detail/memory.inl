@@ -15,13 +15,39 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/omp/memory.h>
+#include <thrust/system/omp/memory.h>
 #include <cstdlib> // for malloc & free
 #include <new>     // for std::bad_alloc
 #include <limits>
 
 namespace thrust
 {
+
+namespace detail
+{
+namespace backend
+{
+namespace omp
+{
+
+// XXX eliminate malloc when omp derives from cpp
+thrust::system::omp::pointer<void> malloc(tag, std::size_t n)
+{
+  void *result = std::malloc(n);
+
+  return thrust::system::omp::pointer<void>(result);
+} // end malloc()
+
+// XXX eliminate free when omp derives from cpp
+void free(tag, thrust::system::omp::pointer<void> ptr)
+{
+  std::free(ptr.get());
+} // end free()
+
+} // end omp
+} // end backend
+} // end detail
+
 namespace system
 {
 namespace omp
@@ -50,6 +76,16 @@ void swap(reference<T> &a, reference<T> &b)
 {
   a.swap(b);
 } // end swap()
+
+pointer<void> malloc(std::size_t n)
+{
+  return thrust::detail::backend::omp::malloc(tag(), n);
+} // end malloc()
+
+void free(pointer<void> ptr)
+{
+  return thrust::detail::backend::omp::free(tag(), ptr);
+} // end free()
 
 } // end omp
 } // end system

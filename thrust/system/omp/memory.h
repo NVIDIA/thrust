@@ -68,8 +68,8 @@ template<typename T>
     explicit pointer(OtherT *ptr) : super_t(ptr) {}
 
     template<typename OtherT>
-    __host__ __deivce__
-    pointer &operator=(const pointer<OtherT> &other) : super_t(other) {}
+    __host__ __device__
+    pointer(const pointer<OtherT> &other) : super_t(other) {}
 
     template<typename OtherT>
     __host__ __device__
@@ -124,15 +124,21 @@ template<typename T>
 __host__ __device__
 void swap(reference<T> &x, reference<T> &y);
 
+inline pointer<void> malloc(std::size_t n);
+
+inline void free(pointer<void> ptr);
+
 } // end omp
 } // end system
 
-// alias omp's tag at top-level
+// alias omp's members at top-level
 namespace omp
 {
 
 using thrust::system::omp::pointer;
 using thrust::system::omp::reference;
+using thrust::system::omp::malloc;
+using thrust::system::omp::free;
 
 } // end omp
 

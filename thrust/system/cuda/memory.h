@@ -65,8 +65,8 @@ template<typename T>
     explicit pointer(OtherT *ptr) : super_t(ptr) {}
 
     template<typename OtherT>
-    __host__ __deivce__
-    pointer &operator=(const pointer<OtherT> &other) : super_t(other) {}
+    __host__ __device__
+    pointer(const pointer<OtherT> &other) : super_t(other) {}
 
     template<typename OtherT>
     __host__ __device__
@@ -121,15 +121,21 @@ template<typename T>
 __host__ __device__
 void swap(reference<T> &x, reference<T> &y);
 
+inline pointer<void> malloc(std::size_t n);
+
+inline void free(pointer<void> ptr);
+
 } // end cuda
 } // end system
 
-// alias cuda's tag at top-level
+// alias cuda's members at top-level
 namespace cuda
 {
 
 using thrust::system::cuda::pointer;
 using thrust::system::cuda::reference;
+using thrust::system::cuda::malloc;
+using thrust::system::cuda::free;
 
 } // end cuda
 

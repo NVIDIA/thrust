@@ -68,8 +68,8 @@ template<typename T>
     explicit pointer(OtherT *ptr) : super_t(ptr) {}
 
     template<typename OtherT>
-    __host__ __deivce__
-    pointer &operator=(const pointer<OtherT> &other) : super_t(other) {}
+    __host__ __device__
+    pointer(const pointer<OtherT> &other) : super_t(other) {}
 
     template<typename OtherT>
     __host__ __device__
@@ -124,6 +124,10 @@ template<typename T>
 __host__ __device__
 void swap(reference<T> &x, reference<T> &y);
 
+inline pointer<void> malloc(std::size_t n);
+
+inline void free(pointer<void> ptr);
+
 } // end cpp
 } // end system
 
@@ -133,6 +137,8 @@ namespace cpp
 
 using thrust::system::cpp::pointer;
 using thrust::system::cpp::reference;
+using thrust::system::cpp::malloc;
+using thrust::system::cpp::free;
 
 } // end cpp
 

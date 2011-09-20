@@ -15,11 +15,53 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/cuda/memory.h>
+#include <thrust/system/cuda/memory.h>
 #include <limits>
+
+#include <cuda_runtime_api.h>
+#include <thrust/system/cuda_error.h>
+#include <thrust/system/detail/bad_alloc.h>
 
 namespace thrust
 {
+
+namespace detail
+{
+namespace backend
+{
+namespace cuda
+{
+
+// XXX malloc should be moved into thrust::system::cuda::detail
+thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
+{
+  void *result = 0;
+
+  cudaError_t error = cudaMalloc(reinterpret_cast<void**>(&result), n);
+
+  if(error)
+  {
+    throw thrust::system::detail::bad_alloc(thrust::system::cuda_category().message(error).c_str());
+  } // end if
+
+  return thrust::system::cuda::pointer<void>(result);
+} // end malloc()
+
+// XXX free should be moved into thrust::system::cuda::detail
+void free(tag, thrust::system::cuda::pointer<void> ptr)
+{
+  cudaError_t error = cudaFree(ptr.get());
+
+  if(error)
+  {
+    throw thrust::system_error(error, thrust::cuda_category());
+  } // end error
+} // end free()
+
+} // end cuda
+} // end backend
+} // end detail
+
 namespace system
 {
 namespace cuda

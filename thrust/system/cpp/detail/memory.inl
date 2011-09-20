@@ -15,13 +15,38 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/cpp/memory.h>
+#include <thrust/system/cpp/memory.h>
 #include <cstdlib> // for malloc & free
-#include <new>     // for std::bad_alloc
 #include <limits>
 
 namespace thrust
 {
+
+namespace detail
+{
+namespace backend
+{
+namespace cpp
+{
+
+// XXX malloc should be moved into thrust::system::cpp::detail
+thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
+{
+  void *result = std::malloc(n);
+
+  return thrust::system::cpp::pointer<void>(result);
+} // end malloc()
+
+// XXX free should be moved into thrust::system::cpp::detail
+void free(tag, thrust::system::cpp::pointer<void> ptr)
+{
+  std::free(ptr.get());
+} // end free()
+
+} // end cpp
+} // end backend
+} // end detail
+
 namespace system
 {
 namespace cpp
@@ -50,6 +75,16 @@ void swap(reference<T> &a, reference<T> &b)
 {
   a.swap(b);
 } // end swap()
+
+pointer<void> malloc(std::size_t n)
+{
+  return thrust::detail::backend::cpp::malloc(tag(), n);
+} // end malloc()
+
+void free(pointer<void> ptr)
+{
+  return thrust::detail::backend::cpp::free(tag(), ptr);
+} // end free()
 
 } // end cpp
 } // end system
