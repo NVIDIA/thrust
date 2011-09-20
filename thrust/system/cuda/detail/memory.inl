@@ -91,6 +91,16 @@ void swap(reference<T> &a, reference<T> &b)
   a.swap(b);
 } // end swap()
 
+pointer<void> malloc(std::size_t n)
+{
+  return thrust::detail::backend::cuda::malloc(tag(), n);
+} // end malloc()
+
+void free(pointer<void> ptr)
+{
+  return thrust::detail::backend::cuda::free(tag(), ptr);
+} // end free()
+
 } // end cuda
 } // end system
 
