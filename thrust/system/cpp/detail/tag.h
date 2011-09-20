@@ -16,29 +16,41 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
-
-#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
-#include <thrust/system/cuda/detail/tag.h>
-
 namespace thrust
 {
-
-typedef thrust::cuda::tag device_space_tag;
-
-} // end thrust
-
-#elif  THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
-#include <thrust/system/omp/detail/tag.h>
-
-namespace thrust
+// put the canonical tag in the same ns as the backend's entry points
+// XXX cpp's entry points should be under system, not backend
+namespace detail
+{
+namespace backend
+{
+namespace cpp
 {
 
-typedef thrust::omp::tag device_space_tag;
+struct tag {};
+
+} // end cpp
+} // end backend
+} // end detail
+
+namespace system
+{
+namespace cpp
+{
+
+// alias cpp's tag here
+using thrust::detail::backend::cpp::tag;
+
+} // end cpp
+} // end system
+
+// alias cpp's tag at top-level
+namespace cpp
+{
+
+using thrust::system::cpp::tag;
+
+} // end cpp
 
 } // end thrust
-
-#else
-#error Unknown device backend.
-#endif // THRUST_DEVICE_BACKEND
 

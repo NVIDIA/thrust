@@ -21,7 +21,7 @@
 #include <thrust/swap.h>
 #include <iostream>
 
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {

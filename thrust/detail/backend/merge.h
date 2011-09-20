@@ -21,9 +21,9 @@
 #include <thrust/detail/backend/cuda/merge.h>
 #include <thrust/iterator/detail/minimum_space.h>
 
-#include <thrust/system/cpp/memory.h>
-#include <thrust/system/cuda/memory.h>
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {

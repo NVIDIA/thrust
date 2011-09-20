@@ -20,7 +20,7 @@
 
 // XXX configure this using THRUST_DEFAULT_HOST_BACKEND
 
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {

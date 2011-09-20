@@ -26,7 +26,7 @@
 #include <thrust/scan.h>
 #include <thrust/extrema.h>
 #include <thrust/detail/uninitialized_array.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

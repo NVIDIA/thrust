@@ -21,9 +21,9 @@
 #include <thrust/detail/backend/cpp/set_operations.h>
 #include <thrust/detail/backend/cuda/set_operations.h>
 
-#include <thrust/system/cpp/memory.h>
-#include <thrust/system/cuda/memory.h>
-#include <thrust/system/omp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {

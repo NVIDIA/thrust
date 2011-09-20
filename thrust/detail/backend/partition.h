@@ -28,7 +28,7 @@
 #include <thrust/detail/backend/cpp/partition.h>
 #include <thrust/pair.h>
 
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {

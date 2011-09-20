@@ -21,6 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 #include <thrust/detail/pointer_base.h>
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
@@ -28,28 +29,10 @@
 
 namespace thrust
 {
-// put the canonical tag in the same ns as the backend's entry points
-// XXX cuda's entry points should be under system, not backend
-namespace detail
-{
-namespace backend
-{
-namespace cuda
-{
-
-struct tag {};
-
-} // end cuda
-} // end backend
-} // end detail
-
 namespace system
 {
 namespace cuda
 {
-
-// alias cuda's tag here
-using thrust::detail::backend::cuda::tag;
 
 // forward declaration of reference for pointer
 template<typename Element> class reference;
@@ -57,18 +40,18 @@ template<typename Element> class reference;
 template<typename T>
   class pointer
     : public thrust::detail::pointer_base<
-               thrust::cuda::pointer<T>,
+               thrust::system::cuda::pointer<T>,
                T,
-               thrust::cuda::reference<T>,
-               thrust::cuda::tag
+               thrust::system::cuda::reference<T>,
+               thrust::system::cuda::tag
              >
 {
   private:
     typedef thrust::detail::pointer_base<
-      thrust::cuda::pointer<T>,
+      thrust::system::cuda::pointer<T>,
       T,
-      thrust::cuda::reference<T>,
-      thrust::cuda::tag
+      thrust::system::cuda::reference<T>,
+      thrust::system::cuda::tag
     > super_t;
 
   public:
@@ -97,16 +80,16 @@ template<typename T>
 template<typename T>
   class reference
     : public thrust::detail::reference_base<
-               thrust::cuda::reference<T>,
+               thrust::system::cuda::reference<T>,
                T,
-               thrust::cuda::pointer<T>
+               thrust::system::cuda::pointer<T>
              >
 {
   private:
     typedef thrust::detail::reference_base<
-      thrust::cuda::reference<T>,
+      thrust::system::cuda::reference<T>,
       T,
-      thrust::cuda::pointer<T>
+      thrust::system::cuda::pointer<T>
     > super_t;
 
   public:
@@ -145,7 +128,6 @@ void swap(reference<T> &x, reference<T> &y);
 namespace cuda
 {
 
-using thrust::system::cuda::tag;
 using thrust::system::cuda::pointer;
 using thrust::system::cuda::reference;
 

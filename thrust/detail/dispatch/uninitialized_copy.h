@@ -25,7 +25,7 @@
 #include <memory>
 #include <thrust/detail/backend/uninitialized_copy.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 
 namespace thrust

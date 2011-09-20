@@ -258,37 +258,37 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
 // cpp::pointer prototypes
 template<typename T>
   inline __host__ __device__
-    typename dereference_result< thrust::cpp::pointer<T> >::type
-      dereference(thrust::cpp::pointer<T> ptr);
+    typename dereference_result< thrust::system::cpp::pointer<T> >::type
+      dereference(thrust::system::cpp::pointer<T> ptr);
 
 template<typename T, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< thrust::cpp::pointer<T> >::type
-      dereference(thrust::cpp::pointer<T> ptr, IndexType n);
+    typename dereference_result< thrust::system::cpp::pointer<T> >::type
+      dereference(thrust::system::cpp::pointer<T> ptr, IndexType n);
 
 
 // omp::pointer prototypes
 template<typename T>
   inline __host__ __device__
-    typename dereference_result< thrust::omp::pointer<T> >::type
-      dereference(thrust::omp::pointer<T> ptr);
+    typename dereference_result< thrust::system::omp::pointer<T> >::type
+      dereference(thrust::system::omp::pointer<T> ptr);
 
 template<typename T, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< thrust::omp::pointer<T> >::type
-      dereference(thrust::omp::pointer<T> ptr, IndexType n);
+    typename dereference_result< thrust::system::omp::pointer<T> >::type
+      dereference(thrust::system::omp::pointer<T> ptr, IndexType n);
 
 
 // cuda::pointer prototypes
 template<typename T>
   inline __host__ __device__
-    typename dereference_result< thrust::cuda::pointer<T> >::type
-      dereference(thrust::cuda::pointer<T> ptr);
+    typename dereference_result< thrust::system::cuda::pointer<T> >::type
+      dereference(thrust::system::cuda::pointer<T> ptr);
 
 template<typename T, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< thrust::cuda::pointer<T> >::type
-      dereference(thrust::cuda::pointer<T> ptr, IndexType n);
+    typename dereference_result< thrust::system::cuda::pointer<T> >::type
+      dereference(thrust::system::cuda::pointer<T> ptr, IndexType n);
 
 
 } // end backend

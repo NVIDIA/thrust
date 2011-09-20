@@ -21,6 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/pointer_base.h>
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
@@ -28,28 +29,10 @@
 
 namespace thrust
 {
-// put the canonical tag in the same ns as the backend's entry points
-// XXX cpp's entry points should be under system, not backend
-namespace detail
-{
-namespace backend
-{
-namespace cpp
-{
-
-struct tag {};
-
-} // end cpp
-} // end backend
-} // end detail
-
 namespace system
 {
 namespace cpp
 {
-
-// alias cpp's tag here
-using thrust::detail::backend::cpp::tag;
 
 // forward declaration of reference for pointer
 template<typename Element> class reference;
@@ -57,18 +40,18 @@ template<typename Element> class reference;
 template<typename T>
   class pointer
     : public thrust::detail::pointer_base<
-               thrust::cpp::pointer<T>,
+               thrust::system::cpp::pointer<T>,
                T,
-               thrust::cpp::reference<T>,
-               thrust::cpp::tag
+               thrust::system::cpp::reference<T>,
+               thrust::system::cpp::tag
              >
 {
   private:
     typedef thrust::detail::pointer_base<
-      thrust::cpp::pointer<T>,
+      thrust::system::cpp::pointer<T>,
       T,
-      thrust::cpp::reference<T>,
-      thrust::cpp::tag
+      thrust::system::cpp::reference<T>,
+      thrust::system::cpp::tag
     > super_t;
 
   public:
@@ -100,16 +83,16 @@ template<typename T>
 template<typename T>
   class reference
     : public thrust::detail::reference_base<
-               thrust::cpp::reference<T>,
+               thrust::system::cpp::reference<T>,
                T,
-               thrust::cpp::pointer<T>
+               thrust::system::cpp::pointer<T>
              >
 {
   private:
     typedef thrust::detail::reference_base<
-      thrust::cpp::reference<T>,
+      thrust::system::cpp::reference<T>,
       T,
-      thrust::cpp::pointer<T>
+      thrust::system::cpp::pointer<T>
     > super_t;
 
   public:
@@ -148,7 +131,6 @@ void swap(reference<T> &x, reference<T> &y);
 namespace cpp
 {
 
-using thrust::system::cpp::tag;
 using thrust::system::cpp::pointer;
 using thrust::system::cpp::reference;
 

@@ -68,7 +68,7 @@ template<typename Category>
             detail::identity_<thrust::device_space_tag>,
 
             // unknown space
-            void
+            detail::identity_<void>
           > // if device
         > // if host
       > // if any

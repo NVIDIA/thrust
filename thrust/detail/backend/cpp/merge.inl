@@ -19,7 +19,7 @@
 #include <thrust/detail/copy.h>
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {

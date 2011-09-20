@@ -31,7 +31,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/uninitialized_array.h>
-#include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

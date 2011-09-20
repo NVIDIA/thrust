@@ -27,7 +27,7 @@
 
 #include <thrust/detail/backend/cpp/sort.h>
 #include <thrust/detail/backend/cpp/merge.h>
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 using thrust::detail::backend::index_range;
 using thrust::detail::backend::uniform_decomposition;

@@ -21,6 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/omp/detail/tag.h>
 #include <thrust/detail/pointer_base.h>
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
@@ -28,28 +29,10 @@
 
 namespace thrust
 {
-// put the canonical tag in the same ns as the backend's entry points
-// XXX omp's entry points should be under system, not backend
-namespace detail
-{
-namespace backend
-{
-namespace omp
-{
-
-struct tag {};
-
-} // end omp
-} // end backend
-} // end detail
-
 namespace system
 {
 namespace omp
 {
-
-// alias omp's tag here
-using thrust::detail::backend::omp::tag;
 
 // forward declaration of reference for pointer
 template<typename Element> class reference;
@@ -57,18 +40,18 @@ template<typename Element> class reference;
 template<typename T>
   class pointer
     : public thrust::detail::pointer_base<
-               thrust::omp::pointer<T>,
+               thrust::system::omp::pointer<T>,
                T,
-               thrust::omp::reference<T>,
-               thrust::omp::tag
+               thrust::system::omp::reference<T>,
+               thrust::system::omp::tag
              >
 {
   private:
     typedef thrust::detail::pointer_base<
-      thrust::omp::pointer<T>,
+      thrust::system::omp::pointer<T>,
       T,
-      thrust::omp::reference<T>,
-      thrust::omp::tag
+      thrust::system::omp::reference<T>,
+      thrust::system::omp::tag
     > super_t;
 
   public:
@@ -100,16 +83,16 @@ template<typename T>
 template<typename T>
   class reference
     : public thrust::detail::reference_base<
-               thrust::omp::reference<T>,
+               thrust::system::omp::reference<T>,
                T,
-               thrust::omp::pointer<T>
+               thrust::system::omp::pointer<T>
              >
 {
   private:
     typedef thrust::detail::reference_base<
-      thrust::omp::reference<T>,
+      thrust::system::omp::reference<T>,
       T,
-      thrust::omp::pointer<T>
+      thrust::system::omp::pointer<T>
     > super_t;
 
   public:
@@ -148,7 +131,6 @@ void swap(reference<T> &x, reference<T> &y);
 namespace omp
 {
 
-using thrust::system::omp::tag;
 using thrust::system::omp::pointer;
 using thrust::system::omp::reference;
 
