@@ -24,7 +24,7 @@
 namespace thrust
 {
 
-typedef thrust::cuda::tag device_space_tag;
+typedef thrust::system::cuda::tag device_space_tag;
 
 } // end thrust
 
@@ -34,7 +34,7 @@ typedef thrust::cuda::tag device_space_tag;
 namespace thrust
 {
 
-typedef thrust::omp::tag device_space_tag;
+typedef thrust::system::omp::tag device_space_tag;
 
 } // end thrust
 

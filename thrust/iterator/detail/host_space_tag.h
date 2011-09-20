@@ -25,7 +25,7 @@
 namespace thrust
 {
 
-typedef thrust::cpp::tag host_space_tag;
+typedef thrust::system::cpp::tag host_space_tag;
 
 } // end thrust
 
