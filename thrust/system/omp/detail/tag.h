@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
+
 namespace thrust
 {
 // put the canonical tag in the same ns as the backend's entry points
@@ -27,7 +30,8 @@ namespace backend
 namespace omp
 {
 
-struct tag {};
+// omp inherits cpp's functionality
+struct tag : thrust::system::cpp::tag {};
 
 } // end omp
 } // end backend

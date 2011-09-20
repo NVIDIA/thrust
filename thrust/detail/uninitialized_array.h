@@ -49,8 +49,7 @@ template<typename T, typename Space>
         void,
 
         eval_if<
-          // XXX this check is technically incorrect: any could convert to cpp
-          is_convertible<Space, thrust::cpp::tag>::value,
+          is_same<Space, thrust::cpp::tag>::value,
 
           identity_< std::allocator<T> >,
 
