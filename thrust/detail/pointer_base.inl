@@ -36,19 +36,27 @@ template<typename Element, typename Derived, typename Reference, typename Space>
 {}
 
 template<typename Element, typename Derived, typename Reference, typename Space>
-  template<typename OtherElement, typename OtherDerived, typename OtherReference>
+  template<typename OtherPointer>
     pointer_base<Element,Derived,Reference,Space>
-      ::pointer_base(const pointer_base<OtherElement,OtherDerived,OtherReference,Space> &other)
-        : super_t(other.get())
+      ::pointer_base(const OtherPointer &other,
+                     typename thrust::detail::enable_if_pointer_is_convertible<
+                       OtherPointer,
+                       pointer_base<Element,Derived,Reference,Space>
+                      >::type *)
+        : super_t(thrust::detail::pointer_traits<OtherPointer>::get(other))
 {}
 
 template<typename Element, typename Derived, typename Reference, typename Space>
-  template<typename OtherElement, typename OtherDerived, typename OtherReference>
-    pointer_base<Element,Derived,Reference,Space> &
+  template<typename OtherPointer>
+    typename thrust::detail::enable_if_pointer_is_convertible<
+      OtherPointer,
+      pointer_base<Element,Derived,Reference,Space>,
+      pointer_base<Element,Derived,Reference,Space> &
+    >::type
       pointer_base<Element,Derived,Reference,Space>
-        ::operator=(const pointer_base<OtherElement,OtherDerived,OtherReference,Space> &other)
+        ::operator=(const OtherPointer &other)
 {
-  super_t::base_reference() = other.get();
+  super_t::base_reference() = thrust::detail::pointer_traits<OtherPointer>::get(other);
   return *this;
 }
 

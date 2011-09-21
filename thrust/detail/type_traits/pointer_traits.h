@@ -17,6 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <cstddef>
 
 namespace thrust
@@ -141,6 +143,28 @@ template<typename T>
     return ptr;
   }
 };
+
+template<typename Ptr1, typename Ptr2>
+  struct is_pointer_convertible
+    : thrust::detail::and_<
+        thrust::detail::is_convertible<
+          typename pointer_element<Ptr1>::type *,
+          typename pointer_element<Ptr2>::type *
+        >,
+        thrust::detail::is_convertible<
+          typename iterator_space<Ptr1>::type,
+          typename iterator_space<Ptr2>::type
+        >
+      >
+{};
+
+template<typename Ptr1, typename Ptr2, typename T = void>
+  struct enable_if_pointer_is_convertible
+    : thrust::detail::enable_if<
+        is_pointer_convertible<Ptr1,Ptr2>::value,
+        T
+      >
+{};
 
 } // end detail
 } // end thrust

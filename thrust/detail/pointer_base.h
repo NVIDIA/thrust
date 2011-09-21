@@ -19,6 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/type_traits.h>
 #include <ostream>
 
 namespace thrust
@@ -63,8 +65,8 @@ template<typename Element, typename Derived, typename Reference, typename Space>
 // for reasonable pointer-like semantics, derived types should reimplement the following:
 // 1. no-argument constructor
 // 2. constructor from OtherElement *
-// 3. constructor from derived_type<OtherDerived,...>
-// 4. assignment from derived_type<OtherDerived,...>
+// 3. constructor from OtherPointer related by convertibility
+// 4. assignment from OtherPointer related by convertibility
 // These should just call the corresponding members of pointer_base.
 template<typename Element, typename Derived, typename Reference, typename Space>
   class pointer_base
@@ -90,21 +92,33 @@ template<typename Element, typename Derived, typename Reference, typename Space>
     pointer_base();
 
     // OtherValue shall be convertible to Value
+    // XXX consider making the pointer implementation a template parameter which defaults to Element *
     template<typename OtherElement>
     __host__ __device__
     explicit pointer_base(OtherElement *ptr);
 
-    // OtherValue shall be convertible to Value
-    template<typename OtherElement, typename OtherDerived, typename OtherReference>
+    // OtherPointer's element_type shall be convertible to Element
+    // OtherPointer's space shall be convertible to Space
+    template<typename OtherPointer>
     __host__ __device__
-    pointer_base(const pointer_base<OtherElement,OtherDerived,OtherReference,Space> &other);
+    pointer_base(const OtherPointer &other,
+                 typename thrust::detail::enable_if_pointer_is_convertible<
+                   OtherPointer,
+                   pointer_base<Element,Derived,Reference,Space>
+                 >::type * = 0);
 
     // assignment
     
-    // OtherValue shall be convertible to Value
-    template<typename OtherElement, typename OtherDerived, typename OtherReference>
+    // OtherPointer's element_type shall be convertible to Element
+    // OtherPointer's space shall be convertible to Space
+    template<typename OtherPointer>
     __host__ __device__
-    pointer_base &operator=(const pointer_base<OtherElement,OtherDerived,OtherReference,Space> &other);
+    typename thrust::detail::enable_if_pointer_is_convertible<
+      OtherPointer,
+      pointer_base,
+      pointer_base &
+    >::type
+    operator=(const OtherPointer &other);
 
     // observers
 

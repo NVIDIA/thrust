@@ -64,13 +64,22 @@ template<typename T>
     __host__ __device__
     explicit pointer(OtherT *ptr) : super_t(ptr) {}
 
-    template<typename OtherT>
+    template<typename OtherPointer>
     __host__ __device__
-    pointer(const pointer<OtherT> &other) : super_t(other) {}
+    pointer(const OtherPointer &other,
+            typename thrust::detail::enable_if_pointer_is_convertible<
+              OtherPointer,
+              pointer
+            >::type * = 0) : super_t(other) {}
 
-    template<typename OtherT>
+    template<typename OtherPointer>
     __host__ __device__
-    pointer &operator=(const pointer<OtherT> &other)
+    typename thrust::detail::enable_if_pointer_is_convertible<
+      OtherPointer,
+      pointer,
+      pointer &
+    >::type
+    operator=(const OtherPointer &other)
     {
       return super_t::operator=(other);
     }

@@ -87,6 +87,19 @@ template<typename Iterator>
 {
 }; // end iterator_space
 
+// specialize iterator_space for void *, which has no category
+template<>
+  struct iterator_space<void *>
+{
+  typedef thrust::iterator_space<int*>::type type;
+}; // end iterator_space<void*>
+
+template<>
+  struct iterator_space<const void *>
+{
+  typedef thrust::iterator_space<const int*>::type type;
+}; // end iterator_space<void*>
+
 
 template <typename Iterator>
   struct iterator_traversal
