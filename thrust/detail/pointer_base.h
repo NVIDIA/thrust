@@ -74,6 +74,7 @@ template<typename Element, typename Derived, typename Reference, typename Space>
 {
   private:
     typedef typename pointer_base_base<Element,Derived,Reference,Space>::type super_t;
+    typedef Derived                                                           derived_type;
 
     // friend iterator_core_access to give it access to dereference
     friend class thrust::experimental::iterator_core_access;
@@ -116,7 +117,7 @@ template<typename Element, typename Derived, typename Reference, typename Space>
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer_base,
-      pointer_base &
+      derived_type &
     >::type
     operator=(const OtherPointer &other);
 

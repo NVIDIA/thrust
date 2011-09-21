@@ -51,13 +51,13 @@ template<typename Element, typename Derived, typename Reference, typename Space>
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer_base<Element,Derived,Reference,Space>,
-      pointer_base<Element,Derived,Reference,Space> &
+      typename pointer_base<Element,Derived,Reference,Space>::derived_type &
     >::type
       pointer_base<Element,Derived,Reference,Space>
         ::operator=(const OtherPointer &other)
 {
   super_t::base_reference() = thrust::detail::pointer_traits<OtherPointer>::get(other);
-  return *this;
+  return static_cast<derived_type&>(*this);
 }
 
 template<typename Element, typename Derived, typename Reference, typename Space>
