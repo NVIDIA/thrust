@@ -107,8 +107,9 @@ template<typename T> struct is_pointer<T *> : public true_type  {};
 
 template<typename T> struct is_device_ptr  : public false_type {};
 
-template<typename T> struct is_void       : public false_type {};
-template<>           struct is_void<void> : public true_type {};
+template<typename T> struct is_void             : public false_type {};
+template<>           struct is_void<void>       : public true_type {};
+template<>           struct is_void<const void> : public true_type {};
 
 
 namespace tt_detail

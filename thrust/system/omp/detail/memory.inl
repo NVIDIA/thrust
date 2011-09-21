@@ -54,14 +54,13 @@ void swap(reference<T> &a, reference<T> &b)
 
 pointer<void> malloc(std::size_t n)
 {
-  // XXX eliminate this conversion when related pointers are convertible
+  // XXX eliminate this conversion if we decide that cpp can downcast to omp
   return pointer<void>(malloc(tag(), n).get());
 } // end malloc()
 
 void free(pointer<void> ptr)
 {
-  // XXX eliminate this conversion when related pointers are convertible
-  return free(tag(), cpp::pointer<void>(ptr.get()));
+  return free(tag(), ptr);
 } // end free()
 
 } // end omp

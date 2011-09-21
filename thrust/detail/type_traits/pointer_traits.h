@@ -84,6 +84,39 @@ template<template<typename, typename> class Ptr, typename Arg1, typename Arg2, t
   typedef Ptr<T,Arg2> type;
 };
 
+namespace pointer_traits_detail
+{
+
+template<typename Void>
+  struct capture_address
+{
+  template<typename T>
+  __host__ __device__
+  capture_address(T &r)
+    : m_addr(&r)
+  {}
+
+  inline __host__ __device__
+  Void *operator&() const
+  {
+    return m_addr;
+  }
+
+  Void *m_addr;
+};
+
+// metafunction to compute the type of pointer_to's parameter below
+template<typename T>
+  struct pointer_to_param
+    : thrust::detail::eval_if<
+        thrust::detail::is_void<T>::value,
+        thrust::detail::identity_<capture_address<T> >,
+        thrust::detail::add_reference<T>
+      >
+{};
+
+}
+
 template<typename Ptr>
   struct pointer_traits
 {
@@ -97,7 +130,7 @@ template<typename Ptr>
   {};
 
   __host__ __device__
-  inline static pointer pointer_to(element_type &r)
+  inline static pointer pointer_to(typename pointer_traits_detail::pointer_to_param<element_type>::type r)
   {
     // XXX this is supposed to be pointer::pointer_to(&r); (i.e., call a static member function of pointer called pointer_to)
     //     assume that pointer has a constructor from raw pointer instead
@@ -129,7 +162,7 @@ template<typename T>
   };
 
   __host__ __device__
-  inline static pointer pointer_to(T& r)
+  inline static pointer pointer_to(typename pointer_traits_detail::pointer_to_param<element_type>::type r)
   {
     return &r;
   }
