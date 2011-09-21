@@ -40,16 +40,16 @@ template<typename Element> class reference;
 template<typename T>
   class pointer
     : public thrust::detail::pointer_base<
-               thrust::system::cuda::pointer<T>,
                T,
+               thrust::system::cuda::pointer<T>,
                thrust::system::cuda::reference<T>,
                thrust::system::cuda::tag
              >
 {
   private:
     typedef thrust::detail::pointer_base<
-      thrust::system::cuda::pointer<T>,
       T,
+      thrust::system::cuda::pointer<T>,
       thrust::system::cuda::reference<T>,
       thrust::system::cuda::tag
     > super_t;

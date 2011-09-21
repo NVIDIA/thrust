@@ -22,46 +22,46 @@ namespace detail
 {
 
 
-template<typename Derived, typename Value, typename Reference, typename Space>
-  pointer_base<Derived,Value,Reference,Space>
+template<typename Element, typename Derived, typename Reference, typename Space>
+  pointer_base<Element,Derived,Reference,Space>
     ::pointer_base()
-      : super_t(static_cast<Value*>(0))
+      : super_t(static_cast<Element*>(0))
 {}
 
-template<typename Derived, typename Value, typename Reference, typename Space>
-  template<typename OtherValue>
-    pointer_base<Derived,Value,Reference,Space>
-      ::pointer_base(OtherValue *other)
+template<typename Element, typename Derived, typename Reference, typename Space>
+  template<typename OtherElement>
+    pointer_base<Element,Derived,Reference,Space>
+      ::pointer_base(OtherElement *other)
         : super_t(other)
 {}
 
-template<typename Derived, typename Value, typename Reference, typename Space>
-  template<typename OtherDerived, typename OtherValue, typename OtherReference>
-    pointer_base<Derived,Value,Reference,Space>
-      ::pointer_base(const pointer_base<OtherDerived,OtherValue,OtherReference,Space> &other)
+template<typename Element, typename Derived, typename Reference, typename Space>
+  template<typename OtherElement, typename OtherDerived, typename OtherReference>
+    pointer_base<Element,Derived,Reference,Space>
+      ::pointer_base(const pointer_base<OtherElement,OtherDerived,OtherReference,Space> &other)
         : super_t(other.get())
 {}
 
-template<typename Derived, typename Value, typename Reference, typename Space>
-  template<typename OtherDerived, typename OtherValue, typename OtherReference>
-    pointer_base<Derived,Value,Reference,Space> &
-      pointer_base<Derived,Value,Reference,Space>
-        ::operator=(const pointer_base<OtherDerived,OtherValue,OtherReference,Space> &other)
+template<typename Element, typename Derived, typename Reference, typename Space>
+  template<typename OtherElement, typename OtherDerived, typename OtherReference>
+    pointer_base<Element,Derived,Reference,Space> &
+      pointer_base<Element,Derived,Reference,Space>
+        ::operator=(const pointer_base<OtherElement,OtherDerived,OtherReference,Space> &other)
 {
   super_t::base_reference() = other.get();
   return *this;
 }
 
-template<typename Derived, typename Value, typename Reference, typename Space>
-  typename pointer_base<Derived,Value,Reference,Space>::super_t::reference
-    pointer_base<Derived,Value,Reference,Space>
+template<typename Element, typename Derived, typename Reference, typename Space>
+  typename pointer_base<Element,Derived,Reference,Space>::super_t::reference
+    pointer_base<Element,Derived,Reference,Space>
       ::dereference() const
 {
   return typename super_t::reference(static_cast<const Derived&>(*this));
 }
 
-template<typename Derived, typename Value, typename Reference, typename Space>
-  Value *pointer_base<Derived,Value,Reference,Space>
+template<typename Element, typename Derived, typename Reference, typename Space>
+  Element *pointer_base<Element,Derived,Reference,Space>
     ::get() const
 {
   return super_t::base();

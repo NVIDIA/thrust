@@ -63,16 +63,16 @@ template<typename T> class device_reference;
 template<typename T>
   class device_ptr
     : public thrust::detail::pointer_base<
-               thrust::device_ptr<T>,
                T,
+               thrust::device_ptr<T>,
                thrust::device_reference<T>,
                thrust::device_space_tag
              >
 {
   private:
     typedef thrust::detail::pointer_base<
-      thrust::device_ptr<T>,
       T,
+      thrust::device_ptr<T>,
       thrust::device_reference<T>,
       thrust::device_space_tag
     > super_t;
