@@ -134,6 +134,37 @@ inline pointer<void> malloc(std::size_t n);
 
 inline void free(pointer<void> ptr);
 
+// XXX upon c++11
+// template<typename T> using allocator = thrust::detail::tagged_allocator<T,tag,pointer<T> >;
+
+template<typename T>
+  struct allocator
+    : thrust::detail::tagged_allocator<
+        T,
+        tag,
+        pointer<T>
+      >
+{
+  template<typename U>
+    struct rebind
+  {
+    typedef allocator<U> other;
+  };
+
+  __host__ __device__
+  inline allocator() {}
+
+  __host__ __device__
+  inline allocator(const allocator &) {}
+
+  template<typename U>
+  __host__ __device__
+  inline allocator(const allocator<U> &) {}
+
+  __host__ __device__
+  inline ~allocator() {}
+}; // end allocator
+
 } // end cuda
 } // end system
 
@@ -145,6 +176,7 @@ using thrust::system::cuda::pointer;
 using thrust::system::cuda::reference;
 using thrust::system::cuda::malloc;
 using thrust::system::cuda::free;
+using thrust::system::cuda::allocator;
 
 } // end cuda
 
