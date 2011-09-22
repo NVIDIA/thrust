@@ -75,7 +75,7 @@ template<typename T, typename Tag, typename Pointer>
   // XXX should probably have a using generic::malloc here
   //     which would be an automatic failure if selected
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  return pointer(static_cast<T*>(thrust::raw_pointer_cast(malloc(Tag(), cnt))));
+  return pointer(static_cast<T*>(thrust::raw_pointer_cast(malloc(Tag(), sizeof(value_type) * cnt))));
 }
 
 
