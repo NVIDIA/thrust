@@ -26,6 +26,7 @@ namespace generic
 {
 
 template<typename Tag>
+__host__ __device__
   Tag select_system(Tag)
 {
   return Tag();
@@ -34,6 +35,7 @@ template<typename Tag>
 // XXX this is just a placeholder
 //     for now, return Tag1
 template<typename Tag1, typename Tag2>
+__host__ __device__
   Tag1 select_system(Tag1, Tag2)
 {
   return Tag1();
