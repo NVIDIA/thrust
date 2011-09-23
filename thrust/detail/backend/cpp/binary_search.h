@@ -21,9 +21,14 @@
 
 #pragma once
 
-// XXX remove dependence on <algorithm>
-#include <algorithm>
-#include <thrust/detail/type_traits.h>
+#include <thrust/advance.h>
+#include <thrust/distance.h>
+#include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/backend/dereference.h>
+
+// TODO replace the code below with calls to thrust::detail::backend::generic::scalar::*
+//      when warnings about __host__ calling __host__ __device__ are silenceable
 
 namespace thrust
 {
@@ -34,37 +39,80 @@ namespace backend
 namespace cpp
 {
 
-
-
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator lower_bound(ForwardIterator begin,
-                            ForwardIterator end,
-                            const T& value, 
+ForwardIterator lower_bound(ForwardIterator first,
+                            ForwardIterator last,
+                            const T& val,
                             StrictWeakOrdering comp)
 {
-  return std::lower_bound(begin, end, value, comp);
+  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
+
+  difference_type len = thrust::distance(first, last);
+
+  while(len > 0)
+  {
+    difference_type half = len >> 1;
+    ForwardIterator middle = first;
+
+    thrust::advance(middle, half);
+
+    if(comp(dereference(middle), val))
+    {
+      first = middle;
+      ++first;
+      len = len - half - 1;
+    }
+    else
+    {
+      len = half;
+    }
+  }
+
+  return first;
 }
 
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator upper_bound(ForwardIterator begin,
-                            ForwardIterator end,
-                            const T& value, 
+ForwardIterator upper_bound(ForwardIterator first,
+                            ForwardIterator last,
+                            const T& val, 
                             StrictWeakOrdering comp)
 {
-  return std::upper_bound(begin, end, value, comp);
+  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
+
+  difference_type len = thrust::distance(first, last);
+
+  while(len > 0)
+  {
+    difference_type half = len >> 1;
+    ForwardIterator middle = first;
+
+    thrust::advance(middle, half);
+
+    if(comp(val, dereference(middle)))
+    {
+      len = half;
+    }
+    else
+    {
+      first = middle;
+      ++first;
+      len = len - half - 1;
+    }
+  }
+
+  return first;
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-bool binary_search(ForwardIterator begin,
-                   ForwardIterator end,
-                   const T& value, 
+bool binary_search(ForwardIterator first,
+                   ForwardIterator last,
+                   const T& val, 
                    StrictWeakOrdering comp)
 {
-  return std::binary_search(begin, end, value, comp);
+  ForwardIterator iter = thrust::detail::backend::cpp::lower_bound(first,last,val,comp);
+  return iter != last && !comp(val, *iter);
 }
-
-
 
 } // end namespace cpp
 } // end namespace backend
