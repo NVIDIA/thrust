@@ -16,6 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/tagged_allocator.h>
+#include <thrust/detail/backend/generic/select_system.h>
 #include <limits>
 
 namespace thrust
@@ -72,10 +73,12 @@ template<typename T, typename Tag, typename Pointer>
     tagged_allocator<T,Tag,Pointer>
       ::allocate(size_type cnt)
 {
+  using thrust::detail::backend::generic::select_system;
+
   // XXX should probably have a using generic::malloc here
   //     which would be an automatic failure if selected
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  return pointer(static_cast<T*>(thrust::raw_pointer_cast(malloc(Tag(), sizeof(value_type) * cnt))));
+  return pointer(static_cast<T*>(thrust::raw_pointer_cast(malloc(select_system(Tag()), sizeof(value_type) * cnt))));
 }
 
 
@@ -83,9 +86,11 @@ template<typename T, typename Tag, typename Pointer>
   void tagged_allocator<T,Tag,Pointer>
     ::deallocate(pointer p, size_type n)
 {
+  using thrust::detail::backend::generic::select_system;
+
   // XXX should probably have a using generic::free here
   //     which would be an automatic failure if selected
-  free(Tag(), p);
+  free(select_system(Tag()), p);
 }
 
 
