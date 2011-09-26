@@ -44,6 +44,8 @@
 
 #include <thrust/detail/backend/copy.h>
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -66,13 +68,13 @@ template<typename InputIterator1,
 {
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(*first1, *first2))
+    if(comp(backend::dereference(first1), backend::dereference(first2)))
     {
-      *result = *first1;
+      backend::dereference(result) = backend::dereference(first1);
       ++first1;
       ++result;
     } // end if
-    else if(comp(*first2, *first1))
+    else if(comp(backend::dereference(first2), backend::dereference(first1)))
     {
       ++first2;
     } // end else if
@@ -99,17 +101,17 @@ template<typename InputIterator1,
 {
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(*first1, *first2))
+    if(comp(backend::dereference(first1), backend::dereference(first2)))
     {
       ++first1;
     } // end if
-    else if(comp(*first2, *first1))
+    else if(comp(backend::dereference(first2), backend::dereference(first1)))
     {
       ++first2;
     } // end else if
     else
     {
-      *result = *first1;
+      backend::dereference(result) = backend::dereference(first1);
       ++first1;
       ++first2;
       ++result;
@@ -132,15 +134,15 @@ template<typename InputIterator1,
 {
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(*first1, *first2))
+    if(comp(backend::dereference(first1), backend::dereference(first2)))
     {
-      *result = *first1;
+      backend::dereference(result) = backend::dereference(first1);
       ++first1;
       ++result;
     } // end if
-    else if(comp(*first2, *first1))
+    else if(comp(backend::dereference(first2), backend::dereference(first1)))
     {
-      *result = *first2;
+      backend::dereference(result) = backend::dereference(first2);
       ++first2;
       ++result;
     } // end else if
@@ -167,19 +169,19 @@ template<typename InputIterator1,
 {
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(*first1, *first2))
+    if(comp(backend::dereference(first1), backend::dereference(first2)))
     {
-      *result = *first1;
+      backend::dereference(result) = backend::dereference(first1);
       ++first1;
     } // end if
-    else if(comp(*first2, *first1))
+    else if(comp(backend::dereference(first2), backend::dereference(first1)))
     {
-      *result = *first2;
+      backend::dereference(result) = backend::dereference(first2);
       ++first2;
     } // end else if
     else
     {
-      *result = *first1;
+      backend::dereference(result) = backend::dereference(first1);
       ++first1;
       ++first2;
     } // end else

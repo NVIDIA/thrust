@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -75,30 +76,29 @@ namespace detail
 namespace backend
 {
 
-template <typename> struct dereference_result {};
+template <typename> struct dereference_result;
 
-// specialize dereference_result for T*
-template<typename T>
-  struct dereference_result<T*>
+// in general, assume that dereference behaves as on host
+template<typename Iterator>
+  struct dereference_result
 {
-  typedef T& type;
+  typedef typename thrust::iterator_reference<Iterator>::type type;
 }; // end dereference_result
 
-// raw pointer
-template<typename T>
+template<typename Iterator>
   inline __host__ __device__
-    typename dereference_result<T*>::type
-      dereference(T *ptr)
+    typename dereference_result<Iterator>::type
+      dereference(Iterator iter)
 {
-  return *ptr;
+  return *iter;
 } // dereference
 
-template<typename T, typename IndexType>
+template<typename Iterator, typename IndexType>
   inline __host__ __device__
-    typename dereference_result<T*>::type
-      dereference(T *ptr, IndexType n)
+    typename dereference_result<Iterator>::type
+      dereference(Iterator iter, IndexType n)
 {
-  return ptr[n];
+  return iter[n];
 } // dereference
 
 

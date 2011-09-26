@@ -14,6 +14,11 @@
  *  limitations under the License.
  */
 
+#pragma once
+
+#include <thrust/detail/config.h>
+
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -32,14 +37,14 @@ BidirectionalIterator2 copy_backward(BidirectionalIterator1 first,
                                      BidirectionalIterator1 last, 
                                      BidirectionalIterator2 result)
 {
-    while (first != last)
-    {
-        --last;
-        --result;
-        *result = *last;
-    }
+  while (first != last)
+  {
+    --last;
+    --result;
+    backend::dereference(result) = backend::dereference(last);
+  }
 
-    return result;
+  return result;
 }
 
 } // end namespace detail

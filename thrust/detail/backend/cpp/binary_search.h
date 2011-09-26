@@ -56,7 +56,7 @@ ForwardIterator lower_bound(ForwardIterator first,
 
     thrust::advance(middle, half);
 
-    if(comp(dereference(middle), val))
+    if(comp(backend::dereference(middle), val))
     {
       first = middle;
       ++first;
@@ -89,7 +89,7 @@ ForwardIterator upper_bound(ForwardIterator first,
 
     thrust::advance(middle, half);
 
-    if(comp(val, dereference(middle)))
+    if(comp(val, backend::dereference(middle)))
     {
       len = half;
     }
@@ -111,7 +111,7 @@ bool binary_search(ForwardIterator first,
                    StrictWeakOrdering comp)
 {
   ForwardIterator iter = thrust::detail::backend::cpp::lower_bound(first,last,val,comp);
-  return iter != last && !comp(val, *iter);
+  return iter != last && !comp(val, backend::dereference(iter));
 }
 
 } // end namespace cpp

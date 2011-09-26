@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -36,29 +38,29 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-    // advance iterators until pred(*first) is true or we reach the end of input
-    while(first != last && !bool(pred(*first)))
-        ++first;
-
-    if(first == last)
-        return first;
-
-    // result always trails first 
-    ForwardIterator result = first;
-    
+  // advance iterators until pred(*first) is true or we reach the end of input
+  while(first != last && !bool(pred(backend::dereference(first))))
     ++first;
 
-    while(first != last)
-    {
-        if(!bool(pred(*first)))
-        {
-            *result = *first;
-            ++result;
-        }
-        ++first;
-    }
+  if(first == last)
+    return first;
 
-    return result;
+  // result always trails first 
+  ForwardIterator result = first;
+
+  ++first;
+
+  while(first != last)
+  {
+    if(!bool(pred(backend::dereference(first))))
+    {
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
+    }
+    ++first;
+  }
+
+  return result;
 }
 
 
@@ -70,34 +72,34 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-    // advance iterators until pred(*stencil) is true or we reach the end of input
-    while(first != last && !bool(pred(*stencil)))
-    {
-        ++first;
-        ++stencil;
-    }
-
-    if(first == last)
-        return first;
-
-    // result always trails first 
-    ForwardIterator result = first;
-    
+  // advance iterators until pred(*stencil) is true or we reach the end of input
+  while(first != last && !bool(pred(backend::dereference(stencil))))
+  {
     ++first;
     ++stencil;
+  }
 
-    while(first != last)
+  if(first == last)
+    return first;
+
+  // result always trails first 
+  ForwardIterator result = first;
+
+  ++first;
+  ++stencil;
+
+  while(first != last)
+  {
+    if(!bool(pred(backend::dereference(stencil))))
     {
-        if(!bool(pred(*stencil)))
-        {
-            *result = *first;
-            ++result;
-        }
-        ++first;
-        ++stencil;
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
     }
+    ++first;
+    ++stencil;
+  }
 
-    return result;
+  return result;
 }
 
 
@@ -109,18 +111,18 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-    while (first != last)
+  while (first != last)
+  {
+    if (!bool(pred(backend::dereference(first))))
     {
-        if (!bool(pred(*first)))
-        {
-            *result = *first;
-            ++result;
-        }
-
-        ++first;
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
     }
 
-    return result;
+    ++first;
+  }
+
+  return result;
 }
 
 template<typename InputIterator1,
@@ -133,19 +135,19 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred)
 {
-    while (first != last)
+  while (first != last)
+  {
+    if (!bool(pred(backend::dereference(stencil))))
     {
-        if (!bool(pred(*stencil)))
-        {
-            *result = *first;
-            ++result;
-        }
-
-        ++first;
-        ++stencil;
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
     }
 
-    return result;
+    ++first;
+    ++stencil;
+  }
+
+  return result;
 }
 
 } // end namespace cpp

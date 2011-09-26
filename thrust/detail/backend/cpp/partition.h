@@ -23,6 +23,7 @@
 
 #include <thrust/pair.h>
 #include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -37,11 +38,11 @@ template <typename ForwardIterator1,
           typename ForwardIterator2>
 void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 {
-    typedef typename thrust::iterator_value<ForwardIterator1>::type T;
+  typedef typename thrust::iterator_value<ForwardIterator1>::type T;
 
-    T temp = *iter1;
-    *iter1 = *iter2;
-    *iter2 =  temp;
+  T temp = backend::dereference(iter1);
+  backend::dereference(iter1) = backend::dereference(iter2);
+  backend::dereference(iter2) =  temp;
 }
 
 template<typename ForwardIterator,
@@ -50,27 +51,27 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-    if (first == last)
-        return first;
-
-    while (pred(*first))
-    {
-        if (++first == last)
-            return first;
-    }
-
-    ForwardIterator next = first;
-
-    while (++next != last)
-    {
-        if (pred(*next))
-        {
-            iter_swap(first, next);
-            ++first;
-        }
-    }
-
+  if (first == last)
     return first;
+
+  while (pred(backend::dereference(first)))
+  {
+    if (++first == last)
+      return first;
+  }
+
+  ForwardIterator next = first;
+
+  while (++next != last)
+  {
+    if (pred(backend::dereference(next)))
+    {
+      iter_swap(first, next);
+      ++first;
+    }
+  }
+
+  return first;
 }
 
 
@@ -80,34 +81,34 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-    typedef typename thrust::iterator_value<ForwardIterator>::type T;
+  typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-    typedef thrust::detail::uninitialized_array<T,thrust::host_space_tag> TempRange;
-    typedef typename TempRange::iterator                                  TempIterator;
+  typedef thrust::detail::uninitialized_array<T,thrust::host_space_tag> TempRange;
+  typedef typename TempRange::iterator                                  TempIterator;
 
-    TempRange temp(first, last);
+  TempRange temp(first, last);
 
-    for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
+  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
+  {
+    if (pred(backend::dereference(iter)))
     {
-        if (pred(*iter))
-        {
-            *first = *iter;
-            ++first;
-        }
+      backend::dereference(first) = backend::dereference(iter);
+      ++first;
     }
+  }
 
-    ForwardIterator middle = first;
+  ForwardIterator middle = first;
 
-    for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
+  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
+  {
+    if (!bool(pred(backend::dereference(iter))))
     {
-        if (!bool(pred(*iter)))
-        {
-            *first = *iter;
-            ++first;
-        }
+      backend::dereference(first) = backend::dereference(iter);
+      ++first;
     }
+  }
 
-    return middle;
+  return middle;
 }
 
 
@@ -124,14 +125,14 @@ template<typename InputIterator,
 {
   for(; first != last; ++first)
   {
-    if(pred(*first))
+    if(pred(backend::dereference(first)))
     {
-      *out_true = *first;
+      backend::dereference(out_true) = backend::dereference(first);
       ++out_true;
     } // end if
     else
     {
-      *out_false = *first;
+      backend::dereference(out_false) = backend::dereference(first);
       ++out_false;
     } // end else
   }

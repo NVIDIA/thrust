@@ -70,12 +70,12 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    ValueType sum = dereference(first);
+    ValueType sum = backend::dereference(first);
 
-    dereference(result) = sum;
+    backend::dereference(result) = sum;
 
     for(++first, ++result; first != last; ++first, ++result)
-      dereference(result) = sum = binary_op(sum, dereference(first));
+      backend::dereference(result) = sum = binary_op(sum, backend::dereference(first));
   }
 
   return result;
@@ -116,16 +116,16 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    ValueType tmp = dereference(first);  // temporary value allows in-situ scan
+    ValueType tmp = backend::dereference(first);  // temporary value allows in-situ scan
     ValueType sum = init;
 
-    *result = sum;
+    backend::dereference(result) = sum;
     sum = binary_op(sum, tmp);
 
     for(++first, ++result; first != last; ++first, ++result)
     {
-      tmp = dereference(first);
-      dereference(result) = sum;
+      tmp = backend::dereference(first);
+      backend::dereference(result) = sum;
       sum = binary_op(sum, tmp);
     }
   }
@@ -151,21 +151,21 @@ template<typename InputIterator1,
 
     if(first1 != last1)
     {
-        KeyType   prev_key   = dereference(first1);
-        ValueType prev_value = dereference(first2);
+        KeyType   prev_key   = backend::dereference(first1);
+        ValueType prev_value = backend::dereference(first2);
 
-        dereference(result) = prev_value;
+        backend::dereference(result) = prev_value;
 
         for(++first1, ++first2, ++result;
                 first1 != last1;
                 ++first1, ++first2, ++result)
         {
-            KeyType key = dereference(first1);
+            KeyType key = backend::dereference(first1);
 
             if (binary_pred(prev_key, key))
-                dereference(result) = prev_value = binary_op(prev_value, dereference(first2));
+                backend::dereference(result) = prev_value = binary_op(prev_value, backend::dereference(first2));
             else
-                dereference(result) = prev_value = dereference(first2);
+                backend::dereference(result) = prev_value = backend::dereference(first2);
 
             prev_key = key;
         }
@@ -194,13 +194,13 @@ template<typename InputIterator1,
 
     if(first1 != last1)
     {
-        KeyType   temp_key   = dereference(first1);
-        ValueType temp_value = dereference(first2);
+        KeyType   temp_key   = backend::dereference(first1);
+        ValueType temp_value = backend::dereference(first2);
         
         ValueType next = init;
 
         // first one is init
-        dereference(result) = next;
+        backend::dereference(result) = next;
 
         next = binary_op(next, temp_value);
 
@@ -208,15 +208,15 @@ template<typename InputIterator1,
                 first1 != last1;
                 ++first1, ++first2, ++result)
         {
-            KeyType key = dereference(first1);
+            KeyType key = backend::dereference(first1);
 
             // use temp to permit in-place scans
-            temp_value = dereference(first2);
+            temp_value = backend::dereference(first2);
 
             if (!binary_pred(temp_key, key))
                 next = init;  // reset sum
                 
-            dereference(result) = next;  
+            backend::dereference(result) = next;  
             next = binary_op(next, temp_value);
 
             temp_key = key;

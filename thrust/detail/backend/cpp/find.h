@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -35,16 +37,16 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    while(first != last)
-    {
-        if (pred(*first))
-            return first;
+  while(first != last)
+  {
+    if (pred(backend::dereference(first)))
+      return first;
 
-        ++first;
-    }
+    ++first;
+  }
 
-    // return first so zip_iterator works correctly
-    return first;
+  // return first so zip_iterator works correctly
+  return first;
 }
 
 } // end namespace cpp

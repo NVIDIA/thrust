@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/detail/backend/cpp/for_each.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -36,7 +36,7 @@ InputIterator for_each(InputIterator first,
 {
   for(; first != last; ++first)
   {
-    f(*first);
+    f(backend::dereference(first));
   }
 
   return first;
@@ -54,7 +54,7 @@ OutputIterator for_each_n(OutputIterator first,
   {
     // we can dereference an OutputIterator if f does not
     // try to use the reference for anything besides assignment
-    f(*first);
+    f(backend::dereference(first));
     ++first;
   }
 
