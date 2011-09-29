@@ -87,6 +87,8 @@ template<typename Element, typename Derived, typename Reference, typename Space>
     using super_t::base_type;
 
   public:
+    typedef typename super_t::base_type raw_pointer;
+
     // constructors
     
     __host__ __device__

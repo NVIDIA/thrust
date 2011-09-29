@@ -21,6 +21,9 @@
 
 #include <thrust/device_reference.h>
 
+// XXX try to eliminate this #include, which makes the device backend's memory subsystem available
+#include <thrust/detail/device_memory.h>
+
 namespace thrust
 {
 

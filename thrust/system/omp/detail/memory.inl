@@ -47,18 +47,18 @@ template<typename T>
 
 template<typename T>
 __host__ __device__
-void swap(reference<T> &a, reference<T> &b)
+void swap(reference<T> a, reference<T> b)
 {
   a.swap(b);
 } // end swap()
 
-pointer<void> malloc(std::size_t n)
+inline pointer<void> malloc(std::size_t n)
 {
   // XXX eliminate this conversion if we decide that cpp can downcast to omp
   return pointer<void>(malloc(tag(), n).get());
 } // end malloc()
 
-void free(pointer<void> ptr)
+inline void free(pointer<void> ptr)
 {
   return free(tag(), ptr);
 } // end free()

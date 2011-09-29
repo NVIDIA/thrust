@@ -132,7 +132,7 @@ template<typename T>
 
 template<typename T>
 __host__ __device__
-void swap(reference<T> &x, reference<T> &y);
+void swap(reference<T> x, reference<T> y);
 
 inline pointer<void> malloc(std::size_t n);
 

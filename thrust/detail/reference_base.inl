@@ -15,8 +15,9 @@
  */
 
 #include <thrust/detail/reference_base.h>
-#include <thrust/detail/copy.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/memory.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/swap.h>
 #include <iostream>
@@ -62,14 +63,7 @@ template<typename Derived, typename Value, typename Pointer>
     reference_base<Derived,Value,Pointer>
       ::operator=(const value_type &v)
 {
-  // test for interoperability
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    thrust::cpp::tag
-  >::type interop;
-
-  assign_from(&v, interop());
-
+  assign_from(&v);
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator=()
 
@@ -99,21 +93,12 @@ template<typename Derived, typename Value, typename Pointer>
   reference_base<Derived,Value,Pointer>
     ::operator typename reference_base<Derived,Value,Pointer>::value_type () const
 {
-// XXX we should only do this check in cuda::reference
-#ifndef __CUDA_ARCH__
-  // get our device space
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::get_value;
+
   typedef typename thrust::iterator_space<pointer>::type space;
 
-  // test for interoperability with cpp
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    thrust::cpp::tag
-  >::type interop;
-
-  return convert(interop());
-#else
-  return *m_ptr.get();
-#endif
+  return get_value(select_system(space()), m_ptr);
 } // end reference_base::operator value_type ()
 
 
@@ -122,129 +107,26 @@ template<typename Derived,typename Value, typename Pointer>
     void reference_base<Derived,Value,Pointer>
       ::assign_from(OtherPointer src)
 {
-  // test for interoperability between three spaces:
-  // 1. the other reference's space
-  // 2. this reference's space
-  // 3. the space of the calling function
-  typedef typename thrust::iterator_space<OtherPointer>::type other_space;
-  typedef typename thrust::iterator_space<pointer>::type      this_space;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::assign_value;
 
-  // XXX this could potentially be something other than cpp
-  typedef thrust::cpp::tag caller_space;
+  typedef typename thrust::iterator_space<pointer>::type      space1;
+  typedef typename thrust::iterator_space<OtherPointer>::type space2;
 
-  // test for interoperability between this and other
-  typedef typename thrust::detail::are_spaces_interoperable<
-    this_space,
-    other_space
-  >::type interop1;
-
-  // test for interoperability between caller and this
-  typedef typename thrust::detail::are_spaces_interoperable<
-    caller_space,
-    this_space
-  >::type interop2;
-
-  // test for interoperability between caller and other
-  typedef typename thrust::detail::are_spaces_interoperable<
-    caller_space,
-    this_space
-  >::type interop3;
-
-  // we require interoperability of everything
-  typedef thrust::detail::and_<
-    interop1,
-    interop2,
-    interop3
-  > interop;
-
-  assign_from(src, interop());
+  assign_value(select_system(space1(), space2()), m_ptr, src);
 } // end assign_from()
-
-
-template<typename Derived, typename Value, typename Pointer>
-  template<typename OtherPointer>
-    void reference_base<Derived,Value,Pointer>
-      ::assign_from(OtherPointer src, thrust::detail::false_type)
-{
-  // dispatch copy in general
-  thrust::copy(src, src + 1, m_ptr);
-} // end reference_base::assign_from()
-
-
-template<typename Derived, typename Value, typename Pointer>
-  template<typename OtherPointer>
-    void reference_base<Derived,Value,Pointer>
-      ::assign_from(OtherPointer src, thrust::detail::true_type)
-{
-  // the spaces are interoperable, just do a simple deref & assign
-  *m_ptr.get() = *src;
-} // end reference_base::assign_from()
-
-
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::value_type
-    reference_base<Derived,Value,Pointer>
-      ::convert(thrust::detail::false_type) const
-{
-  // dispatch copy in general
-  value_type result = value_type();
-  thrust::copy(m_ptr, m_ptr + 1, &result);
-  return result;
-} // end reference_base::convert()
-
-
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::value_type
-    reference_base<Derived,Value,Pointer>
-      ::convert(thrust::detail::true_type) const
-{
-  // the spaces are interoperable, just do a simple dereference
-  return *m_ptr.get();
-} // end reference_base::convert()
 
 
 template<typename Derived, typename Value, typename Pointer>
   void reference_base<Derived,Value,Pointer>
     ::swap(derived_type &other)
 {
-#ifndef __CUDA_ARCH__
-  // get our device space
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::iter_swap;
+
   typedef typename thrust::iterator_space<pointer>::type space;
 
-  // test for interoperability with cpp
-  typedef typename thrust::detail::are_spaces_interoperable<
-    typename thrust::iterator_space<pointer>::type,
-    thrust::cpp::tag
-  >::type interop;
-
-  swap(other, interop());
-#else
-  // use unqualified swap to ensure that user-defined swap gets caught by ADL
-  using thrust::swap;
-  swap(*m_ptr.get(), *other.m_ptr.get());
-#endif
-} // end reference_base::swap()
-
-
-template<typename Derived, typename Value, typename Pointer>
-  void reference_base<Derived,Value,Pointer>
-    ::swap(reference_base<Derived,Value,Pointer> &other,
-           thrust::detail::true_type)
-{
-  // the spaces are interoperable, just do a simple deref & swap
-  // use unqualified swap to ensure that user-defined swap gets caught by ADL
-  using thrust::swap;
-  swap(*m_ptr.get(), *other.m_ptr.get());
-} // end reference_basee::swap()
-
-
-template<typename Derived, typename Value, typename Pointer>
-  void reference_base<Derived,Value,Pointer>
-    ::swap(reference_base<Derived,Value,Pointer> &other,
-           thrust::detail::false_type)
-{
-  // dispatch swap_ranges
-  thrust::swap_ranges(m_ptr, m_ptr + 1, other.m_ptr);
+  iter_swap(select_system(space(), space()), m_ptr, other.m_ptr);
 } // end reference_base::swap()
 
 

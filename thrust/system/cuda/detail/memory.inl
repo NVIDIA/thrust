@@ -16,6 +16,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/memory.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/copy.h>
+#include <thrust/swap.h>
 #include <limits>
 
 #include <cuda_runtime_api.h>
@@ -32,8 +35,29 @@ namespace backend
 namespace cuda
 {
 
+struct cuda_to_cpp  {};
+struct cpp_to_cuda  {};
+
+__host__ __device__
+inline tag select_system(tag, tag)
+{
+  return tag();
+}
+
+__host__ __device__
+inline cuda_to_cpp select_system(cuda::tag, thrust::system::cpp::tag)
+{
+  return cuda_to_cpp();
+}
+
+__host__ __device__
+inline cpp_to_cuda select_system(thrust::system::cpp::tag, cuda::tag)
+{
+  return cpp_to_cuda();
+}
+
 // XXX malloc should be moved into thrust::system::cuda::detail
-thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
+inline thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
 {
   void *result = 0;
 
@@ -48,7 +72,7 @@ thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
 } // end malloc()
 
 // XXX free should be moved into thrust::system::cuda::detail
-void free(tag, thrust::system::cuda::pointer<void> ptr)
+inline void free(tag, thrust::system::cuda::pointer<void> ptr)
 {
   cudaError_t error = cudaFree(ptr.get());
 
@@ -57,6 +81,108 @@ void free(tag, thrust::system::cuda::pointer<void> ptr)
     throw thrust::system_error(error, thrust::cuda_category());
   } // end error
 } // end free()
+
+// XXX assign_value should be moved into thrust::system::cpp::detail
+template<typename Pointer1, typename Pointer2>
+__host__ __device__
+  void assign_value(cuda::tag, Pointer1 dst, Pointer2 src)
+{
+  // XXX war nvbugs/881631
+  struct war_nvbugs_881631
+  {
+    __host__ inline static void host_path(Pointer1 dst, Pointer2 src)
+    {
+      thrust::copy(src, src + 1, dst);
+    }
+
+    __device__ inline static void device_path(Pointer1 dst, Pointer2 src)
+    {
+      // when called from device code, just do simple deref & assign
+      // XXX consider deferring to assign_value(cpp::tag, dst, src) here
+      *thrust::detail::pointer_traits<Pointer1>::get(dst)
+        = *thrust::detail::pointer_traits<Pointer2>::get(src);
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  return war_nvbugs_881631::host_path(dst,src);
+#else
+  return war_nvbugs_881631::device_path(dst,src);
+#endif // __CUDA_ARCH__
+} // end assign_value()
+
+template<typename Pointer1, typename Pointer2>
+  void assign_value(cpp_to_cuda, Pointer1 dst, Pointer2 src)
+{
+  thrust::copy(src, src + 1, dst);
+} // end assign_value()
+
+template<typename Pointer1, typename Pointer2>
+  void assign_value(cuda_to_cpp, Pointer1 dst, Pointer2 src)
+{
+  thrust::copy(src, src + 1, dst);
+} // end assign_value()
+
+// XXX get_value should be moved into thrust::system::cuda::detail
+template<typename Pointer>
+__host__ __device__
+  typename thrust::iterator_value<Pointer>::type
+    get_value(tag, Pointer ptr)
+{
+  // XXX war nvbugs/881631
+  struct war_nvbugs_881631
+  {
+    __host__ inline static typename thrust::iterator_value<Pointer>::type host_path(Pointer ptr)
+    {
+      // when called from host code, implement with assign_value
+      // note that this requires a type with default constructor
+      typename thrust::iterator_value<Pointer>::type result;
+      assign_value(cuda_to_cpp(), &result, ptr);
+      return result;
+    }
+
+    __device__ inline static typename thrust::iterator_value<Pointer>::type device_path(Pointer ptr)
+    {
+      // when called from device code, just do simple deref
+      // XXX consider deferring to get_value(cpp::tag, ptr) here
+      return *thrust::detail::pointer_traits<Pointer>::get(ptr);
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  return war_nvbugs_881631::host_path(ptr);
+#else
+  return war_nvbugs_881631::device_path(ptr);
+#endif // __CUDA_ARCH__
+} // end get_value()
+
+// XXX iter_swap should be moved into thrust::system::cuda::detail
+template<typename Pointer1, typename Pointer2>
+__host__ __device__
+void iter_swap(tag, Pointer1 a, Pointer2 b)
+{
+  // XXX war nvbugs/881631
+  struct war_nvbugs_881631
+  {
+    __host__ inline static void host_path(Pointer1 a, Pointer2 b)
+    {
+      thrust::swap_ranges(a, a + 1, b);
+    }
+
+    __device__ inline static void device_path(Pointer1 a, Pointer2 b)
+    {
+      using thrust::swap;
+      swap(*thrust::detail::pointer_traits<Pointer1>::get(a),
+           *thrust::detail::pointer_traits<Pointer2>::get(b));
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  return war_nvbugs_881631::host_path(a,b);
+#else
+  return war_nvbugs_881631::device_path(a,b);
+#endif // __CUDA_ARCH__
+} // end iter_swap()
 
 } // end cuda
 } // end backend
@@ -86,7 +212,7 @@ template<typename T>
 
 template<typename T>
 __host__ __device__
-void swap(reference<T> &a, reference<T> &b)
+void swap(reference<T> a, reference<T> b)
 {
   a.swap(b);
 } // end swap()

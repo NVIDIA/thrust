@@ -16,6 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/memory.h>
+#include <thrust/swap.h>
 #include <cstdlib> // for malloc & free
 #include <limits>
 
@@ -30,7 +31,7 @@ namespace cpp
 {
 
 // XXX malloc should be moved into thrust::system::cpp::detail
-thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
+inline thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
 {
   void *result = std::malloc(n);
 
@@ -38,10 +39,38 @@ thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
 } // end malloc()
 
 // XXX free should be moved into thrust::system::cpp::detail
-void free(tag, thrust::system::cpp::pointer<void> ptr)
+inline void free(tag, thrust::system::cpp::pointer<void> ptr)
 {
   std::free(ptr.get());
 } // end free()
+
+// XXX assign_value should be moved into thrust::system::cpp::detail
+template<typename Pointer1, typename Pointer2>
+__host__ __device__
+  void assign_value(tag, Pointer1 dst, Pointer2 src)
+{
+  *thrust::detail::pointer_traits<Pointer1>::get(dst)
+    = *thrust::detail::pointer_traits<Pointer2>::get(src);
+} // end assign_value()
+
+// XXX get_value should be moved into thrust::system::cpp::detail
+template<typename Pointer>
+__host__ __device__
+  typename thrust::iterator_value<Pointer>::type
+    get_value(tag, Pointer ptr)
+{
+  return *thrust::detail::pointer_traits<Pointer>::get(ptr);
+} // end get_value()
+
+// XXX iter_swap should be moved into thrust::system::cpp::detail
+template<typename Pointer1, typename Pointer2>
+__host__ __device__
+  void iter_swap(tag, Pointer1 a, Pointer2 b)
+{
+  using thrust::swap;
+  swap(*thrust::detail::pointer_traits<Pointer1>::get(a),
+       *thrust::detail::pointer_traits<Pointer2>::get(b));
+} // end iter_swap()
 
 } // end cpp
 } // end backend
@@ -71,7 +100,7 @@ template<typename T>
 
 template<typename T>
 __host__ __device__
-void swap(reference<T> &a, reference<T> &b)
+void swap(reference<T> a, reference<T> b)
 {
   a.swap(b);
 } // end swap()

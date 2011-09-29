@@ -116,20 +116,6 @@ template<typename Derived, typename Value, typename Pointer>
 
     template<typename OtherPointer>
     inline void assign_from(OtherPointer src);
-
-    template<typename OtherPointer>
-    inline void assign_from(OtherPointer src, thrust::detail::true_type spaces_are_interoperable);
-
-    template<typename OtherPointer>
-    inline void assign_from(OtherPointer src, thrust::detail::false_type spaces_are_not_interoperable);
-
-    inline value_type convert(thrust::detail::true_type spaces_are_interoperable) const;
-
-    inline value_type convert(thrust::detail::false_type spaces_are_not_interoperable) const;
-
-    inline void swap(reference_base &other, thrust::detail::true_type spaces_are_interoperable);
-
-    inline void swap(reference_base &other, thrust::detail::false_type spaces_are_not_interoperable);
 }; // end reference_base
   
 } // end detail

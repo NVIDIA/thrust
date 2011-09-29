@@ -86,6 +86,13 @@ template<typename T, typename Tag, typename Pointer>
     void deallocate(pointer p, size_type n);
 
     size_type max_size() const;
+
+  private:
+    // XXX eliminate this once static_pointer_cast exists
+    template<typename OtherPointer>
+      __host__ __device__
+      static typename thrust::detail::pointer_traits<OtherPointer>::raw_pointer
+        get(OtherPointer ptr);
 };
 
 template<typename T1, typename Pointer1, typename T2, typename Pointer2, typename Tag>

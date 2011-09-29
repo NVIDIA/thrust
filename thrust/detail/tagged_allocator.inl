@@ -69,6 +69,16 @@ template<typename T, typename Tag, typename Pointer>
 
 
 template<typename T, typename Tag, typename Pointer>
+  template<typename OtherPointer>
+    typename thrust::detail::pointer_traits<OtherPointer>::raw_pointer
+      tagged_allocator<T,Tag,Pointer>
+        ::get(OtherPointer ptr)
+{
+  return thrust::detail::pointer_traits<OtherPointer>::get(ptr);
+}
+
+
+template<typename T, typename Tag, typename Pointer>
   typename tagged_allocator<T,Tag,Pointer>::pointer
     tagged_allocator<T,Tag,Pointer>
       ::allocate(size_type cnt)
@@ -78,7 +88,7 @@ template<typename T, typename Tag, typename Pointer>
   // XXX should probably have a using generic::malloc here
   //     which would be an automatic failure if selected
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  return pointer(static_cast<T*>(thrust::raw_pointer_cast(malloc(select_system(Tag()), sizeof(value_type) * cnt))));
+  return pointer(static_cast<T*>(get(malloc(select_system(Tag()), sizeof(value_type) * cnt))));
 }
 
 

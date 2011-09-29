@@ -22,6 +22,7 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/detail/iterator_category_to_traversal.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 
 // XXX eliminate this #include when are_spaces_compatible no longer exists
 #include <thrust/system/omp/detail/tag.h>
@@ -170,7 +171,7 @@ template<typename T>
     integral_constant<
       bool,
         is_pointer<T>::value
-      | is_device_ptr<T>::value
+      | thrust::detail::is_thrust_pointer<T>::value
 #if __GNUC__
       | is_gnu_normal_iterator<T>::value
 #endif // __GNUC__

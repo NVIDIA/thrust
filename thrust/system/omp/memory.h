@@ -25,6 +25,7 @@
 #include <thrust/detail/pointer_base.h>
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/tagged_allocator.h>
 #include <ostream>
 
 namespace thrust
@@ -131,7 +132,7 @@ template<typename T>
 
 template<typename T>
 __host__ __device__
-void swap(reference<T> &x, reference<T> &y);
+void swap(reference<T> x, reference<T> y);
 
 inline pointer<void> malloc(std::size_t n);
 

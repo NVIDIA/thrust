@@ -18,6 +18,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/is_metafunction_defined.h>
+#include <thrust/detail/type_traits/has_nested_type.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <cstddef>
 
@@ -84,6 +86,23 @@ template<template<typename, typename> class Ptr, typename Arg1, typename Arg2, t
   typedef Ptr<T,Arg2> type;
 };
 
+// XXX this should probably be renamed native_type or similar
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer);
+
+template<typename Ptr, typename Enable = void> struct pointer_raw_pointer;
+
+template<typename T>
+  struct pointer_raw_pointer<T*>
+{
+  typedef T* type;
+};
+
+template<typename Ptr>
+  struct pointer_raw_pointer<Ptr, typename enable_if<has_raw_pointer<Ptr>::value>::type>
+{
+  typedef typename Ptr::raw_pointer type;
+};
+
 namespace pointer_traits_detail
 {
 
@@ -139,7 +158,7 @@ template<typename Ptr>
   }
 
   // thrust additions follow
-  typedef element_type *                      raw_pointer;
+  typedef typename pointer_raw_pointer<Ptr>::type raw_pointer;
 
   __host__ __device__
   inline static raw_pointer get(pointer ptr)
@@ -168,7 +187,7 @@ template<typename T>
   }
 
   // thrust additions follow
-  typedef pointer        raw_pointer;
+  typedef typename pointer_raw_pointer<T*>::type raw_pointer;
 
   __host__ __device__
   inline static raw_pointer get(pointer ptr)
@@ -177,24 +196,41 @@ template<typename T>
   }
 };
 
-template<typename Ptr1, typename Ptr2>
+template<typename FromPtr, typename ToPtr>
   struct is_pointer_convertible
     : thrust::detail::and_<
         thrust::detail::is_convertible<
-          typename pointer_element<Ptr1>::type *,
-          typename pointer_element<Ptr2>::type *
+          typename pointer_element<FromPtr>::type *,
+          typename pointer_element<ToPtr>::type *
         >,
         thrust::detail::is_convertible<
-          typename iterator_space<Ptr1>::type,
-          typename iterator_space<Ptr2>::type
+          typename iterator_space<FromPtr>::type,
+          typename iterator_space<ToPtr>::type
         >
       >
 {};
 
-template<typename Ptr1, typename Ptr2, typename T = void>
+// this could be a lot better, but for our purposes, it's probably
+// sufficient just to check if pointer_raw_pointer<T> has meaning
+template<typename T>
+  struct is_thrust_pointer
+    : is_metafunction_defined<pointer_raw_pointer<T> >
+{};
+
+// avoid inspecting traits of the arguments if they aren't known to be pointers
+template<typename FromPtr, typename ToPtr>
+  struct lazy_is_pointer_convertible
+    : thrust::detail::eval_if<
+        is_thrust_pointer<FromPtr>::value && is_thrust_pointer<ToPtr>::value,
+        is_pointer_convertible<FromPtr,ToPtr>,
+        thrust::detail::identity_<thrust::detail::false_type>
+      >
+{};
+
+template<typename FromPtr, typename ToPtr, typename T = void>
   struct enable_if_pointer_is_convertible
     : thrust::detail::enable_if<
-        is_pointer_convertible<Ptr1,Ptr2>::value,
+        lazy_is_pointer_convertible<FromPtr,ToPtr>::type::value,
         T
       >
 {};

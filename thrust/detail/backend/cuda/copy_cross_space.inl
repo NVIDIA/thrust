@@ -129,10 +129,10 @@ template<typename RandomAccessIterator1,
                                          thrust::random_access_traversal_tag,
                                          true_type) // trivial copy
 {
-  //std::cerr << std::endl;
-  //std::cerr << "random access copy_device_to_host(): trivial" << std::endl;
-  //std::cerr << "general copy_device_to_host(): InputIterator: " << typeid(InputIterator).name() << std::endl;
-  //std::cerr << "general copy_device_to_host(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
+//  std::cerr << std::endl;
+//  std::cerr << "random access copy_device_to_host(): trivial" << std::endl;
+//  std::cerr << "general copy_device_to_host(): RandomAccessIterator1: " << typeid(RandomAccessIterator1).name() << std::endl;
+//  std::cerr << "general copy_device_to_host(): RandomAccessIterator2: " << typeid(RandomAccessIterator2).name() << std::endl;
   
   // how many elements to copy?
   typename thrust::iterator_traits<RandomAccessIterator1>::difference_type n = end - begin;
