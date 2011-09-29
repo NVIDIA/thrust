@@ -24,6 +24,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -41,31 +43,31 @@ OutputIterator unique_copy(InputIterator first,
                            OutputIterator output,
                            BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type T;
+  typedef typename thrust::iterator_traits<InputIterator>::value_type T;
 
-    if(first != last)
+  if(first != last)
+  {
+    T prev = backend::dereference(first);
+
+    for(++first; first != last; ++first)
     {
-        T prev = *first;
-        
-        for(++first; first != last; ++first)
-        {
-            T temp = *first;
+      T temp = backend::dereference(first);
 
-            if (!binary_pred(prev, temp))
-            {
-                *output = prev;
+      if (!binary_pred(prev, temp))
+      {
+        backend::dereference(output) = prev;
 
-                ++output;
-
-                prev = temp;
-            }
-        }
-
-        *output = prev;
         ++output;
+
+        prev = temp;
+      }
     }
 
-    return output;
+    backend::dereference(output) = prev;
+    ++output;
+  }
+
+  return output;
 }
 
 template <typename ForwardIterator,
@@ -74,8 +76,8 @@ ForwardIterator unique(ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
-    // unique_copy() permits in-situ operation
-    return thrust::detail::backend::cpp::unique_copy(first, last, first, binary_pred);
+  // unique_copy() permits in-situ operation
+  return thrust::detail::backend::cpp::unique_copy(first, last, first, binary_pred);
 }
 
 template <typename InputIterator1,
@@ -91,42 +93,42 @@ template <typename InputIterator1,
                      OutputIterator2 values_output,
                      BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
-    typedef typename thrust::iterator_traits<OutputIterator2>::value_type OutputValueType;
+  typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
+  typedef typename thrust::iterator_traits<OutputIterator2>::value_type OutputValueType;
 
-    if(keys_first != keys_last)
+  if(keys_first != keys_last)
+  {
+    InputKeyType    temp_key   = backend::dereference(keys_first);
+    OutputValueType temp_value = backend::dereference(values_first);
+
+    for(++keys_first, ++values_first;
+        keys_first != keys_last;
+        ++keys_first, ++values_first)
     {
-        InputKeyType    temp_key   = *keys_first;
-        OutputValueType temp_value = *values_first;
-        
-        for(++keys_first, ++values_first;
-                keys_first != keys_last;
-                ++keys_first, ++values_first)
-        {
-            InputKeyType    key   = *keys_first;
-            OutputValueType value = *values_first;
+      InputKeyType    key   = backend::dereference(keys_first);
+      OutputValueType value = backend::dereference(values_first);
 
-            if (!binary_pred(temp_key, key))
-            {
-                *keys_output   = temp_key;
-                *values_output = temp_value;
-
-                ++keys_output;
-                ++values_output;
-
-                temp_key   = key;
-                temp_value = value;
-            }
-        }
-
-        *keys_output   = temp_key;
-        *values_output = temp_value;
+      if (!binary_pred(temp_key, key))
+      {
+        backend::dereference(keys_output)   = temp_key;
+        backend::dereference(values_output) = temp_value;
 
         ++keys_output;
         ++values_output;
+
+        temp_key   = key;
+        temp_value = value;
+      }
     }
-        
-    return thrust::make_pair(keys_output, values_output);
+
+    backend::dereference(keys_output)   = temp_key;
+    backend::dereference(values_output) = temp_value;
+
+    ++keys_output;
+    ++values_output;
+  }
+
+  return thrust::make_pair(keys_output, values_output);
 }
 
 template <typename ForwardIterator1,
@@ -138,8 +140,8 @@ template <typename ForwardIterator1,
                 ForwardIterator2 values_first,
                 BinaryPredicate binary_pred)
 {
-    // unique_by_key_copy() permits in-situ operation
-    return thrust::detail::backend::cpp::unique_by_key_copy(keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
+  // unique_by_key_copy() permits in-situ operation
+  return thrust::detail::backend::cpp::unique_by_key_copy(keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
 }
 
 } // end namespace cpp

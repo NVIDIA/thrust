@@ -23,6 +23,8 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -37,23 +39,23 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
-    if (first == last)
-        return result;
+  if (first == last)
+    return result;
 
-    InputType curr = *first;
+  InputType curr = backend::dereference(first);
 
-    *result = curr;
+  backend::dereference(result) = curr;
 
-    while (++first != last)
-    {
-        InputType next = *first;
-        *++result = binary_op(next, curr);
-        curr = next;
-    }
+  while (++first != last)
+  {
+    InputType next = backend::dereference(first);
+    backend::dereference(++result) = binary_op(next, curr);
+    curr = next;
+  }
 
-    return ++result;
+  return ++result;
 }
 
 } // end namespace cpp

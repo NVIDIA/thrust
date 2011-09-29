@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -30,19 +32,17 @@ namespace backend
 namespace cpp
 {
 
-
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
-    while(first != last)
-    {
-        *first = value;
-        ++first;
-    }
+  while(first != last)
+  {
+    backend::dereference(first) = value;
+    ++first;
+  }
 }
-
 
 } // end namespace cpp
 } // end namespace backend

@@ -15,6 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -36,7 +37,7 @@ void reduce_intervals(InputIterator input,
 {
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
   typedef typename Decomposition::index_type index_type;
-  
+
   for(index_type i = 0; i < decomp.size(); ++i, ++output)
   {
     InputIterator begin = input + decomp[i].begin();
@@ -44,17 +45,17 @@ void reduce_intervals(InputIterator input,
 
     if (begin != end)
     {
-      OutputType sum = *begin;
+      OutputType sum = backend::dereference(begin);
 
       ++begin;
 
       while (begin != end)
       {
-        sum = binary_op(sum, *begin);
+        sum = binary_op(sum, backend::dereference(begin));
         ++begin;
       }
 
-      *output = sum;
+      backend::dereference(output) = sum;
     }
   }
 }

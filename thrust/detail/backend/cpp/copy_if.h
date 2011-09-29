@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -42,9 +44,9 @@ template<typename InputIterator1,
 {
   while(first != last)
   {
-    if(pred(*stencil))
+    if(pred(backend::dereference(stencil)))
     {
-      *result = *first;
+      backend::dereference(result) = backend::dereference(first);
       ++result;
     } // end if
 
@@ -54,7 +56,6 @@ template<typename InputIterator1,
 
   return result;
 } // end copy_if()
-
 
 
 } // end namespace cpp

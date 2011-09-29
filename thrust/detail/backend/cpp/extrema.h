@@ -23,6 +23,8 @@
 
 #include <thrust/pair.h>
 
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace detail
@@ -37,14 +39,14 @@ ForwardIterator min_element(ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-    ForwardIterator imin = first;
+  ForwardIterator imin = first;
 
-    for (; first != last; first++)
-    {
-        if (comp(*first, *imin)) imin = first;
-    }
+  for (; first != last; first++)
+  {
+    if (comp(backend::dereference(first), backend::dereference(imin))) imin = first;
+  }
 
-    return imin;
+  return imin;
 }
 
 
@@ -53,14 +55,14 @@ ForwardIterator max_element(ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-    ForwardIterator imax = first;
+  ForwardIterator imax = first;
 
-    for (; first != last; first++)
-    {
-        if (comp(*imax, *first)) imax = first;
-    }
+  for (; first != last; first++)
+  {
+    if (comp(backend::dereference(imax), backend::dereference(first))) imax = first;
+  }
 
-    return imax;
+  return imax;
 }
 
 
@@ -69,16 +71,16 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
-    ForwardIterator imin = first;
-    ForwardIterator imax = first;
+  ForwardIterator imin = first;
+  ForwardIterator imax = first;
 
-    for (; first != last; first++)
-    {
-        if (comp(*first, *imin)) imin = first;
-        if (comp(*imax, *first)) imax = first;
-    }
+  for (; first != last; first++)
+  {
+    if (comp(backend::dereference(first), backend::dereference(imin))) imin = first;
+    if (comp(backend::dereference(imax), backend::dereference(first))) imax = first;
+  }
 
-    return thrust::make_pair(imin, imax);
+  return thrust::make_pair(imin, imax);
 }
 
 } // end namespace cpp
