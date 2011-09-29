@@ -22,54 +22,54 @@ namespace detail
 {
 
 
-template<typename Element, typename Derived, typename Reference, typename Space>
-  pointer_base<Element,Derived,Reference,Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
+  pointer_base<Element,Space,Reference,Derived>
     ::pointer_base()
       : super_t(static_cast<Element*>(0))
 {}
 
-template<typename Element, typename Derived, typename Reference, typename Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
   template<typename OtherElement>
-    pointer_base<Element,Derived,Reference,Space>
+    pointer_base<Element,Space,Reference,Derived>
       ::pointer_base(OtherElement *other)
         : super_t(other)
 {}
 
-template<typename Element, typename Derived, typename Reference, typename Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
   template<typename OtherPointer>
-    pointer_base<Element,Derived,Reference,Space>
+    pointer_base<Element,Space,Reference,Derived>
       ::pointer_base(const OtherPointer &other,
                      typename thrust::detail::enable_if_pointer_is_convertible<
                        OtherPointer,
-                       pointer_base<Element,Derived,Reference,Space>
+                       pointer_base<Element,Space,Reference,Derived>
                       >::type *)
         : super_t(thrust::detail::pointer_traits<OtherPointer>::get(other))
 {}
 
-template<typename Element, typename Derived, typename Reference, typename Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
   template<typename OtherPointer>
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
-      pointer_base<Element,Derived,Reference,Space>,
-      typename pointer_base<Element,Derived,Reference,Space>::derived_type &
+      pointer_base<Element,Space,Reference,Derived>,
+      typename pointer_base<Element,Space,Reference,Derived>::derived_type &
     >::type
-      pointer_base<Element,Derived,Reference,Space>
+      pointer_base<Element,Space,Reference,Derived>
         ::operator=(const OtherPointer &other)
 {
   super_t::base_reference() = thrust::detail::pointer_traits<OtherPointer>::get(other);
   return static_cast<derived_type&>(*this);
 }
 
-template<typename Element, typename Derived, typename Reference, typename Space>
-  typename pointer_base<Element,Derived,Reference,Space>::super_t::reference
-    pointer_base<Element,Derived,Reference,Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
+  typename pointer_base<Element,Space,Reference,Derived>::super_t::reference
+    pointer_base<Element,Space,Reference,Derived>
       ::dereference() const
 {
   return typename super_t::reference(static_cast<const Derived&>(*this));
 }
 
-template<typename Element, typename Derived, typename Reference, typename Space>
-  Element *pointer_base<Element,Derived,Reference,Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
+  Element *pointer_base<Element,Space,Reference,Derived>
     ::get() const
 {
   return super_t::base();

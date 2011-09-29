@@ -28,10 +28,10 @@ namespace thrust
 namespace detail
 {
 
-template<typename Element, typename Derived, typename Reference, typename Space> class pointer_base;
+template<typename Element, typename Space, typename Reference, typename Derived> class pointer_base;
 
 // this metafunction computes the type of iterator_adaptor pointer_base should inherit from
-template<typename Element, typename Derived, typename Reference, typename Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
   struct pointer_base_base
 {
   // void pointers should have no element type
@@ -68,13 +68,14 @@ template<typename Element, typename Derived, typename Reference, typename Space>
 // 3. constructor from OtherPointer related by convertibility
 // 4. assignment from OtherPointer related by convertibility
 // These should just call the corresponding members of pointer_base.
-template<typename Element, typename Derived, typename Reference, typename Space>
+template<typename Element, typename Space, typename Reference, typename Derived>
   class pointer_base
-    : public pointer_base_base<Element,Derived,Reference,Space>::type
+    : public pointer_base_base<Element,Space,Reference,Derived>::type
 {
   private:
-    typedef typename pointer_base_base<Element,Derived,Reference,Space>::type super_t;
-    typedef Derived                                                           derived_type;
+    typedef typename pointer_base_base<Element,Space,Reference,Derived>::type super_t;
+
+    typedef Derived derived_type;
 
     // friend iterator_core_access to give it access to dereference
     friend class thrust::experimental::iterator_core_access;
@@ -107,7 +108,7 @@ template<typename Element, typename Derived, typename Reference, typename Space>
     pointer_base(const OtherPointer &other,
                  typename thrust::detail::enable_if_pointer_is_convertible<
                    OtherPointer,
-                   pointer_base<Element,Derived,Reference,Space>
+                   pointer_base<Element,Space,Reference,Derived>
                  >::type * = 0);
 
     // assignment

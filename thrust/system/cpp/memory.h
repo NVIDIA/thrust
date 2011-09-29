@@ -42,17 +42,17 @@ template<typename T>
   class pointer
     : public thrust::detail::pointer_base<
                T,
-               thrust::system::cpp::pointer<T>,
+               thrust::system::cpp::tag,
                thrust::system::cpp::reference<T>,
-               thrust::system::cpp::tag
+               thrust::system::cpp::pointer<T>
              >
 {
   private:
     typedef thrust::detail::pointer_base<
       T,
-      thrust::system::cpp::pointer<T>,
+      thrust::system::cpp::tag,
       thrust::system::cpp::reference<T>,
-      thrust::system::cpp::tag
+      thrust::system::cpp::pointer<T>
     > super_t;
 
   public:
