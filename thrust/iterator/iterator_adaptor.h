@@ -34,14 +34,13 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_facade.h>
+#include <thrust/detail/use_default.h>
 
 // #include the details first
 #include <thrust/iterator/detail/iterator_adaptor.inl>
 
 namespace thrust
 {
-
-struct use_default {};
 
 namespace experimental
 {

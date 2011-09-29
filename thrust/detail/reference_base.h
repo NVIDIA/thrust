@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/use_default.h>
 
 namespace thrust
 {
@@ -32,32 +33,36 @@ namespace detail
 // 3. templated copy constructor from other reference
 // 4. templated assignment from other reference
 // 5. assignment from value_type
-template<typename Derived, typename Value, typename Pointer>
+template<typename Element, typename Pointer, typename Derived = use_default>
   class reference_base
 {
   private:
-    typedef Derived derived_type;
+    typedef typename thrust::detail::eval_if<
+      thrust::detail::is_same<Derived,use_default>::value,
+      thrust::detail::identity_<reference_base>,
+      thrust::detail::identity_<Derived>
+    >::type derived_type;
 
   public:
-    typedef Pointer                                            pointer;
-    typedef typename thrust::detail::remove_const<Value>::type value_type;
+    typedef Pointer                                              pointer;
+    typedef typename thrust::detail::remove_const<Element>::type value_type;
 
     __host__ __device__
     explicit reference_base(const pointer &ptr);
 
-    template<typename OtherDerived, typename OtherValue, typename OtherPointer>
+    template<typename OtherElement, typename OtherPointer, typename OtherDerived>
     __host__ __device__
-    reference_base(const reference_base<OtherDerived,OtherValue,OtherPointer> &other,
+    reference_base(const reference_base<OtherElement,OtherPointer,OtherDerived> &other,
                    typename thrust::detail::enable_if_convertible<
-                     typename reference_base<OtherDerived,OtherValue,OtherPointer>::pointer,
+                     typename reference_base<OtherElement,OtherPointer,OtherDerived>::pointer,
                      pointer
                    >::type * = 0);
 
     derived_type &operator=(const reference_base &other);
 
     // XXX this may need an enable_if
-    template<typename OtherDerived, typename OtherValue, typename OtherPointer>
-    derived_type &operator=(const reference_base<OtherDerived,OtherValue,OtherPointer> &other);
+    template<typename OtherElement, typename OtherPointer, typename OtherDerived>
+    derived_type &operator=(const reference_base<OtherElement,OtherPointer,OtherDerived> &other);
 
     derived_type &operator=(const value_type &x);
 
@@ -112,7 +117,7 @@ template<typename Derived, typename Value, typename Pointer>
     const pointer m_ptr;
 
     // allow access to m_ptr for other reference_bases
-    template <typename OtherDerived, typename OtherValue, typename OtherPointer> friend class reference_base;
+    template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference_base;
 
     template<typename OtherPointer>
     inline void assign_from(OtherPointer src);

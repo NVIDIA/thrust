@@ -185,16 +185,16 @@ namespace thrust
 template<typename T>
   class device_reference
     : public thrust::detail::reference_base<
-               thrust::device_reference<T>,
                T,
-               thrust::device_ptr<T>
+               thrust::device_ptr<T>,
+               thrust::device_reference<T>
              >
 {
   private:
     typedef thrust::detail::reference_base<
-      thrust::device_reference<T>,
       T,
-      thrust::device_ptr<T>
+      thrust::device_ptr<T>,
+      thrust::device_reference<T>
     > super_t;
 
   public:

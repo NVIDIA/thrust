@@ -93,16 +93,16 @@ template<typename T>
 template<typename T>
   class reference
     : public thrust::detail::reference_base<
-               thrust::system::omp::reference<T>,
                T,
-               thrust::system::omp::pointer<T>
+               thrust::system::omp::pointer<T>,
+               thrust::system::omp::reference<T>
              >
 {
   private:
     typedef thrust::detail::reference_base<
-      thrust::system::omp::reference<T>,
       T,
-      thrust::system::omp::pointer<T>
+      thrust::system::omp::pointer<T>,
+      thrust::system::omp::reference<T>
     > super_t;
 
   public:

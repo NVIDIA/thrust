@@ -30,37 +30,37 @@ namespace detail
 {
 
 
-template<typename Derived, typename Value, typename Pointer>
-  template<typename OtherDerived, typename OtherValue, typename OtherPointer>
-    reference_base<Derived,Value,Pointer>
-      ::reference_base(const reference_base<OtherDerived,OtherValue,OtherPointer> &other,
+template<typename Element, typename Pointer, typename Derived>
+  template<typename OtherElement, typename OtherPointer, typename OtherDerived>
+    reference_base<Element,Pointer,Derived>
+      ::reference_base(const reference_base<OtherElement,OtherPointer,OtherDerived> &other,
                        typename thrust::detail::enable_if_convertible<
-                         typename reference_base<OtherDerived,OtherValue,OtherPointer>::pointer,
+                         typename reference_base<OtherElement,OtherPointer,OtherDerived>::pointer,
                          pointer
                        >::type *)
         : m_ptr(other.m_ptr)
 {}
 
 
-template<typename Derived, typename Value, typename Pointer>
-  reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  reference_base<Element,Pointer,Derived>
     ::reference_base(const pointer &ptr)
       : m_ptr(ptr)
 {}
 
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::pointer
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::pointer
+    reference_base<Element,Pointer,Derived>
       ::operator&() const
 {
   return m_ptr;
 } // end reference_base::operator&()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator=(const value_type &v)
 {
   assign_from(&v);
@@ -68,9 +68,9 @@ template<typename Derived, typename Value, typename Pointer>
 } // end reference_base::operator=()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator=(const reference_base &other)
 {
   assign_from(&other); 
@@ -78,20 +78,20 @@ template<typename Derived, typename Value, typename Pointer>
 } // end reference_base::operator=()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  template<typename OtherDerived, typename OtherValue, typename OtherPointer>
-    typename reference_base<Derived,Value,Pointer>::derived_type &
-      reference_base<Derived,Value,Pointer>
-        ::operator=(const reference_base<OtherDerived,OtherValue,OtherPointer> &other)
+template<typename Element, typename Pointer, typename Derived>
+  template<typename OtherElement, typename OtherPointer, typename OtherDerived>
+    typename reference_base<Element,Pointer,Derived>::derived_type &
+      reference_base<Element,Pointer,Derived>
+        ::operator=(const reference_base<OtherElement,OtherPointer,OtherDerived> &other)
 {
   assign_from(&other);
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator=()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  reference_base<Derived,Value,Pointer>
-    ::operator typename reference_base<Derived,Value,Pointer>::value_type () const
+template<typename Element, typename Pointer, typename Derived>
+  reference_base<Element,Pointer,Derived>
+    ::operator typename reference_base<Element,Pointer,Derived>::value_type () const
 {
   using thrust::detail::backend::generic::select_system;
   using thrust::detail::backend::generic::get_value;
@@ -102,9 +102,9 @@ template<typename Derived, typename Value, typename Pointer>
 } // end reference_base::operator value_type ()
 
 
-template<typename Derived,typename Value, typename Pointer>
+template<typename Element, typename Pointer, typename Derived>
   template<typename OtherPointer>
-    void reference_base<Derived,Value,Pointer>
+    void reference_base<Element,Pointer,Derived>
       ::assign_from(OtherPointer src)
 {
   using thrust::detail::backend::generic::select_system;
@@ -117,8 +117,8 @@ template<typename Derived,typename Value, typename Pointer>
 } // end assign_from()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  void reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  void reference_base<Element,Pointer,Derived>
     ::swap(derived_type &other)
 {
   using thrust::detail::backend::generic::select_system;
@@ -130,9 +130,9 @@ template<typename Derived, typename Value, typename Pointer>
 } // end reference_base::swap()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator++(void)
 {
   value_type temp = *this;
@@ -142,9 +142,9 @@ template<typename Derived, typename Value, typename Pointer>
 } // end reference_base::operator++()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::value_type
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::value_type
+    reference_base<Element,Pointer,Derived>
       ::operator++(int)
 {
   value_type temp = *this;
@@ -154,9 +154,9 @@ template<typename Derived, typename Value, typename Pointer>
 } // end reference_base::operator++()
 
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator+=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -165,9 +165,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator+=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator--(void)
 {
   value_type temp = *this;
@@ -176,9 +176,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator--()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::value_type
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::value_type
+    reference_base<Element,Pointer,Derived>
       ::operator--(int)
 {
   value_type temp = *this;
@@ -187,9 +187,9 @@ template<typename Derived, typename Value, typename Pointer>
   return result;
 } // end reference_base::operator--()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator-=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -198,9 +198,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator-=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator*=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -209,9 +209,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator*=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator/=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -220,9 +220,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator/=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator%=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -231,9 +231,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator%=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator<<=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -242,9 +242,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator<<=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator>>=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -253,9 +253,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator>>=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator&=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -264,9 +264,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator&=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator|=(const value_type &rhs)
 {
   value_type temp = *this;
@@ -275,9 +275,9 @@ template<typename Derived, typename Value, typename Pointer>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator|=()
 
-template<typename Derived, typename Value, typename Pointer>
-  typename reference_base<Derived,Value,Pointer>::derived_type &
-    reference_base<Derived,Value,Pointer>
+template<typename Element, typename Pointer, typename Derived>
+  typename reference_base<Element,Pointer,Derived>::derived_type &
+    reference_base<Element,Pointer,Derived>
       ::operator^=(const value_type &rhs)
 {
   value_type temp = *this;
