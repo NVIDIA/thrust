@@ -33,7 +33,7 @@ namespace detail
 // 3. templated copy constructor from other reference
 // 4. templated assignment from other reference
 // 5. assignment from value_type
-template<typename Element, typename Pointer, typename Derived = use_default>
+template<typename Element, typename Pointer, typename Derived>
   class reference_base
 {
   private:

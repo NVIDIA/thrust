@@ -28,7 +28,10 @@ namespace thrust
 namespace detail
 {
 
-template<typename Element, typename Space, typename Reference, typename Derived> class pointer_base;
+// declare pointer_base and reference_base with default values of template parameters
+template<typename Element, typename Space, typename Reference = use_default, typename Derived = use_default> class pointer_base;
+
+template<typename Element, typename Pointer, typename Derived = use_default> class reference_base;
 
 // this metafunction computes the type of iterator_adaptor pointer_base should inherit from
 template<typename Element, typename Space, typename Reference, typename Derived>
@@ -41,15 +44,27 @@ template<typename Element, typename Space, typename Reference, typename Derived>
     thrust::detail::identity_<Element>
   >::type value_type;
 
+  // if no Derived type is given, just use pointer_base
+  typedef typename thrust::detail::eval_if<
+    thrust::detail::is_same<Derived,use_default>::value,
+    thrust::detail::identity_<pointer_base<Element,Space,Reference,Derived> >,
+    thrust::detail::identity_<Derived>
+  >::type derived_type;
+
   // void pointers should have no reference type
+  // if no Reference type is given, just use reference_base
   typedef typename thrust::detail::eval_if<
     thrust::detail::is_void<typename thrust::detail::remove_const<Element>::type>::value,
     thrust::detail::identity_<void>,
-    thrust::detail::identity_<Reference>
+    thrust::detail::eval_if<
+      thrust::detail::is_same<Reference,use_default>::value,
+      thrust::detail::identity_<reference_base<Element,derived_type> >,
+      thrust::detail::identity_<Reference>
+    >
   >::type reference;
 
   typedef thrust::experimental::iterator_adaptor<
-    Derived,                             // pass along the type of our Derived class to iterator_adaptor
+    derived_type,                        // pass along the type of our Derived class to iterator_adaptor
     Element *,                           // we adapt a raw pointer
     Derived,                             // our pointer type is the same as our Derived type
     value_type,                          // the value type
@@ -73,9 +88,9 @@ template<typename Element, typename Space, typename Reference, typename Derived>
     : public pointer_base_base<Element,Space,Reference,Derived>::type
 {
   private:
-    typedef typename pointer_base_base<Element,Space,Reference,Derived>::type super_t;
+    typedef typename pointer_base_base<Element,Space,Reference,Derived>::type         super_t;
 
-    typedef Derived derived_type;
+    typedef typename pointer_base_base<Element,Space,Reference,Derived>::derived_type derived_type;
 
     // friend iterator_core_access to give it access to dereference
     friend class thrust::experimental::iterator_core_access;
