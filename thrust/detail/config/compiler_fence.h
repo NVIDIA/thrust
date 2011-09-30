@@ -22,6 +22,7 @@
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 
 #include <intrin.h>
+#pragma intrinsic(_ReadWriteBarrier)
 #define __thrust_compiler_fence() _ReadWriteBarrier()
 
 // gcc case
