@@ -15,6 +15,7 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/system/cpp/memory.h>
 #include <thrust/swap.h>
 #include <cstdlib> // for malloc & free
@@ -39,9 +40,10 @@ inline thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
 } // end malloc()
 
 // XXX free should be moved into thrust::system::cpp::detail
-inline void free(tag, thrust::system::cpp::pointer<void> ptr)
+template<typename Pointer>
+inline void free(tag, Pointer ptr)
 {
-  std::free(ptr.get());
+  std::free(thrust::detail::pointer_traits<Pointer>::get(ptr));
 } // end free()
 
 // XXX assign_value should be moved into thrust::system::cpp::detail

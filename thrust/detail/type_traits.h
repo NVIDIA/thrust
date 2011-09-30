@@ -424,6 +424,8 @@ template<typename T>
 template<bool, typename T = void> struct enable_if {};
 template<typename T>              struct enable_if<true, T> {typedef T type;};
 
+template<bool condition, typename T = void> struct disable_if : enable_if<!condition, T> {};
+
 
 template<typename T1, typename T2>
   struct enable_if_convertible

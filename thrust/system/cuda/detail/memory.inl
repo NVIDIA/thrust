@@ -72,9 +72,10 @@ inline thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
 } // end malloc()
 
 // XXX free should be moved into thrust::system::cuda::detail
-inline void free(tag, thrust::system::cuda::pointer<void> ptr)
+template<typename Pointer>
+inline void free(tag, Pointer ptr)
 {
-  cudaError_t error = cudaFree(ptr.get());
+  cudaError_t error = cudaFree(thrust::detail::pointer_traits<Pointer>::get(ptr));
 
   if(error)
   {

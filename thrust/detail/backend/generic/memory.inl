@@ -14,20 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file generic/memory.h
- *  \brief Generic implementation of memory functions.
- *         Calling some of these is an error. They have no implementation.
- */
-
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/tag.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/pointer_base.h>
-#include <thrust/pair.h>
-#include <thrust/detail/backend/generic/type_traits.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/backend/generic/memory.h>
 
 namespace thrust
 {
@@ -41,25 +30,15 @@ namespace generic
 namespace detail
 {
 
-struct error {};
-
+// define our own raw_pointer_cast to avoid bringing in thrust/device_ptr.h
+template<typename Pointer>
+  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+    get(Pointer ptr)
+{
+  return thrust::detail::pointer_traits<Pointer>::get(ptr);
 }
 
-template<typename Size> void malloc(tag, Size);
-
-template<typename Pointer> void free(tag, Pointer);
-
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-void assign_value(tag, Pointer1, Pointer2);
-
-template<typename Pointer>
-__host__ __device__
-void get_value(tag, Pointer);
-
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-void iter_swap(tag, Pointer1, Pointer2);
+} // end detail
 
 template<typename T, typename Tag>
   typename thrust::detail::disable_if<
@@ -68,15 +47,29 @@ template<typename T, typename Tag>
     >::value,
     thrust::pair<thrust::detail::pointer_base<T,Tag>, typename thrust::detail::pointer_base<T,Tag>::difference_type>
   >::type
-    get_temporary_buffer(Tag, typename thrust::detail::pointer_base<T,Tag>::difference_type n);
+    get_temporary_buffer(Tag, typename thrust::detail::pointer_base<T,Tag>::difference_type n)
+{
+  typedef thrust::detail::pointer_base<T,Tag> pointer;
+
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::malloc;
+
+  return thrust::make_pair(pointer(static_cast<T*>(detail::get(malloc(select_system(Tag()), sizeof(T) * n)))), n);
+} // end get_temporary_buffer()
 
 template<typename Pointer>
-  void return_temporary_buffer(tag, Pointer p);
+  void return_temporary_buffer(tag, Pointer p)
+{
+  typedef typename thrust::iterator_space<Pointer>::type Tag;
+
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::free;
+
+  free(select_system(Tag()), p);
+} // end return_temporary_buffer()
 
 } // end generic
 } // end backend
 } // end detail
 } // end thrust
-
-#include <thrust/detail/backend/generic/memory.inl>
 
