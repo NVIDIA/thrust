@@ -87,7 +87,7 @@ template<typename T, typename Tag, typename Pointer>
 
     size_type max_size() const;
 
-  private:
+  protected:
     // XXX eliminate this once static_pointer_cast exists
     template<typename OtherPointer>
       __host__ __device__

@@ -88,7 +88,14 @@ template<typename T, typename Tag, typename Pointer>
   // XXX should probably have a using generic::malloc here
   //     which would be an automatic failure if selected
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  return pointer(static_cast<T*>(get(malloc(select_system(Tag()), sizeof(value_type) * cnt))));
+  T* result = static_cast<T*>(get(malloc(select_system(Tag()), sizeof(value_type) * cnt)));
+
+  if(result == 0)
+  {
+    throw thrust::detail::bad_alloc("tagged_allocator::allocate: malloc failed");
+  } // end if
+
+  return pointer(result);
 }
 
 
