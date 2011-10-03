@@ -63,6 +63,9 @@ template<typename T>
 namespace detail
 {
 
+template<typename Element, typename Space, typename Reference, typename Derived>
+  class pointer_base;
+
 template<typename Pointer>
   class normal_iterator;
 
@@ -253,6 +256,18 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
       dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n);
+
+
+// pointer_base prototypes
+template<typename Element, typename Space, typename Reference, typename Derived>
+  inline __host__ __device__
+    typename dereference_result< thrust::detail::pointer_base<Element,Space,Reference,Derived> >::type
+      dereference(thrust::detail::pointer_base<Element,Space,Reference,Derived> ptr);
+
+template<typename Element, typename Space, typename Reference, typename Derived, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::detail::pointer_base<Element,Space,Reference,Derived> >::type
+      dereference(thrust::detail::pointer_base<Element,Space,Reference,Derived> ptr, IndexType n);
 
 
 // cpp::pointer prototypes

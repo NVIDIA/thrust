@@ -17,6 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/backend/generic/memory.h>
+#include <thrust/detail/backend/generic/select_system.h>
 
 namespace thrust
 {

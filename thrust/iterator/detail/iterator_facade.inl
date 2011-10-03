@@ -29,7 +29,7 @@ namespace detail
 
 template<typename Category, typename Space, typename Traversal>
   struct iterator_category_with_space_and_traversal
-    : Category, Space, Traversal
+    : Category
 {
 }; // end iterator_category_with_space_and_traversal
 
@@ -111,6 +111,33 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
 //    1. Reference is a reference to non-const
 //    2. Reference is not a reference and is convertible to Value
 //
+
+
+// this is the function for standard space iterators
+template<typename Traversal, typename ValueParam, typename Reference>
+  struct iterator_facade_default_category_std :
+    thrust::detail::eval_if<
+      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
+      thrust::detail::eval_if<
+        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
+        thrust::detail::identity_<std::random_access_iterator_tag>,
+        thrust::detail::eval_if<
+          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
+          thrust::detail::identity_<std::bidirectional_iterator_tag>,
+          thrust::detail::identity_<std::forward_iterator_tag>
+        >
+      >,
+      thrust::detail::eval_if<
+        thrust::detail::and_<
+          thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>,
+          thrust::detail::is_convertible<Reference, ValueParam>
+        >::value,
+        thrust::detail::identity_<std::input_iterator_tag>,
+        thrust::detail::identity_<Traversal>
+      >
+    >
+{
+}; // end iterator_facade_default_category_std
 
 
 // this is the function for host space iterators
@@ -215,8 +242,15 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
             thrust::detail::is_convertible<Space, thrust::device_space_tag>::value,
             iterator_facade_default_category_device<Traversal, ValueParam, Reference>,
 
-            // on failure, return Traversal
-            thrust::detail::identity_<Traversal>
+            // if we don't recognize the space, get a standard iterator category
+            // and combine it with Space & Traversal
+            thrust::detail::identity_<
+              thrust::detail::iterator_category_with_space_and_traversal<
+                typename iterator_facade_default_category_std<Traversal, ValueParam, Reference>::type,
+                Space,
+                Traversal
+              >
+            >
           >
         >
       >

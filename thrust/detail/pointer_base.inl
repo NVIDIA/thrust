@@ -65,7 +65,7 @@ template<typename Element, typename Space, typename Reference, typename Derived>
     pointer_base<Element,Space,Reference,Derived>
       ::dereference() const
 {
-  return typename super_t::reference(static_cast<const Derived&>(*this));
+  return typename super_t::reference(static_cast<const derived_type&>(*this));
 }
 
 template<typename Element, typename Space, typename Reference, typename Derived>
@@ -74,6 +74,38 @@ template<typename Element, typename Space, typename Reference, typename Derived>
 {
   return super_t::base();
 }
+
+namespace backend
+{
+
+// forward declaration of dereference_result
+template<typename T> struct dereference_result;
+
+
+template<typename Element, typename Space, typename Reference, typename Derived>
+  struct dereference_result< pointer_base<Element,Space,Reference,Derived> >
+{
+  typedef Element& type;
+};
+
+template<typename Element, typename Space, typename Reference, typename Derived>
+  inline __host__ __device__
+    typename dereference_result< pointer_base<Element,Space,Reference,Derived> >::type
+      dereference(pointer_base<Element,Space,Reference,Derived> ptr)
+{
+  return *ptr.get();
+} // dereference
+
+
+template<typename Element, typename Space, typename Reference, typename Derived, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< pointer_base<Element,Space,Reference,Derived> >::type
+      dereference(pointer_base<Element,Space,Reference,Derived> ptr, IndexType n)
+{
+  return ptr.get()[n];
+} // dereference
+
+} // end backend
       
 
 } // end detail

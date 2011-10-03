@@ -41,17 +41,19 @@ template<typename T, typename Tag>
     > super_t;
 
   public:
-    pointer allocate(typename super_t::size_type cnt);
+    typename super_t::pointer allocate(typename super_t::size_type cnt);
 
     void deallocate(typename super_t::pointer p, typename super_t::size_type n);
 
   private:
+    typedef thrust::pair<typename super_t::pointer, typename super_t::size_type> pointer_and_size;
+
     template<typename Pair>
-    static thrust::pair<pointer, size_type> allocate_helper(Pair p)
+    static pointer_and_size allocate_helper(Pair p);
 };
 
 } // end detail
 } // end thrust
 
-#include <thrust/detail/temporary_allocator.inl>
+#include <thrust/detail/allocator/temporary_allocator.inl>
 

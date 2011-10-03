@@ -86,6 +86,18 @@ template<template<typename, typename> class Ptr, typename Arg1, typename Arg2, t
   typedef Ptr<T,Arg2> type;
 };
 
+template<template<typename, typename, typename> class Ptr, typename Arg1, typename Arg2, typename Arg3, typename T>
+  struct rebind_pointer<Ptr<Arg1,Arg2,Arg3>,T>
+{
+  typedef Ptr<T,Arg2,Arg3> type;
+};
+
+template<template<typename, typename, typename, typename> class Ptr, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename T>
+  struct rebind_pointer<Ptr<Arg1,Arg2,Arg3,Arg4>,T>
+{
+  typedef Ptr<T,Arg2,Arg3,Arg4> type;
+};
+
 // XXX this should probably be renamed native_type or similar
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer);
 

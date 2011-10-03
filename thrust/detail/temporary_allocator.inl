@@ -15,7 +15,7 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/allocator/temporary_allocator.h>
+#include <thrust/detail/temporary_allocator.h>
 #include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/detail/backend/generic/memory.h>
 #include <thrust/system/detail/bad_alloc.h>
@@ -28,26 +28,26 @@ namespace detail
 
 template<typename T, typename Tag>
   template<typename Pair>
-    typename temporary_allocator<T,Tag>::pointer_and_size
-      temporary_allocator<T,Tag>
-        ::allocate_helper(Pair p)
+    thrust::pair<pointer, size_type>
+      allocate_helper(Pair p)
 {
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  typename super_t::pointer ptr = typename super_t::pointer(static_cast<T*>(super_t::get(p.first)));
-  typename super_t::size_type n = p.second;
+  pointer ptr = pointer(static_cast<T*>(get(p.first)));
+  size_type n = p.second;
 
-  return pointer_and_size(ptr, n);
+  return thrust::make_pair(ptr, n);
 } // end temporary_allocator::allocate_helper()
 
 template<typename T, typename Tag>
-  typename temporary_allocator<T,Tag>::super_t::pointer
+  typename temporary_allocator<T,Tag>::pointer
     temporary_allocator<T,Tag>
-      ::allocate(typename temporary_allocator<T,Tag>::super_t::size_type cnt)
+      ::allocate(size_type cnt)
 {
   using thrust::detail::backend::generic::select_system;
   using thrust::detail::backend::generic::get_temporary_buffer;
 
-  pointer_and_size result = allocate_helper(get_temporary_buffer<T>(select_system(Tag()), cnt));
+  thrust::pair<typename super_t::pointer, typename super_t::size_type> result
+    = allocate_helper(get_temporary_buffer(select_system(Tag()), cnt));
 
   // handle failure
   if(result.second < cnt)
@@ -56,21 +56,21 @@ template<typename T, typename Tag>
     // note that we pass cnt to deallocate, not a value derived from result.second
     deallocate(result.first, cnt);
 
-    throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
+    throw thrust::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
   } // end if
 
   return result.first;
 } // end temporary_allocator::allocate()
 
 template<typename T, typename Tag>
-  void temporary_allocator<T,Tag>
-    ::deallocate(typename temporary_allocator<T,Tag>::super_t::pointer p, typename temporary_allocator<T,Tag>::super_t::size_type n)
+  void temporary_alloator<T,Tag>
+    ::deallocate(pointer p, size_type n)
 {
   using thrust::detail::backend::generic::select_system;
   using thrust::detail::backend::generic::return_temporary_buffer;
 
   return_temporary_buffer(select_system(Tag()), p);
-} // end temporary_allocator
+} // end temporary_alloator
 
 } // end detail
 } // end thrust

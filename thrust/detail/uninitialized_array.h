@@ -20,17 +20,16 @@
 
 #pragma once
 
-#include <thrust/detail/backend/internal_allocator.h>
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/contiguous_storage.h>
-#include <memory>
+#include <thrust/detail/allocator/temporary_allocator.h>
+#include <thrust/detail/allocator/no_throw_allocator.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <memory>
 
 namespace thrust
 {
-
-// forward declaration of device_malloc_allocator
-template<typename T> class device_malloc_allocator;
 
 namespace detail
 {
@@ -45,12 +44,13 @@ template<typename T, typename Space>
         void,
 
         eval_if<
+          // XXX this case shouldn't exist
           is_same<Space, thrust::cpp::tag>::value,
 
           identity_< std::allocator<T> >,
 
           // XXX add backend-specific allocators here?
-          identity_< thrust::detail::backend::internal_allocator<T,Space> >
+          identity_< no_throw_allocator<temporary_allocator<T,Space> > >
         >
       >
 {};
