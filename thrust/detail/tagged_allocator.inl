@@ -17,6 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/tagged_allocator.h>
 #include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/system/detail/bad_alloc.h>
 #include <limits>
 
 namespace thrust
@@ -92,7 +93,7 @@ template<typename T, typename Tag, typename Pointer>
 
   if(result == 0)
   {
-    throw thrust::detail::bad_alloc("tagged_allocator::allocate: malloc failed");
+    throw thrust::system::detail::bad_alloc("tagged_allocator::allocate: malloc failed");
   } // end if
 
   return pointer(result);
