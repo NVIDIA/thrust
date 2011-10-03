@@ -21,7 +21,6 @@
 #pragma once
 
 #include <thrust/detail/backend/internal_allocator.h>
-#include <thrust/iterator/detail/normal_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <memory>
@@ -35,9 +34,6 @@ template<typename T> class device_malloc_allocator;
 
 namespace detail
 {
-
-// forward declaration of normal_iterator
-template<typename> class normal_iterator;
 
 // XXX eliminate this
 template<typename T, typename Space>
