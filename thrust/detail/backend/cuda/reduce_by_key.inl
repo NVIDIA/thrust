@@ -31,7 +31,7 @@
 
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 #include <thrust/detail/backend/scan.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
@@ -514,10 +514,10 @@ template <typename InputIterator1,
     >::type ValueType;
    
     // temporary arrays
-    typedef thrust::detail::uninitialized_array<IndexType,thrust::cuda::tag> IndexArray;
-    typedef thrust::detail::uninitialized_array<KeyType,thrust::cuda::tag>   KeyArray;
-    typedef thrust::detail::uninitialized_array<ValueType,thrust::cuda::tag> ValueArray;
-    typedef thrust::detail::uninitialized_array<bool,thrust::cuda::tag>      BoolArray;
+    typedef thrust::detail::temporary_array<IndexType,thrust::cuda::tag> IndexArray;
+    typedef thrust::detail::temporary_array<KeyType,thrust::cuda::tag>   KeyArray;
+    typedef thrust::detail::temporary_array<ValueType,thrust::cuda::tag> ValueArray;
+    typedef thrust::detail::temporary_array<bool,thrust::cuda::tag>      BoolArray;
 
     // input size
     IndexType n = keys_last - keys_first;

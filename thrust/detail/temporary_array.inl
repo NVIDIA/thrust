@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/distance.h>
 #include <thrust/detail/copy.h>
 
@@ -27,23 +27,23 @@ namespace detail
 
 
 template<typename T, typename Space>
-  uninitialized_array<T,Space>
-    ::uninitialized_array(size_type n)
+  temporary_array<T,Space>
+    ::temporary_array(size_type n)
       :super_t(n)
 {
   ;
-} // end uninitialized_array::uninitialized_array()
+} // end temporary_array::temporary_array()
 
 
 template<typename T, typename Space>
   template<typename InputIterator>
-    uninitialized_array<T,Space>
-      ::uninitialized_array(InputIterator first, InputIterator last)
+    temporary_array<T,Space>
+      ::temporary_array(InputIterator first, InputIterator last)
         : super_t()
 {
   super_t::allocate(thrust::distance(first,last));
   thrust::copy(first, last, super_t::begin());
-} // end uninitialized_array::uninitialized_array()
+} // end temporary_array::temporary_array()
 
 } // end detail
 

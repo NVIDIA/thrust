@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/minmax.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/arch.h>
@@ -167,7 +167,7 @@ template<typename InputIterator,
   if (n == 0)
     return init;
 
-  typedef          uninitialized_array<OutputType, thrust::cuda::tag> OutputArray;
+  typedef          temporary_array<OutputType, thrust::cuda::tag> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
   typedef unordered_reduce_closure<InputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;

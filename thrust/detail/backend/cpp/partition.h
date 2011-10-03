@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/pair.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/backend/dereference.h>
 
@@ -84,8 +84,8 @@ template<typename ForwardIterator,
 {
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::uninitialized_array<T,thrust::cpp::tag> TempRange;
-  typedef typename TempRange::iterator                            TempIterator;
+  typedef thrust::detail::temporary_array<T,thrust::cpp::tag> TempRange;
+  typedef typename TempRange::iterator                        TempIterator;
 
   TempRange temp(first, last);
 

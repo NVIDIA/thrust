@@ -20,7 +20,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
@@ -41,8 +41,8 @@ namespace thrust
 namespace detail
 {
 
-// forward declaration of uninitialized_array
-template<typename,typename> class uninitialized_array;
+// forward declaration of temporary_array
+template<typename,typename> class temporary_array;
 
 namespace backend
 {
@@ -497,7 +497,7 @@ OutputIterator inclusive_scan(InputIterator first,
 
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-  thrust::detail::uninitialized_array<ValueType,thrust::cuda::tag> block_results(decomp.size());
+  thrust::detail::temporary_array<ValueType,thrust::cuda::tag> block_results(decomp.size());
   
   // TODO tune this
   const static unsigned int CTA_SIZE = 32 * 7;
@@ -580,7 +580,7 @@ OutputIterator exclusive_scan(InputIterator first,
 
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition<IndexType>(last - first);
 
-  thrust::detail::uninitialized_array<ValueType,thrust::cuda::tag> block_results(decomp.size() + 1);
+  thrust::detail::temporary_array<ValueType,thrust::cuda::tag> block_results(decomp.size() + 1);
   
   // TODO tune this
   const static unsigned int CTA_SIZE = 32 * 5;

@@ -23,7 +23,7 @@
 #include <thrust/advance.h>
 
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 namespace thrust
 {
@@ -44,7 +44,7 @@ template<typename ForwardIterator,
   typedef typename thrust::iterator_space<ForwardIterator>::type Space;
 
   // copy input to temp buffer
-  thrust::detail::uninitialized_array<InputType,Space> temp(first, last);
+  thrust::detail::temporary_array<InputType,Space> temp(first, last);
 
   // count the size of the true partition
   typename thrust::iterator_difference<ForwardIterator>::type num_true = thrust::count_if(first,last,pred);

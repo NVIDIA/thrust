@@ -22,7 +22,7 @@
 #include <thrust/iterator/transform_iterator.h>
 
 #include <thrust/detail/minmax.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/util/blocking.h>
 
@@ -46,7 +46,7 @@ namespace detail
 {
 
 // XXX WAR circular inclusion problem with this forward declaration
-template <typename,typename> class uninitialized_array;
+template <typename,typename> class temporary_array;
 
 namespace backend
 {
@@ -166,7 +166,7 @@ template<typename InputIterator1,
 
   thrust::detail::backend::uniform_decomposition<IndexType> decomp = thrust::detail::backend::cuda::default_decomposition(last - first);
 
-  thrust::detail::uninitialized_array<IndexType, thrust::cuda::tag> block_results(decomp.size());
+  thrust::detail::temporary_array<IndexType, thrust::cuda::tag> block_results(decomp.size());
 
   // convert stencil into an iterator that produces integral values in {0,1}
   typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;

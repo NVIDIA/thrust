@@ -20,7 +20,7 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 #include <thrust/detail/backend/decompose.h>
 
@@ -161,7 +161,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
   Decomposition decomp = thrust::detail::backend::cuda::default_decomposition(last - first);
 
   // allocate temporary storage
-  thrust::detail::uninitialized_array<InputType,Space> temp(decomp.size() - 1);
+  thrust::detail::temporary_array<InputType,Space> temp(decomp.size() - 1);
 
   // gather last value in each interval
   detail::last_index_in_each_interval<Decomposition> unary_op(decomp);
@@ -171,7 +171,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                  temp.begin());
 
   
-  typedef typename thrust::detail::uninitialized_array<InputType,Space>::iterator InputIterator2;
+  typedef typename thrust::detail::temporary_array<InputType,Space>::iterator InputIterator2;
   typedef detail::adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition> Closure;
 
   Closure closure(first, temp.begin(), result, binary_op, decomp); 

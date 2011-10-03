@@ -25,7 +25,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 namespace thrust
 {
@@ -58,9 +58,9 @@ struct _trivial_sequence<Iterator, thrust::detail::false_type>
 {
     typedef typename thrust::iterator_space<Iterator>::type iterator_space;
     typedef typename thrust::iterator_value<Iterator>::type iterator_value;
-    typedef typename thrust::detail::uninitialized_array<iterator_value, iterator_space>::iterator iterator_type;
+    typedef typename thrust::detail::temporary_array<iterator_value, iterator_space>::iterator iterator_type;
     
-    thrust::detail::uninitialized_array<iterator_value, iterator_space> buffer;
+    thrust::detail::temporary_array<iterator_value, iterator_space> buffer;
 
     _trivial_sequence(Iterator first, Iterator last) : buffer(first, last)
     {

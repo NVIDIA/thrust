@@ -18,7 +18,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 
 #include <thrust/detail/backend/reduce_intervals.h>
 #include <thrust/detail/backend/default_decomposition.h>
@@ -68,7 +68,7 @@ template<typename RandomAccessIterator,
   thrust::detail::backend::uniform_decomposition<SizeType> decomp2(decomp1.size() + 1, 1, 1);
 
   // allocate storage for the initializer and partial sums
-  thrust::detail::uninitialized_array<OutputType,Space> partial_sums(decomp1.size() + 1);
+  thrust::detail::temporary_array<OutputType,Space> partial_sums(decomp1.size() + 1);
   
   // set first element of temp array to init
   partial_sums[0] = init;

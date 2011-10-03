@@ -42,7 +42,7 @@
 #include <thrust/detail/backend/cuda/block/merging_sort.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/arch.h>
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/tag.h>
 
 
@@ -1042,10 +1042,10 @@ template<typename RandomAccessIterator1,
 
   typedef thrust::cuda::tag space;
 
-  uninitialized_array<KeyType,      space>      splitters(num_splitters);
-  uninitialized_array<unsigned int, space>      splitters_pos(num_splitters);
-  uninitialized_array<KeyType,      space>      merged_splitters(num_splitters);
-  uninitialized_array<unsigned int, space>      merged_splitters_pos(num_splitters);
+  temporary_array<KeyType,      space>      splitters(num_splitters);
+  temporary_array<unsigned int, space>      splitters_pos(num_splitters);
+  temporary_array<KeyType,      space>      merged_splitters(num_splitters);
+  temporary_array<unsigned int, space>      merged_splitters_pos(num_splitters);
 
   extract_splitters<<<grid_size, block_size>>>(keys_first, n, splitters.begin(), splitters_pos.begin());
   synchronize_if_enabled("extract_splitters");
@@ -1083,8 +1083,8 @@ template<typename RandomAccessIterator1,
   grid_size = min<size_t>(num_blocks, max_num_blocks);
 
   // reuse the splitters_pos storage for rank1
-  uninitialized_array<unsigned int, space> &rank1 = splitters_pos;
-  uninitialized_array<unsigned int, space> rank2(num_splitters);
+  temporary_array<unsigned int, space> &rank1 = splitters_pos;
+  temporary_array<unsigned int, space> rank2(num_splitters);
 
   find_splitter_ranks<block_size, log_block_size>
     <<<grid_size,block_size>>>
@@ -1204,14 +1204,14 @@ template<typename RandomAccessIterator1,
 
   // allocate scratch space
   using namespace thrust::detail;
-  uninitialized_array<KeyType,   cuda::tag> temp_keys(n);
-  uninitialized_array<ValueType, cuda::tag> temp_vals(n);
+  temporary_array<KeyType,   cuda::tag> temp_keys(n);
+  temporary_array<ValueType, cuda::tag> temp_vals(n);
 
   // give iterators simpler names
   RandomAccessIterator1 keys0 = keys_first;
   RandomAccessIterator2 vals0 = values_first;
-  typename uninitialized_array<KeyType,   cuda::tag>::iterator keys1 = temp_keys.begin();
-  typename uninitialized_array<ValueType, cuda::tag>::iterator vals1 = temp_vals.begin();
+  typename temporary_array<KeyType,   cuda::tag>::iterator keys1 = temp_keys.begin();
+  typename temporary_array<ValueType, cuda::tag>::iterator vals1 = temp_vals.begin();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.

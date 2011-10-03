@@ -14,8 +14,8 @@
  *  limitations under the License.
  */
 
-/*! \file uninitialized_array.h
- *  \brief Container-like class for wrapped malloc/free.
+/*! \file temporary_array.h
+ *  \brief Container-like class temporary storage inside algorithms.
  */
 
 #pragma once
@@ -36,7 +36,7 @@ namespace detail
 
 // XXX eliminate this
 template<typename T, typename Space>
-  struct choose_uninitialized_array_allocator
+  struct choose_temporary_array_allocator
     : eval_if<
         // catch any_space_tag and output an error
         is_convertible<Space, thrust::any_space_tag>::value,
@@ -57,26 +57,26 @@ template<typename T, typename Space>
 
 
 template<typename T, typename Space>
-  class uninitialized_array
+  class temporary_array
     : public contiguous_storage<
                T,
-               typename choose_uninitialized_array_allocator<T,Space>::type
+               typename choose_temporary_array_allocator<T,Space>::type
              >
 {
   private:
     typedef contiguous_storage<
       T,
-      typename choose_uninitialized_array_allocator<T,Space>::type
+      typename choose_temporary_array_allocator<T,Space>::type
     > super_t;
 
   public:
     typedef typename super_t::size_type size_type;
 
-    explicit uninitialized_array(size_type n);
+    explicit temporary_array(size_type n);
 
     template<typename InputIterator>
-    uninitialized_array(InputIterator first, InputIterator last);
-}; // end uninitialized_array
+    temporary_array(InputIterator first, InputIterator last);
+}; // end temporary_array
 
 
 // XXX eliminate this when we do ranges for real
@@ -96,7 +96,7 @@ template<typename Iterator>
 
 
 // if the space of Iterator1 is convertible to Iterator2, then just make a shallow
-// copy of the range.  else, use a uninitialized_array
+// copy of the range.  else, use a temporary_array
 template<typename Iterator1, typename Iterator2>
   struct move_to_space_base
     : public eval_if<
@@ -108,7 +108,7 @@ template<typename Iterator1, typename Iterator2>
           iterator_range<Iterator1>
         >,
         identity_<
-          uninitialized_array<
+          temporary_array<
             typename thrust::iterator_value<Iterator1>::type,
             typename thrust::iterator_space<Iterator2>::type
           >
@@ -135,5 +135,5 @@ template<typename Iterator1, typename Iterator2>
 
 } // end thrust
 
-#include <thrust/detail/uninitialized_array.inl>
+#include <thrust/detail/temporary_array.inl>
 

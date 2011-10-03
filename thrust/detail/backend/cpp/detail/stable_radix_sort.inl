@@ -22,7 +22,7 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/system/cpp/detail/tag.h>
 
@@ -356,7 +356,7 @@ void stable_radix_sort(RandomAccessIterator first,
 
   size_t N = last - first;
   
-  thrust::detail::uninitialized_array<KeyType, thrust::cpp::tag> temp(N);
+  thrust::detail::temporary_array<KeyType, thrust::cpp::tag> temp(N);
   
   detail::radix_sort(first, temp.begin(), N);
 }
@@ -377,7 +377,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
 
   size_t N = last1 - first1;
   
-  thrust::detail::uninitialized_array<KeyType, thrust::cpp::tag> temp1(N);
+  thrust::detail::temporary_array<KeyType, thrust::cpp::tag> temp1(N);
   // XXX why is host_vector used here?
   thrust::host_vector<ValueType>                                 temp2(N);
 

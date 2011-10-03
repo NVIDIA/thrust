@@ -25,7 +25,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/transform.h>
 
-#include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/internal_functional.h>
 
@@ -50,7 +50,7 @@ ForwardIterator unique(ForwardIterator first,
     typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
     typedef typename thrust::iterator_space<ForwardIterator>::type        Space;
 
-    thrust::detail::uninitialized_array<InputType,Space> input(first, last);
+    thrust::detail::temporary_array<InputType,Space> input(first, last);
 
     return thrust::detail::backend::generic::unique_copy(input.begin(), input.end(), first, binary_pred);
 }
@@ -72,7 +72,7 @@ OutputIterator unique_copy(InputIterator first,
     if(first == last)
         return output;
 
-    thrust::detail::uninitialized_array<int,Space> stencil(thrust::distance(first, last));
+    thrust::detail::temporary_array<int,Space> stencil(thrust::distance(first, last));
 
     // mark first element in each group
     stencil[0] = 1; 
@@ -96,8 +96,8 @@ template <typename ForwardIterator1,
 
     ForwardIterator2 values_last = values_first + (keys_last - keys_first);
 
-    thrust::detail::uninitialized_array<InputType1,Space> keys(keys_first, keys_last);
-    thrust::detail::uninitialized_array<InputType2,Space> vals(values_first, values_last);
+    thrust::detail::temporary_array<InputType1,Space> keys(keys_first, keys_last);
+    thrust::detail::temporary_array<InputType2,Space> vals(values_first, values_last);
 
     return thrust::detail::backend::generic::unique_by_key_copy
         (keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
@@ -130,7 +130,7 @@ template <typename InputIterator1,
 
     difference_type n = thrust::distance(keys_first, keys_last);
 
-    thrust::detail::uninitialized_array<int,Space> stencil(n);
+    thrust::detail::temporary_array<int,Space> stencil(n);
 
     // mark first element in each group
     stencil[0] = 1; 
