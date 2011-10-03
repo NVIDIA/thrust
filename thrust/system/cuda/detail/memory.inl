@@ -17,11 +17,12 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/cpp/detail/tag.h>
-#include <thrust/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/swap.h>
 #include <limits>
 
 #include <cuda_runtime_api.h>
+#include <thrust/system/system_error.h>
 #include <thrust/system/cuda_error.h>
 #include <thrust/system/detail/bad_alloc.h>
 
