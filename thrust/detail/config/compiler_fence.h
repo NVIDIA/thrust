@@ -21,9 +21,16 @@
 // msvc case
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 
+#ifndef _DEBUG
+
 #include <intrin.h>
 #pragma intrinsic(_ReadWriteBarrier)
 #define __thrust_compiler_fence() _ReadWriteBarrier()
+#else
+
+#define __thrust_compiler_fence() do {} while (0)
+
+#endif // _DEBUG
 
 // gcc case
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
@@ -35,7 +42,7 @@
 #define __thrust_compiler_fence() __sync_synchronize()
 #else
 // allow the code to compile without any guarantees
-#define __thrust_compiler_fence()
+#define __thrust_compiler_fence() do {} while (0)
 #endif // THRUST_GCC_VERSION
 
 // clean up after ourselves
@@ -45,7 +52,7 @@
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_UNKNOWN
 
 // allow the code to compile without any guarantees
-#define __thrust_compiler_fence()
+#define __thrust_compiler_fence() do {} while (0)
 
 #endif
 
