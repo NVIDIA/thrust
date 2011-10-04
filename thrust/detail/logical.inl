@@ -19,8 +19,10 @@
  *  \brief Inline file for logical.h.
  */
 
-#include <thrust/find.h>
-#include <thrust/detail/internal_functional.h>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/logical.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -28,19 +30,34 @@ namespace thrust
 template <class InputIterator, class Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    return thrust::find_if(first, last, thrust::detail::not1(pred)) == last;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::all_of;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return all_of(select_system(space()), first, last, pred);
 }
 
 template <class InputIterator, class Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    return thrust::find_if(first, last, pred) != last;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::any_of;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return any_of(select_system(space()), first, last, pred);
 }
 
 template <class InputIterator, class Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
-    return !thrust::any_of(first, last, pred);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::none_of;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return none_of(select_system(space()), first, last, pred);
 }
 
 } // end namespace thrust
