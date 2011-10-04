@@ -19,28 +19,44 @@
  *  \brief Inline file for adjacent_difference.h
  */
 
-#include <thrust/functional.h>
-#include <thrust/detail/backend/adjacent_difference.h>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/adjacent_difference.h>
+
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/adjacent_difference.h>
+#include <thrust/detail/backend/omp/adjacent_difference.h>
+#include <thrust/detail/backend/cuda/adjacent_difference.h>
 
 namespace thrust
 {
 
-template <class InputIterator, class OutputIterator>
+template <typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last, 
                                    OutputIterator result)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::adjacent_difference;
 
-  thrust::minus<InputType> binary_op;
-  return thrust::adjacent_difference(first, last, result, binary_op);
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return adjacent_difference(select_system(space1(), space2()), first, last, result);
 } // end adjacent_difference()
 
-template <class InputIterator, class OutputIterator, class BinaryFunction>
+template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  return thrust::detail::backend::adjacent_difference(first, last, result, binary_op);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::adjacent_difference;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return adjacent_difference(select_system(space1(), space2()), first, last, result, binary_op);
 } // end adjacent_difference()
 
 

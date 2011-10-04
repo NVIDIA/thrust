@@ -21,8 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
@@ -35,7 +36,8 @@ namespace cpp
 {
 
 template <class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {

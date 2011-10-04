@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -30,8 +33,14 @@ namespace backend
 namespace generic
 {
 
+template <class InputIterator, class OutputIterator>
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first, InputIterator last,
+                                   OutputIterator result);
+
 template <class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);
 

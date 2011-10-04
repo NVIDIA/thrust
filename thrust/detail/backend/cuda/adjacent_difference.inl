@@ -144,7 +144,8 @@ struct adjacent_difference_closure
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {

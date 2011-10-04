@@ -14,9 +14,12 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/adjacent_difference.h>
+#include <thrust/detail/backend/generic/select_system.h>
 
+#include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/temporary_array.h>
 #include <thrust/transform.h>
 
@@ -29,8 +32,26 @@ namespace backend
 namespace generic
 {
 
+template <class InputIterator, class OutputIterator>
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first, InputIterator last,
+                                   OutputIterator result)
+{
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::adjacent_difference;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  thrust::minus<InputType> binary_op;
+
+  return adjacent_difference(select_system(space1(), space2()), first, last, result, binary_op);
+} // end adjacent_difference()
+
 template <class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(InputIterator first, InputIterator last,
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {

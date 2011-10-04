@@ -14,15 +14,11 @@
  *  limitations under the License.
  */
 
-
-/*! \file adjacent_difference.h
- *  \brief CUDA implementation of adjacent_difference.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
+#include <thrust/detail/backend/generic/adjacent_difference.h>
 
 namespace thrust
 {
@@ -30,19 +26,21 @@ namespace detail
 {
 namespace backend
 {
-namespace cuda
+namespace omp
 {
 
-template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(tag,
-                                   InputIterator first, InputIterator last,
-                                   OutputIterator result,
-                                   BinaryFunction binary_op);
+template<typename InputIterator, typename OutputIterator, typename BinaryFunction>
+  OutputIterator adjacent_difference(tag,
+                                     InputIterator first, InputIterator last,
+                                     OutputIterator result,
+                                     BinaryFunction binary_op)
+{
+  // omp prefers generic::adjacent_difference to cpp::adjacent_difference
+  return thrust::detail::backend::generic::adjacent_difference(tag(), first, last, result, binary_op);
+} // end adjacent_difference()
 
-} // end namespace cuda
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
-
-#include <thrust/detail/backend/cuda/adjacent_difference.inl>
+} // end omp
+} // end backend
+} // end detail
+} // end thrust
 
