@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -30,47 +33,119 @@ namespace backend
 namespace generic
 {
 
-template <class ForwardIterator, class T, class StrictWeakOrdering>
-ForwardIterator lower_bound(ForwardIterator begin,
+
+template <typename ForwardIterator, typename T>
+ForwardIterator lower_bound(tag, 
+                            ForwardIterator begin,
+                            ForwardIterator end,
+                            const T& value);
+
+template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator lower_bound(tag,
+                            ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp);
 
-template <class ForwardIterator, class T, class StrictWeakOrdering>
-ForwardIterator upper_bound(ForwardIterator begin,
+
+template <typename ForwardIterator, typename T>
+ForwardIterator upper_bound(tag,
+                            ForwardIterator begin,
+                            ForwardIterator end,
+                            const T& value);
+
+template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator upper_bound(tag, 
+                            ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp);
 
-template <class ForwardIterator, class T, class StrictWeakOrdering>
-bool binary_search(ForwardIterator begin,
+
+template <typename ForwardIterator, typename T>
+bool binary_search(tag,
+                   ForwardIterator begin,
+                   ForwardIterator end,
+                   const T& value);
+
+template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+bool binary_search(tag,
+                   ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
                    StrictWeakOrdering comp);
 
-template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator lower_bound(ForwardIterator begin, 
+
+template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(tag,
+                           ForwardIterator begin, 
+                           ForwardIterator end,
+                           InputIterator values_begin, 
+                           InputIterator values_end,
+                           OutputIterator output);
+
+template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator lower_bound(tag,
+                           ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
                            InputIterator values_end,
                            OutputIterator output,
                            StrictWeakOrdering comp);
 
-template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator upper_bound(ForwardIterator begin, 
+
+template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(tag,
+                           ForwardIterator begin, 
+                           ForwardIterator end,
+                           InputIterator values_begin, 
+                           InputIterator values_end,
+                           OutputIterator output);
+
+template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator upper_bound(tag,
+                           ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
                            InputIterator values_end,
                            OutputIterator output,
                            StrictWeakOrdering comp);
 
-template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
-OutputIterator binary_search(ForwardIterator begin, 
+
+template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(tag,
+                             ForwardIterator begin, 
+                             ForwardIterator end,
+                             InputIterator values_begin, 
+                             InputIterator values_end,
+                             OutputIterator output);
+
+template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator binary_search(tag,
+                             ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
                              InputIterator values_end,
                              OutputIterator output,
                              StrictWeakOrdering comp);
+
+
+template <typename ForwardIterator, typename LessThanComparable>
+thrust::pair<ForwardIterator,ForwardIterator>
+equal_range(tag,
+            ForwardIterator first,
+            ForwardIterator last,
+            const LessThanComparable &value);
+
+template <typename ForwardIterator, typename LessThanComparable, typename StrictWeakOrdering>
+thrust::pair<ForwardIterator,ForwardIterator>
+equal_range(tag,
+            ForwardIterator first,
+            ForwardIterator last,
+            const LessThanComparable &value,
+            StrictWeakOrdering comp);
+
+
 
 } // end namespace generic
 } // end namespace backend

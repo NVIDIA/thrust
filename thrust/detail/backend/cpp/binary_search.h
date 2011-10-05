@@ -26,6 +26,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/backend/dereference.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 // TODO replace the code below with calls to thrust::detail::backend::generic::scalar::*
 //      when warnings about __host__ calling __host__ __device__ are silenceable
@@ -40,7 +41,8 @@ namespace cpp
 {
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator lower_bound(ForwardIterator first,
+ForwardIterator lower_bound(tag,
+                            ForwardIterator first,
                             ForwardIterator last,
                             const T& val,
                             StrictWeakOrdering comp)
@@ -73,7 +75,8 @@ ForwardIterator lower_bound(ForwardIterator first,
 
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator upper_bound(ForwardIterator first,
+ForwardIterator upper_bound(tag,
+                            ForwardIterator first,
                             ForwardIterator last,
                             const T& val, 
                             StrictWeakOrdering comp)
@@ -105,12 +108,13 @@ ForwardIterator upper_bound(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-bool binary_search(ForwardIterator first,
+bool binary_search(tag,
+                   ForwardIterator first,
                    ForwardIterator last,
                    const T& val, 
                    StrictWeakOrdering comp)
 {
-  ForwardIterator iter = thrust::detail::backend::cpp::lower_bound(first,last,val,comp);
+  ForwardIterator iter = thrust::detail::backend::cpp::lower_bound(tag(),first,last,val,comp);
   return iter != last && !comp(val, backend::dereference(iter));
 }
 
