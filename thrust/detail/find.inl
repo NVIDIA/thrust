@@ -19,9 +19,10 @@
  *  \brief Inline file for find.h
  */
 
-#include <thrust/detail/backend/find.h>
-#include <thrust/detail/internal_functional.h>
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/find.h>
 
 namespace thrust
 {
@@ -31,7 +32,12 @@ InputIterator find(InputIterator first,
                    InputIterator last,
                    const T& value)
 {
-    return thrust::find_if(first, last, thrust::detail::equal_to_value<T>(value));
+    using thrust::detail::backend::generic::select_system;
+    using thrust::detail::backend::generic::find;
+
+    typedef typename thrust::iterator_space<InputIterator>::type space;
+
+    return find(select_system(space()), first, last, value);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -39,7 +45,12 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    return thrust::detail::backend::find_if(first, last, pred);
+    using thrust::detail::backend::generic::select_system;
+    using thrust::detail::backend::generic::find_if;
+
+    typedef typename thrust::iterator_space<InputIterator>::type space;
+
+    return find_if(select_system(space()), first, last, pred);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -47,7 +58,12 @@ InputIterator find_if_not(InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
-    return thrust::find_if(first, last, thrust::detail::not1(pred));
+    using thrust::detail::backend::generic::select_system;
+    using thrust::detail::backend::generic::find_if_not;
+
+    typedef typename thrust::iterator_space<InputIterator>::type space;
+
+    return find_if_not(select_system(space()), first, last, pred);
 }
 
 } // end namespace thrust

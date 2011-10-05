@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+#include <thrust/find.h>
 #include <thrust/detail/backend/reduce.h>
 
 #include <thrust/tuple.h>
@@ -21,6 +23,8 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/detail/internal_functional.h>
+
 
 // Contributed by Erich Elsen
 
@@ -32,6 +36,18 @@ namespace backend
 {
 namespace generic
 {
+
+
+template<typename InputIterator, typename T>
+InputIterator find(tag,
+                   InputIterator first,
+                   InputIterator last,
+                   const T& value)
+{
+    // XXX use a placeholder expression here
+    return thrust::find_if(first, last, thrust::detail::equal_to_value<T>(value));
+} // end find()
+
 
 template <typename TupleType>
 struct find_if_functor
@@ -51,7 +67,8 @@ struct find_if_functor
     
 
 template <typename InputIterator, typename Predicate>
-InputIterator find_if(InputIterator first,
+InputIterator find_if(tag,
+                      InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
@@ -108,6 +125,16 @@ InputIterator find_if(InputIterator first,
     //nothing was found if we reach here...
     return first + n;
 }
+
+
+template<typename InputIterator, typename Predicate>
+InputIterator find_if_not(tag,
+                          InputIterator first,
+                          InputIterator last,
+                          Predicate pred)
+{
+    return thrust::find_if(first, last, thrust::detail::not1(pred));
+} // end find()
 
 } // end namespace generic
 } // end namespace backend

@@ -17,6 +17,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -26,10 +29,23 @@ namespace backend
 namespace generic
 {
 
+template <typename InputIterator, typename T>
+InputIterator find(tag,
+                   InputIterator first,
+                   InputIterator last,
+                   const T& value);
+
 template <typename InputIterator, typename Predicate>
-InputIterator find_if(InputIterator first,
+InputIterator find_if(tag,
+                      InputIterator first,
                       InputIterator last,
                       Predicate pred);
+
+template <typename InputIterator, typename Predicate>
+InputIterator find_if_not(tag,
+                          InputIterator first,
+                          InputIterator last,
+                          Predicate pred);
 
 } // end namespace generic
 } // end namespace backend
