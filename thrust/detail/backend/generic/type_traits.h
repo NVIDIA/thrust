@@ -25,6 +25,10 @@
 
 namespace thrust
 {
+
+// forward declaration of any_space_tag for any_conversion below
+struct any_space_tag;
+
 namespace detail
 {
 namespace backend
@@ -34,16 +38,19 @@ namespace backend
 namespace generic_type_traits_ns
 {
 
+typedef char yes;
+typedef char (&no)[2];
+
+struct any_conversion
+{
+  template<typename T> any_conversion(const T &);
+
+  // add this extra constructor to disambiguate conversion from any_space_tag
+  any_conversion(const any_space_tag &);
+};
+
 namespace get_temporary_buffer_exists_ns
 {
-  typedef char yes;
-  typedef char (&no)[2];
-
-  struct any_conversion
-  {
-    template<typename T> any_conversion(const T &);
-  };
-
   template<typename T>
   no get_temporary_buffer(const any_conversion &, const any_conversion &);
 
@@ -61,6 +68,56 @@ namespace get_temporary_buffer_exists_ns
   };
 } // end get_temporary_buffer_ns
 
+namespace select_system_exists_ns
+{
+  no select_system(const any_conversion &);
+  no select_system(const any_conversion &, const any_conversion &);
+  no select_system(const any_conversion &, const any_conversion &, const any_conversion &);
+  no select_system(const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &);
+
+  template<typename T> yes check(const T &);
+
+  no check(no);
+
+  template<typename Tag>
+    struct select_system1_exists
+  {
+    static Tag &tag;
+
+    static const bool value = sizeof(check(select_system(tag))) == sizeof(yes);
+  };
+
+  template<typename Tag1, typename Tag2>
+    struct select_system2_exists
+  {
+    static Tag1 &tag1;
+    static Tag2 &tag2;
+
+    static const bool value = sizeof(check(select_system(tag1,tag2))) == sizeof(yes);
+  };
+
+  template<typename Tag1, typename Tag2, typename Tag3>
+    struct select_system3_exists
+  {
+    static Tag1 &tag1;
+    static Tag2 &tag2;
+    static Tag3 &tag3;
+
+    static const bool value = sizeof(check(select_system(tag1,tag2,tag3))) == sizeof(yes);
+  };
+
+  template<typename Tag1, typename Tag2, typename Tag3, typename Tag4>
+    struct select_system4_exists
+  {
+    static Tag1 &tag1;
+    static Tag2 &tag2;
+    static Tag3 &tag3;
+    static Tag4 &tag4;
+
+    static const bool value = sizeof(check(select_system(tag1,tag2,tag3,tag4))) == sizeof(yes);
+  };
+} // end select_system_exists_ns
+
 } // end generic_type_traits_ns
 
 namespace generic
@@ -71,7 +128,27 @@ template<typename T, typename Tag, typename Size>
     : generic_type_traits_ns::get_temporary_buffer_exists_ns::get_temporary_buffer_exists<T,Tag,Size>
 {};
 
-} // end backend
+template<typename Tag>
+  struct select_system1_exists
+    : generic_type_traits_ns::select_system_exists_ns::select_system1_exists<Tag>
+{};
+
+template<typename Tag1, typename Tag2>
+  struct select_system2_exists
+    : generic_type_traits_ns::select_system_exists_ns::select_system2_exists<Tag1,Tag2>
+{};
+
+template<typename Tag1, typename Tag2, typename Tag3>
+  struct select_system3_exists
+    : generic_type_traits_ns::select_system_exists_ns::select_system3_exists<Tag1,Tag2,Tag3>
+{};
+
+template<typename Tag1, typename Tag2, typename Tag3, typename Tag4>
+  struct select_system4_exists
+    : generic_type_traits_ns::select_system_exists_ns::select_system4_exists<Tag1,Tag2,Tag3,Tag4>
+{};
+
+} // end generic
 } // end backend
 } // end detail
 } // end thrust

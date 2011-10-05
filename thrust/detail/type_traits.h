@@ -424,7 +424,11 @@ template<typename T>
 template<bool, typename T = void> struct enable_if {};
 template<typename T>              struct enable_if<true, T> {typedef T type;};
 
+template<bool, typename T> struct lazy_enable_if {};
+template<typename T>       struct lazy_enable_if<true, T> {typedef typename T::type type;};
+
 template<bool condition, typename T = void> struct disable_if : enable_if<!condition, T> {};
+template<bool condition, typename T>        struct lazy_disable_if : lazy_enable_if<!condition, T> {};
 
 
 template<typename T1, typename T2>
