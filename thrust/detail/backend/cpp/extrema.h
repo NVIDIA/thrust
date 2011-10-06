@@ -21,9 +21,11 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/pair.h>
 
 #include <thrust/detail/backend/dereference.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -35,7 +37,8 @@ namespace cpp
 {
 
 template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(ForwardIterator first, 
+ForwardIterator min_element(tag,
+                            ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
@@ -51,7 +54,8 @@ ForwardIterator min_element(ForwardIterator first,
 
 
 template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(ForwardIterator first, 
+ForwardIterator max_element(tag,
+                            ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
@@ -67,7 +71,8 @@ ForwardIterator max_element(ForwardIterator first,
 
 
 template <typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+                                                             ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {

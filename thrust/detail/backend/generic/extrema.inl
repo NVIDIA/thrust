@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/extrema.h>
+#include <thrust/functional.h>
 #include <thrust/pair.h>
 #include <thrust/reduce.h>
 #include <thrust/transform_reduce.h>
@@ -134,9 +137,19 @@ struct duplicate_tuple
 
 } // end namespace detail
 
+template <typename ForwardIterator>
+ForwardIterator min_element(tag,
+                            ForwardIterator first,
+                            ForwardIterator last)
+{
+  typedef typename thrust::iterator_value<ForwardIterator>::type value_type;
+
+  return thrust::min_element(first, last, thrust::less<value_type>());
+} // end min_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(ForwardIterator first,
+ForwardIterator min_element(tag,
+                            ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
@@ -156,8 +169,19 @@ ForwardIterator min_element(ForwardIterator first,
   return first + thrust::get<1>(result);
 } // end min_element()
 
+template <typename ForwardIterator>
+ForwardIterator max_element(tag,
+                            ForwardIterator first,
+                            ForwardIterator last)
+{
+  typedef typename thrust::iterator_value<ForwardIterator>::type value_type;
+
+  return thrust::max_element(first, last, thrust::less<value_type>());
+} // end max_element()
+
 template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(ForwardIterator first,
+ForwardIterator max_element(tag,
+                            ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
@@ -177,8 +201,19 @@ ForwardIterator max_element(ForwardIterator first,
   return first + thrust::get<1>(result);
 } // end max_element()
 
+template <typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+                                                             ForwardIterator first, 
+                                                             ForwardIterator last)
+{
+  typedef typename thrust::iterator_value<ForwardIterator>::type value_type;
+
+  return thrust::minmax_element(first, last, thrust::less<value_type>());
+} // end minmax_element()
+
 template <typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+                                                             ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
