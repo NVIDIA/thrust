@@ -20,6 +20,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/detail/backend/generic/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -75,6 +76,13 @@ __host__ __device__
 {
   // for now, return minimum_space
   return typename thrust::detail::minimum_space<Tag1,Tag2,Tag3,Tag4>::type();
+} // end select_system()
+
+// map a single any_space_tag to device_space_tag
+inline __host__ __device__
+thrust::device_space_tag select_system(thrust::any_space_tag)
+{
+  return thrust::device_space_tag();
 } // end select_system()
 
 } // end generic
