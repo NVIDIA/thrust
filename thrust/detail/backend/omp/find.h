@@ -16,14 +16,14 @@
 
 
 /*! \file find.h
- *  \brief C++ implementation of find_if. 
+ *  \brief OpenMP implementation of find_if. 
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/generic/find.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -31,7 +31,7 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace omp
 {
 
 template <typename InputIterator, typename Predicate>
@@ -40,19 +40,11 @@ InputIterator find_if(tag,
                       InputIterator last,
                       Predicate pred)
 {
-  while(first != last)
-  {
-    if (pred(backend::dereference(first)))
-      return first;
-
-    ++first;
-  }
-
-  // return first so zip_iterator works correctly
-  return first;
+  // omp prefers generic::find_if to cpp::find_if
+  return thrust::detail::backend::generic::find_if(tag(), first, last, pred);
 }
 
-} // end namespace cpp
+} // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust

@@ -24,6 +24,11 @@
 #include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/detail/backend/generic/find.h>
 
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/find.h>
+#include <thrust/detail/backend/omp/find.h>
+
 namespace thrust
 {
 
