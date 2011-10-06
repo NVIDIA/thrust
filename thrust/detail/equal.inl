@@ -20,9 +20,9 @@
  */
 
 #include <thrust/equal.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/equal.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/mismatch.h>
-#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -31,9 +31,13 @@ template <typename InputIterator1, typename InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::equal;
 
-    return thrust::equal(first1, last1, first2, thrust::detail::equal_to<InputType1>());
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+
+  return equal(select_system(space1(),space2()), first1, last1, first2);
 }
 
 template <typename InputIterator1, typename InputIterator2, 
@@ -41,7 +45,13 @@ template <typename InputIterator1, typename InputIterator2,
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2, BinaryPredicate binary_pred)
 {
-    return thrust::mismatch(first1, last1, first2, binary_pred).first == last1;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::equal;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+
+  return equal(select_system(space1(),space2()), first1, last1, first2, binary_pred);
 }
 
 } // end namespace thrust
