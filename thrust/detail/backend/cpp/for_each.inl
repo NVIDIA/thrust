@@ -28,20 +28,6 @@ namespace cpp
 {
 
 
-template<typename InputIterator,
-         typename UnaryFunction>
-InputIterator for_each(InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f)
-{
-  for(; first != last; ++first)
-  {
-    f(backend::dereference(first));
-  }
-
-  return first;
-} // end for_each()
-
 namespace detail
 {
 
@@ -63,7 +49,33 @@ OutputIterator for_each_n(OutputIterator first,
   return first;
 } // end for_each_n()
 
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(tag,
+                       InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f)
+{
+  for(; first != last; ++first)
+  {
+    f(backend::dereference(first));
+  }
+
+  return first;
+} // end for_each()
+
 } // end namespace detail
+
+template<typename InputIterator,
+         typename UnaryFunction>
+void for_each(tag,
+              InputIterator first,
+              InputIterator last,
+              UnaryFunction f)
+{
+  thrust::detail::backend::cpp::detail::for_each(first, last, f);
+} // end for_each()
+
 } // end namespace cpp
 } // end namespace backend
 } // end namespace detail

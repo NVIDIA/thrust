@@ -21,10 +21,15 @@
  */
 
 #include <thrust/generate.h>
-#include <thrust/for_each.h>
-#include <thrust/detail/type_traits.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/generate.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/internal_functional.h>
+
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/generate.h>
+#include <thrust/detail/backend/omp/generate.h>
+#include <thrust/detail/backend/cuda/generate.h>
 
 namespace thrust
 {
@@ -35,8 +40,12 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
-  return thrust::for_each(first, last, typename detail::generate_functor<Space,Generator>::type(gen));
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::generate;
+
+  typedef typename thrust::iterator_space<ForwardIterator>::type type;
+
+  return generate(select_system(type()), first, last, gen);
 } // end generate()
 
 
@@ -47,10 +56,13 @@ template<typename OutputIterator,
                             Size n,
                             Generator gen)
 {
-  typedef typename thrust::iterator_space<OutputIterator>::type Space;
-  return detail::for_each_n(first, n, typename detail::generate_functor<Space,Generator>::type(gen));
-} // end generate()
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::generate;
 
+  typedef typename thrust::iterator_space<OutputIterator>::type type;
+
+  return generate_n(select_system(type()), first, n, gen);
+} // end generate_n()
 
 } // end thrust
 

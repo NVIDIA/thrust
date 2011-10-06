@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -25,22 +25,23 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace omp
 {
 
 
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(tag,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen);
 
 
-} // end namespace cpp
+} // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/for_each.inl>
+#include <thrust/detail/backend/omp/generate.inl>
 

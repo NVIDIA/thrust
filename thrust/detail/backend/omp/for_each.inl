@@ -73,7 +73,27 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   return first + n;
 } 
 
+template<typename InputIterator,
+         typename UnaryFunction>
+  InputIterator for_each(InputIterator first,
+                         InputIterator last,
+                         UnaryFunction f)
+{
+  return thrust::detail::backend::omp::detail::for_each_n(first, thrust::distance(first,last), f);
+} // end for_each()
+
 } // end namespace detail
+
+template<typename InputIterator,
+         typename UnaryFunction>
+  void for_each(tag,
+                InputIterator first,
+                InputIterator last,
+                UnaryFunction f)
+{
+  thrust::detail::backend::omp::detail::for_each(first, last, f);
+} // end for_each()
+
 } // end namespace omp
 } // end namespace backend
 } // end namespace detail

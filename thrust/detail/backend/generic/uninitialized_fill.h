@@ -14,10 +14,11 @@
  *  limitations under the License.
  */
 
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -25,22 +26,29 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace generic
 {
 
+template<typename ForwardIterator,
+         typename T>
+  void uninitialized_fill(tag,
+                          ForwardIterator first,
+                          ForwardIterator last,
+                          const T &x);
 
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+// XXX this function has no implementation -- it is an error to call it
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(tag,
+                                       ForwardIterator first,
+                                       Size n,
+                                       const T &x);
 
-
-} // end namespace cpp
+} // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/for_each.inl>
+#include <thrust/detail/backend/generic/uninitialized_fill.inl>
 

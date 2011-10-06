@@ -16,6 +16,7 @@
 
 /*! \file for_each.h
  *  \brief Generic implementation of for_each.
+ *         It is an error to call this function; it has no implementation.
  */
 
 #pragma once
@@ -31,14 +32,12 @@ namespace generic
 
 template<typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f);
+void for_each(InputIterator first,
+              InputIterator last,
+              UnaryFunction f);
 
 } // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/backend/generic/for_each.inl>
 

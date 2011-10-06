@@ -2,7 +2,7 @@
  *  Copyright 2008-2011 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ccudaliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -14,8 +14,10 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/backend/for_each.h>
-#include <thrust/distance.h>
+#pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -23,21 +25,23 @@ namespace detail
 {
 namespace backend
 {
-namespace generic
+namespace cuda
 {
 
-template<typename InputIterator,
-         typename UnaryFunction>
-InputIterator for_each(InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f)
-{
-  // all iterators are random access right now, so this is safe
-  return thrust::detail::backend::for_each_n(first, thrust::distance(first,last), f);
-} // end for_each()
 
-} // end generic
-} // end backend
-} // end detail
-} // end thrust
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(tag,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen);
+
+
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
+
+#include <thrust/detail/backend/cuda/generate.inl>
 

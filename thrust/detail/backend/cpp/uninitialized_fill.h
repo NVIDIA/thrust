@@ -28,19 +28,18 @@ namespace backend
 namespace cpp
 {
 
-
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
-
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(tag,
+                                       ForwardIterator first,
+                                       Size n,
+                                       const T &x);
 
 } // end namespace cpp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/for_each.inl>
+#include <thrust/detail/backend/cpp/uninitialized_fill.inl>
 

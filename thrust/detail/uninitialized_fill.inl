@@ -20,9 +20,15 @@
  */
 
 #include <thrust/uninitialized_fill.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/uninitialized_fill.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/uninitialized_fill.h>
-#include <thrust/detail/type_traits.h>
+
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/uninitialized_fill.h>
+#include <thrust/detail/backend/omp/uninitialized_fill.h>
+#include <thrust/detail/backend/cuda/uninitialized_fill.h>
 
 namespace thrust
 {
@@ -33,12 +39,12 @@ template<typename ForwardIterator,
                           ForwardIterator last,
                           const T &x)
 {
-  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::uninitialized_fill;
 
-  typedef detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+  typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
-  detail::dispatch::uninitialized_fill(first, last, x,
-    ValueTypeHasTrivialCopyConstructor());
+  uninitialized_fill(select_system(space()), first, last, x);
 } // end uninitialized_fill()
 
 template<typename ForwardIterator,
@@ -48,12 +54,12 @@ template<typename ForwardIterator,
                                        Size n,
                                        const T &x)
 {
-  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::uninitialized_fill_n;
 
-  typedef detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+  typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
-  return detail::dispatch::uninitialized_fill_n(first, n, x,
-    ValueTypeHasTrivialCopyConstructor());
+  return uninitialized_fill_n(select_system(space()), first, n, x);
 } // end uninitialized_fill_n()
 
 } // end thrust

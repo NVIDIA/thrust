@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/generic/generate.h>
+#include <thrust/for_each.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -25,22 +25,22 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace generic
 {
 
+template<typename ForwardIterator,
+         typename Generator>
+  void generate(tag,
+                ForwardIterator first,
+                ForwardIterator last,
+                Generator gen)
+{
+  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+  return thrust::for_each(first, last, typename thrust::detail::generate_functor<Space,Generator>::type(gen));
+} // end generate()
 
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
-
-
-} // end namespace cpp
+} // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/backend/cpp/for_each.inl>
 

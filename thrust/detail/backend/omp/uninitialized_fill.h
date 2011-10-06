@@ -14,43 +14,32 @@
  *  limitations under the License.
  */
 
-
-/*! \file for_each.h
- *  \brief Device implementation of for_each.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
+namespace omp
+{
 
-
-template<typename OutputIterator,
+template<typename ForwardIterator,
          typename Size,
-         typename UnaryFunction>
-OutputIterator for_each_n(OutputIterator first,
-                          Size n,
-                          UnaryFunction f);
+         typename T>
+  ForwardIterator uninitialized_fill_n(tag,
+                                       ForwardIterator first,
+                                       Size n,
+                                       const T &x);
 
-
-template<typename InputIterator,
-         typename UnaryFunction>
-InputIterator for_each(InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f);
-
-
+} // end namespace omp
 } // end namespace backend
-
 } // end namespace detail
-
 } // end namespace thrust
 
-#include <thrust/detail/backend/for_each.inl>
+#include <thrust/detail/backend/omp/uninitialized_fill.inl>
 

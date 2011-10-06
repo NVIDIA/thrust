@@ -2,7 +2,7 @@
  *  Copyright 2008-2011 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ccudaliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -14,16 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file for_each.h
- *  \brief Defines the interface for a function that executes a 
- *  function or functional for each value in a given range.
- */
-
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/backend/cuda/generate.h>
+#include <thrust/detail/backend/cuda/for_each.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -34,17 +28,19 @@ namespace backend
 namespace cuda
 {
 
-template<typename InputIterator,
-         typename UnaryFunction>
-  void for_each(tag,
-                InputIterator first,
-                InputIterator last,
-                UnaryFunction f);
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(tag,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen)
+{
+  return detail::for_each_n(first, n, typename thrust::detail::generate_functor<tag,Generator>::type(gen));
+} // end generate_n()
 
-} // end namespace cuda
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
-
-#include <thrust/detail/backend/cuda/for_each.inl>
+} // end cuda
+} // end backend
+} // end detail
+} // end thrust
 

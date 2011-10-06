@@ -29,12 +29,13 @@ namespace cpp
 {
 
 
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(tag,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen);
 
 
 } // end namespace cpp
@@ -42,5 +43,5 @@ void for_each(tag,
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/for_each.inl>
+#include <thrust/detail/backend/cpp/generate.inl>
 

@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/omp/generate.h>
+#include <thrust/detail/backend/omp/for_each.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -25,22 +25,22 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace omp
 {
 
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(tag,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen)
+{
+  return detail::for_each_n(first, n, typename thrust::detail::generate_functor<tag,Generator>::type(gen));
+} // end generate_n()
 
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
-
-
-} // end namespace cpp
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
-
-#include <thrust/detail/backend/cpp/for_each.inl>
+} // end omp
+} // end backend
+} // end detail
+} // end thrust
 

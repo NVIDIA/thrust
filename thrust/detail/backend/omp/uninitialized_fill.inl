@@ -14,40 +14,24 @@
  *  limitations under the License.
  */
 
-
-/*! \file uninitialized_fill.h
- *  \brief Defines the interface to the dispatch
- *         layer of the uninitialized_fill function.
- */
-
-#pragma once
-
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/omp/uninitialized_fill.h>
+#include <thrust/detail/backend/omp/for_each.h>
 #include <thrust/fill.h>
-#include <thrust/for_each.h>
-#include <thrust/detail/type_traits.h>
 #include <thrust/detail/internal_functional.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
-
+namespace detail
+{
+namespace backend
+{
+namespace omp
+{
 namespace detail
 {
 
-namespace dispatch
-{
-
-// trivial copy constructor path
-template<typename ForwardIterator,
-         typename T>
-  void uninitialized_fill(ForwardIterator first,
-                          ForwardIterator last,
-                          const T &x,
-                          thrust::detail::true_type) // has_trivial_copy_constructor
-{
-  thrust::fill(first, last, x);
-} // end uninitialized_fill()
-
-// trivial copy constructor path
 template<typename ForwardIterator,
          typename Size,
          typename T>
@@ -56,21 +40,9 @@ template<typename ForwardIterator,
                                        const T &x,
                                        thrust::detail::true_type) // has_trivial_copy_constructor
 {
+  std::cout << "cuda::uninitialized_fill_n(trivial)" << std::endl;
   return thrust::fill_n(first, n, x);
 } // end uninitialized_fill_n()
-
-// non-trivial copy constructor path
-template<typename ForwardIterator,
-         typename T>
-  void uninitialized_fill(ForwardIterator first,
-                          ForwardIterator last,
-                          const T &x,
-                          thrust::detail::false_type) // has_trivial_copy_constructor
-{
-  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
-
-  thrust::for_each(first, last, thrust::detail::uninitialized_fill_functor<ValueType>(x));
-} // end uninitialized_fill()
 
 // non-trivial copy constructor path
 template<typename ForwardIterator,
@@ -81,14 +53,32 @@ template<typename ForwardIterator,
                                        const T &x,
                                        thrust::detail::false_type) // has_trivial_copy_constructor
 {
+  std::cout << "cuda::uninitialized_fill_n(non-trivial)" << std::endl;
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
-  return thrust::detail::for_each_n(first, n, thrust::detail::uninitialized_fill_functor<ValueType>(x));
+  return thrust::detail::backend::omp::detail::for_each_n(first, n, thrust::detail::uninitialized_fill_functor<ValueType>(x));
 } // end uninitialized_fill_n()
-
-} // end dispatch
 
 } // end detail
 
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(tag,
+                                       ForwardIterator first,
+                                       Size n,
+                                       const T &x)
+{
+  typedef typename thrust::iterator_value<ForwardIterator>::type ValueType;
+
+  typedef thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+
+  return thrust::detail::backend::omp::detail::uninitialized_fill_n(first, n, x,
+    ValueTypeHasTrivialCopyConstructor());
+} // end generate_n()
+
+} // end omp
+} // end backend
+} // end detail
 } // end thrust
 

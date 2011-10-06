@@ -19,51 +19,35 @@
  *  \brief Inline file for for_each.h.
  */
 
-#include <thrust/detail/backend/for_each.h>
+#include <thrust/detail/config.h>
+#include <thrust/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/for_each.h>
+
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/for_each.h>
+#include <thrust/detail/backend/omp/for_each.h>
+#include <thrust/detail/backend/cuda/for_each.h>
 
 namespace thrust
 {
 
-namespace detail
-{
-
-
-template<typename OutputIterator,
-         typename Size,
-         typename UnaryFunction>
-  OutputIterator for_each_n(OutputIterator first,
-                            Size n,
-                            UnaryFunction f)
-{
-  return thrust::detail::backend::for_each_n(first, n, f);
-} // end for_each_n()
-
-template<typename InputIterator,
-         typename UnaryFunction>
-  InputIterator for_each(InputIterator first,
-                         InputIterator last,
-                         UnaryFunction f)
-{
-  return thrust::detail::backend::for_each(first, last, f);
-} // end for_each()
-
-
-} // end detail
-
-
-/////////////////
-// Entry Point //
-/////////////////
 template<typename InputIterator,
          typename UnaryFunction>
 void for_each(InputIterator first,
               InputIterator last,
               UnaryFunction f)
 {
-  thrust::detail::for_each(first, last, f);
-} // end for_each()
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::for_each;
 
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return for_each(select_system(space()), first, last, f);
+} // end for_each()
 
 } // end namespace thrust
 

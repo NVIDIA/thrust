@@ -23,6 +23,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/static_assert.h>
 
+#include <thrust/distance.h>
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
 #include <thrust/detail/backend/cuda/detail/launch_calculator.h>
@@ -138,7 +139,27 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   return first + n;
 } 
 
+template<typename InputIterator,
+         typename UnaryFunction>
+  InputIterator for_each(InputIterator first,
+                         InputIterator last,
+                         UnaryFunction f)
+{
+  return thrust::detail::backend::cuda::detail::for_each_n(first, thrust::distance(first,last), f);
+} // end for_each()
+
 } // end namespace detail
+
+template<typename InputIterator,
+         typename UnaryFunction>
+  void for_each(tag,
+                InputIterator first,
+                InputIterator last,
+                UnaryFunction f)
+{
+  thrust::detail::backend::cuda::detail::for_each(first, last, f);
+} // end for_each()
+
 } // end namespace cuda
 } // end namespace backend
 } // end namespace detail

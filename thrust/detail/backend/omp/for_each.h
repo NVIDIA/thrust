@@ -22,6 +22,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/omp/detail/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -31,7 +34,12 @@ namespace backend
 namespace omp
 {
 
-
+template<typename InputIterator,
+         typename UnaryFunction>
+  void for_each(tag,
+                InputIterator first,
+                InputIterator last,
+                UnaryFunction f);
 
 } // end namespace omp
 } // end namespace backend
