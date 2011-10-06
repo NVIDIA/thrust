@@ -37,6 +37,8 @@ namespace backend
 {
 namespace cuda
 {
+namespace detail
+{
 
 
 template<typename RandomAccessIterator,
@@ -136,6 +138,7 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   return first + n;
 } 
 
+} // end namespace detail
 } // end namespace cuda
 } // end namespace backend
 } // end namespace detail

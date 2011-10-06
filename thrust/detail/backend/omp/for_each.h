@@ -24,31 +24,18 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
 namespace omp
 {
 
 
-template<typename RandomAccessIterator,
-         typename Size,
-         typename UnaryFunction>
-RandomAccessIterator for_each_n(RandomAccessIterator first,
-                                Size n,
-                                UnaryFunction f);
-
 
 } // end namespace omp
-
 } // end namespace backend
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #include <thrust/detail/backend/omp/for_each.inl>

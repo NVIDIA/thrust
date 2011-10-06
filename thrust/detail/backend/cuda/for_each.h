@@ -24,31 +24,18 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
 namespace cuda
 {
 
 
-template<typename RandomAccessIterator,
-         typename Size,
-         typename UnaryFunction>
-RandomAccessIterator for_each_n(RandomAccessIterator first,
-                                Size n,
-                                UnaryFunction f);
-
 
 } // end namespace cuda
-
 } // end namespace backend
-
 } // end namespace detail
-
 } // end namespace thrust
 
 #include <thrust/detail/backend/cuda/for_each.inl>

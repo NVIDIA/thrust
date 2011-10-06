@@ -35,14 +35,6 @@ InputIterator for_each(InputIterator first,
                        UnaryFunction f);
 
 
-template<typename OutputIterator,
-         typename Size,
-         typename UnaryFunction>
-OutputIterator for_each_n(OutputIterator first,
-                          Size n,
-                          UnaryFunction f);
-
-
 } // end namespace cpp
 } // end namespace backend
 } // end namespace detail

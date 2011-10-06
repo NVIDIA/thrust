@@ -42,6 +42,8 @@ InputIterator for_each(InputIterator first,
   return first;
 } // end for_each()
 
+namespace detail
+{
 
 template<typename OutputIterator,
          typename Size,
@@ -61,7 +63,7 @@ OutputIterator for_each_n(OutputIterator first,
   return first;
 } // end for_each_n()
 
-
+} // end namespace detail
 } // end namespace cpp
 } // end namespace backend
 } // end namespace detail

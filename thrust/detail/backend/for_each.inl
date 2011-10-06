@@ -46,7 +46,7 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f,
                           thrust::omp::tag)
 {
-  return thrust::detail::backend::omp::for_each_n(first, n, f);
+  return thrust::detail::backend::omp::detail::for_each_n(first, n, f);
 }
 
 template<typename OutputIterator,
@@ -57,7 +57,7 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f,
                           thrust::cuda::tag)
 {
-  return thrust::detail::backend::cuda::for_each_n(first, n, f);
+  return thrust::detail::backend::cuda::detail::for_each_n(first, n, f);
 }
 
 template<typename OutputIterator,
@@ -68,7 +68,7 @@ OutputIterator for_each_n(OutputIterator first,
                           UnaryFunction f,
                           thrust::cpp::tag)
 {
-  return thrust::detail::backend::cpp::for_each_n(first, n, f);
+  return thrust::detail::backend::cpp::detail::for_each_n(first, n, f);
 }
 
 template<typename OutputIterator,

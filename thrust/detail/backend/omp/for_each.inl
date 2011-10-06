@@ -33,6 +33,8 @@ namespace backend
 {
 namespace omp
 {
+namespace detail
+{
 
 template<typename RandomAccessIterator,
          typename Size,
@@ -71,7 +73,7 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   return first + n;
 } 
 
-
+} // end namespace detail
 } // end namespace omp
 } // end namespace backend
 } // end namespace detail
