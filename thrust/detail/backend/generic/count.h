@@ -15,42 +15,32 @@
  */
 
 
-/*! \file count.inl
- *  \brief Inline file for count.h.
- */
+#pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/count.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/count.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
+{
+namespace detail
+{
+namespace backend
+{
+namespace generic
 {
 
 template <typename InputIterator, typename EqualityComparable>
 typename thrust::iterator_traits<InputIterator>::difference_type
-count(InputIterator first, InputIterator last, const EqualityComparable& value)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::count;
-
-  typedef typename thrust::iterator_space<InputIterator>::type space;
-
-  return count(select_system(space()), first, last, value);
-} // end count()
+count(tag, InputIterator first, InputIterator last, const EqualityComparable& value);
 
 template <typename InputIterator, typename Predicate>
 typename thrust::iterator_traits<InputIterator>::difference_type
-count_if(InputIterator first, InputIterator last, Predicate pred)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::count_if;
+count_if(tag, InputIterator first, InputIterator last, Predicate pred);
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
-
-  return count_if(select_system(space()), first, last, pred);
-} // end count_if()
-
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/generic/count.inl>
 
