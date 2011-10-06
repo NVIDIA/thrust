@@ -18,7 +18,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/detail/backend_iterator_categories.h>
 
 namespace thrust
 {
