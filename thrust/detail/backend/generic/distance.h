@@ -15,29 +15,29 @@
  */
 
 
-/*! \file distance.inl
- *  \brief Inline file for distance.h
- */
+#pragma once
 
-#include <thrust/advance.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/distance.h>
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
+{
+namespace detail
+{
+namespace backend
+{
+namespace generic
 {
 
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::distance;
+    distance(tag, InputIterator first, InputIterator last);
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
-
-  return distance(select_system(space()), first, last);
-} // end distance()
-
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/generic/distance.inl>
 

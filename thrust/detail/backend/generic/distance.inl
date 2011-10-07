@@ -14,52 +14,56 @@
  *  limitations under the License.
  */
 
-
-/*! \file distance.h
- *  \brief Dispatch layer to distance function.
- */
-
-#pragma once
-
-#include <iterator>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/distance.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
-namespace dispatch
+namespace backend
+{
+namespace generic
+{
+namespace detail
 {
 
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last,
-             thrust::single_pass_traversal_tag)
+    distance(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag)
 {
-  typename thrust::iterator_traits<InputIterator>::difference_type result = 0;
+  typename thrust::iterator_traits<InputIterator>::difference_type result(0);
 
   while(first != last)
   {
     ++first;
     ++result;
-  }
+  } // end while
 
   return result;
-} // end distance()
-
+} // end advance()
 
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last,
-             thrust::random_access_traversal_tag)
+    distance(InputIterator first, InputIterator last, thrust::random_access_traversal_tag)
 {
   return last - first;
 } // end distance()
 
-} // end namespace dispatch
+} // end detail
 
+template<typename InputIterator>
+  inline typename thrust::iterator_traits<InputIterator>::difference_type
+    distance(tag, InputIterator first, InputIterator last)
+{
+  // dispatch on iterator traversal
+  return thrust::detail::backend::generic::detail::distance(first, last,
+    typename thrust::iterator_traversal<InputIterator>::type());
+} // end advance()
+
+} // end namespace generic
+} // end namespace backend
 } // end namespace detail
-
 } // end namespace thrust
 
