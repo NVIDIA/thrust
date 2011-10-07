@@ -52,6 +52,12 @@ inline tag select_system(tag, thrust::any_space_tag)
 }
 
 __host__ __device__
+inline tag select_system(thrust::any_space_tag, tag)
+{
+  return tag();
+}
+
+__host__ __device__
 inline cuda_to_cpp select_system(cuda::tag, thrust::system::cpp::tag)
 {
   return cuda_to_cpp();
