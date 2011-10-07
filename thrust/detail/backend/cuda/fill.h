@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -30,8 +33,15 @@ namespace backend
 namespace cuda
 {
 
+template<typename ForwardIterator, typename T>
+  void fill(tag,
+            ForwardIterator first,
+            ForwardIterator last,
+            const T &value);
+
 template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
+  OutputIterator fill_n(tag,
+                        OutputIterator first,
                         Size n,
                         const T &value);
 

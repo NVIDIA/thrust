@@ -23,6 +23,7 @@
 
 #include <thrust/detail/internal_functional.h>
 #include <thrust/generate.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -35,7 +36,8 @@ namespace generic
 
 
 template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
+  OutputIterator fill_n(tag,
+                        OutputIterator first,
                         Size n,
                         const T &value)
 {
@@ -43,12 +45,12 @@ template<typename OutputIterator, typename Size, typename T>
 }
 
 template<typename ForwardIterator, typename T>
-  void fill(ForwardIterator first,
+  void fill(tag,
+            ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
-  // this is safe because we know ForwardIterator is random access at this point
-  thrust::detail::backend::fill_n(first, thrust::distance(first,last), value);
+  thrust::generate(first, last, thrust::detail::fill_functor<T>(value));
 }
 
 

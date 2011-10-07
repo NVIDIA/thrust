@@ -21,6 +21,7 @@
 
 #include <thrust/detail/config.h>
 
+#include <thrust/distance.h>
 #include <thrust/detail/util/align.h>
 #include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -127,7 +128,8 @@ template<typename OutputIterator, typename Size, typename T>
 } // end detail
 
 template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(OutputIterator first,
+  OutputIterator fill_n(tag,
+                        OutputIterator first,
                         Size n,
                         const T &value)
 {
@@ -143,6 +145,15 @@ template<typename OutputIterator, typename Size, typename T>
 
   return detail::fill_n(first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
+
+template<typename ForwardIterator, typename T>
+  void fill(tag,
+            ForwardIterator first,
+            ForwardIterator last,
+            const T &value)
+{
+  fill_n(tag(), first, thrust::distance(first,last), value);
+} // end fill()
 
 } // end namespace cuda
 } // end namespace backend

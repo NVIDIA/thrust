@@ -20,8 +20,13 @@
  */
 
 #include <thrust/fill.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/fill.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/fill.h>
+
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cuda/fill.h>
 
 namespace thrust
 {
@@ -31,7 +36,12 @@ template<typename ForwardIterator, typename T>
             ForwardIterator last,
             const T &value)
 {
-  thrust::detail::backend::fill(first, last, value);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::fill;
+
+  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+
+  fill(select_system(space()), first, last, value);
 } // end fill()
 
 template<typename OutputIterator, typename Size, typename T>
@@ -39,7 +49,12 @@ template<typename OutputIterator, typename Size, typename T>
                         Size n,
                         const T &value)
 {
-  return thrust::detail::backend::fill_n(first, n, value);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::fill_n;
+
+  typedef typename thrust::iterator_space<OutputIterator>::type space;
+
+  return fill_n(select_system(space()), first, n, value);
 } // end fill()
 
 } // end namespace thrust
