@@ -15,28 +15,27 @@
  */
 
 
-/*! \file advance.inl
- *  \brief Inline file for advance.h
- */
+#pragma once
 
-#include <thrust/advance.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/advance.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
+namespace detail
+{
+namespace backend
+{
+namespace generic
+{
 
 template <typename InputIterator, typename Distance>
-void advance(InputIterator& i, Distance n)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::advance;
+void advance(tag, InputIterator& i, Distance n);
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
-
-  advance(select_system(space()), i, n);
-} // end distance()
-
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/generic/advance.inl>
 

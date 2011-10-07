@@ -14,29 +14,49 @@
  *  limitations under the License.
  */
 
-
-/*! \file advance.inl
- *  \brief Inline file for advance.h
- */
-
-#include <thrust/advance.h>
-#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/config.h>
 #include <thrust/detail/backend/generic/advance.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
+namespace detail
+{
+namespace backend
+{
+namespace generic
+{
+namespace detail
+{
 
 template <typename InputIterator, typename Distance>
-void advance(InputIterator& i, Distance n)
+void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::advance;
+  while(n)
+  {
+    ++i;
+    --n;
+  } // end while
+} // end advance()
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
+template <typename InputIterator, typename Distance>
+void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
+{
+  i += n;
+} // end advance()
 
-  advance(select_system(space()), i, n);
-} // end distance()
+} // end detail
 
+template <typename InputIterator, typename Distance>
+void advance(tag, InputIterator& i, Distance n)
+{
+  // dispatch on iterator traversal
+  thrust::detail::backend::generic::detail::advance(i, n,
+    typename thrust::iterator_traversal<InputIterator>::type());
+} // end advance()
+
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
 
