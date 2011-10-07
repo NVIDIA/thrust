@@ -83,11 +83,14 @@ template<typename RandomAccessIterator,
 #endif // THRUST_DEVICE_COMPILER_NVCC
 }; // end or_each_n_closure
 
+} // end detail
+
 
 template<typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(RandomAccessIterator first,
+RandomAccessIterator for_each_n(tag,
+                                RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
 {
@@ -104,7 +107,7 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
        && n > Size((std::numeric_limits<unsigned int>::max)())) // convert to Size to avoid a warning
   {
     // n is large, must use 64-bit indices
-    typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
+    typedef detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
     Closure closure(first, n, f);
 
     // calculate launch configuration
@@ -121,7 +124,7 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   else
   {
     // n is small, 32-bit indices are sufficient
-    typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
+    typedef detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
     Closure closure(first, static_cast<unsigned int>(n), f);
     
     // calculate launch configuration
@@ -141,23 +144,12 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
 
 template<typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(InputIterator first,
+  InputIterator for_each(tag,
+                         InputIterator first,
                          InputIterator last,
                          UnaryFunction f)
 {
-  return thrust::detail::backend::cuda::detail::for_each_n(first, thrust::distance(first,last), f);
-} // end for_each()
-
-} // end namespace detail
-
-template<typename InputIterator,
-         typename UnaryFunction>
-  void for_each(tag,
-                InputIterator first,
-                InputIterator last,
-                UnaryFunction f)
-{
-  thrust::detail::backend::cuda::detail::for_each(first, last, f);
+  return thrust::detail::backend::cuda::for_each_n(tag(), first, thrust::distance(first,last), f);
 } // end for_each()
 
 } // end namespace cuda

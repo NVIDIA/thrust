@@ -27,16 +27,13 @@ namespace backend
 namespace cpp
 {
 
-
-namespace detail
-{
-
-template<typename OutputIterator,
+template<typename InputIterator,
          typename Size,
          typename UnaryFunction>
-OutputIterator for_each_n(OutputIterator first,
-                          Size n,
-                          UnaryFunction f)
+InputIterator for_each_n(tag,
+                         InputIterator first,
+                         Size n,
+                         UnaryFunction f)
 {
   for(Size i = 0; i != n; i++)
   {
@@ -62,18 +59,6 @@ InputIterator for_each(tag,
   }
 
   return first;
-} // end for_each()
-
-} // end namespace detail
-
-template<typename InputIterator,
-         typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f)
-{
-  thrust::detail::backend::cpp::detail::for_each(first, last, f);
 } // end for_each()
 
 } // end namespace cpp

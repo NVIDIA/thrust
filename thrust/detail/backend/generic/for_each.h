@@ -15,11 +15,14 @@
  */
 
 /*! \file for_each.h
- *  \brief Generic implementation of for_each.
- *         It is an error to call this function; it has no implementation.
+ *  \brief Generic implementation of for_each & for_each_n.
+ *         It is an error to call these functions; they have no implementation.
  */
 
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -32,9 +35,18 @@ namespace generic
 
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+InputIterator for_each(tag,
+                       InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
+
+template<typename InputIterator,
+         typename Size,
+         typename UnaryFunction>
+InputIterator for_each_n(tag,
+                         InputIterator first,
+                         Size n,
+                         UnaryFunction f);
 
 } // end namespace generic
 } // end namespace backend

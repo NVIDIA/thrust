@@ -36,7 +36,6 @@ template<typename ForwardIterator,
                           ForwardIterator last,
                           const T &x);
 
-// XXX this function has no implementation -- it is an error to call it
 template<typename ForwardIterator,
          typename Size,
          typename T>

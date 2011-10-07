@@ -14,10 +14,11 @@
  *  limitations under the License.
  */
 
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -25,21 +26,20 @@ namespace detail
 {
 namespace backend
 {
-namespace omp
+namespace generic
 {
 
-template<typename ForwardIterator,
-         typename Size,
-         typename T>
-  ForwardIterator uninitialized_fill_n(tag,
-                                       ForwardIterator first,
-                                       Size n,
-                                       const T &x);
+template<typename ForwardIterator1,
+         typename ForwardIterator2>
+  ForwardIterator2 swap_ranges(tag,
+                               ForwardIterator1 first1,
+                               ForwardIterator1 last1,
+                               ForwardIterator2 first2);
 
-} // end namespace omp
+} // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/uninitialized_fill.inl>
+#include <thrust/detail/backend/generic/swap_ranges.inl>
 

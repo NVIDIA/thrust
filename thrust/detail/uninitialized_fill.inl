@@ -24,12 +24,6 @@
 #include <thrust/detail/backend/generic/uninitialized_fill.h>
 #include <thrust/iterator/iterator_traits.h>
 
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/uninitialized_fill.h>
-#include <thrust/detail/backend/omp/uninitialized_fill.h>
-#include <thrust/detail/backend/cuda/uninitialized_fill.h>
-
 namespace thrust
 {
 

@@ -25,12 +25,6 @@
 #include <thrust/detail/backend/generic/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/generate.h>
-#include <thrust/detail/backend/omp/generate.h>
-#include <thrust/detail/backend/cuda/generate.h>
-
 namespace thrust
 {
 
@@ -57,7 +51,7 @@ template<typename OutputIterator,
                             Generator gen)
 {
   using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::generate;
+  using thrust::detail::backend::generic::generate_n;
 
   typedef typename thrust::iterator_space<OutputIterator>::type type;
 

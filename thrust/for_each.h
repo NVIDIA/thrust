@@ -41,6 +41,7 @@ namespace thrust
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
  *  \param f The function object to apply to the range <tt>[first, last)</tt>.
+ *  \return last
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
@@ -79,9 +80,17 @@ namespace thrust
  */
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
+
+// XXX document me!
+template<typename InputIterator,
+         typename Size,
+         typename UnaryFunction>
+InputIterator for_each_n(InputIterator first,
+                         Size n,
+                         UnaryFunction f);
 
 /*! \} // end modifying
  */

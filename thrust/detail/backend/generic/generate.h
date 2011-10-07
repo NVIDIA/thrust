@@ -36,6 +36,14 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen);
 
+template<typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(tag,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen);
+
 } // end namespace generic
 } // end namespace backend
 } // end namespace detail

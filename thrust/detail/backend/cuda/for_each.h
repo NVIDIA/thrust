@@ -34,12 +34,20 @@ namespace backend
 namespace cuda
 {
 
-template<typename InputIterator,
+template<typename RandomAccessIterator,
          typename UnaryFunction>
-  void for_each(tag,
-                InputIterator first,
-                InputIterator last,
-                UnaryFunction f);
+  RandomAccessIterator for_each(tag,
+                                RandomAccessIterator first,
+                                RandomAccessIterator last,
+                                UnaryFunction f);
+
+template<typename RandomAccessIterator,
+         typename Size,
+         typename UnaryFunction>
+  RandomAccessIterator for_each_n(tag,
+                                  RandomAccessIterator first,
+                                  Size n,
+                                  UnaryFunction f);
 
 } // end namespace cuda
 } // end namespace backend

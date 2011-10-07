@@ -54,6 +54,30 @@ template<typename ForwardIterator,
   thrust::for_each(first, last, thrust::detail::uninitialized_fill_functor<ValueType>(x));
 } // end uninitialized_fill()
 
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(ForwardIterator first,
+                                       Size n,
+                                       const T &x,
+                                       thrust::detail::true_type) // has_trivial_copy_constructor
+{
+  return thrust::fill_n(first, n, x);
+} // end uninitialized_fill()
+
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(ForwardIterator first,
+                                       Size n,
+                                       const T &x,
+                                       thrust::detail::false_type) // has_trivial_copy_constructor
+{
+  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
+
+  return thrust::for_each_n(first, n, thrust::detail::uninitialized_fill_functor<ValueType>(x));
+} // end uninitialized_fill()
+
 } // end detail
 
 template<typename ForwardIterator,
@@ -68,6 +92,22 @@ template<typename ForwardIterator,
   typedef thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
 
   thrust::detail::backend::generic::detail::uninitialized_fill(first, last, x,
+    ValueTypeHasTrivialCopyConstructor());
+} // end uninitialized_fill()
+
+template<typename ForwardIterator,
+         typename Size,
+         typename T>
+  ForwardIterator uninitialized_fill_n(tag,
+                                       ForwardIterator first,
+                                       Size n,
+                                       const T &x)
+{
+  typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
+
+  typedef thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+
+  return thrust::detail::backend::generic::detail::uninitialized_fill_n(first, n, x,
     ValueTypeHasTrivialCopyConstructor());
 } // end uninitialized_fill()
 

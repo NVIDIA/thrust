@@ -37,9 +37,9 @@ namespace thrust
 
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(InputIterator first,
-              InputIterator last,
-              UnaryFunction f)
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f)
 {
   using thrust::detail::backend::generic::select_system;
   using thrust::detail::backend::generic::for_each;
@@ -48,6 +48,21 @@ void for_each(InputIterator first,
 
   return for_each(select_system(space()), first, last, f);
 } // end for_each()
+
+template<typename InputIterator,
+         typename Size,
+         typename UnaryFunction>
+InputIterator for_each_n(InputIterator first,
+                         Size n,
+                         UnaryFunction f)
+{
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::for_each_n;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return for_each_n(select_system(space()), first, n, f);
+} // end for_each_n()
 
 } // end namespace thrust
 

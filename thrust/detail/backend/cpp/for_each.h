@@ -31,10 +31,18 @@ namespace cpp
 
 template<typename InputIterator,
          typename UnaryFunction>
-void for_each(tag,
-              InputIterator first,
-              InputIterator last,
-              UnaryFunction f);
+InputIterator for_each(tag,
+                       InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
+
+template<typename InputIterator,
+         typename Size,
+         typename UnaryFunction>
+InputIterator for_each_n(tag,
+                         InputIterator first,
+                         Size n,
+                         UnaryFunction f);
 
 
 } // end namespace cpp
