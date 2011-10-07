@@ -39,7 +39,7 @@ template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-struct commutative_reduce_intervals_closure
+struct commutative_reduce_intervals_closure : public thrust::detail::backend::cuda::detail::cuda_closure<>
 {
   InputIterator  input;
   OutputIterator output;
@@ -53,24 +53,22 @@ struct commutative_reduce_intervals_closure
   __device__ 
   void operator()(void)
   {
-// reduce_n uses built-in variables
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     thrust::detail::backend::cuda::extern_shared_ptr<OutputType>  shared_array;
 
     typedef typename Decomposition::index_type index_type;
    
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<index_type> range = decomposition[blockIdx.x];
+    thrust::detail::backend::index_range<index_type> range = decomposition[block_index()];
 
-    index_type i = range.begin() + threadIdx.x;
+    index_type i = range.begin() + thread_index();
       
     input += i;
 
-    if (range.size() < blockDim.x)
+    if (range.size() < block_dimension())
     {
       // compute reduction with the first shared_array_size threads
-      if (threadIdx.x < thrust::min<index_type>(shared_array_size,range.size()))
+      if (thread_index() < thrust::min<index_type>(shared_array_size,range.size()))
       {
         OutputType sum = dereference(input);
 
@@ -87,7 +85,7 @@ struct commutative_reduce_intervals_closure
           input  += shared_array_size;
         }
 
-        shared_array[threadIdx.x] = sum;  
+        shared_array[thread_index()] = sum;  
       }
     }
     else
@@ -95,8 +93,8 @@ struct commutative_reduce_intervals_closure
       // compute reduction with all blockDim.x threads
       OutputType sum = dereference(input);
 
-      i     += blockDim.x;
-      input += blockDim.x;
+      i     += block_dimension();
+      input += block_dimension();
 
       while (i < range.end())
       {
@@ -104,28 +102,28 @@ struct commutative_reduce_intervals_closure
 
         sum = binary_op(sum, val);
 
-        i      += blockDim.x;
-        input  += blockDim.x;
+        i      += block_dimension();
+        input  += block_dimension();
       }
 
       // write first shared_array_size values into shared memory
-      if (threadIdx.x < shared_array_size)
-        shared_array[threadIdx.x] = sum;  
+      if (thread_index() < shared_array_size)
+        shared_array[thread_index()] = sum;  
 
       // accumulate remaining values (if any) to shared memory in stages
-      if (blockDim.x > shared_array_size)
+      if (block_dimension() > shared_array_size)
       {
         unsigned int lb = shared_array_size;
         unsigned int ub = shared_array_size + lb;
         
-        while (lb < blockDim.x)
+        while (lb < block_dimension())
         {
-          __syncthreads();
+          barrier();
 
-          if (lb <= threadIdx.x && threadIdx.x < ub)
+          if (lb <= thread_index() && thread_index() < ub)
           {
-            OutputType tmp = shared_array[threadIdx.x - lb];
-            shared_array[threadIdx.x - lb] = binary_op(tmp, sum);
+            OutputType tmp = shared_array[thread_index() - lb];
+            shared_array[thread_index() - lb] = binary_op(tmp, sum);
           }
 
           lb += shared_array_size;
@@ -133,17 +131,20 @@ struct commutative_reduce_intervals_closure
         }
       }
     }
-   
-    __syncthreads(); 
-
-    thrust::detail::backend::cuda::block::reduce_n(shared_array, thrust::min<index_type>(range.size(), shared_array_size), binary_op);
   
-    if (threadIdx.x == 0)
+    barrier();
+
+// TODO remove guard
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+    thrust::detail::backend::cuda::block::reduce_n(shared_array, thrust::min<index_type>(range.size(), shared_array_size), binary_op);
+#endif // THRUST_DEVICE_COMPILER_NVCC
+  
+    if (thread_index() == 0)
     {
-      output += blockIdx.x;
+      output += block_index();
       dereference(output) = shared_array[0];
     }
-#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
 

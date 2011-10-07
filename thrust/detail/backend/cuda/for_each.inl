@@ -42,7 +42,7 @@ namespace cuda
 template<typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-  struct for_each_n_closure
+struct for_each_n_closure : public thrust::detail::backend::cuda::detail::cuda_closure<>
 {
   typedef void result_type;
 
@@ -58,14 +58,12 @@ template<typename RandomAccessIterator,
       f(f_)
   {}
 
-// CUDA built-in variables require nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   __device__
   result_type operator()(void)
   {
-    const Size grid_size = blockDim.x * gridDim.x;
+    const Size grid_size = block_dimension() * grid_dimension();
 
-    Size i = blockIdx.x * blockDim.x + threadIdx.x;
+    Size i = linear_index();
 
     // advance iterator
     first += i;
@@ -77,7 +75,6 @@ template<typename RandomAccessIterator,
       first += grid_size;
     }
   }
-#endif // THRUST_DEVICE_COMPILER_NVCC
 }; // end or_each_n_closure
 
 

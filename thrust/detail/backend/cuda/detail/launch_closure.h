@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/cuda/arch.h>
 
 namespace thrust
@@ -30,16 +31,30 @@ namespace cuda
 namespace detail
 {
 
-// TODO remove
-template<typename Closure>
-  size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0);
+template <unsigned int _ThreadsPerBlock = 0,
+          unsigned int _BlocksPerMultiprocessor = 0>
+struct cuda_closure
+{
+  typedef thrust::detail::integral_constant<unsigned int, _ThreadsPerBlock>         ThreadsPerBlock;
+  typedef thrust::detail::integral_constant<unsigned int, _BlocksPerMultiprocessor> BlocksPerMultiprocessor;
 
-// TODO remove
-template<typename Closure, typename Size1, typename Size2>
-  size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block = 0);
-
-template<typename Closure, typename Size>
-  void launch_closure(Closure f, Size num_blocks);
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+  __device__ __forceinline__ unsigned int thread_index(void)    { return threadIdx.x; }
+  __device__ __forceinline__ unsigned int block_dimension(void) { return (_ThreadsPerBlock > 0) ? _ThreadsPerBlock : blockDim.x;  } // minor optimization
+  __device__ __forceinline__ unsigned int block_index(void)     { return blockIdx.x;  }
+  __device__ __forceinline__ unsigned int grid_dimension(void)  { return gridDim.x;   }
+  __device__ __forceinline__ void         barrier(void)         { __syncthreads();    }
+  __device__ __forceinline__ unsigned int linear_index(void)    { return block_dimension() * block_index() + thread_index(); }
+#else
+  __device__ __forceinline__ unsigned int thread_index(void)    { return 0; }
+  __device__ __forceinline__ unsigned int block_dimension(void) { return 0; }
+  __device__ __forceinline__ unsigned int block_index(void)     { return 0; }
+  __device__ __forceinline__ unsigned int grid_dimension(void)  { return 0; }
+  __device__ __forceinline__ void         barrier(void)         {           }
+  __device__ __forceinline__ unsigned int linear_index(void)    { return 0; }
+#endif // THRUST_DEVICE_COMPILER_NVCC
+};
 
 template<typename Closure, typename Size1, typename Size2>
   void launch_closure(Closure f, Size1 num_blocks, Size2 block_size);

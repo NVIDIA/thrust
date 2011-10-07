@@ -61,7 +61,7 @@ template <typename InputIterator1,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-struct adjacent_difference_closure
+struct adjacent_difference_closure : public thrust::detail::backend::cuda::detail::cuda_closure<>
 {
   InputIterator1  input;
   InputIterator2  input_copy;
@@ -79,26 +79,24 @@ struct adjacent_difference_closure
   __device__
   void operator()(void)
   {
-// uses built-in variables
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     typedef typename thrust::iterator_value<InputIterator1>::type  InputType;
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     typedef typename Decomposition::index_type index_type;
 
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<index_type> range = decomp[blockIdx.x];
+    thrust::detail::backend::index_range<index_type> range = decomp[block_index()];
     
-    input_copy += blockIdx.x - 1;
+    input_copy += block_index() - 1;
       
     // prime the temp values for all threads so we don't need to launch a default constructor
-    InputType next_left = (blockIdx.x == 0) ? dereference(input) : dereference(input_copy);
+    InputType next_left = (block_index() == 0) ? dereference(input) : dereference(input_copy);
 
     index_type base = range.begin();
-    index_type i    = range.begin() + threadIdx.x;
+    index_type i    = range.begin() + thread_index();
     
     if (i < range.end())
     {
-      if (threadIdx.x > 0)
+      if (thread_index() > 0)
       {
         InputIterator1 temp = input + (i - 1);
         next_left = dereference(temp);
@@ -112,13 +110,13 @@ struct adjacent_difference_closure
     {
       InputType curr_left = next_left;
 
-      if (i + blockDim.x < range.end())
+      if (i + block_dimension() < range.end())
       {
-        InputIterator1 temp = input + (blockDim.x - 1);
+        InputIterator1 temp = input + (block_dimension() - 1);
         next_left = dereference(temp);
       }
 
-      __syncthreads();
+      barrier();
 
       if (i < range.end())
       {
@@ -128,13 +126,11 @@ struct adjacent_difference_closure
           dereference(output) = binary_op(dereference(input), curr_left);
       }
 
-      i      += blockDim.x;
-      base   += blockDim.x;
-      input  += blockDim.x;
-      output += blockDim.x;
+      i      += block_dimension();
+      base   += block_dimension();
+      input  += block_dimension();
+      output += block_dimension();
     }
-
-#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
 

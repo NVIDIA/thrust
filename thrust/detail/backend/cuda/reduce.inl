@@ -41,9 +41,6 @@ namespace backend
 namespace cuda
 {
 
-// guard built-in CUDA variables and types
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 /*
  * Reduce a vector of n elements using binary_op()
  *
@@ -62,7 +59,7 @@ template <typename InputIterator,
           typename T,
           typename OutputIterator,
           typename BinaryFunction>
-struct unordered_reduce_closure
+struct unordered_reduce_closure : public thrust::detail::backend::cuda::detail::cuda_closure<>
 {
   InputIterator  input;
   Size           n;
@@ -80,9 +77,9 @@ struct unordered_reduce_closure
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     thrust::detail::backend::cuda::extern_shared_ptr<OutputType>  shared_array;
 
-    Size grid_size = blockDim.x * gridDim.x;
+    Size grid_size = block_dimension() * grid_dimension();
 
-    Size i = blockDim.x * blockIdx.x + threadIdx.x;
+    Size i = linear_index();
       
     input += i;
 
@@ -103,23 +100,23 @@ struct unordered_reduce_closure
     }
 
     // write first shared_array_size values into shared memory
-    if (threadIdx.x < shared_array_size)
-      shared_array[threadIdx.x] = sum;  
+    if (thread_index() < shared_array_size)
+      shared_array[thread_index()] = sum;  
 
     // accumulate remaining values (if any) to shared memory in stages
-    if (blockDim.x > shared_array_size)
+    if (block_dimension() > shared_array_size)
     {
       unsigned int lb = shared_array_size;
       unsigned int ub = shared_array_size + lb;
       
-      while (lb < blockDim.x)
+      while (lb < block_dimension())
       {
-        __syncthreads();
+        barrier();
 
-        if (lb <= threadIdx.x && threadIdx.x < ub)
+        if (lb <= thread_index() && thread_index() < ub)
         {
-          OutputType tmp = shared_array[threadIdx.x - lb];
-          shared_array[threadIdx.x - lb] = binary_op(tmp, sum);
+          OutputType tmp = shared_array[thread_index() - lb];
+          shared_array[thread_index() - lb] = binary_op(tmp, sum);
         }
 
         lb += shared_array_size;
@@ -127,18 +124,22 @@ struct unordered_reduce_closure
       }
     }
     
-    __syncthreads(); 
+    barrier();
 
-    thrust::detail::backend::cuda::block::reduce_n(shared_array, thrust::min<unsigned int>(blockDim.x, shared_array_size), binary_op);
+// TODO remove this guard
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+    thrust::detail::backend::cuda::block::reduce_n(shared_array, thrust::min<unsigned int>(block_dimension(), shared_array_size), binary_op);
+#endif // THRUST_DEVICE_COMPILER_NVCC
   
-    if (threadIdx.x == 0)
+    if (thread_index() == 0)
     {
       OutputType tmp = shared_array[0];
 
-      if (gridDim.x == 1)
+      if (grid_dimension() == 1)
         tmp = binary_op(init, tmp);
 
-      output += blockIdx.x;
+      output += block_index();
       dereference(output) = tmp;
     }
   }
@@ -240,8 +241,6 @@ template<typename InputIterator,
 }
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
-
-#endif // THRUST_DEVICE_COMPILER_NVCC
 
 } // end namespace cuda
 } // end namespace backend

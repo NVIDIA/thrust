@@ -38,7 +38,7 @@ namespace detail
 
 
 template<typename Closure>
-__global__
+__global__ __launch_bounds__(Closure::ThreadsPerBlock::value, Closure::BlocksPerMultiprocessor::value)
 void launch_closure_by_value(Closure f)
 {
   f();
@@ -46,7 +46,7 @@ void launch_closure_by_value(Closure f)
 
 
 template<typename Closure>
-__global__
+__global__ __launch_bounds__(Closure::ThreadsPerBlock::value, Closure::BlocksPerMultiprocessor::value)
 void launch_closure_by_pointer(const Closure *f)
 {
   // copy to registers
