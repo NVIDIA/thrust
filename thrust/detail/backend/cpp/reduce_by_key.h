@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce.h
- *  \brief Entry points for reduce backend.
- */
-
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -29,6 +26,9 @@ namespace detail
 {
 namespace backend
 {
+namespace cpp
+{
+
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -37,17 +37,19 @@ template <typename InputIterator1,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred,
-                     BinaryFunction binary_op);
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output,
+                  BinaryPredicate binary_pred,
+                  BinaryFunction binary_op);
 
+} // end namespace cpp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/reduce.inl>
+#include <thrust/detail/backend/cpp/reduce_by_key.inl>
 

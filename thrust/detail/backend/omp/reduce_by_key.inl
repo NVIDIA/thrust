@@ -14,15 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce_by_key.h
- *  \brief CUDA implementation of reduce_by_key
- */
-
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/backend/omp/reduce_by_key.h>
+#include <thrust/detail/backend/generic/reduce_by_key.h>
+#include <thrust/distance.h>
 
 namespace thrust
 {
@@ -30,7 +25,7 @@ namespace detail
 {
 namespace backend
 {
-namespace cuda
+namespace omp
 {
 
 template <typename InputIterator1,
@@ -47,12 +42,15 @@ template <typename InputIterator1,
                   OutputIterator1 keys_output,
                   OutputIterator2 values_output,
                   BinaryPredicate binary_pred,
-                  BinaryFunction binary_op);
+                  BinaryFunction binary_op)
+{
+  // omp prefers generic::reduce_by_key to cpp::reduce_by_key
+  return thrust::detail::backend::generic::reduce_by_key(tag(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+} // end reduce_by_key()
 
-} // end namespace cuda
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
 
-#include <thrust/detail/backend/cuda/reduce_by_key.inl>
+} // end omp
+} // end backend
+} // end detail
+} // end thrust
 

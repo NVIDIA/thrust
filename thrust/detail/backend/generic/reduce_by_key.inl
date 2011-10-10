@@ -68,20 +68,21 @@ struct reduce_by_key_functor
 } // end namespace detail
 
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred,
-                     BinaryFunction binary_op)
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output,
+                  BinaryPredicate binary_pred,
+                  BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  KeyType;
@@ -155,7 +156,57 @@ template <typename InputIterator1,
     thrust::scatter_if(scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
 
     return thrust::make_pair(keys_output + N, values_output + N); 
-}
+} // end reduce_by_key()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
+
+  // use equal_to<KeyType> as default BinaryPredicate
+  return thrust::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
+} // end reduce_by_key()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output,
+                  BinaryPredicate binary_pred)
+{
+  typedef typename thrust::detail::eval_if<
+    thrust::detail::is_output_iterator<OutputIterator2>::value,
+    thrust::iterator_value<InputIterator2>,
+    thrust::iterator_value<OutputIterator2>
+  >::type T;
+
+  // use plus<T> as default BinaryFunction
+  return thrust::reduce_by_key(keys_first, keys_last, 
+                               values_first,
+                               keys_output,
+                               values_output,
+                               binary_pred,
+                               thrust::plus<T>());
+} // end reduce_by_key()
+
 
 } // end namespace generic
 } // end namespace backend

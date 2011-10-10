@@ -15,14 +15,14 @@
  */
 
 
-/*! \file reduce_by_key.h
- *  \brief CUDA implementation of reduce_by_key
+/*! \file reduce.h
+ *  \brief OpenMP implementation of reduce algorithms.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -30,8 +30,9 @@ namespace detail
 {
 namespace backend
 {
-namespace cuda
+namespace omp
 {
+
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -49,10 +50,11 @@ template <typename InputIterator1,
                   BinaryPredicate binary_pred,
                   BinaryFunction binary_op);
 
-} // end namespace cuda
+
+} // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cuda/reduce_by_key.inl>
+#include <thrust/detail/backend/omp/reduce_by_key.inl>
 

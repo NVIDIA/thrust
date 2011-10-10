@@ -16,7 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/find.h>
-#include <thrust/detail/backend/reduce.h>
+#include <thrust/reduce.h>
 
 #include <thrust/tuple.h>
 #include <thrust/extrema.h>

@@ -15,11 +15,11 @@
  */
 
 
-/*! \file reduce_by_key.h
- *  \brief Generic implementation of reduce_by_key()
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -30,24 +30,54 @@ namespace backend
 namespace generic
 {
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred);
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output);
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output,
+                  BinaryPredicate binary_pred);
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(tag,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output,
+                  BinaryPredicate binary_pred,
+                  BinaryFunction binary_op);
+
 
 } // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include "reduce_by_key.inl"
+#include <thrust/detail/backend/generic/reduce_by_key.inl>
 

@@ -23,7 +23,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
-#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -44,20 +43,6 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op);
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
-                InputIterator1 keys_last,
-                InputIterator2 values_first,
-                OutputIterator1 keys_output,
-                OutputIterator2 values_output,
-                BinaryPredicate binary_pred,
-                BinaryFunction binary_op);
 
 } // end namespace cpp
 } // end namespace backend

@@ -35,6 +35,7 @@
 
 #include <thrust/detail/backend/internal/reduce_intervals.h>
 
+#include <thrust/reduce.h>
 #include <thrust/detail/backend/scan.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
@@ -478,7 +479,8 @@ template <typename InputIterator1,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
+  reduce_by_key(tag,
+                InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -589,7 +591,7 @@ template <typename InputIterator1,
       BoolArray  interval_carry2(decomp.size());
 
       IndexType N2 = 
-      thrust::detail::backend::cuda::reduce_by_key
+      thrust::reduce_by_key
         (thrust::make_zip_iterator(thrust::make_tuple(interval_counts.begin(), interval_carry.begin())),
          thrust::make_zip_iterator(thrust::make_tuple(interval_counts.end(),   interval_carry.end())),
          interval_values.begin(),

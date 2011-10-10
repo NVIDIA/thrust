@@ -22,20 +22,20 @@
 #include <thrust/reduce.h>
 #include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/detail/backend/generic/reduce.h>
+#include <thrust/detail/backend/generic/reduce_by_key.h>
 #include <thrust/iterator/iterator_traits.h>
 
-// XXX make the backend-specific versions available
+// XXX make the backend-specific versions of reduce available
 // XXX try to eliminate the need for these
 #include <thrust/detail/backend/cpp/reduce.h>
 #include <thrust/detail/backend/omp/reduce.h>
 #include <thrust/detail/backend/cuda/reduce.h>
 
-
-#include <thrust/functional.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-
-#include <thrust/detail/backend/reduce.h>
+// XXX make the backend-specific versions of reduce_by_key available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/reduce_by_key.h>
+#include <thrust/detail/backend/omp/reduce_by_key.h>
+#include <thrust/detail/backend/cuda/reduce_by_key.h>
 
 namespace thrust
 {
@@ -95,14 +95,15 @@ template <typename InputIterator1,
                 OutputIterator1 keys_output,
                 OutputIterator2 values_output)
 {
-    typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::reduce_by_key;
 
-    // use equal_to<KeyType> as default BinaryPredicate
-    return thrust::reduce_by_key(keys_first, keys_last, 
-                                 values_first,
-                                 keys_output,
-                                 values_output,
-                                 thrust::equal_to<KeyType>());
+  typedef typename thrust::iterator_space<InputIterator1>::type  space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type  space2;
+  typedef typename thrust::iterator_space<OutputIterator1>::type space3;
+  typedef typename thrust::iterator_space<OutputIterator2>::type space4;
+
+  return reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output);
 }
 
 template <typename InputIterator1,
@@ -118,19 +119,15 @@ template <typename InputIterator1,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred)
 {
-    typedef typename thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator2>::value,
-      thrust::iterator_value<InputIterator2>,
-      thrust::iterator_value<OutputIterator2>
-    >::type T;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::reduce_by_key;
 
-    // use plus<T> as default BinaryFunction
-    return thrust::reduce_by_key(keys_first, keys_last, 
-                                 values_first,
-                                 keys_output,
-                                 values_output,
-                                 binary_pred,
-                                 thrust::plus<T>());
+  typedef typename thrust::iterator_space<InputIterator1>::type  space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type  space2;
+  typedef typename thrust::iterator_space<OutputIterator1>::type space3;
+  typedef typename thrust::iterator_space<OutputIterator2>::type space4;
+
+  return reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 }
 
 template <typename InputIterator1,
@@ -148,7 +145,15 @@ template <typename InputIterator1,
                 BinaryPredicate binary_pred,
                 BinaryFunction binary_op)
 {
-    return thrust::detail::backend::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::reduce_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type  space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type  space2;
+  typedef typename thrust::iterator_space<OutputIterator1>::type space3;
+  typedef typename thrust::iterator_space<OutputIterator2>::type space4;
+
+  return reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 } // end namespace thrust

@@ -66,13 +66,16 @@ template<typename Space>
   typedef Space type;
 }; // end any_space_to_device_space_tag
 
+
 template<>
   struct any_space_to_device_space_tag<thrust::any_space_tag>
 {
   typedef thrust::device_space_tag type;
 }; // end any_space_to_device_space_tag
 
+
 } // end namespace detail
+
 
 template<typename RandomAccessIterator,
          typename OutputType,
@@ -108,6 +111,7 @@ template<typename RandomAccessIterator,
 
   return partial_sums[0];
 } // end reduce()
+
 
 } // end namespace generic
 } // end namespace backend
