@@ -30,14 +30,6 @@ namespace detail
 namespace backend
 {
 
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op);
-
 template <typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,

@@ -153,7 +153,8 @@ template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(InputIterator input,
+void reduce_intervals(tag,
+                      InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
                       Decomposition decomp)

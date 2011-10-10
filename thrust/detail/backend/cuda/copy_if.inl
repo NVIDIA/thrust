@@ -28,11 +28,11 @@
 
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/decompose.h>
-#include <thrust/detail/backend/reduce_intervals.h>
 
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/reduce.h>
+#include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
 
 #include <thrust/system/cuda/detail/tag.h>
@@ -175,7 +175,7 @@ template<typename InputIterator1,
   PredicateToIndexIterator predicate_stencil(stencil, PredicateToIndexTransform(pred));
 
   // compute number of true values in each interval
-  thrust::detail::backend::cuda::reduce_intervals(predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
+  thrust::detail::backend::internal::reduce_intervals(predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
 
   // scan the partial sums
   thrust::detail::backend::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());

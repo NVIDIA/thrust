@@ -14,18 +14,22 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/internal/reduce_intervals.h>
+#include <thrust/iterator/iterator_traits.h>
 
-/*! \file reduce_intervals.h
- *  \brief Reduce a perscribed set of intervals separately.
- */
-
-#pragma once
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/cpp/reduce_intervals.h>
+#include <thrust/detail/backend/omp/reduce_intervals.h>
+#include <thrust/detail/backend/cuda/reduce_intervals.h>
 
 namespace thrust
 {
 namespace detail
 {
 namespace backend
+{
+namespace internal
 {
 
 template <typename InputIterator,
@@ -35,11 +39,18 @@ template <typename InputIterator,
 void reduce_intervals(InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
-                      Decomposition decomp);
+                      Decomposition decomp)
+{
+  using thrust::detail::backend::generic::select_system;
 
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
 
-#include <thrust/detail/backend/reduce_intervals.inl>
+  reduce_intervals(select_system(space1(),space2()), input, output, binary_op, decomp);
+} // end reduce_intervals()
+
+} // end internal
+} // end backend
+} // end detail
+} // end thrust
 

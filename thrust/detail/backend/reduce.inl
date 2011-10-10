@@ -34,56 +34,6 @@ namespace backend
 namespace dispatch
 {
 
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::cpp::tag)
-{
-  return thrust::detail::backend::cpp::reduce(first, last, init, binary_op);
-}
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::cuda::tag)
-{
-  return thrust::detail::backend::cuda::reduce_n(first, last - first, init, binary_op);
-}
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction,
-         typename Space>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    Space)
-{
-  return thrust::detail::backend::generic::reduce_n(first, last - first, init, binary_op);
-}
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op,
-                    thrust::any_space_tag)
-{
-  return thrust::detail::backend::dispatch::reduce(first, last, init, binary_op,
-      thrust::device_space_tag());
-}
-
 
 
 template<typename InputIterator1,
@@ -161,18 +111,6 @@ template<>
   typedef thrust::device_space_tag type;
 }; // end any_space_to_device_space_tag
 
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op)
-{
-  return thrust::detail::backend::dispatch::reduce(first, last, init, binary_op,
-      typename thrust::iterator_space<InputIterator>::type());
-}
 
 template <typename InputIterator1,
           typename InputIterator2,

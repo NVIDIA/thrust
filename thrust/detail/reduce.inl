@@ -24,6 +24,13 @@
 #include <thrust/detail/backend/generic/reduce.h>
 #include <thrust/iterator/iterator_traits.h>
 
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/reduce.h>
+#include <thrust/detail/backend/omp/reduce.h>
+#include <thrust/detail/backend/cuda/reduce.h>
+
+
 #include <thrust/functional.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
@@ -69,7 +76,12 @@ template<typename InputIterator,
             T init,
             BinaryFunction binary_op)
 {
-    return thrust::detail::backend::reduce(first, last, init, binary_op);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::reduce;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return reduce(select_system(space()), first, last, init, binary_op);
 }
 
 template <typename InputIterator1,

@@ -14,15 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce.h
- *  \brief Reduce a sequence of elements with a given length.
- */
-
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/backend/omp/reduce.h>
+#include <thrust/detail/backend/generic/reduce.h>
+#include <thrust/distance.h>
 
 namespace thrust
 {
@@ -30,24 +25,26 @@ namespace detail
 {
 namespace backend
 {
-namespace cuda
+namespace omp
 {
 
 
-template<typename InputIterator,
+template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
   OutputType reduce(tag,
-                    InputIterator first,
-                    InputIterator last,
+                    InputIterator begin,
+                    InputIterator end,
                     OutputType init,
-                    BinaryFunction binary_op);
+                    BinaryFunction binary_op)
+{
+  // omp prefers generic::reduce to cpp::reduce
+  return thrust::detail::backend::generic::reduce(tag(), begin, end, init, binary_op);
+} // end reduce()
 
 
-} // end namespace cuda
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
-
-#include <thrust/detail/backend/cuda/reduce.inl>
+} // end omp
+} // end backend
+} // end detail
+} // end thrust
 

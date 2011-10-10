@@ -111,9 +111,9 @@ InputIterator find_if(tag,
           interval_end = end;
         } // end if
 
-        result_type result = thrust::detail::backend::reduce(interval_begin, interval_end,
-                                                             result_type(false,interval_end - begin),
-                                                             find_if_functor<result_type>());
+        result_type result = thrust::reduce(interval_begin, interval_end,
+                                            result_type(false,interval_end - begin),
+                                            find_if_functor<result_type>());
 
         // see if we found something
         if (thrust::get<0>(result))

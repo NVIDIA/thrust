@@ -19,9 +19,9 @@
  *  \brief Inline file for reduce.h
  */
 
-#include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/config.h>
+#include <thrust/distance.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
 
@@ -149,13 +149,13 @@ struct unordered_reduce_closure
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 template<typename InputIterator,
-         typename Size,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce_n(InputIterator first,
-                      Size n,
-                      OutputType init,
-                      BinaryFunction binary_op)
+  OutputType reduce(tag,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op)
 {
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
@@ -164,13 +164,17 @@ template<typename InputIterator,
   // ========================================================================
   THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
+  typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
+
+  difference_type n = thrust::distance(first,last);
+
   if (n == 0)
     return init;
 
   typedef          temporary_array<OutputType, thrust::cuda::tag> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
-  typedef unordered_reduce_closure<InputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;
+  typedef unordered_reduce_closure<InputIterator,difference_type,OutputType,OutputIterator,BinaryFunction> Closure;
     
   arch::function_attributes_t attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
   
@@ -219,7 +223,7 @@ template<typename InputIterator,
   // second level reduction
   if (num_blocks > 1)
   {
-    typedef unordered_reduce_closure<OutputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;
+    typedef unordered_reduce_closure<OutputIterator,difference_type,OutputType,OutputIterator,BinaryFunction> Closure;
 
     arch::function_attributes_t attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
 

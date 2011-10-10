@@ -16,13 +16,13 @@
 
 
 /*! \file reduce.h
- *  \brief Reduce a sequence of elements with a given length.
+ *  \brief OpenMP implementation of reduce algorithms.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -30,24 +30,24 @@ namespace detail
 {
 namespace backend
 {
-namespace cuda
+namespace omp
 {
 
 
-template<typename InputIterator,
+template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
   OutputType reduce(tag,
-                    InputIterator first,
-                    InputIterator last,
+                    InputIterator begin,
+                    InputIterator end,
                     OutputType init,
                     BinaryFunction binary_op);
 
 
-} // end namespace cuda
+} // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cuda/reduce.inl>
+#include <thrust/detail/backend/omp/reduce.inl>
 

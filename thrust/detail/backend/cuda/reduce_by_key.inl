@@ -33,9 +33,10 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/temporary_array.h>
 
+#include <thrust/detail/backend/internal/reduce_intervals.h>
+
 #include <thrust/detail/backend/scan.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
-#include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
 #include <thrust/system/cuda/detail/tag.h>
@@ -542,7 +543,7 @@ template <typename InputIterator1,
         detail::tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
 
     // count number of tail flags per interval
-    thrust::detail::backend::cuda::reduce_intervals(iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
+    thrust::detail::backend::internal::reduce_intervals(iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
 
 //    std::cout << std::endl << "-----------------------------------" << std::endl;
 //

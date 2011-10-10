@@ -14,8 +14,12 @@
  *  limitations under the License.
  */
 
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
+
+/*! \file reduce_intervals.h
+ *  \brief Reduce a perscribed set of intervals separately.
+ */
+
+#pragma once
 
 namespace thrust
 {
@@ -23,46 +27,22 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace internal
 {
 
 template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(tag,
-                      InputIterator input,
+void reduce_intervals(InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
-                      Decomposition decomp)
-{
-  typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-  typedef typename Decomposition::index_type index_type;
+                      Decomposition decomp);
 
-  for(index_type i = 0; i < decomp.size(); ++i, ++output)
-  {
-    InputIterator begin = input + decomp[i].begin();
-    InputIterator end   = input + decomp[i].end();
-
-    if (begin != end)
-    {
-      OutputType sum = backend::dereference(begin);
-
-      ++begin;
-
-      while (begin != end)
-      {
-        sum = binary_op(sum, backend::dereference(begin));
-        ++begin;
-      }
-
-      backend::dereference(output) = sum;
-    }
-  }
-}
-
-} // end namespace cpp
+} // end namespace internal
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/internal/reduce_intervals.inl>
 

@@ -37,20 +37,10 @@ template<typename InputIterator>
 template<typename InputIterator, typename T>
   T reduce(tag, InputIterator first, InputIterator last, T init);
 
-// the fully general form of reduce has no implementation -- it is an error to call it
 template<typename InputIterator,
          typename T,
          typename BinaryFunction>
   T reduce(tag, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
-
-template<typename RandomAccessIterator,
-         typename SizeType,
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce_n(RandomAccessIterator first,
-                      SizeType n,
-                      OutputType init,
-                      BinaryFunction binary_op);
 
 } // end namespace generic
 } // end namespace backend

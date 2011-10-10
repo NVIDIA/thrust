@@ -26,10 +26,10 @@
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
+#include <thrust/detail/backend/internal/reduce_intervals.h>
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
-#include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/system/cuda/detail/tag.h>
 
@@ -506,7 +506,7 @@ OutputIterator inclusive_scan(InputIterator first,
   if (thrust::detail::is_commutative<BinaryFunction>::value)
   {
     // use reduce_intervals for commutative operators
-    thrust::detail::backend::cuda::reduce_intervals(first, block_results.begin(), binary_op, decomp);
+    thrust::detail::backend::internal::reduce_intervals(first, block_results.begin(), binary_op, decomp);
   }
   else
   {
@@ -589,7 +589,7 @@ OutputIterator exclusive_scan(InputIterator first,
   if (thrust::detail::is_commutative<BinaryFunction>::value)
   {
     // use reduce_intervals for commutative operators
-    thrust::detail::backend::cuda::reduce_intervals(first, block_results.begin() + 1, binary_op, decomp);
+    thrust::detail::backend::internal::reduce_intervals(first, block_results.begin() + 1, binary_op, decomp);
   }
   else
   {

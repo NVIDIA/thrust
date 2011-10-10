@@ -2,7 +2,7 @@
 
 #include <thrust/functional.h>
 #include <thrust/detail/backend/decompose.h>
-#include <thrust/detail/backend/reduce_intervals.h>
+#include <thrust/detail/backend/internal/reduce_intervals.h>
 
 namespace be = thrust::detail::backend;
 
@@ -16,7 +16,7 @@ void TestReduceIntervalsSimple(void)
   {
     be::uniform_decomposition<int> decomp(10, 10, 1);
     Vector output(decomp.size());
-    be::reduce_intervals(input.begin(), output.begin(), thrust::plus<T>(), decomp);
+    be::internal::reduce_intervals(input.begin(), output.begin(), thrust::plus<T>(), decomp);
 
     ASSERT_EQUAL(output[0], 10);
   }
@@ -24,7 +24,7 @@ void TestReduceIntervalsSimple(void)
   {
     be::uniform_decomposition<int> decomp(10, 6, 2);
     Vector output(decomp.size());
-    be::reduce_intervals(input.begin(), output.begin(), thrust::plus<T>(), decomp);
+    be::internal::reduce_intervals(input.begin(), output.begin(), thrust::plus<T>(), decomp);
 
     ASSERT_EQUAL(output[0], 6);
     ASSERT_EQUAL(output[1], 4);
@@ -46,8 +46,8 @@ struct TestReduceIntervals
     thrust::host_vector<T>   h_output(decomp.size());
     thrust::device_vector<T> d_output(decomp.size());
     
-    be::reduce_intervals(h_input.begin(), h_output.begin(), thrust::plus<T>(), decomp);
-    be::reduce_intervals(d_input.begin(), d_output.begin(), thrust::plus<T>(), decomp);
+    be::internal::reduce_intervals(h_input.begin(), h_output.begin(), thrust::plus<T>(), decomp);
+    be::internal::reduce_intervals(d_input.begin(), d_output.begin(), thrust::plus<T>(), decomp);
 
     ASSERT_EQUAL(h_output, d_output);
   }

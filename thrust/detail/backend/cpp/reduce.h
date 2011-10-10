@@ -21,10 +21,9 @@
 
 #pragma once
 
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/type_traits/algorithm/intermediate_type_from_function_and_iterators.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
@@ -39,22 +38,11 @@ namespace cpp
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator begin,
+  OutputType reduce(tag,
+                    InputIterator begin,
                     InputIterator end,
                     OutputType init,
-                    BinaryFunction binary_op)
-{
-  // initialize the result
-  OutputType result = init;
-
-  while(begin != end)
-  {
-    result = binary_op(result, backend::dereference(begin));
-    begin++;
-  } // end while
-
-  return result;
-}
+                    BinaryFunction binary_op);
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -69,58 +57,12 @@ template <typename InputIterator1,
                 OutputIterator1 keys_output,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred,
-                BinaryFunction binary_op)
-{
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
-  typedef typename thrust::iterator_traits<InputIterator2>::value_type  InputValueType;
-
-  typedef typename intermediate_type_from_function_and_iterators<
-    InputIterator2,
-    OutputIterator2,
-    BinaryFunction
-      >::type TemporaryType;
-
-  if(keys_first != keys_last)
-  {
-    InputKeyType  temp_key   = backend::dereference(keys_first);
-    TemporaryType temp_value = backend::dereference(values_first);
-
-    for(++keys_first, ++values_first;
-        keys_first != keys_last;
-        ++keys_first, ++values_first)
-    {
-      InputKeyType    key  = backend::dereference(keys_first);
-      InputValueType value = backend::dereference(values_first);
-
-      if (binary_pred(temp_key, key))
-      {
-        temp_value = binary_op(temp_value, value);
-      }
-      else
-      {
-        backend::dereference(keys_output)   = temp_key;
-        backend::dereference(values_output) = temp_value;
-
-        ++keys_output;
-        ++values_output;
-
-        temp_key   = key;
-        temp_value = value;
-      }
-    }
-
-    backend::dereference(keys_output)   = temp_key;
-    backend::dereference(values_output) = temp_value;
-
-    ++keys_output;
-    ++values_output;
-  }
-
-  return thrust::make_pair(keys_output, values_output);
-}
+                BinaryFunction binary_op);
 
 } // end namespace cpp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/cpp/reduce.inl>
 
