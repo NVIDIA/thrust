@@ -16,7 +16,10 @@
 
 #pragma once
 
+#include <thrust/reduce.h>
+#include <thrust/detail/backend/generic/reduce.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/functional.h>
 
 #include <thrust/detail/temporary_array.h>
 
@@ -31,6 +34,25 @@ namespace backend
 {
 namespace generic
 {
+
+template<typename InputIterator>
+  typename thrust::iterator_traits<InputIterator>::value_type
+    reduce(tag, InputIterator first, InputIterator last)
+{
+  typedef typename thrust::iterator_value<InputIterator>::type InputType;
+
+  // use InputType(0) as init by default
+  return thrust::reduce(first, last, InputType(0));
+} // end reduce()
+
+
+template<typename InputIterator, typename T>
+  T reduce(tag, InputIterator first, InputIterator last, T init)
+{
+  // use plus<T> by default
+  return thrust::reduce(first, last, init, thrust::plus<T>());
+} // end reduce()
+
 namespace detail
 {
 

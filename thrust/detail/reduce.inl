@@ -19,9 +19,12 @@
  *  \brief Inline file for reduce.h.
  */
 
+#include <thrust/reduce.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/reduce.h>
+#include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
@@ -35,10 +38,12 @@ typename thrust::iterator_traits<InputIterator>::value_type
   reduce(InputIterator first,
          InputIterator last)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::reduce;
 
-  // use InputType(0) as init by default
-  return thrust::reduce(first, last, InputType(0));
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return reduce(select_system(space()), first, last);
 }
 
 template<typename InputIterator,
@@ -47,8 +52,12 @@ template<typename InputIterator,
             InputIterator last,
             T init)
 {
-    // use plus<T> by default
-    return thrust::reduce(first, last, init, thrust::plus<T>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::reduce;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return reduce(select_system(space()), first, last, init);
 }
 
 

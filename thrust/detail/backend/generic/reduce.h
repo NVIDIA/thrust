@@ -18,6 +18,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -27,6 +29,19 @@ namespace backend
 {
 namespace generic
 {
+
+template<typename InputIterator>
+  typename thrust::iterator_traits<InputIterator>::value_type
+    reduce(tag, InputIterator first, InputIterator last);
+
+template<typename InputIterator, typename T>
+  T reduce(tag, InputIterator first, InputIterator last, T init);
+
+// the fully general form of reduce has no implementation -- it is an error to call it
+template<typename InputIterator,
+         typename T,
+         typename BinaryFunction>
+  T reduce(tag, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
 
 template<typename RandomAccessIterator,
          typename SizeType,
