@@ -17,6 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/tagged_allocator.h>
 #include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/memory.h>
 #include <thrust/system/detail/bad_alloc.h>
 #include <limits>
 
@@ -104,9 +105,8 @@ template<typename T, typename Tag, typename Pointer>
     ::deallocate(pointer p, size_type n)
 {
   using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::free;
 
-  // XXX should probably have a using generic::free here
-  //     which would be an automatic failure if selected
   free(select_system(Tag()), p);
 }
 
