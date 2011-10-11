@@ -14,36 +14,39 @@
  *  limitations under the License.
  */
 
-
-/*! \file transform_reduce.inl
- *  \brief Inline file for transform_reduce.h.
- */
-
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/detail/backend/generic/transform_reduce.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/reduce.h>
+#include <thrust/iterator/transform_iterator.h>
 
 namespace thrust
+{
+namespace detail
+{
+namespace backend
+{
+namespace generic
 {
 
 template<typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(InputIterator first,
+  OutputType transform_reduce(tag,
+                              InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_reduce;
+  thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> xfrm_first(first, unary_op);
+  thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> xfrm_last(last, unary_op);
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
-
-  return transform_reduce(select_system(space()), first, last, unary_op, init, binary_op);
+  return thrust::reduce(xfrm_first, xfrm_last, init, binary_op);
 } // end transform_reduce()
 
-} // end namespace thrust
+} // end generic
+} // end backend
+} // end detail
+} // end thrust
 

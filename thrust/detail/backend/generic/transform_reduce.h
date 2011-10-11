@@ -15,35 +15,35 @@
  */
 
 
-/*! \file transform_reduce.inl
- *  \brief Inline file for transform_reduce.h.
- */
+#pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/transform_reduce.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
+{
+namespace detail
+{
+namespace backend
+{
+namespace generic
 {
 
 template<typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(InputIterator first,
+  OutputType transform_reduce(tag,
+                              InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
-                              BinaryFunction binary_op)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_reduce;
+                              BinaryFunction binary_op);
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
-
-  return transform_reduce(select_system(space()), first, last, unary_op, init, binary_op);
-} // end transform_reduce()
-
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/generic/transform_reduce.inl>
 
