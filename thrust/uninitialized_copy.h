@@ -87,6 +87,11 @@ template<typename InputIterator, typename ForwardIterator>
                                      InputIterator last,
                                      ForwardIterator result);
 
+template<typename InputIterator, typename Size, typename ForwardIterator>
+  ForwardIterator uninitialized_copy_n(InputIterator first,
+                                       Size n,
+                                       ForwardIterator result);
+
 /*! \} // copying
  */
 
