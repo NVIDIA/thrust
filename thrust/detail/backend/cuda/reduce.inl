@@ -58,8 +58,9 @@ template <typename InputIterator,
           typename Size,
           typename T,
           typename OutputIterator,
-          typename BinaryFunction>
-struct unordered_reduce_closure : public thrust::detail::backend::cuda::detail::cuda_closure<>
+          typename BinaryFunction,
+          typename Context>
+struct unordered_reduce_closure
 {
   InputIterator  input;
   Size           n;
@@ -68,30 +69,33 @@ struct unordered_reduce_closure : public thrust::detail::backend::cuda::detail::
   BinaryFunction binary_op;
   unsigned int shared_array_size;
 
-  unordered_reduce_closure(InputIterator input, Size n, T init, OutputIterator output, BinaryFunction binary_op, unsigned int shared_array_size)
-    : input(input), n(n), init(init), output(output), binary_op(binary_op), shared_array_size(shared_array_size) {}
+  typedef Context context_type;
+  context_type context;
 
-  __device__ 
+  unordered_reduce_closure(InputIterator input, Size n, T init, OutputIterator output, BinaryFunction binary_op, unsigned int shared_array_size, Context context = Context())
+    : input(input), n(n), init(init), output(output), binary_op(binary_op), shared_array_size(shared_array_size), context(context) {}
+
+  __device__ __forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     thrust::detail::backend::cuda::extern_shared_ptr<OutputType>  shared_array;
 
-    Size grid_size = block_dimension() * grid_dimension();
+    Size grid_size = context.block_dimension() * context.grid_dimension();
 
-    Size i = linear_index();
+    Size i = context.linear_index();
       
     input += i;
 
     // compute reduction with all blockDim.x threads
-    OutputType sum = dereference(input);
+    OutputType sum = backend::dereference(input);
 
     i     += grid_size;
     input += grid_size;
 
     while (i < n)
     {
-      OutputType val = dereference(input);
+      OutputType val = backend::dereference(input);
 
       sum = binary_op(sum, val);
 
@@ -100,23 +104,23 @@ struct unordered_reduce_closure : public thrust::detail::backend::cuda::detail::
     }
 
     // write first shared_array_size values into shared memory
-    if (thread_index() < shared_array_size)
-      shared_array[thread_index()] = sum;  
+    if (context.thread_index() < shared_array_size)
+      shared_array[context.thread_index()] = sum;  
 
     // accumulate remaining values (if any) to shared memory in stages
-    if (block_dimension() > shared_array_size)
+    if (context.block_dimension() > shared_array_size)
     {
       unsigned int lb = shared_array_size;
       unsigned int ub = shared_array_size + lb;
       
-      while (lb < block_dimension())
+      while (lb < context.block_dimension())
       {
-        barrier();
+        context.barrier();
 
-        if (lb <= thread_index() && thread_index() < ub)
+        if (lb <= context.thread_index() && context.thread_index() < ub)
         {
-          OutputType tmp = shared_array[thread_index() - lb];
-          shared_array[thread_index() - lb] = binary_op(tmp, sum);
+          OutputType tmp = shared_array[context.thread_index() - lb];
+          shared_array[context.thread_index() - lb] = binary_op(tmp, sum);
         }
 
         lb += shared_array_size;
@@ -124,23 +128,19 @@ struct unordered_reduce_closure : public thrust::detail::backend::cuda::detail::
       }
     }
     
-    barrier();
+    context.barrier();
 
-// TODO remove this guard
-// CUDA built-in variables require nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    thrust::detail::backend::cuda::block::reduce_n(shared_array, thrust::min<unsigned int>(block_dimension(), shared_array_size), binary_op);
-#endif // THRUST_DEVICE_COMPILER_NVCC
+    thrust::detail::backend::cuda::block::reduce_n(context, shared_array, thrust::min<unsigned int>(context.block_dimension(), shared_array_size), binary_op);
   
-    if (thread_index() == 0)
+    if (context.thread_index() == 0)
     {
       OutputType tmp = shared_array[0];
 
-      if (grid_dimension() == 1)
+      if (context.grid_dimension() == 1)
         tmp = binary_op(init, tmp);
 
-      output += block_index();
-      dereference(output) = tmp;
+      output += context.block_index();
+      backend::dereference(output) = tmp;
     }
   }
 };
@@ -170,7 +170,8 @@ template<typename InputIterator,
   typedef          uninitialized_array<OutputType, thrust::detail::cuda_device_space_tag> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
-  typedef unordered_reduce_closure<InputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;
+  typedef cuda::detail::blocked_thread_array Context;
+  typedef unordered_reduce_closure<InputIterator,Size,OutputType,OutputIterator,BinaryFunction,Context> Closure;
     
   arch::function_attributes_t attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
   
@@ -219,7 +220,8 @@ template<typename InputIterator,
   // second level reduction
   if (num_blocks > 1)
   {
-    typedef unordered_reduce_closure<OutputIterator,Size,OutputType,OutputIterator,BinaryFunction> Closure;
+    typedef cuda::detail::blocked_thread_array Context;
+    typedef unordered_reduce_closure<OutputIterator,Size,OutputType,OutputIterator,BinaryFunction,Context> Closure;
 
     arch::function_attributes_t attributes = thrust::detail::backend::cuda::detail::closure_attributes<Closure>();
 

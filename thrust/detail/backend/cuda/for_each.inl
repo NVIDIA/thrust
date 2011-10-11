@@ -41,29 +41,31 @@ namespace cuda
 
 template<typename RandomAccessIterator,
          typename Size,
-         typename UnaryFunction>
-struct for_each_n_closure : public thrust::detail::backend::cuda::detail::cuda_closure<>
+         typename UnaryFunction,
+         typename Context>
+struct for_each_n_closure
 {
   typedef void result_type;
+  typedef Context context_type;
 
   RandomAccessIterator first;
   Size n;
   UnaryFunction f;
+  Context context;
 
-  for_each_n_closure(RandomAccessIterator first_,
-                     Size n_,
-                     UnaryFunction f_)
-    : first(first_),
-      n(n_),
-      f(f_)
+  for_each_n_closure(RandomAccessIterator first,
+                     Size n,
+                     UnaryFunction f,
+                     Context context = Context())
+    : first(first), n(n), f(f), context(context)
   {}
 
-  __device__
+  __device__ __forceinline__
   result_type operator()(void)
   {
-    const Size grid_size = block_dimension() * grid_dimension();
+    const Size grid_size = context.block_dimension() * context.grid_dimension();
 
-    Size i = linear_index();
+    Size i = context.linear_index();
 
     // advance iterator
     first += i;
@@ -98,7 +100,8 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
        && n > Size((std::numeric_limits<unsigned int>::max)())) // convert to Size to avoid a warning
   {
     // n is large, must use 64-bit indices
-    typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
+    typedef cuda::detail::blocked_thread_array Context;
+    typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context> Closure;
     Closure closure(first, n, f);
 
     // calculate launch configuration
@@ -115,7 +118,8 @@ RandomAccessIterator for_each_n(RandomAccessIterator first,
   else
   {
     // n is small, 32-bit indices are sufficient
-    typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
+    typedef cuda::detail::blocked_thread_array Context;
+    typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction,Context> Closure;
     Closure closure(first, static_cast<unsigned int>(n), f);
     
     // calculate launch configuration

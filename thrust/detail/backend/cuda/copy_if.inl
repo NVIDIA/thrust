@@ -14,9 +14,7 @@
  *  limitations under the License.
  */
 
-
-// do not attempt to compile this file with any other compiler
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/detail/config.h>
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>
@@ -24,7 +22,6 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/util/blocking.h>
 
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/decompose.h>
@@ -34,7 +31,7 @@
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
-
+#include <thrust/detail/backend/cuda/detail/launch_closure.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -51,45 +48,61 @@ namespace backend
 namespace cuda
 {
 
-template <unsigned int CTA_SIZE,
-          typename InputIterator1,
+template <typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
           typename Decomposition,
-          typename OutputIterator>
-__launch_bounds__(CTA_SIZE,1)
-__global__
-void copy_if_intervals(InputIterator1 input,
-                       InputIterator2 stencil,
-                       InputIterator3 offsets,
-                       Decomposition decomp,
-                       OutputIterator output)
+          typename OutputIterator,
+          typename Context>
+struct copy_if_intervals_closure
 {
+  InputIterator1 input;
+  InputIterator2 stencil;
+  InputIterator3 offsets;
+  Decomposition decomp;
+  OutputIterator output;
+
+  typedef Context context_type;
+  context_type context;
+  
+  copy_if_intervals_closure(InputIterator1 input,
+                            InputIterator2 stencil,
+                            InputIterator3 offsets,
+                            Decomposition decomp,
+                            OutputIterator output,
+                            Context context = Context())
+    : input(input), stencil(stencil), offsets(offsets), decomp(decomp), output(output), context(context) {}
+
+  __device__ __forceinline__
+  void operator()(void)
+  {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
    
     typedef unsigned int PredicateType;
+    
+    const unsigned int CTA_SIZE = context_type::ThreadsPerBlock::value;
 
     thrust::plus<PredicateType> binary_op;
 
-    __shared__ PredicateType sdata[CTA_SIZE];  __syncthreads();
+    __shared__ PredicateType sdata[CTA_SIZE];  context.barrier();
     
     typedef typename Decomposition::index_type IndexType;
 
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<IndexType> range = decomp[blockIdx.x];
+    thrust::detail::backend::index_range<IndexType> range = decomp[context.block_index()];
 
     IndexType base = range.begin();
 
     PredicateType predicate = 0;
     
     // advance input iterators to this thread's starting position
-    input   += base + threadIdx.x;
-    stencil += base + threadIdx.x;
+    input   += base + context.thread_index();
+    stencil += base + context.thread_index();
 
     // advance output to this interval's starting position
-    if (blockIdx.x != 0)
+    if (context.block_index() != 0)
     {
-        InputIterator3 temp = offsets + (blockIdx.x - 1);
+        InputIterator3 temp = offsets + (context.block_index() - 1);
         output += thrust::detail::backend::dereference(temp);
     }
 
@@ -97,17 +110,20 @@ void copy_if_intervals(InputIterator1 input,
     while(base + CTA_SIZE <= range.end())
     {
         // read data
-        sdata[threadIdx.x] = predicate = thrust::detail::backend::dereference(stencil);
-       
-        __syncthreads();
+        sdata[context.thread_index()] = predicate = thrust::detail::backend::dereference(stencil);
+      
+        context.barrier();
 
+// TODO remove guard
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
         // scan block
         block::inplace_inclusive_scan<CTA_SIZE>(sdata, binary_op);
+#endif // THRUST_DEVICE_COMPILER_NVCC
        
         // write data
         if (predicate)
         {
-            OutputIterator temp2 = output + (sdata[threadIdx.x] - 1);
+            OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
             thrust::detail::backend::dereference(temp2) = thrust::detail::backend::dereference(input);
         }
 
@@ -119,31 +135,35 @@ void copy_if_intervals(InputIterator1 input,
         // advance output by number of true predicates
         output += sdata[CTA_SIZE - 1];
 
-        __syncthreads();
+        context.barrier();
     }
 
     // process partially full block at end of input (if necessary)
     if (base < range.end())
     {
         // read data
-        if (base + threadIdx.x < range.end())
-            sdata[threadIdx.x] = predicate = thrust::detail::backend::dereference(stencil);
+        if (base + context.thread_index() < range.end())
+            sdata[context.thread_index()] = predicate = thrust::detail::backend::dereference(stencil);
         else
-            sdata[threadIdx.x] = predicate = 0;
-        
-        __syncthreads();
+            sdata[context.thread_index()] = predicate = 0;
+       
+        context.barrier();
 
+// TODO remove guard
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
         // scan block
         block::inplace_inclusive_scan<CTA_SIZE>(sdata, binary_op);
+#endif // THRUST_DEVICE_COMPILER_NVCC
        
         // write data
         if (predicate) // expects predicate=false for >= interval_end
         {
-            OutputIterator temp2 = output + (sdata[threadIdx.x] - 1);
+            OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
             thrust::detail::backend::dereference(temp2) = thrust::detail::backend::dereference(input);
         }
     }
-}
+  }
+}; // copy_if_intervals_closure
 
 
 template<typename InputIterator1,
@@ -162,9 +182,13 @@ template<typename InputIterator1,
   if (first == last)
       return output;
 
-  thrust::detail::backend::uniform_decomposition<IndexType> decomp = thrust::detail::backend::cuda::default_decomposition(last - first);
+  typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
+  typedef thrust::detail::uninitialized_array<IndexType, thrust::detail::cuda_device_space_tag> IndexArray;
 
-  thrust::detail::uninitialized_array<IndexType, thrust::detail::cuda_device_space_tag> block_results(decomp.size());
+  Decomposition decomp = thrust::detail::backend::cuda::default_decomposition(last - first);
+
+  // storage for per-block predicate counts
+  IndexArray block_results(decomp.size());
 
   // convert stencil into an iterator that produces integral values in {0,1}
   typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;
@@ -178,13 +202,13 @@ template<typename InputIterator1,
   // scan the partial sums
   thrust::detail::backend::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
 
-  copy_if_intervals<256> <<<decomp.size(), 256>>>
-      (first,
-       predicate_stencil,
-       block_results.begin(),
-       decomp,
-       output);
-  synchronize_if_enabled("copy_if_intervals");
+  // copy values to output
+  const unsigned int ThreadsPerBlock = 256;
+  typedef typename IndexArray::iterator InputIterator3;
+  typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+  typedef copy_if_intervals_closure<InputIterator1,PredicateToIndexIterator,InputIterator3,Decomposition,OutputIterator,Context> Closure;
+  Closure closure(first, predicate_stencil, block_results.begin(), decomp, output);
+  thrust::detail::backend::cuda::detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
 
   return output + block_results[decomp.size() - 1];
 }
@@ -195,6 +219,4 @@ template<typename InputIterator1,
 } // end namespace thrust
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
-
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

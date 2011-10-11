@@ -18,9 +18,6 @@
 
 #include <thrust/detail/config.h>
 
-// do not attempt to compile this file, which uses CUDA built-in variables, with any compiler other than nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -34,43 +31,43 @@ namespace cuda
 namespace block
 {
 
-template <unsigned int block_size, typename ValueIterator, typename BinaryFunction>
+template <typename Context, unsigned int block_size, typename ValueIterator, typename BinaryFunction>
 __device__ __forceinline__
-void reduce(ValueIterator data, BinaryFunction binary_op)
+void reduce(Context context, ValueIterator data, BinaryFunction binary_op)
 {
   // TODO generalize this code with TMP
-  if (block_size >= 1024) { if (threadIdx.x < 512) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 512]); } __syncthreads(); }
-  if (block_size >=  512) { if (threadIdx.x < 256) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 256]); } __syncthreads(); }
-  if (block_size >=  256) { if (threadIdx.x < 128) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x + 128]); } __syncthreads(); }
-  if (block_size >=  128) { if (threadIdx.x <  64) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  64]); } __syncthreads(); }
-  if (block_size >=   64) { if (threadIdx.x <  32) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  32]); } __syncthreads(); }
-  if (block_size >=   32) { if (threadIdx.x <  16) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +  16]); } __syncthreads(); }
-  if (block_size >=   16) { if (threadIdx.x <   8) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   8]); } __syncthreads(); }
-  if (block_size >=    8) { if (threadIdx.x <   4) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   4]); } __syncthreads(); }
-  if (block_size >=    4) { if (threadIdx.x <   2) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   2]); } __syncthreads(); }
-  if (block_size >=    2) { if (threadIdx.x <   1) { data[threadIdx.x] = binary_op(data[threadIdx.x], data[threadIdx.x +   1]); } __syncthreads(); }
+  if (block_size >= 1024) { if (context.thread_index() < 512) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() + 512]); } context.barrier(); }
+  if (block_size >=  512) { if (context.thread_index() < 256) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() + 256]); } context.barrier(); }
+  if (block_size >=  256) { if (context.thread_index() < 128) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() + 128]); } context.barrier(); }
+  if (block_size >=  128) { if (context.thread_index() <  64) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +  64]); } context.barrier(); }
+  if (block_size >=   64) { if (context.thread_index() <  32) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +  32]); } context.barrier(); }
+  if (block_size >=   32) { if (context.thread_index() <  16) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +  16]); } context.barrier(); }
+  if (block_size >=   16) { if (context.thread_index() <   8) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   8]); } context.barrier(); }
+  if (block_size >=    8) { if (context.thread_index() <   4) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   4]); } context.barrier(); }
+  if (block_size >=    4) { if (context.thread_index() <   2) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   2]); } context.barrier(); }
+  if (block_size >=    2) { if (context.thread_index() <   1) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   1]); } context.barrier(); }
 }
 
-template <typename ValueIterator, typename BinaryFunction>
+template <typename Context, typename ValueIterator, typename BinaryFunction>
 __device__ __forceinline__
-void reduce_n(ValueIterator data, unsigned int n, BinaryFunction binary_op)
+void reduce_n(Context context, ValueIterator data, unsigned int n, BinaryFunction binary_op)
 {
-  if (blockDim.x < n)
+  if (context.block_dimension() < n)
   {
-    for (unsigned int i = blockDim.x + threadIdx.x; i < n; i += blockDim.x)
-      data[threadIdx.x] = binary_op(data[threadIdx.x], data[i]);
+    for (unsigned int i = context.block_dimension() + context.thread_index(); i < n; i += context.block_dimension())
+      data[context.thread_index()] = binary_op(data[context.thread_index()], data[i]);
 
-    __syncthreads();
+    context.barrier();
   }
 
   while (n > 1)
   {
     unsigned int half = n / 2;
 
-    if (threadIdx.x < half)
-      data[threadIdx.x] = binary_op(data[threadIdx.x], data[n - threadIdx.x - 1]);
+    if (context.thread_index() < half)
+      data[context.thread_index()] = binary_op(data[context.thread_index()], data[n - context.thread_index() - 1]);
 
-    __syncthreads();
+    context.barrier();
 
     n = n - half;
   }
@@ -81,6 +78,4 @@ void reduce_n(ValueIterator data, unsigned int n, BinaryFunction binary_op)
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

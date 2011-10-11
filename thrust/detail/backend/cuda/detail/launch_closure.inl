@@ -38,7 +38,7 @@ namespace detail
 
 
 template<typename Closure>
-__global__ __launch_bounds__(Closure::ThreadsPerBlock::value, Closure::BlocksPerMultiprocessor::value)
+__global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
 void launch_closure_by_value(Closure f)
 {
   f();
@@ -46,7 +46,7 @@ void launch_closure_by_value(Closure f)
 
 
 template<typename Closure>
-__global__ __launch_bounds__(Closure::ThreadsPerBlock::value, Closure::BlocksPerMultiprocessor::value)
+__global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
 void launch_closure_by_pointer(const Closure *f)
 {
   // copy to registers
@@ -148,18 +148,6 @@ template<typename Closure>
     super_t::launch(f,num_blocks,block_size,smem_size);
   }
 };
-
-template<typename Closure>
-  size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread)
-{
-  return closure_launcher<Closure>::block_size_with_maximal_occupancy(dynamic_smem_bytes_per_thread);
-} // end block_size_with_maximal_occupancy()
-
-template<typename Closure, typename Size1, typename Size2>
-  size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
-{
-  return closure_launcher<Closure>::num_blocks_with_maximal_occupancy(n, block_size, dynamic_smem_bytes_per_block);
-} // end num_blocks_with_maximal_occupancy()
 
 template<typename Closure, typename Size>
   void launch_closure(Closure f, Size num_blocks)

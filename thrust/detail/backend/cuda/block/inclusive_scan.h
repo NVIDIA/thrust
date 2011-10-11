@@ -36,6 +36,9 @@ __device__ __forceinline__
   void inplace_inclusive_scan(RandomAccessIterator first,
                               BinaryFunction binary_op)
 {
+// TODO remove guard
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typename thrust::iterator_value<RandomAccessIterator>::type val = first[threadIdx.x];
   __syncthreads(); // TODO see if this can be removed
 
@@ -50,6 +53,7 @@ __device__ __forceinline__
   if(block_size >  256) { if (threadIdx.x >=  256) { val = binary_op(first[threadIdx.x -  256], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
   if(block_size >  512) { if (threadIdx.x >=  512) { val = binary_op(first[threadIdx.x -  512], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
   if(block_size > 1024) { if (threadIdx.x >= 1024) { val = binary_op(first[threadIdx.x - 1024], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+#endif // THRUST_DEVICE_COMPILER_NVCC
 } // end inplace_inclusive_scan()
 
 
@@ -61,6 +65,9 @@ void inplace_inclusive_scan_n(RandomAccessIterator first,
                               Size n,
                               BinaryFunction binary_op)
 {
+// TODO remove guard
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typename thrust::iterator_value<RandomAccessIterator>::type val = first[threadIdx.x];
   __syncthreads(); // TODO see if this can be removed
 
@@ -76,6 +83,7 @@ void inplace_inclusive_scan_n(RandomAccessIterator first,
   if(n >  256) { if (threadIdx.x < n && threadIdx.x >=  256) { val = binary_op(first[threadIdx.x -  256], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
   if(n >  512) { if (threadIdx.x < n && threadIdx.x >=  512) { val = binary_op(first[threadIdx.x -  512], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
   if(n > 1024) { if (threadIdx.x < n && threadIdx.x >= 1024) { val = binary_op(first[threadIdx.x - 1024], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }  
+#endif // THRUST_DEVICE_COMPILER_NVCC
 } // end inplace_inclusive_scan()
 
 
@@ -88,6 +96,9 @@ __device__ __forceinline__
                                  RandomAccessIterator2 first2,
                                  BinaryFunction binary_op)
 {
+// TODO remove guard
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typename thrust::iterator_value<RandomAccessIterator1>::type flg = first1[threadIdx.x];
   typename thrust::iterator_value<RandomAccessIterator2>::type val = first2[threadIdx.x];
 
@@ -102,6 +113,7 @@ __device__ __forceinline__
   if(block_size >  256) { if (threadIdx.x >=  256) { if (!flg) { flg |= first1[threadIdx.x -  256]; val = binary_op(first2[threadIdx.x -  256], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
   if(block_size >  512) { if (threadIdx.x >=  512) { if (!flg) { flg |= first1[threadIdx.x -  512]; val = binary_op(first2[threadIdx.x -  512], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
   if(block_size > 1024) { if (threadIdx.x >= 1024) { if (!flg) { flg |= first1[threadIdx.x - 1024]; val = binary_op(first2[threadIdx.x - 1024], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
+#endif // THRUST_DEVICE_COMPILER_NVCC
 } // end inplace_inclusive_segscan()
 
 
@@ -115,6 +127,9 @@ __device__ __forceinline__
                                    Size n,
                                    BinaryFunction binary_op)
 {
+// TODO remove guard
+// CUDA built-in variables require nvcc
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typename thrust::iterator_value<RandomAccessIterator1>::type flg = first1[threadIdx.x];
   typename thrust::iterator_value<RandomAccessIterator2>::type val = first2[threadIdx.x];
 
@@ -130,6 +145,7 @@ __device__ __forceinline__
   if(n >  256) { if (threadIdx.x < n && threadIdx.x >=  256) { if (!flg) { flg |= first1[threadIdx.x -  256]; val = binary_op(first2[threadIdx.x -  256], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
   if(n >  512) { if (threadIdx.x < n && threadIdx.x >=  512) { if (!flg) { flg |= first1[threadIdx.x -  512]; val = binary_op(first2[threadIdx.x -  512], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
   if(n > 1024) { if (threadIdx.x < n && threadIdx.x >= 1024) { if (!flg) { flg |= first1[threadIdx.x - 1024]; val = binary_op(first2[threadIdx.x - 1024], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
+#endif // THRUST_DEVICE_COMPILER_NVCC
 } // end inplace_inclusive_segscan()
 
 } // end namespace block
