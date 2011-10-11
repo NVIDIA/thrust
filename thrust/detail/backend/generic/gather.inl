@@ -18,6 +18,7 @@
 #include <thrust/detail/backend/generic/gather.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/functional.h>
+#include <thrust/transform.h>
 #include <thrust/iterator/permutation_iterator.h>
 
 namespace thrust
