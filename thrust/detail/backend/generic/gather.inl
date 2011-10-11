@@ -14,35 +14,34 @@
  *  limitations under the License.
  */
 
-
-/*! \file gather.inl
- *  \brief Inline file for gather.h.
- */
-
-#include <thrust/gather.h>
-#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/config.h>
 #include <thrust/detail/backend/generic/gather.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/functional.h>
+#include <thrust/iterator/permutation_iterator.h>
 
 namespace thrust
+{
+namespace detail
+{
+namespace backend
+{
+namespace generic
 {
 
 template<typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather(InputIterator        map_first,
+  OutputIterator gather(tag,
+                        InputIterator        map_first,
                         InputIterator        map_last,
                         RandomAccessIterator input_first,
                         OutputIterator       result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::gather;
-
-  typedef typename thrust::iterator_space<InputIterator>::type        space1; 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space2; 
-  typedef typename thrust::iterator_space<OutputIterator>::type       space3; 
-
-  return gather(select_system(space1(),space2(),space3()), map_first, map_last, input_first, result);
+  return thrust::transform(thrust::make_permutation_iterator(input_first, map_first),
+                           thrust::make_permutation_iterator(input_first, map_last),
+                           result,
+                           thrust::identity<typename thrust::iterator_value<RandomAccessIterator>::type>());
 } // end gather()
 
 
@@ -50,21 +49,20 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather_if(InputIterator1       map_first,
+  OutputIterator gather_if(tag,
+                           InputIterator1       map_first,
                            InputIterator1       map_last,
                            InputIterator2       stencil,
                            RandomAccessIterator input_first,
                            OutputIterator       result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::gather_if;
-
-  typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space3; 
-  typedef typename thrust::iterator_space<OutputIterator>::type       space4; 
-
-  return gather_if(select_system(space1(),space2(),space3(),space4()), map_first, map_last, stencil, input_first, result);
+  typedef typename thrust::iterator_value<InputIterator2>::type StencilType;
+  return thrust::gather_if(map_first,
+                           map_last,
+                           stencil,
+                           input_first,
+                           result,
+                           thrust::identity<StencilType>());
 } // end gather_if()
 
 
@@ -73,23 +71,25 @@ template<typename InputIterator1,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator gather_if(InputIterator1       map_first,
+  OutputIterator gather_if(tag,
+                           InputIterator1       map_first,
                            InputIterator1       map_last,
                            InputIterator2       stencil,
                            RandomAccessIterator input_first,
                            OutputIterator       result,
                            Predicate            pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::gather_if;
-
-  typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space3; 
-  typedef typename thrust::iterator_space<OutputIterator>::type       space4; 
-
-  return gather_if(select_system(space1(),space2(),space3(),space4()), map_first, map_last, stencil, input_first, result, pred);
+  typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
+  return thrust::transform_if(thrust::make_permutation_iterator(input_first, map_first),
+                              thrust::make_permutation_iterator(input_first, map_last),
+                              stencil,
+                              result,
+                              thrust::identity<InputType>(),
+                              pred);
 } // end gather_if()
 
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
 
