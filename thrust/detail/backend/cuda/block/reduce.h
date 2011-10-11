@@ -31,23 +31,10 @@ namespace cuda
 namespace block
 {
 
-template <typename Context, unsigned int block_size, typename ValueIterator, typename BinaryFunction>
-__device__ __forceinline__
-void reduce(Context context, ValueIterator data, BinaryFunction binary_op)
-{
-  // TODO generalize this code with TMP
-  if (block_size >= 1024) { if (context.thread_index() < 512) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() + 512]); } context.barrier(); }
-  if (block_size >=  512) { if (context.thread_index() < 256) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() + 256]); } context.barrier(); }
-  if (block_size >=  256) { if (context.thread_index() < 128) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() + 128]); } context.barrier(); }
-  if (block_size >=  128) { if (context.thread_index() <  64) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +  64]); } context.barrier(); }
-  if (block_size >=   64) { if (context.thread_index() <  32) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +  32]); } context.barrier(); }
-  if (block_size >=   32) { if (context.thread_index() <  16) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +  16]); } context.barrier(); }
-  if (block_size >=   16) { if (context.thread_index() <   8) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   8]); } context.barrier(); }
-  if (block_size >=    8) { if (context.thread_index() <   4) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   4]); } context.barrier(); }
-  if (block_size >=    4) { if (context.thread_index() <   2) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   2]); } context.barrier(); }
-  if (block_size >=    2) { if (context.thread_index() <   1) { data[context.thread_index()] = binary_op(data[context.thread_index()], data[context.thread_index() +   1]); } context.barrier(); }
-}
-
+/* Reduces [data, data + n) using binary_op and stores the result in data[0]
+ *
+ * Upon return the elements in [data + 1, data + n) have unspecified values.
+ */
 template <typename Context, typename ValueIterator, typename BinaryFunction>
 __device__ __forceinline__
 void reduce_n(Context context, ValueIterator data, unsigned int n, BinaryFunction binary_op)
