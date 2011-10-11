@@ -14,46 +14,55 @@
  *  limitations under the License.
  */
 
-
-/*! \file reverse.inl
- *  \brief Inline file for reverse.h.
- */
-
 #include <thrust/detail/config.h>
-#include <thrust/reverse.h>
-#include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/detail/backend/generic/reverse.h>
+#include <thrust/advance.h>
+#include <thrust/distance.h>
+#include <thrust/detail/copy.h>
+#include <thrust/swap.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/reverse_iterator.h>
 
 namespace thrust
 {
+namespace detail
+{
+namespace backend
+{
+namespace generic
+{
 
 template<typename BidirectionalIterator>
-  void reverse(BidirectionalIterator first,
+  void reverse(tag,
+               BidirectionalIterator first,
                BidirectionalIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reverse;
+  typedef typename thrust::iterator_difference<BidirectionalIterator>::type difference_type;
 
-  typedef typename thrust::iterator_space<BidirectionalIterator>::type space;
+  // find the midpoint of [first,last)
+  difference_type N = thrust::distance(first, last);
+  BidirectionalIterator mid(first);
+  thrust::advance(mid, N / 2);
 
-  return reverse(select_system(space()), first, last);
+  // swap elements of [first,mid) with [last - 1, mid)
+  thrust::swap_ranges(first, mid, thrust::make_reverse_iterator(last));
 } // end reverse()
 
 template<typename BidirectionalIterator,
          typename OutputIterator>
-  OutputIterator reverse_copy(BidirectionalIterator first,
+  OutputIterator reverse_copy(tag,
+                              BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reverse_copy;
-
-  typedef typename thrust::iterator_space<BidirectionalIterator>::type space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type        space2;
-
-  return reverse_copy(select_system(space1(),space2()), first, last, result);
+  return thrust::copy(thrust::make_reverse_iterator(last),
+                      thrust::make_reverse_iterator(first),
+                      result);
 } // end reverse_copy()
 
-} // end thrust
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
+
 
