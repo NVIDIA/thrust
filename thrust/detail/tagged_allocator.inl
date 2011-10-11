@@ -85,9 +85,8 @@ template<typename T, typename Tag, typename Pointer>
       ::allocate(size_type cnt)
 {
   using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::malloc;
 
-  // XXX should probably have a using generic::malloc here
-  //     which would be an automatic failure if selected
   // XXX should use a hypothetical thrust::static_pointer_cast here
   T* result = static_cast<T*>(get(malloc(select_system(Tag()), sizeof(value_type) * cnt)));
 
