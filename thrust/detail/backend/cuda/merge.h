@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
+
 namespace thrust
 {
 
@@ -32,7 +35,8 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-  RandomAccessIterator3 merge(RandomAccessIterator1 first1,
+  RandomAccessIterator3 merge(tag,
+                              RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2,
                               RandomAccessIterator2 last2,

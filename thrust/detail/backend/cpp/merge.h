@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -29,7 +32,8 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(InputIterator1 first1,
+OutputIterator merge(tag,
+                     InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
                      InputIterator2 last2,

@@ -19,9 +19,14 @@
  */
 
 #include <thrust/merge.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/merge.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/functional.h>
-#include <thrust/detail/backend/merge.h>
+
+// XXX make the backend-specific versions of reduce available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/merge.h>
+#include <thrust/detail/backend/cuda/merge.h>
 
 namespace thrust
 {
@@ -37,9 +42,14 @@ template<typename InputIterator1,
                        OutputIterator result,
                        StrictWeakOrdering comp)
 {
-  return thrust::detail::backend::merge(first1, last1,
-                                        first2, last2,
-                                        result, comp);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::merge;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return merge(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result, comp);
 } // end set_intersection()
 
 template<typename InputIterator1,
@@ -51,8 +61,14 @@ template<typename InputIterator1,
                        InputIterator2 last2,
                        OutputIterator result)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::merge(first1, last1, first2, last2, result, thrust::less<value_type>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::merge;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return merge(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result);
 } // end merge()
 
 } // end thrust

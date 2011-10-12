@@ -20,6 +20,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/merge.h>
 
 namespace thrust
 {
@@ -34,7 +35,8 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(InputIterator1 first1,
+OutputIterator merge(tag,
+                     InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
                      InputIterator2 last2,
@@ -73,7 +75,7 @@ void inplace_merge(RandomAccessIterator first,
   thrust::detail::temporary_array<value_type, thrust::cpp::tag> a( first, middle);
   thrust::detail::temporary_array<value_type, thrust::cpp::tag> b(middle,   last);
 
-  thrust::detail::backend::cpp::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
+  thrust::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 
