@@ -38,13 +38,6 @@ namespace backend
 namespace generic
 {
 
-namespace detail
-{
-
-struct error {};
-
-}
-
 template<typename Size> void malloc(tag, Size);
 
 template<typename Pointer> void free(tag, Pointer);
