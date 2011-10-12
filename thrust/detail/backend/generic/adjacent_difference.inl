@@ -16,8 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/backend/generic/adjacent_difference.h>
-#include <thrust/detail/backend/generic/select_system.h>
-
+#include <thrust/adjacent_difference.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
@@ -37,16 +36,10 @@ OutputIterator adjacent_difference(tag,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::adjacent_difference;
-
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
-
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   thrust::minus<InputType> binary_op;
 
-  return adjacent_difference(select_system(space1(), space2()), first, last, result, binary_op);
+  return thrust::adjacent_difference(first, last, result, binary_op);
 } // end adjacent_difference()
 
 template <class InputIterator, class OutputIterator, class BinaryFunction>
@@ -55,26 +48,26 @@ OutputIterator adjacent_difference(tag,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    typedef typename thrust::iterator_space<InputIterator>::type Space;
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  typedef typename thrust::iterator_space<InputIterator>::type Space;
 
-    if(first == last)
-    {
-        // empty range, nothing to do
-        return result; 
-    }
-    else 
-    {
-        // an in-place operation is requested, copy the input and call the entry point
-        // XXX a special-purpose kernel would be faster here since
-        // only block boundaries need to be copied
-        thrust::detail::temporary_array<InputType, Space> input_copy(first, last);
-        
-        *result = *first;
-        thrust::transform(input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
-    }
+  if(first == last)
+  {
+    // empty range, nothing to do
+    return result; 
+  }
+  else 
+  {
+    // an in-place operation is requested, copy the input and call the entry point
+    // XXX a special-purpose kernel would be faster here since
+    // only block boundaries need to be copied
+    thrust::detail::temporary_array<InputType, Space> input_copy(first, last);
+    
+    *result = *first;
+    thrust::transform(input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+  }
 
-    return result + (last - first);
+  return result + (last - first);
 }
 
 } // end namespace generic
