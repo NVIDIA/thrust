@@ -15,58 +15,48 @@
  */
 
 
-/*! \file transform_scan.inl
- *  \brief Inline file for transform_scan.h.
- */
+#pragma once
 
-#include <thrust/scan.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/transform_scan.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
+{
+namespace detail
+{
+namespace backend
+{
+namespace generic
 {
 
 template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename BinaryFunction>
-  OutputIterator transform_inclusive_scan(InputIterator first,
+  OutputIterator transform_inclusive_scan(tag,
+                                          InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
                                           UnaryFunction unary_op,
-                                          BinaryFunction binary_op)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_inclusive_scan;
-
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
-
-  return transform_inclusive_scan(select_system(space1(),space2()), first, last, result, unary_op, binary_op);
-} // end transform_inclusive_scan()
-
+                                          BinaryFunction binary_op);
 
 template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  OutputIterator transform_exclusive_scan(InputIterator first,
+  OutputIterator transform_exclusive_scan(tag,
+                                          InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
                                           UnaryFunction unary_op,
                                           T init,
-                                          AssociativeOperator binary_op)
-{
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_exclusive_scan;
+                                          AssociativeOperator binary_op);
 
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
-
-  return transform_exclusive_scan(select_system(space1(),space2()), first, last, result, unary_op, init, binary_op);
-} // end transform_exclusive_scan()
-
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/generic/transform_scan.inl>
 
