@@ -36,7 +36,7 @@
 #include <thrust/detail/backend/internal/reduce_intervals.h>
 
 #include <thrust/reduce.h>
-#include <thrust/detail/backend/scan.h>
+#include <thrust/scan.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
@@ -555,9 +555,9 @@ template <typename InputIterator1,
 //      std::cout << "[" << decomp[i].begin() << "," << decomp[i].end() << ") = " << interval_counts[i] << std::endl;
 //    }
 
-    thrust::detail::backend::cuda::inclusive_scan(interval_counts.begin(), interval_counts.end(),
-                                                  interval_counts.begin(),
-                                                  thrust::plus<IndexType>());
+    thrust::inclusive_scan(interval_counts.begin(), interval_counts.end(),
+                           interval_counts.begin(),
+                           thrust::plus<IndexType>());
  
     // determine output size
     const IndexType N = interval_counts[interval_counts.size() - 1];

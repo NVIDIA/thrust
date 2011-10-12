@@ -20,42 +20,34 @@
  */
 
 #include <thrust/detail/backend/scan.h>
-
-#include <thrust/functional.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/scan.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/function_traits.h>
-#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+// XXX make the backend-specific versions of scan available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/scan.h>
+#include <thrust/detail/backend/cuda/scan.h>
+
+#include <thrust/functional.h>
 
 namespace thrust
 {
 
-//////////////////
-// Entry Points //
-//////////////////
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::inclusive_scan;
 
-  typedef typename thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-  >::type ValueType;
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
 
-  // assume plus as the associative operator
-  return thrust::inclusive_scan(first, last, result, thrust::plus<ValueType>());
-} 
+  return inclusive_scan(select_system(space1(),space2()), first, last, result);
+} // end inclusive_scan()
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -65,8 +57,14 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 BinaryFunction binary_op)
 {
-  return thrust::detail::backend::inclusive_scan(first, last, result, binary_op);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::inclusive_scan;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return inclusive_scan(select_system(space1(),space2()), first, last, result, binary_op);
+} // end inclusive_scan()
 
 template<typename InputIterator,
          typename OutputIterator>
@@ -74,22 +72,14 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan;
 
-  typedef typename thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-  >::type ValueType;
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
 
-  // assume 0 as the initialization value
-  return thrust::exclusive_scan(first, last, result, ValueType(0));
-}
+  return exclusive_scan(select_system(space1(),space2()), first, last, result);
+} // end exclusive_scan()
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -99,9 +89,14 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init)
 {
-  // assume plus as the associative operator
-  return thrust::exclusive_scan(first, last, result, init, thrust::plus<T>());
-} 
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return exclusive_scan(select_system(space1(),space2()), first, last, result, init);
+} // end exclusive_scan()
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -113,8 +108,14 @@ template<typename InputIterator,
                                 T init,
                                 BinaryFunction binary_op)
 {
-  return thrust::detail::backend::exclusive_scan(first, last, result, init, binary_op);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return exclusive_scan(select_system(space1(),space2()), first, last, result, init, binary_op);
+} // end exclusive_scan()
 
 /////////////////////
 // Key-Value Scans //

@@ -26,7 +26,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
 
-#include <thrust/detail/backend/scan.h>
+#include <thrust/scan.h>
 #include <thrust/scatter.h>
 
 #include <limits>
@@ -37,17 +37,6 @@ namespace detail
 {
 namespace backend
 {
-
-// XXX WAR circular #inclusion with forward declaration
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op);
 
 
 template<typename InputIterator1,
@@ -96,11 +85,11 @@ OutputIterator copy_if(InputIterator1 first,
 
     // scan {0,1} predicates
     thrust::detail::temporary_array<IndexType, Space> scatter_indices(n);
-    thrust::detail::backend::exclusive_scan(predicates.begin(),
-                                            predicates.end(),
-                                            scatter_indices.begin(),
-                                            static_cast<IndexType>(0),
-                                            thrust::plus<IndexType>());
+    thrust::exclusive_scan(predicates.begin(),
+                           predicates.end(),
+                           scatter_indices.begin(),
+                           static_cast<IndexType>(0),
+                           thrust::plus<IndexType>());
 
     // scatter the true elements
     thrust::scatter_if(first,

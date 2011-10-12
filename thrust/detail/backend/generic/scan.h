@@ -15,14 +15,10 @@
  */
 
 
-/*! \file scan.h
- *  \brief Scan operations (parallel prefix-sum) [cuda]
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -30,33 +26,64 @@ namespace detail
 {
 namespace backend
 {
-namespace cuda
+namespace generic
 {
 
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator inclusive_scan(tag,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result);
+
+
+// XXX it is an error to call this function; it has no implementation 
 template<typename InputIterator,
          typename OutputIterator,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator inclusive_scan(tag,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                AssociativeOperator binary_op);
+                                BinaryFunction binary_op);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator exclusive_scan(tag,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result);
+
 
 template<typename InputIterator,
          typename OutputIterator,
+         typename T>
+  OutputIterator exclusive_scan(tag,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                T init);
+
+
+// XXX it is an error to call this function; it has no implementation 
+template<typename InputIterator,
+         typename OutputIterator,
          typename T,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator exclusive_scan(tag,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                AssociativeOperator binary_op);
+                                BinaryFunction binary_op);
 
-} // end namespace cuda
+
+} // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cuda/scan.inl>
+#include <thrust/detail/backend/generic/scan.inl>
 

@@ -24,7 +24,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
 
-#include <thrust/detail/backend/scan.h>
+#include <thrust/scan.h>
 
 namespace thrust
 {
@@ -86,7 +86,7 @@ template<typename InputIterator1,
         //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
         //    NVIDIA Technical Report NVR-2008-003, December 2008
         //    http://mgarland.org/files/papers/nvr-2008-003.pdf
-        thrust::detail::backend::inclusive_scan
+        thrust::inclusive_scan
             (thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())),
              thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())) + n,
              thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
@@ -135,10 +135,10 @@ template<typename InputIterator1,
         //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
         //    NVIDIA Technical Report NVR-2008-003, December 2008
         //    http://mgarland.org/files/papers/nvr-2008-003.pdf
-        thrust::detail::backend::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())),
-                                                thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())) + n,
-                                                thrust::make_zip_iterator(thrust::make_tuple(result,       flags.begin())),
-                                                detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+        thrust::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())),
+                               thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())) + n,
+                               thrust::make_zip_iterator(thrust::make_tuple(result,       flags.begin())),
+                               detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
     }
 
     return result + n;

@@ -29,6 +29,7 @@
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/decompose.h>
 
+#include <thrust/scan.h>
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/reduce.h>
@@ -178,7 +179,7 @@ template<typename InputIterator1,
   thrust::detail::backend::internal::reduce_intervals(predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
 
   // scan the partial sums
-  thrust::detail::backend::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
+  thrust::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
 
   copy_if_intervals<256> <<<decomp.size(), 256>>>
       (first,

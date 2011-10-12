@@ -17,14 +17,12 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/cpp/scan.h>
+#include <thrust/detail/backend/cpp/scan_by_key.h>
 #include <thrust/detail/backend/cuda/scan.h>
-#include <thrust/detail/backend/omp/scan.h>
 #include <thrust/detail/backend/generic/scan_by_key.h>
 
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/cuda/detail/tag.h>
-#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -34,93 +32,6 @@ namespace backend
 {
 namespace dispatch
 {
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename AssociativeOperator>
-  OutputIterator inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op,
-                                thrust::cpp::tag)
-{
-    return thrust::detail::backend::cpp::inclusive_scan(first, last, result, binary_op);
-}
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename AssociativeOperator>
-  OutputIterator inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op,
-                                thrust::omp::tag)
-{
-    return thrust::detail::backend::omp::inclusive_scan(first, last, result, binary_op);
-}
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename AssociativeOperator>
-  OutputIterator inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op,
-                                thrust::cuda::tag)
-{
-    return thrust::detail::backend::cuda::inclusive_scan(first, last, result, binary_op);
-}
-
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op,
-                                thrust::cpp::tag)
-{
-    return thrust::detail::backend::cpp::exclusive_scan(first, last, result, init, binary_op);
-}
-
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op,
-                                thrust::omp::tag)
-{
-    return thrust::detail::backend::omp::exclusive_scan(first, last, result, init, binary_op);
-}
-
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op,
-                                thrust::cuda::tag)
-{
-    return thrust::detail::backend::cuda::exclusive_scan(first, last, result, init, binary_op);
-}
 
 
 
@@ -201,41 +112,6 @@ template<typename InputIterator1,
 
 
 } // end dispatch
-
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename AssociativeOperator>
-  OutputIterator inclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op)
-{
-    return thrust::detail::backend::dispatch::inclusive_scan(first, last, result, binary_op,
-        typename thrust::detail::minimum_space<
-            typename thrust::iterator_space<InputIterator>::type,
-            typename thrust::iterator_space<OutputIterator>::type
-        >::type());
-}
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op)
-{
-    return thrust::detail::backend::dispatch::exclusive_scan(first, last, result, init, binary_op,
-        typename thrust::detail::minimum_space<
-            typename thrust::iterator_space<InputIterator>::type,
-            typename thrust::iterator_space<OutputIterator>::type
-        >::type());
-}
 
 
 template<typename InputIterator1,

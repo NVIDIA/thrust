@@ -140,13 +140,13 @@ template<typename InputIterator1,
     thrust::detail::temporary_array<ValueType,Space> scanned_values(n);
     thrust::detail::temporary_array<FlagType,Space>  scanned_tail_flags(n);
     
-    thrust::detail::backend::inclusive_scan
+    thrust::inclusive_scan
         (thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
          thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
          thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
          detail::reduce_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
 
-    thrust::detail::backend::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
+    thrust::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
 
     // number of unique keys
     FlagType N = scanned_tail_flags[n - 1] + 1;

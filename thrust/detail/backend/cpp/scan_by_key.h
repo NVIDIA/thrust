@@ -14,12 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file scan.h
- *  \brief Device implementations for scan.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -27,36 +24,42 @@ namespace detail
 {
 namespace backend
 {
+namespace cpp
+{
+
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator inclusive_scan_by_key(InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
-                                       AssociativeOperator binary_op);
+                                       BinaryFunction binary_op);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename T,
          typename BinaryPredicate,
-         typename AssociativeOperator>
+         typename BinaryFunction>
   OutputIterator exclusive_scan_by_key(InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        T init,
                                        BinaryPredicate binary_pred,
-                                       AssociativeOperator binary_op);
+                                       BinaryFunction binary_op);
 
+
+} // end namespace cpp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/scan.inl>
+#include <thrust/detail/backend/cpp/scan_by_key.inl>
 

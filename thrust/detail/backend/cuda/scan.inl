@@ -35,7 +35,8 @@ namespace cuda
 template<typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(InputIterator first,
+  OutputIterator inclusive_scan(tag,
+                                InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
@@ -71,7 +72,8 @@ template<typename InputIterator,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(InputIterator first,
+  OutputIterator exclusive_scan(tag,
+                                InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
