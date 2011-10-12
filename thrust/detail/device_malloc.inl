@@ -19,18 +19,29 @@
  *  \brief Inline file for device_malloc.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/device_malloc.h>
-#include <thrust/detail/backend/dispatch/malloc.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/memory.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
 
+
 thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::malloc;
+
   typedef thrust::iterator_space< device_ptr<void> >::type space;
 
-  return thrust::detail::backend::dispatch::malloc<0>(n, space());
+  // XXX should use a hypothetical thrust::static_pointer_cast here
+  void* raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(select_system(space()), n)));
+
+  return thrust::device_ptr<void>(raw_ptr);
 } // end device_malloc()
+
 
 template<typename T>
   thrust::device_ptr<T> device_malloc(const std::size_t n)
@@ -38,6 +49,7 @@ template<typename T>
   thrust::device_ptr<void> void_ptr = thrust::device_malloc(n * sizeof(T));
   return thrust::device_pointer_cast(static_cast<T*>(void_ptr.get()));
 } // end device_malloc()
+
 
 } // end thrust
 

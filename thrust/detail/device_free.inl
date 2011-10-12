@@ -19,17 +19,23 @@
  *  \brief Inline file for device_free.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/device_free.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/memory.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dispatch/free.h>
 
 namespace thrust
 {
 
 void device_free(thrust::device_ptr<void> ptr)
 {
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::free;
+
   typedef thrust::iterator_space< thrust::device_ptr<void> >::type space;
-  detail::backend::dispatch::free<0>(ptr, space());
+
+  free(select_system(space()), ptr);
 } // end device_free()
 
 } // end thrust
