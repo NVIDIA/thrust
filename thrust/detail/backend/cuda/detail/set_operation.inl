@@ -21,7 +21,6 @@
 
 #include <thrust/detail/uninitialized_array.h>
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/arch.h>
 #include <thrust/detail/backend/cuda/extern_shared_ptr.h>
 #include <thrust/detail/backend/cuda/block/copy.h>
@@ -215,11 +214,11 @@ struct set_operation_closure
   
       // load the first segment
       difference1 s_input1_size = thrust::min<difference1>(context.block_dimension(), input_end1 - input_begin1);
-      cuda::block::copy(input_begin1, input_begin1 + s_input1_size, s_input1);
+      cuda::block::copy(context, input_begin1, input_begin1 + s_input1_size, s_input1);
   
       // load the second segment
       difference2 s_input2_size = thrust::min<difference2>(context.block_dimension(), input_end2 - input_begin2);
-      cuda::block::copy(input_begin2, input_begin2 + s_input2_size, s_input2);
+      cuda::block::copy(context, input_begin2, input_begin2 + s_input2_size, s_input2);
   
       context.barrier();
   
@@ -233,7 +232,7 @@ struct set_operation_closure
       context.barrier();
   
       // store to gmem
-      cuda::block::copy(s_result, s_result_end, output_begin);
+      cuda::block::copy(context, s_result, s_result_end, output_begin);
   
       // store size of the result
       if(context.thread_index() == 0)
@@ -326,7 +325,7 @@ struct grouped_gather_closure
         partition_size -= dereference(size_of_result_before_and_including_each_partition);
       } // end if
   
-      cuda::block::copy(input_begin, input_begin + partition_size, output_begin);
+      cuda::block::copy(context, input_begin, input_begin + partition_size, output_begin);
     } // end for partition
   }
 }; // end grouped_gather_closure
