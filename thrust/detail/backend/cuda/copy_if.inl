@@ -27,9 +27,7 @@
 #include <thrust/detail/backend/decompose.h>
 #include <thrust/detail/backend/reduce_intervals.h>
 
-#include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
-#include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
 
@@ -114,11 +112,8 @@ struct copy_if_intervals_closure
       
         context.barrier();
 
-// TODO remove guard
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
         // scan block
-        block::inplace_inclusive_scan<CTA_SIZE>(sdata, binary_op);
-#endif // THRUST_DEVICE_COMPILER_NVCC
+        cuda::block::inplace_inclusive_scan(context, sdata, binary_op);
        
         // write data
         if (predicate)
@@ -149,11 +144,8 @@ struct copy_if_intervals_closure
        
         context.barrier();
 
-// TODO remove guard
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
         // scan block
-        block::inplace_inclusive_scan<CTA_SIZE>(sdata, binary_op);
-#endif // THRUST_DEVICE_COMPILER_NVCC
+        cuda::block::inplace_inclusive_scan(context, sdata, binary_op);
        
         // write data
         if (predicate) // expects predicate=false for >= interval_end

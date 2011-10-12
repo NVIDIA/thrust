@@ -55,12 +55,14 @@ template<typename Size>
 template<typename T>
   inline __device__ void aligned_copy(T *dst, const T *src, unsigned int num_elements)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   for(unsigned int i = threadIdx.x;
       i < num_elements;
       i += blockDim.x)
   {
     dst[i] = src[i];
   }
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 } // end aligned_copy()
 
 
@@ -69,6 +71,7 @@ template<typename T>
 
 inline __device__ void trivial_copy(void* destination_, const void* source_, size_t num_bytes)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   // reinterpret at bytes
   char* destination  = reinterpret_cast<char*>(destination_);
   const char* source = reinterpret_cast<const char*>(source_);
@@ -109,6 +112,7 @@ inline __device__ void trivial_copy(void* destination_, const void* source_, siz
 
     trivial_copy_detail::aligned_copy(remainder_result, remainder_first, num_wide_elements_and_remainder_bytes.second);
   }
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 } // end trivial_copy()
 
 
@@ -125,6 +129,7 @@ template<typename RandomAccessIterator1,
                              RandomAccessIterator2 result,
                              thrust::detail::true_type is_trivial_copy)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
   // XXX these aren't working at the moment
@@ -136,6 +141,7 @@ template<typename RandomAccessIterator1,
   size_t n = (last - first);
   thrust::detail::backend::cuda::block::trivial_copy(dst, src, n * sizeof(T));
   return result + n;
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 } // end copy()
 
 template<typename RandomAccessIterator1,
@@ -146,6 +152,7 @@ template<typename RandomAccessIterator1,
                              RandomAccessIterator2 result,
                              thrust::detail::false_type is_trivial_copy)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   RandomAccessIterator2 end_of_output = result + (last - first);
   
   // advance iterators
@@ -161,6 +168,7 @@ template<typename RandomAccessIterator1,
   } // end for
 
   return end_of_output;
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 } // end copy()
 
 } // end namespace dispatch
@@ -173,6 +181,7 @@ template<typename RandomAccessIterator1,
                              RandomAccessIterator1 last,
                              RandomAccessIterator2 result)
 {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   return detail::dispatch::copy(first, last, result,
 #if __CUDA_ARCH__ < 200
       // does not work reliably on pre-Fermi due to "Warning: ... assuming global memory space" issues
@@ -181,6 +190,7 @@ template<typename RandomAccessIterator1,
       typename thrust::detail::dispatch::is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type()
 #endif
       );
+#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 } // end copy()
 
 } // end namespace block

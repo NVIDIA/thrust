@@ -32,8 +32,7 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/uninitialized_array.h>
 
-#include <thrust/detail/backend/scan.h>
-#include <thrust/detail/backend/cuda/synchronize.h>
+#include <thrust/detail/backend/cuda/scan.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
@@ -200,7 +199,7 @@ void reduce_by_key_body(Context context,
   // scan flag counts
   sflag[context.thread_index()] = flag_count; context.barrier();
 
-  thrust::detail::backend::cuda::block::inplace_inclusive_scan<CTA_SIZE>(sflag, thrust::plus<FlagType>());
+  cuda::block::inplace_inclusive_scan(context, sflag, thrust::plus<FlagType>());
 
   const FlagType output_position = (context.thread_index() == 0) ? 0 : sflag[context.thread_index() - 1];
   const FlagType num_outputs     = sflag[CTA_SIZE - 1];
@@ -274,13 +273,10 @@ void reduce_by_key_body(Context context,
     // use head flags for segmented scan
     sflag[context.thread_index()] = head_flag;  sdata[K - 1][context.thread_index()] = ldata[K - 1]; context.barrier();
 
-// TODO remove guard
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     if (FullBlock)
-      thrust::detail::backend::cuda::block::inplace_inclusive_segscan<CTA_SIZE>(sflag, sdata[K-1], binary_op);
+      cuda::block::inplace_inclusive_segscan(context, sflag, sdata[K-1], binary_op);
     else
-      thrust::detail::backend::cuda::block::inplace_inclusive_segscan_n(sflag, sdata[K-1], n, binary_op);
-#endif // THRUST_DEVICE_COMPILER_NVCC
+      cuda::block::inplace_inclusive_segscan_n(context, sflag, sdata[K-1], n, binary_op);
   }
 
   // update local values
