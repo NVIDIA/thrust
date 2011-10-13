@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -26,8 +26,15 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace omp
 {
+
+
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+  ForwardIterator unique(ForwardIterator first,
+                         ForwardIterator last,
+                         BinaryPredicate binary_pred);
 
 
 template<typename InputIterator,
@@ -40,17 +47,10 @@ template<typename InputIterator,
                              BinaryPredicate binary_pred);
 
 
-template<typename ForwardIterator,
-         typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
-                         ForwardIterator last,
-                         BinaryPredicate binary_pred);
-
-
-} // end namespace cpp
+} // end namespace omp
 } // end namespace backend 
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/unique.inl>
+#include <thrust/detail/backend/omp/unique.inl>
 

@@ -30,21 +30,30 @@ namespace cpp
 {
 
 
-template<typename InputIterator,
-         typename OutputIterator,
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
          typename BinaryPredicate>
-  OutputIterator unique_copy(tag,
-                             InputIterator first,
-                             InputIterator last,
-                             OutputIterator output,
-                             BinaryPredicate binary_pred);
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+    unique_by_key(tag,
+                  ForwardIterator1 keys_first, 
+                  ForwardIterator1 keys_last,
+                  ForwardIterator2 values_first,
+                  BinaryPredicate binary_pred);
 
 
-template<typename ForwardIterator,
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
          typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
-                         ForwardIterator last,
-                         BinaryPredicate binary_pred);
+  thrust::pair<OutputIterator1,OutputIterator2>
+    unique_by_key_copy(tag,
+                       InputIterator1 keys_first, 
+                       InputIterator1 keys_last,
+                       InputIterator2 values_first,
+                       OutputIterator1 keys_output,
+                       OutputIterator2 values_output,
+                       BinaryPredicate binary_pred);
 
 
 } // end namespace cpp
@@ -52,5 +61,5 @@ template<typename ForwardIterator,
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/unique.inl>
+#include <thrust/detail/backend/cpp/unique_by_key.inl>
 

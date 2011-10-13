@@ -17,8 +17,10 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/cpp/unique.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -30,6 +32,18 @@ namespace cpp
 {
 
 
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+  ForwardIterator unique(tag,
+                         ForwardIterator first,
+                         ForwardIterator last,
+                         BinaryPredicate binary_pred)
+{
+  // unique_copy() permits in-situ operation
+  return thrust::detail::backend::cpp::unique_copy(tag(),first, last, first, binary_pred);
+} // end unique()
+
+
 template<typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
@@ -37,20 +51,38 @@ template<typename InputIterator,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
-                             BinaryPredicate binary_pred);
+                             BinaryPredicate binary_pred)
+{
+  typedef typename thrust::iterator_traits<InputIterator>::value_type T;
 
+  if(first != last)
+  {
+    T prev = backend::dereference(first);
 
-template<typename ForwardIterator,
-         typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
-                         ForwardIterator last,
-                         BinaryPredicate binary_pred);
+    for(++first; first != last; ++first)
+    {
+      T temp = backend::dereference(first);
+
+      if (!binary_pred(prev, temp))
+      {
+        backend::dereference(output) = prev;
+
+        ++output;
+
+        prev = temp;
+      }
+    }
+
+    backend::dereference(output) = prev;
+    ++output;
+  }
+
+  return output;
+} // end unique_copy()
 
 
 } // end namespace cpp
 } // end namespace backend 
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/backend/cpp/unique.inl>
 

@@ -14,12 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file unique.h
- *  \brief Generic implementation of unique()
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -30,46 +28,43 @@ namespace backend
 namespace generic
 {
 
-template <typename ForwardIterator,
-          typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first,
+
+template<typename ForwardIterator>
+ForwardIterator unique(tag,
+                       ForwardIterator first,
+                       ForwardIterator last);
+
+
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+ForwardIterator unique(tag,
+                       ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred);
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryPredicate>
-OutputIterator unique_copy(InputIterator first,
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator unique_copy(tag,
+                           InputIterator first,
+                           InputIterator last,
+                           OutputIterator output);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename BinaryPredicate>
+OutputIterator unique_copy(tag,
+                           InputIterator first,
                            InputIterator last,
                            OutputIterator output,
                            BinaryPredicate binary_pred);
 
-template <typename ForwardIterator1,
-          typename ForwardIterator2,
-          typename BinaryPredicate>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(ForwardIterator1 keys_first, 
-                ForwardIterator1 keys_last,
-                ForwardIterator2 values_first,
-                BinaryPredicate binary_pred);
-
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
-  unique_by_key_copy(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred);
 
 } // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include "unique.inl"
+#include <thrust/detail/backend/generic/unique.inl>
 

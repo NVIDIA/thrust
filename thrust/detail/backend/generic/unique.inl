@@ -21,15 +21,16 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/unique.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/zip_iterator.h>
 #include <thrust/transform.h>
-
+#include <thrust/unique.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/detail/type_traits.h>
 #include <thrust/detail/internal_functional.h>
-
-#include <thrust/detail/backend/copy_if.h>
+#include <thrust/detail/copy_if.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
 
 namespace thrust
 {
@@ -40,112 +41,73 @@ namespace backend
 namespace generic
 {
 
-template <typename ForwardIterator,
-          typename BinaryPredicate>
-ForwardIterator unique(ForwardIterator first,
-                       ForwardIterator last,
-                       BinaryPredicate binary_pred)
+
+template<typename ForwardIterator>
+  ForwardIterator unique(tag,
+                         ForwardIterator first,
+                         ForwardIterator last)
 {
-    typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-    typedef typename thrust::iterator_space<ForwardIterator>::type        Space;
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
-    thrust::detail::temporary_array<InputType,Space> input(first, last);
+  return thrust::unique(first, last, thrust::equal_to<InputType>());
+} // end unique()
 
-    return thrust::detail::backend::generic::unique_copy(input.begin(), input.end(), first, binary_pred);
-}
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryPredicate>
-OutputIterator unique_copy(InputIterator first,
-                           InputIterator last,
-                           OutputIterator output,
-                           BinaryPredicate binary_pred)
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+  ForwardIterator unique(tag,
+                         ForwardIterator first,
+                         ForwardIterator last,
+                         BinaryPredicate binary_pred)
 {
-    typedef typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator>::type,
-      typename thrust::iterator_space<OutputIterator>::type
-    >::type Space;
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename thrust::iterator_space<ForwardIterator>::type        Space;
+  
+  thrust::detail::temporary_array<InputType,Space> input(first, last);
+  
+  return thrust::unique_copy(input.begin(), input.end(), first, binary_pred);
+} // end unique()
 
-    // empty sequence
-    if(first == last)
-        return output;
 
-    thrust::detail::temporary_array<int,Space> stencil(thrust::distance(first, last));
-
-    // mark first element in each group
-    stencil[0] = 1; 
-    thrust::transform(first, last - 1, first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
-
-    return thrust::detail::backend::copy_if(first, last, stencil.begin(), output, thrust::identity<int>());
-}
-
-template <typename ForwardIterator1,
-          typename ForwardIterator2,
-          typename BinaryPredicate>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(ForwardIterator1 keys_first, 
-                ForwardIterator1 keys_last,
-                ForwardIterator2 values_first,
-                BinaryPredicate binary_pred)
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator unique_copy(tag,
+                             InputIterator first,
+                             InputIterator last,
+                             OutputIterator output)
 {
-    typedef typename thrust::iterator_traits<ForwardIterator1>::value_type InputType1;
-    typedef typename thrust::iterator_traits<ForwardIterator2>::value_type InputType2;
-    typedef typename thrust::iterator_space<ForwardIterator1>::type        Space;
+  typedef typename thrust::iterator_value<InputIterator>::type value_type;
+  return thrust::unique_copy(first,last,output,thrust::equal_to<value_type>());
+} // end unique_copy()
 
-    ForwardIterator2 values_last = values_first + (keys_last - keys_first);
 
-    thrust::detail::temporary_array<InputType1,Space> keys(keys_first, keys_last);
-    thrust::detail::temporary_array<InputType2,Space> vals(values_first, values_last);
-
-    return thrust::detail::backend::generic::unique_by_key_copy
-        (keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
-}
-
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
-  unique_by_key_copy(InputIterator1 keys_first, 
-                     InputIterator1 keys_last,
-                     InputIterator2 values_first,
-                     OutputIterator1 keys_output,
-                     OutputIterator2 values_output,
-                     BinaryPredicate binary_pred)
+template<typename InputIterator,
+         typename OutputIterator,
+         typename BinaryPredicate>
+  OutputIterator unique_copy(tag,
+                             InputIterator first,
+                             InputIterator last,
+                             OutputIterator output,
+                             BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
-    typedef typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator1>::type,
-      typename thrust::iterator_space<OutputIterator2>::type
-    >::type Space;
+  typedef typename thrust::detail::minimum_space<
+    typename thrust::iterator_space<InputIterator>::type,
+    typename thrust::iterator_space<OutputIterator>::type
+  >::type Space;
+  
+  // empty sequence
+  if(first == last)
+    return output;
+  
+  thrust::detail::temporary_array<int,Space> stencil(thrust::distance(first, last));
+  
+  // mark first element in each group
+  stencil[0] = 1; 
+  thrust::transform(first, last - 1, first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
+  
+  return thrust::copy_if(first, last, stencil.begin(), output, thrust::identity<int>());
+} // end unique_copy()
 
-    // empty sequence
-    if(keys_first == keys_last)
-        return thrust::make_pair(keys_output, values_output);
-
-    difference_type n = thrust::distance(keys_first, keys_last);
-
-    thrust::detail::temporary_array<int,Space> stencil(n);
-
-    // mark first element in each group
-    stencil[0] = 1; 
-    thrust::transform(keys_first, keys_last - 1, keys_first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
-
-    thrust::zip_iterator< thrust::tuple<OutputIterator1, OutputIterator2> > result =
-        thrust::detail::backend::copy_if(thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
-                                         thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)) + n,
-                                         stencil.begin(),
-                                         thrust::make_zip_iterator(thrust::make_tuple(keys_output, values_output)),
-                                         thrust::identity<int>());
-    
-    difference_type output_size = result - thrust::make_zip_iterator(thrust::make_tuple(keys_output, values_output));
-                                    
-    return thrust::make_pair(keys_output + output_size, values_output + output_size);
-}
 
 } // end namespace generic
 } // end namespace backend
