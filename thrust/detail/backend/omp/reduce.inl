@@ -17,7 +17,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/backend/omp/reduce.h>
 #include <thrust/detail/backend/generic/reduce.h>
-#include <thrust/distance.h>
 
 namespace thrust
 {

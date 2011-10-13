@@ -14,13 +14,16 @@
  *  limitations under the License.
  */
 
-
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/partition.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
 
 #include <thrust/remove.h>
 #include <thrust/count.h>
 #include <thrust/advance.h>
+#include <thrust/sort.h>
+#include <thrust/iterator/transform_iterator.h>
 
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/temporary_array.h>
@@ -36,7 +39,8 @@ namespace generic
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(ForwardIterator first,
+  ForwardIterator stable_partition(tag,
+                                   ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
 {
@@ -54,14 +58,15 @@ template<typename ForwardIterator,
   thrust::advance(out_false, num_true);
 
   return thrust::stable_partition_copy(temp.begin(), temp.end(), first, out_false, pred).first;
-}
+} // end stable_partition()
 
 template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(InputIterator first,
+    stable_partition_copy(tag,
+                          InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
@@ -76,30 +81,55 @@ template<typename InputIterator,
   OutputIterator2 end_of_false_partition = thrust::remove_copy_if(first, last, out_false, pred);
 
   return thrust::make_pair(end_of_true_partition, end_of_false_partition);
-}
+} // end stable_partition_copy()
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(ForwardIterator first,
+  ForwardIterator partition(tag,
+                            ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   return thrust::stable_partition(first, last, pred);
-}
+} // end partition()
 
 template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(InputIterator first,
+    partition_copy(tag,
+                   InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
   return thrust::stable_partition_copy(first,last,out_true,out_false,pred);
-}
+} // end partition_copy()
+
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator partition_point(tag,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Predicate pred)
+{
+  return thrust::find_if_not(first, last, pred);
+} // end partition_point()
+
+
+template<typename InputIterator,
+         typename Predicate>
+  bool is_partitioned(tag,
+                      InputIterator first,
+                      InputIterator last,
+                      Predicate pred)
+{
+  return thrust::is_sorted(thrust::make_transform_iterator(first, thrust::detail::not1(pred)),
+                           thrust::make_transform_iterator(last,  thrust::detail::not1(pred)));
+} // end is_partitioned()
+
 
 } // end namespace generic
 } // end namespace backend

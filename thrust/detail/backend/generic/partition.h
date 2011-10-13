@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -64,10 +67,24 @@ template<typename InputIterator,
                    OutputIterator2 out_false,
                    Predicate pred);
 
+template<typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator partition_point(tag,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Predicate pred);
+
+template<typename InputIterator,
+         typename Predicate>
+  bool is_partitioned(tag,
+                      InputIterator first,
+                      InputIterator last,
+                      Predicate pred);
+
 } // end namespace generic
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include "partition.inl"
+#include <thrust/detail/backend/generic/partition.inl>
 
