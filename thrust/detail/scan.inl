@@ -19,9 +19,11 @@
  *  \brief Inline file for scan.h.
  */
 
-#include <thrust/detail/backend/scan.h>
+#include <thrust/detail/config.h>
+#include <thrust/scan.h>
 #include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/detail/backend/generic/scan.h>
+#include <thrust/detail/backend/generic/scan_by_key.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions of scan available
@@ -29,7 +31,9 @@
 #include <thrust/detail/backend/cpp/scan.h>
 #include <thrust/detail/backend/cuda/scan.h>
 
-#include <thrust/functional.h>
+// XXX make the backend-specific versions of scan_by_key available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/scan_by_key.h>
 
 namespace thrust
 {
@@ -117,9 +121,6 @@ template<typename InputIterator,
   return exclusive_scan(select_system(space1(),space2()), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
-/////////////////////
-// Key-Value Scans //
-/////////////////////
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -129,8 +130,14 @@ template<typename InputIterator1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
-    return thrust::inclusive_scan_by_key(first1, last1, first2, result, thrust::equal_to<InputType1>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::inclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return inclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result);
 }
 
 template<typename InputIterator1,
@@ -143,8 +150,14 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    return thrust::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, thrust::plus<OutputType>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::inclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return inclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result, binary_pred);
 }
 
 template<typename InputIterator1,
@@ -159,7 +172,14 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-    return thrust::detail::backend::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::inclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return inclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result, binary_pred, binary_op);
 }
 
 
@@ -171,8 +191,14 @@ template<typename InputIterator1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    return thrust::exclusive_scan_by_key(first1, last1, first2, result, OutputType(0));
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return exclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result);
 }
 
 template<typename InputIterator1,
@@ -185,8 +211,14 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        T init)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
-    return thrust::exclusive_scan_by_key(first1, last1, first2, result, init, thrust::equal_to<InputType1>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return exclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result, init);
 }
 
 template<typename InputIterator1,
@@ -201,8 +233,14 @@ template<typename InputIterator1,
                                        T init,
                                        BinaryPredicate binary_pred)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    return thrust::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, thrust::plus<OutputType>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return exclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result, init, binary_pred);
 }
 
 template<typename InputIterator1,
@@ -219,7 +257,14 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-    return thrust::detail::backend::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::exclusive_scan_by_key;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return exclusive_scan_by_key(select_system(space1(),space2(),space3()), first1, last1, first2, result, init, binary_pred, binary_op);
 }
 
 } // end namespace thrust

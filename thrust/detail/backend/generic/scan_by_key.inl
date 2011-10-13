@@ -15,15 +15,15 @@
  */
 
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/scan_by_key.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
 #include <thrust/replace.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
-
 #include <thrust/scan.h>
 
 namespace thrust
@@ -57,43 +57,123 @@ struct segmented_scan_functor
 
 } // end namespace detail
 
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result)
+{
+  typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
+  return thrust::inclusive_scan_by_key(first1, last1, first2, result, thrust::equal_to<InputType1>());
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate>
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred)
+{
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  return thrust::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, thrust::plus<OutputType>());
+}
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    typedef typename thrust::iterator_space<OutputIterator>::type Space;
-    typedef unsigned int HeadFlagType;
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  typedef typename thrust::iterator_space<OutputIterator>::type Space;
+  typedef unsigned int HeadFlagType;
 
-    const size_t n = last1 - first1;
+  const size_t n = last1 - first1;
 
-    if(n != 0)
-    {
-        // compute head flags
-        thrust::detail::temporary_array<HeadFlagType,Space> flags(n);
-        flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
+  if(n != 0)
+  {
+    // compute head flags
+    thrust::detail::temporary_array<HeadFlagType,Space> flags(n);
+    flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
-        // scan key-flag tuples, 
-        // For additional details refer to Section 2 of the following paper
-        //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
-        //    NVIDIA Technical Report NVR-2008-003, December 2008
-        //    http://mgarland.org/files/papers/nvr-2008-003.pdf
-        thrust::inclusive_scan
-            (thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())),
-             thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())) + n,
-             thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
-             detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
-    }
+    // scan key-flag tuples, 
+    // For additional details refer to Section 2 of the following paper
+    //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
+    //    NVIDIA Technical Report NVR-2008-003, December 2008
+    //    http://mgarland.org/files/papers/nvr-2008-003.pdf
+    thrust::inclusive_scan
+        (thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())),
+         thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())) + n,
+         thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
+         detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+  }
 
-    return result + n;
+  return result + n;
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result)
+{
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  return thrust::exclusive_scan_by_key(first1, last1, first2, result, OutputType(0));
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T>
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init)
+{
+  typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
+  return thrust::exclusive_scan_by_key(first1, last1, first2, result, init, thrust::equal_to<InputType1>());
+}
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate>
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init,
+                                       BinaryPredicate binary_pred)
+{
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  return thrust::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, thrust::plus<OutputType>());
 }
 
 
@@ -103,45 +183,46 @@ template<typename InputIterator1,
          typename T,
          typename BinaryPredicate,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-    typedef typename thrust::iterator_space<OutputIterator>::type        Space;
-    typedef unsigned int HeadFlagType;
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  typedef typename thrust::iterator_space<OutputIterator>::type        Space;
+  typedef unsigned int HeadFlagType;
 
-    const size_t n = last1 - first1;
+  const size_t n = last1 - first1;
 
-    if(n != 0)
-    {
-        InputIterator2 last2 = first2 + n;
+  if(n != 0)
+  {
+    InputIterator2 last2 = first2 + n;
 
-        // compute head flags
-        thrust::detail::temporary_array<HeadFlagType,Space> flags(n);
-        flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
+    // compute head flags
+    thrust::detail::temporary_array<HeadFlagType,Space> flags(n);
+    flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
-        // shift input one to the right and initialize segments with init
-        thrust::detail::temporary_array<OutputType,Space> temp(n);
-        thrust::replace_copy_if(first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
-        temp[0] = init;
+    // shift input one to the right and initialize segments with init
+    thrust::detail::temporary_array<OutputType,Space> temp(n);
+    thrust::replace_copy_if(first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
+    temp[0] = init;
 
-        // scan key-flag tuples, 
-        // For additional details refer to Section 2 of the following paper
-        //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
-        //    NVIDIA Technical Report NVR-2008-003, December 2008
-        //    http://mgarland.org/files/papers/nvr-2008-003.pdf
-        thrust::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())),
-                               thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())) + n,
-                               thrust::make_zip_iterator(thrust::make_tuple(result,       flags.begin())),
-                               detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
-    }
+    // scan key-flag tuples, 
+    // For additional details refer to Section 2 of the following paper
+    //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
+    //    NVIDIA Technical Report NVR-2008-003, December 2008
+    //    http://mgarland.org/files/papers/nvr-2008-003.pdf
+    thrust::inclusive_scan(thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())),
+                           thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())) + n,
+                           thrust::make_zip_iterator(thrust::make_tuple(result,       flags.begin())),
+                           detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+  }
 
-    return result + n;
+  return result + n;
 }
 
 } // end namespace generic

@@ -29,7 +29,6 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/internal_functional.h>
 
-#include <thrust/detail/backend/scan.h>
 #include <thrust/detail/backend/copy_if.h>
 
 namespace thrust

@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -30,17 +33,78 @@ namespace backend
 namespace generic
 {
 
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate>
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred);
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T>
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate>
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init,
+                                       BinaryPredicate binary_pred);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -48,11 +112,12 @@ template<typename InputIterator1,
          typename T,
          typename BinaryPredicate,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
-                                       const T init,
+                                       T init,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op);
 
@@ -61,5 +126,5 @@ template<typename InputIterator1,
 } // end namespace detail
 } // end namespace thrust
 
-#include "scan_by_key.inl"
+#include <thrust/detail/backend/generic/scan_by_key.inl>
 

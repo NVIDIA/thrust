@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -33,7 +34,8 @@ template<typename InputIterator1,
          typename OutputIterator,
          typename BinaryPredicate,
          typename BinaryFunction>
-  OutputIterator inclusive_scan_by_key(InputIterator1 first1,
+  OutputIterator inclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
@@ -47,7 +49,8 @@ template<typename InputIterator1,
          typename T,
          typename BinaryPredicate,
          typename BinaryFunction>
-  OutputIterator exclusive_scan_by_key(InputIterator1 first1,
+  OutputIterator exclusive_scan_by_key(tag,
+                                       InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
