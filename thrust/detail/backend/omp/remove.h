@@ -14,15 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file remove.h
- *  \brief Generic implementations of remove functions.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -30,24 +25,8 @@ namespace detail
 {
 namespace backend
 {
-namespace generic
+namespace omp
 {
-
-template<typename ForwardIterator,
-         typename T>
-  ForwardIterator remove(tag,
-                         ForwardIterator first,
-                         ForwardIterator last,
-                         const T &value);
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T>
-  OutputIterator remove_copy(tag,
-                             InputIterator first,
-                             InputIterator last,
-                             OutputIterator result,
-                             const T &value);
 
 template<typename ForwardIterator,
          typename Predicate>
@@ -55,6 +34,7 @@ template<typename ForwardIterator,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
+
 
 template<typename ForwardIterator,
          typename InputIterator,
@@ -85,10 +65,10 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred);
 
-} // end namespace generic
+} // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
 
-#include <thrust/detail/backend/generic/remove.inl>
+#include <thrust/detail/backend/omp/remove.inl>
 

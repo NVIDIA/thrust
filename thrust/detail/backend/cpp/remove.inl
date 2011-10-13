@@ -16,13 +16,14 @@
 
 
 /*! \file remove.h
- *  \brief Generic implementations of remove functions.
+ *  \brief C++ implementation of remove algorithms.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/detail/backend/cpp/remove.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -30,31 +31,41 @@ namespace detail
 {
 namespace backend
 {
-namespace generic
+namespace cpp
 {
-
-template<typename ForwardIterator,
-         typename T>
-  ForwardIterator remove(tag,
-                         ForwardIterator first,
-                         ForwardIterator last,
-                         const T &value);
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T>
-  OutputIterator remove_copy(tag,
-                             InputIterator first,
-                             InputIterator last,
-                             OutputIterator result,
-                             const T &value);
 
 template<typename ForwardIterator,
          typename Predicate>
   ForwardIterator remove_if(tag,
                             ForwardIterator first,
                             ForwardIterator last,
-                            Predicate pred);
+                            Predicate pred)
+{
+  // advance iterators until pred(*first) is true or we reach the end of input
+  while(first != last && !bool(pred(backend::dereference(first))))
+    ++first;
+
+  if(first == last)
+    return first;
+
+  // result always trails first 
+  ForwardIterator result = first;
+
+  ++first;
+
+  while(first != last)
+  {
+    if(!bool(pred(backend::dereference(first))))
+    {
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
+    }
+    ++first;
+  }
+
+  return result;
+}
+
 
 template<typename ForwardIterator,
          typename InputIterator,
@@ -63,7 +74,38 @@ template<typename ForwardIterator,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
-                            Predicate pred);
+                            Predicate pred)
+{
+  // advance iterators until pred(*stencil) is true or we reach the end of input
+  while(first != last && !bool(pred(backend::dereference(stencil))))
+  {
+    ++first;
+    ++stencil;
+  }
+
+  if(first == last)
+    return first;
+
+  // result always trails first 
+  ForwardIterator result = first;
+
+  ++first;
+  ++stencil;
+
+  while(first != last)
+  {
+    if(!bool(pred(backend::dereference(stencil))))
+    {
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
+    }
+    ++first;
+    ++stencil;
+  }
+
+  return result;
+}
+
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -72,7 +114,21 @@ template<typename InputIterator,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                Predicate pred);
+                                Predicate pred)
+{
+  while (first != last)
+  {
+    if (!bool(pred(backend::dereference(first))))
+    {
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
+    }
+
+    ++first;
+  }
+
+  return result;
+}
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -83,12 +139,25 @@ template<typename InputIterator1,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
-                                Predicate pred);
+                                Predicate pred)
+{
+  while (first != last)
+  {
+    if (!bool(pred(backend::dereference(stencil))))
+    {
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
+    }
 
-} // end namespace generic
+    ++first;
+    ++stencil;
+  }
+
+  return result;
+}
+
+} // end namespace cpp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#include <thrust/detail/backend/generic/remove.inl>
 

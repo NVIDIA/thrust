@@ -14,18 +14,11 @@
  *  limitations under the License.
  */
 
-
-/*! \file remove.inl
- *  \brief Inline file for remove.h
- */
+#pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/backend/omp/remove.h>
 #include <thrust/detail/backend/generic/remove.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/copy_if.h>
-#include <thrust/detail/internal_functional.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/remove.h>
 
 namespace thrust
 {
@@ -33,36 +26,8 @@ namespace detail
 {
 namespace backend
 {
-namespace generic
+namespace omp
 {
-
-
-template<typename ForwardIterator,
-         typename T>
-  ForwardIterator remove(tag,
-                         ForwardIterator first,
-                         ForwardIterator last,
-                         const T &value)
-{
-  thrust::detail::equal_to_value<T> pred(value);
-
-  return thrust::remove_if(first, last, pred);
-} // end remove()
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename T>
-  OutputIterator remove_copy(tag,
-                             InputIterator first,
-                             InputIterator last,
-                             OutputIterator result,
-                             const T &value)
-{
-  thrust::detail::equal_to_value<T> pred(value);
-
-  return thrust::remove_copy_if(first, last, result, pred);
-} // end remove_copy()
 
 
 template<typename ForwardIterator,
@@ -72,14 +37,8 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
-
-  // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,Space> temp(first, last);
-
-  // remove into temp
-  return thrust::remove_copy_if(temp.begin(), temp.end(), temp.begin(), first, pred);
+  // omp prefers generic::remove_if to cpp::remove_if
+  return thrust::detail::backend::generic::remove_if(tag(), first, last, pred);
 } // end remove_if()
 
 
@@ -92,15 +51,9 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
-
-  // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,Space> temp(first, last);
-
-  // remove into temp
-  return thrust::remove_copy_if(temp.begin(), temp.end(), stencil, first, pred);
-} // end remove_if() 
+  // omp prefers generic::remove_if to cpp::remove_if
+  return thrust::detail::backend::generic::remove_if(tag(), first, last, stencil, pred);
+} // end remove_if()
 
 
 template<typename InputIterator,
@@ -112,7 +65,8 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return thrust::remove_copy_if(first, last, first, result, pred);
+  // omp prefers generic::remove_copy_if to cpp::remove_copy_if
+  return thrust::detail::backend::generic::remove_copy_if(tag(), first, last, result, pred);
 } // end remove_copy_if()
 
 
@@ -127,12 +81,15 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return thrust::copy_if(first, last, stencil, result, thrust::detail::not1(pred));
+  // omp prefers generic::remove_copy_if to cpp::remove_copy_if
+  return thrust::detail::backend::generic::remove_copy_if(tag(), first, last, stencil, result, pred);
 } // end remove_copy_if()
 
 
-} // end namespace generic
+} // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/omp/remove.inl>
 
