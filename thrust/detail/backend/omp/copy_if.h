@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -25,36 +25,26 @@ namespace detail
 {
 namespace backend
 {
-namespace generic
+namespace omp
 {
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(tag,
-                         InputIterator first,
-                         InputIterator last,
-                         OutputIterator result,
-                         Predicate pred);
 
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(tag,
-                          InputIterator1 first,
-                          InputIterator1 last,
-                          InputIterator2 stencil,
-                          OutputIterator result,
-                          Predicate pred);
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred);
 
 
-} // end namespace generic
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
+} // end namespace omp
+} // end backend
+} // end detail
+} // end thrust
 
-#include <thrust/detail/backend/generic/copy_if.inl>
+#include <thrust/detail/backend/omp/copy_if.inl>
 

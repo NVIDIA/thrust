@@ -16,19 +16,19 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/copy_if.h>
+#include <thrust/detail/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/minimum_space.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
 #include <thrust/transform.h>
-
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
-
 #include <thrust/scan.h>
 #include <thrust/scatter.h>
-
 #include <limits>
 
 namespace thrust
@@ -37,21 +37,6 @@ namespace detail
 {
 namespace backend
 {
-
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename InputIterator3,
-         typename RandomAccessIterator,
-         typename Predicate>
-  void scatter_if(InputIterator1 first,
-                  InputIterator1 last,
-                  InputIterator2 map,
-                  InputIterator3 stencil,
-                  RandomAccessIterator output,
-                  Predicate pred);
-
-
 namespace generic
 {
 namespace detail
@@ -107,34 +92,60 @@ OutputIterator copy_if(InputIterator1 first,
 
 } // end namespace detail
 
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(tag,
+                         InputIterator first,
+                         InputIterator last,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  // XXX it's potentially expensive to send [first,last) twice
+  //     we should probably specialize this case for POD
+  //     since we can safely keep the input in a temporary instead
+  //     of doing two loads
+  return thrust::copy_if(first, last, first, result, pred);
+} // end copy_if()
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(InputIterator1 first,
+   OutputIterator copy_if(tag,
+                          InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
                           OutputIterator result,
                           Predicate pred)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
-
-    // empty sequence
-    if (first == last)
-        return result;
-    
-    difference_type n = thrust::distance(first, last);
-
-    // create an unsigned version of n (we know n is positive from the comparison above)
-    // to avoid a warning in the compare below
-    typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
+  typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
   
-    // use 32-bit indices when possible (almost always)
-    if (sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
-        return detail::copy_if<difference_type>(first, last, stencil, result, pred);
-    else
-        return detail::copy_if<unsigned int>(first, last, stencil, result, pred);
+  // empty sequence
+  if(first == last)
+    return result;
+  
+  difference_type n = thrust::distance(first, last);
+  
+  // create an unsigned version of n (we know n is positive from the comparison above)
+  // to avoid a warning in the compare below
+  typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
+  
+  // use 32-bit indices when possible (almost always)
+  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
+  {
+    result = detail::copy_if<difference_type>(first, last, stencil, result, pred);
+  } // end if
+  else
+  {
+    result = detail::copy_if<unsigned int>(first, last, stencil, result, pred);
+  } // end else
+
+  return result;
 } // end copy_if()
+
 
 } // end namespace generic
 } // end namespace backend

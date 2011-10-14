@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
 
 // do not attempt to compile this file with any other compiler
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
@@ -146,14 +147,15 @@ void copy_if_intervals(InputIterator1 input,
             thrust::detail::backend::dereference(temp2) = thrust::detail::backend::dereference(input);
         }
     }
-}
+} // end copy_if_intervals()
 
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(InputIterator1 first,
+   OutputIterator copy_if(tag,
+                          InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
                           OutputIterator output,
@@ -190,7 +192,8 @@ template<typename InputIterator1,
   synchronize_if_enabled("copy_if_intervals");
 
   return output + block_results[decomp.size() - 1];
-}
+} // end copy_if()
+
 
 } // end namespace cuda
 } // end namespace backend

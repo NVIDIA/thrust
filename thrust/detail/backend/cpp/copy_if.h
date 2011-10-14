@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-/*! \file copy_if.h
- *  \brief C++ implementation of copy_if function.
- */
-
 #pragma once
 
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -36,30 +33,18 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(InputIterator1 first,
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
-                         Predicate pred)
-{
-  while(first != last)
-  {
-    if(pred(backend::dereference(stencil)))
-    {
-      backend::dereference(result) = backend::dereference(first);
-      ++result;
-    } // end if
-
-    ++first;
-    ++stencil;
-  } // end while
-
-  return result;
-} // end copy_if()
+                         Predicate pred);
 
 
 } // end namespace cpp
 } // end backend
 } // end detail
 } // end thrust
+
+#include <thrust/detail/backend/cpp/copy_if.inl>
 

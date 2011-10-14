@@ -16,10 +16,19 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy_if.h>
-#include <thrust/detail/backend/copy_if.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/copy_if.h>
+#include <thrust/iterator/iterator_traits.h>
+
+// XXX make the backend-specific versions of copy_if available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/copy_if.h>
+#include <thrust/detail/backend/omp/copy_if.h>
+#include <thrust/detail/backend/cuda/copy_if.h>
 
 namespace thrust
 {
+
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -29,12 +38,15 @@ template<typename InputIterator,
                          OutputIterator result,
                          Predicate pred)
 {
-  // XXX it's potentially expensive to send [first,last) twice
-  //     we should probably specialize this case for POD
-  //     since we can safely keep the input in a temporary instead
-  //     of doing two loads
-  return thrust::copy_if(first, last, first, result, pred);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::copy_if;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return copy_if(select_system(space1(),space2()), first, last, result, pred);
+} // end copy_if()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -46,8 +58,16 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
-  return detail::backend::copy_if(first, last, stencil, result, pred);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::copy_if;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return copy_if(select_system(space1(),space2(),space3()), first, last, stencil, result, pred);
+} // end copy_if()
+
 
 } // end thrust
 

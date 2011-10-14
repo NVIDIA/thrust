@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
+
 namespace thrust
 {
 namespace detail
@@ -29,7 +32,8 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(InputIterator1 first,
+   OutputIterator copy_if(tag,
+                          InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
                           OutputIterator result,

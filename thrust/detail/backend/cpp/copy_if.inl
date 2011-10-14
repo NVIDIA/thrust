@@ -17,7 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/detail/backend/cpp/copy_if.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -25,36 +26,39 @@ namespace detail
 {
 namespace backend
 {
-namespace generic
+namespace cpp
 {
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(tag,
-                         InputIterator first,
-                         InputIterator last,
-                         OutputIterator result,
-                         Predicate pred);
 
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(tag,
-                          InputIterator1 first,
-                          InputIterator1 last,
-                          InputIterator2 stencil,
-                          OutputIterator result,
-                          Predicate pred);
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  while(first != last)
+  {
+    if(pred(backend::dereference(stencil)))
+    {
+      backend::dereference(result) = backend::dereference(first);
+      ++result;
+    } // end if
+
+    ++first;
+    ++stencil;
+  } // end while
+
+  return result;
+} // end copy_if()
 
 
-} // end namespace generic
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
-
-#include <thrust/detail/backend/generic/copy_if.inl>
+} // end namespace cpp
+} // end backend
+} // end detail
+} // end thrust
 
