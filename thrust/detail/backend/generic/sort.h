@@ -95,6 +95,34 @@ template<typename RandomAccessIterator1,
                           StrictWeakOrdering comp);
 
 
+template<typename ForwardIterator>
+  bool is_sorted(tag,
+                 ForwardIterator first,
+                 ForwardIterator last);
+
+
+template<typename ForwardIterator,
+         typename Compare>
+  bool is_sorted(tag,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp);
+
+
+template<typename ForwardIterator>
+  ForwardIterator is_sorted_until(tag,
+                                  ForwardIterator first,
+                                  ForwardIterator last);
+
+
+template<typename ForwardIterator,
+         typename Compare>
+  ForwardIterator is_sorted_until(tag,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp);
+
+
 } // end generic
 } // end backend
 } // end detail

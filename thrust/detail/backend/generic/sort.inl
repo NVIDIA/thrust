@@ -21,6 +21,12 @@
 #include <thrust/detail/backend/generic/sort.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
+#include <thrust/find.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/tuple.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -100,6 +106,59 @@ template<typename RandomAccessIterator1,
   typedef typename iterator_value<RandomAccessIterator1>::type value_type;
   thrust::stable_sort_by_key(keys_first, keys_last, values_first, thrust::less<value_type>());
 } // end stable_sort_by_key()
+
+
+template<typename ForwardIterator>
+  bool is_sorted(tag,
+                 ForwardIterator first,
+                 ForwardIterator last)
+{
+  return thrust::is_sorted_until(first, last) == last;
+} // end is_sorted()
+
+
+template<typename ForwardIterator,
+         typename Compare>
+  bool is_sorted(tag,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp)
+{
+  return thrust::is_sorted_until(first, last, comp) == last;
+} // end is_sorted()
+
+
+template<typename ForwardIterator>
+  ForwardIterator is_sorted_until(tag,
+                                  ForwardIterator first,
+                                  ForwardIterator last)
+{
+  typedef typename thrust::iterator_value<ForwardIterator>::type InputType;
+
+  return thrust::is_sorted_until(first, last, thrust::less<InputType>());
+} // end is_sorted_until()
+
+
+template<typename ForwardIterator,
+         typename Compare>
+  ForwardIterator is_sorted_until(tag,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp)
+{
+  if(thrust::distance(first,last) < 2) return last;
+
+  typedef thrust::tuple<ForwardIterator,ForwardIterator> IteratorTuple;
+  typedef thrust::zip_iterator<IteratorTuple>            ZipIterator;
+
+  ForwardIterator first_plus_one = first;
+  thrust::advance(first_plus_one, 1);
+
+  ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first_plus_one, first));
+  ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last, first));
+
+  return thrust::get<0>(thrust::find_if(zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<Compare>(comp)).get_iterator_tuple());
+} // end is_sorted_until()
 
 
 } // end generic
