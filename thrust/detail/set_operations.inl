@@ -18,10 +18,15 @@
  *  \brief Inline file for set_operations.h.
  */
 
-#include <thrust/set_operations.h>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/set_operations.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/functional.h>
-#include <thrust/detail/backend/set_operations.h>
+
+// XXX make the backend-specific versions of the set operations available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/set_operations.h>
+#include <thrust/detail/backend/cuda/set_operations.h>
 
 namespace thrust
 {
@@ -38,10 +43,16 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  return thrust::detail::backend::set_difference(first1, last1,
-                                                 first2, last2,
-                                                 result, comp);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_difference;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_difference(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result, comp);
 } // end set_difference()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -52,8 +63,14 @@ template<typename InputIterator1,
                                 InputIterator2 last2,
                                 OutputIterator result)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_difference;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_difference(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result);
 } // end set_difference()
 
 
@@ -68,10 +85,16 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  return thrust::detail::backend::set_intersection(first1, last1,
-                                                   first2, last2,
-                                                   result, comp);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_intersection;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_intersection(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result, comp);
 } // end set_intersection()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -82,8 +105,14 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_intersection(first1, last1, first2, last2, result, thrust::less<value_type>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_intersection;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_intersection(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result);
 } // end set_intersection()
 
 
@@ -98,10 +127,16 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  return thrust::detail::backend::set_symmetric_difference(first1, last1,
-                                                           first2, last2,
-                                                           result, comp);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_symmetric_difference;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_symmetric_difference(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result, comp);
 } // end set_symmetric_difference()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -112,8 +147,14 @@ template<typename InputIterator1,
                                           InputIterator2 last2,
                                           OutputIterator result)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_symmetric_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_symmetric_difference;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_symmetric_difference(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result);
 } // end set_symmetric_difference()
 
 
@@ -128,10 +169,16 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  return thrust::detail::backend::set_union(first1, last1,
-                                            first2, last2,
-                                            result, comp);
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_union;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_union(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result, comp);
 } // end set_union()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -142,9 +189,16 @@ template<typename InputIterator1,
                            InputIterator2 last2,
                            OutputIterator result)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_union(first1, last1, first2, last2, result, thrust::less<value_type>());
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::set_union;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+
+  return set_union(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result);
 } // end set_union()
+
 
 } // end thrust
 

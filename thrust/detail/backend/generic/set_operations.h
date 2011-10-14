@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
@@ -25,16 +25,27 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace generic
 {
 
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename OutputIterator>
   OutputIterator set_difference(tag,
                                 InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result);
+
+
+// XXX it is an error to call this function; it has no implementation
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_difference(InputIterator1 first1,
                                 InputIterator1 last1,
                                 InputIterator2 first2,
                                 InputIterator2 last2,
@@ -44,10 +55,21 @@ template<typename InputIterator1,
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename OutputIterator>
   OutputIterator set_intersection(tag,
                                   InputIterator1 first1,
+                                  InputIterator1 last1,
+                                  InputIterator2 first2,
+                                  InputIterator2 last2,
+                                  OutputIterator result);
+
+
+// XXX it is an error to call this function; it has no implementation
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_intersection(InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
                                   InputIterator2 last2,
@@ -55,6 +77,18 @@ template<typename InputIterator1,
                                   StrictWeakOrdering comp);
 
 
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_symmetric_difference(tag,
+                                          InputIterator1 first1,
+                                          InputIterator1 last1,
+                                          InputIterator2 first2,
+                                          InputIterator2 last2,
+                                          OutputIterator result);
+
+
+// XXX it is an error to call this function; it has no implementation
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -70,6 +104,18 @@ template<typename InputIterator1,
 
 template<typename InputIterator1,
          typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_union(tag,
+                           InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result);
+
+
+// XXX it is an error to call this function; it has no implementation
+template<typename InputIterator1,
+         typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
   OutputIterator set_union(tag,
@@ -81,10 +127,10 @@ template<typename InputIterator1,
                            StrictWeakOrdering comp);
 
 
-} // end cpp
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 
-#include <thrust/detail/backend/cpp/set_operations.inl>
+#include <thrust/detail/backend/generic/set_operations.inl>
 

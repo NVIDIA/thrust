@@ -17,7 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/backend/generic/set_operations.h>
+#include <thrust/functional.h>
 
 namespace thrust
 {
@@ -25,66 +26,72 @@ namespace detail
 {
 namespace backend
 {
-namespace cpp
+namespace generic
 {
 
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename OutputIterator>
   OutputIterator set_difference(tag,
                                 InputIterator1 first1,
                                 InputIterator1 last1,
                                 InputIterator2 first2,
                                 InputIterator2 last2,
-                                OutputIterator result,
-                                StrictWeakOrdering comp);
+                                OutputIterator result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::set_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+} // end set_difference()
 
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename OutputIterator>
   OutputIterator set_intersection(tag,
                                   InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
                                   InputIterator2 last2,
-                                  OutputIterator result,
-                                  StrictWeakOrdering comp);
+                                  OutputIterator result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::set_intersection(first1, last1, first2, last2, result, thrust::less<value_type>());
+} // end set_intersection()
 
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename OutputIterator>
   OutputIterator set_symmetric_difference(tag,
                                           InputIterator1 first1,
                                           InputIterator1 last1,
                                           InputIterator2 first2,
                                           InputIterator2 last2,
-                                          OutputIterator result,
-                                          StrictWeakOrdering comp);
+                                          OutputIterator result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::set_symmetric_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+} // end set_symmetric_difference()
 
 
 template<typename InputIterator1,
          typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakOrdering>
+         typename OutputIterator>
   OutputIterator set_union(tag,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
                            InputIterator2 last2,
-                           OutputIterator result,
-                           StrictWeakOrdering comp);
+                           OutputIterator result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::set_union(first1, last1, first2, last2, result, thrust::less<value_type>());
+} // end set_union()
 
 
-} // end cpp
-} // end backend
-} // end detail
-} // end thrust
-
-#include <thrust/detail/backend/cpp/set_operations.inl>
+} // end namespace generic
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 

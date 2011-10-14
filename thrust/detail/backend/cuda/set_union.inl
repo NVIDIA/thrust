@@ -18,6 +18,7 @@
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
+#include <thrust/detail/backend/cuda/set_operations.h>
 #include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -90,7 +91,8 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_union(RandomAccessIterator1 first1,
+RandomAccessIterator3 set_union(tag,
+                                RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
                                 RandomAccessIterator2 first2,
                                 RandomAccessIterator2 last2,
