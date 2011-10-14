@@ -14,14 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file sort.inl
- *  \brief Inline file for sort.h
- */
-
+#include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/backend/cpp/dispatch/sort.h>
 
 namespace thrust
@@ -35,7 +30,8 @@ namespace cpp
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
+void stable_sort(tag,
+                 RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
@@ -55,7 +51,8 @@ void stable_sort(RandomAccessIterator first,
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 first1,
+void stable_sort_by_key(tag,
+                        RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
                         StrictWeakOrdering comp)

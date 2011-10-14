@@ -14,12 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file sort.h
- *  \brief Interface to C++ sort functions.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -32,14 +30,16 @@ namespace cpp
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(RandomAccessIterator first,
+  void stable_sort(tag,
+                   RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(RandomAccessIterator1 keys_first,
+  void stable_sort_by_key(tag,
+                          RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp);

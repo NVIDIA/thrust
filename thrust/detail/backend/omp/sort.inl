@@ -25,7 +25,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/forced_iterator.h>
 
-#include <thrust/detail/backend/cpp/sort.h>
+#include <thrust/sort.h>
 #include <thrust/detail/backend/cpp/merge.h>
 #include <thrust/system/cpp/detail/tag.h>
 
@@ -43,7 +43,8 @@ namespace omp
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
+void stable_sort(tag,
+                 RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
@@ -71,9 +72,9 @@ void stable_sort(RandomAccessIterator first,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::detail::backend::cpp::stable_sort(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].begin(),
-                                                thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].end(),
-                                                comp);
+      thrust::stable_sort(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].begin(),
+                          thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].end(),
+                          comp);
     }
 
     #pragma omp barrier
@@ -112,7 +113,8 @@ void stable_sort(RandomAccessIterator first,
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 keys_first,
+void stable_sort_by_key(tag,
+                        RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,
                         StrictWeakOrdering comp)
@@ -141,11 +143,10 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::detail::backend::cpp::
-        stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].begin(),
-                           thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].end(),
-                           thrust::detail::make_forced_iterator(values_first, thrust::cpp::tag()) + decomp[p_i].begin(),
-                           comp);
+      thrust::stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].begin(),
+                                 thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].end(),
+                                 thrust::detail::make_forced_iterator(values_first, thrust::cpp::tag()) + decomp[p_i].begin(),
+                                 comp);
     }
 
     #pragma omp barrier

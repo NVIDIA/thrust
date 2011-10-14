@@ -19,12 +19,22 @@
  *  \brief Inline file for sort.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/sort.h>
 #include <thrust/iterator/iterator_traits.h>
+
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/sort.h>
+
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/sort.h>
+#include <thrust/detail/backend/omp/sort.h>
+#include <thrust/detail/backend/cuda/sort.h>
+
 #include <thrust/distance.h>
 #include <thrust/functional.h>
 #include <thrust/find.h>
-#include <thrust/detail/backend/sort.h>
 
 namespace thrust
 {
@@ -37,11 +47,14 @@ template<typename RandomAccessIterator>
   void sort(RandomAccessIterator first,
             RandomAccessIterator last)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::sort;
 
-    // default comparison method is less<KeyType>
-    thrust::sort(first, last, thrust::less<KeyType>());
-}
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+
+  return sort(select_system(space()), first, last);
+} // end sort()
+
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -49,18 +62,27 @@ template<typename RandomAccessIterator,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-    thrust::detail::backend::sort(first, last, comp);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::sort;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+
+  return sort(select_system(space()), first, last, comp);
+} // end sort()
+
 
 template<typename RandomAccessIterator>
   void stable_sort(RandomAccessIterator first,
                    RandomAccessIterator last)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::stable_sort;
 
-    // default comparison method is less<KeyType>
-    thrust::stable_sort(first, last, thrust::less<KeyType>());
-} 
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+
+  return stable_sort(select_system(space()), first, last);
+} // end stable_sort() 
+
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -68,8 +90,13 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-    thrust::detail::backend::stable_sort(first, last, comp);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::stable_sort;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+
+  return stable_sort(select_system(space()), first, last, comp);
+} // end stable_sort()
 
 
 
@@ -83,11 +110,15 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::sort_by_key;
 
-    // default comparison method is less<KeyType>
-    sort_by_key(keys_first, keys_last, values_first, thrust::less<KeyType>());
-}
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+
+  return sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first);
+} // end sort_by_key()
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -97,8 +128,15 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-    thrust::detail::backend::sort_by_key(keys_first, keys_last, values_first, comp);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::sort_by_key;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+
+  return sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first, comp);
+} // end sort_by_key()
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2>
@@ -106,11 +144,15 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
 {
-    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::stable_sort_by_key;
 
-    // default comparison method is less<KeyType>
-    thrust::stable_sort_by_key(keys_first, keys_last, values_first, thrust::less<KeyType>());
-}
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+
+  return stable_sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first);
+} // end stable_sort_by_key()
+
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -120,8 +162,15 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-    thrust::detail::backend::stable_sort_by_key(keys_first, keys_last, values_first, comp);
-}
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::stable_sort_by_key;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+
+  return stable_sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first, comp);
+} // end stable_sort_by_key()
+
 
 template<typename ForwardIterator>
   bool is_sorted(ForwardIterator first,
@@ -129,6 +178,7 @@ template<typename ForwardIterator>
 {
   return thrust::is_sorted_until(first, last) == last;
 } // end is_sorted()
+
 
 template<typename ForwardIterator,
          typename Compare>
@@ -139,6 +189,7 @@ template<typename ForwardIterator,
   return thrust::is_sorted_until(first, last, comp) == last;
 } // end is_sorted()
 
+
 template<typename ForwardIterator>
   ForwardIterator is_sorted_until(ForwardIterator first,
                                   ForwardIterator last)
@@ -147,6 +198,7 @@ template<typename ForwardIterator>
 
   return thrust::is_sorted_until(first, last, thrust::less<InputType>());
 } // end is_sorted_until()
+
 
 template<typename ForwardIterator,
          typename Compare>
@@ -167,6 +219,7 @@ template<typename ForwardIterator,
 
   return thrust::get<0>(thrust::find_if(zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<Compare>(comp)).get_iterator_tuple());
 } // end is_sorted_until()
+
 
 } // end namespace thrust
 

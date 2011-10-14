@@ -14,10 +14,13 @@
  *  limitations under the License.
  */
 
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/tag.h>
+#include <thrust/detail/backend/generic/sort.h>
+#include <thrust/functional.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -32,7 +35,11 @@ namespace generic
 template<typename RandomAccessIterator>
   void sort(tag,
             RandomAccessIterator first,
-            RandomAccessIterator last);
+            RandomAccessIterator last)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type; 
+  thrust::sort(first, last, thrust::less<value_type>());
+} // end sort()
 
 
 template<typename RandomAccessIterator,
@@ -40,7 +47,11 @@ template<typename RandomAccessIterator,
   void sort(tag,
             RandomAccessIterator first,
             RandomAccessIterator last,
-            StrictWeakOrdering comp);
+            StrictWeakOrdering comp)
+{
+  // implement with stable_sort
+  thrust::stable_sort(first,last,comp);
+} // end sort()
 
 
 template<typename RandomAccessIterator1,
@@ -48,7 +59,11 @@ template<typename RandomAccessIterator1,
   void sort_by_key(tag,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
-                   RandomAccessIterator2 values_first);
+                   RandomAccessIterator2 values_first)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
+  thrust::sort_by_key(keys_first, keys_last, values_first, thrust::less<value_type>());
+} // end sort_by_key()
 
 
 template<typename RandomAccessIterator1,
@@ -58,22 +73,21 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
-                   StrictWeakOrdering comp);
+                   StrictWeakOrdering comp)
+{
+  // implement with stable_sort_by_key
+  thrust::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+} // end sort_by_key()
 
 
 template<typename RandomAccessIterator>
   void stable_sort(tag,
                    RandomAccessIterator first,
-                   RandomAccessIterator last);
-
-
-// XXX it is an error to call this function; it has no implementation
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_sort(tag,
-                   RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp);
+                   RandomAccessIterator last)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
+  thrust::stable_sort(first, last, thrust::less<value_type>());
+} // end stable_sort()
 
 
 template<typename RandomAccessIterator1,
@@ -81,24 +95,15 @@ template<typename RandomAccessIterator1,
   void stable_sort_by_key(tag,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first);
-
-
-// XXX it is an error to call this function; it has no implementation
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_sort_by_key(tag,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          StrictWeakOrdering comp);
+                          RandomAccessIterator2 values_first)
+{
+  typedef typename iterator_value<RandomAccessIterator1>::type value_type;
+  thrust::stable_sort_by_key(keys_first, keys_last, values_first, thrust::less<value_type>());
+} // end stable_sort_by_key()
 
 
 } // end generic
 } // end backend
 } // end detail
 } // end thrust
-
-#include <thrust/detail/backend/generic/sort.inl>
 

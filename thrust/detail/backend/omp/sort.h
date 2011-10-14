@@ -14,12 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file sort.h
- *  \brief Interface to OpenMP sorting functions.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -32,14 +30,16 @@ namespace omp
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
+void stable_sort(tag,
+                 RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp);
     
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 keys_first,
+void stable_sort_by_key(tag,
+                        RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,
                         StrictWeakOrdering comp);
@@ -49,5 +49,5 @@ void stable_sort_by_key(RandomAccessIterator1 keys_first,
 } // end namespace detail
 } // end namespace thrust
 
-#include "sort.inl"
+#include <thrust/detail/backend/omp/sort.inl>
 
