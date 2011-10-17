@@ -56,7 +56,7 @@ template <unsigned int CTA_SIZE,
           typename Context,
           typename SharedArray,
           typename BinaryFunction>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void scan_block(Context context, SharedArray array, BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_value<SharedArray>::type T;
@@ -80,7 +80,7 @@ template <unsigned int CTA_SIZE,
           typename Context,
           typename SharedArray,
           typename BinaryFunction>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void scan_block_n(Context context, SharedArray array, const unsigned int n, BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_value<SharedArray>::type T;
@@ -106,7 +106,7 @@ template <unsigned int CTA_SIZE,
           typename Context,
           typename InputIterator,
           typename ValueType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void load_block(Context context,
                 const unsigned int n,
                 InputIterator input,
@@ -133,7 +133,7 @@ template <unsigned int CTA_SIZE,
           typename Context,
           typename OutputIterator,
           typename ValueType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void store_block(Context context,
                  const unsigned int n,
                  OutputIterator output,
@@ -175,7 +175,7 @@ template <unsigned int CTA_SIZE,
           typename InputIterator,
           typename BinaryFunction,
           typename ValueType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void upsweep_body(Context context,
                   const unsigned int n,
                   const bool carry_in,
@@ -258,7 +258,7 @@ template <unsigned int CTA_SIZE,
           typename OutputIterator,
           typename BinaryFunction,
           typename ValueType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void scan_body(Context context,
                const unsigned int n,
                const bool carry_in,
@@ -359,7 +359,7 @@ struct upsweep_intervals_closure
                             Context context = Context())
     : input(input), block_results(block_results), binary_op(binary_op), decomp(decomp), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename Decomposition::index_type  IndexType;
@@ -440,7 +440,7 @@ struct downsweep_intervals_closure
                               Context context = Context())
     : input(input), output(output), block_results(block_results), binary_op(binary_op), decomp(decomp), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename Decomposition::index_type IndexType;

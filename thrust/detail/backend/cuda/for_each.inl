@@ -20,6 +20,7 @@
  */
 
 #include <thrust/detail/config.h>
+
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/static_assert.h>
 
@@ -37,7 +38,6 @@ namespace backend
 {
 namespace cuda
 {
-
 
 template<typename RandomAccessIterator,
          typename Size,
@@ -60,7 +60,7 @@ struct for_each_n_closure
     : first(first), n(n), f(f), context(context)
   {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   result_type operator()(void)
   {
     const Size grid_size = context.block_dimension() * context.grid_dimension();

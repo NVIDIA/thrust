@@ -71,7 +71,7 @@ struct copy_if_intervals_closure
                             Context context = Context())
     : input(input), stencil(stencil), offsets(offsets), decomp(decomp), output(output), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;

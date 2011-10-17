@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+
 #include <thrust/gather.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -81,7 +83,7 @@ struct adjacent_difference_closure
                               Context        context = Context())
     : input(input), input_copy(input_copy), output(output), binary_op(binary_op), decomp(decomp), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<InputIterator1>::type  InputType;

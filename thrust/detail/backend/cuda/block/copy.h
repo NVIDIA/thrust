@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 #include <thrust/pair.h>
 
 #include <thrust/detail/type_traits.h>
@@ -54,7 +56,7 @@ template<typename Size>
 // assumes the addresses dst & src are aligned to T boundaries
 template<typename Context,
          typename T>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void aligned_copy(Context context, T *dst, const T *src, unsigned int num_elements)
 {
   for(unsigned int i = context.thread_index();
@@ -70,7 +72,7 @@ void aligned_copy(Context context, T *dst, const T *src, unsigned int num_elemen
 
 
 template <typename Context>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void trivial_copy(Context context, void* destination_, const void* source_, size_t num_bytes)
 {
   // reinterpret at bytes
@@ -125,7 +127,7 @@ namespace dispatch
 template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  __forceinline__ __device__
+  __thrust_forceinline__ __device__
   RandomAccessIterator2 copy(Context context,
                              RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
@@ -148,7 +150,7 @@ template<typename Context,
 template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  __forceinline__ __device__
+  __thrust_forceinline__ __device__
   RandomAccessIterator2 copy(Context context, 
                              RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
@@ -178,7 +180,7 @@ template<typename Context,
 template<typename Context, 
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  __forceinline__ __device__
+  __thrust_forceinline__ __device__
   RandomAccessIterator2 copy(Context context,
                              RandomAccessIterator1 first,
                              RandomAccessIterator1 last,

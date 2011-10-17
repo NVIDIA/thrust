@@ -50,8 +50,8 @@ T1 ceil_div(T1 up, T2 down)
 }
 
 
-__host__ __device__ __forceinline__
-unsigned int align_size_to_int(unsigned int num_bytes)
+__host__ __device__
+inline unsigned int align_size_to_int(unsigned int num_bytes)
 {
   return (num_bytes / sizeof(int)) + ((num_bytes % sizeof(int)) ? 1 : 0);
 }
@@ -64,7 +64,7 @@ unsigned int align_size_to_int(unsigned int num_bytes)
  *        of \c ints that would accomodate a contiguous array of \p num_elements \p Ts.
  */
 template<typename T>
-__host__ __device__ __forceinline__
+__host__ __device__ __thrust_forceinline__
 unsigned int align_array_size_to_int(unsigned int num_elements)
 {
   unsigned int num_bytes = num_elements * sizeof(T);
@@ -135,7 +135,7 @@ struct set_operation_closure
       set_operation(set_operation), num_partitions(num_partitions), context(context)
   {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
@@ -276,7 +276,7 @@ struct grouped_gather_closure
       num_partitions(num_partitions), context(context) 
   {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     using namespace thrust::detail::backend;

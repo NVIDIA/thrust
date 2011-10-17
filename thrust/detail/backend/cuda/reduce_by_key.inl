@@ -67,7 +67,7 @@ struct tail_flag_functor
   //FlagType operator()(const thrust::tuple<IndexType,KeyType,KeyType>& t) const
   
   template <typename Tuple>
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   FlagType operator()(const Tuple& t)
   {
     if (thrust::get<0>(t) == (n - 1) || !binary_pred(thrust::get<1>(t), thrust::get<2>(t)))
@@ -84,7 +84,7 @@ template <unsigned int CTA_SIZE,
           typename Context,
           typename FlagIterator,
           typename FlagType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 FlagType load_flags(Context context,
                     const unsigned int n,
                     FlagIterator iflags,
@@ -137,7 +137,7 @@ template <unsigned int CTA_SIZE,
           typename Context,
           typename InputIterator2,
           typename ValueType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void load_values(Context context,
                  const unsigned int n,
                  InputIterator2 ivals,
@@ -172,7 +172,7 @@ template <unsigned int CTA_SIZE,
           typename FlagType,
           typename IndexType,
           typename ValueType>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
 void reduce_by_key_body(Context context,
                         const unsigned int n,
                         InputIterator1   ikeys,
@@ -408,7 +408,7 @@ struct reduce_by_key_closure
       iflags(iflags), interval_counts(interval_counts), interval_values(interval_values), interval_carry(interval_carry),
       decomp(decomp), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<InputIterator1>::type KeyType;

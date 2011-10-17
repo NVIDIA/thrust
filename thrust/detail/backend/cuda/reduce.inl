@@ -19,9 +19,10 @@
  *  \brief Inline file for reduce.h
  */
 
+#include <thrust/detail/config.h>
+
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/config.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/uninitialized_array.h>
 
@@ -75,7 +76,7 @@ struct unordered_reduce_closure
   unordered_reduce_closure(InputIterator input, Size n, T init, OutputIterator output, BinaryFunction binary_op, unsigned int shared_array_size, Context context = Context())
     : input(input), n(n), init(init), output(output), binary_op(binary_op), shared_array_size(shared_array_size), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;

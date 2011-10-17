@@ -14,9 +14,6 @@
  *  limitations under the License.
  */
 
-// do not attempt to compile this file with any other compiler
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/cuda/arch.h>
@@ -36,14 +33,13 @@ namespace cuda
 namespace detail
 {
 
-
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 template<typename Closure>
 __global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
 void launch_closure_by_value(Closure f)
 {
   f();
 }
-
 
 template<typename Closure>
 __global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
@@ -53,7 +49,14 @@ void launch_closure_by_pointer(const Closure *f)
   Closure f_reg = *f;
   f_reg();
 }
+#else
+template<typename Closure>
+void launch_closure_by_value(Closure) {}
 
+template<typename Closure>
+void launch_closure_by_pointer(const Closure *) {}
+
+#endif // THRUST_DEVICE_COMPILER_NVCC
 
 template<typename Closure,
          bool launch_by_value = sizeof(Closure) <= 256>
@@ -69,8 +72,10 @@ template<typename Closure,
   template<typename Size1, typename Size2, typename Size3>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     detail::launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
     synchronize_if_enabled("launch_closure_by_value");
+#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 }; // end closure_launcher_base
 
@@ -88,6 +93,7 @@ template<typename Closure>
   template<typename Size1, typename Size2, typename Size3>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     // allocate device memory for the argument
     thrust::device_ptr<void> temp_ptr = thrust::detail::backend::cuda::malloc<0>(sizeof(Closure));
 
@@ -103,6 +109,7 @@ template<typename Closure>
 
     // free device memory
     thrust::detail::backend::cuda::free<0>(f_ptr);
+#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
 
@@ -192,11 +199,9 @@ arch::function_attributes_t closure_attributes(void)
   return result;
 }
 
-} // end detail
+} // end namespace detail
 } // end namespace cuda
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

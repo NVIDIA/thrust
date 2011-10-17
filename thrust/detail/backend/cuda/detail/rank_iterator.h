@@ -48,7 +48,7 @@ template<typename RandomAccessIterator, typename Compare>
     : first(f), comp(c) {}
 
   template<typename Index>
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   typename thrust::iterator_difference<RandomAccessIterator>::type operator()(Index index)
   {
     RandomAccessIterator x = first;

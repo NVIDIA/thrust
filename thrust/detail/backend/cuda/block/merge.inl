@@ -35,7 +35,7 @@ template<typename Context,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
   RandomAccessIterator3 merge(Context context,
                               RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,

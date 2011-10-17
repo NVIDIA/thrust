@@ -38,7 +38,7 @@ namespace set_symmetric_difference_detail
 
 struct block_convergent_set_symmetric_difference_functor
 {
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   static size_t get_min_size_of_result_in_number_of_elements(size_t size_of_range1,
                                                              size_t size_of_range2)
   {
@@ -46,7 +46,7 @@ struct block_convergent_set_symmetric_difference_functor
     return 0u;
   }
 
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   static size_t get_max_size_of_result_in_number_of_elements(size_t size_of_range1,
                                                              size_t size_of_range2)
   {
@@ -54,7 +54,7 @@ struct block_convergent_set_symmetric_difference_functor
     return size_of_range1 + size_of_range2;
   }
 
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   static unsigned int get_temporary_array_size_in_number_of_bytes(unsigned int block_size)
   {
     // set_symmetric_difference needs temporary arrays for both inputs range1 and range2
@@ -67,7 +67,7 @@ struct block_convergent_set_symmetric_difference_functor
            typename RandomAccessIterator2,
            typename RandomAccessIterator3,
            typename StrictWeakOrdering>
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
     RandomAccessIterator3 operator()(Context context,
                                      RandomAccessIterator1 first1,
                                      RandomAccessIterator1 last1,

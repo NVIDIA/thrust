@@ -14,28 +14,23 @@
  *  limitations under the License.
  */
 
+/*! \file forceinline.h
+ *  \brief Defines __thrust_forceinline__
+ */
 
 #pragma once
 
 #include <thrust/detail/config.h>
 
-namespace thrust
-{
-namespace detail
-{
-namespace backend
-{
-namespace cuda
-{
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
-inline void synchronize(const char *message = "");
+#define __thrust_forceinline__ __forceinline__
 
-inline void synchronize_if_enabled(const char *message = "");
+#else
 
-} // end namespace cuda
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
+// TODO add 
 
-#include <thrust/detail/backend/cuda/synchronize.inl>
+#define __thrust_forceinline__
+
+#endif
 

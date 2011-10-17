@@ -119,7 +119,7 @@ struct merge_closure
       context(context)
   {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;

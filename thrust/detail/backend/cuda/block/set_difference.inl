@@ -37,7 +37,7 @@ template<typename Context,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-__device__ __forceinline__
+__device__ __thrust_forceinline__
   RandomAccessIterator4 set_difference(Context context,
                                        RandomAccessIterator1 first1,
                                        RandomAccessIterator1 last1,

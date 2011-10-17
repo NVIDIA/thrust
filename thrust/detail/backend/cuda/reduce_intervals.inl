@@ -14,13 +14,12 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
 
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/minmax.h>
-
 #include <thrust/detail/backend/decompose.h>
-
 #include <thrust/detail/backend/cuda/extern_shared_ptr.h>
 #include <thrust/detail/backend/cuda/block/reduce.h>
 #include <thrust/detail/backend/cuda/detail/launch_closure.h>
@@ -54,7 +53,7 @@ struct commutative_reduce_intervals_closure
   commutative_reduce_intervals_closure(InputIterator input, OutputIterator output, BinaryFunction binary_op, Decomposition decomposition, unsigned int shared_array_size, Context context = Context())
     : input(input), output(output), binary_op(binary_op), decomposition(decomposition), shared_array_size(shared_array_size), context(context) {}
 
-  __device__ __forceinline__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
