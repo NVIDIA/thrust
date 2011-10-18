@@ -52,6 +52,39 @@ namespace detail
 namespace fast_scan
 {
 
+// TODO tune this
+template <typename ValueType>
+struct inclusive_scan_block_size
+{
+  private:
+  static const unsigned int max_memory         = 16384 - 256 - 2 * sizeof(ValueType);
+  static const unsigned int max_block_size     = max_memory / sizeof(ValueType);
+  static const unsigned int default_block_size = 7 * 32;
+  static const unsigned int block_size         = (max_block_size < default_block_size) ? max_block_size : default_block_size;
+
+  public:
+  static const unsigned int pass1 = block_size;
+  static const unsigned int pass2 = block_size;
+  static const unsigned int pass3 = block_size;
+};
+
+// TODO tune this
+template <typename ValueType>
+struct exclusive_scan_block_size
+{
+  private:
+  static const unsigned int max_memory         = 16384 - 256 - 2 * sizeof(ValueType);
+  static const unsigned int max_block_size     = max_memory / sizeof(ValueType);
+  static const unsigned int default_block_size = 5 * 32;
+  static const unsigned int block_size         = (max_block_size < default_block_size) ? max_block_size : default_block_size;
+
+  public:
+  static const unsigned int pass1 = block_size;
+  static const unsigned int pass2 = block_size;
+  static const unsigned int pass3 = block_size;
+};
+
+
 template <unsigned int CTA_SIZE,
           typename Context,
           typename SharedArray,
@@ -540,10 +573,6 @@ OutputIterator inclusive_scan(InputIterator first,
 
   ValueArray block_results(decomp.size());
   
-  // TODO tune this
-  const static unsigned int ThreadsPerBlock = 32 * 7;
-  typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
-
   // compute sum over each interval
   if (thrust::detail::is_commutative<BinaryFunction>::value)
   {
@@ -552,6 +581,9 @@ OutputIterator inclusive_scan(InputIterator first,
   }
   else
   {
+    const static unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass1;
+    typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+
     typedef upsweep_intervals_closure<InputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
                     thrust::raw_pointer_cast(&block_results[0]),
@@ -562,6 +594,9 @@ OutputIterator inclusive_scan(InputIterator first,
 
   // second level inclusive scan of per-block results
   {
+    const static unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass2;
+    typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+
     typedef downsweep_intervals_closure<true,ValueType*,ValueType*,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(thrust::raw_pointer_cast(&block_results[0]),
                     thrust::raw_pointer_cast(&block_results[0]),
@@ -573,6 +608,9 @@ OutputIterator inclusive_scan(InputIterator first,
   
   // update intervals with result of second level scan
   {
+    const static unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass3;
+    typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+
     typedef downsweep_intervals_closure<true,InputIterator,OutputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
                     output,
@@ -629,10 +667,6 @@ OutputIterator exclusive_scan(InputIterator first,
 
   ValueArray block_results(decomp.size() + 1);
   
-  // TODO tune this
-  const static unsigned int ThreadsPerBlock = 32 * 5;
-  typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
-
   // compute sum over each interval
   if (thrust::detail::is_commutative<BinaryFunction>::value)
   {
@@ -641,6 +675,9 @@ OutputIterator exclusive_scan(InputIterator first,
   }
   else
   {
+    const static unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass1;
+    typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+
     typedef upsweep_intervals_closure<InputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
                     thrust::raw_pointer_cast(&block_results[0]) + 1,
@@ -654,6 +691,9 @@ OutputIterator exclusive_scan(InputIterator first,
   
   // second level inclusive scan of per-block results
   {
+    const static unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass2;
+    typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+
     typedef downsweep_intervals_closure<true,ValueType*,ValueType*,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(thrust::raw_pointer_cast(&block_results[0]),
                     thrust::raw_pointer_cast(&block_results[0]),
@@ -665,6 +705,9 @@ OutputIterator exclusive_scan(InputIterator first,
   
   // update intervals with result of second level scan
   {
+    const static unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass3;
+    typedef cuda::detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+
     typedef downsweep_intervals_closure<false,InputIterator,OutputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
                     output,
@@ -684,7 +727,5 @@ OutputIterator exclusive_scan(InputIterator first,
 } // end namespace detail
 } // end namespace thrust
 
-
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
-
 
