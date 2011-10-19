@@ -78,7 +78,13 @@ void trivial_copy(Context context, void* destination_, const void* source_, size
   // reinterpret at bytes
   char* destination  = reinterpret_cast<char*>(destination_);
   const char* source = reinterpret_cast<const char*>(source_);
-  
+ 
+  // TODO replace this with uint64
+#if THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC
+  typedef long long  int2;
+  typedef long long uint2;
+#endif // THRUST_DEVICE_COMPILER_NVCC
+
   // check alignment
   // XXX can we do this in three steps?
   //     1. copy until alignment is met

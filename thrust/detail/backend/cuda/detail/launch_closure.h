@@ -71,15 +71,15 @@ struct blocked_thread_array : public launch_bounds<>
 #endif // THRUST_DEVICE_COMPILER_NVCC
 };
 
-template <unsigned int ThreadsPerBlock>
-struct statically_blocked_thread_array : public launch_bounds<ThreadsPerBlock,1>
+template <unsigned int _ThreadsPerBlock>
+struct statically_blocked_thread_array : public launch_bounds<_ThreadsPerBlock,1>
 {
 // CUDA built-in variables require nvcc
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-  __device__ __thrust_forceinline__ unsigned int thread_index(void)    const { return threadIdx.x;     }
-  __device__ __thrust_forceinline__ unsigned int block_dimension(void) const { return ThreadsPerBlock; } // minor optimization
-  __device__ __thrust_forceinline__ unsigned int block_index(void)     const { return blockIdx.x;      }
-  __device__ __thrust_forceinline__ unsigned int grid_dimension(void)  const { return gridDim.x;       }
+  __device__ __thrust_forceinline__ unsigned int thread_index(void)    const { return threadIdx.x;      }
+  __device__ __thrust_forceinline__ unsigned int block_dimension(void) const { return _ThreadsPerBlock; } // minor optimization
+  __device__ __thrust_forceinline__ unsigned int block_index(void)     const { return blockIdx.x;       }
+  __device__ __thrust_forceinline__ unsigned int grid_dimension(void)  const { return gridDim.x;        }
   __device__ __thrust_forceinline__ unsigned int linear_index(void)    const { return block_dimension() * block_index() + thread_index(); }
   __device__ __thrust_forceinline__ void         barrier(void)               { __syncthreads();    }
 #else
