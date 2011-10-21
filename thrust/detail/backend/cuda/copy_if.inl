@@ -113,7 +113,7 @@ struct copy_if_intervals_closure
         context.barrier();
 
         // scan block
-        cuda::block::inplace_inclusive_scan(context, sdata, binary_op);
+        cuda::block::inclusive_scan(context, sdata, binary_op);
        
         // write data
         if (predicate)
@@ -145,7 +145,7 @@ struct copy_if_intervals_closure
         context.barrier();
 
         // scan block
-        cuda::block::inplace_inclusive_scan(context, sdata, binary_op);
+        cuda::block::inclusive_scan(context, sdata, binary_op);
        
         // write data
         if (predicate) // expects predicate=false for >= interval_end

@@ -90,7 +90,7 @@ __device__ __thrust_forceinline__
   context.barrier();
 
   // inclusive scan the scratch array
-  cuda::block::inplace_inclusive_scan_n(context, temporary, n2, thrust::plus<int>());
+  cuda::block::inclusive_scan_n(context, temporary, n2, thrust::plus<int>());
 
   // find the rank of each element in the first range in the second range
   // modulo the fact that some elements of the second range will not appear in the output
