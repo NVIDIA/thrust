@@ -14,49 +14,42 @@
  *  limitations under the License.
  */
 
-
-/*! \file copy.h
- *  \brief Generic implementation of copy.
- */
-
 #pragma once
 
-#include <thrust/detail/device/transform.h>
-#include <thrust/functional.h>
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/generic/tag.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
-// XXX WAR circular #inclusion problems
-template<typename InputIterator,
-         typename OutputIterator,
-         typename UnaryFunction>
-  OutputIterator transform(InputIterator,InputIterator,OutputIterator,UnaryFunction);
-
 namespace generic
 {
 
+
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator  first,
+  OutputIterator copy(tag,
+                      InputIterator  first,
                       InputIterator  last,
-                      OutputIterator result)
-{
-  typedef typename thrust::iterator_value<InputIterator>::type T;
-  return thrust::detail::backend::transform(first, last, result, thrust::identity<T>());
-} // end copy()
+                      OutputIterator result);
+
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(tag,
+                       InputIterator  first,
+                       Size           n,
+                       OutputIterator result);
+
 
 } // end generic
-
 } // end backend
-
 } // end detail
-
 } // end thrust
+
+#include <thrust/detail/backend/generic/copy.inl>
 

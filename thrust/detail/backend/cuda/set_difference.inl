@@ -22,7 +22,7 @@
 #include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/backend/cuda/block/set_difference.h>
 #include <thrust/detail/backend/cuda/detail/split_for_set_operation.h>
 #include <thrust/detail/backend/cuda/detail/set_operation.h>
@@ -106,7 +106,7 @@ RandomAccessIterator3 set_difference(tag,
   if(num_elements1 == 0)
     return result;
   else if(num_elements2 == 0)
-    return thrust::detail::backend::copy(first1, last1, result);
+    return thrust::copy(first1, last1, result);
 
   return detail::set_operation(first1, last1,
                                first2, last2,

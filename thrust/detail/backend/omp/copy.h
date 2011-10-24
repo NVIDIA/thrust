@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/omp/dispatch/copy.h>
+#include <thrust/detail/config.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
@@ -29,45 +29,29 @@ namespace omp
 {
 
 
-// entry point
 template<typename InputIterator,
-         typename OutputIterator>
-OutputIterator copy(InputIterator first,
+         typename OutputIterator,
+         typename Tag>
+OutputIterator copy(Tag,
+                    InputIterator first,
                     InputIterator last,
-                    OutputIterator result)
-{
-  typedef typename thrust::iterator_traversal<InputIterator>::type traversal1;
-  typedef typename thrust::iterator_traversal<OutputIterator>::type traversal2;
+                    OutputIterator result);
 
-  // XXX minimum_traversal doesn't exist, but it should?
-  //typedef typename thrust::detail::minimum_traversal<traversal1,traversal2>::type minimum_traversal;
-  typedef typename thrust::detail::minimum_category<traversal1,traversal2>::type minimum_traversal;
-
-  // dispatch on min traversal
-  return thrust::detail::backend::omp::dispatch::copy(first, last, result, minimum_traversal());
-} 
 
 template<typename InputIterator,
          typename Size,
-         typename OutputIterator>
-OutputIterator copy_n(InputIterator first,
+         typename OutputIterator,
+         typename Tag>
+OutputIterator copy_n(Tag,
+                      InputIterator first,
                       Size n,
-                      OutputIterator result)
-{
-  typedef typename thrust::iterator_traversal<InputIterator>::type traversal1;
-  typedef typename thrust::iterator_traversal<OutputIterator>::type traversal2;
-
-  // XXX minimum_traversal doesn't exist, but it should?
-  //typedef typename thrust::detail::minimum_traversal<traversal1,traversal2>::type minimum_traversal;
-  typedef typename thrust::detail::minimum_category<traversal1,traversal2>::type minimum_traversal;
-
-  // dispatch on min traversal
-  return thrust::detail::backend::omp::dispatch::copy_n(first, n, result, minimum_traversal());
-} 
+                      OutputIterator result);
 
 
 } // end namespace omp
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
+
+#include <thrust/detail/backend/omp/copy.inl>
 

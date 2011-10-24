@@ -23,6 +23,42 @@
 
 namespace thrust
 {
+namespace detail
+{
+namespace backend
+{
+namespace omp
+{
+
+inline tag select_system(tag, tag)
+{
+  return tag();
+} // end select_system()
+
+inline tag select_system(tag, thrust::any_space_tag)
+{
+  return tag();
+} // end select_system()
+
+inline tag select_system(thrust::any_space_tag, tag)
+{
+  return tag();
+} // end select_system()
+
+inline omp_intersystem_tag select_system(omp::tag, thrust::system::cpp::tag)
+{
+  return omp_intersystem_tag();
+} // end select_system()
+
+inline omp_intersystem_tag select_system(thrust::system::cpp::tag, omp::tag)
+{
+  return omp_intersystem_tag();
+} // end select_system()
+
+} // end omp
+} // end backend
+} // end detail
+
 namespace system
 {
 namespace omp

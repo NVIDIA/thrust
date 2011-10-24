@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include <thrust/detail/backend/cpp/dispatch/copy.h>
-#include <thrust/detail/dispatch/is_trivial_copy.h>
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -35,28 +35,24 @@ namespace cpp
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator first,
+  OutputIterator copy(tag,
+                      InputIterator first,
                       InputIterator last,
-                      OutputIterator result)
-{
-  return thrust::detail::backend::cpp::dispatch::copy(first, last, result,
-      typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
-} // end copy()
+                      OutputIterator result);
 
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
+  OutputIterator copy_n(tag,
+                        InputIterator first,
                         Size n,
-                        OutputIterator result)
-{
-  return thrust::detail::backend::cpp::dispatch::copy_n(first, n, result,
-      typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
-} // end copy()
+                        OutputIterator result);
 
 
 } // end cpp
 } // end backend
 } // end detail
 } // end thrust
+
+#include <thrust/detail/backend/cpp/copy.inl>
 

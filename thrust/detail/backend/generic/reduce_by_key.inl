@@ -33,7 +33,6 @@
 
 #include <thrust/detail/internal_functional.h>
 #include <thrust/scan.h>
-#include <thrust/detail/backend/copy.h>
 #include <thrust/detail/temporary_array.h>
 
 namespace thrust

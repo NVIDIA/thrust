@@ -17,7 +17,14 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy.h>
-#include <thrust/detail/backend/copy.h>
+#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/detail/backend/generic/copy.h>
+
+// XXX make the backend-specific versions of copy available
+// XXX try to eliminate the need for these
+#include <thrust/detail/backend/cpp/copy.h>
+#include <thrust/detail/backend/omp/copy.h>
+#include <thrust/detail/backend/cuda/copy.h>
 
 namespace thrust
 {
@@ -29,12 +36,15 @@ template<typename InputIterator,
                       InputIterator last,
                       OutputIterator result)
 {
-  // make sure this isn't necessary
-  if(first == last) 
-    return result;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::copy;
 
-  return thrust::detail::backend::copy(first, last, result);
-}
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return copy(select_system(space1(),space2()), first, last, result);
+} // end copy()
+
 
 template<typename InputIterator,
          typename Size,
@@ -43,12 +53,15 @@ template<typename InputIterator,
                         Size n,
                         OutputIterator result)
 {
-  // make sure this isn't necessary
-  if(n <= Size(0)) 
-    return result;
+  using thrust::detail::backend::generic::select_system;
+  using thrust::detail::backend::generic::copy_n;
 
-  return thrust::detail::backend::copy_n(first, n, result);
-}
+  typedef typename thrust::iterator_space<InputIterator>::type  space1;
+  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+
+  return copy_n(select_system(space1(),space2()), first, n, result);
+} // end copy_n()
+
 
 } // end namespace thrust
 

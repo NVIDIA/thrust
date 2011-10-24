@@ -33,6 +33,11 @@ namespace omp
 // omp inherits cpp's functionality
 struct tag : thrust::system::cpp::tag {};
 
+// omp_intersystem_tag inherits from tag
+// to avoid unnecessary specializations
+// of assign_value et al.
+struct omp_intersystem_tag : tag {};
+
 } // end omp
 } // end backend
 } // end detail

@@ -16,6 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/backend/cuda/copy_device_to_device.h>
+#include <thrust/detail/backend/cuda/copy_cross_space.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/transform.h>

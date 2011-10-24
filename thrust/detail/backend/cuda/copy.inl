@@ -14,21 +14,17 @@
  *  limitations under the License.
  */
 
-
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/backend/cuda/copy.h>
+#include <thrust/detail/backend/cuda/copy_device_to_device.h>
+#include <thrust/detail/backend/cuda/copy_cross_space.h>
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
 namespace cuda
 {
 
@@ -38,7 +34,10 @@ template<typename InputIterator,
   OutputIterator copy(tag,
                       InputIterator first,
                       InputIterator last,
-                      OutputIterator result);
+                      OutputIterator result)
+{
+  return thrust::detail::backend::cuda::copy_device_to_device(first,last,result);
+} // end copy()
 
 
 template<typename InputIterator,
@@ -46,7 +45,10 @@ template<typename InputIterator,
   OutputIterator copy(cuda_to_cpp,
                       InputIterator first,
                       InputIterator last,
-                      OutputIterator result);
+                      OutputIterator result)
+{
+  return thrust::detail::backend::cuda::copy_cross_space(first,last,result);
+} // end copy()
 
 
 template<typename InputIterator,
@@ -54,7 +56,10 @@ template<typename InputIterator,
   OutputIterator copy(cpp_to_cuda,
                       InputIterator first,
                       InputIterator last,
-                      OutputIterator result);
+                      OutputIterator result)
+{
+  return thrust::detail::backend::cuda::copy_cross_space(first,last,result);
+} // end copy()
 
 
 template<typename InputIterator,
@@ -63,7 +68,10 @@ template<typename InputIterator,
   OutputIterator copy_n(tag,
                         InputIterator first,
                         Size n,
-                        OutputIterator result);
+                        OutputIterator result)
+{
+  return thrust::detail::backend::cuda::copy_device_to_device(first,first+n,result);
+} // end copy_n()
 
 
 template<typename InputIterator,
@@ -72,7 +80,10 @@ template<typename InputIterator,
   OutputIterator copy_n(cuda_to_cpp,
                         InputIterator first,
                         Size n,
-                        OutputIterator result);
+                        OutputIterator result)
+{
+  return thrust::detail::backend::cuda::copy_cross_space_n(first,n,result);
+} // end copy_n()
 
 
 template<typename InputIterator,
@@ -81,16 +92,14 @@ template<typename InputIterator,
   OutputIterator copy_n(cpp_to_cuda,
                         InputIterator first,
                         Size n,
-                        OutputIterator result);
+                        OutputIterator result)
+{
+  return thrust::detail::backend::cuda::copy_cross_space_n(first,n,result);
+} // end copy_n()
 
 
 } // end cuda
-
 } // end backend
-
 } // end detail
-
 } // end thrust
-
-#include <thrust/detail/backend/cuda/copy.inl>
 
