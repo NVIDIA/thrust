@@ -29,6 +29,9 @@ namespace cuda
 
 struct tag {};
 
+struct cuda_to_cpp  {};
+struct cpp_to_cuda  {};
+
 } // end cuda
 } // end backend
 } // end detail

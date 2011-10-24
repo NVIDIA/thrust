@@ -36,9 +36,6 @@ namespace backend
 namespace cuda
 {
 
-struct cuda_to_cpp  {};
-struct cpp_to_cuda  {};
-
 __host__ __device__
 inline tag select_system(tag, tag)
 {
