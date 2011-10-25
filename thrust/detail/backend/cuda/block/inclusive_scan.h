@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -29,107 +31,119 @@ namespace cuda
 namespace block
 {
 
-template<unsigned int block_size,
-         typename RandomAccessIterator,
+template<typename Context,
+         typename InputIterator,
          typename BinaryFunction>
-__device__ __forceinline__
-  void inplace_inclusive_scan(RandomAccessIterator first,
-                              BinaryFunction binary_op)
+__device__ __thrust_forceinline__
+void inplace_inclusive_scan(Context context,
+                            InputIterator first,
+                            BinaryFunction binary_op)
 {
-  typename thrust::iterator_value<RandomAccessIterator>::type val = first[threadIdx.x];
-  __syncthreads(); // TODO see if this can be removed
+  // TODO support dynamic block_size
+  const unsigned int block_size = Context::ThreadsPerBlock::value;
 
-  if(block_size >    1) { if (threadIdx.x >=    1) { val = binary_op(first[threadIdx.x -    1], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >    2) { if (threadIdx.x >=    2) { val = binary_op(first[threadIdx.x -    2], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } 
-  if(block_size >    4) { if (threadIdx.x >=    4) { val = binary_op(first[threadIdx.x -    4], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >    8) { if (threadIdx.x >=    8) { val = binary_op(first[threadIdx.x -    8], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >   16) { if (threadIdx.x >=   16) { val = binary_op(first[threadIdx.x -   16], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >   32) { if (threadIdx.x >=   32) { val = binary_op(first[threadIdx.x -   32], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >   64) { if (threadIdx.x >=   64) { val = binary_op(first[threadIdx.x -   64], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >  128) { if (threadIdx.x >=  128) { val = binary_op(first[threadIdx.x -  128], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >  256) { if (threadIdx.x >=  256) { val = binary_op(first[threadIdx.x -  256], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >  512) { if (threadIdx.x >=  512) { val = binary_op(first[threadIdx.x -  512], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
-  if(block_size > 1024) { if (threadIdx.x >= 1024) { val = binary_op(first[threadIdx.x - 1024], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); }
+  typename thrust::iterator_value<InputIterator>::type val = first[context.thread_index()];
+
+  if(block_size >    1) { if (context.thread_index() >=    1) { val = binary_op(first[context.thread_index() -    1], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >    2) { if (context.thread_index() >=    2) { val = binary_op(first[context.thread_index() -    2], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } 
+  if(block_size >    4) { if (context.thread_index() >=    4) { val = binary_op(first[context.thread_index() -    4], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >    8) { if (context.thread_index() >=    8) { val = binary_op(first[context.thread_index() -    8], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >   16) { if (context.thread_index() >=   16) { val = binary_op(first[context.thread_index() -   16], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >   32) { if (context.thread_index() >=   32) { val = binary_op(first[context.thread_index() -   32], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >   64) { if (context.thread_index() >=   64) { val = binary_op(first[context.thread_index() -   64], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >  128) { if (context.thread_index() >=  128) { val = binary_op(first[context.thread_index() -  128], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >  256) { if (context.thread_index() >=  256) { val = binary_op(first[context.thread_index() -  256], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size >  512) { if (context.thread_index() >=  512) { val = binary_op(first[context.thread_index() -  512], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
+  if(block_size > 1024) { if (context.thread_index() >= 1024) { val = binary_op(first[context.thread_index() - 1024], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); }
 } // end inplace_inclusive_scan()
 
 
-template<typename RandomAccessIterator,
+template<typename Context,
+         typename InputIterator,
          typename Size,
          typename BinaryFunction>
-__device__ __forceinline__
-void inplace_inclusive_scan_n(RandomAccessIterator first,
+__device__ __thrust_forceinline__
+void inplace_inclusive_scan_n(Context context,
+                              InputIterator first,
                               Size n,
                               BinaryFunction binary_op)
 {
-  typename thrust::iterator_value<RandomAccessIterator>::type val = first[threadIdx.x];
-  __syncthreads(); // TODO see if this can be removed
+  // TODO generalize to arbitrary n
+  typename thrust::iterator_value<InputIterator>::type val = first[context.thread_index()];
 
   // assume n <= 2048
-  if(n >    1) { if (threadIdx.x < n && threadIdx.x >=    1) { val = binary_op(first[threadIdx.x -    1], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >    2) { if (threadIdx.x < n && threadIdx.x >=    2) { val = binary_op(first[threadIdx.x -    2], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; } 
-  if(n >    4) { if (threadIdx.x < n && threadIdx.x >=    4) { val = binary_op(first[threadIdx.x -    4], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >    8) { if (threadIdx.x < n && threadIdx.x >=    8) { val = binary_op(first[threadIdx.x -    8], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >   16) { if (threadIdx.x < n && threadIdx.x >=   16) { val = binary_op(first[threadIdx.x -   16], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >   32) { if (threadIdx.x < n && threadIdx.x >=   32) { val = binary_op(first[threadIdx.x -   32], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >   64) { if (threadIdx.x < n && threadIdx.x >=   64) { val = binary_op(first[threadIdx.x -   64], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >  128) { if (threadIdx.x < n && threadIdx.x >=  128) { val = binary_op(first[threadIdx.x -  128], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >  256) { if (threadIdx.x < n && threadIdx.x >=  256) { val = binary_op(first[threadIdx.x -  256], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >  512) { if (threadIdx.x < n && threadIdx.x >=  512) { val = binary_op(first[threadIdx.x -  512], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n > 1024) { if (threadIdx.x < n && threadIdx.x >= 1024) { val = binary_op(first[threadIdx.x - 1024], val); } __syncthreads(); first[threadIdx.x] = val; __syncthreads(); } else { return; }  
+  if(n >    1) { if (context.thread_index() < n && context.thread_index() >=    1) { val = binary_op(first[context.thread_index() -    1], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >    2) { if (context.thread_index() < n && context.thread_index() >=    2) { val = binary_op(first[context.thread_index() -    2], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; } 
+  if(n >    4) { if (context.thread_index() < n && context.thread_index() >=    4) { val = binary_op(first[context.thread_index() -    4], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >    8) { if (context.thread_index() < n && context.thread_index() >=    8) { val = binary_op(first[context.thread_index() -    8], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >   16) { if (context.thread_index() < n && context.thread_index() >=   16) { val = binary_op(first[context.thread_index() -   16], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >   32) { if (context.thread_index() < n && context.thread_index() >=   32) { val = binary_op(first[context.thread_index() -   32], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >   64) { if (context.thread_index() < n && context.thread_index() >=   64) { val = binary_op(first[context.thread_index() -   64], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >  128) { if (context.thread_index() < n && context.thread_index() >=  128) { val = binary_op(first[context.thread_index() -  128], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >  256) { if (context.thread_index() < n && context.thread_index() >=  256) { val = binary_op(first[context.thread_index() -  256], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >  512) { if (context.thread_index() < n && context.thread_index() >=  512) { val = binary_op(first[context.thread_index() -  512], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n > 1024) { if (context.thread_index() < n && context.thread_index() >= 1024) { val = binary_op(first[context.thread_index() - 1024], val); } context.barrier(); first[context.thread_index()] = val; context.barrier(); } else { return; }  
 } // end inplace_inclusive_scan()
 
 
-template<unsigned int block_size,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
+template<typename Context,
+         typename InputIterator1,
+         typename InputIterator2,
          typename BinaryFunction>
-__device__ __forceinline__
-  void inplace_inclusive_segscan(RandomAccessIterator1 first1,
-                                 RandomAccessIterator2 first2,
-                                 BinaryFunction binary_op)
+__device__ __thrust_forceinline__
+void inplace_inclusive_segscan(Context context,
+                               InputIterator1 first1,
+                               InputIterator2 first2,
+                               BinaryFunction binary_op)
 {
-  typename thrust::iterator_value<RandomAccessIterator1>::type flg = first1[threadIdx.x];
-  typename thrust::iterator_value<RandomAccessIterator2>::type val = first2[threadIdx.x];
+  // TODO support dynamic block_size
+  const unsigned int block_size = Context::ThreadsPerBlock::value;
 
-  if(block_size >    1) { if (threadIdx.x >=    1) { if (!flg) { flg |= first1[threadIdx.x -    1]; val = binary_op(first2[threadIdx.x -    1], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >    2) { if (threadIdx.x >=    2) { if (!flg) { flg |= first1[threadIdx.x -    2]; val = binary_op(first2[threadIdx.x -    2], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } 
-  if(block_size >    4) { if (threadIdx.x >=    4) { if (!flg) { flg |= first1[threadIdx.x -    4]; val = binary_op(first2[threadIdx.x -    4], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >    8) { if (threadIdx.x >=    8) { if (!flg) { flg |= first1[threadIdx.x -    8]; val = binary_op(first2[threadIdx.x -    8], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >   16) { if (threadIdx.x >=   16) { if (!flg) { flg |= first1[threadIdx.x -   16]; val = binary_op(first2[threadIdx.x -   16], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >   32) { if (threadIdx.x >=   32) { if (!flg) { flg |= first1[threadIdx.x -   32]; val = binary_op(first2[threadIdx.x -   32], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >   64) { if (threadIdx.x >=   64) { if (!flg) { flg |= first1[threadIdx.x -   64]; val = binary_op(first2[threadIdx.x -   64], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >  128) { if (threadIdx.x >=  128) { if (!flg) { flg |= first1[threadIdx.x -  128]; val = binary_op(first2[threadIdx.x -  128], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >  256) { if (threadIdx.x >=  256) { if (!flg) { flg |= first1[threadIdx.x -  256]; val = binary_op(first2[threadIdx.x -  256], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size >  512) { if (threadIdx.x >=  512) { if (!flg) { flg |= first1[threadIdx.x -  512]; val = binary_op(first2[threadIdx.x -  512], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
-  if(block_size > 1024) { if (threadIdx.x >= 1024) { if (!flg) { flg |= first1[threadIdx.x - 1024]; val = binary_op(first2[threadIdx.x - 1024], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); }
+  typename thrust::iterator_value<InputIterator1>::type flg = first1[context.thread_index()];
+  typename thrust::iterator_value<InputIterator2>::type val = first2[context.thread_index()];
+
+  if(block_size >    1) { if (context.thread_index() >=    1) { if (!flg) { flg |= first1[context.thread_index() -    1]; val = binary_op(first2[context.thread_index() -    1], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >    2) { if (context.thread_index() >=    2) { if (!flg) { flg |= first1[context.thread_index() -    2]; val = binary_op(first2[context.thread_index() -    2], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } 
+  if(block_size >    4) { if (context.thread_index() >=    4) { if (!flg) { flg |= first1[context.thread_index() -    4]; val = binary_op(first2[context.thread_index() -    4], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >    8) { if (context.thread_index() >=    8) { if (!flg) { flg |= first1[context.thread_index() -    8]; val = binary_op(first2[context.thread_index() -    8], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >   16) { if (context.thread_index() >=   16) { if (!flg) { flg |= first1[context.thread_index() -   16]; val = binary_op(first2[context.thread_index() -   16], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >   32) { if (context.thread_index() >=   32) { if (!flg) { flg |= first1[context.thread_index() -   32]; val = binary_op(first2[context.thread_index() -   32], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >   64) { if (context.thread_index() >=   64) { if (!flg) { flg |= first1[context.thread_index() -   64]; val = binary_op(first2[context.thread_index() -   64], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >  128) { if (context.thread_index() >=  128) { if (!flg) { flg |= first1[context.thread_index() -  128]; val = binary_op(first2[context.thread_index() -  128], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >  256) { if (context.thread_index() >=  256) { if (!flg) { flg |= first1[context.thread_index() -  256]; val = binary_op(first2[context.thread_index() -  256], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size >  512) { if (context.thread_index() >=  512) { if (!flg) { flg |= first1[context.thread_index() -  512]; val = binary_op(first2[context.thread_index() -  512], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
+  if(block_size > 1024) { if (context.thread_index() >= 1024) { if (!flg) { flg |= first1[context.thread_index() - 1024]; val = binary_op(first2[context.thread_index() - 1024], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); }
 } // end inplace_inclusive_segscan()
 
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
+template<typename Context,
+         typename InputIterator1,
+         typename InputIterator2,
          typename Size,
          typename BinaryFunction>
-__device__ __forceinline__
-  void inplace_inclusive_segscan_n(RandomAccessIterator1 first1,
-                                   RandomAccessIterator2 first2,
-                                   Size n,
-                                   BinaryFunction binary_op)
+__device__ __thrust_forceinline__
+void inplace_inclusive_segscan_n(Context context,
+                                 InputIterator1 first1,
+                                 InputIterator2 first2,
+                                 Size n,
+                                 BinaryFunction binary_op)
 {
-  typename thrust::iterator_value<RandomAccessIterator1>::type flg = first1[threadIdx.x];
-  typename thrust::iterator_value<RandomAccessIterator2>::type val = first2[threadIdx.x];
+  // TODO generalize to arbitrary n
+  typename thrust::iterator_value<InputIterator1>::type flg = first1[context.thread_index()];
+  typename thrust::iterator_value<InputIterator2>::type val = first2[context.thread_index()];
 
   // assume n <= 2048
-  if(n >    1) { if (threadIdx.x < n && threadIdx.x >=    1) { if (!flg) { flg |= first1[threadIdx.x -    1]; val = binary_op(first2[threadIdx.x -    1], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }  
-  if(n >    2) { if (threadIdx.x < n && threadIdx.x >=    2) { if (!flg) { flg |= first1[threadIdx.x -    2]; val = binary_op(first2[threadIdx.x -    2], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; } 
-  if(n >    4) { if (threadIdx.x < n && threadIdx.x >=    4) { if (!flg) { flg |= first1[threadIdx.x -    4]; val = binary_op(first2[threadIdx.x -    4], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >    8) { if (threadIdx.x < n && threadIdx.x >=    8) { if (!flg) { flg |= first1[threadIdx.x -    8]; val = binary_op(first2[threadIdx.x -    8], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >   16) { if (threadIdx.x < n && threadIdx.x >=   16) { if (!flg) { flg |= first1[threadIdx.x -   16]; val = binary_op(first2[threadIdx.x -   16], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >   32) { if (threadIdx.x < n && threadIdx.x >=   32) { if (!flg) { flg |= first1[threadIdx.x -   32]; val = binary_op(first2[threadIdx.x -   32], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >   64) { if (threadIdx.x < n && threadIdx.x >=   64) { if (!flg) { flg |= first1[threadIdx.x -   64]; val = binary_op(first2[threadIdx.x -   64], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >  128) { if (threadIdx.x < n && threadIdx.x >=  128) { if (!flg) { flg |= first1[threadIdx.x -  128]; val = binary_op(first2[threadIdx.x -  128], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >  256) { if (threadIdx.x < n && threadIdx.x >=  256) { if (!flg) { flg |= first1[threadIdx.x -  256]; val = binary_op(first2[threadIdx.x -  256], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n >  512) { if (threadIdx.x < n && threadIdx.x >=  512) { if (!flg) { flg |= first1[threadIdx.x -  512]; val = binary_op(first2[threadIdx.x -  512], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
-  if(n > 1024) { if (threadIdx.x < n && threadIdx.x >= 1024) { if (!flg) { flg |= first1[threadIdx.x - 1024]; val = binary_op(first2[threadIdx.x - 1024], val); } } __syncthreads(); first1[threadIdx.x] = flg; first2[threadIdx.x] = val; __syncthreads(); } else { return; }
+  if(n >    1) { if (context.thread_index() < n && context.thread_index() >=    1) { if (!flg) { flg |= first1[context.thread_index() -    1]; val = binary_op(first2[context.thread_index() -    1], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }  
+  if(n >    2) { if (context.thread_index() < n && context.thread_index() >=    2) { if (!flg) { flg |= first1[context.thread_index() -    2]; val = binary_op(first2[context.thread_index() -    2], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; } 
+  if(n >    4) { if (context.thread_index() < n && context.thread_index() >=    4) { if (!flg) { flg |= first1[context.thread_index() -    4]; val = binary_op(first2[context.thread_index() -    4], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >    8) { if (context.thread_index() < n && context.thread_index() >=    8) { if (!flg) { flg |= first1[context.thread_index() -    8]; val = binary_op(first2[context.thread_index() -    8], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >   16) { if (context.thread_index() < n && context.thread_index() >=   16) { if (!flg) { flg |= first1[context.thread_index() -   16]; val = binary_op(first2[context.thread_index() -   16], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >   32) { if (context.thread_index() < n && context.thread_index() >=   32) { if (!flg) { flg |= first1[context.thread_index() -   32]; val = binary_op(first2[context.thread_index() -   32], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >   64) { if (context.thread_index() < n && context.thread_index() >=   64) { if (!flg) { flg |= first1[context.thread_index() -   64]; val = binary_op(first2[context.thread_index() -   64], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >  128) { if (context.thread_index() < n && context.thread_index() >=  128) { if (!flg) { flg |= first1[context.thread_index() -  128]; val = binary_op(first2[context.thread_index() -  128], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >  256) { if (context.thread_index() < n && context.thread_index() >=  256) { if (!flg) { flg |= first1[context.thread_index() -  256]; val = binary_op(first2[context.thread_index() -  256], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n >  512) { if (context.thread_index() < n && context.thread_index() >=  512) { if (!flg) { flg |= first1[context.thread_index() -  512]; val = binary_op(first2[context.thread_index() -  512], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
+  if(n > 1024) { if (context.thread_index() < n && context.thread_index() >= 1024) { if (!flg) { flg |= first1[context.thread_index() - 1024]; val = binary_op(first2[context.thread_index() - 1024], val); } } context.barrier(); first1[context.thread_index()] = flg; first2[context.thread_index()] = val; context.barrier(); } else { return; }
 } // end inplace_inclusive_segscan()
 
 } // end namespace block

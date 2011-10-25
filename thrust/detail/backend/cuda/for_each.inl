@@ -20,6 +20,7 @@
  */
 
 #include <thrust/detail/config.h>
+
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/static_assert.h>
 
@@ -41,34 +42,33 @@ namespace cuda
 namespace detail
 {
 
-
 template<typename RandomAccessIterator,
          typename Size,
-         typename UnaryFunction>
-  struct for_each_n_closure
+         typename UnaryFunction,
+         typename Context>
+struct for_each_n_closure
 {
   typedef void result_type;
+  typedef Context context_type;
 
   RandomAccessIterator first;
   Size n;
   UnaryFunction f;
+  Context context;
 
-  for_each_n_closure(RandomAccessIterator first_,
-                     Size n_,
-                     UnaryFunction f_)
-    : first(first_),
-      n(n_),
-      f(f_)
+  for_each_n_closure(RandomAccessIterator first,
+                     Size n,
+                     UnaryFunction f,
+                     Context context = Context())
+    : first(first), n(n), f(f), context(context)
   {}
 
-// CUDA built-in variables require nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-  __device__
+  __device__ __thrust_forceinline__
   result_type operator()(void)
   {
-    const Size grid_size = blockDim.x * gridDim.x;
+    const Size grid_size = context.block_dimension() * context.grid_dimension();
 
-    Size i = blockIdx.x * blockDim.x + threadIdx.x;
+    Size i = context.linear_index();
 
     // advance iterator
     first += i;
@@ -80,7 +80,6 @@ template<typename RandomAccessIterator,
       first += grid_size;
     }
   }
-#endif // THRUST_DEVICE_COMPILER_NVCC
 }; // end or_each_n_closure
 
 } // end detail
@@ -107,7 +106,8 @@ RandomAccessIterator for_each_n(tag,
        && n > Size((std::numeric_limits<unsigned int>::max)())) // convert to Size to avoid a warning
   {
     // n is large, must use 64-bit indices
-    typedef detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction> Closure;
+    typedef cuda::detail::blocked_thread_array Context;
+    typedef detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context> Closure;
     Closure closure(first, n, f);
 
     // calculate launch configuration
@@ -124,7 +124,8 @@ RandomAccessIterator for_each_n(tag,
   else
   {
     // n is small, 32-bit indices are sufficient
-    typedef detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction> Closure;
+    typedef cuda::detail::blocked_thread_array Context;
+    typedef detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction,Context> Closure;
     Closure closure(first, static_cast<unsigned int>(n), f);
     
     // calculate launch configuration

@@ -3,7 +3,7 @@
 #include <thrust/transform.h>
 
 // This example demonstrates the use of placeholders to implement
-// the SAXPY operation (i.e. Y[i] = a * X[i]).
+// the SAXPY operation (i.e. Y[i] = a * X[i] + Y[i]).
 //
 // Placeholders enable developers to write concise inline expressions
 // instead of full functors for many simple operations.  For example,

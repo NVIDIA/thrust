@@ -116,9 +116,12 @@ namespace block
         }
     }
 
-    template<typename RandomAccessIterator1, typename RandomAccessIterator2,
+    template<typename Context,
+             typename RandomAccessIterator1,
+             typename RandomAccessIterator2,
              typename Cmp>
-    __device__ void transposition_sort(RandomAccessIterator1 keys,
+    __device__ void transposition_sort(Context context,
+                                       RandomAccessIterator1 keys,
                                        RandomAccessIterator2 values,
                                        const unsigned int i,
                                        const unsigned int end,
@@ -131,18 +134,20 @@ namespace block
         {
             // ODDS
             conditional_swap(keys, values, i, end, is_odd, comp);
-            __syncthreads();
+            context.barrier();
 
             // EVENS
             conditional_swap(keys, values, i, end, !is_odd, comp);
-            __syncthreads();
+            context.barrier();
         }
     }
 
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__device__ void merge(RandomAccessIterator1 keys, 
+__device__ void merge(Context context,
+                      RandomAccessIterator1 keys, 
                       RandomAccessIterator2 data,
                       const unsigned int i,
                       const unsigned int n,
@@ -194,13 +199,15 @@ __device__ void merge(RandomAccessIterator1 keys,
           yi = data[i];
         }
 
-        __syncthreads();
+        context.barrier();
+
         if( i < new_end )
         {
           keys[new_begin+rank] = xi;
           data[new_begin+rank] = yi;
         }
-        __syncthreads();
+        
+        context.barrier();
 
         begin = new_begin;
         end   = new_end;
@@ -211,10 +218,12 @@ __device__ void merge(RandomAccessIterator1 keys,
 /*! Block-wise implementation of merge sort.
  *  It provides the same external interface as odd_even_sort.
  */
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__device__ void merging_sort(RandomAccessIterator1 keys,
+__device__ void merging_sort(Context context,
+                             RandomAccessIterator1 keys,
                              RandomAccessIterator2 data,
                              const unsigned int n,
                              StrictWeakOrdering comp)
@@ -223,14 +232,14 @@ __device__ void merging_sort(RandomAccessIterator1 keys,
     //          transposition sort.  The code below assumes that h is a
     //          power of 2.  Empirically, 32 delivers best results,
     //          which is not surprising since that's the warp width.
-    unsigned int i = threadIdx.x;
+    unsigned int i = context.thread_index();
     unsigned int h = 32;
     unsigned int begin=i&(~(h-1)),  end=min(n,begin+h);
 
-    transposition_sort(keys, data, i, end, h, comp);
+    transposition_sort(context, keys, data, i, end, h, comp);
 
     // Phase 2: Apply merge tree to produce final sorted results
-    merge(keys, data, i, n, begin, end, h, comp);
+    merge(context, keys, data, i, n, begin, end, h, comp);
 } // end merging_sort()
 
 } // end namespace block

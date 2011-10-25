@@ -20,8 +20,9 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/cuda/dispatch/scan.h>
 #include <thrust/detail/static_assert.h>
+
+#include <thrust/detail/backend/cuda/detail/fast_scan.h>
 
 namespace thrust
 {
@@ -47,25 +48,9 @@ template<typename InputIterator,
     // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
     // ========================================================================
     THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
-
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-
-    // whether to use fast_scan or safe_scan
-    // TODO profile this threshold
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION >= 3010
-    // CUDA 3.1 and higher support non-pod types in statically-allocated __shared__ memory
-    static const bool use_fast_scan = sizeof(OutputType) <= 16;
-#else    
-    // CUDA 3.0 and earlier must use safe_scan for non-pod types
-    static const bool use_fast_scan = sizeof(OutputType) <= 16 && thrust::detail::is_pod<OutputType>::value;
-#endif
-
-    // XXX WAR nvcc unused variable warning
-    (void) use_fast_scan;
-
-    return thrust::detail::backend::cuda::dispatch::inclusive_scan
-        (first, last, result, binary_op,
-         thrust::detail::integral_constant<bool, use_fast_scan>());
+    
+    return thrust::detail::backend::cuda::detail::fast_scan::inclusive_scan
+        (first, last, result, binary_op);
 }
 
 template<typename InputIterator,
@@ -86,24 +71,8 @@ template<typename InputIterator,
     // ========================================================================
     THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-
-    // whether to use fast_scan or safe_scan
-    // TODO profile this threshold
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && CUDA_VERSION >= 3010
-    // CUDA 3.1 and higher support non-pod types in statically-allocated __shared__ memory
-    static const bool use_fast_scan = sizeof(OutputType) <= 16;
-#else    
-    // CUDA 3.0 and earlier must use safe_scan for non-pod types
-    static const bool use_fast_scan = sizeof(OutputType) <= 16 && thrust::detail::is_pod<OutputType>::value;
-#endif
-
-    // XXX WAR nvcc 3.0 unused variable warning
-    (void) use_fast_scan;
-
-    return thrust::detail::backend::cuda::dispatch::exclusive_scan
-        (first, last, result, init, binary_op,
-         thrust::detail::integral_constant<bool, use_fast_scan>());
+    return thrust::detail::backend::cuda::detail::fast_scan::exclusive_scan
+        (first, last, result, init, binary_op);
 }
 
 } // end namespace cuda

@@ -15,12 +15,10 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/generic/scalar/binary_search.h>
-#include <thrust/detail/backend/cuda/block/inclusive_scan.h>
+
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/tuple.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/counting_iterator.h>
+#include <thrust/detail/backend/cuda/block/inclusive_scan.h>
+#include <thrust/detail/backend/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -33,14 +31,15 @@ namespace cuda
 namespace block
 {
 
-
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-__device__ __forceinline__
-  RandomAccessIterator4 set_intersection(RandomAccessIterator1 first1,
+__device__ __thrust_forceinline__
+  RandomAccessIterator4 set_intersection(Context context,
+                                         RandomAccessIterator1 first1,
                                          RandomAccessIterator1 last1,
                                          RandomAccessIterator2 first2,
                                          RandomAccessIterator2 last2,
@@ -57,10 +56,10 @@ __device__ __forceinline__
 
   // search for all matches in the second range for each element in the first
   bool needs_output = false;
-  if(threadIdx.x < n1)
+  if(context.thread_index() < n1)
   {
     RandomAccessIterator1 x = first1;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // count the number of previous occurrances of x the first range
     difference1 rank = x - thrust::detail::backend::generic::scalar::lower_bound(first1,x,dereference(x),comp);
@@ -77,25 +76,27 @@ __device__ __forceinline__
 
   // mark whether my element was found or not in the scratch array
   RandomAccessIterator3 temp = temporary;
-  temp += threadIdx.x;
+  temp += context.thread_index();
   dereference(temp) = needs_output;
 
-  block::inplace_inclusive_scan_n(temporary, n1, thrust::plus<int>());
+  context.barrier();
+
+  cuda::block::inplace_inclusive_scan_n(context, temporary, n1, thrust::plus<int>());
 
   // copy_if
   if(needs_output)
   {
     // find the index to write our element
     unsigned int output_index = 0;
-    if(threadIdx.x > 0)
+    if(context.thread_index() > 0)
     {
       RandomAccessIterator3 src = temporary;
-      src += threadIdx.x - 1;
+      src += context.thread_index() - 1;
       output_index = dereference(src);
     } // end if
 
     RandomAccessIterator1 x = first1;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     RandomAccessIterator4 dst = result;
     dst += output_index;
@@ -105,9 +106,9 @@ __device__ __forceinline__
   return result + temporary[n1-1];
 } // end set_intersection
 
-} // end block
-} // end cuda
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 

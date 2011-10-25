@@ -17,7 +17,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+
 #include <thrust/functional.h>
+#include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 
 namespace thrust
@@ -46,7 +48,7 @@ template<typename RandomAccessIterator, typename Compare>
     : first(f), comp(c) {}
 
   template<typename Index>
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   typename thrust::iterator_difference<RandomAccessIterator>::type operator()(Index index)
   {
     RandomAccessIterator x = first;

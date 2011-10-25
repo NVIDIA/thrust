@@ -15,9 +15,9 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/cuda/block/merge.h>
-#include <thrust/detail/backend/generic/scalar/binary_search.h>
+
 #include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/backend/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -30,13 +30,14 @@ namespace cuda
 namespace block
 {
 
-
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-__device__ __forceinline__
-  RandomAccessIterator3 merge(RandomAccessIterator1 first1,
+__device__ __thrust_forceinline__
+  RandomAccessIterator3 merge(Context context,
+                              RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2,
                               RandomAccessIterator2 last2,
@@ -51,10 +52,10 @@ __device__ __forceinline__
 
   // find the rank of each element in the other array
   difference2 rank2 = 0;
-  if(threadIdx.x < n1)
+  if(context.thread_index() < n1)
   {
     RandomAccessIterator1 x = first1;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // lower_bound ensures that x sorts before any equivalent element of input2
     // this ensures stability
@@ -62,36 +63,36 @@ __device__ __forceinline__
   } // end if
 
   difference1 rank1 = 0;
-  if(threadIdx.x < n2)
+  if(context.thread_index() < n2)
   {
     RandomAccessIterator2 x = first2;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // upper_bound ensures that x sorts before any equivalent element of input1
     // this ensures stability
     rank1 = thrust::detail::backend::generic::scalar::upper_bound(first1, last1, dereference(x), comp) - first1;
   } // end if
 
-  if(threadIdx.x < n1)
+  if(context.thread_index() < n1)
   {
     // scatter each element from input1
     RandomAccessIterator1 src = first1;
-    src += threadIdx.x;
+    src += context.thread_index();
 
     RandomAccessIterator3 dst = result;
-    dst += threadIdx.x + rank2;
+    dst += context.thread_index() + rank2;
 
     dereference(dst) = dereference(src);
   }
 
-  if(threadIdx.x < n2)
+  if(context.thread_index() < n2)
   {
     // scatter each element from input2
     RandomAccessIterator2 src = first2;
-    src += threadIdx.x;
+    src += context.thread_index();
 
     RandomAccessIterator3 dst = result;
-    dst += threadIdx.x + rank1;
+    dst += context.thread_index() + rank1;
 
     dereference(dst) = dereference(src);
   }
@@ -99,9 +100,9 @@ __device__ __forceinline__
   return result + n1 + n2;
 } // end merge
 
-} // end block
-} // end cuda
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 

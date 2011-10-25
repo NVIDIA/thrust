@@ -15,12 +15,9 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/cuda/block/merge.h>
-#include <thrust/detail/backend/generic/scalar/binary_search.h>
+
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/tuple.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/counting_iterator.h>
+#include <thrust/detail/backend/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -33,14 +30,15 @@ namespace cuda
 namespace block
 {
 
-
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-__device__ __forceinline__
-  RandomAccessIterator4 set_symmetric_difference(RandomAccessIterator1 first1,
+__device__ __thrust_forceinline__
+  RandomAccessIterator4 set_symmetric_difference(Context context,
+                                                 RandomAccessIterator1 first1,
                                                  RandomAccessIterator1 last1,
                                                  RandomAccessIterator2 first2,
                                                  RandomAccessIterator2 last2,
@@ -60,7 +58,7 @@ __device__ __forceinline__
 
   // XXX this formulation seems to compile incorrectly
   //RandomAccessIterator3 temporary2 = temporary1 + n1;
-  RandomAccessIterator3 temporary2 = temporary1 + blockDim.x;
+  RandomAccessIterator3 temporary2 = temporary1 + context.block_dimension();
 
   // for each element in range A
   // - count the number of equivalent elements in range A
@@ -71,10 +69,10 @@ __device__ __forceinline__
 
   difference2 rank_of_element_from_range1_in_range2(0);
   bool needs_output1 = false;
-  if(threadIdx.x < n1)
+  if(context.thread_index() < n1)
   {
     RandomAccessIterator1 x = first1;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // count the number of previous occurrances of x in the first range
     difference1 subrank = x - thrust::detail::backend::generic::scalar::lower_bound(first1,x,dereference(x),comp);
@@ -92,10 +90,10 @@ __device__ __forceinline__
 
   difference1 rank_of_element_from_range2_in_range1(0);
   bool needs_output2 = false;
-  if(threadIdx.x < n2)
+  if(context.thread_index() < n2)
   {
     RandomAccessIterator2 x = first2;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // count the number of previous occurrances of x in the first range
     difference2 subrank = x - thrust::detail::backend::generic::scalar::lower_bound(first2,x,dereference(x),comp);
@@ -113,30 +111,31 @@ __device__ __forceinline__
 
   // mark in the scratch arrays if each element needs to be output
   RandomAccessIterator3 temp1 = temporary1;
-  temp1 += threadIdx.x;
+  temp1 += context.thread_index();
   dereference(temp1) = needs_output1;
 
   RandomAccessIterator3 temp2 = temporary2;
-  temp2 += threadIdx.x;
+  temp2 += context.thread_index();
   dereference(temp2) = needs_output2;
+  
+  context.barrier();
 
   // scan both arrays
-  __syncthreads();
-  block::inplace_inclusive_scan_n(temporary1, n1, thrust::plus<int>());
-  block::inplace_inclusive_scan_n(temporary2, n2, thrust::plus<int>());
+  cuda::block::inplace_inclusive_scan_n(context, temporary1, n1, thrust::plus<int>());
+  cuda::block::inplace_inclusive_scan_n(context, temporary2, n2, thrust::plus<int>());
 
   // scatter elements from the first range to their place in the output
   if(needs_output1)
   {
     RandomAccessIterator1 src = first1;
-    src += threadIdx.x;
+    src += context.thread_index();
 
     RandomAccessIterator4 dst = result;
 
-    if(threadIdx.x > 0u)
+    if(context.thread_index() > 0u)
     {
       // subtract one during indexing because the scan was inclusive
-      dst += temporary1[threadIdx.x-1];
+      dst += temporary1[context.thread_index()-1];
     } // end if
 
     if(rank_of_element_from_range1_in_range2 > difference2(0))
@@ -151,14 +150,14 @@ __device__ __forceinline__
   if(needs_output2)
   {
     RandomAccessIterator2 src = first2;
-    src += threadIdx.x;
+    src += context.thread_index();
 
     RandomAccessIterator4 dst = result;
 
-    if(threadIdx.x > 0u)
+    if(context.thread_index() > 0u)
     {
       // subtract one during indexing because the scan was inclusive
-      dst += temporary2[threadIdx.x-1];
+      dst += temporary2[context.thread_index()-1];
     } // end if
 
     if(rank_of_element_from_range2_in_range1 > difference1(0))
@@ -183,10 +182,9 @@ __device__ __forceinline__
   return result;
 } // end set_symmetric_difference()
 
-
-} // end block
-} // end cuda
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 
