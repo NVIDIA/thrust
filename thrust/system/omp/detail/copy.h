@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce_intervals.h
- *  \brief OpenMP implementations of reduce_intervals algorithms.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -26,27 +21,37 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
+namespace detail
+{
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction,
-          typename Decomposition>
-void reduce_intervals(tag,
-                      InputIterator input,
-                      OutputIterator output,
-                      BinaryFunction binary_op,
-                      Decomposition decomp);
 
-} // end namespace omp
-} // end namespace backend
+template<typename InputIterator,
+         typename OutputIterator,
+         typename Tag>
+OutputIterator copy(Tag,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputIterator result);
+
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator,
+         typename Tag>
+OutputIterator copy_n(Tag,
+                      InputIterator first,
+                      Size n,
+                      OutputIterator result);
+
+
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/reduce_intervals.inl>
+#include <thrust/system/omp/detail/copy.inl>
 

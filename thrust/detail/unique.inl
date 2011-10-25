@@ -28,11 +28,11 @@
 
 // XXX make the backend-specific versions of unique available
 #include <thrust/system/cpp/detail/unique.h>
-#include <thrust/detail/backend/omp/unique.h>
+#include <thrust/system/omp/detail/unique.h>
 
 // XXX make the backend-specific versions of unique_by_key available
 #include <thrust/system/cpp/detail/unique_by_key.h>
-#include <thrust/detail/backend/omp/unique_by_key.h>
+#include <thrust/system/omp/detail/unique_by_key.h>
 
 namespace thrust
 {

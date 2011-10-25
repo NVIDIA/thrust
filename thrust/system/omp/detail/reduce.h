@@ -14,43 +14,40 @@
  *  limitations under the License.
  */
 
+
+/*! \file reduce.h
+ *  \brief OpenMP implementation of reduce algorithms.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/tag.h>
-#include <thrust/pair.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
+namespace detail
+{
 
 
-template<typename ForwardIterator,
-         typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
-                         ForwardIterator last,
-                         BinaryPredicate binary_pred);
+template<typename InputIterator, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(tag,
+                    InputIterator begin,
+                    InputIterator end,
+                    OutputType init,
+                    BinaryFunction binary_op);
 
 
-template<typename InputIterator,
-         typename OutputIterator,
-         typename BinaryPredicate>
-  OutputIterator unique_copy(tag,
-                             InputIterator first,
-                             InputIterator last,
-                             OutputIterator output,
-                             BinaryPredicate binary_pred);
-
-
-} // end namespace omp
-} // end namespace backend 
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/unique.inl>
+#include <thrust/system/omp/detail/reduce.inl>
 

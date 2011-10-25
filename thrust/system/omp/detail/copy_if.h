@@ -14,36 +14,37 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/reduce.h>
-#include <thrust/detail/backend/generic/reduce.h>
+#include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
-
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op)
+namespace detail
 {
-  // omp prefers generic::reduce to cpp::reduce
-  return thrust::detail::backend::generic::reduce(tag(), begin, end, init, binary_op);
-} // end reduce()
 
 
-} // end omp
-} // end backend
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred);
+
+
 } // end detail
+} // end omp
+} // end system
 } // end thrust
+
+#include <thrust/system/omp/detail/copy_if.inl>
 

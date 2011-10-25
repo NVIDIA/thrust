@@ -29,17 +29,13 @@
 #include <thrust/system/cpp/detail/merge.h>
 #include <thrust/system/cpp/detail/tag.h>
 
-// XXX eliminate these global usings!
-using thrust::detail::backend::index_range;
-using thrust::detail::backend::uniform_decomposition;
-
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template<typename RandomAccessIterator,
@@ -54,7 +50,7 @@ void stable_sort(tag,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator,
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
@@ -65,7 +61,7 @@ void stable_sort(tag,
 
   #pragma omp parallel
   {
-    uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
+    thrust::detail::backend::uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
 
     // process id
     IndexType p_i = omp_get_thread_num();
@@ -125,7 +121,7 @@ void stable_sort_by_key(tag,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator1,
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
@@ -136,7 +132,7 @@ void stable_sort_by_key(tag,
 
   #pragma omp parallel
   {
-    uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
+    thrust::detail::backend::uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
 
     // process id
     IndexType p_i = omp_get_thread_num();
@@ -184,8 +180,8 @@ void stable_sort_by_key(tag,
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 

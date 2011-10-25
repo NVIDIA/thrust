@@ -25,14 +25,15 @@
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
+#include <thrust/for_each.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template<typename RandomAccessIterator,
@@ -48,7 +49,7 @@ RandomAccessIterator for_each_n(tag,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<RandomAccessIterator,
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
   if (n <= 0) return first;  //empty range
@@ -66,7 +67,7 @@ RandomAccessIterator for_each_n(tag,
       ++i)
   {
     RandomAccessIterator temp = first + i;
-    f(dereference(temp));
+    f(thrust::detail::backend::dereference(temp));
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 
@@ -80,11 +81,11 @@ template<typename RandomAccessIterator,
                                 RandomAccessIterator last,
                                 UnaryFunction f)
 {
-  return thrust::detail::backend::omp::for_each_n(tag(), first, thrust::distance(first,last), f);
+  return thrust::for_each_n(first, thrust::distance(first,last), f);
 } // end for_each()
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 

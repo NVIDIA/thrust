@@ -28,13 +28,13 @@
 // XXX make the backend-specific versions of reduce available
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/reduce.h>
-#include <thrust/detail/backend/omp/reduce.h>
+#include <thrust/system/omp/detail/reduce.h>
 #include <thrust/detail/backend/cuda/reduce.h>
 
 // XXX make the backend-specific versions of reduce_by_key available
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/reduce_by_key.h>
-#include <thrust/detail/backend/omp/reduce_by_key.h>
+#include <thrust/system/omp/detail/reduce_by_key.h>
 #include <thrust/detail/backend/cuda/reduce_by_key.h>
 
 namespace thrust

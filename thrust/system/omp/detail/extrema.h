@@ -22,11 +22,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -59,9 +59,9 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
   return thrust::detail::backend::generic::minmax_element(tag(), first, last, comp);
 } // end minmax_element()
 
-} // end omp
-} // end backend
 } // end detail
+} // end omp
+} // end system
 } // end thrust
 
 

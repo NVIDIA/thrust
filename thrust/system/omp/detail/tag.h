@@ -21,13 +21,12 @@
 
 namespace thrust
 {
+namespace system
+{
 // put the canonical tag in the same ns as the backend's entry points
-// XXX omp's entry points should be under system, not backend
-namespace detail
-{
-namespace backend
-{
 namespace omp
+{
+namespace detail
 {
 
 // omp inherits cpp's functionality
@@ -38,17 +37,10 @@ struct tag : thrust::system::cpp::tag {};
 // of assign_value et al.
 struct omp_intersystem_tag : tag {};
 
-} // end omp
-} // end backend
 } // end detail
 
-namespace system
-{
-namespace omp
-{
-
-// alias omp's tag here
-using thrust::detail::backend::omp::tag;
+// alias the tag here
+using thrust::system::omp::detail::tag;
 
 } // end omp
 } // end system
@@ -60,6 +52,5 @@ namespace omp
 using thrust::system::omp::tag;
 
 } // end omp
-
 } // end thrust
 

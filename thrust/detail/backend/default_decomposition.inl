@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/system/cpp/detail/default_decomposition.h>
-#include <thrust/detail/backend/omp/default_decomposition.h>
+#include <thrust/system/omp/detail/default_decomposition.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/cuda/detail/tag.h>
@@ -46,7 +46,7 @@ uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::cpp:
 template <typename IndexType>
 uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::omp::tag)
 {
-  return thrust::detail::backend::omp::default_decomposition(n);
+  return thrust::system::omp::detail::default_decomposition(n);
 }
 
 template <typename IndexType>

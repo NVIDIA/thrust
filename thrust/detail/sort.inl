@@ -28,7 +28,7 @@
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/sort.h>
-#include <thrust/detail/backend/omp/sort.h>
+#include <thrust/system/omp/detail/sort.h>
 #include <thrust/detail/backend/cuda/sort.h>
 
 namespace thrust

@@ -15,17 +15,17 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/reduce_by_key.h>
+#include <thrust/system/omp/detail/reduce_by_key.h>
 #include <thrust/detail/backend/generic/reduce_by_key.h>
 #include <thrust/distance.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template <typename InputIterator1,
@@ -49,8 +49,8 @@ template <typename InputIterator1,
 } // end reduce_by_key()
 
 
-} // end omp
-} // end backend
 } // end detail
+} // end omp
+} // end system
 } // end thrust
 

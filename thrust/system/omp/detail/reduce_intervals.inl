@@ -16,22 +16,18 @@
 
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/reduce_intervals.h>
-
+#include <thrust/system/omp/detail/reduce_intervals.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/backend/dereference.h>
 
-using thrust::detail::backend::dereference;
-
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template <typename InputIterator,
@@ -44,12 +40,14 @@ void reduce_intervals(tag,
                       BinaryFunction binary_op,
                       Decomposition decomp)
 {
+  using thrust::detail::backend::dereference;
+
   // we're attempting to launch an omp kernel, assert we're compiling with omp support
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<InputIterator,
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
@@ -85,8 +83,8 @@ void reduce_intervals(tag,
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 

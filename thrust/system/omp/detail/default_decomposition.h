@@ -15,37 +15,30 @@
  */
 
 
-/*! \file find.h
- *  \brief OpenMP implementation of find_if. 
+/*! \file default_decomposition.h
+ *  \brief Return a decomposition that is appropriate for the OpenMP backend.
  */
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/find.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/detail/backend/decompose.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
-
-template <typename InputIterator, typename Predicate>
-InputIterator find_if(tag,
-                      InputIterator first,
-                      InputIterator last,
-                      Predicate pred)
+namespace detail
 {
-  // omp prefers generic::find_if to cpp::find_if
-  return thrust::detail::backend::generic::find_if(tag(), first, last, pred);
-}
 
-} // end namespace omp
-} // end namespace backend
+template <typename IndexType>
+thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(IndexType n);
+
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/omp/detail/default_decomposition.inl>
 

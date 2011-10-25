@@ -29,7 +29,7 @@
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/for_each.h>
-#include <thrust/detail/backend/omp/for_each.h>
+#include <thrust/system/omp/detail/for_each.h>
 #include <thrust/detail/backend/cuda/for_each.h>
 
 namespace thrust

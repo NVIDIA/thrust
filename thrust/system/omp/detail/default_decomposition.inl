@@ -23,11 +23,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template <typename IndexType>
@@ -38,7 +38,7 @@ thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to OpenMP support in your compiler.                         X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (depend_on_instantiation<IndexType,
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<IndexType,
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
@@ -48,8 +48,8 @@ thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(
 #endif
 }
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 

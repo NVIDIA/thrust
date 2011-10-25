@@ -14,12 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file for_each.h
- *  \brief Defines the interface for a function that executes a 
- *  function or functional for each value in a given range.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -27,32 +21,33 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
+namespace detail
+{
 
 template<typename RandomAccessIterator,
-         typename UnaryFunction>
-  RandomAccessIterator for_each(tag,
-                                RandomAccessIterator first,
-                                RandomAccessIterator last,
-                                UnaryFunction f);
+         typename StrictWeakOrdering>
+void stable_sort(tag,
+                 RandomAccessIterator first,
+                 RandomAccessIterator last,
+                 StrictWeakOrdering comp);
+    
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+void stable_sort_by_key(tag,
+                        RandomAccessIterator1 keys_first,
+                        RandomAccessIterator1 keys_last,
+                        RandomAccessIterator2 values_first,
+                        StrictWeakOrdering comp);
 
-template<typename RandomAccessIterator,
-         typename Size,
-         typename UnaryFunction>
-  RandomAccessIterator for_each_n(tag,
-                                  RandomAccessIterator first,
-                                  Size n,
-                                  UnaryFunction f);
-
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/for_each.inl>
+#include <thrust/system/omp/detail/sort.inl>
 

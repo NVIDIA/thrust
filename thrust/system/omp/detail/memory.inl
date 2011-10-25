@@ -23,11 +23,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 inline tag select_system(tag, tag)
@@ -55,14 +55,8 @@ inline omp_intersystem_tag select_system(thrust::system::cpp::tag, omp::tag)
   return omp_intersystem_tag();
 } // end select_system()
 
-} // end omp
-} // end backend
 } // end detail
 
-namespace system
-{
-namespace omp
-{
 
 template<typename T>
   template<typename OtherT>
@@ -149,6 +143,5 @@ template<typename T, typename IndexType>
 
 } // end backend
 } // end detail
-
 } // end thrust
 

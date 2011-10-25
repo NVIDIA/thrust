@@ -18,40 +18,29 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/tag.h>
+#include <thrust/detail/backend/generic/adjacent_difference.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
+namespace detail
+{
 
+template<typename InputIterator, typename OutputIterator, typename BinaryFunction>
+  OutputIterator adjacent_difference(tag,
+                                     InputIterator first, InputIterator last,
+                                     OutputIterator result,
+                                     BinaryFunction binary_op)
+{
+  // omp prefers generic::adjacent_difference to cpp::adjacent_difference
+  return thrust::detail::backend::generic::adjacent_difference(tag(), first, last, result, binary_op);
+} // end adjacent_difference()
 
-template<typename InputIterator,
-         typename OutputIterator,
-         typename Tag>
-OutputIterator copy(Tag,
-                    InputIterator first,
-                    InputIterator last,
-                    OutputIterator result);
-
-
-template<typename InputIterator,
-         typename Size,
-         typename OutputIterator,
-         typename Tag>
-OutputIterator copy_n(Tag,
-                      InputIterator first,
-                      Size n,
-                      OutputIterator result);
-
-
-} // end namespace omp
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
-
-#include <thrust/detail/backend/omp/copy.inl>
+} // end detail
+} // end omp
+} // end system
+} // end thrust
 

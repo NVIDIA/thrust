@@ -17,16 +17,16 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/copy_if.h>
+#include <thrust/system/omp/detail/copy_if.h>
 #include <thrust/detail/backend/generic/copy_if.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 
@@ -46,8 +46,8 @@ template<typename InputIterator1,
 } // end copy_if()
 
 
-} // end namespace omp
-} // end backend
 } // end detail
+} // end omp
+} // end system
 } // end thrust
 

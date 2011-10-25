@@ -26,11 +26,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 
@@ -51,10 +51,10 @@ template <typename InputIterator1,
                   BinaryFunction binary_op);
 
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/reduce_by_key.inl>
+#include <thrust/system/omp/detail/reduce_by_key.inl>
 

@@ -22,11 +22,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 
@@ -66,8 +66,8 @@ bool binary_search(tag,
 }
 
 
-} // end omp
-} // end backend
 } // end detail
+} // end omp
+} // end system
 } // end thrust
 

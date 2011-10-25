@@ -18,36 +18,39 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/tag.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
+namespace detail
+{
 
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-void stable_sort(tag,
-                 RandomAccessIterator first,
-                 RandomAccessIterator last,
-                 StrictWeakOrdering comp);
-    
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-void stable_sort_by_key(tag,
-                        RandomAccessIterator1 keys_first,
-                        RandomAccessIterator1 keys_last,
-                        RandomAccessIterator2 values_first,
-                        StrictWeakOrdering comp);
 
-} // end namespace omp
-} // end namespace backend
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+  ForwardIterator unique(ForwardIterator first,
+                         ForwardIterator last,
+                         BinaryPredicate binary_pred);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename BinaryPredicate>
+  OutputIterator unique_copy(tag,
+                             InputIterator first,
+                             InputIterator last,
+                             OutputIterator output,
+                             BinaryPredicate binary_pred);
+
+
 } // end namespace detail
+} // end namespace omp 
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/sort.inl>
+#include <thrust/system/omp/detail/unique.inl>
 

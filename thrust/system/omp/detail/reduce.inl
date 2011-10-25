@@ -14,33 +14,36 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
-#include <thrust/detail/backend/generic/adjacent_difference.h>
+#include <thrust/system/omp/detail/reduce.h>
+#include <thrust/detail/backend/generic/reduce.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
-
-template<typename InputIterator, typename OutputIterator, typename BinaryFunction>
-  OutputIterator adjacent_difference(tag,
-                                     InputIterator first, InputIterator last,
-                                     OutputIterator result,
-                                     BinaryFunction binary_op)
+namespace detail
 {
-  // omp prefers generic::adjacent_difference to cpp::adjacent_difference
-  return thrust::detail::backend::generic::adjacent_difference(tag(), first, last, result, binary_op);
-} // end adjacent_difference()
 
-} // end omp
-} // end backend
+
+template<typename InputIterator, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(tag,
+                    InputIterator begin,
+                    InputIterator end,
+                    OutputType init,
+                    BinaryFunction binary_op)
+{
+  // omp prefers generic::reduce to cpp::reduce
+  return thrust::detail::backend::generic::reduce(tag(), begin, end, init, binary_op);
+} // end reduce()
+
+
 } // end detail
+} // end omp
+} // end system
 } // end thrust
 

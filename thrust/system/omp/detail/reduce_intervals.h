@@ -15,8 +15,8 @@
  */
 
 
-/*! \file reduce.h
- *  \brief OpenMP implementation of reduce algorithms.
+/*! \file reduce_intervals.h
+ *  \brief OpenMP implementations of reduce_intervals algorithms.
  */
 
 #pragma once
@@ -26,28 +26,27 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
+namespace detail
+{
 
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryFunction,
+          typename Decomposition>
+void reduce_intervals(tag,
+                      InputIterator input,
+                      OutputIterator output,
+                      BinaryFunction binary_op,
+                      Decomposition decomp);
 
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op);
-
-
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/reduce.inl>
+#include <thrust/system/omp/detail/reduce_intervals.inl>
 

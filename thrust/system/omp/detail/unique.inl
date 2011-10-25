@@ -17,17 +17,17 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/unique.h>
+#include <thrust/system/omp/detail/unique.h>
 #include <thrust/detail/backend/generic/unique.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 
@@ -57,8 +57,8 @@ template<typename InputIterator,
 } // end unique_copy()
 
 
-} // end namespace omp
-} // end namespace backend 
 } // end namespace detail
+} // end namespace omp 
+} // end namespace system
 } // end namespace thrust
 

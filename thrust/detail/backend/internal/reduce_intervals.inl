@@ -20,7 +20,7 @@
 
 #include <thrust/detail/backend/generic/select_system.h>
 #include <thrust/system/cpp/detail/reduce_intervals.h>
-#include <thrust/detail/backend/omp/reduce_intervals.h>
+#include <thrust/system/omp/detail/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 
 namespace thrust

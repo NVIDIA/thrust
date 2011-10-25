@@ -17,22 +17,21 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/copy.h>
+#include <thrust/system/omp/detail/copy.h>
 #include <thrust/detail/backend/generic/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
 #include <thrust/system/cpp/detail/copy.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
 namespace detail
 {
-
+namespace dispatch
+{
 
 template<typename InputIterator,
          typename OutputIterator>
@@ -79,8 +78,7 @@ template<typename InputIterator,
   return thrust::detail::backend::generic::copy_n(tag(), first, n, result);
 } // end copy_n()
 
-
-} // end detail
+} // end dispatch
 
 
 template<typename InputIterator,
@@ -97,7 +95,7 @@ OutputIterator copy(Tag,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::detail::backend::omp::detail::copy(first,last,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy(first,last,result,traversal());
 } // end copy()
 
 
@@ -117,12 +115,12 @@ OutputIterator copy_n(Tag,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::detail::backend::omp::detail::copy_n(first,n,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy_n(first,n,result,traversal());
 } // end copy_n()
 
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
