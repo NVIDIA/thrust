@@ -14,9 +14,6 @@
  *  limitations under the License.
  */
 
-// do not attempt to compile this file with any other compiler
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/cuda/arch.h>
@@ -36,24 +33,30 @@ namespace cuda
 namespace detail
 {
 
-
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 template<typename Closure>
-__global__
+__global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
 void launch_closure_by_value(Closure f)
 {
   f();
 }
 
-
 template<typename Closure>
-__global__
+__global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
 void launch_closure_by_pointer(const Closure *f)
 {
   // copy to registers
   Closure f_reg = *f;
   f_reg();
 }
+#else
+template<typename Closure>
+void launch_closure_by_value(Closure) {}
 
+template<typename Closure>
+void launch_closure_by_pointer(const Closure *) {}
+
+#endif // THRUST_DEVICE_COMPILER_NVCC
 
 template<typename Closure,
          bool launch_by_value = sizeof(Closure) <= 256>
@@ -69,8 +72,10 @@ template<typename Closure,
   template<typename Size1, typename Size2, typename Size3>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     detail::launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
     synchronize_if_enabled("launch_closure_by_value");
+#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 }; // end closure_launcher_base
 
@@ -88,6 +93,7 @@ template<typename Closure>
   template<typename Size1, typename Size2, typename Size3>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     // allocate device memory for the argument
     thrust::device_ptr<void> temp_ptr = thrust::detail::backend::cuda::malloc<0>(sizeof(Closure));
 
@@ -103,6 +109,7 @@ template<typename Closure>
 
     // free device memory
     thrust::detail::backend::cuda::free<0>(f_ptr);
+#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
 
@@ -149,18 +156,6 @@ template<typename Closure>
   }
 };
 
-template<typename Closure>
-  size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread)
-{
-  return closure_launcher<Closure>::block_size_with_maximal_occupancy(dynamic_smem_bytes_per_thread);
-} // end block_size_with_maximal_occupancy()
-
-template<typename Closure, typename Size1, typename Size2>
-  size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
-{
-  return closure_launcher<Closure>::num_blocks_with_maximal_occupancy(n, block_size, dynamic_smem_bytes_per_block);
-} // end num_blocks_with_maximal_occupancy()
-
 template<typename Closure, typename Size>
   void launch_closure(Closure f, Size num_blocks)
 {
@@ -204,11 +199,9 @@ arch::function_attributes_t closure_attributes(void)
   return result;
 }
 
-} // end detail
+} // end namespace detail
 } // end namespace cuda
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

@@ -18,7 +18,7 @@
 
 // do not attempt to compile this code, which relies on 
 // CUDART, without system support
-#if THRUST_DEVICE_BACKEND
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <cuda_runtime_api.h>
@@ -27,13 +27,10 @@
 
 namespace thrust
 {
-
 namespace detail
 {
-
 namespace backend
 {
-
 namespace cuda
 {
 
@@ -54,13 +51,10 @@ void synchronize_if_enabled(const char *message)
 #endif
 } // end synchronize_if_enabled()
 
-} // end cuda
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 
-} // end backend
-
-} // end detail
-
-} // end thrust
-
-#endif // THRUST_DEVICE_BACKEND
+#endif // THRUST_DEVICE_COMPILER_NVCC
 

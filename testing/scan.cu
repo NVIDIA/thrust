@@ -218,9 +218,9 @@ struct TestScanWithOperator
     thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), T(13), max_functor<T>());
     thrust::exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), T(13), max_functor<T>());
     ASSERT_EQUAL(d_output, h_output);
-    }
+  }
 };
-VariableUnitTest<TestScanWithOperator, IntegralTypes> TestScanWithOperatorInstance;
+VariableUnitTest<TestScanWithOperator, SignedIntegralTypes> TestScanWithOperatorInstance;
 
 
 template <typename T>
@@ -252,7 +252,7 @@ struct TestScanWithOperatorToDiscardIterator
     ASSERT_EQUAL_QUIET(reference, d_result);
   }
 };
-VariableUnitTest<TestScanWithOperatorToDiscardIterator, IntegralTypes> TestScanWithOperatorToDiscardIteratorInstance;
+VariableUnitTest<TestScanWithOperatorToDiscardIterator, unittest::type_list<char,short,int> > TestScanWithOperatorToDiscardIteratorInstance;
 
 
 template <typename T>
@@ -290,7 +290,7 @@ struct TestScan
     thrust::exclusive_scan(h_output.begin(), h_output.end(), h_output.begin());
     thrust::exclusive_scan(d_output.begin(), d_output.end(), d_output.begin());
     ASSERT_EQUAL(d_output, h_output);
-    }
+  }
 };
 VariableUnitTest<TestScan, IntegralTypes> TestScanInstance;
 
@@ -324,7 +324,7 @@ struct TestScanToDiscardIterator
     ASSERT_EQUAL_QUIET(reference, d_result);
   }
 };
-VariableUnitTest<TestScanToDiscardIterator, IntegralTypes> TestScanToDiscardIteratorInstance;
+VariableUnitTest<TestScanToDiscardIterator, unittest::type_list<char,short,int> > TestScanToDiscardIteratorInstance;
 
 
 void TestScanMixedTypes(void)
@@ -368,7 +368,7 @@ DECLARE_UNITTEST(TestScanMixedTypes);
 template <typename T, unsigned int N>
 void _TestScanWithLargeTypes(void)
 {
-    size_t n = (64 * 1024) / sizeof(FixedVector<T,N>);
+    size_t n = (1024 * 1024) / sizeof(FixedVector<T,N>);
 
     thrust::host_vector< FixedVector<T,N> > h_input(n);
     thrust::host_vector< FixedVector<T,N> > h_output(n);
@@ -392,21 +392,9 @@ void _TestScanWithLargeTypes(void)
 
 void TestScanWithLargeTypes(void)
 {
-    _TestScanWithLargeTypes<int,    1>();
-    _TestScanWithLargeTypes<int,    2>();
-    _TestScanWithLargeTypes<int,    4>();
-    _TestScanWithLargeTypes<int,    8>();
-
-    // XXX the following fail with "too many resources requested for launch"
-    KNOWN_FAILURE
-
-    //_TestScanWithLargeTypes<int,   16>();
-    //_TestScanWithLargeTypes<int,   32>();
-    //_TestScanWithLargeTypes<int,   64>();
-    //_TestScanWithLargeTypes<int,  128>();
-    //_TestScanWithLargeTypes<int,  256>();
-    //_TestScanWithLargeTypes<int,  512>();
-    //_TestScanWithLargeTypes<int, 1024>();
+  _TestScanWithLargeTypes<int,  1>();
+  _TestScanWithLargeTypes<int,  8>();
+  _TestScanWithLargeTypes<int, 64>();
 }
 DECLARE_UNITTEST(TestScanWithLargeTypes);
 

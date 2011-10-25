@@ -15,12 +15,9 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/cuda/block/merge.h>
-#include <thrust/detail/backend/generic/scalar/binary_search.h>
+
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/tuple.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/counting_iterator.h>
+#include <thrust/detail/backend/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -33,14 +30,15 @@ namespace cuda
 namespace block
 {
 
-
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-__device__ __forceinline__
-  RandomAccessIterator4 set_union(RandomAccessIterator1 first1,
+__device__ __thrust_forceinline__
+  RandomAccessIterator4 set_union(Context context,
+                                  RandomAccessIterator1 first1,
                                   RandomAccessIterator1 last1,
                                   RandomAccessIterator2 first2,
                                   RandomAccessIterator2 last2,
@@ -61,10 +59,10 @@ __device__ __forceinline__
   // initialize rank1 to an impossible result
   difference1 rank1 = difference1(-1);
 
-  if(threadIdx.x < n2)
+  if(context.thread_index() < n2)
   {
     RandomAccessIterator2 x = first2;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // count the number of previous occurrances of x in the second range
     difference2 sub_rank2 = x - thrust::detail::backend::generic::scalar::lower_bound(first2,x,dereference(x),comp);
@@ -86,23 +84,23 @@ __device__ __forceinline__
   // mark in the scratch array if we need
   // to be output
   RandomAccessIterator3 temp = temporary;
-  temp += threadIdx.x;
+  temp += context.thread_index();
   dereference(temp) = (rank1 >= difference1(0)) ? 1 : 0;
 
-  __syncthreads();
+  context.barrier();
 
   // inclusive scan the scratch array
-  block::inplace_inclusive_scan_n(temporary, n2, thrust::plus<int>());
+  cuda::block::inplace_inclusive_scan_n(context, temporary, n2, thrust::plus<int>());
 
   // find the rank of each element in the first range in the second range
   // modulo the fact that some elements of the second range will not appear in the output
   // these irrelevant elements should be skipped when computing ranks
   // note that every element of the first range gets output
   difference2 rank2 = 0;
-  if(threadIdx.x < n1)
+  if(context.thread_index() < n1)
   {
     RandomAccessIterator1 x = first1;
-    x += threadIdx.x;
+    x += context.thread_index();
 
     // lower_bound ensures that x sorts before any equivalent element of input2
     // this ensures stability
@@ -120,31 +118,31 @@ __device__ __forceinline__
   } // end if
 
   // scatter elements from the first range to their place in the output
-  if(threadIdx.x < n1)
+  if(context.thread_index() < n1)
   {
     RandomAccessIterator1 src = first1;
-    src += threadIdx.x;
+    src += context.thread_index();
 
     RandomAccessIterator4 dst = result;
-    dst += threadIdx.x + rank2;
+    dst += context.thread_index() + rank2;
 
     dereference(dst) = dereference(src);
   } // end if
 
   // scatter elements from the second range
-  if(threadIdx.x < n2 && (rank1 >= difference1(0)))
+  if(context.thread_index() < n2 && (rank1 >= difference1(0)))
   {
     // find the index to write our element
     unsigned int num_elements_from_second_range_before_me = 0;
-    if(threadIdx.x > 0)
+    if(context.thread_index() > 0)
     {
       RandomAccessIterator3 src = temporary;
-      src += threadIdx.x - 1;
+      src += context.thread_index() - 1;
       num_elements_from_second_range_before_me = dereference(src);
     } // end if
 
     RandomAccessIterator2 src = first2;
-    src += threadIdx.x;
+    src += context.thread_index();
 
     RandomAccessIterator4 dst = result;
     dst += num_elements_from_second_range_before_me + rank1;
@@ -163,10 +161,9 @@ __device__ __forceinline__
   return result + n1 + (n2 ? temporary[n2-1] : 0);
 } // end set_union()
 
-
-} // end block
-} // end cuda
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 

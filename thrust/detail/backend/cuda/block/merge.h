@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 namespace thrust
 {
 namespace detail
@@ -27,23 +29,25 @@ namespace cuda
 namespace block
 {
 
-template<typename RandomAccessIterator1,
+template<typename Context,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-__device__ __forceinline__
-  RandomAccessIterator3 merge(RandomAccessIterator1 first1,
+__device__ __thrust_forceinline__
+  RandomAccessIterator3 merge(Context context,
+                              RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2,
                               RandomAccessIterator2 last2,
                               RandomAccessIterator3 result,
                               StrictWeakOrdering comp);
 
-} // end block
-} // end cuda
-} // end backend
-} // end detail
-} // end thrust
+} // end namespace block
+} // end namespace cuda
+} // end namespace backend
+} // end namespace detail
+} // end namespace thrust
 
 #include <thrust/detail/backend/cuda/block/merge.inl>
 

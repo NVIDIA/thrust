@@ -6,6 +6,15 @@
 #include <iterator>
 #include <algorithm>
 
+// This example illustrates how to implement the SAXPY
+// operation (Y[i] = a * X[i] + Y[i]) using Thrust. 
+// The saxpy_slow function demonstrates the most
+// straightforward implementation using a temporary
+// array and two separate transformations, one with
+// multiplies and one with plus.  The saxpy_fast function
+// implements the operation with a single transformation
+// and represents "best practice".
+
 struct saxpy_functor : public thrust::binary_function<float,float,float>
 {
     const float a;

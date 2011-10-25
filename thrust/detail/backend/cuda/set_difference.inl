@@ -16,8 +16,6 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 #include <thrust/detail/backend/cuda/set_operations.h>
 #include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -41,7 +39,7 @@ namespace set_difference_detail
 
 struct block_convergent_set_difference_functor
 {
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   static size_t get_min_size_of_result_in_number_of_elements(size_t size_of_range1,
                                                              size_t size_of_range2)
   {
@@ -49,7 +47,7 @@ struct block_convergent_set_difference_functor
     return 0u;
   }
 
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   static size_t get_max_size_of_result_in_number_of_elements(size_t size_of_range1,
                                                              size_t size_of_range2)
   {
@@ -57,19 +55,21 @@ struct block_convergent_set_difference_functor
     return size_of_range1;
   }
 
-  __host__ __device__ __forceinline__
+  __host__ __device__ __thrust_forceinline__
   static unsigned int get_temporary_array_size_in_number_of_bytes(unsigned int block_size)
   {
     return block_size * sizeof(int);
   }
 
   // operator() simply calls the block-wise function
-  template<typename RandomAccessIterator1,
+  template<typename Context,
+           typename RandomAccessIterator1,
            typename RandomAccessIterator2,
            typename RandomAccessIterator3,
            typename StrictWeakOrdering>
-  __device__ __forceinline__
-    RandomAccessIterator3 operator()(RandomAccessIterator1 first1,
+  __device__ __thrust_forceinline__
+    RandomAccessIterator3 operator()(Context context,
+                                     RandomAccessIterator1 first1,
                                      RandomAccessIterator1 last1,
                                      RandomAccessIterator2 first2,
                                      RandomAccessIterator2 last2,
@@ -77,7 +77,7 @@ struct block_convergent_set_difference_functor
                                      RandomAccessIterator3 result,
                                      StrictWeakOrdering comp)
   {
-    return block::set_difference(first1,last1,first2,last2,reinterpret_cast<int*>(temporary),result,comp);
+    return cuda::block::set_difference(context,first1,last1,first2,last2,reinterpret_cast<int*>(temporary),result,comp);
   } // end operator()()
 }; // end block_convergent_set_difference_functor
 
@@ -120,6 +120,4 @@ RandomAccessIterator3 set_difference(tag,
 } // end namespace backend
 } // end namespace detail
 } // end namespace thrust
-
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

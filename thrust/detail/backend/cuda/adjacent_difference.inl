@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+
 #include <thrust/gather.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -60,49 +62,52 @@ template <typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator,
           typename BinaryFunction,
-          typename Decomposition>
+          typename Decomposition,
+          typename Context>
 struct adjacent_difference_closure
 {
-  InputIterator1  input;
-  InputIterator2  input_copy;
+  InputIterator1 input;
+  InputIterator2 input_copy;
   OutputIterator output;
   BinaryFunction binary_op;
   Decomposition  decomp;
+  Context        context;
+
+  typedef Context context_type;
   
-  adjacent_difference_closure(InputIterator1  input,
-                              InputIterator2  input_copy,
+  adjacent_difference_closure(InputIterator1 input,
+                              InputIterator2 input_copy,
                               OutputIterator output,
                               BinaryFunction binary_op,
-                              Decomposition  decomp)
-    : input(input), input_copy(input_copy), output(output), binary_op(binary_op), decomp(decomp) {}
+                              Decomposition  decomp,
+                              Context        context = Context())
+    : input(input), input_copy(input_copy), output(output), binary_op(binary_op), decomp(decomp), context(context) {}
 
-  __device__
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
-// uses built-in variables
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     typedef typename thrust::iterator_value<InputIterator1>::type  InputType;
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     typedef typename Decomposition::index_type index_type;
 
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<index_type> range = decomp[blockIdx.x];
+    thrust::detail::backend::index_range<index_type> range = decomp[context.block_index()];
     
-    input_copy += blockIdx.x - 1;
+    input_copy += context.block_index() - 1;
       
     // prime the temp values for all threads so we don't need to launch a default constructor
-    InputType next_left = (blockIdx.x == 0) ? dereference(input) : dereference(input_copy);
+    InputType next_left = (context.block_index() == 0) ? backend::dereference(input) : backend::dereference(input_copy);
 
     index_type base = range.begin();
-    index_type i    = range.begin() + threadIdx.x;
+    index_type i    = range.begin() + context.thread_index();
     
     if (i < range.end())
     {
-      if (threadIdx.x > 0)
+      if (context.thread_index() > 0)
       {
         InputIterator1 temp = input + (i - 1);
-        next_left = dereference(temp);
-      }
+        next_left = backend::dereference(temp);
+      }              
     }
     
     input  += i;
@@ -112,29 +117,27 @@ struct adjacent_difference_closure
     {
       InputType curr_left = next_left;
 
-      if (i + blockDim.x < range.end())
+      if (i + context.block_dimension() < range.end())
       {
-        InputIterator1 temp = input + (blockDim.x - 1);
-        next_left = dereference(temp);
+        InputIterator1 temp = input + (context.block_dimension() - 1);
+        next_left = backend::dereference(temp);
       }
 
-      __syncthreads();
+      context.barrier();
 
       if (i < range.end())
       {
         if (i == 0)
-          dereference(output) = dereference(input);
+          backend::dereference(output) = backend::dereference(input);
         else
-          dereference(output) = binary_op(dereference(input), curr_left);
+          backend::dereference(output) = binary_op(backend::dereference(input), curr_left);
       }
 
-      i      += blockDim.x;
-      base   += blockDim.x;
-      input  += blockDim.x;
-      output += blockDim.x;
+      i      += context.block_dimension();
+      base   += context.block_dimension();
+      input  += context.block_dimension();
+      output += context.block_dimension();
     }
-
-#endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
 
@@ -173,7 +176,8 @@ OutputIterator adjacent_difference(tag,
 
   
   typedef typename thrust::detail::temporary_array<InputType,Space>::iterator InputIterator2;
-  typedef detail::adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition> Closure;
+  typedef cuda::detail::blocked_thread_array Context;
+  typedef detail::adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition,Context> Closure;
 
   Closure closure(first, temp.begin(), result, binary_op, decomp); 
 

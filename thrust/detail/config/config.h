@@ -30,4 +30,5 @@
 #include <thrust/detail/config/host_device.h>
 #include <thrust/detail/config/debug.h>
 #include <thrust/detail/config/compiler_fence.h>
+#include <thrust/detail/config/forceinline.h>
 
