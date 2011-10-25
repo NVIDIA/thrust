@@ -20,28 +20,25 @@ namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
+template<typename RandomAccessIterator>
+void stable_radix_sort(RandomAccessIterator begin,
+                       RandomAccessIterator end);
 
-} // end detail
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
+                              RandomAccessIterator1 keys_end,
+                              RandomAccessIterator2 values_begin);
 
-// alias the tag here
-using thrust::system::cpp::detail::tag;
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 
-} // end cpp
-} // end system
-
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
-} // end thrust
+#include <thrust/system/cpp/detail/stable_radix_sort.inl>
 

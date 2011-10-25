@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <thrust/detail/backend/cpp/default_decomposition.h>
+#include <thrust/system/cpp/detail/default_decomposition.h>
 #include <thrust/detail/backend/omp/default_decomposition.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/system/cpp/detail/tag.h>

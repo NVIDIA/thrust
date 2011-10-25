@@ -28,12 +28,12 @@
 
 // XXX make the backend-specific versions of scan available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/scan.h>
+#include <thrust/system/cpp/detail/scan.h>
 #include <thrust/detail/backend/cuda/scan.h>
 
 // XXX make the backend-specific versions of scan_by_key available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/scan_by_key.h>
+#include <thrust/system/cpp/detail/scan_by_key.h>
 
 namespace thrust
 {

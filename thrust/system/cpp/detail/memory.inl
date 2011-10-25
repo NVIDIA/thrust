@@ -23,15 +23,13 @@
 
 namespace thrust
 {
-
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cpp
 {
+namespace detail
+{
 
-// XXX malloc should be moved into thrust::system::cpp::detail
 inline thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
 {
   void *result = std::malloc(n);
@@ -39,14 +37,12 @@ inline thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
   return thrust::system::cpp::pointer<void>(result);
 } // end malloc()
 
-// XXX free should be moved into thrust::system::cpp::detail
 template<typename Pointer>
 inline void free(tag, Pointer ptr)
 {
   std::free(thrust::detail::pointer_traits<Pointer>::get(ptr));
 } // end free()
 
-// XXX assign_value should be moved into thrust::system::cpp::detail
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
   void assign_value(tag, Pointer1 dst, Pointer2 src)
@@ -55,7 +51,6 @@ __host__ __device__
     = *thrust::detail::pointer_traits<Pointer2>::get(src);
 } // end assign_value()
 
-// XXX get_value should be moved into thrust::system::cpp::detail
 template<typename Pointer>
 __host__ __device__
   typename thrust::iterator_value<Pointer>::type
@@ -74,14 +69,8 @@ __host__ __device__
        *thrust::detail::pointer_traits<Pointer2>::get(b));
 } // end iter_swap()
 
-} // end cpp
-} // end backend
 } // end detail
 
-namespace system
-{
-namespace cpp
-{
 
 template<typename T>
   template<typename OtherT>
@@ -109,12 +98,12 @@ void swap(reference<T> a, reference<T> b)
 
 pointer<void> malloc(std::size_t n)
 {
-  return thrust::detail::backend::cpp::malloc(tag(), n);
+  return thrust::system::cpp::detail::malloc(tag(), n);
 } // end malloc()
 
 void free(pointer<void> ptr)
 {
-  return thrust::detail::backend::cpp::free(tag(), ptr);
+  return thrust::system::cpp::detail::free(tag(), ptr);
 } // end free()
 
 } // end cpp

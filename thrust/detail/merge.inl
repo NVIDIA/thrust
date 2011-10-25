@@ -25,7 +25,7 @@
 
 // XXX make the backend-specific versions of reduce available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/merge.h>
+#include <thrust/system/cpp/detail/merge.h>
 #include <thrust/detail/backend/cuda/merge.h>
 
 namespace thrust

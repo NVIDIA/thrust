@@ -25,7 +25,7 @@
 
 // XXX make the backend-specific versions of the set operations available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/set_operations.h>
+#include <thrust/system/cpp/detail/set_operations.h>
 #include <thrust/detail/backend/cuda/set_operations.h>
 
 namespace thrust

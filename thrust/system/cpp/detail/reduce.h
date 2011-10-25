@@ -14,34 +14,40 @@
  *  limitations under the License.
  */
 
+
+/*! \file reduce.h
+ *  \brief C++ implementation of reduce algorithms.
+ */
+
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
 
-} // end detail
+template<typename InputIterator, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(tag,
+                    InputIterator begin,
+                    InputIterator end,
+                    OutputType init,
+                    BinaryFunction binary_op);
 
-// alias the tag here
-using thrust::system::cpp::detail::tag;
 
-} // end cpp
-} // end system
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
-} // end thrust
+#include <thrust/system/cpp/detail/reduce.inl>
 

@@ -24,7 +24,7 @@
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/extrema.h>
+#include <thrust/system/cpp/detail/extrema.h>
 #include <thrust/detail/backend/omp/extrema.h>
 
 namespace thrust

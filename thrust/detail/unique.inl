@@ -27,11 +27,11 @@
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions of unique available
-#include <thrust/detail/backend/cpp/unique.h>
+#include <thrust/system/cpp/detail/unique.h>
 #include <thrust/detail/backend/omp/unique.h>
 
 // XXX make the backend-specific versions of unique_by_key available
-#include <thrust/detail/backend/cpp/unique_by_key.h>
+#include <thrust/system/cpp/detail/unique_by_key.h>
 #include <thrust/detail/backend/omp/unique_by_key.h>
 
 namespace thrust

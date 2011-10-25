@@ -16,32 +16,33 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <cstring>
+
+
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
+
+template<typename T>
+  T *trivial_copy_n(const T *first,
+                    std::ptrdiff_t n,
+                    T *result)
+{
+  std::memmove(result, first, n * sizeof(T));
+  return result + n;
+} // end trivial_copy_n()
+
 
 } // end detail
-
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
 } // end cpp
 } // end system
-
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
 } // end thrust
+
 

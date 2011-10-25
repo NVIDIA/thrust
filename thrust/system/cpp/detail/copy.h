@@ -14,34 +14,45 @@
  *  limitations under the License.
  */
 
+/*! \file copy.h
+ *  \brief C++ implementations of copy functions.
+ */
+
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
+
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy(tag,
+                      InputIterator first,
+                      InputIterator last,
+                      OutputIterator result);
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(tag,
+                        InputIterator first,
+                        Size n,
+                        OutputIterator result);
+
 
 } // end detail
-
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
 } // end cpp
 } // end system
-
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
 } // end thrust
+
+#include <thrust/system/cpp/detail/copy.inl>
 

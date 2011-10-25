@@ -26,7 +26,7 @@
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/find.h>
+#include <thrust/system/cpp/detail/find.h>
 #include <thrust/detail/backend/omp/find.h>
 
 namespace thrust

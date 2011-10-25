@@ -22,7 +22,7 @@
 
 // XXX make the backend-specific versions of copy_if available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/copy_if.h>
+#include <thrust/system/cpp/detail/copy_if.h>
 #include <thrust/detail/backend/omp/copy_if.h>
 #include <thrust/detail/backend/cuda/copy_if.h>
 

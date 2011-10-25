@@ -16,32 +16,37 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
+#include <thrust/detail/backend/dereference.h>
+
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
-
-} // end detail
-
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
-} // end cpp
-} // end system
-
-// alias cpp's tag at top-level
-namespace cpp
+template <typename BidirectionalIterator1,
+          typename BidirectionalIterator2>
+BidirectionalIterator2 copy_backward(BidirectionalIterator1 first, 
+                                     BidirectionalIterator1 last, 
+                                     BidirectionalIterator2 result)
 {
+  while (first != last)
+  {
+    --last;
+    --result;
+    thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(last);
+  }
 
-using thrust::system::cpp::tag;
+  return result;
+}
 
-} // end cpp
-} // end thrust
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 

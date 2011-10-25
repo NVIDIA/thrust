@@ -14,34 +14,46 @@
  *  limitations under the License.
  */
 
+
+/*! \file find.h
+ *  \brief C++ implementation of find_if. 
+ */
+
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/detail/backend/dereference.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
-
-} // end detail
-
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
-} // end cpp
-} // end system
-
-// alias cpp's tag at top-level
-namespace cpp
+template <typename InputIterator, typename Predicate>
+InputIterator find_if(tag,
+                      InputIterator first,
+                      InputIterator last,
+                      Predicate pred)
 {
+  while(first != last)
+  {
+    if (pred(thrust::detail::backend::dereference(first)))
+      return first;
 
-using thrust::system::cpp::tag;
+    ++first;
+  }
 
-} // end cpp
-} // end thrust
+  // return first so zip_iterator works correctly
+  return first;
+}
+
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 

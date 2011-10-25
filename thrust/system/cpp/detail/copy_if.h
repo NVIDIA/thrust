@@ -16,32 +16,35 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
+
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred);
+
 
 } // end detail
-
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
 } // end cpp
 } // end system
-
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
 } // end thrust
+
+#include <thrust/system/cpp/detail/copy_if.inl>
 

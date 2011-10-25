@@ -26,9 +26,10 @@
 #include <thrust/iterator/detail/forced_iterator.h>
 
 #include <thrust/sort.h>
-#include <thrust/detail/backend/cpp/merge.h>
+#include <thrust/system/cpp/detail/merge.h>
 #include <thrust/system/cpp/detail/tag.h>
 
+// XXX eliminate these global usings!
 using thrust::detail::backend::index_range;
 using thrust::detail::backend::uniform_decomposition;
 
@@ -92,7 +93,7 @@ void stable_sort(tag,
 
         if((p_i % h) == 0 && c > b)
         {
-            thrust::detail::backend::cpp::
+            thrust::system::cpp::detail::
               inplace_merge(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[a].begin(),
                             thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[b].end(),
                             thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[c].end(),
@@ -164,7 +165,7 @@ void stable_sort_by_key(tag,
 
         if((p_i % h) == 0 && c > b)
         {
-            thrust::detail::backend::cpp::
+            thrust::system::cpp::detail::
               inplace_merge_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[a].begin(),
                                    thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[b].end(),
                                    thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[c].end(),

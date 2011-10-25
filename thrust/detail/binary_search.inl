@@ -28,7 +28,7 @@
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/binary_search.h>
+#include <thrust/system/cpp/detail/binary_search.h>
 #include <thrust/detail/backend/omp/binary_search.h>
 
 namespace thrust

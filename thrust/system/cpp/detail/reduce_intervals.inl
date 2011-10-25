@@ -14,43 +14,55 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/config.h>
-#include <thrust/detail/backend/internal/reduce_intervals.h>
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/system/cpp/detail/reduce_intervals.h>
-#include <thrust/detail/backend/omp/reduce_intervals.h>
-#include <thrust/detail/backend/cuda/reduce_intervals.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
+namespace system
+{
+namespace cpp
+{
 namespace detail
-{
-namespace backend
-{
-namespace internal
 {
 
 template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(InputIterator input,
+void reduce_intervals(tag,
+                      InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
                       Decomposition decomp)
 {
-  using thrust::detail::backend::generic::select_system;
+  typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+  typedef typename Decomposition::index_type index_type;
 
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+  for(index_type i = 0; i < decomp.size(); ++i, ++output)
+  {
+    InputIterator begin = input + decomp[i].begin();
+    InputIterator end   = input + decomp[i].end();
 
-  reduce_intervals(select_system(space1(),space2()), input, output, binary_op, decomp);
-} // end reduce_intervals()
+    if (begin != end)
+    {
+      OutputType sum = thrust::detail::backend::dereference(begin);
 
-} // end internal
-} // end backend
-} // end detail
-} // end thrust
+      ++begin;
+
+      while (begin != end)
+      {
+        sum = binary_op(sum, thrust::detail::backend::dereference(begin));
+        ++begin;
+      }
+
+      thrust::detail::backend::dereference(output) = sum;
+    }
+  }
+}
+
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 

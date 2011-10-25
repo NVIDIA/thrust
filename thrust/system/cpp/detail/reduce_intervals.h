@@ -14,34 +14,39 @@
  *  limitations under the License.
  */
 
+
+/*! \file reduce_intervals.h
+ *  \brief CPP implementations of reduce_intervals algorithms.
+ */
+
 #pragma once
+
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
 namespace cpp
 {
 namespace detail
 {
 
-struct tag {};
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryFunction,
+          typename Decomposition>
+void reduce_intervals(tag,
+                      InputIterator input,
+                      OutputIterator output,
+                      BinaryFunction binary_op,
+                      Decomposition decomp);
 
-} // end detail
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
-} // end cpp
-} // end system
-
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
-} // end thrust
+#include <thrust/system/cpp/detail/reduce_intervals.inl>
 

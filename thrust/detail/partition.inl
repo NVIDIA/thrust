@@ -27,7 +27,7 @@
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cpp/partition.h>
+#include <thrust/system/cpp/detail/partition.h>
 
 namespace thrust
 {

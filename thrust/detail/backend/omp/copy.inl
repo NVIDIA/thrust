@@ -20,6 +20,7 @@
 #include <thrust/detail/backend/omp/copy.h>
 #include <thrust/detail/backend/generic/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
+#include <thrust/system/cpp/detail/copy.h>
 
 namespace thrust
 {
@@ -40,7 +41,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::incrementable_traversal_tag)
 {
-  return thrust::detail::backend::cpp::copy(tag(), first, last, result);
+  return thrust::system::cpp::detail::copy(tag(), first, last, result);
 } // end copy()
 
 
@@ -63,7 +64,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::incrementable_traversal_tag)
 {
-  return thrust::detail::backend::cpp::copy_n(tag(), first, n, result);
+  return thrust::system::cpp::detail::copy_n(tag(), first, n, result);
 } // end copy_n()
 
 
