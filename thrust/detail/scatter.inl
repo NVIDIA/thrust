@@ -20,8 +20,8 @@
  */
 
 #include <thrust/scatter.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/scatter.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/scatter.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -35,8 +35,8 @@ template<typename InputIterator1,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::scatter;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::scatter;
 
   typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
   typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
@@ -56,8 +56,8 @@ template<typename InputIterator1,
                   InputIterator3 stencil,
                   RandomAccessIterator output)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::scatter_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::scatter_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
   typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
@@ -80,8 +80,8 @@ template<typename InputIterator1,
                   RandomAccessIterator output,
                   Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::scatter_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::scatter_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
   typedef typename thrust::iterator_space<InputIterator2>::type       space2; 

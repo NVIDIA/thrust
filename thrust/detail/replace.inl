@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/replace.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/replace.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/replace.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -34,8 +34,8 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
                                  Predicate pred,
                                  const T &new_value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::replace_copy_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::replace_copy_if;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -50,8 +50,8 @@ template<typename InputIterator1, typename InputIterator2, typename OutputIterat
                                  Predicate pred,
                                  const T &new_value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::replace_copy_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::replace_copy_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -67,8 +67,8 @@ template<typename InputIterator, typename OutputIterator, typename T>
                               const T &old_value,
                               const T &new_value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::replace_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::replace_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -81,8 +81,8 @@ template<typename ForwardIterator, typename Predicate, typename T>
                   Predicate pred,
                   const T &new_value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::replace_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::replace_if;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -95,8 +95,8 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
                   Predicate pred,
                   const T &new_value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::replace_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::replace_if;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space1;
   typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -109,8 +109,8 @@ template<typename ForwardIterator, typename T>
                const T &old_value,
                const T &new_value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::replace;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::replace;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 

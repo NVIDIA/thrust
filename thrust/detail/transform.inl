@@ -20,8 +20,8 @@
  */
 
 #include <thrust/transform.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/transform.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/transform.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -35,8 +35,8 @@ template<typename InputIterator,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -55,8 +55,8 @@ template<typename InputIterator1,
                            OutputIterator result,
                            BinaryFunction op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -76,8 +76,8 @@ template<typename InputIterator,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform_if;
 
   typedef typename thrust::iterator_space<InputIterator>::type   space1;
   typedef typename thrust::iterator_space<ForwardIterator>::type space2;
@@ -98,8 +98,8 @@ template<typename InputIterator1,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;
@@ -122,8 +122,8 @@ template<typename InputIterator1,
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;

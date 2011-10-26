@@ -20,8 +20,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/adjacent_difference.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/adjacent_difference.h>
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
@@ -36,8 +36,8 @@ template <typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last, 
                                    OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::adjacent_difference;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::adjacent_difference;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -50,8 +50,8 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::adjacent_difference;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::adjacent_difference;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;

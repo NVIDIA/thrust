@@ -20,8 +20,8 @@
  */
 
 #include <thrust/swap.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/swap_ranges.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/swap_ranges.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -33,8 +33,8 @@ template<typename ForwardIterator1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::swap_ranges;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::swap_ranges;
 
   typedef typename thrust::iterator_space<ForwardIterator1>::type space1;
   typedef typename thrust::iterator_space<ForwardIterator2>::type space2;

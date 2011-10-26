@@ -18,7 +18,7 @@
 #include <thrust/detail/backend/internal/reduce_intervals.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/generic/select_system.h>
+#include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/cpp/detail/reduce_intervals.h>
 #include <thrust/system/omp/detail/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
@@ -41,7 +41,7 @@ void reduce_intervals(InputIterator input,
                       BinaryFunction binary_op,
                       Decomposition decomp)
 {
-  using thrust::detail::backend::generic::select_system;
+  using thrust::system::detail::generic::select_system;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;

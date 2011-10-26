@@ -16,8 +16,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/temporary_allocator.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/memory.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/bad_alloc.h>
 #include <thrust/pair.h>
 
@@ -44,8 +44,8 @@ template<typename T, typename Tag>
     temporary_allocator<T,Tag>
       ::allocate(typename temporary_allocator<T,Tag>::super_t::size_type cnt)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::get_temporary_buffer;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::get_temporary_buffer;
 
   pointer_and_size result = allocate_helper(get_temporary_buffer<T>(select_system(Tag()), cnt));
 
@@ -66,8 +66,8 @@ template<typename T, typename Tag>
   void temporary_allocator<T,Tag>
     ::deallocate(typename temporary_allocator<T,Tag>::super_t::pointer p, typename temporary_allocator<T,Tag>::super_t::size_type n)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::return_temporary_buffer;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::return_temporary_buffer;
 
   return_temporary_buffer(select_system(Tag()), p);
 } // end temporary_allocator

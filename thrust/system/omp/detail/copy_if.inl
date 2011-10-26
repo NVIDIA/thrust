@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/copy_if.h>
-#include <thrust/detail/backend/generic/copy_if.h>
+#include <thrust/system/detail/generic/copy_if.h>
 
 namespace thrust
 {
@@ -42,7 +42,7 @@ template<typename InputIterator1,
                          Predicate pred)
 {
   // omp prefers generic::copy_if to cpp::copy_if
-  return thrust::detail::backend::generic::copy_if(tag(), first, last, stencil, result, pred);
+  return thrust::system::detail::generic::copy_if(tag(), first, last, stencil, result, pred);
 } // end copy_if()
 
 

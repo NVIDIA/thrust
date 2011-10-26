@@ -20,8 +20,8 @@
  */
 
 #include <thrust/generate.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/inner_product.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/inner_product.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -33,8 +33,8 @@ OutputType
 inner_product(InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, OutputType init)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::inner_product;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::inner_product;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -49,8 +49,8 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, OutputType init, 
               BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::inner_product;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::inner_product;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;

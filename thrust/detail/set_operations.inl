@@ -19,8 +19,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/set_operations.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/set_operations.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions of the set operations available
@@ -43,8 +43,8 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_difference;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_difference;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -63,8 +63,8 @@ template<typename InputIterator1,
                                 InputIterator2 last2,
                                 OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_difference;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_difference;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -85,8 +85,8 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_intersection;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_intersection;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -105,8 +105,8 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_intersection;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_intersection;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -127,8 +127,8 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_symmetric_difference;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_symmetric_difference;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -147,8 +147,8 @@ template<typename InputIterator1,
                                           InputIterator2 last2,
                                           OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_symmetric_difference;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_symmetric_difference;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -169,8 +169,8 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_union;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_union;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -189,8 +189,8 @@ template<typename InputIterator1,
                            InputIterator2 last2,
                            OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::set_union;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::set_union;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;

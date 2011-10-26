@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/find.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/find.h>
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
@@ -37,8 +37,8 @@ InputIterator find(InputIterator first,
                    InputIterator last,
                    const T& value)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::find;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::find;
 
     typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -50,8 +50,8 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::find_if;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::find_if;
 
     typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -63,8 +63,8 @@ InputIterator find_if_not(InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::find_if_not;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::find_if_not;
 
     typedef typename thrust::iterator_space<InputIterator>::type space;
 

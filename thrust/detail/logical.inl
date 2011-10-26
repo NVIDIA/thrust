@@ -20,8 +20,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/logical.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/logical.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -30,8 +30,8 @@ namespace thrust
 template <class InputIterator, class Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::all_of;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::all_of;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -41,8 +41,8 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred)
 template <class InputIterator, class Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::any_of;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::any_of;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -52,8 +52,8 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred)
 template <class InputIterator, class Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::none_of;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::none_of;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

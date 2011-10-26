@@ -1,5 +1,5 @@
 #include <unittest/unittest.h>
-#include <thrust/detail/backend/generic/scalar/select.h>
+#include <thrust/system/detail/generic/scalar/select.h>
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 #include <thrust/merge.h>
@@ -23,7 +23,7 @@ template<typename Iterator1, typename Iterator2>
   typename thrust::iterator_value<Iterator1>::type operator()(Dummy)
   {
     typedef typename thrust::iterator_value<Iterator1>::type value_type;
-    return thrust::detail::backend::generic::scalar::select(first1, last1, first2, last2, k, thrust::less<value_type>());
+    return thrust::system::detail::generic::scalar::select(first1, last1, first2, last2, k, thrust::less<value_type>());
   }
 };
 
@@ -190,7 +190,7 @@ void TestSelectSemantics(void)
   size_t Bn = sizeof(B) / sizeof(int);
   size_t N = sizeof(K) / sizeof(int[3]);
   
-  using thrust::detail::backend::generic::scalar::select;
+  using thrust::system::detail::generic::scalar::select;
 
   for (size_t i = 0; i < N; i++)
   {

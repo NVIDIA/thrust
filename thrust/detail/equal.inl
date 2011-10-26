@@ -20,8 +20,8 @@
  */
 
 #include <thrust/equal.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/equal.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/equal.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -31,8 +31,8 @@ template <typename InputIterator1, typename InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::equal;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::equal;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -45,8 +45,8 @@ template <typename InputIterator1, typename InputIterator2,
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2, BinaryPredicate binary_pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::equal;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::equal;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;

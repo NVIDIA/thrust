@@ -19,8 +19,8 @@
 #include <thrust/extrema.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/extrema.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/extrema.h>
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
@@ -34,8 +34,8 @@ namespace thrust
 template <typename ForwardIterator>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::min_element;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::min_element;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -47,8 +47,8 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::min_element;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::min_element;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -59,8 +59,8 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
 template <typename ForwardIterator>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::max_element;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::max_element;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -72,8 +72,8 @@ template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
                             BinaryPredicate comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::max_element;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::max_element;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -85,8 +85,8 @@ template <typename ForwardIterator>
 thrust::pair<ForwardIterator,ForwardIterator> 
 minmax_element(ForwardIterator first, ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::minmax_element;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::minmax_element;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -98,8 +98,8 @@ template <typename ForwardIterator, typename BinaryPredicate>
 thrust::pair<ForwardIterator,ForwardIterator> 
 minmax_element(ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::minmax_element;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::minmax_element;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 

@@ -20,8 +20,8 @@
  */
 
 #include <thrust/remove.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/remove.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/remove.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -33,8 +33,8 @@ template<typename ForwardIterator,
                          ForwardIterator last,
                          const T &value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::remove;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::remove;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -49,8 +49,8 @@ template<typename InputIterator,
                              OutputIterator result,
                              const T &value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::remove_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::remove_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -64,8 +64,8 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::remove_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::remove_if;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -80,8 +80,8 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::remove_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::remove_if;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space1;
   typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -97,8 +97,8 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::remove_copy_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::remove_copy_if;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -116,8 +116,8 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::remove_copy_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::remove_copy_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;

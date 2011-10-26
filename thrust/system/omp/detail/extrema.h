@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/tag.h>
-#include <thrust/detail/backend/generic/extrema.h>
+#include <thrust/system/detail/generic/extrema.h>
 
 namespace thrust
 {
@@ -36,7 +36,7 @@ ForwardIterator max_element(tag,
                             BinaryPredicate comp)
 {
   // omp prefers generic::max_element to cpp::max_element
-  return thrust::detail::backend::generic::max_element(tag(), first, last, comp);
+  return thrust::system::detail::generic::max_element(tag(), first, last, comp);
 } // end max_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -46,7 +46,7 @@ ForwardIterator min_element(tag,
                             BinaryPredicate comp)
 {
   // omp prefers generic::min_element to cpp::min_element
-  return thrust::detail::backend::generic::min_element(tag(), first, last, comp);
+  return thrust::system::detail::generic::min_element(tag(), first, last, comp);
 } // end min_element()
 
 template <typename ForwardIterator, typename BinaryPredicate>
@@ -56,7 +56,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
                                                              BinaryPredicate comp)
 {
   // omp prefers generic::minmax_element to cpp::minmax_element
-  return thrust::detail::backend::generic::minmax_element(tag(), first, last, comp);
+  return thrust::system::detail::generic::minmax_element(tag(), first, last, comp);
 } // end minmax_element()
 
 } // end detail

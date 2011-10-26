@@ -17,8 +17,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/copy.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/copy.h>
 
 // XXX make the backend-specific versions of copy available
 // XXX try to eliminate the need for these
@@ -36,8 +36,8 @@ template<typename InputIterator,
                       InputIterator last,
                       OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -53,8 +53,8 @@ template<typename InputIterator,
                         Size n,
                         OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::copy_n;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::copy_n;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;

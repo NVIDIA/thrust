@@ -16,7 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/reduce_by_key.h>
-#include <thrust/detail/backend/generic/reduce_by_key.h>
+#include <thrust/system/detail/generic/reduce_by_key.h>
 #include <thrust/distance.h>
 
 namespace thrust
@@ -45,7 +45,7 @@ template <typename InputIterator1,
                   BinaryFunction binary_op)
 {
   // omp prefers generic::reduce_by_key to cpp::reduce_by_key
-  return thrust::detail::backend::generic::reduce_by_key(tag(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  return thrust::system::detail::generic::reduce_by_key(tag(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 } // end reduce_by_key()
 
 

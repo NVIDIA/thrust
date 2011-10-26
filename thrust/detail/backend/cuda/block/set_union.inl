@@ -17,7 +17,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/detail/backend/generic/scalar/binary_search.h>
+#include <thrust/system/detail/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -65,11 +65,11 @@ __device__ __thrust_forceinline__
     x += context.thread_index();
 
     // count the number of previous occurrances of x in the second range
-    difference2 sub_rank2 = x - thrust::detail::backend::generic::scalar::lower_bound(first2,x,dereference(x),comp);
+    difference2 sub_rank2 = x - thrust::system::detail::generic::scalar::lower_bound(first2,x,dereference(x),comp);
 
     // count the number of equivalent elements of x in the first range
     thrust::pair<RandomAccessIterator1,RandomAccessIterator1> matches = 
-      thrust::detail::backend::generic::scalar::equal_range(first1,last1,dereference(x),comp);
+      thrust::system::detail::generic::scalar::equal_range(first1,last1,dereference(x),comp);
 
     difference2 num_matches = matches.second - matches.first;
 
@@ -104,7 +104,7 @@ __device__ __thrust_forceinline__
 
     // lower_bound ensures that x sorts before any equivalent element of input2
     // this ensures stability
-    rank2 = thrust::detail::backend::generic::scalar::lower_bound(first2, last2, dereference(x), comp) - first2;
+    rank2 = thrust::system::detail::generic::scalar::lower_bound(first2, last2, dereference(x), comp) - first2;
 
     // since the temporary array contains, for each element inclusive,
     // the number of previous active elements from the second range,

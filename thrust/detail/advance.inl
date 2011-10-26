@@ -19,9 +19,10 @@
  *  \brief Inline file for advance.h
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/advance.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/advance.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/advance.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -30,8 +31,8 @@ namespace thrust
 template <typename InputIterator, typename Distance>
 void advance(InputIterator& i, Distance n)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::advance;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::advance;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

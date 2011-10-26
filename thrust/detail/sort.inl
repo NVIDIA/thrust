@@ -22,8 +22,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/sort.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/sort.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/sort.h>
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
@@ -42,8 +42,8 @@ template<typename RandomAccessIterator>
   void sort(RandomAccessIterator first,
             RandomAccessIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sort;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sort;
 
   typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
 
@@ -57,8 +57,8 @@ template<typename RandomAccessIterator,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sort;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sort;
 
   typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
 
@@ -70,8 +70,8 @@ template<typename RandomAccessIterator>
   void stable_sort(RandomAccessIterator first,
                    RandomAccessIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::stable_sort;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::stable_sort;
 
   typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
 
@@ -85,8 +85,8 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::stable_sort;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::stable_sort;
 
   typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
 
@@ -105,8 +105,8 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sort_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sort_by_key;
 
   typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
   typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
@@ -123,8 +123,8 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sort_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sort_by_key;
 
   typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
   typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
@@ -139,8 +139,8 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::stable_sort_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::stable_sort_by_key;
 
   typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
   typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
@@ -157,8 +157,8 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::stable_sort_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::stable_sort_by_key;
 
   typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
   typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
@@ -171,8 +171,8 @@ template<typename ForwardIterator>
   bool is_sorted(ForwardIterator first,
                  ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::is_sorted;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::is_sorted;
   
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -186,8 +186,8 @@ template<typename ForwardIterator,
                  ForwardIterator last,
                  Compare comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::is_sorted;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::is_sorted;
   
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -199,8 +199,8 @@ template<typename ForwardIterator>
   ForwardIterator is_sorted_until(ForwardIterator first,
                                   ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::is_sorted_until;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::is_sorted_until;
   
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -214,8 +214,8 @@ template<typename ForwardIterator,
                                   ForwardIterator last,
                                   Compare comp)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::is_sorted_until;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::is_sorted_until;
   
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 

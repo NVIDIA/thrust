@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/unique_by_key.h>
-#include <thrust/detail/backend/generic/unique_by_key.h>
+#include <thrust/system/detail/generic/unique_by_key.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -42,7 +42,7 @@ template<typename ForwardIterator1,
                   BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique_by_key to cpp::unique_by_key
-  return thrust::detail::backend::generic::unique_by_key(tag(),keys_first,keys_last,values_first,binary_pred);
+  return thrust::system::detail::generic::unique_by_key(tag(),keys_first,keys_last,values_first,binary_pred);
 } // end unique_by_key()
 
 
@@ -61,7 +61,7 @@ template<typename InputIterator1,
                        BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique_by_key_copy to cpp::unique_by_key_copy
-  return thrust::detail::backend::generic::unique_by_key_copy(tag(),keys_first,keys_last,values_first,keys_output,values_output,binary_pred);
+  return thrust::system::detail::generic::unique_by_key_copy(tag(),keys_first,keys_last,values_first,keys_output,values_output,binary_pred);
 } // end unique_by_key_copy()
 
 

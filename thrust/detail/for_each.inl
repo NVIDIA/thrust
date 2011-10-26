@@ -23,8 +23,8 @@
 #include <thrust/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/for_each.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/for_each.h>
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
@@ -41,8 +41,8 @@ InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::for_each;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::for_each;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -56,8 +56,8 @@ InputIterator for_each_n(InputIterator first,
                          Size n,
                          UnaryFunction f)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::for_each_n;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::for_each_n;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

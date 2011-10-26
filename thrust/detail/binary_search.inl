@@ -23,8 +23,8 @@
 #include <thrust/binary_search.h>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/binary_search.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/binary_search.h>
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
@@ -43,8 +43,8 @@ ForwardIterator lower_bound(ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable& value)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::lower_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::lower_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space; 
 
@@ -57,8 +57,8 @@ ForwardIterator lower_bound(ForwardIterator first,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::lower_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::lower_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space; 
 
@@ -70,8 +70,8 @@ ForwardIterator upper_bound(ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable& value)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::upper_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::upper_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -84,8 +84,8 @@ ForwardIterator upper_bound(ForwardIterator first,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::upper_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::upper_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -97,8 +97,8 @@ bool binary_search(ForwardIterator first,
                    ForwardIterator last,
                    const LessThanComparable& value)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::binary_search;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::binary_search;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -111,8 +111,8 @@ bool binary_search(ForwardIterator first,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::binary_search;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::binary_search;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -125,8 +125,8 @@ equal_range(ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable& value)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::equal_range;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::equal_range;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -140,8 +140,8 @@ equal_range(ForwardIterator first,
             const T& value,
             StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::equal_range;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::equal_range;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -159,8 +159,8 @@ OutputIterator lower_bound(ForwardIterator first,
                            InputIterator values_last,
                            OutputIterator output)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::lower_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::lower_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space1;
     typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -177,8 +177,8 @@ OutputIterator lower_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::lower_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::lower_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space1;
     typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -194,8 +194,8 @@ OutputIterator upper_bound(ForwardIterator first,
                            InputIterator values_last,
                            OutputIterator output)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::upper_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::upper_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space1;
     typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -212,8 +212,8 @@ OutputIterator upper_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::upper_bound;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::upper_bound;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space1;
     typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -229,8 +229,8 @@ OutputIterator binary_search(ForwardIterator first,
                              InputIterator values_last,
                              OutputIterator output)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::binary_search;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::binary_search;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space1;
     typedef typename thrust::iterator_space<InputIterator>::type   space2;
@@ -247,8 +247,8 @@ OutputIterator binary_search(ForwardIterator first,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-    using thrust::detail::backend::generic::select_system;
-    using thrust::detail::backend::generic::binary_search;
+    using thrust::system::detail::generic::select_system;
+    using thrust::system::detail::generic::binary_search;
 
     typedef typename thrust::iterator_space<ForwardIterator>::type space1;
     typedef typename thrust::iterator_space<InputIterator>::type   space2;

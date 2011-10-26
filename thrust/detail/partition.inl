@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/partition.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/partition.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/partition.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions available
@@ -38,8 +38,8 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::partition;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::partition;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -53,8 +53,8 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::stable_partition;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::stable_partition;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -73,8 +73,8 @@ template<typename InputIterator,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::partition_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::partition_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type   space1;
   typedef typename thrust::iterator_space<OutputIterator1>::type space2;
@@ -95,8 +95,8 @@ template<typename InputIterator,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::stable_partition_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::stable_partition_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type   space1;
   typedef typename thrust::iterator_space<OutputIterator1>::type space2;
@@ -111,8 +111,8 @@ template<typename ForwardIterator, typename Predicate>
                                   ForwardIterator last,
                                   Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::partition_point;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::partition_point;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -125,8 +125,8 @@ template<typename InputIterator, typename Predicate>
                       InputIterator last,
                       Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::is_partitioned;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::is_partitioned;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

@@ -20,8 +20,8 @@
  */
 
 #include <thrust/uninitialized_copy.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/uninitialized_copy.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/uninitialized_copy.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -34,8 +34,8 @@ template<typename InputIterator,
                                      InputIterator last,
                                      ForwardIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::uninitialized_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::uninitialized_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type   space1;
   typedef typename thrust::iterator_space<ForwardIterator>::type space2;
@@ -51,8 +51,8 @@ template<typename InputIterator,
                                        Size n,
                                        ForwardIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::uninitialized_copy_n;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::uninitialized_copy_n;
 
   typedef typename thrust::iterator_space<InputIterator>::type   space1;
   typedef typename thrust::iterator_space<ForwardIterator>::type space2;

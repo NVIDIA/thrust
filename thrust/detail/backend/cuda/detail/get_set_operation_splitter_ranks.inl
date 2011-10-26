@@ -20,7 +20,7 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/tuple.h>
-#include <thrust/detail/backend/generic/scalar/select.h>
+#include <thrust/system/detail/generic/scalar/select.h>
 #include <thrust/binary_search.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -74,7 +74,7 @@ template<typename Iterator1, typename Iterator2, typename Compare>
   result_type operator()(argument_type k)
   {
     typedef typename thrust::iterator_value<Iterator1>::type value_type;
-    return thrust::detail::backend::generic::scalar::select(first1, last1, first2, last2, k, comp);
+    return thrust::system::detail::generic::scalar::select(first1, last1, first2, last2, k, comp);
   }
 }; // end select_functor
 

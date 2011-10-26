@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/unique.h>
-#include <thrust/detail/backend/generic/unique.h>
+#include <thrust/system/detail/generic/unique.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -39,7 +39,7 @@ template<typename ForwardIterator,
                          BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique to cpp::unique
-  return thrust::detail::backend::generic::unique(tag(),first,last,binary_pred);
+  return thrust::system::detail::generic::unique(tag(),first,last,binary_pred);
 } // end unique()
 
 
@@ -53,7 +53,7 @@ template<typename InputIterator,
                              BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique_copy to cpp::unique_copy
-  return thrust::detail::backend::generic::unique_copy(tag(),first,last,output,binary_pred);
+  return thrust::system::detail::generic::unique_copy(tag(),first,last,output,binary_pred);
 } // end unique_copy()
 
 

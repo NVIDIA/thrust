@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/device_malloc.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/memory.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/memory.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -31,8 +31,8 @@ namespace thrust
 
 thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::malloc;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::malloc;
 
   typedef thrust::iterator_space< device_ptr<void> >::type space;
 

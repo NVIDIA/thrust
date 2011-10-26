@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/reverse.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/reverse.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/reverse.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -32,8 +32,8 @@ template<typename BidirectionalIterator>
   void reverse(BidirectionalIterator first,
                BidirectionalIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reverse;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reverse;
 
   typedef typename thrust::iterator_space<BidirectionalIterator>::type space;
 
@@ -46,8 +46,8 @@ template<typename BidirectionalIterator,
                               BidirectionalIterator last,
                               OutputIterator result)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reverse_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reverse_copy;
 
   typedef typename thrust::iterator_space<BidirectionalIterator>::type space1;
   typedef typename thrust::iterator_space<OutputIterator>::type        space2;

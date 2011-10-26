@@ -23,8 +23,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/mismatch.h>
 
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/mismatch.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/mismatch.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -35,8 +35,8 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::mismatch;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::mismatch;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;
@@ -50,8 +50,8 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::mismatch;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::mismatch;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;

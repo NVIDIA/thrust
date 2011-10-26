@@ -16,8 +16,8 @@
 
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/memory.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/memory.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/swap.h>
 #include <iostream>
@@ -93,8 +93,8 @@ template<typename Element, typename Pointer, typename Derived>
   reference_base<Element,Pointer,Derived>
     ::operator typename reference_base<Element,Pointer,Derived>::value_type () const
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::get_value;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::get_value;
 
   typedef typename thrust::iterator_space<pointer>::type space;
 
@@ -107,8 +107,8 @@ template<typename Element, typename Pointer, typename Derived>
     void reference_base<Element,Pointer,Derived>
       ::assign_from(OtherPointer src)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::assign_value;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::assign_value;
 
   typedef typename thrust::iterator_space<pointer>::type      space1;
   typedef typename thrust::iterator_space<OtherPointer>::type space2;
@@ -121,8 +121,8 @@ template<typename Element, typename Pointer, typename Derived>
   void reference_base<Element,Pointer,Derived>
     ::swap(derived_type &other)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::iter_swap;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::iter_swap;
 
   typedef typename thrust::iterator_space<pointer>::type space;
 

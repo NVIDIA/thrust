@@ -22,8 +22,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/count.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/count.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/count.h>
 
 namespace thrust
 {
@@ -32,8 +32,8 @@ template <typename InputIterator, typename EqualityComparable>
 typename thrust::iterator_traits<InputIterator>::difference_type
 count(InputIterator first, InputIterator last, const EqualityComparable& value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::count;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::count;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -44,8 +44,8 @@ template <typename InputIterator, typename Predicate>
 typename thrust::iterator_traits<InputIterator>::difference_type
 count_if(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::count_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::count_if;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

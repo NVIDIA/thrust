@@ -20,8 +20,8 @@
  */
 
 #include <thrust/uninitialized_fill.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/uninitialized_fill.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/uninitialized_fill.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -33,8 +33,8 @@ template<typename ForwardIterator,
                           ForwardIterator last,
                           const T &x)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::uninitialized_fill;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::uninitialized_fill;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -48,8 +48,8 @@ template<typename ForwardIterator,
                                        Size n,
                                        const T &x)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::uninitialized_fill_n;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::uninitialized_fill_n;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 

@@ -20,8 +20,8 @@
  */
 
 #include <thrust/advance.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/distance.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -31,8 +31,8 @@ template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::distance;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::distance;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

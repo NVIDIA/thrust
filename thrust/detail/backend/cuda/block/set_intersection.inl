@@ -18,7 +18,7 @@
 
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
-#include <thrust/detail/backend/generic/scalar/binary_search.h>
+#include <thrust/system/detail/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -62,11 +62,11 @@ __device__ __thrust_forceinline__
     x += context.thread_index();
 
     // count the number of previous occurrances of x the first range
-    difference1 rank = x - thrust::detail::backend::generic::scalar::lower_bound(first1,x,dereference(x),comp);
+    difference1 rank = x - thrust::system::detail::generic::scalar::lower_bound(first1,x,dereference(x),comp);
 
     // count the number of equivalent elements of x in the second range
-    RandomAccessIterator1 lb = thrust::detail::backend::generic::scalar::lower_bound(first2,last2,dereference(x),comp);
-    RandomAccessIterator1 ub = thrust::detail::backend::generic::scalar::upper_bound(lb,thrust::min<RandomAccessIterator1>(lb+rank+1u, last2), dereference(x),comp);
+    RandomAccessIterator1 lb = thrust::system::detail::generic::scalar::lower_bound(first2,last2,dereference(x),comp);
+    RandomAccessIterator1 ub = thrust::system::detail::generic::scalar::upper_bound(lb,thrust::min<RandomAccessIterator1>(lb+rank+1u, last2), dereference(x),comp);
 
     difference2 num_matches = ub - lb;
 

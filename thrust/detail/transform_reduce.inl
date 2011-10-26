@@ -20,8 +20,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/transform_reduce.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/transform_reduce.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -37,8 +37,8 @@ template<typename InputIterator,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_reduce;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform_reduce;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 

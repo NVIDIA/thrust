@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/generic/find.h>
+#include <thrust/system/detail/generic/find.h>
 #include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
@@ -41,7 +41,7 @@ InputIterator find_if(tag,
                       Predicate pred)
 {
   // omp prefers generic::find_if to cpp::find_if
-  return thrust::detail::backend::generic::find_if(tag(), first, last, pred);
+  return thrust::system::detail::generic::find_if(tag(), first, last, pred);
 }
 
 } // end namespace detail

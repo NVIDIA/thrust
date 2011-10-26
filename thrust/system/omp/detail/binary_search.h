@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/tag.h>
-#include <thrust/detail/backend/generic/binary_search.h>
+#include <thrust/system/detail/generic/binary_search.h>
 
 namespace thrust
 {
@@ -38,7 +38,7 @@ ForwardIterator lower_bound(tag,
                             StrictWeakOrdering comp)
 {
     // omp prefers generic::lower_bound to cpp::lower_bound
-    return thrust::detail::backend::generic::lower_bound(tag(), begin, end, value, comp);
+    return thrust::system::detail::generic::lower_bound(tag(), begin, end, value, comp);
 }
 
 
@@ -50,7 +50,7 @@ ForwardIterator upper_bound(tag,
                             StrictWeakOrdering comp)
 {
     // omp prefers generic::upper_bound to cpp::upper_bound
-    return thrust::detail::backend::generic::upper_bound(tag(), begin, end, value, comp);
+    return thrust::system::detail::generic::upper_bound(tag(), begin, end, value, comp);
 }
 
 
@@ -62,7 +62,7 @@ bool binary_search(tag,
                    StrictWeakOrdering comp)
 {
     // omp prefers generic::binary_search to cpp::binary_search
-    return thrust::detail::backend::generic::binary_search(tag(), begin, end, value, comp);
+    return thrust::system::detail::generic::binary_search(tag(), begin, end, value, comp);
 }
 
 

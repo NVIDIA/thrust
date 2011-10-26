@@ -16,8 +16,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy_if.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/copy_if.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions of copy_if available
@@ -38,8 +38,8 @@ template<typename InputIterator,
                          OutputIterator result,
                          Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::copy_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::copy_if;
 
   typedef typename thrust::iterator_space<InputIterator>::type space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -58,8 +58,8 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::copy_if;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::copy_if;
 
   typedef typename thrust::iterator_space<InputIterator1>::type space1;
   typedef typename thrust::iterator_space<InputIterator2>::type space2;

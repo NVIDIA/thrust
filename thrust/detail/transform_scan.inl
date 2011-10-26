@@ -20,8 +20,8 @@
  */
 
 #include <thrust/scan.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/transform_scan.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/transform_scan.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -37,8 +37,8 @@ template<typename InputIterator,
                                           UnaryFunction unary_op,
                                           BinaryFunction binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_inclusive_scan;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform_inclusive_scan;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -59,8 +59,8 @@ template<typename InputIterator,
                                           T init,
                                           AssociativeOperator binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::transform_exclusive_scan;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::transform_exclusive_scan;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;

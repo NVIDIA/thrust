@@ -20,8 +20,8 @@
  */
 
 #include <thrust/fill.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/fill.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/fill.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions available
@@ -36,8 +36,8 @@ template<typename ForwardIterator, typename T>
             ForwardIterator last,
             const T &value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::fill;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::fill;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -49,8 +49,8 @@ template<typename OutputIterator, typename Size, typename T>
                         Size n,
                         const T &value)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::fill_n;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::fill_n;
 
   typedef typename thrust::iterator_space<OutputIterator>::type space;
 

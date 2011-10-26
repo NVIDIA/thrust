@@ -20,9 +20,9 @@
  */
 
 #include <thrust/reduce.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/reduce.h>
-#include <thrust/detail/backend/generic/reduce_by_key.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/reduce.h>
+#include <thrust/system/detail/generic/reduce_by_key.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions of reduce available
@@ -45,8 +45,8 @@ typename thrust::iterator_traits<InputIterator>::value_type
   reduce(InputIterator first,
          InputIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reduce;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reduce;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -59,8 +59,8 @@ template<typename InputIterator,
             InputIterator last,
             T init)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reduce;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reduce;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -76,8 +76,8 @@ template<typename InputIterator,
             T init,
             BinaryFunction binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reduce;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reduce;
 
   typedef typename thrust::iterator_space<InputIterator>::type space;
 
@@ -95,8 +95,8 @@ template <typename InputIterator1,
                 OutputIterator1 keys_output,
                 OutputIterator2 values_output)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reduce_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reduce_by_key;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;
@@ -119,8 +119,8 @@ template <typename InputIterator1,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reduce_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reduce_by_key;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;
@@ -145,8 +145,8 @@ template <typename InputIterator1,
                 BinaryPredicate binary_pred,
                 BinaryFunction binary_op)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::reduce_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::reduce_by_key;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;

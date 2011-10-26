@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/copy.h>
-#include <thrust/detail/backend/generic/copy.h>
+#include <thrust/system/detail/generic/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
 #include <thrust/system/cpp/detail/copy.h>
 
@@ -51,7 +51,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
-  return thrust::detail::backend::generic::copy(tag(), first, last, result);
+  return thrust::system::detail::generic::copy(tag(), first, last, result);
 } // end copy()
 
 
@@ -75,7 +75,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  return thrust::detail::backend::generic::copy_n(tag(), first, n, result);
+  return thrust::system::detail::generic::copy_n(tag(), first, n, result);
 } // end copy_n()
 
 } // end dispatch

@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/device_free.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/memory.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/memory.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -30,8 +30,8 @@ namespace thrust
 
 void device_free(thrust::device_ptr<void> ptr)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::free;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::free;
 
   typedef thrust::iterator_space< thrust::device_ptr<void> >::type space;
 

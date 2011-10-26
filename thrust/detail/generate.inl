@@ -21,8 +21,8 @@
  */
 
 #include <thrust/generate.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/generate.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -34,8 +34,8 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::generate;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::generate;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type type;
 
@@ -50,8 +50,8 @@ template<typename OutputIterator,
                             Size n,
                             Generator gen)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::generate_n;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::generate_n;
 
   typedef typename thrust::iterator_space<OutputIterator>::type type;
 

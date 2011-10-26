@@ -21,9 +21,9 @@
 
 #include <thrust/unique.h>
 #include <thrust/unique.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/unique.h>
-#include <thrust/detail/backend/generic/unique_by_key.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/unique.h>
+#include <thrust/system/detail/generic/unique_by_key.h>
 #include <thrust/iterator/iterator_traits.h>
 
 // XXX make the backend-specific versions of unique available
@@ -41,8 +41,8 @@ template<typename ForwardIterator>
   ForwardIterator unique(ForwardIterator first,
                          ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -56,8 +56,8 @@ template<typename ForwardIterator,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -71,8 +71,8 @@ template<typename InputIterator,
                              InputIterator last,
                              OutputIterator output)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -89,8 +89,8 @@ template<typename InputIterator,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique_copy;
 
   typedef typename thrust::iterator_space<InputIterator>::type  space1;
   typedef typename thrust::iterator_space<OutputIterator>::type space2;
@@ -106,8 +106,8 @@ template<typename ForwardIterator1,
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique_by_key;
 
   typedef typename thrust::iterator_space<ForwardIterator1>::type space1;
   typedef typename thrust::iterator_space<ForwardIterator2>::type space2;
@@ -125,8 +125,8 @@ template<typename ForwardIterator1,
                   ForwardIterator2 values_first,
                   BinaryPredicate binary_pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique_by_key;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique_by_key;
 
   typedef typename thrust::iterator_space<ForwardIterator1>::type space1;
   typedef typename thrust::iterator_space<ForwardIterator2>::type space2;
@@ -146,8 +146,8 @@ template<typename InputIterator1,
                        OutputIterator1 keys_output,
                        OutputIterator2 values_output)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique_by_key_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique_by_key_copy;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;
@@ -171,8 +171,8 @@ template<typename InputIterator1,
                        OutputIterator2 values_output,
                        BinaryPredicate binary_pred)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::unique_by_key_copy;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::unique_by_key_copy;
 
   typedef typename thrust::iterator_space<InputIterator1>::type  space1;
   typedef typename thrust::iterator_space<InputIterator2>::type  space2;

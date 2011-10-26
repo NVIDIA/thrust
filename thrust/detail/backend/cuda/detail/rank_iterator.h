@@ -21,6 +21,7 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
+#include <thrust/system/detail/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -54,7 +55,7 @@ template<typename RandomAccessIterator, typename Compare>
     RandomAccessIterator x = first;
     x += index;
 
-    return x - thrust::detail::backend::generic::scalar::lower_bound(first,x,dereference(x),comp);
+    return x - thrust::system::detail::generic::scalar::lower_bound(first,x,dereference(x),comp);
   }
 
   RandomAccessIterator first;

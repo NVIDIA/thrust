@@ -21,8 +21,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/sequence.h>
-#include <thrust/detail/backend/generic/select_system.h>
-#include <thrust/detail/backend/generic/sequence.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/generic/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -33,8 +33,8 @@ template<typename ForwardIterator>
   void sequence(ForwardIterator first,
                 ForwardIterator last)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sequence;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sequence;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -47,8 +47,8 @@ template<typename ForwardIterator, typename T>
                 ForwardIterator last,
                 T init)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sequence;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sequence;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 
@@ -62,8 +62,8 @@ template<typename ForwardIterator, typename T>
                 T init,
                 T step)
 {
-  using thrust::detail::backend::generic::select_system;
-  using thrust::detail::backend::generic::sequence;
+  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::sequence;
 
   typedef typename thrust::iterator_space<ForwardIterator>::type space;
 

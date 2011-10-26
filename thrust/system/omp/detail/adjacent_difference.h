@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/tag.h>
-#include <thrust/detail/backend/generic/adjacent_difference.h>
+#include <thrust/system/detail/generic/adjacent_difference.h>
 
 namespace thrust
 {
@@ -36,7 +36,7 @@ template<typename InputIterator, typename OutputIterator, typename BinaryFunctio
                                      BinaryFunction binary_op)
 {
   // omp prefers generic::adjacent_difference to cpp::adjacent_difference
-  return thrust::detail::backend::generic::adjacent_difference(tag(), first, last, result, binary_op);
+  return thrust::system::detail::generic::adjacent_difference(tag(), first, last, result, binary_op);
 } // end adjacent_difference()
 
 } // end detail
