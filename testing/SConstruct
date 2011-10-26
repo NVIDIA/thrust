@@ -28,6 +28,7 @@ directories.append(os.path.join('backend','generic','scalar'))
 # find all backend-specific files
 if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
   directories.append(os.path.join('backend','cuda'))
+  directories.append(os.path.join('backend','cuda','block'))
 elif env['backend'] == 'omp':
   directories.append(os.path.join('backend','omp'))
 
