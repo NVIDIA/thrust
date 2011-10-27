@@ -4,7 +4,7 @@
 #include <thrust/device_malloc_allocator.h>
 
 #include <thrust/sort.h>
-#include <thrust/detail/backend/cuda/detail/stable_radix_sort.h>
+#include <thrust/system/cuda/detail/detail/stable_radix_sort.h>
 
 #if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
@@ -48,7 +48,7 @@ struct TestRadixSortByKeyUnaligned
         thrust::copy(unsorted_values.begin(), unsorted_values.end(), unaligned_unsorted_values.begin() + offset);
         thrust::copy(  sorted_values.begin(),   sorted_values.end(),   unaligned_sorted_values.begin() + offset);
    
-        thrust::detail::backend::cuda::detail::stable_radix_sort_by_key(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), unaligned_unsorted_values.begin() + offset);
+        thrust::system::cuda::detail::detail::stable_radix_sort_by_key(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), unaligned_unsorted_values.begin() + offset);
 
         ASSERT_EQUAL(  unaligned_unsorted_keys,   unaligned_sorted_keys);
         ASSERT_EQUAL(unaligned_unsorted_values, unaligned_sorted_values);

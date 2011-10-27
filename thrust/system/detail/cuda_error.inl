@@ -18,7 +18,7 @@
 #pragma once
 
 #include <thrust/system/cuda_error.h>
-#include <cuda_runtime_api.h>
+#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
 namespace thrust
 {

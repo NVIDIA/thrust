@@ -26,7 +26,7 @@
 
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
-#include <thrust/detail/backend/cuda/fill.h>
+#include <thrust/system/cuda/detail/fill.h>
 
 namespace thrust
 {

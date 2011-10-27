@@ -21,7 +21,7 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/cpp/detail/reduce_intervals.h>
 #include <thrust/system/omp/detail/reduce_intervals.h>
-#include <thrust/detail/backend/cuda/reduce_intervals.h>
+#include <thrust/system/cuda/detail/reduce_intervals.h>
 
 namespace thrust
 {

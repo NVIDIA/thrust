@@ -40,13 +40,5 @@
 #define __device__
 #endif // __device__
 
-#ifndef __shared__
-#define __shared__
-#endif // __shared__
-
-#ifndef __global__
-#define __global__
-#endif // __global__
-
 #endif
 

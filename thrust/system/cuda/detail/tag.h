@@ -18,13 +18,12 @@
 
 namespace thrust
 {
-// put the canonical tag in the same ns as the backend's entry points
-// XXX cuda's entry points should be under system, not backend
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cuda
+{
+// put the canonical tag in the same ns as the backend's entry points
+namespace detail
 {
 
 struct tag {};
@@ -32,17 +31,10 @@ struct tag {};
 struct cuda_to_cpp  {};
 struct cpp_to_cuda  {};
 
-} // end cuda
-} // end backend
 } // end detail
 
-namespace system
-{
-namespace cuda
-{
-
-// alias cuda's tag here
-using thrust::detail::backend::cuda::tag;
+// alias the tag here
+using thrust::system::cuda::detail::tag;
 
 } // end cuda
 } // end system
@@ -54,6 +46,5 @@ namespace cuda
 using thrust::system::cuda::tag;
 
 } // end cuda
-
 } // end thrust
 

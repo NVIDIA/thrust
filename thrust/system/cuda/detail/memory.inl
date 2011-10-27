@@ -16,24 +16,22 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/memory.h>
+#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/copy.h>
 #include <thrust/swap.h>
 #include <limits>
-
-#include <cuda_runtime_api.h>
 #include <thrust/system/system_error.h>
 #include <thrust/system/cuda_error.h>
 #include <thrust/system/detail/bad_alloc.h>
 
 namespace thrust
 {
-
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cuda
+{
+namespace detail
 {
 
 __host__ __device__
@@ -66,7 +64,6 @@ inline cpp_to_cuda select_system(thrust::system::cpp::tag, cuda::tag)
   return cpp_to_cuda();
 }
 
-// XXX malloc should be moved into thrust::system::cuda::detail
 inline thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
 {
   void *result = 0;
@@ -81,7 +78,6 @@ inline thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
   return thrust::system::cuda::pointer<void>(result);
 } // end malloc()
 
-// XXX free should be moved into thrust::system::cuda::detail
 template<typename Pointer>
 inline void free(tag, Pointer ptr)
 {
@@ -93,7 +89,6 @@ inline void free(tag, Pointer ptr)
   } // end error
 } // end free()
 
-// XXX assign_value should be moved into thrust::system::cpp::detail
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
   void assign_value(cuda::tag, Pointer1 dst, Pointer2 src)
@@ -134,7 +129,6 @@ template<typename Pointer1, typename Pointer2>
   thrust::copy(src, src + 1, dst);
 } // end assign_value()
 
-// XXX get_value should be moved into thrust::system::cuda::detail
 template<typename Pointer>
 __host__ __device__
   typename thrust::iterator_value<Pointer>::type
@@ -167,7 +161,6 @@ __host__ __device__
 #endif // __CUDA_ARCH__
 } // end get_value()
 
-// XXX iter_swap should be moved into thrust::system::cuda::detail
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
 void iter_swap(tag, Pointer1 a, Pointer2 b)
@@ -195,14 +188,8 @@ void iter_swap(tag, Pointer1 a, Pointer2 b)
 #endif // __CUDA_ARCH__
 } // end iter_swap()
 
-} // end cuda
-} // end backend
 } // end detail
 
-namespace system
-{
-namespace cuda
-{
 
 template<typename T>
   template<typename OtherT>
@@ -230,12 +217,12 @@ void swap(reference<T> a, reference<T> b)
 
 pointer<void> malloc(std::size_t n)
 {
-  return thrust::detail::backend::cuda::malloc(tag(), n);
+  return thrust::system::cuda::detail::malloc(tag(), n);
 } // end malloc()
 
 void free(pointer<void> ptr)
 {
-  return thrust::detail::backend::cuda::free(tag(), ptr);
+  return thrust::system::cuda::detail::free(tag(), ptr);
 } // end free()
 
 } // end cuda
@@ -288,6 +275,5 @@ template<typename T, typename IndexType>
 
 } // end backend
 } // end detail
-
 } // end thrust
 

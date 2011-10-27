@@ -24,7 +24,7 @@
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/copy_if.h>
 #include <thrust/system/omp/detail/copy_if.h>
-#include <thrust/detail/backend/cuda/copy_if.h>
+#include <thrust/system/cuda/detail/copy_if.h>
 
 namespace thrust
 {

@@ -27,7 +27,7 @@
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/adjacent_difference.h>
 #include <thrust/system/omp/detail/adjacent_difference.h>
-#include <thrust/detail/backend/cuda/adjacent_difference.h>
+#include <thrust/system/cuda/detail/adjacent_difference.h>
 
 namespace thrust
 {

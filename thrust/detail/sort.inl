@@ -29,7 +29,7 @@
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/sort.h>
 #include <thrust/system/omp/detail/sort.h>
-#include <thrust/detail/backend/cuda/sort.h>
+#include <thrust/system/cuda/detail/sort.h>
 
 namespace thrust
 {

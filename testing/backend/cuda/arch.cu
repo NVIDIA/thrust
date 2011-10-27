@@ -2,9 +2,9 @@
 
 #if defined(__CUDACC__)
 
-#include <thrust/detail/backend/cuda/arch.h>
+#include <thrust/system/cuda/detail/arch.h>
 
-using namespace thrust::detail::backend::cuda::arch;
+using namespace thrust::system::cuda::detail::arch;
 
 void set_compute_capability(device_properties_t& properties, int major, int minor)
 {

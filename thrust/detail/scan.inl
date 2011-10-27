@@ -29,7 +29,7 @@
 // XXX make the backend-specific versions of scan available
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/detail/scan.h>
-#include <thrust/detail/backend/cuda/scan.h>
+#include <thrust/system/cuda/detail/scan.h>
 
 // XXX make the backend-specific versions of scan_by_key available
 // XXX try to eliminate the need for these
