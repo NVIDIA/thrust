@@ -83,7 +83,7 @@ __device__ __thrust_forceinline__
 
   context.barrier();
 
-  block::inplace_inclusive_scan_n(context, temporary, n1, thrust::plus<int>());
+  block::inclusive_scan_n(context, temporary, n1, thrust::plus<int>());
 
   // copy_if
   if(needs_output)
