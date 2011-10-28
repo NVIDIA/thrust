@@ -24,6 +24,11 @@
 #include <thrust/system/detail/generic/remove.h>
 #include <thrust/iterator/iterator_traits.h>
 
+// XXX make the backend-specific versions of reduce available
+// XXX try to eliminate the need for these
+#include <thrust/system/cpp/detail/remove.h>
+#include <thrust/system/omp/detail/remove.h>
+
 namespace thrust
 {
 

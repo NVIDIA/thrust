@@ -21,11 +21,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cpp
+{
+namespace detail
 {
 
 template<typename ForwardIterator,
@@ -68,10 +68,10 @@ template<typename InputIterator1,
                                 Predicate pred);
 
 
-} // end namespace cpp
-} // end namespace backend
 } // end namespace detail
+} // end namespace cpp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/cpp/remove.inl>
+#include <thrust/system/cpp/detail/remove.inl>
 

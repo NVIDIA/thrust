@@ -21,11 +21,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 template<typename ForwardIterator,
@@ -45,6 +45,7 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred);
 
+
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
@@ -53,6 +54,7 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -65,10 +67,11 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred);
 
-} // end namespace omp
-} // end namespace backend
+
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/remove.inl>
+#include <thrust/system/omp/detail/remove.inl>
 

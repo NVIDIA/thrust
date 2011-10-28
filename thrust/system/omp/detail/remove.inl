@@ -17,18 +17,18 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/remove.h>
-#include <thrust/detail/backend/generic/remove.h>
+#include <thrust/system/omp/detail/remove.h>
+#include <thrust/system/detail/generic/remove.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
 {
-
+namespace detail
+{
 
 template<typename ForwardIterator,
          typename Predicate>
@@ -38,8 +38,8 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::detail::backend::generic::remove_if(tag(), first, last, pred);
-} // end remove_if()
+  return thrust::system::detail::generic::remove_if(tag(), first, last, pred);
+}
 
 
 template<typename ForwardIterator,
@@ -52,8 +52,8 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::detail::backend::generic::remove_if(tag(), first, last, stencil, pred);
-} // end remove_if()
+  return thrust::system::detail::generic::remove_if(tag(), first, last, stencil, pred);
+}
 
 
 template<typename InputIterator,
@@ -66,9 +66,8 @@ template<typename InputIterator,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::detail::backend::generic::remove_copy_if(tag(), first, last, result, pred);
-} // end remove_copy_if()
-
+  return thrust::system::detail::generic::remove_copy_if(tag(), first, last, result, pred);
+}
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -82,14 +81,11 @@ template<typename InputIterator1,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::detail::backend::generic::remove_copy_if(tag(), first, last, stencil, result, pred);
-} // end remove_copy_if()
+  return thrust::system::detail::generic::remove_copy_if(tag(), first, last, stencil, result, pred);
+}
 
-
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
-
-#include <thrust/detail/backend/omp/remove.inl>
 

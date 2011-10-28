@@ -22,16 +22,16 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/cpp/remove.h>
+#include <thrust/system/cpp/detail/remove.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cpp
+{
+namespace detail
 {
 
 template<typename ForwardIterator,
@@ -42,7 +42,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // advance iterators until pred(*first) is true or we reach the end of input
-  while(first != last && !bool(pred(backend::dereference(first))))
+  while(first != last && !bool(pred(thrust::detail::backend::dereference(first))))
     ++first;
 
   if(first == last)
@@ -55,9 +55,9 @@ template<typename ForwardIterator,
 
   while(first != last)
   {
-    if(!bool(pred(backend::dereference(first))))
+    if(!bool(pred(thrust::detail::backend::dereference(first))))
     {
-      backend::dereference(result) = backend::dereference(first);
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
     ++first;
@@ -77,7 +77,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // advance iterators until pred(*stencil) is true or we reach the end of input
-  while(first != last && !bool(pred(backend::dereference(stencil))))
+  while(first != last && !bool(pred(thrust::detail::backend::dereference(stencil))))
   {
     ++first;
     ++stencil;
@@ -94,9 +94,9 @@ template<typename ForwardIterator,
 
   while(first != last)
   {
-    if(!bool(pred(backend::dereference(stencil))))
+    if(!bool(pred(thrust::detail::backend::dereference(stencil))))
     {
-      backend::dereference(result) = backend::dereference(first);
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
     ++first;
@@ -118,9 +118,9 @@ template<typename InputIterator,
 {
   while (first != last)
   {
-    if (!bool(pred(backend::dereference(first))))
+    if (!bool(pred(thrust::detail::backend::dereference(first))))
     {
-      backend::dereference(result) = backend::dereference(first);
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
 
@@ -143,9 +143,9 @@ template<typename InputIterator1,
 {
   while (first != last)
   {
-    if (!bool(pred(backend::dereference(stencil))))
+    if (!bool(pred(thrust::detail::backend::dereference(stencil))))
     {
-      backend::dereference(result) = backend::dereference(first);
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
 
@@ -156,8 +156,8 @@ template<typename InputIterator1,
   return result;
 }
 
-} // end namespace cpp
-} // end namespace backend
 } // end namespace detail
+} // end namespace cpp
+} // end namespace system
 } // end namespace thrust
 
