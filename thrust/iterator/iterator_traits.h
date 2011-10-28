@@ -31,8 +31,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/detail/host_space_tag.h>
-#include <thrust/iterator/detail/device_space_tag.h>
 #include <iterator>
 
 namespace thrust
@@ -78,6 +76,8 @@ template<typename Iterator> struct iterator_space;
 
 } // end thrust
 
+#include <thrust/iterator/detail/host_space_tag.h>
+#include <thrust/iterator/detail/device_space_tag.h>
 #include <thrust/iterator/detail/any_space_tag.h>
 #include <thrust/iterator/detail/iterator_traits.inl>
 
