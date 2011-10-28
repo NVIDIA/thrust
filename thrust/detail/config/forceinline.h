@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if defined(__CUDACC__)
 
 #define __thrust_forceinline__ __forceinline__
 
