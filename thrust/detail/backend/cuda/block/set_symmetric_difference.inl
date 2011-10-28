@@ -121,8 +121,8 @@ __device__ __thrust_forceinline__
   context.barrier();
 
   // scan both arrays
-  cuda::block::inplace_inclusive_scan_n(context, temporary1, n1, thrust::plus<int>());
-  cuda::block::inplace_inclusive_scan_n(context, temporary2, n2, thrust::plus<int>());
+  cuda::block::inclusive_scan_n(context, temporary1, n1, thrust::plus<int>());
+  cuda::block::inclusive_scan_n(context, temporary2, n2, thrust::plus<int>());
 
   // scatter elements from the first range to their place in the output
   if(needs_output1)

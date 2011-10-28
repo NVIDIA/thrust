@@ -202,7 +202,7 @@ void reduce_by_key_body(Context context,
   // scan flag counts
   sflag[context.thread_index()] = flag_count; context.barrier();
 
-  cuda::block::inplace_inclusive_scan(context, sflag, thrust::plus<FlagType>());
+  cuda::block::inclusive_scan(context, sflag, thrust::plus<FlagType>());
 
   const FlagType output_position = (context.thread_index() == 0) ? 0 : sflag[context.thread_index() - 1];
   const FlagType num_outputs     = sflag[CTA_SIZE - 1];
@@ -277,9 +277,9 @@ void reduce_by_key_body(Context context,
     sflag[context.thread_index()] = head_flag;  sdata[K - 1][context.thread_index()] = ldata[K - 1]; context.barrier();
 
     if (FullBlock)
-      cuda::block::inplace_inclusive_segscan(context, sflag, sdata[K-1], binary_op);
+      cuda::block::inclusive_scan_by_flag(context, sflag, sdata[K-1], binary_op);
     else
-      cuda::block::inplace_inclusive_segscan_n(context, sflag, sdata[K-1], n, binary_op);
+      cuda::block::inclusive_scan_by_flag_n(context, sflag, sdata[K-1], n, binary_op);
   }
 
   // update local values
