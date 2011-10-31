@@ -34,6 +34,23 @@ namespace generic
 
 template<typename InputIterator1,
          typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator merge(tag,
+                       InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result,
+                       StrictWeakOrdering comp)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+} // end merge()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
          typename OutputIterator>
   OutputIterator merge(tag,
                        InputIterator1 first1,

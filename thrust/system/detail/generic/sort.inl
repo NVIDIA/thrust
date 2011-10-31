@@ -161,6 +161,32 @@ template<typename ForwardIterator,
 } // end is_sorted_until()
 
 
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(tag,
+                   RandomAccessIterator first,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+} // end stable_sort()
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key(tag,
+                          RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
+                          StrictWeakOrdering comp)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, false>::value) );
+} // end stable_sort_by_key()
+
+
 } // end generic
 } // end detail
 } // end system

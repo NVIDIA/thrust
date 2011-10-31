@@ -18,6 +18,7 @@
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/generic/select_system.h>
+#include <thrust/detail/static_assert.h>
 
 namespace thrust
 {
@@ -27,6 +28,50 @@ namespace detail
 {
 namespace generic
 {
+
+
+template<typename Size>
+  void malloc(tag, Size)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
+}
+
+
+template<typename Pointer>
+  void free(tag, Pointer)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
+}
+
+
+template<typename Pointer1, typename Pointer2>
+__host__ __device__
+void assign_value(tag, Pointer1, Pointer2)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
+}
+
+
+template<typename Pointer>
+__host__ __device__
+void get_value(tag, Pointer)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
+}
+
+
+template<typename Pointer1, typename Pointer2>
+__host__ __device__
+void iter_swap(tag, Pointer1, Pointer2)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
+}
+
 
 namespace detail
 {
@@ -40,6 +85,7 @@ template<typename Pointer>
 }
 
 } // end detail
+
 
 template<typename T, typename Tag>
   typename thrust::detail::disable_if<
@@ -58,6 +104,7 @@ template<typename T, typename Tag>
   return thrust::make_pair(pointer(static_cast<T*>(detail::get(malloc(select_system(Tag()), sizeof(T) * n)))), n);
 } // end get_temporary_buffer()
 
+
 template<typename Pointer>
   void return_temporary_buffer(tag, Pointer p)
 {
@@ -68,6 +115,7 @@ template<typename Pointer>
 
   free(select_system(Tag()), p);
 } // end return_temporary_buffer()
+
 
 } // end generic
 } // end detail

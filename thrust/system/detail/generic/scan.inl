@@ -99,6 +99,36 @@ template<typename InputIterator,
 } // end exclusive_scan()
 
 
+template<typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+  OutputIterator inclusive_scan(tag,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                BinaryFunction binary_op)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+} // end inclusive_scan
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename T,
+         typename BinaryFunction>
+  OutputIterator exclusive_scan(tag,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                T init,
+                                BinaryFunction binary_op)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+} // end exclusive_scan()
+
+
 } // end namespace generic
 } // end namespace detail
 } // end namespace system

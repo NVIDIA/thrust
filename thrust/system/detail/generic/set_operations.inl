@@ -90,6 +90,72 @@ template<typename InputIterator1,
 } // end set_union()
 
 
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_difference(InputIterator1 first1,
+                                InputIterator1 last1,
+                                InputIterator2 first2,
+                                InputIterator2 last2,
+                                OutputIterator result,
+                                StrictWeakOrdering comp)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+} // end set_difference()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_intersection(InputIterator1 first1,
+                                  InputIterator1 last1,
+                                  InputIterator2 first2,
+                                  InputIterator2 last2,
+                                  OutputIterator result,
+                                  StrictWeakOrdering comp)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+} // end set_intersection()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_symmetric_difference(tag,
+                                          InputIterator1 first1,
+                                          InputIterator1 last1,
+                                          InputIterator2 first2,
+                                          InputIterator2 last2,
+                                          OutputIterator result,
+                                          StrictWeakOrdering comp)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+} // end set_symmetric_difference()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+  OutputIterator set_union(tag,
+                           InputIterator1 first1,
+                           InputIterator1 last1,
+                           InputIterator2 first2,
+                           InputIterator2 last2,
+                           OutputIterator result,
+                           StrictWeakOrdering comp)
+{
+  // unimplemented primitive
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+} // end set_union()
+
+
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
