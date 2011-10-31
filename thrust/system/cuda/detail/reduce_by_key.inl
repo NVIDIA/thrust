@@ -32,7 +32,7 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/temporary_array.h>
 
-#include <thrust/detail/backend/internal/reduce_intervals.h>
+#include <thrust/system/detail/internal/reduce_intervals.h>
 
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
@@ -582,7 +582,7 @@ template <typename InputIterator1,
         detail::tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
 
     // count number of tail flags per interval
-    thrust::detail::backend::internal::reduce_intervals(iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
+    thrust::system::detail::internal::reduce_intervals(iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
 
     thrust::inclusive_scan(interval_counts.begin(), interval_counts.end(),
                            interval_counts.begin(),

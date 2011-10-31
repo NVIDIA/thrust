@@ -16,7 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/reduce.h>
-#include <thrust/system/detail/generic/reduce.h>
+#include <thrust/system/detail/internal/reduce.h>
 
 namespace thrust
 {
@@ -37,8 +37,8 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  // omp prefers generic::reduce to cpp::reduce
-  return thrust::system::detail::generic::reduce(tag(), begin, end, init, binary_op);
+  // omp prefers internal::reduce to cpp::reduce
+  return thrust::system::detail::internal::reduce(tag(), begin, end, init, binary_op);
 } // end reduce()
 
 

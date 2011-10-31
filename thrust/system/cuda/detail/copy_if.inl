@@ -197,7 +197,7 @@ template<typename InputIterator1,
   PredicateToIndexIterator predicate_stencil(stencil, PredicateToIndexTransform(pred));
 
   // compute number of true values in each interval
-  thrust::detail::backend::internal::reduce_intervals(predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
+  thrust::system::detail::internal::reduce_intervals(predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
 
   // scan the partial sums
   thrust::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());

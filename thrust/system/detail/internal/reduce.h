@@ -14,35 +14,35 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce_intervals.h
- *  \brief Reduce a perscribed set of intervals separately.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
-namespace detail
+namespace system
 {
-namespace backend
+namespace detail
 {
 namespace internal
 {
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction,
-          typename Decomposition>
-void reduce_intervals(InputIterator input,
-                      OutputIterator output,
-                      BinaryFunction binary_op,
-                      Decomposition decomp);
 
-} // end namespace internal
-} // end namespace backend
-} // end namespace detail
-} // end namespace thrust
+template<typename Tag,
+         typename RandomAccessIterator,
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(Tag,
+                    RandomAccessIterator first,
+                    RandomAccessIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op);
 
-#include <thrust/detail/backend/internal/reduce_intervals.inl>
+
+} // end internal
+} // end detail
+} // end system
+} // end thrust
+
+#include <thrust/system/detail/internal/reduce.inl>
 
