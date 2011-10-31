@@ -23,6 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/tag.h>
+#include <thrust/detail/static_assert.h>
 
 namespace thrust
 {
@@ -33,12 +34,18 @@ namespace detail
 namespace generic
 {
 
+
 template<typename InputIterator,
          typename UnaryFunction>
 InputIterator for_each(tag,
                        InputIterator first,
                        InputIterator last,
-                       UnaryFunction f);
+                       UnaryFunction f)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+} // end for_each()
+
 
 template<typename InputIterator,
          typename Size,
@@ -46,7 +53,12 @@ template<typename InputIterator,
 InputIterator for_each_n(tag,
                          InputIterator first,
                          Size n,
-                         UnaryFunction f);
+                         UnaryFunction f)
+{
+  // unimplemented
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+} // end for_each_n()
+
 
 } // end namespace generic
 } // end namespace detail
