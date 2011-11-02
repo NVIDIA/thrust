@@ -18,6 +18,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/system/detail/generic/scan.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/scan.h>

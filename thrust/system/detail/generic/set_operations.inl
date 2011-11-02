@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/system/detail/generic/set_operations.h>
 #include <thrust/functional.h>
 

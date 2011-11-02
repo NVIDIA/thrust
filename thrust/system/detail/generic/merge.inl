@@ -18,6 +18,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/system/detail/generic/merge.h>
 #include <thrust/merge.h>
 #include <thrust/functional.h>
