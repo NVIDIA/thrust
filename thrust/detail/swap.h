@@ -15,7 +15,20 @@
  */
 
 
-#include <thrust/swap.h>
-#include <thrust/detail/swap.h>
-#include <thrust/detail/swap_ranges.inl>
+#pragma once
+
+#include <thrust/detail/config.h>
+
+namespace thrust
+{
+
+template<typename Assignable1, typename Assignable2>
+  void swap(Assignable1 &a, Assignable2 &b)
+{
+  Assignable1 temp = a;
+  a = b;
+  b = temp;
+} // end swap()
+
+} // end namespace thrust
 
