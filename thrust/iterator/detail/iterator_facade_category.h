@@ -16,10 +16,15 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/detail/host_space_tag.h>
+#include <thrust/iterator/detail/device_space_tag.h>
+#include <thrust/iterator/detail/any_space_tag.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/iterator_traversal_tags.h>
 #include <thrust/iterator/detail/is_iterator_category.h>
+#include <thrust/iterator/detail/iterator_category_to_traversal.h>
 
 namespace thrust
 {
@@ -296,20 +301,6 @@ template<typename CategoryOrSpace,
     iterator_facade_category_impl<CategoryOrSpace, CategoryOrTraversal, ValueParam, Reference>
   >::type type;
 }; // end iterator_facade_category
-
-template<typename ValueParam,
-         typename CategoryOrSpace,
-         typename CategoryOrTraversal,
-         typename Reference,
-         typename Difference>
-  struct iterator_facade_types
-{
-  typedef typename iterator_facade_category<
-    CategoryOrSpace, CategoryOrTraversal, ValueParam, Reference
-  >::type iterator_category;
-
-  typedef typename thrust::detail::remove_const<ValueParam>::type value_type;
-}; // end iterator_facade_types
 
 } // end detail
 

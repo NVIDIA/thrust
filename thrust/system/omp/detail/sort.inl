@@ -23,8 +23,6 @@
 #endif // omp support
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/forced_iterator.h>
-
 #include <thrust/sort.h>
 #include <thrust/system/cpp/detail/merge.h>
 #include <thrust/system/cpp/detail/tag.h>
@@ -69,8 +67,8 @@ void stable_sort(tag,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::stable_sort(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].begin(),
-                          thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[p_i].end(),
+      thrust::stable_sort(thrust::retag<thrust::cpp::tag>(first) + decomp[p_i].begin(),
+                          thrust::retag<thrust::cpp::tag>(first) + decomp[p_i].end(),
                           comp);
     }
 
@@ -90,9 +88,9 @@ void stable_sort(tag,
         if((p_i % h) == 0 && c > b)
         {
             thrust::system::cpp::detail::
-              inplace_merge(thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[a].begin(),
-                            thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[b].end(),
-                            thrust::detail::make_forced_iterator(first, thrust::cpp::tag()) + decomp[c].end(),
+              inplace_merge(thrust::retag<thrust::cpp::tag>(first) + decomp[a].begin(),
+                            thrust::retag<thrust::cpp::tag>(first) + decomp[b].end(),
+                            thrust::retag<thrust::cpp::tag>(first) + decomp[c].end(),
                             comp);
             b = c;
             c += h;
@@ -140,9 +138,9 @@ void stable_sort_by_key(tag,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::stable_sort_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].begin(),
-                                 thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[p_i].end(),
-                                 thrust::detail::make_forced_iterator(values_first, thrust::cpp::tag()) + decomp[p_i].begin(),
+      thrust::stable_sort_by_key(thrust::retag<thrust::cpp::tag>(keys_first) + decomp[p_i].begin(),
+                                 thrust::retag<thrust::cpp::tag>(keys_first) + decomp[p_i].end(),
+                                 thrust::retag<thrust::cpp::tag>(values_first) + decomp[p_i].begin(),
                                  comp);
     }
 
@@ -162,10 +160,10 @@ void stable_sort_by_key(tag,
         if((p_i % h) == 0 && c > b)
         {
             thrust::system::cpp::detail::
-              inplace_merge_by_key(thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[a].begin(),
-                                   thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[b].end(),
-                                   thrust::detail::make_forced_iterator(keys_first,   thrust::cpp::tag()) + decomp[c].end(),
-                                   thrust::detail::make_forced_iterator(values_first, thrust::cpp::tag()) + decomp[a].begin(),
+              inplace_merge_by_key(thrust::retag<thrust::cpp::tag>(keys_first) + decomp[a].begin(),
+                                   thrust::retag<thrust::cpp::tag>(keys_first) + decomp[b].end(),
+                                   thrust::retag<thrust::cpp::tag>(keys_first) + decomp[c].end(),
+                                   thrust::retag<thrust::cpp::tag>(values_first) + decomp[a].begin(),
                                    comp);
             b = c;
             c += h;

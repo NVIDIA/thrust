@@ -16,8 +16,12 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/iterator_traversal_tags.h>
+#include <thrust/iterator/detail/host_space_tag.h>
+#include <thrust/iterator/detail/device_space_tag.h>
+#include <thrust/iterator/detail/any_space_tag.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust

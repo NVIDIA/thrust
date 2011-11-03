@@ -18,17 +18,26 @@
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/iterator_adaptor.h>
+#include <thrust/detail/use_default.h>
 #include <thrust/iterator/iterator_facade.h>
 
 namespace thrust
 {
 
-// forward declaration of use_default
-struct use_default;
-
 namespace experimental
 {
+
+// forward declaration of iterator_adaptor for iterator_adaptor_base below
+template<typename Derived,
+         typename Base,
+         typename Pointer,
+         typename Value,
+         typename Space,
+         typename Traversal,
+         typename Reference,
+         typename Difference
+>
+class iterator_adaptor;
 
 namespace detail
 {
@@ -49,15 +58,14 @@ struct ia_dflt_help
 
 // A metafunction which computes an iterator_adaptor's base class,
 // a specialization of iterator_facade.
-template <
-    typename Derived
-  , typename Base
-  , typename Pointer
-  , typename Value
-  , typename Space
-  , typename Traversal
-  , typename Reference
-  , typename Difference
+template<typename Derived,
+         typename Base,
+         typename Pointer,
+         typename Value,
+         typename Space,
+         typename Traversal,
+         typename Reference,
+         typename Difference
 >
   struct iterator_adaptor_base
 {

@@ -35,9 +35,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_facade.h>
 #include <thrust/detail/use_default.h>
-
-// #include the details first
-#include <thrust/iterator/detail/iterator_adaptor.inl>
+#include <thrust/iterator/detail/iterator_adaptor_base.h>
 
 namespace thrust
 {

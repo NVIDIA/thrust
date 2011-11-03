@@ -1,7 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/swap.h>
-
-#include <thrust/iterator/detail/forced_iterator.h> 
+#include <thrust/iterator/iterator_traits.h> 
 
 template <class Vector>
 void TestSwapRangesSimple(void)
@@ -58,9 +57,9 @@ void TestSwapRangesForcedIterator(void)
   thrust::device_vector<int> A(3, 0);
   thrust::device_vector<int> B(3, 1);
 
-  thrust::swap_ranges(thrust::detail::make_forced_iterator(A.begin(), thrust::host_space_tag()),
-                      thrust::detail::make_forced_iterator(A.end(),   thrust::host_space_tag()),
-                      thrust::detail::make_forced_iterator(B.begin(), thrust::host_space_tag()));
+  thrust::swap_ranges(thrust::retag<thrust::host_space_tag>(A.begin()),
+                      thrust::retag<thrust::host_space_tag>(A.end()),
+                      thrust::retag<thrust::host_space_tag>(B.begin()));
 
   ASSERT_EQUAL(A[0], 1);
   ASSERT_EQUAL(A[1], 1);

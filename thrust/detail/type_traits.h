@@ -431,9 +431,9 @@ template<bool condition, typename T = void> struct disable_if : enable_if<!condi
 template<bool condition, typename T>        struct lazy_disable_if : lazy_enable_if<!condition, T> {};
 
 
-template<typename T1, typename T2>
+template<typename T1, typename T2, typename T = void>
   struct enable_if_convertible
-    : enable_if< is_convertible<T1,T2>::value>
+    : enable_if< is_convertible<T1,T2>::value, T >
 {};
 
 

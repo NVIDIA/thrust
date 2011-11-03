@@ -16,24 +16,26 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/iterator/detail/host_space_tag.h>
-#include <thrust/iterator/detail/device_space_tag.h>
-
 namespace thrust
 {
 
-struct any_space_tag
-{
-  // use conversion operators instead of inheritance to avoid ambiguous conversion errors
-  operator host_space_tag () {return host_space_tag();};
+// define Boost's traversal tags
+struct no_traversal_tag {};
 
-  operator device_space_tag () {return device_space_tag();};
+struct incrementable_traversal_tag
+  : no_traversal_tag {};
 
-  // allow any_space_tag to convert to any type at all
-  // XXX make this safer using enable_if<is_tag<T>> upon c++11
-  template<typename T> operator T () const {return T();}
-};
+struct single_pass_traversal_tag
+  : incrementable_traversal_tag {};
+
+struct forward_traversal_tag
+  : single_pass_traversal_tag {};
+
+struct bidirectional_traversal_tag
+  : forward_traversal_tag {};
+
+struct random_access_traversal_tag
+  : bidirectional_traversal_tag {};
 
 } // end thrust
 

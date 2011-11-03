@@ -34,7 +34,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/iterator/detail/iterator_facade.inl>
+#include <thrust/iterator/detail/iterator_facade_category.h>
 #include <thrust/iterator/detail/distance_from_result.h>
 
 #define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Pointer, typename    Value, typename    Space, typename    Traversal, typename    Reference, typename    Difference
@@ -229,16 +229,14 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
       return *static_cast<Derived const*>(this);
     }
 
-    typedef detail::iterator_facade_types<
-      Value, Space, Traversal, Reference, Difference
-    > associated_types;
-
   public:
-    typedef typename associated_types::value_type value_type;
-    typedef Reference                             reference;
-    typedef Pointer                               pointer;
-    typedef Difference                            difference_type;
-    typedef typename associated_types::iterator_category       iterator_category;
+    typedef typename thrust::detail::remove_const<Value>::type value_type;
+    typedef Reference                                          reference;
+    typedef Pointer                                            pointer;
+    typedef Difference                                         difference_type;
+    typedef typename detail::iterator_facade_category<
+      Space, Traversal, Value, Reference
+    >::type                                                    iterator_category;
 
     reference operator*() const
     {

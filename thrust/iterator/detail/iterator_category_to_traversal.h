@@ -16,8 +16,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/iterator_traversal_tags.h>
 #include <thrust/iterator/detail/iterator_category_to_space.h>
 #include <thrust/detail/type_traits.h>
 

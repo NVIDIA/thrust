@@ -43,25 +43,6 @@ template<typename T>
 }; // end iterator_traits
 
 
-// define Boost's traversal tags
-struct no_traversal_tag {};
-
-struct incrementable_traversal_tag
-  : no_traversal_tag {};
-
-struct single_pass_traversal_tag
-  : incrementable_traversal_tag {};
-
-struct forward_traversal_tag
-  : single_pass_traversal_tag {};
-
-struct bidirectional_traversal_tag
-  : forward_traversal_tag {};
-
-struct random_access_traversal_tag
-  : bidirectional_traversal_tag {};
-
-
 template<typename Iterator> struct iterator_value;
 
 template<typename Iterator> struct iterator_pointer;
@@ -76,8 +57,10 @@ template<typename Iterator> struct iterator_space;
 
 } // end thrust
 
+#include <thrust/iterator/detail/iterator_traversal_tags.h>
 #include <thrust/iterator/detail/host_space_tag.h>
 #include <thrust/iterator/detail/device_space_tag.h>
 #include <thrust/iterator/detail/any_space_tag.h>
 #include <thrust/iterator/detail/iterator_traits.inl>
+#include <thrust/iterator/detail/retag.h>
 

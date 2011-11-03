@@ -69,8 +69,8 @@ template<typename Element, typename Space, typename Reference, typename Derived>
 template<typename Pointer>
   class normal_iterator;
 
-template<typename Iterator, typename Space>
-  class forced_iterator;
+template<typename Iterator, typename Tag>
+  class tagged_iterator;
 
 } // end detail
 
@@ -160,16 +160,16 @@ template<typename Pointer, typename IndexType>
       dereference(const normal_iterator<Pointer> &iter, IndexType n);
 
 
-// forced_iterator
-template<typename Iterator, typename Space>
+// tagged_iterator
+template<typename Iterator, typename Tag>
   inline __host__ __device__
-    typename dereference_result< forced_iterator< Iterator, Space > >::type
-      dereference(const forced_iterator< Iterator, Space > &iter);
+    typename dereference_result< tagged_iterator< Iterator, Tag > >::type
+      dereference(const tagged_iterator< Iterator, Tag > &iter);
 
-template<typename Iterator, typename Space, typename IndexType>
+template<typename Iterator, typename Tag, typename IndexType>
   inline __host__ __device__
-    typename dereference_result< forced_iterator< Iterator, Space > >::type
-      dereference(const forced_iterator< Iterator, Space > &iter, IndexType n);
+    typename dereference_result< tagged_iterator< Iterator, Tag > >::type
+      dereference(const tagged_iterator< Iterator, Tag > &iter, IndexType n);
 
 
 
