@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/iterator/detail/any_space_tag.h>
 
 namespace thrust
 {
