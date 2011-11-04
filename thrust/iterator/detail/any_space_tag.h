@@ -17,19 +17,12 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/detail/host_space_tag.h>
-#include <thrust/iterator/detail/device_space_tag.h>
 
 namespace thrust
 {
 
 struct any_space_tag
 {
-  // use conversion operators instead of inheritance to avoid ambiguous conversion errors
-  operator host_space_tag () {return host_space_tag();};
-
-  operator device_space_tag () {return device_space_tag();};
-
   // allow any_space_tag to convert to any type at all
   // XXX make this safer using enable_if<is_tag<T>> upon c++11
   template<typename T> operator T () const {return T();}

@@ -17,7 +17,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/copy.h>
 #include <thrust/swap.h>
 #include <limits>
@@ -33,36 +32,6 @@ namespace cuda
 {
 namespace detail
 {
-
-__host__ __device__
-inline tag select_system(tag, tag)
-{
-  return tag();
-}
-
-__host__ __device__
-inline tag select_system(tag, thrust::any_space_tag)
-{
-  return tag();
-}
-
-__host__ __device__
-inline tag select_system(thrust::any_space_tag, tag)
-{
-  return tag();
-}
-
-__host__ __device__
-inline cuda_to_cpp select_system(cuda::tag, thrust::system::cpp::tag)
-{
-  return cuda_to_cpp();
-}
-
-__host__ __device__
-inline cpp_to_cuda select_system(thrust::system::cpp::tag, cuda::tag)
-{
-  return cpp_to_cuda();
-}
 
 inline thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
 {

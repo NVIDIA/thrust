@@ -16,6 +16,10 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/iterator/detail/any_space_tag.h>
+
 namespace thrust
 {
 namespace system
@@ -30,6 +34,37 @@ struct tag {};
 
 struct cuda_to_cpp  {};
 struct cpp_to_cuda  {};
+
+
+__host__ __device__
+inline tag select_system(tag, tag)
+{
+  return tag();
+}
+
+__host__ __device__
+inline tag select_system(tag, thrust::any_space_tag)
+{
+  return tag();
+}
+
+__host__ __device__
+inline tag select_system(thrust::any_space_tag, tag)
+{
+  return tag();
+}
+
+__host__ __device__
+inline cuda_to_cpp select_system(tag, thrust::system::cpp::tag)
+{
+  return cuda_to_cpp();
+}
+
+__host__ __device__
+inline cpp_to_cuda select_system(thrust::system::cpp::tag, tag)
+{
+  return cpp_to_cuda();
+}
 
 } // end detail
 
