@@ -79,7 +79,8 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::detail::true_type)  // is_trivial_copy
 {
-  return thrust::system::cpp::detail::trivial_copy_n(get(&*first), n, get(&*result));
+  thrust::system::cpp::detail::trivial_copy_n(get(&*first), n, get(&*result));
+  return result + n;
 } // end copy_n()
 
 
