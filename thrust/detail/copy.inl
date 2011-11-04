@@ -25,6 +25,7 @@
 #include <thrust/system/cpp/detail/copy.h>
 #include <thrust/system/omp/detail/copy.h>
 #include <thrust/system/cuda/detail/copy.h>
+#include <thrust/system/tbb/detail/copy.h>
 
 namespace thrust
 {
