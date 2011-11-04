@@ -63,8 +63,8 @@ gCompilerOptions = {
 # this dictionary maps the name of a linker program to a dictionary mapping the name of
 # a linker switch of interest to the specific switch implementing the feature
 gLinkerOptions = {
-    'gcc' : {'debug' : ''},
-    'g++' : {'debug' : ''},
+    'gcc'   : {'debug' : '', 'tbb' : '-ltbb'},
+    'g++'   : {'debug' : '', 'tbb' : '-ltbb'},
     'link'  : {'debug' : '/debug'}
   }
 
@@ -149,6 +149,9 @@ def getLINKFLAGS(mode, backend, LINK):
   if backend == 'ocelot':
     result.append(os.popen('OcelotConfig -l').read().split())
 
+  if backend == 'tbb':
+    result.append(gLinkerOptions[LINK]['tbb'])
+
   return result
 
 
@@ -160,7 +163,7 @@ def Environment():
 
   # add a variable to handle the device backend
   backend_variable = EnumVariable('backend', 'The parallel device backend to target', 'cuda',
-                                  allowed_values = ('cuda', 'omp', 'ocelot'))
+                                  allowed_values = ('cuda', 'omp', 'ocelot', 'tbb'))
   vars.Add(backend_variable)
 
   # add a variable to handle RELEASE/DEBUG mode
@@ -195,7 +198,7 @@ def Environment():
   env.Tool('nvcc', toolpath = [os.path.join(thisDir)])
 
   # get the preprocessor define to use for the backend
-  backend_define = { 'cuda' : 'THRUST_DEVICE_BACKEND_CUDA', 'omp' : 'THRUST_DEVICE_BACKEND_OMP', 'ocelot' : 'THRUST_DEVICE_BACKEND_CUDA' }[env['backend']] 
+  backend_define = { 'cuda' : 'THRUST_DEVICE_BACKEND_CUDA', 'omp' : 'THRUST_DEVICE_BACKEND_OMP', 'ocelot' : 'THRUST_DEVICE_BACKEND_CUDA', 'tbb' : 'THRUST_DEVICE_BACKEND_TBB' }[env['backend']] 
   env.Append(CFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
   env.Append(CXXFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
 
