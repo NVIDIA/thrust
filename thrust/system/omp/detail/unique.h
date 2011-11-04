@@ -32,7 +32,8 @@ namespace detail
 
 template<typename ForwardIterator,
          typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
+  ForwardIterator unique(tag,
+                         ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred);
 
