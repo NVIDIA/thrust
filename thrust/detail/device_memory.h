@@ -18,37 +18,19 @@
 
 #include <thrust/detail/config.h>
 
-#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
-#include <thrust/system/cuda/detail/tag.h>
+// #include the memory.h header of the device backend
 
-namespace thrust
-{
+#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
-typedef thrust::system::cuda::tag device_space_tag;
+#include <thrust/system/cuda/memory.h>
 
-} // end thrust
+#elif THRUST_DEVICE_BACKEND_CUDA == THRUST_DEVICE_BACKEND_OMP
 
-#elif  THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/memory.h>
 
-namespace thrust
-{
+#elif THRUST_DEVICE_BACKEND_CUDA == THRUST_DEVICE_BACKEND_TBB
 
-typedef thrust::system::omp::tag device_space_tag;
+#include <thrust/system/tbb/memory.h>
 
-} // end thrust
-
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_TBB
-#include <thrust/system/tbb/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::tbb::tag device_space_tag;
-
-} // end thrust
-
-#else
-#error Unknown device backend.
 #endif // THRUST_DEVICE_BACKEND
 

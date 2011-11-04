@@ -19,13 +19,13 @@
  *  \brief Inline file for device_reference.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/device_reference.h>
+#include <thrust/detail/device_memory.h>
 
-// XXX make the backend-specific versions of the memory protocol available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/memory.h>
-#include <thrust/system/omp/memory.h>
-#include <thrust/system/cuda/memory.h>
+// XXX make the device backend-specific version of the memory protocol available
+// XXX try to eliminate the need for this
+#include <thrust/detail/device_memory.h>
 
 namespace thrust
 {

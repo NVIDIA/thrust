@@ -85,12 +85,12 @@ void swap(reference<T> a, reference<T> b)
 inline pointer<void> malloc(std::size_t n)
 {
   // XXX eliminate this conversion if we decide that cpp can downcast to omp
-  return pointer<void>(malloc(tag(), n).get());
+  return pointer<void>(cpp::malloc(n).get());
 } // end malloc()
 
 inline void free(pointer<void> ptr)
 {
-  return free(tag(), ptr);
+  return cpp::free(ptr);
 } // end free()
 
 } // end omp

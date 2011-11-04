@@ -25,6 +25,12 @@
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/iterator/iterator_traits.h>
 
+// XXX make the backend-specific versions available
+// XXX try to eliminate the need for these
+#include <thrust/system/cpp/memory.h>
+#include <thrust/system/omp/memory.h>
+#include <thrust/system/cuda/memory.h>
+
 namespace thrust
 {
 

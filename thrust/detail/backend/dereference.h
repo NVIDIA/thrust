@@ -50,6 +50,14 @@ template<typename T>
 
 } // end omp
 
+namespace tbb
+{
+
+template<typename T>
+  class pointer;
+
+} // end tbb
+
 namespace cuda
 {
 
@@ -292,6 +300,18 @@ template<typename T, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::system::omp::pointer<T> >::type
       dereference(thrust::system::omp::pointer<T> ptr, IndexType n);
+
+
+// tbb::pointer prototypes
+template<typename T>
+  inline __host__ __device__
+    typename dereference_result< thrust::system::tbb::pointer<T> >::type
+      dereference(thrust::system::tbb::pointer<T> ptr);
+
+template<typename T, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::system::tbb::pointer<T> >::type
+      dereference(thrust::system::tbb::pointer<T> ptr, IndexType n);
 
 
 // cuda::pointer prototypes

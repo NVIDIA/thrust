@@ -22,6 +22,7 @@
 #include <thrust/system/cpp/detail/general_copy.h>
 #include <thrust/system/cpp/detail/trivial_copy.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 
 namespace thrust
 {
@@ -35,6 +36,15 @@ namespace copy_detail
 {
 
 
+// returns the raw pointer associated with a Pointer-like thing
+template<typename Pointer>
+  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+    get(Pointer ptr)
+{
+  return thrust::detail::pointer_traits<Pointer>::get(ptr);
+}
+
+
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator copy(InputIterator first,
@@ -45,7 +55,7 @@ template<typename InputIterator,
   typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
   const Size n = last - first;
-  thrust::system::cpp::detail::trivial_copy_n(&*first, n, &*result);
+  thrust::system::cpp::detail::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
 } // end copy()
 
@@ -69,7 +79,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::detail::true_type)  // is_trivial_copy
 {
-  return thrust::system::cpp::detail::trivial_copy_n(&*first, n, &*result);
+  return thrust::system::cpp::detail::trivial_copy_n(get(&*first), n, get(&*result));
 } // end copy_n()
 
 

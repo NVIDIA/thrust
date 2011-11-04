@@ -2,7 +2,7 @@
  *  Copyright 2008-2011 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ctbbliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -15,59 +15,45 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/system/tbb/memory.h>
 #include <thrust/system/cpp/memory.h>
-#include <thrust/detail/swap.h>
 #include <cstdlib> // for malloc & free
+#include <new>     // for std::bad_alloc
 #include <limits>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
+namespace tbb
 {
 namespace detail
 {
 
-inline thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
+inline tag select_system(tag, tag)
 {
-  void *result = std::malloc(n);
+  return tag();
+} // end select_system()
 
-  return thrust::system::cpp::pointer<void>(result);
-} // end malloc()
-
-template<typename Pointer>
-inline void free(tag, Pointer ptr)
+inline tag select_system(tag, thrust::any_space_tag)
 {
-  std::free(thrust::detail::pointer_traits<Pointer>::get(ptr));
-} // end free()
+  return tag();
+} // end select_system()
 
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-  void assign_value(tag, Pointer1 dst, Pointer2 src)
+inline tag select_system(thrust::any_space_tag, tag)
 {
-  *thrust::detail::pointer_traits<Pointer1>::get(dst)
-    = *thrust::detail::pointer_traits<Pointer2>::get(src);
-} // end assign_value()
+  return tag();
+} // end select_system()
 
-template<typename Pointer>
-__host__ __device__
-  typename thrust::iterator_value<Pointer>::type
-    get_value(tag, Pointer ptr)
+inline tbb_intersystem_tag select_system(tbb::tag, thrust::system::cpp::tag)
 {
-  return *thrust::detail::pointer_traits<Pointer>::get(ptr);
-} // end get_value()
+  return tbb_intersystem_tag();
+} // end select_system()
 
-// XXX iter_swap should be moved into thrust::system::cpp::detail
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-  void iter_swap(tag, Pointer1 a, Pointer2 b)
+inline tbb_intersystem_tag select_system(thrust::system::cpp::tag, tbb::tag)
 {
-  using thrust::swap;
-  swap(*thrust::detail::pointer_traits<Pointer1>::get(a),
-       *thrust::detail::pointer_traits<Pointer2>::get(b));
-} // end iter_swap()
+  return tbb_intersystem_tag();
+} // end select_system()
 
 } // end detail
 
@@ -96,29 +82,30 @@ void swap(reference<T> a, reference<T> b)
   a.swap(b);
 } // end swap()
 
-pointer<void> malloc(std::size_t n)
+inline pointer<void> malloc(std::size_t n)
 {
-  return thrust::system::cpp::detail::malloc(tag(), n);
+  // XXX eliminate this conversion if we decide that cpp can downcast to tbb
+  return pointer<void>(cpp::malloc(n).get());
 } // end malloc()
 
-void free(pointer<void> ptr)
+inline void free(pointer<void> ptr)
 {
-  return thrust::system::cpp::detail::free(tag(), ptr);
+  return cpp::free(ptr);
 } // end free()
 
-} // end cpp
+} // end tbb
 } // end system
 
 namespace detail
 {
 
 // XXX iterator_facade tries to instantiate the Reference
-//     type when computing the answer to is_convertible<Reference,Value>
+//     type when ctbbuting the answer to is_convertible<Reference,Value>
 //     we can't do that at that point because reference
-//     is not complete
+//     is not ctbblete
 //     WAR the problem by specializing is_convertible
 template<typename T>
-  struct is_convertible<thrust::cpp::reference<T>, T>
+  struct is_convertible<thrust::tbb::reference<T>, T>
     : thrust::detail::true_type
 {};
 
@@ -129,33 +116,32 @@ namespace backend
 template<typename> struct dereference_result;
 
 template<typename T>
-  struct dereference_result<thrust::cpp::pointer<T> >
+  struct dereference_result<thrust::tbb::pointer<T> >
 {
   typedef T& type;
 }; // end dereference_result
 
 template<typename T>
-  struct dereference_result<thrust::cpp::pointer<const T> >
+  struct dereference_result<thrust::tbb::pointer<const T> >
 {
   typedef const T& type;
 }; // end dereference_result
 
 template<typename T>
-  typename dereference_result< thrust::cpp::pointer<T> >::type
-    dereference(thrust::cpp::pointer<T> ptr)
+  typename dereference_result< thrust::tbb::pointer<T> >::type
+    dereference(thrust::tbb::pointer<T> ptr)
 {
   return *ptr.get();
 } // end dereference()
 
 template<typename T, typename IndexType>
-  typename dereference_result< thrust::cpp::pointer<T> >::type
-    dereference(thrust::cpp::pointer<T> ptr, IndexType n)
+  typename dereference_result< thrust::tbb::pointer<T> >::type
+    dereference(thrust::tbb::pointer<T> ptr, IndexType n)
 {
   return ptr.get()[n];
 } // end dereference()
 
 } // end backend
 } // end detail
-
 } // end thrust
 
