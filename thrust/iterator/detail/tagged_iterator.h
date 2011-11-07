@@ -78,6 +78,16 @@ template<typename Iterator, typename Tag>
 }; // end tagged_iterator
 
 
+// specialize is_trivial_iterator for tagged_iterator
+template<typename> struct is_trivial_iterator;
+
+// tagged_iterator is trivial if its base iterator is
+template<typename BaseIterator, typename Tag>
+  struct is_trivial_iterator<tagged_iterator<BaseIterator,Tag> >
+    : is_trivial_iterator<BaseIterator>
+{};
+
+
 namespace backend
 {
 
