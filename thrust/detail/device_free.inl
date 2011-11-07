@@ -30,6 +30,7 @@
 #include <thrust/system/cpp/memory.h>
 #include <thrust/system/omp/memory.h>
 #include <thrust/system/cuda/memory.h>
+#include <thrust/system/tbb/memory.h>
 
 namespace thrust
 {
