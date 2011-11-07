@@ -22,6 +22,31 @@
 
 namespace thrust
 {
+namespace detail
+{
+
+
+// we can retag an iterator if FromTag converts to ToTag
+// or if FromTag is a base class of ToTag
+template<typename FromTag, typename ToTag>
+  struct is_retaggable
+    : integral_constant<
+        bool,
+        (is_convertible<FromTag,ToTag>::value || is_base_of<FromTag,ToTag>::value)
+      >
+{};
+
+
+template<typename FromTag, typename ToTag, typename Result>
+  struct enable_if_retaggable
+    : enable_if<
+        is_retaggable<FromTag,ToTag>::value,
+        Result
+      >
+{}; // end enable_if_retaggable
+
+
+} // end detail
 
 
 template<typename Tag, typename Iterator>
@@ -42,7 +67,7 @@ template<typename Tag, typename BaseIterator, typename OtherTag>
 
 
 template<typename Tag, typename Iterator>
-  typename thrust::detail::enable_if_convertible<
+  typename thrust::detail::enable_if_retaggable<
     typename thrust::iterator_space<Iterator>::type,
     Tag,
     thrust::detail::tagged_iterator<Iterator,Tag>
@@ -55,7 +80,7 @@ template<typename Tag, typename Iterator>
 
 // avoid deeply-nested tagged_iterator
 template<typename Tag, typename BaseIterator, typename OtherTag>
-  typename thrust::detail::enable_if_convertible<
+  typename thrust::detail::enable_if_retaggable<
     OtherTag,
     Tag,
     thrust::detail::tagged_iterator<BaseIterator,Tag>

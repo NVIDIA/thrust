@@ -530,6 +530,41 @@ template<typename T1, typename T2>
       >
 {};
 
+
+namespace is_base_of_ns
+{
+
+typedef char                          yes;
+typedef struct { char two_chars[2]; } no;
+
+template<typename Base, typename Derived>
+  struct host
+{
+  operator Base*() const;
+  operator Derived*();
+}; // end host
+
+template<typename Base, typename Derived>
+  struct impl
+{
+  template<typename T> static yes check(Derived *, T);
+  static no check(Base*, int);
+
+  static const bool value = sizeof(check(host<Base,Derived>(), int())) == sizeof(yes);
+}; // end impl
+
+} // end is_base_of_ns
+
+
+template<typename Base, typename Derived>
+  struct is_base_of
+    : integral_constant<
+        bool,
+        is_base_of_ns::impl<Base,Derived>::value
+      >
+{};
+
+
 } // end detail
 
 } // end thrust
