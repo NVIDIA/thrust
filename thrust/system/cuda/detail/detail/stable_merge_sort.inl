@@ -39,7 +39,6 @@
 #include <thrust/system/cuda/detail/block/merging_sort.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -1234,7 +1233,7 @@ template<typename RandomAccessIterator1,
 
   using namespace thrust::detail;
 
-  typedef thrust::cuda::tag space;
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
 
   temporary_array<KeyType,      space>      splitters(num_splitters);
   temporary_array<unsigned int, space>      splitters_pos(num_splitters);
@@ -1429,15 +1428,16 @@ template<typename RandomAccessIterator1,
      grid_size, block_size);
 
   // allocate scratch space
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
   using namespace thrust::detail;
-  temporary_array<KeyType,   cuda::tag> temp_keys(n);
-  temporary_array<ValueType, cuda::tag> temp_vals(n);
+  temporary_array<KeyType,   space> temp_keys(n);
+  temporary_array<ValueType, space> temp_vals(n);
 
   // give iterators simpler names
   RandomAccessIterator1 keys0 = keys_first;
   RandomAccessIterator2 vals0 = values_first;
-  typename temporary_array<KeyType,   cuda::tag>::iterator keys1 = temp_keys.begin();
-  typename temporary_array<ValueType, cuda::tag>::iterator vals1 = temp_vals.begin();
+  typename temporary_array<KeyType,   space>::iterator keys1 = temp_keys.begin();
+  typename temporary_array<ValueType, space>::iterator vals1 = temp_vals.begin();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.

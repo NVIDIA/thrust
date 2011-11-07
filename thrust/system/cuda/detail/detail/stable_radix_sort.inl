@@ -27,7 +27,6 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
-#include <thrust/system/cuda/detail/tag.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -50,7 +49,7 @@ template<typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
-    typedef thrust::cuda::tag space;
+    typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
     typedef typename thrust::iterator_value<RandomAccessIterator>::type K;
     
     unsigned int num_elements = last - first;
@@ -102,7 +101,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator2 first2,
                               thrust::detail::true_type)
 {
-    typedef thrust::cuda::tag space;
+    typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type K;
     typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
     
@@ -163,7 +162,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator2 first2,
                               thrust::detail::false_type)
 {
-    typedef thrust::cuda::tag space;
+    typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
     typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
     
     unsigned int num_elements = last1 - first1;
