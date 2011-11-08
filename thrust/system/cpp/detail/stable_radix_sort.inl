@@ -18,13 +18,11 @@
 #include <limits>
 
 #include <thrust/copy.h>
-#include <thrust/host_vector.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
-
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/cstdint.h>
-#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -200,9 +198,27 @@ void radix_sort(RandomAccessIterator1 keys1,
         {
           const EncodedType x = encode(keys2[j]);
           size_t position = histograms[i][(x >> BitShift) & BitMask]++;
-          keys1[position] = keys2[j];
+
+          RandomAccessIterator1 temp_keys1 = keys1;
+          temp_keys1 += position;
+
+          RandomAccessIterator2 temp_keys2 = keys2;
+          temp_keys2 += j;
+
+          // keys1[position] = keys2[j]
+          thrust::detail::backend::dereference(temp_keys1) = thrust::detail::backend::dereference(temp_keys2);
+
           if (HasValues)
-            vals1[position] = vals2[j];
+          {
+            RandomAccessIterator3 temp_vals1 = vals1;
+            temp_vals1 += position;
+
+            RandomAccessIterator4 temp_vals2 = vals2;
+            temp_vals2 += j;
+
+            // vals1[position] = vals2[j]
+            thrust::detail::backend::dereference(temp_vals1) = thrust::detail::backend::dereference(temp_vals2);
+          }
         }
       }
       else
@@ -211,9 +227,27 @@ void radix_sort(RandomAccessIterator1 keys1,
         {
           const EncodedType x = encode(keys1[j]);
           size_t position = histograms[i][(x >> BitShift) & BitMask]++;
-          keys2[position] = keys1[j];
+
+          RandomAccessIterator1 temp_keys1 = keys1;
+          temp_keys1 += j;
+
+          RandomAccessIterator2 temp_keys2 = keys2;
+          temp_keys2 += position;
+
+          // keys2[position] = keys1[j];
+          thrust::detail::backend::dereference(temp_keys2) = thrust::detail::backend::dereference(temp_keys1);
+
           if (HasValues)
-            vals2[position] = vals1[j];
+          {
+            RandomAccessIterator3 temp_vals1 = vals1;
+            temp_vals1 += j;
+
+            RandomAccessIterator4 temp_vals2 = vals2;
+            temp_vals2 += position;
+
+            // vals2[position] = vals1[j]
+            thrust::detail::backend::dereference(temp_vals2) = thrust::detail::backend::dereference(temp_vals1);
+          }
         }
       }
         
@@ -350,11 +384,12 @@ template <typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
 
   size_t N = last - first;
   
-  thrust::detail::temporary_array<KeyType, thrust::cpp::tag> temp(N);
+  thrust::detail::temporary_array<KeyType, space> temp(N);
   
   detail::radix_sort(first, temp.begin(), N);
 }
@@ -370,14 +405,16 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2)
 {
+  // XXX the type of space should be
+  //     typedef decltype(select_space(first1,last1,first2)) space;
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
 
   size_t N = last1 - first1;
   
-  thrust::detail::temporary_array<KeyType, thrust::cpp::tag> temp1(N);
-  // XXX why is host_vector used here?
-  thrust::host_vector<ValueType>                                 temp2(N);
+  thrust::detail::temporary_array<KeyType, space>   temp1(N);
+  thrust::detail::temporary_array<ValueType, space> temp2(N);
 
   detail::radix_sort(first1, temp1.begin(), first2, temp2.begin(), N);
 }
