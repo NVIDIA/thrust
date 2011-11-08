@@ -25,51 +25,59 @@ struct cached_allocator
   {
     void *result = 0;
 
-    // search the cache for a free block
-    free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
-
-    if(free_block != free_blocks.end())
+    // XXX omp critical will have to do in the absence of std::mutex
+    #pragma omp critical
     {
-      std::cout << "cached_allocator::allocator(): found a hit" << std::endl;
+      // search the cache for a free block
+      free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
 
-      // get the pointer
-      result = free_block->second;
-
-      // erase from the free_blocks map
-      free_blocks.erase(free_block);
-    }
-    else
-    {
-      // no allocation of the right size exists
-      // create a new one with device_malloc
-      // throw if device_malloc can't satisfy the request
-      try
+      if(free_block != free_blocks.end())
       {
-        std::cout << "cached_allocator::allocator(): no free block found; calling device_malloc" << std::endl;
+        std::cout << "cached_allocator::allocator(): found a hit" << std::endl;
 
-        result = thrust::device_malloc(num_bytes).get();
+        // get the pointer
+        result = free_block->second;
+
+        // erase from the free_blocks map
+        free_blocks.erase(free_block);
       }
-      catch(std::runtime_error &e)
+      else
       {
-        throw;
-      }
-    }
+        // no allocation of the right size exists
+        // create a new one with device_malloc
+        // throw if device_malloc can't satisfy the request
+        try
+        {
+          std::cout << "cached_allocator::allocator(): no free block found; calling device_malloc" << std::endl;
 
-    // insert the allocated pointer into the allocated_blocks map
-    allocated_blocks.insert(std::make_pair(result, num_bytes));
+          result = thrust::device_malloc(num_bytes).get();
+        }
+        catch(std::runtime_error &e)
+        {
+          throw;
+        }
+      }
+
+      // insert the allocated pointer into the allocated_blocks map
+      allocated_blocks.insert(std::make_pair(result, num_bytes));
+    }
 
     return result;
   }
 
   void deallocate(void *ptr)
   {
-    // erase the allocated block from the allocated blocks map
-    allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
-    std::ptrdiff_t num_bytes = iter->second;
-    allocated_blocks.erase(iter);
+    // XXX omp critical will have to do in the absence of std::mutex
+    #pragma omp critical
+    {
+      // erase the allocated block from the allocated blocks map
+      allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
+      std::ptrdiff_t num_bytes = iter->second;
+      allocated_blocks.erase(iter);
 
-    // insert the block into the free blocks map
-    free_blocks.insert(std::make_pair(num_bytes, ptr));
+      // insert the block into the free blocks map
+      free_blocks.insert(std::make_pair(num_bytes, ptr));
+    }
   }
 
   void free_all()
