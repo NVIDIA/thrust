@@ -25,8 +25,10 @@ struct cached_allocator
   {
     void *result = 0;
 
-    // XXX omp critical will have to do in the absence of std::mutex
+    // XXX omp critical will have to do in the absence of std::mutex or thread_local below
+    #if _OPENMP
     #pragma omp critical
+    #endif // _OPENMP
     {
       // search the cache for a free block
       free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
@@ -67,8 +69,10 @@ struct cached_allocator
 
   void deallocate(void *ptr)
   {
-    // XXX omp critical will have to do in the absence of std::mutex
+    // XXX omp critical will have to do in the absence of std::mutex or thread_local below
+    #if _OPENMP
     #pragma omp critical
+    #endif // _OPENMP
     {
       // erase the allocated block from the allocated blocks map
       allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
@@ -111,6 +115,7 @@ struct cached_allocator
 
 
 // the cache is simply a global variable
+// XXX ideally this variable is declared thread_local
 cached_allocator g_allocator;
 
 
