@@ -16,39 +16,12 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
+// reserve 0 for undefined
+#define THRUST_HOST_BACKEND_CPP    1
+#define THRUST_HOST_BACKEND_OMP    2
+#define THRUST_HOST_BACKEND_TBB    3
 
-#if THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
-#include <thrust/system/cpp/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::cpp::tag host_space_tag;
-
-} // end thrust
-
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
-#include <thrust/system/omp/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::omp::tag host_space_tag;
-
-} // end thrust
-
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
-#include <thrust/system/tbb/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::tbb::tag host_space_tag;
-
-} // end thrust
-
-#else
-#error Unknown host backend.
+#ifndef THRUST_HOST_BACKEND
+#define THRUST_HOST_BACKEND THRUST_HOST_BACKEND_CPP
 #endif // THRUST_HOST_BACKEND
 

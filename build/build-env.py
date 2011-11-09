@@ -63,13 +63,13 @@ gCompilerOptions = {
 # this dictionary maps the name of a linker program to a dictionary mapping the name of
 # a linker switch of interest to the specific switch implementing the feature
 gLinkerOptions = {
-    'gcc'   : {'debug' : '', 'tbb' : '-ltbb'},
-    'g++'   : {'debug' : '', 'tbb' : '-ltbb'},
-    'link'  : {'debug' : '/debug'}
+    'gcc'   : {'debug' : ''},
+    'g++'   : {'debug' : ''},
+    'link'  : {'debug' : '/debug' }
   }
 
 
-def getCFLAGS(mode, backend, warn, warnings_as_errors, CC):
+def getCFLAGS(mode, host_backend, backend, warn, warnings_as_errors, CC):
   result = []
   if mode == 'release':
     # turn on optimization
@@ -83,7 +83,7 @@ def getCFLAGS(mode, backend, warn, warnings_as_errors, CC):
     result.append('-m32')
 
   # generate omp code
-  if backend == 'omp':
+  if host_backend == 'omp' or backend == 'omp':
     result.append(gCompilerOptions[CC]['omp'])
 
   if warn:
@@ -97,7 +97,7 @@ def getCFLAGS(mode, backend, warn, warnings_as_errors, CC):
   return result
 
 
-def getCXXFLAGS(mode, backend, warn, warnings_as_errors, CXX):
+def getCXXFLAGS(mode, host_backend, backend, warn, warnings_as_errors, CXX):
   result = []
   if mode == 'release':
     # turn on optimization
@@ -112,7 +112,7 @@ def getCXXFLAGS(mode, backend, warn, warnings_as_errors, CXX):
     result.append('-m32')
 
   # generate omp code
-  if backend == 'omp':
+  if host_backend == 'omp' or backend == 'omp':
     result.append(gCompilerOptions[CXX]['omp'])
 
   if warn:
@@ -126,7 +126,7 @@ def getCXXFLAGS(mode, backend, warn, warnings_as_errors, CXX):
   return result
 
 
-def getNVCCFLAGS(mode, backend, arch):
+def getNVCCFLAGS(mode, host_backend, backend, arch):
   result = ['-arch=' + arch]
   if mode == 'debug':
     # turn on debug mode
@@ -136,7 +136,7 @@ def getNVCCFLAGS(mode, backend, arch):
   return result
 
 
-def getLINKFLAGS(mode, backend, LINK):
+def getLINKFLAGS(mode, host_backend, backend, LINK):
   result = []
   if mode == 'debug':
     # turn on debug mode
@@ -148,9 +148,6 @@ def getLINKFLAGS(mode, backend, LINK):
   # XXX make this portable
   if backend == 'ocelot':
     result.append(os.popen('OcelotConfig -l').read().split())
-
-  if backend == 'tbb':
-    result.append(gLinkerOptions[LINK]['tbb'])
 
   return result
 
@@ -165,6 +162,11 @@ def Environment():
   backend_variable = EnumVariable('backend', 'The parallel device backend to target', 'cuda',
                                   allowed_values = ('cuda', 'omp', 'ocelot', 'tbb'))
   vars.Add(backend_variable)
+
+  # add a variable to handle the host backend
+  host_backend_variable = EnumVariable('host_backend', 'The host backend to target', 'cpp',
+                                       allowed_values = ('cpp', 'omp', 'tbb'))
+  vars.Add(host_backend_variable)
 
   # add a variable to handle RELEASE/DEBUG mode
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
@@ -197,22 +199,27 @@ def Environment():
   # enable nvcc
   env.Tool('nvcc', toolpath = [os.path.join(thisDir)])
 
-  # get the preprocessor define to use for the backend
+  # get the preprocessor define to use for the device backend
   backend_define = { 'cuda' : 'THRUST_DEVICE_BACKEND_CUDA', 'omp' : 'THRUST_DEVICE_BACKEND_OMP', 'ocelot' : 'THRUST_DEVICE_BACKEND_CUDA', 'tbb' : 'THRUST_DEVICE_BACKEND_TBB' }[env['backend']] 
-  env.Append(CFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
+  env.Append(CFLAGS   = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
   env.Append(CXXFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
 
+  # get the preprocessor define to use for the host backend
+  host_backend_define = { 'cpp' : 'THRUST_HOST_BACKEND_CPP', 'omp' : 'THRUST_HOST_BACKEND_OMP', 'tbb' : 'THRUST_HOST_BACKEND_TBB' }[env['host_backend']] 
+  env.Append(CFLAGS   = ['-DTHRUST_HOST_BACKEND=%s' % host_backend_define])
+  env.Append(CXXFLAGS = ['-DTHRUST_HOST_BACKEND=%s' % host_backend_define])
+
   # get C compiler switches
-  env.Append(CFLAGS = getCFLAGS(env['mode'], env['backend'], env['Wall'], env['Werror'], env.subst('$CC')))
+  env.Append(CFLAGS = getCFLAGS(env['mode'], env['host_backend'], env['backend'], env['Wall'], env['Werror'], env.subst('$CC')))
 
   # get CXX compiler switches
-  env.Append(CXXFLAGS = getCXXFLAGS(env['mode'], env['backend'], env['Wall'], env['Werror'], env.subst('$CXX')))
+  env.Append(CXXFLAGS = getCXXFLAGS(env['mode'], env['host_backend'], env['backend'], env['Wall'], env['Werror'], env.subst('$CXX')))
 
   # get NVCC compiler switches
-  env.Append(NVCCFLAGS = getNVCCFLAGS(env['mode'], env['backend'], env['arch']))
+  env.Append(NVCCFLAGS = getNVCCFLAGS(env['mode'], env['host_backend'], env['backend'], env['arch']))
 
   # get linker switches
-  env.Append(LINKFLAGS = getLINKFLAGS(env['mode'], env['backend'], env.subst('$LINK')))
+  env.Append(LINKFLAGS = getLINKFLAGS(env['mode'], env['host_backend'], env['backend'], env.subst('$LINK')))
    
   # get CUDA paths
   (cuda_exe_path,cuda_lib_path,cuda_inc_path) = get_cuda_paths()
@@ -230,13 +237,20 @@ def Environment():
       env.Append(LIBPATH = ['/usr/local/lib'])
     else:
       raise ValueError, "Unknown OS.  What is the Ocelot library path?"
-  elif env['backend'] == 'omp':
+
+  if env['host_backend'] == 'omp' or env['backend'] == 'omp':
     if os.name == 'posix':
       env.Append(LIBS = ['gomp'])
     elif os.name == 'nt':
       env.Append(LIBS = ['VCOMP'])
     else:
       raise ValueError, "Unknown OS.  What is the name of the OpenMP library?"
+
+  if env['host_backend'] == 'tbb' or env['backend'] == 'tbb':
+    if os.name == 'posix':
+      env.Append(LIBS = ['tbb'])
+    else:
+      raise ValueError, "Unkown OS.  What is the name of the TBB library?"
 
   # set thrust include path
   # this needs to come before the CUDA include path appended above,
