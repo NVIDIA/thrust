@@ -21,11 +21,10 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/device_reference.h>
-#include <thrust/detail/device_memory.h>
 
 // XXX make the device backend-specific version of the memory protocol available
 // XXX try to eliminate the need for this
-#include <thrust/detail/device_memory.h>
+#include <thrust/system/detail/internal/entry/memory.h>
 
 namespace thrust
 {
@@ -52,7 +51,7 @@ namespace detail
 
 // XXX iterator_facade tries to instantiate the Reference
 //     type when computing the answer to is_convertible<Reference,Value>
-//     we can't do that at that point because cuda_reference
+//     we can't do that at that point because device_reference
 //     is not complete
 //     WAR the problem by specializing is_convertible
 template<typename T>

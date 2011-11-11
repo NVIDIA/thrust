@@ -18,19 +18,24 @@
 
 #include <thrust/detail/config.h>
 
-// #include the memory.h header of the device backend
+#if   THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
+#include <thrust/system/cpp/memory.h>
+#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
+// omp has no special memory entry points
+#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
+// tbb has no special memory entry points
+#else
+#error "Unknown host backend."
+#endif // THRUST_HOST_BACKEND
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 
+#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
 #include <thrust/system/cuda/memory.h>
-
-#elif THRUST_DEVICE_BACKEND_CUDA == THRUST_DEVICE_BACKEND_OMP
-
-#include <thrust/system/omp/memory.h>
-
-#elif THRUST_DEVICE_BACKEND_CUDA == THRUST_DEVICE_BACKEND_TBB
-
-#include <thrust/system/tbb/memory.h>
-
+#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
+// omp has no special memory entry points
+#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_TBB
+// tbb has no special memory entry points
+#else
+#error "Unknown device backend."
 #endif // THRUST_DEVICE_BACKEND
 
