@@ -24,12 +24,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/sort.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/sort.h>
-#include <thrust/system/omp/detail/sort.h>
-#include <thrust/system/cuda/detail/sort.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/sort.h>
 
 namespace thrust
 {

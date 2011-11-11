@@ -20,9 +20,11 @@
  */
 
 #include <thrust/generate.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/inner_product.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/inner_product.h>
 
 namespace thrust
 {

@@ -23,11 +23,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/find.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/find.h>
-#include <thrust/system/omp/detail/find.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/find.h>
 
 namespace thrust
 {

@@ -21,9 +21,11 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/sequence.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/sequence.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/sequence.h>
 
 namespace thrust
 {

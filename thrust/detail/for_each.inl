@@ -22,16 +22,10 @@
 #include <thrust/detail/config.h>
 #include <thrust/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/for_each.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/for_each.h>
-#include <thrust/system/omp/detail/for_each.h>
-#include <thrust/system/cuda/detail/for_each.h>
-#include <thrust/system/tbb/detail/for_each.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/for_each.h>
 
 namespace thrust
 {

@@ -28,9 +28,7 @@
 // XXX make the backend-specific versions available
 // XXX try to eliminate the need for these
 #include <thrust/system/cpp/memory.h>
-#include <thrust/system/omp/memory.h>
 #include <thrust/system/cuda/memory.h>
-#include <thrust/system/tbb/memory.h>
 
 namespace thrust
 {

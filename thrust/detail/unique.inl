@@ -19,20 +19,15 @@
  *  \brief Inline file for unique.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/unique.h>
-#include <thrust/unique.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/unique.h>
 #include <thrust/system/detail/generic/unique_by_key.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions of unique available
-#include <thrust/system/cpp/detail/unique.h>
-#include <thrust/system/omp/detail/unique.h>
-
-// XXX make the backend-specific versions of unique_by_key available
-#include <thrust/system/cpp/detail/unique_by_key.h>
-#include <thrust/system/omp/detail/unique_by_key.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/unique.h>
+#include <thrust/system/detail/internal/entry/unique_by_key.h>
 
 namespace thrust
 {

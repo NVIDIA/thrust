@@ -22,10 +22,11 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/mismatch.h>
-
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/mismatch.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/mismatch.h>
 
 namespace thrust
 {

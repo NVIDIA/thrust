@@ -286,16 +286,6 @@ template<typename Element, typename Pointer, typename Derived>
   return static_cast<derived_type&>(*this);
 } // end reference_base::operator^=()
 
-// XXX iterator_facade tries to instantiate the Reference
-//     type when computing the answer to is_convertible<Reference,Value>
-//     we can't do that at that point because reference
-//     is not complete
-//     WAR the problem by specializing is_convertible
-template<typename Element, typename Pointer, typename Derived>
-  struct is_convertible<reference_base<Element,Pointer,Derived>, Element>
-    : thrust::detail::true_type
-{};
-
   
 } // end detail
 } // end thrust

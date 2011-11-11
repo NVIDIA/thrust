@@ -15,23 +15,20 @@
  */
 
 #include <thrust/detail/config.h>
-
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>
-
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
-
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/decompose.h>
-
 #include <thrust/scan.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
-#include <thrust/system/cuda/detail/reduce_intervals.h>
+#include <thrust/system/detail/internal/reduce_intervals.h>
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/tag.h>
+#include <thrust/functional.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN

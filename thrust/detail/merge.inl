@@ -19,14 +19,11 @@
  */
 
 #include <thrust/merge.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/merge.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions of reduce available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/merge.h>
-#include <thrust/system/cuda/detail/merge.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/merge.h>
 
 namespace thrust
 {

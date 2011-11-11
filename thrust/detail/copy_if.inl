@@ -16,15 +16,11 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy_if.h>
-#include <thrust/system/detail/generic/select_system.h>
-#include <thrust/system/detail/generic/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions of copy_if available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/copy_if.h>
-#include <thrust/system/omp/detail/copy_if.h>
-#include <thrust/system/cuda/detail/copy_if.h>
+#include <thrust/system/detail/generic/copy_if.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/internal/entry/copy_if.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
 
 namespace thrust
 {

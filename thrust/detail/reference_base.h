@@ -20,6 +20,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/use_default.h>
+#include <thrust/detail/reference_base_forward_declaration.h>
 
 namespace thrust
 {

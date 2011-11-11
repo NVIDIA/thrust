@@ -45,7 +45,7 @@ template<typename Pointer>
   typename thrust::detail::pointer_traits<Pointer>::raw_pointer
     raw_pointer_cast(const Pointer &ptr)
 {
-  return thrust::detail::pointer_traits<Pointer>::get(ptr);
+  return thrust::detail::raw_pointer_cast(ptr);
 } // end raw_pointer_cast()
 
 

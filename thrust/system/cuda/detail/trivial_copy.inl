@@ -21,12 +21,11 @@
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda_error.h>
-
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 
 namespace thrust
 {
@@ -103,6 +102,20 @@ template<typename SrcSpace,
       >::type
 {};
 
+
+namespace trivial_copy_detail
+{
+
+template<typename Pointer>
+  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+    get(Pointer ptr)
+{
+  return thrust::detail::pointer_traits<Pointer>::get(ptr);
+} // end get()
+
+} // end trivial_copy_detail
+
+
 } // end namespace detail
 
 
@@ -118,8 +131,8 @@ template<typename RandomAccessIterator1,
   typedef typename thrust::iterator_space<RandomAccessIterator1>::type SrcSpace;
   typedef typename thrust::iterator_space<RandomAccessIterator2>::type DstSpace;
 
-  void *dst = thrust::raw_pointer_cast(&*result);
-  const void *src = thrust::raw_pointer_cast(&*first);
+  void *dst = detail::trivial_copy_detail::get(&*result);
+  const void *src = detail::trivial_copy_detail::get(&*first);
 
   detail::checked_cudaMemcpy(dst, src, n * sizeof(T), detail::cuda_memcpy_kind<SrcSpace, DstSpace>::value);
 }

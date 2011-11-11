@@ -22,14 +22,10 @@
 #include <thrust/detail/config.h>
 #include <thrust/binary_search.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/binary_search.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/binary_search.h>
-#include <thrust/system/omp/detail/binary_search.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/binary_search.h>
 
 namespace thrust
 {

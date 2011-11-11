@@ -16,6 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/copy_cross_space.h>
+#include <thrust/copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>

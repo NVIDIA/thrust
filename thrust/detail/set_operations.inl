@@ -19,14 +19,11 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/set_operations.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions of the set operations available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/set_operations.h>
-#include <thrust/system/cuda/detail/set_operations.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/set_operations.h>
 
 namespace thrust
 {

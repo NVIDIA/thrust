@@ -20,13 +20,11 @@
  */
 
 #include <thrust/fill.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/fill.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cuda/detail/fill.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/fill.h>
 
 namespace thrust
 {

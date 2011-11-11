@@ -19,13 +19,8 @@
 #include <thrust/detail/copy.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/copy.h>
-
-// XXX make the backend-specific versions of copy available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/copy.h>
-#include <thrust/system/omp/detail/copy.h>
-#include <thrust/system/cuda/detail/copy.h>
-#include <thrust/system/tbb/detail/copy.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/copy.h>
 
 namespace thrust
 {

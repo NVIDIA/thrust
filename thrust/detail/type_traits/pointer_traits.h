@@ -247,6 +247,17 @@ template<typename FromPtr, typename ToPtr, typename T = void>
       >
 {};
 
+// overload raw_pointer_cast in this namespace
+// so that we don't need to #include <thrust/device_ptr.h> (which is heavy weight)
+// to make raw_pointer_cast available elsewhere
+template<typename Pointer>
+  inline __host__ __device__ typename pointer_traits<Pointer>::raw_pointer
+    raw_pointer_cast(Pointer ptr)
+{
+  return pointer_traits<Pointer>::get(ptr);
+} // end raw_pointer_cast()
+
+
 } // end detail
 } // end thrust
 

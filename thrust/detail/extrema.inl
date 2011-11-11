@@ -18,14 +18,10 @@
 #include <thrust/detail/config.h>
 #include <thrust/extrema.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/extrema.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/extrema.h>
-#include <thrust/system/omp/detail/extrema.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/extrema.h>
 
 namespace thrust
 {

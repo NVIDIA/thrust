@@ -21,19 +21,13 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/scan.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/scan.h>
 #include <thrust/system/detail/generic/scan_by_key.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions of scan available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/scan.h>
-#include <thrust/system/cuda/detail/scan.h>
-
-// XXX make the backend-specific versions of scan_by_key available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/scan_by_key.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/scan.h>
+#include <thrust/system/detail/internal/entry/scan_by_key.h>
 
 namespace thrust
 {

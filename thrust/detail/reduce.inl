@@ -20,22 +20,13 @@
  */
 
 #include <thrust/reduce.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/reduce.h>
 #include <thrust/system/detail/generic/reduce_by_key.h>
-#include <thrust/iterator/iterator_traits.h>
-
-// XXX make the backend-specific versions of reduce available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/reduce.h>
-#include <thrust/system/omp/detail/reduce.h>
-#include <thrust/system/cuda/detail/reduce.h>
-
-// XXX make the backend-specific versions of reduce_by_key available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/reduce_by_key.h>
-#include <thrust/system/omp/detail/reduce_by_key.h>
-#include <thrust/system/cuda/detail/reduce_by_key.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/reduce.h>
+#include <thrust/system/detail/internal/entry/reduce_by_key.h>
 
 namespace thrust
 {

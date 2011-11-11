@@ -22,12 +22,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/adjacent_difference.h>
-
-// XXX make the backend-specific versions available
-// XXX try to eliminate the need for these
-#include <thrust/system/cpp/detail/adjacent_difference.h>
-#include <thrust/system/omp/detail/adjacent_difference.h>
-#include <thrust/system/cuda/detail/adjacent_difference.h>
+#include <thrust/system/detail/internal/entry/select_system.h>
+#include <thrust/system/detail/internal/entry/adjacent_difference.h>
 
 namespace thrust
 {

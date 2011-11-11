@@ -21,6 +21,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/reference_base_forward_declaration.h>
 #include <ostream>
 
 namespace thrust
@@ -30,8 +31,6 @@ namespace detail
 
 // declare pointer_base and reference_base with default values of template parameters
 template<typename Element, typename Space, typename Reference = use_default, typename Derived = use_default> class pointer_base;
-
-template<typename Element, typename Pointer, typename Derived = use_default> class reference_base;
 
 // this metafunction computes the type of iterator_adaptor pointer_base should inherit from
 template<typename Element, typename Space, typename Reference, typename Derived>

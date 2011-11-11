@@ -20,6 +20,7 @@
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {

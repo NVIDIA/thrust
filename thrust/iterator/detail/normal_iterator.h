@@ -23,10 +23,9 @@
 #pragma once
 
 #include <thrust/iterator/iterator_adaptor.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/is_trivial_iterator.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/device_ptr.h>
 
 namespace thrust
 {
