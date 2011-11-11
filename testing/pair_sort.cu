@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/pair.h>
 #include <thrust/sort.h>
+#include <thrust/sequence.h>
 
 struct make_pair_functor
 {
