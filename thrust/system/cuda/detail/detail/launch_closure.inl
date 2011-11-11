@@ -16,13 +16,21 @@
 
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/arch.h>
-#include <thrust/system/cuda/memory.h>
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 
 namespace thrust
 {
+namespace detail
+{
+
+// XXX WAR circular inclusion problems with this forward declaration
+template<typename, typename> class temporary_array;
+
+} // end detail
+
 namespace system
 {
 namespace cuda
@@ -93,23 +101,13 @@ template<typename Closure>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    // allocate device memory for the argument
-    // XXX need to use temporary_array here
-    thrust::cuda::pointer<void> temp_ptr = thrust::cuda::malloc(sizeof(Closure));
-
-    // cast to Closure *
-    // XXX this should be placement new, not assign
-    thrust::cuda::pointer<Closure> f_ptr(reinterpret_cast<Closure*>(temp_ptr.get()));
-
-    // copy
-    *f_ptr = f;
+    // use temporary storage for the closure
+    // XXX use of cuda::tag is too specific here
+    thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(&f, &f + 1);
 
     // launch
-    detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f_ptr.get());
+    detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
     synchronize_if_enabled("launch_closure_by_pointer");
-
-    // free device memory
-    thrust::cuda::free(f_ptr);
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
