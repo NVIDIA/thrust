@@ -27,11 +27,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 
@@ -62,10 +62,10 @@ template<typename InputIterator,
                           Predicate pred);
 
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
 
-#include <thrust/detail/backend/omp/partition.inl>
+#include <thrust/system/omp/detail/partition.inl>
 

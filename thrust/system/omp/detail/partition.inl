@@ -22,16 +22,16 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/omp/partition.h>
-#include <thrust/detail/backend/generic/partition.h>
+#include <thrust/system/omp/detail/partition.h>
+#include <thrust/system/detail/generic/partition.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace omp
+{
+namespace detail
 {
 
 
@@ -43,7 +43,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // omp prefers generic::partition to cpp::partition
-  return thrust::detail::backend::generic::partition(tag(), first, last, pred);
+  return thrust::system::detail::generic::partition(tag(), first, last, pred);
 } // end partition()
 
 
@@ -54,8 +54,8 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  // omp prefers generic::stable_partition to cpp::partition
-  return thrust::detail::backend::generic::partition(tag(), first, last, pred);
+  // omp prefers generic::stable_partition to cpp::stable_partition
+  return thrust::system::detail::generic::stable_partition(tag(), first, last, pred);
 } // end stable_partition()
 
 
@@ -72,14 +72,12 @@ template<typename InputIterator,
                           Predicate pred)
 {
   // omp prefers generic::stable_partition_copy to cpp::stable_partition_copy
-  return thrust::detail::backend::generic::stable_partition_copy(tag(), first, last, out_true, out_false, pred);
+  return thrust::system::detail::generic::stable_partition_copy(tag(), first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
-} // end namespace omp
-} // end namespace backend
 } // end namespace detail
+} // end namespace omp
+} // end namespace system
 } // end namespace thrust
-
-#include <thrust/detail/backend/omp/partition.inl>
 
