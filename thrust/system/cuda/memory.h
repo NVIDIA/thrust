@@ -185,3 +185,6 @@ using thrust::system::cuda::allocator;
 
 #include <thrust/system/cuda/detail/memory.inl>
 
+// make the backend's entry points available to dispatch
+#include <thrust/system/cuda/detail/algorithm.h>
+
