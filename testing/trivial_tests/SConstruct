@@ -46,7 +46,12 @@ env.Append(BUILDERS = {'CPPFile' : cpp_from_header_builder})
 extensions = ['.h']
 folders = ['',              # main folder
            'iterator/',
-           'experimental/']
+           'experimental/'
+           'system/',
+           'system/cpp',
+           'system/cuda',
+           'system/omp',
+           'system/tbb']
 
 sources = []
 
@@ -59,8 +64,10 @@ for folder in folders:
       header_fullpaths.append(fullpath)
       headerfilename = os.path.basename(fullpath)
 
-      cu  = env.CUFile(headerfilename.replace('.h', '.cu'), fullpath)
-      cpp = env.CPPFile(headerfilename.replace('.h', '_cpp.cpp'), fullpath)
+      sourcefilename = fullpath.replace('/', '_').replace('\\', '_').replace('.h', '.ext')
+
+      cu  = env.CUFile(sourcefilename.replace('.ext', '.cu'), fullpath)
+      cpp = env.CPPFile(sourcefilename.replace('.ext', '_cpp.cpp'), fullpath)
 
       sources.append(cu)
       sources.append(cpp)
