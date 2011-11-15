@@ -16,13 +16,10 @@
 
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/memory.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/swap.h>
-#include <iostream>
-
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/adl_helper.h>
 
 namespace thrust
 {

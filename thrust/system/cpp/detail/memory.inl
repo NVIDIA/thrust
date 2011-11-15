@@ -17,8 +17,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/detail/malloc_and_free.h>
 #include <thrust/detail/swap.h>
-#include <cstdlib> // for malloc & free
 #include <limits>
 
 namespace thrust
@@ -29,19 +29,6 @@ namespace cpp
 {
 namespace detail
 {
-
-inline thrust::system::cpp::pointer<void> malloc(tag, std::size_t n)
-{
-  void *result = std::malloc(n);
-
-  return thrust::system::cpp::pointer<void>(result);
-} // end malloc()
-
-template<typename Pointer>
-inline void free(tag, Pointer ptr)
-{
-  std::free(thrust::detail::pointer_traits<Pointer>::get(ptr));
-} // end free()
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
@@ -98,7 +85,7 @@ void swap(reference<T> a, reference<T> b)
 
 pointer<void> malloc(std::size_t n)
 {
-  return thrust::system::cpp::detail::malloc(tag(), n);
+  return pointer<void>(thrust::system::cpp::detail::malloc(tag(), n));
 } // end malloc()
 
 void free(pointer<void> ptr)

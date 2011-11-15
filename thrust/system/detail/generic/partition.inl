@@ -22,6 +22,7 @@
 #include <thrust/remove.h>
 #include <thrust/count.h>
 #include <thrust/advance.h>
+#include <thrust/partition.h>
 #include <thrust/sort.h>
 #include <thrust/iterator/transform_iterator.h>
 

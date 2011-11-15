@@ -16,13 +16,10 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/memory.h>
-#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
+#include <thrust/system/cuda/detail/malloc_and_free.h>
 #include <thrust/detail/copy.h>
 #include <thrust/swap.h>
 #include <limits>
-#include <thrust/system/system_error.h>
-#include <thrust/system/cuda_error.h>
-#include <thrust/system/detail/bad_alloc.h>
 
 namespace thrust
 {
@@ -32,31 +29,6 @@ namespace cuda
 {
 namespace detail
 {
-
-inline thrust::system::cuda::pointer<void> malloc(tag, std::size_t n)
-{
-  void *result = 0;
-
-  cudaError_t error = cudaMalloc(reinterpret_cast<void**>(&result), n);
-
-  if(error)
-  {
-    throw thrust::system::detail::bad_alloc(thrust::system::cuda_category().message(error).c_str());
-  } // end if
-
-  return thrust::system::cuda::pointer<void>(result);
-} // end malloc()
-
-template<typename Pointer>
-inline void free(tag, Pointer ptr)
-{
-  cudaError_t error = cudaFree(thrust::detail::pointer_traits<Pointer>::get(ptr));
-
-  if(error)
-  {
-    throw thrust::system_error(error, thrust::cuda_category());
-  } // end error
-} // end free()
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
@@ -186,7 +158,7 @@ void swap(reference<T> a, reference<T> b)
 
 pointer<void> malloc(std::size_t n)
 {
-  return thrust::system::cuda::detail::malloc(tag(), n);
+  return pointer<void>(thrust::system::cuda::detail::malloc(tag(), n));
 } // end malloc()
 
 void free(pointer<void> ptr)

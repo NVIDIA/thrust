@@ -20,6 +20,7 @@
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/bad_alloc.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/malloc_and_free_adl_helper.h>
 
 namespace thrust
 {

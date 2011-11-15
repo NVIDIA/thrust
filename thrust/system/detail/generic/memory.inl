@@ -19,6 +19,7 @@
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/detail/static_assert.h>
+#include <thrust/detail/malloc_and_free_adl_helper.h>
 
 namespace thrust
 {

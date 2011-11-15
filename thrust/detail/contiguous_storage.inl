@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/contiguous_storage.h>
-#include <thrust/swap.h>
+#include <thrust/detail/swap.h>
 #include <utility> // for use of std::swap in the WAR below
 
 namespace thrust

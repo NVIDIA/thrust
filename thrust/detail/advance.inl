@@ -21,9 +21,10 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/advance.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/advance.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/adl_helper.h>
 
 namespace thrust
 {

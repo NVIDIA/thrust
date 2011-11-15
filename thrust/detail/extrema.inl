@@ -20,8 +20,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/extrema.h>
-#include <thrust/system/detail/internal/entry/select_system.h>
-#include <thrust/system/detail/internal/entry/extrema.h>
+#include <thrust/detail/adl_helper.h>
 
 namespace thrust
 {

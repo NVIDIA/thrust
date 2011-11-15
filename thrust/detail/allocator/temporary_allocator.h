@@ -18,7 +18,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/pointer_base.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/allocator/tagged_allocator.h>
 #include <thrust/pair.h>
 

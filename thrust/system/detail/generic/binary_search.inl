@@ -38,6 +38,13 @@
 
 namespace thrust
 {
+namespace detail
+{
+
+// XXX WAR circular #inclusion with this forward declaration
+template<typename,typename> class temporary_array;
+
+} // end detail
 namespace system
 {
 namespace detail

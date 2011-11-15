@@ -188,3 +188,6 @@ using thrust::system::omp::allocator;
 
 #include <thrust/system/omp/detail/memory.inl>
 
+// make the backend's entry points available to dispatch
+#include <thrust/system/omp/detail/algorithm.h>
+

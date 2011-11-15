@@ -14,30 +14,39 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_free.inl
- *  \brief Inline file for device_free.h.
- */
+#pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/device_free.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/detail/generic/select_system.h>
-#include <thrust/system/detail/generic/memory.h>
-#include <thrust/detail/malloc_and_free_adl_helper.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
+#include <cstdlib> // for malloc & free
 
 namespace thrust
 {
-
-void device_free(thrust::device_ptr<void> ptr)
+namespace system
 {
-  using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::free;
+namespace cpp
+{
+namespace detail
+{
 
-  typedef thrust::iterator_space< thrust::device_ptr<void> >::type space;
 
-  free(select_system(space()), ptr);
-} // end device_free()
+// note that malloc returns a raw pointer to avoid
+// depending on the heavyweight thrust/system/cpp/memory.h header
+inline void *malloc(tag, std::size_t n)
+{
+  return std::malloc(n);
+} // end malloc()
 
+
+template<typename Pointer>
+inline void free(tag, Pointer ptr)
+{
+  std::free(thrust::detail::raw_pointer_cast(ptr));
+} // end free()
+
+
+} // end detail
+} // end cpp
+} // end system
 } // end thrust
 

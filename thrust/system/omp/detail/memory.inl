@@ -15,10 +15,9 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/omp/memory.h>
-#include <thrust/system/cpp/memory.h>
-#include <cstdlib> // for malloc & free
-#include <new>     // for std::bad_alloc
+#include <thrust/detail/malloc_and_free_adl_helper.h>
 #include <limits>
 
 namespace thrust
@@ -55,13 +54,14 @@ void swap(reference<T> a, reference<T> b)
 
 inline pointer<void> malloc(std::size_t n)
 {
-  // XXX eliminate this conversion if we decide that cpp can downcast to omp
-  return pointer<void>(cpp::malloc(n).get());
+  // use adl to avoid #including cpp/memory.h
+  return pointer<void>(malloc(cpp::tag(), n));
 } // end malloc()
 
 inline void free(pointer<void> ptr)
 {
-  return cpp::free(ptr);
+  // use adl to avoid #including cpp/memory.h
+  return free(cpp::tag(), ptr.get());
 } // end free()
 
 } // end omp

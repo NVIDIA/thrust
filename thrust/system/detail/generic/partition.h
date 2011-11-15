@@ -35,7 +35,8 @@ namespace generic
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(ForwardIterator first,
+  ForwardIterator stable_partition(tag,
+                                   ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
 
@@ -44,7 +45,8 @@ template<typename InputIterator,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(InputIterator first,
+    stable_partition_copy(tag,
+                          InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
@@ -52,7 +54,8 @@ template<typename InputIterator,
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(ForwardIterator first,
+  ForwardIterator partition(tag,
+                            ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
@@ -61,7 +64,8 @@ template<typename InputIterator,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(InputIterator first,
+    partition_copy(tag,
+                   InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,

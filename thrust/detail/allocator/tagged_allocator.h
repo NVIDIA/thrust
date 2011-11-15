@@ -81,10 +81,6 @@ template<typename T, typename Tag, typename Pointer>
     __host__ __device__
     const_pointer address(const_reference x) const;
 
-    pointer allocate(size_type cnt);
-
-    void deallocate(pointer p, size_type n);
-
     size_type max_size() const;
 };
 

@@ -22,10 +22,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_reference.h>
 
-// XXX make the device backend-specific version of the memory protocol available
-// XXX try to eliminate the need for this
-#include <thrust/system/detail/internal/entry/memory.h>
-
 namespace thrust
 {
 
