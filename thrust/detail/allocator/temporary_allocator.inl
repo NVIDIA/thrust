@@ -20,6 +20,7 @@
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/bad_alloc.h>
 #include <thrust/pair.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 
 namespace thrust
 {
@@ -33,7 +34,7 @@ template<typename T, typename Tag>
         ::allocate_helper(Pair p)
 {
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  typename super_t::pointer ptr = typename super_t::pointer(static_cast<T*>(super_t::get(p.first)));
+  typename super_t::pointer ptr = typename super_t::pointer(static_cast<T*>(thrust::detail::raw_pointer_cast(p.first)));
   typename super_t::size_type n = p.second;
 
   return pointer_and_size(ptr, n);

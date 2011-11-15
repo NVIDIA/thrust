@@ -25,7 +25,7 @@
 #include <thrust/detail/pointer_base.h>
 #include <thrust/detail/reference_base.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/tagged_allocator.h>
+#include <thrust/detail/allocator/malloc_allocator.h>
 #include <ostream>
 
 namespace thrust
@@ -139,11 +139,11 @@ inline pointer<void> malloc(std::size_t n);
 inline void free(pointer<void> ptr);
 
 // XXX upon c++11
-// template<typename T> using allocator = thrust::detail::tagged_allocator<T,tag,pointer<T> >;
+// template<typename T> using allocator = thrust::detail::malloc_allocator<T,tag,pointer<T> >;
 
 template<typename T>
   struct allocator
-    : thrust::detail::tagged_allocator<
+    : thrust::detail::malloc_allocator<
         T,
         tag,
         pointer<T>

@@ -86,13 +86,6 @@ template<typename T, typename Tag, typename Pointer>
     void deallocate(pointer p, size_type n);
 
     size_type max_size() const;
-
-  protected:
-    // XXX eliminate this once static_pointer_cast exists
-    template<typename OtherPointer>
-      __host__ __device__
-      static typename thrust::detail::pointer_traits<OtherPointer>::raw_pointer
-        get(OtherPointer ptr);
 };
 
 template<typename T1, typename Pointer1, typename T2, typename Pointer2, typename Tag>
@@ -106,5 +99,5 @@ bool operator!=(const tagged_allocator<T1,Pointer1,Tag> &, const tagged_allocato
 } // end detail
 } // end thrust
 
-#include <thrust/detail/tagged_allocator.inl>
+#include <thrust/detail/allocator/tagged_allocator.inl>
 

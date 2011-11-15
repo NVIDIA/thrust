@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/pointer_base.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/allocator/tagged_allocator.h>
 
@@ -26,34 +25,25 @@ namespace thrust
 namespace detail
 {
 
-// XXX the pointer parameter given to tagged_allocator should be related to
-//     the type of the expression get_temporary_buffer(Tag(), n).first
-//     without decltype, compromise on pointer_base<T,Tag>
-template<typename T, typename Tag>
-  class temporary_allocator
+template<typename T, typename Tag, typename Pointer>
+  class malloc_allocator
     : public thrust::detail::tagged_allocator<
-               T, Tag, thrust::detail::pointer_base<T,Tag>
+               T, Tag, Pointer
              >
 {
   private:
     typedef thrust::detail::tagged_allocator<
-      T, Tag, thrust::detail::pointer_base<T,Tag>
+      T, Tag, Pointer
     > super_t;
 
   public:
     typename super_t::pointer allocate(typename super_t::size_type cnt);
 
     void deallocate(typename super_t::pointer p, typename super_t::size_type n);
-
-  private:
-    typedef thrust::pair<typename super_t::pointer, typename super_t::size_type> pointer_and_size;
-
-    template<typename Pair>
-    static pointer_and_size allocate_helper(Pair p);
 };
 
 } // end detail
 } // end thrust
 
-#include <thrust/detail/allocator/temporary_allocator.inl>
+#include <thrust/detail/allocator/malloc_allocator.inl>
 
