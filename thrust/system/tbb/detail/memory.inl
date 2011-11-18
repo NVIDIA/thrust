@@ -17,7 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/tbb/memory.h>
-#include <thrust/detail/malloc_and_free_adl_helper.h>
+#include <thrust/system/cpp/memory.h>
 #include <limits>
 
 namespace thrust
@@ -52,16 +52,49 @@ void swap(reference<T> a, reference<T> b)
   a.swap(b);
 } // end swap()
 
+namespace detail
+{
+
+// XXX circular #inclusion problems cause the compiler to believe that cpp::malloc
+//     is not defined
+//     WAR the problem by using adl to call cpp::malloc, which requires it to depend
+//     on a template parameter
+template<typename Tag>
+  pointer<void> malloc_workaround(Tag t, std::size_t n)
+{
+  return pointer<void>(malloc(t, n));
+} // end malloc_workaround()
+
+// XXX circular #inclusion problems cause the compiler to believe that cpp::free
+//     is not defined
+//     WAR the problem by using adl to call cpp::free, which requires it to depend
+//     on a template parameter
+template<typename Tag>
+  void free_workaround(Tag t, pointer<void> ptr)
+{
+  free(t, ptr.get());
+} // end free_workaround()
+
+} // end detail
+
 inline pointer<void> malloc(std::size_t n)
 {
-  // use adl to avoid #including cpp/memory.h
-  return pointer<void>(malloc(cpp::tag(), n));
+  // XXX this is how we'd like to implement this function,
+  //     if not for circular #inclusion problems:
+  //
+  // return pointer<void>(thrust::system::cpp::malloc(n))
+  //
+  return detail::malloc_workaround(cpp::tag(), n);
 } // end malloc()
 
 inline void free(pointer<void> ptr)
 {
-  // use adl to avoid #including cpp/memory.h
-  return free(cpp::tag(), ptr.get());
+  // XXX this is how we'd like to implement this function,
+  //     if not for circular #inclusion problems:
+  //
+  // thrust::system::cpp::free(ptr)
+  //
+  detail::free_workaround(cpp::tag(), ptr);
 } // end free()
 
 } // end tbb
