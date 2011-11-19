@@ -36,6 +36,7 @@
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -1021,7 +1022,7 @@ template<typename T, typename Alloc>
   typedef typename thrust::iterator_space<ForwardIterator>::type OutputSpace;
 
   // this is a no-op if both ranges are in the same space
-  thrust::detail::move_to_space<InputIterator,ForwardIterator> temp(first,last);
+  thrust::detail::move_to_space<InputIterator,OutputSpace> temp(first,last);
 
   // do uninitialized_copy from the temp range
   return thrust::uninitialized_copy(temp.begin(), temp.end(), result);
@@ -1042,71 +1043,43 @@ template<typename T, typename Alloc>
 namespace detail
 {
     
-//////////////////////
-// Host<->Host Path //
-//////////////////////
+// iterator tags match
 template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2,
-                  thrust::host_space_tag,
-                  thrust::host_space_tag)
+                  thrust::detail::true_type)
 {
-    return thrust::equal(first1, last1, first2);
+  return thrust::equal(first1, last1, first2);
 }
 
-//////////////////////////
-// Device<->Device Path //
-//////////////////////////
+// iterator tags differ
 template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2,
-                  thrust::device_space_tag,
-                  thrust::device_space_tag)
+                  thrust::detail::false_type)
 {
-    return thrust::equal(first1, last1, first2);
-}
+  typename thrust::iterator_difference<InputIterator1>::type n = thrust::distance(first1,last1);
 
-////////////////////////
-// Host<->Device Path //
-////////////////////////
-template <typename InputIterator1, typename InputIterator2>
-bool vector_equal(InputIterator1 first1, InputIterator1 last1,
-                  InputIterator2 first2,
-                  thrust::host_space_tag,
-                  thrust::device_space_tag)
-{
-    typedef typename thrust::iterator_traits<InputIterator2>::value_type InputType2;
-    
-    // copy device sequence to host and compare on host
-    temporary_array<InputType2, thrust::host_space_tag> buffer(first2, first2 + thrust::distance(first1, last1));
+  // bring both ranges to cpp
+  // note that these copies are no-ops if the range is already convertible to cpp
+  // this preserves legacy behavior of the old host/device space design,
+  // but we might want to be more flexible with the precise behavior
+  thrust::detail::move_to_space<InputIterator1, thrust::cpp::tag> rng1(first1, last1);
+  thrust::detail::move_to_space<InputIterator2, thrust::cpp::tag> rng2(first2, first2 + n);
 
-    return thrust::equal(first1, last1, buffer.begin());
-}
-  
-////////////////////////
-// Device<->Host Path //
-////////////////////////
-template <typename InputIterator1, typename InputIterator2> 
-bool vector_equal(InputIterator1 first1, InputIterator1 last1,
-                  InputIterator2 first2,
-                  thrust::device_space_tag,
-                  thrust::host_space_tag)
-{
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
-    
-    // copy device sequence to host and compare on host
-    temporary_array<InputType1, thrust::host_space_tag> buffer(first1, last1);
-
-    return thrust::equal(buffer.begin(), buffer.end(), first2);
+  return thrust::equal(rng1.begin(), rng1.end(), rng2.begin());
 }
 
 template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2)
 {
-    return vector_equal(first1, last1, first2,
-            typename thrust::iterator_space< InputIterator1 >::type(),
-            typename thrust::iterator_space< InputIterator2 >::type());
+  typedef typename thrust::iterator_space<InputIterator1>::type space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+
+  // dispatch on the sameness of the two spaces
+  return vector_equal(first1, last1, first2,
+    thrust::detail::is_same<space1,space2>());
 }
 
 } // end namespace detail

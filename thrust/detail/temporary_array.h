@@ -95,39 +95,39 @@ template<typename Iterator>
 };
 
 
-// if the space of Iterator1 is convertible to Iterator2, then just make a shallow
+// if the space of Iterator is convertible to Tag, then just make a shallow
 // copy of the range.  else, use a temporary_array
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator, typename Tag>
   struct move_to_space_base
     : public eval_if<
         is_convertible<
-          typename thrust::iterator_space<Iterator1>::type,
-          typename thrust::iterator_space<Iterator2>::type
+          typename thrust::iterator_space<Iterator>::type,
+          Tag
         >::value,
         identity_<
-          iterator_range<Iterator1>
+          iterator_range<Iterator>
         >,
         identity_<
           temporary_array<
-            typename thrust::iterator_value<Iterator1>::type,
-            typename thrust::iterator_space<Iterator2>::type
+            typename thrust::iterator_value<Iterator>::type,
+            Tag
           >
         >
       >
 {};
 
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator, typename Tag>
   class move_to_space
     : public move_to_space_base<
-        Iterator1,
-        Iterator2
+        Iterator,
+        Tag
       >::type
 {
-  typedef typename move_to_space_base<Iterator1,Iterator2>::type super_t;
+  typedef typename move_to_space_base<Iterator,Tag>::type super_t;
 
   public:
-    move_to_space(Iterator1 first, Iterator1 last)
+    move_to_space(Iterator first, Iterator last)
       : super_t(first, last) {}
 };
 
