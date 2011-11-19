@@ -396,11 +396,14 @@ template<typename T, typename Alloc>
     template<typename IteratorOrIntegralType>
       void init_dispatch(IteratorOrIntegralType n, IteratorOrIntegralType value, true_type); 
 
-    template<typename InputHostIterator>
-      void range_init(InputHostIterator first, InputHostIterator last, true_type);
+    template<typename InputIterator>
+      void range_init(InputIterator first, InputIterator last);
+
+    template<typename InputIterator>
+      void range_init(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag);
 
     template<typename ForwardIterator>
-      void range_init(ForwardIterator first, ForwardIterator last, false_type);
+      void range_init(ForwardIterator first, ForwardIterator last, thrust::random_access_traversal_tag);
 
     void fill_init(size_type n, const T &x);
 
@@ -431,13 +434,13 @@ template<typename T, typename Alloc>
     template<typename InputIterator>
       void range_assign(InputIterator first, InputIterator last);
 
-    // this method performs assignment from a range of ForwardIterators
-    template<typename ForwardIterator>
-      void range_assign(ForwardIterator first, ForwardIterator last, false_type);
+    // this method performs assignment from a range of RandomAccessIterators
+    template<typename RandomAccessIterator>
+      void range_assign(RandomAccessIterator first, RandomAccessIterator last, thrust::random_access_traversal_tag);
 
-    // this method performs assignment from a range of InputHostIterators
-    template<typename InputHostIterator>
-      void range_assign(InputHostIterator first, InputHostIterator last, true_type);
+    // this method performs assignment from a range of InputIterators
+    template<typename InputIterator>
+      void range_assign(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag);
 
     // this method performs assignment from a fill value
     void fill_assign(size_type n, const T &x);

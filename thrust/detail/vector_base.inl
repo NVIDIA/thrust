@@ -67,9 +67,7 @@ template<typename T, typename Alloc>
       :m_storage(),
        m_size(0)
 {
-  // vector_base's iterator is not strictly InputHostIterator,
-  // so dispatch with false_type
-  range_init(v.begin(), v.end(), false_type());
+  range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -92,9 +90,7 @@ template<typename T, typename Alloc>
         :m_storage(),
          m_size(0)
 {
-  // vector_base's iterator is not strictly InputHostIterator,
-  // so dispatch with false_type
-  range_init(v.begin(), v.end(), false_type());
+  range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -115,9 +111,7 @@ template<typename T, typename Alloc>
         :m_storage(),
          m_size(0)
 {
-  // std::vector's iterator is not strictly InputHostIterator,
-  // so dispatch with false_type
-  range_init(v.begin(), v.end(), false_type());
+  range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
@@ -161,19 +155,25 @@ template<typename T, typename Alloc>
                       InputIterator last,
                       false_type)
 {
-  // dispatch based on whether or not InputIterator
-  // is strictly an InputHostIterator
-  typedef typename thrust::iterator_traits<InputIterator>::iterator_category category;
-  typedef typename thrust::detail::is_same<category, thrust::input_host_iterator_tag>::type input_host_iterator_or_not;
-  range_init(first, last, input_host_iterator_or_not());
+  range_init(first, last);
 } // end vector_base::init_dispatch()
 
 template<typename T, typename Alloc>
-  template<typename InputHostIterator>
+  template<typename InputIterator>
     void vector_base<T,Alloc>
-      ::range_init(InputHostIterator first,
-                   InputHostIterator last,
-                   true_type)
+      ::range_init(InputIterator first,
+                   InputIterator last)
+{
+  range_init(first, last,
+    typename thrust::iterator_traversal<InputIterator>::type());
+} // end vector_base::range_init()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    void vector_base<T,Alloc>
+      ::range_init(InputIterator first,
+                   InputIterator last,
+                   thrust::incrementable_traversal_tag)
 {
   for(; first != last; ++first)
     push_back(*first);
@@ -184,7 +184,7 @@ template<typename T, typename Alloc>
     void vector_base<T,Alloc>
       ::range_init(ForwardIterator first,
                    ForwardIterator last,
-                   false_type)
+                   thrust::random_access_traversal_tag)
 {
   size_type new_size = thrust::distance(first, last);
 
@@ -834,21 +834,17 @@ template<typename T, typename Alloc>
       ::range_assign(InputIterator first,
                      InputIterator last)
 {
-  // dispatch based on whether or not InputIterator
-  // is strictly input_host_iterator_tag
-  typedef typename thrust::iterator_traits<InputIterator>::iterator_category category;
-
-  typedef typename thrust::detail::is_same<category, thrust::input_host_iterator_tag>::type input_host_iterator_or_not;
-
-  range_assign(first, last, input_host_iterator_or_not());
+  // dispatch on traversal
+  range_assign(first, last,
+    typename thrust::iterator_traversal<InputIterator>::type());
 } // end range_assign()
 
 template<typename T, typename Alloc>
-  template<typename InputHostIterator>
+  template<typename InputIterator>
     void vector_base<T,Alloc>
-      ::range_assign(InputHostIterator first,
-                     InputHostIterator last,
-                     true_type)
+      ::range_assign(InputIterator first,
+                     InputIterator last,
+                     thrust::incrementable_traversal_tag)
 {
   iterator current(begin());
 
@@ -873,11 +869,11 @@ template<typename T, typename Alloc>
 } // end vector_base::range_assign()
 
 template<typename T, typename Alloc>
-  template<typename ForwardIterator>
+  template<typename RandomAccessIterator>
     void vector_base<T,Alloc>
-      ::range_assign(ForwardIterator first,
-                     ForwardIterator last,
-                     false_type)
+      ::range_assign(RandomAccessIterator first,
+                     RandomAccessIterator last,
+                     thrust::random_access_traversal_tag)
 {
   const size_type n = thrust::distance(first, last);
 
@@ -913,7 +909,7 @@ template<typename T, typename Alloc>
     // to transform rather than copy + uninitialized_copy
 
     // copy to elements which already exist
-    ForwardIterator mid = first;
+    RandomAccessIterator mid = first;
     thrust::advance(mid, size());
     thrust::copy(first, mid, begin());
 
