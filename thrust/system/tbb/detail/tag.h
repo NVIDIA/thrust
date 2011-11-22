@@ -33,11 +33,6 @@ namespace detail
 // tbb inherits cpp's functionality
 struct tag : thrust::system::cpp::tag {};
 
-// tbb_intersystem_tag inherits from tag
-// to avoid unnecessary specializations
-// of assign_value et al.
-struct tbb_intersystem_tag : tag {};
-
 // select_system overloads
 inline tag select_system(tag, tag)
 {
@@ -57,15 +52,15 @@ inline tag select_system(thrust::any_space_tag, tag)
 } // end select_system()
 
 
-inline tbb_intersystem_tag select_system(tag, thrust::system::cpp::tag)
+inline tag select_system(tag, thrust::system::cpp::tag)
 {
-  return tbb_intersystem_tag();
+  return tag();
 } // end select_system()
 
 
-inline tbb_intersystem_tag select_system(thrust::system::cpp::tag, tag)
+inline tag select_system(thrust::system::cpp::tag, tag)
 {
-  return tbb_intersystem_tag();
+  return tag();
 } // end select_system()
 
 

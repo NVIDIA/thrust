@@ -82,9 +82,8 @@ template<typename InputIterator,
 
 
 template<typename InputIterator,
-         typename OutputIterator,
-         typename Tag>
-OutputIterator copy(Tag,
+         typename OutputIterator>
+OutputIterator copy(tag,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result)
@@ -102,9 +101,8 @@ OutputIterator copy(Tag,
 
 template<typename InputIterator,
          typename Size,
-         typename OutputIterator,
-         typename Tag>
-OutputIterator copy_n(Tag,
+         typename OutputIterator>
+OutputIterator copy_n(tag,
                       InputIterator first,
                       Size n,
                       OutputIterator result)

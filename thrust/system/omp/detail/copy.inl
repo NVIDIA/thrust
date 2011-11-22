@@ -51,7 +51,13 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy(tag(), first, last, result);
+  // XXX WAR problems reconciling unrelated types such as omp & tbb
+  // reinterpret iterators as omp
+  // this ensures that generic::copy's implementation, which eventually results in
+  // zip_iterator works correctly
+  thrust::detail::tagged_iterator<OutputIterator,tag> retagged_result(result);
+
+  return thrust::system::detail::generic::copy(tag(), thrust::reinterpret_tag<tag>(first), thrust::reinterpret_tag<tag>(last), retagged_result).base();
 } // end copy()
 
 
@@ -75,16 +81,23 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy_n(tag(), first, n, result);
+  typedef typename thrust::iterator_space<OutputIterator>::type original_tag;
+
+  // XXX WAR problems reconciling unrelated types such as omp & tbb
+  // reinterpret iterators as omp
+  // this ensures that generic::copy's implementation, which eventually results in
+  // zip_iterator works correctly
+  thrust::detail::tagged_iterator<OutputIterator,tag> retagged_result(result);
+
+  return thrust::system::detail::generic::copy_n(tag(), thrust::reinterpret_tag<tag>(first), n, retagged_result).base();
 } // end copy_n()
 
 } // end dispatch
 
 
 template<typename InputIterator,
-         typename OutputIterator,
-         typename Tag>
-OutputIterator copy(Tag,
+         typename OutputIterator>
+OutputIterator copy(tag,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result)
@@ -102,9 +115,8 @@ OutputIterator copy(Tag,
 
 template<typename InputIterator,
          typename Size,
-         typename OutputIterator,
-         typename Tag>
-OutputIterator copy_n(Tag,
+         typename OutputIterator>
+OutputIterator copy_n(tag,
                       InputIterator first,
                       Size n,
                       OutputIterator result)
