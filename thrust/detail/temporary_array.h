@@ -80,23 +80,28 @@ template<typename T, typename Space>
 
 
 // XXX eliminate this when we do ranges for real
-template<typename Iterator>
-  class iterator_range
+template<typename Iterator, typename Tag>
+  class tagged_iterator_range
 {
   public:
-    iterator_range(Iterator first, Iterator last)
-      : m_begin(first), m_end(last) {}
+    typedef thrust::detail::tagged_iterator<Iterator,Tag> iterator;
 
-    Iterator begin(void) const { return m_begin; }
-    Iterator end(void) const { return m_end; }
+    tagged_iterator_range(Iterator first, Iterator last)
+      : m_begin(reinterpret_tag<Tag>(first)),
+        m_end(reinterpret_tag<Tag>(last))
+    {}
+
+    iterator begin(void) const { return m_begin; }
+    iterator end(void) const { return m_end; }
 
   private:
-    Iterator m_begin, m_end;
+    iterator m_begin, m_end;
 };
 
 
 // if the space of Iterator is convertible to Tag, then just make a shallow
 // copy of the range.  else, use a temporary_array
+// note that the resulting iterator is explicitly tagged with Tag either way
 template<typename Iterator, typename Tag>
   struct move_to_space_base
     : public eval_if<
@@ -105,7 +110,7 @@ template<typename Iterator, typename Tag>
           Tag
         >::value,
         identity_<
-          iterator_range<Iterator>
+          tagged_iterator_range<Iterator,Tag>
         >,
         identity_<
           temporary_array<
