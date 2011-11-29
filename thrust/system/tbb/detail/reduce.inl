@@ -18,8 +18,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/static_assert.h>
-#include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/reduce.h>
