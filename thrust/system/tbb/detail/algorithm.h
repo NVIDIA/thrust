@@ -24,4 +24,5 @@
 #include <thrust/system/tbb/detail/copy.h>
 #include <thrust/system/tbb/detail/for_each.h>
 #include <thrust/system/tbb/detail/reduce.h>
+#include <thrust/system/tbb/detail/scan.h>
 
