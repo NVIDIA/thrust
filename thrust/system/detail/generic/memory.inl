@@ -91,13 +91,13 @@ template<typename Pointer>
 template<typename T, typename Tag>
   typename thrust::detail::disable_if<
     get_temporary_buffer_exists<
-      T, Tag, typename thrust::detail::pointer_base<T,Tag>::difference_type
+      T, Tag, typename thrust::pointer<T,Tag>::difference_type
     >::value,
-    thrust::pair<thrust::detail::pointer_base<T,Tag>, typename thrust::detail::pointer_base<T,Tag>::difference_type>
+    thrust::pair<thrust::pointer<T,Tag>, typename thrust::pointer<T,Tag>::difference_type>
   >::type
-    get_temporary_buffer(Tag, typename thrust::detail::pointer_base<T,Tag>::difference_type n)
+    get_temporary_buffer(Tag, typename thrust::pointer<T,Tag>::difference_type n)
 {
-  typedef thrust::detail::pointer_base<T,Tag> pointer;
+  typedef thrust::pointer<T,Tag> pointer;
 
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::malloc;

@@ -28,6 +28,10 @@ namespace thrust
 {
 
 // forward declarations of iterator types
+
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  class pointer;
+
 template<typename T>
   class device_ptr;
 
@@ -70,9 +74,6 @@ template<typename T>
 
 namespace detail
 {
-
-template<typename Element, typename Space, typename Reference, typename Derived>
-  class pointer_base;
 
 template<typename Pointer>
   class normal_iterator;
@@ -141,6 +142,17 @@ template<typename Iterator, typename IndexType>
   return iter[n];
 } // dereference
 
+
+// pointer prototypes
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  inline __host__ __device__
+    typename dereference_result< thrust::pointer<Element,Tag,Reference,Derived> >::type
+      dereference(thrust::pointer<Element,Tag,Reference,Derived> ptr);
+
+template<typename Element, typename Tag, typename Reference, typename Derived, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::pointer<Element,Tag,Reference,Derived> >::type
+      dereference(thrust::pointer<Element,Tag,Reference,Derived> ptr, IndexType n);
 
 
 // device_ptr prototypes
@@ -264,18 +276,6 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
       dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n);
-
-
-// pointer_base prototypes
-template<typename Element, typename Space, typename Reference, typename Derived>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::pointer_base<Element,Space,Reference,Derived> >::type
-      dereference(thrust::detail::pointer_base<Element,Space,Reference,Derived> ptr);
-
-template<typename Element, typename Space, typename Reference, typename Derived, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::pointer_base<Element,Space,Reference,Derived> >::type
-      dereference(thrust::detail::pointer_base<Element,Space,Reference,Derived> ptr, IndexType n);
 
 
 // cpp::pointer prototypes

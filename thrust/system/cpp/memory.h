@@ -22,8 +22,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
-#include <thrust/detail/pointer_base.h>
-#include <thrust/detail/reference_base.h>
+//#include <thrust/memory.h>
+#include <thrust/detail/pointer.h>
+#include <thrust/detail/reference.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/allocator/malloc_allocator.h>
 #include <ostream>
@@ -40,7 +41,7 @@ template<typename Element> class reference;
 
 template<typename T>
   class pointer
-    : public thrust::detail::pointer_base<
+    : public thrust::pointer<
                T,
                thrust::system::cpp::tag,
                thrust::system::cpp::reference<T>,
@@ -48,7 +49,7 @@ template<typename T>
              >
 {
   private:
-    typedef thrust::detail::pointer_base<
+    typedef thrust::pointer<
       T,
       thrust::system::cpp::tag,
       thrust::system::cpp::reference<T>,
@@ -92,14 +93,14 @@ template<typename T>
 
 template<typename T>
   class reference
-    : public thrust::detail::reference_base<
+    : public thrust::reference<
                T,
                thrust::system::cpp::pointer<T>,
                thrust::system::cpp::reference<T>
              >
 {
   private:
-    typedef thrust::detail::reference_base<
+    typedef thrust::reference<
       T,
       thrust::system::cpp::pointer<T>,
       thrust::system::cpp::reference<T>

@@ -22,8 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/pointer_base.h>
-#include <thrust/detail/type_traits.h>
+#include <thrust/memory.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <ostream>
 
@@ -62,7 +61,7 @@ template<typename T> class device_reference;
  */
 template<typename T>
   class device_ptr
-    : public thrust::detail::pointer_base<
+    : public thrust::pointer<
                T,
                thrust::device_space_tag,
                thrust::device_reference<T>,
@@ -70,7 +69,7 @@ template<typename T>
              >
 {
   private:
-    typedef thrust::detail::pointer_base<
+    typedef thrust::pointer<
       T,
       thrust::device_space_tag,
       thrust::device_reference<T>,

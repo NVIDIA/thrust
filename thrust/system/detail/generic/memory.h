@@ -25,7 +25,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/pointer_base.h>
+#include <thrust/detail/pointer.h>
 #include <thrust/pair.h>
 #include <thrust/system/detail/generic/type_traits.h>
 
@@ -57,11 +57,11 @@ void iter_swap(tag, Pointer1, Pointer2);
 template<typename T, typename Tag>
   typename thrust::detail::disable_if<
     get_temporary_buffer_exists<
-      T, Tag, typename thrust::detail::pointer_base<T,Tag>::difference_type
+      T, Tag, typename thrust::pointer<T,Tag>::difference_type
     >::value,
-    thrust::pair<thrust::detail::pointer_base<T,Tag>, typename thrust::detail::pointer_base<T,Tag>::difference_type>
+    thrust::pair<thrust::pointer<T,Tag>, typename thrust::pointer<T,Tag>::difference_type>
   >::type
-    get_temporary_buffer(Tag, typename thrust::detail::pointer_base<T,Tag>::difference_type n);
+    get_temporary_buffer(Tag, typename thrust::pointer<T,Tag>::difference_type n);
 
 template<typename Pointer>
   void return_temporary_buffer(tag, Pointer p);

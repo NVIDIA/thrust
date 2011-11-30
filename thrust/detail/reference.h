@@ -20,11 +20,10 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/use_default.h>
-#include <thrust/detail/reference_base_forward_declaration.h>
+#include <thrust/detail/reference_forward_declaration.h>
+
 
 namespace thrust
-{
-namespace detail
 {
 
 // the base type for all of thrust's space-annotated references.
@@ -35,12 +34,12 @@ namespace detail
 // 4. templated assignment from other reference
 // 5. assignment from value_type
 template<typename Element, typename Pointer, typename Derived>
-  class reference_base
+  class reference
 {
   private:
     typedef typename thrust::detail::eval_if<
       thrust::detail::is_same<Derived,use_default>::value,
-      thrust::detail::identity_<reference_base>,
+      thrust::detail::identity_<reference>,
       thrust::detail::identity_<Derived>
     >::type derived_type;
 
@@ -49,21 +48,21 @@ template<typename Element, typename Pointer, typename Derived>
     typedef typename thrust::detail::remove_const<Element>::type value_type;
 
     __host__ __device__
-    explicit reference_base(const pointer &ptr);
+    explicit reference(const pointer &ptr);
 
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
     __host__ __device__
-    reference_base(const reference_base<OtherElement,OtherPointer,OtherDerived> &other,
-                   typename thrust::detail::enable_if_convertible<
-                     typename reference_base<OtherElement,OtherPointer,OtherDerived>::pointer,
-                     pointer
-                   >::type * = 0);
+    reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
+              typename thrust::detail::enable_if_convertible<
+                typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
+                pointer
+              >::type * = 0);
 
-    derived_type &operator=(const reference_base &other);
+    derived_type &operator=(const reference &other);
 
     // XXX this may need an enable_if
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    derived_type &operator=(const reference_base<OtherElement,OtherPointer,OtherDerived> &other);
+    derived_type &operator=(const reference<OtherElement,OtherPointer,OtherDerived> &other);
 
     derived_type &operator=(const value_type &x);
 
@@ -117,15 +116,15 @@ template<typename Element, typename Pointer, typename Derived>
   private:
     const pointer m_ptr;
 
-    // allow access to m_ptr for other reference_bases
-    template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference_base;
+    // allow access to m_ptr for other references
+    template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference;
 
     template<typename OtherPointer>
     inline void assign_from(OtherPointer src);
-}; // end reference_base
+}; // end reference
+
   
-} // end detail
 } // end thrust
 
-#include <thrust/detail/reference_base.inl>
+#include <thrust/detail/reference.inl>
 

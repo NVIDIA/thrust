@@ -17,9 +17,12 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/pointer_base.h>
 #include <thrust/detail/allocator/tagged_allocator.h>
 #include <thrust/pair.h>
+
+// XXX WAR circular #inclusion by #including thrust/detail/pointer.h
+//     instead of thrust/memory.h
+#include <thrust/detail/pointer.h>
 
 namespace thrust
 {
@@ -28,16 +31,16 @@ namespace detail
 
 // XXX the pointer parameter given to tagged_allocator should be related to
 //     the type of the expression get_temporary_buffer(Tag(), n).first
-//     without decltype, compromise on pointer_base<T,Tag>
+//     without decltype, compromise on pointer<T,Tag>
 template<typename T, typename Tag>
   class temporary_allocator
     : public thrust::detail::tagged_allocator<
-               T, Tag, thrust::detail::pointer_base<T,Tag>
+               T, Tag, thrust::pointer<T,Tag>
              >
 {
   private:
     typedef thrust::detail::tagged_allocator<
-      T, Tag, thrust::detail::pointer_base<T,Tag>
+      T, Tag, thrust::pointer<T,Tag>
     > super_t;
 
   public:

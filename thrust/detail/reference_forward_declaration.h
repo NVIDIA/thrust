@@ -21,11 +21,11 @@
 
 namespace thrust
 {
+
+template<typename Element, typename Pointer, typename Derived = use_default> class reference;
+
 namespace detail
 {
-
-template<typename Element, typename Pointer, typename Derived = use_default> class reference_base;
-
 
 // XXX iterator_facade tries to instantiate the Reference
 //     type when computing the answer to is_convertible<Reference,Value>
@@ -35,7 +35,7 @@ template<typename Element, typename Pointer, typename Derived = use_default> cla
 template<typename, typename> struct is_convertible;
 
 template<typename Element, typename Pointer, typename Derived>
-  struct is_convertible<reference_base<Element,Pointer,Derived>, Element>
+  struct is_convertible<reference<Element,Pointer,Derived>, Element>
     : thrust::detail::true_type
 {};
 
