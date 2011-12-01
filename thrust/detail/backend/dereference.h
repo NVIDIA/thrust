@@ -23,11 +23,16 @@
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits/is_metafunction_defined.h>
 
 namespace thrust
 {
 
 // forward declarations of iterator types
+
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  class pointer;
+
 template<typename T>
   class device_ptr;
 
@@ -70,9 +75,6 @@ template<typename T>
 
 namespace detail
 {
-
-template<typename Element, typename Space, typename Reference, typename Derived>
-  class pointer_base;
 
 template<typename Pointer>
   class normal_iterator;
@@ -119,28 +121,87 @@ namespace backend
 template <typename> struct dereference_result;
 
 // in general, assume that dereference behaves as on host
+// if the iterator has a nested reference type, return it
+// otherwise, return a copy of the iterator, which enables
+// types like std::back_insert_iterator to work
 template<typename Iterator>
   struct dereference_result
-{
-  typedef typename thrust::iterator_reference<Iterator>::type type;
-}; // end dereference_result
+    : thrust::detail::eval_if<
+        thrust::detail::is_void<
+          typename thrust::iterator_reference<Iterator>::type
+        >::value,
+        thrust::detail::identity_<Iterator>,
+        thrust::iterator_reference<Iterator>
+      >
+{};
 
+// for iterators without void reference type
 template<typename Iterator>
   inline __host__ __device__
     typename dereference_result<Iterator>::type
-      dereference(Iterator iter)
+      dereference(Iterator iter,
+                  typename thrust::detail::disable_if<
+                    thrust::detail::is_void<
+                      typename thrust::iterator_reference<Iterator>::type
+                    >::value
+                  >::type * = 0)
 {
   return *iter;
 } // dereference
 
+// for iterators without void reference type
 template<typename Iterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result<Iterator>::type
-      dereference(Iterator iter, IndexType n)
+      dereference(Iterator iter, IndexType n,
+                  typename thrust::detail::disable_if<
+                    thrust::detail::is_void<
+                      typename thrust::iterator_reference<Iterator>::type
+                    >::value
+                  >::type * = 0)
 {
   return iter[n];
 } // dereference
 
+// for iterators with void reference type
+template<typename Iterator>
+  inline __host__ __device__
+    typename dereference_result<Iterator>::type
+      dereference(Iterator iter,
+                  typename thrust::detail::enable_if<
+                    thrust::detail::is_void<
+                      typename thrust::iterator_reference<Iterator>::type
+                    >::value
+                  >::type * = 0)
+{
+  return iter;
+} // dereference
+
+// for iterators with void reference type
+template<typename Iterator, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result<Iterator>::type
+      dereference(Iterator iter, IndexType n,
+                  typename thrust::detail::enable_if<
+                    thrust::detail::is_void<
+                      typename thrust::iterator_reference<Iterator>::type
+                    >::value
+                  >::type * = 0)
+{
+  return iter + n;
+} // dereference
+
+
+// pointer prototypes
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  inline __host__ __device__
+    typename dereference_result< thrust::pointer<Element,Tag,Reference,Derived> >::type
+      dereference(thrust::pointer<Element,Tag,Reference,Derived> ptr);
+
+template<typename Element, typename Tag, typename Reference, typename Derived, typename IndexType>
+  inline __host__ __device__
+    typename dereference_result< thrust::pointer<Element,Tag,Reference,Derived> >::type
+      dereference(thrust::pointer<Element,Tag,Reference,Derived> ptr, IndexType n);
 
 
 // device_ptr prototypes
@@ -264,18 +325,6 @@ template<typename ElementIterator, typename IndexIterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result< thrust::permutation_iterator<ElementIterator, IndexIterator> >::type
       dereference(const thrust::permutation_iterator<ElementIterator, IndexIterator> &iter, IndexType n);
-
-
-// pointer_base prototypes
-template<typename Element, typename Space, typename Reference, typename Derived>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::pointer_base<Element,Space,Reference,Derived> >::type
-      dereference(thrust::detail::pointer_base<Element,Space,Reference,Derived> ptr);
-
-template<typename Element, typename Space, typename Reference, typename Derived, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::pointer_base<Element,Space,Reference,Derived> >::type
-      dereference(thrust::detail::pointer_base<Element,Space,Reference,Derived> ptr, IndexType n);
 
 
 // cpp::pointer prototypes

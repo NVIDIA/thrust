@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -35,7 +36,7 @@ template<typename InputIterator,
                               OutputIterator result)
 {
   for(; first != last; ++first, ++result)
-    *result = *first;
+    thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
   return result;
 } // end general_copy()
 
@@ -48,7 +49,7 @@ template<typename InputIterator,
                                 OutputIterator result)
 {
   for(; n > Size(0); ++first, ++result, --n)
-    *result = *first;
+    thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
   return result;
 } // end general_copy_n()
 

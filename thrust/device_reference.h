@@ -24,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/reference_base.h>
+#include <thrust/detail/reference.h>
 
 namespace thrust
 {
@@ -184,14 +184,14 @@ namespace thrust
  */
 template<typename T>
   class device_reference
-    : public thrust::detail::reference_base<
+    : public thrust::reference<
                T,
                thrust::device_ptr<T>,
                thrust::device_reference<T>
              >
 {
   private:
-    typedef thrust::detail::reference_base<
+    typedef thrust::reference<
       T,
       thrust::device_ptr<T>,
       thrust::device_reference<T>
