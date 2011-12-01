@@ -77,8 +77,8 @@ template<typename InputIterator,
   thrust::for_each(begin, end, f);
 
   // return the end of the output range
-  return get<1>(end.get_iterator_tuple());
-} // end uninitialized_fill()
+  return thrust::get<1>(end.get_iterator_tuple());
+} // end uninitialized_copy()
 
 
 // trivial copy constructor path
