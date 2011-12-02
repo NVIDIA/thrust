@@ -44,7 +44,7 @@ template<typename T, typename Tag, typename Pointer>
     throw thrust::system::detail::bad_alloc("tagged_allocator::allocate: malloc failed");
   } // end if
 
-  return super_t::pointer(result);
+  return typename super_t::pointer(result);
 } // end malloc_allocator::allocate()
 
 
