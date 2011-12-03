@@ -251,6 +251,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     /*! \cond
      */
   private:
+    __host__ __device__
     typename super_t::reference dereference() const
     { 
       return m_f(*this->base());

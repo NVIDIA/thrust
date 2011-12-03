@@ -66,7 +66,7 @@ template <typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  return thrust::detail::tuple_host_transform<detail::dereference_iterator::template apply>(get_iterator_tuple(), detail::dereference_iterator());
+  return thrust::detail::tuple_host_device_transform<detail::dereference_iterator::template apply>(get_iterator_tuple(), detail::dereference_iterator());
 } // end zip_iterator::dereference()
 
 

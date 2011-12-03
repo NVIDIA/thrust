@@ -105,6 +105,7 @@ struct dereference_iterator
   }; // end apply
 
   template<typename Iterator>
+  __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)
   {
     return *it;

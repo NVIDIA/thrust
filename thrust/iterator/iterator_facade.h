@@ -107,6 +107,7 @@ class iterator_core_access
               iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template<typename Facade>
+    __host__ __device__
     static typename Facade::reference dereference(Facade const& f)
     {
       return f.dereference();
@@ -238,6 +239,7 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
       Space, Traversal, Value, Reference
     >::type                                                    iterator_category;
 
+    __host__ __device__
     reference operator*() const
     {
       return iterator_core_access::dereference(this->derived());
@@ -252,6 +254,7 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
 
     // XXX investigate whether or not we need to go to the lengths
     //     boost does to determine the return type
+    __host__ __device__
     reference operator[](difference_type n) const
     {
       return *(this->derived() + n);

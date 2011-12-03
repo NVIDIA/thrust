@@ -175,6 +175,7 @@ template <typename ElementIterator,
   /*! \cond
    */
   private:
+    __host__ __device__
     typename super_t::reference dereference() const
     {
       return *(m_element_iterator + *this->base());

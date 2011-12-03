@@ -184,6 +184,7 @@ template<typename Incrementable,
     /*! \cond
      */
   private:
+    __host__ __device__
     reference dereference(void) const
     {
       return this->base_reference();

@@ -130,6 +130,7 @@ template<typename Space = use_default>
      */
   
   private: // Core iterator interface
+    __host__ __device__
     reference dereference(void) const
     {
       return reference();
