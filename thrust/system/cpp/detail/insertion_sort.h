@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/backend/dereference.h>
