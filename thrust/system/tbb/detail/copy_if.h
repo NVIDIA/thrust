@@ -17,15 +17,34 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/tbb/detail/tag.h>
 
-// the purpose of this header is to #include all the TBB
-// backend entry point headers in tbb/detail
+namespace thrust
+{
+namespace system
+{
+namespace tbb
+{
+namespace detail
+{
 
-#include <thrust/system/tbb/detail/copy.h>
-#include <thrust/system/tbb/detail/copy_if.h>
-#include <thrust/system/tbb/detail/for_each.h>
-#include <thrust/system/tbb/detail/merge.h>
-#include <thrust/system/tbb/detail/reduce.h>
-#include <thrust/system/tbb/detail/scan.h>
-#include <thrust/system/tbb/detail/sort.h>
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred);
+
+
+} // end detail
+} // end tbb
+} // end system
+} // end thrust
+
+#include <thrust/system/tbb/detail/copy_if.inl>
 

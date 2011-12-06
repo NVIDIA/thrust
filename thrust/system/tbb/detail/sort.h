@@ -17,15 +17,28 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/tbb/detail/tag.h>
 
-// the purpose of this header is to #include all the TBB
-// backend entry point headers in tbb/detail
+namespace thrust
+{
+namespace system
+{
+namespace tbb
+{
+namespace detail
+{
 
-#include <thrust/system/tbb/detail/copy.h>
-#include <thrust/system/tbb/detail/copy_if.h>
-#include <thrust/system/tbb/detail/for_each.h>
-#include <thrust/system/tbb/detail/merge.h>
-#include <thrust/system/tbb/detail/reduce.h>
-#include <thrust/system/tbb/detail/scan.h>
-#include <thrust/system/tbb/detail/sort.h>
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(tag,
+                   RandomAccessIterator first,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp);
+
+} // end namespace detail
+} // end namespace tbb
+} // end namespace system
+} // end namespace thrust
+
+#include <thrust/system/tbb/detail/sort.inl>
 
