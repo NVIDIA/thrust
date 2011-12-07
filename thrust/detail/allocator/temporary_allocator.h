@@ -44,12 +44,15 @@ template<typename T, typename Tag>
     > super_t;
 
   public:
-    typename super_t::pointer allocate(typename super_t::size_type cnt);
+    typedef typename super_t::pointer   pointer;
+    typedef typename super_t::size_type size_type;
 
-    void deallocate(typename super_t::pointer p, typename super_t::size_type n);
+    pointer allocate(size_type cnt);
+
+    void deallocate(pointer p, size_type n);
 
   private:
-    typedef thrust::pair<typename super_t::pointer, typename super_t::size_type> pointer_and_size;
+    typedef thrust::pair<pointer, size_type> pointer_and_size;
 
     template<typename Pair>
     static pointer_and_size allocate_helper(Pair p);
