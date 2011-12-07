@@ -29,6 +29,36 @@ namespace thrust
 // declare pointer with default values of template parameters
 template<typename Element, typename Tag, typename Reference = use_default, typename Derived = use_default> class pointer;
 
+} // end thrust
+
+
+// specialize std::iterator_traits to avoid problems with the name of
+// pointer's constructor shadowing its nested pointer type
+// do this before pointer is defined so the specialization is correctly
+// used inside the definition
+namespace std
+{
+
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  struct iterator_traits<thrust::pointer<Element,Tag,Reference,Derived> >
+{
+  private:
+    typedef thrust::pointer<Element,Tag,Reference,Derived> ptr;
+
+  public:
+    typedef typename ptr::iterator_category iterator_category;
+    typedef typename ptr::value_type        value_type;
+    typedef typename ptr::difference_type   difference_type;
+    typedef ptr                             pointer;
+    typedef typename ptr::reference         reference;
+}; // end iterator_traits
+
+} // end std
+
+
+namespace thrust
+{
+
 namespace detail
 {
 
