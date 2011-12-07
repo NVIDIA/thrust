@@ -75,6 +75,19 @@ namespace tbb
 // forward declaration of reference for pointer
 template<typename Element> class reference;
 
+// XXX nvcc + msvc have trouble instantiating reference below
+//     this is a workaround
+namespace detail
+{
+
+template<typename Element>
+  struct reference_msvc_workaround
+{
+  typedef typename reference<Element> type;
+}; // end reference_msvc_workaround
+
+} // end detail
+
 template<typename T>
   class pointer
     : public thrust::pointer<
@@ -88,7 +101,8 @@ template<typename T>
     typedef thrust::pointer<
       T,
       thrust::system::tbb::tag,
-      thrust::system::tbb::reference<T>,
+      //thrust::system::tbb::reference<T>,
+      typename detail::reference_msvc_workaround<T>::type,
       thrust::system::tbb::pointer<T>
     > super_t;
 
