@@ -18,6 +18,7 @@
 #pragma once
 
 #include <new>
+#include <string>
 
 namespace thrust
 {
