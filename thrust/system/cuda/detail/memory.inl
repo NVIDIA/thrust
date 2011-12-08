@@ -75,19 +75,21 @@ __host__ __device__
   typename thrust::iterator_value<Pointer>::type
     get_value(tag, Pointer ptr)
 {
+  typedef typename thrust::iterator_value<Pointer>::type result_type;
+
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static typename thrust::iterator_value<Pointer>::type host_path(Pointer ptr)
+    __host__ inline static result_type host_path(Pointer ptr)
     {
       // when called from host code, implement with assign_value
       // note that this requires a type with default constructor
-      typename thrust::iterator_value<Pointer>::type result;
+      result_type result;
       assign_value(cuda_to_cpp(), &result, ptr);
       return result;
     }
 
-    __device__ inline static typename thrust::iterator_value<Pointer>::type device_path(Pointer ptr)
+    __device__ inline static result_type device_path(Pointer ptr)
     {
       // when called from device code, just do simple deref
       // XXX consider deferring to get_value(cpp::tag, ptr) here
