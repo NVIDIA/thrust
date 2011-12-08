@@ -37,26 +37,6 @@ namespace detail
 {
 
 
-// forward declaration of the lambda placeholders
-struct _1;
-struct _2;
-
-
-namespace backend
-{
-
-
-// specialize dereference_result on the lambda placeholder
-template<>
-  struct dereference_result<_1>
-{
-  template <class T>
-    struct apply : thrust::detail::backend::dereference_result<T> {};
-}; // end dereference_result
-
-} // end backend
-
-
 // Functors to be used with tuple algorithms
 //
 template<typename DiffType>
@@ -162,32 +142,6 @@ template<typename UnaryMetaFunctionClass, class Arg>
 }; // end apply1
 
 
-// implement support for extremely simple lambda expressions
-
-// if X is not a placeholder expression, lambda returns X unchanged as type
-template<typename X>
-  struct lambda
-{
-  typedef X type;
-}; // end lambda
-
-// if X is a placeholder expression, lambda returns a type which can evaluate X as type
-template< template <typename> class X >
-  struct lambda< X<_1> >
-{
-  // type has a member, apply, which applies X to an argument
-  struct type
-  {
-    template <typename Arg>
-      struct apply
-    {
-      typedef typename X<Arg>::type type;
-    }; // end apply
-  }; // end type
-}; // end lambda
-
-
-
 // define apply2 for tuple_meta_accumulate_impl
 template<typename UnaryMetaFunctionClass, class Arg1, class Arg2>
   struct apply2
@@ -211,8 +165,6 @@ template<
   struct tuple_meta_accumulate_impl
 {
    typedef typename apply2<
-       // XXX do we need to implement mpl::lambda or not?
-       //typename mpl::lambda<BinaryMetaFun>::type
        BinaryMetaFun
      , typename Tuple::head_type
      , typename tuple_meta_accumulate<
@@ -318,45 +270,6 @@ bool tuple_equal(Tuple1 const& t1, Tuple2 const& t2)
 } // end end tuple_impl_specific
 
 
-// define the lambda placeholders for the metafunctions below
-struct _1 {};
-struct _2 {};
-
-
-// specialize iterator_reference on the lambda placeholder
-template<typename T> struct
-  iterator_reference
-    : thrust::iterator_reference<T>
-{
-}; // end iterator_reference
-
-template<>
-  struct iterator_reference<_1>
-{
-  template <class T>
-    struct apply : thrust::iterator_reference<T> {};
-}; // end iterator_reference
-
-namespace zip_iterator_base_ns
-{
-
-// specialize iterator_value on the lambda placeholder
-template<typename T>
-  struct iterator_value
-    : thrust::iterator_value<T>
-{
-}; // end iterator_value
-
-template<>
-  struct iterator_value<_1>
-{
-  template <class T>
-    struct apply : thrust::iterator_value<T> {};
-}; // end iterator_value
-
-} // end zip_iterator_base_ns
-
-
 // Metafunction to obtain the type of the tuple whose element types
 // are the reference types of an iterator tuple.
 //
@@ -448,19 +361,6 @@ struct minimum_space_in_iterator_tuple
     thrust::any_space_tag
   >::type type;
 };
-
-  
-//// We need to call tuple_meta_accumulate with mpl::and_ as the
-//// accumulating functor. To this end, we need to wrap it into
-//// a struct that has exactly two arguments (that is, template
-//// parameters) and not five, like mpl::and_ does.
-////
-//template<typename Arg1, typename Arg2>
-//struct and_with_two_args
-//  : mpl::and_<Arg1, Arg2>
-//{
-//};
-    
 
 
 ///////////////////////////////////////////////////////////////////
