@@ -83,7 +83,7 @@ namespace detail
 template<typename Element>
   struct reference_msvc_workaround
 {
-  typedef typename reference<Element> type;
+  typedef thrust::system::cpp::reference<Element> type;
 }; // end reference_msvc_workaround
 
 } // end detail
