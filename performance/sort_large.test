@@ -1,6 +1,16 @@
 PREAMBLE = \
     """
     #include <thrust/sort.h>
+
+    template <typename T>
+    struct my_less : public thrust::binary_function<T,T,bool>
+    {
+        bool operator()(const T& a, const T& b) const
+        {
+            return a < b;
+        }
+    };
+
     """
 
 INITIALIZE = \
@@ -9,9 +19,11 @@ INITIALIZE = \
     thrust::device_vector<$KeyType> d_keys = h_keys;
     thrust::device_vector<$KeyType> d_keys_copy = d_keys;
     
+    typedef my_less<$KeyType> Comp;
+    
     // test sort
-    thrust::sort(h_keys.begin(), h_keys.end());
-    thrust::sort(d_keys.begin(), d_keys.end());
+    thrust::sort(h_keys.begin(), h_keys.end(), Comp());
+    thrust::sort(d_keys.begin(), d_keys.end(), Comp());
 
     ASSERT_EQUAL(d_keys, h_keys);
     """
@@ -19,7 +31,7 @@ INITIALIZE = \
 TIME = \
     """
     thrust::copy(d_keys_copy.begin(), d_keys_copy.end(), d_keys.begin());
-    thrust::sort(d_keys.begin(), d_keys.end());
+    thrust::sort(d_keys.begin(), d_keys.end(), Comp());
     """
 
 FINALIZE = \
@@ -28,7 +40,7 @@ FINALIZE = \
     RECORD_SORTING_RATE(double($InputSize));
     """
 
-KeyTypes =  ['char', 'short', 'int', 'float', 'double']
-InputSizes = [int(2**(k/2.0)) for k in range(34,50)]
+KeyTypes =  ['int']
+InputSizes = [2**24]
 
 TestVariables = [('KeyType', KeyTypes), ('InputSize', InputSizes)]

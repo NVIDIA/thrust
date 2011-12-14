@@ -22,7 +22,6 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/merge.h>
-#include <thrust/system/detail/internal/scalar/insertion_sort.h>
 #include <tbb/parallel_invoke.h>
 
 namespace thrust
