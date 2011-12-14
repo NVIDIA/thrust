@@ -16,27 +16,25 @@
 
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/detail/copy.h>
-#include <thrust/detail/temporary_array.h>
+#include <thrust/system/detail/internal/scalar/copy.h>
 #include <thrust/detail/backend/dereference.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/merge.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(tag,
-                     InputIterator1 first1,
+OutputIterator merge(InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
                      InputIterator2 last2,
@@ -61,27 +59,8 @@ OutputIterator merge(tag,
     ++result;
   } // end while
 
-  return thrust::copy(first2, last2, thrust::copy(first1, last1, result));
+  return thrust::system::detail::internal::scalar::copy(first2, last2, thrust::system::detail::internal::scalar::copy(first1, last1, result));
 } // end merge()
-
-
-template <typename RandomAccessIterator,
-          typename StrictWeakOrdering>
-void inplace_merge(RandomAccessIterator first,
-                   RandomAccessIterator middle,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp)
-{
-  // XXX the type of space should be:
-  //     typedef decltype(select_space(first, middle, last)) space;
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
-
-  thrust::detail::temporary_array<value_type, space> a( first, middle);
-  thrust::detail::temporary_array<value_type, space> b(middle,   last);
-
-  thrust::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
-}
 
 
 template <typename InputIterator1,
@@ -150,38 +129,9 @@ thrust::pair<OutputIterator1,OutputIterator2>
   return thrust::make_pair(output1, output2);
 }
 
-
-template <typename RandomAccessIterator1,
-          typename RandomAccessIterator2,
-          typename StrictWeakOrdering>
-void inplace_merge_by_key(RandomAccessIterator1 first1,
-                          RandomAccessIterator1 middle1,
-                          RandomAccessIterator1 last1,
-                          RandomAccessIterator2 first2,
-                          StrictWeakOrdering comp)
-{
-  // XXX the type of space should be:
-  //     typedef decltype(select_space(first1, middle1, last1, first2)) space;
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
-
-  RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
-  RandomAccessIterator2 last2   = first2 + (last1   - first1);
-
-  thrust::detail::temporary_array<value_type1, space> lhs1( first1, middle1);
-  thrust::detail::temporary_array<value_type1, space> rhs1(middle1,   last1);
-  thrust::detail::temporary_array<value_type2, space> lhs2( first2, middle2);
-  thrust::detail::temporary_array<value_type2, space> rhs2(middle2,   last2);
-
-  thrust::system::cpp::detail::merge_by_key
-    (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
-     lhs2.begin(), rhs2.begin(),
-     first1, first2, comp);
-}
-
-} // end namespace cpp
-} // end namespace backend
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
+} // end namespace system
 } // end namespace thrust
 

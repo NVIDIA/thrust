@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/copy.h>
-#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/system/cpp/detail/general_copy.h>
-#include <thrust/system/cpp/detail/trivial_copy.h>
+#include <thrust/system/detail/internal/scalar/general_copy.h>
+#include <thrust/system/detail/internal/scalar/trivial_copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 
@@ -28,9 +25,11 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 namespace copy_detail
 {
@@ -55,7 +54,7 @@ template<typename InputIterator,
   typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
   const Size n = last - first;
-  thrust::system::cpp::detail::trivial_copy_n(get(&*first), n, get(&*result));
+  thrust::system::detail::internal::scalar::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
 } // end copy()
 
@@ -67,7 +66,7 @@ template<typename InputIterator,
                       OutputIterator result,
                       thrust::detail::false_type)  // is_trivial_copy
 {
-  return thrust::system::cpp::detail::general_copy(first,last,result);
+  return thrust::system::detail::internal::scalar::general_copy(first,last,result);
 } // end copy()
 
 
@@ -79,7 +78,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::detail::true_type)  // is_trivial_copy
 {
-  thrust::system::cpp::detail::trivial_copy_n(get(&*first), n, get(&*result));
+  thrust::system::detail::internal::scalar::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
 } // end copy_n()
 
@@ -92,21 +91,19 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::detail::false_type)  // is_trivial_copy
 {
-  return thrust::system::cpp::detail::general_copy_n(first,n,result);
+  return thrust::system::detail::internal::scalar::general_copy_n(first,n,result);
 } // end copy_n()
 
-
-} // end copy_detail
+} // end namespace copy_detail
 
 
 template<typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(tag,
-                      InputIterator first,
+  OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::system::cpp::detail::copy_detail::copy(first, last, result,
+  return thrust::system::detail::internal::scalar::copy_detail::copy(first, last, result,
     typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
 } // end copy()
 
@@ -114,18 +111,17 @@ template<typename InputIterator,
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(tag,
-                        InputIterator first,
+  OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result)
 {
-  return thrust::system::cpp::detail::copy_detail::copy_n(first, n, result,
+  return thrust::system::detail::internal::scalar::copy_detail::copy_n(first, n, result,
     typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
 } // end copy_n()
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+} // end namespace scalar
+} // end namespace internal
+} // end namespace detail
+} // end namespace system
+} // end namespace thrust
 

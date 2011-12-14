@@ -14,11 +14,10 @@
  *  limitations under the License.
  */
 
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/reduce_by_key.h>
+#include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits/algorithm/intermediate_type_from_function_and_iterators.h>
 #include <thrust/detail/backend/dereference.h>
@@ -27,9 +26,11 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template <typename InputIterator1,
@@ -39,8 +40,7 @@ template <typename InputIterator1,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
-                  InputIterator1 keys_first, 
+    reduce_by_key(InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
                   OutputIterator1 keys_output,
@@ -96,8 +96,9 @@ template <typename InputIterator1,
   return thrust::make_pair(keys_output, values_output);
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

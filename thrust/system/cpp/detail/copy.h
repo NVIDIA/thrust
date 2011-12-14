@@ -22,6 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/copy.h>
 
 namespace thrust
 {
@@ -32,13 +33,15 @@ namespace cpp
 namespace detail
 {
 
-
 template<typename InputIterator,
          typename OutputIterator>
   OutputIterator copy(tag,
                       InputIterator first,
                       InputIterator last,
-                      OutputIterator result);
+                      OutputIterator result)
+{
+  return thrust::system::detail::internal::scalar::copy(first, last, result);
+}
 
 template<typename InputIterator,
          typename Size,
@@ -46,13 +49,13 @@ template<typename InputIterator,
   OutputIterator copy_n(tag,
                         InputIterator first,
                         Size n,
-                        OutputIterator result);
+                        OutputIterator result)
+{
+  return thrust::system::detail::internal::scalar::copy_n(first, n, result);
+}
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
-
-#include <thrust/system/cpp/detail/copy.inl>
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 

@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/remove.h>
 
 namespace thrust
 {
@@ -33,7 +34,10 @@ template<typename ForwardIterator,
   ForwardIterator remove_if(tag,
                             ForwardIterator first,
                             ForwardIterator last,
-                            Predicate pred);
+                            Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::remove_if(first, last, pred);
+}
 
 
 template<typename ForwardIterator,
@@ -43,7 +47,10 @@ template<typename ForwardIterator,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
-                            Predicate pred);
+                            Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::remove_if(first, last, stencil, pred);
+}
 
 
 template<typename InputIterator,
@@ -53,7 +60,11 @@ template<typename InputIterator,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                Predicate pred);
+                                Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::remove_copy_if(first, last, result, pred);
+}
+
 
 
 template<typename InputIterator1,
@@ -65,13 +76,13 @@ template<typename InputIterator1,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
-                                Predicate pred);
-
+                                Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::remove_copy_if(first, last, stencil, result, pred);
+}
 
 } // end namespace detail
 } // end namespace cpp
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/remove.inl>
 

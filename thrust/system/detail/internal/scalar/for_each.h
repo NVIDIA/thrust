@@ -14,24 +14,45 @@
  *  limitations under the License.
  */
 
+
+/*! \file for_each.h
+ *  \brief Sequential implementations of for_each functions.
+ */
+
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
+namespace internal
+{
+namespace scalar
+{
+
+template<typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f)
+{
+  for(; first != last; ++first)
+  {
+    f(thrust::detail::backend::dereference(first));
+  }
+
+  return first;
+} // end for_each()
 
 template<typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(tag,
-                         InputIterator first,
+InputIterator for_each_n(InputIterator first,
                          Size n,
                          UnaryFunction f)
 {
@@ -46,23 +67,9 @@ InputIterator for_each_n(tag,
   return first;
 } // end for_each_n()
 
-template<typename InputIterator,
-         typename UnaryFunction>
-InputIterator for_each(tag,
-                       InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f)
-{
-  for(; first != last; ++first)
-  {
-    f(thrust::detail::backend::dereference(first));
-  }
-
-  return first;
-} // end for_each()
-
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

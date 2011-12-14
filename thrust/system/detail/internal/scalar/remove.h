@@ -16,28 +16,28 @@
 
 
 /*! \file remove.h
- *  \brief C++ implementation of remove algorithms.
+ *  \brief Sequential implementations of remove functions.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/remove.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
-                            ForwardIterator first,
+  ForwardIterator remove_if(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
@@ -70,8 +70,7 @@ template<typename ForwardIterator,
 template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
-                            ForwardIterator first,
+  ForwardIterator remove_if(ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
@@ -110,8 +109,7 @@ template<typename ForwardIterator,
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
-                                InputIterator first,
+  OutputIterator remove_copy_if(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
@@ -134,8 +132,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
-                                InputIterator1 first,
+  OutputIterator remove_copy_if(InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
@@ -156,8 +153,9 @@ template<typename InputIterator1,
   return result;
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

@@ -15,39 +15,40 @@
  */
 
 
-/*! \file reduce.h
- *  \brief C++ implementation of reduce algorithms.
+/*! \file stable_radix_sort.h
+ *  \brief Sequential implementation of radix sort.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/reduce.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op)
+namespace internal
 {
-  return thrust::system::detail::internal::scalar::reduce(begin, end, init, binary_op);
-}
+namespace scalar
+{
 
+template<typename RandomAccessIterator>
+void stable_radix_sort(RandomAccessIterator begin,
+                       RandomAccessIterator end);
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
+                              RandomAccessIterator1 keys_end,
+                              RandomAccessIterator2 values_begin);
+
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/detail/internal/scalar/stable_radix_sort.inl>
 

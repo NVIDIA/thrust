@@ -14,10 +14,14 @@
  *  limitations under the License.
  */
 
+
+/*! \file unique.h
+ *  \brief Sequential implementations of unique algorithms.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/unique.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
 #include <thrust/detail/backend/dereference.h>
@@ -26,29 +30,17 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
-
-template<typename ForwardIterator,
-         typename BinaryPredicate>
-  ForwardIterator unique(tag,
-                         ForwardIterator first,
-                         ForwardIterator last,
-                         BinaryPredicate binary_pred)
+namespace internal
 {
-  // unique_copy() permits in-situ operation
-  return thrust::system::cpp::detail::unique_copy(tag(),first, last, first, binary_pred);
-} // end unique()
-
+namespace scalar
+{
 
 template<typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator unique_copy(tag,
-                             InputIterator first,
+  OutputIterator unique_copy(InputIterator first,
                              InputIterator last,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
@@ -81,8 +73,19 @@ template<typename InputIterator,
 } // end unique_copy()
 
 
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+  ForwardIterator unique(ForwardIterator first,
+                         ForwardIterator last,
+                         BinaryPredicate binary_pred)
+{
+  // unique_copy() permits in-situ operation
+  return thrust::system::detail::internal::scalar::unique_copy(first, last, first, binary_pred);
+} // end unique()
+
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp 
 } // end namespace system
 } // end namespace thrust
 

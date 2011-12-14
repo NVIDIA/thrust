@@ -24,8 +24,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
 
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/extrema.h>
 
 namespace thrust
 {
@@ -42,17 +42,7 @@ ForwardIterator min_element(tag,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-  ForwardIterator imin = first;
-
-  for (; first != last; first++)
-  {
-    if (comp(thrust::detail::backend::dereference(first), thrust::detail::backend::dereference(imin)))
-    {
-      imin = first;
-    }
-  }
-
-  return imin;
+  return thrust::system::detail::internal::scalar::min_element(first, last, comp);
 }
 
 
@@ -62,17 +52,7 @@ ForwardIterator max_element(tag,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-  ForwardIterator imax = first;
-
-  for (; first != last; first++)
-  {
-    if (comp(thrust::detail::backend::dereference(imax), thrust::detail::backend::dereference(first)))
-    {
-      imax = first;
-    }
-  }
-
-  return imax;
+  return thrust::system::detail::internal::scalar::max_element(first, last, comp);
 }
 
 
@@ -82,23 +62,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
-  ForwardIterator imin = first;
-  ForwardIterator imax = first;
-
-  for (; first != last; first++)
-  {
-    if (comp(thrust::detail::backend::dereference(first), thrust::detail::backend::dereference(imin)))
-    {
-      imin = first;
-    }
-
-    if (comp(thrust::detail::backend::dereference(imax), thrust::detail::backend::dereference(first)))
-    {
-      imax = first;
-    }
-  }
-
-  return thrust::make_pair(imin, imax);
+  return thrust::system::detail::internal::scalar::minmax_element(first, last, comp);
 }
 
 } // end namespace detail

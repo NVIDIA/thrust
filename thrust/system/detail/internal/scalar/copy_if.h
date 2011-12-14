@@ -14,47 +14,54 @@
  *  limitations under the License.
  */
 
+/*! \file copy_if.h
+ *  \brief Sequential implementation of copy_if.
+ */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/reduce.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op)
+namespace internal
 {
-  // initialize the result
-  OutputType result = init;
+namespace scalar
+{
 
-  while(begin != end)
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  while(first != last)
   {
-    result = binary_op(result, thrust::detail::backend::dereference(begin));
-    begin++;
+    if(pred(thrust::detail::backend::dereference(stencil)))
+    {
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      ++result;
+    } // end if
+
+    ++first;
+    ++stencil;
   } // end while
 
   return result;
-}
+} // end copy_if()
 
-
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

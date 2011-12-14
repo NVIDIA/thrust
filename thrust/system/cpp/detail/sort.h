@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/sort.h>
 
 namespace thrust
 {
@@ -33,7 +34,10 @@ template<typename RandomAccessIterator,
   void stable_sort(tag,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
-                   StrictWeakOrdering comp);
+                   StrictWeakOrdering comp)
+{
+  thrust::system::detail::internal::scalar::stable_sort(first, last, comp);
+}
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -42,12 +46,13 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
-                          StrictWeakOrdering comp);
+                          StrictWeakOrdering comp)
+{
+  thrust::system::detail::internal::scalar::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+}
 
 } // end namespace detail
 } // end namespace cpp
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/sort.inl>
 

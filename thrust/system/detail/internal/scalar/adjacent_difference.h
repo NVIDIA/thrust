@@ -16,38 +16,56 @@
 
 
 /*! \file adjacent_difference.h
- *  \brief C++ implementation of adjacent_difference.
+ *  \brief Sequential implementation of adjacent_difference.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/adjacent_difference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator adjacent_difference(tag,
-                                   InputIterator first,
+OutputIterator adjacent_difference(InputIterator first,
                                    InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  return thrust::system::detail::internal::scalar::adjacent_difference(first, last, result, binary_op);
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+
+  if (first == last)
+    return result;
+
+  InputType curr = thrust::detail::backend::dereference(first);
+
+  thrust::detail::backend::dereference(result) = curr;
+
+  while (++first != last)
+  {
+    InputType next = thrust::detail::backend::dereference(first);
+    thrust::detail::backend::dereference(++result) = binary_op(next, curr);
+    curr = next;
+  }
+
+  return ++result;
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 
