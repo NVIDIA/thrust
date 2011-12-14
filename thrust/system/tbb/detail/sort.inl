@@ -110,7 +110,7 @@ void stable_sort(tag,
 }
 
 } // end namespace detail
-} // end namespace cpp
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
 

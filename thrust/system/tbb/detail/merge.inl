@@ -20,8 +20,8 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/system/tbb/detail/tag.h>
-#include <thrust/merge.h>
-#include <thrust/binary_search.h>
+#include <thrust/system/detail/internal/scalar/merge.h>
+#include <thrust/system/detail/internal/scalar/binary_search.h>
 #include <tbb/parallel_for.h>
 
 namespace thrust
@@ -72,12 +72,12 @@ struct range
     if (n1 > n2)
     {
       mid1 += n1 / 2;
-      mid2 = thrust::lower_bound(first2, last2, thrust::detail::backend::dereference(mid1), comp);
+      mid2 = thrust::system::detail::internal::scalar::lower_bound(first2, last2, thrust::detail::backend::dereference(mid1), comp);
     }
     else
     {
       mid2 += n2 / 2;
-      mid1 = thrust::upper_bound(first1, last1, thrust::detail::backend::dereference(mid2), comp);
+      mid1 = thrust::system::detail::internal::scalar::upper_bound(first1, last1, thrust::detail::backend::dereference(mid2), comp);
     }
     
     // set first range to [first1, mid1), [first2, mid2), result
@@ -106,10 +106,11 @@ struct body
   template <typename Range>
   void operator()(Range& r) const
   {
-    thrust::merge(retag<cpp::tag>(r.first1), retag<cpp::tag>(r.last1),
-                  retag<cpp::tag>(r.first2), retag<cpp::tag>(r.last2),
-                  retag<cpp::tag>(r.result),
-                  r.comp);
+    thrust::system::detail::internal::scalar::merge
+      (r.first1, r.last1,
+       r.first2, r.last2,
+       r.result,
+       r.comp);
   }
 };
 
