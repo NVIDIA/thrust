@@ -565,6 +565,48 @@ template<typename Base, typename Derived>
 {};
 
 
+namespace is_assignable_ns
+{
+
+template<typename T1, typename T2>
+  class is_assignable
+{
+  typedef char                      yes_type;
+  typedef struct { char array[2]; } no_type;
+
+  template<typename T> static typename add_reference<T>::type declval();
+  
+  template<unsigned int> struct helper { typedef void * type; };
+
+  template<typename U1, typename U2> static yes_type test(typename helper<sizeof(declval<U1>() = declval<U2>())>::type);
+
+  template<typename,typename> static no_type test(...);
+
+  public:
+    static const bool value = sizeof(test<T1,T2>(0)) == 1;
+}; // end is_assignable
+
+} // end is_assignable_ns
+
+
+template<typename T1, typename T2>
+  struct is_assignable
+    : integral_constant<
+        bool,
+        is_assignable_ns::is_assignable<T1,T2>::value
+      >
+{};
+
+
+template<typename T>
+  struct is_copy_assignable
+    : is_assignable<
+        typename add_reference<T>::type,
+        typename add_reference<typename add_const<T>::type>::type
+      >
+{};
+
+
 } // end detail
 
 } // end thrust
