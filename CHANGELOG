@@ -90,7 +90,7 @@ New Features
         discard_iterator
 
     Device support
-        Compute Capability 2.1 GPUs such as GeForce GTX 580
+        Compute Capability 2.1 GPUs
 
 New Examples
     run_length_decoding
