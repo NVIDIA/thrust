@@ -14,10 +14,15 @@
  *  limitations under the License.
  */
 
+
+/*! \file scan.h
+ *  \brief Sequential implementations of scan functions.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/scan.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
@@ -28,16 +33,17 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(tag,
-                                InputIterator first,
+  OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 BinaryFunction binary_op)
@@ -84,8 +90,7 @@ template<typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(tag,
-                                InputIterator first,
+  OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
@@ -134,9 +139,9 @@ template<typename InputIterator,
   return result;
 } 
 
-
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

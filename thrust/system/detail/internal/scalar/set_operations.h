@@ -14,36 +14,14 @@
  *  limitations under the License.
  */
 
-/*
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Hewlett-Packard Company makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- *
- *
- * Copyright (c) 1996
- * Silicon Graphics Computer Systems, Inc.
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Silicon Graphics makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
+
+/*! \file set_operations.h
+ *  \brief Sequential implementation of set operation functions.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/set_operations.h>
 #include <thrust/detail/copy.h>
 #include <thrust/detail/backend/dereference.h>
 
@@ -51,18 +29,18 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
+namespace internal
+{
+namespace scalar
+{
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_difference(tag,
-                                InputIterator1 first1,
+  OutputIterator set_difference(InputIterator1 first1,
                                 InputIterator1 last1,
                                 InputIterator2 first2,
                                 InputIterator2 last2,
@@ -98,8 +76,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(tag,
-                                  InputIterator1 first1,
+  OutputIterator set_intersection(InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
                                   InputIterator2 last2,
@@ -135,8 +112,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_symmetric_difference(tag,
-                                          InputIterator1 first1,
+  OutputIterator set_symmetric_difference(InputIterator1 first1,
                                           InputIterator1 last1,
                                           InputIterator2 first2,
                                           InputIterator2 last2,
@@ -174,8 +150,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_union(tag,
-                           InputIterator1 first1,
+  OutputIterator set_union(InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
                            InputIterator2 last2,
@@ -209,9 +184,9 @@ template<typename InputIterator1,
   return thrust::copy(first2, last2, thrust::copy(first1, last1, result));
 } // end set_union()
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+} // end namespace scalar
+} // end namespace internal
+} // end namespace detail
+} // end namespace system
+} // end namespace thrust
 

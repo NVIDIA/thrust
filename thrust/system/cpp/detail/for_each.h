@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/for_each.h>
 
 namespace thrust
 {
@@ -34,7 +35,10 @@ template<typename InputIterator,
 InputIterator for_each(tag,
                        InputIterator first,
                        InputIterator last,
-                       UnaryFunction f);
+                       UnaryFunction f)
+{
+  return thrust::system::detail::internal::scalar::for_each(first, last, f);
+}
 
 template<typename InputIterator,
          typename Size,
@@ -42,13 +46,13 @@ template<typename InputIterator,
 InputIterator for_each_n(tag,
                          InputIterator first,
                          Size n,
-                         UnaryFunction f);
-
+                         UnaryFunction f)
+{
+  return thrust::system::detail::internal::scalar::for_each_n(first, n, f);
+}
 
 } // end namespace detail
 } // end namespace cpp
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/for_each.inl>
 

@@ -23,6 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/scan.h>
 
 namespace thrust
 {
@@ -40,7 +41,10 @@ template<typename InputIterator,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                BinaryFunction binary_op);
+                                BinaryFunction binary_op)
+{
+  return thrust::system::detail::internal::scalar::inclusive_scan(first, last, result, binary_op);
+}
 
 
 template<typename InputIterator,
@@ -52,13 +56,13 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                BinaryFunction binary_op);
-
+                                BinaryFunction binary_op)
+{
+  return thrust::system::detail::internal::scalar::exclusive_scan(first, last, result, init, binary_op);
+}
 
 } // end namespace detail
 } // end namespace cpp
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/scan.inl>
 

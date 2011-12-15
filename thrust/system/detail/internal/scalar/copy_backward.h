@@ -24,9 +24,11 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template <typename BidirectionalIterator1,
@@ -45,8 +47,9 @@ BidirectionalIterator2 copy_backward(BidirectionalIterator1 first,
   return result;
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

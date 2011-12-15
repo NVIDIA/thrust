@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
+/*! \file copy.h
+ *  \brief Sequential implementations of copy algorithms.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -22,29 +26,31 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
+namespace internal
+{
+namespace scalar
+{
 
-template<typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-void stable_merge_sort(RandomAccessIterator begin,
-                       RandomAccessIterator end,
-                       StrictWeakOrdering comp);
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy(InputIterator first,
+                      InputIterator last,
+                      OutputIterator result);
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
-                              RandomAccessIterator1 keys_end,
-                              RandomAccessIterator2 values_begin,
-                              StrictWeakOrdering comp);
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_n(InputIterator first,
+                        Size n,
+                        OutputIterator result);
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 
-#include <thrust/system/cpp/detail/stable_merge_sort.inl>
+#include <thrust/system/detail/internal/scalar/copy.inl>
 

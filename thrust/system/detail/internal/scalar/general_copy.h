@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
+/*! \file general_copy.h
+ *  \brief Sequential copy algorithms for general iterators.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -23,11 +27,12 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
+namespace internal
+{
+namespace scalar
+{
 
 template<typename InputIterator,
          typename OutputIterator>
@@ -53,9 +58,9 @@ template<typename InputIterator,
   return result;
 } // end general_copy_n()
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+} // end namespace scalar
+} // end namespace internal
+} // end namespace detail
+} // end namespace system
+} // end namespace thrust
 

@@ -14,51 +14,48 @@
  *  limitations under the License.
  */
 
+
+/*! \file find.h
+ *  \brief Sequential implementation of find_if. 
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/copy_if.h>
 #include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
+namespace internal
+{
+namespace scalar
+{
 
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(tag,
-                         InputIterator1 first,
-                         InputIterator1 last,
-                         InputIterator2 stencil,
-                         OutputIterator result,
-                         Predicate pred)
+template <typename InputIterator,
+          typename Predicate>
+InputIterator find_if(InputIterator first,
+                      InputIterator last,
+                      Predicate pred)
 {
   while(first != last)
   {
-    if(pred(thrust::detail::backend::dereference(stencil)))
-    {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
-      ++result;
-    } // end if
+    if (pred(thrust::detail::backend::dereference(first)))
+      return first;
 
     ++first;
-    ++stencil;
-  } // end while
+  }
 
-  return result;
-} // end copy_if()
+  // return first so zip_iterator works correctly
+  return first;
+}
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+} // end namespace scalar
+} // end namespace internal
+} // end namespace detail
+} // end namespace system
+} // end namespace thrust
 

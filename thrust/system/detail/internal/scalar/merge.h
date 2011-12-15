@@ -14,36 +14,36 @@
  *  limitations under the License.
  */
 
+
+/*! \file merge.h
+ *  \brief Sequential implementation of merge algorithms.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/pair.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/merge.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(tag,
-                     InputIterator1 first1,
+OutputIterator merge(InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
                      InputIterator2 last2,
                      OutputIterator result,
-                     StrictWeakOrdering comp)
-{
-  return thrust::system::detail::internal::scalar::merge(first1, last1, first2, last2, result, comp);
-}
+                     StrictWeakOrdering comp);
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -53,8 +53,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(tag,
-                 InputIterator1 first1,
+    merge_by_key(InputIterator1 first1,
                  InputIterator1 last1,
                  InputIterator2 first2,
                  InputIterator2 last2,
@@ -62,13 +61,13 @@ thrust::pair<OutputIterator1,OutputIterator2>
                  InputIterator4 first4,
                  OutputIterator1 output1,
                  OutputIterator2 output2,
-                 StrictWeakOrdering comp)
-{
-  return thrust::system::detail::internal::scalar::merge_by_key(first1, last1, first2, last2, first3, first4, output1, output2, comp);
-}
+                 StrictWeakOrdering comp);
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/detail/internal/scalar/merge.inl>
 

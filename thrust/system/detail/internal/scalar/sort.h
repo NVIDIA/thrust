@@ -14,40 +14,44 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce.h
- *  \brief C++ implementation of reduce algorithms.
+/*! \file sort.h
+ *  \brief Sequential implementations of sort algorithms.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/reduce.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op)
+namespace internal
 {
-  return thrust::system::detail::internal::scalar::reduce(begin, end, init, binary_op);
-}
+namespace scalar
+{
 
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+void stable_sort(RandomAccessIterator first,
+                 RandomAccessIterator last,
+                 StrictWeakOrdering comp);
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+void stable_sort_by_key(RandomAccessIterator1 first1,
+                        RandomAccessIterator1 last1,
+                        RandomAccessIterator2 first2,
+                        StrictWeakOrdering comp);
+
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/detail/internal/scalar/sort.inl>
 

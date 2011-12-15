@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
 
 #include <thrust/reverse.h>
-
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/system/detail/internal/scalar/stable_merge_sort.h>
 #include <thrust/system/detail/internal/scalar/stable_radix_sort.h>
 
@@ -28,11 +25,13 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-namespace dispatch
+namespace internal
+{
+namespace scalar
+{
+namespace sort_detail
 {
 
 ////////////////
@@ -111,9 +110,52 @@ void stable_sort_by_key(RandomAccessIterator1 first1,
   thrust::system::detail::internal::scalar::stable_merge_sort_by_key(first1, last1, first2, comp);
 }
 
-} // end namespace dispatch
+
+} // end namespace sort_detail
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+void stable_sort(RandomAccessIterator first,
+                 RandomAccessIterator last,
+                 StrictWeakOrdering comp)
+{
+  typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+  static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
+                                     (thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value ||
+                                      thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value);
+
+  // supress unused variable warning
+  (void) use_radix_sort;
+
+  thrust::system::detail::internal::scalar::sort_detail::stable_sort
+    (first, last, comp, 
+      thrust::detail::integral_constant<bool, use_radix_sort>());
+}
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+void stable_sort_by_key(RandomAccessIterator1 first1,
+                        RandomAccessIterator1 last1,
+                        RandomAccessIterator2 first2,
+                        StrictWeakOrdering comp)
+{
+  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  static const bool use_radix_sort = thrust::detail::is_arithmetic<KeyType>::value &&
+                                     (thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value ||
+                                      thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value);
+
+  // supress unused variable warning
+  (void) use_radix_sort;
+
+  thrust::system::detail::internal::scalar::sort_detail::stable_sort_by_key
+    (first1, last1, first2, comp, 
+      thrust::detail::integral_constant<bool, use_radix_sort>());
+}
+
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

@@ -22,8 +22,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/find.h>
 
 namespace thrust
 {
@@ -34,22 +34,14 @@ namespace cpp
 namespace detail
 {
 
-template <typename InputIterator, typename Predicate>
+template <typename InputIterator,
+          typename Predicate>
 InputIterator find_if(tag,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-  while(first != last)
-  {
-    if (pred(thrust::detail::backend::dereference(first)))
-      return first;
-
-    ++first;
-  }
-
-  // return first so zip_iterator works correctly
-  return first;
+  return thrust::system::detail::internal::scalar::find_if(first, last, pred);
 }
 
 } // end namespace detail

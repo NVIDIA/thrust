@@ -14,21 +14,25 @@
  *  limitations under the License.
  */
 
+/*! \file trivial_copy.h
+ *  \brief Sequential copy algorithms for plain-old-data.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
 #include <cstring>
 
-
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
+namespace internal
+{
+namespace scalar
+{
 
 template<typename T>
   T *trivial_copy_n(const T *first,
@@ -39,10 +43,9 @@ template<typename T>
   return result + n;
 } // end trivial_copy_n()
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
-
+} // end namespace scalar
+} // end namespace internal
+} // end namespace detail
+} // end namespace system
+} // end namespace thrust
 

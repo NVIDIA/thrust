@@ -18,10 +18,10 @@
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/copy.h>
+#include <thrust/system/detail/internal/scalar/insertion_sort.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/merge.h>
-#include <thrust/system/cpp/detail/insertion_sort.h>
 #include <tbb/parallel_invoke.h>
 
 namespace thrust
@@ -68,7 +68,7 @@ void merge_sort(Iterator1 first1, Iterator1 last1, Iterator2 first2, StrictWeakO
 
   if (n < threshold)
   {
-    thrust::system::cpp::detail::insertion_sort(first1, last1, comp);
+    thrust::system::detail::internal::scalar::insertion_sort(first1, last1, comp);
     
     if (!inplace)
       thrust::copy(first1, last1, first2); // XXX replace with trivial sequential copy
@@ -109,7 +109,7 @@ void stable_sort(tag,
 }
 
 } // end namespace detail
-} // end namespace cpp
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
 
