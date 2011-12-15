@@ -30,6 +30,7 @@
 #include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/uninitialized_array.h>
+#include <thrust/detail/trivial_sequence.h>
 
 /*
  *  This file implements the following dispatch procedure for cuda::stable_sort()
@@ -269,17 +270,24 @@ namespace first_dispatch
                        StrictWeakOrdering comp,
                        thrust::detail::true_type)
     {
-        // CUDA path for thrust::stable_sort with primitive keys
-        // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
-        // method is implemented with stable_radix_sort
-        thrust::detail::backend::cuda::detail::stable_radix_sort(first, last);
+         // ensure sequence has trivial iterators
+         thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+        
+         // CUDA path for thrust::stable_sort with primitive keys
+         // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
+         // method is implemented with stable_radix_sort
+         thrust::detail::backend::cuda::detail::stable_radix_sort(keys.begin(), keys.end());
+        
+         // copy results back, if necessary
+         if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
+             thrust::copy(keys.begin(), keys.end(), first);
        
-        // if comp is greater<T> then reverse the keys
-        typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
+         // if comp is greater<T> then reverse the keys
+         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+         const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
 
-        if (reverse)
-          thrust::reverse(first, last);
+         if (reverse)
+           thrust::reverse(first, last);
     }
     
     template<typename RandomAccessIterator,
@@ -330,7 +338,17 @@ namespace first_dispatch
           thrust::reverse(values_first, values_first + (keys_last - keys_first));
         }
 
-        thrust::detail::backend::cuda::detail::stable_radix_sort_by_key(keys_first, keys_last, values_first);
+        // ensure sequences have trivial iterators
+        thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
+        thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_first + (keys_last - keys_first));
+
+        thrust::detail::backend::cuda::detail::stable_radix_sort_by_key(keys.begin(), keys.end(), values.begin());
+
+        // copy results back, if necessary
+        if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
+            thrust::copy(keys.begin(), keys.end(), keys_first);
+        if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
+            thrust::copy(values.begin(), values.end(), values_first);
         
         if (reverse)
         {
