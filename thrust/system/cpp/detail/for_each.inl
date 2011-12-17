@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -35,11 +35,15 @@ InputIterator for_each_n(tag,
                          Size n,
                          UnaryFunction f)
 {
+  // create a wrapped function for f
+  typedef typename thrust::iterator_reference<InputIterator>::type reference;
+  thrust::detail::host_wrapped_unary_function<UnaryFunction,reference,void> wrapped_f(f);
+
   for(Size i = 0; i != n; i++)
   {
     // we can dereference an OutputIterator if f does not
     // try to use the reference for anything besides assignment
-    f(thrust::detail::backend::dereference(first));
+    wrapped_f(*first);
     ++first;
   }
 
@@ -53,9 +57,13 @@ InputIterator for_each(tag,
                        InputIterator last,
                        UnaryFunction f)
 {
+  // create a wrapped function for f
+  typedef typename thrust::iterator_reference<InputIterator>::type reference;
+  thrust::detail::host_wrapped_unary_function<UnaryFunction,reference,void> wrapped_f(f);
+
   for(; first != last; ++first)
   {
-    f(thrust::detail::backend::dereference(first));
+    wrapped_f(*first);
   }
 
   return first;

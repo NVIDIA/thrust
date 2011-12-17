@@ -26,9 +26,10 @@
 
 #include <thrust/distance.h>
 #include <thrust/for_each.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 
 #include <limits>
 
@@ -52,7 +53,11 @@ struct for_each_n_closure
 
   RandomAccessIterator first;
   Size n;
-  UnaryFunction f;
+  thrust::detail::host_device_wrapped_unary_function<
+    UnaryFunction,
+    typename thrust::iterator_reference<RandomAccessIterator>::type,
+    void
+  > f;
   Context context;
 
   for_each_n_closure(RandomAccessIterator first,
@@ -74,12 +79,12 @@ struct for_each_n_closure
 
     while(i < n)
     {
-      f(thrust::detail::backend::dereference(first));
+      f(*first);
       i += grid_size;
       first += grid_size;
     }
   }
-}; // end or_each_n_closure
+}; // end for_each_n_closure
 
 
 template<typename RandomAccessIterator,

@@ -22,7 +22,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/distance.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/for_each.h>
@@ -54,6 +54,10 @@ RandomAccessIterator for_each_n(tag,
 
   if (n <= 0) return first;  //empty range
 
+  // create a wrapped function for f
+  typedef typename thrust::iterator_reference<RandomAccessIterator>::type reference;
+  thrust::detail::host_wrapped_unary_function<UnaryFunction,reference,void> wrapped_f(f);
+
 // do not attempt to compile the body of this function, which depends on #pragma omp,
 // without support from the compiler
 // XXX implement the body of this function in another file to eliminate this ugliness
@@ -67,7 +71,7 @@ RandomAccessIterator for_each_n(tag,
       ++i)
   {
     RandomAccessIterator temp = first + i;
-    f(thrust::detail::backend::dereference(temp));
+    wrapped_f(*temp);
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 
