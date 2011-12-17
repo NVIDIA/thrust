@@ -38,6 +38,7 @@
 #include <thrust/iterator/detail/transform_iterator.inl>
 #include <thrust/iterator/iterator_facade.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -254,7 +255,12 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     __host__ __device__
     typename super_t::reference dereference() const
     { 
-      return m_f(*this->base());
+      typedef typename thrust::iterator_reference<Iterator>::type base_reference;
+
+      // XXX consider making this a member instead of a temporary created inside dereference
+      thrust::detail::host_device_wrapped_unary_function<AdaptableUnaryFunction, base_reference, typename super_t::reference> wrapped_f(m_f);
+
+      return wrapped_f(*this->base());
     }
 
     // tag this as mutable per Dave Abrahams in this thread:
