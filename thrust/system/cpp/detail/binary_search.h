@@ -26,7 +26,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/binary_search.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/system/cpp/detail/tag.h>
 
 // TODO replace the code below with calls to thrust::detail::backend::generic::scalar::*
@@ -50,6 +50,14 @@ ForwardIterator lower_bound(tag,
 {
   typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
 
+  // wrap comp
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<ForwardIterator>::type,
+    const T&,
+    bool
+  > wrapped_comp(comp);
+
   difference_type len = thrust::distance(first, last);
 
   while(len > 0)
@@ -59,7 +67,7 @@ ForwardIterator lower_bound(tag,
 
     thrust::advance(middle, half);
 
-    if(comp(thrust::detail::backend::dereference(middle), val))
+    if(wrapped_comp(*middle, val))
     {
       first = middle;
       ++first;
@@ -84,6 +92,14 @@ ForwardIterator upper_bound(tag,
 {
   typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
 
+  // wrap comp
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    const T&,
+    typename thrust::iterator_reference<ForwardIterator>::type,
+    bool
+  > wrapped_comp(comp);
+
   difference_type len = thrust::distance(first, last);
 
   while(len > 0)
@@ -93,7 +109,7 @@ ForwardIterator upper_bound(tag,
 
     thrust::advance(middle, half);
 
-    if(comp(val, thrust::detail::backend::dereference(middle)))
+    if(wrapped_comp(val, *middle))
     {
       len = half;
     }
@@ -116,7 +132,16 @@ bool binary_search(tag,
                    StrictWeakOrdering comp)
 {
   ForwardIterator iter = thrust::lower_bound(first,last,val,comp);
-  return iter != last && !comp(val, thrust::detail::backend::dereference(iter));
+
+  // wrap comp
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    const T&,
+    typename thrust::iterator_reference<ForwardIterator>::type,
+    bool
+  > wrapped_comp(comp);
+
+  return iter != last && !wrapped_comp(val, *iter);
 }
 
 } // end namespace detail
