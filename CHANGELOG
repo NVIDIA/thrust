@@ -1,4 +1,14 @@
 #######################################
+#           Thrust v1.5.1             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
+    Sorting data referenced by permutation_iterators on CUDA produces invalid results
+
+#######################################
 #           Thrust v1.5.0             #
 #######################################
 
