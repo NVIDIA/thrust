@@ -18,8 +18,6 @@
 
 #include <thrust/detail/config.h>
 
-#include <thrust/detail/backend/dereference.h>
-
 namespace thrust
 {
 namespace system
@@ -39,7 +37,7 @@ BidirectionalIterator2 copy_backward(BidirectionalIterator1 first,
   {
     --last;
     --result;
-    thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(last);
+    *result = *last;
   }
 
   return result;

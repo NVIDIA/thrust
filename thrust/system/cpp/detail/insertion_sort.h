@@ -15,8 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/system/cpp/detail/copy_backward.h>
 
 namespace thrust
@@ -38,16 +37,24 @@ void insertion_sort(RandomAccessIterator first,
 
   if (first == last) return;
 
+  // wrap comp
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    value_type &,
+    typename thrust::iterator_reference<RandomAccessIterator>::type,
+    bool
+  > wrapped_comp(comp);
+
   for(RandomAccessIterator i = first + 1; i != last; ++i)
   {
-    value_type tmp = thrust::detail::backend::dereference(i);
+    value_type tmp = *i;
 
-    if (comp(tmp, thrust::detail::backend::dereference(first)))
+    if (wrapped_comp(tmp, *first))
     {
       // tmp is the smallest value encountered so far
       thrust::system::cpp::detail::copy_backward(first, i, i + 1);
 
-      thrust::detail::backend::dereference(first) = tmp;
+      *first = tmp;
     }
     else
     {
@@ -55,14 +62,14 @@ void insertion_sort(RandomAccessIterator first,
       RandomAccessIterator j = i;
       RandomAccessIterator k = i - 1;
 
-      while(comp(tmp, thrust::detail::backend::dereference(k)))
+      while(wrapped_comp(tmp, *k))
       {
-        thrust::detail::backend::dereference(j) = thrust::detail::backend::dereference(k);
+        *j = *k;
         j = k;
         --k;
       }
 
-      thrust::detail::backend::dereference(j) = tmp;
+      *j = tmp;
     }
   }
 }
@@ -80,22 +87,30 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
 
   if (first1 == last1) return;
 
+  // wrap comp
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    value_type1 &,
+    typename thrust::iterator_reference<RandomAccessIterator1>::type,
+    bool
+  > wrapped_comp(comp);
+
   RandomAccessIterator1 i1 = first1 + 1;
   RandomAccessIterator2 i2 = first2 + 1;
 
   for(; i1 != last1; ++i1, ++i2)
   {
-    value_type1 tmp1 = thrust::detail::backend::dereference(i1);
-    value_type2 tmp2 = thrust::detail::backend::dereference(i2);
+    value_type1 tmp1 = *i1;
+    value_type2 tmp2 = *i2;
 
-    if (comp(tmp1, thrust::detail::backend::dereference(first1)))
+    if (wrapped_comp(tmp1, *first1))
     {
       // tmp is the smallest value encountered so far
       thrust::system::cpp::detail::copy_backward(first1, i1, i1 + 1);
       thrust::system::cpp::detail::copy_backward(first2, i2, i2 + 1);
 
-      thrust::detail::backend::dereference(first1) = tmp1;
-      thrust::detail::backend::dereference(first2) = tmp2;
+      *first1 = tmp1;
+      *first2 = tmp2;
     }
     else
     {
@@ -106,10 +121,10 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
       RandomAccessIterator2 j2 = i2;
       RandomAccessIterator2 k2 = i2 - 1;
 
-      while(comp(tmp1, thrust::detail::backend::dereference(k1)))
+      while(wrapped_comp(tmp1, *k1))
       {
-        thrust::detail::backend::dereference(j1) = thrust::detail::backend::dereference(k1);
-        thrust::detail::backend::dereference(j2) = thrust::detail::backend::dereference(k2);
+        *j1 = *k1;
+        *j2 = *k2;
 
         j1 = k1;
         j2 = k2;
@@ -118,8 +133,8 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
         --k2;
       }
 
-      thrust::detail::backend::dereference(j1) = tmp1;
-      thrust::detail::backend::dereference(j2) = tmp2;
+      *j1 = tmp1;
+      *j2 = tmp2;
     }
   }
 }

@@ -45,7 +45,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/set_operations.h>
 #include <thrust/detail/copy.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -69,17 +70,31 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp twice
+  // the difference is the order of the InputIterators' references
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    bool
+  > wrapped_comp1(comp);
+
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    bool
+  > wrapped_comp2(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp1(*first1, *first2))
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++result;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp2(*first2, *first1))
     {
       ++first2;
     } // end else if
@@ -106,21 +121,35 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp twice
+  // the difference is the order of the InputIterators' references
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    bool
+  > wrapped_comp1(comp);
+
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    bool
+  > wrapped_comp2(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp1(*first1, *first2))
     {
       ++first1;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp2(*first2, *first1))
     {
       ++first2;
     } // end else if
     else
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++first2;
       ++result;
@@ -143,19 +172,33 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp twice
+  // the difference is the order of the InputIterators' references
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    bool
+  > wrapped_comp1(comp);
+
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    bool
+  > wrapped_comp2(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp1(*first1, *first2))
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++result;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp2(*first2, *first1))
     {
-      backend::dereference(result) = backend::dereference(first2);
+      *result = *first2;
       ++first2;
       ++result;
     } // end else if
@@ -182,23 +225,37 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp twice
+  // the difference is the order of the InputIterators' references
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    bool
+  > wrapped_comp1(comp);
+
+  thrust::detail::host_wrapped_binary_function<
+    StrictWeakOrdering,
+    typename thrust::iterator_reference<InputIterator2>::type,
+    typename thrust::iterator_reference<InputIterator1>::type,
+    bool
+  > wrapped_comp2(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp1(*first1, *first2))
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp2(*first2, *first1))
     {
-      backend::dereference(result) = backend::dereference(first2);
+      *result = *first2;
       ++first2;
     } // end else if
     else
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++first2;
     } // end else

@@ -20,7 +20,6 @@
 #include <thrust/system/cpp/detail/unique.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -57,15 +56,15 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    T prev = thrust::detail::backend::dereference(first);
+    T prev = *first;
 
     for(++first; first != last; ++first)
     {
-      T temp = thrust::detail::backend::dereference(first);
+      T temp = *first;
 
       if (!binary_pred(prev, temp))
       {
-        thrust::detail::backend::dereference(output) = prev;
+        *output = prev;
 
         ++output;
 
@@ -73,7 +72,7 @@ template<typename InputIterator,
       }
     }
 
-    thrust::detail::backend::dereference(output) = prev;
+    *output = prev;
     ++output;
   }
 

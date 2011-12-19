@@ -24,7 +24,8 @@
 #include <thrust/pair.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cpp/detail/tag.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -43,9 +44,9 @@ void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 
   typedef typename thrust::iterator_value<ForwardIterator1>::type T;
 
-  T temp = backend::dereference(iter1);
-  backend::dereference(iter1) = backend::dereference(iter2);
-  backend::dereference(iter2) =  temp;
+  T temp = *iter1;
+  *iter1 = *iter2;
+  *iter2 = temp;
 }
 
 template<typename ForwardIterator,
@@ -58,7 +59,14 @@ template<typename ForwardIterator,
   if (first == last)
     return first;
 
-  while (pred(thrust::detail::backend::dereference(first)))
+  // wrap pred
+  thrust::detail::host_wrapped_unary_function<
+    Predicate,
+    typename thrust::iterator_reference<ForwardIterator>::type,
+    bool
+  > wrapped_pred(pred);
+
+  while (wrapped_pred(*first))
   {
     if (++first == last)
       return first;
@@ -68,7 +76,7 @@ template<typename ForwardIterator,
 
   while (++next != last)
   {
-    if (pred(thrust::detail::backend::dereference(next)))
+    if (wrapped_pred(*next))
     {
       iter_swap(first, next);
       ++first;
@@ -87,17 +95,23 @@ template<typename ForwardIterator,
                                    Predicate pred)
 {
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
-
   typedef thrust::detail::temporary_array<T,thrust::cpp::tag> TempRange;
   typedef typename TempRange::iterator                        TempIterator;
+
+  // wrap pred
+  thrust::detail::host_wrapped_unary_function<
+    Predicate,
+    typename thrust::iterator_reference<TempIterator>::type,
+    bool
+  > wrapped_pred(pred);
 
   TempRange temp(first, last);
 
   for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
   {
-    if (pred(thrust::detail::backend::dereference(iter)))
+    if (wrapped_pred(*iter))
     {
-      thrust::detail::backend::dereference(first) = thrust::detail::backend::dereference(iter);
+      *first = *iter;
       ++first;
     }
   }
@@ -106,9 +120,9 @@ template<typename ForwardIterator,
 
   for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
   {
-    if (!bool(pred(thrust::detail::backend::dereference(iter))))
+    if (!bool(wrapped_pred(*iter)))
     {
-      thrust::detail::backend::dereference(first) = thrust::detail::backend::dereference(iter);
+      *first = *iter;
       ++first;
     }
   }
@@ -129,16 +143,23 @@ template<typename InputIterator,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
+  // wrap pred
+  thrust::detail::host_wrapped_unary_function<
+    Predicate,
+    typename thrust::iterator_reference<InputIterator>::type,
+    bool
+  > wrapped_pred(pred);
+
   for(; first != last; ++first)
   {
-    if(pred(thrust::detail::backend::dereference(first)))
+    if(wrapped_pred(*first))
     {
-      thrust::detail::backend::dereference(out_true) = thrust::detail::backend::dereference(first);
+      *out_true = *first;
       ++out_true;
     } // end if
     else
     {
-      thrust::detail::backend::dereference(out_false) = thrust::detail::backend::dereference(first);
+      *out_false = *first;
       ++out_false;
     } // end else
   }

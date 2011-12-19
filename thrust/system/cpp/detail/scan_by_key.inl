@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/scan_by_key.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -44,28 +44,34 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-    using namespace thrust::detail;
-
     typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
+    // wrap binary_op
+    thrust::detail::host_wrapped_binary_function<
+      BinaryFunction,
+      ValueType &,
+      typename thrust::iterator_reference<InputIterator2>::type,
+      ValueType
+    > wrapped_binary_op(binary_op);
+
     if(first1 != last1)
     {
-        KeyType   prev_key   = backend::dereference(first1);
-        ValueType prev_value = backend::dereference(first2);
+        KeyType   prev_key   = *first1;
+        ValueType prev_value = *first2;
 
-        backend::dereference(result) = prev_value;
+        *result = prev_value;
 
         for(++first1, ++first2, ++result;
                 first1 != last1;
                 ++first1, ++first2, ++result)
         {
-            KeyType key = backend::dereference(first1);
+            KeyType key = *first1;
 
             if (binary_pred(prev_key, key))
-                backend::dereference(result) = prev_value = binary_op(prev_value, backend::dereference(first2));
+                *result = prev_value = wrapped_binary_op(prev_value, *first2);
             else
-                backend::dereference(result) = prev_value = backend::dereference(first2);
+                *result = prev_value = *first2;
 
             prev_key = key;
         }
@@ -90,20 +96,18 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-    using namespace thrust::detail;
-
     typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
     typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
     if(first1 != last1)
     {
-        KeyType   temp_key   = backend::dereference(first1);
-        ValueType temp_value = backend::dereference(first2);
+        KeyType   temp_key   = *first1;
+        ValueType temp_value = *first2;
         
         ValueType next = init;
 
         // first one is init
-        backend::dereference(result) = next;
+        *result = next;
 
         next = binary_op(next, temp_value);
 
@@ -111,15 +115,15 @@ template<typename InputIterator1,
                 first1 != last1;
                 ++first1, ++first2, ++result)
         {
-            KeyType key = backend::dereference(first1);
+            KeyType key = *first1;
 
             // use temp to permit in-place scans
-            temp_value = backend::dereference(first2);
+            temp_value = *first2;
 
             if (!binary_pred(temp_key, key))
                 next = init;  // reset sum
                 
-            backend::dereference(result) = next;  
+            *result = next;  
             next = binary_op(next, temp_value);
 
             temp_key = key;

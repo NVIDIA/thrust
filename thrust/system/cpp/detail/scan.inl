@@ -22,7 +22,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -66,14 +66,22 @@ template<typename InputIterator,
     >
   >::type ValueType;
 
+  // wrap binary_op
+  thrust::detail::host_wrapped_binary_function<
+    BinaryFunction,
+    ValueType &,
+    typename thrust::iterator_reference<InputIterator>::type,
+    ValueType
+  > wrapped_binary_op(binary_op);
+
   if(first != last)
   {
-    ValueType sum = backend::dereference(first);
+    ValueType sum = *first;
 
-    backend::dereference(result) = sum;
+    *result = sum;
 
     for(++first, ++result; first != last; ++first, ++result)
-      backend::dereference(result) = sum = binary_op(sum, backend::dereference(first));
+      *result = sum = wrapped_binary_op(sum, *first);
   }
 
   return result;
@@ -117,16 +125,16 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    ValueType tmp = backend::dereference(first);  // temporary value allows in-situ scan
+    ValueType tmp = *first;  // temporary value allows in-situ scan
     ValueType sum = init;
 
-    backend::dereference(result) = sum;
+    *result = sum;
     sum = binary_op(sum, tmp);
 
     for(++first, ++result; first != last; ++first, ++result)
     {
-      tmp = backend::dereference(first);
-      backend::dereference(result) = sum;
+      tmp = *first;
+      *result = sum;
       sum = binary_op(sum, tmp);
     }
   }

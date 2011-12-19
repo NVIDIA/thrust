@@ -22,7 +22,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
@@ -40,9 +41,16 @@ InputIterator find_if(tag,
                       InputIterator last,
                       Predicate pred)
 {
+  // wrap pred
+  thrust::detail::host_wrapped_unary_function<
+    Predicate,
+    typename thrust::iterator_reference<InputIterator>::type,
+    bool
+  > wrapped_pred(pred);
+
   while(first != last)
   {
-    if (pred(thrust::detail::backend::dereference(first)))
+    if (wrapped_pred(*first))
       return first;
 
     ++first;

@@ -15,7 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -39,6 +39,14 @@ void reduce_intervals(tag,
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
   typedef typename Decomposition::index_type index_type;
 
+  // wrap binary_op
+  thrust::detail::host_wrapped_binary_function<
+    BinaryFunction,
+    OutputType &,
+    typename thrust::iterator_reference<InputIterator>::type,
+    OutputType
+  > wrapped_binary_op(binary_op);
+
   for(index_type i = 0; i < decomp.size(); ++i, ++output)
   {
     InputIterator begin = input + decomp[i].begin();
@@ -46,17 +54,17 @@ void reduce_intervals(tag,
 
     if (begin != end)
     {
-      OutputType sum = thrust::detail::backend::dereference(begin);
+      OutputType sum = *begin;
 
       ++begin;
 
       while (begin != end)
       {
-        sum = binary_op(sum, thrust::detail::backend::dereference(begin));
+        sum = wrapped_binary_op(sum, *begin);
         ++begin;
       }
 
-      thrust::detail::backend::dereference(output) = sum;
+      *output = sum;
     }
   }
 }

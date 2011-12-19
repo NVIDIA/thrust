@@ -19,7 +19,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/reduce.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -40,12 +41,20 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
+  // wrap binary_op
+  thrust::detail::host_wrapped_binary_function<
+    BinaryFunction,
+    OutputType &,
+    typename thrust::iterator_reference<InputIterator>::type,
+    OutputType
+  > wrapped_binary_op(binary_op);
+
   // initialize the result
   OutputType result = init;
 
   while(begin != end)
   {
-    result = binary_op(result, thrust::detail::backend::dereference(begin));
+    result = wrapped_binary_op(result, *begin);
     begin++;
   } // end while
 

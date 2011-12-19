@@ -18,7 +18,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/copy_if.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -41,11 +42,18 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
+  // wrap pred
+  thrust::detail::host_wrapped_unary_function<
+    Predicate,
+    typename thrust::iterator_reference<InputIterator2>::type, 
+    bool
+  > wrapped_pred(pred);
+
   while(first != last)
   {
-    if(pred(thrust::detail::backend::dereference(stencil)))
+    if(wrapped_pred(*stencil))
     {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      *result = *first;
       ++result;
     } // end if
 
