@@ -59,15 +59,23 @@ __host__ __device__
 } // end assign_value()
 
 template<typename Pointer1, typename Pointer2>
+__host__ __device__
   void assign_value(cpp_to_cuda, Pointer1 dst, Pointer2 src)
 {
+#if __CUDA_ARCH__
+#else
   thrust::copy(src, src + 1, dst);
+#endif
 } // end assign_value()
 
 template<typename Pointer1, typename Pointer2>
+__host__ __device__
   void assign_value(cuda_to_cpp, Pointer1 dst, Pointer2 src)
 {
+#if __CUDA_ARCH__
+#else
   thrust::copy(src, src + 1, dst);
+#endif
 } // end assign_value()
 
 template<typename Pointer>

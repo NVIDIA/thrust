@@ -288,6 +288,7 @@ template<typename T>
      *  \return <tt>*this</tt>
      */
     template<typename OtherT>
+    __host__ __device__
     device_reference &operator=(const device_reference<OtherT> &other);
 
     /*! Assignment operator assigns the value of the given value to the
@@ -296,6 +297,7 @@ template<typename T>
      *  \param x The value to assign from.
      *  \return <tt>*this</tt>
      */
+    __host__ __device__
     device_reference &operator=(const value_type &x);
 
 // declare these members for the purpose of Doxygenating them

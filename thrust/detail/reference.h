@@ -69,12 +69,15 @@ template<typename Element, typename Pointer, typename Derived>
                 pointer
               >::type * = 0);
 
+    __host__ __device__
     derived_type &operator=(const reference &other);
 
     // XXX this may need an enable_if
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
+    __host__ __device__
     derived_type &operator=(const reference<OtherElement,OtherPointer,OtherDerived> &other);
 
+    __host__ __device__
     derived_type &operator=(const value_type &x);
 
     __host__ __device__
@@ -131,6 +134,7 @@ template<typename Element, typename Pointer, typename Derived>
     template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference;
 
     template<typename OtherPointer>
+    __host__ __device__
     inline void assign_from(OtherPointer src);
 }; // end reference
 

@@ -121,8 +121,10 @@ template<typename T>
     {}
 
     template<typename OtherT>
+    __host__ __device__
     reference &operator=(const reference<OtherT> &other);
 
+    __host__ __device__
     reference &operator=(const value_type &x);
 }; // end reference
 
