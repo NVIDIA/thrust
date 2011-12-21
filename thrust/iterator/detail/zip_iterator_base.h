@@ -26,6 +26,7 @@
 #include <thrust/detail/tuple_transform.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/backend/dereference.h>
+#include <thrust/iterator/detail/tuple_of_iterator_references.h>
 
 namespace thrust
 {
@@ -359,19 +360,6 @@ template<>
 
 
 // Metafunction to obtain the type of the tuple whose element types
-// are the reference types of an iterator tuple.
-//
-template<typename IteratorTuple>
-  struct tuple_of_references
-    : tuple_meta_transform<
-          IteratorTuple, 
-          iterator_reference
-        >
-{
-}; // end tuple_of_references
-
-
-// Metafunction to obtain the type of the tuple whose element types
 // are the device reference types of an iterator tuple.
 template<typename IteratorTuple>
   struct tuple_of_dereference_result
@@ -449,18 +437,6 @@ struct minimum_space_in_iterator_tuple
     thrust::any_space_tag
   >::type type;
 };
-
-  
-//// We need to call tuple_meta_accumulate with mpl::and_ as the
-//// accumulating functor. To this end, we need to wrap it into
-//// a struct that has exactly two arguments (that is, template
-//// parameters) and not five, like mpl::and_ does.
-////
-//template<typename Arg1, typename Arg2>
-//struct and_with_two_args
-//  : mpl::and_<Arg1, Arg2>
-//{
-//};
     
 
 
@@ -477,7 +453,7 @@ template<typename IteratorTuple>
  //private:
     // reference type is the type of the tuple obtained from the
     // iterators' reference types.
-    typedef typename tuple_of_references<IteratorTuple>::type reference;
+    typedef tuple_of_iterator_references<IteratorTuple> reference;
 
     // Boost's Value type is the same as reference type.
     //typedef reference value_type;

@@ -21,6 +21,7 @@
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/tuple.h>
+#include <thrust/iterator/detail/tuple_of_iterator_references.h>
 
 namespace thrust
 {
@@ -115,6 +116,15 @@ typename detail::enable_if_unwrappable<
   >::type
 >::type
 raw_reference_cast(thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> t);
+
+
+template<typename IteratorTuple>
+__host__ __device__
+typename detail::raw_reference<
+  detail::tuple_of_iterator_references<IteratorTuple>
+>::type
+raw_reference_cast(detail::tuple_of_iterator_references<IteratorTuple> t);
+
 
 } // end thrust
 
