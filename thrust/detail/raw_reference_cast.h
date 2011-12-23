@@ -118,12 +118,20 @@ typename detail::enable_if_unwrappable<
 raw_reference_cast(thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> t);
 
 
-template<typename IteratorTuple>
+template<
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
+>
 __host__ __device__
-typename detail::raw_reference<
-  detail::tuple_of_iterator_references<IteratorTuple>
+typename detail::enable_if_unwrappable<
+  thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>,
+  typename detail::raw_reference<
+    thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+  >::type
 >::type
-raw_reference_cast(detail::tuple_of_iterator_references<IteratorTuple> t);
+raw_reference_cast(detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> t);
 
 
 } // end thrust
