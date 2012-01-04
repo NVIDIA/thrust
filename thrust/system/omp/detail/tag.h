@@ -36,27 +36,31 @@ struct tag : thrust::system::cpp::tag {};
 
 
 // select system overloads
-
+__host__ __device__
 inline tag select_system(tag, tag)
 {
   return tag();
 } // end select_system()
 
+__host__ __device__
 inline tag select_system(tag, thrust::any_space_tag)
 {
   return tag();
 } // end select_system()
 
+__host__ __device__
 inline tag select_system(thrust::any_space_tag, tag)
 {
   return tag();
 } // end select_system()
 
+__host__ __device__
 inline tag select_system(tag, thrust::system::cpp::tag)
 {
   return tag();
 } // end select_system()
 
+__host__ __device__
 inline tag select_system(thrust::system::cpp::tag, tag)
 {
   return tag();
@@ -66,11 +70,13 @@ inline tag select_system(thrust::system::cpp::tag, tag)
 // XXX select_system(tbb, omp) & select_system(omp, tbb) are ambiguous
 //     because both convert to cpp without these overloads, which we
 //     arbitrarily define in the omp backend
+__host__ __device__
 inline tag select_system(tag, thrust::system::tbb::tag)
 {
   return tag();
 } // end select_system()
 
+__host__ __device__
 inline tag select_system(thrust::system::tbb::tag, tag)
 {
   return tag();

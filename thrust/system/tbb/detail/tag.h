@@ -34,30 +34,35 @@ namespace detail
 struct tag : thrust::system::cpp::tag {};
 
 // select_system overloads
+__host__ __device__
 inline tag select_system(tag, tag)
 {
   return tag();
 } // end select_system()
 
 
+__host__ __device__
 inline tag select_system(tag, thrust::any_space_tag)
 {
   return tag();
 } // end select_system()
 
 
+__host__ __device__
 inline tag select_system(thrust::any_space_tag, tag)
 {
   return tag();
 } // end select_system()
 
 
+__host__ __device__
 inline tag select_system(tag, thrust::system::cpp::tag)
 {
   return tag();
 } // end select_system()
 
 
+__host__ __device__
 inline tag select_system(thrust::system::cpp::tag, tag)
 {
   return tag();
