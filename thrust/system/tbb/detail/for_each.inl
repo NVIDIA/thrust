@@ -20,7 +20,7 @@
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
-#include <thrust/for_each.h>
+#include <thrust/system/detail/internal/scalar/for_each.h>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>
 
@@ -34,7 +34,6 @@ namespace detail
 {
 namespace for_each_detail
 {
-
 
 template<typename RandomAccessIterator,
          typename Size,
@@ -51,7 +50,7 @@ template<typename RandomAccessIterator,
   void operator()(const ::tbb::blocked_range<Size> &r) const
   {
     // we assume that blocked_range specifies a contiguous range of integers
-    thrust::for_each_n(m_first + r.begin(), r.size(), m_f);
+    thrust::system::detail::internal::scalar::for_each_n(m_first + r.begin(), r.size(), m_f);
   } // end operator()()
 }; // end body
 
@@ -75,7 +74,7 @@ RandomAccessIterator for_each_n(tag,
                                 Size n,
                                 UnaryFunction f)
 {
-  ::tbb::parallel_for(::tbb::blocked_range<Size>(0,n), for_each_detail::make_body<Size>(retag<cpp::tag>(first),f));
+  ::tbb::parallel_for(::tbb::blocked_range<Size>(0,n), for_each_detail::make_body<Size>(first,f));
 
   // return the end of the range
   return first + n;

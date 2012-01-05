@@ -16,20 +16,19 @@
 
 
 /*! \file scan.h
- *  \brief C++ implementations of scan functions.
+ *  \brief TBB implementations of scan functions.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/scan.h>
+#include <thrust/system/tbb/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
+namespace tbb
 {
 namespace detail
 {
@@ -41,10 +40,7 @@ template<typename InputIterator,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::inclusive_scan(first, last, result, binary_op);
-}
+                                BinaryFunction binary_op);
 
 
 template<typename InputIterator,
@@ -56,13 +52,13 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
-                                BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::exclusive_scan(first, last, result, init, binary_op);
-}
+                                BinaryFunction binary_op);
+
 
 } // end namespace detail
-} // end namespace cpp
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/tbb/detail/scan.inl>
 

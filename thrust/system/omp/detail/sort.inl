@@ -26,6 +26,7 @@
 #include <thrust/system/cpp/detail/sort.h>
 #include <thrust/system/cpp/detail/merge.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/detail/temporary_array.h>
 
 namespace thrust
 {
@@ -35,6 +36,51 @@ namespace omp
 {
 namespace detail
 {
+
+template <typename RandomAccessIterator,
+          typename StrictWeakOrdering>
+void inplace_merge(RandomAccessIterator first,
+                   RandomAccessIterator middle,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
+
+  thrust::detail::temporary_array<value_type,omp::tag> a( first, middle);
+  thrust::detail::temporary_array<value_type,omp::tag> b(middle,   last);
+
+  thrust::system::cpp::detail::merge
+    (thrust::cpp::tag(),
+     a.begin(), a.end(), b.begin(), b.end(), first, comp);
+}
+
+template <typename RandomAccessIterator1,
+          typename RandomAccessIterator2,
+          typename StrictWeakOrdering>
+void inplace_merge_by_key(RandomAccessIterator1 first1,
+                          RandomAccessIterator1 middle1,
+                          RandomAccessIterator1 last1,
+                          RandomAccessIterator2 first2,
+                          StrictWeakOrdering comp)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+
+  RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
+  RandomAccessIterator2 last2   = first2 + (last1   - first1);
+
+  thrust::detail::temporary_array<value_type1,omp::tag> lhs1( first1, middle1);
+  thrust::detail::temporary_array<value_type1,omp::tag> rhs1(middle1,   last1);
+  thrust::detail::temporary_array<value_type2,omp::tag> lhs2( first2, middle2);
+  thrust::detail::temporary_array<value_type2,omp::tag> rhs2(middle2,   last2);
+
+  thrust::system::cpp::detail::merge_by_key
+    (thrust::cpp::tag(),
+     lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
+     lhs2.begin(), rhs2.begin(),
+     first1, first2, comp);
+}
+
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
@@ -89,11 +135,11 @@ void stable_sort(tag,
 
         if((p_i % h) == 0 && c > b)
         {
-            thrust::system::cpp::detail::
-              inplace_merge(first + decomp[a].begin(),
-                            first + decomp[b].end(),
-                            first + decomp[c].end(),
-                            comp);
+          thrust::system::omp::detail::inplace_merge
+            (first + decomp[a].begin(),
+             first + decomp[b].end(),
+             first + decomp[c].end(),
+             comp);
             b = c;
             c += h;
         }
@@ -163,12 +209,12 @@ void stable_sort_by_key(tag,
 
         if((p_i % h) == 0 && c > b)
         {
-            thrust::system::cpp::detail::
-              inplace_merge_by_key(keys_first + decomp[a].begin(),
-                                   keys_first + decomp[b].end(),
-                                   keys_first + decomp[c].end(),
-                                   values_first + decomp[a].begin(),
-                                   comp);
+          thrust::system::omp::detail::inplace_merge_by_key
+            (keys_first + decomp[a].begin(),
+             keys_first + decomp[b].end(),
+             keys_first + decomp[c].end(),
+             values_first + decomp[a].begin(),
+             comp);
             b = c;
             c += h;
         }

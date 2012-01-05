@@ -23,9 +23,13 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
+
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/wrapped_function.h>
+
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/extrema.h>
 
 namespace thrust
 {
@@ -42,25 +46,7 @@ ForwardIterator min_element(tag,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_wrapped_binary_function<
-    BinaryPredicate,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    bool
-  > wrapped_comp(comp);
-
-  ForwardIterator imin = first;
-
-  for (; first != last; first++)
-  {
-    if (wrapped_comp(*first, *imin))
-    {
-      imin = first;
-    }
-  }
-
-  return imin;
+  return thrust::system::detail::internal::scalar::min_element(first, last, comp);
 }
 
 
@@ -70,25 +56,7 @@ ForwardIterator max_element(tag,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_wrapped_binary_function<
-    BinaryPredicate,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    bool
-  > wrapped_comp(comp);
-
-  ForwardIterator imax = first;
-
-  for (; first != last; first++)
-  {
-    if (wrapped_comp(*imax, *first))
-    {
-      imax = first;
-    }
-  }
-
-  return imax;
+  return thrust::system::detail::internal::scalar::max_element(first, last, comp);
 }
 
 
@@ -98,31 +66,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_wrapped_binary_function<
-    BinaryPredicate,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    bool
-  > wrapped_comp(comp);
-
-  ForwardIterator imin = first;
-  ForwardIterator imax = first;
-
-  for (; first != last; first++)
-  {
-    if (wrapped_comp(*first, *imin))
-    {
-      imin = first;
-    }
-
-    if (wrapped_comp(*imax, *first))
-    {
-      imax = first;
-    }
-  }
-
-  return thrust::make_pair(imin, imax);
+  return thrust::system::detail::internal::scalar::minmax_element(first, last, comp);
 }
 
 } // end namespace detail

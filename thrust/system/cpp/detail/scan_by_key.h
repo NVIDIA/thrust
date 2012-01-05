@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/scan_by_key.h>
 
 namespace thrust
 {
@@ -27,7 +28,6 @@ namespace cpp
 {
 namespace detail
 {
-
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -40,7 +40,10 @@ template<typename InputIterator1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred,
-                                       BinaryFunction binary_op);
+                                       BinaryFunction binary_op)
+{
+  return thrust::system::detail::internal::scalar::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op);
+}
 
 
 template<typename InputIterator1,
@@ -56,13 +59,13 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        T init,
                                        BinaryPredicate binary_pred,
-                                       BinaryFunction binary_op);
-
+                                       BinaryFunction binary_op)
+{
+  return thrust::system::detail::internal::scalar::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op);
+}
 
 } // end namespace detail
 } // end namespace cpp
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/scan_by_key.inl>
 

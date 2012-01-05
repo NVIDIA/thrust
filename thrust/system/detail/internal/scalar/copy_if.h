@@ -14,46 +14,41 @@
  *  limitations under the License.
  */
 
+/*! \file copy_if.h
+ *  \brief Sequential implementation of copy_if.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/copy_if.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
+namespace internal
+{
+namespace scalar
+{
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(tag,
-                         InputIterator1 first,
+  OutputIterator copy_if(InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_wrapped_unary_function<
-    Predicate,
-    typename thrust::iterator_reference<InputIterator2>::type, 
-    bool
-  > wrapped_pred(pred);
-
   while(first != last)
   {
-    if(wrapped_pred(*stencil))
+    if(pred(thrust::detail::backend::dereference(stencil)))
     {
-      *result = *first;
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     } // end if
 
@@ -64,9 +59,9 @@ template<typename InputIterator1,
   return result;
 } // end copy_if()
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+} // end namespace scalar
+} // end namespace internal
+} // end namespace detail
+} // end namespace system
+} // end namespace thrust
 

@@ -16,41 +16,33 @@
 
 
 /*! \file remove.h
- *  \brief C++ implementation of remove algorithms.
+ *  \brief Sequential implementations of remove functions.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/remove.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
-                            ForwardIterator first,
+  ForwardIterator remove_if(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_wrapped_unary_function<
-    Predicate,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    bool
-  > wrapped_pred(pred);
-
-  // advance iterators until wrapped_pred(*first) is true or we reach the end of input
-  while(first != last && !bool(wrapped_pred(*first)))
+  // advance iterators until pred(*first) is true or we reach the end of input
+  while(first != last && !bool(pred(thrust::detail::backend::dereference(first))))
     ++first;
 
   if(first == last)
@@ -63,9 +55,9 @@ template<typename ForwardIterator,
 
   while(first != last)
   {
-    if(!bool(wrapped_pred(*first)))
+    if(!bool(pred(thrust::detail::backend::dereference(first))))
     {
-      *result = *first;
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
     ++first;
@@ -78,21 +70,13 @@ template<typename ForwardIterator,
 template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
-                            ForwardIterator first,
+  ForwardIterator remove_if(ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_wrapped_unary_function<
-    Predicate,
-    typename thrust::iterator_reference<InputIterator>::type,
-    bool
-  > wrapped_pred(pred);
-
-  // advance iterators until wrapped_pred(*stencil) is true or we reach the end of input
-  while(first != last && !bool(wrapped_pred(*stencil)))
+  // advance iterators until pred(*stencil) is true or we reach the end of input
+  while(first != last && !bool(pred(thrust::detail::backend::dereference(stencil))))
   {
     ++first;
     ++stencil;
@@ -109,9 +93,9 @@ template<typename ForwardIterator,
 
   while(first != last)
   {
-    if(!bool(wrapped_pred(*stencil)))
+    if(!bool(pred(thrust::detail::backend::dereference(stencil))))
     {
-      *result = *first;
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
     ++first;
@@ -125,24 +109,16 @@ template<typename ForwardIterator,
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
-                                InputIterator first,
+  OutputIterator remove_copy_if(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_wrapped_unary_function<
-    Predicate,
-    typename thrust::iterator_reference<InputIterator>::type,
-    bool
-  > wrapped_pred(pred);
-
   while (first != last)
   {
-    if (!bool(wrapped_pred(*first)))
+    if (!bool(pred(thrust::detail::backend::dereference(first))))
     {
-      *result = *first;
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
 
@@ -156,25 +132,17 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
-                                InputIterator1 first,
+  OutputIterator remove_copy_if(InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_wrapped_unary_function<
-    Predicate,
-    typename thrust::iterator_reference<InputIterator2>::type,
-    bool
-  > wrapped_pred(pred);
-
   while (first != last)
   {
-    if (!bool(wrapped_pred(*stencil)))
+    if (!bool(pred(thrust::detail::backend::dereference(stencil))))
     {
-      *result = *first;
+      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
       ++result;
     }
 
@@ -185,8 +153,9 @@ template<typename InputIterator1,
   return result;
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

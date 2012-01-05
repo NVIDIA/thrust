@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/copy_if.h>
 
 namespace thrust
 {
@@ -38,8 +39,10 @@ template<typename InputIterator1,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
-                         Predicate pred);
-
+                         Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::copy_if(first, last, stencil, result, pred);
+}
 
 } // end detail
 } // end cpp

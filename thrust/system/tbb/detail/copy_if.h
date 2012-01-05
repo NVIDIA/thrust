@@ -16,29 +16,35 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/system/tbb/detail/tag.h>
+
 namespace thrust
 {
 namespace system
 {
-namespace cpp
+namespace tbb
 {
 namespace detail
 {
 
-template<typename RandomAccessIterator>
-void stable_radix_sort(RandomAccessIterator begin,
-                       RandomAccessIterator end);
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2>
-void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
-                              RandomAccessIterator1 keys_end,
-                              RandomAccessIterator2 values_begin);
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred);
 
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
 
-#include <thrust/system/cpp/detail/stable_radix_sort.inl>
+} // end detail
+} // end tbb
+} // end system
+} // end thrust
+
+#include <thrust/system/tbb/detail/copy_if.inl>
 

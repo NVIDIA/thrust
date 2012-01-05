@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/pair.h>
+#include <thrust/system/detail/internal/scalar/reduce_by_key.h>
 
 namespace thrust
 {
@@ -28,7 +29,6 @@ namespace cpp
 {
 namespace detail
 {
-
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -44,12 +44,13 @@ template <typename InputIterator1,
                   OutputIterator1 keys_output,
                   OutputIterator2 values_output,
                   BinaryPredicate binary_pred,
-                  BinaryFunction binary_op);
+                  BinaryFunction binary_op)
+{
+  return thrust::system::detail::internal::scalar::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+}
 
 } // end namespace detail
 } // end namespace cpp
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/reduce_by_key.inl>
 

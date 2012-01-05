@@ -14,30 +14,36 @@
  *  limitations under the License.
  */
 
+
+/*! \file scan.h
+ *  \brief Sequential implementations of scan functions.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/scan.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(tag,
-                                InputIterator first,
+  OutputIterator inclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 BinaryFunction binary_op)
@@ -66,22 +72,14 @@ template<typename InputIterator,
     >
   >::type ValueType;
 
-  // wrap binary_op
-  thrust::detail::host_wrapped_binary_function<
-    BinaryFunction,
-    ValueType &,
-    typename thrust::iterator_reference<InputIterator>::type,
-    ValueType
-  > wrapped_binary_op(binary_op);
-
   if(first != last)
   {
-    ValueType sum = *first;
+    ValueType sum = backend::dereference(first);
 
-    *result = sum;
+    backend::dereference(result) = sum;
 
     for(++first, ++result; first != last; ++first, ++result)
-      *result = sum = wrapped_binary_op(sum, *first);
+      backend::dereference(result) = sum = binary_op(sum, backend::dereference(first));
   }
 
   return result;
@@ -92,8 +90,7 @@ template<typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(tag,
-                                InputIterator first,
+  OutputIterator exclusive_scan(InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
@@ -125,16 +122,16 @@ template<typename InputIterator,
 
   if(first != last)
   {
-    ValueType tmp = *first;  // temporary value allows in-situ scan
+    ValueType tmp = backend::dereference(first);  // temporary value allows in-situ scan
     ValueType sum = init;
 
-    *result = sum;
+    backend::dereference(result) = sum;
     sum = binary_op(sum, tmp);
 
     for(++first, ++result; first != last; ++first, ++result)
     {
-      tmp = *first;
-      *result = sum;
+      tmp = backend::dereference(first);
+      backend::dereference(result) = sum;
       sum = binary_op(sum, tmp);
     }
   }
@@ -142,9 +139,9 @@ template<typename InputIterator,
   return result;
 } 
 
-
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

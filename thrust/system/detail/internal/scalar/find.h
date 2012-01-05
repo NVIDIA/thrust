@@ -15,39 +15,47 @@
  */
 
 
-/*! \file reduce.h
- *  \brief C++ implementation of reduce algorithms.
+/*! \file find.h
+ *  \brief Sequential implementation of find_if. 
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/reduce.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
 {
-
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op)
+namespace internal
 {
-  return thrust::system::detail::internal::scalar::reduce(begin, end, init, binary_op);
+namespace scalar
+{
+
+template <typename InputIterator,
+          typename Predicate>
+InputIterator find_if(InputIterator first,
+                      InputIterator last,
+                      Predicate pred)
+{
+  while(first != last)
+  {
+    if (pred(thrust::detail::backend::dereference(first)))
+      return first;
+
+    ++first;
+  }
+
+  // return first so zip_iterator works correctly
+  return first;
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

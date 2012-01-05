@@ -16,38 +16,48 @@
 
 
 /*! \file reduce.h
- *  \brief C++ implementation of reduce algorithms.
+ *  \brief Sequential implementation of reduce algorithm.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/reduce.h>
+#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
+  OutputType reduce(InputIterator begin,
                     InputIterator end,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  return thrust::system::detail::internal::scalar::reduce(begin, end, init, binary_op);
+  // initialize the result
+  OutputType result = init;
+
+  while(begin != end)
+  {
+    result = binary_op(result, thrust::detail::backend::dereference(begin));
+    ++begin;
+  } // end while
+
+  return result;
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

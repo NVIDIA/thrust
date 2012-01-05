@@ -27,9 +27,11 @@ namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 namespace detail
 {
@@ -418,8 +420,9 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
   detail::radix_sort(first1, temp1.begin(), first2, temp2.begin(), N);
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

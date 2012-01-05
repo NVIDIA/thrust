@@ -24,6 +24,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits/is_metafunction_defined.h>
+#include <iterator> // for std::output_iterator_tag below
 
 namespace thrust
 {
@@ -121,70 +122,75 @@ namespace backend
 template <typename> struct dereference_result;
 
 // in general, assume that dereference behaves as on host
-// if the iterator has a nested reference type, return it
+// if the iterator is not a pure output iterator, return its reference
 // otherwise, return a copy of the iterator, which enables
 // types like std::back_insert_iterator to work
 template<typename Iterator>
   struct dereference_result
     : thrust::detail::eval_if<
-        thrust::detail::is_void<
-          typename thrust::iterator_reference<Iterator>::type
+        thrust::detail::is_convertible<
+          typename thrust::iterator_traits<Iterator>::iterator_category,
+          std::output_iterator_tag
         >::value,
         thrust::detail::identity_<Iterator>,
         thrust::iterator_reference<Iterator>
       >
 {};
 
-// for iterators without void reference type
+// for non output iterators
 template<typename Iterator>
   inline __host__ __device__
     typename dereference_result<Iterator>::type
       dereference(Iterator iter,
                   typename thrust::detail::disable_if<
-                    thrust::detail::is_void<
-                      typename thrust::iterator_reference<Iterator>::type
+                    thrust::detail::is_convertible<
+                      typename thrust::iterator_traits<Iterator>::iterator_category,
+                      std::output_iterator_tag
                     >::value
                   >::type * = 0)
 {
   return *iter;
 } // dereference
 
-// for iterators without void reference type
+// for non output iterators
 template<typename Iterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result<Iterator>::type
       dereference(Iterator iter, IndexType n,
                   typename thrust::detail::disable_if<
-                    thrust::detail::is_void<
-                      typename thrust::iterator_reference<Iterator>::type
+                    thrust::detail::is_convertible<
+                      typename thrust::iterator_traits<Iterator>::iterator_category,
+                      std::output_iterator_tag
                     >::value
                   >::type * = 0)
 {
   return iter[n];
 } // dereference
 
-// for iterators with void reference type
+// for pure output iterators
 template<typename Iterator>
   inline __host__ __device__
     typename dereference_result<Iterator>::type
       dereference(Iterator iter,
                   typename thrust::detail::enable_if<
-                    thrust::detail::is_void<
-                      typename thrust::iterator_reference<Iterator>::type
+                    thrust::detail::is_convertible<
+                      typename thrust::iterator_traits<Iterator>::iterator_category,
+                      std::output_iterator_tag
                     >::value
                   >::type * = 0)
 {
   return iter;
 } // dereference
 
-// for iterators with void reference type
+// for pure output iterators
 template<typename Iterator, typename IndexType>
   inline __host__ __device__
     typename dereference_result<Iterator>::type
       dereference(Iterator iter, IndexType n,
                   typename thrust::detail::enable_if<
-                    thrust::detail::is_void<
-                      typename thrust::iterator_reference<Iterator>::type
+                    thrust::detail::is_convertible<
+                      typename thrust::iterator_traits<Iterator>::iterator_category,
+                      std::output_iterator_tag
                     >::value
                   >::type * = 0)
 {

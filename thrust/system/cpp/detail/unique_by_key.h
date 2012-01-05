@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/pair.h>
+#include <thrust/system/detail/internal/scalar/unique_by_key.h>
 
 namespace thrust
 {
@@ -29,7 +30,6 @@ namespace cpp
 namespace detail
 {
 
-
 template<typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
@@ -38,7 +38,10 @@ template<typename ForwardIterator1,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
-                  BinaryPredicate binary_pred);
+                  BinaryPredicate binary_pred)
+{
+  return thrust::system::detail::internal::scalar::unique_by_key(keys_first, keys_last, values_first, binary_pred);
+}
 
 
 template<typename InputIterator1,
@@ -53,13 +56,13 @@ template<typename InputIterator1,
                        InputIterator2 values_first,
                        OutputIterator1 keys_output,
                        OutputIterator2 values_output,
-                       BinaryPredicate binary_pred);
-
+                       BinaryPredicate binary_pred)
+{
+  return thrust::system::detail::internal::scalar::unique_by_key_copy(keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+}
 
 } // end namespace detail
 } // end namespace cpp 
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cpp/detail/unique_by_key.inl>
 

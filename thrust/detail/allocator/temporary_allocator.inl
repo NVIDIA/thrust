@@ -34,16 +34,16 @@ template<typename T, typename Tag>
         ::allocate_helper(Pair p)
 {
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  typename super_t::pointer ptr = typename super_t::pointer(static_cast<T*>(thrust::detail::raw_pointer_cast(p.first)));
-  typename super_t::size_type n = p.second;
+  pointer ptr = pointer(static_cast<T*>(thrust::detail::raw_pointer_cast(p.first)));
+  size_type n = p.second;
 
   return pointer_and_size(ptr, n);
 } // end temporary_allocator::allocate_helper()
 
 template<typename T, typename Tag>
-  typename temporary_allocator<T,Tag>::super_t::pointer
+  typename temporary_allocator<T,Tag>::pointer
     temporary_allocator<T,Tag>
-      ::allocate(typename temporary_allocator<T,Tag>::super_t::size_type cnt)
+      ::allocate(typename temporary_allocator<T,Tag>::size_type cnt)
 {
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::get_temporary_buffer;
@@ -65,7 +65,7 @@ template<typename T, typename Tag>
 
 template<typename T, typename Tag>
   void temporary_allocator<T,Tag>
-    ::deallocate(typename temporary_allocator<T,Tag>::super_t::pointer p, typename temporary_allocator<T,Tag>::super_t::size_type n)
+    ::deallocate(typename temporary_allocator<T,Tag>::pointer p, typename temporary_allocator<T,Tag>::size_type n)
 {
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::return_temporary_buffer;

@@ -14,17 +14,23 @@
  *  limitations under the License.
  */
 
+#pragma once
+
+#include <thrust/detail/config.h>
+
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/wrapped_function.h>
-#include <thrust/system/cpp/detail/copy_backward.h>
+#include <thrust/system/detail/internal/scalar/copy_backward.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
-{
 namespace detail
+{
+namespace internal
+{
+namespace scalar
 {
 
 template <typename RandomAccessIterator,
@@ -52,7 +58,7 @@ void insertion_sort(RandomAccessIterator first,
     if (wrapped_comp(tmp, *first))
     {
       // tmp is the smallest value encountered so far
-      thrust::system::cpp::detail::copy_backward(first, i, i + 1);
+      thrust::system::detail::internal::scalar::copy_backward(first, i, i + 1);
 
       *first = tmp;
     }
@@ -106,8 +112,8 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
     if (wrapped_comp(tmp1, *first1))
     {
       // tmp is the smallest value encountered so far
-      thrust::system::cpp::detail::copy_backward(first1, i1, i1 + 1);
-      thrust::system::cpp::detail::copy_backward(first2, i2, i2 + 1);
+      thrust::system::detail::internal::scalar::copy_backward(first1, i1, i1 + 1);
+      thrust::system::detail::internal::scalar::copy_backward(first2, i2, i2 + 1);
 
       *first1 = tmp1;
       *first2 = tmp2;
@@ -139,8 +145,9 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
   }
 }
 
+} // end namespace scalar
+} // end namespace internal
 } // end namespace detail
-} // end namespace cpp
 } // end namespace system
 } // end namespace thrust
 

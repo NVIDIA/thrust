@@ -29,9 +29,9 @@ namespace detail
 
 
 template<typename T, typename Tag, typename Pointer>
-  typename malloc_allocator<T,Tag,Pointer>::super_t::pointer
+  typename malloc_allocator<T,Tag,Pointer>::pointer
     malloc_allocator<T,Tag,Pointer>
-      ::allocate(typename malloc_allocator<T,Tag,Pointer>::super_t::size_type cnt)
+      ::allocate(typename malloc_allocator<T,Tag,Pointer>::size_type cnt)
 {
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::malloc;
@@ -44,13 +44,13 @@ template<typename T, typename Tag, typename Pointer>
     throw thrust::system::detail::bad_alloc("tagged_allocator::allocate: malloc failed");
   } // end if
 
-  return typename super_t::pointer(result);
+  return pointer(result);
 } // end malloc_allocator::allocate()
 
 
 template<typename T, typename Tag, typename Pointer>
   void malloc_allocator<T,Tag,Pointer>
-    ::deallocate(typename malloc_allocator<T,Tag,Pointer>::super_t::pointer p, typename malloc_allocator<T,Tag,Pointer>::super_t::size_type n)
+    ::deallocate(typename malloc_allocator<T,Tag,Pointer>::pointer p, typename malloc_allocator<T,Tag,Pointer>::size_type n)
 {
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::free;

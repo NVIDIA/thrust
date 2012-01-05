@@ -15,18 +15,20 @@
  */
 
 
+/*! \file reduce.h
+ *  \brief TBB implementation of reduce.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/reduce.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/system/tbb/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
+namespace tbb
 {
 namespace detail
 {
@@ -39,31 +41,13 @@ template<typename InputIterator,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,
-                    BinaryFunction binary_op)
-{
-  // wrap binary_op
-  thrust::detail::host_wrapped_binary_function<
-    BinaryFunction,
-    OutputType &,
-    typename thrust::iterator_reference<InputIterator>::type,
-    OutputType
-  > wrapped_binary_op(binary_op);
-
-  // initialize the result
-  OutputType result = init;
-
-  while(begin != end)
-  {
-    result = wrapped_binary_op(result, *begin);
-    begin++;
-  } // end while
-
-  return result;
-}
+                    BinaryFunction binary_op);
 
 
 } // end namespace detail
-} // end namespace cpp
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/tbb/detail/reduce.inl>
 

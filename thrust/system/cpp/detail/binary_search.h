@@ -21,16 +21,8 @@
 
 #pragma once
 
-#include <thrust/advance.h>
-#include <thrust/distance.h>
-#include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/binary_search.h>
-#include <thrust/detail/wrapped_function.h>
 #include <thrust/system/cpp/detail/tag.h>
-
-// TODO replace the code below with calls to thrust::detail::backend::generic::scalar::*
-//      when warnings about __host__ calling __host__ __device__ are silenceable
+#include <thrust/system/detail/internal/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -41,107 +33,41 @@ namespace cpp
 namespace detail
 {
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template <typename ForwardIterator,
+          typename T,
+          typename StrictWeakOrdering>
 ForwardIterator lower_bound(tag,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T& val,
                             StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
-
-  // wrap comp
-  thrust::detail::host_wrapped_binary_function<
-    StrictWeakOrdering,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    const T&,
-    bool
-  > wrapped_comp(comp);
-
-  difference_type len = thrust::distance(first, last);
-
-  while(len > 0)
-  {
-    difference_type half = len >> 1;
-    ForwardIterator middle = first;
-
-    thrust::advance(middle, half);
-
-    if(wrapped_comp(*middle, val))
-    {
-      first = middle;
-      ++first;
-      len = len - half - 1;
-    }
-    else
-    {
-      len = half;
-    }
-  }
-
-  return first;
+  return thrust::system::detail::internal::scalar::lower_bound(first, last, val, comp);
 }
 
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template <typename ForwardIterator,
+          typename T,
+          typename StrictWeakOrdering>
 ForwardIterator upper_bound(tag,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T& val, 
                             StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
-
-  // wrap comp
-  thrust::detail::host_wrapped_binary_function<
-    StrictWeakOrdering,
-    const T&,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    bool
-  > wrapped_comp(comp);
-
-  difference_type len = thrust::distance(first, last);
-
-  while(len > 0)
-  {
-    difference_type half = len >> 1;
-    ForwardIterator middle = first;
-
-    thrust::advance(middle, half);
-
-    if(wrapped_comp(val, *middle))
-    {
-      len = half;
-    }
-    else
-    {
-      first = middle;
-      ++first;
-      len = len - half - 1;
-    }
-  }
-
-  return first;
+  return thrust::system::detail::internal::scalar::upper_bound(first, last, val, comp);
 }
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template <typename ForwardIterator,
+          typename T,
+          typename StrictWeakOrdering>
 bool binary_search(tag,
                    ForwardIterator first,
                    ForwardIterator last,
                    const T& val, 
                    StrictWeakOrdering comp)
 {
-  ForwardIterator iter = thrust::lower_bound(first,last,val,comp);
-
-  // wrap comp
-  thrust::detail::host_wrapped_binary_function<
-    StrictWeakOrdering,
-    const T&,
-    typename thrust::iterator_reference<ForwardIterator>::type,
-    bool
-  > wrapped_comp(comp);
-
-  return iter != last && !wrapped_comp(val, *iter);
+  return thrust::system::detail::internal::scalar::binary_search(first, last, val, comp);
 }
 
 } // end namespace detail

@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/set_operations.h>
 
 namespace thrust
 {
@@ -27,7 +28,6 @@ namespace cpp
 {
 namespace detail
 {
-
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -39,7 +39,10 @@ template<typename InputIterator1,
                                 InputIterator2 first2,
                                 InputIterator2 last2,
                                 OutputIterator result,
-                                StrictWeakOrdering comp);
+                                StrictWeakOrdering comp)
+{
+  return thrust::system::detail::internal::scalar::set_difference(first1, last1, first2, last2, result, comp);
+}
 
 
 template<typename InputIterator1,
@@ -52,7 +55,10 @@ template<typename InputIterator1,
                                   InputIterator2 first2,
                                   InputIterator2 last2,
                                   OutputIterator result,
-                                  StrictWeakOrdering comp);
+                                  StrictWeakOrdering comp)
+{
+  return thrust::system::detail::internal::scalar::set_intersection(first1, last1, first2, last2, result, comp);
+}
 
 
 template<typename InputIterator1,
@@ -65,7 +71,10 @@ template<typename InputIterator1,
                                           InputIterator2 first2,
                                           InputIterator2 last2,
                                           OutputIterator result,
-                                          StrictWeakOrdering comp);
+                                          StrictWeakOrdering comp)
+{
+  return thrust::system::detail::internal::scalar::set_symmetric_difference(first1, last1, first2, last2, result, comp);
+}
 
 
 template<typename InputIterator1,
@@ -78,13 +87,13 @@ template<typename InputIterator1,
                            InputIterator2 first2,
                            InputIterator2 last2,
                            OutputIterator result,
-                           StrictWeakOrdering comp);
+                           StrictWeakOrdering comp)
+{
+  return thrust::system::detail::internal::scalar::set_union(first1, last1, first2, last2, result, comp);
+}
 
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
-
-#include <thrust/system/cpp/detail/set_operations.inl>
+} // end namespace detail
+} // end namespace cpp
+} // end namespace system
+} // end namespace thrust
 

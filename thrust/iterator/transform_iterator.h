@@ -242,6 +242,22 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
                        typename thrust::detail::enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0)
       : super_t(other.base()), m_f(other.functor()) {}
 
+    /*! Copy assignment operator copies from another \p transform_iterator.
+     *  \p other The other \p transform_iterator to copy
+     *  \return <tt>*this</tt>
+     *
+     *  \note If the type of this \p transform_iterator's functor is not copy assignable
+     *        (for example, if it is a lambda) it is not an error to call this function.
+     *        In this case, however, the functor will not be modified.
+     *
+     *        In any case, this \p transform_iterator's underlying iterator will be copy assigned.
+     */
+    __host__ __device__
+    transform_iterator &operator=(const transform_iterator &other)
+    {
+      return do_assign(other, typename thrust::detail::is_copy_assignable<AdaptableUnaryFunction>::type());
+    }
+
     /*! This method returns a copy of this \p transform_iterator's \c AdaptableUnaryFunction.
      *  \return A copy of this \p transform_iterator's \c AdaptableUnaryFunction.
      */
@@ -252,6 +268,27 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     /*! \cond
      */
   private:
+    __host__ __device__
+    transform_iterator &do_assign(const transform_iterator &other, thrust::detail::true_type)
+    {
+      super_t::operator=(other);
+
+      // do assign to m_f
+      m_f = other.functor();
+
+      return *this;
+    }
+
+    __host__ __device__
+    transform_iterator &do_assign(const transform_iterator &other, thrust::detail::false_type)
+    {
+      super_t::operator=(other);
+
+      // don't assign to m_f
+
+      return *this;
+    }
+
     __host__ __device__
     typename super_t::reference dereference() const
     { 

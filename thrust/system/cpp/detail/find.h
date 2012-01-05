@@ -22,9 +22,11 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/wrapped_function.h>
 #include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/detail/internal/scalar/find.h>
 
 namespace thrust
 {
@@ -35,29 +37,14 @@ namespace cpp
 namespace detail
 {
 
-template <typename InputIterator, typename Predicate>
+template <typename InputIterator,
+          typename Predicate>
 InputIterator find_if(tag,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_wrapped_unary_function<
-    Predicate,
-    typename thrust::iterator_reference<InputIterator>::type,
-    bool
-  > wrapped_pred(pred);
-
-  while(first != last)
-  {
-    if (wrapped_pred(*first))
-      return first;
-
-    ++first;
-  }
-
-  // return first so zip_iterator works correctly
-  return first;
+  return thrust::system::detail::internal::scalar::find_if(first, last, pred);
 }
 
 } // end namespace detail

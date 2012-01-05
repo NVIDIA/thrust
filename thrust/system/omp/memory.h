@@ -34,8 +34,59 @@ namespace system
 namespace omp
 {
 
+template<typename> class pointer;
+
+} // end omp
+} // end system
+} // end thrust
+
+
+// specialize std::iterator_traits to avoid problems with the name of
+// pointer's constructor shadowing its nested pointer type
+// do this before pointer is defined so the specialization is correctly
+// used inside the definition
+namespace std
+{
+
+template<typename Element>
+  struct iterator_traits<thrust::system::omp::pointer<Element> >
+{
+  private:
+    typedef thrust::system::omp::pointer<Element> ptr;
+
+  public:
+    typedef typename ptr::iterator_category       iterator_category;
+    typedef typename ptr::value_type              value_type;
+    typedef typename ptr::difference_type         difference_type;
+    typedef ptr                                   pointer;
+    typedef typename ptr::reference               reference;
+}; // end iterator_traits
+
+} // end std
+
+
+namespace thrust
+{
+namespace system
+{
+namespace omp
+{
+
 // forward declaration of reference for pointer
 template<typename Element> class reference;
+
+// XXX nvcc + msvc have trouble instantiating reference below
+//     this is a workaround
+namespace detail
+{
+
+template<typename Element>
+  struct reference_msvc_workaround
+{
+  typedef thrust::system::omp::reference<Element> type;
+}; // end reference_msvc_workaround
+
+} // end detail
 
 template<typename T>
   class pointer
@@ -50,7 +101,8 @@ template<typename T>
     typedef thrust::pointer<
       T,
       thrust::system::omp::tag,
-      thrust::system::omp::reference<T>,
+      //thrust::system::omp::reference<T>,
+      typename detail::reference_msvc_workaround<T>::type,
       thrust::system::omp::pointer<T>
     > super_t;
 

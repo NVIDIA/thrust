@@ -14,40 +14,36 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce.h
- *  \brief C++ implementation of reduce algorithms.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/detail/internal/scalar/reduce.h>
+#include <thrust/system/tbb/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cpp
+namespace tbb
 {
 namespace detail
 {
 
-template<typename InputIterator, 
-         typename OutputType,
-         typename BinaryFunction>
-  OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
-                    OutputType init,
-                    BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::reduce(begin, end, init, binary_op);
-}
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakOrdering>
+OutputIterator merge(tag,
+                     InputIterator1 first1,
+                     InputIterator1 last1,
+                     InputIterator2 first2,
+                     InputIterator2 last2,
+                     OutputIterator result,
+                     StrictWeakOrdering comp);
 
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+} // end detail
+} // end tbb
+} // end system
+} // end thrust
+
+#include <thrust/system/tbb/detail/merge.inl>
 
