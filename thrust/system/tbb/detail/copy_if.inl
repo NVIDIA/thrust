@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/system/tbb/detail/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
@@ -46,7 +46,7 @@ struct body
   InputIterator1 first;
   InputIterator2 stencil;
   OutputIterator result;
-  Predicate pred;
+  thrust::detail::host_wrapped_function<Predicate,bool> pred;
   Size sum;
 
   body(InputIterator1 first, InputIterator2 stencil, OutputIterator result, Predicate pred)
@@ -63,7 +63,7 @@ struct body
 
     for (Size i = r.begin(); i != r.end(); ++i, ++iter)
     {
-      if (pred(thrust::detail::backend::dereference(iter)))
+      if (pred(*iter))
         ++sum;
     }
   }
@@ -76,9 +76,9 @@ struct body
       
     for (Size i = r.begin(); i != r.end(); ++i, ++iter1, ++iter2)
     {
-      if (pred(thrust::detail::backend::dereference(iter2)))
+      if (pred(*iter2))
       {
-        thrust::detail::backend::dereference(iter3) = thrust::detail::backend::dereference(iter1);
+        *iter3 = *iter1;
         ++sum;
         ++iter3;
       }

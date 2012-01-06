@@ -15,7 +15,6 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/copy.h>
 #include <thrust/system/detail/internal/scalar/insertion_sort.h>

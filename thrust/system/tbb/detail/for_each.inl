@@ -17,7 +17,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/distance.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/system/detail/internal/scalar/for_each.h>

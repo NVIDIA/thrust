@@ -15,10 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/copy.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/tbb/detail/tag.h>
 #include <thrust/system/detail/internal/scalar/merge.h>
 #include <thrust/system/detail/internal/scalar/binary_search.h>
@@ -72,12 +69,12 @@ struct range
     if (n1 > n2)
     {
       mid1 += n1 / 2;
-      mid2 = thrust::system::detail::internal::scalar::lower_bound(first2, last2, thrust::detail::backend::dereference(mid1), comp);
+      mid2 = thrust::system::detail::internal::scalar::lower_bound(first2, last2, raw_reference_cast(*mid1), comp);
     }
     else
     {
       mid2 += n2 / 2;
-      mid1 = thrust::system::detail::internal::scalar::upper_bound(first1, last1, thrust::detail::backend::dereference(mid2), comp);
+      mid1 = thrust::system::detail::internal::scalar::upper_bound(first1, last1, raw_reference_cast(*mid2), comp);
     }
     
     // set first range to [first1, mid1), [first2, mid2), result

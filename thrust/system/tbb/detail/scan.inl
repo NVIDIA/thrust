@@ -21,10 +21,10 @@
 #include <thrust/distance.h>
 #include <thrust/advance.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <thrust/detail/backend/dereference.h>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_scan.h>
 
@@ -47,7 +47,7 @@ struct inclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  BinaryFunction binary_op;
+  thrust::detail::host_wrapped_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
@@ -64,12 +64,12 @@ struct inclusive_body
   {
     InputIterator iter = input + r.begin();
  
-    ValueType temp = thrust::detail::backend::dereference(iter);
+    ValueType temp = *iter;
 
     ++iter;
 
     for (Size i = r.begin() + 1; i != r.end(); ++i, ++iter)
-      temp = binary_op(temp, thrust::detail::backend::dereference(iter));
+      temp = binary_op(temp, *iter);
 
     if (first_call)
       sum = temp;
@@ -87,16 +87,16 @@ struct inclusive_body
 
     if (first_call)
     {
-      thrust::detail::backend::dereference(iter2) = sum = thrust::detail::backend::dereference(iter1);
+      *iter2 = sum = *iter1;
       ++iter1;
       ++iter2;
       for (Size i = r.begin() + 1; i != r.end(); ++i, ++iter1, ++iter2)
-        thrust::detail::backend::dereference(iter2) = sum = binary_op(sum, thrust::detail::backend::dereference(iter1));
+        *iter2 = sum = binary_op(sum, *iter1);
     }
     else
     {
       for (Size i = r.begin(); i != r.end(); ++i, ++iter1, ++iter2)
-        thrust::detail::backend::dereference(iter2) = sum = binary_op(sum, thrust::detail::backend::dereference(iter1));
+        *iter2 = sum = binary_op(sum, *iter1);
     }
 
     first_call = false;
@@ -122,7 +122,7 @@ struct exclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  BinaryFunction binary_op;
+  thrust::detail::host_wrapped_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
@@ -139,12 +139,12 @@ struct exclusive_body
   {
     InputIterator iter = input + r.begin();
  
-    ValueType temp = thrust::detail::backend::dereference(iter);
+    ValueType temp = *iter;
 
     ++iter;
 
     for (Size i = r.begin() + 1; i != r.end(); ++i, ++iter)
-      temp = binary_op(temp, thrust::detail::backend::dereference(iter));
+      temp = binary_op(temp, *iter);
 
     if (first_call && r.begin() > 0)
       sum = temp;
@@ -162,8 +162,8 @@ struct exclusive_body
 
     for (Size i = r.begin(); i != r.end(); ++i, ++iter1, ++iter2)
     {
-      ValueType temp = binary_op(sum, thrust::detail::backend::dereference(iter1));
-      thrust::detail::backend::dereference(iter2) = sum;
+      ValueType temp = binary_op(sum, *iter1);
+      *iter2 = sum;
       sum = temp;
     }
     
@@ -225,7 +225,7 @@ template<typename InputIterator,
   if (n != 0)
   {
     typedef typename scan_detail::inclusive_body<InputIterator,OutputIterator,BinaryFunction,ValueType> Body;
-    Body scan_body(first, result, binary_op, thrust::detail::backend::dereference(first));
+    Body scan_body(first, result, binary_op, *first);
     ::tbb::parallel_scan(::tbb::blocked_range<Size>(0,n), scan_body);
   }
  

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
@@ -45,7 +45,7 @@ struct body
   RandomAccessIterator first;
   OutputType sum;
   bool first_call;  // TBB can invoke operator() multiple times on the same body
-  BinaryFunction binary_op;
+  thrust::detail::host_wrapped_function<BinaryFunction,OutputType> binary_op;
 
   // note: we only initalize sum with init to avoid calling OutputType's default constructor
   body(RandomAccessIterator first, OutputType init, BinaryFunction binary_op)
@@ -66,12 +66,12 @@ struct body
 
     RandomAccessIterator iter = first + r.begin();
 
-    OutputType temp = thrust::detail::backend::dereference(iter);
+    OutputType temp = *iter;
 
     ++iter;
 
     for (Size i = r.begin() + 1; i != r.end(); ++i, ++iter)
-      temp = binary_op(temp, thrust::detail::backend::dereference(iter));
+      temp = binary_op(temp, *iter);
 
 
     if (first_call)
