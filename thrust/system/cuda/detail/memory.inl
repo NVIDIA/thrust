@@ -31,7 +31,7 @@ namespace detail
 {
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+inline __host__ __device__
   void assign_value(cuda::tag, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
@@ -59,27 +59,29 @@ __host__ __device__
 } // end assign_value()
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+inline __host__ __device__
   void assign_value(cpp_to_cuda, Pointer1 dst, Pointer2 src)
 {
 #if __CUDA_ARCH__
+  thrust::system::cuda::detail::assign_value(cuda::tag(), dst, src):
 #else
   thrust::copy(src, src + 1, dst);
 #endif
 } // end assign_value()
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+inline __host__ __device__
   void assign_value(cuda_to_cpp, Pointer1 dst, Pointer2 src)
 {
 #if __CUDA_ARCH__
+  thrust::system::cuda::detail::assign_value(cuda::tag(), dst, src);
 #else
   thrust::copy(src, src + 1, dst);
 #endif
 } // end assign_value()
 
 template<typename Pointer>
-__host__ __device__
+inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
     get_value(tag, Pointer ptr)
 {
@@ -113,7 +115,7 @@ __host__ __device__
 } // end get_value()
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+inline __host__ __device__
 void iter_swap(tag, Pointer1 a, Pointer2 b)
 {
   // XXX war nvbugs/881631
