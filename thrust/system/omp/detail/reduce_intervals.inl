@@ -18,8 +18,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/reduce_intervals.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/detail/cstdint.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -40,8 +40,6 @@ void reduce_intervals(tag,
                       BinaryFunction binary_op,
                       Decomposition decomp)
 {
-  using thrust::detail::backend::dereference;
-
   // we're attempting to launch an omp kernel, assert we're compiling with omp support
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
@@ -52,6 +50,10 @@ void reduce_intervals(tag,
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
+
+  // wrap binary_op
+  thrust::detail::host_wrapped_function<BinaryFunction,OutputType> wrapped_binary_op(binary_op);
+
   typedef thrust::detail::intptr_t index_type;
 
   index_type n = static_cast<index_type>(decomp.size());
@@ -66,18 +68,18 @@ void reduce_intervals(tag,
 
     if (begin != end)
     {
-      OutputType sum = dereference(begin);
+      OutputType sum = *begin;
 
       ++begin;
 
       while (begin != end)
       {
-        sum = binary_op(sum, dereference(begin));
+        sum = wrapped_binary_op(sum, *begin);
         ++begin;
       }
 
       OutputIterator tmp = output + i;
-      dereference(tmp) = sum;
+      *tmp = sum;
     }
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
