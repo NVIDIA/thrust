@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/type_traits/result_of.h>
 #include <thrust/detail/raw_reference_cast.h>
 
 namespace thrust
@@ -26,67 +25,71 @@ namespace detail
 {
 
 
-template<typename UnaryFunction,
-         typename Reference,
-         typename Result = typename thrust::detail::result_of<
-           UnaryFunction(typename thrust::detail::raw_reference<Reference>::type)
-         >::type
-        >
-  struct host_device_wrapped_unary_function
+template<typename Function, typename Result>
+  struct host_device_wrapped_function
 {
-  // mutable because UnaryFunction::operator() might be const
-  mutable UnaryFunction m_f;
+  // mutable because Function::operator() might be const
+  mutable Function m_f;
 
-  __host__ __device__
-  host_device_wrapped_unary_function()
+  inline __host__ __device__
+  host_device_wrapped_function()
     : m_f()
   {}
 
-  __host__ __device__
-  host_device_wrapped_unary_function(const UnaryFunction &f)
+  inline __host__ __device__
+  host_device_wrapped_function(const Function &f)
     : m_f(f)
   {}
 
-  __host__ __device__ __thrust_forceinline__
-  Result operator()(Reference ref) const
+  template<typename Argument>
+  inline __host__ __device__
+    Result operator()(Argument &x) const
   {
-    // we static_cast to Result to handle void Result without error
-    // in case UnaryFunction's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(ref)));
+    // we static cast to Result to handle void Result without error
+    // in case Function's result is non-void
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
   }
-}; // host_device_wrapped_unary_function
 
-
-template<typename BinaryFunction,
-         typename Reference1,
-         typename Reference2,
-         typename Result = typename thrust::detail::result_of<
-           BinaryFunction(typename thrust::detail::raw_reference<Reference1>::type, typename thrust::detail::raw_reference<Reference2>::type)
-         >::type
-        >
-  struct host_device_wrapped_binary_function
-{
-  // mutable because BinaryFunction::operator() might be const
-  mutable BinaryFunction m_f;
-
-  __host__ __device__
-  host_device_wrapped_binary_function()
-    : m_f()
-  {}
-
-  __host__ __device__
-  host_device_wrapped_binary_function(const BinaryFunction &f)
-    : m_f(f)
-  {}
-
-  __host__ __device__ __thrust_forceinline__
-  Result operator()(Reference1 ref1, Reference2 ref2) const
+  template<typename Argument>
+    inline __host__ __device__ Result operator()(const Argument &x) const
   {
-    // we static_cast to Result to handle void Result without error
-    // in case BinaryFunction's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(ref1), thrust::raw_reference_cast(ref2)));
+    // we static cast to Result to handle void Result without error
+    // in case Function's result is non-void
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
   }
-}; // host_device_wrapped_binary_function
+
+  template<typename Argument1, typename Argument2>
+    inline __host__ __device__ Result operator()(Argument1 &x, Argument2 &y) const
+  {
+    // we static cast to Result to handle void Result without error
+    // in case Function's result is non-void
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+  }
+
+  template<typename Argument1, typename Argument2>
+    inline __host__ __device__ Result operator()(const Argument1 &x, Argument2 &y) const
+  {
+    // we static cast to Result to handle void Result without error
+    // in case Function's result is non-void
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+  }
+
+  template<typename Argument1, typename Argument2>
+    inline __host__ __device__ Result operator()(const Argument1 &x, const Argument2 &y) const
+  {
+    // we static cast to Result to handle void Result without error
+    // in case Function's result is non-void
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+  }
+
+  template<typename Argument1, typename Argument2>
+    inline __host__ __device__ Result operator()(Argument1 &x, const Argument2 &y) const
+  {
+    // we static cast to Result to handle void Result without error
+    // in case Function's result is non-void
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+  }
+}; // end host_device_wrapped_function
 
 
 template<typename Function, typename Result>
@@ -95,11 +98,11 @@ template<typename Function, typename Result>
   // mutable because Function::operator() might be const
   mutable Function m_f;
 
-  host_wrapped_function()
+  inline host_wrapped_function()
     : m_f()
   {}
 
-  host_wrapped_function(const Function &f)
+  inline host_wrapped_function(const Function &f)
     : m_f(f)
   {}
 
@@ -150,7 +153,7 @@ template<typename Function, typename Result>
     // in case Function's result is non-void
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
   }
-};
+}; // end host_wrapped_function
 
 
 } // end detail

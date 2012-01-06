@@ -292,10 +292,8 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     __host__ __device__
     typename super_t::reference dereference() const
     { 
-      typedef typename thrust::iterator_reference<Iterator>::type base_reference;
-
       // XXX consider making this a member instead of a temporary created inside dereference
-      thrust::detail::host_device_wrapped_unary_function<AdaptableUnaryFunction, base_reference, typename super_t::reference> wrapped_f(m_f);
+      thrust::detail::host_device_wrapped_function<AdaptableUnaryFunction, typename super_t::reference> wrapped_f(m_f);
 
       return wrapped_f(*this->base());
     }
