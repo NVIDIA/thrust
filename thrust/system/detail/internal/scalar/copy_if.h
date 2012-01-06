@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/raw_apply.h>
 
 namespace thrust
 {
@@ -46,9 +46,9 @@ template<typename InputIterator1,
 {
   while(first != last)
   {
-    if(pred(thrust::detail::backend::dereference(stencil)))
+    if(thrust::detail::raw_apply<bool>(pred,*stencil))
     {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      *result = *first;
       ++result;
     } // end if
 

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -41,8 +41,14 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  // advance iterators until pred(*first) is true or we reach the end of input
-  while(first != last && !bool(pred(thrust::detail::backend::dereference(first))))
+  // wrap pred
+  thrust::detail::host_wrapped_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
+  // advance iterators until wrapped_pred(*first) is true or we reach the end of input
+  while(first != last && !wrapped_pred(*first))
     ++first;
 
   if(first == last)
@@ -55,9 +61,9 @@ template<typename ForwardIterator,
 
   while(first != last)
   {
-    if(!bool(pred(thrust::detail::backend::dereference(first))))
+    if(!wrapped_pred(*first))
     {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      *result = *first;
       ++result;
     }
     ++first;
@@ -75,8 +81,14 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  // advance iterators until pred(*stencil) is true or we reach the end of input
-  while(first != last && !bool(pred(thrust::detail::backend::dereference(stencil))))
+  // wrap pred
+  thrust::detail::host_wrapped_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
+  // advance iterators until wrapped_pred(*stencil) is true or we reach the end of input
+  while(first != last && !wrapped_pred(*stencil))
   {
     ++first;
     ++stencil;
@@ -93,9 +105,9 @@ template<typename ForwardIterator,
 
   while(first != last)
   {
-    if(!bool(pred(thrust::detail::backend::dereference(stencil))))
+    if(!wrapped_pred(*stencil))
     {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      *result = *first;
       ++result;
     }
     ++first;
@@ -114,11 +126,17 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
+  // wrap pred
+  thrust::detail::host_wrapped_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
   while (first != last)
   {
-    if (!bool(pred(thrust::detail::backend::dereference(first))))
+    if (!wrapped_pred(*first))
     {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      *result = *first;
       ++result;
     }
 
@@ -138,11 +156,17 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred)
 {
+  // wrap pred
+  thrust::detail::host_wrapped_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
   while (first != last)
   {
-    if (!bool(pred(thrust::detail::backend::dereference(stencil))))
+    if (!wrapped_pred(*stencil))
     {
-      thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+      *result = *first;
       ++result;
     }
 

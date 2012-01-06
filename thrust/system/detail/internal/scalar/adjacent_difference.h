@@ -23,7 +23,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -49,14 +48,14 @@ OutputIterator adjacent_difference(InputIterator first,
   if (first == last)
     return result;
 
-  InputType curr = thrust::detail::backend::dereference(first);
+  InputType curr = *first;
 
-  thrust::detail::backend::dereference(result) = curr;
+  *result = curr;
 
   while (++first != last)
   {
-    InputType next = thrust::detail::backend::dereference(first);
-    thrust::detail::backend::dereference(++result) = binary_op(next, curr);
+    InputType next = *first;
+    *(++result) = binary_op(next, curr);
     curr = next;
   }
 

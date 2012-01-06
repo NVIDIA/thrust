@@ -56,7 +56,7 @@ RandomAccessIterator for_each_n(tag,
 
   // create a wrapped function for f
   typedef typename thrust::iterator_reference<RandomAccessIterator>::type reference;
-  thrust::detail::host_wrapped_unary_function<UnaryFunction,reference,void> wrapped_f(f);
+  thrust::detail::host_wrapped_function<UnaryFunction,void> wrapped_f(f);
 
 // do not attempt to compile the body of this function, which depends on #pragma omp,
 // without support from the compiler

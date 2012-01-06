@@ -24,7 +24,7 @@
 #include <thrust/advance.h>
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -45,6 +45,12 @@ ForwardIterator lower_bound(ForwardIterator first,
                             const T& val,
                             StrictWeakOrdering comp)
 {
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
+
   typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
 
   difference_type len = thrust::distance(first, last);
@@ -56,7 +62,7 @@ ForwardIterator lower_bound(ForwardIterator first,
 
     thrust::advance(middle, half);
 
-    if(comp(thrust::detail::backend::dereference(middle), val))
+    if(wrapped_comp(*middle, val))
     {
       first = middle;
       ++first;
@@ -78,6 +84,11 @@ ForwardIterator upper_bound(ForwardIterator first,
                             const T& val, 
                             StrictWeakOrdering comp)
 {
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
   typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
 
   difference_type len = thrust::distance(first, last);
@@ -89,7 +100,7 @@ ForwardIterator upper_bound(ForwardIterator first,
 
     thrust::advance(middle, half);
 
-    if(comp(val, thrust::detail::backend::dereference(middle)))
+    if(wrapped_comp(val, *middle))
     {
       len = half;
     }
@@ -113,7 +124,14 @@ bool binary_search(ForwardIterator first,
                    StrictWeakOrdering comp)
 {
   ForwardIterator iter = thrust::system::detail::internal::scalar::lower_bound(first, last, val, comp);
-  return iter != last && !comp(val, thrust::detail::backend::dereference(iter));
+
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
+
+  return iter != last && !wrapped_comp(val,*iter);
 }
 
 } // end namespace scalar

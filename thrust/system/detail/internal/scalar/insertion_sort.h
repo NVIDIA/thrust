@@ -44,10 +44,8 @@ void insertion_sort(RandomAccessIterator first,
   if (first == last) return;
 
   // wrap comp
-  thrust::detail::host_wrapped_binary_function<
+  thrust::detail::host_wrapped_function<
     StrictWeakOrdering,
-    value_type &,
-    typename thrust::iterator_reference<RandomAccessIterator>::type,
     bool
   > wrapped_comp(comp);
 
@@ -94,10 +92,8 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
   if (first1 == last1) return;
 
   // wrap comp
-  thrust::detail::host_wrapped_binary_function<
+  thrust::detail::host_wrapped_function<
     StrictWeakOrdering,
-    value_type1 &,
-    typename thrust::iterator_reference<RandomAccessIterator1>::type,
     bool
   > wrapped_comp(comp);
 

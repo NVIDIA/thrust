@@ -20,7 +20,6 @@
 #include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits/algorithm/intermediate_type_from_function_and_iterators.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -59,15 +58,15 @@ template <typename InputIterator1,
 
   if(keys_first != keys_last)
   {
-    InputKeyType  temp_key   = thrust::detail::backend::dereference(keys_first);
-    TemporaryType temp_value = thrust::detail::backend::dereference(values_first);
+    InputKeyType  temp_key   = *keys_first;
+    TemporaryType temp_value = *values_first;
 
     for(++keys_first, ++values_first;
         keys_first != keys_last;
         ++keys_first, ++values_first)
     {
-      InputKeyType    key  = thrust::detail::backend::dereference(keys_first);
-      InputValueType value = thrust::detail::backend::dereference(values_first);
+      InputKeyType    key  = *keys_first;
+      InputValueType value = *values_first;
 
       if (binary_pred(temp_key, key))
       {
@@ -75,8 +74,8 @@ template <typename InputIterator1,
       }
       else
       {
-        thrust::detail::backend::dereference(keys_output)   = temp_key;
-        thrust::detail::backend::dereference(values_output) = temp_value;
+        *keys_output   = temp_key;
+        *values_output = temp_value;
 
         ++keys_output;
         ++values_output;
@@ -86,8 +85,8 @@ template <typename InputIterator1,
       }
     }
 
-    thrust::detail::backend::dereference(keys_output)   = temp_key;
-    thrust::detail::backend::dereference(values_output) = temp_value;
+    *keys_output   = temp_key;
+    *values_output = temp_value;
 
     ++keys_output;
     ++values_output;

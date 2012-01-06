@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -47,17 +47,21 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp(*first1,*first2))
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++result;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp(*first2,*first1))
     {
       ++first2;
     } // end else if
@@ -83,21 +87,25 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp(*first1,*first2))
     {
       ++first1;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp(*first2,*first1))
     {
       ++first2;
     } // end else if
     else
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++first2;
       ++result;
@@ -119,19 +127,23 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp(*first1,*first2))
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++result;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp(*first2,*first1))
     {
-      backend::dereference(result) = backend::dereference(first2);
+      *result = *first2;
       ++first2;
       ++result;
     } // end else if
@@ -157,23 +169,27 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first1), backend::dereference(first2)))
+    if(wrapped_comp(*first1,*first2))
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
     } // end if
-    else if(comp(backend::dereference(first2), backend::dereference(first1)))
+    else if(wrapped_comp(*first2,*first1))
     {
-      backend::dereference(result) = backend::dereference(first2);
+      *result = *first2;
       ++first2;
     } // end else if
     else
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
       ++first2;
     } // end else

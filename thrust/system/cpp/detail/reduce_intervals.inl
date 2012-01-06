@@ -40,10 +40,8 @@ void reduce_intervals(tag,
   typedef typename Decomposition::index_type index_type;
 
   // wrap binary_op
-  thrust::detail::host_wrapped_binary_function<
+  thrust::detail::host_wrapped_function<
     BinaryFunction,
-    OutputType &,
-    typename thrust::iterator_reference<InputIterator>::type,
     OutputType
   > wrapped_binary_op(binary_op);
 

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -43,12 +43,18 @@ template<typename InputIterator,
                     OutputType init,
                     BinaryFunction binary_op)
 {
+  // wrap binary_op
+  thrust::detail::host_wrapped_function<
+    BinaryFunction,
+    OutputType
+  > wrapped_binary_op(binary_op);
+
   // initialize the result
   OutputType result = init;
 
   while(begin != end)
   {
-    result = binary_op(result, thrust::detail::backend::dereference(begin));
+    result = wrapped_binary_op(result, *begin);
     ++begin;
   } // end while
 

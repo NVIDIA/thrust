@@ -16,10 +16,7 @@
 
 
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/temporary_array.h>
-#include <thrust/detail/backend/dereference.h>
-
 #include <thrust/system/detail/internal/scalar/merge.h>
 #include <thrust/system/detail/internal/scalar/insertion_sort.h>
 

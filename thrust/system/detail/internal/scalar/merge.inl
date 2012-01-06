@@ -17,7 +17,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/system/detail/internal/scalar/copy.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -41,18 +41,22 @@ OutputIterator merge(InputIterator1 first1,
                      OutputIterator result,
                      StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(comp(backend::dereference(first2), backend::dereference(first1)))
+    if(wrapped_comp(*first2, *first1))
     {
-      backend::dereference(result) = backend::dereference(first2);
+      *result = *first2;
       ++first2;
     } // end if
     else
     {
-      backend::dereference(result) = backend::dereference(first1);
+      *result = *first1;
       ++first1;
     } // end else
 
@@ -81,23 +85,27 @@ thrust::pair<OutputIterator1,OutputIterator2>
                  OutputIterator2 output2,
                  StrictWeakOrdering comp)
 {
-  using namespace thrust::detail;
+  // wrap comp
+  thrust::detail::host_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > wrapped_comp(comp);
 
   while(first1 != last1 && first2 != last2)
   {
-    if(!comp(backend::dereference(first2), backend::dereference(first1)))
+    if(!wrapped_comp(*first2, *first1))
     {
       // *first1 <= *first2
-      backend::dereference(output1) = backend::dereference(first1);
-      backend::dereference(output2) = backend::dereference(first3);
+      *output1 = *first1;
+      *output2 = *first3;
       ++first1;
       ++first3;
     }
     else
     {
       // *first1 > first2
-      backend::dereference(output1) = backend::dereference(first2);
-      backend::dereference(output2) = backend::dereference(first4);
+      *output1 = *first2;
+      *output2 = *first4;
       ++first2;
       ++first4;
     }
@@ -108,8 +116,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
 
   while(first1 != last1)
   {
-    backend::dereference(output1) = backend::dereference(first1);
-    backend::dereference(output2) = backend::dereference(first3);
+    *output1 = *first1;
+    *output2 = *first3;
     ++first1;
     ++first3;
     ++output1;
@@ -118,8 +126,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
 
   while(first2 != last2)
   {
-    backend::dereference(output1) = backend::dereference(first2);
-    backend::dereference(output2) = backend::dereference(first4);
+    *output1 = *first2;
+    *output2 = *first4;
     ++first2;
     ++first4;
     ++output1;

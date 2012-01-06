@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -41,9 +41,15 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
+  // wrap pred
+  thrust::detail::host_wrapped_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
   while(first != last)
   {
-    if (pred(thrust::detail::backend::dereference(first)))
+    if (wrapped_pred(*first))
       return first;
 
     ++first;
