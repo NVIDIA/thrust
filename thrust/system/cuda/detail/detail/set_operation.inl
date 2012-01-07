@@ -19,7 +19,6 @@
 #include <thrust/scan.h>
 #include <thrust/detail/minmax.h>
 
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/block/copy.h>
@@ -183,8 +182,8 @@ struct set_operation_closure
         RandomAccessIterator3 rank1 = splitter_ranks1;
         RandomAccessIterator4 rank2 = splitter_ranks2;
   
-        input_end1 = first1 + thrust::detail::backend::dereference(rank1);
-        input_end2 = first2 + thrust::detail::backend::dereference(rank2);
+        input_end1 = first1 + *rank1;
+        input_end2 = first2 + *rank2;
       }
   
       // find the beginning of the input and output if this is not the first partition
@@ -192,13 +191,11 @@ struct set_operation_closure
       {
         typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
         typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-        RandomAccessIterator3 rank1 = splitter_ranks1;
-        --rank1;
-        RandomAccessIterator4 rank2 = splitter_ranks2;
-        --rank2;
+        RandomAccessIterator3 rank1 = splitter_ranks1 - 1;
+        RandomAccessIterator4 rank2 = splitter_ranks2 - 1;
   
-        difference1 size_of_preceding_input1 = thrust::detail::backend::dereference(rank1);
-        difference2 size_of_preceding_input2 = thrust::detail::backend::dereference(rank2);
+        difference1 size_of_preceding_input1 = *rank1;
+        difference2 size_of_preceding_input2 = *rank2;
   
         // advance the input to point to the beginning
         input_begin1 += size_of_preceding_input1;
@@ -240,7 +237,7 @@ struct set_operation_closure
       // store size of the result
       if(context.thread_index() == 0)
       {
-        thrust::detail::backend::dereference(result_partition_sizes) = s_result_end - s_result;
+        *result_partition_sizes = s_result_end - s_result;
       } // end if
     } // end for partition
   }
@@ -300,8 +297,8 @@ struct grouped_gather_closure
       RandomAccessIterator2 input_begin = first;
   
       // find the location of the input and output if this is not the first partition
-      typename thrust::iterator_value<RandomAccessIterator4>::type partition_size
-        = dereference(size_of_result_before_and_including_each_partition);
+      typename thrust::iterator_value<RandomAccessIterator4>::type partition_size = *size_of_result_before_and_including_each_partition;
+
       if(partition_idx != 0)
       {
         // advance iterators to the beginning of this partition's input
@@ -312,8 +309,8 @@ struct grouped_gather_closure
   
         typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference;
   
-        difference size_of_preceding_input1 = dereference(rank1);
-        difference size_of_preceding_input2 = dereference(rank2);
+        difference size_of_preceding_input1 = *rank1;
+        difference size_of_preceding_input2 = *rank2;
   
         input_begin +=
           BlockConvergentSetOperation::get_max_size_of_result_in_number_of_elements(size_of_preceding_input1,size_of_preceding_input2);
@@ -321,11 +318,10 @@ struct grouped_gather_closure
         // subtract away the previous element of size_of_result_preceding_each_partition
         // resulting in this size of this partition
         --size_of_result_before_and_including_each_partition;
-        typename thrust::iterator_value<RandomAccessIterator4>::type beginning_of_output
-          = dereference(size_of_result_before_and_including_each_partition);
+        typename thrust::iterator_value<RandomAccessIterator4>::type beginning_of_output = *size_of_result_before_and_including_each_partition;
   
         output_begin += beginning_of_output;
-        partition_size -= dereference(size_of_result_before_and_including_each_partition);
+        partition_size -= *size_of_result_before_and_including_each_partition;
       } // end if
   
       block::copy(context, input_begin, input_begin + partition_size, output_begin);

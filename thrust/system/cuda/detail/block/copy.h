@@ -26,7 +26,6 @@
 #include <thrust/pair.h>
 
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>
 
 namespace thrust
@@ -142,11 +141,8 @@ template<typename Context,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
-  // XXX these aren't working at the moment
-  //const T *src = thrust::raw_pointer_cast(&*first);
-  //      T *dst = thrust::raw_pointer_cast(&*result);
-  const T *src = &thrust::detail::backend::dereference(first);
-        T *dst = &thrust::detail::backend::dereference(result);
+  const T *src = thrust::raw_pointer_cast(&*first);
+        T *dst = thrust::raw_pointer_cast(&*result);
 
   size_t n = (last - first);
   thrust::system::cuda::detail::block::trivial_copy(context, dst, src, n * sizeof(T));
@@ -174,7 +170,7 @@ template<typename Context,
       first  += context.block_dimension(),
       result += context.block_dimension())
   {
-    thrust::detail::backend::dereference(result) = thrust::detail::backend::dereference(first);
+    *result = *first;
   } // end for
 
   return end_of_output;

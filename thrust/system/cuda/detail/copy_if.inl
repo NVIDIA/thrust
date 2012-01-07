@@ -20,7 +20,6 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/backend/decompose.h>
 #include <thrust/scan.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
@@ -105,14 +104,14 @@ struct copy_if_intervals_closure
     if (context.block_index() != 0)
     {
         InputIterator3 temp = offsets + (context.block_index() - 1);
-        output += thrust::detail::backend::dereference(temp);
+        output += *temp;
     }
 
     // process full blocks
     while(base + CTA_SIZE <= range.end())
     {
         // read data
-        sdata[context.thread_index()] = predicate = thrust::detail::backend::dereference(stencil);
+        sdata[context.thread_index()] = predicate = *stencil;
       
         context.barrier();
 
@@ -123,7 +122,7 @@ struct copy_if_intervals_closure
         if (predicate)
         {
             OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
-            thrust::detail::backend::dereference(temp2) = thrust::detail::backend::dereference(input);
+            *temp2 = *input;
         }
 
         // advance inputs by CTA_SIZE
@@ -142,7 +141,7 @@ struct copy_if_intervals_closure
     {
         // read data
         if (base + context.thread_index() < range.end())
-            sdata[context.thread_index()] = predicate = thrust::detail::backend::dereference(stencil);
+            sdata[context.thread_index()] = predicate = *stencil;
         else
             sdata[context.thread_index()] = predicate = 0;
        
@@ -155,7 +154,7 @@ struct copy_if_intervals_closure
         if (predicate) // expects predicate=false for >= interval_end
         {
             OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
-            thrust::detail::backend::dereference(temp2) = thrust::detail::backend::dereference(input);
+            *temp2 = *input;
         }
     }
   }

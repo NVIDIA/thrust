@@ -21,7 +21,6 @@
 
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/system/cuda/detail/block/merge.h>
@@ -163,26 +162,24 @@ struct merge_closure
         RandomAccessIterator3 rank1 = splitter_ranks1;
         RandomAccessIterator4 rank2 = splitter_ranks2;
 
-        input_end1 = first1 + thrust::detail::backend::dereference(rank1);
-        input_end2 = first2 + thrust::detail::backend::dereference(rank2);
+        input_end1 = first1 + *rank1;
+        input_end2 = first2 + *rank2;
       }
 
       // find the beginning of the input and output if this is not the first partition
       // merged partition i begins at splitter_ranks1[i-1] + splitter_ranks2[i-1]
       if(partition_idx != 0)
       {
-        RandomAccessIterator3 rank1 = splitter_ranks1;
-        --rank1;
-        RandomAccessIterator4 rank2 = splitter_ranks2;
-        --rank2;
+        RandomAccessIterator3 rank1 = splitter_ranks1 - 1;
+        RandomAccessIterator4 rank2 = splitter_ranks2 - 1;
 
         // advance the input to point to the beginning
-        input_begin1 += thrust::detail::backend::dereference(rank1);
-        input_begin2 += thrust::detail::backend::dereference(rank2);
+        input_begin1 += *rank1;
+        input_begin2 += *rank2;
 
         // advance the result to point to the beginning of the output
-        output_begin += thrust::detail::backend::dereference(rank1);
-        output_begin += thrust::detail::backend::dereference(rank2);
+        output_begin += *rank1;
+        output_begin += *rank2;
       }
 
       if(input_begin1 < input_end1 && input_begin2 < input_end2)

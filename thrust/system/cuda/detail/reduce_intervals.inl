@@ -73,14 +73,14 @@ struct commutative_reduce_intervals_closure
       // compute reduction with the first shared_array_size threads
       if (context.thread_index() < thrust::min<index_type>(shared_array_size,range.size()))
       {
-        OutputType sum = thrust::detail::backend::dereference(input);
+        OutputType sum = *input;
 
         i     += shared_array_size;
         input += shared_array_size;
 
         while (i < range.end())
         {
-          OutputType val = thrust::detail::backend::dereference(input);
+          OutputType val = *input;
 
           sum = binary_op(sum, val);
 
@@ -94,14 +94,14 @@ struct commutative_reduce_intervals_closure
     else
     {
       // compute reduction with all blockDim.x threads
-      OutputType sum = thrust::detail::backend::dereference(input);
+      OutputType sum = *input;
 
       i     += context.block_dimension();
       input += context.block_dimension();
 
       while (i < range.end())
       {
-        OutputType val = thrust::detail::backend::dereference(input);
+        OutputType val = *input;
 
         sum = binary_op(sum, val);
 
@@ -142,7 +142,7 @@ struct commutative_reduce_intervals_closure
     if (context.thread_index() == 0)
     {
       output += context.block_index();
-      thrust::detail::backend::dereference(output) = shared_array[0];
+      *output = shared_array[0];
     }
   }
 };

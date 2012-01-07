@@ -25,7 +25,6 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
 
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/block/reduce.h>
@@ -89,14 +88,14 @@ struct unordered_reduce_closure
     input += i;
 
     // compute reduction with all blockDim.x threads
-    OutputType sum = thrust::detail::backend::dereference(input);
+    OutputType sum = *input;
 
     i     += grid_size;
     input += grid_size;
 
     while (i < n)
     {
-      OutputType val = thrust::detail::backend::dereference(input);
+      OutputType val = *input;
 
       sum = binary_op(sum, val);
 
@@ -141,7 +140,7 @@ struct unordered_reduce_closure
         tmp = binary_op(init, tmp);
 
       output += context.block_index();
-      thrust::detail::backend::dereference(output) = tmp;
+      *output = tmp;
     }
   }
 };

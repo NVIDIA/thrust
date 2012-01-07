@@ -103,7 +103,7 @@ FlagType load_flags(Context context,
     if (FullBlock || offset < n)
     {
       FlagIterator temp = iflags + offset;
-      if (thrust::detail::backend::dereference(temp))
+      if (*temp)
         flag_bits |= FlagType(1) << k;
     }
   }
@@ -153,7 +153,7 @@ void load_values(Context context,
     if (FullBlock || offset < n)
     {
       InputIterator2 temp = ivals + offset;
-      sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
+      sdata[offset % K][offset / K] = *temp;
     }
   }
 
@@ -233,7 +233,7 @@ void reduce_by_key_body(Context context,
       {
         InputIterator1  tmp1 = ikeys + sflag[context.thread_index()];
         OutputIterator1 tmp2 = okeys + (i + context.thread_index());
-        thrust::detail::backend::dereference(tmp2) = thrust::detail::backend::dereference(tmp1); 
+        *tmp2 = *tmp1; 
       }
       
       context.barrier();
@@ -359,7 +359,7 @@ void reduce_by_key_body(Context context,
     if (offset < num_outputs)
     {
       OutputIterator2 tmp = ovals + offset;
-      thrust::detail::backend::dereference(tmp) = sdata[k][context.thread_index()];
+      *tmp = sdata[k][context.thread_index()];
     }
   }
 
@@ -457,7 +457,7 @@ struct reduce_by_key_closure
       else
       {
         interval_counts += (context.block_index() - 1);
-        carry_index = thrust::detail::backend::dereference(interval_counts);
+        carry_index = *interval_counts;
       }
     }
   
@@ -498,8 +498,8 @@ struct reduce_by_key_closure
     {
       interval_values += context.block_index();
       interval_carry  += context.block_index();
-      thrust::detail::backend::dereference(interval_values) = carry_value;
-      thrust::detail::backend::dereference(interval_carry)  = carry_in;
+      *interval_values = carry_value;
+      *interval_carry  = carry_in;
     }
   }
 }; // end reduce_by_key_closure

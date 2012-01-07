@@ -31,7 +31,7 @@
 #include <thrust/swap.h>
 
 #include <thrust/device_ptr.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
 #include <thrust/iterator/iterator_traits.h>
@@ -230,7 +230,7 @@ struct merge_smalltiles_binarysearch_closure
       // copy over inputs to shared memory
       if(thread_not_idle)
       {
-        key[context.thread_index()] = my_key = dereference(keys_first);
+        key[context.thread_index()] = my_key = *keys_first;
       } // end if
       
       // the tile to which the element belongs
@@ -287,15 +287,15 @@ struct merge_smalltiles_binarysearch_closure
       {
         // these are scatters: use shared memory to reduce cost.
         outkey[rank] = my_key;
-        outvalue[rank] = dereference(values_first);
+        outvalue[rank] = *values_first;
       } // end if
       context.barrier();
       
       if(thread_not_idle)
       {
         // coalesced writes to global memory
-        dereference(keys_result)   = outkey[context.thread_index()];
-        dereference(values_result) = outvalue[context.thread_index()];
+        *keys_result   = outkey[context.thread_index()];
+        *values_result = outvalue[context.thread_index()];
       } // end if
       context.barrier();
     } // end for
@@ -364,8 +364,8 @@ struct stable_odd_even_block_sort_closure
       // copy input to shared
       if(i < n)
       {
-        s_keys[context.thread_index()] = dereference(keys_first);
-        s_data[context.thread_index()] = dereference(values_first);
+        s_keys[context.thread_index()] = *keys_first;
+        s_data[context.thread_index()] = *values_first;
       } // end if
       context.barrier();
   
@@ -382,8 +382,8 @@ struct stable_odd_even_block_sort_closure
       // write result
       if(i < n)
       {
-        dereference(keys_first)   = s_keys[context.thread_index()];
-        dereference(values_first) = s_data[context.thread_index()];
+        *keys_first   = s_keys[context.thread_index()];
+        *values_first = s_data[context.thread_index()];
       } // end if
     } // end for i
   }
@@ -438,8 +438,8 @@ struct extract_splitters_closure
     {
       if(context.thread_index() == 0)
       {
-        dereference(splitters_result) = dereference(first); 
-        dereference(positions_result) = i;
+        *splitters_result = *first; 
+        *positions_result = i;
       } // end if
     } // end while
   }
@@ -473,7 +473,10 @@ struct find_splitter_ranks_closure
   unsigned int num_splitters;
   unsigned int log_tile_size;
   unsigned int log_num_merged_splitters_per_block;
-  StrictWeakOrdering comp;
+  thrust::detail::host_device_wrapped_function<
+    StrictWeakOrdering,
+    bool
+  > comp;
   Context context;
 
   typedef Context context_type;
@@ -526,8 +529,8 @@ struct find_splitter_ranks_closure
     {
       if(i < num_splitters)
       { 
-        inp     = dereference(splitters_first);
-        inp_pos = dereference(splitters_pos_first);
+        inp     = *splitters_first;
+        inp_pos = *splitters_pos_first;
         
         // the (odd, even) block pair to which the splitter belongs. Each i corresponds to a splitter.
         unsigned int oddeven_blockid = i>>log_num_merged_splitters_per_block;
@@ -562,10 +565,10 @@ struct find_splitter_ranks_closure
         //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
         if(!(listno&0x1))
         { 
-          dereference(ranks_result1) = inp_pos + 1 - (1<<log_tile_size)*listno; 
+          *ranks_result1 = inp_pos + 1 - (1<<log_tile_size)*listno; 
   
           // XXX this is a redundant load
-          end = (( local_i - ((dereference(ranks_result1) - 1)>>log_block_size)) << log_block_size ) - 1;
+          end = (( local_i - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size ) - 1;
           start = end - (block_size-1);
   
           if(end < 0) start = end = 0;
@@ -574,10 +577,10 @@ struct find_splitter_ranks_closure
         } // end if
         else
         { 
-          dereference(ranks_result2) = inp_pos + 1 - (1<<log_tile_size)*listno;
+          *ranks_result2 = inp_pos + 1 - (1<<log_tile_size)*listno;
   
           // XXX this is a redundant load
-          end = (( local_i - ((dereference(ranks_result2) - 1)>>log_block_size)) << log_block_size ) - 1;
+          end = (( local_i - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size ) - 1;
           start = end - (block_size-1);
   
           if(end < 0) start = end = 0;
@@ -595,8 +598,8 @@ struct find_splitter_ranks_closure
   
           // XXX eliminate the need for two comparisons here and ensure the sort is still stable
           // XXX this is a redundant load
-          if((comp(dereference(mid), inp))
-             || (!comp(inp, dereference(mid)) && (listno&0x1)))
+          if((comp(*mid, inp))
+             || (!comp(inp, *mid) && (listno&0x1)))
           {
             start = cur + 1;
           } // end if
@@ -608,11 +611,11 @@ struct find_splitter_ranks_closure
   
         if(!(listno&0x1))
         {
-          dereference(ranks_result2) = start;	
+          *ranks_result2 = start;	
         } // end if
         else
         {
-          dereference(ranks_result1) = start;	
+          *ranks_result1 = start;	
         } // end else
       } // end if
     } // end for
@@ -679,13 +682,13 @@ struct copy_first_splitters_closure
       if(context.thread_index() == 0)
       {
         // read in the splitter position once
-        typename thrust::iterator_value<RandomAccessIterator3>::type splitter_pos = dereference(splitters_pos_first);
+        typename thrust::iterator_value<RandomAccessIterator3>::type splitter_pos = *splitters_pos_first;
   
         RandomAccessIterator1 key_iter   = keys_first + splitter_pos;
         RandomAccessIterator2 value_iter = values_first + splitter_pos;
   
-        dereference(keys_result)   = dereference(key_iter);
-        dereference(values_result) = dereference(value_iter);
+        *keys_result   = *key_iter;
+        *values_result = *value_iter;
       } // end if
     } // end for
   }
@@ -717,22 +720,14 @@ template<unsigned int block_size,
   {
     unsigned int offset = context.thread_index() - start_thread_aligned;
 
-    // carefully create these iterator without creating temporary objects
-    RandomAccessIterator1 first1_temp  = first1;
-    first1_temp += offset;
+    RandomAccessIterator1 first1_temp  = first1 + offset;
+    RandomAccessIterator2 first2_temp  = first2 + offset;
 
-    RandomAccessIterator2 first2_temp  = first2;
-    first2_temp += offset;
+    RandomAccessIterator3 result1_temp = result1 + offset + dest_offset;
+    RandomAccessIterator4 result2_temp = result2 + offset + dest_offset;
 
-    RandomAccessIterator3 result1_temp = result1;
-    result1_temp += offset + dest_offset;
-
-    RandomAccessIterator4 result2_temp = result2;
-    result2_temp += offset + dest_offset;
-
-
-    dereference(result1_temp) = dereference(first1_temp);
-    dereference(result2_temp) = dereference(first2_temp);
+    *result1_temp = *first1_temp;
+    *result2_temp = *first2_temp;
   }
 
   int i = warp_size - start_thread_aligned + context.thread_index(); 
@@ -748,8 +743,8 @@ template<unsigned int block_size,
       i < num_elements;
       i += block_size, first1 += block_size, first2 += block_size, result1 += block_size, result2 += block_size)
   {
-    dereference(result1) = dereference(first1); 
-    dereference(result2) = dereference(first2); 
+    *result1 = *first1; 
+    *result2 = *first2; 
   }
   context.barrier();
 }
@@ -783,20 +778,14 @@ template<unsigned int block_size,
       // carefully create these iterators without causing creation of temporary objects
       unsigned int offset = context.thread_index() - start_thread_aligned;
 
-      RandomAccessIterator1 first1_temp  = first1;
-      first1_temp += offset + src_offset;
+      RandomAccessIterator1 first1_temp  = first1 + offset + src_offset;
+      RandomAccessIterator2 first2_temp  = first2 + offset + src_offset;
 
-      RandomAccessIterator2 first2_temp  = first2;
-      first2_temp += offset + src_offset;
+      RandomAccessIterator3 result1_temp = result1 + offset;
+      RandomAccessIterator4 result2_temp = result2 + offset;
 
-      RandomAccessIterator3 result1_temp = result1;
-      result1_temp += offset;
-
-      RandomAccessIterator4 result2_temp = result2;
-      result2_temp += offset;
-
-      dereference(result1_temp) = dereference(first1_temp);
-      dereference(result2_temp) = dereference(first2_temp);
+      *result1_temp = *first1_temp;
+      *result2_temp = *first2_temp;
   }
 
   int i = warp_size - start_thread_aligned + context.thread_index();
@@ -812,8 +801,8 @@ template<unsigned int block_size,
       i < num_elements;
       i += block_size, first1 + block_size, first2 += block_size, result1 += block_size, result2 += block_size)
   {
-    dereference(result1) = dereference(first1);
-    dereference(result2) = dereference(first2);
+    *result1 = *first1;
+    *result2 = *first2;
   }
   context.barrier();
 }
@@ -929,8 +918,8 @@ struct merge_subblocks_binarysearch_closure
       // thread 0 computes the ranks & size of each array
       if(context.thread_index() == 0)
       {
-        start1 = dereference(ranks_first1);
-        start2 = dereference(ranks_first2);
+        start1 = *ranks_first1;
+        start2 = *ranks_first2;
   
         // Carefully avoid out-of-bounds rank array accesses.
         if( (i < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
@@ -938,8 +927,8 @@ struct merge_subblocks_binarysearch_closure
           RandomAccessIterator3 temp1 = ranks_first1 + 1;
           RandomAccessIterator4 temp2 = ranks_first2 + 1;
   
-          size1 = dereference(temp1);
-          size2 = dereference(temp2);
+          size1 = *temp1;
+          size2 = *temp2;
         } // end if
         else
         {

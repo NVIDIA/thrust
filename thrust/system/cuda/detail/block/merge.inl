@@ -15,8 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/raw_reference_cast.h>
 #include <thrust/system/detail/generic/scalar/binary_search.h>
 
 namespace thrust
@@ -59,42 +58,35 @@ __device__ __thrust_forceinline__
 
     // lower_bound ensures that x sorts before any equivalent element of input2
     // this ensures stability
-    rank2 = thrust::system::detail::generic::scalar::lower_bound(first2, last2, thrust::detail::backend::dereference(x), comp) - first2;
+    rank2 = thrust::system::detail::generic::scalar::lower_bound(first2, last2, raw_reference_cast(*x), comp) - first2;
   } // end if
 
   difference1 rank1 = 0;
   if(context.thread_index() < n2)
   {
-    RandomAccessIterator2 x = first2;
-    x += context.thread_index();
+    RandomAccessIterator2 x = first2 + context.thread_index();
 
     // upper_bound ensures that x sorts before any equivalent element of input1
     // this ensures stability
-    rank1 = thrust::system::detail::generic::scalar::upper_bound(first1, last1, thrust::detail::backend::dereference(x), comp) - first1;
+    rank1 = thrust::system::detail::generic::scalar::upper_bound(first1, last1, raw_reference_cast(*x), comp) - first1;
   } // end if
 
   if(context.thread_index() < n1)
   {
     // scatter each element from input1
-    RandomAccessIterator1 src = first1;
-    src += context.thread_index();
+    RandomAccessIterator1 src = first1 + context.thread_index();
+    RandomAccessIterator3 dst = result + context.thread_index() + rank2;
 
-    RandomAccessIterator3 dst = result;
-    dst += context.thread_index() + rank2;
-
-    thrust::detail::backend::dereference(dst) = thrust::detail::backend::dereference(src);
+    *dst = *src;
   }
 
   if(context.thread_index() < n2)
   {
     // scatter each element from input2
-    RandomAccessIterator2 src = first2;
-    src += context.thread_index();
+    RandomAccessIterator2 src = first2 + context.thread_index();
+    RandomAccessIterator3 dst = result + context.thread_index() + rank1;
 
-    RandomAccessIterator3 dst = result;
-    dst += context.thread_index() + rank1;
-
-    thrust::detail::backend::dereference(dst) = thrust::detail::backend::dereference(src);
+    *dst = *src;
   }
 
   return result + n1 + n2;

@@ -30,6 +30,7 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
@@ -86,10 +87,7 @@ struct adjacent_difference_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using thrust::detail::backend::dereference;
-
     typedef typename thrust::iterator_value<InputIterator1>::type  InputType;
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
     typedef typename Decomposition::index_type index_type;
 
     // this block processes results in [range.begin(), range.end())
@@ -98,7 +96,7 @@ struct adjacent_difference_closure
     input_copy += context.block_index() - 1;
       
     // prime the temp values for all threads so we don't need to launch a default constructor
-    InputType next_left = (context.block_index() == 0) ? dereference(input) : dereference(input_copy);
+    InputType next_left = (context.block_index() == 0) ? *input : *input_copy;
 
     index_type base = range.begin();
     index_type i    = range.begin() + context.thread_index();
@@ -108,7 +106,7 @@ struct adjacent_difference_closure
       if (context.thread_index() > 0)
       {
         InputIterator1 temp = input + (i - 1);
-        next_left = dereference(temp);
+        next_left = *temp;
       }              
     }
     
@@ -122,7 +120,7 @@ struct adjacent_difference_closure
       if (i + context.block_dimension() < range.end())
       {
         InputIterator1 temp = input + (context.block_dimension() - 1);
-        next_left = dereference(temp);
+        next_left = *temp;
       }
 
       context.barrier();
@@ -130,9 +128,12 @@ struct adjacent_difference_closure
       if (i < range.end())
       {
         if (i == 0)
-          dereference(output) = dereference(input);
+          *output = *input;
         else
-          dereference(output) = binary_op(dereference(input), curr_left);
+        {
+          InputType x = *input;
+          *output = binary_op(x, curr_left);
+        }
       }
 
       i      += context.block_dimension();

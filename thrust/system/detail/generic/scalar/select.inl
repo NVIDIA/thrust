@@ -18,7 +18,7 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/detail/minmax.h>
 
 namespace thrust
@@ -45,8 +45,6 @@ template<typename RandomAccessIterator1,
            Size k,
            Compare comp)
 {
-  using thrust::detail::backend::dereference;
-
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference;
 
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
@@ -78,8 +76,8 @@ template<typename RandomAccessIterator1,
     RandomAccessIterator1 mid1 = first1 + i;
     RandomAccessIterator2 mid2 = first2 + i;
     
-    value_type1 a = dereference(mid1);
-    value_type1 b = dereference(mid2);
+    value_type1 a = *mid1;
+    value_type1 b = *mid2;
 
     if (k == 0)
       return thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION (a, b, comp);
@@ -109,11 +107,11 @@ template<typename RandomAccessIterator1,
   // handle trivial problems
   if(first1 == last1)
   {
-    first2 += k;  return dereference(first2);
+    first2 += k;  return *first2;
   } 
   else
   {
-    first1 += k;  return dereference(first1);
+    first1 += k;  return *first1;
   }
 }
 

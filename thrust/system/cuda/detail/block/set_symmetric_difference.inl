@@ -15,9 +15,8 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/detail/generic/scalar/binary_search.h>
+#include <thrust/detail/raw_reference_cast.h>
 
 namespace thrust
 {
@@ -46,8 +45,6 @@ __device__ __thrust_forceinline__
                                                  RandomAccessIterator4 result,
                                                  StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::dereference;
-
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
@@ -77,11 +74,11 @@ __device__ __thrust_forceinline__
     x += context.thread_index();
 
     // count the number of previous occurrances of x in the first range
-    difference1 subrank = x - thrust::system::detail::generic::scalar::lower_bound(first1,x,dereference(x),comp);
+    difference1 subrank = x - thrust::system::detail::generic::scalar::lower_bound(first1,x,raw_reference_cast(*x),comp);
     
     // count the number of equivalent elements of x in the second range
     thrust::pair<RandomAccessIterator2,RandomAccessIterator2> matches = 
-      thrust::system::detail::generic::scalar::equal_range(first2,last2,dereference(x),comp);
+      thrust::system::detail::generic::scalar::equal_range(first2,last2,raw_reference_cast(*x),comp);
 
     difference2 num_matches = matches.second - matches.first;
 
@@ -98,11 +95,11 @@ __device__ __thrust_forceinline__
     x += context.thread_index();
 
     // count the number of previous occurrances of x in the first range
-    difference2 subrank = x - thrust::system::detail::generic::scalar::lower_bound(first2,x,dereference(x),comp);
+    difference2 subrank = x - thrust::system::detail::generic::scalar::lower_bound(first2,x,raw_reference_cast(*x),comp);
     
     // count the number of equivalent elements of x in the second range
     thrust::pair<RandomAccessIterator1,RandomAccessIterator1> matches = 
-      thrust::system::detail::generic::scalar::equal_range(first1,last1,dereference(x),comp);
+      thrust::system::detail::generic::scalar::equal_range(first1,last1,raw_reference_cast(*x),comp);
 
     difference1 num_matches = matches.second - matches.first;
 
@@ -112,13 +109,11 @@ __device__ __thrust_forceinline__
   } // end if
 
   // mark in the scratch arrays if each element needs to be output
-  RandomAccessIterator3 temp1 = temporary1;
-  temp1 += context.thread_index();
-  dereference(temp1) = needs_output1;
+  RandomAccessIterator3 temp1 = temporary1 + context.thread_index();
+  *temp1 = needs_output1;
 
-  RandomAccessIterator3 temp2 = temporary2;
-  temp2 += context.thread_index();
-  dereference(temp2) = needs_output2;
+  RandomAccessIterator3 temp2 = temporary2 + context.thread_index();
+  *temp2 = needs_output2;
   
   context.barrier();
 
@@ -129,9 +124,7 @@ __device__ __thrust_forceinline__
   // scatter elements from the first range to their place in the output
   if(needs_output1)
   {
-    RandomAccessIterator1 src = first1;
-    src += context.thread_index();
-
+    RandomAccessIterator1 src = first1 + context.thread_index();
     RandomAccessIterator4 dst = result;
 
     if(context.thread_index() > 0u)
@@ -146,7 +139,7 @@ __device__ __thrust_forceinline__
       dst += temporary2[rank_of_element_from_range1_in_range2-1];
     } // end if
 
-    dereference(dst) = dereference(src);
+    *dst = *src;
   } // end if
 
   if(needs_output2)
@@ -168,7 +161,7 @@ __device__ __thrust_forceinline__
       dst += temporary1[rank_of_element_from_range2_in_range1-1];
     } // end if
 
-    dereference(dst) = dereference(src);
+    *dst = *src;
   } // end if
 
   if(n1 > 0)

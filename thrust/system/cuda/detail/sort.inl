@@ -31,6 +31,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/wrapped_function.h>
 
 /*
  *  This file implements the following dispatch procedure for cuda::stable_sort()
@@ -156,17 +157,20 @@ namespace second_dispatch
     struct indirect_comp
     {
         RandomAccessIterator first;
-        StrictWeakOrdering   comp;
+
+        thrust::detail::host_device_wrapped_function<
+          StrictWeakOrdering,
+          bool
+        > comp;
     
         indirect_comp(RandomAccessIterator first, StrictWeakOrdering comp)
             : first(first), comp(comp) {}
     
-        template <typename IndexKeyTypeype>
+        template <typename IndexType>
         __host__ __device__
-        bool operator()(IndexKeyTypeype a, IndexKeyTypeype b)
+        bool operator()(IndexType a, IndexType b)
         {
-            return comp(thrust::detail::backend::dereference(first, a),
-                        thrust::detail::backend::dereference(first, b));
+            return comp(*(first + a), *(first + b));
         }    
     };
 

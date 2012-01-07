@@ -15,9 +15,9 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
 #include <thrust/system/detail/generic/scalar/binary_search.h>
+#include <thrust/detail/raw_reference_cast.h>
 
 namespace thrust
 {
@@ -46,8 +46,6 @@ __device__ __thrust_forceinline__
                                          RandomAccessIterator4 result,
                                          StrictWeakOrdering comp)
 {
-  using thrust::detail::backend::dereference;
-
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
   typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
 
@@ -63,11 +61,11 @@ __device__ __thrust_forceinline__
     x += context.thread_index();
 
     // count the number of previous occurrances of x the first range
-    difference1 rank = x - thrust::system::detail::generic::scalar::lower_bound(first1,x,dereference(x),comp);
+    difference1 rank = x - thrust::system::detail::generic::scalar::lower_bound(first1,x,raw_reference_cast(*x),comp);
 
     // count the number of equivalent elements of x in the second range
-    RandomAccessIterator1 lb = thrust::system::detail::generic::scalar::lower_bound(first2,last2,dereference(x),comp);
-    RandomAccessIterator1 ub = thrust::system::detail::generic::scalar::upper_bound(lb,thrust::min<RandomAccessIterator1>(lb+rank+1u, last2), dereference(x),comp);
+    RandomAccessIterator1 lb = thrust::system::detail::generic::scalar::lower_bound(first2,last2,raw_reference_cast(*x),comp);
+    RandomAccessIterator1 ub = thrust::system::detail::generic::scalar::upper_bound(lb,thrust::min<RandomAccessIterator1>(lb+rank+1u, last2), raw_reference_cast(*x),comp);
 
     difference2 num_matches = ub - lb;
 
@@ -76,9 +74,8 @@ __device__ __thrust_forceinline__
   } // end if
 
   // mark whether my element was found or not in the scratch array
-  RandomAccessIterator3 temp = temporary;
-  temp += context.thread_index();
-  dereference(temp) = needs_output;
+  RandomAccessIterator3 temp = temporary + context.thread_index();
+  *temp = needs_output;
 
   context.barrier();
 
@@ -91,17 +88,13 @@ __device__ __thrust_forceinline__
     unsigned int output_index = 0;
     if(context.thread_index() > 0)
     {
-      RandomAccessIterator3 src = temporary;
-      src += context.thread_index() - 1;
-      output_index = dereference(src);
+      RandomAccessIterator3 src = temporary + context.thread_index() - 1;
+      output_index = *src;
     } // end if
 
-    RandomAccessIterator1 x = first1;
-    x += context.thread_index();
-
-    RandomAccessIterator4 dst = result;
-    dst += output_index;
-    dereference(dst) = dereference(x);
+    RandomAccessIterator1 x = first1 + context.thread_index();
+    RandomAccessIterator4 dst = result + output_index;
+    *dst = *x;
   } // end if
 
   return result + temporary[n1-1];

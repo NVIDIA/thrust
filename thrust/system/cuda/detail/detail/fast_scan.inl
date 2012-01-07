@@ -26,7 +26,6 @@
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 #include <thrust/system/detail/internal/reduce_intervals.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
@@ -158,7 +157,7 @@ void load_block(Context context,
     if (FullBlock || offset < n)
     {
       InputIterator temp = input + offset;
-      sdata[offset % K][offset / K] = thrust::detail::backend::dereference(temp);
+      sdata[offset % K][offset / K] = *temp;
     }
   }
 
@@ -188,7 +187,7 @@ void store_block(Context context,
       if (FullBlock || offset < n)
       {
         OutputIterator temp = output + offset;
-        thrust::detail::backend::dereference(temp) = sdata[offset % K][offset / K];
+        *temp = sdata[offset % K][offset / K];
       }
     }   
   }
@@ -201,7 +200,7 @@ void store_block(Context context,
       if (FullBlock || offset < n)
       {
         OutputIterator temp = output + offset;
-        thrust::detail::backend::dereference(temp) = (offset == 0) ? carry : sdata[(offset - 1) % K][(offset - 1) / K];
+        *temp = (offset == 0) ? carry : sdata[(offset - 1) % K][(offset - 1) / K];
       }
     }   
   }

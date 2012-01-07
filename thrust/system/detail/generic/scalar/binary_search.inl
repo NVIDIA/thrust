@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/wrapped_function.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -44,6 +44,12 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
                                  const T &val,
                                  BinaryPredicate comp)
 {
+  // wrap comp
+  thrust::detail::host_device_wrapped_function<
+    BinaryPredicate,
+    bool
+  > wrapped_comp(comp);
+
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference_type;
 
   // XXX should read len = distance(first,last)
@@ -57,7 +63,7 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
     // XXX should read advance(middle,half)
     middle += half;
 
-    if(comp(thrust::detail::backend::dereference(middle), val))
+    if(wrapped_comp(*middle, val))
     {
       first = middle;
       ++first;
@@ -78,6 +84,12 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
                                  const T &val,
                                  BinaryPredicate comp)
 {
+  // wrap comp
+  thrust::detail::host_device_wrapped_function<
+    BinaryPredicate,
+    bool
+  > wrapped_comp(comp);
+
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference_type;
 
   // XXX should read len = distance(first,last)
@@ -91,7 +103,7 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
     // XXX should read advance(middle,half)
     middle += half;
 
-    if(comp(val, thrust::detail::backend::dereference(middle)))
+    if(wrapped_comp(val, *middle))
     {
       len = half;
     }
