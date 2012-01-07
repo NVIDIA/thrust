@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -43,7 +43,7 @@ ForwardIterator min_element(ForwardIterator first,
                             BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -69,7 +69,7 @@ ForwardIterator max_element(ForwardIterator first,
                             BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -95,7 +95,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
                                                              BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);

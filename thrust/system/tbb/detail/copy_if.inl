@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 #include <thrust/system/tbb/detail/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
@@ -46,7 +46,7 @@ struct body
   InputIterator1 first;
   InputIterator2 stencil;
   OutputIterator result;
-  thrust::detail::host_wrapped_function<Predicate,bool> pred;
+  thrust::detail::host_function<Predicate,bool> pred;
   Size sum;
 
   body(InputIterator1 first, InputIterator2 stencil, OutputIterator result, Predicate pred)

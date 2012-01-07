@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 #include <thrust/system/detail/internal/scalar/copy_backward.h>
 
 namespace thrust
@@ -44,7 +44,7 @@ void insertion_sort(RandomAccessIterator first,
   if (first == last) return;
 
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -92,7 +92,7 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
   if (first1 == last1) return;
 
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -44,7 +44,7 @@ template<typename InputIterator,
                     BinaryFunction binary_op)
 {
   // wrap binary_op
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     BinaryFunction,
     OutputType
   > wrapped_binary_op(binary_op);

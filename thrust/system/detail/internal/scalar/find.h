@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -42,7 +42,7 @@ InputIterator find_if(InputIterator first,
                       Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     Predicate,
     bool
   > wrapped_pred(pred);

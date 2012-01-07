@@ -18,7 +18,6 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
 #include <thrust/detail/minmax.h>
 
 namespace thrust

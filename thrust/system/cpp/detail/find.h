@@ -24,7 +24,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/detail/internal/scalar/find.h>
 

@@ -24,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -55,7 +55,7 @@ template<typename InputIterator1,
   typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
   // wrap binary_op
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     BinaryFunction,
     ValueType
   > wrapped_binary_op(binary_op);

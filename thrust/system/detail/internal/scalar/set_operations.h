@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -48,7 +48,7 @@ template<typename InputIterator1,
                                 StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -88,7 +88,7 @@ template<typename InputIterator1,
                                   StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -128,7 +128,7 @@ template<typename InputIterator1,
                                           StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -170,7 +170,7 @@ template<typename InputIterator1,
                            StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

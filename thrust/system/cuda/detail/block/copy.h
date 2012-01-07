@@ -27,6 +27,7 @@
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/dispatch/is_trivial_copy.h>
+#include <thrust/detail/raw_reference_cast.h>
 
 namespace thrust
 {
@@ -141,8 +142,8 @@ template<typename Context,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
-  const T *src = thrust::raw_pointer_cast(&*first);
-        T *dst = thrust::raw_pointer_cast(&*result);
+  const T *src = &thrust::raw_reference_cast(*first);
+        T *dst = &thrust::raw_reference_cast(*result);
 
   size_t n = (last - first);
   thrust::system::cuda::detail::block::trivial_copy(context, dst, src, n * sizeof(T));

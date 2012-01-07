@@ -18,7 +18,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/reduce_intervals.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 #include <thrust/detail/cstdint.h>
 
 namespace thrust
@@ -52,7 +52,7 @@ void reduce_intervals(tag,
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
   // wrap binary_op
-  thrust::detail::host_wrapped_function<BinaryFunction,OutputType> wrapped_binary_op(binary_op);
+  thrust::detail::host_function<BinaryFunction,OutputType> wrapped_binary_op(binary_op);
 
   typedef thrust::detail::intptr_t index_type;
 

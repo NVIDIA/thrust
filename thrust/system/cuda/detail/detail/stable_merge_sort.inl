@@ -31,7 +31,7 @@
 #include <thrust/swap.h>
 
 #include <thrust/device_ptr.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
 #include <thrust/iterator/iterator_traits.h>
@@ -473,7 +473,7 @@ struct find_splitter_ranks_closure
   unsigned int num_splitters;
   unsigned int log_tile_size;
   unsigned int log_num_merged_splitters_per_block;
-  thrust::detail::host_device_wrapped_function<
+  thrust::detail::device_function<
     StrictWeakOrdering,
     bool
   > comp;

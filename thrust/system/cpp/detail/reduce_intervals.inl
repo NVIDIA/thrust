@@ -15,7 +15,7 @@
  */
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -40,7 +40,7 @@ void reduce_intervals(tag,
   typedef typename Decomposition::index_type index_type;
 
   // wrap binary_op
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     BinaryFunction,
     OutputType
   > wrapped_binary_op(binary_op);

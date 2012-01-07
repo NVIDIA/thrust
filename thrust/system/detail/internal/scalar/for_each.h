@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -42,7 +42,7 @@ InputIterator for_each(InputIterator first,
                        UnaryFunction f)
 {
   // wrap f
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     UnaryFunction,
     void
   > wrapped_f(f);
@@ -63,7 +63,7 @@ InputIterator for_each_n(InputIterator first,
                          UnaryFunction f)
 {
   // wrap f
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     UnaryFunction,
     void
   > wrapped_f(f);

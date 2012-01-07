@@ -22,7 +22,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/distance.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/for_each.h>
@@ -56,7 +56,7 @@ RandomAccessIterator for_each_n(tag,
 
   // create a wrapped function for f
   typedef typename thrust::iterator_reference<RandomAccessIterator>::type reference;
-  thrust::detail::host_wrapped_function<UnaryFunction,void> wrapped_f(f);
+  thrust::detail::host_function<UnaryFunction,void> wrapped_f(f);
 
 // do not attempt to compile the body of this function, which depends on #pragma omp,
 // without support from the compiler

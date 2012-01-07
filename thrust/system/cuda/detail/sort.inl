@@ -31,7 +31,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/tag.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 /*
  *  This file implements the following dispatch procedure for cuda::stable_sort()
@@ -158,7 +158,7 @@ namespace second_dispatch
     {
         RandomAccessIterator first;
 
-        thrust::detail::host_device_wrapped_function<
+        thrust::detail::host_device_function<
           StrictWeakOrdering,
           bool
         > comp;

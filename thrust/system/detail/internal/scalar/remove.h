@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -42,7 +42,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -82,7 +82,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -127,7 +127,7 @@ template<typename InputIterator,
                                 Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -157,7 +157,7 @@ template<typename InputIterator1,
                                 Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     Predicate,
     bool
   > wrapped_pred(pred);

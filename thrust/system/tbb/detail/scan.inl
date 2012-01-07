@@ -21,7 +21,7 @@
 #include <thrust/distance.h>
 #include <thrust/advance.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
@@ -47,7 +47,7 @@ struct inclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  thrust::detail::host_wrapped_function<BinaryFunction,ValueType> binary_op;
+  thrust::detail::host_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
@@ -122,7 +122,7 @@ struct exclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  thrust::detail::host_wrapped_function<BinaryFunction,ValueType> binary_op;
+  thrust::detail::host_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 

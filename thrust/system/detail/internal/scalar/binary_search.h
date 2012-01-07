@@ -24,7 +24,7 @@
 #include <thrust/advance.h>
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -46,7 +46,7 @@ ForwardIterator lower_bound(ForwardIterator first,
                             StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -85,10 +85,11 @@ ForwardIterator upper_bound(ForwardIterator first,
                             StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
+
   typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
 
   difference_type len = thrust::distance(first, last);
@@ -126,7 +127,7 @@ bool binary_search(ForwardIterator first,
   ForwardIterator iter = thrust::system::detail::internal::scalar::lower_bound(first, last, val, comp);
 
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

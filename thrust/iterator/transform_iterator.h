@@ -38,7 +38,7 @@
 #include <thrust/iterator/detail/transform_iterator.inl>
 #include <thrust/iterator/iterator_facade.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -255,7 +255,14 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     __host__ __device__
     transform_iterator &operator=(const transform_iterator &other)
     {
-      return do_assign(other, typename thrust::detail::is_copy_assignable<AdaptableUnaryFunction>::type());
+      return do_assign(other,
+      // XXX gcc 4.2.1 crashes on is_copy_assignable; just assume the functor is assignable as a WAR
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION <= 40201)
+          thrust::detail::true_type()
+#else
+          typename thrust::detail::is_copy_assignable<AdaptableUnaryFunction>::type()
+#endif // THRUST_HOST_COMPILER
+      );
     }
 
     /*! This method returns a copy of this \p transform_iterator's \c AdaptableUnaryFunction.
@@ -293,7 +300,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     typename super_t::reference dereference() const
     { 
       // XXX consider making this a member instead of a temporary created inside dereference
-      thrust::detail::host_device_wrapped_function<AdaptableUnaryFunction, typename super_t::reference> wrapped_f(m_f);
+      thrust::detail::host_device_function<AdaptableUnaryFunction, typename super_t::reference> wrapped_f(m_f);
 
       return wrapped_f(*this->base());
     }

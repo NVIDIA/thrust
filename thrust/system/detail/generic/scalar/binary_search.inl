@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -45,7 +45,7 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
                                  BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_device_wrapped_function<
+  thrust::detail::host_device_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -85,7 +85,7 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
                                  BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_device_wrapped_function<
+  thrust::detail::host_device_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);

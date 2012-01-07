@@ -17,7 +17,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/system/detail/internal/scalar/copy.h>
-#include <thrust/detail/wrapped_function.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -42,7 +42,7 @@ OutputIterator merge(InputIterator1 first1,
                      StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -86,7 +86,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
                  StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_wrapped_function<
+  thrust::detail::host_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

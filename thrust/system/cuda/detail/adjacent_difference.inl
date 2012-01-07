@@ -30,7 +30,6 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/tag.h>
-#include <thrust/detail/wrapped_function.h>
 
 namespace thrust
 {
