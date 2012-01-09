@@ -248,5 +248,3 @@ constant_iterator<V> make_constant_iterator(V x)
 
 } // end namespace thrust
 
-#include <thrust/iterator/detail/constant_iterator.inl>
-

@@ -16,14 +16,13 @@
 
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 namespace thrust
 {
-
 namespace detail
 {
+
 
 // specialize is_output_iterator for discard_iterator: it is a pure output iterator
 template<typename Space>
@@ -32,43 +31,7 @@ template<typename Space>
 {
 };
 
-namespace backend
-{
-
-
-// specialize dereference_result for counting_iterator
-template <typename Space>
-  struct dereference_result<
-    thrust::discard_iterator<
-      Space
-    >
-  >
-{
-  typedef typename thrust::iterator_traits< thrust::discard_iterator<Space> >::reference type;
-}; // end dereference_result
-
-
-template<typename Space>
-  inline __host__ __device__
-    typename dereference_result< thrust::discard_iterator<Space> >::type
-      dereference(const thrust::discard_iterator<Space> &iter)
-{
-  return typename thrust::discard_iterator<Space>::reference();
-} // end dereference()
-
-
-template<typename Space, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::discard_iterator<Space> >::type
-      dereference(const thrust::discard_iterator<Space> &iter, IndexType n)
-{
-  return typename thrust::discard_iterator<Space>::reference();
-} // end dereference()
-
-
-} // end namespace backend
 
 } // end namespace detail
-
 } // end namespace thrust
 

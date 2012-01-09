@@ -19,7 +19,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/remove.h>
 #include <thrust/system/detail/generic/remove.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {

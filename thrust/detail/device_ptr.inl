@@ -67,48 +67,6 @@ template<typename T>
 }; // end is_device_ptr
 
 
-namespace backend
-{
-
-
-// forward declaration of dereference_result
-template<typename T> struct dereference_result;
-
-
-template<typename T>
-  struct dereference_result< device_ptr<T> >
-{
-  typedef T& type;
-}; // end device_traits
-
-
-template<typename T>
-  struct dereference_result< device_ptr<const T> >
-{
-  typedef const T& type;
-}; // end device_traits
-
-
-template<typename T>
-  inline __host__ __device__
-    typename dereference_result< device_ptr<T> >::type
-      dereference(device_ptr<T> ptr)
-{
-  return *thrust::raw_pointer_cast(ptr);
-} // dereference
-
-
-template<typename T, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< device_ptr<T> >::type
-      dereference(thrust::device_ptr<T> ptr, IndexType n)
-{
-  return thrust::raw_pointer_cast(ptr)[n];
-} // dereference
-
-} // end backend
-
 } // end namespace detail
-
 } // end namespace thrust
 

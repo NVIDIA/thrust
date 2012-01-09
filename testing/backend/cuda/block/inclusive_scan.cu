@@ -3,7 +3,6 @@
 #if defined(__CUDACC__)
 
 #include <thrust/detail/minmax.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
@@ -34,13 +33,13 @@ struct block_inclusive_scan_closure
     input  += context.thread_index();
     output += context.thread_index();
 
-    shared_array[context.thread_index()] = thrust::detail::backend::dereference(input);
+    shared_array[context.thread_index()] = *input;
 
     context.barrier();
 
     thrust::system::cuda::detail::block::inclusive_scan_n(context, &shared_array[0], context.block_dimension(), thrust::plus<int>());
 
-    thrust::detail::backend::dereference(output) = shared_array[context.thread_index()];
+    *output = shared_array[context.thread_index()];
   }
 };
 

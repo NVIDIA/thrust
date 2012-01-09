@@ -133,52 +133,5 @@ template <typename IteratorTuple>
 } // end make_zip_iterator()
 
 
-namespace detail
-{
-
-namespace backend
-{
-
-
-template<typename DeviceIteratorTuple>
-  struct dereference_result< thrust::zip_iterator<DeviceIteratorTuple> >
-{
-  // device_reference type is the type of the tuple obtained from the
-  // iterators' device_reference types.
-  typedef typename
-  thrust::detail::tuple_of_dereference_result<DeviceIteratorTuple>::type type;
-}; // end dereference_result
-
-
-template<typename IteratorTuple>
-  inline __host__ __device__
-    typename dereference_result< thrust::zip_iterator<IteratorTuple> >::type
-      dereference(const thrust::zip_iterator<IteratorTuple> &iter)
-{
-  using namespace thrust::detail::tuple_impl_specific;
-
-  return thrust::detail::tuple_host_device_transform<thrust::detail::device_dereference_iterator::template apply>(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
-}; // end dereference()
-
-
-template<typename IteratorTuple, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::zip_iterator<IteratorTuple> >::type
-      dereference(const thrust::zip_iterator<IteratorTuple> &iter,
-                  IndexType n)
-{
-  using namespace thrust::detail::tuple_impl_specific;
-
-  thrust::detail::device_dereference_iterator_with_index<IndexType> f;
-  f.n = n;
-
-  return thrust::detail::tuple_host_device_transform<thrust::detail::device_dereference_iterator_with_index<IndexType>::template apply>(iter.get_iterator_tuple(), f);
-}; // end dereference()
-
-
-} // end backend
-
-} // end detail
-
 } // end thrust
 

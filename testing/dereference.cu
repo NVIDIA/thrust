@@ -1,5 +1,4 @@
 #include <unittest/unittest.h>
-#include <thrust/detail/backend/dereference.h>
 
 #include <thrust/device_vector.h>
 #include <thrust/device_ptr.h>
@@ -18,7 +17,7 @@ __global__
 void simple_copy_on_device(Iterator1 first1, Iterator1 last1, Iterator2 first2)
 {
     while(first1 != last1)
-        thrust::detail::backend::dereference(first2++) = thrust::detail::backend::dereference(first1++);
+        *(first2++) = *(first1++);
 }
 
 template <typename Iterator1, typename Iterator2>

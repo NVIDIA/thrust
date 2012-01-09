@@ -109,40 +109,6 @@ template<typename T>
     : thrust::detail::true_type
 {};
 
-namespace backend
-{
-
-// specialize dereference_result and overload dereference
-template<typename> struct dereference_result;
-
-template<typename T>
-  struct dereference_result<thrust::cpp::pointer<T> >
-{
-  typedef T& type;
-}; // end dereference_result
-
-template<typename T>
-  struct dereference_result<thrust::cpp::pointer<const T> >
-{
-  typedef const T& type;
-}; // end dereference_result
-
-template<typename T>
-  typename dereference_result< thrust::cpp::pointer<T> >::type
-    dereference(thrust::cpp::pointer<T> ptr)
-{
-  return *ptr.get();
-} // end dereference()
-
-template<typename T, typename IndexType>
-  typename dereference_result< thrust::cpp::pointer<T> >::type
-    dereference(thrust::cpp::pointer<T> ptr, IndexType n)
-{
-  return ptr.get()[n];
-} // end dereference()
-
-} // end backend
 } // end detail
-
 } // end thrust
 

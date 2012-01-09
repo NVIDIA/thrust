@@ -110,7 +110,7 @@ template<typename T>
     // XXX doxygenate these
 
     // note that omp::pointer's member functions need __host__ __device__
-    // to interoperate with nvcc + thrust::detail::dereference
+    // to interoperate with nvcc + iterators' dereference member function
 
     __host__ __device__
     pointer() : super_t() {}

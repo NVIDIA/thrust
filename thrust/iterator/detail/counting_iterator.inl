@@ -19,7 +19,6 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/numeric_traits.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -76,42 +75,6 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
 }; // end counting_iterator_base
 
 
-namespace backend
-{
-
-
-// specialize dereference_result for counting_iterator
-// counting_iterator returns the same reference on the device as on the host
-template <typename Incrementable, typename Space, typename Traversal, typename Difference>
-  struct dereference_result<
-    thrust::counting_iterator<
-      Incrementable, Space, Traversal, Difference
-    >
-  >
-{
-  typedef typename thrust::iterator_traits< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::reference type;
-}; // end dereference_result
-
-
-template<typename Incrementable, typename Space, typename Traversal, typename Difference>
-  inline __host__ __device__
-    typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter)
-{
-  return iter.base();
-} // end dereference()
-
-template<typename Incrementable, typename Space, typename Traversal, typename Difference, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::counting_iterator<Incrementable,Space,Traversal,Difference> >::type
-      dereference(const thrust::counting_iterator<Incrementable,Space,Traversal,Difference> &iter, IndexType n)
-{
-  return iter[n];
-} // end dereference()
-
-} // end backend
-
-
 template<typename Difference, typename Incrementable1, typename Incrementable2>
   struct iterator_distance
 {
@@ -133,7 +96,7 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
   }
 };
 
-} // end detail
 
+} // end detail
 } // end thrust
 

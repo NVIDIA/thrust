@@ -14,14 +14,11 @@
  *  limitations under the License.
  */
 
-
-
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/result_of.h>
-#include <thrust/detail/backend/dereference.h>
 
 namespace thrust
 {
@@ -73,38 +70,6 @@ struct transform_iterator_base
 };
 
 
-namespace backend
-{
-
-
-// specialize dereference_result for transform_iterator
-// transform_iterator returns the same reference on the device as on the host
-template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
-  struct dereference_result< thrust::transform_iterator<UnaryFunc, Iterator, Reference, Value> >
-{
-  typedef typename thrust::iterator_traits< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::reference type;
-}; // end dereference_result
-
-
-template<typename UnaryFunc, typename Iterator, typename Reference, typename Value>
-  inline __host__ __device__
-    typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(const thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> &iter)
-{
-  return iter.functor()( dereference(iter.base()) );
-} // end dereference()
-
-template<typename UnaryFunc, typename Iterator, typename Reference, typename Value, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> >::type
-      dereference(const thrust::transform_iterator<UnaryFunc,Iterator,Reference,Value> &iter, IndexType n)
-{
-  return iter.functor()( dereference(iter.base(), n) );
-} // end dereference()
-
-} // end backend
-
 } // end detail
-
 } // end thrust
 

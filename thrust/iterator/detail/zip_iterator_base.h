@@ -25,7 +25,6 @@
 #include <thrust/detail/tuple_meta_transform.h>
 #include <thrust/detail/tuple_transform.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 
 namespace thrust
@@ -92,43 +91,6 @@ struct dereference_iterator
     return *it;
   }
 }; // end dereference_iterator
-
-
-struct device_dereference_iterator
-{
-  template<typename Iterator>
-  struct apply
-  { 
-    typedef typename
-      thrust::detail::backend::dereference_result<Iterator>::type
-    type;
-  }; // end apply
-
-  template<typename Iterator>
-  __host__ __device__
-    typename apply<Iterator>::type operator()(Iterator const& it)
-  { return ::thrust::detail::backend::dereference(it); }
-}; // end device_dereference_iterator
-
-
-template<typename IndexType>
-struct device_dereference_iterator_with_index
-{
-  template<typename Iterator>
-  struct apply
-  { 
-    typedef typename
-      thrust::detail::backend::dereference_result<Iterator>::type
-    type;
-  }; // end apply
-
-  template<typename Iterator>
-  __host__ __device__
-    typename apply<Iterator>::type operator()(Iterator const& it)
-  { return ::thrust::detail::backend::dereference(it, n); }
-
-  IndexType n;
-}; // end device_dereference_iterator
 
 
 // The namespace tuple_impl_specific provides two meta-
@@ -270,18 +232,6 @@ bool tuple_equal(Tuple1 const& t1, Tuple2 const& t2)
 } // end tuple_equal()
 
 } // end end tuple_impl_specific
-
-
-// Metafunction to obtain the type of the tuple whose element types
-// are the device reference types of an iterator tuple.
-template<typename IteratorTuple>
-  struct tuple_of_dereference_result
-    : tuple_meta_transform<
-          IteratorTuple,
-          thrust::detail::backend::dereference_result
-        >
-{
-}; // end tuple_of_dereference_result
 
 
 // Metafunction to obtain the type of the tuple whose element types

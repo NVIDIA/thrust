@@ -30,7 +30,7 @@
 #include <thrust/binary_search.h>
 
 #include <thrust/for_each.h>
-#include <thrust/detail/backend/dereference.h>
+#include <thrust/detail/function.h>
 #include <thrust/system/detail/generic/scalar/binary_search.h>
 
 #include <thrust/detail/temporary_array.h>
@@ -83,7 +83,10 @@ struct bsf
         __host__ __device__
      bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(begin, end, value, comp);
-         return iter != end && !comp(value, thrust::detail::backend::dereference(iter));
+
+         thrust::detail::host_device_function<StrictWeakOrdering,bool> wrapped_comp(comp);
+
+         return iter != end && !wrapped_comp(value, *iter);
      }
 };
 

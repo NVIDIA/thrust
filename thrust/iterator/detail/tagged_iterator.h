@@ -19,7 +19,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/backend/dereference.h>
 #include <thrust/detail/use_default.h>
 
 namespace thrust
@@ -88,38 +87,6 @@ template<typename BaseIterator, typename Tag>
 {};
 
 
-namespace backend
-{
-
-
-template<typename Iterator, typename Tag>
-  struct dereference_result< thrust::detail::tagged_iterator<Iterator,Tag> >
-    : dereference_result<Iterator>
-{
-}; // end dereference_result
-
-
-template<typename Iterator, typename Tag>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::tagged_iterator<Iterator,Tag> >::type
-      dereference(const thrust::detail::tagged_iterator<Iterator,Tag> &iter)
-{
-  return dereference(iter.base());
-} // end dereference()
-
-
-template<typename Iterator, typename Tag, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< thrust::detail::tagged_iterator<Iterator,Tag> >::type
-      dereference(const thrust::detail::tagged_iterator<Iterator,Tag> &iter, IndexType n)
-{
-  return dereference(iter.base(), n);
-} // end dereference()
-
-
-} // end backend
-
 } // end detail
-
 } // end thrust
 

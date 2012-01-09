@@ -81,42 +81,5 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 } // end pointer::get
 
 
-namespace detail
-{
-namespace backend
-{
-
-
-// forward declaration of dereference_result
-template<typename T> struct dereference_result;
-
-
-template<typename Element, typename Tag, typename Reference, typename Derived>
-  struct dereference_result< pointer<Element,Tag,Reference,Derived> >
-{
-  typedef Element& type;
-}; // end dereference_result
-
-
-template<typename Element, typename Tag, typename Reference, typename Derived>
-  inline __host__ __device__
-    typename dereference_result< pointer<Element,Tag,Reference,Derived> >::type
-      dereference(pointer<Element,Tag,Reference,Derived> ptr)
-{
-  return *ptr.get();
-} // dereference
-
-
-template<typename Element, typename Tag, typename Reference, typename Derived, typename IndexType>
-  inline __host__ __device__
-    typename dereference_result< pointer<Element,Tag,Reference,Derived> >::type
-      dereference(pointer<Element,Tag,Reference,Derived> ptr, IndexType n)
-{
-  return ptr.get()[n];
-} // dereference
-
-
-} // end backend
-} // end detail
 } // end thrust
 
