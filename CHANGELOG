@@ -1,4 +1,14 @@
 #######################################
+#           Thrust v1.5.1             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
+    Sorting data referenced by permutation_iterators on CUDA produces invalid results
+
+#######################################
 #           Thrust v1.5.0             #
 #######################################
 
@@ -90,7 +100,7 @@ New Features
         discard_iterator
 
     Device support
-        Compute Capability 2.1 GPUs such as GeForce GTX 580
+        Compute Capability 2.1 GPUs
 
 New Examples
     run_length_decoding
