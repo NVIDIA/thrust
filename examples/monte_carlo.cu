@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 // we could vary M & N to find the perf sweet spot
 
