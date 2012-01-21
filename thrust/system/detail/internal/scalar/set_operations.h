@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/copy.h>
+#include <thrust/system/detail/internal/scalar/copy.h>
 #include <thrust/detail/function.h>
 
 namespace thrust
@@ -72,7 +72,7 @@ template<typename InputIterator1,
     } // end else
   } // end while
 
-  return thrust::copy(first1, last1, result);
+  return scalar::copy(first1, last1, result);
 } // end set_difference()
 
 
@@ -154,7 +154,7 @@ template<typename InputIterator1,
     } // end else
   } // end while
 
-  return thrust::copy(first2, last2, thrust::copy(first1, last1, result));
+  return scalar::copy(first2, last2, scalar::copy(first1, last1, result));
 } // end set_symmetric_difference()
 
 
@@ -197,7 +197,7 @@ template<typename InputIterator1,
     ++result;
   } // end while
 
-  return thrust::copy(first2, last2, thrust::copy(first1, last1, result));
+  return scalar::copy(first2, last2, scalar::copy(first1, last1, result));
 } // end set_union()
 
 } // end namespace scalar
