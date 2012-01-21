@@ -5,6 +5,7 @@
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/random.h>
+#include <thrust/extrema.h>
 #include <cmath>
 #include <iomanip>
 #include <float.h>
@@ -53,8 +54,8 @@ struct reduce_tuple :
     { 
       if(thrust::get<0>(t0) && thrust::get<0>(t1)) // both valid
         return Tuple(true, 
-            min(thrust::get<1>(t0), thrust::get<1>(t1)),
-            max(thrust::get<2>(t0), thrust::get<2>(t1)));
+            thrust::min(thrust::get<1>(t0), thrust::get<1>(t1)),
+            thrust::max(thrust::get<2>(t0), thrust::get<2>(t1)));
       else if (thrust::get<0>(t0))
         return t0;
       else if (thrust::get<0>(t1))
