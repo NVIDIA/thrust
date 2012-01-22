@@ -6,40 +6,44 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/random.h>
 
-#include <cuda.h>   // for float2
 #include <iostream>
 #include <iomanip>
 
-// return a random float2 in [0,1)^2
-float2 make_random_float2(void)
+// define a 2d float vector
+typedef thrust::tuple<float,float> vec2;
+
+// return a random vec2 in [0,1)^2
+vec2 make_random_vec2(void)
 {
   static thrust::default_random_engine rng;
   static thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
   float x = u01(rng);
   float y = u01(rng);
-  return make_float2(x,y);
+  return vec2(x,y);
 }
 
 // hash a point in the unit square to the index of
 // the grid bucket that contains it
-struct point_to_bucket_index : public thrust::unary_function<float2,unsigned int>
+struct point_to_bucket_index : public thrust::unary_function<vec2,unsigned int>
 {
+  unsigned int width;  // buckets in the x dimension (grid spacing = 1/width)
+  unsigned int height; // buckets in the y dimension (grid spacing = 1/height)
+
   __host__ __device__
   point_to_bucket_index(unsigned int width, unsigned int height)
-    :w(width),h(height){}
+    : width(width), height(height) {}
 
   __host__ __device__
-  unsigned int operator()(float2 p) const
+  unsigned int operator()(const vec2& v) const
   {
     // find the raster indices of p's bucket
-    unsigned int x = static_cast<unsigned int>(p.x * w);
-    unsigned int y = static_cast<unsigned int>(p.y * h);
+    unsigned int x = static_cast<unsigned int>(thrust::get<0>(v) * width);
+    unsigned int y = static_cast<unsigned int>(thrust::get<1>(v) * height);
 
     // return the bucket's linear index
-    return y * w + x;
+    return y * width + x;
   }
 
-  unsigned int w, h;
 };
 
 int main(void)
@@ -47,11 +51,11 @@ int main(void)
   const size_t N = 1000000;
 
   // allocate some random points in the unit square on the host
-  thrust::host_vector<float2> h_points(N);
-  thrust::generate(h_points.begin(), h_points.end(), make_random_float2);
+  thrust::host_vector<vec2> h_points(N);
+  thrust::generate(h_points.begin(), h_points.end(), make_random_vec2);
 
   // transfer to device
-  thrust::device_vector<float2> points = h_points;
+  thrust::device_vector<vec2> points = h_points;
 
   // allocate storage for a 2D grid
   // of dimensions w x h
@@ -100,8 +104,8 @@ int main(void)
       point_idx != bucket_end[bucket_idx];
       ++point_idx)
   {
-    float2 p = points[point_idx];
-    std::cout << "(" << p.x << "," << p.y << ")" << std::endl;
+    vec2 p = points[point_idx];
+    std::cout << "(" << thrust::get<0>(p) << "," << thrust::get<1>(p) << ")" << std::endl;
   }
 
   return 0;
