@@ -134,7 +134,7 @@ template<typename RandomAccessIterator, typename T, typename Compare>
 __host__ __device__
 bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const T &value, Compare comp)
 {
-  RandomAccessIterator iter = thrust::system::detail::internal::scalar::lower_bound(first, last, value, comp);
+  RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(first, last, value, comp);
 
   // wrap comp
   thrust::detail::host_device_function<
