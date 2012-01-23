@@ -27,7 +27,7 @@ void TestForEachSimple(void)
     mark_present_for_each<T> f;
     f.ptr = thrust::raw_pointer_cast(output.data());
 
-    thrust::for_each(input.begin(), input.end(), f);
+    typename Vector::iterator result = thrust::for_each(input.begin(), input.end(), f);
 
     ASSERT_EQUAL(output[0], 0);
     ASSERT_EQUAL(output[1], 0);
@@ -36,6 +36,7 @@ void TestForEachSimple(void)
     ASSERT_EQUAL(output[4], 1);
     ASSERT_EQUAL(output[5], 0);
     ASSERT_EQUAL(output[6], 1);
+    ASSERT_EQUAL_QUIET(result, input.end());
 }
 DECLARE_VECTOR_UNITTEST(TestForEachSimple);
 
@@ -47,7 +48,7 @@ void TestForEachSimpleAnySpace(void)
     mark_present_for_each<int> f;
     f.ptr = thrust::raw_pointer_cast(output.data());
 
-    thrust::for_each(thrust::make_counting_iterator(0), thrust::make_counting_iterator(5), f);
+    thrust::counting_iterator<int> result = thrust::for_each(thrust::make_counting_iterator(0), thrust::make_counting_iterator(5), f);
 
     ASSERT_EQUAL(output[0], 1);
     ASSERT_EQUAL(output[1], 1);
@@ -56,6 +57,7 @@ void TestForEachSimpleAnySpace(void)
     ASSERT_EQUAL(output[4], 1);
     ASSERT_EQUAL(output[5], 0);
     ASSERT_EQUAL(output[6], 0);
+    ASSERT_EQUAL_QUIET(result, thrust::make_counting_iterator(5));
 }
 DECLARE_UNITTEST(TestForEachSimpleAnySpace);
 
@@ -80,10 +82,15 @@ void TestForEach(const size_t n)
     h_f.ptr = &h_output[0];
     d_f.ptr = (&d_output[0]).get();
     
-    thrust::for_each(h_input.begin(), h_input.end(), h_f);
-    thrust::for_each(d_input.begin(), d_input.end(), d_f);
+    typename thrust::host_vector<T>::iterator h_result =
+      thrust::for_each(h_input.begin(), h_input.end(), h_f);
+
+    typename thrust::device_vector<T>::iterator d_result =
+      thrust::for_each(d_input.begin(), d_input.end(), d_f);
 
     ASSERT_EQUAL(h_output, d_output);
+    ASSERT_EQUAL_QUIET(h_result, h_input.end());
+    ASSERT_EQUAL_QUIET(d_result, d_input.end());
 }
 DECLARE_VARIABLE_UNITTEST(TestForEach);
 
