@@ -118,7 +118,7 @@ template<typename InputIterator,
   ZipIterator zipped_last = thrust::for_each_n(zipped_first, n, f);
 
   // return the end of the output range
-  return get<1>(zipped_last);
+  return thrust::get<1>(zipped_last.get_iterator_tuple());
 } // end uninitialized_copy_n()
 
 
