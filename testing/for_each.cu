@@ -41,6 +41,33 @@ void TestForEachSimple(void)
 DECLARE_VECTOR_UNITTEST(TestForEachSimple);
 
 
+template <class Vector>
+void TestForEachNSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector input(5);
+    Vector output(7, (T) 0);
+    
+    input[0] = 3; input[1] = 2; input[2] = 3; input[3] = 4; input[4] = 6;
+
+    mark_present_for_each<T> f;
+    f.ptr = thrust::raw_pointer_cast(output.data());
+
+    typename Vector::iterator result = thrust::for_each_n(input.begin(), input.size(), f);
+
+    ASSERT_EQUAL(output[0], 0);
+    ASSERT_EQUAL(output[1], 0);
+    ASSERT_EQUAL(output[2], 1);
+    ASSERT_EQUAL(output[3], 1);
+    ASSERT_EQUAL(output[4], 1);
+    ASSERT_EQUAL(output[5], 0);
+    ASSERT_EQUAL(output[6], 1);
+    ASSERT_EQUAL_QUIET(result, input.end());
+}
+DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
+
+
 void TestForEachSimpleAnySpace(void)
 {
     thrust::device_vector<int> output(7, 0);
@@ -60,6 +87,27 @@ void TestForEachSimpleAnySpace(void)
     ASSERT_EQUAL_QUIET(result, thrust::make_counting_iterator(5));
 }
 DECLARE_UNITTEST(TestForEachSimpleAnySpace);
+
+
+void TestForEachNSimpleAnySpace(void)
+{
+    thrust::device_vector<int> output(7, 0);
+
+    mark_present_for_each<int> f;
+    f.ptr = thrust::raw_pointer_cast(output.data());
+
+    thrust::counting_iterator<int> result = thrust::for_each_n(thrust::make_counting_iterator(0), 5, f);
+
+    ASSERT_EQUAL(output[0], 1);
+    ASSERT_EQUAL(output[1], 1);
+    ASSERT_EQUAL(output[2], 1);
+    ASSERT_EQUAL(output[3], 1);
+    ASSERT_EQUAL(output[4], 1);
+    ASSERT_EQUAL(output[5], 0);
+    ASSERT_EQUAL(output[6], 0);
+    ASSERT_EQUAL_QUIET(result, thrust::make_counting_iterator(5));
+}
+DECLARE_UNITTEST(TestForEachNSimpleAnySpace);
 
 
 template <typename T>
@@ -95,6 +143,39 @@ void TestForEach(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestForEach);
 
 
+template <typename T>
+void TestForEachN(const size_t n)
+{
+    const size_t output_size = std::min((size_t) 10, 2 * n);
+    
+    thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
+
+    for(size_t i = 0; i < n; i++)
+        h_input[i] =  ((size_t) h_input[i]) % output_size;
+    
+    thrust::device_vector<T> d_input = h_input;
+
+    thrust::host_vector<T>   h_output(output_size, (T) 0);
+    thrust::device_vector<T> d_output(output_size, (T) 0);
+
+    mark_present_for_each<T> h_f;
+    mark_present_for_each<T> d_f;
+    h_f.ptr = &h_output[0];
+    d_f.ptr = (&d_output[0]).get();
+    
+    typename thrust::host_vector<T>::iterator h_result =
+      thrust::for_each_n(h_input.begin(), h_input.size(), h_f);
+
+    typename thrust::device_vector<T>::iterator d_result =
+      thrust::for_each_n(d_input.begin(), d_input.size(), d_f);
+
+    ASSERT_EQUAL(h_output, d_output);
+    ASSERT_EQUAL_QUIET(h_result, h_input.end());
+    ASSERT_EQUAL_QUIET(d_result, d_input.end());
+}
+DECLARE_VARIABLE_UNITTEST(TestForEachN);
+
+
 template <size_t N> __host__ __device__ void f   (int * x) { int temp = *x; f<N - 1>(x + 1); *x = temp;};
 template <>         __host__ __device__ void f<0>(int * x) { }
 template <size_t N>
@@ -106,6 +187,8 @@ struct CopyFunctorWithManyRegisters
         f<N>(ptr);
     }
 };
+
+
 void TestForEachLargeRegisterFootprint()
 {
     const size_t N = 100;
@@ -117,6 +200,19 @@ void TestForEachLargeRegisterFootprint()
     thrust::for_each(input.begin(), input.end(), CopyFunctorWithManyRegisters<N>());
 }
 DECLARE_UNITTEST(TestForEachLargeRegisterFootprint);
+
+
+void TestForEachNLargeRegisterFootprint()
+{
+    const size_t N = 100;
+
+    thrust::device_vector<int> data(N, 12345);
+
+    thrust::device_vector<int *> input(1, thrust::raw_pointer_cast(&data[0])); // length is irrelevant
+    
+    thrust::for_each_n(input.begin(), input.size(), CopyFunctorWithManyRegisters<N>());
+}
+DECLARE_UNITTEST(TestForEachNLargeRegisterFootprint);
 
 
 template <typename T, unsigned int N>
@@ -132,6 +228,8 @@ struct SetFixedVectorToConstant
         t = exemplar;
     }
 };
+
+
 template <typename T, unsigned int N>
 void _TestForEachWithLargeTypes(void)
 {
@@ -151,6 +249,8 @@ void _TestForEachWithLargeTypes(void)
 
     ASSERT_EQUAL_QUIET(h_data, d_data);
 }
+
+
 void TestForEachWithLargeTypes(void)
 {
     _TestForEachWithLargeTypes<int,    1>();
@@ -169,5 +269,46 @@ void TestForEachWithLargeTypes(void)
     //_TestForEachWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
 }
 DECLARE_UNITTEST(TestForEachWithLargeTypes);
+
+
+template <typename T, unsigned int N>
+void _TestForEachNWithLargeTypes(void)
+{
+    size_t n = (64 * 1024) / sizeof(FixedVector<T,N>);
+
+    thrust::host_vector< FixedVector<T,N> > h_data(n);
+
+    for(size_t i = 0; i < h_data.size(); i++)
+        h_data[i] = FixedVector<T,N>(i);
+
+    thrust::device_vector< FixedVector<T,N> > d_data = h_data;
+   
+    SetFixedVectorToConstant<T,N> func(123);
+
+    thrust::for_each_n(h_data.begin(), h_data.size(), func);
+    thrust::for_each_n(d_data.begin(), d_data.size(), func);
+
+    ASSERT_EQUAL_QUIET(h_data, d_data);
+}
+
+
+void TestForEachNWithLargeTypes(void)
+{
+    _TestForEachNWithLargeTypes<int,    1>();
+    _TestForEachNWithLargeTypes<int,    2>();
+    _TestForEachNWithLargeTypes<int,    4>();
+    _TestForEachNWithLargeTypes<int,    8>();
+    _TestForEachNWithLargeTypes<int,   16>();
+
+    KNOWN_FAILURE;
+
+    //_TestForEachNWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
+    //_TestForEachNWithLargeTypes<int,   64>();
+    //_TestForEachNWithLargeTypes<int,  128>();
+    //_TestForEachNWithLargeTypes<int,  256>();
+    //_TestForEachNWithLargeTypes<int,  512>();
+    //_TestForEachNWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
+}
+DECLARE_UNITTEST(TestForEachNWithLargeTypes);
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
