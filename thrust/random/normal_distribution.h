@@ -62,7 +62,7 @@ namespace experimental
  *
  *    // create a normal_distribution to produce floats from the Normal distribution
  *    // with mean 2.0 and standard deviation 3.5
- *    thrust::normal_distribution<float> dist(2.0f, 3.5f);
+ *    thrust::random::experimental::normal_distribution<float> dist(2.0f, 3.5f);
  *
  *    // write a random number to standard output
  *    std::cout << dist(rng) << std::endl;
