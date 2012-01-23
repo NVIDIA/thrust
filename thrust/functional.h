@@ -756,7 +756,7 @@ template<typename T>
 {
   /*! Function call operator. The return value is <tt>rhs < lhs ? lhs : rhs</tt>.
    */
-  __host__ __device__ const T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? rhs : lhs;}
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? rhs : lhs;}
 }; // end maximum
 
 /*! \p minimum is a function object that takes two arguments and returns the lesser
@@ -788,7 +788,7 @@ template<typename T>
 {
   /*! Function call operator. The return value is <tt>lhs < rhs ? lhs : rhs</tt>.
    */
-  __host__ __device__ const T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
+  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
 }; // end minimum
 
 /*! \p project1st is a function object that takes two arguments and returns 
