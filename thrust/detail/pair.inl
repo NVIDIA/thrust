@@ -15,6 +15,7 @@
  */
 
 #include <thrust/pair.h>
+#include <thrust/detail/swap.h>
 
 namespace thrust
 {
@@ -55,6 +56,18 @@ template <typename T1, typename T2>
 {
   ;
 } // end pair::pair()
+
+
+template<typename T1, typename T2>
+  inline __host__ __device__
+    void pair<T1,T2>
+      ::swap(thrust::pair<T1,T2> &p)
+{
+  using thrust::swap;
+
+  swap(first, p.first);
+  swap(second, p.second);
+} // end pair::swap()
 
 
 template <typename T1, typename T2>
@@ -103,6 +116,14 @@ template <typename T1, typename T2>
 {
   return !(x < y);
 } // end operator>=()
+
+
+template <typename T1, typename T2>
+  inline __host__ __device__
+    void swap(pair<T1,T2> &x, pair<T1,T2> &y)
+{
+  return x.swap(y);
+} // end swap()
 
 
 template <typename T1, typename T2>
