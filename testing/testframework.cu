@@ -206,6 +206,7 @@ void report_results(std::vector< TestResult >& test_results)
   
     std::sort(test_results.begin(), test_results.end());
 
+    size_t num_passes = 0;
     size_t num_failures = 0;
     size_t num_known_failures = 0;
     size_t num_errors = 0;
@@ -214,7 +215,11 @@ void report_results(std::vector< TestResult >& test_results)
     {
         const TestResult& tr = test_results[i];
 
-        if (tr.status != Pass)
+        if (tr.status == Pass)
+        {
+          num_passes++;
+        }
+        else
         {
             std::cout << hline << std::endl;
         
@@ -238,8 +243,9 @@ void report_results(std::vector< TestResult >& test_results)
 
     std::cout << "Totals: ";
     std::cout << num_failures << " failures, ";
-    std::cout << num_known_failures << " known failures and ";
-    std::cout << num_errors << " errors" << std::endl;
+    std::cout << num_known_failures << " known failures, ";
+    std::cout << num_errors << " errors, and ";
+    std::cout << num_passes << " passes." << std::endl;
 }
 
 
