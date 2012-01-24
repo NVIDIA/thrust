@@ -29,8 +29,8 @@
 #include <thrust/advance.h>
 #include <thrust/detail/destroy.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/minmax.h>
 
-#include <algorithm>
 #include <stdexcept>
 
 #include <thrust/distance.h>
@@ -667,13 +667,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + std::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
+      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
 
       // allocate exponentially larger new storage
-      new_capacity = std::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = std::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
 #if defined(__CUDACC__) && CUDA_VERSION==3000
@@ -774,13 +774,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + std::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
+      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = std::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = std::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
 // TODO remove this WAR      
 #if defined(__CUDACC__) && CUDA_VERSION==3000
@@ -968,10 +968,10 @@ template<typename T, typename Alloc>
   } // end if
 
   // allocate exponentially larger new storage
-  size_type allocated_size = std::max<size_type>(requested_size, 2 * capacity());
+  size_type allocated_size = thrust::max<size_type>(requested_size, 2 * capacity());
 
   // do not exceed maximum storage
-  allocated_size = std::min<size_type>(allocated_size, max_size());
+  allocated_size = thrust::min<size_type>(allocated_size, max_size());
 
   if(requested_size > allocated_size)
   {

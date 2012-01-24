@@ -22,9 +22,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <map>
-#include <string>     // TODO remove this?
-#include <algorithm>
+#include <thrust/detail/minmax.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda_error.h>
 #include <thrust/detail/util/blocking.h>
@@ -222,7 +220,7 @@ inline size_t max_active_blocks_per_multiprocessor(const device_properties_t   &
   const size_t ctaLimitSMem    = smemPerCTA > 0 ? properties.sharedMemPerBlock / smemPerCTA : maxBlocksPerSM;
   const size_t ctaLimitThreads =                  maxThreadsPerSM              / CTA_SIZE;
 
-  return std::min<size_t>(ctaLimitRegs, std::min<size_t>(ctaLimitSMem, std::min<size_t>(ctaLimitThreads, maxBlocksPerSM)));
+  return thrust::min<size_t>(ctaLimitRegs, thrust::min<size_t>(ctaLimitSMem, thrust::min<size_t>(ctaLimitThreads, maxBlocksPerSM)));
 }
 
 
@@ -239,7 +237,7 @@ thrust::pair<size_t,size_t> default_block_configuration(const device_properties_
                                                         UnaryFunction block_size_to_smem_size)
 {
   size_t max_occupancy      = properties.maxThreadsPerMultiProcessor;
-  size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+  size_t largest_blocksize  = (thrust::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
   size_t granularity        = properties.warpSize;
   size_t max_blocksize      = 0;
   size_t highest_occupancy  = 0;
@@ -293,7 +291,7 @@ size_t max_blocksize_with_highest_occupancy(const device_properties_t   &propert
                                             size_t dynamic_smem_bytes_per_thread)
 {
   size_t max_occupancy      = properties.maxThreadsPerMultiProcessor;
-  size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+  size_t largest_blocksize  = (thrust::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
   size_t granularity        = properties.warpSize;
   size_t max_blocksize      = 0;
   size_t highest_occupancy  = 0;
@@ -331,7 +329,7 @@ size_t max_blocksize(const device_properties_t   &properties,
                      const function_attributes_t &attributes,
                      size_t dynamic_smem_bytes_per_thread)
 {
-  size_t largest_blocksize  = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+  size_t largest_blocksize  = (thrust::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
 
   size_t granularity = properties.warpSize;
 
@@ -358,7 +356,7 @@ size_t max_blocksize_subject_to_smem_usage(const device_properties_t   &properti
                                            const function_attributes_t &attributes,
                                            UnaryFunction blocksize_to_dynamic_smem_usage)
 {
-  size_t largest_blocksize = (std::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
+  size_t largest_blocksize = (thrust::min)(properties.maxThreadsPerBlock, attributes.maxThreadsPerBlock);
   size_t granularity = properties.warpSize;
   
   for(int blocksize = largest_blocksize; blocksize > 0; blocksize -= granularity)
