@@ -103,6 +103,13 @@ template <typename T1, typename T2>
   template <typename U1, typename U2>
   inline __host__ __device__
   pair(const std::pair<U1,U2> &p);
+
+  /*! \p swap swaps the contents of two <tt>pair</tt>s.
+   *  
+   *  \param p The other <tt>pair</tt> to swap with.
+   */
+  inline __host__ __device__
+  void swap(pair &p);
 }; // end pair
 
 
@@ -188,6 +195,16 @@ template <typename T1, typename T2>
 template <typename T1, typename T2>
   inline __host__ __device__
     bool operator>=(const pair<T1,T2> &x, const pair<T1,T2> &y);
+
+
+/*! \p swap swaps the contents of two <tt>pair</tt>s.
+ *
+ *  \param x The first \p pair to swap.
+ *  \param y The second \p pair to swap.
+ */
+template <typename T1, typename T2>
+  inline __host__ __device__
+    void swap(pair<T1,T2> &x, pair<T1,T2> &y);
 
 
 /*! This convenience function creates a \p pair from two objects.
