@@ -59,11 +59,11 @@ namespace thrust
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
  *  thrust::device_vector<int> d_data(h_data, h_data + 8);
- *  thrust::device_vector<int> h_result(8);
+ *  thrust::device_vector<int> d_result(8);
  *
- *  thrust::adjacent_difference(d_data.begin(), d_data.end(), h_result.begin());
+ *  thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin());
  *
- *  // d_data is now [1, 1, -1, 1, -1, 1, -1, 1]
+ *  // d_result is now [1, 1, -1, 1, -1, 1, -1, 1]
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
@@ -81,7 +81,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *  <tt>*result</tt>, and, for each iterator \p i in the range
  *  <tt>[first + 1, last)</tt>, <tt>binary_op(*i, *(i - 1))</tt> is assigned to
  *  <tt>*(result + (i - first))</tt>.
- *
+ *  
  *  This version of \p adjacent_difference uses the binary function \p binary_op to
  *  calculate differences.
  *
@@ -107,9 +107,9 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
  *  thrust::device_vector<int> d_data(h_data, h_data + 8);
- *  thrust::device_vector<int> h_result(8);
+ *  thrust::device_vector<int> d_result(8);
  *
- *  thrust::adjacent_difference(d_data.begin(), d_data.end(), h_result.begin(), thrust::plus<int>());
+ *  thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin(), thrust::plus<int>());
  *
  *  // d_data is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
