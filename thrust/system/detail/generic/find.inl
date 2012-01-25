@@ -44,8 +44,7 @@ InputIterator find(tag,
                    InputIterator last,
                    const T& value)
 {
-    // XXX use a placeholder expression here
-    return thrust::find_if(first, last, thrust::detail::equal_to_value<T>(value));
+  return thrust::find_if(first, last, thrust::detail::equal_to_value<T>(value));
 } // end find()
 
 
@@ -88,16 +87,12 @@ InputIterator find_if(tag,
     const difference_type interval_threshold = 1 << 20;
     const difference_type interval_size = (std::min)(interval_threshold, n);
 
-    // XXX WAR nvcc 3.2 + linux codegen problems with this functionally equivalent predicate
-    typedef thrust::detail::unary_negate<thrust::detail::unary_negate<Predicate> > NotNotPred;
-
-    typedef thrust::transform_iterator<NotNotPred, InputIterator, bool> XfrmIterator;
+    // force transform_iterator output to bool
+    typedef thrust::transform_iterator<Predicate, InputIterator, bool> XfrmIterator;
     typedef thrust::tuple<XfrmIterator, thrust::counting_iterator<difference_type> > IteratorTuple;
     typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
-    NotNotPred not_not_pred = thrust::detail::not1(thrust::detail::not1(pred));
-
-    IteratorTuple iter_tuple = thrust::make_tuple(XfrmIterator(first, not_not_pred),
+    IteratorTuple iter_tuple = thrust::make_tuple(XfrmIterator(first, pred),
                                                   thrust::counting_iterator<difference_type>(0));
 
     ZipIterator begin = thrust::make_zip_iterator(iter_tuple);
