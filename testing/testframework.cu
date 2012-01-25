@@ -3,9 +3,12 @@
 
 #include <cuda_runtime.h>
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <algorithm>
 #include <string>
+#include <limits>
+#include <ctime>
 #include <limits>
 
 const size_t standard_test_sizes[] = 
@@ -173,13 +176,12 @@ struct TestResult
     TestStatus  status;
     std::string name;
     std::string message;
-    
-    TestResult(const TestStatus status, const UnitTest& u)
-        : status(status), name(u.name)
-    { }
 
-    TestResult(const TestStatus status, const UnitTest& u, const std::string& message)
-        : status(status), name(u.name), message(message)
+    // XXX use a c++11 timer result when available
+    std::clock_t elapsed;
+
+    TestResult(const TestStatus status, std::clock_t elapsed, const UnitTest& u, const std::string& message = "")
+        : status(status), name(u.name), message(message), elapsed(elapsed)
     { }
 
     bool operator<(const TestResult& tr) const
@@ -198,7 +200,7 @@ void record_result(const TestResult& test_result, std::vector< TestResult >& tes
     test_results.push_back(test_result);
 }
 
-void report_results(std::vector< TestResult >& test_results)
+void report_results(std::vector< TestResult >& test_results, double elapsed_minutes)
 {
     std::cout << std::endl;
 
@@ -246,6 +248,7 @@ void report_results(std::vector< TestResult >& test_results)
     std::cout << num_known_failures << " known failures, ";
     std::cout << num_errors << " errors, and ";
     std::cout << num_passes << " passes." << std::endl;
+    std::cout << "Time:  " << elapsed_minutes << " minutes" << std::endl;
 }
 
 
@@ -258,6 +261,8 @@ void UnitTestDriver::list_tests(void)
 
 bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs)
 {
+    std::time_t start_time = std::time(0);
+
     bool verbose = kwargs.count("verbose");
     bool concise = kwargs.count("concise");
     
@@ -295,27 +300,30 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
 
         try
         {
+            // time the test
+            std::clock_t start = std::clock();
+
             // run the test
             test.run();
 
             // test passed
-            record_result(TestResult(Pass, test), test_results);
+            record_result(TestResult(Pass, std::clock() - start, test), test_results);
         } 
         catch (unittest::UnitTestFailure& f)
         {
-            record_result(TestResult(Failure, test, f.message), test_results);
+            record_result(TestResult(Failure, std::numeric_limits<std::clock_t>::max(), test, f.message), test_results);
         }
         catch (unittest::UnitTestKnownFailure& f)
         {
-            record_result(TestResult(KnownFailure, test, f.message), test_results);
+            record_result(TestResult(KnownFailure, std::numeric_limits<std::clock_t>::max(), test, f.message), test_results);
         }
         catch (std::bad_alloc& e)
         {
-            record_result(TestResult(Error, test, e.what()), test_results);
+            record_result(TestResult(Error, std::numeric_limits<std::clock_t>::max(), test, e.what()), test_results);
         }
         catch (unittest::UnitTestError& e)
         {
-            record_result(TestResult(Error, test, e.message), test_results);
+            record_result(TestResult(Error, std::numeric_limits<std::clock_t>::max(), test, e.message), test_results);
         }
 
         // immediate report
@@ -326,13 +334,15 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
                 switch(test_results.back().status)
                 {
                     case Pass:
-                        std::cout << "\r[PASS]             "; break;
+                        std::cout << "\r[PASS] ";
+                        std::cout << std::setw(10) << 1000.f * float(test_results.back().elapsed) / CLOCKS_PER_SEC << " ms";
+                        break;
                     case Failure:
-                        std::cout << "\r[FAILURE]          "; break;
+                        std::cout << "\r[FAILURE]           "; break;
                     case KnownFailure:
-                        std::cout << "\r[KNOWN FAILURE]    "; break;
+                        std::cout << "\r[KNOWN FAILURE]     "; break;
                     case Error:
-                        std::cout << "\r[ERROR]            "; break;
+                        std::cout << "\r[ERROR]             "; break;
                     default:
                         break;
                 }
@@ -373,9 +383,11 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
         std::cout.flush();
     }
 
+    double elapsed_minutes = double(std::time(0) - start_time) / 60;
+
     // summary report
     if (!concise)
-        report_results(test_results);
+        report_results(test_results, elapsed_minutes);
 
 
     // if any failures or errors return false
