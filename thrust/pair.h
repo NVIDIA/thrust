@@ -104,9 +104,9 @@ template <typename T1, typename T2>
   inline __host__ __device__
   pair(const std::pair<U1,U2> &p);
 
-  /*! \p swap swaps the contents of two <tt>pair</tt>s.
+  /*! \p swap swaps the elements of two <tt>pair</tt>s.
    *  
-   *  \param p The other <tt>pair</tt> to swap with.
+   *  \param p The other <tt>pair</tt> with which to swap.
    */
   inline __host__ __device__
   void swap(pair &p);

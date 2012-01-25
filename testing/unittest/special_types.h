@@ -104,4 +104,26 @@ template<typename Key, typename Value>
   value_type value;
 };
 
+struct user_swappable
+{
+  inline __host__ __device__
+  user_swappable(bool swapped = false)
+    : was_swapped(swapped)
+  {}
+
+  bool was_swapped;
+};
+
+inline __host__ __device__
+bool operator==(const user_swappable &x, const user_swappable &y)
+{
+  return x.was_swapped == y.was_swapped;
+}
+
+inline __host__ __device__
+void swap(user_swappable &x, user_swappable &y)
+{
+  x.was_swapped = true;
+  y.was_swapped = false;
+}
 

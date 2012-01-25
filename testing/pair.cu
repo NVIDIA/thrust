@@ -232,28 +232,6 @@ void TestPairTupleElement(void)
 };
 DECLARE_UNITTEST(TestPairTupleElement);
 
-struct user_swappable
-{
-  __host__ __device__
-  user_swappable(bool swapped = false)
-    : was_swapped(swapped)
-  {}
-
-  bool was_swapped;
-};
-
-__host__ __device__
-bool operator==(const user_swappable &x, const user_swappable &y)
-{
-  return x.was_swapped == y.was_swapped;
-}
-
-__host__ __device__
-void swap(user_swappable &x, user_swappable &y)
-{
-  x.was_swapped = true;
-  y.was_swapped = false;
-}
 
 void TestPairSwap(void)
 {
@@ -268,26 +246,26 @@ void TestPairSwap(void)
 
   thrust::swap(a,b);
 
-  ASSERT_EQUAL(42, a.first);
-  ASSERT_EQUAL(0,  a.second);
-  ASSERT_EQUAL(7,  b.first);
-  ASSERT_EQUAL(13, b.second);
+  ASSERT_EQUAL(z, a.first);
+  ASSERT_EQUAL(w, a.second);
+  ASSERT_EQUAL(x, b.first);
+  ASSERT_EQUAL(y, b.second);
 
 
   typedef thrust::pair<user_swappable,user_swappable> swappable_pair;
 
-  thrust::host_vector<user_swappable>   h_v1(1), h_v2(1);
-  thrust::device_vector<user_swappable> d_v1(1), d_v2(1);
+  thrust::host_vector<swappable_pair>   h_v1(1), h_v2(1);
+  thrust::device_vector<swappable_pair> d_v1(1), d_v2(1);
 
   thrust::swap_ranges(h_v1.begin(), h_v1.end(), h_v2.begin());
   thrust::swap_ranges(d_v1.begin(), d_v1.end(), d_v2.begin());
 
-  user_swappable ref(true);
+  swappable_pair ref(user_swappable(true), user_swappable(true));
 
   ASSERT_EQUAL_QUIET(ref, h_v1[0]);
   ASSERT_EQUAL_QUIET(ref, h_v1[0]);
-  ASSERT_EQUAL_QUIET(ref, d_v1[0]);
-  ASSERT_EQUAL_QUIET(ref, d_v1[0]);
+  ASSERT_EQUAL_QUIET(ref, (swappable_pair)d_v1[0]);
+  ASSERT_EQUAL_QUIET(ref, (swappable_pair)d_v1[0]);
 }
 DECLARE_UNITTEST(TestPairSwap);
 

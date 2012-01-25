@@ -382,6 +382,16 @@ template <class T0, class T1, class T2, class T3, class T4,
     this->tail.head = k.second;
     return *this;
   }
+
+  /*! \p swap swaps the elements of two <tt>tuple</tt>s.
+   *
+   *  \param t The other <tt>tuple</tt> with which to swap.
+   */
+  inline __host__ __device__
+  void swap(tuple &t)
+  {
+    inherited::swap(t);
+  }
 };
 
 /*! \cond
@@ -450,6 +460,20 @@ tuple<T0&> tie(T0& t0);
 template<typename T0, typename T1>
 __host__ __device__ inline
 tuple<T0&,T1&> tie(T0& t0, T1& t1);
+
+/*! \p swap swaps the contents of two <tt>tuple</tt>s.
+ *
+ *  \param x The first \p tuple to swap.
+ *  \param y The second \p tuple to swap.
+ */
+template<
+  typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9,
+  typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9
+>
+inline __host__ __device__
+void swap(tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> &x,
+          tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9> &y);
+
 
 
 /*! \cond

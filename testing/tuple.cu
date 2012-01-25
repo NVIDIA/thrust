@@ -442,3 +442,44 @@ struct TestTupleTie
 };
 SimpleUnitTest<TestTupleTie, NumericTypes> TestTupleTieInstance;
 
+void TestTupleSwap(void)
+{
+  int a = 7;
+  int b = 13;
+  int c = 42;
+
+  int x = 77;
+  int y = 1313;
+  int z = 4242;
+
+  thrust::tuple<int,int,int> t1(a,b,c);
+  thrust::tuple<int,int,int> t2(x,y,z);
+
+  thrust::swap(t1,t2);
+
+  ASSERT_EQUAL(x, thrust::get<0>(t1));
+  ASSERT_EQUAL(y, thrust::get<1>(t1));
+  ASSERT_EQUAL(z, thrust::get<2>(t1));
+  ASSERT_EQUAL(a, thrust::get<0>(t2));
+  ASSERT_EQUAL(b, thrust::get<1>(t2));
+  ASSERT_EQUAL(c, thrust::get<2>(t2));
+
+
+  typedef thrust::tuple<user_swappable,user_swappable,user_swappable,user_swappable> swappable_tuple;
+
+  thrust::host_vector<swappable_tuple>   h_v1(1), h_v2(1);
+  thrust::device_vector<swappable_tuple> d_v1(1), d_v2(1);
+
+  thrust::swap_ranges(h_v1.begin(), h_v1.end(), h_v2.begin());
+  thrust::swap_ranges(d_v1.begin(), d_v1.end(), d_v2.begin());
+
+  swappable_tuple ref(user_swappable(true),user_swappable(true),user_swappable(true),user_swappable(true));
+
+  ASSERT_EQUAL_QUIET(ref, h_v1[0]);
+  ASSERT_EQUAL_QUIET(ref, h_v1[0]);
+  ASSERT_EQUAL_QUIET(ref, (swappable_tuple)d_v1[0]);
+  ASSERT_EQUAL_QUIET(ref, (swappable_tuple)d_v1[0]);
+}
+DECLARE_UNITTEST(TestTupleSwap);
+
+
