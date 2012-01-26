@@ -34,14 +34,6 @@ __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 namespace thrust
 {
-namespace detail
-{
-
-// XXX WAR circular inclusion problem with this forward declaration
-template <typename,typename> class temporary_array;
-
-} // end detail
-
 namespace system
 {
 namespace cuda

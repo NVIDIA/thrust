@@ -139,7 +139,7 @@ template<typename OutputIterator, typename Size, typename T>
       && thrust::detail::has_trivial_assign<OutputType>::value
       && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
 
-  // XXX WAR nvcc 3.0 usused variable warning
+  // XXX WAR usused variable warning
   (void)use_wide_fill;
 
   return detail::fill_n(first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());

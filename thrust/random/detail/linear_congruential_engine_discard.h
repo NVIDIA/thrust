@@ -89,7 +89,7 @@ struct linear_congruential_engine_discard
     const result_type a = LinearCongruentialEngine::multiplier;
     const result_type m = LinearCongruentialEngine::modulus;
     
-    // XXX WAR nvcc 3.0 unused variable warnings
+    // XXX WAR unused variable warnings
     (void) c;
     (void) a;
     (void) m;

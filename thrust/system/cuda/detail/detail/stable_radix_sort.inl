@@ -197,7 +197,7 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                                              thrust::detail::is_arithmetic<V>::value &&
                                              sizeof(V) <= 8;    // TODO profile this
 
-    // XXX WAR nvcc 3.0 unused variable warning
+    // XXX WAR unused variable warning
     (void) sort_values_directly;
 
     stable_radix_sort_by_key(first1, last1, first2, 

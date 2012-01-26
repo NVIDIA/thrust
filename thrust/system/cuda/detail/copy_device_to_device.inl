@@ -106,7 +106,7 @@ template<typename InputIterator,
         && thrust::detail::is_trivial_iterator<InputIterator>::value 
         && thrust::detail::is_trivial_iterator<OutputIterator>::value;
 
-    // XXX WAR nvcc 3.0 unused variable warning
+    // XXX WAR unused variable warning
     (void) use_trivial_copy;
 
     return detail::copy_device_to_device(begin, end, result,

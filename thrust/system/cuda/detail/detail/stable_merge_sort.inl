@@ -97,15 +97,7 @@ template<typename Key, typename Value>
     static const unsigned int final_candidate = 1<<lg_candidate;
 
   public:
-    // XXX WAR nvcc 3.0 bug
-    //static const unsigned int result =  (final_candidate < max_blocksize) ? final_candidate : max_blocksize;
-
-    static const unsigned int result = 
-      thrust::detail::eval_if<
-        final_candidate < max_blocksize,
-        thrust::detail::integral_constant<unsigned int, final_candidate>,
-        thrust::detail::integral_constant<unsigned int, max_blocksize>
-      >::type::value;
+    static const unsigned int result = (final_candidate < max_blocksize) ? final_candidate : max_blocksize;
 };
 
 template<typename Key, typename Value>
@@ -1076,9 +1068,8 @@ template<typename RandomAccessIterator1,
   const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
   const unsigned int     block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
 
-  // XXX WAR nvcc 3.0 unused variable warning
-  unsigned int unused_variable_workaround = log_block_size;
-  ++unused_variable_workaround;
+  // XXX WAR unused variable warning
+  (void) log_block_size;
 
   typedef copy_first_splitters_closure<
     log_block_size,
