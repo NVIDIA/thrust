@@ -41,14 +41,6 @@ template<typename T>
   return ptr;
 } // end device_pointer_cast()
 
-template<typename Pointer>
-  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-    raw_pointer_cast(const Pointer &ptr)
-{
-  return thrust::detail::raw_pointer_cast(ptr);
-} // end raw_pointer_cast()
-
-
 // output to ostream
 template<class E, class T, class Y>
   std::basic_ostream<E, T> &operator<<(std::basic_ostream<E, T> &os, const device_ptr<Y> &p)

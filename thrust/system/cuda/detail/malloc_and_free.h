@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/tag.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system/system_error.h>
 #include <thrust/system/cuda_error.h>
@@ -54,7 +54,7 @@ inline void *malloc(tag, std::size_t n)
 template<typename Pointer>
 inline void free(tag, Pointer ptr)
 {
-  cudaError_t error = cudaFree(thrust::detail::raw_pointer_cast(ptr));
+  cudaError_t error = cudaFree(thrust::raw_pointer_cast(ptr));
 
   if(error)
   {

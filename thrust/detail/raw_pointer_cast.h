@@ -17,36 +17,17 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/raw_pointer_cast.h>
-#include <cstdlib> // for malloc & free
+#include <thrust/detail/type_traits/pointer_traits.h>
 
 namespace thrust
 {
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-
-// note that malloc returns a raw pointer to avoid
-// depending on the heavyweight thrust/system/cpp/memory.h header
-inline void *malloc(tag, std::size_t n)
-{
-  return std::malloc(n);
-} // end malloc()
-
 
 template<typename Pointer>
-inline void free(tag, Pointer ptr)
+  inline __host__ __device__ typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+    raw_pointer_cast(const Pointer &ptr)
 {
-  std::free(thrust::raw_pointer_cast(ptr));
-} // end free()
+  return thrust::detail::pointer_traits<Pointer>::get(ptr);
+} // end raw_pointer_cast()
 
-
-} // end detail
-} // end cpp
-} // end system
 } // end thrust
 

@@ -31,7 +31,7 @@
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -591,7 +591,7 @@ OutputIterator inclusive_scan(InputIterator first,
 
     typedef upsweep_intervals_closure<InputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
-                    thrust::detail::raw_pointer_cast(&block_results[0]),
+                    thrust::raw_pointer_cast(&block_results[0]),
                     binary_op,
                     decomp);
     detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
@@ -603,9 +603,9 @@ OutputIterator inclusive_scan(InputIterator first,
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef downsweep_intervals_closure<true,ValueType*,ValueType*,ValueType,BinaryFunction,Decomposition,Context> Closure;
-    Closure closure(thrust::detail::raw_pointer_cast(&block_results[0]),
-                    thrust::detail::raw_pointer_cast(&block_results[0]),
-                    thrust::detail::raw_pointer_cast(&block_results[0]), // not used
+    Closure closure(thrust::raw_pointer_cast(&block_results[0]),
+                    thrust::raw_pointer_cast(&block_results[0]),
+                    thrust::raw_pointer_cast(&block_results[0]), // not used
                     binary_op,
                     Decomposition(decomp.size(), 1, 1));
     detail::launch_closure(closure, 1, ThreadsPerBlock);
@@ -619,7 +619,7 @@ OutputIterator inclusive_scan(InputIterator first,
     typedef downsweep_intervals_closure<true,InputIterator,OutputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
                     output,
-                    thrust::detail::raw_pointer_cast(&block_results[0]) - 1, // shift block results
+                    thrust::raw_pointer_cast(&block_results[0]) - 1, // shift block results
                     binary_op,
                     decomp);
     detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
@@ -685,7 +685,7 @@ OutputIterator exclusive_scan(InputIterator first,
 
     typedef upsweep_intervals_closure<InputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
-                    thrust::detail::raw_pointer_cast(&block_results[0]) + 1,
+                    thrust::raw_pointer_cast(&block_results[0]) + 1,
                     binary_op,
                     decomp);
     detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
@@ -700,9 +700,9 @@ OutputIterator exclusive_scan(InputIterator first,
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef downsweep_intervals_closure<true,ValueType*,ValueType*,ValueType,BinaryFunction,Decomposition,Context> Closure;
-    Closure closure(thrust::detail::raw_pointer_cast(&block_results[0]),
-                    thrust::detail::raw_pointer_cast(&block_results[0]),
-                    thrust::detail::raw_pointer_cast(&block_results[0]), // not used
+    Closure closure(thrust::raw_pointer_cast(&block_results[0]),
+                    thrust::raw_pointer_cast(&block_results[0]),
+                    thrust::raw_pointer_cast(&block_results[0]), // not used
                     binary_op,
                     Decomposition(decomp.size() + 1, 1, 1));
     detail::launch_closure(closure, 1, ThreadsPerBlock);
@@ -716,7 +716,7 @@ OutputIterator exclusive_scan(InputIterator first,
     typedef downsweep_intervals_closure<false,InputIterator,OutputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
     Closure closure(first,
                     output,
-                    thrust::detail::raw_pointer_cast(&block_results[0]), // shift block results
+                    thrust::raw_pointer_cast(&block_results[0]), // shift block results
                     binary_op,
                     decomp);
     detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);

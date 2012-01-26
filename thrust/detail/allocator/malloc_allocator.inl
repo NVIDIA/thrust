@@ -19,7 +19,7 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/bad_alloc.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/malloc_and_free_adl_helper.h>
 
 namespace thrust
@@ -37,7 +37,7 @@ template<typename T, typename Tag, typename Pointer>
   using thrust::system::detail::generic::malloc;
 
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  T* result = static_cast<T*>(thrust::detail::raw_pointer_cast(malloc(select_system(Tag()), sizeof(typename super_t::value_type) * cnt)));
+  T* result = static_cast<T*>(thrust::raw_pointer_cast(malloc(select_system(Tag()), sizeof(typename super_t::value_type) * cnt)));
 
   if(result == 0)
   {

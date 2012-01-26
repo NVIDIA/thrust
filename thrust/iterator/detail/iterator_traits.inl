@@ -22,8 +22,6 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/detail/iterator_category_to_traversal.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
-#include <thrust/iterator/detail/is_trivial_iterator.h>
 
 namespace thrust
 {

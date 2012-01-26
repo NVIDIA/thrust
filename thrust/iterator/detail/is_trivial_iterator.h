@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
+
 #if __GNUC__
 // forward declaration of gnu's __normal_iterator
 namespace __gnu_cxx

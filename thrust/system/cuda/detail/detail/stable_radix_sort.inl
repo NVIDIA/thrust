@@ -27,7 +27,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -56,7 +56,7 @@ void stable_radix_sort(RandomAccessIterator first,
     unsigned int num_elements = last - first;
 
     // ensure data is properly aligned
-    if (!thrust::detail::util::is_aligned(thrust::detail::raw_pointer_cast(&*first), 2*sizeof(K)))
+    if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first), 2*sizeof(K)))
     {
         thrust::detail::temporary_array<K, space> aligned_keys(first, last);
         stable_radix_sort(aligned_keys.begin(), aligned_keys.end());
@@ -73,10 +73,10 @@ void stable_radix_sort(RandomAccessIterator first,
     thrust::detail::temporary_array<bool, space> temp_from_alt(2);
 
     // define storage
-    storage.d_keys             = thrust::detail::raw_pointer_cast(&*first);
-    storage.d_alt_keys         = thrust::detail::raw_pointer_cast(&temp_keys[0]);
-    storage.d_spine            = thrust::detail::raw_pointer_cast(&temp_spine[0]);
-    storage.d_from_alt_storage = thrust::detail::raw_pointer_cast(&temp_from_alt[0]);
+    storage.d_keys             = thrust::raw_pointer_cast(&*first);
+    storage.d_alt_keys         = thrust::raw_pointer_cast(&temp_keys[0]);
+    storage.d_spine            = thrust::raw_pointer_cast(&temp_spine[0]);
+    storage.d_from_alt_storage = thrust::raw_pointer_cast(&temp_from_alt[0]);
 
     // perform the sort
     sorter.EnactSort(storage);
@@ -109,14 +109,14 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
     unsigned int num_elements = last1 - first1;
 
     // ensure data is properly aligned
-    if (!thrust::detail::util::is_aligned(thrust::detail::raw_pointer_cast(&*first1), 2*sizeof(K)))
+    if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first1), 2*sizeof(K)))
     {
         thrust::detail::temporary_array<K,space> aligned_keys(first1, last1);
         stable_radix_sort_by_key(aligned_keys.begin(), aligned_keys.end(), first2);
         thrust::copy(aligned_keys.begin(), aligned_keys.end(), first1);
         return;
     }
-    if (!thrust::detail::util::is_aligned(thrust::detail::raw_pointer_cast(&*first2), 2*sizeof(V)))
+    if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first2), 2*sizeof(V)))
     {
         thrust::detail::temporary_array<V,space> aligned_values(first2, first2 + num_elements);
         stable_radix_sort_by_key(first1, last1, aligned_values.begin());
@@ -134,12 +134,12 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
     thrust::detail::temporary_array<bool, space> temp_from_alt(2);
 
     // define storage
-    storage.d_keys             = thrust::detail::raw_pointer_cast(&*first1);
-    storage.d_values           = thrust::detail::raw_pointer_cast(&*first2);
-    storage.d_alt_keys         = thrust::detail::raw_pointer_cast(&temp_keys[0]);
-    storage.d_alt_values       = thrust::detail::raw_pointer_cast(&temp_values[0]);
-    storage.d_spine            = thrust::detail::raw_pointer_cast(&temp_spine[0]);
-    storage.d_from_alt_storage = thrust::detail::raw_pointer_cast(&temp_from_alt[0]);
+    storage.d_keys             = thrust::raw_pointer_cast(&*first1);
+    storage.d_values           = thrust::raw_pointer_cast(&*first2);
+    storage.d_alt_keys         = thrust::raw_pointer_cast(&temp_keys[0]);
+    storage.d_alt_values       = thrust::raw_pointer_cast(&temp_values[0]);
+    storage.d_spine            = thrust::raw_pointer_cast(&temp_spine[0]);
+    storage.d_from_alt_storage = thrust::raw_pointer_cast(&temp_from_alt[0]);
 
     // perform the sort
     sorter.EnactSort(storage);

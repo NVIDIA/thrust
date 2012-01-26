@@ -26,7 +26,7 @@
 #include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/extrema.h>
 #include <thrust/detail/internal_functional.h>
 
@@ -62,7 +62,7 @@ template<typename WideType, typename Pointer, typename Size, typename T>
   for (size_t i = 0; i < sizeof(WideType); i++)
       reinterpret_cast<char *>(&wide_exemplar)[i] = reinterpret_cast<char *>(narrow_exemplars)[i];
 
-  OutputType *first_raw = thrust::detail::raw_pointer_cast(first);
+  OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = first_raw + n;
 
   OutputType *block_first_raw = (thrust::min)(first_raw + n,   thrust::detail::util::align_up(first_raw, ALIGNMENT_BOUNDARY));
@@ -101,7 +101,7 @@ template<typename OutputIterator, typename Size, typename T>
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
   
-  if ( thrust::detail::util::is_aligned<OutputType>(thrust::detail::raw_pointer_cast(&*first)) )
+  if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
   {
       if (arch::compute_capability() < 20)
       {

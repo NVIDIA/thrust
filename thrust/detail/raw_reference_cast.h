@@ -18,9 +18,8 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits/has_nested_type.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/type_traits.h>
-//#include <thrust/tuple.h>
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 
 namespace thrust
@@ -89,14 +88,14 @@ template<typename T, typename Result = void>
 template<typename T>
   __host__ __device__ typename detail::raw_reference<T>::type raw_reference_cast(T &ref)
 {
-  return *thrust::detail::raw_pointer_cast(&ref);
+  return *thrust::raw_pointer_cast(&ref);
 } // end raw_reference_cast
 
 
 template<typename T>
   __host__ __device__ typename detail::raw_reference<const T>::type raw_reference_cast(const T &ref)
 {
-  return *thrust::detail::raw_pointer_cast(&ref);
+  return *thrust::raw_pointer_cast(&ref);
 } // end raw_reference_cast
 
 
