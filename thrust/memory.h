@@ -26,7 +26,7 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/raw_reference_cast.h>
 
-// XXX TODO: document thrust::pointer & thrust::reference & thrust::raw_reference_cast
+// XXX TODO: document thrust::pointer & thrust::reference
 
 namespace thrust
 {
@@ -41,11 +41,44 @@ namespace thrust
  *
  *  \param ptr The pointer of interest.
  *  \return <tt>ptr.get()</tt>, if the expression is well formed; <tt>ptr</tt>, otherwise.
+ *  \see raw_reference_cast
  */
 template<typename Pointer>
 __host__ __device__
 inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
   raw_pointer_cast(const Pointer &ptr);
+
+/*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
+ *  simply returning the wrapped reference, should it exist.
+ *
+ *  If the argument is not a reference wrapper, the result is a reference to the argument.
+ *
+ *  \param ref The reference of interest.
+ *  \return <tt>*thrust::raw_pointer_cast(&ref)</tt>.
+ *  \note There are two versions of \p raw_reference_cast. One for <tt>const</tt> references,
+ *        and one for non-<tt>const</tt>.
+ *  \see raw_pointer_cast
+ */
+template<typename T>
+__host__ __device__
+inline typename detail::raw_reference<T>::type
+  raw_reference_cast(T &ref);
+
+/*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
+ *  simply returning the wrapped reference, should it exist.
+ *
+ *  If the argument is not a reference wrapper, the result is a reference to the argument.
+ *
+ *  \param ref The reference of interest.
+ *  \return <tt>*thrust::raw_pointer_cast(&ref)</tt>.
+ *  \note There are two versions of \p raw_reference_cast. One for <tt>const</tt> references,
+ *        and one for non-<tt>const</tt>.
+ *  \see raw_pointer_cast
+ */
+template<typename T>
+__host__ __device__
+inline typename detail::raw_reference<const T>::type
+  raw_reference_cast(const T &ref);
 
 /*! \}
  */

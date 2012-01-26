@@ -86,14 +86,14 @@ template<typename T, typename Result = void>
 
 
 template<typename T>
-  __host__ __device__ typename detail::raw_reference<T>::type raw_reference_cast(T &ref)
+  inline __host__ __device__ typename detail::raw_reference<T>::type raw_reference_cast(T &ref)
 {
   return *thrust::raw_pointer_cast(&ref);
 } // end raw_reference_cast
 
 
 template<typename T>
-  __host__ __device__ typename detail::raw_reference<const T>::type raw_reference_cast(const T &ref)
+  inline __host__ __device__ typename detail::raw_reference<const T>::type raw_reference_cast(const T &ref)
 {
   return *thrust::raw_pointer_cast(&ref);
 } // end raw_reference_cast
@@ -105,7 +105,7 @@ template<
   typename T6, typename T7, typename T8,
   typename T9
 >
-__host__ __device__
+inline __host__ __device__
 typename detail::enable_if_unwrappable<
   thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>,
   typename detail::raw_reference<
