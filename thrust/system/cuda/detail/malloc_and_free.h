@@ -21,7 +21,7 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system/system_error.h>
-#include <thrust/system/cuda_error.h>
+#include <thrust/system/cuda/error.h>
 #include <thrust/system/detail/bad_alloc.h>
 
 namespace thrust

@@ -25,7 +25,7 @@
 #include <stdexcept>
 #include <limits>
 #include <string>
-#include <thrust/system/cuda_error.h>
+#include <thrust/system/cuda/error.h>
 
 namespace thrust
 {

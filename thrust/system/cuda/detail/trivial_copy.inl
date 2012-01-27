@@ -20,7 +20,7 @@
 #include <thrust/system/cuda/detail/trivial_copy.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system_error.h>
-#include <thrust/system/cuda_error.h>
+#include <thrust/system/cuda/error.h>
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cpp/detail/tag.h>
