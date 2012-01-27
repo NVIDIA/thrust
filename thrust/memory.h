@@ -26,8 +26,6 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/raw_reference_cast.h>
 
-// XXX TODO: document thrust::pointer & thrust::reference
-
 namespace thrust
 {
 
@@ -274,7 +272,7 @@ inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
   raw_pointer_cast(const Pointer &ptr);
 
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
- *  simply returning the wrapped reference, should it exist.
+ *  simply returning the underlying reference, should it exist.
  *
  *  If the argument is not a reference wrapper, the result is a reference to the argument.
  *
@@ -290,7 +288,7 @@ inline typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
- *  simply returning the wrapped reference, should it exist.
+ *  simply returning the underlying reference, should it exist.
  *
  *  If the argument is not a reference wrapper, the result is a reference to the argument.
  *
