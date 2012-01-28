@@ -34,3 +34,21 @@
 
 #include <thrust/system/cuda/error.h>
 
+// provide deprecated old names
+namespace thrust
+{
+namespace system
+{
+
+namespace cuda_errc = thrust::system::cuda::errc;
+
+// XXX thrust::system::cuda_errc_t is deprecated
+//     use thrust::system::cuda::errc_t instead
+typedef THRUST_DEPRECATED thrust::system::cuda::errc::errc_t cuda_errc_t;
+
+} // end system
+
+namespace cuda_errc = thrust::system::cuda::errc;
+
+} // end thrust
+

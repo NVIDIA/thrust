@@ -44,7 +44,7 @@ inline void *malloc(tag, std::size_t n)
 
   if(error)
   {
-    throw thrust::system::detail::bad_alloc(thrust::system::cuda_category().message(error).c_str());
+    throw thrust::system::detail::bad_alloc(thrust::cuda_category().message(error).c_str());
   } // end if
 
   return result;

@@ -15,7 +15,7 @@
  */
 
 
-/*! \file cuda_error.h
+/*! \file thrust/system/cuda/error.h
  *  \brief CUDA-specific error reporting
  */
 
@@ -32,6 +32,9 @@ namespace thrust
 namespace system
 {
 
+namespace cuda
+{
+
 /*! \addtogroup system
  *  \{
  */
@@ -40,11 +43,11 @@ namespace system
 //
 //   error_code(::cudaGetLastError(), cuda_category())
 
-// XXX N3000 prefers enum class cuda_errc { ... }
-namespace cuda_errc
+// XXX N3000 prefers enum class errc { ... }
+namespace errc
 {
 
-enum cuda_errc_t
+enum errc_t
 {
   // from cuda/include/driver_types.h
   // mirror their order
@@ -88,31 +91,16 @@ enum cuda_errc_t
   no_device                    = cudaErrorNoDevice,
   ecc_uncorrectable            = cudaErrorECCUncorrectable,
   startup_failure              = cudaErrorStartupFailure
-}; // end cuda_errc_t
+}; // end errc_t
 
 
-} // end namespace cuda_errc
+} // end namespace errc
 
+} // end namespace cuda
 
-// XXX N3000 prefers is_error_code_enum<cuda_errc>
-template<> struct is_error_code_enum<cuda_errc::cuda_errc_t> : thrust::detail::true_type {};
-
-
-// XXX replace cuda_errc::cuda_errc_t with cuda_errc upon c++0x
-/*! \return <tt>error_code(static_cast<int>(e), cuda_category())</tt>
- */
-inline error_code make_error_code(cuda_errc::cuda_errc_t e);
-
-
-// XXX replace cuda_errc::cuda_errc_t with cuda_error upon c++0x
-/*! \return <tt>error_condition(static_cast<int>(e), cuda_category())</tt>.
- */
-inline error_condition make_error_condition(cuda_errc::cuda_errc_t e);
-
-
-/*! \return A reference to an object of a type derived from class \p error_category.
+/*! \return A reference to an object of a type derived from class \p thrust::error_category.
  *  \note The object's \p equivalent virtual functions shall behave as specified
- *        for the class \p error_category. The object's \p name virtual function shall
+ *        for the class \p thrust::error_category. The object's \p name virtual function shall
  *        return a pointer to the string <tt>"cuda"</tt>. The object's
  *        \p default_error_condition virtual function shall behave as follows:
  *
@@ -122,16 +110,37 @@ inline error_condition make_error_condition(cuda_errc::cuda_errc_t e);
  */
 inline const error_category &cuda_category(void);
 
+
+// XXX N3000 prefers is_error_code_enum<cuda::errc>
+template<> struct is_error_code_enum<cuda::errc::errc_t> : thrust::detail::true_type {};
+
+
+// XXX replace cuda::errc::errc_t with cuda::errc upon c++0x
+/*! \return <tt>error_code(static_cast<int>(e), cuda::error_category())</tt>
+ */
+inline error_code make_error_code(cuda::errc::errc_t e);
+
+
+// XXX replace cuda::errc::errc_t with cuda::errc upon c++0x
+/*! \return <tt>error_condition(static_cast<int>(e), cuda::error_category())</tt>.
+ */
+inline error_condition make_error_condition(cuda::errc::errc_t e);
+
 /*! \} // end system
  */
 
 
 } // end system
 
-using system::cuda_category;
+namespace cuda
+{
 
 // XXX replace with using system::cuda_errc upon c++0x
-namespace cuda_errc = system::cuda_errc;
+namespace errc = system::cuda::errc;
+
+} // end cuda
+
+using system::cuda_category;
 
 } // end namespace thrust
 
