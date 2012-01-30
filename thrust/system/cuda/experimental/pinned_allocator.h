@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file pinned_allocator.h
+/*! \file thrust/system/cuda/experimental/pinned_allocator.h
  *  \brief An allocator which creates new elements in "pinned" memory with \p cudaMallocHost
  */
 
@@ -25,16 +25,19 @@
 #include <stdexcept>
 #include <limits>
 #include <string>
+#include <thrust/system/system_error.h>
 #include <thrust/system/cuda/error.h>
 
 namespace thrust
 {
 
-
-namespace experimental
+namespace system
 {
 
 namespace cuda
+{
+
+namespace experimental
 {
 
 /*! \addtogroup memory_management Memory Management
@@ -213,9 +216,24 @@ template<typename T>
 /*! \}
  */
 
+} // end experimental
+
 } // end cuda
 
+} // end system
+
+// alias cuda's members at top-level
+namespace cuda
+{
+
+namespace experimental
+{
+
+using thrust::system::cuda::experimental::pinned_allocator;
+
 } // end experimental
+
+} // end cuda
 
 } // end thrust
 

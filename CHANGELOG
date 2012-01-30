@@ -7,6 +7,8 @@ Summary
 
 Breaking API Changes
     XXX fill me in
+    The header <thrust/experimental/cuda/pinned_allocator.h> has been moved to <thrust/system/cuda/experimental/pinned_allocator.h>
+    thrust::experimental::cuda::pinned_allocator has been moved to thrust::cuda::experimental::pinned_allocator
 
 New Features
     Functions
