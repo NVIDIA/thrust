@@ -1,4 +1,34 @@
 #######################################
+#           Thrust v1.6.0             #
+#######################################
+
+Summary
+    XXX Summary here
+
+Breaking API Changes
+    XXX fill me in
+
+New Features
+    Functions
+        for_each_n
+
+    Types
+
+New Examples
+
+Other Enhancements
+    thrust::for_each now returns the end of the input range similar to most other algorithms
+
+Removed Functionality
+
+Bug Fixes
+
+Known Issues
+    None
+
+Acknowledgments
+
+#######################################
 #           Thrust v1.5.1             #
 #######################################
 
