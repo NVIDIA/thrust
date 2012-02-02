@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-#include <thrust/iterator/discard_iterator.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+#pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -24,14 +24,32 @@ namespace detail
 {
 
 
-// specialize is_output_iterator for discard_iterator: it is a pure output iterator
-template<typename Space>
-  struct is_output_iterator<thrust::discard_iterator<Space> >
-    : thrust::detail::true_type
+// a type which may be assigned any other type
+struct any_assign
 {
+  inline __host__ __device__ any_assign(void)
+  {}
+
+  template<typename T>
+  inline __host__ __device__ any_assign(T)
+  {}
+
+  template<typename T>
+  inline __host__ __device__
+  any_assign &operator=(T)
+  {
+    if(0)
+    {
+      // trick the compiler into silencing "warning: this expression has no effect"
+      int *x = 0;
+      *x = 13;
+    } // end if
+
+    return *this;
+  }
 };
 
 
-} // end namespace detail
-} // end namespace thrust
+} // end detail
+} // end thrust
 

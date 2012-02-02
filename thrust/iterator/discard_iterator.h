@@ -166,5 +166,3 @@ discard_iterator<> make_discard_iterator(discard_iterator<>::difference_type i =
   
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
-#include <thrust/iterator/detail/discard_iterator.inl>
-
