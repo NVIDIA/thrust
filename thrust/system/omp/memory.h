@@ -114,6 +114,16 @@ template<typename Element>
 /*! \endcond
  */
 
+#if 0
+/*! \p omp::tag is type representing Thrust's OpenMP backend system in C++'s type system.
+ *  Iterators "tagged" with a type which is convertible to \p omp::tag assert that they may be
+ *  "dispatched" to algorithm implementations in the \p omp system.
+ *
+ *  \p omp::tag is convertible to \p cpp::tag.
+ */
+struct tag { unspecified };
+#endif
+
 /*! \p pointer stores a pointer to an object allocated in memory available to the omp system.
  *  This type provides type safety when dispatching standard algorithms on ranges resident
  *  in omp memory.

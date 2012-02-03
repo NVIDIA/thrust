@@ -114,6 +114,14 @@ template<typename Element>
 /*! \endcond
  */
 
+#if 0
+/*! \p cpp::tag is type representing Thrust's standard C++ backend system in C++'s type system.
+ *  Iterators "tagged" with a type which is convertible to \p cpp::tag assert that they may be
+ *  "dispatched" to algorithm implementations in the \p cpp system.
+ */
+struct tag { unspecified };
+#endif
+
 /*! \p pointer stores a pointer to an object allocated in memory available to the cpp system.
  *  This type provides type safety when dispatching standard algorithms on ranges resident
  *  in cpp memory.
