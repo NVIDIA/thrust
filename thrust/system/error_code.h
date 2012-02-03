@@ -34,7 +34,7 @@ namespace system
 {
 
 
-/*! \addtogroup system
+/*! \addtogroup system_diagnostics
  *  \{
  */
 
@@ -489,7 +489,7 @@ inline bool operator!=(const error_condition &lhs, const error_code &rhs);
  */
 inline bool operator!=(const error_condition &lhs, const error_condition &rhs);
 
-/*! \} // end system
+/*! \} // end system_diagnostics
  */
 
 

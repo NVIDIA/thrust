@@ -25,14 +25,15 @@
 namespace thrust
 {
 
-/*! \addtogroup system System Diagnostics
+/*! \addtogroup system System Access
  *  \{
  */
 
 /*! \namespace system
- *  \brief \p system is the namespace which contains classes reporting error
- *         conditions originating from the operating system or other low-level
- *         application program interfaces such as the CUDA runtime.
+ *  \brief \p system is the namespace which contains functionality for manipulating
+ *         memory specific to one of Thrust's backend systems. It also contains functionality
+ *         for reporting error conditions originating from the operating system or other
+ *         low-level application program interfaces such as the CUDA runtime.
  *         They are provided in a separate namespace for import convenience but are
  *         also aliased in the top-level \p thrust namespace for easy access.
  */

@@ -14,8 +14,8 @@
  *  limitations under the License.
  */
 
-/*! \file cpp/memory.h
- *  \brief Classes for managing C++-typed memory.
+/*! \file thrust/system/cpp/memory.h
+ *  \brief Managing C++-typed memory associated with Thrust's standard C++ system.
  */
 
 #pragma once
@@ -41,6 +41,9 @@ template<typename> class pointer;
 } // end thrust
 
 
+/*! \cond
+ */
+
 // specialize std::iterator_traits to avoid problems with the name of
 // pointer's constructor shadowing its nested pointer type
 // do this before pointer is defined so the specialization is correctly
@@ -64,16 +67,36 @@ template<typename Element>
 
 } // end std
 
+/*! \endcond
+ */
+
 
 namespace thrust
 {
 namespace system
 {
+
+/*! \addtogroup system_backends Systems
+ *  \ingroup system
+ *  \{
+ */
+
+/*! \namespace cpp
+ *  \brief \p thrust::system::cpp is the namespace containing functionality for allocating, manipulating,
+ *         and deallocating memory available to Thrust's standard C++ backend system.
+ *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
+ *         for import convenience but are also aliased in the top-level <tt>thrust::cpp</tt>
+ *         namespace for easy access.
+ *
+ */
 namespace cpp
 {
 
 // forward declaration of reference for pointer
 template<typename Element> class reference;
+
+/*! \cond
+ */
 
 // XXX nvcc + msvc have trouble instantiating reference below
 //     this is a workaround
@@ -88,6 +111,9 @@ template<typename Element>
 
 } // end detail
 
+/*! \endcond
+ */
+
 template<typename T>
   class pointer
     : public thrust::pointer<
@@ -97,6 +123,9 @@ template<typename T>
                thrust::system::cpp::pointer<T>
              >
 {
+  /*! \cond
+   */
+
   private:
     typedef thrust::pointer<
       T,
@@ -105,6 +134,9 @@ template<typename T>
       typename detail::reference_msvc_workaround<T>::type,
       thrust::system::cpp::pointer<T>
     > super_t;
+
+  /*! \endcond
+   */
 
   public:
     // XXX doxygenate these
@@ -149,12 +181,18 @@ template<typename T>
                thrust::system::cpp::reference<T>
              >
 {
+  /*! \cond
+   */
+
   private:
     typedef thrust::reference<
       T,
       thrust::system::cpp::pointer<T>,
       thrust::system::cpp::reference<T>
     > super_t;
+
+  /*! \endcond
+   */
 
   public:
     typedef typename super_t::value_type value_type;
@@ -185,8 +223,24 @@ template<typename T>
 __host__ __device__
 void swap(reference<T> x, reference<T> y);
 
+/*! Allocates an area of memory available to Thrust's <tt>cpp</tt> system.
+ *  \param n Number of byts to allocate.
+ *  \return A <tt>cpp::pointer<void></tt> pointing to the beginning of the newly
+ *          allocated memory. A null <tt>cpp::pointer<void></tt> is returned if
+ *          an error occurs.
+ *  \note The <tt>cpp::pointer<void></tt> returned by this function must be
+ *        deallocated with \p cpp::free.
+ *  \see cpp::free
+ *  \see std::malloc
+ */
 inline pointer<void> malloc(std::size_t n);
 
+/*! Deallocates an area of memory previously allocated by <tt>cpp::malloc</tt>.
+ *  \param ptr A <tt>cpp::pointer<void></tt> pointing to the beginning of an area
+ *         of memory previously allocated with <tt>cpp::malloc</tt>.
+ *  \see cpp::malloc
+ *  \see std::free
+ */
 inline void free(pointer<void> ptr);
 
 // XXX upon c++11
@@ -221,6 +275,10 @@ template<typename T>
 }; // end allocator
 
 } // end cpp
+
+/*! \}
+ */
+
 } // end system
 
 // alias system::cpp names at top-level

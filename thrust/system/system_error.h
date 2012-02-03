@@ -38,7 +38,8 @@ namespace system
 
 // [19.5.5.1] Class system_error overview
 
-/*! \addtogroup system
+/*! \addtogroup system_diagnostics System Diagnostics
+ *  \ingroup system
  *  \{
  */
 
@@ -166,7 +167,7 @@ class system_error
 
 } // end system
 
-/*! \} // end system
+/*! \} // end system_diagnostics
  */
 
 // import names into thrust::
