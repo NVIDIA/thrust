@@ -126,7 +126,7 @@ template<typename Element>
  *  The raw pointer encapsulated by a \p pointer may be obtained by eiter its <tt>get</tt> member function
  *  or the \p raw_pointer_cast function.
  *
- *  \note \p pointer is not a "smart pointer; it is the programmer's responsibility to deallocate memory
+ *  \note \p pointer is not a "smart" pointer; it is the programmer's responsibility to deallocate memory
  *  pointed to by \p pointer.
  *
  *  \tparam T specifies the type of the pointee.

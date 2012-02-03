@@ -30,6 +30,7 @@ namespace thrust
 {
 
 // forward declaration of host_vector
+// XXX why is this here? it doesn't seem necessary for anything below
 template<typename T, typename Allocator> class host_vector;
 
 namespace system

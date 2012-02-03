@@ -15,7 +15,7 @@
  */
 
 /*! \file thrust/system/omp/memory.h
- *  \brief Managing memory associated with Thrust's standard OpenMP system.
+ *  \brief Managing memory associated with Thrust's OpenMP system.
  */
 
 #pragma once
@@ -126,7 +126,7 @@ template<typename Element>
  *  The raw pointer encapsulated by a \p pointer may be obtained by eiter its <tt>get</tt> member function
  *  or the \p raw_pointer_cast function.
  *
- *  \note \p pointer is not a "smart pointer; it is the programmer's responsibility to deallocate memory
+ *  \note \p pointer is not a "smart" pointer; it is the programmer's responsibility to deallocate memory
  *  pointed to by \p pointer.
  *
  *  \tparam T specifies the type of the pointee.
@@ -171,7 +171,7 @@ template<typename T>
     /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
      *
      *  \param ptr A raw pointer to copy from, presumed to point to a location in memory
-     *         accessible by the \p cpp system.
+     *         accessible by the \p omp system.
      *  \tparam OtherT \p OtherT shall be convertible to \p T.
      */
     template<typename OtherT>
@@ -212,8 +212,8 @@ template<typename T>
 }; // end pointer
 
 
-/*! \p reference is a wrapped reference to an object stored in memory available to the \p cpp system.
- *  \p reference is the type of the result of dereferencing a \p cpp::pointer.
+/*! \p reference is a wrapped reference to an object stored in memory available to the \p omp system.
+ *  \p reference is the type of the result of dereferencing a \p omp::pointer.
  *
  *  \tparam T Specifies the type of the referenced object.
  */
@@ -346,6 +346,8 @@ template<typename T>
   template<typename U>
     struct rebind
   {
+    /*! The typedef \p other gives the type of the rebound \p allocator.
+     */
     typedef allocator<U> other;
   };
 
