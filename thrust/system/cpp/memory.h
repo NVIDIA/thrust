@@ -212,6 +212,11 @@ template<typename T>
 }; // end pointer
 
 
+/*! \p reference is a wrapped reference to an object stored in memory available to the \p cpp system.
+ *  \p reference is the type of the result of dereferencing a \p cpp::pointer.
+ *
+ *  \tparam T Specifies the type of the referenced object.
+ */
 template<typename T>
   class reference
     : public thrust::reference<
@@ -230,13 +235,33 @@ template<typename T>
       thrust::system::cpp::reference<T>
     > super_t;
 
-  /*! \endcond
-   */
-
   public:
     typedef typename super_t::value_type value_type;
     typedef typename super_t::pointer    pointer;
 
+  /*! \endcond
+   */
+
+    /*! This constructor initializes this \p reference to refer to an object
+     *  pointed to by the given \p pointer. After this \p reference is constructed,
+     *  it shall refer to the object pointed to by \p ptr.
+     *
+     *  \param ptr A \p pointer to copy from.
+     */
+    __host__ __device__
+    explicit reference(const pointer &ptr)
+      : super_t(ptr)
+    {}
+
+    /*! This constructor accepts a const reference to another \p reference of related type.
+     *  After this \p reference is constructed, it shall refer to the same object as \p other.
+     *
+     *  \param other A \p reference to copy from.
+     *  \tparam OtherT The element type of the other \p reference.
+     *
+     *  \note This constructor is templated primarily to allow initialization of <tt>reference<const T></tt>
+     *        from <tt>reference<T></tt>.
+     */
     template<typename OtherT>
     __host__ __device__
     reference(const reference<OtherT> &other,
@@ -247,17 +272,27 @@ template<typename T>
       : super_t(other)
     {}
 
-    __host__ __device__
-    explicit reference(const pointer &ptr)
-      : super_t(ptr)
-    {}
-
+    /*! Copy assignment operator copy assigns from another \p reference of related type.
+     *
+     *  \param other The other \p reference to assign from.
+     *  \return <tt>*this</tt>
+     *  \tparam OtherT The element type of the other \p reference.
+     */
     template<typename OtherT>
     reference &operator=(const reference<OtherT> &other);
 
+    /*! Assignment operator assigns from a \p value_type.
+     *
+     *  \param x The \p value_type to assign from.
+     *  \return <tt>*this</tt>
+     */
     reference &operator=(const value_type &x);
 }; // end reference
 
+/*! Exchanges the values of two objects referred to by \p reference.
+ *  \p x The first \p reference of interest.
+ *  \p y The second \p reference ot interest.
+ */
 template<typename T>
 __host__ __device__
 void swap(reference<T> x, reference<T> y);
