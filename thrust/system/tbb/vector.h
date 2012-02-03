@@ -40,14 +40,14 @@ namespace tbb
  *  constant time removal of elements at the end, and linear time insertion
  *  and removal of elements at the beginning or in the middle. The number of
  *  elements in a \p tbb::vector may vary dynamically; memory management is
- *  automatic. The elements contained in an \p tbb::vector reside in memory
+ *  automatic. The elements contained in a \p tbb::vector reside in memory
  *  available to the \p tbb system.
  *
  *  \tparam T The element type of the \p tbb::vector.
  *  \tparam Allocator The allocator type of the \p tbb::vector. Defaults to \p tbb::allocator.
  *
  *  \see http://www.sgi.com/tech/stl/Vector.html
- *  \see host_vector For the documentation of the ctbblete interface which is
+ *  \see host_vector For the documentation of the complete interface which is
  *                   shared by \p tbb::vector
  *  \see device_vector
  */
@@ -75,7 +75,7 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector();
 
-    /*! This constructor creates an \p tbb::vector with \p n copies of \p value.
+    /*! This constructor creates a \p tbb::vector with \p n copies of \p value.
      *  \param n The size of the \p tbb::vector to create.
      *  \param value An element to copy.
      */
@@ -98,7 +98,7 @@ template<typename T, typename Allocator = allocator<T> >
     template<typename OtherT, typename OtherAllocator>
     vector(const std::vector<OtherT,OtherAllocator> &x);
 
-    /*! This constructor creates an \p tbb::vector by copying from a range.
+    /*! This constructor creates a \p tbb::vector by copying from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.
      */
