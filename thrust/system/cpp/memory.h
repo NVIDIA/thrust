@@ -320,6 +320,10 @@ inline void free(pointer<void> ptr);
 // XXX upon c++11
 // template<typename T> using allocator = thrust::detail::malloc_allocator<T,tag,pointer<T> >;
 
+/*! \p cpp::allocator is the default allocator used by the \p cpp system's containers such as
+ *  <tt>cpp::vector</tt> if no user-specified allocator is provided. \p cpp::allocator allocates
+ *  (deallocates) storage with \p cpp::malloc (\p cpp::free).
+ */
 template<typename T>
   struct allocator
     : thrust::detail::malloc_allocator<
@@ -328,22 +332,37 @@ template<typename T>
         pointer<T>
       >
 {
+  /*! The \p rebind metafunction provides the type of an \p allocator
+   *  instantiated with another type.
+   *
+   *  \tparam U The other type to use for instantiation.
+   */
   template<typename U>
     struct rebind
   {
+    /*! The typedef \p other gives the type of the rebound \p allocator.
+     */
     typedef allocator<U> other;
   };
 
+  /*! No-argument constructor has no effect.
+   */
   __host__ __device__
   inline allocator() {}
 
+  /*! Copy constructor has no effect.
+   */
   __host__ __device__
   inline allocator(const allocator &) {}
 
+  /*! Constructor from other \p allocator has no effect.
+   */
   template<typename U>
   __host__ __device__
   inline allocator(const allocator<U> &) {}
 
+  /*! Destructor has no effect.
+   */
   __host__ __device__
   inline ~allocator() {}
 }; // end allocator
