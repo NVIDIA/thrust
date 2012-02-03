@@ -114,6 +114,27 @@ template<typename Element>
 /*! \endcond
  */
 
+/*! \p pointer stores a pointer to an object allocated in memory available to the cpp system.
+ *  This type provides type safety when dispatching standard algorithms on ranges resident
+ *  in cpp memory.
+ *
+ *  \p pointer has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.
+ *
+ *  \p pointer can be created with the function \p cpp::malloc, or by explicitly calling its constructor
+ *  with a raw pointer.
+ *
+ *  The raw pointer encapsulated by a \p pointer may be obtained by eiter its <tt>get</tt> member function
+ *  or the \p raw_pointer_cast function.
+ *
+ *  \note \p pointer is not a "smart pointer; it is the programmer's responsibility to deallocate memory
+ *  pointed to by \p pointer.
+ *
+ *  \tparam T specifies the type of the pointee.
+ *
+ *  \see cpp::malloc
+ *  \see cpp::free
+ *  \see raw_pointer_cast
+ */
 template<typename T>
   class pointer
     : public thrust::pointer<
@@ -139,18 +160,30 @@ template<typename T>
    */
 
   public:
-    // XXX doxygenate these
-
     // note that cpp::pointer's member functions need __host__ __device__
     // to interoperate with nvcc + iterators' dereference member function
 
+    /*! \p pointer's no-argument constructor initializes its encapsulated pointer to \c 0.
+     */
     __host__ __device__
     pointer() : super_t() {}
 
+    /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
+     *
+     *  \param ptr A raw pointer to copy from, presumed to point to a location in memory
+     *         accessible by the \p cpp system.
+     *  \tparam OtherT \p OtherT shall be convertible to \p T.
+     */
     template<typename OtherT>
     __host__ __device__
     explicit pointer(OtherT *ptr) : super_t(ptr) {}
 
+    /*! This constructor allows construction from another pointer-like object with related type.
+     *
+     *  \param other The \p OtherPointer to copy.
+     *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
+     *          to \p thrust::system::cpp::tag and its element type shall be convertible to \p T.
+     */
     template<typename OtherPointer>
     __host__ __device__
     pointer(const OtherPointer &other,
@@ -159,6 +192,12 @@ template<typename T>
               pointer
             >::type * = 0) : super_t(other) {}
 
+    /*! Assignment operator allows assigning from another pointer-like object with related type.
+     *
+     *  \param other The other pointer-like object to assign from.
+     *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
+     *          to \p thrust::system::cpp::tag and its element type shall be convertible to \p T.
+     */
     template<typename OtherPointer>
     __host__ __device__
     typename thrust::detail::enable_if_pointer_is_convertible<
