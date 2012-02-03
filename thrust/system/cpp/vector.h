@@ -47,6 +47,9 @@ namespace cpp
  *  automatic. The elements contained in a \p cpp::vector reside in memory
  *  available to the \p cpp system.
  *
+ *  \tparam T The element type of the \p cpp::vector.
+ *  \tparam Allocator The allocator type of the \p cpp::vector. Defaults to \p cpp::allocator.
+ *
  *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see host_vector For the documentation of the complete interface which is
  *                   shared by \p cpp::vector

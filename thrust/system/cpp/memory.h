@@ -15,7 +15,7 @@
  */
 
 /*! \file thrust/system/cpp/memory.h
- *  \brief Managing C++-typed memory associated with Thrust's standard C++ system.
+ *  \brief Managing memory associated with Thrust's standard C++ system.
  */
 
 #pragma once
@@ -235,12 +235,18 @@ template<typename T>
       thrust::system::cpp::reference<T>
     > super_t;
 
+  /*! \endcond
+   */
+
   public:
+    /*! \cond
+     */
+
     typedef typename super_t::value_type value_type;
     typedef typename super_t::pointer    pointer;
 
-  /*! \endcond
-   */
+    /*! \endcond
+     */
 
     /*! This constructor initializes this \p reference to refer to an object
      *  pointed to by the given \p pointer. After this \p reference is constructed,
