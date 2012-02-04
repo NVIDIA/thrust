@@ -24,6 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
+#include <thrust/system/detail/generic/select_system.h>
 
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
@@ -39,6 +40,9 @@ namespace system
 namespace cuda
 {
 namespace detail
+{
+
+namespace reduce_detail
 {
 
 /*
@@ -148,10 +152,11 @@ struct unordered_reduce_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template<typename InputIterator,
+template<typename Tag,
+         typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(tag,
+  OutputType reduce(Tag,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
@@ -171,7 +176,7 @@ template<typename InputIterator,
   if (n == 0)
     return init;
 
-  typedef thrust::detail::temporary_array<OutputType, thrust::cuda::tag> OutputArray;
+  typedef thrust::detail::temporary_array<OutputType, Tag> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
   typedef detail::blocked_thread_array Context;
@@ -244,9 +249,28 @@ template<typename InputIterator,
   }
   
   return output[0];
-}
+} // end reduce
+
+} // end reduce_detail
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
+template<typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType reduce(tag,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputType init,
+                    BinaryFunction binary_op)
+{
+  // recover the user's system tag and pass to reduce_detail::reduce
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<InputIterator>::type space;
+
+  return reduce_detail::reduce(select_system(space()), first, last, init, binary_op);
+} // end reduce()
 
 } // end namespace detail
 } // end namespace cuda
