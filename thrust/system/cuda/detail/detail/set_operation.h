@@ -29,13 +29,15 @@ namespace detail
 namespace detail
 {
 
-template<typename RandomAccessIterator1,
+template<typename Tag,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename Compare,
          typename SplittingFunction,
          typename BlockConvergentSetOperation>
-  RandomAccessIterator3 set_operation(RandomAccessIterator1 first1,
+  RandomAccessIterator3 set_operation(Tag,
+                                      RandomAccessIterator1 first1,
                                       RandomAccessIterator1 last1,
                                       RandomAccessIterator2 first2,
                                       RandomAccessIterator2 last2,

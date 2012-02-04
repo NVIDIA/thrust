@@ -16,6 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/set_operations.h>
+#include <thrust/system/detail/generic/select_system.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
 #include <thrust/system/cuda/detail/block/set_intersection.h>
@@ -103,7 +104,15 @@ RandomAccessIterator3 set_intersection(tag,
   if(num_elements1 == 0 || num_elements2 == 0)
     return result;
 
-  return detail::set_operation(first1, last1,
+  // recover the user system tag
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_space<RandomAccessIterator3>::type space3;
+
+  return detail::set_operation(select_system(space1(),space2(),space3()),
+                               first1, last1,
                                first2, last2,
                                result,
                                comp,
