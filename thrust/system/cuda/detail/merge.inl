@@ -18,6 +18,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/system/detail/generic/select_system.h>
 
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
@@ -275,14 +276,12 @@ template<typename RandomAccessIterator1,
 } // end get_merge_splitter_ranks()
 
 
-} // end namespace merge_detail
-
-
-template<typename RandomAccessIterator1,
+template<typename Tag,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 merge(tag,
+RandomAccessIterator3 merge(Tag,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
                             RandomAccessIterator2 first2,
@@ -312,8 +311,8 @@ RandomAccessIterator3 merge(tag,
   typedef detail::blocked_thread_array Context;
   typedef merge_closure<RandomAccessIterator1,
                         RandomAccessIterator2,
-                        typename temporary_array<difference1,cuda::tag>::iterator,
-                        typename temporary_array<difference2,cuda::tag>::iterator,
+                        typename temporary_array<difference1,Tag>::iterator,
+                        typename temporary_array<difference2,Tag>::iterator,
                         RandomAccessIterator3,
                         Compare,
                         size_t,
@@ -342,8 +341,8 @@ RandomAccessIterator3 merge(tag,
   size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 
   // allocate storage for splitter ranks
-  temporary_array<difference1, cuda::tag> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
-  temporary_array<difference2, cuda::tag> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
+  temporary_array<difference1, Tag> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
+  temporary_array<difference2, Tag> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the merge_kernel below
@@ -375,6 +374,30 @@ RandomAccessIterator3 merge(tag,
 
   return result + num_elements1 + num_elements2;
 } // end merge
+
+} // end namespace merge_detail
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2, 
+	 typename RandomAccessIterator3,
+         typename Compare>
+RandomAccessIterator3 merge(tag,
+                            RandomAccessIterator1 first1,
+                            RandomAccessIterator1 last1,
+                            RandomAccessIterator2 first2,
+                            RandomAccessIterator2 last2,
+                            RandomAccessIterator3 result,
+                            Compare comp)
+{
+  // recover the user's system tag and pass to merge_detail::merge
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_space<RandomAccessIterator3>::type space3;
+
+  return merge_detail::merge(select_system(space1(), space2(), space3()), first1, last1, first2, last2, result, comp);
+} // end merge()
 
 } // end namespace detail
 } // end namespace cuda
