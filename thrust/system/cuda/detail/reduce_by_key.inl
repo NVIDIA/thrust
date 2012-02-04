@@ -22,6 +22,7 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/system/detail/generic/select_system.h>
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
@@ -51,7 +52,7 @@ namespace cuda
 {
 namespace detail
 {
-namespace detail
+namespace reduce_by_key_detail
 {
 
 template <typename FlagType, typename IndexType, typename KeyType, typename BinaryPredicate>
@@ -504,16 +505,16 @@ struct reduce_by_key_closure
   }
 }; // end reduce_by_key_closure
 
-} // end namespace detail
 
-template <typename InputIterator1,
+template <typename Tag,
+          typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(tag,
+  reduce_by_key(Tag,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -551,10 +552,10 @@ template <typename InputIterator1,
     >::type ValueType;
    
     // temporary arrays
-    typedef thrust::detail::temporary_array<IndexType,thrust::cuda::tag> IndexArray;
-    typedef thrust::detail::temporary_array<KeyType,thrust::cuda::tag>   KeyArray;
-    typedef thrust::detail::temporary_array<ValueType,thrust::cuda::tag> ValueArray;
-    typedef thrust::detail::temporary_array<bool,thrust::cuda::tag>      BoolArray;
+    typedef thrust::detail::temporary_array<IndexType,Tag> IndexArray;
+    typedef thrust::detail::temporary_array<KeyType,Tag>   KeyArray;
+    typedef thrust::detail::temporary_array<ValueType,Tag> ValueArray;
+    typedef thrust::detail::temporary_array<bool,Tag>      BoolArray;
 
     // input size
     IndexType n = keys_last - keys_first;
@@ -571,7 +572,7 @@ template <typename InputIterator1,
     // an ode to c++11 auto
     typedef thrust::counting_iterator<IndexType> CountingIterator;
     typedef thrust::transform_iterator<
-      detail::tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>,
+      tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>,
       thrust::zip_iterator<
         thrust::tuple<CountingIterator,InputIterator1,InputIterator1>
       >
@@ -579,7 +580,7 @@ template <typename InputIterator1,
 
     FlagIterator iflag= thrust::make_transform_iterator
        (thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), keys_first, keys_first + 1)),
-        detail::tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
+        tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
 
     // count number of tail flags per interval
     thrust::system::detail::internal::reduce_intervals(iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
@@ -597,8 +598,8 @@ template <typename InputIterator1,
     typedef typename ValueArray::iterator ValueIterator; 
     typedef typename BoolArray::iterator  BoolIterator;  
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
-    typedef detail::reduce_by_key_closure<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction,
-                                          FlagIterator,IndexIterator,ValueIterator,BoolIterator,Decomposition,Context> Closure;
+    typedef reduce_by_key_closure<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction,
+                                  FlagIterator,IndexIterator,ValueIterator,BoolIterator,Decomposition,Context> Closure;
     Closure closure
       (keys_first,  values_first,
        keys_output, values_output,
@@ -639,6 +640,36 @@ template <typename InputIterator1,
   
     return thrust::make_pair(keys_output + N, values_output + N); 
 }
+
+} // end namespace reduce_by_key_detail
+
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(tag,
+                InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output,
+                BinaryPredicate binary_pred,
+                BinaryFunction binary_op)
+{
+  // recover the user's system tag and pass to reduce_by_key_detail::reduce_by_key
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<InputIterator1>::type  space1;
+  typedef typename thrust::iterator_space<InputIterator2>::type  space2;
+  typedef typename thrust::iterator_space<OutputIterator1>::type space3;
+  typedef typename thrust::iterator_space<OutputIterator2>::type space4;
+
+  return reduce_by_key_detail::reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+} // end reduce_by_key()
 
 } // end namespace detail
 } // end namespace cuda
