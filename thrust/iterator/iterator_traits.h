@@ -36,6 +36,9 @@
 namespace thrust
 {
 
+/*! \p iterator_traits is a type trait class that provides a uniform
+ *  interface for querying the properties of iterators at compile-time.
+ */
 template<typename T>
   struct iterator_traits
     : public std::iterator_traits<T>

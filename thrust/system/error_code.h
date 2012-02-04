@@ -139,6 +139,8 @@ enum errc_t
 } // end namespace errc
 
 
+/*! Specialization of \p is_error_condition_enum for \p errc::errc_t
+ */
 template<> struct is_error_condition_enum<errc::errc_t> : public thrust::detail::true_type {};
 
 

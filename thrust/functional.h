@@ -868,6 +868,9 @@ template<typename Predicate>
 struct unary_negate 
     : public thrust::unary_function<typename Predicate::argument_type, bool>
 {
+  /*! Constructor takes a \p Predicate object to negate.
+   *  \param p The \p Predicate object to negate.
+   */
   __host__ __device__
   explicit unary_negate(Predicate p) : pred(p){}
 
@@ -876,7 +879,9 @@ struct unary_negate
   __host__ __device__
   bool operator()(const typename Predicate::argument_type& x) { return !pred(x); }
 
+  /*! \cond */
   Predicate pred;
+  /*! \endcond */
 }; // end unary_negate
 
 /*! \p not1 is a helper function to simplify the creation of Adaptable Predicates:
@@ -915,6 +920,9 @@ struct binary_negate
                                      typename Predicate::second_argument_type,
                                      bool>
 {
+  /*! Constructor takes a \p Predicate object to negate.
+   *  \param p The \p Predicate object to negate.
+   */
   __host__ __device__
   explicit binary_negate(Predicate p) : pred(p){}
 
@@ -926,7 +934,9 @@ struct binary_negate
       return !pred(x,y); 
   }
 
+  /*! \cond */
   Predicate pred;
+  /*! \endcond */
 }; // end binary_negate
 
 /*! \p not2 is a helper function to simplify the creation of Adaptable Binary Predicates:

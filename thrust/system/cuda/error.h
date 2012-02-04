@@ -47,6 +47,8 @@ namespace cuda
 namespace errc
 {
 
+/*! \p errc_t enumerates the kinds of CUDA Runtime errors.
+ */
 enum errc_t
 {
   // from cuda/include/driver_types.h
@@ -112,6 +114,9 @@ inline const error_category &cuda_category(void);
 
 
 // XXX N3000 prefers is_error_code_enum<cuda::errc>
+
+/*! Specialization of \p is_error_code_enum for \p cuda::errc::errc_t
+ */
 template<> struct is_error_code_enum<cuda::errc::errc_t> : thrust::detail::true_type {};
 
 

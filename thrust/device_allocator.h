@@ -45,16 +45,31 @@ template<>
   class device_allocator<void>
 {
   public:
+    /*! Type of element allocated, \c void. */
     typedef void                              value_type;
+
+    /*! Pointer to allocation, \c device_ptr<void>. */
     typedef device_ptr<void>                  pointer;
+
+    /*! \c const pointer to allocation, \c device_ptr<const void>. */
     typedef device_ptr<const void>            const_pointer;
+
+    /*! Type of allocation size, \c std::size_t. */
     typedef std::size_t                       size_type;
+
+    /*! Type of allocation difference, \c pointer::difference_type. */
     typedef pointer::difference_type difference_type;
 
-    // convert a device_allocator<void> to device_allocator<U>
+    /*! The \p rebind metafunction provides the type of a \p device_allocator
+     *  instantiated with another type.
+     *
+     *  \tparam U The other type to use for instantiation.
+     */
     template<typename U>
       struct rebind
     {
+      /*! The typedef \p other gives the type of the rebound \p device_allocator.
+       */
       typedef device_allocator<U> other;
     }; // end rebind
 }; // end device_allocator<void>
@@ -71,19 +86,31 @@ template<typename T>
     : public device_new_allocator<T>
 {
   public:
-    // convert a device_allocator<T> to device_allocator<U>
+    /*! The \p rebind metafunction provides the type of a \p device_allocator
+     *  instantiated with another type.
+     *
+     *  \tparam U The other type to use for instantiation.
+     */
     template<typename U>
       struct rebind
     {
+      /*! The typedef \p other gives the type of the rebound \p device_allocator.
+       */
       typedef device_allocator<U> other;
     }; // end rebind
 
+    /*! No-argument constructor has no effect.
+     */
     __host__ __device__
     inline device_allocator() {}
 
+    /*! Copy constructor has no effect.
+     */
     __host__ __device__
     inline device_allocator(device_allocator const&) {}
 
+    /*! Constructor from other \p allocator has no effect.
+     */
     template<typename U>
     __host__ __device__
     inline device_allocator(device_allocator<U> const&) {}
