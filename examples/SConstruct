@@ -15,7 +15,7 @@ if env['PLATFORM'] == "darwin":
 
 # find all .cus & .cpps in the current directory
 sources = []
-directories = ['.', 'cuda']
+directories = ['.']
 extensions = ['*.cu', '*.cpp']
 
 if env['backend'] == 'cuda' or env['backend'] == 'ocelot':

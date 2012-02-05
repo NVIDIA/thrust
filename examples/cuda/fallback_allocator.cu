@@ -156,30 +156,35 @@ int main(void)
               << " [" << properties.name << "] with " 
               << properties.totalGlobalMem << " bytes of device memory" << std::endl;
   }
- 
 
-  for (size_t n = (1 << 20); n < ((size_t) 1 << 40); n *= 2)
+  try
   {
-    // TODO ideally we'd use the fallback_allocator in the device_vector too
-    //thrust::device_vector<int, fallback_allocator> d_vec(n);
-
-    std::cout << "attempting to sort " << n << " values" << std::endl;
-
-    int * raw_ptr = (int *) robust_cudaMalloc(n * sizeof(int));
-
-    if (raw_ptr)
+    for (size_t n = (1 << 20); n < ((size_t) 1 << 40); n *= 2)
     {
-      kernel<<<100,256>>>(raw_ptr, n); // generate unsorted values
+      // TODO ideally we'd use the fallback_allocator in the device_vector too
+      //thrust::device_vector<int, fallback_allocator> d_vec(n);
 
-      thrust::device_ptr<int> begin = thrust::device_pointer_cast(raw_ptr);
-      thrust::device_ptr<int> end   = begin + n;
+      std::cout << "attempting to sort " << n << " values" << std::endl;
 
-      thrust::sort(thrust::retag<my_tag>(begin), thrust::retag<my_tag>(end));
+      int * raw_ptr = (int *) robust_cudaMalloc(n * sizeof(int));
 
-      assert(thrust::is_sorted(begin, end));
+      if (raw_ptr)
+      {
+        kernel<<<100,256>>>(raw_ptr, n); // generate unsorted values
 
-      robust_cudaFree(raw_ptr);
+        thrust::device_ptr<int> begin = thrust::device_pointer_cast(raw_ptr);
+        thrust::device_ptr<int> end   = begin + n;
+
+        thrust::sort(thrust::retag<my_tag>(begin), thrust::retag<my_tag>(end));
+
+        assert(thrust::is_sorted(begin, end));
+
+        robust_cudaFree(raw_ptr);
+      }
     }
+  } catch (std::bad_alloc)
+  {
+    return 0;
   }
 
   return 0;
