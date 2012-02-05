@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <cmath>
 
+#include "include/timer.h"
+
 // Compute an approximate Voronoi Diagram with a Jump Flooding Algorithm (JFA)
 //
 // References
@@ -117,33 +119,6 @@ void print(int m, int n, const thrust::device_vector<T>& d_data)
 }
 
 
-
-/********************** TIMER Functions *************/
-//Global vars
-cudaEvent_t start;
-cudaEvent_t end;
-void timer_start()
-{
-    cudaEventCreate(&start); 
-    cudaEventCreate(&end);
-    cudaEventRecord(start,0);
-}
-
-float timer_stop_and_display()
-{
-  float elapsed_time;
-  cudaEventRecord(end, 0);
-  cudaEventSynchronize(end);
-  cudaEventElapsedTime(&elapsed_time, start, end);
-
-  std::cout << "  ( "<< elapsed_time << "ms )" << std::endl;
-
-  return elapsed_time;
-}
-/********************** TIMER Functions *************/
-
-
-
 void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n)
 {
   thrust::default_random_engine rng;
@@ -208,51 +183,57 @@ void jfa(thrust::device_vector<int>& in,thrust::device_vector<int>& out, unsigne
 }
 /********************************************/
 
-
+void display_time(timer& t)
+{
+  std::cout << "  ( "<< 1e3 * t.elapsed() << "ms )" << std::endl;
+}
 
 int main(void)
 {
   int m = 2048; // number of rows
   int n = 2048; // number of columns  
   int s = 1000; // number of sites
+  
+  timer t;
  
   //Host vector to encode a 2D image
   std::cout << "[Inititialize " << m << "x" << n << " Image]" << std::endl;
-  timer_start();
+  t.restart();
   thrust::host_vector<int> seeds_host(m*n, m*n);
   generate_random_sites(seeds_host,s,m,n);
-  timer_stop_and_display();
-
+  display_time(t);
+  
   std::cout<<"[Copy to Device]" << std::endl;
-  timer_start();
+  t.restart();
   thrust::device_vector<int> seeds = seeds_host;
   thrust::device_vector<int> temp(seeds);
-  timer_stop_and_display();
+  display_time(t);
 
   //JFA+1  : before entering the log(n) loop, we perform a jump with k=1
-  timer_start();
   std::cout<<"[JFA stepping]" << std::endl;
+  t.restart();
   jfa(seeds,temp,1,m,n);
   seeds.swap(temp);
  
   //JFA : main loop with k=n/2, n/4, ..., 1
   for(int k = thrust::max(m,n) / 2; k > 0; k /= 2)
   {
-      jfa(seeds,temp,k,m,n);
-      seeds.swap(temp);
+    jfa(seeds,temp,k,m,n);
+    seeds.swap(temp);
   }
-  float time = timer_stop_and_display();  
-  std::cout <<"  ( " <<  seeds.size() / (1e3 * time) << " MPixel/s ) " << std::endl;
+
+  display_time(t);
+  std::cout <<"  ( " <<  seeds.size() / (1e6 * t.elapsed()) << " MPixel/s ) " << std::endl;
   
   std::cout << "[Device to Host Copy]" << std::endl;
-  timer_start();
+  t.restart();
   seeds_host = seeds;
-  timer_stop_and_display();
+  display_time(t);
   
   std::cout << "[PGM Export]" << std::endl;
-  timer_start();
+  t.restart();
   vector_to_pgm(seeds_host, m, n, "discrete_voronoi.pgm");
-  timer_stop_and_display();
+  display_time(t);
 
   return 0;
 }

@@ -17,6 +17,15 @@ if env['PLATFORM'] == "darwin":
 sources = []
 directories = ['.', 'cuda']
 extensions = ['*.cu', '*.cpp']
+
+if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
+  directories.append('cuda')
+elif env['backend'] == 'tbb':
+  directories.append('tbb')
+elif env['backend'] == 'omp':
+  directories.append('omp')
+#TODO handle mixed/multiple systems
+
 for dir in directories:
   for ext in extensions:
     regexp = os.path.join(dir, ext)
