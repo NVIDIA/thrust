@@ -18,7 +18,7 @@
 #include <thrust/detail/config.h>
 
 #include <thrust/iterator/iterator_traits.h>
-
+#include <thrust/system/detail/generic/select_system.h>
 #include <thrust/detail/temporary_array.h>
 
 #include <thrust/detail/type_traits.h>
@@ -29,7 +29,6 @@
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
-#include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/detail/raw_pointer_cast.h>
 
@@ -56,6 +55,9 @@ namespace detail
 {
 namespace fast_scan
 {
+namespace fast_scan_detail
+{
+
 
 // TODO tune this
 template <typename ValueType>
@@ -537,10 +539,13 @@ struct downsweep_intervals_closure
   }
 };
 
-template <typename InputIterator,
+
+template <typename Tag,
+          typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator inclusive_scan(InputIterator first,
+OutputIterator inclusive_scan(Tag,
+                              InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               BinaryFunction binary_op)
@@ -567,9 +572,9 @@ OutputIterator inclusive_scan(InputIterator first,
     >
   >::type ValueType;
 
-  typedef unsigned int                                                 IndexType;
-  typedef thrust::detail::backend::uniform_decomposition<IndexType>    Decomposition;
-  typedef thrust::detail::temporary_array<ValueType,thrust::cuda::tag> ValueArray;
+  typedef unsigned int                                              IndexType;
+  typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
+  typedef thrust::detail::temporary_array<ValueType,Tag>            ValueArray;
 
   if (first == last)
       return output;
@@ -629,11 +634,13 @@ OutputIterator inclusive_scan(InputIterator first,
 }
 
 
-template <typename InputIterator,
+template <typename Tag,
+          typename InputIterator,
           typename OutputIterator,
           typename T,
           typename BinaryFunction>
-OutputIterator exclusive_scan(InputIterator first,
+OutputIterator exclusive_scan(Tag,
+                              InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               const T init,
@@ -661,9 +668,9 @@ OutputIterator exclusive_scan(InputIterator first,
     >
   >::type ValueType;
 
-  typedef unsigned int                                                 IndexType;
-  typedef thrust::detail::backend::uniform_decomposition<IndexType>    Decomposition;
-  typedef thrust::detail::temporary_array<ValueType,thrust::cuda::tag> ValueArray;
+  typedef unsigned int                                              IndexType;
+  typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
+  typedef thrust::detail::temporary_array<ValueType,Tag>            ValueArray;
 
   if (first == last)
       return output;
@@ -724,6 +731,48 @@ OutputIterator exclusive_scan(InputIterator first,
   
   return output + (last - first);
 }
+
+
+} // end namespace fast_scan_detail
+
+
+template <typename InputIterator,
+          typename OutputIterator,
+          typename BinaryFunction>
+OutputIterator inclusive_scan(InputIterator first,
+                              InputIterator last,
+                              OutputIterator output,
+                              BinaryFunction binary_op)
+{
+  // recover the user's system tag and pass to fast_scan_detail::inclusive_scan
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  tag1;
+  typedef typename thrust::iterator_space<OutputIterator>::type tag2;
+
+  return fast_scan_detail::inclusive_scan(select_system(tag1(),tag2()), first, last, output, binary_op);
+}
+
+
+template <typename InputIterator,
+          typename OutputIterator,
+          typename T,
+          typename BinaryFunction>
+OutputIterator exclusive_scan(InputIterator first,
+                              InputIterator last,
+                              OutputIterator output,
+                              const T init,
+                              BinaryFunction binary_op)
+{
+  // recover the user's system tag and pass to fast_scan_detail::exclusive_scan
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<InputIterator>::type  tag1;
+  typedef typename thrust::iterator_space<OutputIterator>::type tag2;
+
+  return fast_scan_detail::exclusive_scan(select_system(tag1(),tag2()), first, last, output, init, binary_op);
+}
+
 
 } // end namespace fast_scan
 } // end namespace detail
