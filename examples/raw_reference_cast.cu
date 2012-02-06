@@ -1,0 +1,93 @@
+#include <thrust/detail/raw_reference_cast.h>
+
+#include <thrust/device_vector.h>
+#include <thrust/sequence.h>
+#include <thrust/fill.h>
+
+// This example illustrates how to use Thrust iterators in device functions.
+// Specifically, the example shows how to dereference iterators in a device
+// code where the iterators are assumed to be in their native space.
+//
+// Using iterators in the manner described here is generally discouraged.
+// Users should only resort to this technique if there is no viable
+// implemention of a given operation in terms of Thrust algorithms. For example
+// this particular example is better solved with thrust::copy, which
+// is safer and potentially faster.  Only use this approach after all
+// safer alternatives have been exhausted.
+//
+// When a Thrust iterator is referenced (e.g. *iter) the result is not
+// a native or "raw" reference like int& or const float&.  Instead,
+// the result is a type such as thrust::system::cuda::reference<int>
+// or thrust::system::tbb::reference<float>, depending on the system
+// to which the data belongs.  These reference wrappers are necessary
+// to make expressions like *iter1 = *iter2; work correctly in host code,
+// since iter1 and iter2 may belong to different systems and reference
+// data in different memory spaces, on heterogenous systems.
+//
+// The raw_reference_cast function essentially removes the wrappers,
+// so it should only be used when the code is guaranteed to be
+// executed within the same context or system in which the data lives.
+
+template <typename InputIterator,
+          typename OutputIterator>
+struct copy_iterators
+{
+  InputIterator  input;
+  OutputIterator output;
+
+  copy_iterators(InputIterator input, OutputIterator output)
+    : input(input), output(output)
+  {}
+
+  __host__ __device__
+  void operator()(int i)
+  {
+    InputIterator  in  = input  + i;
+    OutputIterator out = output + i;
+
+    thrust::raw_reference_cast(*out) = thrust::raw_reference_cast(*in);
+  }
+};
+
+template <typename Vector>
+void print(const std::string& name, const Vector& v)
+{
+  typedef typename Vector::value_type T;
+
+  std::cout << name << ": ";
+  thrust::copy(v.begin(), v.end(), std::ostream_iterator<T>(std::cout, " "));  
+  std::cout << "\n";
+}
+
+int main(void)
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::iterator           Iterator;
+  typedef thrust::device_space_tag   Space;
+
+  size_t N = 5;
+
+  // allocate device memory
+  Vector A(N);
+  Vector B(N);
+
+  // initialize A and B
+  thrust::sequence(A.begin(), A.end());
+  thrust::fill(B.begin(), B.end(), 0);
+
+  std::cout << "Before A->B Copy" << std::endl;
+  print("A", A);
+  print("B", B);
+
+  // note: we must specify the Space to ensure correct execution
+  thrust::for_each(thrust::counting_iterator<int,Space>(0),
+                   thrust::counting_iterator<int,Space>(N),
+                   copy_iterators<Iterator,Iterator>(A.begin(), B.begin()));
+  
+  std::cout << "After A->B Copy" << std::endl;
+  print("A", A);
+  print("B", B);
+ 
+  return 0;
+}
+
