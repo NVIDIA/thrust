@@ -23,6 +23,7 @@
 #endif // omp support
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/cpp/detail/sort.h>
 #include <thrust/system/cpp/detail/merge.h>
 #include <thrust/system/cpp/detail/tag.h>
@@ -36,28 +37,34 @@ namespace omp
 {
 namespace detail
 {
+namespace sort_detail
+{
 
-template <typename RandomAccessIterator,
+template <typename Tag,
+          typename RandomAccessIterator,
           typename StrictWeakOrdering>
-void inplace_merge(RandomAccessIterator first,
+void inplace_merge(Tag,
+                   RandomAccessIterator first,
                    RandomAccessIterator middle,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type,omp::tag> a( first, middle);
-  thrust::detail::temporary_array<value_type,omp::tag> b(middle,   last);
+  thrust::detail::temporary_array<value_type,Tag> a( first, middle);
+  thrust::detail::temporary_array<value_type,Tag> b(middle,   last);
 
   thrust::system::cpp::detail::merge
     (thrust::cpp::tag(),
      a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
-template <typename RandomAccessIterator1,
+template <typename Tag,
+          typename RandomAccessIterator1,
           typename RandomAccessIterator2,
           typename StrictWeakOrdering>
-void inplace_merge_by_key(RandomAccessIterator1 first1,
+void inplace_merge_by_key(Tag,
+                          RandomAccessIterator1 first1,
                           RandomAccessIterator1 middle1,
                           RandomAccessIterator1 last1,
                           RandomAccessIterator2 first2,
@@ -69,10 +76,10 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1,omp::tag> lhs1( first1, middle1);
-  thrust::detail::temporary_array<value_type1,omp::tag> rhs1(middle1,   last1);
-  thrust::detail::temporary_array<value_type2,omp::tag> lhs2( first2, middle2);
-  thrust::detail::temporary_array<value_type2,omp::tag> rhs2(middle2,   last2);
+  thrust::detail::temporary_array<value_type1,Tag> lhs1( first1, middle1);
+  thrust::detail::temporary_array<value_type1,Tag> rhs1(middle1,   last1);
+  thrust::detail::temporary_array<value_type2,Tag> lhs2( first2, middle2);
+  thrust::detail::temporary_array<value_type2,Tag> rhs2(middle2,   last2);
 
   thrust::system::cpp::detail::merge_by_key
     (thrust::cpp::tag(),
@@ -82,9 +89,10 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
 }
 
 
-template<typename RandomAccessIterator,
+template<typename Tag,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(tag,
+void stable_sort(Tag,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
@@ -135,8 +143,9 @@ void stable_sort(tag,
 
         if((p_i % h) == 0 && c > b)
         {
-          thrust::system::omp::detail::inplace_merge
-            (first + decomp[a].begin(),
+          thrust::system::omp::detail::sort_detail::inplace_merge
+            (Tag(),
+             first + decomp[a].begin(),
              first + decomp[b].end(),
              first + decomp[c].end(),
              comp);
@@ -153,10 +162,11 @@ void stable_sort(tag,
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
-template<typename RandomAccessIterator1,
+template<typename Tag,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(tag,
+void stable_sort_by_key(Tag,
                         RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,
@@ -209,8 +219,9 @@ void stable_sort_by_key(tag,
 
         if((p_i % h) == 0 && c > b)
         {
-          thrust::system::omp::detail::inplace_merge_by_key
-            (keys_first + decomp[a].begin(),
+          thrust::system::omp::detail::sort_detail::inplace_merge_by_key
+            (Tag(),
+             keys_first + decomp[a].begin(),
              keys_first + decomp[b].end(),
              keys_first + decomp[c].end(),
              values_first + decomp[a].begin(),
@@ -227,6 +238,45 @@ void stable_sort_by_key(tag,
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
+
+
+} // end namespace sort_detail
+
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+void stable_sort(tag,
+                 RandomAccessIterator first,
+                 RandomAccessIterator last,
+                 StrictWeakOrdering comp)
+{
+  // recover the user's system tag and pass to sort_detail::stable_sort
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator>::type tag;
+
+  return sort_detail::stable_sort(select_system(tag()), first, last, comp);
+}
+
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+void stable_sort_by_key(tag,
+                        RandomAccessIterator1 keys_first,
+                        RandomAccessIterator1 keys_last,
+                        RandomAccessIterator2 values_first,
+                        StrictWeakOrdering comp)
+{
+  // recover the user's system tag and pass to sort_detail::stable_sort_by_key
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_space<RandomAccessIterator1>::type tag1;
+  typedef typename thrust::iterator_space<RandomAccessIterator2>::type tag2;
+
+  return sort_detail::stable_sort_by_key(select_system(tag1(),tag2()), keys_first, keys_last, values_first, comp);
+}
+
 
 } // end namespace detail
 } // end namespace omp
