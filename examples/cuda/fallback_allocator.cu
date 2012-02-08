@@ -1,6 +1,7 @@
 #include <thrust/copy.h>
 #include <thrust/sort.h>
-#include <thrust/device_vector.h>
+#include <thrust/memory.h>
+#include <thrust/system/cuda/memory.h>
 
 #include <new> // for std::bad_alloc
 #include <cassert>
@@ -106,9 +107,9 @@ struct fallback_allocator
 // XXX ideally this variable is declared thread_local
 fallback_allocator g_allocator;
 
-// create a tag derived from device_space_tag for distinguishing
+// create a tag derived from cuda::tag for distinguishing
 // our overloads of get_temporary_buffer and return_temporary_buffer
-struct my_tag : thrust::device_space_tag {};
+struct my_tag : thrust::cuda::tag {};
 
 
 // overload get_temporary_buffer on my_tag
@@ -161,8 +162,8 @@ int main(void)
   {
     for (size_t n = (1 << 20); n < ((size_t) 1 << 40); n *= 2)
     {
-      // TODO ideally we'd use the fallback_allocator in the device_vector too
-      //thrust::device_vector<int, fallback_allocator> d_vec(n);
+      // TODO ideally we'd use the fallback_allocator in the vector too
+      //thrust::cuda::vector<int, fallback_allocator> d_vec(n);
 
       std::cout << "attempting to sort " << n << " values" << std::endl;
 
@@ -172,10 +173,10 @@ int main(void)
       {
         kernel<<<100,256>>>(raw_ptr, n); // generate unsorted values
 
-        thrust::device_ptr<int> begin = thrust::device_pointer_cast(raw_ptr);
-        thrust::device_ptr<int> end   = begin + n;
+        thrust::pointer<int,my_tag> begin = thrust::pointer<int,my_tag>(raw_ptr);
+        thrust::pointer<int,my_tag> end   = begin + n;
 
-        thrust::sort(thrust::retag<my_tag>(begin), thrust::retag<my_tag>(end));
+        thrust::sort(begin, end);
 
         assert(thrust::is_sorted(begin, end));
 
