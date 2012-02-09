@@ -23,3 +23,46 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/detail/retag.h>
 
+namespace thrust
+{
+
+
+/*! \ingroup iterator_tags
+ *  \{
+ */
+
+#if 0
+/*! \p reinterpret_tag returns a copy of an iterator and changes the type of the result's system tag.
+ *  \tparam Tag Any system tag.
+ *  \tparam Iterator Any iterator type.
+ *  \param iter The iterator of interest.
+ *  \return An iterator of unspecified type whose system tag is \p Tag and whose behavior is otherwise
+ *          equivalent to \p iter.
+ *  \note Unlike \p retag, \p reinterpret_tag does not enforce that the converted-to system tag be
+ *        related to the converted-from system tag.
+ *  \see retag
+ */
+template<typename Tag, typename Iterator>
+unspecified_iterator_type reinterpret_tag(Iterator iter);
+
+/*! \p retag returns a copy of an iterator and changes the type of the result's system tag.
+ *  \tparam Tag \p Tag shall be convertible to <tt>thrust::iterator_system<Iterator>::type</tt>,
+ *              or <tt>thrust::iterator_system<Iterator>::type</tt> is a base type of \p Tag.
+ *  \tparam Iterator Any iterator type.
+ *  \param iter The iterator of interest.
+ *  \return An iterator of unspecified type whose system tag is \p Tag and whose behavior is
+ *          otherwise equivalent to \p iter.
+ *  \note Unlike \p reinterpret_tag, \p retag enforces that the converted-to system tag be
+ *        related to the converted-from system tag.
+ *  \see reinterpret_tag
+ */
+template<typename Tag, typename Iterator>
+unspecified_iterator_type retag(Iterator iter);
+#endif
+
+/*! \} // iterator_tags
+ */
+
+
+} // end thrust
+
