@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/tagged_iterator.h>
+#include <thrust/detail/pointer.h>
 
 namespace thrust
 {
@@ -57,6 +58,24 @@ template<typename Tag, typename Iterator>
 } // end reinterpret_tag()
 
 
+// specialization for raw pointer
+template<typename Tag, typename T>
+  thrust::pointer<T,Tag>
+    reinterpret_tag(T *ptr)
+{
+  return thrust::pointer<T,Tag>(ptr);
+} // end reinterpret_tag()
+
+
+// specialization for thrust::pointer
+template<typename Tag, typename T, typename OtherTag>
+  thrust::pointer<T,Tag>
+    reinterpret_tag(thrust::pointer<T,OtherTag> ptr)
+{
+  return reinterpret_tag<Tag>(ptr.get());
+} // end reinterpret_tag()
+
+
 // avoid deeply-nested tagged_iterator
 template<typename Tag, typename BaseIterator, typename OtherTag>
   thrust::detail::tagged_iterator<BaseIterator,Tag>
@@ -76,6 +95,32 @@ template<typename Tag, typename Iterator>
 {
   return reinterpret_tag<Tag>(iter);
 } // end retag()
+
+
+// specialization for raw pointer
+template<typename Tag, typename T>
+  typename thrust::detail::enable_if_retaggable<
+    typename thrust::iterator_space<T*>::type,
+    Tag,
+    thrust::pointer<T,Tag>
+  >::type
+    retag(T *ptr)
+{
+  return reinterpret_tag<Tag>(ptr);
+} // end retag()
+
+
+// specialization for thrust::pointer
+template<typename Tag, typename T, typename OtherTag>
+  typename thrust::detail::enable_if_retaggable<
+    OtherTag,
+    Tag,
+    thrust::pointer<T,Tag>
+  >::type
+    reinterpret_tag(thrust::pointer<T,OtherTag> ptr)
+{
+  return reinterpret_tag<Tag>(ptr);
+} // end reinterpret_tag()
 
 
 // avoid deeply-nested tagged_iterator

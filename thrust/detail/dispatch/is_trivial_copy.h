@@ -23,6 +23,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/iterator/detail/is_trivial_iterator.h>
 
 namespace thrust
 {

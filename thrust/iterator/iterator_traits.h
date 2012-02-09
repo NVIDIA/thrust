@@ -65,5 +65,4 @@ template<typename Iterator> struct iterator_space;
 #include <thrust/iterator/detail/device_space_tag.h>
 #include <thrust/iterator/detail/any_space_tag.h>
 #include <thrust/iterator/detail/iterator_traits.inl>
-#include <thrust/iterator/detail/retag.h>
 
