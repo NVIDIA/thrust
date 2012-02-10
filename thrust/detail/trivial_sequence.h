@@ -56,11 +56,11 @@ struct _trivial_sequence<Iterator, thrust::detail::true_type>
 template<typename Iterator>
 struct _trivial_sequence<Iterator, thrust::detail::false_type>
 {
-    typedef typename thrust::iterator_space<Iterator>::type iterator_space;
+    typedef typename thrust::iterator_system<Iterator>::type iterator_system;
     typedef typename thrust::iterator_value<Iterator>::type iterator_value;
-    typedef typename thrust::detail::temporary_array<iterator_value, iterator_space>::iterator iterator_type;
+    typedef typename thrust::detail::temporary_array<iterator_value, iterator_system>::iterator iterator_type;
     
-    thrust::detail::temporary_array<iterator_value, iterator_space> buffer;
+    thrust::detail::temporary_array<iterator_value, iterator_system> buffer;
 
     _trivial_sequence(Iterator first, Iterator last) : buffer(first, last)
     {

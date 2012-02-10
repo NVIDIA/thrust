@@ -38,8 +38,8 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::mismatch;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
 
   return mismatch(select_system(space1(),space2()), first1, last1, first2);
 } // end mismatch()
@@ -53,8 +53,8 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::mismatch;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
 
   return mismatch(select_system(space1(),space2()), first1, last1, first2, pred);
 } // end mismatch()

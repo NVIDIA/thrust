@@ -59,10 +59,10 @@ void TestGenerateToDiscardIterator(const size_t n)
     T value = 13;
     return_value<T> f(value);
 
-    thrust::discard_iterator<thrust::host_space_tag> h_first;
+    thrust::discard_iterator<thrust::host_system_tag> h_first;
     thrust::generate(h_first, h_first + 10, f);
 
-    thrust::discard_iterator<thrust::device_space_tag> d_first;
+    thrust::discard_iterator<thrust::device_system_tag> d_first;
     thrust::generate(d_first, d_first + 10, f);
 
     // there's nothing to actually check except that it compiles
@@ -96,11 +96,11 @@ void TestGenerateNToDiscardIterator(const size_t n)
     T value = 13;
     return_value<T> f(value);
 
-    thrust::discard_iterator<thrust::host_space_tag> h_result = 
-      thrust::generate_n(thrust::discard_iterator<thrust::host_space_tag>(), n, f);
+    thrust::discard_iterator<thrust::host_system_tag> h_result = 
+      thrust::generate_n(thrust::discard_iterator<thrust::host_system_tag>(), n, f);
 
-    thrust::discard_iterator<thrust::device_space_tag> d_result = 
-      thrust::generate_n(thrust::discard_iterator<thrust::device_space_tag>(), n, f);
+    thrust::discard_iterator<thrust::device_system_tag> d_result = 
+      thrust::generate_n(thrust::discard_iterator<thrust::device_system_tag>(), n, f);
 
     thrust::discard_iterator<> reference(n);
 

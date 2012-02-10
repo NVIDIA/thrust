@@ -37,8 +37,8 @@ template<typename ForwardIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::swap_ranges;
 
-  typedef typename thrust::iterator_space<ForwardIterator1>::type space1;
-  typedef typename thrust::iterator_space<ForwardIterator2>::type space2;
+  typedef typename thrust::iterator_system<ForwardIterator1>::type space1;
+  typedef typename thrust::iterator_system<ForwardIterator2>::type space2;
 
   return swap_ranges(select_system(space1(),space2()), first1, last1, first2);
 } // end swap_ranges()

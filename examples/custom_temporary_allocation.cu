@@ -119,9 +119,9 @@ struct cached_allocator
 cached_allocator g_allocator;
 
 
-// create a tag derived from device_space_tag for distinguishing
+// create a tag derived from device_system_tag for distinguishing
 // our overloads of get_temporary_buffer and return_temporary_buffer
-struct my_tag : thrust::device_space_tag {};
+struct my_tag : thrust::device_system_tag {};
 
 
 // overload get_temporary_buffer on my_tag

@@ -16,7 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/copy_device_to_device.h>
-#include <thrust/system/cuda/detail/copy_cross_space.h>
+#include <thrust/system/cuda/detail/copy_cross_system.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/transform.h>
@@ -61,7 +61,7 @@ template<typename InputIterator,
     thrust::detail::temporary_array<OutputType, thrust::cpp::tag> temp2(temp1.begin(), temp1.end());
 
     // copy temp2 to device
-    result = thrust::system::cuda::detail::copy_cross_space(temp2.begin(), temp2.end(), result);
+    result = thrust::system::cuda::detail::copy_cross_system(temp2.begin(), temp2.end(), result);
 
     return result;
 #endif // THRUST_DEVICE_COMPILER_NVCC

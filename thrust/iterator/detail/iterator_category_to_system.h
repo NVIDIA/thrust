@@ -19,9 +19,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/detail/iterator_traversal_tags.h>
-#include <thrust/iterator/detail/host_space_tag.h>
-#include <thrust/iterator/detail/device_space_tag.h>
-#include <thrust/iterator/detail/any_space_tag.h>
+#include <thrust/iterator/detail/host_system_tag.h>
+#include <thrust/iterator/detail/device_system_tag.h>
+#include <thrust/iterator/detail/any_system_tag.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -36,14 +36,14 @@ namespace detail
 {
 
 // forward declaration
-template <typename> struct is_iterator_space;
+template <typename> struct is_iterator_system;
 
-template <typename> struct device_iterator_category_to_backend_space;
+template <typename> struct device_iterator_category_to_backend_system;
 
 // XXX this should work entirely differently
-// we should just specialize this metafunction for iterator_category_with_space_and_traversal
+// we should just specialize this metafunction for iterator_category_with_system_and_traversal
 template<typename Category>
-  struct iterator_category_to_space
+  struct iterator_category_to_system
     // convertible to any iterator?
     : eval_if<
         or_<
@@ -51,7 +51,7 @@ template<typename Category>
           is_convertible<Category, thrust::output_universal_iterator_tag>
         >::value,
 
-        detail::identity_<thrust::any_space_tag>,
+        detail::identity_<thrust::any_system_tag>,
 
         // convertible to host iterator?
         eval_if<
@@ -60,7 +60,7 @@ template<typename Category>
             is_convertible<Category, thrust::output_host_iterator_tag>
           >::value,
 
-          detail::identity_<thrust::host_space_tag>,
+          detail::identity_<thrust::host_system_tag>,
           
           // convertible to device iterator?
           eval_if<
@@ -69,7 +69,7 @@ template<typename Category>
               is_convertible<Category, thrust::output_device_iterator_tag>
             >::value,
 
-            detail::identity_<thrust::device_space_tag>,
+            detail::identity_<thrust::device_system_tag>,
 
             // unknown space
             detail::identity_<void>
@@ -77,20 +77,19 @@ template<typename Category>
         > // if host
       > // if any
 {
-}; // end iterator_category_to_space
+}; // end iterator_category_to_system
 
 
 template<typename CategoryOrTraversal>
-  struct iterator_category_or_traversal_to_space
+  struct iterator_category_or_traversal_to_system
     : eval_if<
-        is_iterator_space<CategoryOrTraversal>::value,
+        is_iterator_system<CategoryOrTraversal>::value,
         detail::identity_<CategoryOrTraversal>,
-        iterator_category_to_space<CategoryOrTraversal>
+        iterator_category_to_system<CategoryOrTraversal>
       >
 {
-}; // end iterator_category_or_traversal_to_space
+}; // end iterator_category_or_traversal_to_system
 
 } // end detail
-
 } // end thrust
 

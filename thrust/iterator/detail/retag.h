@@ -87,7 +87,7 @@ template<typename Tag, typename BaseIterator, typename OtherTag>
 
 template<typename Tag, typename Iterator>
   typename thrust::detail::enable_if_retaggable<
-    typename thrust::iterator_space<Iterator>::type,
+    typename thrust::iterator_system<Iterator>::type,
     Tag,
     thrust::detail::tagged_iterator<Iterator,Tag>
   >::type
@@ -100,7 +100,7 @@ template<typename Tag, typename Iterator>
 // specialization for raw pointer
 template<typename Tag, typename T>
   typename thrust::detail::enable_if_retaggable<
-    typename thrust::iterator_space<T*>::type,
+    typename thrust::iterator_system<T*>::type,
     Tag,
     thrust::pointer<T,Tag>
   >::type

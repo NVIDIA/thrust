@@ -34,9 +34,9 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
   struct counting_iterator_base
 {
   typedef typename thrust::detail::eval_if<
-    // use any_space_tag if we are given use_default
+    // use any_system_tag if we are given use_default
     thrust::detail::is_same<Space,use_default>::value,
-    thrust::detail::identity_<thrust::any_space_tag>,
+    thrust::detail::identity_<thrust::any_system_tag>,
     thrust::detail::identity_<Space>
   >::type space;
 

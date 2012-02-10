@@ -177,7 +177,7 @@ void TestScatterCountingIterator(void)
 
     Vector output(10);
 
-    // source has any_space_tag
+    // source has any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::scatter(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
                     map.begin(),
@@ -185,7 +185,7 @@ void TestScatterCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
     
-    // map has any_space_tag
+    // map has any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::scatter(source.begin(), source.end(),
                     thrust::make_counting_iterator(0),
@@ -193,7 +193,7 @@ void TestScatterCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
     
-    // source and map have any_space_tag
+    // source and map have any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::scatter(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
                     thrust::make_counting_iterator(0),
@@ -219,7 +219,7 @@ void TestScatterIfCountingIterator(void)
 
     Vector output(10);
 
-    // source has any_space_tag
+    // source has any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::scatter_if(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
                        map.begin(),
@@ -228,7 +228,7 @@ void TestScatterIfCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
     
-    // map has any_space_tag
+    // map has any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::scatter_if(source.begin(), source.end(),
                        thrust::make_counting_iterator(0),
@@ -237,7 +237,7 @@ void TestScatterIfCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
     
-    // source and map have any_space_tag
+    // source and map have any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::scatter_if(thrust::make_counting_iterator(0), thrust::make_counting_iterator(10),
                        thrust::make_counting_iterator(0),

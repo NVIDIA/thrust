@@ -20,7 +20,6 @@
 
 namespace thrust
 {
-
 namespace detail
 { 
 
@@ -40,13 +39,11 @@ template<typename T1,
          typename T14 = minimum_type_detail::any_conversion,
          typename T15 = minimum_type_detail::any_conversion,
          typename T16 = minimum_type_detail::any_conversion>
-  struct minimum_space
+  struct minimum_system
     : minimum_type<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>
 {
-}; // end minimum_space
+}; // end minimum_system
 
 } // end detail
-
 } // end thrust
-
 

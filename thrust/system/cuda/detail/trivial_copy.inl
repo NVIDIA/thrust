@@ -128,8 +128,8 @@ template<typename RandomAccessIterator1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type SrcSpace;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type DstSpace;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type SrcSpace;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type DstSpace;
 
   void *dst = detail::trivial_copy_detail::get(&*result);
   const void *src = detail::trivial_copy_detail::get(&*first);

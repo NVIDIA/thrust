@@ -216,8 +216,8 @@ template<typename FromPtr, typename ToPtr>
           typename pointer_element<ToPtr>::type *
         >,
         thrust::detail::is_convertible<
-          typename iterator_space<FromPtr>::type,
-          typename iterator_space<ToPtr>::type
+          typename iterator_system<FromPtr>::type,
+          typename iterator_system<ToPtr>::type
         >
       >
 {};

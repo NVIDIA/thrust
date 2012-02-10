@@ -81,7 +81,7 @@ template<typename InputIterator,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  typedef typename thrust::iterator_space<OutputIterator>::type original_tag;
+  typedef typename thrust::iterator_system<OutputIterator>::type original_tag;
 
   // XXX WAR problems reconciling unrelated types such as omp & tbb
   // reinterpret iterators as omp

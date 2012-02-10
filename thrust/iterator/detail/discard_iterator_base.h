@@ -53,7 +53,7 @@ template<typename Space>
     base_iterator,
     pointer,
     value_type,
-    typename thrust::iterator_space<base_iterator>::type,
+    typename thrust::iterator_system<base_iterator>::type,
     typename thrust::iterator_traversal<base_iterator>::type,
     reference
   > type;

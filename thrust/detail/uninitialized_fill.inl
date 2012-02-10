@@ -37,7 +37,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::uninitialized_fill;
 
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   uninitialized_fill(select_system(space()), first, last, x);
 } // end uninitialized_fill()
@@ -52,7 +52,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::uninitialized_fill_n;
 
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return uninitialized_fill_n(select_system(space()), first, n, x);
 } // end uninitialized_fill_n()

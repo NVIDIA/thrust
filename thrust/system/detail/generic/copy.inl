@@ -24,7 +24,7 @@
 #include <thrust/for_each.h>
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 
 namespace thrust
 {
@@ -56,10 +56,10 @@ template<typename InputIterator,
                         Size           n,
                         OutputIterator result)
 {
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  space1;
+  typedef typename thrust::iterator_system<OutputIterator>::type space2;
 
-  typedef typename thrust::detail::minimum_space<space1,space2> space;
+  typedef typename thrust::detail::minimum_system<space1,space2> space;
 
   typedef typename thrust::iterator_value<InputIterator>::type value_type;
   typedef thrust::identity<value_type>                         xfrm_type;

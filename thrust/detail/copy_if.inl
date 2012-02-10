@@ -36,8 +36,8 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::copy_if;
 
-  typedef typename thrust::iterator_space<InputIterator>::type space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type space1;
+  typedef typename thrust::iterator_system<OutputIterator>::type space2;
 
   return copy_if(select_system(space1(),space2()), first, last, result, pred);
 } // end copy_if()
@@ -56,9 +56,9 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::copy_if;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
-  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<OutputIterator>::type space3;
 
   return copy_if(select_system(space1(),space2(),space3()), first, last, stencil, result, pred);
 } // end copy_if()

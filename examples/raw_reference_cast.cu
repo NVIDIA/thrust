@@ -63,7 +63,7 @@ int main(void)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::iterator           Iterator;
-  typedef thrust::device_space_tag   Space;
+  typedef thrust::device_system_tag   Space;
 
   size_t N = 5;
 

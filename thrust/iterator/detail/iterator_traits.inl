@@ -55,25 +55,25 @@ template<typename Iterator>
 
 
 template<typename Iterator>
-  struct iterator_space
-    : detail::iterator_category_to_space<
+  struct iterator_system
+    : detail::iterator_category_to_system<
         typename thrust::iterator_traits<Iterator>::iterator_category
       >
 {
-}; // end iterator_space
+}; // end iterator_system
 
-// specialize iterator_space for void *, which has no category
+// specialize iterator_system for void *, which has no category
 template<>
-  struct iterator_space<void *>
+  struct iterator_system<void *>
 {
-  typedef thrust::iterator_space<int*>::type type;
-}; // end iterator_space<void*>
+  typedef thrust::iterator_system<int*>::type type;
+}; // end iterator_system<void*>
 
 template<>
-  struct iterator_space<const void *>
+  struct iterator_system<const void *>
 {
-  typedef thrust::iterator_space<const int*>::type type;
-}; // end iterator_space<void*>
+  typedef thrust::iterator_system<const int*>::type type;
+}; // end iterator_system<void*>
 
 
 template <typename Iterator>
@@ -95,16 +95,16 @@ template <typename T>
 
 
 template<typename T>
-  struct is_iterator_space
+  struct is_iterator_system
     : detail::or_<
-        detail::is_convertible<T, any_space_tag>,
+        detail::is_convertible<T, any_system_tag>,
         detail::or_<
-          detail::is_convertible<T, host_space_tag>,
-          detail::is_convertible<T, device_space_tag>
+          detail::is_convertible<T, host_system_tag>,
+          detail::is_convertible<T, device_system_tag>
         >
       >
 {
-}; // end is_iterator_space
+}; // end is_iterator_system
 
 
 } // end namespace detail

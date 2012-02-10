@@ -385,7 +385,7 @@ template <typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
 
   size_t N = last - first;
@@ -407,8 +407,8 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator2 first2)
 {
   // XXX the type of space should be
-  //     typedef decltype(select_space(first1,last1,first2)) space;
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
+  //     typedef decltype(select_system(first1,last1,first2)) space;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
 

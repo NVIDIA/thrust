@@ -18,10 +18,10 @@ void TestCountingIteratorCopyConstructor(void)
     ASSERT_EQUAL(*iter0, *iter1);
 
     // construct from related space
-    thrust::counting_iterator<int, thrust::host_space_tag> h_iter = iter0;
+    thrust::counting_iterator<int, thrust::host_system_tag> h_iter = iter0;
     ASSERT_EQUAL(*iter0, *h_iter);
 
-    thrust::counting_iterator<int, thrust::device_space_tag> d_iter = iter0;
+    thrust::counting_iterator<int, thrust::device_system_tag> d_iter = iter0;
     ASSERT_EQUAL(*iter0, *d_iter);
 }
 DECLARE_UNITTEST(TestCountingIteratorCopyConstructor);

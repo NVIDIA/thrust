@@ -51,12 +51,12 @@ DECLARE_VECTOR_UNITTEST(TestFillSimple);
 void TestFillDiscardIterator(void)
 {
     // there's no result to check because fill returns void
-    thrust::fill(thrust::discard_iterator<thrust::host_space_tag>(),
-                 thrust::discard_iterator<thrust::host_space_tag>(10),
+    thrust::fill(thrust::discard_iterator<thrust::host_system_tag>(),
+                 thrust::discard_iterator<thrust::host_system_tag>(10),
                  13);
 
-    thrust::fill(thrust::discard_iterator<thrust::device_space_tag>(),
-                 thrust::discard_iterator<thrust::device_space_tag>(10),
+    thrust::fill(thrust::discard_iterator<thrust::device_system_tag>(),
+                 thrust::discard_iterator<thrust::device_system_tag>(10),
                  13);
 }
 DECLARE_UNITTEST(TestFillDiscardIterator);
@@ -168,13 +168,13 @@ DECLARE_VECTOR_UNITTEST(TestFillNSimple);
 
 void TestFillNDiscardIterator(void)
 {
-  thrust::discard_iterator<thrust::host_space_tag> h_result =
-    thrust::fill_n(thrust::discard_iterator<thrust::host_space_tag>(),
+  thrust::discard_iterator<thrust::host_system_tag> h_result =
+    thrust::fill_n(thrust::discard_iterator<thrust::host_system_tag>(),
                    10,
                    13);
 
-  thrust::discard_iterator<thrust::device_space_tag> d_result =
-    thrust::fill_n(thrust::discard_iterator<thrust::device_space_tag>(),
+  thrust::discard_iterator<thrust::device_system_tag> d_result =
+    thrust::fill_n(thrust::discard_iterator<thrust::device_system_tag>(),
                    10,
                    13);
 

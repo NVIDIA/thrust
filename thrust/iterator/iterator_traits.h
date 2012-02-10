@@ -56,13 +56,21 @@ template<typename Iterator> struct iterator_difference;
 
 template<typename Iterator> struct iterator_traversal;
 
-template<typename Iterator> struct iterator_space;
+template<typename Iterator> struct iterator_system;
+
+// TODO remove this in Thrust v1.7.0
+template<typename Iterator>
+  struct iterator_space
+{
+  typedef THRUST_DEPRECATED typename iterator_system<Iterator>::type type;
+} THRUST_DEPRECATED;
+
 
 } // end thrust
 
 #include <thrust/iterator/detail/iterator_traversal_tags.h>
-#include <thrust/iterator/detail/host_space_tag.h>
-#include <thrust/iterator/detail/device_space_tag.h>
-#include <thrust/iterator/detail/any_space_tag.h>
+#include <thrust/iterator/detail/host_system_tag.h>
+#include <thrust/iterator/detail/device_system_tag.h>
+#include <thrust/iterator/detail/any_system_tag.h>
 #include <thrust/iterator/detail/iterator_traits.inl>
 

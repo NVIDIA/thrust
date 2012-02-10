@@ -99,8 +99,8 @@ template<typename ForwardIterator,
   > wrapped_pred(pred);
 
   // XXX the type of space should be:
-  //     typedef decltype(select_space(first, last)) space;
-  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+  //     typedef decltype(select_system(first, last)) space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type Space;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
   typedef thrust::detail::temporary_array<T,Space> TempRange;

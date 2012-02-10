@@ -102,7 +102,7 @@ template<typename InputIterator1,
                                        AssociativeOperator binary_op)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef typename thrust::iterator_space<OutputIterator>::type Space;
+  typedef typename thrust::iterator_system<OutputIterator>::type Space;
   typedef unsigned int HeadFlagType;
 
   const size_t n = last1 - first1;
@@ -193,7 +193,7 @@ template<typename InputIterator1,
                                        AssociativeOperator binary_op)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef typename thrust::iterator_space<OutputIterator>::type        Space;
+  typedef typename thrust::iterator_system<OutputIterator>::type        Space;
   typedef unsigned int HeadFlagType;
 
   const size_t n = last1 - first1;

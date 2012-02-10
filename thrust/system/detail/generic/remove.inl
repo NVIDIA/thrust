@@ -73,7 +73,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type Space;
 
   // create temporary storage for an intermediate result
   thrust::detail::temporary_array<InputType,Space> temp(first, last);
@@ -93,7 +93,7 @@ template<typename ForwardIterator,
                             Predicate pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type Space;
 
   // create temporary storage for an intermediate result
   thrust::detail::temporary_array<InputType,Space> temp(first, last);

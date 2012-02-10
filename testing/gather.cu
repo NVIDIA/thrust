@@ -224,7 +224,7 @@ void TestGatherCountingIterator(void)
 
     Vector output(10);
 
-    // source has any_space_tag
+    // source has any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::gather(map.begin(),
                    map.end(),
@@ -233,7 +233,7 @@ void TestGatherCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
     
-    // map has any_space_tag
+    // map has any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::gather(thrust::make_counting_iterator(0),
                    thrust::make_counting_iterator((int)source.size()),
@@ -242,7 +242,7 @@ void TestGatherCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
     
-    // source and map have any_space_tag
+    // source and map have any_system_tag
     thrust::fill(output.begin(), output.end(), 0);
     thrust::gather(thrust::make_counting_iterator(0),
                    thrust::make_counting_iterator((int)output.size()),

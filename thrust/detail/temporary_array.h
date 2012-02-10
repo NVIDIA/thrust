@@ -39,8 +39,8 @@ namespace detail
 template<typename T, typename Space>
   struct choose_temporary_array_allocator
     : eval_if<
-        // catch any_space_tag and output an error
-        is_convertible<Space, thrust::any_space_tag>::value,
+        // catch any_system_tag and output an error
+        is_convertible<Space, thrust::any_system_tag>::value,
         
         void,
 
@@ -104,10 +104,10 @@ template<typename Iterator, typename Tag>
 // copy of the range.  else, use a temporary_array
 // note that the resulting iterator is explicitly tagged with Tag either way
 template<typename Iterator, typename Tag>
-  struct move_to_space_base
+  struct move_to_system_base
     : public eval_if<
         is_convertible<
-          typename thrust::iterator_space<Iterator>::type,
+          typename thrust::iterator_system<Iterator>::type,
           Tag
         >::value,
         identity_<
@@ -124,16 +124,16 @@ template<typename Iterator, typename Tag>
 
 
 template<typename Iterator, typename Tag>
-  class move_to_space
-    : public move_to_space_base<
+  class move_to_system
+    : public move_to_system_base<
         Iterator,
         Tag
       >::type
 {
-  typedef typename move_to_space_base<Iterator,Tag>::type super_t;
+  typedef typename move_to_system_base<Iterator,Tag>::type super_t;
 
   public:
-    move_to_space(Iterator first, Iterator last)
+    move_to_system(Iterator first, Iterator last)
       : super_t(first, last) {}
 };
 

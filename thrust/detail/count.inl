@@ -36,7 +36,7 @@ count(InputIterator first, InputIterator last, const EqualityComparable& value)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::count;
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type space;
 
   return count(select_system(space()), first, last, value);
 } // end count()
@@ -48,7 +48,7 @@ count_if(InputIterator first, InputIterator last, Predicate pred)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::count_if;
 
-  typedef typename thrust::iterator_space<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type space;
 
   return count_if(select_system(space()), first, last, pred);
 } // end count_if()

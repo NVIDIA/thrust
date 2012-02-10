@@ -41,8 +41,8 @@ void inplace_merge(RandomAccessIterator first,
                    StrictWeakOrdering comp)
 {
   // XXX the type of space should be:
-  //     typedef decltype(select_space(first, middle, last)) space;
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+  //     typedef decltype(select_system(first, middle, last)) space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
   thrust::detail::temporary_array<value_type, space> a( first, middle);
@@ -61,8 +61,8 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
                           StrictWeakOrdering comp)
 {
   // XXX the type of space should be:
-  //     typedef decltype(select_space(first1, middle1, last1, first2)) space;
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
+  //     typedef decltype(select_system(first1, middle1, last1, first2)) space;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 

@@ -18,7 +18,7 @@
 #include <thrust/system/detail/generic/transform.h>
 #include <thrust/for_each.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/internal_functional.h>
@@ -43,9 +43,9 @@ template<typename InputIterator,
                            UnaryFunction op)
 {
   // determine the minimal space of the two iterators
-  typedef typename thrust::iterator_space<InputIterator>::type        Space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type       Space2;
-  typedef typename thrust::detail::minimum_space<Space1,Space2>::type Space;
+  typedef typename thrust::iterator_system<InputIterator>::type        Space1;
+  typedef typename thrust::iterator_system<OutputIterator>::type       Space2;
+  typedef typename thrust::detail::minimum_system<Space1,Space2>::type Space;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -80,12 +80,12 @@ template<typename InputIterator1,
                            BinaryFunction op)
 {
   // determine the minimal space of the three iterators
-  typedef typename thrust::iterator_space<InputIterator1>::type        Space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type        Space2;
-  typedef typename thrust::iterator_space<OutputIterator>::type        Space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type        Space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type        Space2;
+  typedef typename thrust::iterator_system<OutputIterator>::type        Space3;
 
-  typedef typename thrust::detail::minimum_space<Space1,Space2>::type  Space4;
-  typedef typename thrust::detail::minimum_space<Space4,Space3>::type  Space;
+  typedef typename thrust::detail::minimum_system<Space1,Space2>::type  Space4;
+  typedef typename thrust::detail::minimum_system<Space4,Space3>::type  Space;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -120,10 +120,10 @@ template<typename InputIterator,
                                Predicate pred)
 {
   // determine the minimal space of the two iterators
-  typedef typename thrust::iterator_space<InputIterator>::type        Space1;
-  typedef typename thrust::iterator_space<ForwardIterator>::type      Space2;
+  typedef typename thrust::iterator_system<InputIterator>::type        Space1;
+  typedef typename thrust::iterator_system<ForwardIterator>::type      Space2;
 
-  typedef typename thrust::detail::minimum_space<Space1,Space2>::type Space;
+  typedef typename thrust::detail::minimum_system<Space1,Space2>::type Space;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -160,12 +160,12 @@ template<typename InputIterator1,
                                Predicate pred)
 {
   // determine the minimal space of the three iterators
-  typedef typename thrust::iterator_space<InputIterator1>::type        Space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type        Space2;
-  typedef typename thrust::iterator_space<ForwardIterator>::type       Space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type        Space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type        Space2;
+  typedef typename thrust::iterator_system<ForwardIterator>::type       Space3;
 
-  typedef typename thrust::detail::minimum_space<Space1,Space2>::type  Space4;
-  typedef typename thrust::detail::minimum_space<Space4,Space3>::type  Space;
+  typedef typename thrust::detail::minimum_system<Space1,Space2>::type  Space4;
+  typedef typename thrust::detail::minimum_system<Space4,Space3>::type  Space;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -204,14 +204,14 @@ template<typename InputIterator1,
                                Predicate pred)
 {
   // determine the minimal space of the four iterators
-  typedef typename thrust::iterator_space<InputIterator1>::type        Space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type        Space2;
-  typedef typename thrust::iterator_space<InputIterator3>::type        Space3;
-  typedef typename thrust::iterator_space<ForwardIterator>::type       Space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type        Space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type        Space2;
+  typedef typename thrust::iterator_system<InputIterator3>::type        Space3;
+  typedef typename thrust::iterator_system<ForwardIterator>::type       Space4;
 
-  typedef typename thrust::detail::minimum_space<Space1,Space2>::type  Space5;
-  typedef typename thrust::detail::minimum_space<Space3,Space4>::type  Space6;
-  typedef typename thrust::detail::minimum_space<Space5,Space6>::type  Space;
+  typedef typename thrust::detail::minimum_system<Space1,Space2>::type  Space5;
+  typedef typename thrust::detail::minimum_system<Space3,Space4>::type  Space6;
+  typedef typename thrust::detail::minimum_system<Space5,Space6>::type  Space;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor

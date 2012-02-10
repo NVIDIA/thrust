@@ -56,9 +56,9 @@ uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::cuda
 }
 
 template <typename IndexType>
-uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::any_space_tag)
+uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::any_system_tag)
 {
-  return thrust::detail::backend::dispatch::default_decomposition(n, thrust::device_space_tag());
+  return thrust::detail::backend::dispatch::default_decomposition(n, thrust::device_system_tag());
 }
 
 } // end namespace dispatch

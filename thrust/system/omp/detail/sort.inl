@@ -253,7 +253,7 @@ void stable_sort(tag,
   // recover the user's system tag and pass to sort_detail::stable_sort
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type tag;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type tag;
 
   return sort_detail::stable_sort(select_system(tag()), first, last, comp);
 }
@@ -271,8 +271,8 @@ void stable_sort_by_key(tag,
   // recover the user's system tag and pass to sort_detail::stable_sort_by_key
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type tag1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type tag2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type tag1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type tag2;
 
   return sort_detail::stable_sort_by_key(select_system(tag1(),tag2()), keys_first, keys_last, values_first, comp);
 }

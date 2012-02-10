@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/detail/copy.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cpp/detail/tag.h>
@@ -98,10 +98,10 @@ template<typename RandomAccessIterator1,
                                         RandomAccessIterator2 result,
                                         Tag)
 {
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
 
-  typedef typename thrust::detail::minimum_space<space1,space2>::type space;
+  typedef typename thrust::detail::minimum_system<space1,space2>::type space;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
   // make a temporary copy of [first,last), and copy into it first
@@ -119,9 +119,9 @@ template<typename RandomAccessIterator1,
                                         RandomAccessIterator2 result)
 {
   return thrust::detail::dispatch::overlapped_copy(first, last, result,
-      typename thrust::detail::minimum_space<
-        typename thrust::iterator_space<RandomAccessIterator1>::type,
-        typename thrust::iterator_space<RandomAccessIterator2>::type
+      typename thrust::detail::minimum_system<
+        typename thrust::iterator_system<RandomAccessIterator1>::type,
+        typename thrust::iterator_system<RandomAccessIterator2>::type
       >::type());
 } // end overlapped_copy()
 

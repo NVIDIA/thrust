@@ -17,7 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/copy.h>
 #include <thrust/system/cuda/detail/copy_device_to_device.h>
-#include <thrust/system/cuda/detail/copy_cross_space.h>
+#include <thrust/system/cuda/detail/copy_cross_system.h>
 
 namespace thrust
 {
@@ -47,7 +47,7 @@ template<typename InputIterator,
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_cross_space(first,last,result);
+  return thrust::system::cuda::detail::copy_cross_system(first,last,result);
 } // end copy()
 
 
@@ -58,7 +58,7 @@ template<typename InputIterator,
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_cross_space(first,last,result);
+  return thrust::system::cuda::detail::copy_cross_system(first,last,result);
 } // end copy()
 
 
@@ -82,7 +82,7 @@ template<typename InputIterator,
                         Size n,
                         OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_cross_space_n(first,n,result);
+  return thrust::system::cuda::detail::copy_cross_system_n(first,n,result);
 } // end copy_n()
 
 
@@ -94,7 +94,7 @@ template<typename InputIterator,
                         Size n,
                         OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_cross_space_n(first,n,result);
+  return thrust::system::cuda::detail::copy_cross_system_n(first,n,result);
 } // end copy_n()
 
 

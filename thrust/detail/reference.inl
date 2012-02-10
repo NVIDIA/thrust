@@ -97,7 +97,7 @@ template<typename Element, typename Pointer, typename Derived>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::get_value;
 
-  typedef typename thrust::iterator_space<pointer>::type space;
+  typedef typename thrust::iterator_system<pointer>::type space;
 
   return get_value(select_system(space()), m_ptr);
 } // end reference::operator value_type ()
@@ -111,8 +111,8 @@ template<typename Element, typename Pointer, typename Derived>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::assign_value;
 
-  typedef typename thrust::iterator_space<pointer>::type      space1;
-  typedef typename thrust::iterator_space<OtherPointer>::type space2;
+  typedef typename thrust::iterator_system<pointer>::type      space1;
+  typedef typename thrust::iterator_system<OtherPointer>::type space2;
 
   assign_value(select_system(space1(), space2()), m_ptr, src);
 } // end assign_from()
@@ -125,7 +125,7 @@ template<typename Element, typename Pointer, typename Derived>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::iter_swap;
 
-  typedef typename thrust::iterator_space<pointer>::type space;
+  typedef typename thrust::iterator_system<pointer>::type space;
 
   iter_swap(select_system(space(), space()), m_ptr, other.m_ptr);
 } // end reference::swap()

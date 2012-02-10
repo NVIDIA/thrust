@@ -38,7 +38,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::remove;
 
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return remove(select_system(space()), first, last, value);
 } // end remove()
@@ -54,8 +54,8 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::remove_copy;
 
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  space1;
+  typedef typename thrust::iterator_system<OutputIterator>::type space2;
 
   return remove_copy(select_system(space1(),space2()), first, last, result, value);
 } // end remove_copy()
@@ -69,7 +69,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::remove_if;
 
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return remove_if(select_system(space()), first, last, pred);
 } // end remove_if()
@@ -85,8 +85,8 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::remove_if;
 
-  typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-  typedef typename thrust::iterator_space<InputIterator>::type   space2;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+  typedef typename thrust::iterator_system<InputIterator>::type   space2;
 
   return remove_if(select_system(space1(),space2()), first, last, stencil, pred);
 } // end remove_if()
@@ -102,8 +102,8 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::remove_copy_if;
 
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  space1;
+  typedef typename thrust::iterator_system<OutputIterator>::type space2;
 
   return remove_copy_if(select_system(space1(),space2()), first, last, result, pred);
 } // end remove_copy_if()
@@ -121,9 +121,9 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::remove_copy_if;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
-  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<OutputIterator>::type space3;
 
   return remove_copy_if(select_system(space1(),space2(),space3()), first, last, stencil, result, pred);
 } // end remove_copy_if()

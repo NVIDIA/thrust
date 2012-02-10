@@ -20,7 +20,7 @@
 #include <thrust/system/detail/generic/copy_if.h>
 #include <thrust/detail/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
 #include <thrust/transform.h>
@@ -53,10 +53,10 @@ OutputIterator copy_if(InputIterator1 first,
                        OutputIterator result,
                        Predicate pred)
 {
-    typedef typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator>::type
+    typedef typename thrust::detail::minimum_system<
+      typename thrust::iterator_system<InputIterator1>::type,
+      typename thrust::iterator_system<InputIterator2>::type,
+      typename thrust::iterator_system<OutputIterator>::type
     >::type Space;
 
     __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));

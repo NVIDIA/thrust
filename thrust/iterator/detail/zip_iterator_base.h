@@ -20,7 +20,7 @@
 #include <thrust/iterator/iterator_facade.h>
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/detail/minimum_category.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/tuple.h>
 #include <thrust/detail/tuple_meta_transform.h>
 #include <thrust/detail/tuple_transform.h>
@@ -199,7 +199,7 @@ Fun tuple_for_each(Tuple& t, Fun f, Space dispatch_tag)
 
 template<typename Tuple, typename Fun>
 inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f, thrust::host_space_tag dispatch_tag)
+Fun tuple_for_each(Tuple& t, Fun f, thrust::host_system_tag dispatch_tag)
 { 
 // XXX this path is required in order to accomodate pure host iterators
 //     (such as std::vector::iterator) in a zip_iterator
@@ -275,10 +275,10 @@ struct minimum_traversal_category_in_iterator_tuple
 };
 
 
-struct minimum_space_lambda
+struct minimum_system_lambda
 {
   template<typename T1, typename T2>
-    struct apply : minimum_space<T1,T2>
+    struct apply : minimum_system<T1,T2>
   {};
 };
 
@@ -287,17 +287,17 @@ struct minimum_space_lambda
 // Metafunction to obtain the minimal space tag in a tuple
 // of iterators.
 template<typename IteratorTuple>
-struct minimum_space_in_iterator_tuple
+struct minimum_system_in_iterator_tuple
 {
   typedef typename thrust::detail::tuple_meta_transform<
     IteratorTuple,
-    thrust::iterator_space
-  >::type tuple_of_space_tags;
+    thrust::iterator_system
+  >::type tuple_of_system_tags;
 
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
-    tuple_of_space_tags,
-    minimum_space_lambda,
-    thrust::any_space_tag
+    tuple_of_system_tags,
+    minimum_system_lambda,
+    thrust::any_system_tag
   >::type type;
 };
 
@@ -392,7 +392,7 @@ template<typename IteratorTuple>
     // Iterator space is the minimum space tag in the
     // iterator tuple
     typedef typename
-    minimum_space_in_iterator_tuple<IteratorTuple>::type space;
+    minimum_system_in_iterator_tuple<IteratorTuple>::type space;
 
     // Traversal category is the minimum traversal category in the
     // iterator tuple

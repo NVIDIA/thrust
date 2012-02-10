@@ -747,8 +747,8 @@ OutputIterator inclusive_scan(InputIterator first,
   // recover the user's system tag and pass to fast_scan_detail::inclusive_scan
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_space<InputIterator>::type  tag1;
-  typedef typename thrust::iterator_space<OutputIterator>::type tag2;
+  typedef typename thrust::iterator_system<InputIterator>::type  tag1;
+  typedef typename thrust::iterator_system<OutputIterator>::type tag2;
 
   return fast_scan_detail::inclusive_scan(select_system(tag1(),tag2()), first, last, output, binary_op);
 }
@@ -767,8 +767,8 @@ OutputIterator exclusive_scan(InputIterator first,
   // recover the user's system tag and pass to fast_scan_detail::exclusive_scan
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_space<InputIterator>::type  tag1;
-  typedef typename thrust::iterator_space<OutputIterator>::type tag2;
+  typedef typename thrust::iterator_system<InputIterator>::type  tag1;
+  typedef typename thrust::iterator_system<OutputIterator>::type tag2;
 
   return fast_scan_detail::exclusive_scan(select_system(tag1(),tag2()), first, last, output, init, binary_op);
 }

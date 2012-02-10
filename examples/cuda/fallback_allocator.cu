@@ -178,8 +178,6 @@ int main(void)
 
         thrust::sort(begin, end);
 
-        assert(thrust::is_sorted(begin, end));
-
         robust_cudaFree(raw_ptr);
       }
     }

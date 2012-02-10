@@ -24,7 +24,7 @@
 namespace thrust
 {
 
-typedef thrust::system::cuda::tag device_space_tag;
+typedef thrust::system::cuda::tag device_system_tag;
 
 } // end thrust
 
@@ -34,7 +34,7 @@ typedef thrust::system::cuda::tag device_space_tag;
 namespace thrust
 {
 
-typedef thrust::system::omp::tag device_space_tag;
+typedef thrust::system::omp::tag device_system_tag;
 
 } // end thrust
 
@@ -44,11 +44,19 @@ typedef thrust::system::omp::tag device_space_tag;
 namespace thrust
 {
 
-typedef thrust::system::tbb::tag device_space_tag;
+typedef thrust::system::tbb::tag device_system_tag;
 
 } // end thrust
 
 #else
 #error Unknown device backend.
 #endif // THRUST_DEVICE_BACKEND
+
+// TODO remove this in 1.7.0
+namespace thrust
+{
+
+typedef THRUST_DEPRECATED device_system_tag device_space_tag;
+
+} // end thrust
 

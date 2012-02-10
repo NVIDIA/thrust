@@ -137,8 +137,8 @@ template<typename Value,
     __host__ __device__
     constant_iterator(constant_iterator<Value,Incrementable,OtherSpace> const &rhs,
                       typename thrust::detail::enable_if_convertible<
-                        typename thrust::iterator_space<constant_iterator<Value,Incrementable,OtherSpace> >::type,
-                        typename thrust::iterator_space<super_t>::type
+                        typename thrust::iterator_system<constant_iterator<Value,Incrementable,OtherSpace> >::type,
+                        typename thrust::iterator_system<super_t>::type
                       >::type * = 0)
       : super_t(rhs.base()), m_value(rhs.value()) {}
 

@@ -138,7 +138,7 @@ OutputType binary_search(ForwardIterator begin,
                          StrictWeakOrdering comp,
                          BinarySearchFunction func)
 {
-    typedef typename thrust::iterator_space<ForwardIterator>::type Space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type Space;
 
     // use the vectorized path to implement the scalar version
 

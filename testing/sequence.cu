@@ -71,8 +71,8 @@ void TestSequenceToDiscardIterator(size_t n)
     thrust::host_vector<T>   h_data(n);
     thrust::device_vector<T> d_data(n);
 
-    thrust::sequence(thrust::discard_iterator<thrust::device_space_tag>(),
-                     thrust::discard_iterator<thrust::device_space_tag>(13),
+    thrust::sequence(thrust::discard_iterator<thrust::device_system_tag>(),
+                     thrust::discard_iterator<thrust::device_system_tag>(13),
                      T(10),
                      T(2));
 

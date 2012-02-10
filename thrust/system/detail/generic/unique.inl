@@ -61,7 +61,7 @@ template<typename ForwardIterator,
                          BinaryPredicate binary_pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<ForwardIterator>::type        Space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type        Space;
   
   thrust::detail::temporary_array<InputType,Space> input(first, last);
   
@@ -90,9 +90,9 @@ template<typename InputIterator,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  typedef typename thrust::detail::minimum_space<
-    typename thrust::iterator_space<InputIterator>::type,
-    typename thrust::iterator_space<OutputIterator>::type
+  typedef typename thrust::detail::minimum_system<
+    typename thrust::iterator_system<InputIterator>::type,
+    typename thrust::iterator_system<OutputIterator>::type
   >::type Space;
   
   // empty sequence

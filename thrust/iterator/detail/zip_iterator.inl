@@ -88,7 +88,7 @@ template <typename IteratorTuple>
   // dispatch on space
   tuple_for_each(m_iterator_tuple,
                  detail::advance_iterator<typename super_t::difference_type>(n),
-                 typename thrust::iterator_space<zip_iterator>::type());
+                 typename thrust::iterator_system<zip_iterator>::type());
 } // end zip_iterator::advance()
 
 
@@ -100,7 +100,7 @@ template <typename IteratorTuple>
 
   // dispatch on space
   tuple_for_each(m_iterator_tuple, detail::increment_iterator(),
-                 typename thrust::iterator_space<zip_iterator>::type());
+                 typename thrust::iterator_system<zip_iterator>::type());
 } // end zip_iterator::increment()
 
 
@@ -112,7 +112,7 @@ template <typename IteratorTuple>
 
   // dispatch on space
   tuple_for_each(m_iterator_tuple, detail::decrement_iterator(),
-                 typename thrust::iterator_space<zip_iterator>::type());
+                 typename thrust::iterator_system<zip_iterator>::type());
 } // end zip_iterator::decrement()
 
 

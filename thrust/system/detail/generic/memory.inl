@@ -109,7 +109,7 @@ template<typename T, typename Tag>
 template<typename Pointer>
   void return_temporary_buffer(tag, Pointer p)
 {
-  typedef typename thrust::iterator_space<Pointer>::type Tag;
+  typedef typename thrust::iterator_system<Pointer>::type Tag;
 
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::free;

@@ -38,7 +38,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::generate;
 
-  typedef typename thrust::iterator_space<ForwardIterator>::type type;
+  typedef typename thrust::iterator_system<ForwardIterator>::type type;
 
   return generate(select_system(type()), first, last, gen);
 } // end generate()
@@ -54,7 +54,7 @@ template<typename OutputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::generate_n;
 
-  typedef typename thrust::iterator_space<OutputIterator>::type type;
+  typedef typename thrust::iterator_system<OutputIterator>::type type;
 
   return generate_n(select_system(type()), first, n, gen);
 } // end generate_n()

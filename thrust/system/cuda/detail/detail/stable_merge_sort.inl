@@ -1213,7 +1213,7 @@ template<typename RandomAccessIterator1,
 
   using namespace thrust::detail;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
 
   temporary_array<KeyType,      space>      splitters(num_splitters);
   temporary_array<unsigned int, space>      splitters_pos(num_splitters);
@@ -1408,7 +1408,7 @@ template<typename RandomAccessIterator1,
      grid_size, block_size);
 
   // allocate scratch space
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
   using namespace thrust::detail;
   temporary_array<KeyType,   space> temp_keys(n);
   temporary_array<ValueType, space> temp_vals(n);

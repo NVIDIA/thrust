@@ -40,7 +40,7 @@ template<typename RandomAccessIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sort;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
 
   return sort(select_system(space()), first, last);
 } // end sort()
@@ -55,7 +55,7 @@ template<typename RandomAccessIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sort;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
 
   return sort(select_system(space()), first, last, comp);
 } // end sort()
@@ -68,7 +68,7 @@ template<typename RandomAccessIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::stable_sort;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
 
   return stable_sort(select_system(space()), first, last);
 } // end stable_sort() 
@@ -83,7 +83,7 @@ template<typename RandomAccessIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::stable_sort;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
 
   return stable_sort(select_system(space()), first, last, comp);
 } // end stable_sort()
@@ -103,8 +103,8 @@ template<typename RandomAccessIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sort_by_key;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
 
   return sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first);
 } // end sort_by_key()
@@ -121,8 +121,8 @@ template<typename RandomAccessIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sort_by_key;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
 
   return sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first, comp);
 } // end sort_by_key()
@@ -137,8 +137,8 @@ template<typename RandomAccessIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::stable_sort_by_key;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
 
   return stable_sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first);
 } // end stable_sort_by_key()
@@ -155,8 +155,8 @@ template<typename RandomAccessIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::stable_sort_by_key;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
 
   return stable_sort_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()
@@ -169,7 +169,7 @@ template<typename ForwardIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::is_sorted;
   
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return is_sorted(select_system(space()), first, last);
 } // end is_sorted()
@@ -184,7 +184,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::is_sorted;
   
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return is_sorted(select_system(space()), first, last, comp);
 } // end is_sorted()
@@ -197,7 +197,7 @@ template<typename ForwardIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::is_sorted_until;
   
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return is_sorted_until(select_system(space()), first, last);
 } // end is_sorted_until()
@@ -212,7 +212,7 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::is_sorted_until;
   
-  typedef typename thrust::iterator_space<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
   return is_sorted_until(select_system(space()), first, last, comp);
 } // end is_sorted_until()

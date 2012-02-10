@@ -18,37 +18,35 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
-#include <thrust/system/cpp/detail/tag.h>
-
 namespace thrust
 {
-
-typedef thrust::system::cpp::tag host_space_tag;
-
-} // end thrust
-
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
-#include <thrust/system/omp/detail/tag.h>
-
-namespace thrust
+namespace system
+{
+namespace cuda
+{
+namespace detail
 {
 
-typedef thrust::system::omp::tag host_space_tag;
 
+template<typename InputIterator,
+         typename OutputIterator>
+  OutputIterator copy_cross_system(InputIterator begin, 
+                                  InputIterator end, 
+                                  OutputIterator result);
+
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+  OutputIterator copy_cross_system_n(InputIterator begin, 
+                                    Size n, 
+                                    OutputIterator result);
+
+
+} // end detail
+} // end cuda
+} // end system
 } // end thrust
 
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
-#include <thrust/system/tbb/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::tbb::tag host_space_tag;
-
-} // end thrust
-
-#else
-#error Unknown host backend.
-#endif // THRUST_HOST_BACKEND
+#include <thrust/system/cuda/detail/copy_cross_system.inl>
 

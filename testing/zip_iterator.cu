@@ -181,9 +181,9 @@ template <typename T>
     typedef tuple<Iterator1,Iterator2>                 IteratorTuple1;
     typedef zip_iterator<IteratorTuple1> ZipIterator1;
 
-    typedef typename iterator_space<ZipIterator1>::type zip_iterator_space_type1;
+    typedef typename iterator_system<ZipIterator1>::type zip_iterator_system_type1;
 
-    //ASSERT_EQUAL(true, (detail::is_same<zip_iterator_space_type1, experimental::space::host>::value) );
+    //ASSERT_EQUAL(true, (detail::is_same<zip_iterator_system_type1, experimental::space::host>::value) );
 
 
     // test device types
@@ -192,9 +192,9 @@ template <typename T>
     typedef tuple<Iterator3,Iterator4>                 IteratorTuple2;
     typedef zip_iterator<IteratorTuple1> ZipIterator2;
 
-    typedef typename iterator_space<ZipIterator2>::type zip_iterator_space_type2;
+    typedef typename iterator_system<ZipIterator2>::type zip_iterator_system_type2;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_space_type2, experimental::space::device>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type2, experimental::space::device>::value) );
 
 
     // test any
@@ -203,45 +203,45 @@ template <typename T>
     typedef tuple<Iterator5, Iterator6>                IteratorTuple3;
     typedef zip_iterator<IteratorTuple3> ZipIterator3;
 
-    typedef typename iterator_space<ZipIterator3>::type zip_iterator_space_type3;
+    typedef typename iterator_system<ZipIterator3>::type zip_iterator_system_type3;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_space_type3, thrust::experimental::space::any>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type3, thrust::experimental::space::any>::value) );
 
     
     // test host/any
     typedef tuple<Iterator1, Iterator5>                IteratorTuple4;
     typedef zip_iterator<IteratorTuple4> ZipIterator4;
 
-    typedef typename iterator_space<ZipIterator4>::type zip_iterator_space_type4;
+    typedef typename iterator_system<ZipIterator4>::type zip_iterator_system_type4;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_space_type4, thrust::experimental::space::host>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type4, thrust::experimental::space::host>::value) );
 
 
     // test any/host
     typedef tuple<Iterator5, Iterator1>                IteratorTuple5;
     typedef zip_iterator<IteratorTuple5> ZipIterator5;
 
-    typedef typename iterator_space<ZipIterator5>::type zip_iterator_space_type5;
+    typedef typename iterator_system<ZipIterator5>::type zip_iterator_system_type5;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_space_type5, thrust::experimental::space::host>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type5, thrust::experimental::space::host>::value) );
 
 
     // test device/any
     typedef tuple<Iterator3, Iterator5>                IteratorTuple6;
     typedef zip_iterator<IteratorTuple6> ZipIterator6;
 
-    typedef typename iterator_space<ZipIterator6>::type zip_iterator_space_type6;
+    typedef typename iterator_system<ZipIterator6>::type zip_iterator_system_type6;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_space_type6, thrust::experimental::space::device>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type6, thrust::experimental::space::device>::value) );
 
 
     // test any/device
     typedef tuple<Iterator5, Iterator3>                IteratorTuple7;
     typedef zip_iterator<IteratorTuple7> ZipIterator7;
 
-    typedef typename iterator_space<ZipIterator7>::type zip_iterator_space_type7;
+    typedef typename iterator_system<ZipIterator7>::type zip_iterator_system_type7;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_space_type7, thrust::experimental::space::device>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type7, thrust::experimental::space::device>::value) );
   } // end operator()()
 };
 SimpleUnitTest<TestZipIteratorSpace, NumericTypes> TestZipIteratorSpaceInstance;

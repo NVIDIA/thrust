@@ -167,8 +167,8 @@ template<typename Incrementable,
     __host__ __device__
     counting_iterator(counting_iterator<Incrementable, OtherSpace, Traversal, Difference> const &rhs,
                       typename thrust::detail::enable_if_convertible<
-                        typename thrust::iterator_space<counting_iterator<Incrementable,OtherSpace,Traversal,Difference> >::type,
-                        typename thrust::iterator_space<super_t>::type
+                        typename thrust::iterator_system<counting_iterator<Incrementable,OtherSpace,Traversal,Difference> >::type,
+                        typename thrust::iterator_system<super_t>::type
                       >::type * = 0)
       : super_t(rhs.base()){}
 

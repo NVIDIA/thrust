@@ -20,33 +20,16 @@
 
 namespace thrust
 {
-namespace system
+
+struct any_system_tag
 {
-namespace cuda
-{
-namespace detail
-{
+  // allow any_system_tag to convert to any type at all
+  // XXX make this safer using enable_if<is_tag<T>> upon c++11
+  template<typename T> operator T () const {return T();}
+};
 
+// TODO remove this in 1.7.0
+typedef THRUST_DEPRECATED any_system_tag any_space_tag;
 
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy_cross_space(InputIterator begin, 
-                                  InputIterator end, 
-                                  OutputIterator result);
-
-
-template<typename InputIterator,
-         typename Size,
-         typename OutputIterator>
-  OutputIterator copy_cross_space_n(InputIterator begin, 
-                                    Size n, 
-                                    OutputIterator result);
-
-
-} // end detail
-} // end cuda
-} // end system
 } // end thrust
-
-#include <thrust/system/cuda/detail/copy_cross_space.inl>
 

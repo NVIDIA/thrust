@@ -26,8 +26,8 @@
 namespace thrust
 {
 
-// forward declaration of any_space_tag for any_conversion below
-struct any_space_tag;
+// forward declaration of any_system_tag for any_conversion below
+struct any_system_tag;
 
 namespace system
 {
@@ -45,8 +45,8 @@ struct any_conversion
 {
   template<typename T> any_conversion(const T &);
 
-  // add this extra constructor to disambiguate conversion from any_space_tag
-  any_conversion(const any_space_tag &);
+  // add this extra constructor to disambiguate conversion from any_system_tag
+  any_conversion(const any_system_tag &);
 };
 
 namespace get_temporary_buffer_exists_ns

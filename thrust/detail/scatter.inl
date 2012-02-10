@@ -39,9 +39,9 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::scatter;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space3; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       space1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       space2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space3; 
 
   return scatter(select_system(space1(),space2(),space3()), first, last, map, output);
 } // end scatter()
@@ -60,10 +60,10 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::scatter_if;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_space<InputIterator3>::type       space3; 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space4; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       space1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       space2; 
+  typedef typename thrust::iterator_system<InputIterator3>::type       space3; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space4; 
 
   return scatter_if(select_system(space1(),space2(),space3()), first, last, map, stencil, output);
 } // end scatter_if()
@@ -84,10 +84,10 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::scatter_if;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_space<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_space<InputIterator3>::type       space3; 
-  typedef typename thrust::iterator_space<RandomAccessIterator>::type space4; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       space1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       space2; 
+  typedef typename thrust::iterator_system<InputIterator3>::type       space3; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type space4; 
 
   return scatter_if(select_system(space1(),space2(),space3()), first, last, map, stencil, output, pred);
 } // end scatter_if()

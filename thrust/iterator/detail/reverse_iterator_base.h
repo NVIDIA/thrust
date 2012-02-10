@@ -35,7 +35,7 @@ template<typename BidirectionalIterator>
     BidirectionalIterator,
     typename thrust::iterator_pointer<BidirectionalIterator>::type,
     typename thrust::iterator_value<BidirectionalIterator>::type,
-    typename thrust::iterator_space<BidirectionalIterator>::type,
+    typename thrust::iterator_system<BidirectionalIterator>::type,
     typename thrust::iterator_traversal<BidirectionalIterator>::type,
     typename thrust::iterator_reference<BidirectionalIterator>::type
   > type;

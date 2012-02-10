@@ -34,7 +34,7 @@ void device_free(thrust::device_ptr<void> ptr)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::free;
 
-  typedef thrust::iterator_space< thrust::device_ptr<void> >::type space;
+  typedef thrust::iterator_system< thrust::device_ptr<void> >::type space;
 
   free(select_system(space()), ptr);
 } // end device_free()

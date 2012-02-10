@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/system/detail/generic/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -46,43 +46,43 @@ template<typename Tag1, typename Tag2>
 __host__ __device__
   typename thrust::detail::lazy_disable_if<
     select_system2_exists<Tag1,Tag2>::value,
-    thrust::detail::minimum_space<Tag1,Tag2>
+    thrust::detail::minimum_system<Tag1,Tag2>
   >::type
     select_system(Tag1, Tag2)
 {
-  // for now, return minimum_space
-  return typename thrust::detail::minimum_space<Tag1,Tag2>::type();
+  // for now, return minimum_system
+  return typename thrust::detail::minimum_system<Tag1,Tag2>::type();
 } // end select_system()
 
 template<typename Tag1, typename Tag2, typename Tag3>
 __host__ __device__
   typename thrust::detail::lazy_disable_if<
     select_system3_exists<Tag1,Tag2,Tag3>::value,
-    thrust::detail::minimum_space<Tag1,Tag2,Tag3>
+    thrust::detail::minimum_system<Tag1,Tag2,Tag3>
   >::type
     select_system(Tag1, Tag2, Tag3)
 {
-  // for now, return minimum_space
-  return typename thrust::detail::minimum_space<Tag1,Tag2,Tag3>::type();
+  // for now, return minimum_system
+  return typename thrust::detail::minimum_system<Tag1,Tag2,Tag3>::type();
 } // end select_system()
 
 template<typename Tag1, typename Tag2, typename Tag3, typename Tag4>
 __host__ __device__
   typename thrust::detail::lazy_disable_if<
     select_system4_exists<Tag1,Tag2,Tag3,Tag4>::value,
-    thrust::detail::minimum_space<Tag1,Tag2,Tag3,Tag4>
+    thrust::detail::minimum_system<Tag1,Tag2,Tag3,Tag4>
   >::type
     select_system(Tag1, Tag2, Tag3, Tag4)
 {
-  // for now, return minimum_space
-  return typename thrust::detail::minimum_space<Tag1,Tag2,Tag3,Tag4>::type();
+  // for now, return minimum_system
+  return typename thrust::detail::minimum_system<Tag1,Tag2,Tag3,Tag4>::type();
 } // end select_system()
 
-// map a single any_space_tag to device_space_tag
+// map a single any_system_tag to device_system_tag
 inline __host__ __device__
-thrust::device_space_tag select_system(thrust::any_space_tag)
+thrust::device_system_tag select_system(thrust::any_system_tag)
 {
-  return thrust::device_space_tag();
+  return thrust::device_system_tag();
 } // end select_system()
 
 } // end generic

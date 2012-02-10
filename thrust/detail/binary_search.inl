@@ -41,7 +41,7 @@ ForwardIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space; 
+    typedef typename thrust::iterator_system<ForwardIterator>::type space; 
 
     return lower_bound(select_system(space()), first, last, value);
 }
@@ -55,7 +55,7 @@ ForwardIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space; 
+    typedef typename thrust::iterator_system<ForwardIterator>::type space; 
 
     return lower_bound(select_system(space()), first, last, value, comp);
 }
@@ -68,7 +68,7 @@ ForwardIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
     return upper_bound(select_system(space()), first, last, value);
 }
@@ -82,7 +82,7 @@ ForwardIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
     return upper_bound(select_system(space()), first, last, value, comp);
 }
@@ -95,7 +95,7 @@ bool binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
     return binary_search(select_system(space()), first, last, value);
 }
@@ -109,7 +109,7 @@ bool binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
     return binary_search(select_system(space()), first, last, value, comp);
 }
@@ -123,7 +123,7 @@ equal_range(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::equal_range;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
     return equal_range(select_system(space()), first, last, value);
 }
@@ -138,7 +138,7 @@ equal_range(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::equal_range;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space;
 
     return equal_range(select_system(space()), first, last, value, comp);
 }
@@ -157,9 +157,9 @@ OutputIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_space<InputIterator>::type   space2;
-    typedef typename thrust::iterator_space<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+    typedef typename thrust::iterator_system<InputIterator>::type   space2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
 
     return lower_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output);
 }
@@ -175,9 +175,9 @@ OutputIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_space<InputIterator>::type   space2;
-    typedef typename thrust::iterator_space<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+    typedef typename thrust::iterator_system<InputIterator>::type   space2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
 
     return lower_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output, comp);
 }
@@ -192,9 +192,9 @@ OutputIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_space<InputIterator>::type   space2;
-    typedef typename thrust::iterator_space<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+    typedef typename thrust::iterator_system<InputIterator>::type   space2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
 
     return upper_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output);
 }
@@ -210,9 +210,9 @@ OutputIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_space<InputIterator>::type   space2;
-    typedef typename thrust::iterator_space<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+    typedef typename thrust::iterator_system<InputIterator>::type   space2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
 
     return upper_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output, comp);
 }
@@ -227,9 +227,9 @@ OutputIterator binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_space<InputIterator>::type   space2;
-    typedef typename thrust::iterator_space<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+    typedef typename thrust::iterator_system<InputIterator>::type   space2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
 
     return binary_search(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output);
 }
@@ -245,9 +245,9 @@ OutputIterator binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_space<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_space<InputIterator>::type   space2;
-    typedef typename thrust::iterator_space<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
+    typedef typename thrust::iterator_system<InputIterator>::type   space2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
 
     return binary_search(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output, comp);
 }

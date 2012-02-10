@@ -392,9 +392,9 @@ RandomAccessIterator3 merge(tag,
   // recover the user's system tag and pass to merge_detail::merge
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_space<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_space<RandomAccessIterator2>::type space2;
-  typedef typename thrust::iterator_space<RandomAccessIterator3>::type space3;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator3>::type space3;
 
   return merge_detail::merge(select_system(space1(), space2(), space3()), first1, last1, first2, last2, result, comp);
 } // end merge()

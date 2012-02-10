@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 #include <thrust/detail/type_traits/function_traits.h>
@@ -86,11 +86,11 @@ template<typename InputIterator1,
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  KeyType;
 
-    typedef typename thrust::detail::minimum_space<
-      typename thrust::iterator_space<InputIterator1>::type,
-      typename thrust::iterator_space<InputIterator2>::type,
-      typename thrust::iterator_space<OutputIterator1>::type,
-      typename thrust::iterator_space<OutputIterator2>::type
+    typedef typename thrust::detail::minimum_system<
+      typename thrust::iterator_system<InputIterator1>::type,
+      typename thrust::iterator_system<InputIterator2>::type,
+      typename thrust::iterator_system<OutputIterator1>::type,
+      typename thrust::iterator_system<OutputIterator2>::type
     >::type Space;
 
     typedef unsigned int FlagType;  // TODO use difference_type

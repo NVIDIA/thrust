@@ -62,7 +62,7 @@ template<typename T>
   class device_ptr
     : public thrust::pointer<
                T,
-               thrust::device_space_tag,
+               thrust::device_system_tag,
                thrust::device_reference<T>,
                thrust::device_ptr<T>
              >
@@ -70,7 +70,7 @@ template<typename T>
   private:
     typedef thrust::pointer<
       T,
-      thrust::device_space_tag,
+      thrust::device_system_tag,
       thrust::device_reference<T>,
       thrust::device_ptr<T>
     > super_t;

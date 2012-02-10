@@ -76,7 +76,7 @@ template<typename Derived,
 
   typedef typename ia_dflt_help<
     Space,
-    thrust::iterator_space<Base>
+    thrust::iterator_system<Base>
   >::type space;
 
   typedef typename ia_dflt_help<

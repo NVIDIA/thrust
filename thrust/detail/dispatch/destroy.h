@@ -52,7 +52,7 @@ template<typename ForwardIterator>
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type value_type;
 
   typename thrust::detail::destroy_functor<
-    typename thrust::iterator_space<ForwardIterator>::type,
+    typename thrust::iterator_system<ForwardIterator>::type,
     value_type
   >::type op;
 

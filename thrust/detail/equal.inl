@@ -35,8 +35,8 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::equal;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
 
   return equal(select_system(space1(),space2()), first1, last1, first2);
 }
@@ -49,8 +49,8 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::equal;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
 
   return equal(select_system(space1(),space2()), first1, last1, first2, binary_pred);
 }

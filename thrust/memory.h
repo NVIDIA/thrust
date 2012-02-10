@@ -41,7 +41,7 @@ namespace thrust
  *  \p pointer generalizes \p device_ptr by relaxing the backend system associated with the \p pointer.
  *  Instead of the backend system specified by \p THRUST_DEFAULT_DEVICE_BACKEND, \p pointer's
  *  system is given by its second template parameter, \p Tag. For the purpose of Thrust dispatch,
- *  <tt>device_ptr<Element></tt> and <tt>pointer<Element,device_space_tag></tt> are considered equivalent.
+ *  <tt>device_ptr<Element></tt> and <tt>pointer<Element,device_system_tag></tt> are considered equivalent.
  *
  *  The raw pointer encapsulated by a \p pointer may be obtained through its <tt>get</tt> member function
  *  or the \p raw_pointer_cast free function.

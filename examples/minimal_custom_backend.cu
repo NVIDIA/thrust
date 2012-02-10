@@ -10,9 +10,9 @@
 
 // We begin by defining a "tag", which distinguishes our novel
 // backend from other Thrust backends.
-// We'll derive my_tag from thrust::device_space_tag to inherit
+// We'll derive my_tag from thrust::device_system_tag to inherit
 // the functionality of the default device backend.
-struct my_tag : thrust::device_space_tag {};
+struct my_tag : thrust::device_system_tag {};
 
 // Next, we'll create a novel version of for_each which only
 // applies to iterators "tagged" with my_tag.
@@ -33,11 +33,11 @@ template<typename Iterator, typename Function>
   std::cout << "Hello, world from for_each(my_tag)!" << std::endl;
 
   // to call the normal version of for_each, we need to "retag" the iterator
-  // arguments with device_space_tag using the retag function. It's safe to
-  // retag the iterators with device_space_tag because my_tag is related by
+  // arguments with device_system_tag using the retag function. It's safe to
+  // retag the iterators with device_system_tag because my_tag is related by
   // convertibility.
-  thrust::for_each(thrust::retag<thrust::device_space_tag>(first),
-                   thrust::retag<thrust::device_space_tag>(last),
+  thrust::for_each(thrust::retag<thrust::device_system_tag>(first),
+                   thrust::retag<thrust::device_system_tag>(last),
                    f);
 
   return last;
@@ -45,12 +45,12 @@ template<typename Iterator, typename Function>
 
 int main()
 {
-  // Create a device_vector, whose iterators are tagged with device_space_tag
+  // Create a device_vector, whose iterators are tagged with device_system_tag
   thrust::device_vector<int> vec(1);
 
   // To ensure that our version of for_each is invoked during dispatch, we
   // retag vec's iterators with my_tag. It's safe to retag the iterators with
-  // my_tag because device_space_tag is a base class of my_tag
+  // my_tag because device_system_tag is a base class of my_tag
   thrust::for_each(thrust::retag<my_tag>(vec.begin()),
                    thrust::retag<my_tag>(vec.end()),
                    thrust::identity<int>());
@@ -58,7 +58,7 @@ int main()
   // Other algorithms that Thrust implements with thrust::for_each will also
   // cause our version of for_each to be invoked when their iterator arguments
   // are tagged with my_tag. Because we did not define a specialized version of
-  // transform, Thrust dispatches the version it knows for device_space_tag,
+  // transform, Thrust dispatches the version it knows for device_system_tag,
   // which my_tag inherits.
   thrust::transform(thrust::retag<my_tag>(vec.begin()),
                     thrust::retag<my_tag>(vec.end()),

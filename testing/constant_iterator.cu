@@ -6,17 +6,17 @@
 
 using namespace thrust;
 
-void TestConstantIteratorConstructFromConvertibleSpace(void)
+void TestConstantIteratorConstructFromConvertibleSystem(void)
 {
-  constant_iterator<int> default_space(13);
+  constant_iterator<int> default_system(13);
 
-  constant_iterator<int, use_default, host_space_tag> host_space = default_space;
-  ASSERT_EQUAL(*default_space, *host_space);
+  constant_iterator<int, use_default, host_system_tag> host_system = default_system;
+  ASSERT_EQUAL(*default_system, *host_system);
 
-  constant_iterator<int, use_default, device_space_tag> device_space = default_space;
-  ASSERT_EQUAL(*default_space, *device_space);
+  constant_iterator<int, use_default, device_system_tag> device_system = default_system;
+  ASSERT_EQUAL(*default_system, *device_system);
 }
-DECLARE_UNITTEST(TestConstantIteratorConstructFromConvertibleSpace);
+DECLARE_UNITTEST(TestConstantIteratorConstructFromConvertibleSystem);
 
 void TestConstantIteratorIncrement(void)
 {

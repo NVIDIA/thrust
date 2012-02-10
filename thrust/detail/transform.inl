@@ -39,8 +39,8 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform;
 
-  typedef typename thrust::iterator_space<InputIterator>::type  space1;
-  typedef typename thrust::iterator_space<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  space1;
+  typedef typename thrust::iterator_system<OutputIterator>::type space2;
 
   return transform(select_system(space1(),space2()), first, last, result, op);
 } // end transform()
@@ -59,9 +59,9 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type space2;
-  typedef typename thrust::iterator_space<OutputIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<OutputIterator>::type space3;
 
   return transform(select_system(space1(),space2(),space3()), first1, last1, first2, result, op);
 } // end transform()
@@ -80,8 +80,8 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform_if;
 
-  typedef typename thrust::iterator_space<InputIterator>::type   space1;
-  typedef typename thrust::iterator_space<ForwardIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type   space1;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space2;
 
   return transform_if(select_system(space1(),space2()), first, last, result, unary_op, pred);
 } // end transform_if()
@@ -102,9 +102,9 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform_if;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_space<ForwardIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space3;
 
   return transform_if(select_system(space1(),space2(),space3()), first, last, stencil, result, unary_op, pred);
 } // end transform_if()
@@ -126,10 +126,10 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform_if;
 
-  typedef typename thrust::iterator_space<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_space<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_space<InputIterator3>::type  space3;
-  typedef typename thrust::iterator_space<ForwardIterator>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
+  typedef typename thrust::iterator_system<InputIterator3>::type  space3;
+  typedef typename thrust::iterator_system<ForwardIterator>::type space4;
 
   return transform_if(select_system(space1(),space2(),space3(),space4()), first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()

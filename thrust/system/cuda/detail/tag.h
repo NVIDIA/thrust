@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
-#include <thrust/iterator/detail/any_space_tag.h>
+#include <thrust/iterator/detail/any_system_tag.h>
 
 namespace thrust
 {
@@ -43,13 +43,13 @@ inline tag select_system(tag, tag)
 }
 
 __host__ __device__
-inline tag select_system(tag, thrust::any_space_tag)
+inline tag select_system(tag, thrust::any_system_tag)
 {
   return tag();
 }
 
 __host__ __device__
-inline tag select_system(thrust::any_space_tag, tag)
+inline tag select_system(thrust::any_system_tag, tag)
 {
   return tag();
 }

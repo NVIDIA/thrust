@@ -49,7 +49,7 @@ OutputIterator adjacent_difference(tag,
                                    BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  typedef typename thrust::iterator_space<InputIterator>::type Space;
+  typedef typename thrust::iterator_system<InputIterator>::type Space;
 
   if(first == last)
   {

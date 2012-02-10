@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/unique_by_key.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/detail/minimum_space.h>
+#include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/transform.h>
 #include <thrust/detail/temporary_array.h>
@@ -62,7 +62,7 @@ template<typename ForwardIterator1,
 {
   typedef typename thrust::iterator_traits<ForwardIterator1>::value_type InputType1;
   typedef typename thrust::iterator_traits<ForwardIterator2>::value_type InputType2;
-  typedef typename thrust::iterator_space<ForwardIterator1>::type        Space;
+  typedef typename thrust::iterator_system<ForwardIterator1>::type        Space;
   
   ForwardIterator2 values_last = values_first + (keys_last - keys_first);
   
@@ -106,11 +106,11 @@ template<typename InputIterator1,
 {
   typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
 
-  typedef typename thrust::detail::minimum_space<
-    typename thrust::iterator_space<InputIterator1>::type,
-    typename thrust::iterator_space<InputIterator2>::type,
-    typename thrust::iterator_space<OutputIterator1>::type,
-    typename thrust::iterator_space<OutputIterator2>::type
+  typedef typename thrust::detail::minimum_system<
+    typename thrust::iterator_system<InputIterator1>::type,
+    typename thrust::iterator_system<InputIterator2>::type,
+    typename thrust::iterator_system<OutputIterator1>::type,
+    typename thrust::iterator_system<OutputIterator2>::type
   >::type Space;
   
   // empty sequence

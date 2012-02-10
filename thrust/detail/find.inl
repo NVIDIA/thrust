@@ -36,7 +36,7 @@ InputIterator find(InputIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::find;
 
-    typedef typename thrust::iterator_space<InputIterator>::type space;
+    typedef typename thrust::iterator_system<InputIterator>::type space;
 
     return find(select_system(space()), first, last, value);
 }
@@ -49,7 +49,7 @@ InputIterator find_if(InputIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::find_if;
 
-    typedef typename thrust::iterator_space<InputIterator>::type space;
+    typedef typename thrust::iterator_system<InputIterator>::type space;
 
     return find_if(select_system(space()), first, last, pred);
 }
@@ -62,7 +62,7 @@ InputIterator find_if_not(InputIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::find_if_not;
 
-    typedef typename thrust::iterator_space<InputIterator>::type space;
+    typedef typename thrust::iterator_system<InputIterator>::type space;
 
     return find_if_not(select_system(space()), first, last, pred);
 }
