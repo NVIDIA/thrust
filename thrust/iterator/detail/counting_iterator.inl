@@ -24,20 +24,20 @@ namespace thrust
 {
 
 // forward declaration of counting_iterator
-template <typename Incrementable, typename Space, typename Traversal, typename Difference>
+template <typename Incrementable, typename System, typename Traversal, typename Difference>
   class counting_iterator;
 
 namespace detail
 {
 
-template <typename Incrementable, typename Space, typename Traversal, typename Difference>
+template <typename Incrementable, typename System, typename Traversal, typename Difference>
   struct counting_iterator_base
 {
   typedef typename thrust::detail::eval_if<
     // use any_system_tag if we are given use_default
-    thrust::detail::is_same<Space,use_default>::value,
+    thrust::detail::is_same<System,use_default>::value,
     thrust::detail::identity_<thrust::any_system_tag>,
-    thrust::detail::identity_<Space>
+    thrust::detail::identity_<System>
   >::type space;
 
   typedef typename thrust::experimental::detail::ia_dflt_help<
@@ -63,7 +63,7 @@ template <typename Incrementable, typename Space, typename Traversal, typename D
   // to the internal state of an iterator causes subtle bugs (consider the temporary
   // iterator created in the expression *(iter + i) ) and has no compelling use case
   typedef thrust::experimental::iterator_adaptor<
-    counting_iterator<Incrementable, Space, Traversal, Difference>, // self
+    counting_iterator<Incrementable, System, Traversal, Difference>, // self
     Incrementable,                                                  // Base
     Incrementable *,                                                // Pointer -- maybe we should make this device_ptr when memory space category is device?
     Incrementable,                                                  // Value

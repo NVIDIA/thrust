@@ -125,15 +125,15 @@ namespace thrust
  *  \see make_counting_iterator
  */
 template<typename Incrementable,
-         typename Space = use_default,
+         typename System = use_default,
          typename Traversal = use_default,
          typename Difference = use_default>
   class counting_iterator
-    : public detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type
+    : public detail::counting_iterator_base<Incrementable, System, Traversal, Difference>::type
 {
     /*! \cond
      */
-    typedef typename detail::counting_iterator_base<Incrementable, Space, Traversal, Difference>::type super_t;
+    typedef typename detail::counting_iterator_base<Incrementable, System, Traversal, Difference>::type super_t;
 
     friend class thrust::experimental::iterator_core_access;
 
@@ -159,15 +159,15 @@ template<typename Incrementable,
     counting_iterator(counting_iterator const &rhs):super_t(rhs.base()){}
 
     /*! Copy constructor copies the value of another counting_iterator 
-     *  with related Space type.
+     *  with related System type.
      *
      *  \param rhs The \p counting_iterator to copy.
      */
-    template<typename OtherSpace>
+    template<typename OtherSystem>
     __host__ __device__
-    counting_iterator(counting_iterator<Incrementable, OtherSpace, Traversal, Difference> const &rhs,
+    counting_iterator(counting_iterator<Incrementable, OtherSystem, Traversal, Difference> const &rhs,
                       typename thrust::detail::enable_if_convertible<
-                        typename thrust::iterator_system<counting_iterator<Incrementable,OtherSpace,Traversal,Difference> >::type,
+                        typename thrust::iterator_system<counting_iterator<Incrementable,OtherSystem,Traversal,Difference> >::type,
                         typename thrust::iterator_system<super_t>::type
                       >::type * = 0)
       : super_t(rhs.base()){}
@@ -193,7 +193,7 @@ template<typename Incrementable,
     template <class OtherIncrementable>
     __host__ __device__
     difference_type
-    distance_to(counting_iterator<OtherIncrementable, Space, Traversal, Difference> const& y) const
+    distance_to(counting_iterator<OtherIncrementable, System, Traversal, Difference> const& y) const
     {
       typedef typename
       thrust::detail::eval_if<

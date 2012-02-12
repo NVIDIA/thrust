@@ -1019,10 +1019,10 @@ template<typename T, typename Alloc>
                                        false_type output_type_has_non_trivial_copy_constructor)
 {
   // move input to the same space as the output
-  typedef typename thrust::iterator_system<ForwardIterator>::type OutputSpace;
+  typedef typename thrust::iterator_system<ForwardIterator>::type OutputSystem;
 
   // this is a no-op if both ranges are in the same space
-  thrust::detail::move_to_system<InputIterator,OutputSpace> temp(first,last);
+  thrust::detail::move_to_system<InputIterator,OutputSystem> temp(first,last);
 
   // do uninitialized_copy from the temp range
   return thrust::uninitialized_copy(temp.begin(), temp.end(), result);

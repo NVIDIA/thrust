@@ -100,10 +100,10 @@ template<typename ForwardIterator,
 
   // XXX the type of space should be:
   //     typedef decltype(select_system(first, last)) space;
-  typedef typename thrust::iterator_system<ForwardIterator>::type Space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,Space> TempRange;
+  typedef thrust::detail::temporary_array<T,System> TempRange;
   typedef typename TempRange::iterator             TempIterator;
 
   TempRange temp(first, last);

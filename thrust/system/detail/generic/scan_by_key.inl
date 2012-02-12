@@ -102,7 +102,7 @@ template<typename InputIterator1,
                                        AssociativeOperator binary_op)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef typename thrust::iterator_system<OutputIterator>::type Space;
+  typedef typename thrust::iterator_system<OutputIterator>::type System;
   typedef unsigned int HeadFlagType;
 
   const size_t n = last1 - first1;
@@ -110,7 +110,7 @@ template<typename InputIterator1,
   if(n != 0)
   {
     // compute head flags
-    thrust::detail::temporary_array<HeadFlagType,Space> flags(n);
+    thrust::detail::temporary_array<HeadFlagType,System> flags(n);
     flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
     // scan key-flag tuples, 
@@ -193,7 +193,7 @@ template<typename InputIterator1,
                                        AssociativeOperator binary_op)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef typename thrust::iterator_system<OutputIterator>::type        Space;
+  typedef typename thrust::iterator_system<OutputIterator>::type        System;
   typedef unsigned int HeadFlagType;
 
   const size_t n = last1 - first1;
@@ -203,11 +203,11 @@ template<typename InputIterator1,
     InputIterator2 last2 = first2 + n;
 
     // compute head flags
-    thrust::detail::temporary_array<HeadFlagType,Space> flags(n);
+    thrust::detail::temporary_array<HeadFlagType,System> flags(n);
     flags[0] = 1; thrust::transform(first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
     // shift input one to the right and initialize segments with init
-    thrust::detail::temporary_array<OutputType,Space> temp(n);
+    thrust::detail::temporary_array<OutputType,System> temp(n);
     thrust::replace_copy_if(first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
     temp[0] = init;
 

@@ -26,8 +26,8 @@ namespace detail
 {
 
 
-template<typename T, typename Space>
-  temporary_array<T,Space>
+template<typename T, typename System>
+  temporary_array<T,System>
     ::temporary_array(size_type n)
       :super_t(n)
 {
@@ -35,9 +35,9 @@ template<typename T, typename Space>
 } // end temporary_array::temporary_array()
 
 
-template<typename T, typename Space>
+template<typename T, typename System>
   template<typename InputIterator>
-    temporary_array<T,Space>
+    temporary_array<T,System>
       ::temporary_array(InputIterator first, InputIterator last)
         : super_t()
 {

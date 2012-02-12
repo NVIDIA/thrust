@@ -156,7 +156,7 @@ OutputIterator adjacent_difference(tag,
 {
   typedef typename thrust::iterator_value<InputIterator>::type               InputType;
   typedef typename thrust::iterator_difference<InputIterator>::type          IndexType;
-  typedef          thrust::cuda::tag                                         Space;
+  typedef          thrust::cuda::tag                                         System;
   typedef          thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
 
   IndexType n = last - first;
@@ -167,7 +167,7 @@ OutputIterator adjacent_difference(tag,
   Decomposition decomp = default_decomposition(last - first);
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType,Space> temp(decomp.size() - 1);
+  thrust::detail::temporary_array<InputType,System> temp(decomp.size() - 1);
 
   // gather last value in each interval
   detail::last_index_in_each_interval<Decomposition> unary_op(decomp);
@@ -177,7 +177,7 @@ OutputIterator adjacent_difference(tag,
                  temp.begin());
 
   
-  typedef typename thrust::detail::temporary_array<InputType,Space>::iterator InputIterator2;
+  typedef typename thrust::detail::temporary_array<InputType,System>::iterator InputIterator2;
   typedef detail::blocked_thread_array Context;
   typedef detail::adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition,Context> Closure;
 

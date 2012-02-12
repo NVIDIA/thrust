@@ -169,7 +169,7 @@ SimpleUnitTest<TestZipIteratorTraversal, NumericTypes> TestZipIteratorTraversalI
 
 
 template <typename T>
-  struct TestZipIteratorSpace
+  struct TestZipIteratorSystem
 {
   void operator()(void)
   {
@@ -214,7 +214,7 @@ template <typename T>
 
     typedef typename iterator_system<ZipIterator4>::type zip_iterator_system_type4;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type4, thrust::experimental::space::host>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type4, thrust::host_system_tag>::value) );
 
 
     // test any/host
@@ -223,7 +223,7 @@ template <typename T>
 
     typedef typename iterator_system<ZipIterator5>::type zip_iterator_system_type5;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type5, thrust::experimental::space::host>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type5, thrust::host_system_tag>::value) );
 
 
     // test device/any
@@ -232,7 +232,7 @@ template <typename T>
 
     typedef typename iterator_system<ZipIterator6>::type zip_iterator_system_type6;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type6, thrust::experimental::space::device>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type6, thrust::device_system_tag>::value) );
 
 
     // test any/device
@@ -241,10 +241,10 @@ template <typename T>
 
     typedef typename iterator_system<ZipIterator7>::type zip_iterator_system_type7;
 
-    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type7, thrust::experimental::space::device>::value) );
+    //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type7, thrust::device_system_tag>::value) );
   } // end operator()()
 };
-SimpleUnitTest<TestZipIteratorSpace, NumericTypes> TestZipIteratorSpaceInstance;
+SimpleUnitTest<TestZipIteratorSystem, NumericTypes> TestZipIteratorSystemInstance;
 
 
 template <typename Vector>

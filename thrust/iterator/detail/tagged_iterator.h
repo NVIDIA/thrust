@@ -31,7 +31,7 @@ template <typename Derived,
           typename Base,
           typename Pointer,
           typename Value,
-          typename Space,
+          typename System,
           typename Traversal,
           typename Reference,
           typename Difference

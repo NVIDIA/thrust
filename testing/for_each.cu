@@ -68,7 +68,7 @@ void TestForEachNSimple(void)
 DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
 
 
-void TestForEachSimpleAnySpace(void)
+void TestForEachSimpleAnySystem(void)
 {
     thrust::device_vector<int> output(7, 0);
 
@@ -86,10 +86,10 @@ void TestForEachSimpleAnySpace(void)
     ASSERT_EQUAL(output[6], 0);
     ASSERT_EQUAL_QUIET(result, thrust::make_counting_iterator(5));
 }
-DECLARE_UNITTEST(TestForEachSimpleAnySpace);
+DECLARE_UNITTEST(TestForEachSimpleAnySystem);
 
 
-void TestForEachNSimpleAnySpace(void)
+void TestForEachNSimpleAnySystem(void)
 {
     thrust::device_vector<int> output(7, 0);
 
@@ -107,7 +107,7 @@ void TestForEachNSimpleAnySpace(void)
     ASSERT_EQUAL(output[6], 0);
     ASSERT_EQUAL_QUIET(result, thrust::make_counting_iterator(5));
 }
-DECLARE_UNITTEST(TestForEachNSimpleAnySpace);
+DECLARE_UNITTEST(TestForEachNSimpleAnySystem);
 
 
 template <typename T>

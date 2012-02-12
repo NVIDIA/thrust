@@ -94,16 +94,16 @@ namespace thrust
  */
 template<typename Value,
          typename Incrementable = use_default,
-         typename Space = use_default>
+         typename System = use_default>
   class constant_iterator
-    : public detail::constant_iterator_base<Value, Incrementable, Space>::type
+    : public detail::constant_iterator_base<Value, Incrementable, System>::type
 {
     /*! \cond
      */
     friend class thrust::experimental::iterator_core_access;
-    typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::type          super_t;
-    typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::incrementable incrementable;
-    typedef typename detail::constant_iterator_base<Value, Incrementable, Space>::base_iterator base_iterator;
+    typedef typename detail::constant_iterator_base<Value, Incrementable, System>::type          super_t;
+    typedef typename detail::constant_iterator_base<Value, Incrementable, System>::incrementable incrementable;
+    typedef typename detail::constant_iterator_base<Value, Incrementable, System>::base_iterator base_iterator;
 
   public:
     typedef typename super_t::reference  reference;
@@ -129,15 +129,15 @@ template<typename Value,
       : super_t(rhs.base()), m_value(rhs.m_value) {}
 
     /*! Copy constructor copies the value of another \p constant_iterator with related
-     *  Space type.
+     *  System type.
      *
      *  \param rhs The \p constant_iterator to copy.
      */
-    template<typename OtherSpace>
+    template<typename OtherSystem>
     __host__ __device__
-    constant_iterator(constant_iterator<Value,Incrementable,OtherSpace> const &rhs,
+    constant_iterator(constant_iterator<Value,Incrementable,OtherSystem> const &rhs,
                       typename thrust::detail::enable_if_convertible<
-                        typename thrust::iterator_system<constant_iterator<Value,Incrementable,OtherSpace> >::type,
+                        typename thrust::iterator_system<constant_iterator<Value,Incrementable,OtherSystem> >::type,
                         typename thrust::iterator_system<super_t>::type
                       >::type * = 0)
       : super_t(rhs.base()), m_value(rhs.value()) {}

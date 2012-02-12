@@ -30,8 +30,8 @@ struct is_discard_iterator
   : public thrust::detail::false_type
 {};
 
-template <typename Space>
-struct is_discard_iterator< thrust::discard_iterator<Space> >
+template <typename System>
+struct is_discard_iterator< thrust::discard_iterator<System> >
  : public thrust::detail::true_type
 {};
 

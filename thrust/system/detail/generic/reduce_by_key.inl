@@ -91,7 +91,7 @@ template<typename InputIterator1,
       typename thrust::iterator_system<InputIterator2>::type,
       typename thrust::iterator_system<OutputIterator1>::type,
       typename thrust::iterator_system<OutputIterator2>::type
-    >::type Space;
+    >::type System;
 
     typedef unsigned int FlagType;  // TODO use difference_type
 
@@ -126,18 +126,18 @@ template<typename InputIterator1,
     InputIterator2 values_last = values_first + n;
     
     // compute head flags
-    thrust::detail::temporary_array<FlagType,Space> head_flags(n);
+    thrust::detail::temporary_array<FlagType,System> head_flags(n);
     thrust::transform(keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
-    thrust::detail::temporary_array<FlagType,Space> tail_flags(n); //COPY INSTEAD OF TRANSFORM
+    thrust::detail::temporary_array<FlagType,System> tail_flags(n); //COPY INSTEAD OF TRANSFORM
     thrust::transform(keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag
-    thrust::detail::temporary_array<ValueType,Space> scanned_values(n);
-    thrust::detail::temporary_array<FlagType,Space>  scanned_tail_flags(n);
+    thrust::detail::temporary_array<ValueType,System> scanned_values(n);
+    thrust::detail::temporary_array<FlagType,System>  scanned_tail_flags(n);
     
     thrust::inclusive_scan
         (thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),

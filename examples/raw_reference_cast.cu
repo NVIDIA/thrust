@@ -63,7 +63,7 @@ int main(void)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::iterator           Iterator;
-  typedef thrust::device_system_tag   Space;
+  typedef thrust::device_system_tag  System;
 
   size_t N = 5;
 
@@ -79,9 +79,9 @@ int main(void)
   print("A", A);
   print("B", B);
 
-  // note: we must specify the Space to ensure correct execution
-  thrust::for_each(thrust::counting_iterator<int,Space>(0),
-                   thrust::counting_iterator<int,Space>(N),
+  // note: we must specify the System to ensure correct execution
+  thrust::for_each(thrust::counting_iterator<int,System>(0),
+                   thrust::counting_iterator<int,System>(N),
                    copy_iterators<Iterator,Iterator>(A.begin(), B.begin()));
   
   std::cout << "After A->B Copy" << std::endl;

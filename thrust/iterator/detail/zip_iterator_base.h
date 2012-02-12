@@ -180,17 +180,17 @@ struct tuple_meta_accumulate
 
 // for_each algorithm for tuples.
 //
-template<typename Fun, typename Space>
+template<typename Fun, typename System>
 inline __host__ __device__
-Fun tuple_for_each(thrust::null_type, Fun f, Space)
+Fun tuple_for_each(thrust::null_type, Fun f, System)
 {
   return f;
 } // end tuple_for_each()
 
 
-template<typename Tuple, typename Fun, typename Space>
+template<typename Tuple, typename Fun, typename System>
 inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f, Space dispatch_tag)
+Fun tuple_for_each(Tuple& t, Fun f, System dispatch_tag)
 { 
   f( t.get_head() );
   return tuple_for_each(t.get_tail(), f, dispatch_tag);

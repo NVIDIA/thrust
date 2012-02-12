@@ -61,9 +61,9 @@ template<typename ForwardIterator,
                          BinaryPredicate binary_pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<ForwardIterator>::type        Space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type        System;
   
-  thrust::detail::temporary_array<InputType,Space> input(first, last);
+  thrust::detail::temporary_array<InputType,System> input(first, last);
   
   return thrust::unique_copy(input.begin(), input.end(), first, binary_pred);
 } // end unique()
@@ -93,13 +93,13 @@ template<typename InputIterator,
   typedef typename thrust::detail::minimum_system<
     typename thrust::iterator_system<InputIterator>::type,
     typename thrust::iterator_system<OutputIterator>::type
-  >::type Space;
+  >::type System;
   
   // empty sequence
   if(first == last)
     return output;
   
-  thrust::detail::temporary_array<int,Space> stencil(thrust::distance(first, last));
+  thrust::detail::temporary_array<int,System> stencil(thrust::distance(first, last));
   
   // mark first element in each group
   stencil[0] = 1; 

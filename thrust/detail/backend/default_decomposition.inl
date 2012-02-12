@@ -63,10 +63,10 @@ uniform_decomposition<IndexType> default_decomposition(IndexType n, thrust::any_
 
 } // end namespace dispatch
 
-template <typename Space, typename IndexType>
+template <typename System, typename IndexType>
 uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
-  return thrust::detail::backend::dispatch::default_decomposition(n, Space());
+  return thrust::detail::backend::dispatch::default_decomposition(n, System());
 }
 
 } // end namespace backend

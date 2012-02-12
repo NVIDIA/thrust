@@ -30,7 +30,7 @@ namespace detail
 
 template<typename Value,
          typename Incrementable,
-         typename Space>
+         typename System>
   struct constant_iterator_base
 {
   typedef Value              value_type;
@@ -52,12 +52,12 @@ template<typename Value,
 
   typedef typename thrust::counting_iterator<
     incrementable,
-    Space,
+    System,
     thrust::random_access_traversal_tag
   > base_iterator;
 
   typedef typename thrust::experimental::iterator_adaptor<
-    constant_iterator<Value, Incrementable, Space>,
+    constant_iterator<Value, Incrementable, System>,
     base_iterator,
     pointer,
     value_type,

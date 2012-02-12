@@ -46,10 +46,10 @@ template<typename ForwardIterator,
                                    Predicate pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<ForwardIterator>::type Space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
   // copy input to temp buffer
-  thrust::detail::temporary_array<InputType,Space> temp(first, last);
+  thrust::detail::temporary_array<InputType,System> temp(first, last);
 
   // count the size of the true partition
   typename thrust::iterator_difference<ForwardIterator>::type num_true = thrust::count_if(first,last,pred);

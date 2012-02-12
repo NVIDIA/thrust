@@ -49,7 +49,7 @@ OutputIterator adjacent_difference(tag,
                                    BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<InputIterator>::type Space;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
   if(first == last)
   {
@@ -61,7 +61,7 @@ OutputIterator adjacent_difference(tag,
     // an in-place operation is requested, copy the input and call the entry point
     // XXX a special-purpose kernel would be faster here since
     // only block boundaries need to be copied
-    thrust::detail::temporary_array<InputType, Space> input_copy(first, last);
+    thrust::detail::temporary_array<InputType, System> input_copy(first, last);
     
     *result = *first;
     thrust::transform(input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 

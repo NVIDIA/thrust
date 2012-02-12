@@ -54,10 +54,10 @@ template<typename InputIterator,
   //std::cerr << "general copy_host_to_device(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
 
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
-  typedef typename thrust::iterator_system<InputIterator>::type InputSpace;
+  typedef typename thrust::iterator_system<InputIterator>::type InputSystem;
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType, InputSpace> temp(begin,end);
+  thrust::detail::temporary_array<InputType, InputSystem> temp(begin,end);
   result = thrust::copy(temp.begin(), temp.end(), result);
 
   return result;
@@ -73,10 +73,10 @@ template<typename InputIterator,
                                           thrust::random_access_traversal_tag)
 {
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
-  typedef typename thrust::iterator_system<InputIterator>::type InputSpace;
+  typedef typename thrust::iterator_system<InputIterator>::type InputSystem;
 
   // allocate and copy to temporary storage in the input's space
-  thrust::detail::temporary_array<InputType, InputSpace> temp(n);
+  thrust::detail::temporary_array<InputType, InputSystem> temp(n);
   thrust::copy_n(first, n, temp.begin());
 
   return thrust::copy(temp.begin(), temp.end(), result);
@@ -93,10 +93,10 @@ template<typename RandomAccessIterator,
                                   thrust::incrementable_traversal_tag)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
-  typedef typename thrust::iterator_system<OutputIterator>::type OutputSpace;
+  typedef typename thrust::iterator_system<OutputIterator>::type OutputSystem;
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType,OutputSpace> temp(begin,end);
+  thrust::detail::temporary_array<InputType,OutputSystem> temp(begin,end);
   result = thrust::copy(temp.begin(), temp.end(), result);
 
   return result;
@@ -112,10 +112,10 @@ template<typename RandomAccessIterator,
                                     thrust::incrementable_traversal_tag)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
-  typedef typename thrust::iterator_system<OutputIterator>::type OutputSpace;
+  typedef typename thrust::iterator_system<OutputIterator>::type OutputSystem;
 
   // allocate and copy to temporary storage in the output's space
-  thrust::detail::temporary_array<InputType,OutputSpace> temp(n);
+  thrust::detail::temporary_array<InputType,OutputSystem> temp(n);
   thrust::copy_n(first, n, temp.begin());
 
   return thrust::copy(temp.begin(), temp.end(), result);
@@ -159,10 +159,10 @@ template<typename RandomAccessIterator1,
 {
   // copy the input to a temporary input space buffer of OutputType
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type InputSpace;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type InputSystem;
 
   // allocate temporary storage
-  thrust::detail::temporary_array<OutputType,InputSpace> temp(begin, end);
+  thrust::detail::temporary_array<OutputType,InputSystem> temp(begin, end);
   result = thrust::copy(temp.begin(), temp.end(), result);
 
   return result;
@@ -177,12 +177,12 @@ template<typename RandomAccessIterator1,
 {
   // copy the input to a temporary result space buffer of InputType
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type OutputSpace;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type OutputSystem;
 
   typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType,OutputSpace> temp(n);
+  thrust::detail::temporary_array<InputType,OutputSystem> temp(n);
 
   // force a trivial copy
   thrust::system::cuda::detail::trivial_copy_n(begin, n, temp.begin());

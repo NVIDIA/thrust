@@ -30,7 +30,7 @@ namespace detail
 namespace backend
 {
 
-template <typename Space, typename IndexType>
+template <typename System, typename IndexType>
 uniform_decomposition<IndexType> default_decomposition(IndexType n);
 
 } // end namespace backend

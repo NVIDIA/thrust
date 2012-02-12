@@ -32,7 +32,7 @@ namespace detail
 {
 
 
-template<typename Space>
+template<typename System>
   struct discard_iterator_base
 {
   // XXX value_type should actually be void
@@ -44,12 +44,12 @@ template<typename Space>
 
   typedef typename thrust::counting_iterator<
     incrementable,
-    Space,
+    System,
     thrust::random_access_traversal_tag
   > base_iterator;
 
   typedef typename thrust::experimental::iterator_adaptor<
-    discard_iterator<Space>,
+    discard_iterator<System>,
     base_iterator,
     pointer,
     value_type,

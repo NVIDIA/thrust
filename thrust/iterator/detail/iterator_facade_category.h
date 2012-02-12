@@ -32,7 +32,7 @@ namespace thrust
 namespace detail
 {
 
-template<typename Category, typename Space, typename Traversal>
+template<typename Category, typename System, typename Traversal>
   struct iterator_category_with_system_and_traversal
     : Category
 {
@@ -41,10 +41,10 @@ template<typename Category, typename Space, typename Traversal>
 // specialize iterator_category_to_system for iterator_category_with_system_and_traversal
 template<typename Category> struct iterator_category_to_system;
 
-template<typename Category, typename Space, typename Traversal>
-  struct iterator_category_to_system<iterator_category_with_system_and_traversal<Category,Space,Traversal> >
+template<typename Category, typename System, typename Traversal>
+  struct iterator_category_to_system<iterator_category_with_system_and_traversal<Category,System,Traversal> >
 {
-  typedef Space type;
+  typedef System type;
 }; // end iterator_category_with_system_and_traversal
 
 } // end detail
@@ -99,7 +99,7 @@ namespace detail
 //        and not to any more-derived traversal tag type.
 
 
-template<typename Space, typename Traversal, typename ValueParam, typename Reference>
+template<typename System, typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category;
 
 //
@@ -230,29 +230,29 @@ template<typename Traversal, typename ValueParam, typename Reference>
 }; // end iterator_facade_default_category_any
 
 
-template<typename Space, typename Traversal, typename ValueParam, typename Reference>
+template<typename System, typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category
       // check for any space
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::any_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::any_system_tag>::value,
         iterator_facade_default_category_any<Traversal, ValueParam, Reference>,
 
         // check for host space
         thrust::detail::eval_if<
-          thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+          thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
           iterator_facade_default_category_host<Traversal, ValueParam, Reference>,
 
           // check for device space
           thrust::detail::eval_if<
-            thrust::detail::is_convertible<Space, thrust::device_system_tag>::value,
+            thrust::detail::is_convertible<System, thrust::device_system_tag>::value,
             iterator_facade_default_category_device<Traversal, ValueParam, Reference>,
 
             // if we don't recognize the space, get a standard iterator category
-            // and combine it with Space & Traversal
+            // and combine it with System & Traversal
             thrust::detail::identity_<
               thrust::detail::iterator_category_with_system_and_traversal<
                 typename iterator_facade_default_category_std<Traversal, ValueParam, Reference>::type,
-                Space,
+                System,
                 Traversal
               >
             >
@@ -262,14 +262,14 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
 {};
 
 
-template<typename Space, typename Traversal, typename ValueParam, typename Reference>
+template<typename System, typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_category_impl
 {
   typedef typename iterator_facade_default_category<
-    Space,Traversal,ValueParam,Reference
+    System,Traversal,ValueParam,Reference
   >::type category;
 
-  // we must be able to deduce both Traversal & Space from category
+  // we must be able to deduce both Traversal & System from category
   // otherwise, munge them all together
   typedef typename thrust::detail::eval_if<
     thrust::detail::and_<
@@ -278,17 +278,17 @@ template<typename Space, typename Traversal, typename ValueParam, typename Refer
         typename thrust::detail::iterator_category_to_traversal<category>::type
       >,
       thrust::detail::is_same<
-        Space,
+        System,
         typename thrust::detail::iterator_category_to_system<category>::type
       >
     >::value,
     thrust::detail::identity_<category>,
-    thrust::detail::identity_<thrust::detail::iterator_category_with_system_and_traversal<category,Space,Traversal> >
+    thrust::detail::identity_<thrust::detail::iterator_category_with_system_and_traversal<category,System,Traversal> >
   >::type type;
 }; // end iterator_facade_category_impl
 
 
-template<typename CategoryOrSpace,
+template<typename CategoryOrSystem,
          typename CategoryOrTraversal,
          typename ValueParam,
          typename Reference>
@@ -298,7 +298,7 @@ template<typename CategoryOrSpace,
   thrust::detail::eval_if<
     thrust::detail::is_iterator_category<CategoryOrTraversal>::value,
     thrust::detail::identity_<CategoryOrTraversal>, // categories are fine as-is
-    iterator_facade_category_impl<CategoryOrSpace, CategoryOrTraversal, ValueParam, Reference>
+    iterator_facade_category_impl<CategoryOrSystem, CategoryOrTraversal, ValueParam, Reference>
   >::type type;
 }; // end iterator_facade_category
 

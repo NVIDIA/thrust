@@ -43,9 +43,9 @@ template<typename InputIterator,
                            UnaryFunction op)
 {
   // determine the minimal space of the two iterators
-  typedef typename thrust::iterator_system<InputIterator>::type        Space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type       Space2;
-  typedef typename thrust::detail::minimum_system<Space1,Space2>::type Space;
+  typedef typename thrust::iterator_system<InputIterator>::type        System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type       System2;
+  typedef typename thrust::detail::minimum_system<System1,System2>::type System;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -53,7 +53,7 @@ template<typename InputIterator,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal space, determine the unary transform functor we need
-  typedef typename thrust::detail::unary_transform_functor<Space,UnaryFunction>::type UnaryTransformFunctor;
+  typedef typename thrust::detail::unary_transform_functor<System,UnaryFunction>::type UnaryTransformFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator,OutputIterator> IteratorTuple;
@@ -80,12 +80,12 @@ template<typename InputIterator1,
                            BinaryFunction op)
 {
   // determine the minimal space of the three iterators
-  typedef typename thrust::iterator_system<InputIterator1>::type        Space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type        Space2;
-  typedef typename thrust::iterator_system<OutputIterator>::type        Space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type        System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type        System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type        System3;
 
-  typedef typename thrust::detail::minimum_system<Space1,Space2>::type  Space4;
-  typedef typename thrust::detail::minimum_system<Space4,Space3>::type  Space;
+  typedef typename thrust::detail::minimum_system<System1,System2>::type  System4;
+  typedef typename thrust::detail::minimum_system<System4,System3>::type  System;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -93,7 +93,7 @@ template<typename InputIterator1,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal space, determine the binary transform functor we need
-  typedef typename thrust::detail::binary_transform_functor<Space,BinaryFunction>::type BinaryTransformFunctor;
+  typedef typename thrust::detail::binary_transform_functor<System,BinaryFunction>::type BinaryTransformFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,OutputIterator> IteratorTuple;
@@ -120,10 +120,10 @@ template<typename InputIterator,
                                Predicate pred)
 {
   // determine the minimal space of the two iterators
-  typedef typename thrust::iterator_system<InputIterator>::type        Space1;
-  typedef typename thrust::iterator_system<ForwardIterator>::type      Space2;
+  typedef typename thrust::iterator_system<InputIterator>::type        System1;
+  typedef typename thrust::iterator_system<ForwardIterator>::type      System2;
 
-  typedef typename thrust::detail::minimum_system<Space1,Space2>::type Space;
+  typedef typename thrust::detail::minimum_system<System1,System2>::type System;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -131,7 +131,7 @@ template<typename InputIterator,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal space, determine the unary transform_if functor we need
-  typedef typename thrust::detail::unary_transform_if_functor<Space,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
+  typedef typename thrust::detail::unary_transform_if_functor<System,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
@@ -160,12 +160,12 @@ template<typename InputIterator1,
                                Predicate pred)
 {
   // determine the minimal space of the three iterators
-  typedef typename thrust::iterator_system<InputIterator1>::type        Space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type        Space2;
-  typedef typename thrust::iterator_system<ForwardIterator>::type       Space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type        System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type        System2;
+  typedef typename thrust::iterator_system<ForwardIterator>::type       System3;
 
-  typedef typename thrust::detail::minimum_system<Space1,Space2>::type  Space4;
-  typedef typename thrust::detail::minimum_system<Space4,Space3>::type  Space;
+  typedef typename thrust::detail::minimum_system<System1,System2>::type  System4;
+  typedef typename thrust::detail::minimum_system<System4,System3>::type  System;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -173,7 +173,7 @@ template<typename InputIterator1,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal space, determine the unary transform_if functor we need
-  typedef typename thrust::detail::unary_transform_if_with_stencil_functor<Space,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
+  typedef typename thrust::detail::unary_transform_if_with_stencil_functor<System,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,ForwardIterator> IteratorTuple;
@@ -204,14 +204,14 @@ template<typename InputIterator1,
                                Predicate pred)
 {
   // determine the minimal space of the four iterators
-  typedef typename thrust::iterator_system<InputIterator1>::type        Space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type        Space2;
-  typedef typename thrust::iterator_system<InputIterator3>::type        Space3;
-  typedef typename thrust::iterator_system<ForwardIterator>::type       Space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type        System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type        System2;
+  typedef typename thrust::iterator_system<InputIterator3>::type        System3;
+  typedef typename thrust::iterator_system<ForwardIterator>::type       System4;
 
-  typedef typename thrust::detail::minimum_system<Space1,Space2>::type  Space5;
-  typedef typename thrust::detail::minimum_system<Space3,Space4>::type  Space6;
-  typedef typename thrust::detail::minimum_system<Space5,Space6>::type  Space;
+  typedef typename thrust::detail::minimum_system<System1,System2>::type  System5;
+  typedef typename thrust::detail::minimum_system<System3,System4>::type  System6;
+  typedef typename thrust::detail::minimum_system<System5,System6>::type  System;
 
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
@@ -219,7 +219,7 @@ template<typename InputIterator1,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal space, determine the binary transform_if functor we need
-  typedef typename thrust::detail::binary_transform_if_functor<Space,BinaryFunction,Predicate>::type BinaryTransformIfFunctor;
+  typedef typename thrust::detail::binary_transform_if_functor<System,BinaryFunction,Predicate>::type BinaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,InputIterator3,ForwardIterator> IteratorTuple;

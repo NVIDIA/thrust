@@ -36,8 +36,8 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-  typedef typename thrust::iterator_system<ForwardIterator>::type Space;
-  thrust::for_each(first, last, typename thrust::detail::generate_functor<Space,Generator>::type(gen));
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  thrust::for_each(first, last, typename thrust::detail::generate_functor<System,Generator>::type(gen));
 } // end generate()
 
 template<typename OutputIterator,
@@ -48,8 +48,8 @@ template<typename OutputIterator,
                             Size n,
                             Generator gen)
 {
-  typedef typename thrust::iterator_system<OutputIterator>::type Space;
-  return thrust::for_each_n(first, n, typename thrust::detail::generate_functor<Space,Generator>::type(gen));
+  typedef typename thrust::iterator_system<OutputIterator>::type System;
+  return thrust::for_each_n(first, n, typename thrust::detail::generate_functor<System,Generator>::type(gen));
 } // end generate()
 
 } // end namespace generic

@@ -57,19 +57,19 @@ OutputIterator copy_if(InputIterator1 first,
       typename thrust::iterator_system<InputIterator1>::type,
       typename thrust::iterator_system<InputIterator2>::type,
       typename thrust::iterator_system<OutputIterator>::type
-    >::type Space;
+    >::type System;
 
     __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
 
     // compute {0,1} predicates
-    thrust::detail::temporary_array<IndexType, Space> predicates(n);
+    thrust::detail::temporary_array<IndexType, System> predicates(n);
     thrust::transform(stencil,
                       stencil + n,
                       predicates.begin(),
                       thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
 
     // scan {0,1} predicates
-    thrust::detail::temporary_array<IndexType, Space> scatter_indices(n);
+    thrust::detail::temporary_array<IndexType, System> scatter_indices(n);
     thrust::exclusive_scan(predicates.begin(),
                            predicates.end(),
                            scatter_indices.begin(),

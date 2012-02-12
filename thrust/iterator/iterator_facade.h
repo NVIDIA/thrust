@@ -37,11 +37,11 @@
 #include <thrust/iterator/detail/iterator_facade_category.h>
 #include <thrust/iterator/detail/distance_from_result.h>
 
-#define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Pointer, typename    Value, typename    Space, typename    Traversal, typename    Reference, typename    Difference
-#define ITERATOR_FACADE_FORMAL_PARMS_I(i) typename Derived##i, typename Pointer##i, typename Value##i, typename Space##i, typename Traversal##i, typename Reference##i, typename Difference##i
+#define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Pointer, typename    Value, typename    System, typename    Traversal, typename    Reference, typename    Difference
+#define ITERATOR_FACADE_FORMAL_PARMS_I(i) typename Derived##i, typename Pointer##i, typename Value##i, typename System##i, typename Traversal##i, typename Reference##i, typename Difference##i
 
-#define ITERATOR_FACADE_ARGS         Derived,    Pointer,    Value,    Space,    Traversal,    Reference,    Difference
-#define ITERATOR_FACADE_ARGS_I(i) Derived##i, Pointer##i, Value##i, Space##i, Traversal##i, Reference##i, Difference##i
+#define ITERATOR_FACADE_ARGS         Derived,    Pointer,    Value,    System,    Traversal,    Reference,    Difference
+#define ITERATOR_FACADE_ARGS_I(i) Derived##i, Pointer##i, Value##i, System##i, Traversal##i, Reference##i, Difference##i
 
 namespace thrust
 {
@@ -236,7 +236,7 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
     typedef Pointer                                            pointer;
     typedef Difference                                         difference_type;
     typedef typename detail::iterator_facade_category<
-      Space, Traversal, Value, Reference
+      System, Traversal, Value, Reference
     >::type                                                    iterator_category;
 
     __host__ __device__

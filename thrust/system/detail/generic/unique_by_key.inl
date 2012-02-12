@@ -62,12 +62,12 @@ template<typename ForwardIterator1,
 {
   typedef typename thrust::iterator_traits<ForwardIterator1>::value_type InputType1;
   typedef typename thrust::iterator_traits<ForwardIterator2>::value_type InputType2;
-  typedef typename thrust::iterator_system<ForwardIterator1>::type        Space;
+  typedef typename thrust::iterator_system<ForwardIterator1>::type        System;
   
   ForwardIterator2 values_last = values_first + (keys_last - keys_first);
   
-  thrust::detail::temporary_array<InputType1,Space> keys(keys_first, keys_last);
-  thrust::detail::temporary_array<InputType2,Space> vals(values_first, values_last);
+  thrust::detail::temporary_array<InputType1,System> keys(keys_first, keys_last);
+  thrust::detail::temporary_array<InputType2,System> vals(values_first, values_last);
   
   return thrust::unique_by_key_copy(keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
 } // end unique_by_key()
@@ -111,7 +111,7 @@ template<typename InputIterator1,
     typename thrust::iterator_system<InputIterator2>::type,
     typename thrust::iterator_system<OutputIterator1>::type,
     typename thrust::iterator_system<OutputIterator2>::type
-  >::type Space;
+  >::type System;
   
   // empty sequence
   if(keys_first == keys_last)
@@ -119,7 +119,7 @@ template<typename InputIterator1,
   
   difference_type n = thrust::distance(keys_first, keys_last);
   
-  thrust::detail::temporary_array<int,Space> stencil(n);
+  thrust::detail::temporary_array<int,System> stencil(n);
   
   // mark first element in each group
   stencil[0] = 1; 

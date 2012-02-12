@@ -138,13 +138,13 @@ OutputType binary_search(ForwardIterator begin,
                          StrictWeakOrdering comp,
                          BinarySearchFunction func)
 {
-    typedef typename thrust::iterator_system<ForwardIterator>::type Space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
     // use the vectorized path to implement the scalar version
 
     // allocate device buffers for value and output
-    thrust::detail::temporary_array<T,Space>          d_value(1);
-    thrust::detail::temporary_array<OutputType,Space> d_output(1);
+    thrust::detail::temporary_array<T,System>          d_value(1);
+    thrust::detail::temporary_array<OutputType,System> d_output(1);
 
     // copy value to device
     d_value[0] = value;

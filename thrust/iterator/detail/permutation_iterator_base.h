@@ -34,15 +34,15 @@ template<typename ElementIterator,
          typename IndexIterator>
   struct permutation_iterator_base
 {
-  typedef typename thrust::iterator_system<ElementIterator>::type Space1;
-  typedef typename thrust::iterator_system<IndexIterator>::type Space2;
+  typedef typename thrust::iterator_system<ElementIterator>::type System1;
+  typedef typename thrust::iterator_system<IndexIterator>::type System2;
 
   typedef thrust::experimental::iterator_adaptor<
     permutation_iterator<ElementIterator,IndexIterator>,
     IndexIterator,
     typename thrust::iterator_pointer<ElementIterator>::type,
     typename thrust::iterator_value<ElementIterator>::type,
-    typename detail::minimum_system<Space1,Space2>::type,
+    typename detail::minimum_system<System1,System2>::type,
     thrust::use_default,
     typename thrust::iterator_reference<ElementIterator>::type
   > type;

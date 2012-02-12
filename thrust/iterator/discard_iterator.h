@@ -89,16 +89,16 @@ namespace thrust
  *
  *  \see make_discard_iterator
  */
-template<typename Space = use_default>
+template<typename System = use_default>
   class discard_iterator
-    : public detail::discard_iterator_base<Space>::type
+    : public detail::discard_iterator_base<System>::type
 {
     /*! \cond
      */
     friend class thrust::experimental::iterator_core_access;
-    typedef typename detail::discard_iterator_base<Space>::type          super_t;
-    typedef typename detail::discard_iterator_base<Space>::incrementable incrementable;
-    typedef typename detail::discard_iterator_base<Space>::base_iterator base_iterator;
+    typedef typename detail::discard_iterator_base<System>::type          super_t;
+    typedef typename detail::discard_iterator_base<System>::incrementable incrementable;
+    typedef typename detail::discard_iterator_base<System>::base_iterator base_iterator;
 
   public:
     typedef typename super_t::reference  reference;

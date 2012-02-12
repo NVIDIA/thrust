@@ -49,52 +49,52 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
 } // end checked_cudaMemcpy()
 
 
-template<typename SrcSpace,
-         typename DstSpace>
+template<typename SrcSystem,
+         typename DstSystem>
   struct is_cpp_to_cuda
     : thrust::detail::integral_constant<
         bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::cpp::tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::cuda::tag>::value
+        thrust::detail::is_convertible<SrcSystem, thrust::cpp::tag>::value &&
+        thrust::detail::is_convertible<DstSystem, thrust::cuda::tag>::value
       >
 {};
 
 
-template<typename SrcSpace,
-         typename DstSpace>
+template<typename SrcSystem,
+         typename DstSystem>
   struct is_cuda_to_cpp
     : thrust::detail::integral_constant<
         bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::cuda::tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::cpp::tag>::value
+        thrust::detail::is_convertible<SrcSystem, thrust::cuda::tag>::value &&
+        thrust::detail::is_convertible<DstSystem, thrust::cpp::tag>::value
       >
 {};
 
 
-template<typename SrcSpace,
-         typename DstSpace>
+template<typename SrcSystem,
+         typename DstSystem>
   struct is_cuda_to_cuda
     : thrust::detail::integral_constant<
         bool,
-        thrust::detail::is_convertible<SrcSpace, thrust::cuda::tag>::value &&
-        thrust::detail::is_convertible<DstSpace, thrust::cuda::tag>::value
+        thrust::detail::is_convertible<SrcSystem, thrust::cuda::tag>::value &&
+        thrust::detail::is_convertible<DstSystem, thrust::cuda::tag>::value
       >
 {};
 
 
-template<typename SrcSpace,
-         typename DstSpace>
+template<typename SrcSystem,
+         typename DstSystem>
   struct cuda_memcpy_kind
     : thrust::detail::eval_if<
-        is_cpp_to_cuda<SrcSpace,DstSpace>::value,
+        is_cpp_to_cuda<SrcSystem,DstSystem>::value,
         thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyHostToDevice>,
 
         thrust::detail::eval_if<
-          is_cuda_to_cpp<SrcSpace,DstSpace>::value,
+          is_cuda_to_cpp<SrcSystem,DstSystem>::value,
           thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToHost>,
 
           thrust::detail::eval_if<
-            is_cuda_to_cuda<SrcSpace,DstSpace>::value,
+            is_cuda_to_cuda<SrcSystem,DstSystem>::value,
             thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToDevice>,
             void
           >
@@ -128,13 +128,13 @@ template<typename RandomAccessIterator1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type SrcSpace;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type DstSpace;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type SrcSystem;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type DstSystem;
 
   void *dst = detail::trivial_copy_detail::get(&*result);
   const void *src = detail::trivial_copy_detail::get(&*first);
 
-  detail::checked_cudaMemcpy(dst, src, n * sizeof(T), detail::cuda_memcpy_kind<SrcSpace, DstSpace>::value);
+  detail::checked_cudaMemcpy(dst, src, n * sizeof(T), detail::cuda_memcpy_kind<SrcSystem, DstSystem>::value);
 }
 
 

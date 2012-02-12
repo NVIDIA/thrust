@@ -233,10 +233,10 @@ template<typename Generator>
   Generator gen;
 };
 
-template<typename Space, typename Generator>
+template<typename System, typename Generator>
   struct generate_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_generate_functor<Generator> >,
         thrust::detail::identity_<device_generate_functor<Generator> >
       >
@@ -300,10 +300,10 @@ template<typename UnaryFunction>
 };
 
 
-template<typename Space, typename UnaryFunction>
+template<typename System, typename UnaryFunction>
   struct unary_transform_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_unary_transform_functor<UnaryFunction> >,
         thrust::detail::identity_<device_unary_transform_functor<UnaryFunction> >
       >
@@ -347,10 +347,10 @@ struct device_binary_transform_functor
 }; // end binary_transform_functor
 
 
-template<typename Space, typename BinaryFunction>
+template<typename System, typename BinaryFunction>
   struct binary_transform_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_binary_transform_functor<BinaryFunction> >,
         thrust::detail::identity_<device_binary_transform_functor<BinaryFunction> >
       >
@@ -399,10 +399,10 @@ struct device_unary_transform_if_functor
 }; // end device_unary_transform_if_functor
 
 
-template<typename Space, typename UnaryFunction, typename Predicate>
+template<typename System, typename UnaryFunction, typename Predicate>
   struct unary_transform_if_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_unary_transform_if_functor<UnaryFunction,Predicate> >,
         thrust::detail::identity_<device_unary_transform_if_functor<UnaryFunction,Predicate> >
       >
@@ -448,10 +448,10 @@ struct device_unary_transform_if_with_stencil_functor
 }; // end device_unary_transform_if_with_stencil_functor
 
 
-template<typename Space, typename UnaryFunction, typename Predicate>
+template<typename System, typename UnaryFunction, typename Predicate>
   struct unary_transform_if_with_stencil_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> >,
         thrust::detail::identity_<device_unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> >
       >
@@ -497,10 +497,10 @@ struct device_binary_transform_if_functor
 }; // end device_binary_transform_if_functor
 
 
-template<typename Space, typename BinaryFunction, typename Predicate>
+template<typename System, typename BinaryFunction, typename Predicate>
   struct binary_transform_if_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_binary_transform_if_functor<BinaryFunction,Predicate> >,
         thrust::detail::identity_<device_binary_transform_if_functor<BinaryFunction,Predicate> >
       >
@@ -530,10 +530,10 @@ template<typename T>
 }; // end device_destroy_functor
 
 
-template<typename Space, typename T>
+template<typename System, typename T>
   struct destroy_functor
     : thrust::detail::eval_if<
-        thrust::detail::is_convertible<Space, thrust::host_system_tag>::value,
+        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
         thrust::detail::identity_<host_destroy_functor<T> >,
         thrust::detail::identity_<device_destroy_functor<T> >
       >

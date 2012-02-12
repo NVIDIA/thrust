@@ -36,38 +36,38 @@ namespace detail
 {
 
 // XXX eliminate this
-template<typename T, typename Space>
+template<typename T, typename System>
   struct choose_temporary_array_allocator
     : eval_if<
         // catch any_system_tag and output an error
-        is_convertible<Space, thrust::any_system_tag>::value,
+        is_convertible<System, thrust::any_system_tag>::value,
         
         void,
 
         eval_if<
           // XXX this case shouldn't exist
-          is_same<Space, thrust::cpp::tag>::value,
+          is_same<System, thrust::cpp::tag>::value,
 
           identity_< std::allocator<T> >,
 
           // XXX add backend-specific allocators here?
-          identity_< no_throw_allocator<temporary_allocator<T,Space> > >
+          identity_< no_throw_allocator<temporary_allocator<T,System> > >
         >
       >
 {};
 
 
-template<typename T, typename Space>
+template<typename T, typename System>
   class temporary_array
     : public contiguous_storage<
                T,
-               typename choose_temporary_array_allocator<T,Space>::type
+               typename choose_temporary_array_allocator<T,System>::type
              >
 {
   private:
     typedef contiguous_storage<
       T,
-      typename choose_temporary_array_allocator<T,Space>::type
+      typename choose_temporary_array_allocator<T,System>::type
     > super_t;
 
   public:
