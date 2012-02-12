@@ -37,9 +37,9 @@ template<typename ForwardIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sequence;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return sequence(select_system(space()), first, last);
+  return sequence(select_system(system()), first, last);
 } // end sequence()
 
 
@@ -51,9 +51,9 @@ template<typename ForwardIterator, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sequence;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return sequence(select_system(space()), first, last, init);
+  return sequence(select_system(system()), first, last, init);
 } // end sequence()
 
 
@@ -66,9 +66,9 @@ template<typename ForwardIterator, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::sequence;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return sequence(select_system(space()), first, last, init, step);
+  return sequence(select_system(system()), first, last, init, step);
 } // end sequence()
 
 

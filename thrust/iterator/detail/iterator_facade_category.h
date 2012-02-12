@@ -118,7 +118,7 @@ template<typename System, typename Traversal, typename ValueParam, typename Refe
 //
 
 
-// this is the function for standard space iterators
+// this is the function for standard system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_std :
     thrust::detail::eval_if<
@@ -145,7 +145,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 }; // end iterator_facade_default_category_std
 
 
-// this is the function for host space iterators
+// this is the function for host system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_host :
     thrust::detail::eval_if<
@@ -172,7 +172,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 }; // end iterator_facade_default_category_host
 
 
-// this is the function for device space iterators
+// this is the function for device system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_device :
     thrust::detail::eval_if<
@@ -199,7 +199,7 @@ template<typename Traversal, typename ValueParam, typename Reference>
 }; // end iterator_facade_default_category_device
 
 
-// this is the function for any space iterators
+// this is the function for any system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_any :
     thrust::detail::eval_if<
@@ -232,22 +232,22 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
 template<typename System, typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category
-      // check for any space
+      // check for any system
     : thrust::detail::eval_if<
         thrust::detail::is_convertible<System, thrust::any_system_tag>::value,
         iterator_facade_default_category_any<Traversal, ValueParam, Reference>,
 
-        // check for host space
+        // check for host system
         thrust::detail::eval_if<
           thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
           iterator_facade_default_category_host<Traversal, ValueParam, Reference>,
 
-          // check for device space
+          // check for device system
           thrust::detail::eval_if<
             thrust::detail::is_convertible<System, thrust::device_system_tag>::value,
             iterator_facade_default_category_device<Traversal, ValueParam, Reference>,
 
-            // if we don't recognize the space, get a standard iterator category
+            // if we don't recognize the system, get a standard iterator category
             // and combine it with System & Traversal
             thrust::detail::identity_<
               thrust::detail::iterator_category_with_system_and_traversal<

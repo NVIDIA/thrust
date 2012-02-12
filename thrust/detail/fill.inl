@@ -36,9 +36,9 @@ template<typename ForwardIterator, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::fill;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  fill(select_system(space()), first, last, value);
+  fill(select_system(system()), first, last, value);
 } // end fill()
 
 template<typename OutputIterator, typename Size, typename T>
@@ -49,9 +49,9 @@ template<typename OutputIterator, typename Size, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::fill_n;
 
-  typedef typename thrust::iterator_system<OutputIterator>::type space;
+  typedef typename thrust::iterator_system<OutputIterator>::type system;
 
-  return fill_n(select_system(space()), first, n, value);
+  return fill_n(select_system(system()), first, n, value);
 } // end fill()
 
 } // end namespace thrust

@@ -126,7 +126,7 @@ template <typename Category>
 
 template<typename Category>
   struct category_to_traversal
-      // check for any space
+      // check for any system
     : eval_if<
         or_<
           is_convertible<Category, thrust::input_universal_iterator_tag>,
@@ -135,7 +135,7 @@ template<typename Category>
 
         any_system_category_to_traversal<Category>,
 
-        // check for host space
+        // check for host system
         eval_if<
           or_<
             is_convertible<Category, thrust::input_host_iterator_tag>,
@@ -144,7 +144,7 @@ template<typename Category>
 
           host_system_category_to_traversal<Category>,
 
-          // check for device space
+          // check for device system
           eval_if<
             or_<
               is_convertible<Category, thrust::input_device_iterator_tag>,

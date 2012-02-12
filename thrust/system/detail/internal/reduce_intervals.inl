@@ -43,10 +43,10 @@ void reduce_intervals(InputIterator input,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  reduce_intervals(select_system(space1(),space2()), input, output, binary_op, decomp);
+  reduce_intervals(select_system(system1(),system2()), input, output, binary_op, decomp);
 } // end reduce_intervals()
 
 } // end internal

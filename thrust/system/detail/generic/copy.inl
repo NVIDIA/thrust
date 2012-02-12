@@ -56,15 +56,15 @@ template<typename InputIterator,
                         Size           n,
                         OutputIterator result)
 {
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  typedef typename thrust::detail::minimum_system<space1,space2> space;
+  typedef typename thrust::detail::minimum_system<system1,system2> system;
 
   typedef typename thrust::iterator_value<InputIterator>::type value_type;
   typedef thrust::identity<value_type>                         xfrm_type;
 
-  typedef typename thrust::detail::unary_transform_functor<space,xfrm_type>::type functor_type;
+  typedef typename thrust::detail::unary_transform_functor<system,xfrm_type>::type functor_type;
 
   typedef thrust::tuple<InputIterator,OutputIterator> iterator_tuple;
   typedef thrust::zip_iterator<iterator_tuple>        zip_iter;

@@ -35,10 +35,10 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::equal;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  return equal(select_system(space1(),space2()), first1, last1, first2);
+  return equal(select_system(system1(),system2()), first1, last1, first2);
 }
 
 template <typename InputIterator1, typename InputIterator2, 
@@ -49,10 +49,10 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::equal;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  return equal(select_system(space1(),space2()), first1, last1, first2, binary_pred);
+  return equal(select_system(system1(),system2()), first1, last1, first2, binary_pred);
 }
 
 } // end namespace thrust

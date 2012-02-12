@@ -663,12 +663,12 @@ template <typename InputIterator1,
   // recover the user's system tag and pass to reduce_by_key_detail::reduce_by_key
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return reduce_by_key_detail::reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  return reduce_by_key_detail::reduce_by_key(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 } // end reduce_by_key()
 
 } // end namespace detail

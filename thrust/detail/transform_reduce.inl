@@ -41,9 +41,9 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform_reduce;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return transform_reduce(select_system(space()), first, last, unary_op, init, binary_op);
+  return transform_reduce(select_system(system()), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
 
 } // end namespace thrust

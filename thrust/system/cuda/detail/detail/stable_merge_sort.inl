@@ -1213,17 +1213,17 @@ template<typename RandomAccessIterator1,
 
   using namespace thrust::detail;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
 
-  temporary_array<KeyType,      space>      splitters(num_splitters);
-  temporary_array<unsigned int, space>      splitters_pos(num_splitters);
-  temporary_array<KeyType,      space>      merged_splitters(num_splitters);
-  temporary_array<unsigned int, space>      merged_splitters_pos(num_splitters);
+  temporary_array<KeyType,      system>      splitters(num_splitters);
+  temporary_array<unsigned int, system>      splitters_pos(num_splitters);
+  temporary_array<KeyType,      system>      merged_splitters(num_splitters);
+  temporary_array<unsigned int, system>      merged_splitters_pos(num_splitters);
 
   typedef extract_splitters_closure<
     RandomAccessIterator1,
-    typename temporary_array<KeyType,      space>::iterator,
-    typename temporary_array<unsigned int, space>::iterator,
+    typename temporary_array<KeyType,      system>::iterator,
+    typename temporary_array<unsigned int, system>::iterator,
     detail::blocked_thread_array
   > ExtractSplittersClosure;
 
@@ -1264,16 +1264,16 @@ template<typename RandomAccessIterator1,
   grid_size = min<size_t>(num_blocks, max_num_blocks);
 
   // reuse the splitters_pos storage for rank1
-  temporary_array<unsigned int, space> &rank1 = splitters_pos;
-  temporary_array<unsigned int, space> rank2(num_splitters);
+  temporary_array<unsigned int, system> &rank1 = splitters_pos;
+  temporary_array<unsigned int, system> rank2(num_splitters);
 
   typedef find_splitter_ranks_closure<
     block_size,
     log_block_size,
-    typename temporary_array<KeyType,      space>::iterator,
-    typename temporary_array<unsigned int, space>::iterator,
-    typename temporary_array<unsigned int, space>::iterator,
-    typename temporary_array<unsigned int, space>::iterator,
+    typename temporary_array<KeyType,      system>::iterator,
+    typename temporary_array<unsigned int, system>::iterator,
+    typename temporary_array<unsigned int, system>::iterator,
+    typename temporary_array<unsigned int, system>::iterator,
     RandomAccessIterator1,
     StrictWeakOrdering,
     detail::statically_blocked_thread_array<block_size>
@@ -1408,16 +1408,16 @@ template<typename RandomAccessIterator1,
      grid_size, block_size);
 
   // allocate scratch space
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
   using namespace thrust::detail;
-  temporary_array<KeyType,   space> temp_keys(n);
-  temporary_array<ValueType, space> temp_vals(n);
+  temporary_array<KeyType,   system> temp_keys(n);
+  temporary_array<ValueType, system> temp_vals(n);
 
   // give iterators simpler names
   RandomAccessIterator1 keys0 = keys_first;
   RandomAccessIterator2 vals0 = values_first;
-  typename temporary_array<KeyType,   space>::iterator keys1 = temp_keys.begin();
-  typename temporary_array<ValueType, space>::iterator vals1 = temp_vals.begin();
+  typename temporary_array<KeyType,   system>::iterator keys1 = temp_keys.begin();
+  typename temporary_array<ValueType, system>::iterator vals1 = temp_vals.begin();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.

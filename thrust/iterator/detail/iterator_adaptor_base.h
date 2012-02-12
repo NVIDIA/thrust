@@ -77,7 +77,7 @@ template<typename Derived,
   typedef typename ia_dflt_help<
     System,
     thrust::iterator_system<Base>
-  >::type space;
+  >::type system;
 
   typedef typename ia_dflt_help<
     Traversal,
@@ -102,7 +102,7 @@ template<typename Derived,
     Derived,
     Pointer,
     value,
-    space,
+    system,
     traversal,
     reference,
     difference

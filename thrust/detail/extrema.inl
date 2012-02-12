@@ -32,9 +32,9 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::min_element;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return min_element(select_system(space()), first, last);
+  return min_element(select_system(system()), first, last);
 } // end min_element()
 
 
@@ -45,9 +45,9 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::min_element;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return min_element(select_system(space()), first, last, comp);
+  return min_element(select_system(system()), first, last, comp);
 } // end min_element()
 
 
@@ -57,9 +57,9 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::max_element;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return max_element(select_system(space()), first, last);
+  return max_element(select_system(system()), first, last);
 } // end max_element()
 
 
@@ -70,9 +70,9 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::max_element;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return max_element(select_system(space()), first, last, comp);
+  return max_element(select_system(system()), first, last, comp);
 } // end max_element()
 
 
@@ -83,9 +83,9 @@ minmax_element(ForwardIterator first, ForwardIterator last)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::minmax_element;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return minmax_element(select_system(space()), first, last);
+  return minmax_element(select_system(system()), first, last);
 } // end minmax_element()
 
 
@@ -96,9 +96,9 @@ minmax_element(ForwardIterator first, ForwardIterator last, BinaryPredicate comp
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::minmax_element;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return minmax_element(select_system(space()), first, last, comp);
+  return minmax_element(select_system(system()), first, last, comp);
 } // end minmax_element()
 
 

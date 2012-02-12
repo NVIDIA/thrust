@@ -38,9 +38,9 @@ InputIterator for_each(InputIterator first,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::for_each;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return for_each(select_system(space()), first, last, f);
+  return for_each(select_system(system()), first, last, f);
 } // end for_each()
 
 template<typename InputIterator,
@@ -53,9 +53,9 @@ InputIterator for_each_n(InputIterator first,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::for_each_n;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return for_each_n(select_system(space()), first, n, f);
+  return for_each_n(select_system(system()), first, n, f);
 } // end for_each_n()
 
 } // end namespace thrust

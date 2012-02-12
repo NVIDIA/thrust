@@ -38,7 +38,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
     thrust::detail::is_same<System,use_default>::value,
     thrust::detail::identity_<thrust::any_system_tag>,
     thrust::detail::identity_<System>
-  >::type space;
+  >::type system;
 
   typedef typename thrust::experimental::detail::ia_dflt_help<
       Traversal,
@@ -67,7 +67,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
     Incrementable,                                                  // Base
     Incrementable *,                                                // Pointer -- maybe we should make this device_ptr when memory space category is device?
     Incrementable,                                                  // Value
-    space,
+    system,
     traversal,
     Incrementable,
     difference

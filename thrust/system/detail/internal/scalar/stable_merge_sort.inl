@@ -40,13 +40,13 @@ void inplace_merge(RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  // XXX the type of space should be:
-  //     typedef decltype(select_system(first, middle, last)) space;
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
+  // XXX the type of system should be:
+  //     typedef decltype(select_system(first, middle, last)) system;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type system;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type, space> a( first, middle);
-  thrust::detail::temporary_array<value_type, space> b(middle,   last);
+  thrust::detail::temporary_array<value_type, system> a( first, middle);
+  thrust::detail::temporary_array<value_type, system> b(middle,   last);
 
   thrust::system::detail::internal::scalar::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
@@ -60,19 +60,19 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
                           RandomAccessIterator2 first2,
                           StrictWeakOrdering comp)
 {
-  // XXX the type of space should be:
-  //     typedef decltype(select_system(first1, middle1, last1, first2)) space;
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
+  // XXX the type of system should be:
+  //     typedef decltype(select_system(first1, middle1, last1, first2)) system;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1, space> lhs1( first1, middle1);
-  thrust::detail::temporary_array<value_type1, space> rhs1(middle1,   last1);
-  thrust::detail::temporary_array<value_type2, space> lhs2( first2, middle2);
-  thrust::detail::temporary_array<value_type2, space> rhs2(middle2,   last2);
+  thrust::detail::temporary_array<value_type1, system> lhs1( first1, middle1);
+  thrust::detail::temporary_array<value_type1, system> rhs1(middle1,   last1);
+  thrust::detail::temporary_array<value_type2, system> lhs2( first2, middle2);
+  thrust::detail::temporary_array<value_type2, system> rhs2(middle2,   last2);
 
   thrust::system::detail::internal::scalar::merge_by_key
     (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),

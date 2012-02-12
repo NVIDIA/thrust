@@ -98,8 +98,8 @@ template<typename ForwardIterator,
     bool
   > wrapped_pred(pred);
 
-  // XXX the type of space should be:
-  //     typedef decltype(select_system(first, last)) space;
+  // XXX the type of system should be:
+  //     typedef decltype(select_system(first, last)) system;
   typedef typename thrust::iterator_system<ForwardIterator>::type System;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 

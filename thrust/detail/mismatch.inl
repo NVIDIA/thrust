@@ -38,10 +38,10 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::mismatch;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  return mismatch(select_system(space1(),space2()), first1, last1, first2);
+  return mismatch(select_system(system1(),system2()), first1, last1, first2);
 } // end mismatch()
 
 template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
@@ -53,10 +53,10 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::mismatch;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  return mismatch(select_system(space1(),space2()), first1, last1, first2, pred);
+  return mismatch(select_system(system1(),system2()), first1, last1, first2, pred);
 } // end mismatch()
 
 } // end namespace thrust

@@ -32,7 +32,7 @@ template<typename> struct is_wrapped_reference;
 
 }
 
-// the base type for all of thrust's space-annotated references.
+// the base type for all of thrust's system-annotated references.
 // for reasonable reference-like semantics, derived types must reimplement the following:
 // 1. constructor from pointer
 // 2. copy constructor

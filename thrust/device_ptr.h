@@ -16,7 +16,7 @@
 
 
 /*! \file device_ptr.h
- *  \brief A pointer to a variable which resides in the "device" memory space
+ *  \brief A pointer to a variable which resides in the "device" system's memory space
  */
 
 #pragma once

@@ -38,9 +38,9 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::partition;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return partition(select_system(space()), first, last, pred);
+  return partition(select_system(system()), first, last, pred);
 } // end partition()
 
 
@@ -53,9 +53,9 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::stable_partition;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return stable_partition(select_system(space()), first, last, pred);
+  return stable_partition(select_system(system()), first, last, pred);
 } // end stable_partition()
 
 
@@ -73,11 +73,11 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::partition_copy;
 
-  typedef typename thrust::iterator_system<InputIterator>::type   space1;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space2;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space3;
+  typedef typename thrust::iterator_system<InputIterator>::type   system1;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system2;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system3;
 
-  return partition_copy(select_system(space1(),space2(),space3()), first, last, out_true, out_false, pred);
+  return partition_copy(select_system(system1(),system2(),system3()), first, last, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -95,11 +95,11 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::stable_partition_copy;
 
-  typedef typename thrust::iterator_system<InputIterator>::type   space1;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space2;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space3;
+  typedef typename thrust::iterator_system<InputIterator>::type   system1;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system2;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system3;
 
-  return stable_partition_copy(select_system(space1(),space2(),space3()), first, last, out_true, out_false, pred);
+  return stable_partition_copy(select_system(system1(),system2(),system3()), first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -111,9 +111,9 @@ template<typename ForwardIterator, typename Predicate>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::partition_point;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return partition_point(select_system(space()), first, last, pred);
+  return partition_point(select_system(system()), first, last, pred);
 } // end partition_point()
 
 
@@ -125,9 +125,9 @@ template<typename InputIterator, typename Predicate>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::is_partitioned;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return is_partitioned(select_system(space()), first, last, pred);
+  return is_partitioned(select_system(system()), first, last, pred);
 } // end is_partitioned()
 
 

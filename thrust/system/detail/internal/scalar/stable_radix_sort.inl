@@ -385,12 +385,12 @@ template <typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type system;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
 
   size_t N = last - first;
   
-  thrust::detail::temporary_array<KeyType, space> temp(N);
+  thrust::detail::temporary_array<KeyType, system> temp(N);
   
   detail::radix_sort(first, temp.begin(), N);
 }
@@ -406,16 +406,16 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2)
 {
-  // XXX the type of space should be
-  //     typedef decltype(select_system(first1,last1,first2)) space;
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space;
+  // XXX the type of system should be
+  //     typedef decltype(select_system(first1,last1,first2)) system;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
 
   size_t N = last1 - first1;
   
-  thrust::detail::temporary_array<KeyType, space>   temp1(N);
-  thrust::detail::temporary_array<ValueType, space> temp2(N);
+  thrust::detail::temporary_array<KeyType, system>   temp1(N);
+  thrust::detail::temporary_array<ValueType, system> temp2(N);
 
   detail::radix_sort(first1, temp1.begin(), first2, temp2.begin(), N);
 }

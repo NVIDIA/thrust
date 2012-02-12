@@ -451,11 +451,11 @@ template<typename T, typename Alloc>
                            ForwardIterator first, ForwardIterator last,
                            storage_type &new_storage);
 
-    // this method handles cross-space uninitialized_copy for types with trivial copy constructors
+    // this method handles cross-system uninitialized_copy for types with trivial copy constructors
     template<typename InputIterator, typename ForwardIterator>
     ForwardIterator cross_system_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, true_type output_type_has_trivial_copy_constructor);
 
-    // this method handles cross-space uninitialized copy for types with non-trivial copy constructors
+    // this method handles cross-system uninitialized copy for types with non-trivial copy constructors
     template<typename InputIterator, typename ForwardIterator>
     ForwardIterator cross_system_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, false_type output_type_has_non_trivial_copy_constructor);
 }; // end vector_base

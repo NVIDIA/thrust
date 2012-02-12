@@ -37,9 +37,9 @@ template<typename ForwardIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return unique(select_system(space()), first, last);
+  return unique(select_system(system()), first, last);
 } // end unique()
 
 
@@ -52,9 +52,9 @@ template<typename ForwardIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return unique(select_system(space()), first, last, binary_pred);
+  return unique(select_system(system()), first, last, binary_pred);
 } // end unique()
 
 
@@ -67,10 +67,10 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique_copy;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return unique_copy(select_system(space1(),space2()), first, last, output);
+  return unique_copy(select_system(system1(),system2()), first, last, output);
 } // end unique_copy()
 
 
@@ -85,10 +85,10 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique_copy;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return unique_copy(select_system(space1(),space2()), first, last, output, binary_pred);
+  return unique_copy(select_system(system1(),system2()), first, last, output, binary_pred);
 } // end unique_copy()
 
 
@@ -102,10 +102,10 @@ template<typename ForwardIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique_by_key;
 
-  typedef typename thrust::iterator_system<ForwardIterator1>::type space1;
-  typedef typename thrust::iterator_system<ForwardIterator2>::type space2;
+  typedef typename thrust::iterator_system<ForwardIterator1>::type system1;
+  typedef typename thrust::iterator_system<ForwardIterator2>::type system2;
 
-  return unique_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first);
+  return unique_by_key(select_system(system1(),system2()), keys_first, keys_last, values_first);
 } // end unique_by_key()
 
 
@@ -121,10 +121,10 @@ template<typename ForwardIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique_by_key;
 
-  typedef typename thrust::iterator_system<ForwardIterator1>::type space1;
-  typedef typename thrust::iterator_system<ForwardIterator2>::type space2;
+  typedef typename thrust::iterator_system<ForwardIterator1>::type system1;
+  typedef typename thrust::iterator_system<ForwardIterator2>::type system2;
 
-  return unique_by_key(select_system(space1(),space2()), keys_first, keys_last, values_first, binary_pred);
+  return unique_by_key(select_system(system1(),system2()), keys_first, keys_last, values_first, binary_pred);
 } // end unique_by_key()
 
 
@@ -142,12 +142,12 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique_by_key_copy;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return unique_by_key_copy(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output);
+  return unique_by_key_copy(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output);
 } // end unique_by_key_copy()
 
 
@@ -167,12 +167,12 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::unique_by_key_copy;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return unique_by_key_copy(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+  return unique_by_key_copy(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 } // end unique_by_key_copy()
 
 

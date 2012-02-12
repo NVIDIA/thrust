@@ -34,9 +34,9 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::all_of;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return all_of(select_system(space()), first, last, pred);
+  return all_of(select_system(system()), first, last, pred);
 }
 
 template <class InputIterator, class Predicate>
@@ -45,9 +45,9 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::any_of;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return any_of(select_system(space()), first, last, pred);
+  return any_of(select_system(system()), first, last, pred);
 }
 
 template <class InputIterator, class Predicate>
@@ -56,9 +56,9 @@ bool none_of(InputIterator first, InputIterator last, Predicate pred)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::none_of;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return none_of(select_system(space()), first, last, pred);
+  return none_of(select_system(system()), first, last, pred);
 }
 
 } // end namespace thrust

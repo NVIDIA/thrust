@@ -41,10 +41,10 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform_inclusive_scan;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return transform_inclusive_scan(select_system(space1(),space2()), first, last, result, unary_op, binary_op);
+  return transform_inclusive_scan(select_system(system1(),system2()), first, last, result, unary_op, binary_op);
 } // end transform_inclusive_scan()
 
 
@@ -63,10 +63,10 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::transform_exclusive_scan;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return transform_exclusive_scan(select_system(space1(),space2()), first, last, result, unary_op, init, binary_op);
+  return transform_exclusive_scan(select_system(system1(),system2()), first, last, result, unary_op, init, binary_op);
 } // end transform_exclusive_scan()
 
 } // end namespace thrust

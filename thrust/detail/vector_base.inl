@@ -1018,10 +1018,10 @@ template<typename T, typename Alloc>
       ::cross_system_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result,
                                        false_type output_type_has_non_trivial_copy_constructor)
 {
-  // move input to the same space as the output
+  // move input to the same system as the output
   typedef typename thrust::iterator_system<ForwardIterator>::type OutputSystem;
 
-  // this is a no-op if both ranges are in the same space
+  // this is a no-op if both ranges are in the same system
   thrust::detail::move_to_system<InputIterator,OutputSystem> temp(first,last);
 
   // do uninitialized_copy from the temp range
@@ -1062,7 +1062,7 @@ bool vector_equal(InputIterator1 first1, InputIterator1 last1,
 
   // bring both ranges to cpp
   // note that these copies are no-ops if the range is already convertible to cpp
-  // this preserves legacy behavior of the old host/device space design,
+  // this preserves legacy behavior of the old host/device system design,
   // but we might want to be more flexible with the precise behavior
   thrust::detail::move_to_system<InputIterator1, thrust::cpp::tag> rng1(first1, last1);
   thrust::detail::move_to_system<InputIterator2, thrust::cpp::tag> rng2(first2, first2 + n);
@@ -1074,12 +1074,12 @@ template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2)
 {
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  // dispatch on the sameness of the two spaces
+  // dispatch on the sameness of the two systems
   return vector_equal(first1, last1, first2,
-    thrust::detail::is_same<space1,space2>());
+    thrust::detail::is_same<system1,system2>());
 }
 
 } // end namespace detail

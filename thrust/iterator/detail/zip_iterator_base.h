@@ -284,7 +284,7 @@ struct minimum_system_lambda
 
 
 
-// Metafunction to obtain the minimal space tag in a tuple
+// Metafunction to obtain the minimal system tag in a tuple
 // of iterators.
 template<typename IteratorTuple>
 struct minimum_system_in_iterator_tuple
@@ -389,10 +389,10 @@ template<typename IteratorTuple>
       typename thrust::tuple_element<0, IteratorTuple>::type
     >::difference_type difference_type;
 
-    // Iterator space is the minimum space tag in the
+    // Iterator system is the minimum system tag in the
     // iterator tuple
     typedef typename
-    minimum_system_in_iterator_tuple<IteratorTuple>::type space;
+    minimum_system_in_iterator_tuple<IteratorTuple>::type system;
 
     // Traversal category is the minimum traversal category in the
     // iterator tuple
@@ -407,7 +407,7 @@ template<typename IteratorTuple>
         zip_iterator<IteratorTuple>,
         pointer,
         value_type,  
-        space,
+        system,
         traversal_category,
         reference,
         difference_type

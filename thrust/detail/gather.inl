@@ -39,11 +39,11 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::gather;
 
-  typedef typename thrust::iterator_system<InputIterator>::type        space1; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type space2; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       space3; 
+  typedef typename thrust::iterator_system<InputIterator>::type        system1; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type system2; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       system3; 
 
-  return gather(select_system(space1(),space2(),space3()), map_first, map_last, input_first, result);
+  return gather(select_system(system1(),system2(),system3()), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -60,12 +60,12 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::gather_if;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_system<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type space3; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       space4; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       system1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       system2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type system3; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       system4; 
 
-  return gather_if(select_system(space1(),space2(),space3(),space4()), map_first, map_last, stencil, input_first, result);
+  return gather_if(select_system(system1(),system2(),system3(),system4()), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -84,12 +84,12 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::gather_if;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       space1; 
-  typedef typename thrust::iterator_system<InputIterator2>::type       space2; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type space3; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       space4; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       system1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       system2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type system3; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       system4; 
 
-  return gather_if(select_system(space1(),space2(),space3(),space4()), map_first, map_last, stencil, input_first, result, pred);
+  return gather_if(select_system(system1(),system2(),system3(),system4()), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
 
 } // end namespace thrust

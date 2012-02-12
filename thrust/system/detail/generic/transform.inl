@@ -42,7 +42,7 @@ template<typename InputIterator,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  // determine the minimal space of the two iterators
+  // determine the minimal system of the two iterators
   typedef typename thrust::iterator_system<InputIterator>::type        System1;
   typedef typename thrust::iterator_system<OutputIterator>::type       System2;
   typedef typename thrust::detail::minimum_system<System1,System2>::type System;
@@ -52,7 +52,7 @@ template<typename InputIterator,
   //     which is one or the other
   //     when nvcc is able to deal with this, remove this WAR
   
-  // given the minimal space, determine the unary transform functor we need
+  // given the minimal system, determine the unary transform functor we need
   typedef typename thrust::detail::unary_transform_functor<System,UnaryFunction>::type UnaryTransformFunctor;
 
   // make an iterator tuple
@@ -79,7 +79,7 @@ template<typename InputIterator1,
                            OutputIterator result,
                            BinaryFunction op)
 {
-  // determine the minimal space of the three iterators
+  // determine the minimal system of the three iterators
   typedef typename thrust::iterator_system<InputIterator1>::type        System1;
   typedef typename thrust::iterator_system<InputIterator2>::type        System2;
   typedef typename thrust::iterator_system<OutputIterator>::type        System3;
@@ -92,7 +92,7 @@ template<typename InputIterator1,
   //     which is one or the other
   //     when nvcc is able to deal with this, remove this WAR
   
-  // given the minimal space, determine the binary transform functor we need
+  // given the minimal system, determine the binary transform functor we need
   typedef typename thrust::detail::binary_transform_functor<System,BinaryFunction>::type BinaryTransformFunctor;
 
   // make an iterator tuple
@@ -119,7 +119,7 @@ template<typename InputIterator,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  // determine the minimal space of the two iterators
+  // determine the minimal system of the two iterators
   typedef typename thrust::iterator_system<InputIterator>::type        System1;
   typedef typename thrust::iterator_system<ForwardIterator>::type      System2;
 
@@ -130,7 +130,7 @@ template<typename InputIterator,
   //     which is one or the other
   //     when nvcc is able to deal with this, remove this WAR
   
-  // given the minimal space, determine the unary transform_if functor we need
+  // given the minimal system, determine the unary transform_if functor we need
   typedef typename thrust::detail::unary_transform_if_functor<System,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
@@ -159,7 +159,7 @@ template<typename InputIterator1,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  // determine the minimal space of the three iterators
+  // determine the minimal system of the three iterators
   typedef typename thrust::iterator_system<InputIterator1>::type        System1;
   typedef typename thrust::iterator_system<InputIterator2>::type        System2;
   typedef typename thrust::iterator_system<ForwardIterator>::type       System3;
@@ -172,7 +172,7 @@ template<typename InputIterator1,
   //     which is one or the other
   //     when nvcc is able to deal with this, remove this WAR
   
-  // given the minimal space, determine the unary transform_if functor we need
+  // given the minimal system, determine the unary transform_if functor we need
   typedef typename thrust::detail::unary_transform_if_with_stencil_functor<System,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
@@ -203,7 +203,7 @@ template<typename InputIterator1,
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  // determine the minimal space of the four iterators
+  // determine the minimal system of the four iterators
   typedef typename thrust::iterator_system<InputIterator1>::type        System1;
   typedef typename thrust::iterator_system<InputIterator2>::type        System2;
   typedef typename thrust::iterator_system<InputIterator3>::type        System3;
@@ -218,7 +218,7 @@ template<typename InputIterator1,
   //     which is one or the other
   //     when nvcc is able to deal with this, remove this WAR
   
-  // given the minimal space, determine the binary transform_if functor we need
+  // given the minimal system, determine the binary transform_if functor we need
   typedef typename thrust::detail::binary_transform_if_functor<System,BinaryFunction,Predicate>::type BinaryTransformIfFunctor;
 
   // make an iterator tuple

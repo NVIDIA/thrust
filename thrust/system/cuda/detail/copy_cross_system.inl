@@ -75,7 +75,7 @@ template<typename InputIterator,
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
   typedef typename thrust::iterator_system<InputIterator>::type InputSystem;
 
-  // allocate and copy to temporary storage in the input's space
+  // allocate and copy to temporary storage in the input's system
   thrust::detail::temporary_array<InputType, InputSystem> temp(n);
   thrust::copy_n(first, n, temp.begin());
 
@@ -114,7 +114,7 @@ template<typename RandomAccessIterator,
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
   typedef typename thrust::iterator_system<OutputIterator>::type OutputSystem;
 
-  // allocate and copy to temporary storage in the output's space
+  // allocate and copy to temporary storage in the output's system
   thrust::detail::temporary_array<InputType,OutputSystem> temp(n);
   thrust::copy_n(first, n, temp.begin());
 
@@ -157,7 +157,7 @@ template<typename RandomAccessIterator1,
                                                                    RandomAccessIterator2 result,
                                                                    thrust::detail::false_type) // InputIterator is non-trivial
 {
-  // copy the input to a temporary input space buffer of OutputType
+  // copy the input to a temporary input system buffer of OutputType
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
   typedef typename thrust::iterator_system<RandomAccessIterator1>::type InputSystem;
 
@@ -175,7 +175,7 @@ template<typename RandomAccessIterator1,
                                                                    RandomAccessIterator2 result,
                                                                    thrust::detail::true_type) // InputIterator is trivial
 {
-  // copy the input to a temporary result space buffer of InputType
+  // copy the input to a temporary result system buffer of InputType
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
   typedef typename thrust::iterator_system<RandomAccessIterator2>::type OutputSystem;
 
@@ -206,7 +206,7 @@ template<typename RandomAccessIterator1,
                                          thrust::random_access_traversal_tag,
                                          thrust::detail::false_type)
 {
-  // dispatch a non-trivial random access cross space copy based on whether or not the InputIterator is trivial
+  // dispatch a non-trivial random access cross system copy based on whether or not the InputIterator is trivial
   return detail::non_trivial_random_access_copy_cross_system(begin, end, result,
       typename thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type());
 }

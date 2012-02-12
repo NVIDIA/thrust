@@ -71,7 +71,7 @@ template<typename Category>
 
             detail::identity_<thrust::device_system_tag>,
 
-            // unknown space
+            // unknown system
             detail::identity_<void>
           > // if device
         > // if host

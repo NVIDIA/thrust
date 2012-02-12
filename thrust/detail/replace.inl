@@ -38,10 +38,10 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::replace_copy_if;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return replace_copy_if(select_system(space1(),space2()), first, last, result, pred, new_value);
+  return replace_copy_if(select_system(system1(),system2()), first, last, result, pred, new_value);
 } // end replace_copy_if()
 
 template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
@@ -54,11 +54,11 @@ template<typename InputIterator1, typename InputIterator2, typename OutputIterat
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::replace_copy_if;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
-  typedef typename thrust::iterator_system<OutputIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
+  typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return replace_copy_if(select_system(space1(),space2(),space3()), first, last, stencil, result, pred, new_value);
+  return replace_copy_if(select_system(system1(),system2(),system3()), first, last, stencil, result, pred, new_value);
 } // end replace_copy_if()
 
 
@@ -71,10 +71,10 @@ template<typename InputIterator, typename OutputIterator, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::replace_copy;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  space1;
-  typedef typename thrust::iterator_system<OutputIterator>::type space2;
+  typedef typename thrust::iterator_system<InputIterator>::type  system1;
+  typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return replace_copy(select_system(space1(),space2()), first, last, result, old_value, new_value);
+  return replace_copy(select_system(system1(),system2()), first, last, result, old_value, new_value);
 } // end replace_copy()
 
 template<typename ForwardIterator, typename Predicate, typename T>
@@ -85,9 +85,9 @@ template<typename ForwardIterator, typename Predicate, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::replace_if;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return replace_if(select_system(space()), first, last, pred, new_value);
+  return replace_if(select_system(system()), first, last, pred, new_value);
 } // end replace_if()
 
 template<typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
@@ -99,10 +99,10 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::replace_if;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-  typedef typename thrust::iterator_system<InputIterator>::type   space2;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+  typedef typename thrust::iterator_system<InputIterator>::type   system2;
 
-  return replace_if(select_system(space1(),space2()), first, last, stencil, pred, new_value);
+  return replace_if(select_system(system1(),system2()), first, last, stencil, pred, new_value);
 } // end replace_if()
 
 template<typename ForwardIterator, typename T>
@@ -113,9 +113,9 @@ template<typename ForwardIterator, typename T>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::replace;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type space;
+  typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return replace(select_system(space()), first, last, old_value, new_value);
+  return replace(select_system(system()), first, last, old_value, new_value);
 } // end replace()
 
 } // end namespace thrust

@@ -37,9 +37,9 @@ typename thrust::iterator_traits<InputIterator>::value_type
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::reduce;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return reduce(select_system(space()), first, last);
+  return reduce(select_system(system()), first, last);
 }
 
 template<typename InputIterator,
@@ -51,9 +51,9 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::reduce;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return reduce(select_system(space()), first, last, init);
+  return reduce(select_system(system()), first, last, init);
 }
 
 
@@ -68,9 +68,9 @@ template<typename InputIterator,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::reduce;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return reduce(select_system(space()), first, last, init, binary_op);
+  return reduce(select_system(system()), first, last, init, binary_op);
 }
 
 template <typename InputIterator1,
@@ -87,12 +87,12 @@ template <typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::reduce_by_key;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output);
+  return reduce_by_key(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output);
 }
 
 template <typename InputIterator1,
@@ -111,12 +111,12 @@ template <typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::reduce_by_key;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+  return reduce_by_key(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 }
 
 template <typename InputIterator1,
@@ -137,12 +137,12 @@ template <typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::reduce_by_key;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  space2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type space3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type space4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type system3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return reduce_by_key(select_system(space1(),space2(),space3(),space4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  return reduce_by_key(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 }
 
 } // end namespace thrust

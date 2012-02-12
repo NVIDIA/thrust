@@ -59,9 +59,9 @@ struct transform_iterator_base
       , Iterator
       , pointer_
       , cv_value_type
-      , thrust::use_default   // Leave the space alone
+      , thrust::use_default   // Leave the system alone
         //, thrust::use_default   // Leave the traversal alone
-        // use the Iterator's category to let any space iterators remain random access even though
+        // use the Iterator's category to let any system iterators remain random access even though
         // transform_iterator's reference type may not be a reference
         // XXX figure out why only iterators whose reference types are true references are random access
         , typename thrust::iterator_traits<Iterator>::iterator_category

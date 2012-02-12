@@ -16,7 +16,7 @@
 
 
 /*! \file device_reference.h
- *  \brief A reference to a variable which resides in the "device" memory space
+ *  \brief A reference to a variable which resides in the "device" system's memory space
  */
 
 #pragma once

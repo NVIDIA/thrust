@@ -41,9 +41,9 @@ ForwardIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space; 
+    typedef typename thrust::iterator_system<ForwardIterator>::type system; 
 
-    return lower_bound(select_system(space()), first, last, value);
+    return lower_bound(select_system(system()), first, last, value);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -55,9 +55,9 @@ ForwardIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space; 
+    typedef typename thrust::iterator_system<ForwardIterator>::type system; 
 
-    return lower_bound(select_system(space()), first, last, value, comp);
+    return lower_bound(select_system(system()), first, last, value, comp);
 }
 
 template <class ForwardIterator, class LessThanComparable>
@@ -68,9 +68,9 @@ ForwardIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return upper_bound(select_system(space()), first, last, value);
+    return upper_bound(select_system(system()), first, last, value);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -82,9 +82,9 @@ ForwardIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return upper_bound(select_system(space()), first, last, value, comp);
+    return upper_bound(select_system(system()), first, last, value, comp);
 }
 
 template <class ForwardIterator, class LessThanComparable>
@@ -95,9 +95,9 @@ bool binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return binary_search(select_system(space()), first, last, value);
+    return binary_search(select_system(system()), first, last, value);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -109,9 +109,9 @@ bool binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return binary_search(select_system(space()), first, last, value, comp);
+    return binary_search(select_system(system()), first, last, value, comp);
 }
 
 template <class ForwardIterator, class LessThanComparable>
@@ -123,9 +123,9 @@ equal_range(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::equal_range;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return equal_range(select_system(space()), first, last, value);
+    return equal_range(select_system(system()), first, last, value);
 }
 
 template <class ForwardIterator, class T, class StrictWeakOrdering>
@@ -138,9 +138,9 @@ equal_range(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::equal_range;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return equal_range(select_system(space()), first, last, value, comp);
+    return equal_range(select_system(system()), first, last, value, comp);
 }
 
 //////////////////////
@@ -157,11 +157,11 @@ OutputIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_system<InputIterator>::type   space2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+    typedef typename thrust::iterator_system<InputIterator>::type   system2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return lower_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output);
+    return lower_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -175,11 +175,11 @@ OutputIterator lower_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::lower_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_system<InputIterator>::type   space2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+    typedef typename thrust::iterator_system<InputIterator>::type   system2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return lower_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output, comp);
+    return lower_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
 }
     
 template <class ForwardIterator, class InputIterator, class OutputIterator>
@@ -192,11 +192,11 @@ OutputIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_system<InputIterator>::type   space2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+    typedef typename thrust::iterator_system<InputIterator>::type   system2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return upper_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output);
+    return upper_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -210,11 +210,11 @@ OutputIterator upper_bound(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::upper_bound;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_system<InputIterator>::type   space2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+    typedef typename thrust::iterator_system<InputIterator>::type   system2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return upper_bound(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output, comp);
+    return upper_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator>
@@ -227,11 +227,11 @@ OutputIterator binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_system<InputIterator>::type   space2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+    typedef typename thrust::iterator_system<InputIterator>::type   system2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return binary_search(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output);
+    return binary_search(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
 }
 
 template <class ForwardIterator, class InputIterator, class OutputIterator, class StrictWeakOrdering>
@@ -245,11 +245,11 @@ OutputIterator binary_search(ForwardIterator first,
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::binary_search;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type space1;
-    typedef typename thrust::iterator_system<InputIterator>::type   space2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  space3;
+    typedef typename thrust::iterator_system<ForwardIterator>::type system1;
+    typedef typename thrust::iterator_system<InputIterator>::type   system2;
+    typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return binary_search(select_system(space1(),space2(),space3()), first, last, values_first, values_last, output, comp);
+    return binary_search(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
 }
 
 } // end namespace thrust

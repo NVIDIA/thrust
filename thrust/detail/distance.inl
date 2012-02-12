@@ -35,9 +35,9 @@ template<typename InputIterator>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::distance;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return distance(select_system(space()), first, last);
+  return distance(select_system(system()), first, last);
 } // end distance()
 
 } // end namespace thrust

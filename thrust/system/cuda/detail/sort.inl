@@ -118,18 +118,18 @@ namespace third_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        typedef thrust::cuda::tag space;
+        typedef thrust::cuda::tag system;
 
         // sizeof(ValueType) != 4, use indirection and permute values
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-        thrust::detail::temporary_array<unsigned int, space> permutation(keys_last - keys_first);
+        thrust::detail::temporary_array<unsigned int, system> permutation(keys_last - keys_first);
         thrust::sequence(permutation.begin(), permutation.end());
     
         thrust::system::cuda::detail::detail::stable_merge_sort_by_key
             (keys_first, keys_last, permutation.begin(), comp);
    
         RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-        thrust::detail::temporary_array<ValueType, space> temp(values_first, values_last);
+        thrust::detail::temporary_array<ValueType, system> temp(values_first, values_last);
         thrust::gather(permutation.begin(), permutation.end(), temp.begin(), values_first);
     }
     
@@ -182,17 +182,17 @@ namespace second_dispatch
                              StrictWeakOrdering comp,
                              thrust::detail::true_type)
     {
-        typedef thrust::cuda::tag space;
+        typedef thrust::cuda::tag system;
 
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int,space> permutation(last - first);
+        thrust::detail::temporary_array<unsigned int,system> permutation(last - first);
         thrust::sequence(permutation.begin(), permutation.end());
     
         thrust::system::cuda::detail::detail::stable_merge_sort
             (permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
     
-        thrust::detail::temporary_array<KeyType,space> temp(first, last);
+        thrust::detail::temporary_array<KeyType,system> temp(first, last);
         thrust::gather(permutation.begin(), permutation.end(), temp.begin(), first);
     }
     
@@ -216,11 +216,11 @@ namespace second_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        typedef thrust::cuda::tag space;
+        typedef thrust::cuda::tag system;
 
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int, space> permutation(keys_last - keys_first);
+        thrust::detail::temporary_array<unsigned int, system> permutation(keys_last - keys_first);
         thrust::sequence(permutation.begin(), permutation.end());
     
         // decide whether to sort values indirectly
@@ -234,7 +234,7 @@ namespace second_dispatch
             (permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
-        thrust::detail::temporary_array<KeyType,space> temp(keys_first, keys_last);
+        thrust::detail::temporary_array<KeyType,system> temp(keys_first, keys_last);
         thrust::gather(permutation.begin(), permutation.end(), temp.begin(), keys_first);
     }
     

@@ -41,11 +41,11 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::merge;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
-  typedef typename thrust::iterator_system<OutputIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
+  typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return merge(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result, comp);
+  return merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result, comp);
 } // end set_intersection()
 
 template<typename InputIterator1,
@@ -60,11 +60,11 @@ template<typename InputIterator1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::merge;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
-  typedef typename thrust::iterator_system<OutputIterator>::type space3;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
+  typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return merge(select_system(space1(),space2(),space3()), first1, last1, first2, last2, result);
+  return merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result);
 } // end merge()
 
 } // end thrust

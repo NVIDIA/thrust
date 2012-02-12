@@ -37,10 +37,10 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::inner_product;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  return inner_product(select_system(space1(),space2()), first1, last1, first2, init);
+  return inner_product(select_system(system1(),system2()), first1, last1, first2, init);
 } // end inner_product()
 
 template <typename InputIterator1, typename InputIterator2, typename OutputType,
@@ -53,10 +53,10 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::inner_product;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type space1;
-  typedef typename thrust::iterator_system<InputIterator2>::type space2;
+  typedef typename thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename thrust::iterator_system<InputIterator2>::type system2;
 
-  return inner_product(select_system(space1(),space2()), first1, last1, first2, init, binary_op1, binary_op2);
+  return inner_product(select_system(system1(),system2()), first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
 
 

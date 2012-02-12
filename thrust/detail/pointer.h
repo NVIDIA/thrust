@@ -97,7 +97,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     Element *,                           // we adapt a raw pointer
     Derived,                             // our pointer type is the same as our Derived type
     value_type,                          // the value type
-    Tag,                                 // space/tag
+    Tag,                                 // system tag
     thrust::random_access_traversal_tag, // pointers have random access traversal
     reference_arg,                       // pass along our Reference type
     std::ptrdiff_t
@@ -149,7 +149,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     explicit pointer(OtherElement *ptr);
 
     // OtherPointer's element_type shall be convertible to Element
-    // OtherPointer's space shall be convertible to Tag
+    // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
     __host__ __device__
     pointer(const OtherPointer &other,
@@ -161,7 +161,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     // assignment
     
     // OtherPointer's element_type shall be convertible to Element
-    // OtherPointer's space shall be convertible to Tag
+    // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
     __host__ __device__
     typename thrust::detail::enable_if_pointer_is_convertible<

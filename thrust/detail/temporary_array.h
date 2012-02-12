@@ -100,7 +100,7 @@ template<typename Iterator, typename Tag>
 };
 
 
-// if the space of Iterator is convertible to Tag, then just make a shallow
+// if the system of Iterator is convertible to Tag, then just make a shallow
 // copy of the range.  else, use a temporary_array
 // note that the resulting iterator is explicitly tagged with Tag either way
 template<typename Iterator, typename Tag>

@@ -99,10 +99,10 @@ void stable_sort(tag,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type space;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type system;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type key_type;
 
-  thrust::detail::temporary_array<key_type, space> temp(first, last);
+  thrust::detail::temporary_array<key_type, system> temp(first, last);
 
   sort_detail::merge_sort(first, last, temp.begin(), comp, true);
 }

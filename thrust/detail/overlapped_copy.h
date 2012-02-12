@@ -98,14 +98,14 @@ template<typename RandomAccessIterator1,
                                         RandomAccessIterator2 result,
                                         Tag)
 {
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type space1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type space2;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system1;
+  typedef typename thrust::iterator_system<RandomAccessIterator2>::type system2;
 
-  typedef typename thrust::detail::minimum_system<space1,space2>::type space;
+  typedef typename thrust::detail::minimum_system<system1,system2>::type system;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
   // make a temporary copy of [first,last), and copy into it first
-  thrust::detail::temporary_array<value_type, space> temp(first,last);
+  thrust::detail::temporary_array<value_type, system> temp(first,last);
   return thrust::copy(temp.begin(), temp.end(), result);
 } // end overlapped_copy()
 

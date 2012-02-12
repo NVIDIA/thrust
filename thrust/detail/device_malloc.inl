@@ -35,10 +35,10 @@ thrust::device_ptr<void> device_malloc(const std::size_t n)
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::malloc;
 
-  typedef thrust::iterator_system< device_ptr<void> >::type space;
+  typedef thrust::iterator_system< device_ptr<void> >::type system;
 
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  void* raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(select_system(space()), n)));
+  void* raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(select_system(system()), n)));
 
   return thrust::device_ptr<void>(raw_ptr);
 } // end device_malloc()

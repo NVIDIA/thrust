@@ -267,9 +267,9 @@ template<typename InputIterator,
   // recover the user's system tag and pass to reduce_detail::reduce
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type space;
+  typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return reduce_detail::reduce(select_system(space()), first, last, init, binary_op);
+  return reduce_detail::reduce(select_system(system()), first, last, init, binary_op);
 } // end reduce()
 
 } // end namespace detail
