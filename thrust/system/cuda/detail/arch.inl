@@ -112,7 +112,7 @@ inline device_properties_t device_properties(int device_id)
   static const int max_num_devices                              = 16;
 
   static bool properties_exist[max_num_devices]                 = {0};
-  static device_properties_t device_properties[max_num_devices] = {{0}};
+  static device_properties_t device_properties[max_num_devices] = {};
 
   if(device_id >= max_num_devices)
   {
