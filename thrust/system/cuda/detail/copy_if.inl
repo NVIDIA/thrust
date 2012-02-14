@@ -20,7 +20,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
-#include <thrust/detail/backend/decompose.h>
+#include <thrust/system/detail/internal/decompose.h>
 #include <thrust/scan.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/detail/internal/reduce_intervals.h>
@@ -82,7 +82,7 @@ struct copy_if_intervals_closure
     typedef typename Decomposition::index_type IndexType;
 
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<IndexType> range = decomp[context.block_index()];
+    thrust::system::detail::internal::index_range<IndexType> range = decomp[context.block_index()];
 
     IndexType base = range.begin();
 
@@ -170,8 +170,8 @@ template<typename InputIterator1,
   if (first == last)
       return output;
 
-  typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
-  typedef thrust::detail::temporary_array<IndexType, thrust::cuda::tag> IndexArray;
+  typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
+  typedef thrust::detail::temporary_array<IndexType, thrust::cuda::tag>      IndexArray;
 
   Decomposition decomp = default_decomposition(last - first);
 

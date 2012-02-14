@@ -420,7 +420,7 @@ struct upsweep_intervals_closure
     
     context.barrier(); // XXX needed because CUDA fires default constructors now
     
-    thrust::detail::backend::index_range<IndexType> interval = decomp[context.block_index()];
+    thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
 
     IndexType base = interval.begin();
 
@@ -501,7 +501,7 @@ struct downsweep_intervals_closure
 
     context.barrier(); // XXX needed because CUDA fires default constructors now
 
-    thrust::detail::backend::index_range<IndexType> interval = decomp[context.block_index()];
+    thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
 
     IndexType base = interval.begin();
 
@@ -572,9 +572,9 @@ OutputIterator inclusive_scan(Tag,
     >
   >::type ValueType;
 
-  typedef unsigned int                                              IndexType;
-  typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
-  typedef thrust::detail::temporary_array<ValueType,Tag>            ValueArray;
+  typedef unsigned int                                                       IndexType;
+  typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
+  typedef thrust::detail::temporary_array<ValueType,Tag>                     ValueArray;
 
   if (first == last)
       return output;
@@ -668,9 +668,9 @@ OutputIterator exclusive_scan(Tag,
     >
   >::type ValueType;
 
-  typedef unsigned int                                              IndexType;
-  typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
-  typedef thrust::detail::temporary_array<ValueType,Tag>            ValueArray;
+  typedef unsigned int                                                       IndexType;
+  typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
+  typedef thrust::detail::temporary_array<ValueType,Tag>                     ValueArray;
 
   if (first == last)
       return output;

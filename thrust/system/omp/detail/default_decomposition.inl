@@ -15,6 +15,7 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/system/omp/detail/default_decomposition.h>
 
 // don't attempt to #include this file without omp support
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
@@ -31,7 +32,7 @@ namespace detail
 {
 
 template <typename IndexType>
-thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(IndexType n)
+thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
   // we're attempting to launch an omp kernel, assert we're compiling with omp support
   // ========================================================================
@@ -42,10 +43,16 @@ thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(
                         (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
 
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-  return thrust::detail::backend::uniform_decomposition<IndexType>(n, 1, omp_get_num_procs());
+  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, omp_get_num_procs());
 #else
-  return thrust::detail::backend::uniform_decomposition<IndexType>(n, 1, 1);
+  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, 1);
 #endif
+}
+
+template <typename IndexType>
+thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n)
+{
+  return default_decomposition(n);
 }
 
 } // end namespace detail

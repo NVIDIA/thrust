@@ -14,28 +14,29 @@
  *  limitations under the License.
  */
 
-
-/*! \file default_decomposition.h
- *  \brief Return an appropriate decomposition for a given backend.
- */
-
-#pragma once
-
-#include <thrust/detail/backend/decompose.h>
+#include <thrust/detail/config.h>
+#include <thrust/system/detail/internal/default_decomposition.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/internal/default_decomposition_adl_helper.h>
 
 namespace thrust
 {
+namespace system
+{
 namespace detail
 {
-namespace backend
+namespace internal
 {
 
 template <typename System, typename IndexType>
-uniform_decomposition<IndexType> default_decomposition(IndexType n);
+uniform_decomposition<IndexType> default_decomposition(IndexType n)
+{
+  return default_decomposition(System(), n);
+} // end default_decomposition()
 
-} // end namespace backend
+} // end namespace internal
 } // end namespace detail
+} // end namespace system
 } // end namespace thrust
-
-#include <thrust/detail/backend/default_decomposition.inl>
 

@@ -445,7 +445,7 @@ struct reduce_by_key_closure
   
     context.barrier(); // XXX needed because CUDA fires default constructors now
   
-    thrust::detail::backend::index_range<IndexType> interval = decomp[context.block_index()];
+    thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
   
     if (context.thread_index() == 0)
     {
@@ -527,7 +527,7 @@ template <typename Tag,
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type  IndexType;
     typedef typename thrust::iterator_traits<InputIterator1>::value_type       KeyType;
     
-    typedef thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
+    typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
 
     // the pseudocode for deducing the type of the temporary used below:
     // 

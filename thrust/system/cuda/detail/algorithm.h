@@ -33,6 +33,7 @@
 // these are alphabetical
 #include <thrust/system/cuda/detail/adjacent_difference.h>
 #include <thrust/system/cuda/detail/copy_if.h>
+#include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/fill.h>
 #include <thrust/system/cuda/detail/merge.h>
 #include <thrust/system/cuda/detail/reduce_by_key.h>

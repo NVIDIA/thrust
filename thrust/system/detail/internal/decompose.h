@@ -16,11 +16,15 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 namespace thrust
+{
+namespace system
 {
 namespace detail
 {
-namespace backend
+namespace internal
 {
 
   template <typename IndexType>
@@ -107,7 +111,8 @@ namespace backend
     };
 
 
-} // end namespace backend
+} // end namespace internal
 } // end namespace detail
+} // end namespace system
 } // end namespace thrust
 

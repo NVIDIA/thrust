@@ -1,7 +1,7 @@
 #include <unittest/unittest.h>
 
 #include <thrust/functional.h>
-#include <thrust/detail/backend/decompose.h>
+#include <thrust/system/detail/internal/decompose.h>
 #include <thrust/system/detail/internal/reduce_intervals.h>
 
 namespace ns = thrust::system::detail::internal;
@@ -14,7 +14,7 @@ void TestReduceIntervalsSimple(void)
   Vector input(10, 1);
     
   {
-    thrust::detail::backend::uniform_decomposition<int> decomp(10, 10, 1);
+    thrust::system::detail::internal::uniform_decomposition<int> decomp(10, 10, 1);
     Vector output(decomp.size());
     ns::reduce_intervals(input.begin(), output.begin(), thrust::plus<T>(), decomp);
 
@@ -22,7 +22,7 @@ void TestReduceIntervalsSimple(void)
   }
   
   {
-    thrust::detail::backend::uniform_decomposition<int> decomp(10, 6, 2);
+    thrust::system::detail::internal::uniform_decomposition<int> decomp(10, 6, 2);
     Vector output(decomp.size());
     ns::reduce_intervals(input.begin(), output.begin(), thrust::plus<T>(), decomp);
 
@@ -41,7 +41,7 @@ struct TestReduceIntervals
     thrust::host_vector<T>   h_input = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_input = h_input;
 
-    thrust::detail::backend::uniform_decomposition<size_t> decomp(n, 7, 100);
+    thrust::system::detail::internal::uniform_decomposition<size_t> decomp(n, 7, 100);
 
     thrust::host_vector<T>   h_output(decomp.size());
     thrust::device_vector<T> d_output(decomp.size());

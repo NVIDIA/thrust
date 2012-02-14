@@ -19,7 +19,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/minmax.h>
-#include <thrust/detail/backend/decompose.h>
+#include <thrust/system/detail/internal/decompose.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/block/reduce.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
@@ -62,7 +62,7 @@ struct commutative_reduce_intervals_closure
     typedef typename Decomposition::index_type index_type;
    
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<index_type> range = decomposition[context.block_index()];
+    thrust::system::detail::internal::index_range<index_type> range = decomposition[context.block_index()];
 
     index_type i = range.begin() + context.thread_index();
       

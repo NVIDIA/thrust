@@ -21,25 +21,33 @@
 
 #pragma once
 
-#include <thrust/detail/backend/decompose.h>
+#include <thrust/detail/config.h>
+#include <thrust/system/detail/internal/decompose.h>
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cpp
 {
+namespace detail
+{
 
 template <typename IndexType>
-thrust::detail::backend::uniform_decomposition<IndexType> default_decomposition(IndexType n)
+thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
-  return thrust::detail::backend::uniform_decomposition<IndexType>(n, 1, 1);
+  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, 1);
 }
 
-} // end namespace cpp
-} // end namespace backend
+template <typename IndexType>
+thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n)
+{
+  return default_decomposition(n);
+}
+
 } // end namespace detail
+} // end namespace cpp
+} // end namespace system
 } // end namespace thrust
 

@@ -16,34 +16,30 @@
 
 
 /*! \file default_decomposition.h
- *  \brief Return a decomposition that is appropriate for the CUDA backend.
+ *  \brief Return an appropriate decomposition for a given backend.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/internal/decompose.h>
-#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace cuda
-{
 namespace detail
 {
+namespace internal
+{
 
-template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
+template <typename System, typename IndexType>
+uniform_decomposition<IndexType> default_decomposition(IndexType n);
 
-template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n);
-
+} // end namespace internal
 } // end namespace detail
-} // end namespace cuda
 } // end namespace system
 } // end namespace thrust
 
-#include <thrust/system/cuda/detail/default_decomposition.inl>
+#include <thrust/system/detail/internal/default_decomposition.inl>
 

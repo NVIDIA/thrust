@@ -1,8 +1,8 @@
 #include <unittest/unittest.h>
 
-#include <thrust/detail/backend/decompose.h>
+#include <thrust/system/detail/internal/decompose.h>
 
-using thrust::detail::backend::uniform_decomposition;
+using thrust::system::detail::internal::uniform_decomposition;
 
 void TestUniformDecomposition(void)
 {

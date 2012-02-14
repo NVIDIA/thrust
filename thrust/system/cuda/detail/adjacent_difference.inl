@@ -21,11 +21,8 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
-
 #include <thrust/detail/temporary_array.h>
-
-#include <thrust/detail/backend/decompose.h>
-
+#include <thrust/system/detail/internal/decompose.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
@@ -90,7 +87,7 @@ struct adjacent_difference_closure
     typedef typename Decomposition::index_type index_type;
 
     // this block processes results in [range.begin(), range.end())
-    thrust::detail::backend::index_range<index_type> range = decomp[context.block_index()];
+    thrust::system::detail::internal::index_range<index_type> range = decomp[context.block_index()];
     
     input_copy += context.block_index() - 1;
       
@@ -154,10 +151,10 @@ OutputIterator adjacent_difference(tag,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type               InputType;
-  typedef typename thrust::iterator_difference<InputIterator>::type          IndexType;
-  typedef          thrust::cuda::tag                                         System;
-  typedef          thrust::detail::backend::uniform_decomposition<IndexType> Decomposition;
+  typedef typename thrust::iterator_value<InputIterator>::type                        InputType;
+  typedef typename thrust::iterator_difference<InputIterator>::type                   IndexType;
+  typedef          thrust::cuda::tag                                                  System;
+  typedef          thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
 
   IndexType n = last - first;
 

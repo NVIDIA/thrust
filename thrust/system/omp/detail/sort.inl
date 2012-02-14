@@ -113,7 +113,7 @@ void stable_sort(Tag,
 
   #pragma omp parallel
   {
-    thrust::detail::backend::uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
+    thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
 
     // process id
     IndexType p_i = omp_get_thread_num();
@@ -188,7 +188,7 @@ void stable_sort_by_key(Tag,
 
   #pragma omp parallel
   {
-    thrust::detail::backend::uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
+    thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
 
     // process id
     IndexType p_i = omp_get_thread_num();

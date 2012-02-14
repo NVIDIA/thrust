@@ -14,36 +14,33 @@
  *  limitations under the License.
  */
 
-
-/*! \file default_decomposition.h
- *  \brief Return a decomposition that is appropriate for the CUDA backend.
- */
-
-#pragma once
-
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/internal/decompose.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/tbb/detail/default_decomposition.h>
+#include <tbb/compat/thread>
 
 namespace thrust
 {
 namespace system
 {
-namespace cuda
+namespace tbb
 {
 namespace detail
 {
 
 template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
+thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
+{
+  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, std::thread::hardware_concurrency());
+}
 
 template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n);
+thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n)
+{
+  return default_decomposition(n);
+}
 
 } // end namespace detail
-} // end namespace cuda
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/cuda/detail/default_decomposition.inl>
 

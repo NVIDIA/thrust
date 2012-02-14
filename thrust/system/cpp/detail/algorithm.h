@@ -24,6 +24,7 @@
 #include <thrust/system/cpp/detail/adjacent_difference.h>
 #include <thrust/system/cpp/detail/binary_search.h>
 #include <thrust/system/cpp/detail/copy.h>
+#include <thrust/system/cpp/detail/default_decomposition.h>
 #include <thrust/system/cpp/detail/extrema.h>
 #include <thrust/system/cpp/detail/find.h>
 #include <thrust/system/cpp/detail/for_each.h>

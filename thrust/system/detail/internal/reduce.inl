@@ -18,7 +18,7 @@
 #include <thrust/system/detail/internal/reduce.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
-#include <thrust/detail/backend/default_decomposition.h>
+#include <thrust/system/detail/internal/default_decomposition.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/detail/internal/reduce_intervals.h>
 
@@ -47,8 +47,8 @@ template<typename Tag,
   const difference_type n = thrust::distance(first,last);
 
   // determine first and second level decomposition
-  thrust::detail::backend::uniform_decomposition<difference_type> decomp1 = thrust::detail::backend::default_decomposition<Tag>(n);
-  thrust::detail::backend::uniform_decomposition<difference_type> decomp2(decomp1.size() + 1, 1, 1);
+  thrust::system::detail::internal::uniform_decomposition<difference_type> decomp1 = thrust::system::detail::internal::default_decomposition<Tag>(n);
+  thrust::system::detail::internal::uniform_decomposition<difference_type> decomp2(decomp1.size() + 1, 1, 1);
 
   // allocate storage for the initializer and partial sums
   thrust::detail::temporary_array<OutputType,Tag> partial_sums(decomp1.size() + 1);
