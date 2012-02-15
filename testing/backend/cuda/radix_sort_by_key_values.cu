@@ -6,7 +6,7 @@
 #include <thrust/sort.h>
 #include <thrust/system/cuda/detail/detail/stable_radix_sort.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 typedef unittest::type_list<
 #if !(defined(__GNUC__) && (__GNUC__ <= 4) && (__GNUC_MINOR__ <= 1))
@@ -62,5 +62,5 @@ struct TestRadixSortByKeyLongLongValues
 };
 VariableUnitTest<TestRadixSortByKeyLongLongValues, UnsignedIntegerTypes> TestRadixSortByKeyLongLongValuesInstance;
 
-#endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#endif // THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 

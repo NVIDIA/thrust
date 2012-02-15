@@ -8,7 +8,7 @@
 #include <thrust/sort.h>
 #include <thrust/system_error.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 void TestTransformNullPtr(void)
 {

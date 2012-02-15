@@ -36,13 +36,13 @@
 #endif // THRUST_HOST_SYSTEM
 
 
-#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if   THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 #include <thrust/system/cuda/memory.h>
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
+#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP
 #include <thrust/system/omp/memory.h>
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_TBB
+#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_TBB
 #include <thrust/system/tbb/memory.h>
 #else
-#error "Unknown device backend."
-#endif // THRUST_DEVICE_BACKEND
+#error "Unknown device system."
+#endif // THRUST_DEVICE_SYSTEM
 

@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the malloc_and_free.h header
-// of the host and device backends. It should be #included in any
+// of the host and device systems. It should be #included in any
 // code which uses adl to dispatch malloc or free.
 
 #if   THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
@@ -29,17 +29,17 @@
 #elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
 // tbb has no malloc_and_free.h
 #else
-#error "Unknown host backend."
+#error "Unknown host system."
 #endif // THRUST_HOST_SYSTEM
 
 
-#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if   THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 #include <thrust/system/cuda/detail/malloc_and_free.h>
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
+#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP
 // omp has no malloc_and_free.h
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_TBB
+#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_TBB
 // tbb has no malloc_and_free.h
 #else
-#error "Unknown device backend."
-#endif // THRUST_DEVICE_BACKEND
+#error "Unknown device system."
+#endif // THRUST_DEVICE_SYSTEM
 

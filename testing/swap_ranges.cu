@@ -52,7 +52,7 @@ void TestSwapRanges(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestSwapRanges);
 
-#if (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+#if (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
 void TestSwapRangesForcedIterator(void)
 {
   thrust::device_vector<int> A(3, 0);

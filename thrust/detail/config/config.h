@@ -24,10 +24,10 @@
 
 #include <thrust/detail/config/simple_defines.h>
 #include <thrust/detail/config/compiler.h>
-// host_system.h & device_backend.h must be #included as early as possible
+// host_system.h & device_system.h must be #included as early as possible
 // because other config headers depend on it
 #include <thrust/detail/config/host_system.h>
-#include <thrust/detail/config/device_backend.h>
+#include <thrust/detail/config/device_system.h>
 #include <thrust/detail/config/host_device.h>
 #include <thrust/detail/config/debug.h>
 #include <thrust/detail/config/compiler_fence.h>

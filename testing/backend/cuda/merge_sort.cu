@@ -2,7 +2,7 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 template <typename T>
 struct less_div_10
@@ -307,5 +307,5 @@ DECLARE_UNITTEST(TestMergeSortByKeyUnalignedSimple);
 
 #endif // THRUST_DEBUG_CUDA_MERGE_SORT
 
-#endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#endif // THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 

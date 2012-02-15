@@ -6,7 +6,7 @@
 #include <thrust/sort.h>
 #include <thrust/system/cuda/detail/detail/stable_radix_sort.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 using namespace unittest;
 
@@ -113,5 +113,5 @@ struct TestRadixSort
 };
 VariableUnitTest<TestRadixSort, RadixSortKeyTypes> TestRadixSortInstance;
 
-#endif // THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#endif // THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 

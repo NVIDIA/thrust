@@ -375,7 +375,7 @@ void TestCopyIfStencil(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestCopyIfStencil);
 
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 // do we really want to test this ever?
 void TestCopyDeviceThrow(void)
 {

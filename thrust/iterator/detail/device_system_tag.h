@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 
-#if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if   THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 #include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
@@ -28,7 +28,7 @@ typedef thrust::system::cuda::tag device_system_tag;
 
 } // end thrust
 
-#elif  THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP
+#elif  THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP
 #include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
@@ -38,7 +38,7 @@ typedef thrust::system::omp::tag device_system_tag;
 
 } // end thrust
 
-#elif THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_TBB
+#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_TBB
 #include <thrust/system/tbb/detail/tag.h>
 
 namespace thrust
@@ -49,8 +49,8 @@ typedef thrust::system::tbb::tag device_system_tag;
 } // end thrust
 
 #else
-#error Unknown device backend.
-#endif // THRUST_DEVICE_BACKEND
+#error Unknown device system.
+#endif // THRUST_DEVICE_SYSTEM
 
 // TODO remove this in 1.7.0
 namespace thrust

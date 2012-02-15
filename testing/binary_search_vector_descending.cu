@@ -157,7 +157,7 @@ struct TestVectorLowerBoundDescending
   {
 // XXX an MSVC bug causes problems inside std::stable_sort's implementation:
 //     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
     KNOWN_FAILURE;
 #else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end(), thrust::greater<T>());
@@ -186,7 +186,7 @@ struct TestVectorUpperBoundDescending
   {
 // XXX an MSVC bug causes problems inside std::stable_sort's implementation:
 //     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
     KNOWN_FAILURE;
 #else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end(), thrust::greater<int>());
@@ -214,7 +214,7 @@ struct TestVectorBinarySearchDescending
   {
 // XXX an MSVC bug causes problems inside std::stable_sort's implementation:
 //     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_OMP)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
     KNOWN_FAILURE;
 #else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end(), thrust::greater<int>());

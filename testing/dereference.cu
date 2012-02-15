@@ -11,7 +11,7 @@ __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 
 template <typename Iterator1, typename Iterator2>
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 __global__
 #endif 
 void simple_copy_on_device(Iterator1 first1, Iterator1 last1, Iterator2 first2)
@@ -23,7 +23,7 @@ void simple_copy_on_device(Iterator1 first1, Iterator1 last1, Iterator2 first2)
 template <typename Iterator1, typename Iterator2>
 void simple_copy(Iterator1 first1, Iterator1 last1, Iterator2 first2)
 {
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     simple_copy_on_device<<<1,1>>>(first1, last1, first2);
 #else
     simple_copy_on_device(first1, last1, first2);

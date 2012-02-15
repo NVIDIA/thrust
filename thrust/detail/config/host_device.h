@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 #include <host_defines.h>
 

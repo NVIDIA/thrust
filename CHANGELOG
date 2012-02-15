@@ -9,6 +9,13 @@ Breaking API Changes
     XXX fill me in
     The header <thrust/experimental/cuda/pinned_allocator.h> has been moved to <thrust/system/cuda/experimental/pinned_allocator.h>
     thrust::experimental::cuda::pinned_allocator has been moved to thrust::cuda::experimental::pinned_allocator
+    The macro THRUST_DEVICE_BACKEND has been renamed THRUST_DEVICE_SYSTEM
+    The macro THRUST_DEVICE_BACKEND_CUDA has been renamed THRUST_DEVICE_SYSTEM_CUDA
+    The macro THRUST_DEVICE_BACKEND_OMP has been renamed THRUST_DEVICE_SYSTEM_OMP
+    thrust::host_space_tag has been renamed thrust::host_system_tag
+    thrust::device_space_tag has been renamed thrust::device_system_tag
+    thrust::any_space_tag has been renamed thrust::any_system_tag
+    thrust::iterator_space has been renamed thrust::iterator_system
 
 New Features
     Functions
