@@ -188,7 +188,7 @@ arch::function_attributes_t closure_attributes(void)
 
   // cache the result of function_attributes(), because it is slow
   static bool result_exists                 = false;
-  static arch::function_attributes_t result = {0};
+  static arch::function_attributes_t result;
 
   if(!result_exists)
   {
