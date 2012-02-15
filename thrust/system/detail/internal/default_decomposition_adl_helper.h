@@ -21,15 +21,15 @@
 // the purpose of this header is to #include the
 // default_decomposition.h header of the host and device systems.
 
-#if   THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
+#if   THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
 #include <thrust/system/cpp/detail/default_decomposition.h>
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_OMP
 #include <thrust/system/omp/detail/default_decomposition.h>
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
 #include <thrust/system/tbb/detail/default_decomposition.h>
 #else
 #error "Unknown host system."
-#endif // THRUST_HOST_BACKEND
+#endif // THRUST_HOST_SYSTEM
 
 
 #if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA

@@ -22,15 +22,15 @@
 // of the host and device backends. It should be #included in any
 // code which uses adl to dispatch malloc or free.
 
-#if   THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
+#if   THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
 #include <thrust/system/cpp/detail/malloc_and_free.h>
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_OMP
 // omp has no malloc_and_free.h
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
 // tbb has no malloc_and_free.h
 #else
 #error "Unknown host backend."
-#endif // THRUST_HOST_BACKEND
+#endif // THRUST_HOST_SYSTEM
 
 
 #if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA

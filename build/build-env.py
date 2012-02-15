@@ -204,10 +204,10 @@ def Environment():
   env.Append(CFLAGS   = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
   env.Append(CXXFLAGS = ['-DTHRUST_DEVICE_BACKEND=%s' % backend_define])
 
-  # get the preprocessor define to use for the host backend
-  host_backend_define = { 'cpp' : 'THRUST_HOST_BACKEND_CPP', 'omp' : 'THRUST_HOST_BACKEND_OMP', 'tbb' : 'THRUST_HOST_BACKEND_TBB' }[env['host_backend']] 
-  env.Append(CFLAGS   = ['-DTHRUST_HOST_BACKEND=%s' % host_backend_define])
-  env.Append(CXXFLAGS = ['-DTHRUST_HOST_BACKEND=%s' % host_backend_define])
+  # get the preprocessor define to use for the host system
+  host_backend_define = { 'cpp' : 'THRUST_HOST_SYSTEM_CPP', 'omp' : 'THRUST_HOST_SYSTEM_OMP', 'tbb' : 'THRUST_HOST_SYSTEM_TBB' }[env['host_backend']] 
+  env.Append(CFLAGS   = ['-DTHRUST_HOST_SYSTEM=%s' % host_backend_define])
+  env.Append(CXXFLAGS = ['-DTHRUST_HOST_SYSTEM=%s' % host_backend_define])
 
   # get C compiler switches
   env.Append(CFLAGS = getCFLAGS(env['mode'], env['host_backend'], env['backend'], env['Wall'], env['Werror'], env.subst('$CC')))

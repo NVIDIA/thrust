@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
+#if THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
 #include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
@@ -28,7 +28,7 @@ typedef thrust::system::cpp::tag host_system_tag;
 
 } // end thrust
 
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_OMP
 #include <thrust/system/omp/detail/tag.h>
 
 namespace thrust
@@ -38,7 +38,7 @@ typedef thrust::system::omp::tag host_system_tag;
 
 } // end thrust
 
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
 #include <thrust/system/tbb/detail/tag.h>
 
 namespace thrust
@@ -49,8 +49,8 @@ typedef thrust::system::tbb::tag host_system_tag;
 } // end thrust
 
 #else
-#error Unknown host backend.
-#endif // THRUST_HOST_BACKEND
+#error Unknown host system.
+#endif // THRUST_HOST_SYSTEM
 
 // TODO remove this in 1.7.0
 namespace thrust
@@ -59,3 +59,4 @@ namespace thrust
 typedef THRUST_DEPRECATED host_system_tag host_space_tag;
 
 } // end thrust
+

@@ -19,21 +19,21 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the memory.h header
-// of the host and device backends. It should be #included in any
+// of the host and device systems. It should be #included in any
 // code which uses adl to dispatch Thrust calls, except for the special
 // functions malloc & free.
-// Note that a backend's memory.h header defines all of its tagged
+// Note that a system's memory.h header defines all of its tagged
 // overloads, which makes it available to adl.
 
-#if   THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_CPP
+#if   THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
 #include <thrust/system/cpp/memory.h>
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_OMP
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_OMP
 #include <thrust/system/omp/memory.h>
-#elif THRUST_HOST_BACKEND == THRUST_HOST_BACKEND_TBB
+#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
 #include <thrust/system/tbb/memory.h>
 #else
-#error "Unknown host backend."
-#endif // THRUST_HOST_BACKEND
+#error "Unknown host system."
+#endif // THRUST_HOST_SYSTEM
 
 
 #if   THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA
