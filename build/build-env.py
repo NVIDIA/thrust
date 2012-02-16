@@ -37,6 +37,21 @@ def get_cuda_paths():
   return (bin_path,lib_path,inc_path)
 
 
+def get_tbb_paths():
+  """Determines TBB {lib,include} paths
+  returns (lib_path,inc_path)
+  """
+
+  # determine defaults
+  if os.name == 'nt':
+    raise ValueError, 'Where is TBB installed?'
+  else:
+    lib_path = ''
+    inc_path = ''
+
+  return (lib_path,inc_path)
+
+
 def getTools():
   result = []
   if os.name == 'nt':
@@ -94,6 +109,10 @@ def getCFLAGS(mode, host_backend, backend, warn, warnings_as_errors, CC):
     # treat warnings as errors
     result.append(gCompilerOptions[CC]['warn_errors'])
 
+  # avoid min/max problems due to windows.h
+  if CC == 'cl':
+    result.append('/DNOMINMAX')
+
   return result
 
 
@@ -133,6 +152,8 @@ def getNVCCFLAGS(mode, host_backend, backend, arch):
     # XXX make this work when we've debugged nvcc -G
     #result.append('-G')
     pass
+  if backend != 'cuda':
+    result.append("--x=c++")
   return result
 
 
@@ -226,6 +247,11 @@ def Environment():
   env.Append(LIBPATH = [cuda_lib_path])
   env.Append(CPPPATH = [cuda_inc_path])
 
+  # get TBB paths
+  (tbb_lib_path,tbb_inc_path) = get_tbb_paths()
+  env.Append(LIBPATH = [tbb_lib_path])
+  env.Append(CPPPATH = [tbb_inc_path])
+
   # link against backend-specific runtimes
   # XXX we shouldn't have to link against cudart unless we're using the
   #     cuda runtime, but cudafe inserts some dependencies when compiling .cu files
@@ -247,10 +273,7 @@ def Environment():
       raise ValueError, "Unknown OS.  What is the name of the OpenMP library?"
 
   if env['host_backend'] == 'tbb' or env['backend'] == 'tbb':
-    if os.name == 'posix':
-      env.Append(LIBS = ['tbb'])
-    else:
-      raise ValueError, "Unkown OS.  What is the name of the TBB library?"
+    env.Append(LIBS = ['tbb'])
 
   # set thrust include path
   # this needs to come before the CUDA include path appended above,
