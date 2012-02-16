@@ -1,12 +1,10 @@
 #include <unittest/unittest.h>
 #include <thrust/iterator/discard_iterator.h>
 
-using namespace thrust;
-
 void TestDiscardIteratorIncrement(void)
 {
-  discard_iterator<> lhs(0);
-  discard_iterator<> rhs(0);
+  thrust::discard_iterator<> lhs(0);
+  thrust::discard_iterator<> rhs(0);
 
   ASSERT_EQUAL(0, lhs - rhs);
 
@@ -31,8 +29,8 @@ DECLARE_UNITTEST(TestDiscardIteratorIncrement);
 
 void TestDiscardIteratorComparison(void)
 {
-  discard_iterator<> iter1(0);
-  discard_iterator<> iter2(0);
+  thrust::discard_iterator<> iter1(0);
+  thrust::discard_iterator<> iter2(0);
 
   ASSERT_EQUAL(0, iter1 - iter2);
   ASSERT_EQUAL(true, iter1 == iter2);
@@ -57,11 +55,11 @@ DECLARE_UNITTEST(TestDiscardIteratorComparison);
 
 void TestMakeDiscardIterator(void)
 {
-  discard_iterator<> iter0 = make_discard_iterator(13);
+  thrust::discard_iterator<> iter0 = thrust::make_discard_iterator(13);
 
   *iter0 = 7;
 
-  discard_iterator<> iter1 = make_discard_iterator(7);
+  thrust::discard_iterator<> iter1 = thrust::make_discard_iterator(7);
 
   *iter1 = 13;
 
@@ -71,6 +69,8 @@ DECLARE_UNITTEST(TestMakeDiscardIterator);
 
 void TestZippedDiscardIterator(void)
 {
+  using namespace thrust;
+
   // this test is just to make sure this can compile
   typedef tuple<discard_iterator<> >  IteratorTuple1;
   typedef zip_iterator<IteratorTuple1> ZipIterator1;

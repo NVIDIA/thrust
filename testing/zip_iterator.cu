@@ -6,7 +6,6 @@
 #include <thrust/transform.h>
 
 using namespace unittest;
-using namespace thrust;
 
 template<typename T>
   struct TestZipIteratorManipulation
@@ -14,6 +13,8 @@ template<typename T>
   template<typename Vector>
   void test(void)
   {
+    using namespace thrust;
+
     Vector v0(4);
     Vector v1(4);
     Vector v2(4);
@@ -95,6 +96,8 @@ template <typename T>
 {
   void operator()(void)
   {
+    using namespace thrust;
+
     // test host types
     typedef typename host_vector<T>::iterator          Iterator1;
     typedef typename host_vector<T>::const_iterator    Iterator2;
@@ -143,6 +146,8 @@ template <typename T>
 {
   void operator()(void)
   {
+    using namespace thrust;
+
     // test host types
     typedef typename host_vector<T>::iterator          Iterator1;
     typedef typename host_vector<T>::const_iterator    Iterator2;
@@ -173,6 +178,8 @@ template <typename T>
 {
   void operator()(void)
   {
+    using namespace thrust;
+
     // XXX these assertions complain about undefined references to integral_constant<...>::value
 
     // test host types
@@ -254,6 +261,8 @@ void TestZipIteratorCopy(void)
     // fails on msvc80 SP1 in debug mode
     KNOWN_FAILURE;
 #else    
+  using namespace thrust;
+
   Vector input0(4),  input1(4);
   Vector output0(4), output1(4);
 
@@ -261,9 +270,9 @@ void TestZipIteratorCopy(void)
   sequence(input0.begin(), input0.end(),  0);
   sequence(input1.begin(), input1.end(), 13);
 
-  thrust::copy( make_zip_iterator(make_tuple(input0.begin(),  input1.begin())),
-                make_zip_iterator(make_tuple(input0.end(),    input1.end())),
-                make_zip_iterator(make_tuple(output0.begin(), output1.begin())));
+  copy( make_zip_iterator(make_tuple(input0.begin(),  input1.begin())),
+        make_zip_iterator(make_tuple(input0.end(),    input1.end())),
+        make_zip_iterator(make_tuple(output0.begin(), output1.begin())));
 
   ASSERT_EQUAL(input0, output0);
   ASSERT_EQUAL(input1, output1);
@@ -276,10 +285,10 @@ struct SumTwoTuple
 {
   template<typename Tuple>
   __host__ __device__
-  typename detail::remove_reference<typename tuple_element<0,Tuple>::type>::type
+  typename thrust::detail::remove_reference<typename thrust::tuple_element<0,Tuple>::type>::type
     operator()(Tuple x) const
   {
-    return get<0>(x) + get<1>(x);
+    return thrust::get<0>(x) + thrust::get<1>(x);
   }
 }; // end SumTwoTuple
 
@@ -287,10 +296,10 @@ struct SumThreeTuple
 {
   template<typename Tuple>
   __host__ __device__
-  typename detail::remove_reference<typename tuple_element<0,Tuple>::type>::type
+  typename thrust::detail::remove_reference<typename thrust::tuple_element<0,Tuple>::type>::type
     operator()(Tuple x) const
   {
-    return get<0>(x) + get<1>(x) + get<2>(x);
+    return thrust::get<0>(x) + thrust::get<1>(x) + thrust::get<2>(x);
   }
 }; // end SumThreeTuple
 
@@ -300,38 +309,40 @@ struct TestZipIteratorTransform
 {
   void operator()(const size_t n)
   {
-    thrust::host_vector<T> h_data0 = unittest::random_samples<T>(n);
-    thrust::host_vector<T> h_data1 = unittest::random_samples<T>(n);
-    thrust::host_vector<T> h_data2 = unittest::random_samples<T>(n);
+    using namespace thrust;
 
-    thrust::device_vector<T> d_data0 = h_data0;
-    thrust::device_vector<T> d_data1 = h_data1;
-    thrust::device_vector<T> d_data2 = h_data2;
+    host_vector<T> h_data0 = unittest::random_samples<T>(n);
+    host_vector<T> h_data1 = unittest::random_samples<T>(n);
+    host_vector<T> h_data2 = unittest::random_samples<T>(n);
 
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
+    device_vector<T> d_data0 = h_data0;
+    device_vector<T> d_data1 = h_data1;
+    device_vector<T> d_data2 = h_data2;
+
+    host_vector<T>   h_result(n);
+    device_vector<T> d_result(n);
 
     // Tuples with 2 elements
-    thrust::transform( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
-                       make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
-                       h_result.begin(),
-                       SumTwoTuple());
-    thrust::transform( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
-                       make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
-                       d_result.begin(),
-                       SumTwoTuple());
+    transform( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
+               make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end())),
+               h_result.begin(),
+               SumTwoTuple());
+    transform( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin())),
+               make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end())),
+               d_result.begin(),
+               SumTwoTuple());
     ASSERT_EQUAL(h_result, d_result);
     
     
     // Tuples with 3 elements
-    thrust::transform( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin(), h_data2.begin())),
-                       make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end(),   h_data2.end())),
-                       h_result.begin(),
-                       SumThreeTuple());
-    thrust::transform( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin(), d_data2.begin())),
-                       make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end(),   d_data2.end())),
-                       d_result.begin(),
-                       SumThreeTuple());
+    transform( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin(), h_data2.begin())),
+               make_zip_iterator(make_tuple(h_data0.end(),   h_data1.end(),   h_data2.end())),
+               h_result.begin(),
+               SumThreeTuple());
+    transform( make_zip_iterator(make_tuple(d_data0.begin(), d_data1.begin(), d_data2.begin())),
+               make_zip_iterator(make_tuple(d_data0.end(),   d_data1.end(),   d_data2.end())),
+               d_result.begin(),
+               SumThreeTuple());
     ASSERT_EQUAL(h_result, d_result);
   }
 };
@@ -344,6 +355,8 @@ void TestZipIteratorCopyAoSToSoA(void)
     // fails on msvc80 SP1 in debug mode
     KNOWN_FAILURE;
 #else    
+  using namespace thrust;
+
   const size_t n = 1;
 
   typedef tuple<int,int> structure;
@@ -403,6 +416,8 @@ DECLARE_UNITTEST(TestZipIteratorCopyAoSToSoA);
 
 void TestZipIteratorCopySoAToAoS(void)
 {
+  using namespace thrust;
+
   const size_t n = 1;
 
   typedef tuple<int,int> structure;

@@ -3,13 +3,14 @@
 #include <thrust/generate.h>
 
 using namespace unittest;
-using namespace thrust;
 
 template <typename T>
 struct TestTupleConstructor
 {
   void operator()(void)
   {
+    using namespace thrust;
+
     host_vector<T> data = random_integers<T>(10);
 
     tuple<T> t1(data[0]);
@@ -95,6 +96,8 @@ struct TestMakeTuple
 {
   void operator()(void)
   {
+    using namespace thrust;
+
     host_vector<T> data = random_integers<T>(10);
 
     tuple<T> t1 = make_tuple(data[0]);
@@ -181,6 +184,8 @@ struct TestTupleGet
   void operator()(void)
   {
     KNOWN_FAILURE
+
+    //using namespace thrust;
     //host_vector<T> data = random_integers<T>(10);
 
     //tuple<T> t1(data[0]);
@@ -268,6 +273,8 @@ struct TestTupleComparison
 {
   void operator()(void)
   {
+    using namespace thrust;
+
     tuple<T,T,T,T,T> lhs(0, 0, 0, 0, 0), rhs(0, 0, 0, 0, 0);
 
     // equality

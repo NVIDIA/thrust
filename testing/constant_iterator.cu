@@ -4,10 +4,10 @@
 #include <thrust/transform.h>
 #include <thrust/reduce.h>
 
-using namespace thrust;
-
 void TestConstantIteratorConstructFromConvertibleSystem(void)
 {
+  using namespace thrust;
+
   constant_iterator<int> default_system(13);
 
   constant_iterator<int, use_default, host_system_tag> host_system = default_system;
@@ -20,6 +20,8 @@ DECLARE_UNITTEST(TestConstantIteratorConstructFromConvertibleSystem);
 
 void TestConstantIteratorIncrement(void)
 {
+    using namespace thrust;
+
     constant_iterator<int> lhs(0,0);
     constant_iterator<int> rhs(0,0);
 
@@ -46,6 +48,8 @@ DECLARE_UNITTEST(TestConstantIteratorIncrement);
 
 void TestConstantIteratorComparison(void)
 {
+    using namespace thrust;
+
     constant_iterator<int> iter1(0);
     constant_iterator<int> iter2(0);
 
@@ -73,6 +77,8 @@ DECLARE_UNITTEST(TestConstantIteratorComparison);
 
 void TestMakeConstantIterator(void)
 {
+    using namespace thrust;
+
     // test one argument version
     constant_iterator<int> iter0 = make_constant_iterator<int>(13);
 
@@ -90,6 +96,8 @@ DECLARE_UNITTEST(TestMakeConstantIterator);
 template<typename Vector>
 void TestConstantIteratorCopy(void)
 {
+  using namespace thrust;
+
   typedef typename Vector::value_type T;
   typedef constant_iterator<int> ConstIter;
 
@@ -110,6 +118,8 @@ DECLARE_VECTOR_UNITTEST(TestConstantIteratorCopy);
 template<typename Vector>
 void TestConstantIteratorTransform(void)
 {
+  using namespace thrust;
+
   typedef typename Vector::value_type T;
   typedef constant_iterator<T> ConstIter;
 
@@ -138,6 +148,8 @@ DECLARE_VECTOR_UNITTEST(TestConstantIteratorTransform);
 
 void TestConstantIteratorReduce(void)
 {
+  using namespace thrust;
+
   typedef int T;
   typedef constant_iterator<T> ConstIter;
 
