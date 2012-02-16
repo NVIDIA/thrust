@@ -224,8 +224,8 @@ DECLARE_UNITTEST(TestPairTupleSize);
 
 void TestPairTupleElement(void)
 {
-  typedef typename thrust::tuple_element<0, thrust::pair<int, float> >::type type0;
-  typedef typename thrust::tuple_element<1, thrust::pair<int, float> >::type type1;
+  typedef thrust::tuple_element<0, thrust::pair<int, float> >::type type0;
+  typedef thrust::tuple_element<1, thrust::pair<int, float> >::type type1;
 
   ASSERT_EQUAL_QUIET(typeid(int),   typeid(type0));
   ASSERT_EQUAL_QUIET(typeid(float), typeid(type1));

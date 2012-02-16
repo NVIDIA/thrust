@@ -66,8 +66,8 @@ DECLARE_UNITTEST(TestIsPlainOldData);
 
 void TestIsTrivialIterator(void)
 {
-    typedef typename thrust::host_vector<int>   HostVector;
-    typedef typename thrust::device_vector<int> DeviceVector;
+    typedef thrust::host_vector<int>   HostVector;
+    typedef thrust::device_vector<int> DeviceVector;
     
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< int * >::value, true);
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
@@ -81,12 +81,12 @@ void TestIsTrivialIterator(void)
 
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
 
-    typedef typename thrust::tuple< HostVector::iterator,   HostVector::iterator   > HostIteratorTuple;
+    typedef thrust::tuple< HostVector::iterator,   HostVector::iterator   > HostIteratorTuple;
 
-    typedef typename thrust::constant_iterator<int> ConstantIterator;
-    typedef typename thrust::counting_iterator<int> CountingIterator;
-    typedef typename thrust::transform_iterator<thrust::identity<int>, HostVector::iterator > TransformIterator;
-    typedef typename thrust::zip_iterator< HostIteratorTuple >  ZipIterator;
+    typedef thrust::constant_iterator<int> ConstantIterator;
+    typedef thrust::counting_iterator<int> CountingIterator;
+    typedef thrust::transform_iterator<thrust::identity<int>, HostVector::iterator > TransformIterator;
+    typedef thrust::zip_iterator< HostIteratorTuple >  ZipIterator;
 
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<ConstantIterator>::value,  false);
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<CountingIterator>::value,  false);
