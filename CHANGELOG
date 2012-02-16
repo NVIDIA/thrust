@@ -1,4 +1,14 @@
 #######################################
+#           Thrust v1.5.2             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
+    Fixed warning about C-style initialization of structures
+
+#######################################
 #           Thrust v1.5.1             #
 #######################################
 
