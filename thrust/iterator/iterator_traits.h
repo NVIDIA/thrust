@@ -60,10 +60,10 @@ template<typename Iterator> struct iterator_system;
 
 // TODO remove this in Thrust v1.7.0
 template<typename Iterator>
-  struct iterator_space
+  struct THRUST_DEPRECATED iterator_space
 {
   typedef THRUST_DEPRECATED typename iterator_system<Iterator>::type type;
-} THRUST_DEPRECATED;
+};
 
 
 } // end thrust
