@@ -1,7 +1,11 @@
 #include <unittest/unittest.h>
-#include <cuda_runtime.h>
-#include <cuda.h>
+#include <build/timer.h>
 #include <string>
+#include <algorithm>
+
+
+//#include <cuda_runtime.h>
+//#include <cuda.h>
 
 #define RECORD_RESULT(name, value, units)   { std::cout << "  <result  name=\"" << name << "\"  value=\"" << value  << "\"  units=\"" << units << "\"/>" << std::endl; }
 #define RECORD_TIME()                       RECORD_RESULT("Time", best_time, "seconds")
@@ -40,6 +44,7 @@
 
 inline void RECORD_PLATFORM_INFO(void)
 {
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
     int deviceCount;
     cudaGetDeviceCount(&deviceCount);
     if (deviceCount == 0){
@@ -76,6 +81,7 @@ inline void RECORD_PLATFORM_INFO(void)
     std::cout << "    <property name=\"__TIME__\" value=\"" << __TIME__ << "\"/>" << std::endl;
     std::cout << "  </compilation>" << std::endl;
     std::cout << "</platform>" << std::endl;
+#endif
 }
 
 
@@ -92,8 +98,10 @@ inline void PROCESS_ARGUMENTS(int argc, char **argv)
         exit(-1);
       }
 
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
       int device_index = atoi(argv[i]);
       cudaSetDevice(device_index);
+#endif
     }
   }
 }
