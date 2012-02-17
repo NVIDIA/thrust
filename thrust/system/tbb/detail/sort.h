@@ -35,6 +35,15 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
 
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key(tag,
+                          RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
+                          StrictWeakOrdering comp);
+
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
