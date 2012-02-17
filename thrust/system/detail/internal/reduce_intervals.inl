@@ -17,11 +17,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/internal/reduce_intervals.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/system/detail/generic/select_system.h>
-#include <thrust/system/cpp/detail/reduce_intervals.h>
-#include <thrust/system/omp/detail/reduce_intervals.h>
-#include <thrust/system/cuda/detail/reduce_intervals.h>
+
+#include <thrust/system/detail/internal/reduce_intervals_adl_helper.h>
 
 namespace thrust
 {

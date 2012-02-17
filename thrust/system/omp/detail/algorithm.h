@@ -31,6 +31,7 @@
 #include <thrust/system/omp/detail/for_each.h>
 #include <thrust/system/omp/detail/partition.h>
 #include <thrust/system/omp/detail/reduce.h>
+#include <thrust/system/omp/detail/reduce_intervals.h>
 #include <thrust/system/omp/detail/reduce_by_key.h>
 #include <thrust/system/omp/detail/remove.h>
 #include <thrust/system/omp/detail/sort.h>
