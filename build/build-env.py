@@ -252,11 +252,16 @@ def Environment():
   env.Append(LIBPATH = [tbb_lib_path])
   env.Append(CPPPATH = [tbb_inc_path])
 
+  # link against the standard library
+  # we don't have to do this on Windows
+  if os.name == 'posix':
+    env.Append(LIBS = ['stdc++'])
+
   # link against backend-specific runtimes
   # XXX we shouldn't have to link against cudart unless we're using the
   #     cuda runtime, but cudafe inserts some dependencies when compiling .cu files
   # XXX ideally this gets handled in nvcc.py if possible
-  env.Append(LIBS = 'cudart')
+  env.Append(LIBS = ['cudart'])
 
   if env['backend'] == 'ocelot':
     if os.name == 'posix':

@@ -10,10 +10,6 @@ except:
   exec open("../build/build-env.py")
   env = Environment()
 
-# on mac we have to tell the linker to link against the C++ library
-if env['PLATFORM'] == "darwin":
-  env.Append(LINKFLAGS = "-lstdc++")
-
 def cu_build_function(source, target, env):
   compile_test(str(source[0]), str(target[0]))
 
