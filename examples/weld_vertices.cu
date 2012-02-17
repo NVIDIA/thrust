@@ -33,68 +33,45 @@
  *   (0)--(2)--(4)
  */
 
-// compare two float2s for equality
-struct float2_equal_to
-{
-    __host__ __device__
-    bool operator()(float2 a, float2 b)
-    {
-        return a.x == b.x && a.y == b.y;
-    }
-};
-
-// compare ordering of two float2s
-struct float2_less
-{
-    __host__ __device__
-    bool operator()(float2 a, float2 b)
-    {
-        if (a.x < b.x)
-            return true;
-        else if (a.x > b.x)
-            return false;
-
-        return a.y < b.y;
-    }
-};
+// define a 2d float vector
+typedef thrust::tuple<float,float> vec2;
 
 int main(void)
 {
     // allocate memory for input mesh representation
-    thrust::device_vector<float2> input(9);
+    thrust::device_vector<vec2> input(9);
 
-    input[0] = make_float2(0,0);  // First Triangle
-    input[1] = make_float2(1,0);
-    input[2] = make_float2(0,1);
-    input[3] = make_float2(1,0);  // Second Triangle
-    input[4] = make_float2(1,1);
-    input[5] = make_float2(0,1);
-    input[6] = make_float2(1,0);  // Third Triangle
-    input[7] = make_float2(2,0);
-    input[8] = make_float2(1,1);
+    input[0] = vec2(0,0);  // First Triangle
+    input[1] = vec2(1,0);
+    input[2] = vec2(0,1);
+    input[3] = vec2(1,0);  // Second Triangle
+    input[4] = vec2(1,1);
+    input[5] = vec2(0,1);
+    input[6] = vec2(1,0);  // Third Triangle
+    input[7] = vec2(2,0);
+    input[8] = vec2(1,1);
 
     // allocate space for output mesh representation
-    thrust::device_vector<float2>       vertices = input;
+    thrust::device_vector<vec2>         vertices = input;
     thrust::device_vector<unsigned int> indices(input.size());
 
     // sort vertices to bring duplicates together
-    thrust::sort(vertices.begin(), vertices.end(), float2_less());
+    thrust::sort(vertices.begin(), vertices.end());
 
     // find unique vertices and erase redundancies
-    vertices.erase(thrust::unique(vertices.begin(), vertices.end(), float2_equal_to()), vertices.end());
+    vertices.erase(thrust::unique(vertices.begin(), vertices.end()), vertices.end());
 
     // find index of each input vertex in the list of unique vertices
     thrust::lower_bound(vertices.begin(), vertices.end(),
                         input.begin(), input.end(),
-                        indices.begin(),
-                        float2_less());
+                        indices.begin());
 
     // print output mesh representation
     std::cout << "Output Representation" << std::endl;
     for(size_t i = 0; i < vertices.size(); i++)
     {
-        float2 v = vertices[i];
-        std::cout << " vertices[" << i << "] = (" << v.x << "," << v.y << ")" << std::endl;
+        vec2 v = vertices[i];
+        std::cout << " vertices[" << i << "] = (" << thrust::get<0>(v) << "," << thrust::get<1>(v) << ")" << std::endl;
     }
     for(size_t i = 0; i < indices.size(); i++)
     {

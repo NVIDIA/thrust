@@ -825,9 +825,9 @@ inline bool neq<null_type,null_type>(const null_type&, const null_type&) { retur
 template<class T1, class T2>
 __host__ __device__
 inline bool lt(const T1& lhs, const T2& rhs) {
-  return lhs.get_head() < rhs.get_head()  ||
-            !(rhs.get_head() < lhs.get_head()) &&
-            lt(lhs.get_tail(), rhs.get_tail());
+  return (lhs.get_head() < rhs.get_head())  ||
+            (!(rhs.get_head() < lhs.get_head()) &&
+             lt(lhs.get_tail(), rhs.get_tail()));
 }
 template<>
 __host__ __device__
@@ -836,9 +836,9 @@ inline bool lt<null_type,null_type>(const null_type&, const null_type&) { return
 template<class T1, class T2>
 __host__ __device__
 inline bool gt(const T1& lhs, const T2& rhs) {
-  return lhs.get_head() > rhs.get_head()  ||
-            !(rhs.get_head() > lhs.get_head()) &&
-            gt(lhs.get_tail(), rhs.get_tail());
+  return (lhs.get_head() > rhs.get_head())  ||
+            (!(rhs.get_head() > lhs.get_head()) &&
+             gt(lhs.get_tail(), rhs.get_tail()));
 }
 template<>
 __host__ __device__

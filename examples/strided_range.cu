@@ -60,9 +60,9 @@ class strided_range
     }
     
     protected:
-    difference_type stride;
     Iterator first;
     Iterator last;
+    difference_type stride;
 };
 
 int main(void)

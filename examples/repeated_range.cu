@@ -60,10 +60,9 @@ class repeated_range
     }
     
     protected:
-    difference_type repeats;
     Iterator first;
     Iterator last;
-    
+    difference_type repeats;
 };
 
 int main(void)

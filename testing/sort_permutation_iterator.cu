@@ -49,9 +49,9 @@ class strided_range
     }
     
     protected:
-    difference_type stride;
     Iterator first;
     Iterator last;
+    difference_type stride;
 };
 
 template <class Vector>

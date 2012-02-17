@@ -60,9 +60,9 @@ class tiled_range
     }
     
     protected:
-    difference_type tiles;
     Iterator first;
     Iterator last;
+    difference_type tiles;
 };
 
 int main(void)

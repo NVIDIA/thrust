@@ -29,10 +29,10 @@ struct bbox_reduction : public thrust::binary_function<bbox,bbox,bbox>
     bbox operator()(bbox a, bbox b)
     {
         // lower left corner
-        point2d ll(thrust::min(a.first.x, b.first.x), min(a.first.y, b.first.y));
+        point2d ll(thrust::min(a.first.x, b.first.x), thrust::min(a.first.y, b.first.y));
         
         // upper right corner
-        point2d ur(thrust::max(a.second.x, b.second.x), max(a.second.y, b.second.y));
+        point2d ur(thrust::max(a.second.x, b.second.x), thrust::max(a.second.y, b.second.y));
 
         return bbox(ll, ur);
     }

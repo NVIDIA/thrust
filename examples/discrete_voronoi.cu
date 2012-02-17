@@ -29,10 +29,11 @@
 //           seeds- k+m*k,seeds - k+m*k, i>
 struct minFunctor
 {
-  int k,m,n;
+  int m, n, k;
   
   __host__ __device__
-    minFunctor(int _m,int _n,int _k) : n(_n),m(_m),k(_k) {}
+  minFunctor(int m, int n, int k)
+    : m(m), n(n), k(k) {}
 
 
   //To decide I have to change my current Voronoi site
@@ -132,7 +133,7 @@ void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n)
 }
 
 //Export the tab to PGM image format
-void vector_to_pgm(thrust::host_vector<int> &t, int m, int n,char *out)
+void vector_to_pgm(thrust::host_vector<int> &t, int m, int n, const char *out)
 {
     FILE *f;
 

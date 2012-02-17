@@ -3,6 +3,7 @@
 #include <thrust/device_vector.h>
 
 #include <iostream>
+#include <cmath>
 
 // this example computes the maximum absolute difference 
 // between the elements of two vectors
@@ -13,7 +14,7 @@ struct abs_diff : public thrust::binary_function<T,T,T>
     __host__ __device__
     T operator()(const T& a, const T& b)
     {
-        return fabs(b - a);
+        return std::fabs(b - a);
     }
 };
 

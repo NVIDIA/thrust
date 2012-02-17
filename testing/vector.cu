@@ -677,15 +677,15 @@ void TestVectorShrinkToFit(void)
 }
 DECLARE_VECTOR_UNITTEST(TestVectorShrinkToFit)
 
-
+template <int N>
 struct LargeStruct
 {
-  int data[100];
+  int data[N];
 
   __host__ __device__
   bool operator==(const LargeStruct & ls) const
   {
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < N; i++)
       if (data[i] != ls.data[i])
         return false;
     return true;
@@ -696,27 +696,32 @@ void TestVectorContainingLargeType(void)
 {
     // Thrust issue #5 
     // http://code.google.com/p/thrust/issues/detail?id=5
+    const static int N = 100;
+    typedef LargeStruct<N> T;
 
-    thrust::device_vector<LargeStruct> dv1;
-    thrust::host_vector<LargeStruct>   hv1;
+    thrust::device_vector<T> dv1;
+    thrust::host_vector<T>   hv1;
 
     ASSERT_EQUAL_QUIET(dv1, hv1);
 
-    thrust::device_vector<LargeStruct> dv2(20);
-    thrust::host_vector<LargeStruct>   hv2(20);
+    thrust::device_vector<T> dv2(20);
+    thrust::host_vector<T>   hv2(20);
     
     ASSERT_EQUAL_QUIET(dv2, hv2);
     
-    // set first element to something nonzero
-    LargeStruct ls = {0};
-    
-    thrust::device_vector<LargeStruct> dv3(20, ls);
-    thrust::host_vector<LargeStruct>   hv3(20, ls);
+    // initialize tofirst element to something nonzero
+    T ls;
+
+    for (int i = 0; i < N; i++)
+      ls.data[i] = i;
+
+    thrust::device_vector<T> dv3(20, ls);
+    thrust::host_vector<T>   hv3(20, ls);
     
     ASSERT_EQUAL_QUIET(dv3, hv3);
     
-    // set first element to something nonzero
-    ls.data[0] = 13;
+    // change first element
+    ls.data[0] = -13;
 
     dv3[2] = ls;
     hv3[2] = ls;
