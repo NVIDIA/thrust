@@ -40,6 +40,25 @@ OutputIterator merge(tag,
                      OutputIterator result,
                      StrictWeakOrdering comp);
 
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename InputIterator3,
+          typename InputIterator4,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename StrictWeakOrdering>
+thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(tag,
+                 InputIterator1 first1,
+                 InputIterator1 last1,
+                 InputIterator2 first2,
+                 InputIterator2 last2,
+                 InputIterator3 first3,
+                 InputIterator4 first4,
+                 OutputIterator1 output1,
+                 OutputIterator2 output2,
+                 StrictWeakOrdering comp);
+
 } // end detail
 } // end tbb
 } // end system

@@ -31,6 +31,8 @@ if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
   directories.append(os.path.join('backend','cuda','block'))
 elif env['backend'] == 'omp':
   directories.append(os.path.join('backend','omp'))
+elif env['backend'] == 'tbb':
+  directories.append(os.path.join('backend','tbb'))
 
 for dir in directories:
   for ext in extensions:
