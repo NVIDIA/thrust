@@ -1,4 +1,5 @@
-#include <thrust/device_vector.h>
+#include <thrust/system/cuda/vector.h>
+#include <thrust/host_vector.h>
 #include <thrust/generate.h>
 #include <thrust/sort.h>
 #include <thrust/pair.h>
@@ -13,7 +14,7 @@
 // during algorithms such as thrust::sort. The idea will be to create a simple
 // cache of allocations to search when temporary storage is requested. If a hit
 // is found in the cache, we quickly return the cached allocation instead of
-// resorting to the more expensive thrust::device_malloc.
+// resorting to the more expensive thrust::system::cuda::malloc.
 //
 // Note: this implementation cached_allocator is not thread-safe. If multiple
 // (host) threads use the same cached_allocator then they should gain exclusive
@@ -45,13 +46,14 @@ struct cached_allocator
     else
     {
       // no allocation of the right size exists
-      // create a new one with device_malloc
-      // throw if device_malloc can't satisfy the request
+      // create a new one with cuda::malloc
+      // throw if cuda::malloc can't satisfy the request
       try
       {
-        std::cout << "cached_allocator::allocator(): no free block found; calling device_malloc" << std::endl;
+        std::cout << "cached_allocator::allocator(): no free block found; calling cuda::malloc" << std::endl;
 
-        result = thrust::device_malloc(num_bytes).get();
+        // allocate memory and convert cuda::pointer to raw pointer
+        result = thrust::system::cuda::malloc(num_bytes).get();
       }
       catch(std::runtime_error &e)
       {
@@ -85,16 +87,16 @@ struct cached_allocator
         i != free_blocks.end();
         ++i)
     {
-      // transform the pointer to device_ptr before calling device_free
-      thrust::device_free(thrust::device_pointer_cast(i->second));
+      // transform the pointer to cuda::pointer before calling cuda::free
+      thrust::system::cuda::free(thrust::system::cuda::pointer<void>(i->second));
     }
 
     for(allocated_blocks_type::iterator i = allocated_blocks.begin();
         i != allocated_blocks.end();
         ++i)
     {
-      // transform the pointer to device_ptr before calling device_free
-      thrust::device_free(thrust::device_pointer_cast(i->first));
+      // transform the pointer to cuda::pointer before calling cuda::free
+      thrust::system::cuda::free(thrust::system::cuda::pointer<void>(i->first));
     }
   }
 
@@ -111,9 +113,9 @@ struct cached_allocator
 cached_allocator g_allocator;
 
 
-// create a tag derived from device_system_tag for distinguishing
+// create a tag derived from system::cuda::tag for distinguishing
 // our overloads of get_temporary_buffer and return_temporary_buffer
-struct my_tag : thrust::device_system_tag {};
+struct my_tag : thrust::system::cuda::tag {};
 
 
 // overload get_temporary_buffer on my_tag
@@ -151,8 +153,8 @@ int main()
   // generate random input
   thrust::generate(h_input.begin(), h_input.end(), rand);
 
-  thrust::device_vector<int> d_input = h_input;
-  thrust::device_vector<int> d_result(n);
+  thrust::system::cuda::vector<int> d_input = h_input;
+  thrust::system::cuda::vector<int> d_result(n);
 
   size_t num_trials = 5;
 
