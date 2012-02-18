@@ -14,9 +14,13 @@
 // cache of allocations to search when temporary storage is requested. If a hit
 // is found in the cache, we quickly return the cached allocation instead of
 // resorting to the more expensive thrust::device_malloc.
+//
+// Note: this implementation cached_allocator is not thread-safe. If multiple
+// (host) threads use the same cached_allocator then they should gain exclusive
+// access to the allocator before accessing its methods.
 
 
-// build a simple allocator for caching allocation requests
+// cached_allocator: a simple allocator for caching allocation requests
 struct cached_allocator
 {
   cached_allocator() {}
@@ -25,63 +29,51 @@ struct cached_allocator
   {
     void *result = 0;
 
-    // XXX omp critical will have to do in the absence of std::mutex or thread_local below
-    #if _OPENMP
-    #pragma omp critical
-    #endif // _OPENMP
+    // search the cache for a free block
+    free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
+
+    if(free_block != free_blocks.end())
     {
-      // search the cache for a free block
-      free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
+      std::cout << "cached_allocator::allocator(): found a hit" << std::endl;
 
-      if(free_block != free_blocks.end())
-      {
-        std::cout << "cached_allocator::allocator(): found a hit" << std::endl;
+      // get the pointer
+      result = free_block->second;
 
-        // get the pointer
-        result = free_block->second;
-
-        // erase from the free_blocks map
-        free_blocks.erase(free_block);
-      }
-      else
-      {
-        // no allocation of the right size exists
-        // create a new one with device_malloc
-        // throw if device_malloc can't satisfy the request
-        try
-        {
-          std::cout << "cached_allocator::allocator(): no free block found; calling device_malloc" << std::endl;
-
-          result = thrust::device_malloc(num_bytes).get();
-        }
-        catch(std::runtime_error &e)
-        {
-          throw;
-        }
-      }
-
-      // insert the allocated pointer into the allocated_blocks map
-      allocated_blocks.insert(std::make_pair(result, num_bytes));
+      // erase from the free_blocks map
+      free_blocks.erase(free_block);
     }
+    else
+    {
+      // no allocation of the right size exists
+      // create a new one with device_malloc
+      // throw if device_malloc can't satisfy the request
+      try
+      {
+        std::cout << "cached_allocator::allocator(): no free block found; calling device_malloc" << std::endl;
+
+        result = thrust::device_malloc(num_bytes).get();
+      }
+      catch(std::runtime_error &e)
+      {
+        throw;
+      }
+    }
+
+    // insert the allocated pointer into the allocated_blocks map
+    allocated_blocks.insert(std::make_pair(result, num_bytes));
 
     return result;
   }
 
   void deallocate(void *ptr)
   {
-    // XXX omp critical will have to do in the absence of std::mutex or thread_local below
-    #if _OPENMP
-    #pragma omp critical
-    #endif // _OPENMP
-    {
-      // erase the allocated block from the allocated blocks map
-      allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
-      std::ptrdiff_t num_bytes = iter->second;
-      allocated_blocks.erase(iter);
+    // erase the allocated block from the allocated blocks map
+    allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
+    std::ptrdiff_t num_bytes = iter->second;
+    allocated_blocks.erase(iter);
 
-      // insert the block into the free blocks map
-      free_blocks.insert(std::make_pair(num_bytes, ptr));
-    }
+    // insert the block into the free blocks map
+    free_blocks.insert(std::make_pair(num_bytes, ptr));
   }
 
   void free_all()
