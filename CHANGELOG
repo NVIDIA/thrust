@@ -16,21 +16,33 @@ Breaking API Changes
     thrust::device_space_tag has been renamed thrust::device_system_tag
     thrust::any_space_tag has been renamed thrust::any_system_tag
     thrust::iterator_space has been renamed thrust::iterator_system
+    
 
 New Features
+    Backend Systems
+        Threading Building Blocks (TBB) is now supported
     Functions
         for_each_n
 
     Types
 
 New Examples
+    cuda/custom_temporary_allocation
+    cuda/fallback_allocator
+    device_ptr
+    expand
+    minimal_custom_backend
+    raw_reference_cast
+    set_operations
 
 Other Enhancements
     thrust::for_each now returns the end of the input range similar to most other algorithms
+    all CUDA algorithms now support large data types
 
 Removed Functionality
 
 Bug Fixes
+    #469 min_element and max_element algorithms no longer require a const comparison operator
 
 Known Issues
     None
