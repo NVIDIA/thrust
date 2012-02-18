@@ -4,29 +4,41 @@
 #include <thrust/sequence.h>
 #include <thrust/fill.h>
 
-// This example illustrates how to use Thrust iterators in device functions.
-// Specifically, the example shows how to dereference iterators in a device
-// code where the iterators are assumed to be in their native space.
+// This example illustrates how to use the raw_reference_cast to convert
+// system-specific reference wrappers into native references.
 //
 // Using iterators in the manner described here is generally discouraged.
 // Users should only resort to this technique if there is no viable
-// implemention of a given operation in terms of Thrust algorithms. For example
-// this particular example is better solved with thrust::copy, which
-// is safer and potentially faster.  Only use this approach after all
+// implemention of a given operation in terms of Thrust algorithms.
+// For example this particular example is better solved with thrust::copy,
+// which is safer and potentially faster.  Only use this approach after all
 // safer alternatives have been exhausted.
 //
 // When a Thrust iterator is referenced (e.g. *iter) the result is not
-// a native or "raw" reference like int& or const float&.  Instead,
+// a native or "raw" reference like int& or float&.  Instead,
 // the result is a type such as thrust::system::cuda::reference<int>
 // or thrust::system::tbb::reference<float>, depending on the system
 // to which the data belongs.  These reference wrappers are necessary
-// to make expressions like *iter1 = *iter2; work correctly in host code,
-// since iter1 and iter2 may belong to different systems and reference
-// data in different memory spaces, on heterogenous systems.
+// to make expressions like *iter1 = *iter2; work correctly when
+// iter1 and iter2 refer to data in different memory spaces on
+// heterogenous systems.
 //
-// The raw_reference_cast function essentially removes the wrappers,
-// so it should only be used when the code is guaranteed to be
-// executed within the same context or system in which the data lives.
+// The raw_reference_cast function essentially strips away the system-specific
+// meta-data so it should only be used when the code is guaranteed to be
+// executed within an appropriate context.
+
+
+__host__ __device__
+void assign_reference_to_reference(int& x, int& y)
+{
+  y = x;
+}
+
+__host__ __device__
+void assign_value_to_reference(int x, int& y)
+{
+  y = x;
+}
 
 template <typename InputIterator,
           typename OutputIterator>
@@ -45,7 +57,14 @@ struct copy_iterators
     InputIterator  in  = input  + i;
     OutputIterator out = output + i;
 
-    thrust::raw_reference_cast(*out) = thrust::raw_reference_cast(*in);
+    // invalid - reference<int> is not convertible to int&
+    // assign_reference_to_reference(*in, *out);
+   
+    // valid - reference<int> explicitly converted to int&
+    assign_reference_to_reference(thrust::raw_reference_cast(*in), thrust::raw_reference_cast(*out));
+
+    // valid - since reference<int> is convertible to int
+    assign_value_to_reference(*in, thrust::raw_reference_cast(*out));
   }
 };
 
