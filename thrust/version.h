@@ -69,25 +69,5 @@
 namespace thrust
 {
 
-/*! \namespace deprecated
- *  \brief The \p deprecated namespace contains functionality which is scheduled
- *         to be removed in a future version of Thrust.
- *
- *         Users of functionality in namespace \p deprecated are encouraged to
- *         migrate their code to functionality offered elsewhere.
- */
-namespace deprecated
-{
-}
-
-/*! \namespace next
- *  \brief The \p next namespace contains functionality which is scheduled to be
- *         promoted to the top-level \p thrust namespace in a future version of
- *         Thrust.
- */
-namespace next
-{
-}
-  
 }
 

@@ -81,7 +81,7 @@ namespace system
  *  \{
  */
 
-/*! \namespace omp
+/*! \namespace thrust::system::omp
  *  \brief \p thrust::system::omp is the namespace containing functionality for allocating, manipulating,
  *         and deallocating memory available to Thrust's OpenMP backend system.
  *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
@@ -314,7 +314,7 @@ __host__ __device__
 void swap(reference<T> x, reference<T> y);
 
 /*! Allocates an area of memory available to Thrust's <tt>omp</tt> system.
- *  \param n Number of byts to allocate.
+ *  \param n Number of bytes to allocate.
  *  \return A <tt>omp::pointer<void></tt> pointing to the beginning of the newly
  *          allocated memory. A null <tt>omp::pointer<void></tt> is returned if
  *          an error occurs.
@@ -390,7 +390,9 @@ template<typename T>
 
 } // end system
 
-// alias omp's members at top-level
+/*! \namespace thrust::omp
+ *  \brief \p thrust::omp is a top-level alias for thrust::system::omp.
+ */
 namespace omp
 {
 

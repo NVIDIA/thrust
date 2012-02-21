@@ -81,7 +81,7 @@ namespace system
  *  \{
  */
 
-/*! \namespace cpp
+/*! \namespace thrust::system::cpp
  *  \brief \p thrust::system::cpp is the namespace containing functionality for allocating, manipulating,
  *         and deallocating memory available to Thrust's standard C++ backend system.
  *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
@@ -312,7 +312,7 @@ __host__ __device__
 void swap(reference<T> x, reference<T> y);
 
 /*! Allocates an area of memory available to Thrust's <tt>cpp</tt> system.
- *  \param n Number of byts to allocate.
+ *  \param n Number of bytes to allocate.
  *  \return A <tt>cpp::pointer<void></tt> pointing to the beginning of the newly
  *          allocated memory. A null <tt>cpp::pointer<void></tt> is returned if
  *          an error occurs.
@@ -388,7 +388,9 @@ template<typename T>
 
 } // end system
 
-// alias system::cpp names at top-level
+/*! \namespace thrust::cpp
+ *  \brief \p thrust::cpp is a top-level alias for thrust::system::cpp.
+ */
 namespace cpp
 {
 

@@ -29,8 +29,8 @@ namespace thrust
  *  \{
  */
 
-/*! \namespace system
- *  \brief \p system is the namespace which contains functionality for manipulating
+/*! \namespace thrust::system
+ *  \brief \p thrust::system is the namespace which contains functionality for manipulating
  *         memory specific to one of Thrust's backend systems. It also contains functionality
  *         for reporting error conditions originating from the operating system or other
  *         low-level application program interfaces such as the CUDA runtime.

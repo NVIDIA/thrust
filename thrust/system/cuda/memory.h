@@ -81,7 +81,7 @@ namespace system
  *  \{
  */
 
-/*! \namespace cuda
+/*! \namespace thrust::system::cuda
  *  \brief \p thrust::system::cuda is the namespace containing functionality for allocating, manipulating,
  *         and deallocating memory available to Thrust's CUDA backend system.
  *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
@@ -312,7 +312,7 @@ __host__ __device__
 void swap(reference<T> x, reference<T> y);
 
 /*! Allocates an area of memory available to Thrust's <tt>cuda</tt> system.
- *  \param n Number of byts to allocate.
+ *  \param n Number of bytes to allocate.
  *  \return A <tt>cuda::pointer<void></tt> pointing to the beginning of the newly
  *          allocated memory. A null <tt>cuda::pointer<void></tt> is returned if
  *          an error occurs.
@@ -388,7 +388,9 @@ template<typename T>
 
 } // end system
 
-// alias cuda's members at top-level
+/*! \namespace thrust::cuda
+ *  \brief \p thrust::cuda is a top-level alias for thrust::system::cuda.
+ */
 namespace cuda
 {
 

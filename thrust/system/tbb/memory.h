@@ -81,7 +81,7 @@ namespace system
  *  \{
  */
 
-/*! \namespace tbb
+/*! \namespace thrust::system::tbb
  *  \brief \p thrust::system::tbb is the namespace containing functionality for allocating, manipulating,
  *         and deallocating memory available to Thrust's TBB backend system.
  *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
@@ -314,7 +314,7 @@ __host__ __device__
 void swap(reference<T> x, reference<T> y);
 
 /*! Allocates an area of memory available to Thrust's <tt>tbb</tt> system.
- *  \param n Number of byts to allocate.
+ *  \param n Number of bytes to allocate.
  *  \return A <tt>tbb::pointer<void></tt> pointing to the beginning of the newly
  *          allocated memory. A null <tt>tbb::pointer<void></tt> is returned if
  *          an error occurs.
@@ -390,7 +390,9 @@ template<typename T>
 
 } // end system
 
-// alias tbb's members at top-level
+/*! \namespace thrust::tbb
+ *  \brief \p thrust::tbb is a top-level alias for thrust::system::tbb.
+ */
 namespace tbb
 {
 

@@ -44,8 +44,8 @@ namespace thrust
  */
 
 
-/*! \namespace random
- *  \brief \p random is the namespace which contains random number engine class templates,
+/*! \namespace thrust::random
+ *  \brief \p thrust::random is the namespace which contains random number engine class templates,
  *  random number engine adaptor class templates, engines with predefined parameters,
  *  and random number distribution class templates. They are provided in a separate namespace
  *  for import convenience but are also aliased in the top-level \p thrust namespace for
