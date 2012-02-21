@@ -3,7 +3,14 @@
 #######################################
 
 Summary
-    XXX Summary here
+    Thrust v1.6.0 provides an interface for customization and extension and a new
+    backend system based on the Threading Building Blocks library. With this
+    new interface, programmers may customize the behavior of specific algorithms
+    as well as control the allocation of temporary storage or invent entirely new
+    backends. These enhancements also allow multiple different backend systems
+    such as CUDA and OpenMP to coexist within a single program. Support for TBB
+    allows Thrust programs to integrate more naturally into applications which
+    may already employ the TBB task scheduler.
 
 Breaking API Changes
     XXX fill me in
@@ -23,8 +30,10 @@ New Features
         Threading Building Blocks (TBB) is now supported
     Functions
         for_each_n
-
+        raw_reference_cast
     Types
+        pointer
+        reference
 
 New Examples
     cuda/custom_temporary_allocation
@@ -37,17 +46,16 @@ New Examples
 
 Other Enhancements
     thrust::for_each now returns the end of the input range similar to most other algorithms
+    thrust::pair and thrust::tuple have swap functionality
     all CUDA algorithms now support large data types
-
-Removed Functionality
+    iterators may be dereferenced in user __device__ or __global__ functions
+    the safe use of different backend systems is now possible within a single binary
 
 Bug Fixes
     #469 min_element and max_element algorithms no longer require a const comparison operator
 
 Known Issues
     None
-
-Acknowledgments
 
 #######################################
 #           Thrust v1.5.2             #
