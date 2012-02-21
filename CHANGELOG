@@ -13,7 +13,6 @@ Summary
     may already employ the TBB task scheduler.
 
 Breaking API Changes
-    XXX fill me in
     The header <thrust/experimental/cuda/pinned_allocator.h> has been moved to <thrust/system/cuda/experimental/pinned_allocator.h>
     thrust::experimental::cuda::pinned_allocator has been moved to thrust::cuda::experimental::pinned_allocator
     The macro THRUST_DEVICE_BACKEND has been renamed THRUST_DEVICE_SYSTEM
