@@ -26,7 +26,7 @@ int main(int argc, char **argv)
   {
     cudaDeviceProp properties;
     cudaGetDeviceProperties(&properties, device_id);
-    printf("--gpu-architecture=sm_%d%d", properties.major, properties.minor);
+    printf("sm_%d%d\n", properties.major, properties.minor);
     return 0;
   } // end if
   else
