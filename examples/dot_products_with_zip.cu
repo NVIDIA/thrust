@@ -81,9 +81,9 @@ int main(void)
 
     // METHOD #1
     // Defining a zip_iterator type can be a little cumbersome ...
-    typedef typename thrust::device_vector<float>::iterator                     FloatIterator;
-    typedef typename thrust::tuple<FloatIterator, FloatIterator, FloatIterator> FloatIteratorTuple;
-    typedef typename thrust::zip_iterator<FloatIteratorTuple>                   Float3Iterator;
+    typedef thrust::device_vector<float>::iterator                     FloatIterator;
+    typedef thrust::tuple<FloatIterator, FloatIterator, FloatIterator> FloatIteratorTuple;
+    typedef thrust::zip_iterator<FloatIteratorTuple>                   Float3Iterator;
 
     // Now we'll create some zip_iterators for A and B
     Float3Iterator A_first = thrust::make_zip_iterator(make_tuple(A0.begin(), A1.begin(), A2.begin()));
