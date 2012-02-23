@@ -47,12 +47,13 @@ for device in $cpu_device_systems; do
     ./tester
 done
 
+# build unit tests for each cuda device
 if (( num_gpus > 0)); then
   nvcc $THRUST_BUILD/print_sm_version.cpp -o /tmp/print_sm_version
   for ((device_id=0;device_id<num_gpus;device_id++)); do
       arch=`/tmp/print_sm_version $device_id`
       cd $THRUST_TESTING
-      scons -j2 host_backend=cpp backend=cuda
+      scons -j2 host_backend=cpp backend=cuda arch=$arch
       ./tester
   done
 fi
