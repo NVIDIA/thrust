@@ -74,8 +74,8 @@ void TestCopyToDiscardIteratorZipped(void)
     thrust::device_vector<T>   d_output(5);
     thrust::discard_iterator<> reference(5);
 
-    typedef thrust::tuple<thrust::discard_iterator<>,typename thrust::host_vector<T>::iterator>   Tuple1;
-    typedef thrust::tuple<thrust::discard_iterator<>,typename thrust::device_vector<T>::iterator> Tuple2;
+    typedef thrust::tuple<thrust::discard_iterator<>,thrust::host_vector<T>::iterator>   Tuple1;
+    typedef thrust::tuple<thrust::discard_iterator<>,thrust::device_vector<T>::iterator> Tuple2;
 
     typedef thrust::zip_iterator<Tuple1> ZipIterator1;
     typedef thrust::zip_iterator<Tuple2> ZipIterator2;
