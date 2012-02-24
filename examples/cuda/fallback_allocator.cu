@@ -160,7 +160,10 @@ int main(void)
 
   try
   {
-    for (size_t n = (1 << 20); n < ((size_t) 1 << 40); n *= 2)
+    size_t one_million = 1 << 20;
+    size_t one_billion = 1 << 30;
+
+    for (size_t n = one_million; n < one_billion; n *= 2)
     {
       // TODO ideally we'd use the fallback_allocator in the vector too
       //thrust::cuda::vector<int, fallback_allocator> d_vec(n);
