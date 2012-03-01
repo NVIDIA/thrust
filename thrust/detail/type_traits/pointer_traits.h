@@ -101,19 +101,29 @@ template<template<typename, typename, typename, typename> class Ptr, typename Ar
 // XXX this should probably be renamed native_type or similar
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer);
 
-template<typename Ptr, typename Enable = void> struct pointer_raw_pointer;
+namespace pointer_traits_detail
+{
+
+template<typename Ptr, typename Enable = void> struct pointer_raw_pointer_impl {};
 
 template<typename T>
-  struct pointer_raw_pointer<T*>
+  struct pointer_raw_pointer_impl<T*>
 {
   typedef T* type;
 };
 
 template<typename Ptr>
-  struct pointer_raw_pointer<Ptr, typename enable_if<has_raw_pointer<Ptr>::value>::type>
+  struct pointer_raw_pointer_impl<Ptr, typename enable_if<has_raw_pointer<Ptr>::value>::type>
 {
   typedef typename Ptr::raw_pointer type;
 };
+
+} // end pointer_traits_detail
+
+template<typename T>
+  struct pointer_raw_pointer
+    : pointer_traits_detail::pointer_raw_pointer_impl<T>
+{};
 
 namespace pointer_traits_detail
 {

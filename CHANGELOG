@@ -54,7 +54,7 @@ Bug Fixes
     #469 min_element and max_element algorithms no longer require a const comparison operator
 
 Known Issues
-    None
+    cudafe++.exe may crash when parsing TBB headers on Windows. 
 
 #######################################
 #           Thrust v1.5.2             #

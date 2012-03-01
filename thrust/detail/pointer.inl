@@ -81,5 +81,21 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 } // end pointer::get
 
 
+namespace detail
+{
+
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+// XXX WAR MSVC 2005 problem with correctly implementing
+//     pointer_raw_pointer for pointer by specializing it here
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  struct pointer_raw_pointer< thrust::pointer<Element,Tag,Reference,Derived> >
+{
+  typedef typename pointer<Element,Tag,Reference,Derived>::raw_pointer type;
+}; // end pointer_raw_pointer
+#endif
+
+} // end namespace detail
+
+
 } // end thrust
 

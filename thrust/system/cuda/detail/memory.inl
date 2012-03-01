@@ -19,16 +19,78 @@
 #include <thrust/system/cuda/detail/malloc_and_free.h>
 #include <thrust/detail/copy.h>
 #include <thrust/swap.h>
+#include <thrust/detail/raw_pointer_cast.h>
 #include <limits>
 
 namespace thrust
 {
+
+// XXX WAR an issue with MSVC 2005 (cl v14.00) incorrectly implementing
+//     pointer_raw_pointer for pointer by specializing it here
+//     note that we specialize it here, before the use of raw_pointer_cast
+//     below, which causes pointer_raw_pointer's instantiation
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+namespace detail
+{
+
+template<typename T>
+  struct pointer_raw_pointer< thrust::cuda::pointer<T> >
+{
+  typedef typename thrust::cuda::pointer<T>::raw_pointer type;
+}; // end pointer_raw_pointer
+
+} // end detail
+#endif
+
 namespace system
 {
 namespace cuda
 {
 namespace detail
 {
+
+// XXX WAR an issue with msvc 2005 (cl v14.00) which creates multiply-defined
+//     symbols resulting from assign_value
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER) && (_MSC_VER <= 1400)
+
+namespace
+{
+
+template<typename Pointer1, typename Pointer2>
+inline __host__ __device__
+  void assign_value_msvc2005_war(Pointer1 dst, Pointer2 src)
+{
+  // XXX war nvbugs/881631
+  struct war_nvbugs_881631
+  {
+    __host__ inline static void host_path(Pointer1 dst, Pointer2 src)
+    {
+      thrust::copy(src, src + 1, dst);
+    }
+
+    __device__ inline static void device_path(Pointer1 dst, Pointer2 src)
+    {
+      *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  war_nvbugs_881631::host_path(dst,src);
+#else
+  war_nvbugs_881631::device_path(dst,src);
+#endif // __CUDA_ARCH__
+} // end assign_value_msvc2005_war()
+
+} // end anon namespace
+
+template<typename Pointer1, typename Pointer2>
+inline __host__ __device__
+  void assign_value(cuda::tag, Pointer1 dst, Pointer2 src)
+{
+  return assign_value_msvc2005_war(dst,src);
+} // end assign_value()
+
+#else
 
 template<typename Pointer1, typename Pointer2>
 inline __host__ __device__
@@ -44,26 +106,26 @@ inline __host__ __device__
 
     __device__ inline static void device_path(Pointer1 dst, Pointer2 src)
     {
-      // when called from device code, just do simple deref & assign
-      // XXX consider deferring to assign_value(cpp::tag, dst, src) here
-      *thrust::detail::pointer_traits<Pointer1>::get(dst)
-        = *thrust::detail::pointer_traits<Pointer2>::get(src);
+      *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
     }
   };
 
 #ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(dst,src);
+  war_nvbugs_881631::host_path(dst,src);
 #else
-  return war_nvbugs_881631::device_path(dst,src);
+  war_nvbugs_881631::device_path(dst,src);
 #endif // __CUDA_ARCH__
 } // end assign_value()
+
+#endif // msvc 2005 WAR
+
 
 template<typename Pointer1, typename Pointer2>
 inline __host__ __device__
   void assign_value(cpp_to_cuda, Pointer1 dst, Pointer2 src)
 {
 #if __CUDA_ARCH__
-  thrust::system::cuda::detail::assign_value(cuda::tag(), dst, src):
+  thrust::system::cuda::detail::assign_value(cuda::tag(), dst, src);
 #else
   thrust::copy(src, src + 1, dst);
 #endif
@@ -80,10 +142,13 @@ inline __host__ __device__
 #endif
 } // end assign_value()
 
+namespace
+{
+
 template<typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(tag, Pointer ptr)
+    get_value_msvc2005_war(Pointer ptr)
 {
   typedef typename thrust::iterator_value<Pointer>::type result_type;
 
@@ -112,6 +177,16 @@ inline __host__ __device__
 #else
   return war_nvbugs_881631::device_path(ptr);
 #endif // __CUDA_ARCH__
+} // end get_value_msvc2005_war()
+
+} // end anon namespace
+
+template<typename Pointer>
+inline __host__ __device__
+  typename thrust::iterator_value<Pointer>::type
+    get_value(tag, Pointer ptr)
+{
+  return get_value_msvc2005_war(ptr);
 } // end get_value()
 
 template<typename Pointer1, typename Pointer2>
@@ -175,7 +250,7 @@ pointer<void> malloc(std::size_t n)
 
 void free(pointer<void> ptr)
 {
-  return thrust::system::cuda::detail::free(tag(), ptr);
+  return thrust::system::cuda::detail::free(tag(), ptr.get());
 } // end free()
 
 } // end cuda
