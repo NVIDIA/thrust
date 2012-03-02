@@ -25,7 +25,6 @@
 #include <thrust/system/omp/detail/binary_search.h>
 #include <thrust/system/omp/detail/copy.h>
 #include <thrust/system/omp/detail/copy_if.h>
-#include <thrust/system/omp/detail/default_decomposition.h>
 #include <thrust/system/omp/detail/extrema.h>
 #include <thrust/system/omp/detail/find.h>
 #include <thrust/system/omp/detail/for_each.h>

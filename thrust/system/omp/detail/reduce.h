@@ -38,8 +38,8 @@ template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
   OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
+                    InputIterator first,
+                    InputIterator last,
                     OutputType init,
                     BinaryFunction binary_op);
 

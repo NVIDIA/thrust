@@ -49,12 +49,6 @@ thrust::system::detail::internal::uniform_decomposition<IndexType> default_decom
 #endif
 }
 
-template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n)
-{
-  return default_decomposition(n);
-}
-
 } // end namespace detail
 } // end namespace omp
 } // end namespace system

@@ -15,8 +15,10 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/omp/detail/reduce.h>
-#include <thrust/system/detail/internal/reduce.h>
+#include <thrust/system/omp/detail/default_decomposition.h>
+#include <thrust/system/omp/detail/reduce_intervals.h>
 
 namespace thrust
 {
@@ -32,13 +34,33 @@ template<typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
   OutputType reduce(tag,
-                    InputIterator begin,
-                    InputIterator end,
+                    InputIterator first,
+                    InputIterator last,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  // omp prefers internal::reduce to cpp::reduce
-  return thrust::system::detail::internal::reduce(tag(), begin, end, init, binary_op);
+  typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
+
+  const difference_type n = thrust::distance(first,last);
+
+  // determine first and second level decomposition
+  thrust::system::detail::internal::uniform_decomposition<difference_type> decomp1 = thrust::system::omp::detail::default_decomposition(n);
+  thrust::system::detail::internal::uniform_decomposition<difference_type> decomp2(decomp1.size() + 1, 1, 1);
+
+  // allocate storage for the initializer and partial sums
+  // XXX use select_system for Tag
+  thrust::detail::temporary_array<OutputType,tag> partial_sums(decomp1.size() + 1);
+  
+  // set first element of temp array to init
+  partial_sums[0] = init;
+  
+  // accumulate partial sums (first level reduction)
+  thrust::system::omp::detail::reduce_intervals(tag(), first, partial_sums.begin() + 1, binary_op, decomp1);
+
+  // reduce partial sums (second level reduction)
+  thrust::system::omp::detail::reduce_intervals(tag(), partial_sums.begin(), partial_sums.begin(), binary_op, decomp2);
+
+  return partial_sums[0];
 } // end reduce()
 
 

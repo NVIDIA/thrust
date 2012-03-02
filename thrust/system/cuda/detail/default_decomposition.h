@@ -23,7 +23,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/internal/decompose.h>
-#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -36,9 +35,6 @@ namespace detail
 
 template <typename IndexType>
 thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
-
-template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(tag, IndexType n);
 
 } // end namespace detail
 } // end namespace cuda
