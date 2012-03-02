@@ -33,14 +33,13 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/temporary_array.h>
 
-#include <thrust/system/detail/internal/reduce_intervals.h>
-
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
 #include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
+#include <thrust/system/cuda/detail/reduce_intervals.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -612,7 +611,7 @@ template <typename Tag,
         tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
 
     // count number of tail flags per interval
-    thrust::system::detail::internal::reduce_intervals(iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
+    thrust::system::cuda::detail::reduce_intervals(tag(), iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
 
     thrust::inclusive_scan(interval_counts.begin(), interval_counts.end(),
                            interval_counts.begin(),

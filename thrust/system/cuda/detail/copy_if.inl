@@ -23,7 +23,7 @@
 #include <thrust/system/detail/internal/decompose.h>
 #include <thrust/scan.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
-#include <thrust/system/detail/internal/reduce_intervals.h>
+#include <thrust/system/cuda/detail/reduce_intervals.h>
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/tag.h>
@@ -185,7 +185,7 @@ template<typename InputIterator1,
   PredicateToIndexIterator predicate_stencil(stencil, PredicateToIndexTransform(pred));
 
   // compute number of true values in each interval
-  thrust::system::detail::internal::reduce_intervals(predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
+  thrust::system::cuda::detail::reduce_intervals(tag(), predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
 
   // scan the partial sums
   thrust::inclusive_scan(block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());

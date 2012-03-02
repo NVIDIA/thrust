@@ -30,7 +30,6 @@
 #include <thrust/system/cpp/detail/merge.h>
 #include <thrust/system/cpp/detail/partition.h>
 #include <thrust/system/cpp/detail/reduce.h>
-#include <thrust/system/cpp/detail/reduce_intervals.h>
 #include <thrust/system/cpp/detail/reduce_by_key.h>
 #include <thrust/system/cpp/detail/remove.h>
 #include <thrust/system/cpp/detail/scan.h>

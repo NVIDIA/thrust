@@ -35,7 +35,6 @@
 #include <thrust/system/cuda/detail/copy_if.h>
 #include <thrust/system/cuda/detail/fill.h>
 #include <thrust/system/cuda/detail/merge.h>
-#include <thrust/system/cuda/detail/reduce_intervals.h>
 #include <thrust/system/cuda/detail/reduce_by_key.h>
 #include <thrust/system/cuda/detail/set_operations.h>
 
