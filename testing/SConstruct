@@ -25,6 +25,7 @@ directories.append(os.path.join('backend','generic','scalar'))
 if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
   directories.append(os.path.join('backend','cuda'))
   directories.append(os.path.join('backend','cuda','block'))
+  directories.append(os.path.join('backend','cuda','whitebox'))
 elif env['backend'] == 'omp':
   directories.append(os.path.join('backend','omp'))
 elif env['backend'] == 'tbb':
