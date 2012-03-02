@@ -54,7 +54,8 @@ namespace internal
     class uniform_decomposition
     {
       public:
-        typedef IndexType index_type;
+        typedef IndexType               index_type;
+        typedef index_range<index_type> range_type;
 
         uniform_decomposition(index_type N, index_type granularity, index_type max_intervals)
         {
@@ -85,13 +86,13 @@ namespace internal
             {
               index_type begin = m_large_interval * i;
               index_type end   = begin + m_large_interval;
-              return index_range<index_type>(begin, end);
+              return range_type(begin, end);
             }
             else
             {
               index_type begin = m_large_interval * m_threshold + m_small_interval * (i - m_threshold);
               index_type end   = (begin + m_small_interval < m_N) ? begin + m_small_interval : m_N;
-              return index_range<index_type>(begin, end);
+              return range_type(begin, end);
             }
           }
 

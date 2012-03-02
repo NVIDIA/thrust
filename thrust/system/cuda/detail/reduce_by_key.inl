@@ -426,10 +426,10 @@ struct reduce_by_key_closure
 #if __CUDA_ARCH__ >= 200
     const unsigned int SMEM = (48 * 1024);
 #else
-    const unsigned int SMEM = (16 * 1024);
+    const unsigned int SMEM = (16 * 1024) - 256;
 #endif
-    const unsigned int SMEM_FIXED = 256 + CTA_SIZE * sizeof(FlagType) + sizeof(ValueType) + sizeof(IndexType) + sizeof(bool);
-    const unsigned int BOUND_1 = (SMEM - SMEM_FIXED)/ ((CTA_SIZE + 1) * sizeof(ValueType));
+    const unsigned int SMEM_FIXED = CTA_SIZE * sizeof(FlagType) + sizeof(ValueType) + sizeof(IndexType) + sizeof(bool);
+    const unsigned int BOUND_1 = (SMEM - SMEM_FIXED) / ((CTA_SIZE + 1) * sizeof(ValueType));
     const unsigned int BOUND_2 = 8 * sizeof(FlagType);
     const unsigned int BOUND_3 = 6;
   
@@ -444,9 +444,11 @@ struct reduce_by_key_closure
     __shared__ bool      carry_in; 
   
     context.barrier(); // XXX needed because CUDA fires default constructors now
+
+    typename Decomposition::range_type interval = decomp[context.block_index()];
+    //thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
   
-    thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
-  
+
     if (context.thread_index() == 0)
     {
       carry_in = false; // act as though the previous segment terminated just before us
@@ -505,6 +507,53 @@ struct reduce_by_key_closure
   }
 }; // end reduce_by_key_closure
 
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+struct DefaultPolicy
+{
+  // typedefs
+  typedef unsigned int                                                       FlagType;
+  typedef typename thrust::iterator_traits<InputIterator1>::difference_type  IndexType;
+  typedef typename thrust::iterator_traits<InputIterator1>::value_type       KeyType;
+  typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
+    
+  // the pseudocode for deducing the type of the temporary used below:
+  // 
+  // if BinaryFunction is AdaptableBinaryFunction
+  //   TemporaryType = AdaptableBinaryFunction::result_type
+  // else if OutputIterator2 is a "pure" output iterator
+  //   TemporaryType = InputIterator2::value_type
+  // else
+  //   TemporaryType = OutputIterator2::value_type
+  //
+  // XXX upon c++0x, TemporaryType needs to be:
+  // result_of<BinaryFunction>::type
+
+  typedef typename thrust::detail::eval_if<
+    thrust::detail::has_result_type<BinaryFunction>::value,
+    thrust::detail::result_type<BinaryFunction>,
+    thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIterator2>::value,
+      thrust::iterator_value<InputIterator2>,
+      thrust::iterator_value<OutputIterator2>
+    >
+  >::type ValueType;
+ 
+  // XXX WAR problem on sm_11
+  // TODO tune this
+  const static unsigned int ThreadsPerBlock = (thrust::detail::is_pod<ValueType>::value) ? 256 : 192;
+
+  DefaultPolicy(InputIterator1 first1, InputIterator1 last1)
+    : decomp(default_decomposition<IndexType>(last1 - first1))
+  {}
+
+  // member variables
+  Decomposition decomp;
+};
 
 template <typename Tag,
           typename InputIterator1,
@@ -512,7 +561,8 @@ template <typename Tag,
           typename OutputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate,
-          typename BinaryFunction>
+          typename BinaryFunction,
+          typename Policy>
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(Tag,
                 InputIterator1 keys_first, 
@@ -521,49 +571,28 @@ template <typename Tag,
                 OutputIterator1 keys_output,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred,
-                BinaryFunction binary_op)
+                BinaryFunction binary_op,
+                Policy policy)
 {
-    typedef          unsigned int                                              FlagType;
-    typedef typename thrust::iterator_traits<InputIterator1>::difference_type  IndexType;
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type       KeyType;
-    
-    typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
+    typedef typename Policy::FlagType       FlagType;
+    typedef typename Policy::Decomposition  Decomposition;
+    typedef typename Policy::IndexType      IndexType;
+    typedef typename Policy::KeyType        KeyType;
+    typedef typename Policy::ValueType      ValueType;
 
-    // the pseudocode for deducing the type of the temporary used below:
-    // 
-    // if BinaryFunction is AdaptableBinaryFunction
-    //   TemporaryType = AdaptableBinaryFunction::result_type
-    // else if OutputIterator2 is a "pure" output iterator
-    //   TemporaryType = InputIterator2::value_type
-    // else
-    //   TemporaryType = OutputIterator2::value_type
-    //
-    // XXX upon c++0x, TemporaryType needs to be:
-    // result_of<BinaryFunction>::type
-
-    typedef typename thrust::detail::eval_if<
-      thrust::detail::has_result_type<BinaryFunction>::value,
-      thrust::detail::result_type<BinaryFunction>,
-      thrust::detail::eval_if<
-        thrust::detail::is_output_iterator<OutputIterator2>::value,
-        thrust::iterator_value<InputIterator2>,
-        thrust::iterator_value<OutputIterator2>
-      >
-    >::type ValueType;
-   
     // temporary arrays
     typedef thrust::detail::temporary_array<IndexType,Tag> IndexArray;
     typedef thrust::detail::temporary_array<KeyType,Tag>   KeyArray;
     typedef thrust::detail::temporary_array<ValueType,Tag> ValueArray;
     typedef thrust::detail::temporary_array<bool,Tag>      BoolArray;
 
+    Decomposition decomp = policy.decomp;
+
     // input size
     IndexType n = keys_last - keys_first;
 
     if (n == 0)
       return thrust::make_pair(keys_output, values_output);
- 
-    Decomposition decomp = default_decomposition<IndexType>(n);
 
     IndexArray interval_counts(decomp.size());
     ValueArray interval_values(decomp.size());
@@ -591,9 +620,8 @@ template <typename Tag,
  
     // determine output size
     const IndexType N = interval_counts[interval_counts.size() - 1];
-    
-    // TODO tune this
-    const static unsigned int ThreadsPerBlock = 8 * 32;
+   
+    const static unsigned int ThreadsPerBlock = Policy::ThreadsPerBlock;
     typedef typename IndexArray::iterator IndexIterator;
     typedef typename ValueArray::iterator ValueIterator; 
     typedef typename BoolArray::iterator  BoolIterator;  
@@ -668,7 +696,10 @@ template <typename InputIterator1,
   typedef typename thrust::iterator_system<OutputIterator1>::type system3;
   typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return reduce_by_key_detail::reduce_by_key(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  return reduce_by_key_detail::reduce_by_key
+    (select_system(system1(),system2(),system3(),system4()), 
+     keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op,
+     reduce_by_key_detail::DefaultPolicy<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction>(keys_first, keys_last));
 } // end reduce_by_key()
 
 } // end namespace detail
