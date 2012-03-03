@@ -73,11 +73,11 @@ void TestIsTrivialIterator(void)
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
 
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename HostVector::iterator>::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename HostVector::const_iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<HostVector::iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<HostVector::const_iterator>::value, true);
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename DeviceVector::iterator>::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<typename DeviceVector::const_iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<DeviceVector::iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<DeviceVector::const_iterator>::value, true);
 
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
 
