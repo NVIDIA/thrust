@@ -58,25 +58,19 @@ namespace internal
         typedef index_range<index_type> range_type;
 
         uniform_decomposition(index_type N, index_type granularity, index_type max_intervals)
+          : m_N(N),
+	    m_intervals((N + granularity - 1) / granularity),
+	    m_threshold(0),
+	    m_small_interval(granularity),
+	    m_large_interval(0)
         {
-          index_type grains = (N + granularity - 1) / granularity;
-
-          if (grains <= max_intervals)
+	  if(m_intervals > max_intervals)
           {
-            m_N              = N;
-            m_intervals      = grains;
-            m_threshold      = 0;
-            m_small_interval = granularity;
-            m_large_interval = 0;
-          }
-          else
-          {
-            m_N              = N;
-            m_intervals      = max_intervals;
-            m_threshold      = grains % m_intervals;
-            m_small_interval = granularity * (grains / m_intervals);
-            m_large_interval = m_small_interval + granularity;
-          }
+	    m_small_interval = granularity * (m_intervals / max_intervals);
+	    m_large_interval = m_small_interval + granularity;
+	    m_threshold      = m_intervals % max_intervals;
+	    m_intervals      = max_intervals;
+	  }
         }
 
         __host__ __device__
