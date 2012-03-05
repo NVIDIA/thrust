@@ -109,9 +109,12 @@ def getCFLAGS(mode, host_backend, backend, warn, warnings_as_errors, CC):
     # treat warnings as errors
     result.append(gCompilerOptions[CC]['warn_errors'])
 
-  # avoid min/max problems due to windows.h
+  # avoid problems specific to windows
   if CC == 'cl':
+    # avoid min/max problems due to windows.h
     result.append('/DNOMINMAX')
+    # suppress warnings due to "decorated name length exceeded"
+    result.append('/wd4503')
 
   return result
 
