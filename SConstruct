@@ -3,9 +3,9 @@ EnsureSConsVersion(1,2)
 import os
 import platform
 
+
 def cuda_installation():
   """Returns the details of CUDA's installation
-  
   returns (bin_path,lib_path,inc_path,library_name)
   """
 
@@ -33,6 +33,7 @@ def cuda_installation():
     inc_path = os.path.abspath(os.environ['CUDA_INC_PATH'])
 
   return (bin_path,lib_path,inc_path,'cudart')
+
 
 def omp_installation(CC):
   """Returns the details of OpenMP's installation
@@ -161,7 +162,9 @@ def command_line_variables():
 
 
 # create an Environment
-env = Environment(variables = command_line_variables())
+vars = command_line_variables()
+env = Environment(variables = vars)
+Help(vars.GenerateHelpText(env))
 
 # enable nvcc
 env.Tool('nvcc', toolpath = ['build'])
