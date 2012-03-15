@@ -121,8 +121,9 @@ def macros(mode, host_backend, device_backend):
   result.append('-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_' + host_backend.upper())
   result.append('-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_' + device_backend.upper())
 
-  # turn on thrust debug mode
-  result.append('-DTHRUST_DEBUG')
+  if mode == 'debug':
+    # turn on thrust debug mode
+    result.append('-DTHRUST_DEBUG')
 
   return result
 
