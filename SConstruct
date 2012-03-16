@@ -167,9 +167,25 @@ def libs(CCX, host_backend, device_backend):
   return result
 
 
-def linker_flags(LINK, mode):
+def linker_flags(LINK, mode, platform, device_backend):
   """Returns a list of command line flags needed by the linker"""
-  return [linker_to_flags[LINK][mode]]
+  result = []
+
+  flags = linker_to_flags[LINK]
+
+  # debug/release
+  result.extend(flags[mode])
+
+  # unconditional workarounds
+  result.extend(flags['workarounds'])
+
+  # conditional workarounds
+
+  # on darwin, we need to tell the linker to build 32b code for cuda
+  if platform == 'darwin' and device_backend == 'cuda':
+    result.append('-m32')
+
+  return result
 
   
 def macros(mode, host_backend, device_backend):
@@ -282,7 +298,7 @@ env.Tool('nvcc', toolpath = ['build'])
 # we don't need to do this on windows
 if env['PLATFORM'] == 'posix':
   env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
-elif my_env['platform'] == 'darwin':
+elif env['PLATFORM'] == 'darwin':
   env['ENV']['DYLD_LIBRARY_PATH'] = os.environ['DYLD_LIBRARY_PATH']
 
 # populate the environment
@@ -292,7 +308,7 @@ env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['host
 
 env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], env['device_backend'], env['arch']))
 
-env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode']))
+env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], env['device_backend']))
 
 env.Append(LIBPATH = lib_paths())
 
