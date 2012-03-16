@@ -5,6 +5,17 @@ import os
 import platform
 import glob
 
+
+def RecursiveGlob(env, pattern, directory = Dir('.')):
+  directory = Dir(directory)
+  result = directory.glob(pattern)
+
+  for n in directory.glob('*'):
+    if hasattr(n, 'glob'):
+      result.extend(RecursiveGlob(env, pattern, n))
+  return result
+
+
 # map features to the list of compiler switches implementing them
 gnu_compiler_flags = {
   'warn_all'           : ['-Wall'],
@@ -128,7 +139,7 @@ def tbb_installation():
 
 def inc_paths():
   """Returns a list of include paths needed by the compiler"""
-  thrust_inc_path = '.'
+  thrust_inc_path = Dir('.')
   cuda_inc_path = cuda_installation()[2]
   tbb_inc_path  = tbb_installation()[2]
 
@@ -293,6 +304,9 @@ Help(vars.GenerateHelpText(env))
 # enable nvcc
 env.Tool('nvcc', toolpath = ['build'])
 
+# enable RecursiveGlob
+env.AddMethod(RecursiveGlob)
+
 # import the LD_LIBRARY_PATH so we can run commands which
 # depend on shared libraries (e.g., cudart)
 # we don't need to do this on windows
@@ -319,4 +333,5 @@ Export('env')
 
 SConscript('SConscript')
 SConscript('examples/SConscript')
+SConscript('testing/SConscript')
 
