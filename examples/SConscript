@@ -1,34 +1,32 @@
 import os
-import inspect
-import glob
 
-# try to import an environment first
-try:
-  Import('env')
-except:
-  exec open("../build/build-env.py")
-  env = Environment()
+Import('env')
 
 # find all .cus & .cpps in the current directory
 sources = []
 directories = ['.']
-extensions = ['*.cu', '*.cpp']
 
-if env['backend'] == 'cuda' or env['backend'] == 'ocelot':
+# find all .cus & .cpps in the current directory
+sources = []
+directories = ['.']
+extensions = ['.cu','.cpp']
+
+# XXX create a separate environment with the appropriate
+# options for each device_backend directory, and
+# build them unconditionally
+if env['device_backend'] == 'cuda':
   directories.append('cuda')
-elif env['backend'] == 'tbb':
+elif env['device_backend'] == 'tbb':
   directories.append('tbb')
-elif env['backend'] == 'omp':
+elif env['device_backend'] == 'omp':
   directories.append('omp')
-#TODO handle mixed/multiple systems
 
 for dir in directories:
   for ext in extensions:
-    regexp = os.path.join(dir, ext)
-    sources.extend(glob.glob(regexp))
+    regex = os.path.join(dir, '*' + ext)
+    sources.extend(env.Glob(regex))
 
 # compile examples
-commands = []
 for src in sources:
   program = env.Program(src)
   # add the program to the 'run_examples' alias

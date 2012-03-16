@@ -1,7 +1,61 @@
+"""Exports a SCons construction environment 'env' with configuration common to all build projects"""
 EnsureSConsVersion(1,2)
 
 import os
 import platform
+import glob
+
+# map features to the list of compiler switches implementing them
+gnu_compiler_flags = {
+  'warn_all'           : ['-Wall'],
+  'warnings_as_errors' : ['-Werror'],
+  'release'            : ['-O2'],
+  'debug'              : ['-g'],
+  'exception_handling' : [],
+  'cpp'                : [],
+  'omp'                : ['-fopenmp'],
+  'tbb'                : [],
+  'cuda'               : [],
+  'workarounds'        : []
+}
+
+msvc_compiler_flags = {
+  'warn_all'           : ['/Wall'],
+  'warnings_as_errors' : ['/WX'],
+  'release'            : ['/Ox'],
+  'debug'              : ['/Zi', '-D_DEBUG', '/MTd'],
+  'exception_handling' : ['/EHsc'],
+  'cpp'                : [],
+  'omp'                : ['/openmp'],
+  'tbb'                : [],
+  'cuda'               : [],
+
+  # avoid min/max problems due to windows.h
+  # suppress warnings due to "decorated name length exceeded"
+  'workarounds'        : ['/DNOMINMAX', '/wd4503']
+}
+
+compiler_to_flags = {
+  'g++' : gnu_compiler_flags,
+  'cl'  : msvc_compiler_flags
+}
+
+gnu_linker_flags = {
+  'debug'       : [],
+  'release'     : [],
+  'workarounds' : []
+}
+
+msvc_linker_flags = {
+  'debug'       : ['/debug'],
+  'release'     : [],
+  'workarounds' : []
+}
+
+linker_to_flags = {
+  'gcc'  : gnu_linker_flags,
+  'link' : msvc_linker_flags
+}
 
 
 def cuda_installation():
@@ -35,7 +89,7 @@ def cuda_installation():
   return (bin_path,lib_path,inc_path,'cudart')
 
 
-def omp_installation(CC):
+def omp_installation(CXX):
   """Returns the details of OpenMP's installation
   returns (bin_path,lib_path,inc_path,library_name)
   """
@@ -46,9 +100,9 @@ def omp_installation(CC):
 
   # the name of the library is compiler-dependent
   library_name = ''
-  if CC == 'gcc':
+  if CXX == 'g++':
     library_name = 'gomp'
-  elif CC == 'cl':
+  elif CXX == 'cl':
     library_name = 'VCOMP'
   else:
     raise ValueError, "Unknown compiler. What is the name of the OpenMP library?"
@@ -91,7 +145,7 @@ def lib_paths():
   return [cuda_lib_path, tbb_lib_path]
 
 
-def libs(CC, CCX, host_backend, device_backend):
+def libs(CCX, host_backend, device_backend):
   """Returns a list of libraries to link against"""
   result = []
 
@@ -105,12 +159,17 @@ def libs(CC, CCX, host_backend, device_backend):
     result.append(cuda_installation()[3])
 
   if host_backend == 'omp' or device_backend == 'omp':
-    result.append(omp_installation(CC)[3])
+    result.append(omp_installation(CCX)[3])
 
   if host_backend == 'tbb' or device_backend == 'omp':
     result.append(tbb_installation()[3])
 
   return result
+
+
+def linker_flags(LINK, mode):
+  """Returns a list of command line flags needed by the linker"""
+  return [linker_to_flags[LINK][mode]]
 
   
 def macros(mode, host_backend, device_backend):
@@ -128,6 +187,56 @@ def macros(mode, host_backend, device_backend):
   return result
 
 
+def cc_compiler_flags(CXX, mode, host_backend, device_backend, warn_all, warnings_as_errors):
+  """Returns a list of command line flags needed by the c or c++ compiler"""
+  # start with all platform-independent preprocessor macros
+  result = macros(mode, host_backend, device_backend)
+
+  flags = compiler_to_flags[CXX]
+
+  # continue with unconditional flags
+
+  # exception handling
+  result.extend(flags['exception_handling'])
+
+  # finish with conditional flags
+
+  # debug/release
+  result.extend(flags[mode])
+
+  # enable host_backend code generation
+  result.extend(flags[host_backend])
+
+  # enable device_backend code generation
+  result.extend(flags[device_backend])
+
+  # Wall
+  if warn_all:
+    result.extend(flags['warn_all'])
+
+  # Werror 
+  if warnings_as_errors:
+    result.extend(flags['warnings_as_errors'])
+
+  # workarounds
+  result.extend(flags['workarounds'])
+
+  return result
+
+
+def nv_compiler_flags(mode, device_backend, arch):
+  """Returns a list of command line flags specific to nvcc"""
+  result = ['-arch=' + arch]
+  if mode == 'debug':
+    # turn on debug mode
+    # XXX make this work when we've debugged nvcc -G
+    #result.append('-G')
+    pass
+  if device_backend != 'cuda':
+    result.append("--x=c++")
+  return result
+
+
 def command_line_variables():
   # allow the user discretion to select the MSVC version
   vars = Variables()
@@ -135,14 +244,12 @@ def command_line_variables():
     vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
   
   # add a variable to handle the device backend
-  device_backend_variable = EnumVariable('device_backend', 'The parallel device backend to target', 'cuda',
-                                         allowed_values = ('cuda', 'omp', 'tbb'))
-  vars.Add(device_backend_variable)
+  vars.Add(EnumVariable('device_backend', 'The parallel device backend to target', 'cuda',
+                        allowed_values = ('cuda', 'omp', 'tbb')))
   
   # add a variable to handle the host backend
-  host_backend_variable = EnumVariable('host_backend', 'The host backend to target', 'cpp',
-                                       allowed_values = ('cpp', 'omp', 'tbb'))
-  vars.Add(host_backend_variable)
+  vars.Add(EnumVariable('host_backend', 'The host backend to target', 'cpp',
+                        allowed_values = ('cpp', 'omp', 'tbb')))
   
   # add a variable to handle release/debug mode
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
@@ -164,21 +271,36 @@ def command_line_variables():
 
 # create an Environment
 vars = command_line_variables()
-env = Environment(variables = vars)
+env = Environment(variables = vars, tools = ['default', 'packaging'])
 Help(vars.GenerateHelpText(env))
 
 # enable nvcc
 env.Tool('nvcc', toolpath = ['build'])
 
+# import the LD_LIBRARY_PATH so we can run commands which
+# depend on shared libraries (e.g., cudart)
+# we don't need to do this on windows
+if env['PLATFORM'] == 'posix':
+  env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
+elif my_env['platform'] == 'darwin':
+  env['ENV']['DYLD_LIBRARY_PATH'] = os.environ['DYLD_LIBRARY_PATH']
+
 # populate the environment
 env.Append(CPPPATH = inc_paths())
 
-env.Append(CXXFLAGS = macros(env['mode'], env['host_backend'], env['device_backend']))
+env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['host_backend'], env['device_backend'], env['Wall'], env['Werror']))
+
+env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], env['device_backend'], env['arch']))
+
+env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode']))
 
 env.Append(LIBPATH = lib_paths())
 
-env.Append(LIBS = libs(env.subst('$CC'), env.subst('$CXX'), env['host_backend'], env['device_backend']))
+env.Append(LIBS = libs(env.subst('$CXX'), env['host_backend'], env['device_backend']))
 
 # make the build environment available to SConscripts
 Export('env')
+
+SConscript('SConscript')
+SConscript('examples/SConscript')
 
