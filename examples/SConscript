@@ -2,6 +2,9 @@ import os
 
 Import('env')
 
+# create a clone of the environment so that we don't alter the parent
+my_env = env.Clone()
+
 # find all .cus & .cpps in the current directory
 sources = []
 directories = ['.']
@@ -14,23 +17,23 @@ extensions = ['.cu','.cpp']
 # XXX create a separate environment with the appropriate
 # options for each device_backend directory, and
 # build them unconditionally
-if env['device_backend'] == 'cuda':
+if my_env['device_backend'] == 'cuda':
   directories.append('cuda')
-elif env['device_backend'] == 'tbb':
+elif my_env['device_backend'] == 'tbb':
   directories.append('tbb')
-elif env['device_backend'] == 'omp':
+elif my_env['device_backend'] == 'omp':
   directories.append('omp')
 
 for dir in directories:
   for ext in extensions:
     regex = os.path.join(dir, '*' + ext)
-    sources.extend(env.Glob(regex))
+    sources.extend(my_env.Glob(regex))
 
 # compile examples
 for src in sources:
-  program = env.Program(src)
+  program = my_env.Program(src)
   # add the program to the 'run_examples' alias
-  program_alias = env.Alias('run_examples', [program], program[0].abspath)
+  program_alias = my_env.Alias('run_examples', [program], program[0].abspath)
   # always build the 'run_examples' target whether or not it needs it
-  env.AlwaysBuild(program_alias)
+  my_env.AlwaysBuild(program_alias)
 
