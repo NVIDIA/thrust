@@ -19,6 +19,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/mpl/math.h>
 #include <limits>
+#include <cstddef>
 
 namespace thrust
 {
