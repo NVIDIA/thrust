@@ -6,13 +6,19 @@ import platform
 import glob
 
 
-def RecursiveGlob(env, pattern, directory = Dir('.')):
+def RecursiveGlob(env, pattern, directory = Dir('.'), exclude = '\B'):
+  """Recursively globs a directory and its children, returning a list of sources.
+  Allows exclusion of directories given a regular expression.
+  """
   directory = Dir(directory)
+
   result = directory.glob(pattern)
 
   for n in directory.glob('*'):
-    if hasattr(n, 'glob'):
-      result.extend(RecursiveGlob(env, pattern, n))
+    # only recurse into directories which aren't in the blacklist
+    import re
+    if n.isdir() and not re.match(exclude, directory.rel_path(n)):
+      result.extend(RecursiveGlob(env, pattern, n, exclude))
   return result
 
 
