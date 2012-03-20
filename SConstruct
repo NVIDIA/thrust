@@ -340,4 +340,5 @@ Export('env')
 SConscript('SConscript')
 SConscript('examples/SConscript')
 SConscript('testing/SConscript')
+SConscript('performance/SConscript')
 
