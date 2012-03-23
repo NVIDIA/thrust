@@ -1,5 +1,11 @@
-import os
+import sys
+
+# enable python to find the module
+module_path = Dir('#/performance').abspath
+sys.path.append(module_path)
 from build.perftest import compile_test
+
+import os
 
 Import('env')
 my_env = env.Clone()
@@ -19,7 +25,7 @@ report_builder = Builder(action = os.path.join('"' + str(my_env.Dir('.')), '$SOU
                          src_suffix = my_env['PROGSUFFIX'])
 my_env.Append(BUILDERS = {'Report' : report_builder})
 
-my_env.Append(CPPPATH = [Dir('.'), Dir('../testing/')])
+my_env.Append(CPPPATH = [Dir('#/performance'), Dir('#/testing')])
 
 cu_list = []
 program_list = []

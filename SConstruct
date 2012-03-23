@@ -334,11 +334,17 @@ env.Append(LIBPATH = lib_paths())
 
 env.Append(LIBS = libs(env.subst('$CXX'), env['host_backend'], env['device_backend']))
 
-# make the build environment available to SConscripts
-Export('env')
+# make the build environment available to all subsidiary SConscripts
+env.Export('env')
 
-SConscript('SConscript')
-SConscript('examples/SConscript')
-SConscript('testing/SConscript')
-SConscript('performance/SConscript')
+# assemble the name of this configuration's targets directory
+targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(env['host_backend'], env['device_backend'], env['mode'])
+
+# invoke each SConscript with a variant directory
+env.SConscript('examples/SConscript',    variant_dir = 'examples/'    + targets_dir, duplicate = 0)
+env.SConscript('testing/SConscript',     variant_dir = 'testing/'     + targets_dir, duplicate = 0)
+env.SConscript('performance/SConscript', variant_dir = 'performance/' + targets_dir, duplicate = 0)
+
+# the top-level SConscript doesn't need a variant directory as it just builds zipfiles
+env.SConscript('SConscript')
 

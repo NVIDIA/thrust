@@ -19,7 +19,7 @@ if my_env.subst('$CXX') == 'cl':
   my_env.Append(CPPFLAGS = '/bigobj')
 
 # #include the current directory
-my_env.Append(CPPPATH = Dir('.'))
+my_env.Append(CPPPATH = Dir('#/testing'))
 
 # find all .cus & .cpps
 sources = []
