@@ -355,6 +355,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   env.SConscript('testing/SConscript',     exports='env', variant_dir = 'testing/'     + targets_dir, duplicate = 0)
   env.SConscript('performance/SConscript', exports='env', variant_dir = 'performance/' + targets_dir, duplicate = 0)
 
-# the top-level SConscript doesn't need a variant directory as it just builds zipfiles
-master_env.SConscript('SConscript')
+# the top-level SConscript doesn't need a variant directory as it has no build variation
+# pass RecursiveGlob to the SConscript as it needs to find all public Thrust headers
+master_env.SConscript('SConscript', exports='RecursiveGlob')
 
