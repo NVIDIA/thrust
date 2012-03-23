@@ -4,6 +4,7 @@ EnsureSConsVersion(1,2)
 import os
 import platform
 import glob
+import itertools
 
 
 def RecursiveGlob(env, pattern, directory = Dir('.'), exclude = '\B'):
@@ -276,13 +277,13 @@ def command_line_variables():
   if os.name == 'nt':
     vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
   
-  # add a variable to handle the device backend
-  vars.Add(EnumVariable('device_backend', 'The parallel device backend to target', 'cuda',
-                        allowed_values = ('cuda', 'omp', 'tbb')))
-  
   # add a variable to handle the host backend
-  vars.Add(EnumVariable('host_backend', 'The host backend to target', 'cpp',
-                        allowed_values = ('cpp', 'omp', 'tbb')))
+  vars.Add(ListVariable('host_backend', 'The host backend to target', 'cpp',
+                        ['cpp', 'omp', 'tbb']))
+  
+  # add a variable to handle the device backend
+  vars.Add(ListVariable('device_backend', 'The parallel device backend to target', 'cuda',
+                        ['cuda', 'omp', 'tbb']))
   
   # add a variable to handle release/debug mode
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
@@ -302,49 +303,58 @@ def command_line_variables():
   return vars
 
 
-# create an Environment
+# create a master Environment
 vars = command_line_variables()
-env = Environment(variables = vars, tools = ['default', 'packaging'])
-Help(vars.GenerateHelpText(env))
+master_env = Environment(variables = vars, tools = ['default', 'packaging'])
+Help(vars.GenerateHelpText(master_env))
 
 # enable nvcc
-env.Tool('nvcc', toolpath = ['build'])
+master_env.Tool('nvcc', toolpath = ['build'])
 
 # enable RecursiveGlob
-env.AddMethod(RecursiveGlob)
+master_env.AddMethod(RecursiveGlob)
 
 # import the LD_LIBRARY_PATH so we can run commands which
 # depend on shared libraries (e.g., cudart)
 # we don't need to do this on windows
-if env['PLATFORM'] == 'posix':
-  env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
-elif env['PLATFORM'] == 'darwin':
-  env['ENV']['DYLD_LIBRARY_PATH'] = os.environ['DYLD_LIBRARY_PATH']
+if master_env['PLATFORM'] == 'posix':
+  master_env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
+elif master_env['PLATFORM'] == 'darwin':
+  master_env['ENV']['DYLD_LIBRARY_PATH'] = os.envriron['DYLD_LIBRARY_PATH']
 
-# populate the environment
-env.Append(CPPPATH = inc_paths())
+# get the list of requested backends
+host_backends = master_env.subst('$host_backend').split()
+device_backends = master_env.subst('$device_backend').split()
 
-env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['host_backend'], env['device_backend'], env['Wall'], env['Werror']))
+for (host,device) in itertools.product(host_backends, device_backends):
+  # clone the master environment for this config
+  env = master_env.Clone()
 
-env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], env['device_backend'], env['arch']))
+  # populate the environment
+  env.Append(CPPPATH = inc_paths())
+  
+  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], host, device, env['Wall'], env['Werror']))
+  
+  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch']))
+  
+  env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device))
+  
+  env.Append(LIBPATH = lib_paths())
+  
+  env.Append(LIBS = libs(env.subst('$CXX'), host, device))
+  
+  # assemble the name of this configuration's targets directory
+  targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(host, device, env['mode'])
 
-env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], env['device_backend']))
-
-env.Append(LIBPATH = lib_paths())
-
-env.Append(LIBS = libs(env.subst('$CXX'), env['host_backend'], env['device_backend']))
-
-# make the build environment available to all subsidiary SConscripts
-env.Export('env')
-
-# assemble the name of this configuration's targets directory
-targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(env['host_backend'], env['device_backend'], env['mode'])
-
-# invoke each SConscript with a variant directory
-env.SConscript('examples/SConscript',    variant_dir = 'examples/'    + targets_dir, duplicate = 0)
-env.SConscript('testing/SConscript',     variant_dir = 'testing/'     + targets_dir, duplicate = 0)
-env.SConscript('performance/SConscript', variant_dir = 'performance/' + targets_dir, duplicate = 0)
+  # allow subsidiary SConscripts to peek at the backends
+  env['host_backend'] = host
+  env['device_backend'] = device
+  
+  # invoke each SConscript with a variant directory
+  env.SConscript('examples/SConscript',    exports='env', variant_dir = 'examples/'    + targets_dir, duplicate = 0)
+  env.SConscript('testing/SConscript',     exports='env', variant_dir = 'testing/'     + targets_dir, duplicate = 0)
+  env.SConscript('performance/SConscript', exports='env', variant_dir = 'performance/' + targets_dir, duplicate = 0)
 
 # the top-level SConscript doesn't need a variant directory as it just builds zipfiles
-env.SConscript('SConscript')
+master_env.SConscript('SConscript')
 

@@ -30,7 +30,7 @@ for ext in extensions:
   sources.extend(my_env.Glob(ext))
 
 # gather sources from directories
-sources.extend(SConscript('backend/SConscript', 'my_env'))
+sources.extend(SConscript('backend/SConscript', exports='env'))
 
 # filter sources
 import re
@@ -50,5 +50,5 @@ tester_alias = my_env.Alias('run_tests', [tester], tester[0].abspath)
 my_env.AlwaysBuild(tester_alias)
 
 # build children
-SConscript('trivial_tests/SConscript', 'my_env')
+SConscript('trivial_tests/SConscript', exports='env')
 
