@@ -16,11 +16,7 @@ def trivial_source_from_header(source, target, env):
     fid.write('#include <windows.h>\n')
 
   for src in source:
-    src_abspath = str(src)
-    src_relpath = os.path.relpath(src_abspath, thrust_abspath)
-    include = os.path.join('thrust', src_relpath)
-
-    fid.write('#include <' + include + '>\n')
+    fid.write('#include <' + str(src) + '>\n')
   fid.close()
 
 

@@ -305,11 +305,12 @@ def command_line_variables():
 
 # create a master Environment
 vars = command_line_variables()
-master_env = Environment(variables = vars, tools = ['default', 'packaging'])
-Help(vars.GenerateHelpText(master_env))
+master_env = Environment(variables = vars, tools = ['default', 'nvcc'])
 
-# enable nvcc
-master_env.Tool('nvcc', toolpath = ['build'])
+# XXX it might be a better idea to harvest help text from subsidiary
+#     SConscripts and only add their help text if one of their targets
+#     is scheduled to be built
+Help(vars.GenerateHelpText(master_env))
 
 # enable RecursiveGlob
 master_env.AddMethod(RecursiveGlob)
