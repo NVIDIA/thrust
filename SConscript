@@ -34,6 +34,8 @@ for item in my_env.RecursiveGlob('*', '#examples', 'targets'):
 my_env.Zip('examples-{0}.{1}.zip'.format(major,minor), 'examples', chdir = 1)
 
 # generate documentation
+# note that thrust.dox instructs doxygen to output to the targets directory
 public_headers = my_env.RecursiveGlob('*.h', '#thrust', exclude='detail')
-my_env.Command('doc/html', public_headers, 'doxygen doc/thrust.dox')
+thrust_docs = my_env.Command('doc/html', public_headers, 'doxygen doc/thrust.dox')
+my_env.Alias('doc', thrust_docs)
 
