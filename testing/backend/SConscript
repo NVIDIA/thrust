@@ -1,0 +1,19 @@
+import os
+
+Import('env')
+
+extensions = ['*.cu', '*.cpp']
+
+# gather sources in .
+sources = []
+for ext in extensions:
+  sources.extend(env.Glob(ext))
+
+# recursively glob sources from children
+for ext in extensions:
+  sources.extend(env.RecursiveGlob(ext, 'generic'))
+  sources.extend(env.RecursiveGlob(ext, env['device_backend']))
+
+# return the result to the parent
+Return('sources')
+
