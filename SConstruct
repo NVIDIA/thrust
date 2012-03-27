@@ -305,7 +305,7 @@ def command_line_variables():
 
 # create a master Environment
 vars = command_line_variables()
-master_env = Environment(variables = vars, tools = ['default', 'nvcc'])
+master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
 
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
@@ -356,7 +356,6 @@ for (host,device) in itertools.product(host_backends, device_backends):
   env.SConscript('testing/SConscript',     exports='env', variant_dir = 'testing/'     + targets_dir, duplicate = 0)
   env.SConscript('performance/SConscript', exports='env', variant_dir = 'performance/' + targets_dir, duplicate = 0)
 
-# the top-level SConscript doesn't need a variant directory as it has no build variation
-# pass RecursiveGlob to the SConscript as it needs to find all public Thrust headers
-master_env.SConscript('SConscript', exports='RecursiveGlob')
+env = master_env
+master_env.SConscript('SConscript', exports='env', variant_dir = 'targets', duplicate = False)
 
