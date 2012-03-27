@@ -1,14 +1,14 @@
-import os
-import glob
+import sys
 
+# enable python to find the module
+module_path = Dir('.').srcnode().abspath
+sys.path.append(module_path)
 from build.perftest import compile_test
 
-# try to import an environment first
-try:
-  Import('env')
-except:
-  exec open("../build/build-env.py")
-  env = Environment()
+import os
+
+Import('env')
+my_env = env.Clone()
 
 def cu_build_function(source, target, env):
   compile_test(str(source[0]), str(target[0]))
@@ -17,15 +17,15 @@ def cu_build_function(source, target, env):
 cu_builder = Builder(action = cu_build_function,
                      suffix = '.cu',
                      src_suffix = '.test')
-env.Append(BUILDERS = {'CUFile' : cu_builder})
+my_env.Append(BUILDERS = {'CUFile' : cu_builder})
 
 # define a rule to build a report from an executable
-report_builder = Builder(action = os.path.join('"' + env.GetLaunchDir(), '$SOURCE" > $TARGET'),
+report_builder = Builder(action = os.path.join('"' + str(my_env.Dir('.')), '$SOURCE" > $TARGET'),
                          suffix = '.xml',
-                         src_suffix = env['PROGSUFFIX'])
-env.Append(BUILDERS = {'Report' : report_builder})
+                         src_suffix = my_env['PROGSUFFIX'])
+my_env.Append(BUILDERS = {'Report' : report_builder})
 
-env.Append(CPPPATH = ['.', '../testing/'])
+my_env.Append(CPPPATH = [Dir('.').srcnode(), Dir('#/testing')])
 
 cu_list = []
 program_list = []
@@ -35,29 +35,26 @@ build_files = [os.path.join('build', f) for f in ['perftest.py', 'test_function_
 
 # describe dependency graph:
 # report -> program -> .cu -> .test
-for test in glob.glob("*.test"):
-  cu = env.CUFile(test)
-  env.Depends(cu, build_files)
+for test in my_env.Glob('*.test'):
+  cu = my_env.CUFile(test)
+  my_env.Depends(cu, build_files)
   cu_list.append(cu)
 
-  prog = env.Program(cu)
+  prog = my_env.Program(cu)
   program_list.append(prog)
 
-  report = env.Report(prog)
+  report = my_env.Report(prog)
   report_list.append(report)
 
-  # add .linkinfo files to the clean list
-  env.Clean(prog, str(test).replace("test", "linkinfo"))
-
 # make aliases for groups of targets
-reports = env.Alias("reports", report_list)
-programs = env.Alias("programs", program_list)
+reports = my_env.Alias("reports", report_list)
+programs = my_env.Alias("programs", program_list)
 
 # when no build target is specified, by default we build the programs
-env.Default(programs)
+my_env.Default(programs)
 
 # output a help message
-env.Help("""
+my_env.Help("""
 Type: 'scons' to build all performance test programs.
 Type: 'scons reports' to run all performance tests and output reports.
 Type: 'scons <test name>' to build a single performance test program of interest.
