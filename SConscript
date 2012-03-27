@@ -19,7 +19,8 @@ my_env.Install('thrust', '#CHANGELOG')
 
 # make sure to change directory into the variant dir to ensure the paths are correct in the zipfile
 # note Zip uses the special site_scons/site_tools/zip.py to WAR an issue with the chdir parameter
-my_env.Zip('thrust-{0}.{1}.{2}.zip'.format(major,minor,subminor), 'thrust', chdir = 1)
+thrust_zipfile = my_env.Zip('thrust-{0}.{1}.{2}.zip'.format(major,minor,subminor), 'thrust', chdir = 1)
+my_env.Alias('dist', thrust_zipfile)
 
 
 # create the examples zip
@@ -31,7 +32,8 @@ for item in my_env.RecursiveGlob('*', '#examples', 'targets'):
     my_env.InstallAs(os.path.join('examples', Dir('#examples').rel_path(item)), item)
 # make sure to change directory into the variant dir to ensure the paths are correct in the zipfile
 # note Zip uses the special site_scons/site_tools/zip.py to WAR an issue with the chdir parameter
-my_env.Zip('examples-{0}.{1}.zip'.format(major,minor), 'examples', chdir = 1)
+examples_zipfile = my_env.Zip('examples-{0}.{1}.zip'.format(major,minor), 'examples', chdir = 1)
+my_env.Alias('dist', examples_zipfile)
 
 # generate documentation
 # note that thrust.dox instructs doxygen to output to the targets directory
