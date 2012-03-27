@@ -11,18 +11,8 @@ directories = ['.']
 
 # find all .cus & .cpps in the current directory
 sources = []
-directories = ['.']
+directories = ['.', my_env['device_backend']]
 extensions = ['.cu','.cpp']
-
-# XXX create a separate environment with the appropriate
-# options for each device_backend directory, and
-# build them unconditionally
-if my_env['device_backend'] == 'cuda':
-  directories.append('cuda')
-elif my_env['device_backend'] == 'tbb':
-  directories.append('tbb')
-elif my_env['device_backend'] == 'omp':
-  directories.append('omp')
 
 for dir in directories:
   for ext in extensions:
