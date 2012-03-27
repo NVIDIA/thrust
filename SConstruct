@@ -179,7 +179,7 @@ def libs(CCX, host_backend, device_backend):
   if host_backend == 'omp' or device_backend == 'omp':
     result.append(omp_installation(CCX)[3])
 
-  if host_backend == 'tbb' or device_backend == 'omp':
+  if host_backend == 'tbb' or device_backend == 'tbb':
     result.append(tbb_installation()[3])
 
   return result
