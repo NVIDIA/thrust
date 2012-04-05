@@ -315,13 +315,13 @@ Help(vars.GenerateHelpText(master_env))
 # enable RecursiveGlob
 master_env.AddMethod(RecursiveGlob)
 
-# import the LD_LIBRARY_PATH so we can run commands which
-# depend on shared libraries (e.g., cudart)
+# add CUDA's lib dir to LD_LIBRARY_PATH so that we can execute commands
+# which depend on shared libraries (e.g., cudart)
 # we don't need to do this on windows
 if master_env['PLATFORM'] == 'posix':
-  master_env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
+  master_env['ENV'].setdefault('LD_LIBRARY_PATH', []).append(cuda_installation()[1])
 elif master_env['PLATFORM'] == 'darwin':
-  master_env['ENV']['DYLD_LIBRARY_PATH'] = os.envriron['DYLD_LIBRARY_PATH']
+  master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation()[1])
 
 # get the list of requested backends
 host_backends = master_env.subst('$host_backend').split()
