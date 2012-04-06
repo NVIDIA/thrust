@@ -43,11 +43,14 @@ sources = filter(test_filter, sources)
 
 tester = my_env.Program('tester', sources)
 
-# add the tester to the 'run_tests' alias
-tester_alias = my_env.Alias('run_tests', [tester], tester[0].abspath)
+# add the tester to the 'run_unit_tests' alias
+tester_alias = my_env.Alias('run_unit_tests', [tester], tester[0].abspath)
 
 # always build the 'run_tests' target whether or not it needs it
 my_env.AlwaysBuild(tester_alias)
+
+# add the unit tests alias to the 'run_tests' alias
+my_env.Alias('run_tests', [tester], tester[0].abspath)
 
 # build children
 SConscript('trivial_tests/SConscript', exports='env')

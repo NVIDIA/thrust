@@ -65,9 +65,12 @@ sources.append('main.cu')
 # build the tester
 tester = my_env.Program('tester', sources)
 
-# add the tester to the 'run_tests' alias
-tester_alias = my_env.Alias('run_tests', [tester], tester[0].abspath)
+# add the tester to the 'run_trivial_tests' alias
+tester_alias = my_env.Alias('run_trivial_tests', [tester], tester[0].abspath)
 
-# always build the 'run_tests' target whether or not it needs it
+# always build the 'run_trivial_tests' target whether or not it needs it
 my_env.AlwaysBuild(tester_alias)
+
+# add the trivial tests alias to the 'run_tests' alias
+my_env.Alias('run_tests', [tester], tester[0].abspath)
 
