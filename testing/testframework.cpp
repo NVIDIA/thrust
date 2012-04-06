@@ -1,11 +1,12 @@
 #include "unittest/testframework.h"
 #include "unittest/exceptions.h"
+#include <thrust/memory.h>
 
-#include <cuda_runtime.h>
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
 #include <algorithm>
+#include <numeric>
 #include <string>
 #include <limits>
 #include <ctime>
@@ -134,43 +135,6 @@ void usage(int argc, char** argv)
     std::cout << indent << indent << "--sizes=max     tests all available sizes\n";
 }
 
-void list_devices(void)
-{
-    int deviceCount;
-    cudaGetDeviceCount(&deviceCount);
-    if (deviceCount == 0)
-        std::cout << "There is no device supporting CUDA" << std::endl;
-
-    int selected_device;
-    cudaGetDevice(&selected_device);
-
-    for (int dev = 0; dev < deviceCount; ++dev) {
-        cudaDeviceProp deviceProp;
-        cudaGetDeviceProperties(&deviceProp, dev);
-
-        if (dev == 0)
-        {
-            if (deviceProp.major == 9999 && deviceProp.minor == 9999)
-                std::cout << "There is no device supporting CUDA." << std::endl;
-            else if (deviceCount == 1)
-                std::cout << "There is 1 device supporting CUDA" << std:: endl;
-            else
-                std::cout << "There are " << deviceCount <<  " devices supporting CUDA" << std:: endl;
-        }
-
-        std::cout << "\nDevice " << dev << ": \"" << deviceProp.name << "\"";
-        if(dev == selected_device)
-            std::cout << "  [SELECTED]";
-        std::cout << std::endl;
-
-        std::cout << "  Major revision number:                         " << deviceProp.major << std::endl;
-        std::cout << "  Minor revision number:                         " << deviceProp.minor << std::endl;
-        std::cout << "  Total amount of global memory:                 " << deviceProp.totalGlobalMem << " bytes" << std::endl;
-    }
-    std::cout << std::endl;
-}
-
-
 struct TestResult
 {
     TestStatus  status;
@@ -258,6 +222,11 @@ void UnitTestDriver::list_tests(void)
         std::cout << iter->second->name << std::endl;
 }
 
+bool UnitTestDriver::post_test_sanity_check(const UnitTest &test, bool concise)
+{
+    return true;
+}
+
 
 bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs)
 {
@@ -276,21 +245,6 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
 
     if (!concise)
         std::cout << "Running " << tests_to_run.size() << " unit tests." << std::endl;
-
-    // Check error status before running any tests
-    cudaError_t error = cudaGetLastError();
-    if(error)
-    {
-        if (!concise)
-        {
-            std::cout << "[ERROR] CUDA Error detected before running tests: [";
-            std::cout << std::string(cudaGetErrorString(error));
-            std::cout << "]" << std::endl;
-        }
-
-        return false;
-    } 
-
 
     for(size_t i = 0; i < tests_to_run.size(); i++){
         UnitTest& test = *tests_to_run[i];
@@ -367,16 +321,8 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
             }
         }
 
-        
-        error = cudaGetLastError();
-        if(error && error != cudaErrorMemoryAllocation)
+        if (!post_test_sanity_check(test, concise))
         {
-            if (!concise)
-            {
-                std::cout << "\t[ERROR] CUDA Error detected after running " << test.name << ": [";
-                std::cout << std::string(cudaGetErrorString(error));
-                std::cout << "]" << std::endl;
-            }
             return false;
         }
 
@@ -465,11 +411,17 @@ bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwarg
     }
 }
 
-UnitTestDriver &
-UnitTestDriver::s_driver()
+template<typename DeviceSystem>
+UnitTestDriver &UnitTestDriver::driver_instance()
 {
   static UnitTestDriver s_instance;
   return s_instance;
+}
+
+UnitTestDriver &
+UnitTestDriver::s_driver()
+{
+  return driver_instance<thrust::device_system_tag>();
 }
 
 int main(int argc, char **argv)
@@ -499,15 +451,6 @@ int main(int argc, char **argv)
     {
         set_test_sizes("default");
     }
-
-    if(kwargs.count("device"))
-    {
-        int device_id  = kwargs.count("device") ? atoi(kwargs["device"].c_str()) :  0;
-        cudaSetDevice(device_id);
-    }
-        
-    if(kwargs.count("verbose"))
-        list_devices();
 
     bool passed = UnitTestDriver::s_driver().run_tests(args, kwargs);
 
