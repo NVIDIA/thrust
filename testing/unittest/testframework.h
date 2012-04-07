@@ -118,6 +118,7 @@ class UnitTest {
         }
 };
 
+class UnitTestDriver;
 
 class UnitTestDriver
 {
@@ -127,10 +128,21 @@ class UnitTestDriver
 
   bool run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs);
 
+  // maps a DeviceSystem to a singleton UnitTestDriver
+  template<typename DeviceSystem> static UnitTestDriver &driver_instance();
+
+protected:
+  // executed immediately after each test
+  // \param test The UnitTest of interest
+  // \param concise Whether or not to suppress output
+  // \return true if all is well; false if the tests must be immediately aborted
+  virtual bool post_test_sanity_check(const UnitTest &test, bool concise);
+
+  inline virtual ~UnitTestDriver() {};
+
 public:
-    
   void register_test(UnitTest * test);
-  bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
+  virtual bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
   void list_tests(void); 
 
   static UnitTestDriver &s_driver();
