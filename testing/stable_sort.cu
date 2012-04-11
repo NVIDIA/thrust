@@ -2,6 +2,26 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename RandomAccessIterator>
+void stable_sort(my_tag, RandomAccessIterator first, RandomAccessIterator)
+{
+    *first = 13;
+}
+
+void TestStableSortDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::stable_sort(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestStableSortDispatch);
+
+
 template <typename T>
 struct less_div_10
 {

@@ -35,6 +35,26 @@ void TestReduceSimple(void)
 DECLARE_VECTOR_UNITTEST(TestReduceSimple);
 
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator>
+int reduce(my_tag, InputIterator, InputIterator)
+{
+    return 13;
+}
+
+void TestReduceDispatch()
+{
+    thrust::device_vector<int> vec;
+
+    int result = thrust::reduce(thrust::retag<my_tag>(vec.begin()),
+                                thrust::retag<my_tag>(vec.end()));
+
+    ASSERT_EQUAL(13, result);
+}
+DECLARE_UNITTEST(TestReduceDispatch);
+
+
 template <typename T>
 struct TestReduce
 {

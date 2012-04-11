@@ -68,9 +68,9 @@ template<typename Tag, typename T>
 
 
 // specialization for thrust::pointer
-template<typename Tag, typename T, typename OtherTag>
+template<typename Tag, typename T, typename OtherTag, typename Reference, typename Derived>
   thrust::pointer<T,Tag>
-    reinterpret_tag(thrust::pointer<T,OtherTag> ptr)
+    reinterpret_tag(thrust::pointer<T,OtherTag,Reference,Derived> ptr)
 {
   return reinterpret_tag<Tag>(ptr.get());
 } // end reinterpret_tag()

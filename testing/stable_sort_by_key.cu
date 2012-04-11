@@ -2,6 +2,26 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename RandomAccessIterator1, typename RandomAccessIterator2>
+void stable_sort_by_key(my_tag, RandomAccessIterator1 keys_first, RandomAccessIterator1, RandomAccessIterator2)
+{
+    *keys_first = 13;
+}
+
+void TestStableSortByKeyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::stable_sort_by_key(thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestStableSortByKeyDispatch);
+
 template <typename T>
 struct less_div_10
 {

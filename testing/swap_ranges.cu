@@ -3,6 +3,32 @@
 #include <thrust/iterator/iterator_traits.h> 
 #include <thrust/system/cpp/memory.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator1,
+         typename ForwardIterator2>
+ForwardIterator2 swap_ranges(my_tag,
+                             ForwardIterator1,
+                             ForwardIterator1,
+                             ForwardIterator2 first2)
+{
+    *first2 = 13;
+    return first2;
+}
+
+void TestSwapRangesDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::swap_ranges(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestSwapRangesDispatch);
+
+
 template <class Vector>
 void TestSwapRangesSimple(void)
 {

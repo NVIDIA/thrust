@@ -205,3 +205,35 @@ struct TestReduceByKeyToDiscardIterator
 };
 VariableUnitTest<TestReduceByKeyToDiscardIterator, IntegralTypes> TestReduceByKeyToDiscardIteratorInstance;
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2>
+thrust::pair<OutputIterator1,OutputIterator2>
+reduce_by_key(my_tag,
+              InputIterator1, 
+              InputIterator1,
+              InputIterator2,
+              OutputIterator1 keys_output,
+              OutputIterator2 values_output)
+{
+    *keys_output = 13;
+    return thrust::make_pair(keys_output, values_output);
+}
+
+void TestReduceByKeyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::reduce_by_key(thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestReduceByKeyDispatch);
+

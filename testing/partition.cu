@@ -556,3 +556,29 @@ void TestStablePartitionZipIterator(void)
 }
 DECLARE_VECTOR_UNITTEST(TestStablePartitionZipIterator);
 
+
+struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator,
+         typename Predicate>
+ForwardIterator partition(my_tag,
+                          ForwardIterator first,
+                          ForwardIterator last,
+                          Predicate pred)
+{
+    *first = 13;
+    return first;
+}
+
+void TestPartitionDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::partition(thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestPartitionDispatch);
+

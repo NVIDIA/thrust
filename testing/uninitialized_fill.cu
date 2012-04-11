@@ -2,6 +2,53 @@
 #include <thrust/uninitialized_fill.h>
 #include <thrust/device_malloc_allocator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator, typename T>
+void uninitialized_fill(my_tag,
+                        ForwardIterator first,
+                        ForwardIterator,
+                        const T &)
+{
+    *first = 13;
+}
+
+void TestUninitializedFillDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_fill(thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedFillDispatch);
+
+
+template<typename ForwardIterator, typename Size, typename T>
+ForwardIterator uninitialized_fill_n(my_tag,
+                                     ForwardIterator first,
+                                     Size,
+                                     const T &)
+{
+    *first = 13;
+    return first;
+}
+
+void TestUninitializedFillNDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_fill_n(thrust::retag<my_tag>(vec.begin()),
+                                 vec.size(),
+                                 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedFillNDispatch);
+
+
 template <class Vector>
 void TestUninitializedFillPOD(void)
 {

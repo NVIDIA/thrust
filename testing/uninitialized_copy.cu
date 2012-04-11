@@ -2,6 +2,54 @@
 #include <thrust/uninitialized_copy.h>
 #include <thrust/device_malloc_allocator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator, typename ForwardIterator>
+ForwardIterator uninitialized_copy(my_tag,
+                                   InputIterator,
+                                   InputIterator,
+                                   ForwardIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestUninitializedCopyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_copy(thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedCopyDispatch);
+
+
+template<typename InputIterator, typename Size, typename ForwardIterator>
+ForwardIterator uninitialized_copy_n(my_tag,
+                                     InputIterator,
+                                     Size,
+                                     ForwardIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestUninitializedCopyNDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_copy_n(thrust::retag<my_tag>(vec.begin()),
+                                 vec.size(),
+                                 thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedCopyNDispatch);
+
+
 template <class Vector>
 void TestUninitializedCopySimplePOD(void)
 {

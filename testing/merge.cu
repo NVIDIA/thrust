@@ -36,6 +36,37 @@ void TestMergeSimple(void)
 DECLARE_VECTOR_UNITTEST(TestMergeSimple);
 
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator merge(my_tag,
+                     InputIterator1,
+                     InputIterator1,
+                     InputIterator2,
+                     InputIterator2,
+                     OutputIterator result)
+{
+  *result = 13;
+  return result;
+}
+
+void TestMergeDispatch()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::merge(thrust::retag<my_tag>(vec.begin()),
+                thrust::retag<my_tag>(vec.begin()),
+                thrust::retag<my_tag>(vec.begin()),
+                thrust::retag<my_tag>(vec.begin()),
+                thrust::retag<my_tag>(vec.begin()));
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestMergeDispatch);
+
+
 template<typename T>
   void TestMerge(size_t n)
 {

@@ -3,6 +3,64 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template <typename ForwardIterator1,
+          typename ForwardIterator2>
+thrust::pair<ForwardIterator1,ForwardIterator2>
+unique_by_key(my_tag,
+              ForwardIterator1 keys_first, 
+              ForwardIterator1,
+              ForwardIterator2 values_first)
+{
+    *keys_first = 13;
+    return thrust::make_pair(keys_first,values_first);
+}
+
+void TestUniqueByKeyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::unique_by_key(thrust::retag<my_tag>(vec.begin()), 
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUniqueByKeyDispatch);
+
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+thrust::pair<OutputIterator1,OutputIterator2>
+unique_by_key_copy(my_tag,
+                   InputIterator1, 
+                   InputIterator1,
+                   InputIterator2,
+                   OutputIterator1 keys_output,
+                   OutputIterator2 values_output)
+{
+    *keys_output = 13;
+    return thrust::make_pair(keys_output, values_output);
+}
+
+void TestUniqueByKeyCopyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::unique_by_key_copy(thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUniqueByKeyCopyDispatch);
+
+
 template<typename T>
 struct is_equal_div_10_unique
 {
