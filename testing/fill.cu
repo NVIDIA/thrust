@@ -384,4 +384,45 @@ void TestFillWithNonTrivialAssignment(void)
 DECLARE_UNITTEST(TestFillWithNonTrivialAssignment);
 
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator, typename T>
+void fill(my_tag, ForwardIterator first, ForwardIterator, const T&)
+{
+    *first = 13;
+}
+
+void TestFillDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::fill(thrust::retag<my_tag>(vec.begin()),
+                 thrust::retag<my_tag>(vec.end()),
+                 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestFillDispatch);
+
+
+template<typename OutputIterator, typename Size, typename T>
+OutputIterator fill_n(my_tag, OutputIterator first, Size, const T&)
+{
+    *first = 13;
+    return first;
+}
+
+void TestFillNDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::fill_n(thrust::retag<my_tag>(vec.begin()),
+                   vec.size(),
+                   0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestFillNDispatch);
+
+
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

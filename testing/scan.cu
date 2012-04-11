@@ -3,6 +3,8 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
 template<typename T>
   struct max_functor
 {
@@ -86,6 +88,54 @@ void TestScanSimple(void)
     ASSERT_EQUAL(input, result);
 }
 DECLARE_VECTOR_UNITTEST(TestScanSimple);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator inclusive_scan(my_tag,
+                              InputIterator,
+                              InputIterator,
+                              OutputIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestInclusiveScanDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::inclusive_scan(thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestInclusiveScanDispatch);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator exclusive_scan(my_tag,
+                              InputIterator,
+                              InputIterator,
+                              OutputIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestExclusiveScanDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::exclusive_scan(thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestExclusiveScanDispatch);
 
 
 void TestInclusiveScan32(void)

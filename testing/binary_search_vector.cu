@@ -5,6 +5,9 @@
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
 
+// for testing dispatch
+struct my_tag : thrust::device_system_tag {};
+
 //////////////////////
 // Vector Functions //
 //////////////////////
@@ -74,6 +77,28 @@ void TestVectorLowerBoundSimple(void)
 DECLARE_VECTOR_UNITTEST(TestVectorLowerBoundSimple);
 
 
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    *output = 13;
+    return output;
+}
+
+void TestVectorLowerBoundDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::lower_bound(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestVectorLowerBoundDispatch);
+
+
 template <class Vector>
 void TestVectorUpperBoundSimple(void)
 {
@@ -126,6 +151,28 @@ void TestVectorUpperBoundSimple(void)
 //    ASSERT_EQUAL(iterator_output[9] - vec.begin(), 5);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorUpperBoundSimple);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    *output = 13;
+    return output;
+}
+
+void TestVectorUpperBoundDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::upper_bound(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestVectorUpperBoundDispatch);
 
 
 template <class Vector>
@@ -182,6 +229,28 @@ void TestVectorBinarySearchSimple(void)
     ASSERT_EQUAL(integral_output[9], 0);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorBinarySearchSimple);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    *output = 13;
+    return output;
+}
+
+void TestVectorBinarySearchDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::binary_search(thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.end()),
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.end()),
+                          thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestVectorBinarySearchDispatch);
 
 
 template <typename T>

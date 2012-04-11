@@ -95,3 +95,23 @@ void TestIsSortedUntil(void)
 }
 DECLARE_VECTOR_UNITTEST(TestIsSortedUntil);
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator>
+ForwardIterator is_sorted_until(my_tag, ForwardIterator first, ForwardIterator)
+{
+    *first = 13;
+    return first;
+}
+
+void TestIsSortedUntil()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::is_sorted_until(thrust::retag<my_tag>(vec.begin()),
+                            thrust::retag<my_tag>(vec.end()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestIsSortedUntil);
+

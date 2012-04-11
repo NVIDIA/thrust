@@ -6,6 +6,71 @@
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename AssociativeOperator>
+OutputIterator transform_inclusive_scan(my_tag,
+                                        InputIterator,
+                                        InputIterator,
+                                        OutputIterator result,
+                                        UnaryFunction,
+                                        AssociativeOperator)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformInclusiveScanDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_inclusive_scan(thrust::retag<my_tag>(vec.begin()),
+                                     thrust::retag<my_tag>(vec.begin()),
+                                     thrust::retag<my_tag>(vec.begin()),
+                                     0,
+                                     0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformInclusiveScanDispatch);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename T,
+         typename AssociativeOperator>
+OutputIterator transform_exclusive_scan(my_tag,
+                                        InputIterator,
+                                        InputIterator,
+                                        OutputIterator result,
+                                        UnaryFunction,
+                                        T,
+                                        AssociativeOperator)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformExclusiveScanDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_exclusive_scan(thrust::retag<my_tag>(vec.begin()),
+                                     thrust::retag<my_tag>(vec.begin()),
+                                     thrust::retag<my_tag>(vec.begin()),
+                                     0,
+                                     0,
+                                     0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformExclusiveScanDispatch);
+
+
 template <class Vector>
 void TestTransformScanSimple(void)
 {

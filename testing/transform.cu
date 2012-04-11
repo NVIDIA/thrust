@@ -6,6 +6,8 @@
 #include <thrust/pair.h>
 #include <thrust/iterator/zip_iterator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
 template <class Vector>
 void TestTransformUnarySimple(void)
 {
@@ -25,6 +27,29 @@ void TestTransformUnarySimple(void)
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformUnarySimple);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction>
+OutputIterator transform(my_tag, InputIterator, InputIterator, OutputIterator result, UnaryFunction)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformUnaryDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform(thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformUnaryDispatch);
 
 
 template <class Vector>
@@ -51,6 +76,36 @@ void TestTransformIfUnaryNoStencilSimple(void)
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfUnaryNoStencilSimple);
+
+
+template<typename InputIterator,
+         typename ForwardIterator,
+         typename UnaryFunction,
+         typename Predicate>
+ForwardIterator transform_if(my_tag,
+                             InputIterator,
+                             InputIterator,
+                             ForwardIterator result,
+                             UnaryFunction,
+                             Predicate)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformIfUnaryNoStencilDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_if(thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformIfUnaryNoStencilDispatch);
 
 
 template <class Vector>
@@ -82,6 +137,37 @@ void TestTransformIfUnarySimple(void)
 DECLARE_VECTOR_UNITTEST(TestTransformIfUnarySimple);
 
 
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename ForwardIterator,
+         typename UnaryFunction,
+         typename Predicate>
+ForwardIterator transform_if(my_tag,
+                             InputIterator1,
+                             InputIterator1,
+                             ForwardIterator result,
+                             UnaryFunction,
+                             Predicate)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformIfUnaryDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_if(thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         0,
+                         0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformIfUnaryDispatch);
+
+
 template <class Vector>
 void TestTransformBinarySimple(void)
 {
@@ -103,6 +189,33 @@ void TestTransformBinarySimple(void)
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformBinarySimple);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename UnaryFunction>
+OutputIterator transform(my_tag, InputIterator1, InputIterator1, InputIterator2, OutputIterator result, UnaryFunction)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformBinaryDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform(thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformBinaryDispatch);
+
+
 
 
 template <class Vector>
@@ -137,6 +250,42 @@ void TestTransformIfBinarySimple(void)
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfBinarySimple);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename ForwardIterator,
+         typename BinaryFunction,
+         typename Predicate>
+ForwardIterator transform_if(my_tag,
+                             InputIterator1,
+                             InputIterator1,
+                             InputIterator2,
+                             InputIterator3,
+                             ForwardIterator result,
+                             BinaryFunction,
+                             Predicate)
+{
+    *result = 13;
+    return result;
+}
+
+void TestTransformIfBinaryDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_if(thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         thrust::retag<my_tag>(vec.begin()),
+                         0,
+                         0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformIfBinaryDispatch);
 
 
 template <typename T>
