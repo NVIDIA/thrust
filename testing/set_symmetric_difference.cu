@@ -3,6 +3,37 @@
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator set_symmetric_difference(my_tag,
+                                        InputIterator1,
+                                        InputIterator1,
+                                        InputIterator2,
+                                        InputIterator2,
+                                        OutputIterator result)
+{
+  *result = 13;
+  return result;
+}
+
+void TestSetSymmetricDifferenceDispatch()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::set_symmetric_difference(thrust::retag<my_tag>(vec.begin()),
+                                   thrust::retag<my_tag>(vec.begin()),
+                                   thrust::retag<my_tag>(vec.begin()),
+                                   thrust::retag<my_tag>(vec.begin()),
+                                   thrust::retag<my_tag>(vec.begin()));
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestSetSymmetricDifferenceDispatch);
+
+
 template<typename Vector>
 void TestSetSymmetricDifferenceSimple(void)
 {

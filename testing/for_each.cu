@@ -6,6 +6,8 @@
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
+struct my_tag : thrust::device_system_tag {};
+
 template <typename T>
 class mark_present_for_each
 {
@@ -41,6 +43,26 @@ void TestForEachSimple(void)
 DECLARE_VECTOR_UNITTEST(TestForEachSimple);
 
 
+template<typename InputIterator, typename Function>
+InputIterator for_each(my_tag, InputIterator first, InputIterator, Function)
+{
+    *first = 13;
+    return first;
+}
+
+void TestForEachDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::for_each(thrust::retag<my_tag>(vec.begin()),
+                     thrust::retag<my_tag>(vec.end()),
+                     0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestForEachDispatch);
+
+
 template <class Vector>
 void TestForEachNSimple(void)
 {
@@ -66,6 +88,26 @@ void TestForEachNSimple(void)
     ASSERT_EQUAL_QUIET(result, input.end());
 }
 DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
+
+
+template<typename InputIterator, typename Size, typename Function>
+InputIterator for_each_n(my_tag, InputIterator first, Size, Function)
+{
+    *first = 13;
+    return first;
+}
+
+void TestForEachNDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::for_each_n(thrust::retag<my_tag>(vec.begin()),
+                       vec.size(),
+                       0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestForEachNDispatch);
 
 
 void TestForEachSimpleAnySystem(void)

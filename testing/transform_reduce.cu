@@ -4,6 +4,38 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator, 
+         typename UnaryFunction, 
+         typename OutputType,
+         typename BinaryFunction>
+OutputType transform_reduce(my_tag,
+                            InputIterator first,
+                            InputIterator,
+                            UnaryFunction,
+                            OutputType init,
+                            BinaryFunction)
+{
+    *first = 13;
+    return init;
+}
+
+void TestTransformReduceDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_reduce(thrust::retag<my_tag>(vec.begin()),
+                             thrust::retag<my_tag>(vec.begin()),
+                             0,
+                             0,
+                             0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformReduceDispatch);
+
+
 template <class Vector>
 void TestTransformReduceSimple(void)
 {

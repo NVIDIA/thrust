@@ -5,6 +5,8 @@
 #include <thrust/sequence.h>
 #include <thrust/fill.h>
 
+struct my_tag : thrust::device_system_tag {};
+
 template <class Vector>
 void TestScatterSimple(void)
 {
@@ -30,6 +32,32 @@ void TestScatterSimple(void)
     ASSERT_EQUAL(dst[7], 3);
 }
 DECLARE_VECTOR_UNITTEST(TestScatterSimple);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator>
+void scatter(my_tag,
+             InputIterator1,
+             InputIterator1,
+             InputIterator2,
+             RandomAccessIterator output)
+{
+    *output = 13;
+}
+
+void TestScatterDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::scatter(thrust::retag<my_tag>(vec.begin()),
+                    thrust::retag<my_tag>(vec.begin()),
+                    thrust::retag<my_tag>(vec.begin()),
+                    thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScatterDispatch);
 
 
 template <typename T>
@@ -108,6 +136,35 @@ void TestScatterIfSimple(void)
     ASSERT_EQUAL(dst[7], 3);
 }
 DECLARE_VECTOR_UNITTEST(TestScatterIfSimple);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename RandomAccessIterator>
+void scatter_if(my_tag,
+                InputIterator1,
+                InputIterator1,
+                InputIterator2,
+                InputIterator3,
+                RandomAccessIterator output)
+{
+    *output = 13;
+}
+
+void TestScatterIfDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::scatter_if(thrust::retag<my_tag>(vec.begin()),
+                       thrust::retag<my_tag>(vec.begin()),
+                       thrust::retag<my_tag>(vec.begin()),
+                       thrust::retag<my_tag>(vec.begin()),
+                       thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScatterIfDispatch);
 
 
 template <typename T>

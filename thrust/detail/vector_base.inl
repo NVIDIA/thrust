@@ -915,7 +915,7 @@ template<typename T, typename Alloc>
     thrust::copy(first, mid, begin());
 
     // uninitialize_copy to elements which must be constructed
-    iterator new_end = cross_system_uninitialized_copy(mid, last, end(), has_trivial_copy_constructor());
+    cross_system_uninitialized_copy(mid, last, end(), has_trivial_copy_constructor());
 
     // update size
     m_size = n;

@@ -3,6 +3,8 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/transform_iterator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
 template <typename Vector>
 void TestInclusiveScanByKeySimple(void)
 {
@@ -55,6 +57,33 @@ void TestInclusiveScanByKeySimple(void)
     ASSERT_EQUAL(output[6], 13);
 }
 DECLARE_VECTOR_UNITTEST(TestInclusiveScanByKeySimple);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator inclusive_scan_by_key(my_tag,
+                                     InputIterator1,
+                                     InputIterator1,
+                                     InputIterator2,
+                                     OutputIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestInclusiveScanByKeyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::inclusive_scan_by_key(thrust::retag<my_tag>(vec.begin()),
+                                  thrust::retag<my_tag>(vec.begin()),
+                                  thrust::retag<my_tag>(vec.begin()),
+                                  thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestInclusiveScanByKeyDispatch);
 
 
 template <typename Vector>
@@ -119,6 +148,33 @@ void TestExclusiveScanByKeySimple(void)
     ASSERT_EQUAL(output[6], 16);
 }
 DECLARE_VECTOR_UNITTEST(TestExclusiveScanByKeySimple);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator exclusive_scan_by_key(my_tag,
+                                     InputIterator1,
+                                     InputIterator1,
+                                     InputIterator2,
+                                     OutputIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestExclusiveScanByKeyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::exclusive_scan_by_key(thrust::retag<my_tag>(vec.begin()),
+                                  thrust::retag<my_tag>(vec.begin()),
+                                  thrust::retag<my_tag>(vec.begin()),
+                                  thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestExclusiveScanByKeyDispatch);
 
 
 struct head_flag_predicate

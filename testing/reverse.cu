@@ -2,6 +2,9 @@
 #include <thrust/reverse.h>
 #include <thrust/iterator/discard_iterator.h>
 
+// for testing dispatch
+struct my_tag : thrust::device_system_tag {};
+
 typedef unittest::type_list<char,short,int> ReverseTypes;
 
 template<typename Vector>
@@ -26,6 +29,27 @@ void TestReverseSimple(void)
   ASSERT_EQUAL(ref, data);
 }
 DECLARE_VECTOR_UNITTEST(TestReverseSimple);
+
+
+template<typename BidirectionalIterator>
+void reverse(my_tag,
+             BidirectionalIterator first,
+             BidirectionalIterator last)
+{
+  *first = 13;
+}
+
+void TestReverseDispatch()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::reverse(thrust::retag<my_tag>(vec.begin()),
+                  thrust::retag<my_tag>(vec.begin()));
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestReverseDispatch);
+
 
 template<typename Vector>
 void TestReverseCopySimple(void)
@@ -54,6 +78,30 @@ void TestReverseCopySimple(void)
   ASSERT_EQUAL(ref, output);
 }
 DECLARE_VECTOR_UNITTEST(TestReverseCopySimple);
+
+
+template<typename BidirectionalIterator, typename OutputIterator>
+OutputIterator reverse_copy(my_tag,
+                            BidirectionalIterator,
+                            BidirectionalIterator,
+                            OutputIterator result)
+{
+  *result = 13;
+  return result;
+}
+
+void TestReverseCopyDispatch()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::reverse_copy(thrust::retag<my_tag>(vec.begin()),
+                       thrust::retag<my_tag>(vec.end()),
+                       thrust::retag<my_tag>(vec.begin()));
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestReverseCopyDispatch);
+
 
 template<typename T>
 struct TestReverse

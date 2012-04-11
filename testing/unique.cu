@@ -3,6 +3,53 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
+struct my_tag : thrust::device_system_tag {};
+
+template <typename ForwardIterator>
+ForwardIterator unique(my_tag,
+                       ForwardIterator first,
+                       ForwardIterator)
+{
+    *first = 13;
+    return first;
+}
+
+void TestUniqueDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::unique(thrust::retag<my_tag>(vec.begin()),
+                   thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUniqueDispatch);
+
+
+template <typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(my_tag,
+                           InputIterator,
+                           InputIterator,
+                           OutputIterator result)
+{
+    *result = 13;
+    return result;
+}
+
+void TestUniqueCopyDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::unique_copy(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUniqueCopyDispatch);
+
+
 template<typename T>
 struct is_equal_div_10_unique
 {

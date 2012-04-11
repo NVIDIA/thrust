@@ -36,50 +36,57 @@ struct tag : thrust::system::cpp::tag {};
 
 
 // select system overloads
+template<typename Tag>
 __host__ __device__
-inline tag select_system(tag, tag)
+inline Tag select_system(Tag, Tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
+template<typename Tag>
 __host__ __device__
-inline tag select_system(tag, thrust::any_system_tag)
+inline Tag select_system(Tag, thrust::any_system_tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
+template<typename Tag>
 __host__ __device__
-inline tag select_system(thrust::any_system_tag, tag)
+inline Tag select_system(thrust::any_system_tag, Tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
+template<typename Tag>
 __host__ __device__
-inline tag select_system(tag, thrust::system::cpp::tag)
+inline Tag select_system(Tag, thrust::system::cpp::tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
+template<typename Tag>
 __host__ __device__
-inline tag select_system(thrust::system::cpp::tag, tag)
+inline Tag select_system(thrust::system::cpp::tag, Tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
 
 // XXX select_system(tbb, omp) & select_system(omp, tbb) are ambiguous
 //     because both convert to cpp without these overloads, which we
 //     arbitrarily define in the omp backend
+template<typename Tag>
 __host__ __device__
-inline tag select_system(tag, thrust::system::tbb::tag)
+inline Tag select_system(Tag, thrust::system::tbb::tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
+template<typename Tag>
 __host__ __device__
-inline tag select_system(thrust::system::tbb::tag, tag)
+inline Tag select_system(thrust::system::tbb::tag, Tag)
 {
-  return tag();
+  return Tag();
 } // end select_system()
 
 

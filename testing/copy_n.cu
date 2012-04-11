@@ -245,3 +245,25 @@ void TestCopyNConstantIteratorToZipIterator(void)
 };
 DECLARE_VECTOR_UNITTEST(TestCopyNConstantIteratorToZipIterator);
 
+struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator, typename Size, typename OutputIterator>
+OutputIterator copy_n(my_tag, InputIterator, Size, OutputIterator result)
+{
+    *result = 13;
+
+    return result;
+}
+
+void TestCopyNDispatch()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::copy_n(thrust::retag<my_tag>(vec.begin()),
+                   1,
+                   thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestCopyNDispatch);
+
