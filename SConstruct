@@ -324,9 +324,7 @@ def command_line_variables():
 # create a master Environment
 vars = command_line_variables()
 
-# import the environment because we depend on a couple of variables
-# such as TBBROOT and LD_LIBRARY_PATH
-master_env = Environment(ENV = os.environ, variables = vars, tools = ['default', 'nvcc', 'zip'])
+master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
 
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
@@ -343,6 +341,8 @@ if master_env['PLATFORM'] == 'posix':
   master_env['ENV'].setdefault('LD_LIBRARY_PATH', []).append(cuda_installation()[1])
 elif master_env['PLATFORM'] == 'darwin':
   master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation()[1])
+elif master_env['PLATFORM'] == 'win32':
+  master_env['ENV']['TBBROOT'] = os.environ['TBBROOT']
 
 # get the list of requested backends
 host_backends = master_env.subst('$host_backend').split()
