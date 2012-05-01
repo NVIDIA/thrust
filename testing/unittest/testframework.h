@@ -128,9 +128,6 @@ class UnitTestDriver
 
   bool run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs);
 
-  // maps a DeviceSystem to a singleton UnitTestDriver
-  template<typename DeviceSystem> static UnitTestDriver &driver_instance();
-
 protected:
   // executed immediately after each test
   // \param test The UnitTest of interest

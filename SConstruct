@@ -128,14 +128,32 @@ def omp_installation(CXX):
   return (bin_path,lib_path,inc_path,library_name)
 
 
-def tbb_installation():
+def tbb_installation(env):
   """Returns the details of TBB's installation
   returns (bin_path,lib_path,inc_path,library_name)
   """
 
   # determine defaults
   if os.name == 'nt':
-    raise ValueError, 'Where is TBB installed?'
+    try:
+      # we assume that TBBROOT exists in the environment
+      root = env['ENV']['TBBROOT']
+
+      # choose bitness
+      bitness = 'ia32'
+      if platform.machine()[-2:] == '64':
+        bitness = 'intel64'
+
+      # choose msvc version
+      msvc_version = 'vc' + str(int(float(env['MSVC_VERSION'])))
+      
+      # assemble paths
+      bin_path = os.path.join(root, 'bin', bitness, msvc_version)
+      lib_path = os.path.join(root, 'lib', bitness, msvc_version)
+      inc_path = os.path.join(root, 'include')
+        
+    except:
+      raise ValueError, 'Where is TBB installed?'
   else:
     bin_path = ''
     lib_path = ''
@@ -144,26 +162,26 @@ def tbb_installation():
   return (bin_path,lib_path,inc_path,'tbb')
 
 
-def inc_paths():
+def inc_paths(env):
   """Returns a list of include paths needed by the compiler"""
   thrust_inc_path = Dir('.')
   cuda_inc_path = cuda_installation()[2]
-  tbb_inc_path  = tbb_installation()[2]
+  tbb_inc_path  = tbb_installation(env)[2]
 
   # note that the thrust path comes before the cuda path, which
   # may itself contain a different version of thrust
   return [thrust_inc_path, cuda_inc_path, tbb_inc_path]
   
 
-def lib_paths():
+def lib_paths(env):
   """Returns a list of lib paths needed by the linker"""
   cuda_lib_path = cuda_installation()[1]
-  tbb_lib_path  = tbb_installation()[0]
+  tbb_lib_path  = tbb_installation(env)[1]
 
   return [cuda_lib_path, tbb_lib_path]
 
 
-def libs(CCX, host_backend, device_backend):
+def libs(env, CCX, host_backend, device_backend):
   """Returns a list of libraries to link against"""
   result = []
 
@@ -180,7 +198,7 @@ def libs(CCX, host_backend, device_backend):
     result.append(omp_installation(CCX)[3])
 
   if host_backend == 'tbb' or device_backend == 'tbb':
-    result.append(tbb_installation()[3])
+    result.append(tbb_installation(env)[3])
 
   return result
 
@@ -305,7 +323,10 @@ def command_line_variables():
 
 # create a master Environment
 vars = command_line_variables()
-master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
+
+# import the environment because we depend on a couple of variables
+# such as TBBROOT and LD_LIBRARY_PATH
+master_env = Environment(ENV = os.environ, variables = vars, tools = ['default', 'nvcc', 'zip'])
 
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
@@ -332,7 +353,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   env = master_env.Clone()
 
   # populate the environment
-  env.Append(CPPPATH = inc_paths())
+  env.Append(CPPPATH = inc_paths(env))
   
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], host, device, env['Wall'], env['Werror']))
   
@@ -340,9 +361,9 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device))
   
-  env.Append(LIBPATH = lib_paths())
+  env.Append(LIBPATH = lib_paths(env))
   
-  env.Append(LIBS = libs(env.subst('$CXX'), host, device))
+  env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
   
   # assemble the name of this configuration's targets directory
   targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(host, device, env['mode'])

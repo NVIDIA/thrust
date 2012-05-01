@@ -1,6 +1,7 @@
 #include <unittest/testframework.h>
 #include <thrust/system/cuda/memory.h>
 #include <cuda_runtime.h>
+#include "testframework.h"
 
 void list_devices(void)
 {
@@ -42,134 +43,120 @@ void list_devices(void)
 }
 
 // provide next, which c++03 doesn't have
-template<typename Iterator> Iterator next(Iterator iter)
+template<typename Iterator> Iterator my_next(Iterator iter)
 {
   return ++iter;
 }
 
-// optionally executes unit tests for each GPU in the system
-class CUDATestDriver
-  : public UnitTestDriver
+std::vector<int> CUDATestDriver::target_devices(const ArgumentMap &kwargs)
 {
-  std::vector<int> target_devices(const ArgumentMap &kwargs)
+  std::vector<int> result;
+  
+  int device_id = kwargs.count("device") ? atoi(kwargs.find("device")->second.c_str()) : 0;
+  
+  if(device_id < 0)
   {
-    std::vector<int> result;
+    // target all devices in the system
+    int count = 0;
+    cudaGetDeviceCount(&count);
     
-    int device_id = kwargs.count("device") ? atoi(kwargs.find("device")->second.c_str()) : 0;
-    
-    if(device_id < 0)
-    {
-      // target all devices in the system
-      int count = 0;
-      cudaGetDeviceCount(&count);
-      
-      result.resize(count);
-      // XXX iota is not available in c++03
-      for(int i = 0; i < count; ++i)
-        result[i] = i;
-    }
-    else
-    {
-      // target the specified device
-      result = std::vector<int>(1,device_id);
-    }
-    
-    return result;
+    result.resize(count);
+    // XXX iota is not available in c++03
+    for(int i = 0; i < count; ++i)
+      result[i] = i;
   }
-
-  bool check_cuda_error(bool concise)
+  else
   {
-    cudaError_t error = cudaGetLastError();
-    if(error)
-    {
-      if(!concise)
-      {
-        std::cout << "[ERROR] CUDA Error detected before running tests: [";
-        std::cout << std::string(cudaGetErrorString(error));
-        std::cout << "]" << std::endl;
-      }
-    } 
-
-    return error;
-  }
-
-  // checks for a CUDA error
-  virtual bool post_test_sanity_check(const UnitTest &test, bool concise)
-  {
-    cudaError_t error = cudaGetLastError();
-    if(error && error != cudaErrorMemoryAllocation)
-    {
-      if(!concise)
-      {
-        std::cout << "\t[ERROR] CUDA Error detected after running " << test.name << ": [";
-        std::cout << std::string(cudaGetErrorString(error));
-        std::cout << "]" << std::endl;
-      }
-    }
-
-    return error == cudaSuccess;
+    // target the specified device
+    result = std::vector<int>(1,device_id);
   }
   
-  virtual bool run_tests(const ArgumentSet &args, const ArgumentMap &kwargs)
-  {
-    bool verbose = kwargs.count("verbose");
-    bool concise = kwargs.count("concise");
+  return result;
+}
 
-    if(verbose && concise)
-    {
-      std::cout << "--verbose and --concise cannot be used together" << std::endl;
-      exit(EXIT_FAILURE);
-    }
-    
-    bool result = true;
-
-    if(kwargs.count("verbose"))
-    {
-      list_devices();
-    }
-    
-    // figure out which devices to target
-    std::vector<int> devices = target_devices(kwargs);
-    
-    // target each device
-    for(std::vector<int>::iterator device = devices.begin();
-        device != devices.end();
-        ++device)
-    {
-      if(!concise)
-      {
-        // note which device we're testing
-        cudaDeviceProp deviceProp;
-        cudaGetDeviceProperties(&deviceProp, *device);
-        
-        std::cout << "Testing Device " << *device << ": \"" << deviceProp.name << "\"" << std::endl;
-      }
-      
-      // set the device
-      cudaSetDevice(*device);
-
-      // check error status before running any tests
-      if(check_cuda_error(concise)) return false;
-      
-      // run tests
-      result &= UnitTestDriver::run_tests(args, kwargs);
-      
-      if(!concise && next(device) != devices.end())
-      {
-        // provide some separation between the output of separate tests
-        std::cout << std::endl;
-      }
-    }
-    
-    return result;
-  }
-};
-
-
-template<>
-UnitTestDriver &UnitTestDriver::driver_instance<thrust::system::cuda::tag>()
+bool CUDATestDriver::check_cuda_error(bool concise)
 {
-  static CUDATestDriver s_instance;
-  return s_instance;
+  cudaError_t error = cudaGetLastError();
+  if(error)
+  {
+    if(!concise)
+    {
+      std::cout << "[ERROR] CUDA Error detected before running tests: [";
+      std::cout << std::string(cudaGetErrorString(error));
+      std::cout << "]" << std::endl;
+    }
+  } 
+
+  return error;
+}
+
+bool CUDATestDriver::post_test_sanity_check(const UnitTest &test, bool concise)
+{
+  cudaError_t error = cudaGetLastError();
+  if(error && error != cudaErrorMemoryAllocation)
+  {
+    if(!concise)
+    {
+      std::cout << "\t[ERROR] CUDA Error detected after running " << test.name << ": [";
+      std::cout << std::string(cudaGetErrorString(error));
+      std::cout << "]" << std::endl;
+    }
+  }
+
+  return error == cudaSuccess;
+}
+  
+bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwargs)
+{
+  bool verbose = kwargs.count("verbose");
+  bool concise = kwargs.count("concise");
+
+  if(verbose && concise)
+  {
+    std::cout << "--verbose and --concise cannot be used together" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  
+  bool result = true;
+
+  if(kwargs.count("verbose"))
+  {
+    list_devices();
+  }
+  
+  // figure out which devices to target
+  std::vector<int> devices = target_devices(kwargs);
+  
+  // target each device
+  for(std::vector<int>::iterator device = devices.begin();
+      device != devices.end();
+      ++device)
+  {
+    if(!concise)
+    {
+      // note which device we're testing
+      cudaDeviceProp deviceProp;
+      cudaGetDeviceProperties(&deviceProp, *device);
+      
+      std::cout << "Testing Device " << *device << ": \"" << deviceProp.name << "\"" << std::endl;
+    }
+    
+    // set the device
+    cudaSetDevice(*device);
+
+    // check error status before running any tests
+    if(check_cuda_error(concise)) return false;
+    
+    // run tests
+    result &= UnitTestDriver::run_tests(args, kwargs);
+    
+    if(!concise && my_next(device) != devices.end())
+    {
+      // provide some separation between the output of separate tests
+      std::cout << std::endl;
+    }
+  }
+  
+  return result;
 }
 

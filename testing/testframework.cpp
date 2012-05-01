@@ -2,6 +2,9 @@
 #include "unittest/exceptions.h"
 #include <thrust/memory.h>
 
+// #include backends' testframework.h, if they exist
+#include "backend/cuda/testframework.h"
+
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
@@ -411,17 +414,28 @@ bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwarg
     }
 }
 
+// driver_instance maps a DeviceSystem to a singleton UnitTestDriver
+
 template<typename DeviceSystem>
-UnitTestDriver &UnitTestDriver::driver_instance()
+UnitTestDriver &driver_instance(DeviceSystem tag)
 {
   static UnitTestDriver s_instance;
+  return s_instance;
+}
+
+// overload driver_instance, if we need a special kind of
+// UnitTestDriver
+
+UnitTestDriver &driver_instance(thrust::system::cuda::tag)
+{
+  static CUDATestDriver s_instance;
   return s_instance;
 }
 
 UnitTestDriver &
 UnitTestDriver::s_driver()
 {
-  return driver_instance<thrust::device_system_tag>();
+  return driver_instance(thrust::device_system_tag());
 }
 
 int main(int argc, char **argv)
