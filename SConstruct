@@ -1,6 +1,9 @@
 """Exports a SCons construction environment 'env' with configuration common to all build projects"""
 EnsureSConsVersion(1,2)
 
+import sys
+print sys.argv
+
 import os
 import platform
 import glob
