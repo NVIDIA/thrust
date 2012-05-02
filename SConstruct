@@ -346,7 +346,7 @@ elif master_env['PLATFORM'] == 'darwin':
   master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation()[1])
 elif master_env['PLATFORM'] == 'win32':
   master_env['ENV']['TBBROOT'] = os.environ['TBBROOT']
-  master_env['ENV']['PATH'] += ';' + tbb_installation(master_env())[0]
+  master_env['ENV']['PATH'] += ';' + tbb_installation(master_env)[0]
 
 # get the list of requested backends
 host_backends = master_env.subst('$host_backend').split()
