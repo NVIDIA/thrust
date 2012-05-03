@@ -13,6 +13,7 @@ template <typename T>
 struct is_outside_circle
 {
     template <typename Tuple>
+    inline __host__ __device__
     bool operator()(const Tuple& tuple) const
     {
         // unpack the tuple into x and y coordinates
