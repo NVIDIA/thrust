@@ -218,45 +218,6 @@ void TestForEachN(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestForEachN);
 
 
-template <size_t N> __host__ __device__ void f   (int * x) { int temp = *x; f<N - 1>(x + 1); *x = temp;};
-template <>         __host__ __device__ void f<0>(int * x) { }
-template <size_t N>
-struct CopyFunctorWithManyRegisters
-{
-    __host__ __device__
-    void operator()(int * ptr)
-    {
-        f<N>(ptr);
-    }
-};
-
-
-void TestForEachLargeRegisterFootprint()
-{
-    const size_t N = 100;
-
-    thrust::device_vector<int> data(N, 12345);
-
-    thrust::device_vector<int *> input(1, thrust::raw_pointer_cast(&data[0])); // length is irrelevant
-    
-    thrust::for_each(input.begin(), input.end(), CopyFunctorWithManyRegisters<N>());
-}
-DECLARE_UNITTEST(TestForEachLargeRegisterFootprint);
-
-
-void TestForEachNLargeRegisterFootprint()
-{
-    const size_t N = 100;
-
-    thrust::device_vector<int> data(N, 12345);
-
-    thrust::device_vector<int *> input(1, thrust::raw_pointer_cast(&data[0])); // length is irrelevant
-    
-    thrust::for_each_n(input.begin(), input.size(), CopyFunctorWithManyRegisters<N>());
-}
-DECLARE_UNITTEST(TestForEachNLargeRegisterFootprint);
-
-
 template <typename T, unsigned int N>
 struct SetFixedVectorToConstant
 {
