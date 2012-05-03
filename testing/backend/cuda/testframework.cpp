@@ -52,7 +52,8 @@ std::vector<int> CUDATestDriver::target_devices(const ArgumentMap &kwargs)
 {
   std::vector<int> result;
   
-  int device_id = kwargs.count("device") ? atoi(kwargs.find("device")->second.c_str()) : 0;
+  // by default, test all devices in the system (device id -1)
+  int device_id = kwargs.count("device") ? atoi(kwargs.find("device")->second.c_str()) : -1;
   
   if(device_id < 0)
   {
