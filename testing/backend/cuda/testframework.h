@@ -16,3 +16,5 @@ class CUDATestDriver
   virtual bool run_tests(const ArgumentSet &args, const ArgumentMap &kwargs);
 };
 
+UnitTestDriver &driver_instance(thrust::system::cuda::tag);
+

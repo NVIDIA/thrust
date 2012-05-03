@@ -57,6 +57,7 @@ inline Tag select_system(thrust::any_system_tag, Tag)
   return Tag();
 }
 
+// this version catches a user's tag derived from cuda::tag in the first slot
 template<typename Tag>
 __host__ __device__
 inline cuda_to_cpp select_system(Tag, thrust::system::cpp::tag)
@@ -64,9 +65,22 @@ inline cuda_to_cpp select_system(Tag, thrust::system::cpp::tag)
   return cuda_to_cpp();
 }
 
+__host__ __device__
+inline cuda_to_cpp select_system(tag, thrust::system::cpp::tag)
+{
+  return cuda_to_cpp();
+}
+
+// this version catches a user's tag derived from cuda::tag in the second slot
 template<typename Tag>
 __host__ __device__
 inline cpp_to_cuda select_system(thrust::system::cpp::tag, Tag)
+{
+  return cpp_to_cuda();
+}
+
+__host__ __device__
+inline cpp_to_cuda select_system(thrust::system::cpp::tag, tag)
 {
   return cpp_to_cuda();
 }
