@@ -135,9 +135,9 @@ protected:
   // \return true if all is well; false if the tests must be immediately aborted
   virtual bool post_test_sanity_check(const UnitTest &test, bool concise);
 
+public:
   inline virtual ~UnitTestDriver() {};
 
-public:
   void register_test(UnitTest * test);
   virtual bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
   void list_tests(void); 

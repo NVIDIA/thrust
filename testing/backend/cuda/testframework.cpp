@@ -160,3 +160,9 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
   return result;
 }
 
+UnitTestDriver &driver_instance(thrust::system::cuda::tag)
+{
+  static CUDATestDriver s_instance;
+  return s_instance;
+}
+
