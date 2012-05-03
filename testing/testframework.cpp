@@ -423,14 +423,8 @@ UnitTestDriver &driver_instance(DeviceSystem tag)
   return s_instance;
 }
 
-// overload driver_instance, if we need a special kind of
-// UnitTestDriver
-
-UnitTestDriver &driver_instance(thrust::system::cuda::tag)
-{
-  static CUDATestDriver s_instance;
-  return s_instance;
-}
+// if we need a special kind of UnitTestDriver, overload
+// driver_instance in that function
 
 UnitTestDriver &
 UnitTestDriver::s_driver()
