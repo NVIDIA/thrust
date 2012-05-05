@@ -133,8 +133,10 @@ template<typename System = use_default>
     __host__ __device__
     reference dereference(void) const
     {
-      return reference();
+      return m_element;
     }
+
+    mutable value_type m_element;
 
     /*! \endcond
      */
