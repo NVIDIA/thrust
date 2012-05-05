@@ -37,10 +37,10 @@ template<typename System>
 {
   // XXX value_type should actually be void
   //     but this interferes with zip_iterator<discard_iterator>
-  typedef any_assign        value_type;
-  typedef any_assign        reference;
-  typedef void              pointer;
-  typedef std::ptrdiff_t    incrementable;
+  typedef any_assign         value_type;
+  typedef any_assign&        reference;
+  typedef void               pointer;
+  typedef std::ptrdiff_t     incrementable;
 
   typedef typename thrust::counting_iterator<
     incrementable,
