@@ -17,7 +17,6 @@ void TestCopyNFromConstIterator(void)
     v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
 
     std::vector<int>::const_iterator begin = v.begin();
-    std::vector<int>::const_iterator end = v.end();
 
     // copy to host_vector
     thrust::host_vector<T> h(5, (T) 10);
@@ -173,7 +172,7 @@ void TestCopyNListTo(void)
 
     l.clear();
 
-    std::back_insert_iterator< std::list<T> > l_result = thrust::copy_n(v.begin(), v.size(), std::back_insert_iterator< std::list<T> >(l));
+    thrust::copy_n(v.begin(), v.size(), std::back_insert_iterator< std::list<T> >(l));
 
     ASSERT_EQUAL(l.size(), 5);
 

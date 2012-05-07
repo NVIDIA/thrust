@@ -209,7 +209,7 @@ void TestCopyListTo(void)
 
     l.clear();
 
-    std::back_insert_iterator< std::list<T> > l_result = thrust::copy(v.begin(), v.end(), std::back_insert_iterator< std::list<T> >(l));
+    thrust::copy(v.begin(), v.end(), std::back_insert_iterator< std::list<T> >(l));
 
     ASSERT_EQUAL(l.size(), 5);
 
