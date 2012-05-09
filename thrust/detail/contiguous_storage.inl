@@ -18,6 +18,7 @@
 
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/detail/swap.h>
+#include <thrust/detail/allocator/allocator_traits.h>
 #include <utility> // for use of std::swap in the WAR below
 
 namespace thrust
@@ -164,6 +165,13 @@ template<typename T, typename Alloc>
   //thrust::swap(m_allocator, x.m_allocator);
   std::swap(m_allocator, x.m_allocator);
 } // end contiguous_storage::swap()
+
+template<typename T, typename Alloc>
+  void contiguous_storage<T,Alloc>
+    ::destroy(iterator first, iterator last)
+{
+  allocator_traits<allocator_type>::destroy(m_allocator, first.base(), last - first);
+} // end contiguous_storage::destroy()
 
 } // end detail
 

@@ -24,6 +24,7 @@ namespace thrust
 namespace detail
 {
 
+// XXX parameter T is redundant with parameter Alloc
 template<typename T, typename Alloc>
   class contiguous_storage
 {
@@ -70,6 +71,8 @@ template<typename T, typename Alloc>
     void deallocate(void);
 
     void swap(contiguous_storage &x);
+
+    void destroy(iterator first, iterator last);
 
   private:
     // XXX we could inherit from this to take advantage of empty base class optimization

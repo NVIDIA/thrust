@@ -27,7 +27,6 @@
 #include <thrust/uninitialized_copy.h>
 #include <thrust/distance.h>
 #include <thrust/advance.h>
-#include <thrust/detail/destroy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/minmax.h>
 
@@ -439,7 +438,7 @@ template<typename T, typename Alloc>
     ::~vector_base(void)
 {
   // destroy every living thing
-  thrust::detail::destroy(begin(), end());
+  m_storage.destroy(begin(),end());
 } // end vector_base::~vector_base()
 
 template<typename T, typename Alloc>
@@ -471,7 +470,7 @@ template<typename T, typename Alloc>
   iterator e = end();
   iterator ptr_to_back = e;
   --ptr_to_back;
-  thrust::detail::destroy(ptr_to_back, e);
+  m_storage.destroy(ptr_to_back, e);
   --m_size;
 } // end vector_base::pop_back()
 
@@ -493,7 +492,7 @@ template<typename T, typename Alloc>
   iterator i = thrust::detail::overlapped_copy(last, end(), first);
 
   // destroy everything after i
-  thrust::detail::destroy(i, end());
+  m_storage.destroy(i, end());
 
   // modify our size
   m_size -= (last - first);
@@ -704,7 +703,7 @@ template<typename T, typename Alloc>
       catch(...)
       {
         // something went wrong, so destroy & deallocate the new storage 
-        thrust::detail::destroy(new_storage.begin(), new_end);
+        m_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
         // rethrow
@@ -712,7 +711,7 @@ template<typename T, typename Alloc>
       } // end catch
 
       // call destructors on the elements in the old storage
-      thrust::detail::destroy(begin(), end());
+      m_storage.destroy(begin(), end());
 
       // record the vector's new state
       m_storage.swap(new_storage);
@@ -812,7 +811,7 @@ template<typename T, typename Alloc>
       catch(...)
       {
         // something went wrong, so destroy & deallocate the new storage 
-        thrust::detail::destroy(new_storage.begin(), new_end);
+        m_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
         // rethrow
@@ -820,7 +819,7 @@ template<typename T, typename Alloc>
       } // end catch
 
       // call destructors on the elements in the old storage
-      thrust::detail::destroy(begin(), end());
+      m_storage.destroy(begin(), end());
 
       // record the vector's new state
       m_storage.swap(new_storage);
@@ -884,7 +883,7 @@ template<typename T, typename Alloc>
     allocate_and_copy(n, first, last, new_storage);
 
     // call destructors on the elements in the old storage
-    thrust::detail::destroy(begin(), end());
+    m_storage.destroy(begin(), end());
 
     // record the vector's new state
     m_storage.swap(new_storage);
@@ -896,7 +895,7 @@ template<typename T, typename Alloc>
     iterator new_end = thrust::copy(first, last, begin());
 
     // destroy the elements we don't need
-    thrust::detail::destroy(new_end, end());
+    m_storage.destroy(new_end, end());
 
     // update size
     m_size = n;
@@ -992,7 +991,7 @@ template<typename T, typename Alloc>
     // XXX use destroy_n here
     iterator new_storage_end = new_storage.begin();
     thrust::advance(new_storage_end, requested_size);
-    thrust::detail::destroy(new_storage.begin(), new_storage_end);
+    m_storage.destroy(new_storage.begin(), new_storage_end);
     new_storage.deallocate();
 
     // rethrow
