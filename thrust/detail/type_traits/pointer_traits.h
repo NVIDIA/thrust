@@ -66,6 +66,18 @@ template<typename T>
   typedef T type;
 };
 
+template<typename Ptr>
+  struct pointer_difference
+{
+  typedef typename Ptr::difference_type type;
+};
+
+template<typename T>
+  struct pointer_difference<T*>
+{
+  typedef std::ptrdiff_t type;
+};
+
 template<typename Ptr, typename T> struct rebind_pointer;
 
 template<typename T, typename U>
@@ -161,14 +173,15 @@ template<typename T>
 template<typename Ptr>
   struct pointer_traits
 {
-  typedef Ptr                                 pointer;
-  typedef typename pointer_element<Ptr>::type element_type;
-  typedef typename Ptr::difference_type       difference_type;
+  typedef Ptr                                    pointer;
+  typedef typename pointer_element<Ptr>::type    element_type;
+  typedef typename pointer_difference<Ptr>::type difference_type;
 
   template<typename U>
     struct rebind 
-      : rebind_pointer<Ptr,U>
-  {};
+  {
+    typedef typename rebind_pointer<Ptr,U>::type other;
+  };
 
   __host__ __device__
   inline static pointer pointer_to(typename pointer_traits_detail::pointer_to_param<element_type>::type r)
@@ -192,9 +205,9 @@ template<typename Ptr>
 template<typename T>
   struct pointer_traits<T*>
 {
-  typedef T*             pointer;
-  typedef T              element_type;
-  typedef std::ptrdiff_t difference_type;
+  typedef T*                                    pointer;
+  typedef T                                     element_type;
+  typedef typename pointer_difference<T*>::type difference_type;
 
   template<typename U>
     struct rebind
