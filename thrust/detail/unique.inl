@@ -25,7 +25,8 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/unique.h>
 #include <thrust/system/detail/generic/unique_by_key.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/unique.h>
+#include <thrust/system/detail/adl/unique_by_key.h>
 
 namespace thrust
 {

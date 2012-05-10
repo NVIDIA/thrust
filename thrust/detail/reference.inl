@@ -20,11 +20,9 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/memory.h>
-
-// XXX using adl_helper.h might be too heavy weight for thrust::reference
-//     might be a better idea to introduce pointer_adl_helper.h which only
-//     makes the pointer interface available to adl
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/get_value.h>
+#include <thrust/system/detail/adl/assign_value.h>
+#include <thrust/system/detail/adl/iter_swap.h>
 
 
 namespace thrust
