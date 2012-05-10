@@ -18,39 +18,17 @@
 
 #include <thrust/detail/config.h>
 
-#if   THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-#include <thrust/system/cuda/detail/tag.h>
+// #include the device system's tag header
+#define __THRUST_DEVICE_SYSTEM_TAG_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/tag.h>
+#include __THRUST_DEVICE_SYSTEM_TAG_HEADER
+#undef __THRUST_DEVICE_SYSTEM_TAG_HEADER
 
 namespace thrust
 {
 
-typedef thrust::system::cuda::tag device_system_tag;
+typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag device_system_tag;
 
 } // end thrust
-
-#elif  THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP
-#include <thrust/system/omp/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::omp::tag device_system_tag;
-
-} // end thrust
-
-#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_TBB
-#include <thrust/system/tbb/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::tbb::tag device_system_tag;
-
-} // end thrust
-
-#else
-#error Unknown device system.
-#endif // THRUST_DEVICE_SYSTEM
 
 // TODO remove this in 1.7.0
 namespace thrust

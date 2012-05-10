@@ -19,7 +19,7 @@
 #include <thrust/detail/copy.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/copy.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/copy.h>
 
 namespace thrust
 {

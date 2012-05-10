@@ -21,6 +21,7 @@
 #include <thrust/system/detail/generic/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
 #include <thrust/system/cpp/detail/copy.h>
+#include <thrust/iterator/detail/retag.h>
 
 namespace thrust
 {

@@ -18,39 +18,17 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
-#include <thrust/system/cpp/detail/tag.h>
+// #include the host system's tag header
+#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/tag.h>
+#include __THRUST_HOST_SYSTEM_TAG_HEADER
+#undef __THRUST_HOST_SYSTEM_TAG_HEADER
 
 namespace thrust
 {
 
-typedef thrust::system::cpp::tag host_system_tag;
+typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
 } // end thrust
-
-#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_OMP
-#include <thrust/system/omp/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::omp::tag host_system_tag;
-
-} // end thrust
-
-#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
-#include <thrust/system/tbb/detail/tag.h>
-
-namespace thrust
-{
-
-typedef thrust::system::tbb::tag host_system_tag;
-
-} // end thrust
-
-#else
-#error Unknown host system.
-#endif // THRUST_HOST_SYSTEM
 
 // TODO remove this in 1.7.0
 namespace thrust

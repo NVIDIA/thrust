@@ -24,7 +24,8 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/reduce.h>
 #include <thrust/system/detail/generic/reduce_by_key.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/reduce.h>
+#include <thrust/system/detail/adl/reduce_by_key.h>
 
 namespace thrust
 {

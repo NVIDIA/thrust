@@ -19,10 +19,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/tagged_allocator.h>
 #include <thrust/pair.h>
-
-// XXX WAR circular #inclusion by #including thrust/detail/pointer.h
-//     instead of thrust/memory.h
-#include <thrust/detail/pointer.h>
+//#include <thrust/detail/pointer.h>
+//#include <thrust/detail/reference.h>
+#include <thrust/memory.h>
 
 namespace thrust
 {

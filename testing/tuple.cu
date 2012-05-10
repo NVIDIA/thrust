@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/tuple.h>
 #include <thrust/generate.h>
+#include <thrust/swap.h>
 
 using namespace unittest;
 

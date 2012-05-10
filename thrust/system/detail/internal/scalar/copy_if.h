@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/raw_apply.h>
+#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -44,9 +44,11 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
+  thrust::detail::host_function<Predicate,bool> wrapped_pred(pred);
+
   while(first != last)
   {
-    if(thrust::detail::raw_apply<bool>(pred,*stencil))
+    if(wrapped_pred(*stencil))
     {
       *result = *first;
       ++result;
