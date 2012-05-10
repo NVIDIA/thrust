@@ -49,5 +49,3 @@ template<typename InputIterator1,
 } // end system
 } // end thrust
 
-#include <thrust/system/cpp/detail/copy_if.inl>
-

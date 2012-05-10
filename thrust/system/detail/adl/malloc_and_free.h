@@ -20,26 +20,13 @@
 
 // the purpose of this header is to #include the malloc_and_free.h header
 // of the host and device systems. It should be #included in any
-// code which uses adl to dispatch malloc or free.
+// code which uses adl to dispatch malloc_and_free
 
-#if   THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP
-#include <thrust/system/cpp/detail/malloc_and_free.h>
-#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_OMP
-// omp has no malloc_and_free.h
-#elif THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_TBB
-// tbb has no malloc_and_free.h
-#else
-#error "Unknown host system."
-#endif // THRUST_HOST_SYSTEM
+#define __THRUST_HOST_SYSTEM_MALLOC_AND_FREE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/malloc_and_free.h>
+#include __THRUST_HOST_SYSTEM_MALLOC_AND_FREE_HEADER
+#undef __THRUST_HOST_SYSTEM_MALLOC_AND_FREE_HEADER
 
-
-#if   THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-#include <thrust/system/cuda/detail/malloc_and_free.h>
-#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP
-// omp has no malloc_and_free.h
-#elif THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_TBB
-// tbb has no malloc_and_free.h
-#else
-#error "Unknown device system."
-#endif // THRUST_DEVICE_SYSTEM
+#define __THRUST_DEVICE_SYSTEM_MALLOC_AND_FREE_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/malloc_and_free.h>
+#include __THRUST_DEVICE_SYSTEM_MALLOC_AND_FREE_HEADER
+#undef __THRUST_DEVICE_SYSTEM_MALLOC_AND_FREE_HEADER
 

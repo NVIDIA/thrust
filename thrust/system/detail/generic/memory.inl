@@ -18,8 +18,8 @@
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/system/detail/generic/memory.h>
 #include <thrust/system/detail/generic/select_system.h>
+#include <thrust/system/detail/adl/malloc_and_free.h>
 #include <thrust/detail/static_assert.h>
-#include <thrust/detail/malloc_and_free_adl_helper.h>
 
 namespace thrust
 {

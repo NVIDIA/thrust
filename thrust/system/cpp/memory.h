@@ -406,6 +406,6 @@ using thrust::system::cpp::allocator;
 
 #include <thrust/system/cpp/detail/memory.inl>
 
-// make the backend's entry points available to dispatch
-#include <thrust/system/cpp/detail/algorithm.h>
+// make cpp::tag's ADL targets available
+#include <thrust/system/cpp/detail/adl_targets.h>
 

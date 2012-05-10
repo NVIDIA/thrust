@@ -22,7 +22,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/merge.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/merge.h>
 
 namespace thrust
 {
