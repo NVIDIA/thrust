@@ -23,7 +23,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/equal.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/equal.h>
 
 namespace thrust
 {

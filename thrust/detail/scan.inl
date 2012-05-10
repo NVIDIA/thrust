@@ -25,7 +25,8 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/scan.h>
 #include <thrust/system/detail/generic/scan_by_key.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/scan.h>
+#include <thrust/system/detail/adl/scan_by_key.h>
 
 namespace thrust
 {

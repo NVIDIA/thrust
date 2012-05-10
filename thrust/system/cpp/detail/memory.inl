@@ -15,10 +15,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cpp/memory.h>
 #include <thrust/system/cpp/detail/malloc_and_free.h>
-#include <thrust/detail/swap.h>
 #include <limits>
 
 namespace thrust
@@ -26,8 +24,6 @@ namespace thrust
 
 // XXX WAR an issue with MSVC 2005 (cl v14.00) incorrectly implementing
 //     pointer_raw_pointer for pointer by specializing it here
-//     note that we specialize it here, before the use of raw_pointer_cast
-//     below, which causes pointer_raw_pointer's instantiation
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 namespace detail
 {
@@ -45,33 +41,6 @@ namespace system
 {
 namespace cpp
 {
-namespace detail
-{
-
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-  void assign_value(tag, Pointer1 dst, Pointer2 src)
-{
-  *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
-} // end assign_value()
-
-template<typename Pointer>
-__host__ __device__
-  typename thrust::iterator_value<Pointer>::type
-    get_value(tag, Pointer ptr)
-{
-  return *thrust::raw_pointer_cast(ptr);
-} // end get_value()
-
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-  void iter_swap(tag, Pointer1 a, Pointer2 b)
-{
-  using thrust::swap;
-  swap(*thrust::raw_pointer_cast(a), *thrust::raw_pointer_cast(b));
-} // end iter_swap()
-
-} // end detail
 
 
 template<typename T>

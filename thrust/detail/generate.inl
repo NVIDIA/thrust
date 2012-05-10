@@ -24,7 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/generic/generate.h>
-#include <thrust/detail/adl_helper.h>
+#include <thrust/system/detail/adl/generate.h>
 
 namespace thrust
 {
