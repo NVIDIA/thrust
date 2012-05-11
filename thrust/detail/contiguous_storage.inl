@@ -177,7 +177,7 @@ template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>
     ::destroy(iterator first, iterator last)
 {
-  allocator_traits<allocator_type>::destroy(m_allocator, first.base(), last - first);
+  destroy_range(m_allocator, first.base(), last - first);
 } // end contiguous_storage::destroy()
 
 } // end detail

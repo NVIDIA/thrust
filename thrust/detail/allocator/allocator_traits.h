@@ -185,10 +185,12 @@ template<typename Alloc>
   template<typename T>
   inline __host__ __device__ static void destroy(allocator_type &a, T *p);
 
-  inline static void destroy(allocator_type &a, pointer p, size_type n);
-
   inline static size_type max_size(const allocator_type &a);
 }; // end allocator_traits
+
+
+template<typename Allocator, typename Pointer, typename Size>
+  inline void destroy_range(Allocator &a, Pointer p, Size n);
 
 
 } // end detail
