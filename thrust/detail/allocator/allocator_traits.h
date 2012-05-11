@@ -177,9 +177,10 @@ template<typename Alloc>
   template<typename Arg1>
   inline __host__ __device__ static void construct(allocator_type &a, pointer p, const Arg1 &arg1);
 
-  inline __host__ __device__ static void destroy(allocator_type &a, pointer p);
+  template<typename T>
+  inline __host__ __device__ static void destroy(allocator_type &a, T *p);
 
-  inline __host__ __device__ static void destroy(allocator_type &a, pointer p, size_type n);
+  inline static void destroy(allocator_type &a, pointer p, size_type n);
 
   inline static size_type max_size(const allocator_type &a);
 }; // end allocator_traits

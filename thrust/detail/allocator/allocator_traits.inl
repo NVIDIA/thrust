@@ -99,34 +99,33 @@ template<typename Alloc, typename Arg1>
 
 __THRUST_DEFINE_HAS_MEMBER_FUNCTION1(has_member_destroy1_impl, destroy);
 
-template<typename Alloc>
+template<typename Alloc, typename T>
   struct has_member_destroy1
     : has_member_destroy1_impl<
         Alloc,
         void,
-        typename allocator_traits<Alloc>::pointer
+        T*
       >
 {};
 
-template<typename Alloc>
+template<typename Alloc, typename T>
   inline __host__ __device__
     typename enable_if<
-      has_member_destroy1<Alloc>::value
+      has_member_destroy1<Alloc,T>::value
     >::type
-      destroy(Alloc &a, typename allocator_traits<Alloc>::pointer p)
+      destroy(Alloc &a, T *p)
 {
   a.destroy(p);
 }
 
-template<typename Alloc>
+template<typename Alloc, typename T>
   inline __host__ __device__
     typename disable_if<
-      has_member_destroy1<Alloc>::value
+      has_member_destroy1<Alloc,T>::value
     >::type
-      destroy(Alloc &, typename allocator_traits<Alloc>::pointer p)
+      destroy(Alloc &, T *p)
 {
-  typedef typename allocator_traits<Alloc>::value_type T;
-  thrust::raw_pointer_cast(p)->~T();
+  p->~T();
 }
 
 
@@ -197,8 +196,9 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
-  void allocator_traits<Alloc>
-    ::destroy(allocator_type &a, pointer p)
+  template<typename T>
+    void allocator_traits<Alloc>
+      ::destroy(allocator_type &a, T *p)
 {
   return allocator_traits_detail::destroy(a,p);
 }
@@ -214,45 +214,66 @@ template<typename Alloc>
 namespace allocator_traits_detail
 {
 
-template<typename Pointer, typename Size>
+// when T has a trivial destructor and Allocator has no
+// destroy member function, destroying T has no effect
+template<typename Allocator, typename T>
+  struct has_no_effect_destroy
+    : integral_constant<
+        bool,
+        has_trivial_destructor<T>::value && !has_member_destroy1<Allocator,T>::value
+      >
+{};
+
+// destroy_range is a no op if element destruction has no effect
+template<typename Allocator, typename Pointer, typename Size>
   typename enable_if<
-    has_trivial_destructor<
+    has_no_effect_destroy<
+      Allocator,
       typename pointer_element<Pointer>::type
     >::value
   >::type
-    destroy_range(Pointer, Size)
+    destroy_range(Allocator &, Pointer, Size)
 {
   // no op
 }
 
-struct destroyer
+template<typename Allocator>
+  struct destroy_via_allocator
 {
+  Allocator &a;
+
+  destroy_via_allocator(Allocator &a)
+    : a(a)
+  {}
+
   template<typename T>
   inline __host__ __device__
   void operator()(T &x)
   {
-    x.~T();
+    allocator_traits<Allocator>::destroy(a, &x);
   }
 };
 
-template<typename Pointer, typename Size>
+// destroy_range is effectful if element destroy has effect
+template<typename Allocator, typename Pointer, typename Size>
   typename disable_if<
-    has_trivial_destructor<
+    has_no_effect_destroy<
+      Allocator,
       typename pointer_element<Pointer>::type
     >::value
   >::type
-    destroy_range(Pointer p, Size n)
+    destroy_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(p, n, destroyer());
+  thrust::for_each_n(p, n, destroy_via_allocator<Allocator>(a));
 }
 
 } // end allocator_traits_detail
 
 template<typename Alloc>
   void allocator_traits<Alloc>
-    ::destroy(Alloc &, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
+    ::destroy(Alloc &a, pointer p, typename allocator_traits<Alloc>::size_type n)
 {
-  return allocator_traits_detail::destroy_range(p,n);
+  return allocator_traits_detail::destroy_range(a,p,n);
 }
 
 
