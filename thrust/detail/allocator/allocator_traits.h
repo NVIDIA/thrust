@@ -179,9 +179,6 @@ template<typename Alloc>
   template<typename T, typename Arg1>
   inline __host__ __device__ static void construct(allocator_type &a, T *p, const Arg1 &arg1);
 
-  template<typename Arg1>
-  inline static void construct(allocator_type &a, pointer p, size_type n, const Arg1 &arg1);
-
   template<typename T>
   inline __host__ __device__ static void destroy(allocator_type &a, T *p);
 
@@ -191,6 +188,9 @@ template<typename Alloc>
 
 template<typename Allocator, typename Pointer, typename Size>
   inline void destroy_range(Allocator &a, Pointer p, Size n);
+
+template<typename Allocator, typename Pointer, typename Size, typename T>
+  inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value);
 
 
 } // end detail

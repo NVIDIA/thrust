@@ -170,7 +170,7 @@ template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>
     ::uninitialized_fill_n(iterator first, size_type n, const value_type &x)
 {
-  allocator_traits<allocator_type>::construct(m_allocator, first.base(), n, x);
+  fill_construct_range(m_allocator, first.base(), n, x);
 } // end contiguous_storage::uninitialized_fill()
 
 template<typename T, typename Alloc>
