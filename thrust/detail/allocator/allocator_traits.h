@@ -174,8 +174,13 @@ template<typename Alloc>
 
   inline static void deallocate(allocator_type &a, pointer p, size_type n);
 
+  // XXX should probably change T* to pointer below and then relax later
+  
+  template<typename T, typename Arg1>
+  inline __host__ __device__ static void construct(allocator_type &a, T *p, const Arg1 &arg1);
+
   template<typename Arg1>
-  inline __host__ __device__ static void construct(allocator_type &a, pointer p, const Arg1 &arg1);
+  inline static void construct(allocator_type &a, pointer p, size_type n, const Arg1 &arg1);
 
   template<typename T>
   inline __host__ __device__ static void destroy(allocator_type &a, T *p);

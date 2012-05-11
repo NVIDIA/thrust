@@ -23,7 +23,6 @@
 #include <thrust/detail/copy.h>
 #include <thrust/detail/overlapped_copy.h>
 #include <thrust/equal.h>
-#include <thrust/uninitialized_fill.h>
 #include <thrust/uninitialized_copy.h>
 #include <thrust/distance.h>
 #include <thrust/advance.h>
@@ -144,7 +143,7 @@ template<typename T, typename Alloc>
     m_storage.allocate(n);
     m_size = n;
 
-    thrust::uninitialized_fill(begin(), end(), x);
+    m_storage.uninitialized_fill_n(begin(), size(), x);
   } // end if
 } // end vector_base::fill_init()
 
@@ -753,7 +752,7 @@ template<typename T, typename Alloc>
       else
       {
         // construct new elements at the end of the vector
-        thrust::uninitialized_fill_n(end(), n - num_displaced_elements, x);
+        m_storage.uninitialized_fill_n(end(), n - num_displaced_elements, x);
 
         // extend the size
         m_size += n - num_displaced_elements;
@@ -801,7 +800,7 @@ template<typename T, typename Alloc>
         new_end = cross_system_uninitialized_copy(begin(), position, new_storage.begin(), has_trivial_copy_constructor());
 
         // construct new elements to insert
-        thrust::uninitialized_fill_n(new_end, n, x);
+        m_storage.uninitialized_fill_n(new_end, n, x);
         new_end += n;
 
         // construct copy displaced elements from the old storage to the new storage
@@ -938,7 +937,7 @@ template<typename T, typename Alloc>
     thrust::fill(begin(), end(), x);
 
     // construct uninitialized elements
-    thrust::uninitialized_fill_n(end(), n - size(), x);
+    m_storage.uninitialized_fill_n(end(), n - size(), x);
 
     // adjust size
     m_size += (n - size());

@@ -72,6 +72,8 @@ template<typename T, typename Alloc>
 
     void swap(contiguous_storage &x);
 
+    void uninitialized_fill_n(iterator first, size_type n, const value_type &value);
+
     void destroy(iterator first, iterator last);
 
   private:
