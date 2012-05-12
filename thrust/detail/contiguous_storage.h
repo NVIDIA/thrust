@@ -74,6 +74,9 @@ template<typename T, typename Alloc>
 
     void uninitialized_fill_n(iterator first, size_type n, const value_type &value);
 
+    template<typename InputIterator>
+    iterator uninitialized_copy(InputIterator first, InputIterator last, iterator result);
+
     void destroy(iterator first, iterator last);
 
   private:

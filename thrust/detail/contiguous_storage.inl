@@ -19,6 +19,7 @@
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/detail/swap.h>
 #include <thrust/detail/allocator/allocator_traits.h>
+#include <thrust/detail/allocator/copy_construct_range.h>
 #include <utility> // for use of std::swap in the WAR below
 
 namespace thrust
@@ -172,6 +173,15 @@ template<typename T, typename Alloc>
 {
   fill_construct_range(m_allocator, first.base(), n, x);
 } // end contiguous_storage::uninitialized_fill()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    typename contiguous_storage<T,Alloc>::iterator
+      contiguous_storage<T,Alloc>
+        ::uninitialized_copy(InputIterator first, InputIterator last, iterator result)
+{
+  return iterator(copy_construct_range(m_allocator, first, last, result.base()));
+} // end contiguous_storage::uninitialized_copy()
 
 template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>

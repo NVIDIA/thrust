@@ -64,6 +64,18 @@ template<typename Alloc>
 }
 
 
+__THRUST_DEFINE_HAS_MEMBER_FUNCTION1(has_member_construct1_impl, construct);
+
+template<typename Alloc, typename T>
+  struct has_member_construct1
+    : has_member_construct1_impl<
+        Alloc,
+        void,
+        T*
+      >
+{};
+
+
 __THRUST_DEFINE_HAS_MEMBER_FUNCTION2(has_member_construct2_impl, construct);
 
 template<typename Alloc, typename T, typename Arg1>
@@ -242,7 +254,7 @@ template<typename Allocator, typename Arg1>
   inline __host__ __device__
   void operator()(T &x)
   {
-    a.construct(&x, arg);
+    allocator_traits<Allocator>::construct(a, &x, arg);
   }
 };
 
@@ -347,7 +359,6 @@ template<typename Allocator, typename Pointer, typename Size>
 {
   return allocator_traits_detail::destroy_range(a,p,n);
 }
-
 
 } // end detail
 } // end thrust
