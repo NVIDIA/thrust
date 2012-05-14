@@ -169,6 +169,13 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>
+    ::default_construct_n(iterator first, size_type n)
+{
+  default_construct_range(m_allocator, first.base(), n);
+} // end contiguous_storage::default_construct_n()
+
+template<typename T, typename Alloc>
+  void contiguous_storage<T,Alloc>
     ::uninitialized_fill_n(iterator first, size_type n, const value_type &x)
 {
   fill_construct_range(m_allocator, first.base(), n, x);

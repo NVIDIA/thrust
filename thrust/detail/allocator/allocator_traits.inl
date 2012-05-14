@@ -360,6 +360,26 @@ template<typename Allocator, typename Pointer, typename Size>
   return allocator_traits_detail::destroy_range(a,p,n);
 }
 
+namespace allocator_traits_detail
+{
+
+
+// XXX specialize this correctly later
+template<typename Allocator, typename Pointer, typename Size>
+  void default_construct_range(Allocator &a, Pointer p, Size n)
+{
+  thrust::detail::fill_construct_range(a, p, n, typename pointer_element<Pointer>::type());
+}
+
+
+} // end allocator_traits_detail
+
+template<typename Allocator, typename Pointer, typename Size>
+  void default_construct_range(Allocator &a, Pointer p, Size n)
+{
+  return allocator_traits_detail::default_construct_range(a,p,n);
+}
+
 } // end detail
 } // end thrust
 
