@@ -50,6 +50,15 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   vector_base<T,Alloc>
+    ::vector_base(size_type n)
+      :m_storage(),
+       m_size(0)
+{
+  default_init(n);
+} // end vector_base::vector_base()
+
+template<typename T, typename Alloc>
+  vector_base<T,Alloc>
     ::vector_base(size_type n, const value_type &value)
       :m_storage(),
        m_size(0)
@@ -133,6 +142,19 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   void vector_base<T,Alloc>
+    ::default_init(size_type n)
+{
+  if(n > 0)
+  {
+    m_storage.allocate(n);
+    m_size = n;
+
+    m_storage.default_construct_n(begin(), size());
+  } // end if
+} // end vector_base::default_init()
+
+template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
     ::fill_init(size_type n, const T &x)
 {
   if(n > 0)
@@ -202,6 +224,22 @@ template<typename T, typename Alloc>
 
   init_dispatch(first, last, Integer());
 } // end vector_basee::vector_base()
+
+template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::resize(size_type new_size)
+{
+  if(new_size < size())
+  {
+    iterator new_end = begin();
+    thrust::advance(new_end, new_size);
+    erase(new_end, end());
+  } // end if
+  else
+  {
+    append(new_size - size());
+  } // end else
+} // end vector_base::resize()
 
 template<typename T, typename Alloc>
   void vector_base<T,Alloc>
@@ -590,7 +628,7 @@ template<typename T, typename Alloc>
     void vector_base<T,Alloc>
       ::insert_dispatch(iterator position, InputIterator first, InputIterator last, false_type)
 {
-  range_insert(position, first, last);
+  copy_insert(position, first, last);
 } // end vector_base::insert_dispatch()
 
 template<typename T, typename Alloc>
@@ -604,9 +642,9 @@ template<typename T, typename Alloc>
 template<typename T, typename Alloc>
   template<typename ForwardIterator>
     void vector_base<T,Alloc>
-      ::range_insert(iterator position,
-                     ForwardIterator first,
-                     ForwardIterator last)
+      ::copy_insert(iterator position,
+                    ForwardIterator first,
+                    ForwardIterator last)
 {
   if(first != last)
   {
@@ -714,7 +752,71 @@ template<typename T, typename Alloc>
       m_size = old_size + num_new_elements;
     } // end else
   } // end if
-} // end vector_base::range_insert()
+} // end vector_base::copy_insert()
+
+template<typename T, typename Alloc>
+  void vector_base<T,Alloc>
+    ::append(size_type n)
+{
+  if(n != 0)
+  {
+    if(capacity() - size() >= n)
+    {
+      // we've got room for all of them
+
+      // default construct new elements at the end of the vector
+      m_storage.default_construct_n(end(), n);
+
+      // extend the size
+      m_size += n;
+    } // end if
+    else
+    {
+      const size_type old_size = size();
+
+      // compute the new capacity after the allocation
+      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
+
+      // allocate exponentially larger new storage
+      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+
+      // do not exceed maximum storage
+      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+
+      // create new storage
+      storage_type new_storage(new_capacity);
+
+      // record how many constructors we invoke in the try block below
+      iterator new_end = new_storage.begin();
+
+      try
+      {
+        // construct copy all elements into the newly allocated storage
+        new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
+
+        // construct new elements to insert
+        m_storage.default_construct_n(new_end, n);
+        new_end += n;
+      } // end try
+      catch(...)
+      {
+        // something went wrong, so destroy & deallocate the new storage 
+        m_storage.destroy(new_storage.begin(), new_end);
+        new_storage.deallocate();
+
+        // rethrow
+        throw;
+      } // end catch
+
+      // call destructors on the elements in the old storage
+      m_storage.destroy(begin(), end());
+
+      // record the vector's new state
+      m_storage.swap(new_storage);
+      m_size    = old_size + n;
+    } // end else
+  } // end if
+} // end vector_base::append()
 
 template<typename T, typename Alloc>
   void vector_base<T,Alloc>
