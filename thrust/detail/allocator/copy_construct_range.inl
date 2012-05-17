@@ -130,7 +130,7 @@ template<typename Allocator, typename InputIterator, typename Pointer>
   // this is a no-op if both ranges are in the same system
   thrust::detail::move_to_system<InputIterator,system> temp(first,last);
 
-  return unintialized_copy_with_allocator(a, first, last, result);
+  return unintialized_copy_with_allocator(a, temp.begin(), temp.end(), result);
 }
 
 
