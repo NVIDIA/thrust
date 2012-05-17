@@ -34,6 +34,12 @@ template<typename T, typename Allocator>
 
 template<typename T, typename Allocator>
   vector<T,Allocator>
+    ::vector(size_type n)
+      : super_t(n)
+{}
+
+template<typename T, typename Allocator>
+  vector<T,Allocator>
     ::vector(size_type n, const value_type &value)
       : super_t(n,value)
 {}
