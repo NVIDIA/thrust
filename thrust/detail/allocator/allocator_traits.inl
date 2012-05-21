@@ -75,6 +75,26 @@ template<typename Alloc, typename T>
       >
 {};
 
+template<typename Alloc, typename T>
+  inline __host__ __device__
+    typename enable_if<
+      has_member_construct1<Alloc,T>::value
+    >::type
+      construct(Alloc &a, T *p)
+{
+  a.construct(p);
+}
+
+template<typename Alloc, typename T>
+  inline __host__ __device__
+    typename disable_if<
+      has_member_construct1<Alloc,T>::value
+    >::type
+      construct(Alloc &a, T *p)
+{
+  ::new(static_cast<void*>(p)) T();
+}
+
 
 __THRUST_DEFINE_HAS_MEMBER_FUNCTION2(has_member_construct2_impl, construct);
 
@@ -226,27 +246,13 @@ template<typename Alloc>
 namespace allocator_traits_detail
 {
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION3(has_member_construct3_impl, construct);
-
-template<typename Alloc, typename Arg1>
-  struct has_member_construct3
-    : has_member_construct3_impl<
-        Alloc,
-        void,
-        typename allocator_traits<Alloc>::pointer,
-        typename allocator_traits<Alloc>::size_type,
-        Arg1
-      >
-{};
-
-
 template<typename Allocator, typename Arg1>
-  struct construct1_via_allocator
+  struct construct2_via_allocator
 {
   Allocator &a;
   Arg1 arg;
 
-  construct1_via_allocator(Allocator &a, const Arg1 &arg)
+  construct2_via_allocator(Allocator &a, const Arg1 &arg)
     : a(a), arg(arg)
   {}
 
@@ -261,17 +267,25 @@ template<typename Allocator, typename Arg1>
 
 template<typename Allocator, typename Pointer, typename Size, typename T>
   typename enable_if<
-    has_member_construct3<Allocator, T>::value
+    has_member_construct2<
+      Allocator,
+      typename pointer_element<Pointer>::type,
+      T
+    >::value
   >::type
     fill_construct_range(Allocator &a, Pointer p, Size n, const T &value)
 {
-  thrust::for_each_n(p, n, construct1_via_allocator<Allocator,T>(a, value));
+  thrust::for_each_n(p, n, construct2_via_allocator<Allocator,T>(a, value));
 }
 
 
 template<typename Allocator, typename Pointer, typename Size, typename T>
   typename disable_if<
-    has_member_construct3<Allocator, T>::value
+    has_member_construct2<
+      Allocator,
+      typename pointer_element<Pointer>::type,
+      T
+    >::value
   >::type
     fill_construct_range(Allocator &, Pointer p, Size n, const T &value)
 {
@@ -364,11 +378,47 @@ namespace allocator_traits_detail
 {
 
 
-// XXX specialize this correctly later
-template<typename Allocator, typename Pointer, typename Size>
-  void default_construct_range(Allocator &a, Pointer p, Size n)
+template<typename Allocator>
+  struct construct1_via_allocator
 {
-  thrust::detail::fill_construct_range(a, p, n, typename pointer_element<Pointer>::type());
+  Allocator &a;
+
+  construct1_via_allocator(Allocator &a)
+    : a(a)
+  {}
+
+  template<typename T>
+  inline __host__ __device__
+  void operator()(T &x)
+  {
+    allocator_traits<Allocator>::construct(a, &x);
+  }
+};
+
+
+template<typename Allocator, typename Pointer, typename Size>
+  typename enable_if<
+    has_member_construct1<
+      Allocator,
+      typename pointer_element<Pointer>::type
+    >::value
+  >::type
+    default_construct_range(Allocator &a, Pointer p, Size n)
+{
+  thrust::for_each_n(p, n, construct1_via_allocator<Allocator>(a));
+}
+
+
+template<typename Allocator, typename Pointer, typename Size>
+  typename disable_if<
+    has_member_construct1<
+      Allocator,
+      typename pointer_element<Pointer>::type
+    >::value
+  >::type
+    default_construct_range(Allocator &, Pointer p, Size n)
+{
+  thrust::uninitialized_fill_n(p, n, typename pointer_element<Pointer>::type());
 }
 
 
