@@ -220,6 +220,14 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+  template<typename T>
+    void allocator_traits<Alloc>
+      ::construct(allocator_type &a, T *p)
+{
+  return allocator_traits_detail::construct(a,p);
+}
+
+template<typename Alloc>
   template<typename T, typename Arg1>
     void allocator_traits<Alloc>
       ::construct(allocator_type &a, T *p, const Arg1 &arg1)
