@@ -21,7 +21,6 @@
 
 #include <thrust/device_delete.h>
 #include <thrust/device_free.h>
-#include <thrust/device_allocator.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 
 namespace thrust
