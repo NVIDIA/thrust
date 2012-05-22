@@ -104,7 +104,7 @@ template<typename Alloc, typename T, typename Arg1>
         Alloc,
         void,
         T*,
-        Arg1
+        const Arg1 &
       >
 {};
 
