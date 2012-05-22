@@ -94,7 +94,7 @@ template<typename Allocator, typename T>
   struct is_trivially_copy_constructible
     : integral_constant<
         bool,
-        !has_member_construct1<Allocator,T>::value && has_trivial_copy_constructor<T>::value
+        !has_member_construct2<Allocator,T,T>::value && has_trivial_copy_constructor<T>::value
       >
 {};
 
