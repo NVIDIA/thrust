@@ -446,7 +446,6 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::clear(void)
 {
-  // XXX TODO: possibly redo this
   resize(0);
 } // end vector_base::~vector_dev()
 
@@ -675,13 +674,10 @@ template<typename T, typename Alloc>
       // do not exceed maximum storage
       new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
-// TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION==3000
       if(new_capacity > max_size())
       {
         throw std::length_error("insert(): insertion exceeds max_size().");
       } // end if
-#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
       storage_type new_storage(new_capacity);
 
@@ -782,13 +778,10 @@ template<typename T, typename Alloc>
       // do not exceed maximum storage
       new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
-// TODO remove this WAR      
-#if defined(__CUDACC__) && CUDA_VERSION==3000
       if(new_capacity > max_size())
       {
         throw std::length_error("insert(): insertion exceeds max_size().");
       } // end if
-#endif // defined(__CUDACC__) && CUDA_VERSION==3000
 
       storage_type new_storage(new_capacity);
 
@@ -989,7 +982,6 @@ template<typename T, typename Alloc>
   {
     // something went wrong, so destroy & deallocate the new storage 
     // XXX seems like this destroys too many elements -- should just be last - first instead of requested_size
-    // XXX use destroy_n here
     iterator new_storage_end = new_storage.begin();
     thrust::advance(new_storage_end, requested_size);
     thrust::detail::destroy(new_storage.begin(), new_storage_end);
