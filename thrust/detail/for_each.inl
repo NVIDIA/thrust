@@ -29,6 +29,34 @@
 namespace thrust
 {
 
+
+template<typename System,
+         typename InputIterator,
+         typename UnaryFunction>
+typename detail::enable_if_different<System,InputIterator,InputIterator>::type
+  for_each(System &system,
+           InputIterator first,
+           InputIterator last,
+           UnaryFunction f)
+{
+  using thrust::system::detail::generic::for_each;
+
+  return for_each(system, first, last, f);
+}
+
+
+namespace detail
+{
+
+template<typename System, typename InputIterator, typename UnaryFunction>
+  InputIterator strip_const_for_each(const System &system, InputIterator first, InputIterator last, UnaryFunction f)
+{
+  return thrust::for_each(const_cast<System&>(system), first, last, f);
+}
+
+}
+
+
 template<typename InputIterator,
          typename UnaryFunction>
 InputIterator for_each(InputIterator first,
@@ -36,11 +64,9 @@ InputIterator for_each(InputIterator first,
                        UnaryFunction f)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::for_each;
-
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return for_each(select_system(system()), first, last, f);
+  return detail::strip_const_for_each(select_system(system()), first, last, f);
 } // end for_each()
 
 template<typename InputIterator,

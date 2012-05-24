@@ -22,9 +22,21 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator,
+         typename UnaryFunction>
+typename detail::enable_if_different<System,InputIterator,InputIterator>::type
+  for_each(System &system,
+           InputIterator first,
+           InputIterator last,
+           UnaryFunction f);
+
 
 /*! \addtogroup modifying
  *  \ingroup transformations

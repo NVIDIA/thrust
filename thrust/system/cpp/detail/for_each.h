@@ -32,7 +32,7 @@ namespace detail
 
 template<typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(tag,
+InputIterator for_each(tag &,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
