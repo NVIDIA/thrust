@@ -132,7 +132,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     // don't provide access to this part of super_t's interface
     using super_t::base;
-    using super_t::base_type;
+    using typename super_t::base_type;
 
   public:
     typedef typename super_t::base_type raw_pointer;
