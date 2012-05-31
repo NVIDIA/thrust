@@ -71,13 +71,19 @@ void TestZippedDiscardIterator(void)
 {
   using namespace thrust;
 
-  // this test is just to make sure this can compile
   typedef tuple<discard_iterator<> >  IteratorTuple1;
   typedef zip_iterator<IteratorTuple1> ZipIterator1;
 
   IteratorTuple1 t = thrust::make_tuple(thrust::make_discard_iterator());
 
-  ZipIterator1 z_iter = thrust::make_zip_iterator(thrust::make_tuple(thrust::make_discard_iterator()));
+  ZipIterator1 z_iter1_first = thrust::make_zip_iterator(t);
+  ZipIterator1 z_iter1_last  = z_iter1_first + 10;
+  for(; z_iter1_first != z_iter1_last; ++z_iter1_first)
+  {
+    ;
+  }
+  
+  ASSERT_EQUAL(10, thrust::get<0>(z_iter1_first.get_iterator_tuple()) - thrust::make_discard_iterator());
 
   typedef tuple<int *, discard_iterator<> > IteratorTuple2;
   typedef zip_iterator<IteratorTuple2>      ZipIterator2;
