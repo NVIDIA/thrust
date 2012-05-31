@@ -75,6 +75,26 @@ template<typename Alloc, typename T>
       >
 {};
 
+template<typename Alloc, typename T>
+  inline __host__ __device__
+    typename enable_if<
+      has_member_construct1<Alloc,T>::value
+    >::type
+      construct(Alloc &a, T *p)
+{
+  a.construct(p);
+}
+
+template<typename Alloc, typename T>
+  inline __host__ __device__
+    typename disable_if<
+      has_member_construct1<Alloc,T>::value
+    >::type
+      construct(Alloc &a, T *p)
+{
+  ::new(static_cast<void*>(p)) T();
+}
+
 
 __THRUST_DEFINE_HAS_MEMBER_FUNCTION2(has_member_construct2_impl, construct);
 
@@ -197,6 +217,14 @@ template<typename Alloc>
     ::deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
 {
   return a.deallocate(p,n);
+}
+
+template<typename Alloc>
+  template<typename T>
+    void allocator_traits<Alloc>
+      ::construct(allocator_type &a, T *p)
+{
+  return allocator_traits_detail::construct(a,p);
 }
 
 template<typename Alloc>
@@ -358,11 +386,47 @@ namespace allocator_traits_detail
 {
 
 
-// XXX specialize this correctly later
-template<typename Allocator, typename Pointer, typename Size>
-  void default_construct_range(Allocator &a, Pointer p, Size n)
+template<typename Allocator>
+  struct construct1_via_allocator
 {
-  thrust::detail::fill_construct_range(a, p, n, typename pointer_element<Pointer>::type());
+  Allocator &a;
+
+  construct1_via_allocator(Allocator &a)
+    : a(a)
+  {}
+
+  template<typename T>
+  inline __host__ __device__
+  void operator()(T &x)
+  {
+    allocator_traits<Allocator>::construct(a, &x);
+  }
+};
+
+
+template<typename Allocator, typename Pointer, typename Size>
+  typename enable_if<
+    has_member_construct1<
+      Allocator,
+      typename pointer_element<Pointer>::type
+    >::value
+  >::type
+    default_construct_range(Allocator &a, Pointer p, Size n)
+{
+  thrust::for_each_n(p, n, construct1_via_allocator<Allocator>(a));
+}
+
+
+template<typename Allocator, typename Pointer, typename Size>
+  typename disable_if<
+    has_member_construct1<
+      Allocator,
+      typename pointer_element<Pointer>::type
+    >::value
+  >::type
+    default_construct_range(Allocator &, Pointer p, Size n)
+{
+  thrust::uninitialized_fill_n(p, n, typename pointer_element<Pointer>::type());
 }
 
 

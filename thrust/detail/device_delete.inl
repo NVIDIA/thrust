@@ -21,17 +21,25 @@
 
 #include <thrust/device_delete.h>
 #include <thrust/device_free.h>
-#include <thrust/detail/destroy.h>
+#include <thrust/detail/allocator/allocator_traits.h>
 
 namespace thrust
 {
+namespace detail
+{
+
+// define an empty allocator class to use below
+struct device_delete_allocator {};
+
+}
 
 template<typename T>
   void device_delete(device_ptr<T> ptr,
                      const size_t n)
 {
-  // XXX defer to cudaDelete once it is implemented
-  detail::destroy(ptr, ptr + n);
+  // we can use device_allocator to destroy the range
+  thrust::detail::device_delete_allocator a;
+  thrust::detail::destroy_range(a, ptr, n);
   device_free(ptr);
 } // end device_delete()
 
