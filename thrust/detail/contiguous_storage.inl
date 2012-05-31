@@ -20,6 +20,9 @@
 #include <thrust/detail/swap.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/allocator/copy_construct_range.h>
+#include <thrust/detail/allocator/default_construct_range.h>
+#include <thrust/detail/allocator/destroy_range.h>
+#include <thrust/detail/allocator/fill_construct_range.h>
 #include <utility> // for use of std::swap in the WAR below
 
 namespace thrust

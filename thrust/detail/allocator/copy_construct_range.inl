@@ -25,6 +25,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/for_each.h>
 #include <thrust/detail/temporary_array.h>
+#include <memory>
 
 namespace thrust
 {
@@ -96,6 +97,13 @@ template<typename Allocator, typename T>
         bool,
         !has_member_construct2<Allocator,T,T>::value && has_trivial_copy_constructor<T>::value
       >
+{};
+
+// we know that std::allocator::construct's only effect is to
+// call T's constructor, so we needn't use it when constructing T
+template<typename U, typename T>
+  struct is_trivially_copy_constructible<std::allocator<U>, T>
+    : has_trivial_copy_constructor<T>
 {};
 
 

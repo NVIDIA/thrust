@@ -189,16 +189,6 @@ template<typename Alloc>
 }; // end allocator_traits
 
 
-template<typename Allocator, typename Pointer, typename Size>
-  inline void destroy_range(Allocator &a, Pointer p, Size n);
-
-template<typename Allocator, typename Pointer, typename Size>
-  inline void default_construct_range(Allocator &a, Pointer p, Size n);
-
-template<typename Allocator, typename Pointer, typename Size, typename T>
-  inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value);
-
-
 } // end detail
 } // end thrust
 
