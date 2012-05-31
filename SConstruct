@@ -301,7 +301,7 @@ def command_line_variables():
   
   # add a variable to handle the device backend
   vars.Add(ListVariable('device_backend', 'The parallel device backend to target', 'cuda',
-                        ['cuda', 'omp', 'tbb']))
+                        ['cuda', 'omp', 'tbb', 'cpp']))
   
   # add a variable to handle release/debug mode
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
