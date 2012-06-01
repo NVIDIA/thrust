@@ -278,8 +278,6 @@ struct grouped_gather_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-  
     // advance iterators
     splitter_ranks1                                     += context.block_index();
     splitter_ranks2                                     += context.block_index();
