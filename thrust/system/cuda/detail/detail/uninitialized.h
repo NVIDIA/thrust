@@ -68,7 +68,11 @@ template<std::size_t Len, std::size_t Align>
   union type
   {
     unsigned char data[Len];
+
+// __align__ is CUDA-specific
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     struct __align__(Align) { } align;
+#endif
   };
 };
 
