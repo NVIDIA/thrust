@@ -14,34 +14,23 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file device_delete.inl
- *  \brief Inline file for device_delete.h.
- */
-
-#include <thrust/device_delete.h>
-#include <thrust/device_free.h>
-#include <thrust/detail/allocator/destroy_range.h>
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
 namespace detail
 {
 
-// define an empty allocator class to use below
-struct device_delete_allocator {};
 
-}
+template<typename Allocator, typename Pointer, typename Size>
+  inline void default_construct_range(Allocator &a, Pointer p, Size n);
 
-template<typename T>
-  void device_delete(device_ptr<T> ptr,
-                     const size_t n)
-{
-  // we can use device_allocator to destroy the range
-  thrust::detail::device_delete_allocator a;
-  thrust::detail::destroy_range(a, ptr, n);
-  thrust::device_free(ptr);
-} // end device_delete()
 
+} // end detail
 } // end thrust
+
+#include <thrust/detail/allocator/default_construct_range.inl>
+
 
