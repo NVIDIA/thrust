@@ -62,6 +62,89 @@ template<typename T>
     : uninitialized_detail::alignment_of_impl<T>
 {};
 
+
+template<std::size_t Align> struct aligned_type;
+
+// __align__ is CUDA-specific, so guard it
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+// implement aligned_type with specialization because MSVC
+// requires literals as arguments to declspec(align(n))
+template<> struct aligned_type<1>
+{
+  struct __align__(1) type { };
+};
+
+template<> struct aligned_type<2>
+{
+  struct __align__(2) type { };
+};
+
+template<> struct aligned_type<4>
+{
+  struct __align__(4) type { };
+};
+
+template<> struct aligned_type<8>
+{
+  struct __align__(8) type { };
+};
+
+template<> struct aligned_type<16>
+{
+  struct __align__(16) type { };
+};
+
+template<> struct aligned_type<32>
+{
+  struct __align__(32) type { };
+};
+
+template<> struct aligned_type<64>
+{
+  struct __align__(64) type { };
+};
+
+template<> struct aligned_type<128>
+{
+  struct __align__(128) type { };
+};
+
+template<> struct aligned_type<256>
+{
+  struct __align__(256) type { };
+};
+
+template<> struct aligned_type<512>
+{
+  struct __align__(512) type { };
+};
+
+template<> struct aligned_type<1024>
+{
+  struct __align__(1024) type { };
+};
+
+template<> struct aligned_type<2048>
+{
+  struct __align__(2048) type { };
+};
+
+template<> struct aligned_type<4096>
+{
+  struct __align__(4096) type { };
+};
+
+template<> struct aligned_type<8192>
+{
+  struct __align__(8192) type { };
+};
+#else
+template<std::size_t Align> struct aligned_type
+{
+  struct type { };
+};
+#endif // THRUST_DEVICE_COMPILER
+
 template<std::size_t Len, std::size_t Align>
   struct aligned_storage
 {
@@ -69,10 +152,7 @@ template<std::size_t Len, std::size_t Align>
   {
     unsigned char data[Len];
 
-// __align__ is CUDA-specific
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    struct __align__(Align) { } align;
-#endif
+    typename aligned_type<Align>::type align;
   };
 };
 
