@@ -23,11 +23,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cuda
+{
+namespace detail
 {
 namespace detail
 {
@@ -54,9 +54,9 @@ OutputIterator exclusive_scan(InputIterator first,
 
 } // end namespace fast_scan
 } // end namespace detail
-} // end namespace cuda
-} // end namespace backend
 } // end namespace detail
+} // end namespace cuda
+} // end namespace system
 } // end namespace thrust
 
 #include "fast_scan.inl"
