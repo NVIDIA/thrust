@@ -40,6 +40,7 @@
 #include <thrust/system/cuda/detail/arch.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
+#include <thrust/system/cuda/detail/detail/uninitialized.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -123,12 +124,6 @@ inline unsigned int max_grid_size(Size block_size)
   return std::min<unsigned int>(max_blocks, 3 * max_threads / block_size);
 } // end max_grid_size()
 
-template<unsigned int N>
-  struct align_size_to_int
-{
-  static const unsigned int value = (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
-};
-
 // Base case for the merge algorithm: merges data where tile_size <= block_size. 
 // Works by loading two or more tiles into shared memory and doing a binary search.
 template<unsigned int block_size,
@@ -186,14 +181,9 @@ struct merge_smalltiles_binarysearch_closure
 
     // load (2*block_size) elements into shared memory. These (2*block_size) elements belong to (2*block_size)/tile_size different tiles.
     // use int for these shared arrays due to alignment issues
-    __shared__ int key_workaround[align_size_to_int<2 * block_size * sizeof(KeyType)>::value];
-    KeyType *key = reinterpret_cast<KeyType*>(key_workaround);
-
-    __shared__ int outkey_workaround[align_size_to_int<2 * block_size * sizeof(KeyType)>::value];
-    KeyType *outkey = reinterpret_cast<KeyType*>(outkey_workaround);
-
-    __shared__ int outvalue_workaround[align_size_to_int<2 * block_size * sizeof(ValueType)>::value];
-    ValueType *outvalue = reinterpret_cast<ValueType*>(outvalue_workaround);
+    __shared__ uninitialized_array<KeyType, 2 * block_size>   key;
+    __shared__ uninitialized_array<KeyType, 2 * block_size>   outkey;
+    __shared__ uninitialized_array<ValueType, 2 * block_size> outvalue;
 
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
 
@@ -241,7 +231,7 @@ struct merge_smalltiles_binarysearch_closure
       } // end if
       
       // figure out where the other tile begins in shared memory
-      KeyType * other = key + (other_tile_index<<log_tile_size);
+      KeyType *other = key.data() + (other_tile_index<<log_tile_size);
       
       // do a binary search on the other tile, and find the rank of the element in the other tile.
       unsigned int start, end, cur;
@@ -326,17 +316,8 @@ struct stable_odd_even_block_sort_closure
     typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
   
-    // XXX workaround no constructors on device arrays
-  //  __shared__ unsigned char s_keys_workaround[block_size * sizeof(KeyType)];
-  //  KeyType *s_keys = reinterpret_cast<KeyType*>(s_keys_workaround);
-  //
-  //  __shared__ unsigned char s_data_workaround[block_size * sizeof(ValueType)];
-  //  ValueType *s_data = reinterpret_cast<ValueType*>(s_data_workaround);
-    __shared__ int s_keys_workaround[align_size_to_int<block_size * sizeof(KeyType)>::value];
-    KeyType *s_keys = reinterpret_cast<KeyType*>(s_keys_workaround);
-  
-    __shared__ int s_data_workaround[align_size_to_int<block_size * sizeof(ValueType)>::value];
-    ValueType *s_data = reinterpret_cast<ValueType*>(s_data_workaround);
+    __shared__ uninitialized_array<KeyType,block_size>   s_keys;
+    __shared__ uninitialized_array<ValueType,block_size> s_data;
   
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
   
@@ -369,7 +350,7 @@ struct stable_odd_even_block_sort_closure
       } // end if
   
       // run merge_sort over the block
-      thrust::detail::backend::cuda::block::merging_sort(context, s_keys, s_data, length, comp);
+      thrust::detail::backend::cuda::block::merging_sort(context, s_keys.begin(), s_data.begin(), length, comp);
   
       // write result
       if(i < n)
@@ -718,8 +699,8 @@ template<unsigned int block_size,
     RandomAccessIterator3 result1_temp = result1 + offset + dest_offset;
     RandomAccessIterator4 result2_temp = result2 + offset + dest_offset;
 
-    *result1_temp = *first1_temp;
-    *result2_temp = *first2_temp;
+    *result1_temp = (*first1_temp).get();
+    *result2_temp = (*first2_temp).get();
   }
 
   int i = warp_size - start_thread_aligned + context.thread_index(); 
@@ -735,8 +716,8 @@ template<unsigned int block_size,
       i < num_elements;
       i += block_size, first1 += block_size, first2 += block_size, result1 += block_size, result2 += block_size)
   {
-    *result1 = *first1; 
-    *result2 = *first2; 
+    *result1 = (*first1).get(); 
+    *result2 = (*first2).get(); 
   }
   context.barrier();
 }
@@ -867,25 +848,10 @@ struct merge_subblocks_binarysearch_closure
     typedef typename iterator_value<RandomAccessIterator5>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator6>::type ValueType;
   
-  //  extern __shared__ char A[];
-  //  KeyType * input1 = (KeyType *)(A);
-  //  KeyType * input2 = (KeyType *)(A + sizeof(KeyType)*block_size);
-  //  ValueType * input1val = (ValueType *)(A + sizeof(KeyType)*(2*block_size));
-  //  ValueType * input2val = (ValueType *)(A + sizeof(KeyType)*(2*block_size) + sizeof(ValueType)*block_size);
-  
-    // use int for these shared arrays due to alignment issues
-    __shared__ int input1_workaround[align_size_to_int<block_size * sizeof(KeyType)>::value];
-    KeyType *input1 = reinterpret_cast<KeyType*>(input1_workaround);
-  
-    __shared__ int input2_workaround[align_size_to_int<block_size * sizeof(KeyType)>::value];
-    KeyType *input2 = reinterpret_cast<KeyType*>(input2_workaround);
-  
-    __shared__ int input1val_workaround[align_size_to_int<block_size * sizeof(ValueType)>::value];
-    ValueType *input1val = reinterpret_cast<ValueType*>(input1val_workaround);
-  
-    __shared__ int input2val_workaround[align_size_to_int<block_size * sizeof(ValueType)>::value];
-    ValueType *input2val = reinterpret_cast<ValueType*>(input2val_workaround);
-  
+    __shared__ uninitialized<KeyType>   input1[block_size];
+    __shared__ uninitialized<KeyType>   input2[block_size];
+    __shared__ uninitialized<ValueType> input1val[block_size];
+    __shared__ uninitialized<ValueType> input2val[block_size];
   
     // advance iterators
     unsigned int i = context.block_index();
@@ -976,7 +942,7 @@ struct merge_subblocks_binarysearch_closure
         while(start_1 < end_1)
         {
           cur = (start_1 + end_1)>>1;
-          if(comp(input2[cur], inp1)) start_1 = cur + 1;
+          if(comp(input2[cur].get(), inp1)) start_1 = cur + 1;
           else end_1 = cur;
         } // end while
       } // end if

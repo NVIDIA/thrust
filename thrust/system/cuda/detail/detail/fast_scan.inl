@@ -30,6 +30,7 @@
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
+#include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/detail/raw_pointer_cast.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -414,11 +415,12 @@ struct upsweep_intervals_closure
     const unsigned int MAX_K = ((SMEM - 1 * sizeof(ValueType)) / (sizeof(ValueType) * (CTA_SIZE + 1)));
     const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
-    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ uninitialized<ValueType[K][CTA_SIZE + 1]> sdata; // padded to avoid bank conflicts
     
-    __shared__ ValueType carry; // storage for carry out
+    __shared__ uninitialized<ValueType> carry; // storage for carry out
+    if(context.thread_index() == 0) carry.construct();
     
-    context.barrier(); // XXX needed because CUDA fires default constructors now
+    context.barrier();
     
     thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
 
@@ -434,7 +436,7 @@ struct upsweep_intervals_closure
     while (base + unit_size <= interval.end())
     {
       const unsigned int n = unit_size;
-      upsweep_body<CTA_SIZE,K,true>(context, n, carry_in, input, binary_op, sdata, carry);
+      upsweep_body<CTA_SIZE,K,true>(context, n, carry_in, input, binary_op, sdata.get(), carry.get());
       base   += unit_size;
       input  += unit_size;
       carry_in = true;
@@ -444,7 +446,7 @@ struct upsweep_intervals_closure
     if (base < interval.end())
     {
       const unsigned int n = interval.end() - base;
-      upsweep_body<CTA_SIZE,K,false>(context, n, carry_in, input, binary_op, sdata, carry);
+      upsweep_body<CTA_SIZE,K,false>(context, n, carry_in, input, binary_op, sdata.get(), carry.get());
     }
 
     // write interval sum
@@ -495,11 +497,12 @@ struct downsweep_intervals_closure
     const unsigned int MAX_K = ((SMEM - 1 * sizeof(ValueType))/ (sizeof(ValueType) * (CTA_SIZE + 1)));
     const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
-    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ uninitialized<ValueType[K][CTA_SIZE + 1]> sdata;  // padded to avoid bank conflicts
     
-    __shared__ ValueType carry; // storage for carry in and carry out
+    __shared__ uninitialized<ValueType> carry; // storage for carry in and carry out
+    if(context.thread_index() == 0) carry.construct();
 
-    context.barrier(); // XXX needed because CUDA fires default constructors now
+    context.barrier();
 
     thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
 
@@ -523,7 +526,7 @@ struct downsweep_intervals_closure
     while (base + unit_size <= interval.end())
     {
       const unsigned int n = unit_size;
-      scan_body<CTA_SIZE,K,Inclusive,true>(context, n, carry_in, input, output, binary_op, sdata, carry);
+      scan_body<CTA_SIZE,K,Inclusive,true>(context, n, carry_in, input, output, binary_op, sdata.get(), carry.get());
       base   += K * CTA_SIZE;
       input  += K * CTA_SIZE;
       output += K * CTA_SIZE;
@@ -534,7 +537,7 @@ struct downsweep_intervals_closure
     if (base < interval.end())
     {
       const unsigned int n = interval.end() - base;
-      scan_body<CTA_SIZE,K,Inclusive,false>(context, n, carry_in, input, output, binary_op, sdata, carry);
+      scan_body<CTA_SIZE,K,Inclusive,false>(context, n, carry_in, input, output, binary_op, sdata.get(), carry.get());
     }
   }
 };
