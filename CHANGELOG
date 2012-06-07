@@ -6,6 +6,16 @@ Summary
     Small bug fixes
 
 Bug Fixes
+    Avoid warnings about potential race due to __shared__ non-POD variable
+
+#######################################
+#           Thrust v1.5.2             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
     Fixed warning about C-style initialization of structures
 
 #######################################
