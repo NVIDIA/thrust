@@ -26,11 +26,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cuda
+{
+namespace detail
 {
 namespace block
 {
@@ -243,8 +243,8 @@ __device__ void merging_sort(Context context,
 } // end merging_sort()
 
 } // end namespace block
-} // end namespace cuda
-} // end namespace backend
 } // end namespace detail
+} // end namespace cuda
+} // end namespace system
 } // end namespace thrust
 

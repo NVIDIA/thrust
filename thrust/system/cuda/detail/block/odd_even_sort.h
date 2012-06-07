@@ -23,11 +23,11 @@
 
 namespace thrust
 {
-namespace detail
-{
-namespace backend
+namespace system
 {
 namespace cuda
+{
+namespace detail
 {
 namespace block
 {
@@ -144,8 +144,8 @@ template<typename KeyType,
 
 
 } // end namespace block
-} // end namespace cuda
-} // end namespace backend
 } // end namespace detail
+} // end namespace cuda
+} // end namespace system
 } // end namespace thrust
 
