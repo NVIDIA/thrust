@@ -31,6 +31,7 @@
 #include <thrust/detail/backend/cuda/synchronize.h>
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
+#include <thrust/detail/backend/cuda/detail/uninitialized.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -350,11 +351,12 @@ void upsweep_intervals(InputIterator input,
     const unsigned int MAX_K = ((SMEM - 1 * sizeof(ValueType))/ (sizeof(ValueType) * (CTA_SIZE + 1)));
     const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
-    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ uninitialized<ValueType[K][CTA_SIZE + 1]> sdata;  // padded to avoid bank conflicts
     
-    __shared__ ValueType carry; // storage for carry out
+    __shared__ uninitialized<ValueType> carry; // storage for carry out
+    if(threadIdx.x == 0) carry.construct();
     
-    __syncthreads(); // XXX needed because CUDA fires default constructors now
+    __syncthreads();
     
     thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
 
@@ -370,7 +372,7 @@ void upsweep_intervals(InputIterator input,
     while (base + unit_size <= interval.end())
     {
         const unsigned int n = unit_size;
-        upsweep_body<CTA_SIZE,K,true>(n, carry_in, input, binary_op, sdata, carry);
+        upsweep_body<CTA_SIZE,K,true>(n, carry_in, input, binary_op, sdata.get(), carry.get());
         base   += unit_size;
         input  += unit_size;
         carry_in = true;
@@ -380,7 +382,7 @@ void upsweep_intervals(InputIterator input,
     if (base < interval.end())
     {
         const unsigned int n = interval.end() - base;
-        upsweep_body<CTA_SIZE,K,false>(n, carry_in, input, binary_op, sdata, carry);
+        upsweep_body<CTA_SIZE,K,false>(n, carry_in, input, binary_op, sdata.get(), carry.get());
     }
 
     // write interval sum
@@ -414,11 +416,12 @@ void downsweep_intervals(InputIterator input,
     const unsigned int MAX_K = ((SMEM - 1 * sizeof(ValueType))/ (sizeof(ValueType) * (CTA_SIZE + 1)));
     const unsigned int K     = (MAX_K < 6) ? MAX_K : 6;
 
-    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ uninitialized<ValueType[K][CTA_SIZE + 1]> sdata;  // padded to avoid bank conflicts
     
-    __shared__ ValueType carry; // storage for carry in and carry out
+    __shared__ uninitialized<ValueType> carry; // storage for carry in and carry out
+    if(threadIdx.x == 0) carry.construct();
 
-    __syncthreads(); // XXX needed because CUDA fires default constructors now
+    __syncthreads();
 
     thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
 
@@ -442,7 +445,7 @@ void downsweep_intervals(InputIterator input,
     while (base + unit_size <= interval.end())
     {
         const unsigned int n = unit_size;
-        scan_body<CTA_SIZE,K,Inclusive,true>(n, carry_in, input, output, binary_op, sdata, carry);
+        scan_body<CTA_SIZE,K,Inclusive,true>(n, carry_in, input, output, binary_op, sdata.get(), carry.get());
         base   += K * CTA_SIZE;
         input  += K * CTA_SIZE;
         output += K * CTA_SIZE;
@@ -453,7 +456,7 @@ void downsweep_intervals(InputIterator input,
     if (base < interval.end())
     {
         const unsigned int n = interval.end() - base;
-        scan_body<CTA_SIZE,K,Inclusive,false>(n, carry_in, input, output, binary_op, sdata, carry);
+        scan_body<CTA_SIZE,K,Inclusive,false>(n, carry_in, input, output, binary_op, sdata.get(), carry.get());
     }
 }
 

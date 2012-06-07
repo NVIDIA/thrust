@@ -38,6 +38,7 @@
 #include <thrust/detail/backend/cuda/reduce_intervals.h>
 #include <thrust/detail/backend/cuda/default_decomposition.h>
 #include <thrust/detail/backend/cuda/block/inclusive_scan.h>
+#include <thrust/detail/backend/cuda/detail/uninitialized.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -399,14 +400,12 @@ void reduce_by_key_kernel(InputIterator1   ikeys,
   // TODO replace this with a static_min<BOUND_1,BOUND_2,BOUND_3>::value
   const unsigned int K = (BOUND_1 < BOUND_2) ? (BOUND_1 < BOUND_3 ? BOUND_1 : BOUND_3) : (BOUND_2 < BOUND_3 ? BOUND_2 : BOUND_3);
 
-  __shared__ FlagType  sflag[CTA_SIZE]; 
-  __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+  __shared__ uninitialized<FlagType[CTA_SIZE]>         sflag; 
+  __shared__ uninitialized<ValueType[K][CTA_SIZE + 1]> sdata;  // padded to avoid bank conflicts
 
-  __shared__ ValueType carry_value; // storage for carry in and carry out
-  __shared__ IndexType carry_index;
-  __shared__ bool      carry_in; 
-
-  __syncthreads(); // XXX needed because CUDA fires default constructors now
+  __shared__ detail::uninitialized<ValueType> carry_value; // storage for carry in and carry out
+  __shared__ detail::uninitialized<IndexType> carry_index;
+  __shared__ detail::uninitialized<bool>      carry_in; 
 
   thrust::detail::backend::index_range<IndexType> interval = decomp[blockIdx.x];
 
@@ -442,7 +441,7 @@ void reduce_by_key_kernel(InputIterator1   ikeys,
   while (base + unit_size <= interval.end())
   {
     const unsigned int n = unit_size;
-    reduce_by_key_body<CTA_SIZE,K,true>(n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag, sdata, carry_in, carry_index, carry_value);
+    reduce_by_key_body<CTA_SIZE,K,true>(n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag.get(), sdata.get(), carry_in.get(), carry_index.get(), carry_value.get());
     base   += unit_size;
     ikeys  += unit_size;
     ivals  += unit_size;
@@ -455,7 +454,7 @@ void reduce_by_key_kernel(InputIterator1   ikeys,
   if (base < interval.end())
   {
     const unsigned int n = interval.end() - base;
-    reduce_by_key_body<CTA_SIZE,K,false>(n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag, sdata, carry_in, carry_index, carry_value);
+    reduce_by_key_body<CTA_SIZE,K,false>(n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag.get(), sdata.get(), carry_in.get(), carry_index.get(), carry_value.get());
   }
 
   if (threadIdx.x == 0)
