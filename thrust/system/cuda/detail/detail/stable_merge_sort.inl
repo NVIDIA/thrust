@@ -172,8 +172,6 @@ struct merge_smalltiles_binarysearch_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-
     typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
 
@@ -311,8 +309,6 @@ struct stable_odd_even_block_sort_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-  
     typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
   
@@ -350,7 +346,7 @@ struct stable_odd_even_block_sort_closure
       } // end if
   
       // run merge_sort over the block
-      thrust::detail::backend::cuda::block::merging_sort(context, s_keys.begin(), s_data.begin(), length, comp);
+      block::merging_sort(context, s_keys.begin(), s_data.begin(), length, comp);
   
       // write result
       if(i < n)
@@ -394,8 +390,6 @@ struct extract_splitters_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
 
     unsigned int i = context.block_index() * context.block_dimension();
@@ -476,8 +470,6 @@ struct find_splitter_ranks_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-  
     typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator2>::type IndexType;
   
@@ -634,8 +626,6 @@ struct copy_first_splitters_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-  
     unsigned int num_splitters_per_tile  = 1 << (log_num_merged_splitters_per_block);
     unsigned int num_splitters_per_block = 1 << (log_num_merged_splitters_per_block + log_tile_size);
     unsigned int num_splitters_per_grid  = num_splitters_per_block * context.grid_dimension();
@@ -683,8 +673,6 @@ template<unsigned int block_size,
                                 unsigned int dest_offset,
                                 unsigned int num_elements)
 {
-  using namespace thrust::detail::backend;
-
   // copy from src to dest + dest_offset: dest, src are aligned, dest_offset not a multiple of 4
   unsigned int start_thread_aligned = dest_offset%warp_size;
   
@@ -738,8 +726,6 @@ template<unsigned int block_size,
                                unsigned int src_offset,
                                unsigned int num_elements)
 {
-  using namespace thrust::detail::backend;
-
   // copy from src + src_offset to dest: dest, src are aligned, src_offset not a multiple of 4
   unsigned int start_thread_aligned = src_offset%warp_size;
   
@@ -843,8 +829,6 @@ struct merge_subblocks_binarysearch_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    using namespace thrust::detail::backend;
-  
     typedef typename iterator_value<RandomAccessIterator5>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator6>::type ValueType;
   
