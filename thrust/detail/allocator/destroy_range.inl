@@ -18,6 +18,7 @@
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/for_each.h>
+#include <memory>
 
 namespace thrust
 {
@@ -27,37 +28,63 @@ namespace allocator_traits_detail
 {
 
 
-// when T has a trivial destructor and Allocator has no
-// destroy member function, destroying T has no effect
+// destroy_range has three cases:
+// if Allocator has an effectful member function destroy:
+//   1. destroy via the allocator
+// else
+//   2. if T has a non-trivial destructor, destroy the range without using the allocator
+//   3. if T has a trivial destructor, do a no-op
+
 template<typename Allocator, typename T>
-  struct has_no_effect_destroy
-    : integral_constant<
-        bool,
-        has_trivial_destructor<T>::value && !has_member_destroy1<Allocator,T>::value
+  struct has_effectful_member_destroy1
+    : has_member_destroy1<Allocator,T>
+{};
+
+// std::allocator::destroy's only effect is to invoke its argument's destructor
+template<typename U, typename T>
+  struct has_effectful_member_destroy1<std::allocator<U>, T>
+    : thrust::detail::false_type
+{};
+
+// case 1: Allocator has an effectful 1-argument member function "destroy"
+template<typename Allocator, typename Pointer>
+  struct enable_if_destroy_range_case1
+    : thrust::detail::enable_if<
+        has_effectful_member_destroy1<
+          Allocator,
+          typename pointer_element<Pointer>::type
+        >::value
       >
 {};
 
-// we know that std::allocator::destroy's only effect is to
-// call T's destructor, so we needn't use it when destroying T
-template<typename U, typename T>
-  struct has_no_effect_destroy<std::allocator<U>, T>
-    : has_trivial_destructor<T>
+// case 2: Allocator has no member function "destroy", but T has a non-trivial destructor
+template<typename Allocator, typename Pointer>
+  struct enable_if_destroy_range_case2
+    : thrust::detail::enable_if<
+        !has_effectful_member_destroy1<
+          Allocator,
+          typename pointer_element<Pointer>::type
+        >::value &&
+        !has_trivial_destructor<
+          typename pointer_element<Pointer>::type
+        >::value
+      >
 {};
 
+// case 3: Allocator has no member function "destroy", and T has a trivial destructor
+template<typename Allocator, typename Pointer>
+  struct enable_if_destroy_range_case3
+    : thrust::detail::enable_if<
+        !has_effectful_member_destroy1<
+          Allocator,
+          typename pointer_element<Pointer>::type
+        >::value &&
+        has_trivial_destructor<
+          typename pointer_element<Pointer>::type
+        >::value
+      >
+{};
 
-
-// destroy_range is a no op if element destruction has no effect
-template<typename Allocator, typename Pointer, typename Size>
-  typename enable_if<
-    has_no_effect_destroy<
-      Allocator,
-      typename pointer_element<Pointer>::type
-    >::value
-  >::type
-    destroy_range(Allocator &, Pointer, Size)
-{
-  // no op
-}
 
 
 template<typename Allocator>
@@ -78,18 +105,41 @@ template<typename Allocator>
 };
 
 
-// destroy_range is effectful if element destroy has effect
-// XXX need to check whether we really need to destroy via the allocator or not
+// destroy_range case 1: destroy via allocator
 template<typename Allocator, typename Pointer, typename Size>
-  typename disable_if<
-    has_no_effect_destroy<
-      Allocator,
-      typename pointer_element<Pointer>::type
-    >::value
-  >::type
+  typename enable_if_destroy_range_case1<Allocator,Pointer>::type
     destroy_range(Allocator &a, Pointer p, Size n)
 {
   thrust::for_each_n(p, n, destroy_via_allocator<Allocator>(a));
+}
+
+
+// we must prepare for His coming
+struct gozer
+{
+  template<typename T>
+  inline __host__ __device__
+  void operator()(T &x)
+  {
+    x.~T();
+  }
+};
+
+// destroy_range case 2: destroy without the allocator
+template<typename Allocator, typename Pointer, typename Size>
+  typename enable_if_destroy_range_case2<Allocator,Pointer>::type
+    destroy_range(Allocator &, Pointer p, Size n)
+{
+  thrust::for_each_n(p, n, gozer());
+}
+
+
+// destroy_range case 3: no-op
+template<typename Allocator, typename Pointer, typename Size>
+  typename enable_if_destroy_range_case3<Allocator,Pointer>::type
+    destroy_range(Allocator &, Pointer, Size)
+{
+  // no op
 }
 
 

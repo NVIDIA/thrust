@@ -15,10 +15,12 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/for_each.h>
 #include <thrust/uninitialized_fill.h>
+#include <memory>
 
 namespace thrust
 {
@@ -26,6 +28,23 @@ namespace detail
 {
 namespace allocator_traits_detail
 {
+
+// fill_construct_range has 2 cases:
+// if Allocator has an effectful member function construct:
+//   1. construct via the allocator
+// else
+//   2. construct via uninitialized_fill
+
+template<typename Allocator, typename T, typename Arg1>
+  struct has_effectful_member_construct2
+    : has_member_construct2<Allocator,T,Arg1>
+{};
+
+// std::allocator::construct's only effect is to invoke placement new
+template<typename U, typename T, typename Arg1>
+  struct has_effectful_member_construct2<std::allocator<U>,T,Arg1>
+    : thrust::detail::false_type
+{};
 
 
 template<typename Allocator, typename Arg1>
@@ -47,19 +66,9 @@ template<typename Allocator, typename Arg1>
 };
 
 
-template<typename Allocator, typename T, typename Arg1>
-  struct needs_copy_construct_via_allocator
-    : has_member_construct2<
-        Allocator,
-        T,
-        Arg1
-      >
-{};
-
-
 template<typename Allocator, typename Pointer, typename Size, typename T>
   typename enable_if<
-    needs_copy_construct_via_allocator<
+    has_effectful_member_construct2<
       Allocator,
       typename pointer_element<Pointer>::type,
       T
@@ -73,7 +82,7 @@ template<typename Allocator, typename Pointer, typename Size, typename T>
 
 template<typename Allocator, typename Pointer, typename Size, typename T>
   typename disable_if<
-    needs_copy_construct_via_allocator<
+    has_effectful_member_construct2<
       Allocator,
       typename pointer_element<Pointer>::type,
       T
