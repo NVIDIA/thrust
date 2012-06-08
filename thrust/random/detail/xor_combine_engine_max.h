@@ -67,11 +67,16 @@ template<typename UIntType, UIntType w,
 };
 
 
-template<typename UIntType, int p>
-  struct two_to_the_power
-    : lshift_w<UIntType, std::numeric_limits<UIntType>::digits, 1, p>
+template<typename UIntType, UIntType lhs, UIntType rhs>
+  struct lshift
+    : lshift_w<UIntType, std::numeric_limits<UIntType>::digits, lhs, rhs>
 {};
 
+
+template<typename UIntType, int p>
+  struct two_to_the_power
+    : lshift<UIntType, 1, p>
+{};
 
 
 template<typename result_type, result_type a, result_type b, int d>
@@ -79,7 +84,7 @@ template<typename result_type, result_type a, result_type b, int d>
 {
   public:
     static const result_type two_to_the_d = two_to_the_power<result_type, d>::value;
-    static const result_type c            = math::mul<result_type, a, two_to_the_d>::value;
+    static const result_type c = lshift<result_type, a, d>::value;
 
     static const result_type t =
       math::max<
@@ -111,10 +116,10 @@ template<typename result_type, result_type a, result_type b, int d>
   typedef xor_combine_engine_max_aux_constants<result_type,a,b,d> constants;
 
   static const result_type k_plus_1_times_two_to_the_p =
-    math::mul<
+    lshift<
       result_type,
       math::plus<result_type,constants::k,1>::value,
-      constants::two_to_the_p
+      constants::p
     >::value;
 
   static const result_type M =
@@ -147,10 +152,10 @@ template<typename result_type, result_type a, result_type b, int d>
   typedef xor_combine_engine_max_aux_constants<result_type,a,b,d> constants;
 
   static const result_type k_plus_1_times_two_to_the_p =
-    math::mul<
+    lshift<
       result_type,
       math::plus<result_type,constants::k,1>::value,
-      constants::two_to_the_p
+      constants::p
     >::value;
 
   static const result_type M =
@@ -184,10 +189,10 @@ template<typename result_type, result_type a, result_type b, int d>
   typedef xor_combine_engine_max_aux_constants<result_type,a,b,d> constants;
 
   static const result_type k_plus_1_times_two_to_the_p =
-    math::mul<
+    lshift<
       result_type,
       math::plus<result_type,constants::k,1>::value,
-      constants::two_to_the_p
+      constants::p
     >::value;
 
   static const result_type value =
@@ -202,8 +207,7 @@ template<typename result_type, result_type a, result_type b, int d>
 template<typename result_type, result_type a, result_type b, int d>
   struct xor_combine_engine_max_aux_case1
 {
-  static const result_type two_to_the_d = two_to_the_power<result_type, d>::value;
-  static const result_type c     = math::mul<result_type, a, two_to_the_d>::value;
+  static const result_type c     = lshift<result_type, a, d>::value;
 
   static const result_type value = math::plus<result_type,c,b>::value;
 };
