@@ -66,6 +66,10 @@ struct function_attributes_t
   size_t sharedSizeBytes;
 };
 
+/*! Returns the current device ordinal.
+ */
+inline int current_device();
+
 /*! Returns a copy of the device_properties_t structure
  *  that is associated with a given device.
  */

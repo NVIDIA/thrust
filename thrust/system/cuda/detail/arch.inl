@@ -135,19 +135,24 @@ inline device_properties_t device_properties(int device_id)
   return device_properties[device_id];
 }
 
-inline device_properties_t device_properties(void)
+inline int current_device()
 {
-  int device_id = -1;
+  int result = -1;
 
-  cudaError_t error = cudaGetDevice(&device_id);
+  cudaError_t error = cudaGetDevice(&result);
 
   if(error)
     throw thrust::system_error(error, thrust::cuda_category());
 
-  if(device_id < 0)
+  if(result < 0)
     throw thrust::system_error(cudaErrorNoDevice, thrust::cuda_category());
 
-  return device_properties(device_id);
+  return result;
+}
+
+inline device_properties_t device_properties(void)
+{
+  return device_properties(current_device());
 }
 
 template <typename KernelFunction>
