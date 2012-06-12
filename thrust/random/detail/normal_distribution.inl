@@ -19,6 +19,7 @@
 #include <thrust/random/uniform_real_distribution.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/integer_traits.h>
+#include <cmath>
 
 namespace thrust
 {
@@ -94,10 +95,8 @@ template<typename RealType>
     normal_distribution<RealType>
       ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  // XXX this solution is pretty terrible
-  const thrust::detail::uint32_t inf_as_int = 0x7f800000u;
-  const float inf = *reinterpret_cast<const float*>(&inf_as_int);
-  return result_type(-inf);
+  // XXX we should use numeric_limits, but, CUDA
+  return -INFINITY;
 } // end normal_distribution::min()
 
 
@@ -106,10 +105,8 @@ template<typename RealType>
     normal_distribution<RealType>
       ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  // XXX this solution is pretty terrible
-  const thrust::detail::uint32_t inf_as_int = 0x7f800000u;
-  const float inf = *reinterpret_cast<const float*>(&inf_as_int);
-  return result_type(inf);
+  // XXX we should use numeric_limits, but, CUDA
+  return INFINITY;
 } // end normal_distribution::max()
 
 
