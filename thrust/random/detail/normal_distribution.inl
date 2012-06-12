@@ -19,7 +19,13 @@
 #include <thrust/random/uniform_real_distribution.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/integer_traits.h>
-#include <cmath>
+
+// for floating point infinity
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <math_constants.h>
+#else
+#include <limits>
+#endif
 
 namespace thrust
 {
@@ -95,8 +101,7 @@ template<typename RealType>
     normal_distribution<RealType>
       ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  // XXX we should use numeric_limits, but, CUDA
-  return -INFINITY;
+  return -this->max();
 } // end normal_distribution::min()
 
 
@@ -105,8 +110,18 @@ template<typename RealType>
     normal_distribution<RealType>
       ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  // XXX we should use numeric_limits, but, CUDA
-  return INFINITY;
+  // XXX this solution is pretty terrible
+  // we can't use numeric_traits<RealType>::max because nvcc will
+  // complain that it is a __host__ function
+  union
+  {
+    thrust::detail::uint32_t inf_as_int;
+    float result;
+  } hack;
+
+  hack.inf_as_int = 0x7f800000u;
+
+  return hack.result;
 } // end normal_distribution::max()
 
 
