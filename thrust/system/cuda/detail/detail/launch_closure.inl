@@ -182,21 +182,32 @@ arch::function_attributes_t closure_attributes(void)
   typedef closure_launcher<Closure> Launcher;
 
   // cache the result of function_attributes(), because it is slow
-  static bool result_exists                 = false;
-  static arch::function_attributes_t result = {};
+  // only cache the first few devices
+  static const int max_num_devices                                        = 16;
 
-  if(!result_exists)
+  static bool attributes_exist[max_num_devices]                           = {0};
+  static arch::function_attributes_t function_attributes[max_num_devices] = {};
+
+  // XXX device_id ought to be an argument to this function
+  int device_id = arch::current_device();
+
+  if(device_id >= max_num_devices)
   {
-    result = arch::function_attributes(Launcher::get_launch_function());
-
-    // disallow the compiler to move the write to result_exists
-    // before the initialization of result
-    __thrust_compiler_fence();
-
-    result_exists = true;
+    return arch::function_attributes(Launcher::get_launch_function());
   }
 
-  return result;
+  if(!attributes_exist[device_id])
+  {
+    function_attributes[device_id] = arch::function_attributes(Launcher::get_launch_function());
+
+    // disallow the compiler to move the write to attributes_exist[device_id]
+    // before the initialization of function_attributes[device_id]
+    __thrust_compiler_fence();
+
+    attributes_exist[device_id] = true;
+  }
+
+  return function_attributes[device_id];
 }
 
 } // end namespace detail
