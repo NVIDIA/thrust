@@ -24,16 +24,13 @@
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
 #include <thrust/random/detail/random_core_access.h>
+#include <thrust/random/detail/normal_distribution_base.h>
 #include <iostream>
 
 namespace thrust
 {
 
 namespace random
-{
-
-
-namespace experimental
 {
 
 
@@ -62,7 +59,7 @@ namespace experimental
  *
  *    // create a normal_distribution to produce floats from the Normal distribution
  *    // with mean 2.0 and standard deviation 3.5
- *    thrust::random::experimental::normal_distribution<float> dist(2.0f, 3.5f);
+ *    thrust::random::normal_distribution<float> dist(2.0f, 3.5f);
  *
  *    // write a random number to standard output
  *    std::cout << dist(rng) << std::endl;
@@ -83,7 +80,11 @@ namespace experimental
  */
 template<typename RealType = double>
   class normal_distribution
+    : public detail::normal_distribution_base<RealType>::type
 {
+  private:
+    typedef typename detail::normal_distribution_base<RealType>::type super_t;
+
   public:
     // types
     
@@ -116,7 +117,9 @@ template<typename RealType = double>
     __host__ __device__
     explicit normal_distribution(const param_type &parm);
 
-    /*! This does nothing.  It is included to conform to the requirements of the RandomDistribution concept.
+    /*! Calling this member function guarantees that subsequent uses of this
+     *  \p normal_distribution do not depend on values produced by any random
+     *  number generator prior to invoking this function.
      */
     __host__ __device__
     void reset(void);
@@ -262,12 +265,9 @@ operator>>(std::basic_istream<CharT,Traits> &is,
  */
 
 
-} // end experimental
-
-
 } // end random
 
-//using random::normal_distribution;
+using random::normal_distribution;
 
 } // end thrust
 
