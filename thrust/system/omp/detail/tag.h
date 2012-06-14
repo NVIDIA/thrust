@@ -130,6 +130,14 @@ inline tag select_system(thrust::system::cpp::tag, tag)
 // XXX select_system(tbb, omp) & select_system(omp, tbb) are ambiguous
 //     because both convert to cpp without these overloads, which we
 //     arbitrarily define in the omp backend
+
+__host__ __device__
+inline tag select_system(tag, thrust::system::tbb::tag)
+{
+  return tag();
+} // end select_system()
+
+// this version catches a user's tag derived from omp::tag in the first slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(Tag, thrust::system::tbb::tag)
@@ -137,6 +145,14 @@ inline Tag select_system(Tag, thrust::system::tbb::tag)
   return Tag();
 } // end select_system()
 
+
+__host__ __device__
+inline tag select_system(thrust::system::tbb::tag, tag)
+{
+  return tag();
+} // end select_system()
+
+// this version catches a user's tag derived from omp::tag in the second slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(thrust::system::tbb::tag, Tag)
