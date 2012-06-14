@@ -14,42 +14,35 @@
  *  limitations under the License.
  */
 
+
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/state.h>
 
 namespace thrust
 {
 namespace system
 {
-// put the canonical tag in the same ns as the backend's entry points
-namespace cpp
-{
 namespace detail
 {
 
+
 template<typename Derived>
   struct state
-    : thrust::system::detail::state<Derived>
-{};
+{
+  inline Derived &derived()
+  {
+    return static_cast<Derived&>(*this);
+  }
 
-struct tag : state<tag> {};
+  inline const Derived &derived() const
+  {
+    return static_cast<const Derived&>(*this);
+  }
+};
+
 
 } // end detail
-
-// alias the tag here
-using thrust::system::cpp::detail::tag;
-
-} // end cpp
 } // end system
-
-// alias cpp's tag at top-level
-namespace cpp
-{
-
-using thrust::system::cpp::tag;
-
-} // end cpp
 } // end thrust
 

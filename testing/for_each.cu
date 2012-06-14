@@ -50,7 +50,18 @@ InputIterator for_each(my_tag, InputIterator first, InputIterator, Function)
     return first;
 }
 
-void TestForEachDispatch()
+void TestForEachDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_tag t;
+    thrust::for_each(t, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestForEachDispatchExplicit);
+
+void TestForEachDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -60,7 +71,7 @@ void TestForEachDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestForEachDispatch);
+DECLARE_UNITTEST(TestForEachDispatchImplicit);
 
 
 template <class Vector>
