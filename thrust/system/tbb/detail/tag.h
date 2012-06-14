@@ -34,6 +34,13 @@ namespace detail
 struct tag : thrust::system::cpp::tag {};
 
 // select_system overloads
+__host__ __device__
+inline tag select_system(tag, tag)
+{
+  return tag();
+} // end select_system()
+
+// this version catches a user's tag derived from tbb::tag in either slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(Tag, Tag)
@@ -42,6 +49,31 @@ inline Tag select_system(Tag, Tag)
 } // end select_system()
 
 
+// this version catches a user's tag derived from tbb::tag in the first slot
+template<typename Tag>
+__host__ __device__
+inline Tag select_system(Tag, tag)
+{
+  return Tag();
+} // end select_system()
+
+
+// this version catches a user's tag derived from tbb::tag in the second slot
+template<typename Tag>
+__host__ __device__
+inline tag select_system(tag, Tag)
+{
+  return tag();
+} // end select_system()
+
+
+__host__ __device__
+inline tag select_system(tag, thrust::any_system_tag)
+{
+  return tag();
+} // end select_system()
+
+// this version catches a user's tag derived from tbb::tag in the first slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(Tag, thrust::any_system_tag)
@@ -50,6 +82,13 @@ inline Tag select_system(Tag, thrust::any_system_tag)
 } // end select_system()
 
 
+__host__ __device__
+inline tag select_system(thrust::any_system_tag, tag)
+{
+  return tag();
+} // end select_system()
+
+// this version catches a user's tag derived from tbb::tag in the second slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(thrust::any_system_tag, Tag)
@@ -58,6 +97,7 @@ inline Tag select_system(thrust::any_system_tag, Tag)
 } // end select_system()
 
 
+// this version catches a user's tag derived from tbb::tag in the first slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(Tag, thrust::system::cpp::tag)
@@ -65,12 +105,25 @@ inline Tag select_system(Tag, thrust::system::cpp::tag)
   return Tag();
 } // end select_system()
 
+__host__ __device__
+inline tag select_system(tag, thrust::system::cpp::tag)
+{
+  return tag();
+} // end select_system()
 
+
+// this version catches a user's tag derived from tbb::tag in the second slot
 template<typename Tag>
 __host__ __device__
 inline Tag select_system(thrust::system::cpp::tag, Tag)
 {
   return Tag();
+} // end select_system()
+
+__host__ __device__
+inline tag select_system(thrust::system::cpp::tag, tag)
+{
+  return tag();
 } // end select_system()
 
 
