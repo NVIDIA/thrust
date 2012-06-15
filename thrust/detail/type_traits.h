@@ -570,6 +570,14 @@ template<typename Base, typename Derived>
       >
 {};
 
+template<typename Base, typename Derived, typename Result = void>
+  struct enable_if_base_of
+    : enable_if<
+        is_base_of<Base,Derived>::value,
+        Result
+      >
+{};
+
 
 namespace is_assignable_ns
 {
