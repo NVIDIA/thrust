@@ -133,3 +133,42 @@ void TestSortByKeyUnalignedSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestSortByKeyUnalignedSimple);
 
+
+void TestSortByKeyBool(void)
+{
+    const size_t n = 10027;
+
+    thrust::host_vector<bool>   h_keys = unittest::random_integers<bool>(n);
+    thrust::host_vector<int>    h_values = unittest::random_integers<int>(n);
+
+    thrust::device_vector<bool> d_keys = h_keys;
+    thrust::device_vector<int>  d_values = h_values;
+
+    thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
+    thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+
+    ASSERT_EQUAL(h_keys, d_keys);
+    ASSERT_EQUAL(h_values, d_values);
+}
+DECLARE_UNITTEST(TestSortByKeyBool);
+
+
+void TestSortByKeyBoolDescending(void)
+{
+    const size_t n = 10027;
+
+    thrust::host_vector<bool>   h_keys = unittest::random_integers<bool>(n);
+    thrust::host_vector<int>    h_values = unittest::random_integers<int>(n);
+
+    thrust::device_vector<bool> d_keys = h_keys;
+    thrust::device_vector<int>  d_values = h_values;
+
+    thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<bool>());
+    thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<bool>());
+
+    ASSERT_EQUAL(h_keys, d_keys);
+    ASSERT_EQUAL(h_values, d_values);
+}
+DECLARE_UNITTEST(TestSortByKeyBoolDescending);
+
+

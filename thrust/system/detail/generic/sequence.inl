@@ -18,6 +18,7 @@
 #include <thrust/system/detail/generic/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/transform.h>
+#include <thrust/distance.h>
 #include <thrust/iterator/counting_iterator.h>
 
 namespace thrust

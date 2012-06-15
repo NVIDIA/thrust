@@ -14,35 +14,22 @@
  *  limitations under the License.
  */
 
-
-/*! \file destroy.h
- *  \brief Defines the interface to a function for
- *         dispatching a destructor across a range.
- */
-
 #pragma once
 
-#include <thrust/detail/type_traits.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/dispatch/destroy.h>
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
-
 namespace detail
 {
 
-template<typename ForwardIterator>
-  void destroy(ForwardIterator first,
-               ForwardIterator last)
-{
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type value_type;
 
-  thrust::detail::dispatch::destroy(first, last,
-    thrust::detail::has_trivial_destructor<value_type>());
-} // end destroy()
+template<typename Allocator, typename Pointer, typename Size, typename T>
+  inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value);
+
 
 } // end detail
-
 } // end thrust
+
+#include <thrust/detail/allocator/fill_construct_range.inl>
 

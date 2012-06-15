@@ -80,11 +80,16 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector();
 
-    /*! This constructor creates an \p omp::vector with \p n copies of \p value.
+    /*! This constructor creates a \p omp::vector with \p n default-constructed elements.
+     *  \param n The size of the \p omp::vector to create.
+     */
+    explicit vector(size_type n);
+
+    /*! This constructor creates a \p omp::vector with \p n copies of \p value.
      *  \param n The size of the \p omp::vector to create.
      *  \param value An element to copy.
      */
-    explicit vector(size_type n, const value_type &value = value_type());
+    explicit vector(size_type n, const value_type &value);
 
     /*! Copy constructor copies from another \p omp::vector.
      *  \param x The other \p omp::vector to copy.

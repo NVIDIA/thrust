@@ -62,12 +62,18 @@ template<typename T, typename Alloc>
      */
     vector_base(void);
 
+    /*! This constructor creates a vector_base with default-constructed
+     *  elements.
+     *  \param n The number of elements to create.
+     */
+    explicit vector_base(size_type n);
+
     /*! This constructor creates a vector_base with copies
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
      *  \param value An element to copy.
      */
-    explicit vector_base(size_type n, const value_type &value = value_type());
+    explicit vector_base(size_type n, const value_type &value);
 
     /*! Copy constructor copies from an exemplar vector_base.
      *  \param v The vector_base to copy.
@@ -124,6 +130,17 @@ template<typename T, typename Alloc>
 
     /*! \brief Resizes this vector_base to the specified number of elements.
      *  \param new_size Number of elements this vector_base should contain.
+     *  \throw std::length_error If n exceeds max_size9).
+     *
+     *  This method will resize this vector_base to the specified number of
+     *  elements. If the number is smaller than this vector_base's current
+     *  size this vector_base is truncated, otherwise this vector_base is
+     *  extended and new elements are default constructed.
+     */
+    void resize(size_type new_size);
+
+    /*! \brief Resizes this vector_base to the specified number of elements.
+     *  \param new_size Number of elements this vector_base should contain.
      *  \param x Data with which new elements should be populated.
      *  \throw std::length_error If n exceeds max_size().
      *
@@ -132,7 +149,7 @@ template<typename T, typename Alloc>
      *  size this vector_base is truncated, otherwise this vector_base is
      *  extended and new elements are populated with given data.
      */
-    void resize(size_type new_size, const value_type &x = value_type());
+    void resize(size_type new_size, const value_type &x);
 
     /*! Returns the number of elements in this vector_base.
      */
@@ -386,9 +403,6 @@ template<typename T, typename Alloc>
     size_type m_size;
 
   private:
-    // whether or not value_type has a trivial copy constructor
-    typedef typename has_trivial_copy_constructor<value_type>::type has_trivial_copy_constructor;
-
     // these methods resolve the ambiguity of the constructor template of form (Iterator, Iterator)
     template<typename IteratorOrIntegralType>
       void init_dispatch(IteratorOrIntegralType begin, IteratorOrIntegralType end, false_type); 
@@ -405,6 +419,8 @@ template<typename T, typename Alloc>
     template<typename ForwardIterator>
       void range_init(ForwardIterator first, ForwardIterator last, thrust::random_access_traversal_tag);
 
+    void default_init(size_type n);
+
     void fill_init(size_type n, const T &x);
 
     // these methods resolve the ambiguity of the insert() template of form (iterator, InputIterator, InputIterator)
@@ -415,12 +431,15 @@ template<typename T, typename Alloc>
     template<typename InputIteratorOrIntegralType>
       void insert_dispatch(iterator position, InputIteratorOrIntegralType n, InputIteratorOrIntegralType x, true_type);
 
-    // this method performs insertion from a range
-    template<typename InputIterator>
-      void range_insert(iterator position, InputIterator first, InputIterator last);
+    // this method appends n default-constructed elements at the end
+    void append(size_type n);
 
     // this method performs insertion from a fill value
     void fill_insert(iterator position, size_type n, const T &x);
+
+    // this method performs insertion from a range
+    template<typename InputIterator>
+      void copy_insert(iterator position, InputIterator first, InputIterator last);
 
     // these methods resolve the ambiguity of the assign() template of form (InputIterator, InputIterator)
     template<typename InputIterator>
@@ -450,14 +469,6 @@ template<typename T, typename Alloc>
     void allocate_and_copy(size_type requested_size,
                            ForwardIterator first, ForwardIterator last,
                            storage_type &new_storage);
-
-    // this method handles cross-system uninitialized_copy for types with trivial copy constructors
-    template<typename InputIterator, typename ForwardIterator>
-    ForwardIterator cross_system_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, true_type output_type_has_trivial_copy_constructor);
-
-    // this method handles cross-system uninitialized copy for types with non-trivial copy constructors
-    template<typename InputIterator, typename ForwardIterator>
-    ForwardIterator cross_system_uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, false_type output_type_has_non_trivial_copy_constructor);
 }; // end vector_base
 
 } // end detail

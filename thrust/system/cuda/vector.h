@@ -79,11 +79,16 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector();
 
+    /*! This constructor creates a \p cuda::vector with \p n default-constructed elements.
+     *  \param n The size of the \p cuda::vector to create.
+     */
+    explicit vector(size_type n);
+
     /*! This constructor creates a \p cuda::vector with \p n copies of \p value.
      *  \param n The size of the \p cuda::vector to create.
      *  \param value An element to copy.
      */
-    explicit vector(size_type n, const value_type &value = value_type());
+    explicit vector(size_type n, const value_type &value);
 
     /*! Copy constructor copies from another \p cuda::vector.
      *  \param x The other \p cuda::vector to copy.

@@ -17,9 +17,17 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/functional/operators/arithmetic_operators.h>
-#include <thrust/detail/functional/operators/relational_operators.h>
-#include <thrust/detail/functional/operators/logical_operators.h>
-#include <thrust/detail/functional/operators/bitwise_operators.h>
-#include <thrust/detail/functional/operators/compound_assignment_operators.h>
+
+namespace thrust
+{
+namespace detail
+{
+
+template<typename Allocator, typename InputIterator, typename Pointer>
+  Pointer copy_construct_range(Allocator &a, InputIterator first, InputIterator last, Pointer result);
+
+} // end detail
+} // end thrust
+
+#include <thrust/detail/allocator/copy_construct_range.inl>
 

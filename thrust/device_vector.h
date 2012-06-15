@@ -67,13 +67,21 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(void)
       :Parent() {}
 
+    /*! This constructor creates a \p device_vector with the given
+     *  size.
+     *  \param n The number of elements to initially craete.
+     */
+    __host__
+    explicit device_vector(size_type n)
+      :Parent(n) {}
+
     /*! This constructor creates a \p device_vector with copies
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
      *  \param value An element to copy.
      */
     __host__
-    explicit device_vector(size_type n, const value_type &value = value_type())
+    explicit device_vector(size_type n, const value_type &value)
       :Parent(n,value) {}
 
     /*! Copy constructor copies from an exemplar \p device_vector.

@@ -117,6 +117,9 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
     std::cout << "--verbose and --concise cannot be used together" << std::endl;
     exit(EXIT_FAILURE);
   }
+
+  // check error status before doing anything
+  if(check_cuda_error(concise)) return false;
   
   bool result = true;
 

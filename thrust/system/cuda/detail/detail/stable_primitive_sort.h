@@ -14,12 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file fast_scan.h
- *  \brief A fast scan for primitive types.
- */
-
 #pragma once
+
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -31,33 +28,22 @@ namespace detail
 {
 namespace detail
 {
-namespace fast_scan
-{
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
-OutputIterator inclusive_scan(InputIterator first,
-                              InputIterator last,
-                              OutputIterator output,
-                              BinaryFunction binary_op);
+template<typename RandomAccessIterator>
+void stable_primitive_sort(RandomAccessIterator first,
+                           RandomAccessIterator last);
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename T,
-          typename BinaryFunction>
-OutputIterator exclusive_scan(InputIterator first,
-                              InputIterator last,
-                              OutputIterator output,
-                              const T init,
-                              BinaryFunction binary_op);
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+void stable_primitive_sort_by_key(RandomAccessIterator1 keys_first,
+                                  RandomAccessIterator1 keys_last,
+                                  RandomAccessIterator2 values_first);
 
-} // end namespace fast_scan
 } // end namespace detail
 } // end namespace detail
 } // end namespace cuda
 } // end namespace system
 } // end namespace thrust
 
-#include "fast_scan.inl"
+#include <thrust/system/cuda/detail/detail/stable_primitive_sort.inl>
 

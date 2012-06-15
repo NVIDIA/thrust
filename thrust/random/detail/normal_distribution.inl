@@ -20,20 +20,24 @@
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/integer_traits.h>
 
+// for floating point infinity
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <math_constants.h>
+#else
+#include <limits>
+#endif
+
 namespace thrust
 {
 
 namespace random
 {
 
-namespace experimental
-{
-
 
 template<typename RealType>
   normal_distribution<RealType>
     ::normal_distribution(RealType a, RealType b)
-      :m_param(a,b)
+      :super_t(),m_param(a,b)
 {
 } // end normal_distribution::normal_distribution()
 
@@ -41,7 +45,7 @@ template<typename RealType>
 template<typename RealType>
   normal_distribution<RealType>
     ::normal_distribution(const param_type &parm)
-      :m_param(parm)
+      :super_t(),m_param(parm)
 {
 } // end normal_distribution::normal_distribution()
 
@@ -50,6 +54,7 @@ template<typename RealType>
   void normal_distribution<RealType>
     ::reset(void)
 {
+  super_t::reset();
 } // end normal_distribution::reset()
 
 
@@ -70,30 +75,7 @@ template<typename RealType>
         ::operator()(UniformRandomNumberGenerator &urng,
                      const param_type &parm)
 {
-  typedef typename UniformRandomNumberGenerator::result_type uint_type;
-  const uint_type urng_range = UniformRandomNumberGenerator::max - UniformRandomNumberGenerator::min;
-
-  // Constants for conversion
-  const result_type S1 = static_cast<result_type>(1) / urng_range;
-  const result_type S2 = S1 / 2;
-
-  result_type S3 = static_cast<result_type>(-1.4142135623730950488016887242097); // -sqrt(2)
-  
-  // Get the integer value
-  uint_type u = urng() - UniformRandomNumberGenerator::min;
-
-  // Ensure the conversion to float will give a value in the range [0,0.5)
-  if(u > (urng_range / 2))
-  {
-    u = urng_range - u;
-    S3 = -S3;
-  }
-
-  // Convert to floating point in [0,0.5)
-  result_type p = u*S1 + S2;
-
-  // Apply inverse error function
-  return parm.first + parm.second * S3 * erfcinv(2 * p);
+  return super_t::sample(urng, parm.first, parm.second);
 } // end normal_distribution::operator()()
 
 
@@ -119,10 +101,7 @@ template<typename RealType>
     normal_distribution<RealType>
       ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  // XXX this solution is pretty terrible
-  const thrust::detail::uint32_t inf_as_int = 0x7f800000u;
-  const float inf = *reinterpret_cast<const float*>(&inf_as_int);
-  return result_type(-inf);
+  return -this->max();
 } // end normal_distribution::min()
 
 
@@ -132,9 +111,17 @@ template<typename RealType>
       ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   // XXX this solution is pretty terrible
-  const thrust::detail::uint32_t inf_as_int = 0x7f800000u;
-  const float inf = *reinterpret_cast<const float*>(&inf_as_int);
-  return result_type(inf);
+  // we can't use numeric_traits<RealType>::max because nvcc will
+  // complain that it is a __host__ function
+  union
+  {
+    thrust::detail::uint32_t inf_as_int;
+    float result;
+  } hack;
+
+  hack.inf_as_int = 0x7f800000u;
+
+  return hack.result;
 } // end normal_distribution::max()
 
 
@@ -247,8 +234,6 @@ operator>>(std::basic_istream<CharT,Traits> &is,
   return thrust::random::detail::random_core_access::stream_in(is,d);
 }
 
-
-} // end experimental
 
 } // end random
 

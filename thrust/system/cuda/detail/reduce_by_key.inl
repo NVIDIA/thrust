@@ -40,6 +40,7 @@
 #include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/reduce_intervals.h>
+#include <thrust/system/cuda/detail/detail/uninitialized.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -435,14 +436,12 @@ struct reduce_by_key_closure
     // TODO replace this with a static_min<BOUND_1,BOUND_2,BOUND_3>::value
     const unsigned int K = (BOUND_1 < BOUND_2) ? (BOUND_1 < BOUND_3 ? BOUND_1 : BOUND_3) : (BOUND_2 < BOUND_3 ? BOUND_2 : BOUND_3);
   
-    __shared__ FlagType  sflag[CTA_SIZE]; 
-    __shared__ ValueType sdata[K][CTA_SIZE + 1];  // padded to avoid bank conflicts
+    __shared__ detail::uninitialized<FlagType[CTA_SIZE]>         sflag;
+    __shared__ detail::uninitialized<ValueType[K][CTA_SIZE + 1]> sdata;  // padded to avoid bank conflicts
   
-    __shared__ ValueType carry_value; // storage for carry in and carry out
-    __shared__ IndexType carry_index;
-    __shared__ bool      carry_in; 
-  
-    context.barrier(); // XXX needed because CUDA fires default constructors now
+    __shared__ detail::uninitialized<ValueType> carry_value; // storage for carry in and carry out
+    __shared__ detail::uninitialized<IndexType> carry_index;
+    __shared__ detail::uninitialized<bool>      carry_in; 
 
     typename Decomposition::range_type interval = decomp[context.block_index()];
     //thrust::system::detail::internal::index_range<IndexType> interval = decomp[context.block_index()];
@@ -480,7 +479,7 @@ struct reduce_by_key_closure
     while (base + unit_size <= interval.end())
     {
       const unsigned int n = unit_size;
-      reduce_by_key_body<CTA_SIZE,K,true>(context, n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag, sdata, carry_in, carry_index, carry_value);
+      reduce_by_key_body<CTA_SIZE,K,true>(context, n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag.get(), sdata.get(), carry_in.get(), carry_index.get(), carry_value.get());
       base   += unit_size;
       ikeys  += unit_size;
       ivals  += unit_size;
@@ -493,7 +492,7 @@ struct reduce_by_key_closure
     if (base < interval.end())
     {
       const unsigned int n = interval.end() - base;
-      reduce_by_key_body<CTA_SIZE,K,false>(context, n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag, sdata, carry_in, carry_index, carry_value);
+      reduce_by_key_body<CTA_SIZE,K,false>(context, n, ikeys, ivals, okeys, ovals, binary_pred, binary_op, iflags, sflag.get(), sdata.get(), carry_in.get(), carry_index.get(), carry_value.get());
     }
   
     if (context.thread_index() == 0)

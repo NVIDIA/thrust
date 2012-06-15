@@ -27,7 +27,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/raw_pointer_cast.h>
-#include <thrust/extrema.h>
+#include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
 
 #include <thrust/system/cuda/detail/arch.h>

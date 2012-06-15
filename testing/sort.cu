@@ -114,4 +114,33 @@ void TestSortUnalignedSimple(void)
 DECLARE_VECTOR_UNITTEST(TestSortUnalignedSimple);
 
 
+void TestSortBool(void)
+{
+    const size_t n = 10027;
+
+    thrust::host_vector<bool>   h_data = unittest::random_integers<bool>(n);
+    thrust::device_vector<bool> d_data = h_data;
+
+    thrust::sort(h_data.begin(), h_data.end());
+    thrust::sort(d_data.begin(), d_data.end());
+
+    ASSERT_EQUAL(h_data, d_data);
+}
+DECLARE_UNITTEST(TestSortBool);
+
+
+void TestSortBoolDescending(void)
+{
+    const size_t n = 10027;
+
+    thrust::host_vector<bool>   h_data = unittest::random_integers<bool>(n);
+    thrust::device_vector<bool> d_data = h_data;
+
+    thrust::sort(h_data.begin(), h_data.end(), thrust::greater<bool>());
+    thrust::sort(d_data.begin(), d_data.end(), thrust::greater<bool>());
+
+    ASSERT_EQUAL(h_data, d_data);
+}
+DECLARE_UNITTEST(TestSortBoolDescending);
+
 
