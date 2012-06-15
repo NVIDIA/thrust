@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/detail/any_system_tag.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -43,7 +44,8 @@ inline tag select_system(tag, tag)
 // this version catches a user's tag derived from tbb::tag in either slot
 template<typename Tag>
 __host__ __device__
-inline Tag select_system(Tag, Tag)
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, Tag)
 {
   return Tag();
 } // end select_system()
@@ -51,8 +53,9 @@ inline Tag select_system(Tag, Tag)
 
 // this version catches a user's tag derived from tbb::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, tag)
 {
   return Tag();
 } // end select_system()
@@ -60,8 +63,9 @@ inline Tag select_system(Tag, tag)
 
 // this version catches a user's tag derived from tbb::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline tag select_system(tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,tag>::type
+    select_system(tag, Tag)
 {
   return tag();
 } // end select_system()
@@ -75,8 +79,9 @@ inline tag select_system(tag, thrust::any_system_tag)
 
 // this version catches a user's tag derived from tbb::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::any_system_tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, thrust::any_system_tag)
 {
   return Tag();
 } // end select_system()
@@ -90,8 +95,9 @@ inline tag select_system(thrust::any_system_tag, tag)
 
 // this version catches a user's tag derived from tbb::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::any_system_tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(thrust::any_system_tag, Tag)
 {
   return Tag();
 } // end select_system()
@@ -99,8 +105,9 @@ inline Tag select_system(thrust::any_system_tag, Tag)
 
 // this version catches a user's tag derived from tbb::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::system::cpp::tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, thrust::system::cpp::tag)
 {
   return Tag();
 } // end select_system()
@@ -114,8 +121,9 @@ inline tag select_system(tag, thrust::system::cpp::tag)
 
 // this version catches a user's tag derived from tbb::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::system::cpp::tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(thrust::system::cpp::tag, Tag)
 {
   return Tag();
 } // end select_system()

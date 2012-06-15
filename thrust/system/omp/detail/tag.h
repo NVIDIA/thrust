@@ -20,6 +20,7 @@
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/system/tbb/detail/tag.h>
 #include <thrust/iterator/detail/any_system_tag.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -43,26 +44,29 @@ inline tag select_system(tag, tag)
 } // end select_system()
 
 
-// this version catches a user's tag derived from tbb::tag in either slot
+// this version catches a user's tag derived from omp::tag in either slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, Tag)
 {
   return Tag();
 } // end select_system()
 
-// this version catches a user's tag derived from tbb::tag in the first slot
+// this version catches a user's tag derived from omp::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, tag)
 {
   return Tag();
 } // end select_system()
 
-// this version catches a user's tag derived from tbb::tag in the second slot
+// this version catches a user's tag derived from omp::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline tag select_system(tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,tag>::type
+    select_system(tag, Tag)
 {
   return tag();
 } // end select_system()
@@ -76,8 +80,9 @@ inline tag select_system(tag, thrust::any_system_tag)
 
 // this version catches a user's tag derived from omp::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::any_system_tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, thrust::any_system_tag)
 {
   return Tag();
 } // end select_system()
@@ -88,19 +93,21 @@ inline tag select_system(thrust::any_system_tag, tag)
   return tag();
 } // end select_system()
 
-// this version catches a user's tag derived from tbb::tag in the second slot
+// this version catches a user's tag derived from omp::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::any_system_tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(thrust::any_system_tag, Tag)
 {
   return Tag();
 } // end select_system()
 
 
-// this version catches a user's tag derived from tbb::tag in the first slot
+// this version catches a user's tag derived from omp::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::system::cpp::tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, thrust::system::cpp::tag)
 {
   return Tag();
 } // end select_system()
@@ -112,10 +119,11 @@ inline tag select_system(tag, thrust::system::cpp::tag)
 } // end select_system()
 
 
-// this version catches a user's tag derived from tbb::tag in the second slot
+// this version catches a user's tag derived from omp::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::system::cpp::tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(thrust::system::cpp::tag, Tag)
 {
   return Tag();
 } // end select_system()
@@ -139,8 +147,9 @@ inline tag select_system(tag, thrust::system::tbb::tag)
 
 // this version catches a user's tag derived from omp::tag in the first slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::system::tbb::tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(Tag, thrust::system::tbb::tag)
 {
   return Tag();
 } // end select_system()
@@ -154,8 +163,9 @@ inline tag select_system(thrust::system::tbb::tag, tag)
 
 // this version catches a user's tag derived from omp::tag in the second slot
 template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::system::tbb::tag, Tag)
+inline __host__ __device__
+  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
+    select_system(thrust::system::tbb::tag, Tag)
 {
   return Tag();
 } // end select_system()
