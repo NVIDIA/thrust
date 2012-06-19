@@ -61,36 +61,42 @@ class iterator_core_access
     // iterator comparisons are our friends
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend bool
     operator ==(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
                 iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend bool
     operator !=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
                 iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend bool
     operator <(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
                iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend bool
     operator >(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
                iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend bool
     operator <=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
                 iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
 
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend bool
     operator >=(iterator_facade<ITERATOR_FACADE_ARGS_I(1)> const& lhs,
                 iterator_facade<ITERATOR_FACADE_ARGS_I(2)> const& rhs);
@@ -98,6 +104,7 @@ class iterator_core_access
     // iterator difference is our friend
     template <ITERATOR_FACADE_FORMAL_PARMS_I(1),
               ITERATOR_FACADE_FORMAL_PARMS_I(2)>
+    inline __host__ __device__
     friend
       typename thrust::detail::distance_from_result<
         iterator_facade<ITERATOR_FACADE_ARGS_I(1)>,

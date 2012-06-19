@@ -23,7 +23,8 @@ namespace thrust
 {
 
 template<typename Assignable1, typename Assignable2>
-  void swap(Assignable1 &a, Assignable2 &b)
+__host__ __device__
+inline void swap(Assignable1 &a, Assignable2 &b)
 {
   Assignable1 temp = a;
   a = b;
