@@ -27,19 +27,29 @@ namespace detail
 {
 
 
+// XXX find a different home for this, possibly thrust::
+// XXX possibly give it a new name
 template<typename Derived>
-  struct state
+  struct dispatchable
 {
+  __host__ __device__
   inline Derived &derived()
   {
     return static_cast<Derived&>(*this);
   }
 
+  __host__ __device__
   inline const Derived &derived() const
   {
     return static_cast<const Derived&>(*this);
   }
 };
+
+
+template<typename Derived>
+  struct state
+    : dispatchable<Derived>
+{};
 
 
 } // end detail

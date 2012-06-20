@@ -65,18 +65,18 @@ inline __host__ __device__
 
 } // end anon namespace
 
-template<typename Pointer1, typename Pointer2>
+template<typename System, typename Pointer1, typename Pointer2>
 inline __host__ __device__
-  void assign_value(cuda::tag, Pointer1 dst, Pointer2 src)
+  void assign_value(thrust::system::cuda::detail::state<System> &s, Pointer1 dst, Pointer2 src)
 {
   return assign_value_msvc2005_war(dst,src);
 } // end assign_value()
 
 #else
 
-template<typename Pointer1, typename Pointer2>
+template<typename System, typename Pointer1, typename Pointer2>
 inline __host__ __device__
-  void assign_value(cuda::tag, Pointer1 dst, Pointer2 src)
+  void assign_value(thrust::system::cuda::detail::state<System> &, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
@@ -107,7 +107,8 @@ inline __host__ __device__
   void assign_value(cpp_to_cuda, Pointer1 dst, Pointer2 src)
 {
 #if __CUDA_ARCH__
-  thrust::system::cuda::detail::assign_value(cuda::tag(), dst, src);
+  cuda::tag t;
+  thrust::system::cuda::detail::assign_value(t, dst, src);
 #else
   thrust::copy(src, src + 1, dst);
 #endif
@@ -118,7 +119,8 @@ inline __host__ __device__
   void assign_value(cuda_to_cpp, Pointer1 dst, Pointer2 src)
 {
 #if __CUDA_ARCH__
-  thrust::system::cuda::detail::assign_value(cuda::tag(), dst, src);
+  cuda::tag t;
+  thrust::system::cuda::detail::assign_value(t, dst, src);
 #else
   thrust::copy(src, src + 1, dst);
 #endif

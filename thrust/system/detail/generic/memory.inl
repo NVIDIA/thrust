@@ -31,34 +31,34 @@ namespace generic
 {
 
 
-template<typename Size>
-  void malloc(tag, Size)
+template<typename System, typename Size>
+  void malloc(thrust::system::detail::state<System> &, Size)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
 }
 
 
-template<typename Pointer>
-  void free(tag, Pointer)
+template<typename System, typename Pointer>
+  void free(thrust::system::detail::state<System> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
 }
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename System, typename Pointer1, typename Pointer2>
 __host__ __device__
-void assign_value(tag, Pointer1, Pointer2)
+void assign_value(thrust::system::detail::state<System> &, Pointer1, Pointer2)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
 }
 
 
-template<typename Pointer>
+template<typename System, typename Pointer>
 __host__ __device__
-void get_value(tag, Pointer)
+void get_value(thrust::system::detail::state<System> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );

@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/state.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/static_assert.h>
 
@@ -35,15 +36,17 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(tag,
+InputIterator for_each(thrust::system::detail::state<System> &s,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  return last;
 } // end for_each()
 
 

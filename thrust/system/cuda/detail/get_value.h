@@ -73,10 +73,10 @@ inline __host__ __device__
 } // end anon namespace
 
 
-template<typename Pointer>
+template<typename System, typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(tag, Pointer ptr)
+    get_value(thrust::system::cuda::detail::state<System> &, Pointer ptr)
 {
   return get_value_msvc2005_war(ptr);
 } // end get_value()

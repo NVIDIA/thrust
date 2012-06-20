@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/state.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 
@@ -30,10 +31,31 @@ namespace cuda
 namespace detail
 {
 
-struct tag {};
+template<typename Derived> struct state;
 
-struct cuda_to_cpp  {};
-struct cpp_to_cuda  {};
+template<typename Derived>
+  struct state_base
+{
+  typedef thrust::system::detail::state<Derived> type;
+};
+
+template<>
+  struct state_base<void>
+{
+  typedef thrust::system::detail::state<
+    state<void>
+  > type;
+};
+
+template<typename Derived>
+  struct state
+    : state_base<Derived>::type
+{};
+
+typedef state<void> tag;
+
+struct cuda_to_cpp  : thrust::system::detail::state<cuda_to_cpp>{};
+struct cpp_to_cuda  : thrust::system::detail::state<cpp_to_cuda>{};
 
 
 template<typename Tag>

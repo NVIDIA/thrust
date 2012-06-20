@@ -29,12 +29,28 @@ namespace cpp
 namespace detail
 {
 
+template<typename Derived> struct state;
+
+template<typename Derived>
+  struct state_base
+{
+  typedef thrust::system::detail::state<Derived> type;
+};
+
+template<>
+  struct state_base<void>
+{
+  typedef thrust::system::detail::state<
+    state<void>
+  > type;
+};
+
 template<typename Derived>
   struct state
-    : thrust::system::detail::state<Derived>
+    : state_base<Derived>::type
 {};
 
-struct tag : state<tag> {};
+typedef state<void> tag;
 
 } // end detail
 

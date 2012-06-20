@@ -2,11 +2,13 @@
 #include <thrust/for_each.h>
 #include <thrust/device_ptr.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/system/cpp/vector.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-struct my_tag : thrust::device_system_tag {};
+// XXX change this to derive from the default device system (somehow)
+struct my_system : thrust::system::cpp::detail::state<my_system> {};
 
 template <typename T>
 class mark_present_for_each
@@ -44,7 +46,7 @@ DECLARE_VECTOR_UNITTEST(TestForEachSimple);
 
 
 template<typename InputIterator, typename Function>
-InputIterator for_each(my_tag, InputIterator first, InputIterator, Function)
+InputIterator for_each(my_system, InputIterator first, InputIterator, Function)
 {
     *first = 13;
     return first;
@@ -52,10 +54,10 @@ InputIterator for_each(my_tag, InputIterator first, InputIterator, Function)
 
 void TestForEachDispatchExplicit()
 {
-    thrust::device_vector<int> vec(1);
+    thrust::cpp::vector<int> vec(1);
 
-    my_tag t;
-    thrust::for_each(t, vec.begin(), vec.end(), 0);
+    my_system sys;
+    thrust::for_each(sys, vec.begin(), vec.end(), 0);
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -63,10 +65,10 @@ DECLARE_UNITTEST(TestForEachDispatchExplicit);
 
 void TestForEachDispatchImplicit()
 {
-    thrust::device_vector<int> vec(1);
+    thrust::cpp::vector<int> vec(1);
 
-    thrust::for_each(thrust::retag<my_tag>(vec.begin()),
-                     thrust::retag<my_tag>(vec.end()),
+    thrust::for_each(thrust::retag<my_system>(vec.begin()),
+                     thrust::retag<my_system>(vec.end()),
                      0);
 
     ASSERT_EQUAL(13, vec.front());
@@ -102,7 +104,7 @@ DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
 
 
 template<typename InputIterator, typename Size, typename Function>
-InputIterator for_each_n(my_tag, InputIterator first, Size, Function)
+InputIterator for_each_n(my_system, InputIterator first, Size, Function)
 {
     *first = 13;
     return first;
@@ -112,7 +114,7 @@ void TestForEachNDispatch()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::for_each_n(thrust::retag<my_tag>(vec.begin()),
+    thrust::for_each_n(thrust::retag<my_system>(vec.begin()),
                        vec.size(),
                        0);
 

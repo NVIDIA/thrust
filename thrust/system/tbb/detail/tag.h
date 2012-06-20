@@ -32,7 +32,7 @@ namespace detail
 {
 
 // tbb inherits cpp's functionality
-struct tag : thrust::system::cpp::tag {};
+struct tag : thrust::system::cpp::detail::state<tag> {};
 
 // select_system overloads
 __host__ __device__

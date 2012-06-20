@@ -35,7 +35,6 @@ namespace detail
 // omp inherits cpp's functionality
 struct tag : thrust::system::cpp::tag {};
 
-
 // select system overloads
 __host__ __device__
 inline tag select_system(tag, tag)

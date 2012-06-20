@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <cstdlib> // for malloc & free
+#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -32,14 +33,15 @@ namespace detail
 
 // note that malloc returns a raw pointer to avoid
 // depending on the heavyweight thrust/system/cpp/memory.h header
-inline void *malloc(tag, std::size_t n)
+template<typename System>
+inline void *malloc(thrust::system::cpp::detail::state<System> &, std::size_t n)
 {
   return std::malloc(n);
 } // end malloc()
 
 
-template<typename Pointer>
-inline void free(tag, Pointer ptr)
+template<typename System, typename Pointer>
+inline void free(thrust::system::cpp::detail::state<System> &, Pointer ptr)
 {
   std::free(thrust::raw_pointer_cast(ptr));
 } // end free()

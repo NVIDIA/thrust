@@ -30,9 +30,10 @@ namespace detail
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(tag &,
+InputIterator for_each(thrust::system::cpp::detail::state<System> &,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)

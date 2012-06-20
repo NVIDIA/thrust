@@ -23,6 +23,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/state.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/pointer.h>
@@ -38,17 +39,17 @@ namespace detail
 namespace generic
 {
 
-template<typename Size> void malloc(tag, Size);
+template<typename System, typename Size> void malloc(thrust::system::detail::state<System> &, Size);
 
-template<typename Pointer> void free(tag, Pointer);
+template<typename System, typename Pointer> void free(thrust::system::detail::state<System> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
 void assign_value(tag, Pointer1, Pointer2);
 
-template<typename Pointer>
+template<typename System, typename Pointer>
 __host__ __device__
-void get_value(tag, Pointer);
+void get_value(thrust::system::detail::state<System> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
