@@ -28,12 +28,12 @@ namespace detail
 
 
 // we can retag an iterator if FromTag converts to ToTag
-// or if FromTag is a base class of ToTag
+// or vice versa
 template<typename FromTag, typename ToTag>
   struct is_retaggable
     : integral_constant<
         bool,
-        (is_convertible<FromTag,ToTag>::value || is_base_of<FromTag,ToTag>::value)
+        (is_convertible<FromTag,ToTag>::value || is_convertible<ToTag,FromTag>::value)
       >
 {};
 
