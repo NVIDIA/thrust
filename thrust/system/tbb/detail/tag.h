@@ -31,107 +31,78 @@ namespace tbb
 namespace detail
 {
 
-// tbb inherits cpp's functionality
-struct tag : thrust::system::cpp::detail::state<tag> {};
+// forward declaration of state
+template<typename> struct state;
 
-// select_system overloads
-__host__ __device__
-inline tag select_system(tag, tag)
+// tag's specialization comes first
+// note we inherit cpp's functionality
+template<>
+  struct state<void>
+    : thrust::system::cpp::detail::state< state<void> >
+{};
+
+// tag is just a typedef for state<void>
+typedef state<void> tag;
+
+// note we inherit cpp's functionality
+template<typename Derived>
+  struct state
+    : thrust::system::cpp::detail::state<Derived>
 {
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from tbb::tag in either slot
-template<typename Tag>
-__host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, Tag)
-{
-  return Tag();
-} // end select_system()
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
 
 
-// this version catches a user's tag derived from tbb::tag in the first slot
-template<typename Tag>
+// overloads of select_system
+template<typename DerivedSystem1, typename DerivedSystem2>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, tag)
+  typename state<DerivedSystem1>::derived_type
+    select_system(state<DerivedSystem1> s1, state<DerivedSystem2> s2)
 {
-  return Tag();
+  // the first one wins
+  // XXX it probably makes more sense to return the more derived system,
+  //     but i don't know how to divine that info
+  return s1.derived();
 } // end select_system()
 
 
-// this version catches a user's tag derived from tbb::tag in the second slot
-template<typename Tag>
+template<typename DerivedSystem>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,tag>::type
-    select_system(tag, Tag)
+  typename state<DerivedSystem>::derived_type
+    select_system(state<DerivedSystem> s, thrust::any_system_tag)
 {
-  return tag();
+  return s.derived();
 } // end select_system()
 
 
-__host__ __device__
-inline tag select_system(tag, thrust::any_system_tag)
-{
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from tbb::tag in the first slot
-template<typename Tag>
+template<typename DerivedSystem>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, thrust::any_system_tag)
+  typename state<DerivedSystem>::derived_type
+    select_system(thrust::any_system_tag, state<DerivedSystem> s)
 {
-  return Tag();
+  return s.derived();
 } // end select_system()
 
 
-__host__ __device__
-inline tag select_system(thrust::any_system_tag, tag)
-{
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from tbb::tag in the second slot
-template<typename Tag>
+template<typename DerivedSystem>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(thrust::any_system_tag, Tag)
+  typename state<DerivedSystem>::derived_type
+    select_system(state<DerivedSystem> s, thrust::system::cpp::tag)
 {
-  return Tag();
+  return s.derived();
 } // end select_system()
 
 
-// this version catches a user's tag derived from tbb::tag in the first slot
-template<typename Tag>
+template<typename DerivedSystem>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, thrust::system::cpp::tag)
+  typename state<DerivedSystem>::derived_type
+    select_system(thrust::system::cpp::tag, state<DerivedSystem> s)
 {
-  return Tag();
-} // end select_system()
-
-__host__ __device__
-inline tag select_system(tag, thrust::system::cpp::tag)
-{
-  return tag();
-} // end select_system()
-
-
-// this version catches a user's tag derived from tbb::tag in the second slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(thrust::system::cpp::tag, Tag)
-{
-  return Tag();
-} // end select_system()
-
-__host__ __device__
-inline tag select_system(thrust::system::cpp::tag, tag)
-{
-  return tag();
+  return s.derived();
 } // end select_system()
 
 

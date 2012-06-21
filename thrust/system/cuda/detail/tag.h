@@ -31,81 +31,77 @@ namespace cuda
 namespace detail
 {
 
-template<typename Derived> struct state;
+// forward declaration of state
+template<typename> struct state;
 
-template<typename Derived>
-  struct state_base
-{
-  typedef thrust::system::detail::state<Derived> type;
-};
-
+// tag's specialization comes first
 template<>
-  struct state_base<void>
-{
-  typedef thrust::system::detail::state<
-    state<void>
-  > type;
-};
+  struct state<void>
+    : thrust::system::detail::state< state<void> >
+{};
+
+// tag is just a typedef for state<void>
+typedef state<void> tag;
 
 template<typename Derived>
   struct state
-    : state_base<Derived>::type
-{};
-
-typedef state<void> tag;
+    : thrust::system::detail::state<Derived>
+{
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
 
 struct cuda_to_cpp  : thrust::system::detail::state<cuda_to_cpp>{};
 struct cpp_to_cuda  : thrust::system::detail::state<cpp_to_cuda>{};
 
 
-template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, Tag)
+// overloads of select_system
+template<typename DerivedSystem1, typename DerivedSystem2>
+inline __host__ __device__
+  typename state<DerivedSystem1>::derived_type
+    select_system(state<DerivedSystem1> s1, state<DerivedSystem2> s2)
 {
-  return Tag();
+  return s1.derived();
 }
 
-template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::any_system_tag)
+
+template<typename DerivedSystem>
+inline __host__ __device__
+  typename state<DerivedSystem>::derived_type
+    select_system(state<DerivedSystem> s, thrust::any_system_tag)
 {
-  return Tag();
+  return s.derived();
 }
 
-template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::any_system_tag, Tag)
+
+template<typename DerivedSystem>
+inline __host__ __device__
+  typename state<DerivedSystem>::derived_type
+    select_system(thrust::any_system_tag, state<DerivedSystem> s)
 {
-  return Tag();
+  return s.derived();
 }
 
-// this version catches a user's tag derived from cuda::tag in the first slot
-template<typename Tag>
-__host__ __device__
-inline cuda_to_cpp select_system(Tag, thrust::system::cpp::tag)
+
+// cpp interop
+template<typename DerivedSystem>
+inline __host__ __device__
+cuda_to_cpp select_system(state<DerivedSystem>, thrust::system::cpp::tag)
 {
   return cuda_to_cpp();
 }
 
-__host__ __device__
-inline cuda_to_cpp select_system(tag, thrust::system::cpp::tag)
-{
-  return cuda_to_cpp();
-}
 
-// this version catches a user's tag derived from cuda::tag in the second slot
-template<typename Tag>
-__host__ __device__
-inline cpp_to_cuda select_system(thrust::system::cpp::tag, Tag)
+template<typename DerivedSystem>
+inline __host__ __device__
+cpp_to_cuda select_system(thrust::system::cpp::tag, state<DerivedSystem>)
 {
   return cpp_to_cuda();
 }
 
-__host__ __device__
-inline cpp_to_cuda select_system(thrust::system::cpp::tag, tag)
-{
-  return cpp_to_cuda();
-}
 
 } // end detail
 

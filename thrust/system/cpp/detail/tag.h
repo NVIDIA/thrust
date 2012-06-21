@@ -29,28 +29,28 @@ namespace cpp
 namespace detail
 {
 
-template<typename Derived> struct state;
+// forward declaration of state
+template<typename> struct state;
 
-template<typename Derived>
-  struct state_base
-{
-  typedef thrust::system::detail::state<Derived> type;
-};
-
+// tag's specialization comes first
 template<>
-  struct state_base<void>
-{
-  typedef thrust::system::detail::state<
-    state<void>
-  > type;
-};
+  struct state<void>
+    : thrust::system::detail::state< state<void> >
+{};
+
+// tag is just a typedef for state<void>
+typedef state<void> tag;
 
 template<typename Derived>
   struct state
-    : state_base<Derived>::type
-{};
-
-typedef state<void> tag;
+    : thrust::system::detail::state<Derived>
+{
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
 
 } // end detail
 

@@ -2,13 +2,12 @@
 #include <thrust/for_each.h>
 #include <thrust/device_ptr.h>
 #include <thrust/iterator/counting_iterator.h>
-#include <thrust/system/cpp/vector.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 // XXX change this to derive from the default device system (somehow)
-struct my_system : thrust::system::cpp::detail::state<my_system> {};
+struct my_system : thrust::device_system_state<my_system> {};
 
 template <typename T>
 class mark_present_for_each
@@ -54,7 +53,7 @@ InputIterator for_each(my_system, InputIterator first, InputIterator, Function)
 
 void TestForEachDispatchExplicit()
 {
-    thrust::cpp::vector<int> vec(1);
+    thrust::device_vector<int> vec(1);
 
     my_system sys;
     thrust::for_each(sys, vec.begin(), vec.end(), 0);
@@ -65,7 +64,7 @@ DECLARE_UNITTEST(TestForEachDispatchExplicit);
 
 void TestForEachDispatchImplicit()
 {
-    thrust::cpp::vector<int> vec(1);
+    thrust::device_vector<int> vec(1);
 
     thrust::for_each(thrust::retag<my_system>(vec.begin()),
                      thrust::retag<my_system>(vec.end()),

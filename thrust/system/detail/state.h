@@ -32,16 +32,18 @@ namespace detail
 template<typename Derived>
   struct dispatchable
 {
+  typedef Derived derived_type;
+
   __host__ __device__
-  inline Derived &derived()
+  inline derived_type &derived()
   {
-    return static_cast<Derived&>(*this);
+    return static_cast<derived_type&>(*this);
   }
 
   __host__ __device__
-  inline const Derived &derived() const
+  inline const derived_type &derived() const
   {
-    return static_cast<const Derived&>(*this);
+    return static_cast<const derived_type&>(*this);
   }
 };
 
