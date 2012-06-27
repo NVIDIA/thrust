@@ -51,7 +51,7 @@ T1 ceil_div(T1 up, T2 down)
 }
 
 
-__host__ __device__ __forceinline__
+inline __host__ __device__
 unsigned int align_size_to_int(unsigned int num_bytes)
 {
   return (num_bytes / sizeof(int)) + ((num_bytes % sizeof(int)) ? 1 : 0);
@@ -65,7 +65,7 @@ unsigned int align_size_to_int(unsigned int num_bytes)
  *        of \c ints that would accomodate a contiguous array of \p num_elements \p Ts.
  */
 template<typename T>
-__host__ __device__ __forceinline__
+inline __host__ __device__
 unsigned int align_array_size_to_int(unsigned int num_elements)
 {
   unsigned int num_bytes = num_elements * sizeof(T);
