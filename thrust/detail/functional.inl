@@ -66,7 +66,7 @@ template<typename Result, typename Argument1, typename Argument2>
   typedef Argument2 second_argument_type;
 }; // end binary_traits_imp
 
-}; // end detail
+} // end detail
 
 template<typename Operation>
   struct unary_traits
