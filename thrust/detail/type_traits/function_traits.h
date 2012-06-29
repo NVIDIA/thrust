@@ -39,13 +39,13 @@ namespace detail
 
 // some metafunctions which check for the nested types of the adaptable functions
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_result_type, result_type);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_result_type, result_type)
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_argument_type, argument_type);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_argument_type, argument_type)
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_first_argument_type, first_argument_type);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_first_argument_type, first_argument_type)
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_second_argument_type, second_argument_type);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_second_argument_type, second_argument_type)
 
 
 template<typename AdaptableBinaryFunction>
