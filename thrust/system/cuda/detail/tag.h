@@ -37,7 +37,8 @@ template<typename> struct state;
 // tag's specialization comes first
 template<>
   struct state<void>
-    : thrust::system::detail::state< state<void> >
+    : thrust::system::detail::state< state<void> >,
+      private virtual thrust::system::detail::final
 {};
 
 // tag is just a typedef for state<void>
@@ -45,8 +46,7 @@ typedef state<void> tag;
 
 template<typename Derived>
   struct state
-    : thrust::system::detail::state<Derived>,
-      thrust::system::detail::final
+    : thrust::system::detail::state<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
