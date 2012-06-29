@@ -53,6 +53,15 @@ template<typename Derived>
     : dispatchable<Derived>
 {};
 
+// a class which derives from this type
+// can't (easily) be derived further
+class final
+{
+  protected:
+    inline __host__ __device__
+    final() {}
+};
+
 
 } // end detail
 } // end system
