@@ -35,7 +35,8 @@ template<typename> struct state;
 // tag's specialization comes first
 template<>
   struct state<void>
-    : thrust::system::detail::state< state<void> >
+    : thrust::system::detail::state< state<void> >,
+      thrust::system::detail::final
 {};
 
 // tag is just a typedef for state<void>

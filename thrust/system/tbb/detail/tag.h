@@ -38,7 +38,8 @@ template<typename> struct state;
 // note we inherit cpp's functionality
 template<>
   struct state<void>
-    : thrust::system::cpp::detail::state< state<void> >
+    : thrust::system::cpp::detail::state< state<void> >,
+      private virtual thrust::system::detail::final
 {};
 
 // tag is just a typedef for state<void>

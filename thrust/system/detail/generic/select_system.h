@@ -17,7 +17,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/state.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/is_metafunction_defined.h>
 #include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/system/detail/generic/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -42,16 +44,22 @@ __host__ __device__
   return Tag();
 } // end select_system()
 
-template<typename Tag1, typename Tag2>
+template<typename System1, typename System2>
 __host__ __device__
-  typename thrust::detail::lazy_disable_if<
-    select_system2_exists<Tag1,Tag2>::value,
-    thrust::detail::minimum_system<Tag1,Tag2>
+  typename thrust::detail::enable_if_defined<
+    thrust::detail::minimum_system<
+      typename state<System1>::derived_type,
+      typename state<System2>::derived_type
+    >
   >::type
-    select_system(Tag1, Tag2)
+    select_system(thrust::system::detail::state<System1>, thrust::system::detail::state<System2>)
 {
   // for now, return minimum_system
-  return typename thrust::detail::minimum_system<Tag1,Tag2>::type();
+  // XXX need to actually return the argument
+  return typename thrust::detail::minimum_system<
+    typename state<System1>::derived_type,
+    typename state<System2>::derived_type
+  >::type();
 } // end select_system()
 
 template<typename Tag1, typename Tag2, typename Tag3>

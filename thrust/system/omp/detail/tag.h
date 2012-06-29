@@ -39,7 +39,8 @@ template<typename> struct state;
 // note we inherit cpp's functionality
 template<>
   struct state<void>
-    : thrust::system::cpp::detail::state< state<void> >
+    : thrust::system::cpp::detail::state< state<void> >,
+      private virtual thrust::system::detail::final
 {};
 
 // tag is just a typedef for state<void>
@@ -59,52 +60,52 @@ template<typename Derived>
 
 
 // overloads of select_system
-template<typename DerivedSystem1, typename DerivedSystem2>
-inline __host__ __device__
-  typename state<DerivedSystem1>::derived_type
-    select_system(state<DerivedSystem1> s1, state<DerivedSystem2> s2)
-{
-  // the first one wins
-  // XXX it probably makes more sense to return the more derived system,
-  //     but i don't know how to divine that info
-  return s1.derived();
-} // end select_system()
-
-
-template<typename DerivedSystem>
-inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(state<DerivedSystem> s, thrust::any_system_tag)
-{
-  return s.derived();
-} // end select_system()
-
-
-template<typename DerivedSystem>
-inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(thrust::any_system_tag, state<DerivedSystem> s)
-{
-  return s.derived();
-} // end select_system()
-
-
-template<typename DerivedSystem>
-inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(state<DerivedSystem> s, thrust::system::cpp::tag)
-{
-  return s.derived();
-} // end select_system()
-
-
-template<typename DerivedSystem>
-inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(thrust::system::cpp::tag, state<DerivedSystem> s)
-{
-  return s.derived();
-} // end select_system()
+//template<typename DerivedSystem1, typename DerivedSystem2>
+//inline __host__ __device__
+//  typename state<DerivedSystem1>::derived_type
+//    select_system(state<DerivedSystem1> s1, state<DerivedSystem2> s2)
+//{
+//  // the first one wins
+//  // XXX it probably makes more sense to return the more derived system,
+//  //     but i don't know how to divine that info
+//  return s1.derived();
+//} // end select_system()
+//
+//
+//template<typename DerivedSystem>
+//inline __host__ __device__
+//  typename state<DerivedSystem>::derived_type
+//    select_system(state<DerivedSystem> s, thrust::any_system_tag)
+//{
+//  return s.derived();
+//} // end select_system()
+//
+//
+//template<typename DerivedSystem>
+//inline __host__ __device__
+//  typename state<DerivedSystem>::derived_type
+//    select_system(thrust::any_system_tag, state<DerivedSystem> s)
+//{
+//  return s.derived();
+//} // end select_system()
+//
+//
+//template<typename DerivedSystem>
+//inline __host__ __device__
+//  typename state<DerivedSystem>::derived_type
+//    select_system(state<DerivedSystem> s, thrust::system::cpp::tag)
+//{
+//  return s.derived();
+//} // end select_system()
+//
+//
+//template<typename DerivedSystem>
+//inline __host__ __device__
+//  typename state<DerivedSystem>::derived_type
+//    select_system(thrust::system::cpp::tag, state<DerivedSystem> s)
+//{
+//  return s.derived();
+//} // end select_system()
 
 
 // XXX select_system(tbb, omp) & select_system(omp, tbb) are ambiguous

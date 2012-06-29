@@ -45,7 +45,8 @@ typedef state<void> tag;
 
 template<typename Derived>
   struct state
-    : thrust::system::detail::state<Derived>
+    : thrust::system::detail::state<Derived>,
+      thrust::system::detail::final
 {
   // allow conversion to tag
   inline operator tag () const
@@ -57,47 +58,20 @@ template<typename Derived>
 struct cuda_to_cpp  : thrust::system::detail::state<cuda_to_cpp>{};
 struct cpp_to_cuda  : thrust::system::detail::state<cpp_to_cuda>{};
 
-
 // overloads of select_system
-template<typename DerivedSystem1, typename DerivedSystem2>
-inline __host__ __device__
-  typename state<DerivedSystem1>::derived_type
-    select_system(state<DerivedSystem1> s1, state<DerivedSystem2> s2)
-{
-  return s1.derived();
-}
-
-
-template<typename DerivedSystem>
-inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(state<DerivedSystem> s, thrust::any_system_tag)
-{
-  return s.derived();
-}
-
-
-template<typename DerivedSystem>
-inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(thrust::any_system_tag, state<DerivedSystem> s)
-{
-  return s.derived();
-}
-
 
 // cpp interop
-template<typename DerivedSystem>
+template<typename DerivedSystem1, typename DerivedSystem2>
 inline __host__ __device__
-cuda_to_cpp select_system(state<DerivedSystem>, thrust::system::cpp::tag)
+cuda_to_cpp select_system(state<DerivedSystem1>, thrust::system::cpp::detail::state<DerivedSystem2>)
 {
   return cuda_to_cpp();
 }
 
 
-template<typename DerivedSystem>
+template<typename DerivedSystem1, typename DerivedSystem2>
 inline __host__ __device__
-cpp_to_cuda select_system(thrust::system::cpp::tag, state<DerivedSystem>)
+cpp_to_cuda select_system(thrust::system::cpp::detail::state<DerivedSystem1>, state<DerivedSystem2>)
 {
   return cpp_to_cuda();
 }
