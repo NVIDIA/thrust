@@ -17,11 +17,14 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/state.h>
 
 namespace thrust
 {
 
 struct any_system_tag
+  : thrust::system::detail::state<any_system_tag>,
+    thrust::system::detail::final
 {
   // allow any_system_tag to convert to any type at all
   // XXX make this safer using enable_if<is_tag<T>> upon c++11
