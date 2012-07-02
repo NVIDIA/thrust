@@ -33,7 +33,7 @@ namespace thrust
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(thrust::system::detail::dispatchable<System> &system,
+  InputIterator for_each(thrust::dispatchable<System> &system,
                          InputIterator first,
                          InputIterator last,
                          UnaryFunction f)

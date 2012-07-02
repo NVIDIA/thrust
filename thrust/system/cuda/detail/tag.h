@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/state.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 
@@ -31,21 +31,21 @@ namespace cuda
 namespace detail
 {
 
-// forward declaration of state
-template<typename> struct state;
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
 
 // tag's specialization comes first
 template<>
-  struct state<void>
-    : thrust::system::detail::state< state<void> >
+  struct dispatchable<void>
+    : thrust::dispatchable< dispatchable<void> >
 {};
 
-// tag is just a typedef for state<void>
-typedef state<void> tag;
+// tag is just a typedef for dispatchable<void>
+typedef dispatchable<void> tag;
 
 template<typename Derived>
-  struct state
-    : thrust::system::detail::state<Derived>
+  struct dispatchable
+    : thrust::dispatchable<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -54,15 +54,15 @@ template<typename Derived>
   }
 };
 
-struct cuda_to_cpp  : thrust::system::detail::state<cuda_to_cpp>{};
-struct cpp_to_cuda  : thrust::system::detail::state<cpp_to_cuda>{};
+struct cuda_to_cpp  : thrust::dispatchable<cuda_to_cpp>{};
+struct cpp_to_cuda  : thrust::dispatchable<cpp_to_cuda>{};
 
 // overloads of select_system
 
 // cpp interop
 template<typename DerivedSystem1, typename DerivedSystem2>
 inline __host__ __device__
-cuda_to_cpp select_system(state<DerivedSystem1>, thrust::system::cpp::detail::state<DerivedSystem2>)
+cuda_to_cpp select_system(dispatchable<DerivedSystem1>, thrust::system::cpp::detail::dispatchable<DerivedSystem2>)
 {
   return cuda_to_cpp();
 }
@@ -70,7 +70,7 @@ cuda_to_cpp select_system(state<DerivedSystem1>, thrust::system::cpp::detail::st
 
 template<typename DerivedSystem1, typename DerivedSystem2>
 inline __host__ __device__
-cpp_to_cuda select_system(thrust::system::cpp::detail::state<DerivedSystem1>, state<DerivedSystem2>)
+cpp_to_cuda select_system(thrust::system::cpp::detail::dispatchable<DerivedSystem1>, dispatchable<DerivedSystem2>)
 {
   return cpp_to_cuda();
 }

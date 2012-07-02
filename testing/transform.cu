@@ -6,7 +6,7 @@
 #include <thrust/pair.h>
 #include <thrust/iterator/zip_iterator.h>
 
-struct my_tag : thrust::device_system_state<my_tag> {};
+struct my_tag : thrust::device_system<my_tag> {};
 
 template <class Vector>
 void TestTransformUnarySimple(void)

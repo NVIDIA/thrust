@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/state.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/static_assert.h>
 
@@ -39,7 +39,7 @@ namespace generic
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(thrust::system::detail::state<System> &s,
+InputIterator for_each(thrust::dispatchable<System> &s,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)

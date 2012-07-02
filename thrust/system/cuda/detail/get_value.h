@@ -76,7 +76,7 @@ inline __host__ __device__
 template<typename System, typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(thrust::system::cuda::detail::state<System> &, Pointer ptr)
+    get_value(thrust::system::cuda::detail::dispatchable<System> &, Pointer ptr)
 {
   return get_value_msvc2005_war(ptr);
 } // end get_value()

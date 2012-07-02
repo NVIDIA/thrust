@@ -4,7 +4,7 @@
 #include <thrust/memory.h>
 #include <thrust/pair.h>
 
-struct my_tag : thrust::device_system_state<my_tag> {};
+struct my_tag : thrust::device_system<my_tag> {};
 
 template<typename T1, typename T2>
 bool is_same(const T1 &, const T2 &)

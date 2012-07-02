@@ -33,7 +33,7 @@ namespace generic
 
 
 template<typename System, typename Size>
-  void malloc(thrust::system::detail::state<System> &, Size)
+  void malloc(thrust::dispatchable<System> &, Size)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
@@ -41,7 +41,7 @@ template<typename System, typename Size>
 
 
 template<typename System, typename Pointer>
-  void free(thrust::system::detail::state<System> &, Pointer)
+  void free(thrust::dispatchable<System> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
@@ -50,7 +50,7 @@ template<typename System, typename Pointer>
 
 template<typename System, typename Pointer1, typename Pointer2>
 __host__ __device__
-void assign_value(thrust::system::detail::state<System> &, Pointer1, Pointer2)
+void assign_value(thrust::dispatchable<System> &, Pointer1, Pointer2)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
@@ -59,7 +59,7 @@ void assign_value(thrust::system::detail::state<System> &, Pointer1, Pointer2)
 
 template<typename System, typename Pointer>
 __host__ __device__
-void get_value(thrust::system::detail::state<System> &, Pointer)
+void get_value(thrust::dispatchable<System> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
@@ -77,7 +77,7 @@ void iter_swap(tag, Pointer1, Pointer2)
 
 template<typename T, typename System>
   thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(thrust::system::detail::state<System> &s, typename thrust::pointer<T,System>::difference_type n)
+    get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n)
 {
   thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
 
@@ -88,7 +88,7 @@ template<typename T, typename System>
 
 
 template<typename System, typename Pointer>
-  void return_temporary_buffer(thrust::system::detail::state<System> &s, Pointer p)
+  void return_temporary_buffer(thrust::dispatchable<System> &s, Pointer p)
 {
   thrust::free(s, p);
 } // end return_temporary_buffer()

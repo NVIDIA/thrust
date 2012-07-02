@@ -31,23 +31,23 @@ namespace tbb
 namespace detail
 {
 
-// forward declaration of state
-template<typename> struct state;
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
 
 // tag's specialization comes first
 // note we inherit cpp's functionality
 template<>
-  struct state<void>
-    : thrust::system::cpp::detail::state< state<void> >
+  struct dispatchable<void>
+    : thrust::system::cpp::detail::dispatchable< dispatchable<void> >
 {};
 
-// tag is just a typedef for state<void>
-typedef state<void> tag;
+// tag is just a typedef for dispatchable<void>
+typedef dispatchable<void> tag;
 
 // note we inherit cpp's functionality
 template<typename Derived>
-  struct state
-    : thrust::system::cpp::detail::state<Derived>
+  struct dispatchable
+    : thrust::system::cpp::detail::dispatchable<Derived>
 {
   // allow conversion to tag
   inline operator tag () const

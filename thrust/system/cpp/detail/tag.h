@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/state.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
@@ -29,21 +29,21 @@ namespace cpp
 namespace detail
 {
 
-// forward declaration of state
-template<typename> struct state;
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
 
 // tag's specialization comes first
 template<>
-  struct state<void>
-    : thrust::system::detail::state< state<void> >
+  struct dispatchable<void>
+    : thrust::dispatchable< dispatchable<void> >
 {};
 
-// tag is just a typedef for state<void>
-typedef state<void> tag;
+// tag is just a typedef for dispatchable<void>
+typedef dispatchable<void> tag;
 
 template<typename Derived>
-  struct state
-    : thrust::system::detail::state<Derived>
+  struct dispatchable
+    : thrust::dispatchable<Derived>
 {
   // allow conversion to tag
   inline operator tag () const

@@ -21,17 +21,12 @@
 
 namespace thrust
 {
-namespace system
-{
-namespace detail
-{
 
 
-// XXX find a different home for this, possibly thrust::
-// XXX possibly give it a new name
 template<typename Derived>
   struct dispatchable
 {
+  // XXX eliminate this later
   typedef Derived derived_type;
 
   __host__ __device__
@@ -48,22 +43,5 @@ template<typename Derived>
 };
 
 
-template<typename Derived>
-  struct state
-    : dispatchable<Derived>
-{};
-
-// a class which derives from this type
-// can't (easily) be derived further
-class final
-{
-  protected:
-    inline __host__ __device__
-    final() {}
-};
-
-
-} // end detail
-} // end system
 } // end thrust
 

@@ -30,7 +30,7 @@ namespace detail
 
 template<typename System, typename Pointer1, typename Pointer2>
 __host__ __device__
-  void assign_value(thrust::system::cpp::detail::state<System> &, Pointer1 dst, Pointer2 src)
+  void assign_value(thrust::system::cpp::detail::dispatchable<System> &, Pointer1 dst, Pointer2 src)
 {
   *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
 } // end assign_value()

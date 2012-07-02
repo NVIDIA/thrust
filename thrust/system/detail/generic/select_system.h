@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/state.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/is_metafunction_defined.h>
 #include <thrust/iterator/detail/minimum_system.h>
@@ -48,17 +48,17 @@ template<typename System1, typename System2>
 __host__ __device__
   typename thrust::detail::enable_if_defined<
     thrust::detail::minimum_system<
-      typename state<System1>::derived_type,
-      typename state<System2>::derived_type
+      typename dispatchable<System1>::derived_type,
+      typename dispatchable<System2>::derived_type
     >
   >::type
-    select_system(thrust::system::detail::state<System1>, thrust::system::detail::state<System2>)
+    select_system(thrust::dispatchable<System1>, thrust::dispatchable<System2>)
 {
   // for now, return minimum_system
   // XXX need to actually return the argument
   return typename thrust::detail::minimum_system<
-    typename state<System1>::derived_type,
-    typename state<System2>::derived_type
+    typename dispatchable<System1>::derived_type,
+    typename dispatchable<System2>::derived_type
   >::type();
 } // end select_system()
 

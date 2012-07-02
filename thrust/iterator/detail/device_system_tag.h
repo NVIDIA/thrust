@@ -29,8 +29,8 @@ namespace thrust
 typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag device_system_tag;
 
 template<typename DerivedSystem>
-  struct device_system_state
-    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::detail::state<DerivedSystem>
+  struct device_system
+    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::detail::dispatchable<DerivedSystem>
 {};
 
 } // end thrust

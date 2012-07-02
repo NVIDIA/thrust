@@ -67,7 +67,7 @@ inline __host__ __device__
 
 template<typename System, typename Pointer1, typename Pointer2>
 inline __host__ __device__
-  void assign_value(thrust::system::cuda::detail::state<System> &s, Pointer1 dst, Pointer2 src)
+  void assign_value(thrust::system::cuda::detail::dispatchable<System> &s, Pointer1 dst, Pointer2 src)
 {
   return assign_value_msvc2005_war(dst,src);
 } // end assign_value()
@@ -76,7 +76,7 @@ inline __host__ __device__
 
 template<typename System, typename Pointer1, typename Pointer2>
 inline __host__ __device__
-  void assign_value(thrust::system::cuda::detail::state<System> &, Pointer1 dst, Pointer2 src)
+  void assign_value(thrust::system::cuda::detail::dispatchable<System> &, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631

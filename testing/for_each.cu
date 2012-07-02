@@ -6,8 +6,7 @@
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-// XXX change this to derive from the default device system (somehow)
-struct my_system : thrust::device_system_state<my_system> {};
+struct my_system : thrust::device_system<my_system> {};
 
 template <typename T>
 class mark_present_for_each

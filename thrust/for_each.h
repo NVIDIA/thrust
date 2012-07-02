@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/system/detail/state.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
@@ -31,7 +31,7 @@ namespace thrust
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(thrust::system::detail::dispatchable<System> &system,
+  InputIterator for_each(thrust::dispatchable<System> &system,
                          InputIterator first,
                          InputIterator last,
                          UnaryFunction f);

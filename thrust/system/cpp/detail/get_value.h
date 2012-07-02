@@ -32,7 +32,7 @@ namespace detail
 template<typename System, typename Pointer>
 __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(thrust::system::cpp::detail::state<System> &, Pointer ptr)
+    get_value(thrust::system::cpp::detail::dispatchable<System> &, Pointer ptr)
 {
   return *thrust::raw_pointer_cast(ptr);
 } // end get_value()

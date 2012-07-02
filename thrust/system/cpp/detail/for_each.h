@@ -33,7 +33,7 @@ namespace detail
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(thrust::system::cpp::detail::state<System> &,
+InputIterator for_each(thrust::system::cpp::detail::dispatchable<System> &,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)

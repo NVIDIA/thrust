@@ -32,23 +32,23 @@ namespace omp
 namespace detail
 {
 
-// forward declaration of state
-template<typename> struct state;
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
 
 // tag's specialization comes first
 // note we inherit cpp's functionality
 template<>
-  struct state<void>
-    : thrust::system::cpp::detail::state< state<void> >
+  struct dispatchable<void>
+    : thrust::system::cpp::detail::dispatchable< dispatchable<void> >
 {};
 
-// tag is just a typedef for state<void>
-typedef state<void> tag;
+// tag is just a typedef for dispatchable<void>
+typedef dispatchable<void> tag;
 
 // note we inherit cpp's functionality
 template<typename Derived>
-  struct state
-    : thrust::system::cpp::detail::state<Derived>
+  struct dispatchable
+    : thrust::system::cpp::detail::dispatchable<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -66,8 +66,8 @@ template<typename Derived>
 
 template<typename System1, typename System2>
 inline __host__ __device__
-  typename state<System1>::derived_type
-    select_system(state<System1> s, thrust::system::tbb::detail::state<System2>)
+  typename dispatchable<System1>::derived_type
+    select_system(dispatchable<System1> s, thrust::system::tbb::detail::dispatchable<System2>)
 {
   return s.derived();
 } // end select_system()
@@ -75,8 +75,8 @@ inline __host__ __device__
 
 template<typename System1, typename System2>
 inline __host__ __device__
-  typename state<System2>::derived_type
-    select_system(thrust::system::tbb::detail::state<System1>, state<System2> s)
+  typename dispatchable<System2>::derived_type
+    select_system(thrust::system::tbb::detail::dispatchable<System1>, dispatchable<System2> s)
 {
   return s.derived();
 } // end select_system()

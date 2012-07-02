@@ -23,7 +23,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/state.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/pointer.h>
@@ -39,9 +39,9 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename Size> void malloc(thrust::system::detail::state<System> &, Size);
+template<typename System, typename Size> void malloc(thrust::dispatchable<System> &, Size);
 
-template<typename System, typename Pointer> void free(thrust::system::detail::state<System> &, Pointer);
+template<typename System, typename Pointer> void free(thrust::dispatchable<System> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
@@ -49,7 +49,7 @@ void assign_value(tag, Pointer1, Pointer2);
 
 template<typename System, typename Pointer>
 __host__ __device__
-void get_value(thrust::system::detail::state<System> &, Pointer);
+void get_value(thrust::dispatchable<System> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
@@ -57,10 +57,10 @@ void iter_swap(tag, Pointer1, Pointer2);
 
 template<typename T, typename System>
   thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(thrust::system::detail::state<System> &s, typename thrust::pointer<T,System>::difference_type n);
+    get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n);
 
 template<typename System, typename Pointer>
-  void return_temporary_buffer(thrust::system::detail::state<System> &s, Pointer p);
+  void return_temporary_buffer(thrust::dispatchable<System> &s, Pointer p);
 
 } // end generic
 } // end detail
