@@ -78,7 +78,7 @@ inline __host__ __device__
   typename state<DerivedSystem>::derived_type
     select_system(thrust::system::tbb::tag, state<DerivedSystem> s)
 {
-  return s.derived()();
+  return s.derived();
 } // end select_system()
 
 
