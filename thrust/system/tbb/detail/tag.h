@@ -31,20 +31,29 @@ namespace tbb
 namespace detail
 {
 
+// this awkward sequence of definitions arise
+// from the desire both for tag to derive
+// from dispatchable and for dispatchable
+// to convert to tag (when dispatchable is not
+// an ancestor of tag)
+
+// forward declaration of tag
+struct tag;
+
 // forward declaration of dispatchable
 template<typename> struct dispatchable;
 
-// tag's specialization comes first
-// note we inherit cpp's functionality
+// specialize dispatchable for tag
 template<>
-  struct dispatchable<void>
-    : thrust::system::cpp::detail::dispatchable< dispatchable<void> >
+  struct dispatchable<tag>
+    : thrust::system::cpp::detail::dispatchable<tag>
 {};
 
-// tag is just a typedef for dispatchable<void>
-typedef dispatchable<void> tag;
+// tag's definition comes before the
+// generic definition of dispatchable
+struct tag : dispatchable<tag> {};
 
-// note we inherit cpp's functionality
+// allow conversion to tag when it is not a successor
 template<typename Derived>
   struct dispatchable
     : thrust::system::cpp::detail::dispatchable<Derived>

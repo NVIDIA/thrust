@@ -26,19 +26,16 @@ namespace thrust
 template<typename Derived>
   struct dispatchable
 {
-  // XXX eliminate this later
-  typedef Derived derived_type;
-
   __host__ __device__
-  inline derived_type &derived()
+  inline Derived &derived()
   {
-    return static_cast<derived_type&>(*this);
+    return static_cast<Derived&>(*this);
   }
 
   __host__ __device__
-  inline const derived_type &derived() const
+  inline const Derived &derived() const
   {
-    return static_cast<const derived_type&>(*this);
+    return static_cast<const Derived&>(*this);
   }
 };
 

@@ -32,20 +32,29 @@ namespace omp
 namespace detail
 {
 
+// this awkward sequence of definitions arise
+// from the desire both for tag to derive
+// from dispatchable and for dispatchable
+// to convert to tag (when dispatchable is not
+// an ancestor of tag)
+
+// forward declaration of tag
+struct tag;
+
 // forward declaration of dispatchable
 template<typename> struct dispatchable;
 
-// tag's specialization comes first
-// note we inherit cpp's functionality
+// specialize dispatchable for tag
 template<>
-  struct dispatchable<void>
-    : thrust::system::cpp::detail::dispatchable< dispatchable<void> >
+  struct dispatchable<tag>
+    : thrust::system::cpp::detail::dispatchable<tag>
 {};
 
-// tag is just a typedef for dispatchable<void>
-typedef dispatchable<void> tag;
+// tag's definition comes before the
+// generic definition of dispatchable
+struct tag : dispatchable<tag> {};
 
-// note we inherit cpp's functionality
+// allow conversion to tag when it is not a successor
 template<typename Derived>
   struct dispatchable
     : thrust::system::cpp::detail::dispatchable<Derived>
@@ -66,8 +75,7 @@ template<typename Derived>
 
 template<typename System1, typename System2>
 inline __host__ __device__
-  typename dispatchable<System1>::derived_type
-    select_system(dispatchable<System1> s, thrust::system::tbb::detail::dispatchable<System2>)
+  System1 select_system(dispatchable<System1> s, thrust::system::tbb::detail::dispatchable<System2>)
 {
   return s.derived();
 } // end select_system()
@@ -75,8 +83,7 @@ inline __host__ __device__
 
 template<typename System1, typename System2>
 inline __host__ __device__
-  typename dispatchable<System2>::derived_type
-    select_system(thrust::system::tbb::detail::dispatchable<System1>, dispatchable<System2> s)
+  System2 select_system(thrust::system::tbb::detail::dispatchable<System1>, dispatchable<System2> s)
 {
   return s.derived();
 } // end select_system()

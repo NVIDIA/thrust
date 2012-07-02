@@ -47,19 +47,13 @@ __host__ __device__
 template<typename System1, typename System2>
 __host__ __device__
   typename thrust::detail::enable_if_defined<
-    thrust::detail::minimum_system<
-      typename dispatchable<System1>::derived_type,
-      typename dispatchable<System2>::derived_type
-    >
+    thrust::detail::minimum_system<System1,System2>
   >::type
     select_system(thrust::dispatchable<System1>, thrust::dispatchable<System2>)
 {
   // for now, return minimum_system
   // XXX need to actually return the argument
-  return typename thrust::detail::minimum_system<
-    typename dispatchable<System1>::derived_type,
-    typename dispatchable<System2>::derived_type
-  >::type();
+  return typename thrust::detail::minimum_system<System1,System2>::type();
 } // end select_system()
 
 template<typename Tag1, typename Tag2, typename Tag3>
