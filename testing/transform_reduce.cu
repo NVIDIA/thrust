@@ -4,7 +4,7 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
-struct my_tag : thrust::device_system_tag {};
+struct my_tag : thrust::device_system_state<my_tag> {};
 
 template<typename InputIterator, 
          typename UnaryFunction, 

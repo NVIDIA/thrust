@@ -3,7 +3,7 @@
 #include <thrust/iterator/discard_iterator.h>
 
 // for testing dispatch
-struct my_tag : thrust::device_system_tag {};
+struct my_tag : thrust::device_system_state<my_tag> {};
 
 template <class Vector>
 void TestReplaceSimple(void)
