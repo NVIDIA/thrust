@@ -52,9 +52,6 @@ template<typename T, typename Tag>
 
   private:
     typedef thrust::pair<pointer, size_type> pointer_and_size;
-
-    template<typename Pair>
-    static pointer_and_size allocate_helper(Pair p);
 };
 
 } // end detail
