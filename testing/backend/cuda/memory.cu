@@ -17,8 +17,8 @@ void TestSelectSystemCudaToCpp()
 {
   using thrust::system::detail::generic::select_system;
 
-  // select_system(cuda::tag, cpp::tag) should return cuda_to_cpp
-  bool is_cuda_to_cpp = is_same(thrust::system::cuda::detail::cuda_to_cpp(), select_system(thrust::cuda::tag(), thrust::cpp::tag()));
+  // select_system(cuda::tag, thrust::host_system_tag) should return cuda_to_cpp
+  bool is_cuda_to_cpp = is_same(thrust::system::cuda::detail::cuda_to_cpp(), select_system(thrust::cuda::tag(), thrust::host_system_tag()));
   ASSERT_EQUAL(true, is_cuda_to_cpp);
 }
 DECLARE_UNITTEST(TestSelectSystemCudaToCpp);
