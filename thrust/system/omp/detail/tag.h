@@ -64,19 +64,19 @@ template<typename Derived>
 //     because both convert to cpp without these overloads, which we
 //     arbitrarily define in the omp backend
 
-template<typename DerivedSystem>
+template<typename System1, typename System2>
 inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(state<DerivedSystem> s, thrust::system::tbb::tag)
+  typename state<System1>::derived_type
+    select_system(state<System1> s, thrust::system::tbb::detail::state<System2>)
 {
   return s.derived();
 } // end select_system()
 
 
-template<typename DerivedSystem>
+template<typename System1, typename System2>
 inline __host__ __device__
-  typename state<DerivedSystem>::derived_type
-    select_system(thrust::system::tbb::tag, state<DerivedSystem> s)
+  typename state<System2>::derived_type
+    select_system(thrust::system::tbb::detail::state<System1>, state<System2> s)
 {
   return s.derived();
 } // end select_system()
