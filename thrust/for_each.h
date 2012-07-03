@@ -31,9 +31,19 @@ namespace thrust
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(thrust::dispatchable<System> &system,
+InputIterator for_each(thrust::dispatchable<System> &system,
+                       InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
+
+
+template<typename System,
+         typename InputIterator,
+         typename Size,
+         typename UnaryFunction>
+InputIterator for_each_n(thrust::dispatchable<System> &system,
                          InputIterator first,
-                         InputIterator last,
+                         Size n,
                          UnaryFunction f);
 
 
@@ -95,6 +105,7 @@ template<typename InputIterator,
 InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
+
 
 /*! \p for_each_n applies the function object \p f to each element
  *  in the range <tt>[first, first + n)</tt>; \p f's return value, if any,
