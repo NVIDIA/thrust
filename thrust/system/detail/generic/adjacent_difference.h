@@ -33,13 +33,13 @@ namespace detail
 namespace generic
 {
 
-template <class InputIterator, class OutputIterator>
-OutputIterator adjacent_difference(tag,
+template <typename System, class InputIterator, class OutputIterator>
+OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result);
 
-template <class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(tag,
+template <typename System, class InputIterator, class OutputIterator, class BinaryFunction>
+OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);

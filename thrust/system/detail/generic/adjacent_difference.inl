@@ -31,25 +31,24 @@ namespace detail
 namespace generic
 {
 
-template <class InputIterator, class OutputIterator>
-OutputIterator adjacent_difference(tag,
+template <typename System, class InputIterator, class OutputIterator>
+OutputIterator adjacent_difference(thrust::dispatchable<System> &s,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   thrust::minus<InputType> binary_op;
 
-  return thrust::adjacent_difference(first, last, result, binary_op);
+  return thrust::adjacent_difference(s, first, last, result, binary_op);
 } // end adjacent_difference()
 
-template <class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(tag,
+template <typename System, class InputIterator, class OutputIterator, class BinaryFunction>
+OutputIterator adjacent_difference(thrust::dispatchable<System> &s,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<InputIterator>::type System;
 
   if(first == last)
   {
@@ -64,7 +63,7 @@ OutputIterator adjacent_difference(tag,
     thrust::detail::temporary_array<InputType, System> input_copy(first, last);
     
     *result = *first;
-    thrust::transform(input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+    thrust::transform(s, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
   }
 
   return result + (last - first);
