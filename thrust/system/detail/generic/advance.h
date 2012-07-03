@@ -29,8 +29,8 @@ namespace detail
 namespace generic
 {
 
-template <typename InputIterator, typename Distance>
-void advance(tag, InputIterator& i, Distance n);
+template <typename System, typename InputIterator, typename Distance>
+void advance(thrust::dispatchable<System> &system, InputIterator& i, Distance n);
 
 } // end namespace generic
 } // end namespace detail
