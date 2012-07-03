@@ -21,10 +21,26 @@
 
 namespace thrust
 {
+namespace detail
+{
 
 
+// dispatchable_base serves as a guard against
+// inifinite recursion in thrust entry points:
+//
+// template<typename System>
+// void foo(thrust::detail::dispatchable_base<System> &s)
+// {
+//   using thrust::system::detail::generic::foo;
+//
+//   foo(s.derived();
+// }
+//
+// foo is not recursive when
+// 1. System is derived from thrust::dispatchable below
+// 2. generic::foo takes thrust::dispatchable as a parameter
 template<typename Derived>
-  struct dispatchable
+  struct dispatchable_base
 {
   __host__ __device__
   inline Derived &derived()
@@ -38,6 +54,15 @@ template<typename Derived>
     return static_cast<const Derived&>(*this);
   }
 };
+
+
+} // end detail
+
+
+template<typename Derived>
+  struct dispatchable
+    : thrust::detail::dispatchable_base<Derived>
+{};
 
 
 } // end thrust
