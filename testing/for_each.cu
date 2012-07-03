@@ -108,7 +108,19 @@ InputIterator for_each_n(my_system, InputIterator first, Size, Function)
     return first;
 }
 
-void TestForEachNDispatch()
+void TestForEachNDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys;
+    thrust::for_each_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestForEachNDispatchExplicit);
+
+
+void TestForEachNDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -118,7 +130,7 @@ void TestForEachNDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestForEachNDispatch);
+DECLARE_UNITTEST(TestForEachNDispatchImplicit);
 
 
 void TestForEachSimpleAnySystem(void)

@@ -65,10 +65,11 @@ template<typename Size, typename RandomAccessIterator, typename UnaryFunction>
 } // end for_each_detail
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(tag,
+RandomAccessIterator for_each_n(dispatchable<System> &,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -80,14 +81,15 @@ RandomAccessIterator for_each_n(tag,
 } // end for_each_n 
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename UnaryFunction>
-  RandomAccessIterator for_each(tag,
+  RandomAccessIterator for_each(dispatchable<System> &s,
                                 RandomAccessIterator first,
                                 RandomAccessIterator last,
                                 UnaryFunction f)
 {
-  return thrust::for_each_n(first, thrust::distance(first,last), f);
+  return tbb::detail::for_each_n(s, first, thrust::distance(first,last), f);
 } // end for_each()
 
 

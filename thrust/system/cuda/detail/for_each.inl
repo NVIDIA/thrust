@@ -83,10 +83,11 @@ struct for_each_n_closure
 }; // end for_each_n_closure
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(tag,
+RandomAccessIterator for_each_n(dispatchable<System> &,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -141,14 +142,15 @@ RandomAccessIterator for_each_n(tag,
   return first + n;
 } 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(tag,
+  InputIterator for_each(dispatchable<System> &s,
                          InputIterator first,
                          InputIterator last,
                          UnaryFunction f)
 {
-  return thrust::for_each_n(first, thrust::distance(first,last), f);
+  return cuda::detail::for_each_n(s, first, thrust::distance(first,last), f);
 } // end for_each()
 
 } // end namespace detail
