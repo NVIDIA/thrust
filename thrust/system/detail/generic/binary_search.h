@@ -76,16 +76,16 @@ bool binary_search(thrust::dispatchable<System> &system,
                    StrictWeakOrdering comp);
 
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator lower_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
                            InputIterator values_end,
                            OutputIterator output);
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator lower_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator lower_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -94,16 +94,16 @@ OutputIterator lower_bound(tag,
                            StrictWeakOrdering comp);
 
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator upper_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
                            InputIterator values_end,
                            OutputIterator output);
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator upper_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator upper_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -112,16 +112,16 @@ OutputIterator upper_bound(tag,
                            StrictWeakOrdering comp);
 
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator binary_search(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(thrust::dispatchable<System> &system,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
                              InputIterator values_end,
                              OutputIterator output);
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator binary_search(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator binary_search(thrust::dispatchable<System> &system,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 

@@ -124,6 +124,87 @@ equal_range(thrust::detail::dispatchable_base<System> &system,
 }
 
 
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output)
+{
+    using thrust::system::detail::generic::lower_bound;
+    return lower_bound(system.derived(), first, last, values_first, values_last, output);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output,
+                           StrictWeakOrdering comp)
+{
+    using thrust::system::detail::generic::lower_bound;
+    return lower_bound(system.derived(), first, last, values_first, values_last, output, comp);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output)
+{
+    using thrust::system::detail::generic::upper_bound;
+    return upper_bound(system.derived(), first, last, values_first, values_last, output);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output,
+                           StrictWeakOrdering comp)
+{
+    using thrust::system::detail::generic::upper_bound;
+    return upper_bound(system.derived(), first, last, values_first, values_last, output, comp);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(thrust::detail::dispatchable_base<System> &system,
+                             ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
+                             OutputIterator output)
+{
+    using thrust::system::detail::generic::binary_search;
+    return binary_search(system.derived(), first, last, values_first, values_last, output);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator binary_search(thrust::detail::dispatchable_base<System> &system,
+                             ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
+                             OutputIterator output,
+                             StrictWeakOrdering comp)
+{
+    using thrust::system::detail::generic::binary_search;
+    return binary_search(system.derived(), first, last, values_first, values_last, output, comp);
+}
+
+
 namespace detail
 {
 
@@ -219,6 +300,87 @@ strip_const_equal_range(const System &system,
 {
     System &non_const_system = const_cast<System&>(system);
     return thrust::equal_range(non_const_system, first, last, value);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator strip_const_lower_bound(const System &system,
+                                       ForwardIterator first, 
+                                       ForwardIterator last,
+                                       InputIterator values_first, 
+                                       InputIterator values_last,
+                                       OutputIterator output)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::lower_bound(non_const_system, first, last, values_first, values_last, output);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator strip_const_lower_bound(const System &system,
+                                       ForwardIterator first, 
+                                       ForwardIterator last,
+                                       InputIterator values_first, 
+                                       InputIterator values_last,
+                                       OutputIterator output,
+                                       StrictWeakOrdering comp)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::lower_bound(non_const_system, first, last, values_first, values_last, output, comp);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator strip_const_upper_bound(const System &system,
+                                       ForwardIterator first, 
+                                       ForwardIterator last,
+                                       InputIterator values_first, 
+                                       InputIterator values_last,
+                                       OutputIterator output)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::upper_bound(non_const_system, first, last, values_first, values_last, output);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator strip_const_upper_bound(const System &system,
+                                       ForwardIterator first, 
+                                       ForwardIterator last,
+                                       InputIterator values_first, 
+                                       InputIterator values_last,
+                                       OutputIterator output,
+                                       StrictWeakOrdering comp)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::upper_bound(non_const_system, first, last, values_first, values_last, output, comp);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator strip_const_binary_search(const System &system,
+                                         ForwardIterator first, 
+                                         ForwardIterator last,
+                                         InputIterator values_first, 
+                                         InputIterator values_last,
+                                         OutputIterator output)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::binary_search(non_const_system, first, last, values_first, values_last, output);
+}
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator strip_const_binary_search(const System &system,
+                                         ForwardIterator first, 
+                                         ForwardIterator last,
+                                         InputIterator values_first, 
+                                         InputIterator values_last,
+                                         OutputIterator output,
+                                         StrictWeakOrdering comp)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::binary_search(non_const_system, first, last, values_first, values_last, output, comp);
 }
 
 
@@ -343,13 +505,12 @@ OutputIterator lower_bound(ForwardIterator first,
                            OutputIterator output)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::lower_bound;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system1;
     typedef typename thrust::iterator_system<InputIterator>::type   system2;
     typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return lower_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
+    return thrust::detail::strip_const_lower_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
@@ -361,13 +522,12 @@ OutputIterator lower_bound(ForwardIterator first,
                            StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::lower_bound;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system1;
     typedef typename thrust::iterator_system<InputIterator>::type   system2;
     typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return lower_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
+    return thrust::detail::strip_const_lower_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
 }
     
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
@@ -378,13 +538,12 @@ OutputIterator upper_bound(ForwardIterator first,
                            OutputIterator output)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::upper_bound;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system1;
     typedef typename thrust::iterator_system<InputIterator>::type   system2;
     typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return upper_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
+    return thrust::detail::strip_const_upper_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
@@ -396,13 +555,12 @@ OutputIterator upper_bound(ForwardIterator first,
                            StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::upper_bound;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system1;
     typedef typename thrust::iterator_system<InputIterator>::type   system2;
     typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return upper_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
+    return thrust::detail::strip_const_upper_bound(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
@@ -413,13 +571,12 @@ OutputIterator binary_search(ForwardIterator first,
                              OutputIterator output)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::binary_search;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system1;
     typedef typename thrust::iterator_system<InputIterator>::type   system2;
     typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return binary_search(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
+    return thrust::detail::strip_const_binary_search(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
@@ -431,13 +588,12 @@ OutputIterator binary_search(ForwardIterator first,
                              StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::binary_search;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system1;
     typedef typename thrust::iterator_system<InputIterator>::type   system2;
     typedef typename thrust::iterator_system<OutputIterator>::type  system3;
 
-    return binary_search(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
+    return thrust::detail::strip_const_binary_search(select_system(system1(),system2(),system3()), first, last, values_first, values_last, output, comp);
 }
 
 } // end namespace thrust

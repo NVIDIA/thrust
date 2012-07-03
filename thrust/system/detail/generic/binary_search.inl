@@ -231,8 +231,8 @@ bool binary_search(thrust::dispatchable<System> &,
 // Vector Functions //
 //////////////////////
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator lower_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -241,11 +241,11 @@ OutputIterator lower_bound(tag,
 {
   typedef typename thrust::iterator_value<InputIterator>::type ValueType;
 
-  return thrust::lower_bound(begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  return thrust::lower_bound(system, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
 }
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator lower_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator lower_bound(thrust::dispatchable<System> &,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -257,8 +257,8 @@ OutputIterator lower_bound(tag,
 }
 
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator upper_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -267,11 +267,11 @@ OutputIterator upper_bound(tag,
 {
   typedef typename thrust::iterator_value<InputIterator>::type ValueType;
 
-  return thrust::upper_bound(begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  return thrust::upper_bound(system, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
 }
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator upper_bound(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator upper_bound(thrust::dispatchable<System> &,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -283,8 +283,8 @@ OutputIterator upper_bound(tag,
 }
 
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator binary_search(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(thrust::dispatchable<System> &system,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
@@ -293,11 +293,11 @@ OutputIterator binary_search(tag,
 {
   typedef typename thrust::iterator_value<InputIterator>::type ValueType;
 
-  return thrust::binary_search(begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  return thrust::binary_search(system, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
 }
 
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator binary_search(tag,
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator binary_search(thrust::dispatchable<System> &,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
