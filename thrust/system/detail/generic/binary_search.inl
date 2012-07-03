@@ -163,17 +163,17 @@ OutputType binary_search(ForwardIterator begin,
 // Scalar Functions //
 //////////////////////
 
-template <typename ForwardIterator, typename T>
-ForwardIterator lower_bound(tag,
+template <typename System, typename ForwardIterator, typename T>
+ForwardIterator lower_bound(thrust::dispatchable<System> &system,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value)
 {
-  return thrust::lower_bound(begin, end, value, thrust::less<T>());
+  return thrust::lower_bound(system, begin, end, value, thrust::less<T>());
 }
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator lower_bound(tag,
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator lower_bound(thrust::dispatchable<System> &,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
@@ -185,17 +185,17 @@ ForwardIterator lower_bound(tag,
 }
 
 
-template <typename ForwardIterator, typename T>
-ForwardIterator upper_bound(tag,
+template <typename System, typename ForwardIterator, typename T>
+ForwardIterator upper_bound(thrust::dispatchable<System> &system,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value)
 {
-  return thrust::upper_bound(begin, end, value, thrust::less<T>());
+  return thrust::upper_bound(system, begin, end, value, thrust::less<T>());
 }
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator upper_bound(tag,
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator upper_bound(thrust::dispatchable<System> &,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
@@ -207,17 +207,17 @@ ForwardIterator upper_bound(tag,
 }
 
 
-template <typename ForwardIterator, typename T>
-bool binary_search(tag,
+template <typename System, typename ForwardIterator, typename T>
+bool binary_search(thrust::dispatchable<System> &system,
                    ForwardIterator begin,
                    ForwardIterator end,
                    const T& value)
 {
-  return thrust::binary_search(begin, end, value, thrust::less<T>());
+  return thrust::binary_search(system, begin, end, value, thrust::less<T>());
 }
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-bool binary_search(tag,
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+bool binary_search(thrust::dispatchable<System> &,
                    ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 

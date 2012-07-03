@@ -22,10 +22,56 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename ForwardIterator, typename LessThanComparable>
+ForwardIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const LessThanComparable &value);
+
+
+template<typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const T &value,
+                            StrictWeakOrdering comp);
+
+
+template<typename System, typename ForwardIterator, typename LessThanComparable>
+ForwardIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const LessThanComparable &value);
+
+
+template<typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const T &value,
+                            StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename LessThanComparable>
+bool binary_search(thrust::detail::dispatchable_base<System> &system,
+                   ForwardIterator first, 
+                   ForwardIterator last,
+                   const LessThanComparable& value);
+
+
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+bool binary_search(thrust::detail::dispatchable_base<System> &system,
+                   ForwardIterator first,
+                   ForwardIterator last,
+                   const T& value, 
+                   StrictWeakOrdering comp);
 
     
 /*! \addtogroup algorithms
