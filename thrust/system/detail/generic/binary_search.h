@@ -130,16 +130,16 @@ OutputIterator binary_search(tag,
                              StrictWeakOrdering comp);
 
 
-template <typename ForwardIterator, typename LessThanComparable>
+template <typename System, typename ForwardIterator, typename LessThanComparable>
 thrust::pair<ForwardIterator,ForwardIterator>
-equal_range(tag,
+equal_range(thrust::dispatchable<System> &system,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable &value);
 
-template <typename ForwardIterator, typename LessThanComparable, typename StrictWeakOrdering>
+template <typename System, typename ForwardIterator, typename LessThanComparable, typename StrictWeakOrdering>
 thrust::pair<ForwardIterator,ForwardIterator>
-equal_range(tag,
+equal_range(thrust::dispatchable<System> &system,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable &value,

@@ -242,7 +242,21 @@ thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_system, ForwardIter
     return thrust::make_pair(first,first);
 }
 
-void TestScalarEqualRangeDispatch()
+void TestScalarEqualRangeDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys;
+    thrust::equal_range(sys,
+                        vec.begin(),
+                        vec.end(),
+                        0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScalarEqualRangeDispatchExplicit);
+
+void TestScalarEqualRangeDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -252,6 +266,6 @@ void TestScalarEqualRangeDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScalarEqualRangeDispatch);
+DECLARE_UNITTEST(TestScalarEqualRangeDispatchImplicit);
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

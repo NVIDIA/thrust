@@ -309,27 +309,27 @@ OutputIterator binary_search(tag,
 }
 
 
-template <typename ForwardIterator, typename LessThanComparable>
+template <typename System, typename ForwardIterator, typename LessThanComparable>
 thrust::pair<ForwardIterator,ForwardIterator>
-equal_range(tag,
+equal_range(thrust::dispatchable<System> &system,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable &value)
 {
-  return thrust::equal_range(first, last, value, thrust::less<LessThanComparable>());
+  return thrust::equal_range(system, first, last, value, thrust::less<LessThanComparable>());
 }
 
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 thrust::pair<ForwardIterator,ForwardIterator>
-equal_range(tag,
+equal_range(thrust::dispatchable<System> &system,
             ForwardIterator first,
             ForwardIterator last,
             const T &value,
             StrictWeakOrdering comp)
 {
-  ForwardIterator lb = thrust::lower_bound(first, last, value, comp);
-  ForwardIterator ub = thrust::upper_bound(first, last, value, comp);
+  ForwardIterator lb = thrust::lower_bound(system, first, last, value, comp);
+  ForwardIterator ub = thrust::upper_bound(system, first, last, value, comp);
   return thrust::make_pair(lb, ub);
 }
 

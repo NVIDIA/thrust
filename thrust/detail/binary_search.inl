@@ -99,6 +99,31 @@ bool binary_search(thrust::detail::dispatchable_base<System> &system,
 }
 
 
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const T& value,
+            StrictWeakOrdering comp)
+{
+    using thrust::system::detail::generic::equal_range;
+    return equal_range(system.derived(), first, last, value, comp);
+}
+
+
+template <typename System, typename ForwardIterator, typename LessThanComparable>
+thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const LessThanComparable& value)
+{
+    using thrust::system::detail::generic::equal_range;
+    return equal_range(system.derived(), first, last, value);
+}
+
+
 namespace detail
 {
 
@@ -172,7 +197,32 @@ bool strip_const_binary_search(const System &system,
 }
 
 
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+thrust::pair<ForwardIterator, ForwardIterator>
+strip_const_equal_range(const System &system,
+                        ForwardIterator first,
+                        ForwardIterator last,
+                        const T& value,
+                        StrictWeakOrdering comp)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::equal_range(non_const_system, first, last, value, comp);
 }
+
+
+template <typename System, typename ForwardIterator, typename LessThanComparable>
+thrust::pair<ForwardIterator, ForwardIterator>
+strip_const_equal_range(const System &system,
+                        ForwardIterator first,
+                        ForwardIterator last,
+                        const LessThanComparable& value)
+{
+    System &non_const_system = const_cast<System&>(system);
+    return thrust::equal_range(non_const_system, first, last, value);
+}
+
+
+} // end detail
 
 
 //////////////////////
@@ -261,11 +311,10 @@ equal_range(ForwardIterator first,
             const LessThanComparable& value)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::equal_range;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return equal_range(select_system(system()), first, last, value);
+    return thrust::detail::strip_const_equal_range(select_system(system()), first, last, value);
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
@@ -276,11 +325,10 @@ equal_range(ForwardIterator first,
             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::select_system;
-    using thrust::system::detail::generic::equal_range;
 
     typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-    return equal_range(select_system(system()), first, last, value, comp);
+    return thrust::detail::strip_const_equal_range(select_system(system()), first, last, value, comp);
 }
 
 //////////////////////

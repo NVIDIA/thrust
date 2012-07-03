@@ -73,6 +73,23 @@ bool binary_search(thrust::detail::dispatchable_base<System> &system,
                    const T& value, 
                    StrictWeakOrdering comp);
 
+
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const T& value,
+            StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename LessThanComparable>
+thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const LessThanComparable& value);
+
     
 /*! \addtogroup algorithms
  */
