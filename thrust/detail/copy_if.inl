@@ -25,6 +25,77 @@ namespace thrust
 {
 
 
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator first,
+                         InputIterator last,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  using thrust::system::detail::generic::copy_if;
+  return copy_if(system.derived(), first, last, result, pred);
+} // end copy_if()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred)
+{
+  using thrust::system::detail::generic::copy_if;
+  return copy_if(system.derived(), first, last, stencil, result, pred);
+} // end copy_if()
+
+
+namespace detail
+{
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator strip_const_copy_if(const System &system,
+                                     InputIterator first,
+                                     InputIterator last,
+                                     OutputIterator result,
+                                     Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::copy_if(non_const_system, first, last, result, pred);
+} // end copy_if()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator strip_const_copy_if(const System &system,
+                                     InputIterator1 first,
+                                     InputIterator1 last,
+                                     InputIterator2 stencil,
+                                     OutputIterator result,
+                                     Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::copy_if(non_const_system, first, last, stencil, result, pred);
+} // end copy_if()
+
+
+} // end detail
+
+
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
@@ -34,12 +105,11 @@ template<typename InputIterator,
                          Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::copy_if;
 
   typedef typename thrust::iterator_system<InputIterator>::type system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return copy_if(select_system(system1(),system2()), first, last, result, pred);
+  return thrust::detail::strip_const_copy_if(select_system(system1(),system2()), first, last, result, pred);
 } // end copy_if()
 
 
@@ -54,13 +124,12 @@ template<typename InputIterator1,
                          Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::copy_if;
 
   typedef typename thrust::iterator_system<InputIterator1>::type system1;
   typedef typename thrust::iterator_system<InputIterator2>::type system2;
   typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return copy_if(select_system(system1(),system2(),system3()), first, last, stencil, result, pred);
+  return thrust::detail::strip_const_copy_if(select_system(system1(),system2(),system3()), first, last, stencil, result, pred);
 } // end copy_if()
 
 

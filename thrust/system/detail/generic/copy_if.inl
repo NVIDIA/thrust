@@ -42,42 +42,41 @@ namespace generic
 namespace detail
 {
 
-template<typename IndexType,
+template<typename System,
+         typename IndexType,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-OutputIterator copy_if(InputIterator1 first,
+OutputIterator copy_if(thrust::dispatchable<System> &system,
+                       InputIterator1 first,
                        InputIterator1 last,
                        InputIterator2 stencil,
                        OutputIterator result,
                        Predicate pred)
 {
-    typedef typename thrust::detail::minimum_system<
-      typename thrust::iterator_system<InputIterator1>::type,
-      typename thrust::iterator_system<InputIterator2>::type,
-      typename thrust::iterator_system<OutputIterator>::type
-    >::type System;
-
     __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
 
     // compute {0,1} predicates
     thrust::detail::temporary_array<IndexType, System> predicates(n);
-    thrust::transform(stencil,
+    thrust::transform(system,
+                      stencil,
                       stencil + n,
                       predicates.begin(),
                       thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
 
     // scan {0,1} predicates
     thrust::detail::temporary_array<IndexType, System> scatter_indices(n);
-    thrust::exclusive_scan(predicates.begin(),
+    thrust::exclusive_scan(system,
+                           predicates.begin(),
                            predicates.end(),
                            scatter_indices.begin(),
                            static_cast<IndexType>(0),
                            thrust::plus<IndexType>());
 
     // scatter the true elements
-    thrust::scatter_if(first,
+    thrust::scatter_if(system,
+                       first,
                        last,
                        scatter_indices.begin(),
                        predicates.begin(),
@@ -93,10 +92,11 @@ OutputIterator copy_if(InputIterator1 first,
 } // end namespace detail
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(tag,
+  OutputIterator copy_if(thrust::dispatchable<System> &system,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
@@ -106,15 +106,16 @@ template<typename InputIterator,
   //     we should probably specialize this case for POD
   //     since we can safely keep the input in a temporary instead
   //     of doing two loads
-  return thrust::copy_if(first, last, first, result, pred);
+  return thrust::copy_if(system, first, last, first, result, pred);
 } // end copy_if()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(tag,
+   OutputIterator copy_if(thrust::dispatchable<System> &system,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -127,7 +128,7 @@ template<typename InputIterator1,
   if(first == last)
     return result;
   
-  difference_type n = thrust::distance(first, last);
+  difference_type n = thrust::distance(system, first, last);
   
   // create an unsigned version of n (we know n is positive from the comparison above)
   // to avoid a warning in the compare below
@@ -136,11 +137,11 @@ template<typename InputIterator1,
   // use 32-bit indices when possible (almost always)
   if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
   {
-    result = detail::copy_if<difference_type>(first, last, stencil, result, pred);
+    result = detail::copy_if<difference_type>(system, first, last, stencil, result, pred);
   } // end if
   else
   {
-    result = detail::copy_if<unsigned int>(first, last, stencil, result, pred);
+    result = detail::copy_if<unsigned int>(system, first, last, stencil, result, pred);
   } // end else
 
   return result;

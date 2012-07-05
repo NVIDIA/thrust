@@ -29,21 +29,23 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(tag,
+  OutputIterator copy_if(thrust::dispatchable<System> &system,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
                          Predicate pred);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(tag,
+   OutputIterator copy_if(thrust::dispatchable<System> &system,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
