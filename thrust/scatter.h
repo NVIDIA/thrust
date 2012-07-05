@@ -22,9 +22,48 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator>
+  void scatter(thrust::detail::dispatchable_base<System> &system,
+               InputIterator1 first,
+               InputIterator1 last,
+               InputIterator2 map,
+               RandomAccessIterator output);
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename RandomAccessIterator>
+  void scatter_if(thrust::detail::dispatchable_base<System> &system,
+                  InputIterator1 first,
+                  InputIterator1 last,
+                  InputIterator2 map,
+                  InputIterator3 stencil,
+                  RandomAccessIterator output);
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename RandomAccessIterator,
+         typename Predicate>
+  void scatter_if(thrust::detail::dispatchable_base<System> &system,
+                  InputIterator1 first,
+                  InputIterator1 last,
+                  InputIterator2 map,
+                  InputIterator3 stencil,
+                  RandomAccessIterator output,
+                  Predicate pred);
+
 
 /*! \addtogroup scattering
  *  \ingroup copying
