@@ -34,10 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(dispatchable<System> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -47,11 +48,12 @@ template<typename InputIterator,
 }
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(dispatchable<System> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,

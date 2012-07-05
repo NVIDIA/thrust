@@ -3,7 +3,7 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/transform_iterator.h>
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template <typename Vector>
 void TestInclusiveScanByKeySimple(void)
@@ -62,7 +62,7 @@ DECLARE_VECTOR_UNITTEST(TestInclusiveScanByKeySimple);
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-OutputIterator inclusive_scan_by_key(my_tag,
+OutputIterator inclusive_scan_by_key(my_system,
                                      InputIterator1,
                                      InputIterator1,
                                      InputIterator2,
@@ -72,18 +72,33 @@ OutputIterator inclusive_scan_by_key(my_tag,
     return result;
 }
 
-void TestInclusiveScanByKeyDispatch()
+void TestInclusiveScanByKeyDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::inclusive_scan_by_key(thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::inclusive_scan_by_key(sys,
+                                  vec.begin(),
+                                  vec.begin(),
+                                  vec.begin(),
+                                  vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestInclusiveScanByKeyDispatch);
+DECLARE_UNITTEST(TestInclusiveScanByKeyDispatchExplicit);
+
+void TestInclusiveScanByKeyDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::inclusive_scan_by_key(thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestInclusiveScanByKeyDispatchImplicit);
 
 
 template <typename Vector>
@@ -153,7 +168,7 @@ DECLARE_VECTOR_UNITTEST(TestExclusiveScanByKeySimple);
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-OutputIterator exclusive_scan_by_key(my_tag,
+OutputIterator exclusive_scan_by_key(my_system,
                                      InputIterator1,
                                      InputIterator1,
                                      InputIterator2,
@@ -163,18 +178,33 @@ OutputIterator exclusive_scan_by_key(my_tag,
     return result;
 }
 
-void TestExclusiveScanByKeyDispatch()
+void TestExclusiveScanByKeyDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::exclusive_scan_by_key(thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::exclusive_scan_by_key(sys,
+                                  vec.begin(),
+                                  vec.begin(),
+                                  vec.begin(),
+                                  vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestExclusiveScanByKeyDispatch);
+DECLARE_UNITTEST(TestExclusiveScanByKeyDispatchExplicit);
+
+void TestExclusiveScanByKeyDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::exclusive_scan_by_key(thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestExclusiveScanByKeyDispatchImplicit);
 
 
 struct head_flag_predicate
