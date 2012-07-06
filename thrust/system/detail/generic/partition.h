@@ -33,54 +33,60 @@ namespace detail
 namespace generic
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(tag,
+  ForwardIterator stable_partition(thrust::dispatchable<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(tag,
+    stable_partition_copy(thrust::dispatchable<System> &system,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred);
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(tag,
+  ForwardIterator partition(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(tag,
+    partition_copy(thrust::dispatchable<System> &system,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred);
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition_point(tag,
+  ForwardIterator partition_point(thrust::dispatchable<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Predicate>
-  bool is_partitioned(tag,
+  bool is_partitioned(thrust::dispatchable<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
