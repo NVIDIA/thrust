@@ -34,14 +34,14 @@ namespace omp
 namespace detail
 {
 
-template <typename InputIterator, typename Predicate>
-InputIterator find_if(tag,
+template <typename System, typename InputIterator, typename Predicate>
+InputIterator find_if(dispatchable<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
   // omp prefers generic::find_if to cpp::find_if
-  return thrust::system::detail::generic::find_if(tag(), first, last, pred);
+  return thrust::system::detail::generic::find_if(system, first, last, pred);
 }
 
 } // end namespace detail
