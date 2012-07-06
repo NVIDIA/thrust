@@ -22,12 +22,79 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-
-#include <thrust/pair.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename InputIterator>
+  typename thrust::iterator_traits<InputIterator>::value_type
+    reduce(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last);
+
+template<typename System, typename InputIterator, typename T>
+  T reduce(thrust::detail::dispatchable_base<System> &system,
+           InputIterator first,
+           InputIterator last,
+           T init);
+
+template<typename System,
+         typename InputIterator,
+         typename T,
+         typename BinaryFunction>
+  T reduce(thrust::detail::dispatchable_base<System> &system,
+           InputIterator first,
+           InputIterator last,
+           T init,
+           BinaryFunction binary_op);
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(thrust::detail::dispatchable_base<System> &system,
+                InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output);
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(thrust::detail::dispatchable_base<System> &system,
+                InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output,
+                BinaryPredicate binary_pred);
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate,
+          typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(thrust::detail::dispatchable_base<System> &system,
+                InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output,
+                BinaryPredicate binary_pred,
+                BinaryFunction binary_op);
+
 
 /*! \addtogroup reductions
  *  \{

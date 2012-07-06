@@ -152,11 +152,11 @@ struct unordered_reduce_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template<typename Tag,
+template<typename System,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(Tag,
+  OutputType reduce(dispatchable<System> &,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
@@ -176,7 +176,7 @@ template<typename Tag,
   if (n == 0)
     return init;
 
-  typedef thrust::detail::temporary_array<OutputType, Tag> OutputArray;
+  typedef thrust::detail::temporary_array<OutputType, System> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
   typedef detail::blocked_thread_array Context;
@@ -255,21 +255,17 @@ template<typename Tag,
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(tag,
+  OutputType reduce(dispatchable<System> &system,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  // recover the user's system tag and pass to reduce_detail::reduce
-  using thrust::system::detail::generic::select_system;
-
-  typedef typename thrust::iterator_system<InputIterator>::type system;
-
-  return reduce_detail::reduce(select_system(system()), first, last, init, binary_op);
+  return reduce_detail::reduce(system, first, last, init, binary_op);
 } // end reduce()
 
 } // end namespace detail
