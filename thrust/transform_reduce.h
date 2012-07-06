@@ -22,9 +22,24 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator, 
+         typename UnaryFunction, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType transform_reduce(thrust::detail::dispatchable_base<System> &system,
+                              InputIterator first,
+                              InputIterator last,
+                              UnaryFunction unary_op,
+                              OutputType init,
+                              BinaryFunction binary_op);
+
 
 /*! \addtogroup reductions
  *  \{

@@ -29,11 +29,12 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator, 
+template<typename System,
+         typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(tag,
+  OutputType transform_reduce(thrust::dispatchable<System> &system,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
