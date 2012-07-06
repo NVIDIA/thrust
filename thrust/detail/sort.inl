@@ -29,6 +29,98 @@
 namespace thrust
 {
 
+
+template<typename System, typename ForwardIterator>
+  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+                 ForwardIterator first,
+                 ForwardIterator last)
+{
+  using thrust::system::detail::generic::is_sorted;
+  return is_sorted(system.derived(), first, last);
+} // end is_sorted()
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp)
+{
+  using thrust::system::detail::generic::is_sorted;
+  return is_sorted(system.derived(), first, last, comp);
+} // end is_sorted()
+
+
+template<typename System, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+                                  ForwardIterator first,
+                                  ForwardIterator last)
+{
+  using thrust::system::detail::generic::is_sorted_until;
+  return is_sorted_until(system.derived(), first, last);
+} // end is_sorted_until()
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp)
+{
+  using thrust::system::detail::generic::is_sorted_until;
+  return is_sorted_until(system.derived(), first, last, comp);
+} // end is_sorted_until()
+
+
+namespace detail
+{
+
+
+template<typename System, typename ForwardIterator>
+  bool strip_const_is_sorted(const System &system,
+                             ForwardIterator first,
+                             ForwardIterator last)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::is_sorted(non_const_system, first, last);
+} // end is_sorted()
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  bool strip_const_is_sorted(const System &system,
+                             ForwardIterator first,
+                             ForwardIterator last,
+                             Compare comp)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::is_sorted(non_const_system, first, last, comp);
+} // end is_sorted()
+
+
+template<typename System, typename ForwardIterator>
+  ForwardIterator strip_const_is_sorted_until(const System &system,
+                                              ForwardIterator first,
+                                              ForwardIterator last)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::is_sorted_until(non_const_system, first, last);
+} // end is_sorted_until()
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  ForwardIterator strip_const_is_sorted_until(const System &system,
+                                              ForwardIterator first,
+                                              ForwardIterator last,
+                                              Compare comp)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::is_sorted_until(non_const_system, first, last, comp);
+} // end is_sorted_until()
+
+
+} // end detail
+
+
 ///////////////
 // Key Sorts //
 ///////////////
@@ -167,11 +259,10 @@ template<typename ForwardIterator>
                  ForwardIterator last)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::is_sorted;
   
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return is_sorted(select_system(system()), first, last);
+  return thrust::detail::strip_const_is_sorted(select_system(system()), first, last);
 } // end is_sorted()
 
 
@@ -182,11 +273,10 @@ template<typename ForwardIterator,
                  Compare comp)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::is_sorted;
   
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return is_sorted(select_system(system()), first, last, comp);
+  return thrust::detail::strip_const_is_sorted(select_system(system()), first, last, comp);
 } // end is_sorted()
 
 
@@ -195,11 +285,10 @@ template<typename ForwardIterator>
                                   ForwardIterator last)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::is_sorted_until;
   
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return is_sorted_until(select_system(system()), first, last);
+  return thrust::detail::strip_const_is_sorted_until(select_system(system()), first, last);
 } // end is_sorted_until()
 
 
@@ -210,11 +299,10 @@ template<typename ForwardIterator,
                                   Compare comp)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::is_sorted_until;
   
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return is_sorted_until(select_system(system()), first, last, comp);
+  return thrust::detail::strip_const_is_sorted_until(select_system(system()), first, last, comp);
 } // end is_sorted_until()
 
 

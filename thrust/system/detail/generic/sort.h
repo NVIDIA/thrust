@@ -95,29 +95,31 @@ template<typename RandomAccessIterator1,
                           StrictWeakOrdering comp);
 
 
-template<typename ForwardIterator>
-  bool is_sorted(tag,
+template<typename System, typename ForwardIterator>
+  bool is_sorted(thrust::dispatchable<System> &system,
                  ForwardIterator first,
                  ForwardIterator last);
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Compare>
-  bool is_sorted(tag,
+  bool is_sorted(thrust::dispatchable<System> &system,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp);
 
 
-template<typename ForwardIterator>
-  ForwardIterator is_sorted_until(tag,
+template<typename System, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last);
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Compare>
-  ForwardIterator is_sorted_until(tag,
+  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp);

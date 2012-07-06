@@ -22,9 +22,36 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename ForwardIterator>
+  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+                 ForwardIterator first,
+                 ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp);
+
+
+template<typename System, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+                                  ForwardIterator first,
+                                  ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp);
 
 
 /*! \addtogroup sorting
