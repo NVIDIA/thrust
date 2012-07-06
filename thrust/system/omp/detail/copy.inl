@@ -34,71 +34,78 @@ namespace detail
 namespace dispatch
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator first,
+  OutputIterator copy(dispatchable<System> &system,
+                      InputIterator first,
                       InputIterator last,
                       OutputIterator result,
                       thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy(tag(), first, last, result);
+  return thrust::system::cpp::detail::copy(system, first, last, result);
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator first,
+  OutputIterator copy(dispatchable<System> &system,
+                      InputIterator first,
                       InputIterator last,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
   // XXX WAR problems reconciling unrelated types such as omp & tbb
-  // reinterpret iterators as omp
+  // reinterpret iterators as the system we were passed
   // this ensures that generic::copy's implementation, which eventually results in
   // zip_iterator works correctly
-  thrust::detail::tagged_iterator<OutputIterator,tag> retagged_result(result);
+  thrust::detail::tagged_iterator<OutputIterator,System> retagged_result(result);
 
-  return thrust::system::detail::generic::copy(tag(), thrust::reinterpret_tag<tag>(first), thrust::reinterpret_tag<tag>(last), retagged_result).base();
+  return thrust::system::detail::generic::copy(system, thrust::reinterpret_tag<System>(first), thrust::reinterpret_tag<System>(last), retagged_result).base();
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
+  OutputIterator copy_n(dispatchable<System> &system,
+                        InputIterator first,
                         Size n,
                         OutputIterator result,
                         thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy_n(tag(), first, n, result);
+  return thrust::system::cpp::detail::copy_n(system, first, n, result);
 } // end copy_n()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
+  OutputIterator copy_n(dispatchable<System> &system,
+                        InputIterator first,
                         Size n,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  typedef typename thrust::iterator_system<OutputIterator>::type original_tag;
-
   // XXX WAR problems reconciling unrelated types such as omp & tbb
-  // reinterpret iterators as omp
+  // reinterpret iterators as the system we were passed
   // this ensures that generic::copy's implementation, which eventually results in
   // zip_iterator works correctly
-  thrust::detail::tagged_iterator<OutputIterator,tag> retagged_result(result);
+  thrust::detail::tagged_iterator<OutputIterator,System> retagged_result(result);
 
-  return thrust::system::detail::generic::copy_n(tag(), thrust::reinterpret_tag<tag>(first), n, retagged_result).base();
+  return thrust::system::detail::generic::copy_n(system, thrust::reinterpret_tag<System>(first), n, retagged_result).base();
 } // end copy_n()
 
 } // end dispatch
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-OutputIterator copy(tag,
+OutputIterator copy(dispatchable<System> &system,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result)
@@ -109,15 +116,16 @@ OutputIterator copy(tag,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy(first,last,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy(system, first,last,result,traversal());
 } // end copy()
 
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-OutputIterator copy_n(tag,
+OutputIterator copy_n(dispatchable<System> &system,
                       InputIterator first,
                       Size n,
                       OutputIterator result)
@@ -128,7 +136,7 @@ OutputIterator copy_n(tag,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy_n(first,n,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy_n(system,first,n,result,traversal());
 } // end copy_n()
 
 

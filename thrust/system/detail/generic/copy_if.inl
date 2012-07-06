@@ -42,8 +42,8 @@ namespace generic
 namespace detail
 {
 
-template<typename System,
-         typename IndexType,
+template<typename IndexType,
+         typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
