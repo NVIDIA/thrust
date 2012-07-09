@@ -6,13 +6,13 @@
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
-struct my_tag : thrust::device_system<my_tag> {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename AssociativeOperator>
-OutputIterator transform_inclusive_scan(my_tag,
+OutputIterator transform_inclusive_scan(my_system,
                                         InputIterator,
                                         InputIterator,
                                         OutputIterator result,
@@ -23,19 +23,35 @@ OutputIterator transform_inclusive_scan(my_tag,
     return result;
 }
 
-void TestTransformInclusiveScanDispatch()
+void TestTransformInclusiveScanDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::transform_inclusive_scan(thrust::retag<my_tag>(vec.begin()),
-                                     thrust::retag<my_tag>(vec.begin()),
-                                     thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::transform_inclusive_scan(sys,
+                                     vec.begin(),
+                                     vec.begin(),
+                                     vec.begin(),
                                      0,
                                      0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestTransformInclusiveScanDispatch);
+DECLARE_UNITTEST(TestTransformInclusiveScanDispatchExplicit);
+
+void TestTransformInclusiveScanDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_inclusive_scan(thrust::retag<my_system>(vec.begin()),
+                                     thrust::retag<my_system>(vec.begin()),
+                                     thrust::retag<my_system>(vec.begin()),
+                                     0,
+                                     0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformInclusiveScanDispatchImplicit);
 
 
 template<typename InputIterator,
@@ -43,7 +59,7 @@ template<typename InputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-OutputIterator transform_exclusive_scan(my_tag,
+OutputIterator transform_exclusive_scan(my_system,
                                         InputIterator,
                                         InputIterator,
                                         OutputIterator result,
@@ -55,20 +71,37 @@ OutputIterator transform_exclusive_scan(my_tag,
     return result;
 }
 
-void TestTransformExclusiveScanDispatch()
+void TestTransformExclusiveScanDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::transform_exclusive_scan(thrust::retag<my_tag>(vec.begin()),
-                                     thrust::retag<my_tag>(vec.begin()),
-                                     thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::transform_exclusive_scan(sys,
+                                     vec.begin(),
+                                     vec.begin(),
+                                     vec.begin(),
                                      0,
                                      0,
                                      0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestTransformExclusiveScanDispatch);
+DECLARE_UNITTEST(TestTransformExclusiveScanDispatchExplicit);
+
+void TestTransformExclusiveScanDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::transform_exclusive_scan(thrust::retag<my_system>(vec.begin()),
+                                     thrust::retag<my_system>(vec.begin()),
+                                     thrust::retag<my_system>(vec.begin()),
+                                     0,
+                                     0,
+                                     0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestTransformExclusiveScanDispatchImplicit);
 
 
 template <class Vector>
