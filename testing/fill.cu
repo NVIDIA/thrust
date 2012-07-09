@@ -384,45 +384,67 @@ void TestFillWithNonTrivialAssignment(void)
 DECLARE_UNITTEST(TestFillWithNonTrivialAssignment);
 
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename ForwardIterator, typename T>
-void fill(my_tag, ForwardIterator first, ForwardIterator, const T&)
+void fill(my_system, ForwardIterator first, ForwardIterator, const T&)
 {
     *first = 13;
 }
 
-void TestFillDispatch()
+void TestFillDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::fill(thrust::retag<my_tag>(vec.begin()),
-                 thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::fill(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestFillDispatchExplicit);
+
+void TestFillDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::fill(thrust::retag<my_system>(vec.begin()),
+                 thrust::retag<my_system>(vec.end()),
                  0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFillDispatch);
+DECLARE_UNITTEST(TestFillDispatchImplicit);
 
 
 template<typename OutputIterator, typename Size, typename T>
-OutputIterator fill_n(my_tag, OutputIterator first, Size, const T&)
+OutputIterator fill_n(my_system, OutputIterator first, Size, const T&)
 {
     *first = 13;
     return first;
 }
 
-void TestFillNDispatch()
+void TestFillNDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::fill_n(thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::fill_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestFillNDispatchExplicit);
+
+void TestFillNDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::fill_n(thrust::retag<my_system>(vec.begin()),
                    vec.size(),
                    0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFillNDispatch);
+DECLARE_UNITTEST(TestFillNDispatchImplicit);
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

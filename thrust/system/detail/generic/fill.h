@@ -35,22 +35,24 @@ namespace generic
 {
 
 
-template<typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(tag,
+template<typename System, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(thrust::dispatchable<System> &system,
                         OutputIterator first,
                         Size n,
                         const T &value)
 {
-  return thrust::generate_n(first, n, thrust::detail::fill_functor<T>(value));
+  // XXX consider using the placeholder expression _1 = value
+  return thrust::generate_n(system, first, n, thrust::detail::fill_functor<T>(value));
 }
 
-template<typename ForwardIterator, typename T>
-  void fill(tag,
+template<typename System, typename ForwardIterator, typename T>
+  void fill(thrust::dispatchable<System> &system,
             ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
-  thrust::generate(first, last, thrust::detail::fill_functor<T>(value));
+  // XXX consider using the placeholder expression _1 = value
+  thrust::generate(system, first, last, thrust::detail::fill_functor<T>(value));
 }
 
 
