@@ -34,27 +34,42 @@ void TestGatherSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGatherSimple);
 
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator, typename RandomAccessIterator, typename OutputIterator>
-OutputIterator gather(my_tag, InputIterator , InputIterator, RandomAccessIterator, OutputIterator result)
+OutputIterator gather(my_system, InputIterator, InputIterator, RandomAccessIterator, OutputIterator result)
 {
     *result = 13;
     return result;
 }
 
-void TestGatherDispatch()
+void TestGatherDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::gather(thrust::retag<my_tag>(vec.begin()),
-                   thrust::retag<my_tag>(vec.end()),
-                   thrust::retag<my_tag>(vec.begin()),
-                   thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::gather(sys,
+                   vec.begin(),
+                   vec.end(),
+                   vec.begin(),
+                   vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestGatherDispatch);
+DECLARE_UNITTEST(TestGatherDispatchExplicit);
+
+void TestGatherDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::gather(thrust::retag<my_system>(vec.begin()),
+                   thrust::retag<my_system>(vec.end()),
+                   thrust::retag<my_system>(vec.begin()),
+                   thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestGatherDispatchImplicit);
 
 
 template <typename T>
@@ -156,7 +171,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-OutputIterator gather_if(my_tag,
+OutputIterator gather_if(my_system,
                          InputIterator1       map_first,
                          InputIterator1       map_last,
                          InputIterator2       stencil,
@@ -167,19 +182,35 @@ OutputIterator gather_if(my_tag,
     return result;
 }
 
-void TestGatherIfDispatch()
+void TestGatherIfDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::gather_if(thrust::retag<my_tag>(vec.begin()),
-                      thrust::retag<my_tag>(vec.end()),
-                      thrust::retag<my_tag>(vec.begin()),
-                      thrust::retag<my_tag>(vec.begin()),
-                      thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::gather_if(sys,
+                      vec.begin(),
+                      vec.end(),
+                      vec.begin(),
+                      vec.begin(),
+                      vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestGatherIfDispatch);
+DECLARE_UNITTEST(TestGatherIfDispatchExplicit);
+
+void TestGatherIfDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::gather_if(thrust::retag<my_system>(vec.begin()),
+                      thrust::retag<my_system>(vec.end()),
+                      thrust::retag<my_system>(vec.begin()),
+                      thrust::retag<my_system>(vec.begin()),
+                      thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestGatherIfDispatchImplicit);
 
 
 template <typename T>

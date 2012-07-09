@@ -22,9 +22,50 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+  OutputIterator gather(thrust::detail::dispatchable_base<System> &system,
+                        InputIterator                              map_first,
+                        InputIterator                              map_last,
+                        RandomAccessIterator                       input_first,
+                        OutputIterator                             result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+  OutputIterator gather_if(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1                             map_first,
+                           InputIterator1                             map_last,
+                           InputIterator2                             stencil,
+                           RandomAccessIterator                       input_first,
+                           OutputIterator                             result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator gather_if(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1                             map_first,
+                           InputIterator1                             map_last,
+                           InputIterator2                             stencil,
+                           RandomAccessIterator                       input_first,
+                           OutputIterator                             result,
+                           Predicate                                  pred);
+
 
 /*! \addtogroup gathering
  *  \ingroup copying
