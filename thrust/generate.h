@@ -22,9 +22,30 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename Generator>
+  void generate(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator first,
+                ForwardIterator last,
+                Generator gen);
+
+
+template<typename System,
+         typename OutputIterator,
+         typename Size,
+         typename Generator>
+  OutputIterator generate_n(thrust::detail::dispatchable_base<System> &system,
+                            OutputIterator first,
+                            Size n,
+                            Generator gen);
+
 
 /*! \addtogroup transformations
  *  \{
