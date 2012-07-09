@@ -22,9 +22,23 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool all_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool any_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool none_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+
 
 /*! \addtogroup reductions
  *  \{
@@ -65,7 +79,7 @@ namespace thrust
  *  \see none_of
  *  \see transform_reduce
  */
-template <class InputIterator, class Predicate>
+template <typename InputIterator, typename Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred);
    
 
@@ -101,7 +115,7 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see none_of
  *  \see transform_reduce
  */
-template <class InputIterator, class Predicate>
+template <typename InputIterator, typename Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -137,7 +151,7 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see any_of
  *  \see transform_reduce
  */
-template <class InputIterator, class Predicate>
+template <typename InputIterator, typename Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred);
 
 /*! \} // end logical
