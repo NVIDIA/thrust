@@ -189,8 +189,18 @@ void merge_sort_by_key(Iterator1 first1,
   ::tbb::parallel_invoke(left, right);
 
   // TODO replace with thrust::merge_by_key
-  if (inplace) thrust::system::tbb::detail::merge_by_key(thrust::system::tbb::tag(), first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
-  else			   thrust::system::tbb::detail::merge_by_key(thrust::system::tbb::tag(), first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
+  if(inplace)
+  {
+    // XXX forward the given system here instead
+    tag tbb_tag;
+    thrust::system::tbb::detail::merge_by_key(tbb_tag, first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
+  }
+  else
+  {
+    // XXX forward the given system here instead
+    tag tbb_tag;
+    thrust::system::tbb::detail::merge_by_key(tbb_tag, first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
+  }
 }
 
 } // end namespace sort_detail

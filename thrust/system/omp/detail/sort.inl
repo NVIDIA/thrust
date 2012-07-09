@@ -81,8 +81,10 @@ void inplace_merge_by_key(Tag,
   thrust::detail::temporary_array<value_type2,Tag> lhs2( first2, middle2);
   thrust::detail::temporary_array<value_type2,Tag> rhs2(middle2,   last2);
 
+  // XXX forward the given system here instead
+  thrust::cpp::tag cpp_tag;
   thrust::system::cpp::detail::merge_by_key
-    (thrust::cpp::tag(),
+    (cpp_tag,
      lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
      lhs2.begin(), rhs2.begin(),
      first1, first2, comp);

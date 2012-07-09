@@ -30,11 +30,12 @@ namespace cpp
 namespace detail
 {
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(tag,
+OutputIterator merge(dispatchable<System> &,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -45,7 +46,8 @@ OutputIterator merge(tag,
   return thrust::system::detail::internal::scalar::merge(first1, last1, first2, last2, result, comp);
 }
 
-template <typename InputIterator1,
+template <typename System,
+          typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
           typename InputIterator4,
@@ -53,7 +55,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(tag,
+    merge_by_key(dispatchable<System> &,
                  InputIterator1 first1,
                  InputIterator1 last1,
                  InputIterator2 first2,

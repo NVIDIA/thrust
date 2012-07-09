@@ -33,11 +33,12 @@ namespace generic
 {
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator merge(tag,
+  OutputIterator merge(thrust::dispatchable<System> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -47,13 +48,15 @@ template<typename InputIterator1,
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  return result;
 } // end merge()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(tag,
+  OutputIterator merge(thrust::dispatchable<System> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -61,7 +64,7 @@ template<typename InputIterator1,
                        OutputIterator result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::merge(first1,last1,first2,last2,result,thrust::less<value_type>());
+  return thrust::merge(system,first1,last1,first2,last2,result,thrust::less<value_type>());
 } // end merge()
 
 

@@ -222,7 +222,8 @@ struct merge_closure
 }; // end merge_closure
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
@@ -230,7 +231,8 @@ template<typename RandomAccessIterator1,
          typename Size1,
          typename Size2,
          typename Size3>
-  void get_merge_splitter_ranks(RandomAccessIterator1 first1,
+  void get_merge_splitter_ranks(dispatchable<System> &system,
+                                RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
                                 RandomAccessIterator2 first2,
                                 RandomAccessIterator2 last2,
@@ -265,7 +267,8 @@ template<typename RandomAccessIterator1,
   // take into account the tuples when comparing
   typedef thrust::detail::compare_first_less_second<Compare> splitter_compare;
 
-  return detail::get_set_operation_splitter_ranks(first_and_counter1, last_and_counter1,
+  return detail::get_set_operation_splitter_ranks(system,
+                                                  first_and_counter1, last_and_counter1,
                                                   first_and_counter2, last_and_counter2,
                                                   splitter_ranks1,
                                                   splitter_ranks2,
@@ -276,12 +279,12 @@ template<typename RandomAccessIterator1,
 } // end get_merge_splitter_ranks()
 
 
-template<typename Tag,
+template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 merge(Tag,
+RandomAccessIterator3 merge(dispatchable<System> &system,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
                             RandomAccessIterator2 first2,
@@ -299,9 +302,9 @@ RandomAccessIterator3 merge(Tag,
   if(num_elements1 == 0 && num_elements2 == 0)
     return result;
   else if(num_elements2 == 0)
-    return thrust::copy(first1, last1, result);
+    return thrust::copy(system, first1, last1, result);
   else if(num_elements1 == 0)
-    return thrust::copy(first2, last2, result);
+    return thrust::copy(system, first2, last2, result);
 
   using namespace merge_detail;
   using namespace thrust::detail;
@@ -311,8 +314,8 @@ RandomAccessIterator3 merge(Tag,
   typedef detail::blocked_thread_array Context;
   typedef merge_closure<RandomAccessIterator1,
                         RandomAccessIterator2,
-                        typename temporary_array<difference1,Tag>::iterator,
-                        typename temporary_array<difference2,Tag>::iterator,
+                        typename temporary_array<difference1,System>::iterator,
+                        typename temporary_array<difference2,System>::iterator,
                         RandomAccessIterator3,
                         Compare,
                         size_t,
@@ -341,14 +344,15 @@ RandomAccessIterator3 merge(Tag,
   size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 
   // allocate storage for splitter ranks
-  temporary_array<difference1, Tag> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
-  temporary_array<difference2, Tag> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
+  temporary_array<difference1, System> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
+  temporary_array<difference2, System> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the merge_kernel below
   //     this eliminates the temporary buffers splitter_ranks1 & splitter_ranks2
   //     but this spills to lmem and causes a 10x speeddown
-  get_merge_splitter_ranks(first1,last1,
+  get_merge_splitter_ranks(system,
+                           first1,last1,
                            first2,last2,
                            splitter_ranks1.begin(),
                            splitter_ranks2.begin(),
@@ -377,11 +381,12 @@ RandomAccessIterator3 merge(Tag,
 
 } // end namespace merge_detail
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 merge(tag,
+RandomAccessIterator3 merge(dispatchable<System> &system,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
                             RandomAccessIterator2 first2,
@@ -389,14 +394,7 @@ RandomAccessIterator3 merge(tag,
                             RandomAccessIterator3 result,
                             Compare comp)
 {
-  // recover the user's system tag and pass to merge_detail::merge
-  using thrust::system::detail::generic::select_system;
-
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type system2;
-  typedef typename thrust::iterator_system<RandomAccessIterator3>::type system3;
-
-  return merge_detail::merge(select_system(system1(), system2(), system3()), first1, last1, first2, last2, result, comp);
+  return merge_detail::merge(system, first1, last1, first2, last2, result, comp);
 } // end merge()
 
 } // end namespace detail

@@ -140,7 +140,8 @@ template<typename RandomAccessIterator, typename Size>
 
 } // end get_set_operation_splitter_ranks_detail
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
@@ -148,7 +149,8 @@ template<typename RandomAccessIterator1,
          typename Size1,
          typename Size2,
          typename Size3>
-  void get_set_operation_splitter_ranks(RandomAccessIterator1 first1,
+  void get_set_operation_splitter_ranks(dispatchable<System> &system,
+                                        RandomAccessIterator1 first1,
                                         RandomAccessIterator1 last1,
                                         RandomAccessIterator2 first2,
                                         RandomAccessIterator2 last2,
@@ -184,11 +186,13 @@ template<typename RandomAccessIterator1,
   merge_iterator splitters_end   = splitters_begin + num_splitters_from_range1 + num_splitters_from_range2;
 
   // find the rank of each splitter in the other range
-  thrust::lower_bound(first2, last2,
+  thrust::lower_bound(system,
+                      first2, last2,
                       splitters_begin, splitters_end, 
                       splitter_ranks2, comp);
 
-  thrust::lower_bound(first1, last1,
+  thrust::lower_bound(system,
+                      first1, last1,
                       splitters_begin, splitters_end,
                       splitter_ranks1, comp);
 } // end get_set_operation_splitter_ranks()

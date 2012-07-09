@@ -31,11 +31,12 @@ namespace generic
 
 
 // XXX calling this function is an error; there is no implementation
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator merge(tag,
+  OutputIterator merge(thrust::dispatchable<System> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -44,10 +45,11 @@ template<typename InputIterator1,
                        StrictWeakOrdering comp);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(tag,
+  OutputIterator merge(thrust::dispatchable<System> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
