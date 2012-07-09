@@ -22,9 +22,25 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename InputIterator, typename ForwardIterator>
+  ForwardIterator uninitialized_copy(thrust::detail::dispatchable_base<System> &system,
+                                     InputIterator first,
+                                     InputIterator last,
+                                     ForwardIterator result);
+
+
+template<typename System, typename InputIterator, typename Size, typename ForwardIterator>
+  ForwardIterator uninitialized_copy_n(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator first,
+                                       Size n,
+                                       ForwardIterator result);
+
 
 /*! \addtogroup copying
  *  \{

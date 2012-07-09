@@ -2,10 +2,10 @@
 #include <thrust/uninitialized_copy.h>
 #include <thrust/device_malloc_allocator.h>
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator, typename ForwardIterator>
-ForwardIterator uninitialized_copy(my_tag,
+ForwardIterator uninitialized_copy(my_system,
                                    InputIterator,
                                    InputIterator,
                                    ForwardIterator result)
@@ -14,21 +14,35 @@ ForwardIterator uninitialized_copy(my_tag,
     return result;
 }
 
-void TestUninitializedCopyDispatch()
+void TestUninitializedCopyDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::uninitialized_copy(thrust::retag<my_tag>(vec.begin()),
-                               thrust::retag<my_tag>(vec.begin()),
-                               thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::uninitialized_copy(sys,
+                               vec.begin(),
+                               vec.begin(),
+                               vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUninitializedCopyDispatch);
+DECLARE_UNITTEST(TestUninitializedCopyDispatchExplicit);
+
+void TestUninitializedCopyDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_copy(thrust::retag<my_system>(vec.begin()),
+                               thrust::retag<my_system>(vec.begin()),
+                               thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedCopyDispatchImplicit);
 
 
 template<typename InputIterator, typename Size, typename ForwardIterator>
-ForwardIterator uninitialized_copy_n(my_tag,
+ForwardIterator uninitialized_copy_n(my_system,
                                      InputIterator,
                                      Size,
                                      ForwardIterator result)
@@ -37,17 +51,17 @@ ForwardIterator uninitialized_copy_n(my_tag,
     return result;
 }
 
-void TestUninitializedCopyNDispatch()
+void TestUninitializedCopyNDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::uninitialized_copy_n(thrust::retag<my_tag>(vec.begin()),
+    thrust::uninitialized_copy_n(thrust::retag<my_system>(vec.begin()),
                                  vec.size(),
-                                 thrust::retag<my_tag>(vec.begin()));
+                                 thrust::retag<my_system>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUninitializedCopyNDispatch);
+DECLARE_UNITTEST(TestUninitializedCopyNDispatchImplicit);
 
 
 template <class Vector>
