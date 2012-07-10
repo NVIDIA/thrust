@@ -29,11 +29,13 @@ namespace cpp
 namespace detail
 {
 
-template<typename InputIterator1,
+
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_difference(tag,
+  OutputIterator set_difference(dispatchable<System> &,
                                 InputIterator1 first1,
                                 InputIterator1 last1,
                                 InputIterator2 first2,
@@ -45,11 +47,12 @@ template<typename InputIterator1,
 }
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(tag,
+  OutputIterator set_intersection(dispatchable<System> &,
                                   InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
@@ -61,11 +64,12 @@ template<typename InputIterator1,
 }
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_symmetric_difference(tag,
+  OutputIterator set_symmetric_difference(dispatchable<System> &,
                                           InputIterator1 first1,
                                           InputIterator1 last1,
                                           InputIterator2 first2,
@@ -77,11 +81,12 @@ template<typename InputIterator1,
 }
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_union(tag,
+  OutputIterator set_union(dispatchable<System> &,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
@@ -91,6 +96,7 @@ template<typename InputIterator1,
 {
   return thrust::system::detail::internal::scalar::set_union(first1, last1, first2, last2, result, comp);
 }
+
 
 } // end namespace detail
 } // end namespace cpp

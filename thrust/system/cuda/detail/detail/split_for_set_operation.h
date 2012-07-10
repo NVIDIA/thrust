@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -32,7 +33,8 @@ namespace detail
 
 struct split_for_set_operation
 {
-  template<typename RandomAccessIterator1,
+  template<typename System,
+           typename RandomAccessIterator1,
            typename RandomAccessIterator2,
            typename RandomAccessIterator3,
            typename RandomAccessIterator4,
@@ -40,7 +42,8 @@ struct split_for_set_operation
            typename Size1,
            typename Size2,
            typename Size3>
-    void operator()(RandomAccessIterator1 first1,
+    void operator()(dispatchable<System> &system,
+                    RandomAccessIterator1 first1,
                     RandomAccessIterator1 last1,
                     RandomAccessIterator2 first2,
                     RandomAccessIterator2 last2,

@@ -31,129 +31,143 @@ namespace generic
 {
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_difference(tag,
-                                InputIterator1 first1,
-                                InputIterator1 last1,
-                                InputIterator2 first2,
-                                InputIterator2 last2,
-                                OutputIterator result)
+  OutputIterator set_difference(thrust::dispatchable<System> &system,
+                                InputIterator1                first1,
+                                InputIterator1                last1,
+                                InputIterator2                first2,
+                                InputIterator2                last2,
+                                OutputIterator                result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+  return thrust::set_difference(system, first1, last1, first2, last2, result, thrust::less<value_type>());
 } // end set_difference()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_intersection(tag,
-                                  InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result)
+  OutputIterator set_intersection(thrust::dispatchable<System> &system,
+                                  InputIterator1                first1,
+                                  InputIterator1                last1,
+                                  InputIterator2                first2,
+                                  InputIterator2                last2,
+                                  OutputIterator                result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_intersection(first1, last1, first2, last2, result, thrust::less<value_type>());
+  return thrust::set_intersection(system, first1, last1, first2, last2, result, thrust::less<value_type>());
 } // end set_intersection()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_symmetric_difference(tag,
-                                          InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          InputIterator2 last2,
-                                          OutputIterator result)
+  OutputIterator set_symmetric_difference(thrust::dispatchable<System> &system,
+                                          InputIterator1                first1,
+                                          InputIterator1                last1,
+                                          InputIterator2                first2,
+                                          InputIterator2                last2,
+                                          OutputIterator                result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_symmetric_difference(first1, last1, first2, last2, result, thrust::less<value_type>());
+  return thrust::set_symmetric_difference(system, first1, last1, first2, last2, result, thrust::less<value_type>());
 } // end set_symmetric_difference()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_union(tag,
-                           InputIterator1 first1,
-                           InputIterator1 last1,
-                           InputIterator2 first2,
-                           InputIterator2 last2,
-                           OutputIterator result)
+  OutputIterator set_union(thrust::dispatchable<System> &system,
+                           InputIterator1                first1,
+                           InputIterator1                last1,
+                           InputIterator2                first2,
+                           InputIterator2                last2,
+                           OutputIterator                result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_union(first1, last1, first2, last2, result, thrust::less<value_type>());
+  return thrust::set_union(system, first1, last1, first2, last2, result, thrust::less<value_type>());
 } // end set_union()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_difference(InputIterator1 first1,
-                                InputIterator1 last1,
-                                InputIterator2 first2,
-                                InputIterator2 last2,
-                                OutputIterator result,
-                                StrictWeakOrdering comp)
+  OutputIterator set_difference(thrust::dispatchable<System> &system,
+                                InputIterator1                first1,
+                                InputIterator1                last1,
+                                InputIterator2                first2,
+                                InputIterator2                last2,
+                                OutputIterator                result,
+                                StrictWeakOrdering            comp)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  return result;
 } // end set_difference()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result,
-                                  StrictWeakOrdering comp)
+  OutputIterator set_intersection(thrust::dispatchable<System> &system,
+                                  InputIterator1                first1,
+                                  InputIterator1                last1,
+                                  InputIterator2                first2,
+                                  InputIterator2                last2,
+                                  OutputIterator                result,
+                                  StrictWeakOrdering            comp)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  return result;
 } // end set_intersection()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_symmetric_difference(tag,
-                                          InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          InputIterator2 last2,
-                                          OutputIterator result,
-                                          StrictWeakOrdering comp)
+  OutputIterator set_symmetric_difference(thrust::dispatchable<System> &system,
+                                          InputIterator1                first1,
+                                          InputIterator1                last1,
+                                          InputIterator2                first2,
+                                          InputIterator2                last2,
+                                          OutputIterator                result,
+                                          StrictWeakOrdering            comp)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  return result;
 } // end set_symmetric_difference()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_union(tag,
-                           InputIterator1 first1,
-                           InputIterator1 last1,
-                           InputIterator2 first2,
-                           InputIterator2 last2,
-                           OutputIterator result,
-                           StrictWeakOrdering comp)
+  OutputIterator set_union(thrust::dispatchable<System> &system,
+                           InputIterator1                first1,
+                           InputIterator1                last1,
+                           InputIterator2                first2,
+                           InputIterator2                last2,
+                           OutputIterator                result,
+                           StrictWeakOrdering            comp)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  return result;
 } // end set_union()
 
 

@@ -82,11 +82,12 @@ struct block_convergent_set_intersection_functor
 } // end namespace set_intersection_detail
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_intersection(tag,
+RandomAccessIterator3 set_intersection(dispatchable<System> &system,
                                        RandomAccessIterator1 first1,
                                        RandomAccessIterator1 last1,
                                        RandomAccessIterator2 first2,
@@ -104,14 +105,7 @@ RandomAccessIterator3 set_intersection(tag,
   if(num_elements1 == 0 || num_elements2 == 0)
     return result;
 
-  // recover the user system tag
-  using thrust::system::detail::generic::select_system;
-
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type system2;
-  typedef typename thrust::iterator_system<RandomAccessIterator3>::type system3;
-
-  return detail::set_operation(select_system(system1(),system2(),system3()),
+  return detail::set_operation(system,
                                first1, last1,
                                first2, last2,
                                result,
