@@ -2,10 +2,10 @@
 #include <thrust/uninitialized_fill.h>
 #include <thrust/device_malloc_allocator.h>
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename ForwardIterator, typename T>
-void uninitialized_fill(my_tag,
+void uninitialized_fill(my_system,
                         ForwardIterator first,
                         ForwardIterator,
                         const T &)
@@ -13,21 +13,32 @@ void uninitialized_fill(my_tag,
     *first = 13;
 }
 
-void TestUninitializedFillDispatch()
+void TestUninitializedFillDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::uninitialized_fill(thrust::retag<my_tag>(vec.begin()),
-                               thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::uninitialized_fill(sys, vec.begin(), vec.begin(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedFillDispatchExplicit);
+
+void TestUninitializedFillDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_fill(thrust::retag<my_system>(vec.begin()),
+                               thrust::retag<my_system>(vec.begin()),
                                0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUninitializedFillDispatch);
+DECLARE_UNITTEST(TestUninitializedFillDispatchImplicit);
 
 
 template<typename ForwardIterator, typename Size, typename T>
-ForwardIterator uninitialized_fill_n(my_tag,
+ForwardIterator uninitialized_fill_n(my_system,
                                      ForwardIterator first,
                                      Size,
                                      const T &)
@@ -36,17 +47,28 @@ ForwardIterator uninitialized_fill_n(my_tag,
     return first;
 }
 
-void TestUninitializedFillNDispatch()
+void TestUninitializedFillNDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::uninitialized_fill_n(thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::uninitialized_fill_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestUninitializedFillNDispatchExplicit);
+
+void TestUninitializedFillNDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::uninitialized_fill_n(thrust::retag<my_system>(vec.begin()),
                                  vec.size(),
                                  0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUninitializedFillNDispatch);
+DECLARE_UNITTEST(TestUninitializedFillNDispatchImplicit);
 
 
 template <class Vector>
