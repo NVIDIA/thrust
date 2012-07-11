@@ -37,24 +37,26 @@ namespace generic
 {
 
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(tag,
+    unique_by_key(thrust::dispatchable<System> &system,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first)
 {
   typedef typename thrust::iterator_traits<ForwardIterator1>::value_type KeyType;
-  return thrust::unique_by_key(keys_first, keys_last, values_first, thrust::equal_to<KeyType>());
+  return thrust::unique_by_key(system, keys_first, keys_last, values_first, thrust::equal_to<KeyType>());
 } // end unique_by_key()
 
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(tag,
+    unique_by_key(thrust::dispatchable<System> &system,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
@@ -62,23 +64,23 @@ template<typename ForwardIterator1,
 {
   typedef typename thrust::iterator_traits<ForwardIterator1>::value_type InputType1;
   typedef typename thrust::iterator_traits<ForwardIterator2>::value_type InputType2;
-  typedef typename thrust::iterator_system<ForwardIterator1>::type        System;
   
   ForwardIterator2 values_last = values_first + (keys_last - keys_first);
   
   thrust::detail::temporary_array<InputType1,System> keys(keys_first, keys_last);
   thrust::detail::temporary_array<InputType2,System> vals(values_first, values_last);
   
-  return thrust::unique_by_key_copy(keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
+  return thrust::unique_by_key_copy(system, keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
 } // end unique_by_key()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(tag,
+    unique_by_key_copy(thrust::dispatchable<System> &system,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -86,17 +88,18 @@ template<typename InputIterator1,
                        OutputIterator2 values_output)
 {
   typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  return thrust::unique_by_key_copy(keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
+  return thrust::unique_by_key_copy(system, keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
 } // end unique_by_key_copy()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(tag,
+    unique_by_key_copy(thrust::dispatchable<System> &system,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -105,28 +108,22 @@ template<typename InputIterator1,
                        BinaryPredicate binary_pred)
 {
   typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
-
-  typedef typename thrust::detail::minimum_system<
-    typename thrust::iterator_system<InputIterator1>::type,
-    typename thrust::iterator_system<InputIterator2>::type,
-    typename thrust::iterator_system<OutputIterator1>::type,
-    typename thrust::iterator_system<OutputIterator2>::type
-  >::type System;
   
   // empty sequence
   if(keys_first == keys_last)
     return thrust::make_pair(keys_output, values_output);
   
-  difference_type n = thrust::distance(keys_first, keys_last);
+  difference_type n = thrust::distance(system, keys_first, keys_last);
   
   thrust::detail::temporary_array<int,System> stencil(n);
   
   // mark first element in each group
   stencil[0] = 1; 
-  thrust::transform(keys_first, keys_last - 1, keys_first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
+  thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
   
   thrust::zip_iterator< thrust::tuple<OutputIterator1, OutputIterator2> > result =
-    thrust::copy_if(thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
+    thrust::copy_if(system,
+                    thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
                     thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)) + n,
                     stencil.begin(),
                     thrust::make_zip_iterator(thrust::make_tuple(keys_output, values_output)),
