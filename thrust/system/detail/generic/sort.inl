@@ -38,73 +38,79 @@ namespace generic
 {
 
 
-template<typename RandomAccessIterator>
-  void sort(tag,
+template<typename System,
+         typename RandomAccessIterator>
+  void sort(thrust::dispatchable<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type; 
-  thrust::sort(first, last, thrust::less<value_type>());
+  thrust::sort(system, first, last, thrust::less<value_type>());
 } // end sort()
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(tag,
+  void sort(thrust::dispatchable<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
   // implement with stable_sort
-  thrust::stable_sort(first,last,comp);
+  thrust::stable_sort(system, first, last, comp);
 } // end sort()
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(tag,
+  void sort_by_key(thrust::dispatchable<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
-  thrust::sort_by_key(keys_first, keys_last, values_first, thrust::less<value_type>());
+  thrust::sort_by_key(system, keys_first, keys_last, values_first, thrust::less<value_type>());
 } // end sort_by_key()
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(tag,
+  void sort_by_key(thrust::dispatchable<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
   // implement with stable_sort_by_key
-  thrust::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+  thrust::stable_sort_by_key(system, keys_first, keys_last, values_first, comp);
 } // end sort_by_key()
 
 
-template<typename RandomAccessIterator>
-  void stable_sort(tag,
+template<typename System,
+         typename RandomAccessIterator>
+  void stable_sort(thrust::dispatchable<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
-  thrust::stable_sort(first, last, thrust::less<value_type>());
+  thrust::stable_sort(system, first, last, thrust::less<value_type>());
 } // end stable_sort()
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(tag,
+  void stable_sort_by_key(thrust::dispatchable<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
 {
   typedef typename iterator_value<RandomAccessIterator1>::type value_type;
-  thrust::stable_sort_by_key(keys_first, keys_last, values_first, thrust::less<value_type>());
+  thrust::stable_sort_by_key(system, keys_first, keys_last, values_first, thrust::less<value_type>());
 } // end stable_sort_by_key()
 
 

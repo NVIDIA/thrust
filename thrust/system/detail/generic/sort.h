@@ -29,66 +29,74 @@ namespace generic
 {
 
 
-template<typename RandomAccessIterator>
-  void sort(tag,
+template<typename System,
+         typename RandomAccessIterator>
+  void sort(thrust::dispatchable<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last);
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(tag,
+  void sort(thrust::dispatchable<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(tag,
+  void sort_by_key(thrust::dispatchable<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(tag,
+  void sort_by_key(thrust::dispatchable<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp);
 
 
-template<typename RandomAccessIterator>
-  void stable_sort(tag,
+template<typename System,
+         typename RandomAccessIterator>
+  void stable_sort(thrust::dispatchable<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(tag,
+  void stable_sort(thrust::dispatchable<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(tag,
+  void stable_sort_by_key(thrust::dispatchable<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(tag,
+  void stable_sort_by_key(thrust::dispatchable<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,

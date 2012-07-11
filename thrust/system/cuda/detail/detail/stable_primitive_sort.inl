@@ -60,22 +60,28 @@ template<typename Iterator>
 {};
 
 
-template<typename RandomAccessIterator>
+template<typename System,
+         typename RandomAccessIterator>
   typename enable_if_bool_sort<RandomAccessIterator>::type
-    stable_primitive_sort(RandomAccessIterator first, RandomAccessIterator last)
+    stable_primitive_sort(dispatchable<System> &system,
+                          RandomAccessIterator first,
+                          RandomAccessIterator last)
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
-  thrust::stable_partition(first, last, thrust::logical_not<bool>());
+  thrust::stable_partition(system, first, last, thrust::logical_not<bool>());
 }
 
 
-template<typename RandomAccessIterator>
+template<typename System,
+         typename RandomAccessIterator>
   typename disable_if_bool_sort<RandomAccessIterator>::type
-    stable_primitive_sort(RandomAccessIterator first, RandomAccessIterator last)
+    stable_primitive_sort(dispatchable<System> &system,
+                          RandomAccessIterator first,
+                          RandomAccessIterator last)
 {
   // call stable_radix_sort
-  thrust::system::cuda::detail::detail::stable_radix_sort(first,last);
+  thrust::system::cuda::detail::detail::stable_radix_sort(system,first,last);
 }
 
 
@@ -90,46 +96,59 @@ struct logical_not_first
 };
 
 
-template<typename RandomAccessIterator1, typename RandomAccessIterator2>
+template<typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
   typename enable_if_bool_sort<RandomAccessIterator1>::type
-    stable_primitive_sort_by_key(RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
+    stable_primitive_sort_by_key(dispatchable<System> &system,
+                                 RandomAccessIterator1 keys_first,
+                                 RandomAccessIterator1 keys_last,
                                  RandomAccessIterator2 values_first)
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
-  thrust::stable_partition(thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
+  thrust::stable_partition(system,
+                           thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
                            thrust::make_zip_iterator(thrust::make_tuple(keys_last, values_first)),
                            logical_not_first());
 }
 
 
-template<typename RandomAccessIterator1, typename RandomAccessIterator2>
+template<typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
   typename disable_if_bool_sort<RandomAccessIterator1>::type
-    stable_primitive_sort_by_key(RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
+    stable_primitive_sort_by_key(dispatchable<System> &system,
+                                 RandomAccessIterator1 keys_first,
+                                 RandomAccessIterator1 keys_last,
                                  RandomAccessIterator2 values_first)
 {
   // call stable_radix_sort_by_key
-  thrust::system::cuda::detail::detail::stable_radix_sort_by_key(keys_first, keys_last, values_first);
+  thrust::system::cuda::detail::detail::stable_radix_sort_by_key(system, keys_first, keys_last, values_first);
 }
     
   
 
 }
 
-template<typename RandomAccessIterator>
-void stable_primitive_sort(RandomAccessIterator first,
+template<typename System,
+         typename RandomAccessIterator>
+void stable_primitive_sort(dispatchable<System> &system,
+                           RandomAccessIterator first,
                            RandomAccessIterator last)
 {
-  thrust::system::cuda::detail::detail::stable_primitive_sort_detail::stable_primitive_sort(first,last);
+  thrust::system::cuda::detail::detail::stable_primitive_sort_detail::stable_primitive_sort(system,first,last);
 }
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_primitive_sort_by_key(RandomAccessIterator1 keys_first,
+void stable_primitive_sort_by_key(dispatchable<System> &system,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first)
 {
-  thrust::system::cuda::detail::detail::stable_primitive_sort_detail::stable_primitive_sort_by_key(keys_first, keys_last, values_first);
+  thrust::system::cuda::detail::detail::stable_primitive_sort_detail::stable_primitive_sort_by_key(system, keys_first, keys_last, values_first);
 }
 
 } // end namespace detail
