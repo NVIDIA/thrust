@@ -33,20 +33,22 @@ namespace cuda
 namespace detail
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
