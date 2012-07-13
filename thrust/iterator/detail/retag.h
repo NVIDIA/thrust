@@ -117,10 +117,10 @@ template<typename Tag, typename T, typename OtherTag>
     Tag,
     thrust::pointer<T,Tag>
   >::type
-    reinterpret_tag(thrust::pointer<T,OtherTag> ptr)
+    retag(thrust::pointer<T,OtherTag> ptr)
 {
   return reinterpret_tag<Tag>(ptr);
-} // end reinterpret_tag()
+} // end retag()
 
 
 // avoid deeply-nested tagged_iterator
