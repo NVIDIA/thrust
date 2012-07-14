@@ -59,7 +59,7 @@ void stable_radix_sort(dispatchable<System> &system,
     // ensure data is properly aligned
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first), 2*sizeof(K)))
     {
-        thrust::detail::temporary_array<K, System> aligned_keys(first, last);
+        thrust::detail::temporary_array<K, System> aligned_keys(system, first, last);
         stable_radix_sort(system, aligned_keys.begin(), aligned_keys.end());
         thrust::copy(system, aligned_keys.begin(), aligned_keys.end(), first);
         return;
@@ -69,9 +69,9 @@ void stable_radix_sort(dispatchable<System> &system,
     thrust::system::cuda::detail::detail::b40c_thrust::RadixSortStorage<K>    storage;
     
     // allocate temporary buffers
-    thrust::detail::temporary_array<K,    System> temp_keys(num_elements);
-    thrust::detail::temporary_array<int,  System> temp_spine(sorter.SpineElements());
-    thrust::detail::temporary_array<bool, System> temp_from_alt(2);
+    thrust::detail::temporary_array<K,    System> temp_keys(system, num_elements);
+    thrust::detail::temporary_array<int,  System> temp_spine(system, sorter.SpineElements());
+    thrust::detail::temporary_array<bool, System> temp_from_alt(system, 2);
 
     // define storage
     storage.d_keys             = thrust::raw_pointer_cast(&*first);
@@ -111,14 +111,14 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     // ensure data is properly aligned
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first1), 2*sizeof(K)))
     {
-        thrust::detail::temporary_array<K,System> aligned_keys(first1, last1);
+        thrust::detail::temporary_array<K,System> aligned_keys(system, first1, last1);
         stable_radix_sort_by_key(system, aligned_keys.begin(), aligned_keys.end(), first2);
         thrust::copy(system, aligned_keys.begin(), aligned_keys.end(), first1);
         return;
     }
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first2), 2*sizeof(V)))
     {
-        thrust::detail::temporary_array<V,System> aligned_values(first2, first2 + num_elements);
+        thrust::detail::temporary_array<V,System> aligned_values(system, first2, first2 + num_elements);
         stable_radix_sort_by_key(system, first1, last1, aligned_values.begin());
         thrust::copy(system, aligned_values.begin(), aligned_values.end(), first2);
         return;
@@ -128,10 +128,10 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     thrust::system::cuda::detail::detail::b40c_thrust::RadixSortStorage<K,V>    storage;
     
     // allocate temporary buffers
-    thrust::detail::temporary_array<K,    System> temp_keys(num_elements);
-    thrust::detail::temporary_array<V,    System> temp_values(num_elements);
-    thrust::detail::temporary_array<int,  System> temp_spine(sorter.SpineElements());
-    thrust::detail::temporary_array<bool, System> temp_from_alt(2);
+    thrust::detail::temporary_array<K,    System> temp_keys(system, num_elements);
+    thrust::detail::temporary_array<V,    System> temp_values(system, num_elements);
+    thrust::detail::temporary_array<int,  System> temp_spine(system, sorter.SpineElements());
+    thrust::detail::temporary_array<bool, System> temp_from_alt(system, 2);
 
     // define storage
     storage.d_keys             = thrust::raw_pointer_cast(&*first1);
@@ -168,13 +168,13 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     unsigned int num_elements = last1 - first1;
 
     // sort with integer values and then permute the real values accordingly
-    thrust::detail::temporary_array<unsigned int,System> permutation(num_elements);
+    thrust::detail::temporary_array<unsigned int,System> permutation(system, num_elements);
     thrust::sequence(system, permutation.begin(), permutation.end());
 
     stable_radix_sort_by_key(system, first1, last1, permutation.begin());
     
     // copy values into temp vector and then permute
-    thrust::detail::temporary_array<V,System> temp_values(first2, first2 + num_elements);
+    thrust::detail::temporary_array<V,System> temp_values(system, first2, first2 + num_elements);
    
     // permute values
     thrust::gather(system,

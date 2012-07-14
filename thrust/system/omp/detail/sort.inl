@@ -52,8 +52,8 @@ void inplace_merge(dispatchable<System> &system,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type,System> a( first, middle);
-  thrust::detail::temporary_array<value_type,System> b(middle,   last);
+  thrust::detail::temporary_array<value_type,System> a(system, first, middle);
+  thrust::detail::temporary_array<value_type,System> b(system, middle, last);
 
   thrust::system::cpp::detail::merge(system, a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
@@ -76,10 +76,10 @@ void inplace_merge_by_key(dispatchable<System> &system,
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1,System> lhs1( first1, middle1);
-  thrust::detail::temporary_array<value_type1,System> rhs1(middle1,   last1);
-  thrust::detail::temporary_array<value_type2,System> lhs2( first2, middle2);
-  thrust::detail::temporary_array<value_type2,System> rhs2(middle2,   last2);
+  thrust::detail::temporary_array<value_type1,System> lhs1(system, first1, middle1);
+  thrust::detail::temporary_array<value_type1,System> rhs1(system, middle1, last1);
+  thrust::detail::temporary_array<value_type2,System> lhs2(system, first2, middle2);
+  thrust::detail::temporary_array<value_type2,System> rhs2(system, middle2, last2);
 
   thrust::system::cpp::detail::merge_by_key
     (system,

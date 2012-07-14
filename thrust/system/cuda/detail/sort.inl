@@ -120,14 +120,14 @@ namespace third_dispatch
     {
         // sizeof(ValueType) != 4, use indirection and permute values
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-        thrust::detail::temporary_array<unsigned int, System> permutation(keys_last - keys_first);
+        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
         thrust::sequence(system, permutation.begin(), permutation.end());
     
         thrust::system::cuda::detail::detail::stable_merge_sort_by_key
             (system, keys_first, keys_last, permutation.begin(), comp);
    
         RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-        thrust::detail::temporary_array<ValueType, System> temp(values_first, values_last);
+        thrust::detail::temporary_array<ValueType, System> temp(system, values_first, values_last);
         thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), values_first);
     }
     
@@ -186,13 +186,13 @@ namespace second_dispatch
     {
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int,System> permutation(last - first);
+        thrust::detail::temporary_array<unsigned int,System> permutation(system, last - first);
         thrust::sequence(system, permutation.begin(), permutation.end());
     
         thrust::system::cuda::detail::detail::stable_merge_sort
             (system, permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
     
-        thrust::detail::temporary_array<KeyType,System> temp(first, last);
+        thrust::detail::temporary_array<KeyType,System> temp(system, first, last);
         thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), first);
     }
     
@@ -222,7 +222,7 @@ namespace second_dispatch
     {
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int, System> permutation(keys_last - keys_first);
+        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
         thrust::sequence(system, permutation.begin(), permutation.end());
     
         // decide whether to sort values indirectly
@@ -236,7 +236,7 @@ namespace second_dispatch
             (system, permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
-        thrust::detail::temporary_array<KeyType,System> temp(keys_first, keys_last);
+        thrust::detail::temporary_array<KeyType,System> temp(system, keys_first, keys_last);
         thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), keys_first);
     }
     
@@ -313,7 +313,7 @@ namespace first_dispatch
                     StrictWeakOrdering comp)
     {
          // ensure sequence has trivial iterators
-         thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+         thrust::detail::trivial_sequence<RandomAccessIterator,System> keys(system, first, last);
         
          // CUDA path for thrust::stable_sort with primitive keys
          // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
@@ -389,8 +389,8 @@ namespace first_dispatch
         }
 
         // ensure sequences have trivial iterators
-        thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
-        thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_first + (keys_last - keys_first));
+        thrust::detail::trivial_sequence<RandomAccessIterator1,System> keys(system, keys_first, keys_last);
+        thrust::detail::trivial_sequence<RandomAccessIterator2,System> values(system, values_first, values_first + (keys_last - keys_first));
 
         thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(system, keys.begin(), keys.end(), values.begin());
 

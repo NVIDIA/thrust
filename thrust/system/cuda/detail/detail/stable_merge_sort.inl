@@ -1165,10 +1165,10 @@ template<typename System,
 
   using namespace thrust::detail;
 
-  temporary_array<KeyType,      System>      splitters(num_splitters);
-  temporary_array<unsigned int, System>      splitters_pos(num_splitters);
-  temporary_array<KeyType,      System>      merged_splitters(num_splitters);
-  temporary_array<unsigned int, System>      merged_splitters_pos(num_splitters);
+  temporary_array<KeyType,      System>      splitters(system, num_splitters);
+  temporary_array<unsigned int, System>      splitters_pos(system, num_splitters);
+  temporary_array<KeyType,      System>      merged_splitters(system, num_splitters);
+  temporary_array<unsigned int, System>      merged_splitters_pos(system, num_splitters);
 
   typedef extract_splitters_closure<
     RandomAccessIterator1,
@@ -1216,7 +1216,7 @@ template<typename System,
 
   // reuse the splitters_pos storage for rank1
   temporary_array<unsigned int, System> &rank1 = splitters_pos;
-  temporary_array<unsigned int, System> rank2(num_splitters);
+  temporary_array<unsigned int, System> rank2(system, num_splitters);
 
   typedef find_splitter_ranks_closure<
     block_size,
@@ -1369,8 +1369,8 @@ template<typename System,
 
   // allocate scratch space
   using namespace thrust::detail;
-  temporary_array<KeyType,   System> temp_keys(n);
-  temporary_array<ValueType, System> temp_vals(n);
+  temporary_array<KeyType,   System> temp_keys(system, n);
+  temporary_array<ValueType, System> temp_vals(system, n);
 
   // give iterators simpler names
   RandomAccessIterator1 keys0 = keys_first;

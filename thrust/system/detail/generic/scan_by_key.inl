@@ -112,7 +112,7 @@ template<typename System,
   if(n != 0)
   {
     // compute head flags
-    thrust::detail::temporary_array<HeadFlagType,System> flags(n);
+    thrust::detail::temporary_array<HeadFlagType,System> flags(system, n);
     flags[0] = 1; thrust::transform(system, first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
     // scan key-flag tuples, 
@@ -209,11 +209,11 @@ template<typename System,
     InputIterator2 last2 = first2 + n;
 
     // compute head flags
-    thrust::detail::temporary_array<HeadFlagType,System> flags(n);
+    thrust::detail::temporary_array<HeadFlagType,System> flags(system, n);
     flags[0] = 1; thrust::transform(system, first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
 
     // shift input one to the right and initialize segments with init
-    thrust::detail::temporary_array<OutputType,System> temp(n);
+    thrust::detail::temporary_array<OutputType,System> temp(system, n);
     thrust::replace_copy_if(system, first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
     temp[0] = init;
 

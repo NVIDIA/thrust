@@ -49,7 +49,7 @@ template<typename System,
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // copy input to temp buffer
-  thrust::detail::temporary_array<InputType,System> temp(first, last);
+  thrust::detail::temporary_array<InputType,System> temp(system, first, last);
 
   // count the size of the true partition
   typename thrust::iterator_difference<ForwardIterator>::type num_true = thrust::count_if(system, first,last,pred);

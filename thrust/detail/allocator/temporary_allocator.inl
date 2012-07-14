@@ -41,42 +41,18 @@ template<typename T, typename System, typename Pair>
 } // end down_cast_pair()
 
 
-// XXX eliminate this should we ever add thrust::get_temporary_buffer
-template<typename T, typename System>
-  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    strip_const_get_temporary_buffer(const System &system, typename thrust::pointer<T,System>::difference_type n)
-{
-  System &non_const_system = const_cast<System&>(system);
-
-  using thrust::system::detail::generic::get_temporary_buffer;
-
-  return down_cast_pair<T,System>(get_temporary_buffer<T>(non_const_system,n));
-} // end strip_const_get_temporary_buffer()
-
-
-// XXX eliminate this should we ever add thrust::return_temporary_buffer
-template<typename System, typename Pointer>
-void strip_const_return_temporary_buffer(const System &system, Pointer p)
-{
-  System &non_const_system = const_cast<System&>(system);
-
-  using thrust::system::detail::generic::return_temporary_buffer;
-
-  return_temporary_buffer(non_const_system, p);
-} // end strip_const_return_temporary_buffer()
-
-
 } // end temporary_allocator_detail
 
 
-template<typename T, typename Tag>
-  typename temporary_allocator<T,Tag>::pointer
-    temporary_allocator<T,Tag>
-      ::allocate(typename temporary_allocator<T,Tag>::size_type cnt)
+template<typename T, typename System>
+  typename temporary_allocator<T,System>::pointer
+    temporary_allocator<T,System>
+      ::allocate(typename temporary_allocator<T,System>::size_type cnt)
 {
-  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::get_temporary_buffer;
 
-  pointer_and_size result = temporary_allocator_detail::strip_const_get_temporary_buffer<T>(select_system(Tag()), cnt);
+  // XXX use thrust::get_temporary_buffer here should we add it
+  pointer_and_size result = temporary_allocator_detail::down_cast_pair<T,System>(get_temporary_buffer<T>(m_system.derived(), cnt));
 
   // handle failure
   if(result.second < cnt)
@@ -91,13 +67,14 @@ template<typename T, typename Tag>
   return result.first;
 } // end temporary_allocator::allocate()
 
-template<typename T, typename Tag>
-  void temporary_allocator<T,Tag>
-    ::deallocate(typename temporary_allocator<T,Tag>::pointer p, typename temporary_allocator<T,Tag>::size_type n)
+template<typename T, typename System>
+  void temporary_allocator<T,System>
+    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type n)
 {
-  using thrust::system::detail::generic::select_system;
+  using thrust::system::detail::generic::return_temporary_buffer;
 
-  temporary_allocator_detail::strip_const_return_temporary_buffer(select_system(Tag()), p);
+  // XXX use thrust::return_temporary_buffer here should we add it
+  return return_temporary_buffer(m_system.derived(), p);
 } // end temporary_allocator
 
 } // end detail

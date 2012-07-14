@@ -344,8 +344,8 @@ RandomAccessIterator3 merge(dispatchable<System> &system,
   size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 
   // allocate storage for splitter ranks
-  temporary_array<difference1, System> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
-  temporary_array<difference2, System> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
+  temporary_array<difference1, System> splitter_ranks1(system, num_splitters_from_range1 + num_splitters_from_range2);
+  temporary_array<difference2, System> splitter_ranks2(system, num_splitters_from_range1 + num_splitters_from_range2);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the merge_kernel below

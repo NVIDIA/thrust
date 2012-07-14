@@ -177,7 +177,7 @@ template<typename System,
   Decomposition decomp = default_decomposition(last - first);
 
   // storage for per-block predicate counts
-  IndexArray block_results(decomp.size());
+  IndexArray block_results(system, decomp.size());
 
   // convert stencil into an iterator that produces integral values in {0,1}
   typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;

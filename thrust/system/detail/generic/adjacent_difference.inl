@@ -43,7 +43,7 @@ OutputIterator adjacent_difference(thrust::dispatchable<System> &s,
 } // end adjacent_difference()
 
 template <typename System, class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(thrust::dispatchable<System> &s,
+OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
@@ -60,10 +60,10 @@ OutputIterator adjacent_difference(thrust::dispatchable<System> &s,
     // an in-place operation is requested, copy the input and call the entry point
     // XXX a special-purpose kernel would be faster here since
     // only block boundaries need to be copied
-    thrust::detail::temporary_array<InputType, System> input_copy(first, last);
+    thrust::detail::temporary_array<InputType, System> input_copy(system, first, last);
     
     *result = *first;
-    thrust::transform(s, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+    thrust::transform(system, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
   }
 
   return result + (last - first);

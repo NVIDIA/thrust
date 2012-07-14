@@ -219,7 +219,7 @@ void stable_sort(dispatchable<System> &system,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type key_type;
 
-  thrust::detail::temporary_array<key_type, System> temp(first, last);
+  thrust::detail::temporary_array<key_type, System> temp(system, first, last);
 
   sort_detail::merge_sort(system, first, last, temp.begin(), comp, true);
 }
@@ -239,8 +239,8 @@ template<typename System,
 
   RandomAccessIterator2 last2 = first2 + thrust::distance(system, first1, last1);
 
-  thrust::detail::temporary_array<key_type, System> temp1(first1, last1);
-  thrust::detail::temporary_array<val_type, System> temp2(first2, last2);
+  thrust::detail::temporary_array<key_type, System> temp1(system, first1, last1);
+  thrust::detail::temporary_array<val_type, System> temp2(system, first2, last2);
 
   sort_by_key_detail::merge_sort_by_key(system, first1, last1, first2, temp1.begin(), temp2.begin(), comp, true);
 }

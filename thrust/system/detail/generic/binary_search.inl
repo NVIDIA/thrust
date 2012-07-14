@@ -112,8 +112,9 @@ struct binary_search_functor
 
 
 // Vector Implementation
-template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
-OutputIterator binary_search(ForwardIterator begin, 
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
+OutputIterator binary_search(thrust::dispatchable<System> &system,
+                             ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
                              InputIterator values_end,
@@ -121,36 +122,36 @@ OutputIterator binary_search(ForwardIterator begin,
                              StrictWeakOrdering comp,
                              BinarySearchFunction func)
 {
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(values_begin, output)),
-                     thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(values_begin, values_end))),
+    thrust::for_each(system,
+                     thrust::make_zip_iterator(thrust::make_tuple(values_begin, output)),
+                     thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(system, values_begin, values_end))),
                      detail::binary_search_functor<ForwardIterator, StrictWeakOrdering, BinarySearchFunction>(begin, end, comp, func));
 
-    return output + thrust::distance(values_begin, values_end);
+    return output + thrust::distance(system, values_begin, values_end);
 }
 
    
 
 // Scalar Implementation
-template <typename OutputType, typename ForwardIterator, typename T, typename StrictWeakOrdering, typename BinarySearchFunction>
-OutputType binary_search(ForwardIterator begin,
+template <typename OutputType, typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering, typename BinarySearchFunction>
+OutputType binary_search(thrust::dispatchable<System> &system,
+                         ForwardIterator begin,
                          ForwardIterator end,
                          const T& value, 
                          StrictWeakOrdering comp,
                          BinarySearchFunction func)
 {
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
-
     // use the vectorized path to implement the scalar version
 
     // allocate device buffers for value and output
-    thrust::detail::temporary_array<T,System>          d_value(1);
-    thrust::detail::temporary_array<OutputType,System> d_output(1);
+    thrust::detail::temporary_array<T,System>          d_value(system,1);
+    thrust::detail::temporary_array<OutputType,System> d_output(system,1);
 
     // copy value to device
     d_value[0] = value;
 
     // perform the query
-    thrust::system::detail::generic::detail::binary_search(begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
+    thrust::system::detail::generic::detail::binary_search(system, begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
 
     // copy result to host and return
     return d_output[0];
@@ -173,7 +174,7 @@ ForwardIterator lower_bound(thrust::dispatchable<System> &system,
 }
 
 template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator lower_bound(thrust::dispatchable<System> &,
+ForwardIterator lower_bound(thrust::dispatchable<System> &system,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
@@ -181,7 +182,7 @@ ForwardIterator lower_bound(thrust::dispatchable<System> &,
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
   
-  return begin + detail::binary_search<difference_type>(begin, end, value, comp, detail::lbf());
+  return begin + detail::binary_search<difference_type>(system, begin, end, value, comp, detail::lbf());
 }
 
 
@@ -195,7 +196,7 @@ ForwardIterator upper_bound(thrust::dispatchable<System> &system,
 }
 
 template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator upper_bound(thrust::dispatchable<System> &,
+ForwardIterator upper_bound(thrust::dispatchable<System> &system,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
@@ -203,7 +204,7 @@ ForwardIterator upper_bound(thrust::dispatchable<System> &,
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
   
-  return begin + detail::binary_search<difference_type>(begin, end, value, comp, detail::ubf());
+  return begin + detail::binary_search<difference_type>(system, begin, end, value, comp, detail::ubf());
 }
 
 
@@ -217,13 +218,13 @@ bool binary_search(thrust::dispatchable<System> &system,
 }
 
 template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-bool binary_search(thrust::dispatchable<System> &,
+bool binary_search(thrust::dispatchable<System> &system,
                    ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
-  return detail::binary_search<bool>(begin, end, value, comp, detail::bsf());
+  return detail::binary_search<bool>(system, begin, end, value, comp, detail::bsf());
 }
 
 
@@ -245,7 +246,7 @@ OutputIterator lower_bound(thrust::dispatchable<System> &system,
 }
 
 template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator lower_bound(thrust::dispatchable<System> &,
+OutputIterator lower_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -253,7 +254,7 @@ OutputIterator lower_bound(thrust::dispatchable<System> &,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-  return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::lbf());
+  return detail::binary_search(system, begin, end, values_begin, values_end, output, comp, detail::lbf());
 }
 
 
@@ -271,7 +272,7 @@ OutputIterator upper_bound(thrust::dispatchable<System> &system,
 }
 
 template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator upper_bound(thrust::dispatchable<System> &,
+OutputIterator upper_bound(thrust::dispatchable<System> &system,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -279,7 +280,7 @@ OutputIterator upper_bound(thrust::dispatchable<System> &,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-  return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::ubf());
+  return detail::binary_search(system, begin, end, values_begin, values_end, output, comp, detail::ubf());
 }
 
 
@@ -297,7 +298,7 @@ OutputIterator binary_search(thrust::dispatchable<System> &system,
 }
 
 template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator binary_search(thrust::dispatchable<System> &,
+OutputIterator binary_search(thrust::dispatchable<System> &system,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
@@ -305,7 +306,7 @@ OutputIterator binary_search(thrust::dispatchable<System> &,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-  return detail::binary_search(begin, end, values_begin, values_end, output, comp, detail::bsf());
+  return detail::binary_search(system, begin, end, values_begin, values_end, output, comp, detail::bsf());
 }
 
 

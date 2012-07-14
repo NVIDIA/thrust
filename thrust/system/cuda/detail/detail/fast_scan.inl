@@ -589,7 +589,7 @@ OutputIterator inclusive_scan(dispatchable<System> &system,
 
   Decomposition decomp = thrust::system::cuda::detail::default_decomposition<IndexType>(last - first);
 
-  ValueArray block_results(decomp.size());
+  ValueArray block_results(system, decomp.size());
   
   // compute sum over each interval
   if (thrust::detail::is_commutative<BinaryFunction>::value)
@@ -687,7 +687,7 @@ OutputIterator exclusive_scan(dispatchable<System> &system,
 
   Decomposition decomp = thrust::system::cuda::detail::default_decomposition<IndexType>(last - first);
 
-  ValueArray block_results(decomp.size() + 1);
+  ValueArray block_results(system, decomp.size() + 1);
   
   // compute sum over each interval
   if (thrust::detail::is_commutative<BinaryFunction>::value)

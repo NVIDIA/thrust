@@ -166,7 +166,7 @@ OutputIterator adjacent_difference(dispatchable<System> &system,
   Decomposition decomp = default_decomposition(last - first);
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType,System> temp(decomp.size() - 1);
+  thrust::detail::temporary_array<InputType,System> temp(system, decomp.size() - 1);
 
   // gather last value in each interval
   detail::last_index_in_each_interval<Decomposition> unary_op(decomp);

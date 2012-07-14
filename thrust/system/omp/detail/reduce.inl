@@ -50,7 +50,7 @@ template<typename System,
 
   // allocate storage for the initializer and partial sums
   // XXX use select_system for Tag
-  thrust::detail::temporary_array<OutputType,System> partial_sums(decomp1.size() + 1);
+  thrust::detail::temporary_array<OutputType,System> partial_sums(system, decomp1.size() + 1);
   
   // set first element of temp array to init
   partial_sums[0] = init;

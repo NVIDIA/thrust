@@ -80,7 +80,7 @@ template<typename System,
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,System> temp(first, last);
+  thrust::detail::temporary_array<InputType,System> temp(system, first, last);
 
   // remove into temp
   return thrust::remove_copy_if(system, temp.begin(), temp.end(), temp.begin(), first, pred);
@@ -100,7 +100,7 @@ template<typename System,
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,System> temp(first, last);
+  thrust::detail::temporary_array<InputType,System> temp(system, first, last);
 
   // remove into temp
   return thrust::remove_copy_if(system, temp.begin(), temp.end(), stencil, first, pred);

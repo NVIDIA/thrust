@@ -120,18 +120,18 @@ template<typename System,
     InputIterator2 values_last = values_first + n;
     
     // compute head flags
-    thrust::detail::temporary_array<FlagType,System> head_flags(n);
+    thrust::detail::temporary_array<FlagType,System> head_flags(system, n);
     thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
-    thrust::detail::temporary_array<FlagType,System> tail_flags(n); //COPY INSTEAD OF TRANSFORM
+    thrust::detail::temporary_array<FlagType,System> tail_flags(system, n); //COPY INSTEAD OF TRANSFORM
     thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag
-    thrust::detail::temporary_array<ValueType,System> scanned_values(n);
-    thrust::detail::temporary_array<FlagType,System>  scanned_tail_flags(n);
+    thrust::detail::temporary_array<ValueType,System> scanned_values(system, n);
+    thrust::detail::temporary_array<FlagType,System>  scanned_tail_flags(system, n);
     
     thrust::inclusive_scan
         (system,

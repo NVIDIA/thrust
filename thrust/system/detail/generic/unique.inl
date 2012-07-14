@@ -64,7 +64,7 @@ template<typename System,
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
   
-  thrust::detail::temporary_array<InputType,System> input(first, last);
+  thrust::detail::temporary_array<InputType,System> input(system, first, last);
   
   return thrust::unique_copy(system, input.begin(), input.end(), first, binary_pred);
 } // end unique()
@@ -97,7 +97,7 @@ template<typename System,
   if(first == last)
     return output;
   
-  thrust::detail::temporary_array<int,System> stencil(thrust::distance(first, last));
+  thrust::detail::temporary_array<int,System> stencil(system, thrust::distance(first, last));
   
   // mark first element in each group
   stencil[0] = 1; 

@@ -22,6 +22,7 @@
 //#include <thrust/detail/pointer.h>
 //#include <thrust/detail/reference.h>
 #include <thrust/memory.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
@@ -29,22 +30,29 @@ namespace detail
 {
 
 // XXX the pointer parameter given to tagged_allocator should be related to
-//     the type of the expression get_temporary_buffer(Tag(), n).first
+//     the type of the expression get_temporary_buffer(system, n).first
 //     without decltype, compromise on pointer<T,Tag>
-template<typename T, typename Tag>
+template<typename T, typename System>
   class temporary_allocator
     : public thrust::detail::tagged_allocator<
-               T, Tag, thrust::pointer<T,Tag>
+               T, System, thrust::pointer<T,System>
              >
 {
   private:
     typedef thrust::detail::tagged_allocator<
-      T, Tag, thrust::pointer<T,Tag>
+      T, System, thrust::pointer<T,System>
     > super_t;
+
+    thrust::dispatchable<System> &m_system;
 
   public:
     typedef typename super_t::pointer   pointer;
     typedef typename super_t::size_type size_type;
+
+    inline explicit temporary_allocator(thrust::dispatchable<System> &system) :
+      super_t(),
+      m_system(system)
+    {}
 
     pointer allocate(size_type cnt);
 

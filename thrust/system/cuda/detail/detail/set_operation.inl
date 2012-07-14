@@ -389,8 +389,8 @@ template<typename System,
   const size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 
   // allocate storage for splitter ranks
-  thrust::detail::temporary_array<difference1, System> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
-  thrust::detail::temporary_array<difference2, System> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
+  thrust::detail::temporary_array<difference1, System> splitter_ranks1(system, num_splitters_from_range1 + num_splitters_from_range2);
+  thrust::detail::temporary_array<difference2, System> splitter_ranks2(system, num_splitters_from_range1 + num_splitters_from_range2);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the kernel below
@@ -409,12 +409,12 @@ template<typename System,
   using namespace thrust::detail;
 
   // allocate storage to store each intersected partition's size
-  thrust::detail::temporary_array<difference1, System> result_partition_sizes(num_merged_partitions);
+  thrust::detail::temporary_array<difference1, System> result_partition_sizes(system, num_merged_partitions);
 
   // allocate storage to store the largest possible result
   // XXX if the size of the result is known a priori (i.e., first == second), we don't need this temporary
   temporary_array<value_type1, System>
-    temporary_results(set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
+    temporary_results(system, set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
 
   // maximize the number of blocks we can launch
   const size_t max_blocks = properties.maxGridSize[0];

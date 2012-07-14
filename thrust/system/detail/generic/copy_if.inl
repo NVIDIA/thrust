@@ -55,10 +55,10 @@ OutputIterator copy_if(thrust::dispatchable<System> &system,
                        OutputIterator result,
                        Predicate pred)
 {
-    __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
+    __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(system, first, last));
 
     // compute {0,1} predicates
-    thrust::detail::temporary_array<IndexType, System> predicates(n);
+    thrust::detail::temporary_array<IndexType, System> predicates(system, n);
     thrust::transform(system,
                       stencil,
                       stencil + n,
@@ -66,7 +66,7 @@ OutputIterator copy_if(thrust::dispatchable<System> &system,
                       thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
 
     // scan {0,1} predicates
-    thrust::detail::temporary_array<IndexType, System> scatter_indices(n);
+    thrust::detail::temporary_array<IndexType, System> scatter_indices(system, n);
     thrust::exclusive_scan(system,
                            predicates.begin(),
                            predicates.end(),

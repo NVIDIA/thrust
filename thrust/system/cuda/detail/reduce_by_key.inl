@@ -592,9 +592,9 @@ template <typename System,
     if (n == 0)
       return thrust::make_pair(keys_output, values_output);
 
-    IndexArray interval_counts(decomp.size());
-    ValueArray interval_values(decomp.size());
-    BoolArray  interval_carry(decomp.size());
+    IndexArray interval_counts(system, decomp.size());
+    ValueArray interval_values(system, decomp.size());
+    BoolArray  interval_carry(system, decomp.size());
 
     // an ode to c++11 auto
     typedef thrust::counting_iterator<IndexType> CountingIterator;
@@ -640,9 +640,9 @@ template <typename System,
    
     if (decomp.size() > 1)
     {
-      ValueArray interval_values2(decomp.size());
-      IndexArray interval_counts2(decomp.size());
-      BoolArray  interval_carry2(decomp.size());
+      ValueArray interval_values2(system, decomp.size());
+      IndexArray interval_counts2(system, decomp.size());
+      BoolArray  interval_carry2(system, decomp.size());
 
       IndexType N2 = 
       thrust::reduce_by_key

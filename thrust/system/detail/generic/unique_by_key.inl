@@ -67,8 +67,8 @@ template<typename System,
   
   ForwardIterator2 values_last = values_first + (keys_last - keys_first);
   
-  thrust::detail::temporary_array<InputType1,System> keys(keys_first, keys_last);
-  thrust::detail::temporary_array<InputType2,System> vals(values_first, values_last);
+  thrust::detail::temporary_array<InputType1,System> keys(system, keys_first, keys_last);
+  thrust::detail::temporary_array<InputType2,System> vals(system, values_first, values_last);
   
   return thrust::unique_by_key_copy(system, keys.begin(), keys.end(), vals.begin(), keys_first, values_first, binary_pred);
 } // end unique_by_key()
@@ -115,7 +115,7 @@ template<typename System,
   
   difference_type n = thrust::distance(system, keys_first, keys_last);
   
-  thrust::detail::temporary_array<int,System> stencil(n);
+  thrust::detail::temporary_array<int,System> stencil(system,n);
   
   // mark first element in each group
   stencil[0] = 1; 

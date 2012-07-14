@@ -156,7 +156,7 @@ template<typename System,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &,
+  OutputType reduce(dispatchable<System> &system,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
@@ -218,7 +218,7 @@ template<typename System,
   // TODO assert(n <= num_blocks * block_size);
   // TODO if (shared_array_size < 1) throw cuda exception "insufficient shared memory"
 
-  OutputArray output(num_blocks);
+  OutputArray output(system, num_blocks);
 
   Closure closure(first, n, init, output.begin(), binary_op, array_size);
   
