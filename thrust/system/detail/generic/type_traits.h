@@ -49,25 +49,6 @@ struct any_conversion
   any_conversion(const any_system_tag &);
 };
 
-namespace get_temporary_buffer_exists_ns
-{
-  template<typename T>
-  no get_temporary_buffer(const any_conversion &, const any_conversion &);
-
-  template<typename T> yes check(const T &);
-
-  no check(no);
-
-  template<typename T, typename Tag, typename Size>
-    struct get_temporary_buffer_exists
-  {
-    static Tag  &tag;
-    static Size &n;
-
-    static const bool value = sizeof(check(get_temporary_buffer<T>(tag,n))) == sizeof(yes);
-  };
-} // end get_temporary_buffer_ns
-
 namespace select_system_exists_ns
 {
   no select_system(const any_conversion &);
@@ -122,11 +103,6 @@ namespace select_system_exists_ns
 
 namespace generic
 {
-
-template<typename T, typename Tag, typename Size>
-  struct get_temporary_buffer_exists
-    : generic_type_traits_ns::get_temporary_buffer_exists_ns::get_temporary_buffer_exists<T,Tag,Size>
-{};
 
 template<typename Tag>
   struct select_system1_exists

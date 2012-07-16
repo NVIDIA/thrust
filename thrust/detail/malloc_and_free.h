@@ -27,7 +27,7 @@ namespace thrust
 {
 
 template<typename System>
-pointer<void,System> malloc(thrust::dispatchable<System> &system, std::size_t n)
+pointer<void,System> malloc(thrust::detail::dispatchable_base<System> &system, std::size_t n)
 {
   using thrust::system::detail::generic::malloc;
 
@@ -55,7 +55,7 @@ void free(int *volatile ptr)
 #endif // THRUST_DEVICE_COMPILER
 
 template<typename System, typename Pointer>
-void free(thrust::dispatchable<System> &system, Pointer ptr)
+void free(thrust::detail::dispatchable_base<System> &system, Pointer ptr)
 {
   using thrust::system::detail::generic::free;
 
