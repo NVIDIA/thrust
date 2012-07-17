@@ -30,17 +30,264 @@
 
 namespace thrust
 {
+
+
+template <typename System,
+          typename ForwardIterator>
+ForwardIterator unique(thrust::detail::dispatchable_base<System> &system,
+                       ForwardIterator first,
+                       ForwardIterator last)
+{
+  using thrust::system::detail::generic::unique;
+  return unique(system.derived(), first, last);
+} // end unique()
+
+
+template <typename System,
+          typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(thrust::detail::dispatchable_base<System> &system,
+                       ForwardIterator first,
+                       ForwardIterator last,
+                       BinaryPredicate binary_pred)
+{
+  using thrust::system::detail::generic::unique;
+  return unique(system.derived(), first, last, binary_pred);
+} // end unique()
+
+
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator first,
+                           InputIterator last,
+                           OutputIterator output)
+{
+  using thrust::system::detail::generic::unique_copy;
+  return unique_copy(system.derived(), first, last, output);
+} // end unique_copy()
+
+
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred)
+{
+  using thrust::system::detail::generic::unique_copy;
+  return unique_copy(system.derived(), first, last, output, binary_pred);
+} // end unique_copy()
+
+
+template <typename System,
+          typename ForwardIterator1,
+          typename ForwardIterator2>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator1 keys_first, 
+                ForwardIterator1 keys_last,
+                ForwardIterator2 values_first)
+{
+  using thrust::system::detail::generic::unique_by_key;
+  return unique_by_key(system.derived(), keys_first, keys_last, values_first);
+} // end unique_by_key()
+
+
+template <typename System,
+          typename ForwardIterator1,
+          typename ForwardIterator2,
+          typename BinaryPredicate>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator1 keys_first, 
+                ForwardIterator1 keys_last,
+                ForwardIterator2 values_first,
+                BinaryPredicate binary_pred)
+{
+  using thrust::system::detail::generic::unique_by_key;
+  return unique_by_key(system.derived(), keys_first, keys_last, values_first, binary_pred);
+} // end unique_by_key()
+
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  unique_by_key_copy(thrust::detail::dispatchable_base<System> &system,
+                     InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output)
+{
+  using thrust::system::detail::generic::unique_by_key_copy;
+  return unique_by_key_copy(system.derived(), keys_first, keys_last, values_first, keys_output, values_output);
+} // end unique_by_key_copy()
+
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  unique_by_key_copy(thrust::detail::dispatchable_base<System> &system,
+                     InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output,
+                     BinaryPredicate binary_pred)
+{
+  using thrust::system::detail::generic::unique_by_key_copy;
+  return unique_by_key_copy(system.derived(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+} // end unique_by_key_copy()
+
+
+namespace detail
+{
+
+
+template <typename System,
+          typename ForwardIterator>
+ForwardIterator strip_const_unique(const System &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique(non_const_system, first, last);
+} // end strip_const_unique()
+
+
+template <typename System,
+          typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator strip_const_unique(const System &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   BinaryPredicate binary_pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique(non_const_system, first, last, binary_pred);
+} // end strip_const_unique()
+
+
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator>
+OutputIterator strip_const_unique_copy(const System &system,
+                                       InputIterator first,
+                                       InputIterator last,
+                                       OutputIterator output)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique_copy(non_const_system, first, last, output);
+} // end strip_const_unique_copy()
+
+
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator strip_const_unique_copy(const System &system,
+                                       InputIterator first,
+                                       InputIterator last,
+                                       OutputIterator output,
+                                       BinaryPredicate binary_pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique_copy(non_const_system, first, last, output, binary_pred);
+} // end strip_const_unique_copy()
+
+
+template <typename System,
+          typename ForwardIterator1,
+          typename ForwardIterator2>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  strip_const_unique_by_key(const System &system,
+                            ForwardIterator1 keys_first, 
+                            ForwardIterator1 keys_last,
+                            ForwardIterator2 values_first)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique_by_key(non_const_system, keys_first, keys_last, values_first);
+} // end strip_const_unique_by_key()
+
+
+template <typename System,
+          typename ForwardIterator1,
+          typename ForwardIterator2,
+          typename BinaryPredicate>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  strip_const_unique_by_key(const System &system,
+                            ForwardIterator1 keys_first, 
+                            ForwardIterator1 keys_last,
+                            ForwardIterator2 values_first,
+                            BinaryPredicate binary_pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique_by_key(non_const_system, keys_first, keys_last, values_first, binary_pred);
+} // end strip_const_unique_by_key()
+
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  strip_const_unique_by_key_copy(const System &system,
+                                 InputIterator1 keys_first, 
+                                 InputIterator1 keys_last,
+                                 InputIterator2 values_first,
+                                 OutputIterator1 keys_output,
+                                 OutputIterator2 values_output)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique_by_key_copy(non_const_system, keys_first, keys_last, values_first, keys_output, values_output);
+} // end strip_const_unique_by_key_copy()
+
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  strip_const_unique_by_key_copy(const System &system,
+                                 InputIterator1 keys_first, 
+                                 InputIterator1 keys_last,
+                                 InputIterator2 values_first,
+                                 OutputIterator1 keys_output,
+                                 OutputIterator2 values_output,
+                                 BinaryPredicate binary_pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::unique_by_key_copy(non_const_system, keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+} // end strip_const_unique_by_key_copy()
+
+
+} // end detail
+
     
 template<typename ForwardIterator>
   ForwardIterator unique(ForwardIterator first,
                          ForwardIterator last)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique;
 
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return unique(select_system(system()), first, last);
+  return thrust::detail::strip_const_unique(select_system(system()), first, last);
 } // end unique()
 
 
@@ -51,11 +298,10 @@ template<typename ForwardIterator,
                          BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique;
 
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return unique(select_system(system()), first, last, binary_pred);
+  return thrust::detail::strip_const_unique(select_system(system()), first, last, binary_pred);
 } // end unique()
 
 
@@ -66,12 +312,11 @@ template<typename InputIterator,
                              OutputIterator output)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique_copy;
 
   typedef typename thrust::iterator_system<InputIterator>::type  system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return unique_copy(select_system(system1(),system2()), first, last, output);
+  return thrust::detail::strip_const_unique_copy(select_system(system1(),system2()), first, last, output);
 } // end unique_copy()
 
 
@@ -84,12 +329,11 @@ template<typename InputIterator,
                              BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique_copy;
 
   typedef typename thrust::iterator_system<InputIterator>::type  system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return unique_copy(select_system(system1(),system2()), first, last, output, binary_pred);
+  return thrust::detail::strip_const_unique_copy(select_system(system1(),system2()), first, last, output, binary_pred);
 } // end unique_copy()
 
 
@@ -101,12 +345,11 @@ template<typename ForwardIterator1,
                   ForwardIterator2 values_first)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique_by_key;
 
   typedef typename thrust::iterator_system<ForwardIterator1>::type system1;
   typedef typename thrust::iterator_system<ForwardIterator2>::type system2;
 
-  return unique_by_key(select_system(system1(),system2()), keys_first, keys_last, values_first);
+  return thrust::detail::strip_const_unique_by_key(select_system(system1(),system2()), keys_first, keys_last, values_first);
 } // end unique_by_key()
 
 
@@ -120,12 +363,11 @@ template<typename ForwardIterator1,
                   BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique_by_key;
 
   typedef typename thrust::iterator_system<ForwardIterator1>::type system1;
   typedef typename thrust::iterator_system<ForwardIterator2>::type system2;
 
-  return unique_by_key(select_system(system1(),system2()), keys_first, keys_last, values_first, binary_pred);
+  return thrust::detail::strip_const_unique_by_key(select_system(system1(),system2()), keys_first, keys_last, values_first, binary_pred);
 } // end unique_by_key()
 
 
@@ -141,14 +383,13 @@ template<typename InputIterator1,
                        OutputIterator2 values_output)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique_by_key_copy;
 
   typedef typename thrust::iterator_system<InputIterator1>::type  system1;
   typedef typename thrust::iterator_system<InputIterator2>::type  system2;
   typedef typename thrust::iterator_system<OutputIterator1>::type system3;
   typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return unique_by_key_copy(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output);
+  return thrust::detail::strip_const_unique_by_key_copy(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output);
 } // end unique_by_key_copy()
 
 
@@ -166,14 +407,13 @@ template<typename InputIterator1,
                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::unique_by_key_copy;
 
   typedef typename thrust::iterator_system<InputIterator1>::type  system1;
   typedef typename thrust::iterator_system<InputIterator2>::type  system2;
   typedef typename thrust::iterator_system<OutputIterator1>::type system3;
   typedef typename thrust::iterator_system<OutputIterator2>::type system4;
 
-  return unique_by_key_copy(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+  return thrust::detail::strip_const_unique_by_key_copy(select_system(system1(),system2(),system3(),system4()), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 } // end unique_by_key_copy()
 
 

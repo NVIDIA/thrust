@@ -205,14 +205,14 @@ struct TestReduceByKeyToDiscardIterator
 };
 VariableUnitTest<TestReduceByKeyToDiscardIterator, IntegralTypes> TestReduceByKeyToDiscardIteratorInstance;
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
 thrust::pair<OutputIterator1,OutputIterator2>
-reduce_by_key(my_tag,
+reduce_by_key(my_system,
               InputIterator1, 
               InputIterator1,
               InputIterator2,
@@ -223,17 +223,33 @@ reduce_by_key(my_tag,
     return thrust::make_pair(keys_output, values_output);
 }
 
-void TestReduceByKeyDispatch()
+void TestReduceByKeyDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::reduce_by_key(thrust::retag<my_tag>(vec.begin()),
-                          thrust::retag<my_tag>(vec.begin()),
-                          thrust::retag<my_tag>(vec.begin()),
-                          thrust::retag<my_tag>(vec.begin()),
-                          thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::reduce_by_key(sys,
+                          vec.begin(),
+                          vec.begin(),
+                          vec.begin(),
+                          vec.begin(),
+                          vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestReduceByKeyDispatch);
+DECLARE_UNITTEST(TestReduceByKeyDispatchExplicit);
+
+void TestReduceByKeyDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::reduce_by_key(thrust::retag<my_system>(vec.begin()),
+                          thrust::retag<my_system>(vec.begin()),
+                          thrust::retag<my_system>(vec.begin()),
+                          thrust::retag<my_system>(vec.begin()),
+                          thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestReduceByKeyDispatchImplicit);
 

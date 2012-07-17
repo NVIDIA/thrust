@@ -7,7 +7,7 @@
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 // for testing dispatch
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 //////////////////////
 // Scalar Functions //
@@ -41,23 +41,38 @@ DECLARE_VECTOR_UNITTEST(TestScalarLowerBoundSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-ForwardIterator lower_bound(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+ForwardIterator lower_bound(my_system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
 {
     *first = 13;
     return first;
 }
 
-void TestScalarLowerBoundDispatch()
+void TestScalarLowerBoundDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::lower_bound(thrust::retag<my_tag>(vec.begin()),
-                        thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::lower_bound(sys,
+                        vec.begin(),
+                        vec.end(),
                         0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScalarLowerBoundDispatch);
+DECLARE_UNITTEST(TestScalarLowerBoundDispatchExplicit);
+
+
+void TestScalarLowerBoundDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::lower_bound(thrust::retag<my_system>(vec.begin()),
+                        thrust::retag<my_system>(vec.end()),
+                        0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScalarLowerBoundDispatchImplicit);
 
 
 template <class Vector>
@@ -88,23 +103,37 @@ DECLARE_VECTOR_UNITTEST(TestScalarUpperBoundSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-ForwardIterator upper_bound(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+ForwardIterator upper_bound(my_system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
 {
     *first = 13;
     return first;
 }
 
-void TestScalarUpperBoundDispatch()
+void TestScalarUpperBoundDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::upper_bound(thrust::retag<my_tag>(vec.begin()),
-                        thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::upper_bound(sys,
+                        vec.begin(),
+                        vec.end(),
                         0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScalarUpperBoundDispatch);
+DECLARE_UNITTEST(TestScalarUpperBoundDispatchExplicit);
+
+void TestScalarUpperBoundDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::upper_bound(thrust::retag<my_system>(vec.begin()),
+                        thrust::retag<my_system>(vec.end()),
+                        0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScalarUpperBoundDispatchImplicit);
 
 
 template <class Vector>
@@ -135,23 +164,37 @@ DECLARE_VECTOR_UNITTEST(TestScalarBinarySearchSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-bool binary_search(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+bool binary_search(my_system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
 {
     *first = 13;
     return false;
 }
 
-void TestScalarBinarySearchDispatch()
+void TestScalarBinarySearchDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::binary_search(thrust::retag<my_tag>(vec.begin()),
-                          thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::binary_search(sys,
+                          vec.begin(),
+                          vec.end(),
                           0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScalarBinarySearchDispatch);
+DECLARE_UNITTEST(TestScalarBinarySearchDispatchExplicit);
+
+void TestScalarBinarySearchDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::binary_search(thrust::retag<my_system>(vec.begin()),
+                          thrust::retag<my_system>(vec.end()),
+                          0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScalarBinarySearchDispatchImplicit);
 
 
 template <class Vector>
@@ -193,22 +236,36 @@ DECLARE_VECTOR_UNITTEST(TestScalarEqualRangeSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
 {
     *first = 13;
     return thrust::make_pair(first,first);
 }
 
-void TestScalarEqualRangeDispatch()
+void TestScalarEqualRangeDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::equal_range(thrust::retag<my_tag>(vec.begin()),
-                        thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::equal_range(sys,
+                        vec.begin(),
+                        vec.end(),
                         0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScalarEqualRangeDispatch);
+DECLARE_UNITTEST(TestScalarEqualRangeDispatchExplicit);
+
+void TestScalarEqualRangeDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::equal_range(thrust::retag<my_system>(vec.begin()),
+                        thrust::retag<my_system>(vec.end()),
+                        0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestScalarEqualRangeDispatchImplicit);
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

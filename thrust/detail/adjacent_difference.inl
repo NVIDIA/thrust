@@ -27,18 +27,72 @@
 namespace thrust
 {
 
+
+template <typename System, typename InputIterator, typename OutputIterator>
+OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &system,
+                                   InputIterator first, InputIterator last, 
+                                   OutputIterator result)
+{
+  using thrust::system::detail::generic::adjacent_difference;
+
+  return adjacent_difference(system.derived(), first, last, result);
+} // end adjacent_difference()
+
+
+template <typename System, typename InputIterator, typename OutputIterator, typename BinaryFunction>
+OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &system,
+                                   InputIterator first, InputIterator last, 
+                                   OutputIterator result,
+                                   BinaryFunction binary_op)
+{
+  using thrust::system::detail::generic::adjacent_difference;
+
+  return adjacent_difference(system.derived(), first, last, result, binary_op);
+} // end adjacent_difference()
+
+
+namespace detail
+{
+
+
+template <typename System, typename InputIterator, typename OutputIterator>
+OutputIterator strip_const_adjacent_difference(const System &system,
+                                               InputIterator first, InputIterator last, 
+                                               OutputIterator result)
+{
+  System &non_const_system = const_cast<System&>(system);
+
+  return thrust::adjacent_difference(non_const_system, first, last, result);
+} // end adjacent_difference()
+
+
+template <typename System, typename InputIterator, typename OutputIterator, typename BinaryFunction>
+OutputIterator strip_const_adjacent_difference(const System &system,
+                                               InputIterator first, InputIterator last, 
+                                               OutputIterator result,
+                                               BinaryFunction binary_op)
+{
+  System &non_const_system = const_cast<System&>(system);
+
+  return thrust::adjacent_difference(non_const_system, first, last, result, binary_op);
+} // end adjacent_difference()
+
+
+} // end detail
+
+
 template <typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last, 
                                    OutputIterator result)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::adjacent_difference;
 
   typedef typename thrust::iterator_system<InputIterator>::type  system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return adjacent_difference(select_system(system1(), system2()), first, last, result);
+  return thrust::detail::strip_const_adjacent_difference(select_system(system1(), system2()), first, last, result);
 } // end adjacent_difference()
+
 
 template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
@@ -46,12 +100,11 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::adjacent_difference;
 
   typedef typename thrust::iterator_system<InputIterator>::type  system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return adjacent_difference(select_system(system1(), system2()), first, last, result, binary_op);
+  return thrust::detail::strip_const_adjacent_difference(select_system(system1(), system2()), first, last, result, binary_op);
 } // end adjacent_difference()
 
 

@@ -29,17 +29,19 @@ namespace detail
 namespace generic
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Generator>
-  void generate(tag,
+  void generate(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
 
-template<typename OutputIterator,
+template<typename System,
+         typename OutputIterator,
          typename Size,
          typename Generator>
-  OutputIterator generate_n(tag,
+  OutputIterator generate_n(thrust::dispatchable<System> &system,
                             OutputIterator first,
                             Size n,
                             Generator gen);

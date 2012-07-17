@@ -47,8 +47,8 @@ void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
 
 } // end detail
 
-template <typename InputIterator, typename Distance>
-void advance(tag, InputIterator& i, Distance n)
+template <typename System, typename InputIterator, typename Distance>
+void advance(thrust::dispatchable<System> &, InputIterator& i, Distance n)
 {
   // dispatch on iterator traversal
   thrust::system::detail::generic::detail::advance(i, n,

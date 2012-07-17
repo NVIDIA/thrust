@@ -42,70 +42,68 @@ namespace generic
 {
 
 
-template<typename ForwardIterator>
-  ForwardIterator unique(tag,
+template<typename System,
+         typename ForwardIterator>
+  ForwardIterator unique(thrust::dispatchable<System> &system,
                          ForwardIterator first,
                          ForwardIterator last)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
-  return thrust::unique(first, last, thrust::equal_to<InputType>());
+  return thrust::unique(system, first, last, thrust::equal_to<InputType>());
 } // end unique()
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename BinaryPredicate>
-  ForwardIterator unique(tag,
+  ForwardIterator unique(thrust::dispatchable<System> &system,
                          ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<ForwardIterator>::type        System;
   
-  thrust::detail::temporary_array<InputType,System> input(first, last);
+  thrust::detail::temporary_array<InputType,System> input(system, first, last);
   
-  return thrust::unique_copy(input.begin(), input.end(), first, binary_pred);
+  return thrust::unique_copy(system, input.begin(), input.end(), first, binary_pred);
 } // end unique()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator unique_copy(tag,
+  OutputIterator unique_copy(thrust::dispatchable<System> &system,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output)
 {
   typedef typename thrust::iterator_value<InputIterator>::type value_type;
-  return thrust::unique_copy(first,last,output,thrust::equal_to<value_type>());
+  return thrust::unique_copy(system, first,last,output,thrust::equal_to<value_type>());
 } // end unique_copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator unique_copy(tag,
+  OutputIterator unique_copy(thrust::dispatchable<System> &system,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  typedef typename thrust::detail::minimum_system<
-    typename thrust::iterator_system<InputIterator>::type,
-    typename thrust::iterator_system<OutputIterator>::type
-  >::type System;
-  
   // empty sequence
   if(first == last)
     return output;
   
-  thrust::detail::temporary_array<int,System> stencil(thrust::distance(first, last));
+  thrust::detail::temporary_array<int,System> stencil(system, thrust::distance(first, last));
   
   // mark first element in each group
   stencil[0] = 1; 
-  thrust::transform(first, last - 1, first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
+  thrust::transform(system, first, last - 1, first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
   
-  return thrust::copy_if(first, last, stencil.begin(), output, thrust::identity<int>());
+  return thrust::copy_if(system, first, last, stencil.begin(), output, thrust::identity<int>());
 } // end unique_copy()
 
 

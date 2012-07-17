@@ -22,9 +22,115 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_difference(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator1                             first1,
+                                InputIterator1                             last1,
+                                InputIterator2                             first2,
+                                InputIterator2                             last2,
+                                OutputIterator                             result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator set_difference(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator1                             first1,
+                                InputIterator1                             last1,
+                                InputIterator2                             first2,
+                                InputIterator2                             last2,
+                                OutputIterator                             result,
+                                StrictWeakCompare                          comp);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_intersection(thrust::detail::dispatchable_base<System> &system,
+                                  InputIterator1                             first1,
+                                  InputIterator1                             last1,
+                                  InputIterator2                             first2,
+                                  InputIterator2                             last2,
+                                  OutputIterator                             result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator set_intersection(thrust::detail::dispatchable_base<System> &system,
+                                  InputIterator1                             first1,
+                                  InputIterator1                             last1,
+                                  InputIterator2                             first2,
+                                  InputIterator2                             last2,
+                                  OutputIterator                             result,
+                                  StrictWeakCompare                          comp);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_symmetric_difference(thrust::detail::dispatchable_base<System> &system,
+                                          InputIterator1                             first1,
+                                          InputIterator1                             last1,
+                                          InputIterator2                             first2,
+                                          InputIterator2                             last2,
+                                          OutputIterator                             result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator set_symmetric_difference(thrust::detail::dispatchable_base<System> &system,
+                                          InputIterator1                             first1,
+                                          InputIterator1                             last1,
+                                          InputIterator2                             first2,
+                                          InputIterator2                             last2,
+                                          OutputIterator                             result,
+                                          StrictWeakCompare                          comp);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_union(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1                             first1,
+                           InputIterator1                             last1,
+                           InputIterator2                             first2,
+                           InputIterator2                             last2,
+                           OutputIterator                             result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator set_union(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1                             first1,
+                           InputIterator1                             last1,
+                           InputIterator2                             first2,
+                           InputIterator2                             last2,
+                           OutputIterator                             result,
+                           StrictWeakCompare                          comp);
+
 
 /*! \addtogroup set_operations Set Operations
  *  \ingroup algorithms

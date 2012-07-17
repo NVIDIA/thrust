@@ -27,6 +27,82 @@
 namespace thrust
 {
 
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator merge(thrust::detail::dispatchable_base<System> &system,
+                       InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result)
+{
+  using thrust::system::detail::generic::merge;
+  return merge(system.derived(), first1, last1, first2, last2, result);
+} // end merge()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator merge(thrust::detail::dispatchable_base<System> &system,
+                       InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result,
+                       StrictWeakCompare comp)
+{
+  using thrust::system::detail::generic::merge;
+  return merge(system.derived(), first1, last1, first2, last2, result, comp);
+} // end merge()
+
+
+namespace detail
+{
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator strip_const_merge(const System &system,
+                                   InputIterator1 first1,
+                                   InputIterator1 last1,
+                                   InputIterator2 first2,
+                                   InputIterator2 last2,
+                                   OutputIterator result)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::merge(non_const_system, first1, last1, first2, last2, result);
+} // end strip_const_merge()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator strip_const_merge(const System &system,
+                                   InputIterator1 first1,
+                                   InputIterator1 last1,
+                                   InputIterator2 first2,
+                                   InputIterator2 last2,
+                                   OutputIterator result,
+                                   StrictWeakCompare comp)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::merge(non_const_system, first1, last1, first2, last2, result, comp);
+} // end strip_const_merge()
+
+
+} // end detail
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -39,14 +115,14 @@ template<typename InputIterator1,
                        StrictWeakOrdering comp)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::merge;
 
   typedef typename thrust::iterator_system<InputIterator1>::type system1;
   typedef typename thrust::iterator_system<InputIterator2>::type system2;
   typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result, comp);
-} // end set_intersection()
+  return thrust::detail::strip_const_merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result, comp);
+} // end merge()
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -58,14 +134,14 @@ template<typename InputIterator1,
                        OutputIterator result)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::merge;
 
   typedef typename thrust::iterator_system<InputIterator1>::type system1;
   typedef typename thrust::iterator_system<InputIterator2>::type system2;
   typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result);
+  return thrust::detail::strip_const_merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result);
 } // end merge()
+
 
 } // end thrust
 

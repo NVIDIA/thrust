@@ -22,10 +22,100 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
+
+
+template <typename System,
+          typename ForwardIterator>
+ForwardIterator unique(thrust::detail::dispatchable_base<System> &system,
+                       ForwardIterator first,
+                       ForwardIterator last);
+
+
+template <typename System,
+          typename ForwardIterator,
+          typename BinaryPredicate>
+ForwardIterator unique(thrust::detail::dispatchable_base<System> &system,
+                       ForwardIterator first,
+                       ForwardIterator last,
+                       BinaryPredicate binary_pred);
+
+
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator first,
+                           InputIterator last,
+                           OutputIterator output);
+
+
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryPredicate>
+OutputIterator unique_copy(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator first,
+                           InputIterator last,
+                           OutputIterator output,
+                           BinaryPredicate binary_pred);
+
+
+template <typename System,
+          typename ForwardIterator1,
+          typename ForwardIterator2>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator1 keys_first, 
+                ForwardIterator1 keys_last,
+                ForwardIterator2 values_first);
+
+
+template <typename System,
+          typename ForwardIterator1,
+          typename ForwardIterator2,
+          typename BinaryPredicate>
+  thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator1 keys_first, 
+                ForwardIterator1 keys_last,
+                ForwardIterator2 values_first,
+                BinaryPredicate binary_pred);
+
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  unique_by_key_copy(thrust::detail::dispatchable_base<System> &system,
+                     InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output);
+
+
+template <typename System,
+          typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2,
+          typename BinaryPredicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+  unique_by_key_copy(thrust::detail::dispatchable_base<System> &system,
+                     InputIterator1 keys_first, 
+                     InputIterator1 keys_last,
+                     InputIterator2 values_first,
+                     OutputIterator1 keys_output,
+                     OutputIterator2 values_output,
+                     BinaryPredicate binary_pred);
+
 
 /*! \addtogroup stream_compaction
  *  \{

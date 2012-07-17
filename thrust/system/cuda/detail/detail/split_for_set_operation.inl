@@ -31,7 +31,8 @@ namespace detail
 namespace detail
 {
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
@@ -40,7 +41,8 @@ template<typename RandomAccessIterator1,
          typename Size2,
          typename Size3>
   void split_for_set_operation
-    ::operator()(RandomAccessIterator1 first1,
+    ::operator()(dispatchable<System> &system,
+                 RandomAccessIterator1 first1,
                  RandomAccessIterator1 last1,
                  RandomAccessIterator2 first2,
                  RandomAccessIterator2 last2,
@@ -83,7 +85,8 @@ template<typename RandomAccessIterator1,
   // take into account the tuples when comparing
   typedef compare_first_less_second<Compare> splitter_compare;
 
-  return detail::get_set_operation_splitter_ranks(first_and_rank1, last_and_rank1,
+  return detail::get_set_operation_splitter_ranks(system,
+                                                  first_and_rank1, last_and_rank1,
                                                   first_and_rank2, last_and_rank2,
                                                   splitter_ranks1,
                                                   splitter_ranks2,

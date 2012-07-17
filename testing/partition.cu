@@ -557,11 +557,11 @@ void TestStablePartitionZipIterator(void)
 DECLARE_VECTOR_UNITTEST(TestStablePartitionZipIterator);
 
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename ForwardIterator,
          typename Predicate>
-ForwardIterator partition(my_tag,
+ForwardIterator partition(my_system,
                           ForwardIterator first,
                           ForwardIterator last,
                           Predicate pred)
@@ -570,15 +570,158 @@ ForwardIterator partition(my_tag,
     return first;
 }
 
-void TestPartitionDispatch()
+void TestPartitionDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::partition(thrust::retag<my_tag>(vec.begin()),
-                      thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::partition(sys,
+                      vec.begin(),
+                      vec.begin(),
                       0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestPartitionDispatch);
+DECLARE_UNITTEST(TestPartitionDispatchExplicit);
+
+void TestPartitionDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::partition(thrust::retag<my_system>(vec.begin()),
+                      thrust::retag<my_system>(vec.begin()),
+                      0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestPartitionDispatchImplicit);
+
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(my_system,
+                   InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
+{
+  *first = 13;
+  return thrust::make_pair(out_true,out_false);
+}
+
+void TestPartitionCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys;
+    thrust::partition_copy(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestPartitionCopyDispatchExplicit);
+
+void TestPartitionCopyDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::partition_copy(thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()),
+                           0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestPartitionCopyDispatchImplicit);
+
+template<typename ForwardIterator,
+         typename Predicate>
+ForwardIterator stable_partition(my_system,
+                                 ForwardIterator first,
+                                 ForwardIterator last,
+                                 Predicate pred)
+{
+    *first = 13;
+    return first;
+}
+
+void TestStablePartitionDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys;
+    thrust::stable_partition(sys,
+                             vec.begin(),
+                             vec.begin(),
+                             0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestStablePartitionDispatchExplicit);
+
+void TestStablePartitionDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::stable_partition(thrust::retag<my_system>(vec.begin()),
+                             thrust::retag<my_system>(vec.begin()),
+                             0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestStablePartitionDispatchImplicit);
+
+template<typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(my_system,
+                          InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+  *first = 13;
+  return thrust::make_pair(out_true,out_false);
+}
+
+void TestStablePartitionCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys;
+    thrust::stable_partition_copy(sys,
+                                  vec.begin(),
+                                  vec.begin(),
+                                  vec.begin(),
+                                  vec.begin(),
+                                  0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestStablePartitionCopyDispatchExplicit);
+
+void TestStablePartitionCopyDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::stable_partition_copy(thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  thrust::retag<my_system>(vec.begin()),
+                                  0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestStablePartitionCopyDispatchImplicit);
 

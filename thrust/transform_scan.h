@@ -22,9 +22,39 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename AssociativeOperator>
+  OutputIterator transform_inclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          UnaryFunction unary_op,
+                                          AssociativeOperator binary_op);
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename T,
+         typename AssociativeOperator>
+  OutputIterator transform_exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          UnaryFunction unary_op,
+                                          T init,
+                                          AssociativeOperator binary_op);
+
 
 /*! \addtogroup algorithms
  */

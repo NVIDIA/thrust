@@ -119,24 +119,38 @@ void TestAdjacentDifferenceDiscardIterator(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestAdjacentDifferenceDiscardIterator);
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator, typename OutputIterator>
-OutputIterator adjacent_difference(my_tag, InputIterator, InputIterator, OutputIterator result)
+OutputIterator adjacent_difference(my_system, InputIterator, InputIterator, OutputIterator result)
 {
     *result = 13;
     return result;
 }
 
-void TestAdjacentDifferenceDispatch()
+void TestAdjacentDifferenceDispatchExplicit()
 {
     thrust::device_vector<int> d_input(1);
 
-    thrust::adjacent_difference(thrust::retag<my_tag>(d_input.begin()),
-                                thrust::retag<my_tag>(d_input.end()),
-                                thrust::retag<my_tag>(d_input.begin()));
+    my_system sys;
+    thrust::adjacent_difference(sys,
+                                d_input.begin(),
+                                d_input.end(),
+                                d_input.begin());
 
     ASSERT_EQUAL(13, d_input.front());
 }
-DECLARE_UNITTEST(TestAdjacentDifferenceDispatch);
+DECLARE_UNITTEST(TestAdjacentDifferenceDispatchExplicit);
+
+void TestAdjacentDifferenceDispatchImplicit()
+{
+    thrust::device_vector<int> d_input(1);
+
+    thrust::adjacent_difference(thrust::retag<my_system>(d_input.begin()),
+                                thrust::retag<my_system>(d_input.end()),
+                                thrust::retag<my_system>(d_input.begin()));
+
+    ASSERT_EQUAL(13, d_input.front());
+}
+DECLARE_UNITTEST(TestAdjacentDifferenceDispatchImplicit);
 

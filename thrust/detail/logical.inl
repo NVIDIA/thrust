@@ -28,38 +28,94 @@
 namespace thrust
 {
 
-template <class InputIterator, class Predicate>
+
+template <typename System, typename InputIterator, typename Predicate>
+bool all_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred)
+{
+  using thrust::system::detail::generic::all_of;
+  return all_of(system.derived(), first, last, pred);
+} // end all_of()
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool any_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred)
+{
+  using thrust::system::detail::generic::any_of;
+  return any_of(system.derived(), first, last, pred);
+} // end any_of()
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool none_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred)
+{
+  using thrust::system::detail::generic::none_of;
+  return none_of(system.derived(), first, last, pred);
+} // end none_of()
+
+
+namespace detail
+{
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool strip_const_all_of(const System &system, InputIterator first, InputIterator last, Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::all_of(non_const_system, first, last, pred);
+} // end strip_const_all_of()
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool strip_const_any_of(const System &system, InputIterator first, InputIterator last, Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::any_of(non_const_system, first, last, pred);
+} // end strip_const_any_of()
+
+
+template <typename System, typename InputIterator, typename Predicate>
+bool strip_const_none_of(const System &system, InputIterator first, InputIterator last, Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::none_of(non_const_system, first, last, pred);
+} // end strip_const_none_of()
+
+
+} // end detail
+
+
+template <typename InputIterator, typename Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::all_of;
 
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return all_of(select_system(system()), first, last, pred);
+  return thrust::detail::strip_const_all_of(select_system(system()), first, last, pred);
 }
 
-template <class InputIterator, class Predicate>
+
+template <typename InputIterator, typename Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::any_of;
 
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return any_of(select_system(system()), first, last, pred);
+  return thrust::detail::strip_const_any_of(select_system(system()), first, last, pred);
 }
 
-template <class InputIterator, class Predicate>
+
+template <typename InputIterator, typename Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::none_of;
 
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return none_of(select_system(system()), first, last, pred);
+  return thrust::detail::strip_const_none_of(select_system(system()), first, last, pred);
 }
+
 
 } // end namespace thrust
 

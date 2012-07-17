@@ -32,142 +32,60 @@ namespace omp
 namespace detail
 {
 
-// omp inherits cpp's functionality
-struct tag : thrust::system::cpp::tag {};
+// this awkward sequence of definitions arise
+// from the desire both for tag to derive
+// from dispatchable and for dispatchable
+// to convert to tag (when dispatchable is not
+// an ancestor of tag)
 
+// forward declaration of tag
+struct tag;
 
-// select system overloads
-__host__ __device__
-inline tag select_system(tag, tag)
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
+
+// specialize dispatchable for tag
+template<>
+  struct dispatchable<tag>
+    : thrust::system::cpp::detail::dispatchable<tag>
+{};
+
+// tag's definition comes before the
+// generic definition of dispatchable
+struct tag : dispatchable<tag> {};
+
+// allow conversion to tag when it is not a successor
+template<typename Derived>
+  struct dispatchable
+    : thrust::system::cpp::detail::dispatchable<Derived>
 {
-  return tag();
-} // end select_system()
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
 
 
-// this version catches a user's tag derived from omp::tag in either slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, Tag)
-{
-  return Tag();
-} // end select_system()
-
-// this version catches a user's tag derived from omp::tag in the first slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, tag)
-{
-  return Tag();
-} // end select_system()
-
-// this version catches a user's tag derived from omp::tag in the second slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,tag>::type
-    select_system(tag, Tag)
-{
-  return tag();
-} // end select_system()
-
-
-__host__ __device__
-inline tag select_system(tag, thrust::any_system_tag)
-{
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from omp::tag in the first slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, thrust::any_system_tag)
-{
-  return Tag();
-} // end select_system()
-
-__host__ __device__
-inline tag select_system(thrust::any_system_tag, tag)
-{
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from omp::tag in the second slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(thrust::any_system_tag, Tag)
-{
-  return Tag();
-} // end select_system()
-
-
-// this version catches a user's tag derived from omp::tag in the first slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, thrust::system::cpp::tag)
-{
-  return Tag();
-} // end select_system()
-
-__host__ __device__
-inline tag select_system(tag, thrust::system::cpp::tag)
-{
-  return tag();
-} // end select_system()
-
-
-// this version catches a user's tag derived from omp::tag in the second slot
-template<typename Tag>
-inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(thrust::system::cpp::tag, Tag)
-{
-  return Tag();
-} // end select_system()
-
-__host__ __device__
-inline tag select_system(thrust::system::cpp::tag, tag)
-{
-  return tag();
-} // end select_system()
-
+// overloads of select_system
 
 // XXX select_system(tbb, omp) & select_system(omp, tbb) are ambiguous
 //     because both convert to cpp without these overloads, which we
 //     arbitrarily define in the omp backend
 
-__host__ __device__
-inline tag select_system(tag, thrust::system::tbb::tag)
-{
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from omp::tag in the first slot
-template<typename Tag>
+template<typename System1, typename System2>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(Tag, thrust::system::tbb::tag)
+  System1 select_system(dispatchable<System1> s, thrust::system::tbb::detail::dispatchable<System2>)
 {
-  return Tag();
+  return s.derived();
 } // end select_system()
 
 
-__host__ __device__
-inline tag select_system(thrust::system::tbb::tag, tag)
-{
-  return tag();
-} // end select_system()
-
-// this version catches a user's tag derived from omp::tag in the second slot
-template<typename Tag>
+template<typename System1, typename System2>
 inline __host__ __device__
-  typename thrust::detail::enable_if_base_of<tag,Tag,Tag>::type
-    select_system(thrust::system::tbb::tag, Tag)
+  System2 select_system(thrust::system::tbb::detail::dispatchable<System1>, dispatchable<System2> s)
 {
-  return Tag();
+  return s.derived();
 } // end select_system()
 
 

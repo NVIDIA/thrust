@@ -31,28 +31,30 @@ namespace detail
 {
 
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(tag,
+    unique_by_key(dispatchable<System> &system,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
                   BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique_by_key to cpp::unique_by_key
-  return thrust::system::detail::generic::unique_by_key(tag(),keys_first,keys_last,values_first,binary_pred);
+  return thrust::system::detail::generic::unique_by_key(system,keys_first,keys_last,values_first,binary_pred);
 } // end unique_by_key()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(tag,
+    unique_by_key_copy(dispatchable<System> &system,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -61,7 +63,7 @@ template<typename InputIterator1,
                        BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique_by_key_copy to cpp::unique_by_key_copy
-  return thrust::system::detail::generic::unique_by_key_copy(tag(),keys_first,keys_last,values_first,keys_output,values_output,binary_pred);
+  return thrust::system::detail::generic::unique_by_key_copy(system,keys_first,keys_last,values_first,keys_output,values_output,binary_pred);
 } // end unique_by_key_copy()
 
 

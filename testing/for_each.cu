@@ -6,7 +6,7 @@
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template <typename T>
 class mark_present_for_each
@@ -44,23 +44,34 @@ DECLARE_VECTOR_UNITTEST(TestForEachSimple);
 
 
 template<typename InputIterator, typename Function>
-InputIterator for_each(my_tag, InputIterator first, InputIterator, Function)
+InputIterator for_each(my_system, InputIterator first, InputIterator, Function)
 {
     *first = 13;
     return first;
 }
 
-void TestForEachDispatch()
+void TestForEachDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::for_each(thrust::retag<my_tag>(vec.begin()),
-                     thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::for_each(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestForEachDispatchExplicit);
+
+void TestForEachDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::for_each(thrust::retag<my_system>(vec.begin()),
+                     thrust::retag<my_system>(vec.end()),
                      0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestForEachDispatch);
+DECLARE_UNITTEST(TestForEachDispatchImplicit);
 
 
 template <class Vector>
@@ -91,23 +102,35 @@ DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
 
 
 template<typename InputIterator, typename Size, typename Function>
-InputIterator for_each_n(my_tag, InputIterator first, Size, Function)
+InputIterator for_each_n(my_system, InputIterator first, Size, Function)
 {
     *first = 13;
     return first;
 }
 
-void TestForEachNDispatch()
+void TestForEachNDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::for_each_n(thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::for_each_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestForEachNDispatchExplicit);
+
+
+void TestForEachNDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::for_each_n(thrust::retag<my_system>(vec.begin()),
                        vec.size(),
                        0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestForEachNDispatch);
+DECLARE_UNITTEST(TestForEachNDispatchImplicit);
 
 
 void TestForEachSimpleAnySystem(void)

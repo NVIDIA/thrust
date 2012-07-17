@@ -5,7 +5,7 @@
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 // for testing dispatch
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename T>
 struct return_value
@@ -41,22 +41,33 @@ void TestGenerateSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGenerateSimple);
 
 template<typename ForwardIterator, typename Generator>
-void generate(my_tag, ForwardIterator first, ForwardIterator, Generator)
+void generate(my_system, ForwardIterator first, ForwardIterator, Generator)
 {
     *first = 13;
 }
 
-void TestGenerateDispatch()
+void TestGenerateDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::generate(thrust::retag<my_tag>(vec.begin()),
-                     thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    thrust::generate(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestGenerateDispatchExplicit);
+
+void TestGenerateDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::generate(thrust::retag<my_system>(vec.begin()),
+                     thrust::retag<my_system>(vec.end()),
                      0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestGenerateDispatch);
+DECLARE_UNITTEST(TestGenerateDispatchImplicit);
 
 template <typename T>
 void TestGenerate(const size_t n)
@@ -112,23 +123,34 @@ void TestGenerateNSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGenerateNSimple);
 
 template<typename ForwardIterator, typename Size, typename Generator>
-ForwardIterator generate_n(my_tag, ForwardIterator first, Size, Generator)
+ForwardIterator generate_n(my_system, ForwardIterator first, Size, Generator)
 {
     *first = 13;
     return first;
 }
 
-void TestGenerateNDispatch()
+void TestGenerateNDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::generate_n(thrust::retag<my_tag>(vec.begin()),
+    my_system sys;
+    thrust::generate_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestGenerateNDispatchExplicit);
+
+void TestGenerateNDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::generate_n(thrust::retag<my_system>(vec.begin()),
                        vec.size(),
                        0);
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestGenerateNDispatch);
+DECLARE_UNITTEST(TestGenerateNDispatchImplicit);
 
 template <typename T>
 void TestGenerateNToDiscardIterator(const size_t n)

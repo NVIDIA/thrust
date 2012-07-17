@@ -31,25 +31,27 @@ namespace generic
 {
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(thrust::dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
                   OutputIterator1 keys_output,
                   OutputIterator2 values_output);
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(thrust::dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -57,14 +59,15 @@ template<typename InputIterator1,
                   OutputIterator2 values_output,
                   BinaryPredicate binary_pred);
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(thrust::dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,

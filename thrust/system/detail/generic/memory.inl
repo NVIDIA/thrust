@@ -20,6 +20,7 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/detail/adl/malloc_and_free.h>
 #include <thrust/detail/static_assert.h>
+#include <thrust/detail/malloc_and_free.h>
 
 namespace thrust
 {
@@ -31,34 +32,34 @@ namespace generic
 {
 
 
-template<typename Size>
-  void malloc(tag, Size)
+template<typename System, typename Size>
+  void malloc(thrust::dispatchable<System> &, Size)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
 }
 
 
-template<typename Pointer>
-  void free(tag, Pointer)
+template<typename System, typename Pointer>
+  void free(thrust::dispatchable<System> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
 }
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename System, typename Pointer1, typename Pointer2>
 __host__ __device__
-void assign_value(tag, Pointer1, Pointer2)
+void assign_value(thrust::dispatchable<System> &, Pointer1, Pointer2)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
 }
 
 
-template<typename Pointer>
+template<typename System, typename Pointer>
 __host__ __device__
-void get_value(tag, Pointer)
+void get_value(thrust::dispatchable<System> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
@@ -74,47 +75,22 @@ void iter_swap(tag, Pointer1, Pointer2)
 }
 
 
-namespace detail
+template<typename T, typename System>
+  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
+    get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n)
 {
+  thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
 
-// define our own raw_pointer_cast to avoid bringing in thrust/device_ptr.h
-template<typename Pointer>
-  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-    get(Pointer ptr)
-{
-  return thrust::detail::pointer_traits<Pointer>::get(ptr);
-}
+  typedef thrust::pointer<T,System> pointer;
 
-} // end detail
-
-
-template<typename T, typename Tag>
-  typename thrust::detail::disable_if<
-    get_temporary_buffer_exists<
-      T, Tag, typename thrust::pointer<T,Tag>::difference_type
-    >::value,
-    thrust::pair<thrust::pointer<T,Tag>, typename thrust::pointer<T,Tag>::difference_type>
-  >::type
-    get_temporary_buffer(Tag, typename thrust::pointer<T,Tag>::difference_type n)
-{
-  typedef thrust::pointer<T,Tag> pointer;
-
-  using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::malloc;
-
-  return thrust::make_pair(pointer(static_cast<T*>(detail::get(malloc(select_system(Tag()), sizeof(T) * n)))), n);
+  return thrust::make_pair(pointer(static_cast<T*>(void_ptr.get())), n);
 } // end get_temporary_buffer()
 
 
-template<typename Pointer>
-  void return_temporary_buffer(tag, Pointer p)
+template<typename System, typename Pointer>
+  void return_temporary_buffer(thrust::dispatchable<System> &s, Pointer p)
 {
-  typedef typename thrust::iterator_system<Pointer>::type Tag;
-
-  using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::free;
-
-  free(select_system(Tag()), p);
+  thrust::free(s, p);
 } // end return_temporary_buffer()
 
 

@@ -29,21 +29,23 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-  void scatter(tag,
+  void scatter(thrust::dispatchable<System> &system,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-  void scatter_if(tag,
+  void scatter_if(thrust::dispatchable<System> &system,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -51,12 +53,13 @@ template<typename InputIterator1,
                   RandomAccessIterator output);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-  void scatter_if(tag,
+  void scatter_if(thrust::dispatchable<System> &system,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,

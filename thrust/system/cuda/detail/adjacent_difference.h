@@ -33,8 +33,11 @@ namespace cuda
 namespace detail
 {
 
-template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(tag,
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryFunction>
+OutputIterator adjacent_difference(dispatchable<System> &system,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);

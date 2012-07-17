@@ -29,9 +29,10 @@ namespace detail
 namespace generic
 {
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2>
-  ForwardIterator2 swap_ranges(tag,
+  ForwardIterator2 swap_ranges(thrust::dispatchable<System> &system,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2);

@@ -30,37 +30,41 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
 
 
 // XXX it is an error to call this function; it has no implementation 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 BinaryFunction binary_op);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -68,11 +72,12 @@ template<typename InputIterator,
 
 
 // XXX it is an error to call this function; it has no implementation 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,

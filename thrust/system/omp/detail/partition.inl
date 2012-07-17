@@ -35,36 +35,39 @@ namespace detail
 {
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(tag,
+  ForwardIterator partition(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   // omp prefers generic::partition to cpp::partition
-  return thrust::system::detail::generic::partition(tag(), first, last, pred);
+  return thrust::system::detail::generic::partition(system, first, last, pred);
 } // end partition()
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(tag,
+  ForwardIterator stable_partition(dispatchable<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
 {
   // omp prefers generic::stable_partition to cpp::stable_partition
-  return thrust::system::detail::generic::stable_partition(tag(), first, last, pred);
+  return thrust::system::detail::generic::stable_partition(system, first, last, pred);
 } // end stable_partition()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(tag,
+    stable_partition_copy(dispatchable<System> &system,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -72,7 +75,7 @@ template<typename InputIterator,
                           Predicate pred)
 {
   // omp prefers generic::stable_partition_copy to cpp::stable_partition_copy
-  return thrust::system::detail::generic::stable_partition_copy(tag(), first, last, out_true, out_false, pred);
+  return thrust::system::detail::generic::stable_partition_copy(system, first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 

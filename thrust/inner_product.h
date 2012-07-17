@@ -22,9 +22,37 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputType>
+OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator1 first1,
+                         InputIterator1 last1,
+                         InputIterator2 first2,
+                         OutputType init);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputType,
+         typename BinaryFunction1,
+         typename BinaryFunction2>
+OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator1 first1,
+                         InputIterator1 last1,
+                         InputIterator2 first2,
+                         OutputType init, 
+                         BinaryFunction1 binary_op1,
+                         BinaryFunction2 binary_op2);
+
 
 /*! \addtogroup reductions
  *  \{

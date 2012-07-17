@@ -93,12 +93,25 @@ template<typename Element, typename Pointer, typename Derived>
     ::operator typename reference<Element,Pointer,Derived>::value_type () const
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::get_value;
 
   typedef typename thrust::iterator_system<pointer>::type system;
 
-  return get_value(select_system(system()), m_ptr);
+  return strip_const_get_value(select_system(system()));
 } // end reference::operator value_type ()
+
+
+template<typename Element, typename Pointer, typename Derived>
+  template<typename System>
+    typename reference<Element,Pointer,Derived>::value_type
+      reference<Element,Pointer,Derived>
+        ::strip_const_get_value(const System &system) const
+{
+  System &non_const_system = const_cast<System&>(system);
+
+  using thrust::system::detail::generic::get_value;
+
+  return get_value(non_const_system.derived(), m_ptr);
+} // end reference::strip_const_get_value()
 
 
 template<typename Element, typename Pointer, typename Derived>
@@ -107,13 +120,25 @@ template<typename Element, typename Pointer, typename Derived>
       ::assign_from(OtherPointer src)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::assign_value;
 
   typedef typename thrust::iterator_system<pointer>::type      system1;
   typedef typename thrust::iterator_system<OtherPointer>::type system2;
 
-  assign_value(select_system(system1(), system2()), m_ptr, src);
+  strip_const_assign_value(select_system(system1(), system2()), src);
 } // end assign_from()
+
+
+template<typename Element, typename Pointer, typename Derived>
+  template<typename System, typename OtherPointer>
+    void reference<Element,Pointer,Derived>
+      ::strip_const_assign_value(const System &system, OtherPointer src)
+{
+  System &non_const_system = const_cast<System&>(system);
+
+  using thrust::system::detail::generic::assign_value;
+
+  assign_value(non_const_system.derived(), m_ptr, src);
+} // end strip_const_assign_value()
 
 
 template<typename Element, typename Pointer, typename Derived>

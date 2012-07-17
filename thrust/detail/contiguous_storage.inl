@@ -33,8 +33,8 @@ namespace detail
 
 template<typename T, typename Alloc>
   contiguous_storage<T,Alloc>
-    ::contiguous_storage(void)
-      :m_allocator(),
+    ::contiguous_storage(const Alloc &alloc)
+      :m_allocator(alloc),
        m_begin(pointer(static_cast<T*>(0))),
        m_size(0)
 {
@@ -43,8 +43,8 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   contiguous_storage<T,Alloc>
-    ::contiguous_storage(size_type n)
-      :m_allocator(),
+    ::contiguous_storage(size_type n, const Alloc &alloc)
+      :m_allocator(alloc),
        m_begin(pointer(static_cast<T*>(0))),
        m_size(0)
 {

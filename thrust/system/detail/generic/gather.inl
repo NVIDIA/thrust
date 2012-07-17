@@ -30,35 +30,39 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather(tag,
-                        InputIterator        map_first,
-                        InputIterator        map_last,
-                        RandomAccessIterator input_first,
-                        OutputIterator       result)
+  OutputIterator gather(thrust::dispatchable<System> &system,
+                        InputIterator                 map_first,
+                        InputIterator                 map_last,
+                        RandomAccessIterator          input_first,
+                        OutputIterator                result)
 {
-  return thrust::transform(thrust::make_permutation_iterator(input_first, map_first),
+  return thrust::transform(system,
+                           thrust::make_permutation_iterator(input_first, map_first),
                            thrust::make_permutation_iterator(input_first, map_last),
                            result,
                            thrust::identity<typename thrust::iterator_value<RandomAccessIterator>::type>());
 } // end gather()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather_if(tag,
-                           InputIterator1       map_first,
-                           InputIterator1       map_last,
-                           InputIterator2       stencil,
-                           RandomAccessIterator input_first,
-                           OutputIterator       result)
+  OutputIterator gather_if(thrust::dispatchable<System> &system,
+                           InputIterator1                map_first,
+                           InputIterator1                map_last,
+                           InputIterator2                stencil,
+                           RandomAccessIterator          input_first,
+                           OutputIterator                result)
 {
   typedef typename thrust::iterator_value<InputIterator2>::type StencilType;
-  return thrust::gather_if(map_first,
+  return thrust::gather_if(system,
+                           map_first,
                            map_last,
                            stencil,
                            input_first,
@@ -67,21 +71,23 @@ template<typename InputIterator1,
 } // end gather_if()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator gather_if(tag,
-                           InputIterator1       map_first,
-                           InputIterator1       map_last,
-                           InputIterator2       stencil,
-                           RandomAccessIterator input_first,
-                           OutputIterator       result,
-                           Predicate            pred)
+  OutputIterator gather_if(thrust::dispatchable<System> &system,
+                           InputIterator1                map_first,
+                           InputIterator1                map_last,
+                           InputIterator2                stencil,
+                           RandomAccessIterator          input_first,
+                           OutputIterator                result,
+                           Predicate                     pred)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
-  return thrust::transform_if(thrust::make_permutation_iterator(input_first, map_first),
+  return thrust::transform_if(system,
+                              thrust::make_permutation_iterator(input_first, map_first),
                               thrust::make_permutation_iterator(input_first, map_last),
                               stencil,
                               result,

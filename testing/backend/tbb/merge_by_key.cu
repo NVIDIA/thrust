@@ -41,8 +41,9 @@ void TestMergeByKeySimple(void)
   Vector keys_out(7);
   Vector vals_out(7);
 
+  thrust::tbb::tag tbb_tag;
   thrust::pair<Iterator,Iterator> result = thrust::system::tbb::detail::merge_by_key
-    (thrust::system::tbb::tag(),
+    (tbb_tag,
      a.begin(), a.end(),
      b.begin(), b.end(),
      u.begin(),
@@ -93,8 +94,10 @@ template<typename T>
     typename thrust::host_vector<T>::iterator   h_end;
     typename thrust::device_vector<T>::iterator d_end;
   
+    thrust::tbb::tag tbb_tag;
+
     h_end = thrust::system::tbb::detail::merge_by_key
-    (thrust::system::tbb::tag(),
+    (tbb_tag,
      h_a.begin(), h_a.end(),
      h_b.begin(), h_b.begin() + size,
      h_u.begin(),
@@ -107,7 +110,7 @@ template<typename T>
     h_val_result.resize(h_end - h_key_result.begin());
 
     d_end = thrust::system::tbb::detail::merge_by_key
-    (thrust::system::tbb::tag(),
+    (tbb_tag,
      d_a.begin(), d_a.end(),
      d_b.begin(), d_b.begin() + size,
      d_u.begin(),
@@ -145,8 +148,10 @@ void TestMergeByKeyDescending(size_t n)
   thrust::host_vector<int>   h_val_result(h_a.size() + h_b.size());
   thrust::device_vector<int> d_val_result(d_a.size() + d_b.size());
 
+  thrust::tbb::tag tbb_tag;
+
   thrust::system::tbb::detail::merge_by_key
-    (thrust::system::tbb::tag(),
+    (tbb_tag,
      h_a.begin(), h_a.end(),
      h_b.begin(), h_b.end(),
      h_u.begin(),
@@ -156,7 +161,7 @@ void TestMergeByKeyDescending(size_t n)
      thrust::greater<T>());
 
   thrust::system::tbb::detail::merge_by_key
-    (thrust::system::tbb::tag(),
+    (tbb_tag,
      d_a.begin(), d_a.end(),
      d_b.begin(), d_b.end(),
      d_u.begin(),

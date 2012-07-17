@@ -67,14 +67,15 @@ struct reduce_by_key_functor
 } // end namespace detail
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(thrust::dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -85,13 +86,6 @@ template<typename InputIterator1,
 {
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
     typedef typename thrust::iterator_traits<InputIterator1>::value_type  KeyType;
-
-    typedef typename thrust::detail::minimum_system<
-      typename thrust::iterator_system<InputIterator1>::type,
-      typename thrust::iterator_system<InputIterator2>::type,
-      typename thrust::iterator_system<OutputIterator1>::type,
-      typename thrust::iterator_system<OutputIterator2>::type
-    >::type System;
 
     typedef unsigned int FlagType;  // TODO use difference_type
 
@@ -126,44 +120,46 @@ template<typename InputIterator1,
     InputIterator2 values_last = values_first + n;
     
     // compute head flags
-    thrust::detail::temporary_array<FlagType,System> head_flags(n);
-    thrust::transform(keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
+    thrust::detail::temporary_array<FlagType,System> head_flags(system, n);
+    thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
-    thrust::detail::temporary_array<FlagType,System> tail_flags(n); //COPY INSTEAD OF TRANSFORM
-    thrust::transform(keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
+    thrust::detail::temporary_array<FlagType,System> tail_flags(system, n); //COPY INSTEAD OF TRANSFORM
+    thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag
-    thrust::detail::temporary_array<ValueType,System> scanned_values(n);
-    thrust::detail::temporary_array<FlagType,System>  scanned_tail_flags(n);
+    thrust::detail::temporary_array<ValueType,System> scanned_values(system, n);
+    thrust::detail::temporary_array<FlagType,System>  scanned_tail_flags(system, n);
     
     thrust::inclusive_scan
-        (thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
+        (system,
+         thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
          thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
          thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
          detail::reduce_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
 
-    thrust::exclusive_scan(tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
+    thrust::exclusive_scan(system, tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
 
     // number of unique keys
     FlagType N = scanned_tail_flags[n - 1] + 1;
     
     // scatter the keys and accumulated values    
-    thrust::scatter_if(keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
-    thrust::scatter_if(scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
+    thrust::scatter_if(system, keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
+    thrust::scatter_if(system, scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
 
     return thrust::make_pair(keys_output + N, values_output + N); 
 } // end reduce_by_key()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(thrust::dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -173,17 +169,18 @@ template<typename InputIterator1,
   typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
 
   // use equal_to<KeyType> as default BinaryPredicate
-  return thrust::reduce_by_key(keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
+  return thrust::reduce_by_key(system, keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
 } // end reduce_by_key()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(thrust::dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -198,7 +195,8 @@ template<typename InputIterator1,
   >::type T;
 
   // use plus<T> as default BinaryFunction
-  return thrust::reduce_by_key(keys_first, keys_last, 
+  return thrust::reduce_by_key(system,
+                               keys_first, keys_last, 
                                values_first,
                                keys_output,
                                values_output,

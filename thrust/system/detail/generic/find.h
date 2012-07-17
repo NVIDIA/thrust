@@ -29,20 +29,20 @@ namespace detail
 namespace generic
 {
 
-template <typename InputIterator, typename T>
-InputIterator find(tag,
+template<typename System, typename InputIterator, typename T>
+InputIterator find(thrust::dispatchable<System> &system,
                    InputIterator first,
                    InputIterator last,
                    const T& value);
 
-template <typename InputIterator, typename Predicate>
-InputIterator find_if(tag,
+template<typename System, typename InputIterator, typename Predicate>
+InputIterator find_if(thrust::dispatchable<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
 
-template <typename InputIterator, typename Predicate>
-InputIterator find_if_not(tag,
+template<typename System, typename InputIterator, typename Predicate>
+InputIterator find_if_not(thrust::dispatchable<System> &system,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred);

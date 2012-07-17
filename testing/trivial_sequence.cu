@@ -6,7 +6,9 @@
 template <typename Iterator>
 void test(Iterator first, Iterator last)
 {
-    thrust::detail::trivial_sequence<Iterator> ts(first, last);
+    typedef typename thrust::iterator_system<Iterator>::type System;
+    System system;
+    thrust::detail::trivial_sequence<Iterator,System> ts(system, first, last);
     typedef typename thrust::iterator_traits<Iterator>::value_type ValueType;
     
     ASSERT_EQUAL_QUIET((ValueType) ts.begin()[0], ValueType(0, 11)); 
@@ -21,7 +23,7 @@ void test(Iterator first, Iterator last)
     ts.begin()[3] = ValueType(0,0);
     ts.begin()[4] = ValueType(0,0);
 
-    typedef typename thrust::detail::trivial_sequence<Iterator>::iterator_type TrivialIterator;
+    typedef typename thrust::detail::trivial_sequence<Iterator,System>::iterator_type TrivialIterator;
 
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<Iterator>::value,        false);
     ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<TrivialIterator>::value,  true);

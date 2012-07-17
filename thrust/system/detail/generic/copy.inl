@@ -36,42 +36,40 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(tag,
+  OutputIterator copy(thrust::dispatchable<System> &system,
                       InputIterator  first,
                       InputIterator  last,
                       OutputIterator result)
 {
   typedef typename thrust::iterator_value<InputIterator>::type T;
-  return thrust::transform(first, last, result, thrust::identity<T>());
+  return thrust::transform(system, first, last, result, thrust::identity<T>());
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(tag,
+  OutputIterator copy_n(thrust::dispatchable<System> &system,
                         InputIterator  first,
                         Size           n,
                         OutputIterator result)
 {
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
-
-  typedef typename thrust::detail::minimum_system<system1,system2> system;
-
   typedef typename thrust::iterator_value<InputIterator>::type value_type;
   typedef thrust::identity<value_type>                         xfrm_type;
 
-  typedef typename thrust::detail::unary_transform_functor<system,xfrm_type>::type functor_type;
+  // XXX why do we need to do this? figure out why, and then see if we can do without
+  typedef typename thrust::detail::unary_transform_functor<System,xfrm_type>::type functor_type;
 
   typedef thrust::tuple<InputIterator,OutputIterator> iterator_tuple;
   typedef thrust::zip_iterator<iterator_tuple>        zip_iter;
 
   zip_iter zipped = thrust::make_zip_iterator(thrust::make_tuple(first,result));
 
-  return thrust::get<1>(thrust::for_each_n(zipped, n, functor_type(xfrm_type())).get_iterator_tuple());
+  return thrust::get<1>(thrust::for_each_n(system, zipped, n, functor_type(xfrm_type())).get_iterator_tuple());
 } // end copy_n()
 
 

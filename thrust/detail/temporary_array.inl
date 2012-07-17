@@ -28,8 +28,8 @@ namespace detail
 
 template<typename T, typename System>
   temporary_array<T,System>
-    ::temporary_array(size_type n)
-      :super_t(n)
+    ::temporary_array(thrust::dispatchable<System> &system, size_type n)
+      :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
   ;
 } // end temporary_array::temporary_array()
@@ -38,10 +38,15 @@ template<typename T, typename System>
 template<typename T, typename System>
   template<typename InputIterator>
     temporary_array<T,System>
-      ::temporary_array(InputIterator first, InputIterator last)
-        : super_t()
+      ::temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last)
+        : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  super_t::allocate(thrust::distance(first,last));
+  super_t::allocate(thrust::distance(system,first,last));
+
+  // XXX this should be copy construct via allocator
+  // XXX note that we don't use the system for dispatch here
+  //     because it might not be compatible with InputIterator
+  //     we should require this, however -- it should know how to do the copy
   thrust::copy(first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 

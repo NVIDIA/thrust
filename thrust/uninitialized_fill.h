@@ -22,9 +22,25 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void uninitialized_fill(thrust::detail::dispatchable_base<System> &system,
+                          ForwardIterator first,
+                          ForwardIterator last,
+                          const T &x);
+
+
+template<typename System, typename ForwardIterator, typename Size, typename T>
+  ForwardIterator uninitialized_fill_n(thrust::detail::dispatchable_base<System> &system,
+                                       ForwardIterator first,
+                                       Size n,
+                                       const T &x);
+
 
 /*! \addtogroup filling
  *  \ingroup transformations

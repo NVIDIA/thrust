@@ -34,11 +34,12 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename BinaryFunction>
-  OutputIterator transform_inclusive_scan(tag,
+  OutputIterator transform_inclusive_scan(thrust::dispatchable<System> &system,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -70,15 +71,16 @@ template<typename InputIterator,
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
 
-  return thrust::inclusive_scan(_first, _last, result, binary_op);
+  return thrust::inclusive_scan(system, _first, _last, result, binary_op);
 } // end transform_inclusive_scan()
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  OutputIterator transform_exclusive_scan(tag,
+  OutputIterator transform_exclusive_scan(thrust::dispatchable<System> &system,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -111,7 +113,7 @@ template<typename InputIterator,
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
 
-  return thrust::exclusive_scan(_first, _last, result, init, binary_op);
+  return thrust::exclusive_scan(system, _first, _last, result, init, binary_op);
 } // end transform_exclusive_scan()
 
 } // end namespace generic

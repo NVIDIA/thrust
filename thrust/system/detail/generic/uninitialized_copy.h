@@ -29,17 +29,19 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy(tag,
+  ForwardIterator uninitialized_copy(thrust::dispatchable<System> &system,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(tag,
+  ForwardIterator uninitialized_copy_n(thrust::dispatchable<System> &system,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result);

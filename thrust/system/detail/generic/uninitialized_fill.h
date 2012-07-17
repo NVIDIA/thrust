@@ -29,17 +29,19 @@ namespace detail
 namespace generic
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename T>
-  void uninitialized_fill(tag,
+  void uninitialized_fill(thrust::dispatchable<System> &system,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x);
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Size,
          typename T>
-  ForwardIterator uninitialized_fill_n(tag,
+  ForwardIterator uninitialized_fill_n(thrust::dispatchable<System> &system,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x);

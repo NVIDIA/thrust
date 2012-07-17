@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -29,7 +30,8 @@ namespace detail
 namespace detail
 {
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
@@ -37,7 +39,8 @@ template<typename RandomAccessIterator1,
          typename Size1,
          typename Size2,
          typename Size3>
-  void get_set_operation_splitter_ranks(RandomAccessIterator1 first1,
+  void get_set_operation_splitter_ranks(dispatchable<System> &system,
+                                        RandomAccessIterator1 first1,
                                         RandomAccessIterator1 last1,
                                         RandomAccessIterator2 first2,
                                         RandomAccessIterator2 last2,

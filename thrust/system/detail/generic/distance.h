@@ -30,9 +30,9 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator>
+template<typename System, typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(tag, InputIterator first, InputIterator last);
+    distance(thrust::dispatchable<System> &system, InputIterator first, InputIterator last);
 
 } // end namespace generic
 } // end namespace detail

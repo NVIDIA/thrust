@@ -22,9 +22,157 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator>
+  OutputIterator inclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result);
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename AssociativeOperator>
+  OutputIterator inclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                AssociativeOperator binary_op);
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator>
+  OutputIterator exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result);
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T>
+  OutputIterator exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                T init);
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T,
+         typename AssociativeOperator>
+  OutputIterator exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                T init,
+                                AssociativeOperator binary_op);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator inclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate>
+  OutputIterator inclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator inclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T>
+  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate>
+  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init,
+                                       BinaryPredicate binary_pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename T,
+         typename BinaryPredicate,
+         typename AssociativeOperator>
+  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+                                       InputIterator1 first1,
+                                       InputIterator1 last1,
+                                       InputIterator2 first2,
+                                       OutputIterator result,
+                                       T init,
+                                       BinaryPredicate binary_pred,
+                                       AssociativeOperator binary_op);
+
 
 /*! \addtogroup algorithms
  */

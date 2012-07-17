@@ -49,12 +49,14 @@ template<typename InputType,
 
 
 // non-trivial copy constructor path
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy(InputIterator first,
-                                    InputIterator last,
-                                    ForwardIterator result,
-                                    thrust::detail::false_type) // has_trivial_copy_constructor
+  ForwardIterator uninitialized_copy(thrust::dispatchable<System> &system,
+                                     InputIterator first,
+                                     InputIterator last,
+                                     ForwardIterator result,
+                                     thrust::detail::false_type) // has_trivial_copy_constructor
 {
   // zip up the iterators
   typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
@@ -74,7 +76,7 @@ template<typename InputIterator,
   detail::uninitialized_copy_functor<InputType, OutputType> f;
 
   // do the for_each
-  thrust::for_each(begin, end, f);
+  thrust::for_each(system, begin, end, f);
 
   // return the end of the output range
   return thrust::get<1>(end.get_iterator_tuple());
@@ -82,22 +84,26 @@ template<typename InputIterator,
 
 
 // trivial copy constructor path
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy(InputIterator first,
+  ForwardIterator uninitialized_copy(thrust::dispatchable<System> &system,
+                                     InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result,
                                      thrust::detail::true_type) // has_trivial_copy_constructor
 {
-  return thrust::copy(first, last, result);
+  return thrust::copy(system, first, last, result);
 } // end uninitialized_copy()
 
 
 // non-trivial copy constructor path
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(InputIterator first,
+  ForwardIterator uninitialized_copy_n(thrust::dispatchable<System> &system,
+                                       InputIterator first,
                                        Size n,
                                        ForwardIterator result,
                                        thrust::detail::false_type) // has_trivial_copy_constructor
@@ -115,7 +121,7 @@ template<typename InputIterator,
   detail::uninitialized_copy_functor<InputType, OutputType> f;
 
   // do the for_each_n
-  ZipIterator zipped_last = thrust::for_each_n(zipped_first, n, f);
+  ZipIterator zipped_last = thrust::for_each_n(system, zipped_first, n, f);
 
   // return the end of the output range
   return thrust::get<1>(zipped_last.get_iterator_tuple());
@@ -123,24 +129,27 @@ template<typename InputIterator,
 
 
 // trivial copy constructor path
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(InputIterator first,
+  ForwardIterator uninitialized_copy_n(thrust::dispatchable<System> &system,
+                                       InputIterator first,
                                        Size n,
                                        ForwardIterator result,
                                        thrust::detail::true_type) // has_trivial_copy_constructor
 {
-  return thrust::copy_n(first, n, result);
+  return thrust::copy_n(system, first, n, result);
 } // end uninitialized_copy_n()
 
 
 } // end detail
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy(tag, 
+  ForwardIterator uninitialized_copy(thrust::dispatchable<System> &system,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result)
@@ -149,14 +158,15 @@ template<typename InputIterator,
 
   typedef typename thrust::detail::has_trivial_copy_constructor<ResultType>::type ResultTypeHasTrivialCopyConstructor;
 
-  return thrust::system::detail::generic::detail::uninitialized_copy(first, last, result, ResultTypeHasTrivialCopyConstructor());
+  return thrust::system::detail::generic::detail::uninitialized_copy(system, first, last, result, ResultTypeHasTrivialCopyConstructor());
 } // end uninitialized_copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(tag,
+  ForwardIterator uninitialized_copy_n(thrust::dispatchable<System> &system,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result)
@@ -165,7 +175,7 @@ template<typename InputIterator,
 
   typedef typename thrust::detail::has_trivial_copy_constructor<ResultType>::type ResultTypeHasTrivialCopyConstructor;
 
-  return thrust::system::detail::generic::detail::uninitialized_copy_n(first, n, result, ResultTypeHasTrivialCopyConstructor());
+  return thrust::system::detail::generic::detail::uninitialized_copy_n(system, first, n, result, ResultTypeHasTrivialCopyConstructor());
 } // end uninitialized_copy_n()
 
 

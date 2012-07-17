@@ -29,11 +29,12 @@ namespace detail
 {
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_difference(tag,
+RandomAccessIterator3 set_difference(dispatchable<System> &system,
                                      RandomAccessIterator1 first1,
                                      RandomAccessIterator1 last1,
                                      RandomAccessIterator2 first2,
@@ -42,11 +43,12 @@ RandomAccessIterator3 set_difference(tag,
                                      Compare comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_intersection(tag,
+RandomAccessIterator3 set_intersection(dispatchable<System> &system,
                                        RandomAccessIterator1 first1,
                                        RandomAccessIterator1 last1,
                                        RandomAccessIterator2 first2,
@@ -55,11 +57,12 @@ RandomAccessIterator3 set_intersection(tag,
                                        Compare comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_symmetric_difference(tag,
+RandomAccessIterator3 set_symmetric_difference(dispatchable<System> &system,
                                                RandomAccessIterator1 first1,
                                                RandomAccessIterator1 last1,
                                                RandomAccessIterator2 first2,
@@ -68,17 +71,19 @@ RandomAccessIterator3 set_symmetric_difference(tag,
                                                Compare comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_union(tag,
+RandomAccessIterator3 set_union(dispatchable<System> &system,
                                 RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
                                 RandomAccessIterator2 first2,
                                 RandomAccessIterator2 last2,
                                 RandomAccessIterator3 result,
                                 Compare comp);
+
 
 } // end detail
 } // end cuda

@@ -106,7 +106,9 @@ template<typename ForwardIterator,
   typedef thrust::detail::temporary_array<T,System> TempRange;
   typedef typename TempRange::iterator             TempIterator;
 
-  TempRange temp(first, last);
+  // XXX presumes System is default constructible
+  System system;
+  TempRange temp(system, first, last);
 
   for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
   {

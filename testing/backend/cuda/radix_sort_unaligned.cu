@@ -38,7 +38,8 @@ struct TestRadixSortUnaligned
         thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
         thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
    
-        thrust::system::cuda::detail::detail::stable_radix_sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
+        thrust::cuda::tag cuda_tag;
+        thrust::system::cuda::detail::detail::stable_radix_sort(cuda_tag, unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
 
         ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
     }

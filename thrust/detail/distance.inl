@@ -28,17 +28,43 @@
 namespace thrust
 {
 
+
+template<typename System, typename InputIterator>
+  inline typename thrust::iterator_traits<InputIterator>::difference_type
+    distance(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last)
+{
+  using thrust::system::detail::generic::distance;
+  return distance(system.derived(), first, last);
+} // end distance()
+
+
+namespace detail
+{
+
+
+template<typename System, typename InputIterator>
+  inline typename thrust::iterator_traits<InputIterator>::difference_type
+    strip_const_distance(const System &system, InputIterator first, InputIterator last)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::distance(non_const_system, first, last);
+} // end distance()
+
+
+} // end detail
+
+
 template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::distance;
 
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return distance(select_system(system()), first, last);
+  return thrust::detail::strip_const_distance(select_system(system()), first, last);
 } // end distance()
+
 
 } // end namespace thrust
 

@@ -36,8 +36,8 @@ namespace cpp
 namespace detail
 {
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(dispatchable<System> &,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -46,8 +46,8 @@ ForwardIterator min_element(tag,
 }
 
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(dispatchable<System> &,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -56,8 +56,8 @@ ForwardIterator max_element(tag,
 }
 
 
-template <typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(dispatchable<System> &,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)

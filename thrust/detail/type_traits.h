@@ -443,6 +443,12 @@ template<typename T1, typename T2, typename T = void>
 {};
 
 
+template<typename T1, typename T2, typename Result = void>
+  struct enable_if_different
+    : enable_if<is_different<T1,T2>::value, Result>
+{};
+
+
 template<typename T>
   struct is_numeric
     : and_<

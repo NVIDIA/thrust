@@ -29,10 +29,10 @@ namespace detail
 {
 
 
-template<typename Pointer>
+template<typename System, typename Pointer>
 __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(tag, Pointer ptr)
+    get_value(thrust::system::cpp::detail::dispatchable<System> &, Pointer ptr)
 {
   return *thrust::raw_pointer_cast(ptr);
 } // end get_value()
