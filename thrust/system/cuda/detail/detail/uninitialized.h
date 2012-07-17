@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/detail/alignment.h>
 #include <cstddef>
 #include <new>
 
@@ -30,143 +31,15 @@ namespace detail
 {
 namespace detail
 {
-namespace uninitialized_detail
-{
-
-
-template<typename T> struct alignment_of_impl;
-
-template<typename T, std::size_t size_diff>
-  struct helper
-{
-  static const std::size_t value = size_diff;
-};
-
-template<typename T>
-  struct helper<T,0>
-{
-  static const std::size_t value = alignment_of_impl<T>::value;
-};
-
-template<typename T>
-  struct alignment_of_impl
-{
-  struct big { T x; char c; };
-
-  static const std::size_t value = helper<big, sizeof(big) - sizeof(T)>::value;
-};
-
-
-template<typename T>
-  struct alignment_of
-    : uninitialized_detail::alignment_of_impl<T>
-{};
-
-
-template<std::size_t Align> struct aligned_type;
-
-// __align__ is CUDA-specific, so guard it
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-// implement aligned_type with specialization because MSVC
-// requires literals as arguments to declspec(align(n))
-template<> struct aligned_type<1>
-{
-  struct __align__(1) type { };
-};
-
-template<> struct aligned_type<2>
-{
-  struct __align__(2) type { };
-};
-
-template<> struct aligned_type<4>
-{
-  struct __align__(4) type { };
-};
-
-template<> struct aligned_type<8>
-{
-  struct __align__(8) type { };
-};
-
-template<> struct aligned_type<16>
-{
-  struct __align__(16) type { };
-};
-
-template<> struct aligned_type<32>
-{
-  struct __align__(32) type { };
-};
-
-template<> struct aligned_type<64>
-{
-  struct __align__(64) type { };
-};
-
-template<> struct aligned_type<128>
-{
-  struct __align__(128) type { };
-};
-
-template<> struct aligned_type<256>
-{
-  struct __align__(256) type { };
-};
-
-template<> struct aligned_type<512>
-{
-  struct __align__(512) type { };
-};
-
-template<> struct aligned_type<1024>
-{
-  struct __align__(1024) type { };
-};
-
-template<> struct aligned_type<2048>
-{
-  struct __align__(2048) type { };
-};
-
-template<> struct aligned_type<4096>
-{
-  struct __align__(4096) type { };
-};
-
-template<> struct aligned_type<8192>
-{
-  struct __align__(8192) type { };
-};
-#else
-template<std::size_t Align> struct aligned_type
-{
-  struct type { };
-};
-#endif // THRUST_DEVICE_COMPILER
-
-template<std::size_t Len, std::size_t Align>
-  struct aligned_storage
-{
-  union type
-  {
-    unsigned char data[Len];
-
-    typename aligned_type<Align>::type align;
-  };
-};
-
-
-} // end uninitialized_detail
 
 
 template<typename T>
   class uninitialized
 {
   private:
-    typename uninitialized_detail::aligned_storage<
+    typename aligned_storage<
       sizeof(T),
-      uninitialized_detail::alignment_of<T>::value
+      alignment_of<T>::value
     >::type storage;
 
     __device__ __thrust_forceinline__ const T* ptr() const
