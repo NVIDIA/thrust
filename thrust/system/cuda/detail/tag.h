@@ -89,15 +89,20 @@ cpp_to_cuda select_system(thrust::system::cpp::detail::dispatchable<DerivedSyste
 
 } // end detail
 
+// alias dispatchable here
+using thrust::system::cuda::detail::dispatchable;
+
 // alias the tag here
 using thrust::system::cuda::detail::tag;
 
 } // end cuda
 } // end system
 
-// alias cuda's tag at top-level
+// alias cuda's items at top-level
 namespace cuda
 {
+
+using thrust::system::cuda::dispatchable;
 
 using thrust::system::cuda::tag;
 

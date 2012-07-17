@@ -67,15 +67,20 @@ template<typename Derived>
 
 } // end detail
 
+// alias dispatchable here
+using thrust::system::tbb::detail::dispatchable;
+
 // alias the tag here
 using thrust::system::tbb::detail::tag;
 
 } // end tbb
 } // end system
 
-// alias tbb's tag at top-level
+// alias tbb's items at top-level
 namespace tbb
 {
+
+using thrust::system::tbb::dispatchable;
 
 using thrust::system::tbb::tag;
 

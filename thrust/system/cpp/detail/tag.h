@@ -65,15 +65,20 @@ template<typename Derived>
 
 } // end detail
 
+// alias dispatchable here
+using thrust::system::cpp::detail::dispatchable;
+
 // alias the tag here
 using thrust::system::cpp::detail::tag;
 
 } // end cpp
 } // end system
 
-// alias cpp's tag at top-level
+// alias cpp's items at top-level
 namespace cpp
 {
+
+using thrust::system::cpp::dispatchable;
 
 using thrust::system::cpp::tag;
 
