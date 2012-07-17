@@ -59,7 +59,9 @@ void TestCudaReduceIntervalsSimple(void)
   {
     uniform_decomposition<int> decomp(10, 10, 1);
     Vector output(decomp.size());
-    reduce_intervals(thrust::system::cuda::tag(), input.begin(), output.begin(), thrust::plus<T>(), decomp);
+
+    thrust::cuda::tag cuda_tag;
+    reduce_intervals(cuda_tag, input.begin(), output.begin(), thrust::plus<T>(), decomp);
 
     ASSERT_EQUAL(output[0], 10);
   }
@@ -67,7 +69,9 @@ void TestCudaReduceIntervalsSimple(void)
   {
     uniform_decomposition<int> decomp(10, 6, 2);
     Vector output(decomp.size());
-    reduce_intervals(thrust::system::cuda::tag(), input.begin(), output.begin(), thrust::plus<T>(), decomp);
+
+    thrust::cuda::tag cuda_tag;
+    reduce_intervals(cuda_tag, input.begin(), output.begin(), thrust::plus<T>(), decomp);
 
     ASSERT_EQUAL(output[0], 6);
     ASSERT_EQUAL(output[1], 4);
@@ -93,7 +97,9 @@ struct TestCudaReduceIntervals
     thrust::device_vector<T> d_output(decomp.size());
     
     ::reduce_intervals(h_input.begin(), h_output.begin(), thrust::plus<T>(), decomp);
-    reduce_intervals(thrust::system::cuda::tag(), d_input.begin(), d_output.begin(), thrust::plus<T>(), decomp);
+
+    thrust::cuda::tag cuda_tag;
+    reduce_intervals(cuda_tag, d_input.begin(), d_output.begin(), thrust::plus<T>(), decomp);
 
     ASSERT_EQUAL(h_output, d_output);
   }

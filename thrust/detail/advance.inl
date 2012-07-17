@@ -29,16 +29,36 @@
 namespace thrust
 {
 
+template <typename System, typename InputIterator, typename Distance>
+void advance(thrust::detail::dispatchable_base<System> &system, InputIterator& i, Distance n)
+{
+  using thrust::system::detail::generic::advance;
+
+  advance(system.derived(), i, n);
+} // end advance()
+
+namespace detail
+{
+
+template <typename System, typename InputIterator, typename Distance>
+void strip_const_advance(const System &system, InputIterator& i, Distance n)
+{
+  System &non_const_system = const_cast<System&>(system);
+
+  thrust::advance(non_const_system, i, n);
+} // end strip_const_advance()
+
+} // end detail
+
 template <typename InputIterator, typename Distance>
 void advance(InputIterator& i, Distance n)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::advance;
 
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  advance(select_system(system()), i, n);
-} // end distance()
+  thrust::detail::strip_const_advance(select_system(system()), i, n);
+} // end advance()
 
 } // end namespace thrust
 

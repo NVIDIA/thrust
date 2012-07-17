@@ -29,50 +29,54 @@ namespace omp
 namespace detail
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::system::detail::generic::remove_if(tag(), first, last, pred);
+  return thrust::system::detail::generic::remove_if(system, first, last, pred);
 }
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::system::detail::generic::remove_if(tag(), first, last, stencil, pred);
+  return thrust::system::detail::generic::remove_if(system, first, last, stencil, pred);
 }
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::system::detail::generic::remove_copy_if(tag(), first, last, result, pred);
+  return thrust::system::detail::generic::remove_copy_if(system, first, last, result, pred);
 }
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(dispatchable<System> &system,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
@@ -80,7 +84,7 @@ template<typename InputIterator1,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::system::detail::generic::remove_copy_if(tag(), first, last, stencil, result, pred);
+  return thrust::system::detail::generic::remove_copy_if(system, first, last, stencil, result, pred);
 }
 
 } // end namespace detail

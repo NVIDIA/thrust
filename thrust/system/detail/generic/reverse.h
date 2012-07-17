@@ -29,14 +29,15 @@ namespace detail
 namespace generic
 {
 
-template<typename BidirectionalIterator>
-  void reverse(tag,
+template<typename System, typename BidirectionalIterator>
+  void reverse(thrust::dispatchable<System> &system,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
-template<typename BidirectionalIterator,
+template<typename System,
+         typename BidirectionalIterator,
          typename OutputIterator>
-  OutputIterator reverse_copy(tag,
+  OutputIterator reverse_copy(thrust::dispatchable<System> &system,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);

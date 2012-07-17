@@ -145,15 +145,17 @@ struct adjacent_difference_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(tag,
+template <typename System,
+          typename InputIterator,
+          typename OutputIterator,
+          typename BinaryFunction>
+OutputIterator adjacent_difference(dispatchable<System> &system,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_value<InputIterator>::type                        InputType;
   typedef typename thrust::iterator_difference<InputIterator>::type                   IndexType;
-  typedef          thrust::cuda::tag                                                  System;
   typedef          thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
 
   IndexType n = last - first;
@@ -164,11 +166,12 @@ OutputIterator adjacent_difference(tag,
   Decomposition decomp = default_decomposition(last - first);
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType,System> temp(decomp.size() - 1);
+  thrust::detail::temporary_array<InputType,System> temp(system, decomp.size() - 1);
 
   // gather last value in each interval
   detail::last_index_in_each_interval<Decomposition> unary_op(decomp);
-  thrust::gather(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op),
+  thrust::gather(system,
+                 thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op),
                  thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op) + (decomp.size() - 1),
                  first,
                  temp.begin());

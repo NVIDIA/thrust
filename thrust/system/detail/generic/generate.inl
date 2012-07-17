@@ -29,27 +29,27 @@ namespace detail
 namespace generic
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Generator>
-  void generate(tag,
+  void generate(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
 {
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
-  thrust::for_each(first, last, typename thrust::detail::generate_functor<System,Generator>::type(gen));
+  thrust::for_each(system, first, last, typename thrust::detail::generate_functor<System,Generator>::type(gen));
 } // end generate()
 
-template<typename OutputIterator,
+template<typename System,
+         typename OutputIterator,
          typename Size,
          typename Generator>
-  OutputIterator generate_n(tag,
+  OutputIterator generate_n(thrust::dispatchable<System> &system,
                             OutputIterator first,
                             Size n,
                             Generator gen)
 {
-  typedef typename thrust::iterator_system<OutputIterator>::type System;
-  return thrust::for_each_n(first, n, typename thrust::detail::generate_functor<System,Generator>::type(gen));
+  return thrust::for_each_n(system, first, n, typename thrust::detail::generate_functor<System,Generator>::type(gen));
 } // end generate()
 
 } // end namespace generic

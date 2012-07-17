@@ -79,23 +79,37 @@ void TestCountFromConstIteratorSimple(void)
 DECLARE_VECTOR_UNITTEST(TestCountFromConstIteratorSimple);
 
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator, typename EqualityComparable>
-int count(my_tag, InputIterator, InputIterator, EqualityComparable x)
+int count(my_system, InputIterator, InputIterator, EqualityComparable x)
 {
     return x;
 }
 
-void TestCountDispatch()
+void TestCountDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    int result = thrust::count(thrust::retag<my_tag>(vec.begin()),
-                               thrust::retag<my_tag>(vec.end()),
+    my_system sys;
+    int result = thrust::count(sys,
+                               vec.begin(),
+                               vec.end(),
                                13);
 
     ASSERT_EQUAL(13, result);
 }
-DECLARE_UNITTEST(TestCountDispatch);
+DECLARE_UNITTEST(TestCountDispatchExplicit); 
+
+void TestCountDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    int result = thrust::count(thrust::retag<my_system>(vec.begin()),
+                               thrust::retag<my_system>(vec.end()),
+                               13);
+
+    ASSERT_EQUAL(13, result);
+}
+DECLARE_UNITTEST(TestCountDispatchImplicit);
 

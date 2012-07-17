@@ -29,21 +29,23 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(tag,
+  OutputIterator copy(thrust::dispatchable<System> &system,
                       InputIterator  first,
                       InputIterator  last,
                       OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(tag,
-                       InputIterator  first,
-                       Size           n,
-                       OutputIterator result);
+  OutputIterator copy_n(thrust::dispatchable<System> &system,
+                        InputIterator  first,
+                        Size           n,
+                        OutputIterator result);
 
 
 } // end generic

@@ -30,11 +30,12 @@ namespace omp
 namespace detail
 {
 
-template <typename InputIterator,
+template <typename System,
+          typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(tag,
+void reduce_intervals(dispatchable<System> &,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,

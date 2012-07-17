@@ -37,23 +37,26 @@ namespace generic
 {
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename T>
-  ForwardIterator remove(tag,
+  ForwardIterator remove(thrust::dispatchable<System> &system,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value)
 {
   thrust::detail::equal_to_value<T> pred(value);
 
-  return thrust::remove_if(first, last, pred);
+  // XXX consider using a placeholder here
+  return thrust::remove_if(system, first, last, pred);
 } // end remove()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator remove_copy(tag,
+  OutputIterator remove_copy(thrust::dispatchable<System> &system,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
@@ -61,73 +64,76 @@ template<typename InputIterator,
 {
   thrust::detail::equal_to_value<T> pred(value);
 
-  return thrust::remove_copy_if(first, last, result, pred);
+  // XXX consider using a placeholder here
+  return thrust::remove_copy_if(system, first, last, result, pred);
 } // end remove_copy()
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
   // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,System> temp(first, last);
+  thrust::detail::temporary_array<InputType,System> temp(system, first, last);
 
   // remove into temp
-  return thrust::remove_copy_if(temp.begin(), temp.end(), temp.begin(), first, pred);
+  return thrust::remove_copy_if(system, temp.begin(), temp.end(), temp.begin(), first, pred);
 } // end remove_if()
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
   // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,System> temp(first, last);
+  thrust::detail::temporary_array<InputType,System> temp(system, first, last);
 
   // remove into temp
-  return thrust::remove_copy_if(temp.begin(), temp.end(), stencil, first, pred);
+  return thrust::remove_copy_if(system, temp.begin(), temp.end(), stencil, first, pred);
 } // end remove_if() 
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return thrust::remove_copy_if(first, last, first, result, pred);
+  return thrust::remove_copy_if(system, first, last, first, result, pred);
 } // end remove_copy_if()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(thrust::dispatchable<System> &system,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return thrust::copy_if(first, last, stencil, result, thrust::detail::not1(pred));
+  return thrust::copy_if(system, first, last, stencil, result, thrust::detail::not1(pred));
 } // end remove_copy_if()
 
 

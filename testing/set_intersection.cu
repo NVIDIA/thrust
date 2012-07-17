@@ -4,12 +4,12 @@
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-OutputIterator set_intersection(my_tag,
+OutputIterator set_intersection(my_system,
                                 InputIterator1,
                                 InputIterator1,
                                 InputIterator2,
@@ -20,19 +20,35 @@ OutputIterator set_intersection(my_tag,
   return result;
 }
 
-void TestSetIntersectionDispatch()
+void TestSetIntersectionDispatchExplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  thrust::set_intersection(thrust::retag<my_tag>(vec.begin()),
-                           thrust::retag<my_tag>(vec.begin()),
-                           thrust::retag<my_tag>(vec.begin()),
-                           thrust::retag<my_tag>(vec.begin()),
-                           thrust::retag<my_tag>(vec.begin()));
+  my_system sys;
+  thrust::set_intersection(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin());
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestSetIntersectionDispatch);
+DECLARE_UNITTEST(TestSetIntersectionDispatchExplicit);
+
+void TestSetIntersectionDispatchImplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::set_intersection(thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()),
+                           thrust::retag<my_system>(vec.begin()));
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestSetIntersectionDispatchImplicit);
 
 
 template<typename Vector>

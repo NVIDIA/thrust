@@ -22,9 +22,23 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename InputIterator, typename OutputIterator>
+OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &system,
+                                   InputIterator first, InputIterator last, 
+                                   OutputIterator result);
+
+template<typename System, typename InputIterator, typename OutputIterator, typename BinaryFunction>
+OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &system,
+                                   InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   BinaryFunction binary_op);
+
 
 /*! \addtogroup transformations Transformations
  *  \{

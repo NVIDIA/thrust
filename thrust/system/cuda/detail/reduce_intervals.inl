@@ -149,11 +149,12 @@ struct commutative_reduce_intervals_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template <typename InputIterator,
+template <typename System,
+          typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(tag,
+void reduce_intervals(dispatchable<System> &,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,

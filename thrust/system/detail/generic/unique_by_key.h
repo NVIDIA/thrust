@@ -30,32 +30,35 @@ namespace generic
 {
 
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(tag,
+    unique_by_key(thrust::dispatchable<System> &system,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first);
 
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(tag,
+    unique_by_key(thrust::dispatchable<System> &system,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
                   BinaryPredicate binary_pred);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(tag,
+    unique_by_key_copy(thrust::dispatchable<System> &system,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -63,13 +66,14 @@ template<typename InputIterator1,
                        OutputIterator2 values_output);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(tag,
+    unique_by_key_copy(thrust::dispatchable<System> &system,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,

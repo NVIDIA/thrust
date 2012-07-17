@@ -3,11 +3,11 @@
 #include <thrust/iterator/iterator_traits.h> 
 #include <thrust/system/cpp/memory.h>
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename ForwardIterator1,
          typename ForwardIterator2>
-ForwardIterator2 swap_ranges(my_tag,
+ForwardIterator2 swap_ranges(my_system,
                              ForwardIterator1,
                              ForwardIterator1,
                              ForwardIterator2 first2)
@@ -16,17 +16,28 @@ ForwardIterator2 swap_ranges(my_tag,
     return first2;
 }
 
-void TestSwapRangesDispatch()
+void TestSwapRangesDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::swap_ranges(thrust::retag<my_tag>(vec.begin()),
-                        thrust::retag<my_tag>(vec.begin()),
-                        thrust::retag<my_tag>(vec.begin()));
+    my_system sys;
+    thrust::swap_ranges(sys, vec.begin(), vec.begin(), vec.begin());
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestSwapRangesDispatch);
+DECLARE_UNITTEST(TestSwapRangesDispatchExplicit);
+
+void TestSwapRangesDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    thrust::swap_ranges(thrust::retag<my_system>(vec.begin()),
+                        thrust::retag<my_system>(vec.begin()),
+                        thrust::retag<my_system>(vec.begin()));
+
+    ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestSwapRangesDispatchImplicit);
 
 
 template <class Vector>

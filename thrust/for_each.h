@@ -6,8 +6,7 @@
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
+ * *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
@@ -22,9 +21,31 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator,
+         typename UnaryFunction>
+InputIterator for_each(thrust::detail::dispatchable_base<System> &system,
+                       InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f);
+
+
+template<typename System,
+         typename InputIterator,
+         typename Size,
+         typename UnaryFunction>
+InputIterator for_each_n(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator first,
+                         Size n,
+                         UnaryFunction f);
+
 
 /*! \addtogroup modifying
  *  \ingroup transformations
@@ -84,6 +105,7 @@ template<typename InputIterator,
 InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
+
 
 /*! \p for_each_n applies the function object \p f to each element
  *  in the range <tt>[first, first + n)</tt>; \p f's return value, if any,

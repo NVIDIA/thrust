@@ -30,21 +30,23 @@ namespace generic
 {
 
 
-template<typename ForwardIterator>
-  void sequence(tag,
+template<typename System,
+         typename ForwardIterator>
+  void sequence(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last);
 
 
-template<typename ForwardIterator, typename T>
-  void sequence(tag,
+template<typename System, typename ForwardIterator, typename T>
+  void sequence(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init);
 
 
-template<typename ForwardIterator, typename T>
-  void sequence(ForwardIterator first,
+template<typename System, typename ForwardIterator, typename T>
+  void sequence(thrust::dispatchable<System> &system,
+                ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step);

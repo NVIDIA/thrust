@@ -60,24 +60,35 @@ void TestIsPartitioned(void)
 }
 DECLARE_VECTOR_UNITTEST(TestIsPartitioned);
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator, typename Predicate>
-bool is_partitioned(my_tag, InputIterator first, InputIterator, Predicate)
+bool is_partitioned(my_system, InputIterator first, InputIterator, Predicate)
 {
   *first = 13;
   return false;
 }
 
-void TestIsPartitionedDispatch()
+void TestIsPartitionedDispatchExplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  thrust::is_partitioned(thrust::retag<my_tag>(vec.begin()),
-                         thrust::retag<my_tag>(vec.end()),
+  my_system sys;
+  thrust::is_partitioned(sys, vec.begin(), vec.end(), 0);
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestIsPartitionedDispatchExplicit);
+
+void TestIsPartitionedDispatchImplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::is_partitioned(thrust::retag<my_system>(vec.begin()),
+                         thrust::retag<my_system>(vec.end()),
                          0);
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestIsPartitionedDispatch);
+DECLARE_UNITTEST(TestIsPartitionedDispatchImplicit);
 

@@ -71,7 +71,8 @@ struct TestRadixSortKeySimple
 
     InitializeSimpleKeyRadixSortTest(unsorted_keys, sorted_keys);
 
-    thrust::system::cuda::detail::detail::stable_radix_sort(unsorted_keys.begin(), unsorted_keys.end());
+    thrust::cuda::tag cuda_tag;
+    thrust::system::cuda::detail::detail::stable_radix_sort(cuda_tag, unsorted_keys.begin(), unsorted_keys.end());
 
     ASSERT_EQUAL(unsorted_keys, sorted_keys);
   }
@@ -106,7 +107,9 @@ struct TestRadixSort
     thrust::device_vector<T> d_keys = h_keys;
 
     thrust::stable_sort(h_keys.begin(), h_keys.end());
-    thrust::system::cuda::detail::detail::stable_radix_sort(d_keys.begin(), d_keys.end());
+
+    thrust::cuda::tag cuda_tag;
+    thrust::system::cuda::detail::detail::stable_radix_sort(cuda_tag, d_keys.begin(), d_keys.end());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
   }

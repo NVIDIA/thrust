@@ -22,10 +22,130 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename ForwardIterator, typename LessThanComparable>
+ForwardIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const LessThanComparable &value);
+
+
+template<typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const T &value,
+                            StrictWeakOrdering comp);
+
+
+template<typename System, typename ForwardIterator, typename LessThanComparable>
+ForwardIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const LessThanComparable &value);
+
+
+template<typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            const T &value,
+                            StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename LessThanComparable>
+bool binary_search(thrust::detail::dispatchable_base<System> &system,
+                   ForwardIterator first, 
+                   ForwardIterator last,
+                   const LessThanComparable& value);
+
+
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+bool binary_search(thrust::detail::dispatchable_base<System> &system,
+                   ForwardIterator first,
+                   ForwardIterator last,
+                   const T& value, 
+                   StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const T& value,
+            StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename LessThanComparable>
+thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const LessThanComparable& value);
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output);
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output,
+                           StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output);
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
+                           ForwardIterator first, 
+                           ForwardIterator last,
+                           InputIterator values_first, 
+                           InputIterator values_last,
+                           OutputIterator output,
+                           StrictWeakOrdering comp);
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(thrust::detail::dispatchable_base<System> &system,
+                             ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
+                             OutputIterator output);
+
+
+template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator binary_search(thrust::detail::dispatchable_base<System> &system,
+                             ForwardIterator first, 
+                             ForwardIterator last,
+                             InputIterator values_first, 
+                             InputIterator values_last,
+                             OutputIterator output,
+                             StrictWeakOrdering comp);
 
     
 /*! \addtogroup algorithms

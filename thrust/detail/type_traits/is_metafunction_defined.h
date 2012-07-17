@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/type_traits/has_nested_type.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -25,6 +26,14 @@ namespace detail
 {
 
 __THRUST_DEFINE_HAS_NESTED_TYPE(is_metafunction_defined, type)
+
+template<typename Metafunction>
+  struct enable_if_defined
+    : thrust::detail::lazy_enable_if<
+        is_metafunction_defined<Metafunction>::value,
+        Metafunction
+      >
+{};
 
 } // end detail
 

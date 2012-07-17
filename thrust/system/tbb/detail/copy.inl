@@ -33,57 +33,66 @@ namespace detail
 namespace dispatch
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator first,
+  OutputIterator copy(dispatchable<System> &system,
+                      InputIterator first,
                       InputIterator last,
                       OutputIterator result,
                       thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy(tag(), first, last, result);
+  return thrust::system::cpp::detail::copy(system, first, last, result);
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(InputIterator first,
+  OutputIterator copy(dispatchable<System> &system,
+                      InputIterator first,
                       InputIterator last,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy(tag(), first, last, result);
+  return thrust::system::detail::generic::copy(system, first, last, result);
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
+  OutputIterator copy_n(dispatchable<System> &system,
+                        InputIterator first,
                         Size n,
                         OutputIterator result,
                         thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy_n(tag(), first, n, result);
+  return thrust::system::cpp::detail::copy_n(system, first, n, result);
 } // end copy_n()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(InputIterator first,
+  OutputIterator copy_n(dispatchable<System> &system,
+                        InputIterator first,
                         Size n,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy_n(tag(), first, n, result);
+  return thrust::system::detail::generic::copy_n(system, first, n, result);
 } // end copy_n()
 
 } // end dispatch
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-OutputIterator copy(tag,
+OutputIterator copy(dispatchable<System> &system,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result)
@@ -94,15 +103,16 @@ OutputIterator copy(tag,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::tbb::detail::dispatch::copy(first,last,result,traversal());
+  return thrust::system::tbb::detail::dispatch::copy(system,first,last,result,traversal());
 } // end copy()
 
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-OutputIterator copy_n(tag,
+OutputIterator copy_n(dispatchable<System> &system,
                       InputIterator first,
                       Size n,
                       OutputIterator result)
@@ -113,7 +123,7 @@ OutputIterator copy_n(tag,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::tbb::detail::dispatch::copy_n(first,n,result,traversal());
+  return thrust::system::tbb::detail::dispatch::copy_n(system,first,n,result,traversal());
 } // end copy_n()
 
 

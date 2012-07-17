@@ -31,22 +31,22 @@ namespace detail
 namespace generic
 {
 
-template <typename InputIterator, typename Predicate>
-bool all_of(tag, InputIterator first, InputIterator last, Predicate pred)
+template <typename System, typename InputIterator, typename Predicate>
+bool all_of(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
 {
-  return thrust::find_if(first, last, thrust::detail::not1(pred)) == last;
+  return thrust::find_if(system, first, last, thrust::detail::not1(pred)) == last;
 }
 
-template <typename InputIterator, typename Predicate>
-bool any_of(tag, InputIterator first, InputIterator last, Predicate pred)
+template <typename System, typename InputIterator, typename Predicate>
+bool any_of(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
 {
-  return thrust::find_if(first, last, pred) != last;
+  return thrust::find_if(system, first, last, pred) != last;
 }
 
-template <typename InputIterator, typename Predicate>
-bool none_of(tag, InputIterator first, InputIterator last, Predicate pred)
+template <typename System, typename InputIterator, typename Predicate>
+bool none_of(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
 {
-  return !thrust::any_of(first, last, pred);
+  return !thrust::any_of(system, first, last, pred);
 }
 
 } // end generic

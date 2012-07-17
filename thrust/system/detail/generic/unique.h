@@ -29,32 +29,36 @@ namespace generic
 {
 
 
-template<typename ForwardIterator>
-ForwardIterator unique(tag,
+template<typename System,
+         typename ForwardIterator>
+ForwardIterator unique(thrust::dispatchable<System> &system,
                        ForwardIterator first,
                        ForwardIterator last);
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename BinaryPredicate>
-ForwardIterator unique(tag,
+ForwardIterator unique(thrust::dispatchable<System> &system,
                        ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-OutputIterator unique_copy(tag,
+OutputIterator unique_copy(thrust::dispatchable<System> &system,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator output);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-OutputIterator unique_copy(tag,
+OutputIterator unique_copy(thrust::dispatchable<System> &system,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator output,

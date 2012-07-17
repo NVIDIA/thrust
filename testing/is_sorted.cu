@@ -73,23 +73,36 @@ void TestIsSorted(void)
 }
 DECLARE_VECTOR_UNITTEST(TestIsSorted);
 
-struct my_tag : thrust::device_system_tag {};
+struct my_system : thrust::device_system<my_system> {};
 
 template<typename InputIterator>
-bool is_sorted(my_tag, InputIterator first, InputIterator)
+bool is_sorted(my_system, InputIterator first, InputIterator)
 {
   *first = 13;
   return false;
 }
 
-void TestIsSortedDispatch()
+void TestIsSortedDispatchExplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  thrust::is_sorted(thrust::retag<my_tag>(vec.begin()),
-                    thrust::retag<my_tag>(vec.end()));
+  my_system sys;
+  thrust::is_sorted(sys,
+                    vec.begin(),
+                    vec.end());
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestIsSortedDispatch);
+DECLARE_UNITTEST(TestIsSortedDispatchExplicit);
+
+void TestIsSortedDispatchImplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  thrust::is_sorted(thrust::retag<my_system>(vec.begin()),
+                    thrust::retag<my_system>(vec.end()));
+
+  ASSERT_EQUAL(13, vec.front());
+}
+DECLARE_UNITTEST(TestIsSortedDispatchImplicit);
 

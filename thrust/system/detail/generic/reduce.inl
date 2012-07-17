@@ -32,29 +32,30 @@ namespace generic
 {
 
 
-template<typename InputIterator>
+template<typename System, typename InputIterator>
   typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(tag, InputIterator first, InputIterator last)
+    reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last)
 {
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
 
   // use InputType(0) as init by default
-  return thrust::reduce(first, last, InputType(0));
+  return thrust::reduce(system, first, last, InputType(0));
 } // end reduce()
 
 
-template<typename InputIterator, typename T>
-  T reduce(tag, InputIterator first, InputIterator last, T init)
+template<typename System, typename InputIterator, typename T>
+  T reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, T init)
 {
   // use plus<T> by default
-  return thrust::reduce(first, last, init, thrust::plus<T>());
+  return thrust::reduce(system, first, last, init, thrust::plus<T>());
 } // end reduce()
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(tag,
+  OutputType reduce(thrust::dispatchable<System> &system,
                     RandomAccessIterator first,
                     RandomAccessIterator last,
                     OutputType init,
@@ -62,6 +63,7 @@ template<typename RandomAccessIterator,
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  return OutputType();
 } // end reduce()
 
 

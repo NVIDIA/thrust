@@ -29,14 +29,18 @@ namespace omp
 namespace detail
 {
 
-template<typename InputIterator, typename OutputIterator, typename BinaryFunction>
-  OutputIterator adjacent_difference(tag,
-                                     InputIterator first, InputIterator last,
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+  OutputIterator adjacent_difference(dispatchable<System> &system,
+                                     InputIterator first,
+                                     InputIterator last,
                                      OutputIterator result,
                                      BinaryFunction binary_op)
 {
   // omp prefers generic::adjacent_difference to cpp::adjacent_difference
-  return thrust::system::detail::generic::adjacent_difference(tag(), first, last, result, binary_op);
+  return thrust::system::detail::generic::adjacent_difference(system, first, last, result, binary_op);
 } // end adjacent_difference()
 
 } // end detail

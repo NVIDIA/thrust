@@ -29,6 +29,156 @@
 namespace thrust
 {
 
+
+template<typename System, typename ForwardIterator, typename T>
+  void replace(thrust::detail::dispatchable_base<System> &system,
+               ForwardIterator first, ForwardIterator last,
+               const T &old_value,
+               const T &new_value)
+{
+  using thrust::system::detail::generic::replace;
+  return replace(system.derived(), first, last, old_value, new_value);
+} // end replace()
+
+
+template<typename System, typename ForwardIterator, typename Predicate, typename T>
+  void replace_if(thrust::detail::dispatchable_base<System> &system,
+                  ForwardIterator first, ForwardIterator last,
+                  Predicate pred,
+                  const T &new_value)
+{
+  using thrust::system::detail::generic::replace_if;
+  return replace_if(system.derived(), first, last, pred, new_value);
+} // end replace_if()
+
+
+template<typename System, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+  void replace_if(thrust::detail::dispatchable_base<System> &system,
+                  ForwardIterator first, ForwardIterator last,
+                  InputIterator stencil,
+                  Predicate pred,
+                  const T &new_value)
+{
+  using thrust::system::detail::generic::replace_if;
+  return replace_if(system.derived(), first, last, stencil, pred, new_value);
+} // end replace_if()
+
+
+template<typename System, typename InputIterator, typename OutputIterator, typename T>
+  OutputIterator replace_copy(thrust::detail::dispatchable_base<System> &system,
+                              InputIterator first, InputIterator last,
+                              OutputIterator result,
+                              const T &old_value,
+                              const T &new_value)
+{
+  using thrust::system::detail::generic::replace_copy;
+  return replace_copy(system.derived(), first, last, result, old_value, new_value);
+} // end replace_copy()
+
+
+template<typename System, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator replace_copy_if(thrust::detail::dispatchable_base<System> &system,
+                                 InputIterator first, InputIterator last,
+                                 OutputIterator result,
+                                 Predicate pred,
+                                 const T &new_value)
+{
+  using thrust::system::detail::generic::replace_copy_if;
+  return replace_copy_if(system.derived(), first, last, result, pred, new_value);
+} // end replace_copy_if()
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator replace_copy_if(thrust::detail::dispatchable_base<System> &system,
+                                 InputIterator1 first, InputIterator1 last,
+                                 InputIterator2 stencil,
+                                 OutputIterator result,
+                                 Predicate pred,
+                                 const T &new_value)
+{
+  using thrust::system::detail::generic::replace_copy_if;
+  return replace_copy_if(system.derived(), first, last, stencil, result, pred, new_value);
+} // end replace_copy_if()
+
+
+namespace detail
+{
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void strip_const_replace(const System &system,
+                           ForwardIterator first, ForwardIterator last,
+                           const T &old_value,
+                           const T &new_value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::replace(non_const_system, first, last, old_value, new_value);
+} // end strip_const_replace()
+
+
+template<typename System, typename ForwardIterator, typename Predicate, typename T>
+  void strip_const_replace_if(const System &system,
+                              ForwardIterator first, ForwardIterator last,
+                              Predicate pred,
+                              const T &new_value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::replace_if(non_const_system, first, last, pred, new_value);
+} // end strip_const_replace_if()
+
+
+template<typename System, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+  void strip_const_replace_if(const System &system,
+                              ForwardIterator first, ForwardIterator last,
+                              InputIterator stencil,
+                              Predicate pred,
+                              const T &new_value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::replace_if(non_const_system, first, last, stencil, pred, new_value);
+} // end strip_const_replace_if()
+
+
+template<typename System, typename InputIterator, typename OutputIterator, typename T>
+  OutputIterator strip_const_replace_copy(const System &system,
+                                          InputIterator first, InputIterator last,
+                                          OutputIterator result,
+                                          const T &old_value,
+                                          const T &new_value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::replace_copy(non_const_system, first, last, result, old_value, new_value);
+} // end replace_copy()
+
+
+template<typename System, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator strip_const_replace_copy_if(const System &system,
+                                             InputIterator first, InputIterator last,
+                                             OutputIterator result,
+                                             Predicate pred,
+                                             const T &new_value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::replace_copy_if(non_const_system, first, last, result, pred, new_value);
+} // end replace_copy_if()
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator strip_const_replace_copy_if(const System &system,
+                                             InputIterator1 first, InputIterator1 last,
+                                             InputIterator2 stencil,
+                                             OutputIterator result,
+                                             Predicate pred,
+                                             const T &new_value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::replace_copy_if(non_const_system, first, last, stencil, result, pred, new_value);
+} // end replace_copy_if()
+
+
+} // end detail
+
+
 template<typename InputIterator, typename OutputIterator, typename Predicate, typename T>
   OutputIterator replace_copy_if(InputIterator first, InputIterator last,
                                  OutputIterator result,
@@ -36,13 +186,13 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
                                  const T &new_value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::replace_copy_if;
 
   typedef typename thrust::iterator_system<InputIterator>::type  system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return replace_copy_if(select_system(system1(),system2()), first, last, result, pred, new_value);
+  return thrust::detail::strip_const_replace_copy_if(select_system(system1(),system2()), first, last, result, pred, new_value);
 } // end replace_copy_if()
+
 
 template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
   OutputIterator replace_copy_if(InputIterator1 first, InputIterator1 last,
@@ -52,13 +202,12 @@ template<typename InputIterator1, typename InputIterator2, typename OutputIterat
                                  const T &new_value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::replace_copy_if;
 
   typedef typename thrust::iterator_system<InputIterator1>::type system1;
   typedef typename thrust::iterator_system<InputIterator2>::type system2;
   typedef typename thrust::iterator_system<OutputIterator>::type system3;
 
-  return replace_copy_if(select_system(system1(),system2(),system3()), first, last, stencil, result, pred, new_value);
+  return thrust::detail::strip_const_replace_copy_if(select_system(system1(),system2(),system3()), first, last, stencil, result, pred, new_value);
 } // end replace_copy_if()
 
 
@@ -69,13 +218,13 @@ template<typename InputIterator, typename OutputIterator, typename T>
                               const T &new_value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::replace_copy;
 
   typedef typename thrust::iterator_system<InputIterator>::type  system1;
   typedef typename thrust::iterator_system<OutputIterator>::type system2;
 
-  return replace_copy(select_system(system1(),system2()), first, last, result, old_value, new_value);
+  return thrust::detail::strip_const_replace_copy(select_system(system1(),system2()), first, last, result, old_value, new_value);
 } // end replace_copy()
+
 
 template<typename ForwardIterator, typename Predicate, typename T>
   void replace_if(ForwardIterator first, ForwardIterator last,
@@ -83,12 +232,12 @@ template<typename ForwardIterator, typename Predicate, typename T>
                   const T &new_value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::replace_if;
 
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return replace_if(select_system(system()), first, last, pred, new_value);
+  return thrust::detail::strip_const_replace_if(select_system(system()), first, last, pred, new_value);
 } // end replace_if()
+
 
 template<typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
   void replace_if(ForwardIterator first, ForwardIterator last,
@@ -97,13 +246,13 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
                   const T &new_value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::replace_if;
 
   typedef typename thrust::iterator_system<ForwardIterator>::type system1;
   typedef typename thrust::iterator_system<InputIterator>::type   system2;
 
-  return replace_if(select_system(system1(),system2()), first, last, stencil, pred, new_value);
+  return thrust::detail::strip_const_replace_if(select_system(system1(),system2()), first, last, stencil, pred, new_value);
 } // end replace_if()
+
 
 template<typename ForwardIterator, typename T>
   void replace(ForwardIterator first, ForwardIterator last,
@@ -111,12 +260,12 @@ template<typename ForwardIterator, typename T>
                const T &new_value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::replace;
 
   typedef typename thrust::iterator_system<ForwardIterator>::type system;
 
-  return replace(select_system(system()), first, last, old_value, new_value);
+  return thrust::detail::strip_const_replace(select_system(system()), first, last, old_value, new_value);
 } // end replace()
+
 
 } // end namespace thrust
 

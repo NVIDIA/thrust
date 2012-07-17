@@ -22,9 +22,75 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction>
+  OutputIterator transform(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator first, InputIterator last,
+                           OutputIterator result,
+                           UnaryFunction op);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename BinaryFunction>
+  OutputIterator transform(thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1 first1, InputIterator1 last1,
+                           InputIterator2 first2,
+                           OutputIterator result,
+                           BinaryFunction op);
+
+
+template<typename System,
+         typename InputIterator,
+         typename ForwardIterator,
+         typename UnaryFunction,
+         typename Predicate>
+  ForwardIterator transform_if(thrust::detail::dispatchable_base<System> &system,
+                               InputIterator first, InputIterator last,
+                               ForwardIterator result,
+                               UnaryFunction op,
+                               Predicate pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename ForwardIterator,
+         typename UnaryFunction,
+         typename Predicate>
+  ForwardIterator transform_if(thrust::detail::dispatchable_base<System> &system,
+                               InputIterator1 first, InputIterator1 last,
+                               InputIterator2 stencil,
+                               ForwardIterator result,
+                               UnaryFunction op,
+                               Predicate pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename ForwardIterator,
+         typename BinaryFunction,
+         typename Predicate>
+  ForwardIterator transform_if(thrust::detail::dispatchable_base<System> &system,
+                               InputIterator1 first1, InputIterator1 last1,
+                               InputIterator2 first2,
+                               InputIterator3 stencil,
+                               ForwardIterator result,
+                               BinaryFunction binary_op,
+                               Predicate pred);
+
 
 /*! \addtogroup algorithms
  */

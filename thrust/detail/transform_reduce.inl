@@ -28,6 +28,48 @@
 namespace thrust
 {
 
+
+template<typename System,
+         typename InputIterator, 
+         typename UnaryFunction, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType transform_reduce(thrust::detail::dispatchable_base<System> &system,
+                              InputIterator first,
+                              InputIterator last,
+                              UnaryFunction unary_op,
+                              OutputType init,
+                              BinaryFunction binary_op)
+{
+  using thrust::system::detail::generic::transform_reduce;
+  return transform_reduce(system.derived(), first, last, unary_op, init, binary_op);
+} // end transform_reduce()
+
+
+namespace detail
+{
+
+
+template<typename System,
+         typename InputIterator, 
+         typename UnaryFunction, 
+         typename OutputType,
+         typename BinaryFunction>
+  OutputType strip_const_transform_reduce(const System &system,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          UnaryFunction unary_op,
+                                          OutputType init,
+                                          BinaryFunction binary_op)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::transform_reduce(non_const_system, first, last, unary_op, init, binary_op);
+} // end transform_reduce()
+
+
+} // end detail
+
+
 template<typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
@@ -39,12 +81,12 @@ template<typename InputIterator,
                               BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::transform_reduce;
 
   typedef typename thrust::iterator_system<InputIterator>::type system;
 
-  return transform_reduce(select_system(system()), first, last, unary_op, init, binary_op);
+  return thrust::detail::strip_const_transform_reduce(select_system(system()), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
+
 
 } // end namespace thrust
 

@@ -29,23 +29,25 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename BinaryFunction>
-  OutputIterator transform_inclusive_scan(tag,
+  OutputIterator transform_inclusive_scan(thrust::dispatchable<System> &system,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
                                           UnaryFunction unary_op,
                                           BinaryFunction binary_op);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  OutputIterator transform_exclusive_scan(tag,
+  OutputIterator transform_exclusive_scan(thrust::dispatchable<System> &system,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,

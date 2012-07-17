@@ -36,9 +36,10 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
@@ -57,13 +58,14 @@ template<typename InputIterator,
   >::type ValueType;
 
   // assume plus as the associative operator
-  return thrust::inclusive_scan(first, last, result, thrust::plus<ValueType>());
+  return thrust::inclusive_scan(system, first, last, result, thrust::plus<ValueType>());
 } // end inclusive_scan()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
@@ -82,28 +84,30 @@ template<typename InputIterator,
   >::type ValueType;
 
   // assume 0 as the initialization value
-  return thrust::exclusive_scan(first, last, result, ValueType(0));
+  return thrust::exclusive_scan(system, first, last, result, ValueType(0));
 } // end exclusive_scan()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init)
 {
   // assume plus as the associative operator
-  return thrust::exclusive_scan(first, last, result, init, thrust::plus<T>());
+  return thrust::exclusive_scan(system, first, last, result, init, thrust::plus<T>());
 } // end exclusive_scan()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -111,14 +115,16 @@ template<typename InputIterator,
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  return result;
 } // end inclusive_scan
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -127,6 +133,7 @@ template<typename InputIterator,
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  return result;
 } // end exclusive_scan()
 
 

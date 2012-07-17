@@ -132,9 +132,17 @@ template<typename Element, typename Pointer, typename Derived>
     // allow access to m_ptr for other references
     template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference;
 
+    template<typename System>
+    __host__ __device__
+    inline value_type strip_const_get_value(const System &system) const;
+
     template<typename OtherPointer>
     __host__ __device__
     inline void assign_from(OtherPointer src);
+
+    template<typename System, typename OtherPointer>
+    __host__ __device__
+    inline void strip_const_assign_value(const System &system, OtherPointer src);
 }; // end reference
 
   

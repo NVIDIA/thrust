@@ -71,12 +71,14 @@ void swap(reference<T> a, reference<T> b)
 
 pointer<void> malloc(std::size_t n)
 {
-  return pointer<void>(thrust::system::cuda::detail::malloc(tag(), n));
+  tag cuda_tag;
+  return pointer<void>(thrust::system::cuda::detail::malloc(cuda_tag, n));
 } // end malloc()
 
 void free(pointer<void> ptr)
 {
-  return thrust::system::cuda::detail::free(tag(), ptr.get());
+  tag cuda_tag;
+  return thrust::system::cuda::detail::free(cuda_tag, ptr.get());
 } // end free()
 
 } // end cuda

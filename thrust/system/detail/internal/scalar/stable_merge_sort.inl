@@ -40,13 +40,17 @@ void inplace_merge(RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  // XXX the type of system should be:
-  //     typedef decltype(select_system(first, middle, last)) system;
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type system;
+  // XXX the type of System should be:
+  //     typedef decltype(select_system(first, middle, last)) System;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type, system> a( first, middle);
-  thrust::detail::temporary_array<value_type, system> b(middle,   last);
+  // XXX assumes System is default constructible
+  // XXX find a way to get a stateful system into this function
+  //     or simply pass scratch space
+  System system;
+  thrust::detail::temporary_array<value_type, System> a(system, first, middle);
+  thrust::detail::temporary_array<value_type, System> b(system, middle, last);
 
   thrust::system::detail::internal::scalar::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
@@ -61,18 +65,22 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
                           StrictWeakOrdering comp)
 {
   // XXX the type of system should be:
-  //     typedef decltype(select_system(first1, middle1, last1, first2)) system;
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
+  //     typedef decltype(select_system(first1, middle1, last1, first2)) System;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type System;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1, system> lhs1( first1, middle1);
-  thrust::detail::temporary_array<value_type1, system> rhs1(middle1,   last1);
-  thrust::detail::temporary_array<value_type2, system> lhs2( first2, middle2);
-  thrust::detail::temporary_array<value_type2, system> rhs2(middle2,   last2);
+  // XXX assumes System is default constructible
+  // XXX find a way to get a stateful system into this function
+  //     or simply pass scratch space
+  System system;
+  thrust::detail::temporary_array<value_type1, System> lhs1(system, first1, middle1);
+  thrust::detail::temporary_array<value_type1, System> rhs1(system, middle1, last1);
+  thrust::detail::temporary_array<value_type2, System> lhs2(system, first2, middle2);
+  thrust::detail::temporary_array<value_type2, System> rhs2(system, middle2, last2);
 
   thrust::system::detail::internal::scalar::merge_by_key
     (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),

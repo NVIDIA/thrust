@@ -29,9 +29,9 @@ namespace detail
 namespace generic
 {
 
-template <typename InputIterator1, typename InputIterator2>
+template<typename System, typename InputIterator1, typename InputIterator2>
   thrust::pair<InputIterator1, InputIterator2>
-    mismatch(tag,
+    mismatch(thrust::dispatchable<System> &system,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2)
@@ -39,12 +39,12 @@ template <typename InputIterator1, typename InputIterator2>
   typedef typename thrust::iterator_value<InputIterator1>::type InputType1;
   
   // XXX use a placeholder expression here
-  return thrust::mismatch(first1, last1, first2, thrust::detail::equal_to<InputType1>());
+  return thrust::mismatch(system, first1, last1, first2, thrust::detail::equal_to<InputType1>());
 } // end mismatch()
 
-template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
   thrust::pair<InputIterator1, InputIterator2>
-    mismatch(tag,
+    mismatch(thrust::dispatchable<System> &system,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2,
@@ -57,7 +57,7 @@ template <typename InputIterator1, typename InputIterator2, typename BinaryPredi
   ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first1,first2));
   ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
   
-  ZipIterator result = thrust::find_if_not(zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
+  ZipIterator result = thrust::find_if_not(system, zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
   
   return thrust::make_pair(thrust::get<0>(result.get_iterator_tuple()),
                            thrust::get<1>(result.get_iterator_tuple()));

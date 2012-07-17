@@ -22,9 +22,32 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename InputIterator, typename T>
+InputIterator find(thrust::detail::dispatchable_base<System> &system,
+                   InputIterator first,
+                   InputIterator last,
+                   const T& value);
+
+
+template<typename System, typename InputIterator, typename Predicate>
+InputIterator find_if(thrust::detail::dispatchable_base<System> &system,
+                      InputIterator first,
+                      InputIterator last,
+                      Predicate pred);
+
+
+template<typename System, typename InputIterator, typename Predicate>
+InputIterator find_if_not(thrust::detail::dispatchable_base<System> &system,
+                          InputIterator first,
+                          InputIterator last,
+                          Predicate pred);
+
 
 /*! \addtogroup algorithms
  */
