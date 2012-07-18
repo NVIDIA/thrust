@@ -116,11 +116,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result, comp);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_merge(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
 } // end merge()
 
 
@@ -135,11 +139,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_merge(select_system(system1(),system2(),system3()), first1, last1, first2, last2, result);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_merge(select_system(system1,system2,system3), first1, last1, first2, last2, result);
 } // end merge()
 
 

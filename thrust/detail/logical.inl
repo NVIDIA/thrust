@@ -89,9 +89,11 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return thrust::detail::strip_const_all_of(select_system(system()), first, last, pred);
+  System system;
+
+  return thrust::detail::strip_const_all_of(select_system(system), first, last, pred);
 }
 
 
@@ -100,9 +102,11 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return thrust::detail::strip_const_any_of(select_system(system()), first, last, pred);
+  System system;
+
+  return thrust::detail::strip_const_any_of(select_system(system), first, last, pred);
 }
 
 
@@ -111,9 +115,11 @@ bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return thrust::detail::strip_const_none_of(select_system(system()), first, last, pred);
+  System system;
+
+  return thrust::detail::strip_const_none_of(select_system(system), first, last, pred);
 }
 
 

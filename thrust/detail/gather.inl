@@ -148,11 +148,15 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type        system1; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type system2; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       system3; 
+  typedef typename thrust::iterator_system<InputIterator>::type        System1; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System2; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       System3; 
 
-  return thrust::detail::strip_const_gather(select_system(system1(),system2(),system3()), map_first, map_last, input_first, result);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_gather(select_system(system1,system2,system3), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -168,12 +172,17 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       system1; 
-  typedef typename thrust::iterator_system<InputIterator2>::type       system2; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type system3; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       system4; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       System1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       System2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       System4; 
 
-  return thrust::detail::strip_const_gather_if(select_system(system1(),system2(),system3(),system4()), map_first, map_last, stencil, input_first, result);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+  System4 system4;
+
+  return thrust::detail::strip_const_gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -191,12 +200,17 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       system1; 
-  typedef typename thrust::iterator_system<InputIterator2>::type       system2; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type system3; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       system4; 
+  typedef typename thrust::iterator_system<InputIterator1>::type       System1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       System2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       System4; 
 
-  return thrust::detail::strip_const_gather_if(select_system(system1(),system2(),system3(),system4()), map_first, map_last, stencil, input_first, result, pred);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+  System4 system4;
+
+  return thrust::detail::strip_const_gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
 
 

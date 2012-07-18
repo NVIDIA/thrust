@@ -63,9 +63,10 @@ InputIterator for_each(InputIterator first,
                        UnaryFunction f)
 {
   using thrust::system::detail::generic::select_system;
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return detail::strip_const_for_each(select_system(system()), first, last, f);
+  System system;
+  return detail::strip_const_for_each(select_system(system), first, last, f);
 } // end for_each()
 
 
@@ -102,9 +103,10 @@ InputIterator for_each_n(InputIterator first,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return detail::strip_const_for_each_n(select_system(system()), first, n, f);
+  System system;
+  return detail::strip_const_for_each_n(select_system(system), first, n, f);
 } // end for_each_n()
 
 
