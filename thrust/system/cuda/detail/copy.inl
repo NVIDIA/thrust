@@ -40,25 +40,16 @@ template<typename InputIterator,
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(cuda_to_cpp,
+  OutputIterator copy(cross_system<System1,System2> systems,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_cross_system(first,last,result);
-} // end copy()
-
-
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy(cpp_to_cuda,
-                      InputIterator first,
-                      InputIterator last,
-                      OutputIterator result)
-{
-  return thrust::system::cuda::detail::copy_cross_system(first,last,result);
+  return thrust::system::cuda::detail::copy_cross_system(systems, first,last,result);
 } // end copy()
 
 
@@ -74,27 +65,17 @@ template<typename InputIterator,
 } // end copy_n()
 
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(cuda_to_cpp,
+  OutputIterator copy_n(cross_system<System1,System2> systems,
                         InputIterator first,
                         Size n,
                         OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_cross_system_n(first,n,result);
-} // end copy_n()
-
-
-template<typename InputIterator,
-         typename Size,
-         typename OutputIterator>
-  OutputIterator copy_n(cpp_to_cuda,
-                        InputIterator first,
-                        Size n,
-                        OutputIterator result)
-{
-  return thrust::system::cuda::detail::copy_cross_system_n(first,n,result);
+  return thrust::system::cuda::detail::copy_cross_system_n(systems, first,n,result);
 } // end copy_n()
 
 
