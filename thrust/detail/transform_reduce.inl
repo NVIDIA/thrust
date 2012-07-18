@@ -82,9 +82,11 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return thrust::detail::strip_const_transform_reduce(select_system(system()), first, last, unary_op, init, binary_op);
+  System system;
+
+  return thrust::detail::strip_const_transform_reduce(select_system(system), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
 
 

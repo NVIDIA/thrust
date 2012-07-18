@@ -55,9 +55,11 @@ void advance(InputIterator& i, Distance n)
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  thrust::detail::strip_const_advance(select_system(system()), i, n);
+  System system;
+
+  thrust::detail::strip_const_advance(select_system(system), i, n);
 } // end advance()
 
 } // end namespace thrust

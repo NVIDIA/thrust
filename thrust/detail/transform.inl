@@ -214,10 +214,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_transform(select_system(system1(),system2()), first, last, result, op);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_transform(select_system(system1,system2), first, last, result, op);
 } // end transform()
 
 
@@ -233,11 +236,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_transform(select_system(system1(),system2(),system3()), first1, last1, first2, result, op);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_transform(select_system(system1,system2,system3), first1, last1, first2, result, op);
 } // end transform()
 
 
@@ -253,10 +260,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type   system1;
-  typedef typename thrust::iterator_system<ForwardIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type   System1;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System2;
 
-  return thrust::detail::strip_const_transform_if(select_system(system1(),system2()), first, last, result, unary_op, pred);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_transform_if(select_system(system1,system2), first, last, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -274,11 +284,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
-  typedef typename thrust::iterator_system<ForwardIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System3;
 
-  return thrust::detail::strip_const_transform_if(select_system(system1(),system2(),system3()), first, last, stencil, result, unary_op, pred);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_transform_if(select_system(system1,system2,system3), first, last, stencil, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -298,12 +312,17 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  system2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  system3;
-  typedef typename thrust::iterator_system<ForwardIterator>::type system4;
+  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System4;
 
-  return thrust::detail::strip_const_transform_if(select_system(system1(),system2(),system3(),system4()), first1, last1, first2, stencil, result, binary_op, pred);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+  System4 system4;
+
+  return thrust::detail::strip_const_transform_if(select_system(system1,system2,system3,system4), first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()
 
 

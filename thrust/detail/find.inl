@@ -109,9 +109,11 @@ InputIterator find(InputIterator first,
 {
     using thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<InputIterator>::type system;
+    typedef typename thrust::iterator_system<InputIterator>::type System;
 
-    return thrust::detail::strip_const_find(select_system(system()), first, last, value);
+    System system;
+
+    return thrust::detail::strip_const_find(select_system(system), first, last, value);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -121,9 +123,11 @@ InputIterator find_if(InputIterator first,
 {
     using thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<InputIterator>::type system;
+    typedef typename thrust::iterator_system<InputIterator>::type System;
 
-    return thrust::detail::strip_const_find_if(select_system(system()), first, last, pred);
+    System system;
+
+    return thrust::detail::strip_const_find_if(select_system(system), first, last, pred);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -133,9 +137,11 @@ InputIterator find_if_not(InputIterator first,
 {
     using thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<InputIterator>::type system;
+    typedef typename thrust::iterator_system<InputIterator>::type System;
 
-    return thrust::detail::strip_const_find_if_not(select_system(system()), first, last, pred);
+    System system;
+
+    return thrust::detail::strip_const_find_if_not(select_system(system), first, last, pred);
 }
 
 
