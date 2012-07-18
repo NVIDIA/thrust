@@ -85,9 +85,11 @@ template<typename BidirectionalIterator>
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<BidirectionalIterator>::type system;
+  typedef typename thrust::iterator_system<BidirectionalIterator>::type System;
 
-  return thrust::detail::strip_const_reverse(select_system(system()), first, last);
+  System system;
+
+  return thrust::detail::strip_const_reverse(select_system(system), first, last);
 } // end reverse()
 
 
@@ -99,10 +101,13 @@ template<typename BidirectionalIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<BidirectionalIterator>::type system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type        system2;
+  typedef typename thrust::iterator_system<BidirectionalIterator>::type System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type        System2;
 
-  return thrust::detail::strip_const_reverse_copy(select_system(system1(),system2()), first, last, result);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_reverse_copy(select_system(system1,system2), first, last, result);
 } // end reverse_copy()
 
 

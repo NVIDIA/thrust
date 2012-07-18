@@ -439,10 +439,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_inclusive_scan(select_system(system1(),system2()), first, last, result);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_inclusive_scan(select_system(system1,system2), first, last, result);
 } // end inclusive_scan()
 
 
@@ -456,10 +459,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_inclusive_scan(select_system(system1(),system2()), first, last, result, binary_op);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_inclusive_scan(select_system(system1,system2), first, last, result, binary_op);
 } // end inclusive_scan()
 
 
@@ -471,10 +477,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_exclusive_scan(select_system(system1(),system2()), first, last, result);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_exclusive_scan(select_system(system1,system2), first, last, result);
 } // end exclusive_scan()
 
 
@@ -488,10 +497,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_exclusive_scan(select_system(system1(),system2()), first, last, result, init);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_exclusive_scan(select_system(system1,system2), first, last, result, init);
 } // end exclusive_scan()
 
 
@@ -507,10 +519,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_exclusive_scan(select_system(system1(),system2()), first, last, result, init, binary_op);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_exclusive_scan(select_system(system1,system2), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
 
@@ -524,11 +539,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
 }
 
 
@@ -544,11 +563,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result, binary_pred);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred);
 }
 
 
@@ -566,11 +589,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result, binary_pred, binary_op);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred, binary_op);
 }
 
 
@@ -584,11 +611,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
 }
 
 
@@ -604,11 +635,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result, init);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init);
 }
 
 
@@ -626,11 +661,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result, init, binary_pred);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred);
 }
 
 
@@ -650,11 +689,15 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
-  typedef typename thrust::iterator_system<OutputIterator>::type system3;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename thrust::iterator_system<OutputIterator>::type System3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1(),system2(),system3()), first1, last1, first2, result, init, binary_pred, binary_op);
+  System1 system1;
+  System2 system2;
+  System3 system3;
+
+  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred, binary_op);
 }
 
 

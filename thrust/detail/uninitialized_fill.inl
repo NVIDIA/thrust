@@ -88,9 +88,11 @@ template<typename ForwardIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  thrust::detail::strip_const_uninitialized_fill(select_system(system()), first, last, x);
+  System system;
+
+  thrust::detail::strip_const_uninitialized_fill(select_system(system), first, last, x);
 } // end uninitialized_fill()
 
 
@@ -103,9 +105,11 @@ template<typename ForwardIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return thrust::detail::strip_const_uninitialized_fill_n(select_system(system()), first, n, x);
+  System system;
+
+  return thrust::detail::strip_const_uninitialized_fill_n(select_system(system), first, n, x);
 } // end uninitialized_fill_n()
 
 

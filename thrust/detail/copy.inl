@@ -83,10 +83,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_copy(select_system(system1(),system2()), first, last, result);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_copy(select_system(system1,system2), first, last, result);
 } // end copy()
 
 
@@ -99,10 +102,13 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_copy_n(select_system(system1(),system2()), first, n, result);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_copy_n(select_system(system1,system2), first, n, result);
 } // end copy_n()
 
 

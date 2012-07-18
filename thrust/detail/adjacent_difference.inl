@@ -87,10 +87,13 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_adjacent_difference(select_system(system1(), system2()), first, last, result);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_adjacent_difference(select_system(system1, system2), first, last, result);
 } // end adjacent_difference()
 
 
@@ -101,10 +104,13 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  system1;
-  typedef typename thrust::iterator_system<OutputIterator>::type system2;
+  typedef typename thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
 
-  return thrust::detail::strip_const_adjacent_difference(select_system(system1(), system2()), first, last, result, binary_op);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_adjacent_difference(select_system(system1, system2), first, last, result, binary_op);
 } // end adjacent_difference()
 
 

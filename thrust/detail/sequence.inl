@@ -109,9 +109,11 @@ template<typename ForwardIterator>
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return thrust::detail::strip_const_sequence(select_system(system()), first, last);
+  System system;
+
+  return thrust::detail::strip_const_sequence(select_system(system), first, last);
 } // end sequence()
 
 
@@ -122,9 +124,11 @@ template<typename ForwardIterator, typename T>
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return thrust::detail::strip_const_sequence(select_system(system()), first, last, init);
+  System system;
+
+  return thrust::detail::strip_const_sequence(select_system(system), first, last, init);
 } // end sequence()
 
 
@@ -136,9 +140,11 @@ template<typename ForwardIterator, typename T>
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return thrust::detail::strip_const_sequence(select_system(system()), first, last, init, step);
+  System system;
+
+  return thrust::detail::strip_const_sequence(select_system(system), first, last, init, step);
 } // end sequence()
 
 

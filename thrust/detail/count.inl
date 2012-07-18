@@ -79,9 +79,11 @@ count(InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return thrust::detail::strip_const_count(select_system(system()), first, last, value);
+  System system;
+
+  return thrust::detail::strip_const_count(select_system(system), first, last, value);
 } // end count()
 
 
@@ -91,9 +93,11 @@ count_if(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type system;
+  typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  return thrust::detail::strip_const_count_if(select_system(system()), first, last, pred);
+  System system;
+
+  return thrust::detail::strip_const_count_if(select_system(system), first, last, pred);
 } // end count_if()
 
 
