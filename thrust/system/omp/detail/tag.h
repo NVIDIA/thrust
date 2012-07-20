@@ -91,16 +91,18 @@ inline __host__ __device__
 
 } // end detail
 
-// alias the tag here
+// alias dispatchable and tag here
+using thrust::system::omp::detail::dispatchable;
 using thrust::system::omp::detail::tag;
 
 } // end omp
 } // end system
 
-// alias omp's tag at top-level
+// alias items at top-level
 namespace omp
 {
 
+using thrust::system::omp::dispatchable;
 using thrust::system::omp::tag;
 
 } // end omp
