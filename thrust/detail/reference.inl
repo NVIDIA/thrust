@@ -94,9 +94,11 @@ template<typename Element, typename Pointer, typename Derived>
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<pointer>::type system;
+  typedef typename thrust::iterator_system<pointer>::type System;
 
-  return strip_const_get_value(select_system(system()));
+  System system;
+
+  return strip_const_get_value(select_system(system));
 } // end reference::operator value_type ()
 
 
@@ -121,10 +123,13 @@ template<typename Element, typename Pointer, typename Derived>
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<pointer>::type      system1;
-  typedef typename thrust::iterator_system<OtherPointer>::type system2;
+  typedef typename thrust::iterator_system<pointer>::type      System1;
+  typedef typename thrust::iterator_system<OtherPointer>::type System2;
 
-  strip_const_assign_value(select_system(system1(), system2()), src);
+  System1 system1;
+  System2 system2;
+
+  strip_const_assign_value(select_system(system1, system2), src);
 } // end assign_from()
 
 
@@ -148,9 +153,11 @@ template<typename Element, typename Pointer, typename Derived>
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::iter_swap;
 
-  typedef typename thrust::iterator_system<pointer>::type system;
+  typedef typename thrust::iterator_system<pointer>::type System;
 
-  iter_swap(select_system(system(), system()), m_ptr, other.m_ptr);
+  System system1, system2;
+
+  iter_swap(select_system(system1, system2), m_ptr, other.m_ptr);
 } // end reference::swap()
 
 
