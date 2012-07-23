@@ -65,25 +65,48 @@ template<typename Derived>
   }
 };
 
-struct cuda_to_cpp  : thrust::dispatchable<cuda_to_cpp>{};
-struct cpp_to_cuda  : thrust::dispatchable<cpp_to_cuda>{};
+
+template<typename System1, typename System2>
+  struct cross_system
+    : thrust::dispatchable<cross_system<System1,System2> >
+{
+  inline __host__ __device__
+  cross_system(thrust::dispatchable<System1> &system1,
+               thrust::dispatchable<System2> &system2)
+    : system1(system1), system2(system2)
+  {}
+
+  thrust::dispatchable<System1> &system1;
+  thrust::dispatchable<System2> &system2;
+
+  inline __host__ __device__
+  cross_system<System2,System1> rotate() const
+  {
+    return cross_system<System2,System1>(system2,system1);
+  }
+};
+
 
 // overloads of select_system
 
 // cpp interop
-template<typename DerivedSystem1, typename DerivedSystem2>
+template<typename System1, typename System2>
 inline __host__ __device__
-cuda_to_cpp select_system(dispatchable<DerivedSystem1>, thrust::system::cpp::detail::dispatchable<DerivedSystem2>)
+cross_system<System1,System2> select_system(const dispatchable<System1> &system1, const thrust::cpp::dispatchable<System2> &system2)
 {
-  return cuda_to_cpp();
+  thrust::dispatchable<System1> &non_const_system1 = const_cast<dispatchable<System1>&>(system1);
+  thrust::cpp::dispatchable<System2> &non_const_system2 = const_cast<thrust::cpp::dispatchable<System2>&>(system2);
+  return cross_system<System1,System2>(non_const_system1,non_const_system2);
 }
 
 
-template<typename DerivedSystem1, typename DerivedSystem2>
+template<typename System1, typename System2>
 inline __host__ __device__
-cpp_to_cuda select_system(thrust::system::cpp::detail::dispatchable<DerivedSystem1>, dispatchable<DerivedSystem2>)
+cross_system<System1,System2> select_system(const thrust::cpp::dispatchable<System1> &system1, dispatchable<System2> &system2)
 {
-  return cpp_to_cuda();
+  thrust::cpp::dispatchable<System1> &non_const_system1 = const_cast<thrust::cpp::dispatchable<System1>&>(system1);
+  thrust::dispatchable<System2> &non_const_system2 = const_cast<dispatchable<System2>&>(system2);
+  return cross_system<System1,System2>(non_const_system1,non_const_system2);
 }
 
 
