@@ -44,10 +44,7 @@ template<typename T, typename System>
   super_t::allocate(thrust::distance(system,first,last));
 
   // XXX this should be copy construct via allocator
-  // XXX note that we don't use the system for dispatch here
-  //     because it might not be compatible with InputIterator
-  //     we should require this, however -- it should know how to do the copy
-  thrust::copy(first, last, super_t::begin());
+  thrust::copy(system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 } // end detail
