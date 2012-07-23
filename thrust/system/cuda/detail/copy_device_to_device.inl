@@ -58,6 +58,8 @@ template<typename InputIterator,
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+
+    // XXX forward a real system in here
     thrust::detail::temporary_array<OutputType, thrust::cpp::tag> temp2(temp1.begin(), temp1.end());
 
     // copy temp2 to device
@@ -81,7 +83,9 @@ template<typename InputIterator,
     // how many elements to copy?
     typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
-    thrust::system::cuda::detail::trivial_copy_n(begin, n, result);
+    // XXX forward a real system in here
+    typename thrust::iterator_system<InputIterator>::type system;
+    thrust::system::cuda::detail::trivial_copy_n(system, begin, n, result);
 
     return result + n;
 }

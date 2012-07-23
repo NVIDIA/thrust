@@ -15,6 +15,7 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -25,10 +26,22 @@ namespace cuda
 namespace detail
 {
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-  void trivial_copy_n(RandomAccessIterator1 first,
+  void trivial_copy_n(dispatchable<System> &system,
+                      RandomAccessIterator1 first,
+                      Size n,
+                      RandomAccessIterator2 result);
+
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
+         typename Size,
+         typename RandomAccessIterator2>
+  void trivial_copy_n(cross_system<System1,System2> &systems,
+                      RandomAccessIterator1 first,
                       Size n,
                       RandomAccessIterator2 result);
 

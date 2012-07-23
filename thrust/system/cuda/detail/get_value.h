@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/assign_value.h>
+#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -36,26 +37,30 @@ namespace
 {
 
 
-template<typename Pointer>
+template<typename System, typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value_msvc2005_war(Pointer ptr)
+    get_value_msvc2005_war(dispatchable<System> &system, Pointer ptr)
 {
   typedef typename thrust::iterator_value<Pointer>::type result_type;
 
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static result_type host_path(Pointer ptr)
+    __host__ inline static result_type host_path(dispatchable<System> &system, Pointer ptr)
     {
       // when called from host code, implement with assign_value
       // note that this requires a type with default constructor
       result_type result;
-      assign_value(cuda_to_cpp(), &result, ptr);
+
+      thrust::cpp::tag cpp_tag;
+      cross_system<thrust::cpp::tag, System> systems(cpp_tag, system);
+      assign_value(systems, &result, ptr);
+
       return result;
     }
 
-    __device__ inline static result_type device_path(Pointer ptr)
+    __device__ inline static result_type device_path(dispatchable<System> &, Pointer ptr)
     {
       // when called from device code, just do simple deref
       return *thrust::raw_pointer_cast(ptr);
@@ -63,9 +68,9 @@ inline __host__ __device__
   };
 
 #ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(ptr);
+  return war_nvbugs_881631::host_path(system, ptr);
 #else
-  return war_nvbugs_881631::device_path(ptr);
+  return war_nvbugs_881631::device_path(system, ptr);
 #endif // __CUDA_ARCH__
 } // end get_value_msvc2005_war()
 
@@ -76,9 +81,9 @@ inline __host__ __device__
 template<typename System, typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(thrust::system::cuda::detail::dispatchable<System> &, Pointer ptr)
+    get_value(dispatchable<System> &system, Pointer ptr)
 {
-  return get_value_msvc2005_war(ptr);
+  return get_value_msvc2005_war(system,ptr);
 } // end get_value()
 
 

@@ -41,9 +41,12 @@ namespace detail
 
 
 // general input to random access case
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename RandomAccessIterator>
-  RandomAccessIterator copy_cross_system(InputIterator begin,
+  RandomAccessIterator copy_cross_system(cross_system<System1,System2> systems,
+                                         InputIterator begin,
                                          InputIterator end,
                                          RandomAccessIterator result,
                                          thrust::incrementable_traversal_tag, 
@@ -54,97 +57,94 @@ template<typename InputIterator,
   //std::cerr << "general copy_host_to_device(): OutputIterator: " << typeid(OutputIterator).name() << std::endl;
 
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
-  typedef typename thrust::iterator_system<InputIterator>::type InputSystem;
 
   // allocate temporary storage
-  // XXX assumes InputSystem is default constructible
-  // XXX find a way to get user systems into this function
-  InputSystem input_sys;
-  thrust::detail::temporary_array<InputType, InputSystem> temp(input_sys,begin,end);
-  return thrust::copy(temp.begin(), temp.end(), result);
+  thrust::detail::temporary_array<InputType, System1> temp(systems.system1,begin,end);
+  return thrust::copy(systems, temp.begin(), temp.end(), result);
 }
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename Size,
          typename RandomAccessIterator>
-  RandomAccessIterator copy_cross_system_n(InputIterator first,
+  RandomAccessIterator copy_cross_system_n(cross_system<System1,System2> systems,
+                                           InputIterator first,
                                            Size n,
                                            RandomAccessIterator result,
                                            thrust::incrementable_traversal_tag, 
                                            thrust::random_access_traversal_tag)
 {
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
-  typedef typename thrust::iterator_system<InputIterator>::type InputSystem;
 
   // allocate and copy to temporary storage in the input's system
-  // XXX assumes InputSystem is default constructible
-  // XXX find a way to get user systems into this function
-  InputSystem input_sys;
-  thrust::detail::temporary_array<InputType, InputSystem> temp(input_sys,n);
-  thrust::copy_n(first, n, temp.begin());
+  thrust::detail::temporary_array<InputType, System1> temp(systems.system1,n);
+  thrust::copy_n(systems.system1, first, n, temp.begin());
 
-  return thrust::copy(temp.begin(), temp.end(), result);
+  // recurse
+  return copy_cross_system(systems, temp.begin(), temp.end(), result);
 }
 
 
 // random access to general output case
-template<typename RandomAccessIterator,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator copy_cross_system(RandomAccessIterator begin,
+  OutputIterator copy_cross_system(cross_system<System1,System2> systems,
+                                   RandomAccessIterator begin,
                                    RandomAccessIterator end,
                                    OutputIterator result,
                                    thrust::random_access_traversal_tag, 
                                    thrust::incrementable_traversal_tag)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
-  typedef typename thrust::iterator_system<OutputIterator>::type OutputSystem;
 
   // allocate temporary storage
-  // XXX assumes OutputSystem is default constructible
-  // XXX find a way to get user systems into this function
-  OutputSystem output_sys;
-  thrust::detail::temporary_array<InputType,OutputSystem> temp(output_sys, thrust::distance(begin,end));
+  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, thrust::distance(systems.system2,begin,end));
 
   // recurse
-  copy_cross_system(begin, end, temp.begin());
+  copy_cross_system(systems, begin, end, temp.begin());
 
-  return thrust::copy(temp.begin(), temp.end(), result);
+  return thrust::copy(systems.system2, temp.begin(), temp.end(), result);
 }
 
-template<typename RandomAccessIterator,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_cross_system_n(RandomAccessIterator first,
+  OutputIterator copy_cross_system_n(cross_system<System1,System2> systems,
+                                     RandomAccessIterator first,
                                      Size n,
                                      OutputIterator result,
                                      thrust::random_access_traversal_tag, 
                                      thrust::incrementable_traversal_tag)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
-  typedef typename thrust::iterator_system<OutputIterator>::type OutputSystem;
 
   // allocate and copy to temporary storage in the output's system
-  // XXX assumes OutputSystem is default constructible
-  // XXX find a way to get user systems into this function
-  OutputSystem output_sys;
-  thrust::detail::temporary_array<InputType,OutputSystem> temp(output_sys,n);
+  thrust::detail::temporary_array<InputType,System2> temp(systems.system2,n);
 
   // recurse
-  copy_cross_system_n(first, n, temp.begin());
+  copy_cross_system_n(systems, first, n, temp.begin());
 
-  return thrust::copy(temp.begin(), temp.end(), result);
+  return thrust::copy(systems.system2, temp.begin(), temp.end(), result);
 }
 
 
 // trivial copy
-template<typename RandomAccessIterator1,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 copy_cross_system(RandomAccessIterator1 begin,
-                                         RandomAccessIterator1 end,
-                                         RandomAccessIterator2 result,
-                                         thrust::random_access_traversal_tag,
-                                         thrust::random_access_traversal_tag,
-                                         thrust::detail::true_type) // trivial copy
+  RandomAccessIterator2 copy_cross_system(cross_system<System1,System2> systems,
+                                          RandomAccessIterator1 begin,
+                                          RandomAccessIterator1 end,
+                                          RandomAccessIterator2 result,
+                                          thrust::random_access_traversal_tag,
+                                          thrust::random_access_traversal_tag,
+                                          thrust::detail::true_type) // trivial copy
 {
 //  std::cerr << std::endl;
 //  std::cerr << "random access copy_device_to_host(): trivial" << std::endl;
@@ -154,7 +154,7 @@ template<typename RandomAccessIterator1,
   // how many elements to copy?
   typename thrust::iterator_traits<RandomAccessIterator1>::difference_type n = end - begin;
 
-  thrust::system::cuda::detail::trivial_copy_n(begin, n, result);
+  thrust::system::cuda::detail::trivial_copy_n(systems, begin, n, result);
 
   return result + n;
 }
@@ -164,58 +164,61 @@ namespace detail
 {
 
 // random access non-trivial iterator to random access iterator
-template<typename RandomAccessIterator1,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 non_trivial_random_access_copy_cross_system(RandomAccessIterator1 begin,
+  RandomAccessIterator2 non_trivial_random_access_copy_cross_system(cross_system<System1,System2> systems,
+                                                                    RandomAccessIterator1 begin,
                                                                     RandomAccessIterator1 end,
                                                                     RandomAccessIterator2 result,
                                                                     thrust::detail::false_type) // InputIterator is non-trivial
 {
   // copy the input to a temporary input system buffer of OutputType
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type InputSystem;
 
   // allocate temporary storage
-  // XXX assumes InputSystem is default constructible
-  // XXX find a way to get user systems into this function
-  InputSystem input_sys;
-  thrust::detail::temporary_array<OutputType,InputSystem> temp(input_sys, begin, end);
-  return thrust::copy(temp.begin(), temp.end(), result);
+  thrust::detail::temporary_array<OutputType,System1> temp(systems.system1, begin, end);
+
+  // recurse
+  return copy_cross_system(systems, temp.begin(), temp.end(), result);
 }
 
-template<typename RandomAccessIterator1,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 non_trivial_random_access_copy_cross_system(RandomAccessIterator1 begin,
+  RandomAccessIterator2 non_trivial_random_access_copy_cross_system(cross_system<System1,System2> systems,
+                                                                    RandomAccessIterator1 begin,
                                                                     RandomAccessIterator1 end,
                                                                     RandomAccessIterator2 result,
                                                                     thrust::detail::true_type) // InputIterator is trivial
 {
   // copy the input to a temporary result system buffer of InputType
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type OutputSystem;
 
   typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(begin,end);
 
   // allocate temporary storage
-  // XXX assumes OutputSystem is default constructible
-  // XXX find a way to get user systems into this function
-  OutputSystem output_sys;
-  thrust::detail::temporary_array<InputType,OutputSystem> temp(output_sys, n);
+  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, n);
 
   // force a trivial copy
-  thrust::system::cuda::detail::trivial_copy_n(begin, n, temp.begin());
+  thrust::system::cuda::detail::trivial_copy_n(systems, begin, n, temp.begin());
 
   // finally, copy to the result
-  return thrust::copy(temp.begin(), temp.end(), result);
+  return thrust::copy(systems.system2, temp.begin(), temp.end(), result);
 }
 
 } // end detail
 
 
 // random access iterator to random access host iterator with non-trivial copy
-template<typename RandomAccessIterator1,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 copy_cross_system(RandomAccessIterator1 begin,
+  RandomAccessIterator2 copy_cross_system(cross_system<System1,System2> systems,
+                                          RandomAccessIterator1 begin,
                                           RandomAccessIterator1 end,
                                           RandomAccessIterator2 result,
                                           thrust::random_access_traversal_tag,
@@ -223,60 +226,72 @@ template<typename RandomAccessIterator1,
                                           thrust::detail::false_type)
 {
   // dispatch a non-trivial random access cross system copy based on whether or not the InputIterator is trivial
-  return detail::non_trivial_random_access_copy_cross_system(begin, end, result,
+  return detail::non_trivial_random_access_copy_cross_system(systems, begin, end, result,
       typename thrust::detail::is_trivial_iterator<RandomAccessIterator1>::type());
 }
 
 // random access iterator to random access iterator
-template<typename RandomAccessIterator1,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 copy_cross_system(RandomAccessIterator1 begin,
+  RandomAccessIterator2 copy_cross_system(cross_system<System1,System2> systems,
+                                          RandomAccessIterator1 begin,
                                           RandomAccessIterator1 end,
                                           RandomAccessIterator2 result,
                                           thrust::random_access_traversal_tag input_traversal,
                                           thrust::random_access_traversal_tag output_traversal)
 {
   // dispatch on whether this is a trivial copy
-  return copy_cross_system(begin, end, result, input_traversal, output_traversal,
+  return copy_cross_system(systems, begin, end, result, input_traversal, output_traversal,
           typename thrust::detail::dispatch::is_trivial_copy<RandomAccessIterator1,RandomAccessIterator2>::type());
 }
 
-template<typename RandomAccessIterator1,
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 copy_cross_system_n(RandomAccessIterator1 first,
+  RandomAccessIterator2 copy_cross_system_n(cross_system<System1,System2> systems,
+                                            RandomAccessIterator1 first,
                                             Size n,
                                             RandomAccessIterator2 result,
                                             thrust::random_access_traversal_tag input_traversal,
                                             thrust::random_access_traversal_tag output_traversal)
 {
   // implement with copy_cross_system
-  return copy_cross_system(first, first + n, result, input_traversal, output_traversal);
+  return copy_cross_system(systems, first, first + n, result, input_traversal, output_traversal);
 }
 
 /////////////////
 // Entry Point //
 /////////////////
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_cross_system(InputIterator begin, 
+  OutputIterator copy_cross_system(cross_system<System1,System2> systems,
+                                   InputIterator begin, 
                                    InputIterator end, 
                                    OutputIterator result)
 {
-  return copy_cross_system(begin, end, result, 
+  return copy_cross_system(systems, begin, end, result, 
           typename thrust::iterator_traversal<InputIterator>::type(),
           typename thrust::iterator_traversal<OutputIterator>::type());
 }
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_cross_system_n(InputIterator begin, 
+  OutputIterator copy_cross_system_n(cross_system<System1,System2> systems,
+                                     InputIterator begin, 
                                      Size n, 
                                      OutputIterator result)
 {
-  return copy_cross_system_n(begin, n, result, 
+  return copy_cross_system_n(systems, begin, n, result, 
           typename thrust::iterator_traversal<InputIterator>::type(),
           typename thrust::iterator_traversal<OutputIterator>::type());
 }
