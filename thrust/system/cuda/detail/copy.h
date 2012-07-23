@@ -38,17 +38,11 @@ template<typename InputIterator,
                       OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(cuda_to_cpp,
-                      InputIterator first,
-                      InputIterator last,
-                      OutputIterator result);
-
-
-template<typename InputIterator,
-         typename OutputIterator>
-  OutputIterator copy(cpp_to_cuda,
+  OutputIterator copy(cross_system<System1,System2> systems,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
@@ -63,19 +57,12 @@ template<typename InputIterator,
                         OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(cuda_to_cpp,
-                        InputIterator first,
-                        Size n,
-                        OutputIterator result);
-
-
-template<typename InputIterator,
-         typename Size,
-         typename OutputIterator>
-  OutputIterator copy_n(cpp_to_cuda,
+  OutputIterator copy_n(cross_system<System1,System2> systems,
                         InputIterator first,
                         Size n,
                         OutputIterator result);

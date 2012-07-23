@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -28,19 +29,25 @@ namespace detail
 {
 
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_cross_system(InputIterator begin, 
-                                  InputIterator end, 
-                                  OutputIterator result);
+  OutputIterator copy_cross_system(cross_system<System1,System2> systems,
+                                   InputIterator begin, 
+                                   InputIterator end, 
+                                   OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename System1,
+         typename System2,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_cross_system_n(InputIterator begin, 
-                                    Size n, 
-                                    OutputIterator result);
+  OutputIterator copy_cross_system_n(cross_system<System1,System2> systems,
+                                     InputIterator begin, 
+                                     Size n, 
+                                     OutputIterator result);
 
 
 } // end detail

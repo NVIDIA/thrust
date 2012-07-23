@@ -102,27 +102,20 @@ inline __host__ __device__
 #endif // msvc 2005 WAR
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename System1, typename System2, typename Pointer1, typename Pointer2>
 inline __host__ __device__
-  void assign_value(cpp_to_cuda, Pointer1 dst, Pointer2 src)
+  void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
 {
 #if __CUDA_ARCH__
-  cuda::tag t;
-  thrust::system::cuda::detail::assign_value(t, dst, src);
+  // XXX forward the true cuda::dispatchable inside systems here
+  //     instead of materializing a tag
+  thrust::cuda::tag cuda_tag;
+  thrust::system::cuda::detail::assign_value(cuda_tag, dst, src);
 #else
-  thrust::copy(src, src + 1, dst);
-#endif
-} // end assign_value()
-
-template<typename Pointer1, typename Pointer2>
-inline __host__ __device__
-  void assign_value(cuda_to_cpp, Pointer1 dst, Pointer2 src)
-{
-#if __CUDA_ARCH__
-  cuda::tag t;
-  thrust::system::cuda::detail::assign_value(t, dst, src);
-#else
-  thrust::copy(src, src + 1, dst);
+  // rotate the systems so that they are ordered the same as (src, dst)
+  // for the call to thrust::copy
+  cross_system<System2,System1> rotated_systems = systems.rotate();
+  thrust::copy(rotated_systems, src, src + 1, dst);
 #endif
 } // end assign_value()
 

@@ -21,11 +21,9 @@
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
-#include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/cuda/detail/tag.h>
-#include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/detail/raw_pointer_cast.h>
 
 namespace thrust
 {
@@ -36,7 +34,7 @@ namespace cuda
 namespace detail
 {
 
-namespace detail
+namespace trivial_copy_detail
 {
 
 inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind)
@@ -49,92 +47,63 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
 } // end checked_cudaMemcpy()
 
 
-template<typename SrcSystem,
-         typename DstSystem>
-  struct is_cpp_to_cuda
-    : thrust::detail::integral_constant<
-        bool,
-        thrust::detail::is_convertible<SrcSystem, thrust::cpp::tag>::value &&
-        thrust::detail::is_convertible<DstSystem, thrust::cuda::tag>::value
-      >
-{};
-
-
-template<typename SrcSystem,
-         typename DstSystem>
-  struct is_cuda_to_cpp
-    : thrust::detail::integral_constant<
-        bool,
-        thrust::detail::is_convertible<SrcSystem, thrust::cuda::tag>::value &&
-        thrust::detail::is_convertible<DstSystem, thrust::cpp::tag>::value
-      >
-{};
-
-
-template<typename SrcSystem,
-         typename DstSystem>
-  struct is_cuda_to_cuda
-    : thrust::detail::integral_constant<
-        bool,
-        thrust::detail::is_convertible<SrcSystem, thrust::cuda::tag>::value &&
-        thrust::detail::is_convertible<DstSystem, thrust::cuda::tag>::value
-      >
-{};
-
-
-template<typename SrcSystem,
-         typename DstSystem>
-  struct cuda_memcpy_kind
-    : thrust::detail::eval_if<
-        is_cpp_to_cuda<SrcSystem,DstSystem>::value,
-        thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyHostToDevice>,
-
-        thrust::detail::eval_if<
-          is_cuda_to_cpp<SrcSystem,DstSystem>::value,
-          thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToHost>,
-
-          thrust::detail::eval_if<
-            is_cuda_to_cuda<SrcSystem,DstSystem>::value,
-            thrust::detail::integral_constant<cudaMemcpyKind, cudaMemcpyDeviceToDevice>,
-            void
-          >
-        >
-      >::type
-{};
-
-
-namespace trivial_copy_detail
+template<typename System1,
+         typename System2>
+  cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::dispatchable<System1> &,
+                                  const thrust::cpp::dispatchable<System2> &)
 {
+  return cudaMemcpyDeviceToHost;
+} // end cuda_memcpy_kind()
 
-template<typename Pointer>
-  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-    get(Pointer ptr)
+
+template<typename System1,
+         typename System2>
+  cudaMemcpyKind cuda_memcpy_kind(const thrust::cpp::dispatchable<System1> &,
+                                  const thrust::cuda::dispatchable<System2> &)
 {
-  return thrust::detail::pointer_traits<Pointer>::get(ptr);
-} // end get()
-
-} // end trivial_copy_detail
+  return cudaMemcpyHostToDevice;
+} // end cuda_memcpy_kind()
 
 
-} // end namespace detail
+} // end namespace trivial_copy_detail
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-  void trivial_copy_n(RandomAccessIterator1 first,
+  void trivial_copy_n(dispatchable<System> &system,
+                      RandomAccessIterator1 first,
                       Size n,
                       RandomAccessIterator2 result)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type SrcSystem;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type DstSystem;
+  void *dst = thrust::raw_pointer_cast(&*result);
+  const void *src = thrust::raw_pointer_cast(&*first);
 
-  void *dst = detail::trivial_copy_detail::get(&*result);
-  const void *src = detail::trivial_copy_detail::get(&*first);
+  trivial_copy_detail::checked_cudaMemcpy(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice);
+}
 
-  detail::checked_cudaMemcpy(dst, src, n * sizeof(T), detail::cuda_memcpy_kind<SrcSystem, DstSystem>::value);
+
+template<typename System1,
+         typename System2,
+         typename RandomAccessIterator1,
+         typename Size,
+         typename RandomAccessIterator2>
+  void trivial_copy_n(cross_system<System1,System2> &systems,
+                      RandomAccessIterator1 first,
+                      Size n,
+                      RandomAccessIterator2 result)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
+
+  void *dst = thrust::raw_pointer_cast(&*result);
+  const void *src = thrust::raw_pointer_cast(&*first);
+
+  cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(systems.system1.derived(), systems.system2.derived());
+
+  trivial_copy_detail::checked_cudaMemcpy(dst, src, n * sizeof(T), kind);
 }
 
 
