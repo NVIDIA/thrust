@@ -65,6 +65,7 @@ template<typename Derived>
   }
 };
 
+
 template<typename System1, typename System2>
   struct cross_system
     : thrust::dispatchable<cross_system<System1,System2> >
@@ -84,6 +85,7 @@ template<typename System1, typename System2>
     return cross_system<System2,System1>(system2,system1);
   }
 };
+
 
 // overloads of select_system
 

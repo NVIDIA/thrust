@@ -58,7 +58,7 @@ template<typename System1,
 
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
 
-  // allocate temporary storage
+  // allocate temporary storage in System1
   thrust::detail::temporary_array<InputType, System1> temp(systems.system1,begin,end);
   return thrust::copy(systems, temp.begin(), temp.end(), result);
 }
@@ -77,7 +77,7 @@ template<typename System1,
 {
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
 
-  // allocate and copy to temporary storage in the input's system
+  // allocate and copy to temporary storage System1
   thrust::detail::temporary_array<InputType, System1> temp(systems.system1,n);
   thrust::copy_n(systems.system1, first, n, temp.begin());
 
@@ -100,7 +100,7 @@ template<typename System1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
 
-  // allocate temporary storage
+  // allocate temporary storage in System2
   thrust::detail::temporary_array<InputType,System2> temp(systems.system2, thrust::distance(systems.system2,begin,end));
 
   // recurse
@@ -123,7 +123,7 @@ template<typename System1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
 
-  // allocate and copy to temporary storage in the output's system
+  // allocate and copy to temporary storage in System2
   thrust::detail::temporary_array<InputType,System2> temp(systems.system2,n);
 
   // recurse
@@ -177,7 +177,7 @@ template<typename System1,
   // copy the input to a temporary input system buffer of OutputType
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type OutputType;
 
-  // allocate temporary storage
+  // allocate temporary storage in System1
   thrust::detail::temporary_array<OutputType,System1> temp(systems.system1, begin, end);
 
   // recurse
@@ -197,9 +197,9 @@ template<typename System1,
   // copy the input to a temporary result system buffer of InputType
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
 
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(begin,end);
+  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(systems.system1, begin,end);
 
-  // allocate temporary storage
+  // allocate temporary storage in System2
   thrust::detail::temporary_array<InputType,System2> temp(systems.system2, n);
 
   // force a trivial copy
