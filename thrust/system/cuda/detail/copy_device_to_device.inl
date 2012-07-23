@@ -38,9 +38,11 @@ namespace detail
 namespace detail
 {
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
+  OutputIterator copy_device_to_device(dispatchable<System> &system,
+                                       InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result,
                                        thrust::detail::false_type)
@@ -49,11 +51,12 @@ template<typename InputIterator,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    return thrust::transform(begin, end, result, thrust::identity<InputType>());
+    return thrust::transform(system, begin, end, result, thrust::identity<InputType>());
 #else
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
+    // XXX forward a real system in here
     thrust::detail::temporary_array<InputType, thrust::cpp::tag> temp1(begin, end);
 
     // transform temp1 to OutputType in host memory
@@ -70,9 +73,11 @@ template<typename InputIterator,
 }
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
+  OutputIterator copy_device_to_device(dispatchable<System> &system,
+                                       InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result,
                                        thrust::detail::true_type)
@@ -83,8 +88,6 @@ template<typename InputIterator,
     // how many elements to copy?
     typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
-    // XXX forward a real system in here
-    typename thrust::iterator_system<InputIterator>::type system;
     thrust::system::cuda::detail::trivial_copy_n(system, begin, n, result);
 
     return result + n;
@@ -96,9 +99,11 @@ template<typename InputIterator,
 // Entry Point //
 /////////////////
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
+  OutputIterator copy_device_to_device(dispatchable<System> &system,
+                                       InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result)
 {
@@ -113,7 +118,7 @@ template<typename InputIterator,
     // XXX WAR unused variable warning
     (void) use_trivial_copy;
 
-    return detail::copy_device_to_device(begin, end, result,
+    return detail::copy_device_to_device(system, begin, end, result,
             thrust::detail::integral_constant<bool, use_trivial_copy>());
 
 }
