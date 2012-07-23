@@ -145,12 +145,12 @@ RandomAccessIterator for_each_n(dispatchable<System> &,
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(dispatchable<System> &s,
+  InputIterator for_each(dispatchable<System> &system,
                          InputIterator first,
                          InputIterator last,
                          UnaryFunction f)
 {
-  return cuda::detail::for_each_n(s, first, thrust::distance(first,last), f);
+  return cuda::detail::for_each_n(system, first, thrust::distance(system,first,last), f);
 } // end for_each()
 
 } // end namespace detail
