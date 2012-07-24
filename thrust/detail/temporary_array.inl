@@ -43,8 +43,12 @@ template<typename T, typename System>
 {
   super_t::allocate(thrust::distance(system,first,last));
 
-  // XXX this should be copy construct via allocator
-  thrust::copy(system, first, last, super_t::begin());
+  // XXX since this copy is potentially cross-system,
+  // we can't do explicit dispatch through the system
+  // we were given as a parameter
+  
+  // XXX this copy should actually be copy construct via allocator
+  thrust::copy(first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 } // end detail
