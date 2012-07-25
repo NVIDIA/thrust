@@ -28,12 +28,15 @@ void TestSelectSystemDifferentTypes()
 {
   using thrust::system::detail::generic::select_system;
 
+  my_system my_sys;
+  thrust::device_system_tag device_sys;
+
   // select_system(my_system, device_system_tag) should return device_system_tag (the minimum tag)
-  bool is_device_system_tag = are_same(thrust::device_system_tag(), select_system(my_system(), thrust::device_system_tag()));
+  bool is_device_system_tag = are_same(device_sys, select_system(my_sys, device_sys));
   ASSERT_EQUAL(true, is_device_system_tag);
 
   // select_system(device_system_tag, my_tag) should return device_system_tag (the minimum tag)
-  is_device_system_tag = are_same(thrust::device_system_tag(), select_system(thrust::device_system_tag(), my_system()));
+  is_device_system_tag = are_same(device_sys, select_system(device_sys, my_sys));
   ASSERT_EQUAL(true, is_device_system_tag);
 }
 DECLARE_UNITTEST(TestSelectSystemDifferentTypes);
@@ -43,16 +46,20 @@ void TestSelectSystemSameTypes()
 {
   using thrust::system::detail::generic::select_system;
 
+  my_system my_sys;
+  thrust::device_system_tag device_sys;
+  thrust::host_system_tag host_sys;
+
   // select_system(host_system_tag, host_system_tag) should return host_system_tag
-  bool is_host_system_tag = are_same(thrust::host_system_tag(), select_system(thrust::host_system_tag(), thrust::host_system_tag()));
+  bool is_host_system_tag = are_same(host_sys, select_system(host_sys, host_sys));
   ASSERT_EQUAL(true, is_host_system_tag);
 
   // select_system(device_system_tag, device_system_tag) should return device_system_tag
-  bool is_device_system_tag = are_same(thrust::device_system_tag(), select_system(thrust::device_system_tag(), thrust::device_system_tag()));
+  bool is_device_system_tag = are_same(device_sys, select_system(device_sys, device_sys));
   ASSERT_EQUAL(true, is_device_system_tag);
 
   // select_system(my_system, my_system) should return my_system
-  bool is_my_system = are_same(my_system(), select_system(my_system(), my_system()));
+  bool is_my_system = are_same(my_sys, select_system(my_sys, my_sys));
   ASSERT_EQUAL(true, is_my_system);
 }
 DECLARE_UNITTEST(TestSelectSystemSameTypes);

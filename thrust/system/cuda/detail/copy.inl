@@ -29,14 +29,15 @@ namespace detail
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(tag,
+  OutputIterator copy(dispatchable<System> &system,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_device_to_device(first,last,result);
+  return thrust::system::cuda::detail::copy_device_to_device(system,first,last,result);
 } // end copy()
 
 
@@ -53,15 +54,16 @@ template<typename System1,
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(tag,
+  OutputIterator copy_n(dispatchable<System> &system,
                         InputIterator first,
                         Size n,
                         OutputIterator result)
 {
-  return thrust::system::cuda::detail::copy_device_to_device(first,first+n,result);
+  return thrust::system::cuda::detail::copy_device_to_device(system,first,first+n,result);
 } // end copy_n()
 
 

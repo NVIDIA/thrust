@@ -83,6 +83,7 @@ void robust_cudaFree(void * ptr)
 
 // build a simple allocator for using pinned host memory as a functional fallback
 struct fallback_allocator
+  : thrust::cuda::dispatchable<fallback_allocator>
 {
   fallback_allocator() {}
 
@@ -103,37 +104,28 @@ struct fallback_allocator
 };
 
 
-// the fallback allocator is simply a global variable
-// XXX ideally this variable is declared thread_local
-fallback_allocator g_allocator;
-
-// create a tag derived from cuda::tag for distinguishing
-// our overloads of get_temporary_buffer and return_temporary_buffer
-struct my_tag : thrust::cuda::tag {};
-
-
-// overload get_temporary_buffer on my_tag
-// its job is to forward allocation requests to g_allocator
+// overload get_temporary_buffer on fallback_allocator
+// its job is to forward allocation requests to alloc
 template<typename T>
   thrust::pair<T*, std::ptrdiff_t>
-    get_temporary_buffer(my_tag, std::ptrdiff_t n)
+    get_temporary_buffer(fallback_allocator &alloc, std::ptrdiff_t n)
 {
   // ask the allocator for sizeof(T) * n bytes
-  T* result = reinterpret_cast<T*>(g_allocator.allocate(sizeof(T) * n));
+  T* result = reinterpret_cast<T*>(alloc.allocate(sizeof(T) * n));
 
   // return the pointer and the number of elements allocated
   return thrust::make_pair(result,n);
 }
 
-// overload return_temporary_buffer on my_tag
-// its job is to forward deallocations to g_allocator
+// overload return_temporary_buffer on fallback_allocator
+// its job is to forward deallocations to alloc
 // an overloaded return_temporary_buffer should always accompany
 // an overloaded get_temporary_buffer
 template<typename Pointer>
-  void return_temporary_buffer(my_tag, Pointer p)
+  void return_temporary_buffer(fallback_allocator &alloc, Pointer p)
 {
   // return the pointer to the allocator
-  g_allocator.deallocate(thrust::raw_pointer_cast(p));
+  alloc.deallocate(thrust::raw_pointer_cast(p));
 }
 
 
@@ -144,6 +136,8 @@ int main(void)
   cudaGetDevice(&device);
   cudaDeviceProp properties;
   cudaGetDeviceProperties(&properties, device);
+
+  fallback_allocator alloc;
 
   if (!properties.canMapHostMemory)
   {
@@ -176,10 +170,10 @@ int main(void)
       {
         kernel<<<100,256>>>(raw_ptr, n); // generate unsorted values
 
-        thrust::pointer<int,my_tag> begin = thrust::pointer<int,my_tag>(raw_ptr);
-        thrust::pointer<int,my_tag> end   = begin + n;
+        thrust::cuda::pointer<int> begin = thrust::cuda::pointer<int>(raw_ptr);
+        thrust::cuda::pointer<int> end   = begin + n;
 
-        thrust::sort(begin, end);
+        thrust::sort(alloc, begin, end);
 
         robust_cudaFree(raw_ptr);
       }
