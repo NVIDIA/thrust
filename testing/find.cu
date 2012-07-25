@@ -1,8 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/find.h>
 
-// for testing dispatch
-struct my_system : thrust::device_system<my_system> {};
 
 template <typename T>
 struct equal_to_value_pred
@@ -59,9 +57,9 @@ void TestFindSimple(void)
 DECLARE_VECTOR_UNITTEST(TestFindSimple);
 
 template<typename InputIterator, typename T>
-InputIterator find(my_system, InputIterator first, InputIterator, const T&)
+InputIterator find(my_system &system, InputIterator first, InputIterator, const T&)
 {
-    *first = 13;
+    system.validate_dispatch();
     return first;
 }
 
@@ -69,22 +67,30 @@ void TestFindDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::find(sys,
                  vec.begin(),
                  vec.end(),
                  0);
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestFindDispatchExplicit);
+
+
+template<typename InputIterator, typename T>
+InputIterator find(my_tag, InputIterator first, InputIterator, const T&)
+{
+    *first = 13;
+    return first;
+}
 
 void TestFindDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::find(thrust::retag<my_system>(vec.begin()),
-                 thrust::retag<my_system>(vec.end()),
+    thrust::find(thrust::retag<my_tag>(vec.begin()),
+                 thrust::retag<my_tag>(vec.end()),
                  0);
 
     ASSERT_EQUAL(13, vec.front());
@@ -114,9 +120,9 @@ void TestFindIfSimple(void)
 DECLARE_VECTOR_UNITTEST(TestFindIfSimple);
 
 template<typename InputIterator, typename Predicate>
-InputIterator find_if(my_system, InputIterator first, InputIterator, Predicate)
+InputIterator find_if(my_system &system, InputIterator first, InputIterator, Predicate)
 {
-    *first = 13;
+    system.validate_dispatch();
     return first;
 }
 
@@ -124,22 +130,30 @@ void TestFindIfDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::find_if(sys,
                     vec.begin(),
                     vec.end(),
                     thrust::identity<int>());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestFindIfDispatchExplicit);
+
+
+template<typename InputIterator, typename Predicate>
+InputIterator find_if(my_tag, InputIterator first, InputIterator, Predicate)
+{
+    *first = 13;
+    return first;
+}
 
 void TestFindIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::find_if(thrust::retag<my_system>(vec.begin()),
-                    thrust::retag<my_system>(vec.end()),
+    thrust::find_if(thrust::retag<my_tag>(vec.begin()),
+                    thrust::retag<my_tag>(vec.end()),
                     thrust::identity<int>());
 
     ASSERT_EQUAL(13, vec.front());
@@ -170,9 +184,9 @@ DECLARE_VECTOR_UNITTEST(TestFindIfNotSimple);
 
 
 template<typename InputIterator, typename Predicate>
-InputIterator find_if_not(my_system, InputIterator first, InputIterator, Predicate)
+InputIterator find_if_not(my_system &system, InputIterator first, InputIterator, Predicate)
 {
-    *first = 13;
+    system.validate_dispatch();
     return first;
 }
 
@@ -180,22 +194,30 @@ void TestFindIfNotDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::find_if_not(sys,
                         vec.begin(),
                         vec.end(),
                         thrust::identity<int>());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestFindIfNotDispatchExplicit);
+
+
+template<typename InputIterator, typename Predicate>
+InputIterator find_if_not(my_tag, InputIterator first, InputIterator, Predicate)
+{
+    *first = 13;
+    return first;
+}
 
 void TestFindIfNotDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::find_if_not(thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.end()),
+    thrust::find_if_not(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
                         thrust::identity<int>());
 
     ASSERT_EQUAL(13, vec.front());

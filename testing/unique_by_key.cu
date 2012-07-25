@@ -3,12 +3,35 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_system : thrust::device_system<my_system> {};
 
 template <typename ForwardIterator1,
           typename ForwardIterator2>
 thrust::pair<ForwardIterator1,ForwardIterator2>
-unique_by_key(my_system,
+unique_by_key(my_system &system,
+              ForwardIterator1 keys_first, 
+              ForwardIterator1,
+              ForwardIterator2 values_first)
+{
+    system.validate_dispatch();
+    return thrust::make_pair(keys_first,values_first);
+}
+
+void TestUniqueByKeyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::unique_by_key(sys, vec.begin(), vec.begin(), vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUniqueByKeyDispatchExplicit);
+
+
+template <typename ForwardIterator1,
+          typename ForwardIterator2>
+thrust::pair<ForwardIterator1,ForwardIterator2>
+unique_by_key(my_tag,
               ForwardIterator1 keys_first, 
               ForwardIterator1,
               ForwardIterator2 values_first)
@@ -17,24 +40,13 @@ unique_by_key(my_system,
     return thrust::make_pair(keys_first,values_first);
 }
 
-void TestUniqueByKeyDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::unique_by_key(sys, vec.begin(), vec.begin(), vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestUniqueByKeyDispatchExplicit);
-
 void TestUniqueByKeyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::unique_by_key(thrust::retag<my_system>(vec.begin()), 
-                          thrust::retag<my_system>(vec.begin()),
-                          thrust::retag<my_system>(vec.begin()));
+    thrust::unique_by_key(thrust::retag<my_tag>(vec.begin()), 
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -46,7 +58,40 @@ template <typename InputIterator1,
           typename OutputIterator1,
           typename OutputIterator2>
 thrust::pair<OutputIterator1,OutputIterator2>
-unique_by_key_copy(my_system,
+unique_by_key_copy(my_system &system,
+                   InputIterator1, 
+                   InputIterator1,
+                   InputIterator2,
+                   OutputIterator1 keys_output,
+                   OutputIterator2 values_output)
+{
+    system.validate_dispatch();
+    return thrust::make_pair(keys_output, values_output);
+}
+
+void TestUniqueByKeyCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::unique_by_key_copy(sys,
+                               vec.begin(),
+                               vec.begin(),
+                               vec.begin(),
+                               vec.begin(),
+                               vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUniqueByKeyCopyDispatchExplicit);
+
+
+template <typename InputIterator1,
+          typename InputIterator2,
+          typename OutputIterator1,
+          typename OutputIterator2>
+thrust::pair<OutputIterator1,OutputIterator2>
+unique_by_key_copy(my_tag,
                    InputIterator1, 
                    InputIterator1,
                    InputIterator2,
@@ -57,31 +102,15 @@ unique_by_key_copy(my_system,
     return thrust::make_pair(keys_output, values_output);
 }
 
-void TestUniqueByKeyCopyDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::unique_by_key_copy(sys,
-                               vec.begin(),
-                               vec.begin(),
-                               vec.begin(),
-                               vec.begin(),
-                               vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestUniqueByKeyCopyDispatchExplicit);
-
 void TestUniqueByKeyCopyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::unique_by_key_copy(thrust::retag<my_system>(vec.begin()),
-                               thrust::retag<my_system>(vec.begin()),
-                               thrust::retag<my_system>(vec.begin()),
-                               thrust::retag<my_system>(vec.begin()),
-                               thrust::retag<my_system>(vec.begin()));
+    thrust::unique_by_key_copy(thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

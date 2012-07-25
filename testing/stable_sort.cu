@@ -2,31 +2,37 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
-struct my_system : thrust::device_system<my_system> {};
 
 template<typename RandomAccessIterator>
-void stable_sort(my_system, RandomAccessIterator first, RandomAccessIterator)
+void stable_sort(my_system &system, RandomAccessIterator, RandomAccessIterator)
 {
-    *first = 13;
+    system.validate_dispatch();
 }
 
 void TestStableSortDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::stable_sort(sys, vec.begin(), vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestStableSortDispatchExplicit);
+
+
+template<typename RandomAccessIterator>
+void stable_sort(my_tag, RandomAccessIterator first, RandomAccessIterator)
+{
+    *first = 13;
+}
 
 void TestStableSortDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::stable_sort(thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.begin()));
+    thrust::stable_sort(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

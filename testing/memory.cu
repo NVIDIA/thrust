@@ -7,9 +7,6 @@
 #include <thrust/logical.h>
 
 
-struct my_system : thrust::device_system<my_system> {};
-
-
 template<typename T1, typename T2>
 bool are_same(const T1 &, const T2 &)
 {
@@ -28,7 +25,7 @@ void TestSelectSystemDifferentTypes()
 {
   using thrust::system::detail::generic::select_system;
 
-  my_system my_sys;
+  my_system my_sys(0);
   thrust::device_system_tag device_sys;
 
   // select_system(my_system, device_system_tag) should return device_system_tag (the minimum tag)
@@ -46,7 +43,7 @@ void TestSelectSystemSameTypes()
 {
   using thrust::system::detail::generic::select_system;
 
-  my_system my_sys;
+  my_system my_sys(0);
   thrust::device_system_tag device_sys;
   thrust::host_system_tag host_sys;
 
@@ -107,16 +104,11 @@ void TestMalloc()
 DECLARE_UNITTEST(TestMalloc);
 
 
-static bool g_correctly_dispatched;
-
-
 template<typename T>
   thrust::pair<thrust::pointer<T,my_system>, std::ptrdiff_t>
-    get_temporary_buffer(my_system sys, std::ptrdiff_t n)
+    get_temporary_buffer(my_system &system, std::ptrdiff_t n)
 {
-  // communicate that my version of get_temporary_buffer
-  // was correctly dispatched
-  g_correctly_dispatched = true;
+  sys.validate_dispatch();
 
   thrust::device_system_tag device_sys;
   thrust::pair<thrust::pointer<T, thrust::device_system_tag>, std::ptrdiff_t> result = thrust::get_temporary_buffer<T>(device_sys, n);
@@ -133,15 +125,13 @@ void TestGetTemporaryBufferDispatchImplicit()
   }
   else
   {
-    g_correctly_dispatched = false;
-
     thrust::device_vector<int> vec(9001);
 
     // call something we know will invoke get_temporary_buffer
-    my_system sys;
+    my_system sys(0);
     thrust::sort(sys, vec.begin(), vec.end());
 
-    ASSERT_EQUAL(true, g_correctly_dispatched);
+    ASSERT_EQUAL(true, sys.is_valid());
   }
 }
 DECLARE_UNITTEST(TestGetTemporaryBufferDispatchImplicit);

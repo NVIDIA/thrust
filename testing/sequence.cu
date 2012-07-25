@@ -3,31 +3,36 @@
 #include <thrust/iterator/discard_iterator.h>
 
 
-struct my_system : thrust::device_system<my_system> {};
-
 template<typename ForwardIterator>
-void sequence(my_system, ForwardIterator first, ForwardIterator)
+void sequence(my_system &system, ForwardIterator first, ForwardIterator)
 {
-    *first = 13;
+    system.validate_dispatch();
 }
 
 void TestSequenceDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::sequence(sys, vec.begin(), vec.end());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestSequenceDispatchExplicit);
+
+
+template<typename ForwardIterator>
+void sequence(my_tag, ForwardIterator first, ForwardIterator)
+{
+    *first = 13;
+}
 
 void TestSequenceDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::sequence(thrust::retag<my_system>(vec.begin()),
-                     thrust::retag<my_system>(vec.end()));
+    thrust::sequence(thrust::retag<my_tag>(vec.begin()),
+                     thrust::retag<my_tag>(vec.end()));
 
     ASSERT_EQUAL(13, vec.front());
 }

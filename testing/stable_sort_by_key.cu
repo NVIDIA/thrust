@@ -2,32 +2,38 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
-struct my_system : thrust::device_system<my_system> {};
 
 template<typename RandomAccessIterator1, typename RandomAccessIterator2>
-void stable_sort_by_key(my_system, RandomAccessIterator1 keys_first, RandomAccessIterator1, RandomAccessIterator2)
+void stable_sort_by_key(my_system &system, RandomAccessIterator1, RandomAccessIterator1, RandomAccessIterator2)
 {
-    *keys_first = 13;
+    system.validate_dispatch();
 }
 
 void TestStableSortByKeyDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::stable_sort_by_key(sys, vec.begin(), vec.begin(), vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestStableSortByKeyDispatchExplicit);
+
+
+template<typename RandomAccessIterator1, typename RandomAccessIterator2>
+void stable_sort_by_key(my_tag, RandomAccessIterator1 keys_first, RandomAccessIterator1, RandomAccessIterator2)
+{
+    *keys_first = 13;
+}
 
 void TestStableSortByKeyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::stable_sort_by_key(thrust::retag<my_system>(vec.begin()),
-                               thrust::retag<my_system>(vec.begin()),
-                               thrust::retag<my_system>(vec.begin()));
+    thrust::stable_sort_by_key(thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()),
+                               thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

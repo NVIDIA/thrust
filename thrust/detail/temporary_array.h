@@ -61,7 +61,16 @@ template<typename T, typename System>
     temporary_array(thrust::dispatchable<System> &system, size_type n);
 
     template<typename InputIterator>
-    temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last);
+    temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last,
+                    typename enable_if<
+                      is_same<System, typename thrust::iterator_system<InputIterator>::type>::value
+                    >::type * = 0);
+
+    template<typename InputIterator>
+    temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last,
+                    typename disable_if<
+                      is_same<System, typename thrust::iterator_system<InputIterator>::type>::value
+                    >::type * = 0);
 }; // end temporary_array
 
 
