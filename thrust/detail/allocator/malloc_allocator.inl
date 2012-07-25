@@ -51,15 +51,16 @@ void strip_const_free(const System &system, Pointer ptr)
 } // end malloc_allocator_detail
 
 
-template<typename T, typename Tag, typename Pointer>
-  typename malloc_allocator<T,Tag,Pointer>::pointer
-    malloc_allocator<T,Tag,Pointer>
-      ::allocate(typename malloc_allocator<T,Tag,Pointer>::size_type cnt)
+template<typename T, typename System, typename Pointer>
+  typename malloc_allocator<T,System,Pointer>::pointer
+    malloc_allocator<T,System,Pointer>
+      ::allocate(typename malloc_allocator<T,System,Pointer>::size_type cnt)
 {
   using thrust::system::detail::generic::select_system;
 
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  T *result = malloc_allocator_detail::strip_const_malloc<T>(select_system(Tag()), sizeof(typename super_t::value_type) * cnt);
+  System system;
+  T *result = malloc_allocator_detail::strip_const_malloc<T>(select_system(system), sizeof(typename super_t::value_type) * cnt);
 
   if(result == 0)
   {
@@ -70,13 +71,14 @@ template<typename T, typename Tag, typename Pointer>
 } // end malloc_allocator::allocate()
 
 
-template<typename T, typename Tag, typename Pointer>
-  void malloc_allocator<T,Tag,Pointer>
-    ::deallocate(typename malloc_allocator<T,Tag,Pointer>::pointer p, typename malloc_allocator<T,Tag,Pointer>::size_type n)
+template<typename T, typename System, typename Pointer>
+  void malloc_allocator<T,System,Pointer>
+    ::deallocate(typename malloc_allocator<T,System,Pointer>::pointer p, typename malloc_allocator<T,System,Pointer>::size_type n)
 {
   using thrust::system::detail::generic::select_system;
 
-  malloc_allocator_detail::strip_const_free(select_system(Tag()), p);
+  System system;
+  malloc_allocator_detail::strip_const_free(select_system(system), p);
 } // end malloc_allocator
 
 
