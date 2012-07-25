@@ -25,15 +25,15 @@ namespace thrust
 namespace detail
 {
 
-template<typename T, typename Tag, typename Pointer>
+template<typename T, typename System, typename Pointer>
   class malloc_allocator
     : public thrust::detail::tagged_allocator<
-               T, Tag, Pointer
+               T, System, Pointer
              >
 {
   private:
     typedef thrust::detail::tagged_allocator<
-      T, Tag, Pointer
+      T, System, Pointer
     > super_t;
 
   public:
