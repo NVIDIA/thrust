@@ -106,6 +106,46 @@ void TestMalloc()
 DECLARE_UNITTEST(TestMalloc);
 
 
+thrust::pointer<void,my_system>
+  malloc(my_system &system, std::size_t)
+{
+  system.validate_dispatch();
+
+  return thrust::pointer<void,my_system>();
+}
+
+
+void TestMallocDispatchExplicit()
+{
+  const size_t n = 0;
+
+  my_system sys(0);
+  thrust::malloc(sys, n);
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestMallocDispatchExplicit);
+
+
+template<typename Pointer>
+void free(my_system &system, Pointer)
+{
+  system.validate_dispatch();
+}
+
+
+void TestFreeDispatchExplicit()
+{
+  thrust::pointer<my_system,void> ptr;
+
+  my_system sys(0);
+  thrust::free(sys, ptr);
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestFreeDispatchExplicit);
+
+
 template<typename T>
   thrust::pair<thrust::pointer<T,my_system>, std::ptrdiff_t>
     get_temporary_buffer(my_system &system, std::ptrdiff_t n)
