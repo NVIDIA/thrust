@@ -47,7 +47,7 @@ void TestReduceDispatchExplicit()
     thrust::device_vector<int> vec;
 
     my_system sys(0);
-    int result = thrust::reduce(sys, vec.begin(), vec.end());
+    thrust::reduce(sys, vec.begin(), vec.end());
 
     ASSERT_EQUAL(true, sys.is_valid());
 }
