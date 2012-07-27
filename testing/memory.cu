@@ -160,14 +160,7 @@ void TestGetTemporaryBufferDispatchImplicit()
 
     // call something we know will invoke get_temporary_buffer
     my_system sys(0);
-
-    std::cout << "enter sort ===================" << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
     thrust::sort(sys, vec.begin(), vec.end());
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << "exit sort ===================" << std::endl;
 
     ASSERT_EQUAL(true, thrust::is_sorted(vec.begin(), vec.end()));
     ASSERT_EQUAL(true, sys.is_valid());
