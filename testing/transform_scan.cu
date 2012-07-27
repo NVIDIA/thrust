@@ -14,7 +14,7 @@ template<typename InputIterator,
 OutputIterator transform_inclusive_scan(my_system &system,
                                         InputIterator,
                                         InputIterator,
-                                        OutputIterator,
+                                        OutputIterator result,
                                         UnaryFunction,
                                         AssociativeOperator)
 {
@@ -77,7 +77,7 @@ template<typename InputIterator,
 OutputIterator transform_exclusive_scan(my_system &system,
                                         InputIterator,
                                         InputIterator,
-                                        OutputIterator,
+                                        OutputIterator result,
                                         UnaryFunction,
                                         T,
                                         AssociativeOperator)

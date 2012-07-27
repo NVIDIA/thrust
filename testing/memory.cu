@@ -1,11 +1,11 @@
 #include <iostream>
 #include <unittest/unittest.h>
+#include <thrust/memory.h>
 #include <thrust/sort.h>
 #include <thrust/memory.h>
 #include <thrust/pair.h>
 #include <thrust/fill.h>
 #include <thrust/logical.h>
-
 
 template<typename T1, typename T2>
 bool are_same(const T1 &, const T2 &)
@@ -108,12 +108,40 @@ template<typename T>
   thrust::pair<thrust::pointer<T,my_system>, std::ptrdiff_t>
     get_temporary_buffer(my_system &system, std::ptrdiff_t n)
 {
-  sys.validate_dispatch();
+  system.validate_dispatch();
 
   thrust::device_system_tag device_sys;
   thrust::pair<thrust::pointer<T, thrust::device_system_tag>, std::ptrdiff_t> result = thrust::get_temporary_buffer<T>(device_sys, n);
   return thrust::make_pair(thrust::pointer<T,my_system>(result.first.get()), result.second);
 }
+
+
+void TestGetTemporaryBufferDispatchExplicit()
+{
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION < 40300)
+  // gcc 4.2 does not do adl correctly for get_temporary_buffer
+  KNOWN_FAILURE;
+#else
+  const size_t n = 9001;
+
+  my_system sys(0);
+  typedef thrust::pointer<int, thrust::device_system_tag> pointer;
+  thrust::pair<pointer, std::ptrdiff_t> ptr_and_sz = thrust::get_temporary_buffer<int>(sys, n);
+
+  ASSERT_EQUAL(ptr_and_sz.second, n);
+  ASSERT_EQUAL(true, sys.is_valid());
+
+  const int ref_val = 13;
+  thrust::device_vector<int> ref(n, ref_val);
+
+  thrust::fill_n(ptr_and_sz.first, n, ref_val);
+
+  ASSERT_EQUAL(true, thrust::all_of(ptr_and_sz.first, ptr_and_sz.first + n, thrust::placeholders::_1 == ref_val));
+
+  thrust::return_temporary_buffer(sys, ptr_and_sz.first);
+#endif
+}
+DECLARE_UNITTEST(TestGetTemporaryBufferDispatchExplicit);
 
 
 void TestGetTemporaryBufferDispatchImplicit()
@@ -127,10 +155,21 @@ void TestGetTemporaryBufferDispatchImplicit()
   {
     thrust::device_vector<int> vec(9001);
 
+    thrust::sequence(vec.begin(), vec.end());
+    thrust::reverse(vec.begin(), vec.end());
+
     // call something we know will invoke get_temporary_buffer
     my_system sys(0);
-    thrust::sort(sys, vec.begin(), vec.end());
 
+    std::cout << "enter sort ===================" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    thrust::sort(sys, vec.begin(), vec.end());
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "exit sort ===================" << std::endl;
+
+    ASSERT_EQUAL(true, thrust::is_sorted(vec.begin(), vec.end()));
     ASSERT_EQUAL(true, sys.is_valid());
   }
 }

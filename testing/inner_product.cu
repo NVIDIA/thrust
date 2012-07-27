@@ -30,11 +30,11 @@ void TestInnerProductDispatchExplicit()
     thrust::device_vector<int> vec;
 
     my_system sys(0);
-    int result = thrust::inner_product(sys,
-                                       vec.begin(),
-                                       vec.end(),
-                                       vec.begin(),
-                                       0);
+    thrust::inner_product(sys,
+                          vec.begin(),
+                          vec.end(),
+                          vec.begin(),
+                          0);
 
     ASSERT_EQUAL(true, sys.is_valid());
 }

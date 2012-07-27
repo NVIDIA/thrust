@@ -194,7 +194,7 @@ void TestVectorUpperBoundDispatchExplicit()
                         vec.end(),
                         vec.begin());
 
-    ASSERT_EQUAL(true, sys.is_valid);
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestVectorUpperBoundDispatchExplicit);
 

@@ -6,7 +6,7 @@
 
 template <typename ForwardIterator>
 ForwardIterator unique(my_system &system,
-                       ForwardIterator,
+                       ForwardIterator first,
                        ForwardIterator)
 {
     system.validate_dispatch();

@@ -7,7 +7,7 @@ template<typename InputIterator, typename ForwardIterator>
 ForwardIterator uninitialized_copy(my_system &system,
                                    InputIterator,
                                    InputIterator,
-                                   ForwardIterator)
+                                   ForwardIterator result)
 {
     system.validate_dispatch();
     return result;
@@ -55,7 +55,7 @@ template<typename InputIterator, typename Size, typename ForwardIterator>
 ForwardIterator uninitialized_copy_n(my_system &system,
                                      InputIterator,
                                      Size,
-                                     ForwardIterator)
+                                     ForwardIterator result)
 {
     system.validate_dispatch();
     return result;

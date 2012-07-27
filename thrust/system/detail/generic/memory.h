@@ -55,13 +55,6 @@ template<typename Pointer1, typename Pointer2>
 __host__ __device__
 void iter_swap(tag, Pointer1, Pointer2);
 
-template<typename T, typename System>
-  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n);
-
-template<typename System, typename Pointer>
-  void return_temporary_buffer(thrust::dispatchable<System> &s, Pointer p);
-
 } // end generic
 } // end detail
 } // end system

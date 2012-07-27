@@ -77,7 +77,7 @@ DECLARE_VECTOR_UNITTEST(TestIsSorted);
 template<typename InputIterator>
 bool is_sorted(my_system &system, InputIterator first, InputIterator)
 {
-  sys.validate_dispatch();
+  system.validate_dispatch();
   return false;
 }
 

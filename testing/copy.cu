@@ -564,7 +564,7 @@ void TestCopyIfStencilDispatchExplicit()
                     vec.begin(),
                     0);
 
-    ASSERT_EQUAL(13, sys.is_valid());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestCopyIfStencilDispatchExplicit);
 

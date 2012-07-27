@@ -71,7 +71,7 @@ template<typename T, typename System>
   using thrust::system::detail::generic::select_system;
 
   // XXX this copy should actually be copy construct via allocator
-  temporary_array_detail::strip_const_copy(select_system(input_system, system), first, last, super_t::begin());
+  temporary_array_detail::strip_const_copy(select_system(input_system, system.derived()), first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 

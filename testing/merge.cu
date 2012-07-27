@@ -54,7 +54,7 @@ void TestMergeDispatchExplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  my_system sys;
+  my_system sys(0);
   thrust::merge(sys,
                 vec.begin(),
                 vec.begin(),

@@ -48,7 +48,7 @@ void TestTransformUnaryDispatchExplicit()
                       vec.begin(),
                       0);
 
-    ASSERT_EQUAL(true, system.is_valid());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestTransformUnaryDispatchExplicit);
 
@@ -56,7 +56,7 @@ DECLARE_UNITTEST(TestTransformUnaryDispatchExplicit);
 template<typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
-OutputIterator transform(my_tag, InputIterator, InputIterator, OutputIterator, UnaryFunction)
+OutputIterator transform(my_tag, InputIterator, InputIterator, OutputIterator result, UnaryFunction)
 {
     *result = 13;
     return result;
@@ -109,7 +109,7 @@ template<typename InputIterator,
 ForwardIterator transform_if(my_system &system,
                              InputIterator,
                              InputIterator,
-                             ForwardIterator,
+                             ForwardIterator result,
                              UnaryFunction,
                              Predicate)
 {
@@ -201,7 +201,7 @@ template<typename InputIterator1,
 ForwardIterator transform_if(my_system &system,
                              InputIterator1,
                              InputIterator1,
-                             ForwardIterator,
+                             ForwardIterator result,
                              UnaryFunction,
                              Predicate)
 {
@@ -284,7 +284,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename UnaryFunction>
-OutputIterator transform(my_system &system, InputIterator1, InputIterator1, InputIterator2, OutputIterator, UnaryFunction)
+OutputIterator transform(my_system &system, InputIterator1, InputIterator1, InputIterator2, OutputIterator result, UnaryFunction)
 {
     system.validate_dispatch();
     return result;
@@ -379,7 +379,7 @@ ForwardIterator transform_if(my_system &system,
                              InputIterator1,
                              InputIterator2,
                              InputIterator3,
-                             ForwardIterator,
+                             ForwardIterator result,
                              BinaryFunction,
                              Predicate)
 {

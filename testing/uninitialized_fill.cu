@@ -48,7 +48,7 @@ DECLARE_UNITTEST(TestUninitializedFillDispatchImplicit);
 
 template<typename ForwardIterator, typename Size, typename T>
 ForwardIterator uninitialized_fill_n(my_system &system,
-                                     ForwardIterator,
+                                     ForwardIterator first,
                                      Size,
                                      const T &)
 {
@@ -82,7 +82,7 @@ void TestUninitializedFillNDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys(0)
+    my_system sys(0);
     thrust::uninitialized_fill_n(sys,
                                  vec.begin(),
                                  vec.size(),
