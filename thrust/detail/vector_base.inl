@@ -29,7 +29,6 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cpp/detail/tag.h>
 
 #include <stdexcept>
 
@@ -1121,13 +1120,11 @@ bool vector_equal(InputIterator1 first1, InputIterator1 last1,
 {
   typename thrust::iterator_difference<InputIterator1>::type n = thrust::distance(first1,last1);
 
-  // bring both ranges to cpp
-  // note that these copies are no-ops if the range is already convertible to cpp
-  // this preserves legacy behavior of the old host/device system design,
-  // but we might want to be more flexible with the precise behavior
-  thrust::cpp::tag cpp_tag;
-  thrust::detail::move_to_system<InputIterator1, thrust::cpp::tag> rng1(cpp_tag, first1, last1);
-  thrust::detail::move_to_system<InputIterator2, thrust::cpp::tag> rng2(cpp_tag, first2, first2 + n);
+  // bring both ranges to the host system
+  // note that these copies are no-ops if the range is already convertible to the host system
+  thrust::host_system_tag host_tag;
+  thrust::detail::move_to_system<InputIterator1, thrust::host_system_tag> rng1(host_tag, first1, last1);
+  thrust::detail::move_to_system<InputIterator2, thrust::host_system_tag> rng2(host_tag, first2, first2 + n);
 
   return thrust::equal(rng1.begin(), rng1.end(), rng2.begin());
 }
