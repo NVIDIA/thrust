@@ -29,6 +29,7 @@
 namespace thrust
 {
 
+
 template <typename System, typename InputIterator, typename Distance>
 void advance(thrust::detail::dispatchable_base<System> &system, InputIterator& i, Distance n)
 {
@@ -37,8 +38,10 @@ void advance(thrust::detail::dispatchable_base<System> &system, InputIterator& i
   advance(system.derived(), i, n);
 } // end advance()
 
+
 namespace detail
 {
+
 
 template <typename System, typename InputIterator, typename Distance>
 void strip_const_advance(const System &system, InputIterator& i, Distance n)
@@ -48,7 +51,25 @@ void strip_const_advance(const System &system, InputIterator& i, Distance n)
   thrust::advance(non_const_system, i, n);
 } // end strip_const_advance()
 
+
+namespace advance_detail
+{
+
+
+// This helper exists purely to avoid warnings concerning null references
+// from the null pointer used in advance's dispatch below
+template<typename System>
+inline __host__ __device__
+System &deref(System *ptr)
+{
+  return *ptr;
+} // end deref()
+
+} // end advance_detail
+
+
 } // end detail
+
 
 template <typename InputIterator, typename Distance>
 void advance(InputIterator& i, Distance n)
@@ -57,10 +78,16 @@ void advance(InputIterator& i, Distance n)
 
   typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  System system;
+  // XXX avoid default-constructing a System
+  // XXX we justify this hack for advance's dispatch (though, not the dispatch
+  // XXX of other algorithms) because advance is more similar to the pointer
+  // XXX manipulation functions dispatched by thrust::reference
+  // XXX than it is to the algorithms
+  System *system = 0;
 
-  thrust::detail::strip_const_advance(select_system(system), i, n);
+  thrust::detail::strip_const_advance(select_system(detail::advance_detail::deref(system)), i, n);
 } // end advance()
+
 
 } // end namespace thrust
 

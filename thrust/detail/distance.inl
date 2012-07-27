@@ -51,6 +51,23 @@ template<typename System, typename InputIterator>
 } // end distance()
 
 
+namespace distance_detail
+{
+
+
+// This helper exists purely to avoid warnings concerning null references
+// from the null pointer used in distance's dispatch below
+template<typename System>
+inline __host__ __device__
+System &deref(System *ptr)
+{
+  return *ptr;
+} // end deref()
+
+
+} // end distance_detail
+
+
 } // end detail
 
 
@@ -62,9 +79,14 @@ template<typename InputIterator>
 
   typedef typename thrust::iterator_system<InputIterator>::type System;
 
-  System system;
+  // XXX avoid default-constructing a System
+  // XXX we justify this hack for distance's dispatch (though, not the dispatch
+  // XXX of other algorithms) because distance is more similar to the pointer
+  // XXX manipulation functions dispatched by thrust::reference
+  // XXX than it is to the algorithms
+  System *system = 0;
 
-  return thrust::detail::strip_const_distance(select_system(system), first, last);
+  return thrust::detail::strip_const_distance(select_system(detail::distance_detail::deref(system)), first, last);
 } // end distance()
 
 
