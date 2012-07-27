@@ -6,6 +6,8 @@
 #include <thrust/pair.h>
 #include <thrust/fill.h>
 #include <thrust/logical.h>
+#include <thrust/sequence.h>
+#include <thrust/reverse.h>
 
 template<typename T1, typename T2>
 bool are_same(const T1 &, const T2 &)

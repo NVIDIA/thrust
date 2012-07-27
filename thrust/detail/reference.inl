@@ -96,7 +96,10 @@ template<typename Element, typename Pointer, typename Derived>
 
   typedef typename thrust::iterator_system<pointer>::type System;
 
-  System system;
+  // XXX avoid default-constructing a system
+  // XXX use null a reference for dispatching
+  // XXX this assumes that get_value will not access system state
+  System &system = *static_cast<System*>(0);
 
   return strip_const_get_value(select_system(system));
 } // end reference::operator value_type ()
@@ -126,8 +129,11 @@ template<typename Element, typename Pointer, typename Derived>
   typedef typename thrust::iterator_system<pointer>::type      System1;
   typedef typename thrust::iterator_system<OtherPointer>::type System2;
 
-  System1 system1;
-  System2 system2;
+  // XXX avoid default-constructing a system
+  // XXX use null references for dispatching
+  // XXX this assumes that assign_value will not access system state
+  System1 &system1 = *static_cast<System1*>(0);
+  System2 &system2 = *static_cast<System2*>(0);
 
   strip_const_assign_value(select_system(system1, system2), src);
 } // end assign_from()
@@ -155,9 +161,12 @@ template<typename Element, typename Pointer, typename Derived>
 
   typedef typename thrust::iterator_system<pointer>::type System;
 
-  System system1, system2;
+  // XXX avoid default-constructing a system
+  // XXX use null references for dispatching
+  // XXX this assumes that iter_swap will not access system state
+  System &system = *static_cast<System*>(0);
 
-  iter_swap(select_system(system1, system2), m_ptr, other.m_ptr);
+  iter_swap(select_system(system, system), m_ptr, other.m_ptr);
 } // end reference::swap()
 
 
