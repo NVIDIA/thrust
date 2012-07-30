@@ -105,7 +105,8 @@ template<typename Closure>
     // use temporary storage for the closure
     // XXX use of cuda::tag is too specific here
     thrust::cuda::tag cuda_tag;
-    thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, &f, &f + 1);
+    thrust::host_system_tag host_tag;
+    thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
 
     // launch
     detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());

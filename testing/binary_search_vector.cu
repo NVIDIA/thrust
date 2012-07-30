@@ -5,8 +5,6 @@
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
 
-// for testing dispatch
-struct my_system : thrust::device_system<my_system> {};
 
 //////////////////////
 // Vector Functions //
@@ -78,9 +76,9 @@ DECLARE_VECTOR_UNITTEST(TestVectorLowerBoundSimple);
 
 
 template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator lower_bound(my_system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+OutputIterator lower_bound(my_system &system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
 {
-    *output = 13;
+    system.validate_dispatch();
     return output;
 }
 
@@ -88,7 +86,7 @@ void TestVectorLowerBoundDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::lower_bound(sys,
                         vec.begin(),
                         vec.end(),
@@ -96,19 +94,27 @@ void TestVectorLowerBoundDispatchExplicit()
                         vec.end(),
                         vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestVectorLowerBoundDispatchExplicit);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    *output = 13;
+    return output;
+}
 
 void TestVectorLowerBoundDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::lower_bound(thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.end()),
-                        thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.end()),
-                        thrust::retag<my_system>(vec.begin()));
+    thrust::lower_bound(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -170,9 +176,9 @@ DECLARE_VECTOR_UNITTEST(TestVectorUpperBoundSimple);
 
 
 template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator upper_bound(my_system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+OutputIterator upper_bound(my_system &system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
 {
-    *output = 13;
+    system.validate_dispatch();
     return output;
 }
 
@@ -180,7 +186,7 @@ void TestVectorUpperBoundDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::upper_bound(sys,
                         vec.begin(),
                         vec.end(),
@@ -188,19 +194,27 @@ void TestVectorUpperBoundDispatchExplicit()
                         vec.end(),
                         vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestVectorUpperBoundDispatchExplicit);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    *output = 13;
+    return output;
+}
 
 void TestVectorUpperBoundDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::upper_bound(thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.end()),
-                        thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.end()),
-                        thrust::retag<my_system>(vec.begin()));
+    thrust::upper_bound(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.end()),
+                        thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -264,9 +278,9 @@ DECLARE_VECTOR_UNITTEST(TestVectorBinarySearchSimple);
 
 
 template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator binary_search(my_system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+OutputIterator binary_search(my_system &system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
 {
-    *output = 13;
+    system.validate_dispatch();
     return output;
 }
 
@@ -274,7 +288,7 @@ void TestVectorBinarySearchDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::binary_search(sys,
                           vec.begin(),
                           vec.end(),
@@ -282,19 +296,27 @@ void TestVectorBinarySearchDispatchExplicit()
                           vec.end(),
                           vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestVectorBinarySearchDispatchExplicit);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    *output = 13;
+    return output;
+}
 
 void TestVectorBinarySearchDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::binary_search(thrust::retag<my_system>(vec.begin()),
-                          thrust::retag<my_system>(vec.end()),
-                          thrust::retag<my_system>(vec.begin()),
-                          thrust::retag<my_system>(vec.end()),
-                          thrust::retag<my_system>(vec.begin()));
+    thrust::binary_search(thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.end()),
+                          thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.end()),
+                          thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

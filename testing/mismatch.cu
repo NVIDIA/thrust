@@ -27,10 +27,34 @@ void TestMismatchSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestMismatchSimple);
 
-struct my_system : thrust::device_system<my_system> {};
 
 template <typename InputIterator1, typename InputIterator2>
-thrust::pair<InputIterator1, InputIterator2> mismatch(my_system,
+thrust::pair<InputIterator1, InputIterator2> mismatch(my_system &system,
+                                                      InputIterator1 first,
+                                                      InputIterator1,
+                                                      InputIterator2)
+{
+    system.validate_dispatch();
+    return thrust::make_pair(first,first);
+}
+
+void TestMismatchDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::mismatch(sys,
+                     vec.begin(),
+                     vec.begin(),
+                     vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestMismatchDispatchExplicit);
+
+
+template <typename InputIterator1, typename InputIterator2>
+thrust::pair<InputIterator1, InputIterator2> mismatch(my_tag,
                                                       InputIterator1 first,
                                                       InputIterator1,
                                                       InputIterator2)
@@ -39,27 +63,13 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(my_system,
     return thrust::make_pair(first,first);
 }
 
-void TestMismatchDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::mismatch(sys,
-                     vec.begin(),
-                     vec.begin(),
-                     vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestMismatchDispatchExplicit);
-
 void TestMismatchDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::mismatch(thrust::retag<my_system>(vec.begin()),
-                     thrust::retag<my_system>(vec.begin()),
-                     thrust::retag<my_system>(vec.begin()));
+    thrust::mismatch(thrust::retag<my_tag>(vec.begin()),
+                     thrust::retag<my_tag>(vec.begin()),
+                     thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

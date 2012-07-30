@@ -17,11 +17,11 @@ void TestInnerProductSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestInnerProductSimple);
 
-struct my_system : thrust::device_system<my_system> {};
 
 template <typename InputIterator1, typename InputIterator2, typename OutputType>
-int inner_product(my_system, InputIterator1, InputIterator1, InputIterator2, OutputType)
+int inner_product(my_system &system, InputIterator1, InputIterator1, InputIterator2, OutputType)
 {
+    system.validate_dispatch();
     return 13;
 }
 
@@ -29,24 +29,31 @@ void TestInnerProductDispatchExplicit()
 {
     thrust::device_vector<int> vec;
 
-    my_system sys;
-    int result = thrust::inner_product(sys,
-                                       vec.begin(),
-                                       vec.end(),
-                                       vec.begin(),
-                                       0);
+    my_system sys(0);
+    thrust::inner_product(sys,
+                          vec.begin(),
+                          vec.end(),
+                          vec.begin(),
+                          0);
 
-    ASSERT_EQUAL(13, result);
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestInnerProductDispatchExplicit);
+
+
+template <typename InputIterator1, typename InputIterator2, typename OutputType>
+int inner_product(my_tag, InputIterator1, InputIterator1, InputIterator2, OutputType)
+{
+    return 13;
+}
 
 void TestInnerProductDispatchImplicit()
 {
     thrust::device_vector<int> vec;
 
-    int result = thrust::inner_product(thrust::retag<my_system>(vec.begin()),
-                                       thrust::retag<my_system>(vec.end()),
-                                       thrust::retag<my_system>(vec.begin()),
+    int result = thrust::inner_product(thrust::retag<my_tag>(vec.begin()),
+                                       thrust::retag<my_tag>(vec.end()),
+                                       thrust::retag<my_tag>(vec.begin()),
                                        0);
 
     ASSERT_EQUAL(13, result);

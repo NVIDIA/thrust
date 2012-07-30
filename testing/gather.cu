@@ -34,12 +34,10 @@ void TestGatherSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGatherSimple);
 
 
-struct my_system : thrust::device_system<my_system> {};
-
 template<typename InputIterator, typename RandomAccessIterator, typename OutputIterator>
-OutputIterator gather(my_system, InputIterator, InputIterator, RandomAccessIterator, OutputIterator result)
+OutputIterator gather(my_system &system, InputIterator, InputIterator, RandomAccessIterator, OutputIterator result)
 {
-    *result = 13;
+    system.validate_dispatch();
     return result;
 }
 
@@ -47,25 +45,33 @@ void TestGatherDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::gather(sys,
                    vec.begin(),
                    vec.end(),
                    vec.begin(),
                    vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestGatherDispatchExplicit);
+
+
+template<typename InputIterator, typename RandomAccessIterator, typename OutputIterator>
+OutputIterator gather(my_tag, InputIterator, InputIterator, RandomAccessIterator, OutputIterator result)
+{
+    *result = 13;
+    return result;
+}
 
 void TestGatherDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::gather(thrust::retag<my_system>(vec.begin()),
-                   thrust::retag<my_system>(vec.end()),
-                   thrust::retag<my_system>(vec.begin()),
-                   thrust::retag<my_system>(vec.begin()));
+    thrust::gather(thrust::retag<my_tag>(vec.begin()),
+                   thrust::retag<my_tag>(vec.end()),
+                   thrust::retag<my_tag>(vec.begin()),
+                   thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -171,7 +177,39 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-OutputIterator gather_if(my_system,
+OutputIterator gather_if(my_system &system,
+                         InputIterator1       map_first,
+                         InputIterator1       map_last,
+                         InputIterator2       stencil,
+                         RandomAccessIterator input_first,
+                         OutputIterator       result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestGatherIfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::gather_if(sys,
+                      vec.begin(),
+                      vec.end(),
+                      vec.begin(),
+                      vec.begin(),
+                      vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestGatherIfDispatchExplicit);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator>
+OutputIterator gather_if(my_tag,
                          InputIterator1       map_first,
                          InputIterator1       map_last,
                          InputIterator2       stencil,
@@ -182,31 +220,15 @@ OutputIterator gather_if(my_system,
     return result;
 }
 
-void TestGatherIfDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::gather_if(sys,
-                      vec.begin(),
-                      vec.end(),
-                      vec.begin(),
-                      vec.begin(),
-                      vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestGatherIfDispatchExplicit);
-
 void TestGatherIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::gather_if(thrust::retag<my_system>(vec.begin()),
-                      thrust::retag<my_system>(vec.end()),
-                      thrust::retag<my_system>(vec.begin()),
-                      thrust::retag<my_system>(vec.begin()),
-                      thrust::retag<my_system>(vec.begin()));
+    thrust::gather_if(thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.end()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()),
+                      thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

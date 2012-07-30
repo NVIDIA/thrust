@@ -3,7 +3,6 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_system : thrust::device_system<my_system> {};
 
 template<typename T>
   struct max_functor
@@ -92,7 +91,33 @@ DECLARE_VECTOR_UNITTEST(TestScanSimple);
 
 template<typename InputIterator,
          typename OutputIterator>
-OutputIterator inclusive_scan(my_system,
+OutputIterator inclusive_scan(my_system &system,
+                              InputIterator,
+                              InputIterator,
+                              OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestInclusiveScanDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::inclusive_scan(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestInclusiveScanDispatchExplicit);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator inclusive_scan(my_tag,
                               InputIterator,
                               InputIterator,
                               OutputIterator result)
@@ -101,27 +126,13 @@ OutputIterator inclusive_scan(my_system,
     return result;
 }
 
-void TestInclusiveScanDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::inclusive_scan(sys,
-                           vec.begin(),
-                           vec.begin(),
-                           vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestInclusiveScanDispatchExplicit);
-
 void TestInclusiveScanDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::inclusive_scan(thrust::retag<my_system>(vec.begin()),
-                           thrust::retag<my_system>(vec.begin()),
-                           thrust::retag<my_system>(vec.begin()));
+    thrust::inclusive_scan(thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -130,7 +141,33 @@ DECLARE_UNITTEST(TestInclusiveScanDispatchImplicit);
 
 template<typename InputIterator,
          typename OutputIterator>
-OutputIterator exclusive_scan(my_system,
+OutputIterator exclusive_scan(my_system &system,
+                              InputIterator,
+                              InputIterator,
+                              OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestExclusiveScanDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::exclusive_scan(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestExclusiveScanDispatchExplicit);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator exclusive_scan(my_tag,
                               InputIterator,
                               InputIterator,
                               OutputIterator result)
@@ -139,27 +176,13 @@ OutputIterator exclusive_scan(my_system,
     return result;
 }
 
-void TestExclusiveScanDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::exclusive_scan(sys,
-                           vec.begin(),
-                           vec.begin(),
-                           vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestExclusiveScanDispatchExplicit);
-
 void TestExclusiveScanDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::exclusive_scan(thrust::retag<my_system>(vec.begin()),
-                           thrust::retag<my_system>(vec.begin()),
-                           thrust::retag<my_system>(vec.begin()));
+    thrust::exclusive_scan(thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

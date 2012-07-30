@@ -61,7 +61,15 @@ template<typename T, typename System>
     temporary_array(thrust::dispatchable<System> &system, size_type n);
 
     template<typename InputIterator>
-    temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last);
+    temporary_array(thrust::dispatchable<System> &system,
+                    InputIterator first,
+                    InputIterator last);
+
+    template<typename InputSystem, typename InputIterator>
+    temporary_array(thrust::dispatchable<System> &system,
+                    thrust::dispatchable<InputSystem> &input_system,
+                    InputIterator first,
+                    InputIterator last);
 }; // end temporary_array
 
 
@@ -72,8 +80,8 @@ template<typename Iterator, typename System>
   public:
     typedef thrust::detail::tagged_iterator<Iterator,System> iterator;
 
-    template<typename Ignored>
-    tagged_iterator_range(const Ignored &, Iterator first, Iterator last)
+    template<typename Ignored1, typename Ignored2>
+    tagged_iterator_range(const Ignored1 &, const Ignored2 &, Iterator first, Iterator last)
       : m_begin(reinterpret_tag<System>(first)),
         m_end(reinterpret_tag<System>(last))
     {}
@@ -118,9 +126,13 @@ template<typename Iterator, typename System>
 {
   typedef typename move_to_system_base<Iterator,System>::type super_t;
 
+  typename thrust::iterator_system<Iterator>::type input_system;
+
   public:
-    move_to_system(thrust::dispatchable<System> &system, Iterator first, Iterator last)
-      : super_t(system, first, last) {}
+    move_to_system(thrust::dispatchable<System> &system,
+                   Iterator first,
+                   Iterator last)
+      : super_t(system, input_system, first, last) {}
 };
 
 } // end detail
