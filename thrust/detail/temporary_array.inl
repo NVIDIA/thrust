@@ -54,15 +54,27 @@ Iterator2 strip_const_copy(const System &system, Iterator1 first, Iterator1 last
 template<typename T, typename System>
   template<typename InputIterator>
     temporary_array<T,System>
-      ::temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last,
-                        typename disable_if<
-                          is_same<System, typename thrust::iterator_system<InputIterator>::type>::value
-                        >::type *)
+      ::temporary_array(thrust::dispatchable<System> &system,
+                        InputIterator first,
+                        InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  typedef typename thrust::iterator_system<InputIterator>::type InputSystem;
-  InputSystem input_system;
+  super_t::allocate(thrust::distance(system,first,last));
 
+  // XXX this copy should actually be copy construct via allocator
+  thrust::copy(system, first, last, super_t::begin());
+} // end temporary_array::temporary_array()
+
+
+template<typename T, typename System>
+  template<typename InputSystem, typename InputIterator>
+    temporary_array<T,System>
+      ::temporary_array(thrust::dispatchable<System> &system,
+                        thrust::dispatchable<InputSystem> &input_system,
+                        InputIterator first,
+                        InputIterator last)
+        : super_t(alloc_type(temporary_allocator<T,System>(system)))
+{
   super_t::allocate(thrust::distance(input_system,first,last));
 
   // since this copy is cross-system,
@@ -71,22 +83,7 @@ template<typename T, typename System>
   using thrust::system::detail::generic::select_system;
 
   // XXX this copy should actually be copy construct via allocator
-  temporary_array_detail::strip_const_copy(select_system(input_system, system.derived()), first, last, super_t::begin());
-} // end temporary_array::temporary_array()
-
-
-template<typename T, typename System>
-  template<typename InputIterator>
-    temporary_array<T,System>
-      ::temporary_array(thrust::dispatchable<System> &system, InputIterator first, InputIterator last,
-                        typename enable_if<
-                          is_same<System, typename thrust::iterator_system<InputIterator>::type>::value
-                        >::type *)
-        : super_t(alloc_type(temporary_allocator<T,System>(system)))
-{
-  super_t::allocate(thrust::distance(system,first,last));
-
-  thrust::copy(system, first, last, super_t::begin());
+  temporary_array_detail::strip_const_copy(select_system(input_system.derived(), system.derived()), first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
