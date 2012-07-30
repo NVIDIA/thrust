@@ -75,25 +75,6 @@ void iter_swap(tag, Pointer1, Pointer2)
 }
 
 
-template<typename T, typename System>
-  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n)
-{
-  thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
-
-  typedef thrust::pointer<T,System> pointer;
-
-  return thrust::make_pair(pointer(static_cast<T*>(void_ptr.get())), n);
-} // end get_temporary_buffer()
-
-
-template<typename System, typename Pointer>
-  void return_temporary_buffer(thrust::dispatchable<System> &s, Pointer p)
-{
-  thrust::free(s, p);
-} // end return_temporary_buffer()
-
-
 } // end generic
 } // end detail
 } // end system

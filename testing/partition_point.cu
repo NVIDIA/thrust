@@ -50,10 +50,34 @@ void TestPartitionPoint(void)
 }
 DECLARE_VECTOR_UNITTEST(TestPartitionPoint);
 
-struct my_system : thrust::device_system<my_system> {};
 
 template<typename ForwardIterator, typename Predicate>
-ForwardIterator partition_point(my_system, 
+ForwardIterator partition_point(my_system &system, 
+                                ForwardIterator first,
+                                ForwardIterator last,
+                                Predicate pred)
+{
+  system.validate_dispatch();
+  return first;
+}
+
+void TestPartitionPointDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::partition_point(sys,
+                          vec.begin(),
+                          vec.begin(),
+                          0);
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestPartitionPointDispatchExplicit);
+
+
+template<typename ForwardIterator, typename Predicate>
+ForwardIterator partition_point(my_tag,
                                 ForwardIterator first,
                                 ForwardIterator last,
                                 Predicate pred)
@@ -62,26 +86,12 @@ ForwardIterator partition_point(my_system,
   return first;
 }
 
-void TestPartitionPointDispatchExplicit()
-{
-  thrust::device_vector<int> vec(1);
-
-  my_system sys;
-  thrust::partition_point(sys,
-                          vec.begin(),
-                          vec.begin(),
-                          0);
-
-  ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestPartitionPointDispatchExplicit);
-
 void TestPartitionPointDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  thrust::partition_point(thrust::retag<my_system>(vec.begin()),
-                          thrust::retag<my_system>(vec.begin()),
+  thrust::partition_point(thrust::retag<my_tag>(vec.begin()),
+                          thrust::retag<my_tag>(vec.begin()),
                           0);
 
   ASSERT_EQUAL(13, vec.front());

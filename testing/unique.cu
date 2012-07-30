@@ -3,14 +3,13 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_system : thrust::device_system<my_system> {};
 
 template <typename ForwardIterator>
-ForwardIterator unique(my_system,
+ForwardIterator unique(my_system &system,
                        ForwardIterator first,
                        ForwardIterator)
 {
-    *first = 13;
+    system.validate_dispatch();
     return first;
 }
 
@@ -18,19 +17,30 @@ void TestUniqueDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::unique(sys, vec.begin(), vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestUniqueDispatchExplicit);
+
+
+template <typename ForwardIterator>
+ForwardIterator unique(my_tag,
+                       ForwardIterator first,
+                       ForwardIterator)
+{
+    *first = 13;
+    return first;
+}
+
 
 void TestUniqueDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::unique(thrust::retag<my_system>(vec.begin()),
-                   thrust::retag<my_system>(vec.begin()));
+    thrust::unique(thrust::retag<my_tag>(vec.begin()),
+                   thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
@@ -39,7 +49,30 @@ DECLARE_UNITTEST(TestUniqueDispatchImplicit);
 
 template <typename InputIterator,
           typename OutputIterator>
-OutputIterator unique_copy(my_system,
+OutputIterator unique_copy(my_system &system,
+                           InputIterator,
+                           InputIterator,
+                           OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestUniqueCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::unique_copy(sys, vec.begin(), vec.begin(), vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUniqueCopyDispatchExplicit);
+
+
+template <typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(my_tag,
                            InputIterator,
                            InputIterator,
                            OutputIterator result)
@@ -48,24 +81,13 @@ OutputIterator unique_copy(my_system,
     return result;
 }
 
-void TestUniqueCopyDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    my_system sys;
-    thrust::unique_copy(sys, vec.begin(), vec.begin(), vec.begin());
-
-    ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestUniqueCopyDispatchExplicit);
-
 void TestUniqueCopyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::unique_copy(thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.begin()),
-                        thrust::retag<my_system>(vec.begin()));
+    thrust::unique_copy(thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()),
+                        thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }

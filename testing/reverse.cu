@@ -2,8 +2,6 @@
 #include <thrust/reverse.h>
 #include <thrust/iterator/discard_iterator.h>
 
-// for testing dispatch
-struct my_system : thrust::device_system<my_system> {};
 
 typedef unittest::type_list<char,short,int> ReverseTypes;
 
@@ -32,30 +30,39 @@ DECLARE_VECTOR_UNITTEST(TestReverseSimple);
 
 
 template<typename BidirectionalIterator>
-void reverse(my_system,
+void reverse(my_system &system,
              BidirectionalIterator first,
              BidirectionalIterator last)
 {
-  *first = 13;
+  system.validate_dispatch();
 }
 
 void TestReverseDispatchExplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  my_system sys;
+  my_system sys(0);
   thrust::reverse(sys, vec.begin(), vec.begin());
 
-  ASSERT_EQUAL(13, vec.front());
+  ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestReverseDispatchExplicit);
+
+
+template<typename BidirectionalIterator>
+void reverse(my_tag,
+             BidirectionalIterator first,
+             BidirectionalIterator last)
+{
+  *first = 13;
+}
 
 void TestReverseDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  thrust::reverse(thrust::retag<my_system>(vec.begin()),
-                  thrust::retag<my_system>(vec.begin()));
+  thrust::reverse(thrust::retag<my_tag>(vec.begin()),
+                  thrust::retag<my_tag>(vec.begin()));
 
   ASSERT_EQUAL(13, vec.front());
 }
@@ -92,7 +99,29 @@ DECLARE_VECTOR_UNITTEST(TestReverseCopySimple);
 
 
 template<typename BidirectionalIterator, typename OutputIterator>
-OutputIterator reverse_copy(my_system,
+OutputIterator reverse_copy(my_system &system,
+                            BidirectionalIterator,
+                            BidirectionalIterator,
+                            OutputIterator result)
+{
+  system.validate_dispatch();
+  return result;
+}
+
+void TestReverseCopyDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::reverse_copy(sys, vec.begin(), vec.end(), vec.begin());
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestReverseCopyDispatchExplicit);
+
+
+template<typename BidirectionalIterator, typename OutputIterator>
+OutputIterator reverse_copy(my_tag,
                             BidirectionalIterator,
                             BidirectionalIterator,
                             OutputIterator result)
@@ -101,24 +130,13 @@ OutputIterator reverse_copy(my_system,
   return result;
 }
 
-void TestReverseCopyDispatchExplicit()
-{
-  thrust::device_vector<int> vec(1);
-
-  my_system sys;
-  thrust::reverse_copy(sys, vec.begin(), vec.end(), vec.begin());
-
-  ASSERT_EQUAL(13, vec.front());
-}
-DECLARE_UNITTEST(TestReverseCopyDispatchExplicit);
-
 void TestReverseCopyDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
-  thrust::reverse_copy(thrust::retag<my_system>(vec.begin()),
-                       thrust::retag<my_system>(vec.end()),
-                       thrust::retag<my_system>(vec.begin()));
+  thrust::reverse_copy(thrust::retag<my_tag>(vec.begin()),
+                       thrust::retag<my_tag>(vec.end()),
+                       thrust::retag<my_tag>(vec.begin()));
 
   ASSERT_EQUAL(13, vec.front());
 }

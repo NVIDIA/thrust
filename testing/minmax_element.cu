@@ -50,12 +50,11 @@ void TestMinMaxElement(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestMinMaxElement);
 
-struct my_system : thrust::device_system<my_system> {};
 
 template<typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(my_system, ForwardIterator first, ForwardIterator)
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(my_system &system, ForwardIterator first, ForwardIterator)
 {
-    *first = 13;
+    system.validate_dispatch();
     return thrust::make_pair(first,first);
 }
 
@@ -63,20 +62,27 @@ void TestMinMaxElementDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::minmax_element(sys, vec.begin(), vec.end());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestMinMaxElementDispatchExplicit);
 
+
+template<typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(my_tag, ForwardIterator first, ForwardIterator)
+{
+    *first = 13;
+    return thrust::make_pair(first,first);
+}
 
 void TestMinMaxElementDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::minmax_element(thrust::retag<my_system>(vec.begin()),
-                           thrust::retag<my_system>(vec.end()));
+    thrust::minmax_element(thrust::retag<my_tag>(vec.begin()),
+                           thrust::retag<my_tag>(vec.end()));
 
     ASSERT_EQUAL(13, vec.front());
 }

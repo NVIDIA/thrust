@@ -21,7 +21,8 @@
 #include <thrust/pair.h>
 #include <thrust/detail/pointer.h>
 #include <thrust/detail/raw_pointer_cast.h>
-#include <thrust/system/detail/generic/memory.h>
+#include <thrust/system/detail/generic/temporary_buffer.h>
+#include <thrust/system/detail/adl/temporary_buffer.h>
 
 namespace thrust
 {

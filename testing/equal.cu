@@ -61,12 +61,10 @@ void TestEqual(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestEqual);
 
-struct my_system : thrust::device_system<my_system> {};
-
 template<typename InputIterator1, typename InputIterator2>
-bool equal(my_system, InputIterator1 first, InputIterator1, InputIterator2)
+bool equal(my_system &system, InputIterator1 first, InputIterator1, InputIterator2)
 {
-    *first = 13; 
+    system.validate_dispatch();
     return false;
 }
 
@@ -74,23 +72,31 @@ void TestEqualDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    my_system sys;
+    my_system sys(0);
     thrust::equal(sys,
                   vec.begin(),
                   vec.end(),
                   vec.begin());
 
-    ASSERT_EQUAL(13, vec.front());
+    ASSERT_EQUAL(true, sys.is_valid());
 }
 DECLARE_UNITTEST(TestEqualDispatchExplicit);
+
+
+template<typename InputIterator1, typename InputIterator2>
+bool equal(my_tag, InputIterator1 first, InputIterator1, InputIterator2)
+{
+    *first = 13;
+    return false;
+}
 
 void TestEqualDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
-    thrust::equal(thrust::retag<my_system>(vec.begin()),
-                  thrust::retag<my_system>(vec.end()),
-                  thrust::retag<my_system>(vec.begin()));
+    thrust::equal(thrust::retag<my_tag>(vec.begin()),
+                  thrust::retag<my_tag>(vec.end()),
+                  thrust::retag<my_tag>(vec.begin()));
 
     ASSERT_EQUAL(13, vec.front());
 }
