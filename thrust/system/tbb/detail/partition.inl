@@ -17,8 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
-#include <thrust/pair.h>
+#include <thrust/system/tbb/detail/partition.h>
+#include <thrust/system/detail/generic/partition.h>
 
 namespace thrust
 {
@@ -36,7 +36,12 @@ template<typename System,
   ForwardIterator partition(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
-                            Predicate pred);
+                            Predicate pred)
+{
+  // tbb prefers generic::partition to cpp::partition
+  return thrust::system::detail::generic::partition(system, first, last, pred);
+} // end partition()
+
 
 template<typename System,
          typename ForwardIterator,
@@ -44,7 +49,12 @@ template<typename System,
   ForwardIterator stable_partition(dispatchable<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
-                                   Predicate pred);
+                                   Predicate pred)
+{
+  // tbb prefers generic::stable_partition to cpp::stable_partition
+  return thrust::system::detail::generic::stable_partition(system, first, last, pred);
+} // end stable_partition()
+
 
 template<typename System,
          typename InputIterator,
@@ -57,13 +67,15 @@ template<typename System,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
-                          Predicate pred);
+                          Predicate pred)
+{
+  // tbb prefers generic::stable_partition_copy to cpp::stable_partition_copy
+  return thrust::system::detail::generic::stable_partition_copy(system, first, last, out_true, out_false, pred);
+} // end stable_partition_copy()
 
 
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/tbb/detail/partition.inl>
 

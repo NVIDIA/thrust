@@ -17,7 +17,30 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/generic/find.h>
+#include <thrust/system/tbb/detail/tag.h>
 
-// this system inherits find
-#include <thrust/system/cpp/detail/find.h>
+namespace thrust
+{
+namespace system
+{
+namespace tbb
+{
+namespace detail
+{
+
+template <typename System, typename InputIterator, typename Predicate>
+InputIterator find_if(dispatchable<System> &system,
+                      InputIterator first,
+                      InputIterator last,
+                      Predicate pred)
+{
+  // tbb prefers generic::find_if to cpp::find_if
+  return thrust::system::detail::generic::find_if(system, first, last, pred);
+}
+
+} // end namespace detail
+} // end namespace tbb
+} // end namespace system
+} // end namespace thrust
 
