@@ -298,14 +298,12 @@ void TestForEachWithLargeTypes(void)
     _TestForEachWithLargeTypes<int,    8>();
     _TestForEachWithLargeTypes<int,   16>();
 
-    KNOWN_FAILURE;
-
-    //_TestForEachWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
-    //_TestForEachWithLargeTypes<int,   64>();
-    //_TestForEachWithLargeTypes<int,  128>();
-    //_TestForEachWithLargeTypes<int,  256>();
-    //_TestForEachWithLargeTypes<int,  512>();
-    //_TestForEachWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
+    _TestForEachWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
+    _TestForEachWithLargeTypes<int,   64>();
+    _TestForEachWithLargeTypes<int,  128>();
+    _TestForEachWithLargeTypes<int,  256>();
+    _TestForEachWithLargeTypes<int,  512>();
+    _TestForEachWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
 }
 DECLARE_UNITTEST(TestForEachWithLargeTypes);
 
@@ -339,14 +337,12 @@ void TestForEachNWithLargeTypes(void)
     _TestForEachNWithLargeTypes<int,    8>();
     _TestForEachNWithLargeTypes<int,   16>();
 
-    KNOWN_FAILURE;
-
-    //_TestForEachNWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
-    //_TestForEachNWithLargeTypes<int,   64>();
-    //_TestForEachNWithLargeTypes<int,  128>();
-    //_TestForEachNWithLargeTypes<int,  256>();
-    //_TestForEachNWithLargeTypes<int,  512>();
-    //_TestForEachNWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
+    _TestForEachNWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
+    _TestForEachNWithLargeTypes<int,   64>();
+    _TestForEachNWithLargeTypes<int,  128>();
+    _TestForEachNWithLargeTypes<int,  256>();
+    _TestForEachNWithLargeTypes<int,  512>();
+    _TestForEachNWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
 }
 DECLARE_UNITTEST(TestForEachNWithLargeTypes);
 
