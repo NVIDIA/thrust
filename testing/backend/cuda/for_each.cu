@@ -18,16 +18,10 @@ struct CopyFunctorWithManyRegisters
 
 void TestForEachLargeRegisterFootprint()
 {
-  // XXX this test fails with "too many resources requested for launch" on sm_1x GPUs with CUDA 4.2
   int current_device = -1;
   cudaGetDevice(&current_device);
   cudaDeviceProp prop;
   cudaGetDeviceProperties(&prop, current_device);
-
-  if(prop.major < 2)
-  {
-    KNOWN_FAILURE;
-  }
 
   thrust::device_vector<int> data(NUM_REGISTERS, 12345);
 
@@ -40,16 +34,10 @@ DECLARE_UNITTEST(TestForEachLargeRegisterFootprint);
 
 void TestForEachNLargeRegisterFootprint()
 {
-  // XXX this test fails with "too many resources requested for launch" on sm_1x GPUs with CUDA 4.2
   int current_device = -1;
   cudaGetDevice(&current_device);
   cudaDeviceProp prop;
   cudaGetDeviceProperties(&prop, current_device);
-
-  if(prop.major < 2)
-  {
-    KNOWN_FAILURE;
-  }
 
   thrust::device_vector<int> data(NUM_REGISTERS, 12345);
 
