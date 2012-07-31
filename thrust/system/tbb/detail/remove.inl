@@ -17,13 +17,14 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/tbb/detail/remove.h>
+#include <thrust/system/detail/generic/remove.h>
 
 namespace thrust
 {
 namespace system
 {
-namespace omp
+namespace tbb
 {
 namespace detail
 {
@@ -34,7 +35,11 @@ template<typename System,
   ForwardIterator remove_if(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
-                            Predicate pred);
+                            Predicate pred)
+{
+  // tbb prefers generic::remove_if to cpp::remove_if
+  return thrust::system::detail::generic::remove_if(system, first, last, pred);
+}
 
 
 template<typename System,
@@ -45,7 +50,11 @@ template<typename System,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
-                            Predicate pred);
+                            Predicate pred)
+{
+  // tbb prefers generic::remove_if to cpp::remove_if
+  return thrust::system::detail::generic::remove_if(system, first, last, stencil, pred);
+}
 
 
 template<typename System,
@@ -56,8 +65,11 @@ template<typename System,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                Predicate pred);
-
+                                Predicate pred)
+{
+  // tbb prefers generic::remove_copy_if to cpp::remove_copy_if
+  return thrust::system::detail::generic::remove_copy_if(system, first, last, result, pred);
+}
 
 template<typename System,
          typename InputIterator1,
@@ -69,13 +81,14 @@ template<typename System,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
-                                Predicate pred);
-
+                                Predicate pred)
+{
+  // tbb prefers generic::remove_copy_if to cpp::remove_copy_if
+  return thrust::system::detail::generic::remove_copy_if(system, first, last, stencil, result, pred);
+}
 
 } // end namespace detail
-} // end namespace omp
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/tbb/detail/remove.inl>
 

@@ -17,7 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/unique.h>
+#include <thrust/system/detail/generic/unique.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -36,7 +37,11 @@ template<typename System,
   ForwardIterator unique(dispatchable<System> &system,
                          ForwardIterator first,
                          ForwardIterator last,
-                         BinaryPredicate binary_pred);
+                         BinaryPredicate binary_pred)
+{
+  // tbb prefers generic::unique to cpp::unique
+  return thrust::system::detail::generic::unique(system,first,last,binary_pred);
+} // end unique()
 
 
 template<typename System,
@@ -47,13 +52,15 @@ template<typename System,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
-                             BinaryPredicate binary_pred);
+                             BinaryPredicate binary_pred)
+{
+  // tbb prefers generic::unique_copy to cpp::unique_copy
+  return thrust::system::detail::generic::unique_copy(system,first,last,output,binary_pred);
+} // end unique_copy()
 
 
 } // end namespace detail
 } // end namespace tbb 
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/tbb/detail/unique.inl>
 
