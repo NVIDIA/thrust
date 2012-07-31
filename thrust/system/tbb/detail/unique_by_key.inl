@@ -17,7 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/unique_by_key.h>
+#include <thrust/system/detail/generic/unique_by_key.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -39,7 +40,11 @@ template<typename System,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
-                  BinaryPredicate binary_pred);
+                  BinaryPredicate binary_pred)
+{
+  // tbb prefers generic::unique_by_key to cpp::unique_by_key
+  return thrust::system::detail::generic::unique_by_key(system,keys_first,keys_last,values_first,binary_pred);
+} // end unique_by_key()
 
 
 template<typename System,
@@ -55,13 +60,15 @@ template<typename System,
                        InputIterator2 values_first,
                        OutputIterator1 keys_output,
                        OutputIterator2 values_output,
-                       BinaryPredicate binary_pred);
+                       BinaryPredicate binary_pred)
+{
+  // tbb prefers generic::unique_by_key_copy to cpp::unique_by_key_copy
+  return thrust::system::detail::generic::unique_by_key_copy(system,keys_first,keys_last,values_first,keys_output,values_output,binary_pred);
+} // end unique_by_key_copy()
 
 
 } // end namespace detail
-} // end namespace tbb 
+} // end namespace tbb
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/tbb/detail/unique_by_key.inl>
 
