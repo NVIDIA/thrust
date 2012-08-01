@@ -155,11 +155,6 @@ struct TestVectorLowerBoundDescending
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end(), thrust::greater<T>());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -173,7 +168,6 @@ struct TestVectorLowerBoundDescending
     thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_output, d_output);
-#endif
   }
 };
 VariableUnitTest<TestVectorLowerBoundDescending, SignedIntegralTypes> TestVectorLowerBoundDescendingInstance;
@@ -184,11 +178,6 @@ struct TestVectorUpperBoundDescending
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end(), thrust::greater<int>());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -202,7 +191,6 @@ struct TestVectorUpperBoundDescending
     thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_output, d_output);
-#endif
   }
 };
 VariableUnitTest<TestVectorUpperBoundDescending, SignedIntegralTypes> TestVectorUpperBoundDescendingInstance;
@@ -212,11 +200,6 @@ struct TestVectorBinarySearchDescending
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end(), thrust::greater<int>());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -230,7 +213,6 @@ struct TestVectorBinarySearchDescending
     thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin(), thrust::greater<int>());
 
     ASSERT_EQUAL(h_output, d_output);
-#endif
   }
 };
 VariableUnitTest<TestVectorBinarySearchDescending, SignedIntegralTypes> TestVectorBinarySearchDescendingInstance;

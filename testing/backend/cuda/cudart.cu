@@ -30,15 +30,13 @@ __global__ void segfault(int *dst, int *src)
 
 void TestNullPtrDereferenceYieldsError(void)
 {
-  KNOWN_FAILURE;
+  segfault<<<1,1>>>((int*)0, (int*)0);
+  cudaError_t result = cudaThreadSynchronize();
 
-//  segfault<<<1,1>>>((int*)0, (int*)0);
-//  cudaError_t result = cudaThreadSynchronize();
-//
-//  // kill the context so it can revive later
-//  cudaThreadExit();
-//
-//  ASSERT_EQUAL(true, (result != cudaSuccess));
+  // kill the context so it can revive later
+  cudaThreadExit();
+
+  ASSERT_EQUAL(true, (result != cudaSuccess));
 }
 DECLARE_UNITTEST(TestNullPtrDereferenceYieldsError);
 

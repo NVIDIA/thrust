@@ -46,8 +46,8 @@ tester = my_env.Program('tester', sources)
 # create a 'unit_tests' alias
 unit_tests_alias = my_env.Alias('unit_tests', [tester])
 
-# add the tester to the 'run_unit_tests' alias
-run_unit_tests_alias = my_env.Alias('run_unit_tests', [tester], tester[0].abspath)
+# add the verbose tester to the 'run_unit_tests' alias
+run_unit_tests_alias = my_env.Alias('run_unit_tests', [tester], tester[0].abspath + ' --verbose')
 
 # always build the 'run_unit_tests' target whether or not it needs it
 my_env.AlwaysBuild(run_unit_tests_alias)
