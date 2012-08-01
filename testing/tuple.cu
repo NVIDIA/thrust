@@ -184,85 +184,83 @@ struct TestTupleGet
 {
   void operator()(void)
   {
-    KNOWN_FAILURE
+    using namespace thrust;
+    host_vector<T> data = random_integers<T>(10);
 
-    //using namespace thrust;
-    //host_vector<T> data = random_integers<T>(10);
+    tuple<T> t1(data[0]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t1));
 
-    //tuple<T> t1(data[0]);
-    //ASSERT_EQUAL(data[0], t1.get<0>());
+    tuple<T,T> t2(data[0], data[1]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t2));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t2));
 
-    //tuple<T,T> t2(data[0], data[1]);
-    //ASSERT_EQUAL(data[0], t2.get<0>());
-    //ASSERT_EQUAL(data[1], t2.get<1>());
+    tuple<T,T,T> t3 = make_tuple(data[0], data[1], data[2]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t3));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t3));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t3));
 
-    //tuple<T,T,T> t3 = make_tuple(data[0], data[1], data[2]);
-    //ASSERT_EQUAL(data[0], t3.get<0>());
-    //ASSERT_EQUAL(data[1], t3.get<1>());
-    //ASSERT_EQUAL(data[2], t3.get<2>());
+    tuple<T,T,T,T> t4 = make_tuple(data[0], data[1], data[2], data[3]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t4));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t4));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t4));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t4));
 
-    //tuple<T,T,T,T> t4 = make_tuple(data[0], data[1], data[2], data[3]);
-    //ASSERT_EQUAL(data[0], t4.get<0>());
-    //ASSERT_EQUAL(data[1], t4.get<1>());
-    //ASSERT_EQUAL(data[2], t4.get<2>());
-    //ASSERT_EQUAL(data[3], t4.get<3>());
+    tuple<T,T,T,T,T> t5 = make_tuple(data[0], data[1], data[2], data[3], data[4]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t5));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t5));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t5));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t5));
+    ASSERT_EQUAL(data[4], thrust::get<4>(t5));
 
-    //tuple<T,T,T,T,T> t5 = make_tuple(data[0], data[1], data[2], data[3], data[4]);
-    //ASSERT_EQUAL(data[0], t5.get<0>());
-    //ASSERT_EQUAL(data[1], t5.get<1>());
-    //ASSERT_EQUAL(data[2], t5.get<2>());
-    //ASSERT_EQUAL(data[3], t5.get<3>());
-    //ASSERT_EQUAL(data[4], t5.get<4>());
+    tuple<T,T,T,T,T,T> t6 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t6));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t6));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t6));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t6));
+    ASSERT_EQUAL(data[4], thrust::get<4>(t6));
+    ASSERT_EQUAL(data[5], thrust::get<5>(t6));
 
-    //tuple<T,T,T,T,T,T> t6 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5]);
-    //ASSERT_EQUAL(data[0], t6.get<0>());
-    //ASSERT_EQUAL(data[1], t6.get<1>());
-    //ASSERT_EQUAL(data[2], t6.get<2>());
-    //ASSERT_EQUAL(data[3], t6.get<3>());
-    //ASSERT_EQUAL(data[4], t6.get<4>());
-    //ASSERT_EQUAL(data[5], t6.get<5>());
+    tuple<T,T,T,T,T,T,T> t7 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t7));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t7));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t7));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t7));
+    ASSERT_EQUAL(data[4], thrust::get<4>(t7));
+    ASSERT_EQUAL(data[5], thrust::get<5>(t7));
+    ASSERT_EQUAL(data[6], thrust::get<6>(t7));
 
-    //tuple<T,T,T,T,T,T,T> t7 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
-    //ASSERT_EQUAL(data[0], t7.get<0>());
-    //ASSERT_EQUAL(data[1], t7.get<1>());
-    //ASSERT_EQUAL(data[2], t7.get<2>());
-    //ASSERT_EQUAL(data[3], t7.get<3>());
-    //ASSERT_EQUAL(data[4], t7.get<4>());
-    //ASSERT_EQUAL(data[5], t7.get<5>());
-    //ASSERT_EQUAL(data[6], t7.get<6>());
+    tuple<T,T,T,T,T,T,T,T> t8 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t8));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t8));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t8));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t8));
+    ASSERT_EQUAL(data[4], thrust::get<4>(t8));
+    ASSERT_EQUAL(data[5], thrust::get<5>(t8));
+    ASSERT_EQUAL(data[6], thrust::get<6>(t8));
+    ASSERT_EQUAL(data[7], thrust::get<7>(t8));
 
-    //tuple<T,T,T,T,T,T,T,T> t8 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
-    //ASSERT_EQUAL(data[0], t8.get<0>());
-    //ASSERT_EQUAL(data[1], t8.get<1>());
-    //ASSERT_EQUAL(data[2], t8.get<2>());
-    //ASSERT_EQUAL(data[3], t8.get<3>());
-    //ASSERT_EQUAL(data[4], t8.get<4>());
-    //ASSERT_EQUAL(data[5], t8.get<5>());
-    //ASSERT_EQUAL(data[6], t8.get<6>());
-    //ASSERT_EQUAL(data[7], t8.get<7>());
+    tuple<T,T,T,T,T,T,T,T,T> t9 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t9));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t9));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t9));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t9));
+    ASSERT_EQUAL(data[4], thrust::get<4>(t9));
+    ASSERT_EQUAL(data[5], thrust::get<5>(t9));
+    ASSERT_EQUAL(data[6], thrust::get<6>(t9));
+    ASSERT_EQUAL(data[7], thrust::get<7>(t9));
+    ASSERT_EQUAL(data[8], thrust::get<8>(t9));
 
-    //tuple<T,T,T,T,T,T,T,T,T> t9 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]);
-    //ASSERT_EQUAL(data[0], t9.get<0>());
-    //ASSERT_EQUAL(data[1], t9.get<1>());
-    //ASSERT_EQUAL(data[2], t9.get<2>());
-    //ASSERT_EQUAL(data[3], t9.get<3>());
-    //ASSERT_EQUAL(data[4], t9.get<4>());
-    //ASSERT_EQUAL(data[5], t9.get<5>());
-    //ASSERT_EQUAL(data[6], t9.get<6>());
-    //ASSERT_EQUAL(data[7], t9.get<7>());
-    //ASSERT_EQUAL(data[8], t9.get<8>());
-
-    //tuple<T,T,T,T,T,T,T,T,T,T> t10 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]);
-    //ASSERT_EQUAL(data[0], t10.get<0>());
-    //ASSERT_EQUAL(data[1], t10.get<1>());
-    //ASSERT_EQUAL(data[2], t10.get<2>());
-    //ASSERT_EQUAL(data[3], t10.get<3>());
-    //ASSERT_EQUAL(data[4], t10.get<4>());
-    //ASSERT_EQUAL(data[5], t10.get<5>());
-    //ASSERT_EQUAL(data[6], t10.get<6>());
-    //ASSERT_EQUAL(data[7], t10.get<7>());
-    //ASSERT_EQUAL(data[8], t10.get<8>());
-    //ASSERT_EQUAL(data[9], t10.get<9>());
+    tuple<T,T,T,T,T,T,T,T,T,T> t10 = make_tuple(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]);
+    ASSERT_EQUAL(data[0], thrust::get<0>(t10));
+    ASSERT_EQUAL(data[1], thrust::get<1>(t10));
+    ASSERT_EQUAL(data[2], thrust::get<2>(t10));
+    ASSERT_EQUAL(data[3], thrust::get<3>(t10));
+    ASSERT_EQUAL(data[4], thrust::get<4>(t10));
+    ASSERT_EQUAL(data[5], thrust::get<5>(t10));
+    ASSERT_EQUAL(data[6], thrust::get<6>(t10));
+    ASSERT_EQUAL(data[7], thrust::get<7>(t10));
+    ASSERT_EQUAL(data[8], thrust::get<8>(t10));
+    ASSERT_EQUAL(data[9], thrust::get<9>(t10));
   }
 };
 SimpleUnitTest<TestTupleGet, NumericTypes> TestTupleGetInstance;
