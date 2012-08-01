@@ -7,10 +7,6 @@ template <typename T>
 {
   void operator()(const size_t n)
   {
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER == 1400) && defined(_DEBUG)
-    // fails on msvc80 SP1 in debug mode
-    KNOWN_FAILURE;
-#else    
     using namespace thrust;
 
     host_vector<T>   h1 = unittest::random_integers<T>(n);
@@ -29,7 +25,6 @@ template <typename T>
   
     ASSERT_EQUAL_QUIET(h1, d1);
     ASSERT_EQUAL_QUIET(h2, d2);
-#endif      
   }
 };
 VariableUnitTest<TestZipIteratorStableSort, unittest::type_list<char,short,int> > TestZipIteratorStableSortInstance;
