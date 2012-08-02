@@ -35,7 +35,24 @@ void TestReduceSimple(void)
 DECLARE_VECTOR_UNITTEST(TestReduceSimple);
 
 
-struct my_tag : thrust::device_system_tag {};
+template<typename InputIterator>
+int reduce(my_system &system, InputIterator, InputIterator)
+{
+    system.validate_dispatch();
+    return 13;
+}
+
+void TestReduceDispatchExplicit()
+{
+    thrust::device_vector<int> vec;
+
+    my_system sys(0);
+    thrust::reduce(sys, vec.begin(), vec.end());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestReduceDispatchExplicit);
+
 
 template<typename InputIterator>
 int reduce(my_tag, InputIterator, InputIterator)
@@ -43,7 +60,7 @@ int reduce(my_tag, InputIterator, InputIterator)
     return 13;
 }
 
-void TestReduceDispatch()
+void TestReduceDispatchImplicit()
 {
     thrust::device_vector<int> vec;
 
@@ -52,7 +69,7 @@ void TestReduceDispatch()
 
     ASSERT_EQUAL(13, result);
 }
-DECLARE_UNITTEST(TestReduceDispatch);
+DECLARE_UNITTEST(TestReduceDispatchImplicit);
 
 
 template <typename T>

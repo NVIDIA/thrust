@@ -96,10 +96,11 @@ struct body
 } // end reduce_detail
 
 
-template<typename InputIterator, 
+template<typename System,
+         typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(tag,
+  OutputType reduce(dispatchable<System> &system,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,
@@ -107,7 +108,7 @@ template<typename InputIterator,
 {
   typedef typename thrust::iterator_difference<InputIterator>::type Size; 
 
-  Size n = thrust::distance(begin, end);
+  Size n = thrust::distance(system, begin, end);
 
   if (n == 0)
   {

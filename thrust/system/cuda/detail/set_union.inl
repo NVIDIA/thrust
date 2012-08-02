@@ -88,11 +88,12 @@ struct block_convergent_set_union_functor
 } // end namespace set_union_detail
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_union(tag,
+RandomAccessIterator3 set_union(dispatchable<System> &system,
                                 RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
                                 RandomAccessIterator2 first2,
@@ -110,18 +111,11 @@ RandomAccessIterator3 set_union(tag,
   if(num_elements1 == 0 && num_elements2 == 0)
     return result;
   else if (num_elements1 == 0)
-    return thrust::copy(first2, last2, result);
+    return thrust::copy(system, first2, last2, result);
   else if (num_elements2 == 0)
-    return thrust::copy(first1, last1, result);
+    return thrust::copy(system, first1, last1, result);
 
-  // recover the user system tag
-  using thrust::system::detail::generic::select_system;
-
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type system2;
-  typedef typename thrust::iterator_system<RandomAccessIterator3>::type system3;
-
-  return detail::set_operation(select_system(system1(),system2(),system3()),
+  return detail::set_operation(system,
                                first1, last1,
                                first2, last2,
                                result,

@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -29,13 +30,17 @@ namespace detail
 namespace detail
 {
 
-template<typename RandomAccessIterator>
-void stable_primitive_sort(RandomAccessIterator first,
+template<typename System,
+         typename RandomAccessIterator>
+void stable_primitive_sort(dispatchable<System> &system,
+                           RandomAccessIterator first,
                            RandomAccessIterator last);
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_primitive_sort_by_key(RandomAccessIterator1 keys_first,
+void stable_primitive_sort_by_key(dispatchable<System> &system,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first);
 

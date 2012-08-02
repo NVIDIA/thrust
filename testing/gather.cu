@@ -34,16 +34,37 @@ void TestGatherSimple(void)
 DECLARE_VECTOR_UNITTEST(TestGatherSimple);
 
 
-struct my_tag : thrust::device_system_tag {};
+template<typename InputIterator, typename RandomAccessIterator, typename OutputIterator>
+OutputIterator gather(my_system &system, InputIterator, InputIterator, RandomAccessIterator, OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestGatherDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::gather(sys,
+                   vec.begin(),
+                   vec.end(),
+                   vec.begin(),
+                   vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestGatherDispatchExplicit);
+
 
 template<typename InputIterator, typename RandomAccessIterator, typename OutputIterator>
-OutputIterator gather(my_tag, InputIterator , InputIterator, RandomAccessIterator, OutputIterator result)
+OutputIterator gather(my_tag, InputIterator, InputIterator, RandomAccessIterator, OutputIterator result)
 {
     *result = 13;
     return result;
 }
 
-void TestGatherDispatch()
+void TestGatherDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -54,7 +75,7 @@ void TestGatherDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestGatherDispatch);
+DECLARE_UNITTEST(TestGatherDispatchImplicit);
 
 
 template <typename T>
@@ -156,6 +177,38 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
+OutputIterator gather_if(my_system &system,
+                         InputIterator1       map_first,
+                         InputIterator1       map_last,
+                         InputIterator2       stencil,
+                         RandomAccessIterator input_first,
+                         OutputIterator       result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestGatherIfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::gather_if(sys,
+                      vec.begin(),
+                      vec.end(),
+                      vec.begin(),
+                      vec.begin(),
+                      vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestGatherIfDispatchExplicit);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator,
+         typename OutputIterator>
 OutputIterator gather_if(my_tag,
                          InputIterator1       map_first,
                          InputIterator1       map_last,
@@ -167,7 +220,7 @@ OutputIterator gather_if(my_tag,
     return result;
 }
 
-void TestGatherIfDispatch()
+void TestGatherIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -179,7 +232,7 @@ void TestGatherIfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestGatherIfDispatch);
+DECLARE_UNITTEST(TestGatherIfDispatchImplicit);
 
 
 template <typename T>
@@ -262,11 +315,6 @@ DECLARE_VARIABLE_UNITTEST(TestGatherIfToDiscardIterator);
 template <typename Vector>
 void TestGatherCountingIterator(void)
 {
-
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_DEBUG != 0)
-    KNOWN_FAILURE;
-#endif
-
     typedef typename Vector::value_type T;
 
     Vector source(10);

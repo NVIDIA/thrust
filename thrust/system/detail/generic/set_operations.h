@@ -29,102 +29,112 @@ namespace generic
 {
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_difference(tag,
-                                InputIterator1 first1,
-                                InputIterator1 last1,
-                                InputIterator2 first2,
-                                InputIterator2 last2,
-                                OutputIterator result);
+  OutputIterator set_difference(thrust::dispatchable<System> &system,
+                                InputIterator1                first1,
+                                InputIterator1                last1,
+                                InputIterator2                first2,
+                                InputIterator2                last2,
+                                OutputIterator                result);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_difference(InputIterator1 first1,
-                                InputIterator1 last1,
-                                InputIterator2 first2,
-                                InputIterator2 last2,
-                                OutputIterator result,
-                                StrictWeakOrdering comp);
+  OutputIterator set_difference(thrust::dispatchable<System> &system,
+                                InputIterator1                first1,
+                                InputIterator1                last1,
+                                InputIterator2                first2,
+                                InputIterator2                last2,
+                                OutputIterator                result,
+                                StrictWeakOrdering            comp);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_intersection(tag,
-                                  InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result);
+  OutputIterator set_intersection(thrust::dispatchable<System> &system,
+                                  InputIterator1                first1,
+                                  InputIterator1                last1,
+                                  InputIterator2                first2,
+                                  InputIterator2                last2,
+                                  OutputIterator                result);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(InputIterator1 first1,
-                                  InputIterator1 last1,
-                                  InputIterator2 first2,
-                                  InputIterator2 last2,
-                                  OutputIterator result,
-                                  StrictWeakOrdering comp);
+  OutputIterator set_intersection(thrust::dispatchable<StrictWeakOrdering> &system,
+                                  InputIterator1                            first1,
+                                  InputIterator1                            last1,
+                                  InputIterator2                            first2,
+                                  InputIterator2                            last2,
+                                  OutputIterator                            result,
+                                  StrictWeakOrdering                        comp);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_symmetric_difference(tag,
-                                          InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          InputIterator2 last2,
-                                          OutputIterator result);
+  OutputIterator set_symmetric_difference(thrust::dispatchable<System> &system,
+                                          InputIterator1                first1,
+                                          InputIterator1                last1,
+                                          InputIterator2                first2,
+                                          InputIterator2                last2,
+                                          OutputIterator                result);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_symmetric_difference(tag,
-                                          InputIterator1 first1,
-                                          InputIterator1 last1,
-                                          InputIterator2 first2,
-                                          InputIterator2 last2,
-                                          OutputIterator result,
-                                          StrictWeakOrdering comp);
+  OutputIterator set_symmetric_difference(thrust::dispatchable<System> &system,
+                                          InputIterator1                first1,
+                                          InputIterator1                last1,
+                                          InputIterator2                first2,
+                                          InputIterator2                last2,
+                                          OutputIterator                result,
+                                          StrictWeakOrdering            comp);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_union(tag,
-                           InputIterator1 first1,
-                           InputIterator1 last1,
-                           InputIterator2 first2,
-                           InputIterator2 last2,
-                           OutputIterator result);
+  OutputIterator set_union(thrust::dispatchable<System> &system,
+                           InputIterator1                first1,
+                           InputIterator1                last1,
+                           InputIterator2                first2,
+                           InputIterator2                last2,
+                           OutputIterator                result);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_union(tag,
-                           InputIterator1 first1,
-                           InputIterator1 last1,
-                           InputIterator2 first2,
-                           InputIterator2 last2,
-                           OutputIterator result,
-                           StrictWeakOrdering comp);
+  OutputIterator set_union(thrust::dispatchable<System> &system,
+                           InputIterator1                first1,
+                           InputIterator1                last1,
+                           InputIterator2                first2,
+                           InputIterator2                last2,
+                           OutputIterator                result,
+                           StrictWeakOrdering            comp);
 
 
 } // end namespace generic

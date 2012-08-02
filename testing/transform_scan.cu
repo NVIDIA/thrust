@@ -6,7 +6,38 @@
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename AssociativeOperator>
+OutputIterator transform_inclusive_scan(my_system &system,
+                                        InputIterator,
+                                        InputIterator,
+                                        OutputIterator result,
+                                        UnaryFunction,
+                                        AssociativeOperator)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestTransformInclusiveScanDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::transform_inclusive_scan(sys,
+                                     vec.begin(),
+                                     vec.begin(),
+                                     vec.begin(),
+                                     0,
+                                     0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestTransformInclusiveScanDispatchExplicit);
+
 
 template<typename InputIterator,
          typename OutputIterator,
@@ -23,7 +54,7 @@ OutputIterator transform_inclusive_scan(my_tag,
     return result;
 }
 
-void TestTransformInclusiveScanDispatch()
+void TestTransformInclusiveScanDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -35,7 +66,42 @@ void TestTransformInclusiveScanDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestTransformInclusiveScanDispatch);
+DECLARE_UNITTEST(TestTransformInclusiveScanDispatchImplicit);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename UnaryFunction,
+         typename T,
+         typename AssociativeOperator>
+OutputIterator transform_exclusive_scan(my_system &system,
+                                        InputIterator,
+                                        InputIterator,
+                                        OutputIterator result,
+                                        UnaryFunction,
+                                        T,
+                                        AssociativeOperator)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestTransformExclusiveScanDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::transform_exclusive_scan(sys,
+                                     vec.begin(),
+                                     vec.begin(),
+                                     vec.begin(),
+                                     0,
+                                     0,
+                                     0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestTransformExclusiveScanDispatchExplicit);
 
 
 template<typename InputIterator,
@@ -55,7 +121,7 @@ OutputIterator transform_exclusive_scan(my_tag,
     return result;
 }
 
-void TestTransformExclusiveScanDispatch()
+void TestTransformExclusiveScanDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -68,7 +134,7 @@ void TestTransformExclusiveScanDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestTransformExclusiveScanDispatch);
+DECLARE_UNITTEST(TestTransformExclusiveScanDispatchImplicit);
 
 
 template <class Vector>

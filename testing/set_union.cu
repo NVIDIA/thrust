@@ -5,7 +5,37 @@
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator set_union(my_system &system,
+                         InputIterator1,
+                         InputIterator1,
+                         InputIterator2,
+                         InputIterator2,
+                         OutputIterator result)
+{
+  system.validate_dispatch();
+  return result;
+}
+
+void TestSetUnionDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::set_union(sys,
+                    vec.begin(),
+                    vec.begin(),
+                    vec.begin(),
+                    vec.begin(),
+                    vec.begin());
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestSetUnionDispatchExplicit);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -21,7 +51,7 @@ OutputIterator set_union(my_tag,
   return result;
 }
 
-void TestSetUnionDispatch()
+void TestSetUnionDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
@@ -33,7 +63,7 @@ void TestSetUnionDispatch()
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestSetUnionDispatch);
+DECLARE_UNITTEST(TestSetUnionDispatchImplicit);
 
 
 template<typename Vector>

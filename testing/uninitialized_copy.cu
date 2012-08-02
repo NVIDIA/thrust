@@ -2,7 +2,31 @@
 #include <thrust/uninitialized_copy.h>
 #include <thrust/device_malloc_allocator.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator, typename ForwardIterator>
+ForwardIterator uninitialized_copy(my_system &system,
+                                   InputIterator,
+                                   InputIterator,
+                                   ForwardIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestUninitializedCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::uninitialized_copy(sys,
+                               vec.begin(),
+                               vec.begin(),
+                               vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUninitializedCopyDispatchExplicit);
+
 
 template<typename InputIterator, typename ForwardIterator>
 ForwardIterator uninitialized_copy(my_tag,
@@ -14,7 +38,7 @@ ForwardIterator uninitialized_copy(my_tag,
     return result;
 }
 
-void TestUninitializedCopyDispatch()
+void TestUninitializedCopyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -24,7 +48,32 @@ void TestUninitializedCopyDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUninitializedCopyDispatch);
+DECLARE_UNITTEST(TestUninitializedCopyDispatchImplicit);
+
+
+template<typename InputIterator, typename Size, typename ForwardIterator>
+ForwardIterator uninitialized_copy_n(my_system &system,
+                                     InputIterator,
+                                     Size,
+                                     ForwardIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestUninitializedCopyNDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::uninitialized_copy_n(sys,
+                                 vec.begin(),
+                                 vec.size(),
+                                 vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUninitializedCopyNDispatchExplicit);
 
 
 template<typename InputIterator, typename Size, typename ForwardIterator>
@@ -37,7 +86,7 @@ ForwardIterator uninitialized_copy_n(my_tag,
     return result;
 }
 
-void TestUninitializedCopyNDispatch()
+void TestUninitializedCopyNDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -47,7 +96,7 @@ void TestUninitializedCopyNDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUninitializedCopyNDispatch);
+DECLARE_UNITTEST(TestUninitializedCopyNDispatchImplicit);
 
 
 template <class Vector>

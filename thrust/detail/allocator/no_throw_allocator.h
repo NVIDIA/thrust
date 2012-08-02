@@ -30,6 +30,10 @@ template<typename BaseAllocator>
     typedef BaseAllocator super_t;
   
   public:
+    inline no_throw_allocator(const BaseAllocator &other = BaseAllocator())
+      : super_t(other)
+    {}
+
     template<typename U>
       struct rebind
     {

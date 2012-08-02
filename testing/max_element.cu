@@ -40,7 +40,25 @@ void TestMaxElement(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestMaxElement);
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator>
+ForwardIterator max_element(my_system &system, ForwardIterator first, ForwardIterator)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestMaxElementDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::max_element(sys, vec.begin(), vec.end());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestMaxElementDispatchExplicit);
+
 
 template<typename ForwardIterator>
 ForwardIterator max_element(my_tag, ForwardIterator first, ForwardIterator)
@@ -49,7 +67,7 @@ ForwardIterator max_element(my_tag, ForwardIterator first, ForwardIterator)
     return first;
 }
 
-void TestMaxElementDispatch()
+void TestMaxElementDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -58,5 +76,5 @@ void TestMaxElementDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestMaxElementDispatch);
+DECLARE_UNITTEST(TestMaxElementDispatchImplicit);
 

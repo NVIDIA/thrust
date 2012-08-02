@@ -25,6 +25,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/detail/temporary_array.h>
 
 namespace thrust
@@ -34,16 +35,16 @@ namespace detail
 {
 
 // never instantiated
-template<typename Iterator, typename is_trivial> struct _trivial_sequence { };
+template<typename Iterator, typename System, typename is_trivial> struct _trivial_sequence { };
 
 // trivial case
-template<typename Iterator>
-struct _trivial_sequence<Iterator, thrust::detail::true_type>
+template<typename Iterator, typename System>
+struct _trivial_sequence<Iterator, System, thrust::detail::true_type>
 {
     typedef Iterator iterator_type;
     Iterator first, last;
 
-    _trivial_sequence(Iterator _first, Iterator _last) : first(_first), last(_last)
+    _trivial_sequence(thrust::dispatchable<System> &, Iterator _first, Iterator _last) : first(_first), last(_last)
     {
 //        std::cout << "trivial case" << std::endl;
     }
@@ -53,16 +54,16 @@ struct _trivial_sequence<Iterator, thrust::detail::true_type>
 };
 
 // non-trivial case
-template<typename Iterator>
-struct _trivial_sequence<Iterator, thrust::detail::false_type>
+template<typename Iterator, typename System>
+struct _trivial_sequence<Iterator, System, thrust::detail::false_type>
 {
-    typedef typename thrust::iterator_system<Iterator>::type iterator_system;
     typedef typename thrust::iterator_value<Iterator>::type iterator_value;
-    typedef typename thrust::detail::temporary_array<iterator_value, iterator_system>::iterator iterator_type;
+    typedef typename thrust::detail::temporary_array<iterator_value, System>::iterator iterator_type;
     
-    thrust::detail::temporary_array<iterator_value, iterator_system> buffer;
+    thrust::detail::temporary_array<iterator_value, System> buffer;
 
-    _trivial_sequence(Iterator first, Iterator last) : buffer(first, last)
+    _trivial_sequence(thrust::dispatchable<System> &system, Iterator first, Iterator last)
+      : buffer(system, first, last)
     {
 //        std::cout << "non-trivial case" << std::endl;
     }
@@ -71,12 +72,13 @@ struct _trivial_sequence<Iterator, thrust::detail::false_type>
     iterator_type end()   { return buffer.end(); }
 };
 
-template <typename Iterator>
-struct trivial_sequence : public detail::_trivial_sequence<Iterator, typename thrust::detail::is_trivial_iterator<Iterator>::type>
+template <typename Iterator, typename System>
+struct trivial_sequence
+  : detail::_trivial_sequence<Iterator, System, typename thrust::detail::is_trivial_iterator<Iterator>::type>
 {
-    typedef _trivial_sequence<Iterator, typename thrust::detail::is_trivial_iterator<Iterator>::type> super_t;
+    typedef _trivial_sequence<Iterator, System, typename thrust::detail::is_trivial_iterator<Iterator>::type> super_t;
 
-    trivial_sequence(Iterator first, Iterator last) : super_t(first, last) { }
+    trivial_sequence(thrust::dispatchable<System> &system, Iterator first, Iterator last) : super_t(system, first, last) { }
 };
 
 } // end namespace detail

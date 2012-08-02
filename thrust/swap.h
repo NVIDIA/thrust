@@ -21,6 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 // empty Doxygen comment below so namespace thrust's documentation will be extracted
 
@@ -70,6 +71,16 @@ inline void swap(Assignable1 &a, Assignable2 &b);
 
 /*! \} // utility
  */
+
+
+template<typename System,
+         typename ForwardIterator1,
+         typename ForwardIterator2>
+  ForwardIterator2 swap_ranges(thrust::detail::dispatchable_base<System> &system,
+                               ForwardIterator1 first1,
+                               ForwardIterator1 last1,
+                               ForwardIterator2 first2);
+
 
 /*! \addtogroup copying
  *  \{

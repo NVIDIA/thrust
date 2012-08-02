@@ -29,40 +29,45 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator,
+
+template<typename System,
+         typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather(tag,
-                        InputIterator        map_first,
-                        InputIterator        map_last,
-                        RandomAccessIterator input_first,
-                        OutputIterator       result);
+  OutputIterator gather(thrust::dispatchable<System> &system,
+                        InputIterator                 map_first,
+                        InputIterator                 map_last,
+                        RandomAccessIterator          input_first,
+                        OutputIterator                result);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather_if(tag,
-                           InputIterator1       map_first,
-                           InputIterator1       map_last,
-                           InputIterator2       stencil,
-                           RandomAccessIterator input_first,
-                           OutputIterator       result);
+  OutputIterator gather_if(thrust::dispatchable<System> &system,
+                           InputIterator1                map_first,
+                           InputIterator1                map_last,
+                           InputIterator2                stencil,
+                           RandomAccessIterator          input_first,
+                           OutputIterator                result);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator gather_if(tag,
-                           InputIterator1       map_first,
-                           InputIterator1       map_last,
-                           InputIterator2       stencil,
-                           RandomAccessIterator input_first,
-                           OutputIterator       result,
-                           Predicate            pred);
+  OutputIterator gather_if(thrust::dispatchable<System> &system,
+                           InputIterator1                map_first,
+                           InputIterator1                map_last,
+                           InputIterator2                stencil,
+                           RandomAccessIterator          input_first,
+                           OutputIterator                result,
+                           Predicate                     pred);
+
 
 } // end namespace generic
 } // end namespace detail

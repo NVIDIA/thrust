@@ -46,26 +46,26 @@ struct count_if_transform
   Predicate pred;
 }; // end count_if_transform
 
-template <typename InputIterator, typename EqualityComparable>
+template <typename System, typename InputIterator, typename EqualityComparable>
 typename thrust::iterator_traits<InputIterator>::difference_type
-count(tag, InputIterator first, InputIterator last, const EqualityComparable& value)
+count(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   
   // XXX use placeholder expression here
-  return thrust::count_if(first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
+  return thrust::count_if(system, first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
 } // end count()
 
-template <typename InputIterator, typename Predicate>
+template <typename System, typename InputIterator, typename Predicate>
 typename thrust::iterator_traits<InputIterator>::difference_type
-count_if(tag, InputIterator first, InputIterator last, Predicate pred)
+count_if(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef typename thrust::iterator_traits<InputIterator>::difference_type CountType;
   
   thrust::system::detail::generic::count_if_transform<InputType, Predicate, CountType> unary_op(pred);
   thrust::plus<CountType> binary_op;
-  return thrust::transform_reduce(first, last, unary_op, CountType(0), binary_op);
+  return thrust::transform_reduce(system, first, last, unary_op, CountType(0), binary_op);
 } // end count_if()
 
 } // end generic

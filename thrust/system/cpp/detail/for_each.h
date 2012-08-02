@@ -30,9 +30,10 @@ namespace detail
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(tag,
+InputIterator for_each(thrust::system::cpp::detail::dispatchable<System> &,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
@@ -40,10 +41,11 @@ InputIterator for_each(tag,
   return thrust::system::detail::internal::scalar::for_each(first, last, f);
 }
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(tag,
+InputIterator for_each_n(thrust::system::cpp::detail::dispatchable<System> &,
                          InputIterator first,
                          Size n,
                          UnaryFunction f)

@@ -34,19 +34,23 @@ namespace detail
 namespace fast_scan
 {
 
-template <typename InputIterator,
+template <typename System,
+          typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator inclusive_scan(InputIterator first,
+OutputIterator inclusive_scan(dispatchable<System> &system,
+                              InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               BinaryFunction binary_op);
 
-template <typename InputIterator,
+template <typename System,
+          typename InputIterator,
           typename OutputIterator,
           typename T,
           typename BinaryFunction>
-OutputIterator exclusive_scan(InputIterator first,
+OutputIterator exclusive_scan(dispatchable<System> &system,
+                              InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               const T init,

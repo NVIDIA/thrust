@@ -28,17 +28,19 @@ namespace omp
 namespace detail
 {
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(tag,
+void stable_sort(dispatchable<System> &system,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp);
     
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(tag,
+void stable_sort_by_key(dispatchable<System> &system,
                         RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,

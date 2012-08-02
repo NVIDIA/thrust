@@ -3,7 +3,37 @@
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator set_difference(my_system &system,
+                              InputIterator1,
+                              InputIterator1,
+                              InputIterator2,
+                              InputIterator2,
+                              OutputIterator result)
+{
+  system.validate_dispatch();
+  return result;
+}
+
+void TestSetDifferenceDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::set_difference(sys,
+                         vec.begin(),
+                         vec.begin(),
+                         vec.begin(),
+                         vec.begin(),
+                         vec.begin());
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestSetDifferenceDispatchExplicit);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -19,7 +49,7 @@ OutputIterator set_difference(my_tag,
   return result;
 }
 
-void TestSetDifferenceDispatch()
+void TestSetDifferenceDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
@@ -31,7 +61,7 @@ void TestSetDifferenceDispatch()
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestSetDifferenceDispatch);
+DECLARE_UNITTEST(TestSetDifferenceDispatchImplicit);
 
 
 template<typename Vector>

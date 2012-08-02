@@ -1,8 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/find.h>
 
-// for testing dispatch
-struct my_tag : thrust::device_system_tag {};
 
 template <typename T>
 struct equal_to_value_pred
@@ -59,13 +57,35 @@ void TestFindSimple(void)
 DECLARE_VECTOR_UNITTEST(TestFindSimple);
 
 template<typename InputIterator, typename T>
+InputIterator find(my_system &system, InputIterator first, InputIterator, const T&)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestFindDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::find(sys,
+                 vec.begin(),
+                 vec.end(),
+                 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestFindDispatchExplicit);
+
+
+template<typename InputIterator, typename T>
 InputIterator find(my_tag, InputIterator first, InputIterator, const T&)
 {
     *first = 13;
     return first;
 }
 
-void TestFindDispatch()
+void TestFindDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -75,7 +95,7 @@ void TestFindDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFindDispatch);
+DECLARE_UNITTEST(TestFindDispatchImplicit);
 
 
 template <class Vector>
@@ -100,13 +120,35 @@ void TestFindIfSimple(void)
 DECLARE_VECTOR_UNITTEST(TestFindIfSimple);
 
 template<typename InputIterator, typename Predicate>
+InputIterator find_if(my_system &system, InputIterator first, InputIterator, Predicate)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestFindIfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::find_if(sys,
+                    vec.begin(),
+                    vec.end(),
+                    thrust::identity<int>());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestFindIfDispatchExplicit);
+
+
+template<typename InputIterator, typename Predicate>
 InputIterator find_if(my_tag, InputIterator first, InputIterator, Predicate)
 {
     *first = 13;
     return first;
 }
 
-void TestFindIfDispatch()
+void TestFindIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -116,7 +158,7 @@ void TestFindIfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFindIfDispatch);
+DECLARE_UNITTEST(TestFindIfDispatchImplicit);
 
 
 template <class Vector>
@@ -142,13 +184,35 @@ DECLARE_VECTOR_UNITTEST(TestFindIfNotSimple);
 
 
 template<typename InputIterator, typename Predicate>
+InputIterator find_if_not(my_system &system, InputIterator first, InputIterator, Predicate)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestFindIfNotDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::find_if_not(sys,
+                        vec.begin(),
+                        vec.end(),
+                        thrust::identity<int>());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestFindIfNotDispatchExplicit);
+
+
+template<typename InputIterator, typename Predicate>
 InputIterator find_if_not(my_tag, InputIterator first, InputIterator, Predicate)
 {
     *first = 13;
     return first;
 }
 
-void TestFindIfNotDispatch()
+void TestFindIfNotDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -158,7 +222,7 @@ void TestFindIfNotDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFindIfNotDispatch);
+DECLARE_UNITTEST(TestFindIfNotDispatchImplicit);
 
 
 template <typename T>

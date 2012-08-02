@@ -28,6 +28,11 @@ namespace thrust
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
+template<typename DerivedSystem>
+  struct host_system
+    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::dispatchable<DerivedSystem>
+{};
+
 } // end thrust
 
 // TODO remove this in 1.7.0

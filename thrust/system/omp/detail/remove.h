@@ -28,39 +28,43 @@ namespace omp
 namespace detail
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(dispatchable<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred);
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(dispatchable<System> &system,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,

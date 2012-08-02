@@ -22,10 +22,22 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename InputIterator, typename EqualityComparable>
+  typename thrust::iterator_traits<InputIterator>::difference_type
+    count(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, const EqualityComparable& value);
+
+
+template<typename System, typename InputIterator, typename Predicate>
+  typename thrust::iterator_traits<InputIterator>::difference_type
+    count_if(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+
 
 /*! \addtogroup algorithms
  */
@@ -71,7 +83,7 @@ namespace thrust
  *
  *  \see http://www.sgi.com/tech/stl/count.html
  */
-template <class InputIterator, class EqualityComparable>
+template <typename InputIterator, typename EqualityComparable>
   typename thrust::iterator_traits<InputIterator>::difference_type
     count(InputIterator first, InputIterator last, const EqualityComparable& value);
 
@@ -117,7 +129,7 @@ template <class InputIterator, class EqualityComparable>
  *
  *  \see http://www.sgi.com/tech/stl/count.html
  */
-template <class InputIterator, class Predicate>
+template <typename InputIterator, typename Predicate>
   typename thrust::iterator_traits<InputIterator>::difference_type
     count_if(InputIterator first, InputIterator last, Predicate pred);
 

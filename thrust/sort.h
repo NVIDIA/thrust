@@ -22,9 +22,106 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename RandomAccessIterator>
+  void sort(thrust::detail::dispatchable_base<System> &system,
+            RandomAccessIterator first,
+            RandomAccessIterator last);
+
+
+template<typename System,
+         typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void sort(thrust::detail::dispatchable_base<System> &system,
+            RandomAccessIterator first,
+            RandomAccessIterator last,
+            StrictWeakOrdering comp);
+
+
+template<typename System, typename RandomAccessIterator>
+  void stable_sort(thrust::detail::dispatchable_base<System> &system,
+                   RandomAccessIterator first,
+                   RandomAccessIterator last);
+
+
+template<typename System,
+         typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+  void stable_sort(thrust::detail::dispatchable_base<System> &system,
+                   RandomAccessIterator first,
+                   RandomAccessIterator last,
+                   StrictWeakOrdering comp);
+
+
+template<typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void sort_by_key(thrust::detail::dispatchable_base<System> &system,
+                   RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first);
+
+
+template<typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void sort_by_key(thrust::detail::dispatchable_base<System> &system,
+                   RandomAccessIterator1 keys_first,
+                   RandomAccessIterator1 keys_last,
+                   RandomAccessIterator2 values_first,
+                   StrictWeakOrdering comp);
+
+
+template<typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+  void stable_sort_by_key(thrust::detail::dispatchable_base<System> &system,
+                          RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first);
+
+
+template<typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+  void stable_sort_by_key(thrust::detail::dispatchable_base<System> &system,
+                          RandomAccessIterator1 keys_first,
+                          RandomAccessIterator1 keys_last,
+                          RandomAccessIterator2 values_first,
+                          StrictWeakOrdering comp);
+
+
+template<typename System, typename ForwardIterator>
+  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+                 ForwardIterator first,
+                 ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 Compare comp);
+
+
+template<typename System, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+                                  ForwardIterator first,
+                                  ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename Compare>
+  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+                                  ForwardIterator first,
+                                  ForwardIterator last,
+                                  Compare comp);
 
 
 /*! \addtogroup sorting

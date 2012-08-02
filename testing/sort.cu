@@ -2,7 +2,24 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename RandomAccessIterator>
+void sort(my_system &system, RandomAccessIterator, RandomAccessIterator)
+{
+  system.validate_dispatch();
+}
+
+void TestSortDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::sort(sys, vec.begin(), vec.begin());
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestSortDispatchExplicit);
+
 
 template<typename RandomAccessIterator>
 void sort(my_tag, RandomAccessIterator first, RandomAccessIterator)
@@ -10,7 +27,7 @@ void sort(my_tag, RandomAccessIterator first, RandomAccessIterator)
   *first = 13;
 }
 
-void TestSortDispatch()
+void TestSortDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
@@ -19,7 +36,7 @@ void TestSortDispatch()
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestSortDispatch);
+DECLARE_UNITTEST(TestSortDispatchImplicit);
 
 template <class Vector>
 void InitializeSimpleKeySortTest(Vector& unsorted_keys, Vector& sorted_keys)

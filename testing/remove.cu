@@ -6,8 +6,6 @@
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
 
-// for testing dispatch
-struct my_tag : thrust::device_system_tag {};
 
 template<typename T>
 struct is_even
@@ -52,6 +50,29 @@ DECLARE_VECTOR_UNITTEST(TestRemoveSimple);
 
 template<typename ForwardIterator,
          typename T>
+ForwardIterator remove(my_system &system,
+                       ForwardIterator first,
+                       ForwardIterator,
+                       const T &)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestRemoveDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::remove(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestRemoveDispatchExplicit);
+
+
+template<typename ForwardIterator,
+         typename T>
 ForwardIterator remove(my_tag,
                        ForwardIterator first,
                        ForwardIterator,
@@ -61,7 +82,7 @@ ForwardIterator remove(my_tag,
     return first;
 }
 
-void TestRemoveDispatch()
+void TestRemoveDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -71,7 +92,7 @@ void TestRemoveDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestRemoveDispatch);
+DECLARE_UNITTEST(TestRemoveDispatchImplicit);
 
 
 template<typename Vector>
@@ -89,9 +110,9 @@ void TestRemoveCopySimple(void)
     Vector result(5);
 
     typename Vector::iterator end = thrust::remove_copy(data.begin(), 
-                                                         data.end(), 
-                                                         result.begin(), 
-                                                         (T) 2);
+                                                        data.end(), 
+                                                        result.begin(), 
+                                                        (T) 2);
 
     ASSERT_EQUAL(end - result.begin(), 3);
 
@@ -100,6 +121,35 @@ void TestRemoveCopySimple(void)
     ASSERT_EQUAL(result[2], 3);
 }
 DECLARE_VECTOR_UNITTEST(TestRemoveCopySimple);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename T>
+OutputIterator remove_copy(my_system &system,
+                           InputIterator,
+                           InputIterator,
+                           OutputIterator result,
+                           const T &)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestRemoveCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::remove_copy(sys,
+                        vec.begin(),
+                        vec.begin(),
+                        vec.begin(),
+                        0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestRemoveCopyDispatchExplicit);
 
 
 template<typename InputIterator,
@@ -115,7 +165,7 @@ OutputIterator remove_copy(my_tag,
     return result;
 }
 
-void TestRemoveCopyDispatch()
+void TestRemoveCopyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -126,7 +176,7 @@ void TestRemoveCopyDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestRemoveCopyDispatch);
+DECLARE_UNITTEST(TestRemoveCopyDispatchImplicit);
 
 
 template<typename Vector>
@@ -156,6 +206,29 @@ DECLARE_VECTOR_UNITTEST(TestRemoveIfSimple);
 
 template<typename ForwardIterator,
          typename Predicate>
+ForwardIterator remove_if(my_system &system,
+                          ForwardIterator first,
+                          ForwardIterator,
+                          Predicate pred)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestRemoveIfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::remove_if(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestRemoveIfDispatchExplicit);
+
+
+template<typename ForwardIterator,
+         typename Predicate>
 ForwardIterator remove_if(my_tag,
                           ForwardIterator first,
                           ForwardIterator,
@@ -165,7 +238,7 @@ ForwardIterator remove_if(my_tag,
     return first;
 }
 
-void TestRemoveIfDispatch()
+void TestRemoveIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -175,7 +248,7 @@ void TestRemoveIfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestRemoveIfDispatch);
+DECLARE_UNITTEST(TestRemoveIfDispatchImplicit);
 
 
 template<typename Vector>
@@ -214,6 +287,35 @@ DECLARE_VECTOR_UNITTEST(TestRemoveIfStencilSimple);
 template<typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
+ForwardIterator remove_if(my_system &system,
+                          ForwardIterator first,
+                          ForwardIterator,
+                          InputIterator,
+                          Predicate pred)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestRemoveIfStencilDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::remove_if(sys,
+                      vec.begin(),
+                      vec.begin(),
+                      vec.begin(),
+                      0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestRemoveIfStencilDispatchExplicit);
+
+
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
 ForwardIterator remove_if(my_tag,
                           ForwardIterator first,
                           ForwardIterator,
@@ -224,7 +326,7 @@ ForwardIterator remove_if(my_tag,
     return first;
 }
 
-void TestRemoveIfStencilDispatch()
+void TestRemoveIfStencilDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -235,7 +337,7 @@ void TestRemoveIfStencilDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestRemoveIfStencilDispatch);
+DECLARE_UNITTEST(TestRemoveIfStencilDispatchImplicit);
 
 
 template<typename Vector>
@@ -269,6 +371,35 @@ DECLARE_VECTOR_UNITTEST(TestRemoveCopyIfSimple);
 template<typename InputIterator,
          typename OutputIterator,
          typename Predicate>
+InputIterator remove_copy_if(my_system &system,
+                             InputIterator first,
+                             InputIterator,
+                             OutputIterator,
+                             Predicate)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestRemoveCopyIfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::remove_copy_if(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestRemoveCopyIfDispatchExplicit);
+
+
+template<typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
 InputIterator remove_copy_if(my_tag,
                              InputIterator first,
                              InputIterator,
@@ -279,7 +410,7 @@ InputIterator remove_copy_if(my_tag,
     return first;
 }
 
-void TestRemoveCopyIfDispatch()
+void TestRemoveCopyIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -290,7 +421,7 @@ void TestRemoveCopyIfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestRemoveCopyIfDispatch);
+DECLARE_UNITTEST(TestRemoveCopyIfDispatchImplicit);
 
 
 template<typename Vector>
@@ -333,6 +464,38 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
+OutputIterator remove_copy_if(my_system &system,
+                              InputIterator1,
+                              InputIterator1,
+                              InputIterator2,
+                              OutputIterator result,
+                              Predicate)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestRemoveCopyIfStencilDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::remove_copy_if(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestRemoveCopyIfStencilDispatchExplicit);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
 OutputIterator remove_copy_if(my_tag,
                               InputIterator1,
                               InputIterator1,
@@ -344,7 +507,7 @@ OutputIterator remove_copy_if(my_tag,
     return result;
 }
 
-void TestRemoveCopyIfStencilDispatch()
+void TestRemoveCopyIfStencilDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -356,7 +519,7 @@ void TestRemoveCopyIfStencilDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestRemoveCopyIfStencilDispatch);
+DECLARE_UNITTEST(TestRemoveCopyIfStencilDispatchImplicit);
 
 
 template<typename T>

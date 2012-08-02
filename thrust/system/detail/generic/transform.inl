@@ -33,20 +33,16 @@ namespace generic
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
-  OutputIterator transform(tag,
+  OutputIterator transform(thrust::dispatchable<System> &system,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  // determine the minimal system of the two iterators
-  typedef typename thrust::iterator_system<InputIterator>::type        System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type       System2;
-  typedef typename thrust::detail::minimum_system<System1,System2>::type System;
-
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
   //     which is one or the other
@@ -60,7 +56,8 @@ template<typename InputIterator,
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(first,result)),
+    thrust::for_each(system,
+                     thrust::make_zip_iterator(thrust::make_tuple(first,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last,result)),
                      UnaryTransformFunctor(op));
 
@@ -68,25 +65,18 @@ template<typename InputIterator,
 } // end transform()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator transform(tag,
+  OutputIterator transform(thrust::dispatchable<System> &system,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
                            OutputIterator result,
                            BinaryFunction op)
 {
-  // determine the minimal system of the three iterators
-  typedef typename thrust::iterator_system<InputIterator1>::type        System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type        System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type        System3;
-
-  typedef typename thrust::detail::minimum_system<System1,System2>::type  System4;
-  typedef typename thrust::detail::minimum_system<System4,System3>::type  System;
-
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
   //     which is one or the other
@@ -100,7 +90,8 @@ template<typename InputIterator1,
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1,first2,result)),
+    thrust::for_each(system,
+                     thrust::make_zip_iterator(thrust::make_tuple(first1,first2,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last1,first2,result)),
                      BinaryTransformFunctor(op));
 
@@ -108,23 +99,18 @@ template<typename InputIterator1,
 } // end transform()
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(tag,
+  ForwardIterator transform_if(thrust::dispatchable<System> &system,
                                InputIterator first,
                                InputIterator last,
                                ForwardIterator result,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  // determine the minimal system of the two iterators
-  typedef typename thrust::iterator_system<InputIterator>::type        System1;
-  typedef typename thrust::iterator_system<ForwardIterator>::type      System2;
-
-  typedef typename thrust::detail::minimum_system<System1,System2>::type System;
-
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
   //     which is one or the other
@@ -138,7 +124,8 @@ template<typename InputIterator,
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(first,result)),
+    thrust::for_each(system,
+                     thrust::make_zip_iterator(thrust::make_tuple(first,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last,result)),
                      UnaryTransformIfFunctor(unary_op,pred));
 
@@ -146,12 +133,13 @@ template<typename InputIterator,
 } // end transform_if()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(tag,
+  ForwardIterator transform_if(thrust::dispatchable<System> &system,
                                InputIterator1 first,
                                InputIterator1 last,
                                InputIterator2 stencil,
@@ -159,14 +147,6 @@ template<typename InputIterator1,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  // determine the minimal system of the three iterators
-  typedef typename thrust::iterator_system<InputIterator1>::type        System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type        System2;
-  typedef typename thrust::iterator_system<ForwardIterator>::type       System3;
-
-  typedef typename thrust::detail::minimum_system<System1,System2>::type  System4;
-  typedef typename thrust::detail::minimum_system<System4,System3>::type  System;
-
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
   //     which is one or the other
@@ -180,7 +160,8 @@ template<typename InputIterator1,
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(first,stencil,result)),
+    thrust::for_each(system,
+                     thrust::make_zip_iterator(thrust::make_tuple(first,stencil,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last,stencil,result)),
                      UnaryTransformIfFunctor(unary_op,pred));
 
@@ -188,13 +169,14 @@ template<typename InputIterator1,
 } // end transform_if()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(tag,
+  ForwardIterator transform_if(thrust::dispatchable<System> &system,
                                InputIterator1 first1,
                                InputIterator1 last1,
                                InputIterator2 first2,
@@ -203,16 +185,6 @@ template<typename InputIterator1,
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  // determine the minimal system of the four iterators
-  typedef typename thrust::iterator_system<InputIterator1>::type        System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type        System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type        System3;
-  typedef typename thrust::iterator_system<ForwardIterator>::type       System4;
-
-  typedef typename thrust::detail::minimum_system<System1,System2>::type  System5;
-  typedef typename thrust::detail::minimum_system<System3,System4>::type  System6;
-  typedef typename thrust::detail::minimum_system<System5,System6>::type  System;
-
   // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
   //     a function which is only __host__ or __device__ by selecting a generic functor
   //     which is one or the other
@@ -226,7 +198,8 @@ template<typename InputIterator1,
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1,first2,stencil,result)),
+    thrust::for_each(system,
+                     thrust::make_zip_iterator(thrust::make_tuple(first1,first2,stencil,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last1,first2,stencil,result)),
                      BinaryTransformIfFunctor(binary_op,pred));
 

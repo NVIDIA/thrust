@@ -53,29 +53,29 @@ template<typename T>
 } // end namespace detail
 
 
-template<typename ForwardIterator>
-  void sequence(tag,
+template<typename System, typename ForwardIterator>
+  void sequence(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type T;
 
-  thrust::sequence(first, last, T(0));
+  thrust::sequence(system, first, last, T(0));
 } // end sequence()
 
 
-template<typename ForwardIterator, typename T>
-  void sequence(tag,
+template<typename System, typename ForwardIterator, typename T>
+  void sequence(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init)
 {
-  thrust::sequence(first, last, init, T(1));
+  thrust::sequence(system, first, last, init, T(1));
 } // end sequence()
 
 
-template<typename ForwardIterator, typename T>
-  void sequence(tag,
+template<typename System, typename ForwardIterator, typename T>
+  void sequence(thrust::dispatchable<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
@@ -91,8 +91,9 @@ template<typename ForwardIterator, typename T>
   // to avoid this, specify the counting_iterator's difference_type to be the same as ForwardIterator's.
   thrust::counting_iterator<difference_type, thrust::use_default, thrust::use_default, difference_type> iter(0);
 
-  thrust::transform(iter, iter + thrust::distance(first, last), first, func);
+  thrust::transform(system, iter, iter + thrust::distance(system, first, last), first, func);
 } // end sequence()
+
 
 } // end namespace generic
 } // end namespace detail

@@ -17,11 +17,13 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
 
 struct any_system_tag
+  : thrust::dispatchable<any_system_tag>
 {
   // allow any_system_tag to convert to any type at all
   // XXX make this safer using enable_if<is_tag<T>> upon c++11

@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/system/cpp/detail/tag.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 
@@ -30,73 +31,99 @@ namespace cuda
 namespace detail
 {
 
-struct tag {};
+// this awkward sequence of definitions arise
+// from the desire both for tag to derive
+// from dispatchable and for dispatchable
+// to convert to tag (when dispatchable is not
+// an ancestor of tag)
 
-struct cuda_to_cpp  {};
-struct cpp_to_cuda  {};
+// forward declaration of tag
+struct tag;
 
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
 
-template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, Tag)
+// specialize dispatchable for tag
+template<>
+  struct dispatchable<tag>
+    : thrust::dispatchable<tag>
+{};
+
+// tag's definition comes before the
+// generic definition of dispatchable
+struct tag : dispatchable<tag> {};
+
+// allow conversion to tag when it is not a successor
+template<typename Derived>
+  struct dispatchable
+    : thrust::dispatchable<Derived>
 {
-  return Tag();
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
+
+
+template<typename System1, typename System2>
+  struct cross_system
+    : thrust::dispatchable<cross_system<System1,System2> >
+{
+  inline __host__ __device__
+  cross_system(thrust::dispatchable<System1> &system1,
+               thrust::dispatchable<System2> &system2)
+    : system1(system1), system2(system2)
+  {}
+
+  thrust::dispatchable<System1> &system1;
+  thrust::dispatchable<System2> &system2;
+
+  inline __host__ __device__
+  cross_system<System2,System1> rotate() const
+  {
+    return cross_system<System2,System1>(system2,system1);
+  }
+};
+
+
+// overloads of select_system
+
+// cpp interop
+template<typename System1, typename System2>
+inline __host__ __device__
+cross_system<System1,System2> select_system(const dispatchable<System1> &system1, const thrust::cpp::dispatchable<System2> &system2)
+{
+  thrust::dispatchable<System1> &non_const_system1 = const_cast<dispatchable<System1>&>(system1);
+  thrust::cpp::dispatchable<System2> &non_const_system2 = const_cast<thrust::cpp::dispatchable<System2>&>(system2);
+  return cross_system<System1,System2>(non_const_system1,non_const_system2);
 }
 
-template<typename Tag>
-__host__ __device__
-inline Tag select_system(Tag, thrust::any_system_tag)
+
+template<typename System1, typename System2>
+inline __host__ __device__
+cross_system<System1,System2> select_system(const thrust::cpp::dispatchable<System1> &system1, dispatchable<System2> &system2)
 {
-  return Tag();
+  thrust::cpp::dispatchable<System1> &non_const_system1 = const_cast<thrust::cpp::dispatchable<System1>&>(system1);
+  thrust::dispatchable<System2> &non_const_system2 = const_cast<dispatchable<System2>&>(system2);
+  return cross_system<System1,System2>(non_const_system1,non_const_system2);
 }
 
-template<typename Tag>
-__host__ __device__
-inline Tag select_system(thrust::any_system_tag, Tag)
-{
-  return Tag();
-}
-
-// this version catches a user's tag derived from cuda::tag in the first slot
-template<typename Tag>
-__host__ __device__
-inline cuda_to_cpp select_system(Tag, thrust::system::cpp::tag)
-{
-  return cuda_to_cpp();
-}
-
-__host__ __device__
-inline cuda_to_cpp select_system(tag, thrust::system::cpp::tag)
-{
-  return cuda_to_cpp();
-}
-
-// this version catches a user's tag derived from cuda::tag in the second slot
-template<typename Tag>
-__host__ __device__
-inline cpp_to_cuda select_system(thrust::system::cpp::tag, Tag)
-{
-  return cpp_to_cuda();
-}
-
-__host__ __device__
-inline cpp_to_cuda select_system(thrust::system::cpp::tag, tag)
-{
-  return cpp_to_cuda();
-}
 
 } // end detail
 
-// alias the tag here
+// alias dispatchable and tag here
+using thrust::system::cuda::detail::dispatchable;
 using thrust::system::cuda::detail::tag;
 
 } // end cuda
 } // end system
 
-// alias cuda's tag at top-level
+// alias items at top-level
 namespace cuda
 {
 
+using thrust::system::cuda::dispatchable;
 using thrust::system::cuda::tag;
 
 } // end cuda

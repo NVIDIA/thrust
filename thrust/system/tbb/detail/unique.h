@@ -2,7 +2,7 @@
  *  Copyright 2008-2012 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ctbbliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -17,7 +17,43 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/pair.h>
 
-// this system inherits unique
-#include <thrust/system/cpp/detail/unique.h>
+namespace thrust
+{
+namespace system
+{
+namespace tbb
+{
+namespace detail
+{
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename BinaryPredicate>
+  ForwardIterator unique(dispatchable<System> &system,
+                         ForwardIterator first,
+                         ForwardIterator last,
+                         BinaryPredicate binary_pred);
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryPredicate>
+  OutputIterator unique_copy(dispatchable<System> &system,
+                             InputIterator first,
+                             InputIterator last,
+                             OutputIterator output,
+                             BinaryPredicate binary_pred);
+
+
+} // end namespace detail
+} // end namespace tbb 
+} // end namespace system
+} // end namespace thrust
+
+#include <thrust/system/tbb/detail/unique.inl>
 

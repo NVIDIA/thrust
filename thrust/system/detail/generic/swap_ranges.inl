@@ -48,9 +48,10 @@ struct swap_pair_elements
 
 } // end detail
 
-template<typename ForwardIterator1,
+template<typename System,
+         typename ForwardIterator1,
          typename ForwardIterator2>
-  ForwardIterator2 swap_ranges(tag,
+  ForwardIterator2 swap_ranges(thrust::dispatchable<System> &system,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
@@ -58,7 +59,8 @@ template<typename ForwardIterator1,
   typedef thrust::tuple<ForwardIterator1,ForwardIterator2> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple>              ZipIterator;
 
-  ZipIterator result = thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(first1, first2)),
+  ZipIterator result = thrust::for_each(system,
+                                        thrust::make_zip_iterator(thrust::make_tuple(first1, first2)),
                                         thrust::make_zip_iterator(thrust::make_tuple(last1,  first2)),
                                         detail::swap_pair_elements());
   return thrust::get<1>(result.get_iterator_tuple());

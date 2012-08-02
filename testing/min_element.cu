@@ -40,7 +40,25 @@ void TestMinElement(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestMinElement);
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator>
+ForwardIterator min_element(my_system &system, ForwardIterator first, ForwardIterator)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestMinElementDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::min_element(sys, vec.begin(), vec.end());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestMinElementDispatchExplicit);
+
 
 template<typename ForwardIterator>
 ForwardIterator min_element(my_tag, ForwardIterator first, ForwardIterator)
@@ -49,7 +67,7 @@ ForwardIterator min_element(my_tag, ForwardIterator first, ForwardIterator)
     return first;
 }
 
-void TestMinElementDispatch()
+void TestMinElementDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -58,5 +76,5 @@ void TestMinElementDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestMinElementDispatch);
+DECLARE_UNITTEST(TestMinElementDispatchImplicit);
 

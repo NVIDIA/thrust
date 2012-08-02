@@ -27,7 +27,24 @@ void TestDistance(void)
 }
 DECLARE_VECTOR_UNITTEST(TestDistance);
 
-struct my_tag : thrust::device_system_tag {};
+template<typename InputIterator>
+int distance(my_system &system, InputIterator, InputIterator)
+{
+    system.validate_dispatch();
+    return 13;
+}
+
+void TestDistanceDispatchExplicit()
+{
+    thrust::device_vector<int> vec;
+
+    my_system sys(0);
+    thrust::distance(sys, vec.begin(), vec.end());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestDistanceDispatchExplicit);
+
 
 template<typename InputIterator>
 int distance(my_tag, InputIterator, InputIterator)
@@ -35,7 +52,7 @@ int distance(my_tag, InputIterator, InputIterator)
     return 13;
 }
 
-void TestDistanceDispatch()
+void TestDistanceDispatchImplicit()
 {
     thrust::device_vector<int> vec;
 
@@ -44,5 +61,5 @@ void TestDistanceDispatch()
 
     ASSERT_EQUAL(13, result);
 }
-DECLARE_UNITTEST(TestDistanceDispatch);
+DECLARE_UNITTEST(TestDistanceDispatchImplicit);
 

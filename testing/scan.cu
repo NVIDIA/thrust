@@ -3,7 +3,6 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_tag : thrust::device_system_tag {};
 
 template<typename T>
   struct max_functor
@@ -92,6 +91,32 @@ DECLARE_VECTOR_UNITTEST(TestScanSimple);
 
 template<typename InputIterator,
          typename OutputIterator>
+OutputIterator inclusive_scan(my_system &system,
+                              InputIterator,
+                              InputIterator,
+                              OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestInclusiveScanDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::inclusive_scan(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestInclusiveScanDispatchExplicit);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
 OutputIterator inclusive_scan(my_tag,
                               InputIterator,
                               InputIterator,
@@ -101,7 +126,7 @@ OutputIterator inclusive_scan(my_tag,
     return result;
 }
 
-void TestInclusiveScanDispatch()
+void TestInclusiveScanDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -111,7 +136,33 @@ void TestInclusiveScanDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestInclusiveScanDispatch);
+DECLARE_UNITTEST(TestInclusiveScanDispatchImplicit);
+
+
+template<typename InputIterator,
+         typename OutputIterator>
+OutputIterator exclusive_scan(my_system &system,
+                              InputIterator,
+                              InputIterator,
+                              OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestExclusiveScanDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::exclusive_scan(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestExclusiveScanDispatchExplicit);
 
 
 template<typename InputIterator,
@@ -125,7 +176,7 @@ OutputIterator exclusive_scan(my_tag,
     return result;
 }
 
-void TestExclusiveScanDispatch()
+void TestExclusiveScanDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -135,7 +186,7 @@ void TestExclusiveScanDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestExclusiveScanDispatch);
+DECLARE_UNITTEST(TestExclusiveScanDispatchImplicit);
 
 
 void TestInclusiveScan32(void)

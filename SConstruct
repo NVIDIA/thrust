@@ -239,7 +239,7 @@ def macros(mode, host_backend, device_backend):
   return result
 
 
-def cc_compiler_flags(CXX, mode, host_backend, device_backend, warn_all, warnings_as_errors):
+def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors):
   """Returns a list of command line flags needed by the c or c++ compiler"""
   # start with all platform-independent preprocessor macros
   result = macros(mode, host_backend, device_backend)
@@ -272,6 +272,10 @@ def cc_compiler_flags(CXX, mode, host_backend, device_backend, warn_all, warning
 
   # workarounds
   result.extend(flags['workarounds'])
+
+  # on darwin, we need to tell the compiler to build 32b code for cuda
+  if platform == 'darwin' and device_backend == 'cuda':
+    result.append('-m32')
 
   return result
 
@@ -360,7 +364,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   # populate the environment
   env.Append(CPPPATH = inc_paths(env))
   
-  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], host, device, env['Wall'], env['Werror']))
+  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
   
   env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch']))
   

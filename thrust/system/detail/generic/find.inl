@@ -38,17 +38,18 @@ namespace generic
 {
 
 
-template<typename InputIterator, typename T>
-InputIterator find(tag,
+template<typename System, typename InputIterator, typename T>
+InputIterator find(thrust::dispatchable<System> &system,
                    InputIterator first,
                    InputIterator last,
                    const T& value)
 {
-  return thrust::find_if(first, last, thrust::detail::equal_to_value<T>(value));
+  // XXX consider a placeholder expression here
+  return thrust::find_if(system, first, last, thrust::detail::equal_to_value<T>(value));
 } // end find()
 
 
-template <typename TupleType>
+template<typename TupleType>
 struct find_if_functor
 {
     __host__ __device__
@@ -65,8 +66,8 @@ struct find_if_functor
 };
     
 
-template <typename InputIterator, typename Predicate>
-InputIterator find_if(tag,
+template<typename System, typename InputIterator, typename Predicate>
+InputIterator find_if(thrust::dispatchable<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
@@ -78,7 +79,7 @@ InputIterator find_if(tag,
     if (first == last)
         return last;
 
-    const difference_type n = thrust::distance(first, last);
+    const difference_type n = thrust::distance(system, first, last);
 
     // this implementation breaks up the sequence into separate intervals
     // in an attempt to early-out as soon as a value is found
@@ -106,7 +107,8 @@ InputIterator find_if(tag,
           interval_end = end;
         } // end if
 
-        result_type result = thrust::reduce(interval_begin, interval_end,
+        result_type result = thrust::reduce(system,
+                                            interval_begin, interval_end,
                                             result_type(false,interval_end - begin),
                                             find_if_functor<result_type>());
 
@@ -122,14 +124,15 @@ InputIterator find_if(tag,
 }
 
 
-template<typename InputIterator, typename Predicate>
-InputIterator find_if_not(tag,
+template<typename System, typename InputIterator, typename Predicate>
+InputIterator find_if_not(thrust::dispatchable<System> &system,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
-    return thrust::find_if(first, last, thrust::detail::not1(pred));
+    return thrust::find_if(system, first, last, thrust::detail::not1(pred));
 } // end find()
+
 
 } // end namespace generic
 } // end namespace detail

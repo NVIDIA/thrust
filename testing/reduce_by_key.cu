@@ -205,7 +205,39 @@ struct TestReduceByKeyToDiscardIterator
 };
 VariableUnitTest<TestReduceByKeyToDiscardIterator, IntegralTypes> TestReduceByKeyToDiscardIteratorInstance;
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2>
+thrust::pair<OutputIterator1,OutputIterator2>
+reduce_by_key(my_system &system,
+              InputIterator1, 
+              InputIterator1,
+              InputIterator2,
+              OutputIterator1 keys_output,
+              OutputIterator2 values_output)
+{
+    system.validate_dispatch();
+    return thrust::make_pair(keys_output, values_output);
+}
+
+void TestReduceByKeyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::reduce_by_key(sys,
+                          vec.begin(),
+                          vec.begin(),
+                          vec.begin(),
+                          vec.begin(),
+                          vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestReduceByKeyDispatchExplicit);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -223,7 +255,7 @@ reduce_by_key(my_tag,
     return thrust::make_pair(keys_output, values_output);
 }
 
-void TestReduceByKeyDispatch()
+void TestReduceByKeyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -235,5 +267,5 @@ void TestReduceByKeyDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestReduceByKeyDispatch);
+DECLARE_UNITTEST(TestReduceByKeyDispatchImplicit);
 

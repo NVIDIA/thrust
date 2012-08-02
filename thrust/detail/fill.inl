@@ -28,18 +28,72 @@
 namespace thrust
 {
 
+
+template<typename System, typename ForwardIterator, typename T>
+  void fill(thrust::detail::dispatchable_base<System> &system,
+            ForwardIterator first,
+            ForwardIterator last,
+            const T &value)
+{
+  using thrust::system::detail::generic::fill;
+  return fill(system.derived(), first, last, value);
+} // end fill()
+
+
+template<typename System, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(thrust::detail::dispatchable_base<System> &system,
+                        OutputIterator first,
+                        Size n,
+                        const T &value)
+{
+  using thrust::system::detail::generic::fill_n;
+  return fill_n(system.derived(), first, n, value);
+} // end fill_n()
+
+
+namespace detail
+{
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void strip_const_fill(const System &system,
+                        ForwardIterator first,
+                        ForwardIterator last,
+                        const T &value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::fill(non_const_system, first, last, value);
+} // end fill()
+
+
+template<typename System, typename OutputIterator, typename Size, typename T>
+  OutputIterator strip_const_fill_n(const System &system,
+                                    OutputIterator first,
+                                    Size n,
+                                    const T &value)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return fill_n(non_const_system, first, n, value);
+} // end fill_n()
+
+
+} // end detail
+
+
 template<typename ForwardIterator, typename T>
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::fill;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  fill(select_system(system()), first, last, value);
+  System system;
+
+  thrust::detail::strip_const_fill(select_system(system), first, last, value);
 } // end fill()
+
 
 template<typename OutputIterator, typename Size, typename T>
   OutputIterator fill_n(OutputIterator first,
@@ -47,12 +101,14 @@ template<typename OutputIterator, typename Size, typename T>
                         const T &value)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::fill_n;
 
-  typedef typename thrust::iterator_system<OutputIterator>::type system;
+  typedef typename thrust::iterator_system<OutputIterator>::type System;
 
-  return fill_n(select_system(system()), first, n, value);
+  System system;
+
+  return thrust::detail::strip_const_fill_n(select_system(system), first, n, value);
 } // end fill()
+
 
 } // end namespace thrust
 

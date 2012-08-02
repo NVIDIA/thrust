@@ -34,14 +34,15 @@ namespace detail
 {
 
 
-template <typename InputIterator1,
+template <typename System,
+          typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(dispatchable<System> &system,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,

@@ -182,7 +182,7 @@ struct tuple_meta_accumulate
 //
 template<typename Fun, typename System>
 inline __host__ __device__
-Fun tuple_for_each(thrust::null_type, Fun f, System)
+Fun tuple_for_each(thrust::null_type, Fun f, System *)
 {
   return f;
 } // end tuple_for_each()
@@ -190,7 +190,7 @@ Fun tuple_for_each(thrust::null_type, Fun f, System)
 
 template<typename Tuple, typename Fun, typename System>
 inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f, System dispatch_tag)
+Fun tuple_for_each(Tuple& t, Fun f, System *dispatch_tag)
 { 
   f( t.get_head() );
   return tuple_for_each(t.get_tail(), f, dispatch_tag);
@@ -199,7 +199,7 @@ Fun tuple_for_each(Tuple& t, Fun f, System dispatch_tag)
 
 template<typename Tuple, typename Fun>
 inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f, thrust::host_system_tag dispatch_tag)
+Fun tuple_for_each(Tuple& t, Fun f, thrust::host_system_tag *dispatch_tag)
 { 
 // XXX this path is required in order to accomodate pure host iterators
 //     (such as std::vector::iterator) in a zip_iterator

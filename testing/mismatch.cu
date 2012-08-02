@@ -27,7 +27,31 @@ void TestMismatchSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestMismatchSimple);
 
-struct my_tag : thrust::device_system_tag {};
+
+template <typename InputIterator1, typename InputIterator2>
+thrust::pair<InputIterator1, InputIterator2> mismatch(my_system &system,
+                                                      InputIterator1 first,
+                                                      InputIterator1,
+                                                      InputIterator2)
+{
+    system.validate_dispatch();
+    return thrust::make_pair(first,first);
+}
+
+void TestMismatchDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::mismatch(sys,
+                     vec.begin(),
+                     vec.begin(),
+                     vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestMismatchDispatchExplicit);
+
 
 template <typename InputIterator1, typename InputIterator2>
 thrust::pair<InputIterator1, InputIterator2> mismatch(my_tag,
@@ -39,7 +63,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(my_tag,
     return thrust::make_pair(first,first);
 }
 
-void TestMismatchDispatch()
+void TestMismatchDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -49,5 +73,5 @@ void TestMismatchDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestMismatchDispatch);
+DECLARE_UNITTEST(TestMismatchDispatchImplicit);
 

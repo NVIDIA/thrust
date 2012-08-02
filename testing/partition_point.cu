@@ -33,9 +33,6 @@ DECLARE_VECTOR_UNITTEST(TestPartitionPointSimple);
 template <class Vector>
 void TestPartitionPoint(void)
 {
-#if defined(CUDA_VERSION) && (CUDA_VERSION == 3020)
-  KNOWN_FAILURE;
-#else
   typedef typename Vector::value_type T;
   typedef typename Vector::iterator Iterator;
 
@@ -46,14 +43,37 @@ void TestPartitionPoint(void)
   Iterator ref = thrust::stable_partition(v.begin(), v.end(), is_even<T>());
 
   ASSERT_EQUAL(ref - v.begin(), thrust::partition_point(v.begin(), v.end(), is_even<T>()) - v.begin());
-#endif
 }
 DECLARE_VECTOR_UNITTEST(TestPartitionPoint);
 
-struct my_tag : thrust::device_system_tag {};
 
 template<typename ForwardIterator, typename Predicate>
-ForwardIterator partition_point(my_tag, 
+ForwardIterator partition_point(my_system &system, 
+                                ForwardIterator first,
+                                ForwardIterator last,
+                                Predicate pred)
+{
+  system.validate_dispatch();
+  return first;
+}
+
+void TestPartitionPointDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::partition_point(sys,
+                          vec.begin(),
+                          vec.begin(),
+                          0);
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestPartitionPointDispatchExplicit);
+
+
+template<typename ForwardIterator, typename Predicate>
+ForwardIterator partition_point(my_tag,
                                 ForwardIterator first,
                                 ForwardIterator last,
                                 Predicate pred)
@@ -62,7 +82,7 @@ ForwardIterator partition_point(my_tag,
   return first;
 }
 
-void TestPartitionPointDispatch()
+void TestPartitionPointDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
@@ -72,5 +92,5 @@ void TestPartitionPointDispatch()
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestPartitionPointDispatch);
+DECLARE_UNITTEST(TestPartitionPointDispatchImplicit);
 

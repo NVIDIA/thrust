@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
@@ -28,20 +29,54 @@ namespace cpp
 namespace detail
 {
 
-struct tag {};
+// this awkward sequence of definitions arise
+// from the desire both for tag to derive
+// from dispatchable and for dispatchable
+// to convert to tag (when dispatchable is not
+// an ancestor of tag)
+
+// forward declaration of tag
+struct tag;
+
+// forward declaration of dispatchable
+template<typename> struct dispatchable;
+
+// specialize dispatchable for tag
+template<>
+  struct dispatchable<tag>
+    : thrust::dispatchable<tag>
+{};
+
+// tag's definition comes before the
+// generic definition of dispatchable
+struct tag : dispatchable<tag> {};
+
+// allow conversion to tag when it is not a successor
+template<typename Derived>
+  struct dispatchable
+    : thrust::dispatchable<Derived>
+{
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
 
 } // end detail
 
-// alias the tag here
+// alias dispatchable and tag here
+using thrust::system::cpp::detail::dispatchable;
 using thrust::system::cpp::detail::tag;
 
 } // end cpp
 } // end system
 
-// alias cpp's tag at top-level
+// alias items at top-level
 namespace cpp
 {
 
+using thrust::system::cpp::dispatchable;
 using thrust::system::cpp::tag;
 
 } // end cpp

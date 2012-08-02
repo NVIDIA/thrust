@@ -4,7 +4,37 @@
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+OutputIterator set_intersection(my_system &system,
+                                InputIterator1,
+                                InputIterator1,
+                                InputIterator2,
+                                InputIterator2,
+                                OutputIterator result)
+{
+  system.validate_dispatch();
+  return result;
+}
+
+void TestSetIntersectionDispatchExplicit()
+{
+  thrust::device_vector<int> vec(1);
+
+  my_system sys(0);
+  thrust::set_intersection(sys,
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin(),
+                           vec.begin());
+
+  ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestSetIntersectionDispatchExplicit);
+
 
 template<typename InputIterator1,
          typename InputIterator2,
@@ -20,7 +50,7 @@ OutputIterator set_intersection(my_tag,
   return result;
 }
 
-void TestSetIntersectionDispatch()
+void TestSetIntersectionDispatchImplicit()
 {
   thrust::device_vector<int> vec(1);
 
@@ -32,7 +62,7 @@ void TestSetIntersectionDispatch()
 
   ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestSetIntersectionDispatch);
+DECLARE_UNITTEST(TestSetIntersectionDispatchImplicit);
 
 
 template<typename Vector>

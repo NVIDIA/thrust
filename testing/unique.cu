@@ -3,7 +3,27 @@
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
 
-struct my_tag : thrust::device_system_tag {};
+
+template <typename ForwardIterator>
+ForwardIterator unique(my_system &system,
+                       ForwardIterator first,
+                       ForwardIterator)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestUniqueDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::unique(sys, vec.begin(), vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUniqueDispatchExplicit);
+
 
 template <typename ForwardIterator>
 ForwardIterator unique(my_tag,
@@ -14,7 +34,8 @@ ForwardIterator unique(my_tag,
     return first;
 }
 
-void TestUniqueDispatch()
+
+void TestUniqueDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -23,7 +44,30 @@ void TestUniqueDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUniqueDispatch);
+DECLARE_UNITTEST(TestUniqueDispatchImplicit);
+
+
+template <typename InputIterator,
+          typename OutputIterator>
+OutputIterator unique_copy(my_system &system,
+                           InputIterator,
+                           InputIterator,
+                           OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestUniqueCopyDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::unique_copy(sys, vec.begin(), vec.begin(), vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUniqueCopyDispatchExplicit);
 
 
 template <typename InputIterator,
@@ -37,7 +81,7 @@ OutputIterator unique_copy(my_tag,
     return result;
 }
 
-void TestUniqueCopyDispatch()
+void TestUniqueCopyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -47,7 +91,7 @@ void TestUniqueCopyDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestUniqueCopyDispatch);
+DECLARE_UNITTEST(TestUniqueCopyDispatchImplicit);
 
 
 template<typename T>

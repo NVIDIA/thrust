@@ -34,10 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template<typename InputIterator, 
+template<typename System,
+         typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(tag,
+  OutputType reduce(dispatchable<System> &,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,

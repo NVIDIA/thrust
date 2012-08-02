@@ -30,19 +30,78 @@
 namespace thrust
 {
 
+
+template<typename System, typename InputIterator1, typename InputIterator2>
+thrust::pair<InputIterator1, InputIterator2> mismatch(thrust::detail::dispatchable_base<System> &system,
+                                                      InputIterator1 first1,
+                                                      InputIterator1 last1,
+                                                      InputIterator2 first2)
+{
+  using thrust::system::detail::generic::mismatch;
+  return mismatch(system.derived(), first1, last1, first2);
+} // end mismatch()
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+thrust::pair<InputIterator1, InputIterator2> mismatch(thrust::detail::dispatchable_base<System> &system,
+                                                      InputIterator1 first1,
+                                                      InputIterator1 last1,
+                                                      InputIterator2 first2,
+                                                      BinaryPredicate pred)
+{
+  using thrust::system::detail::generic::mismatch;
+  return mismatch(system.derived(), first1, last1, first2, pred);
+} // end mismatch()
+
+
+namespace detail
+{
+
+
+template<typename System, typename InputIterator1, typename InputIterator2>
+  thrust::pair<InputIterator1, InputIterator2>
+    strip_const_mismatch(const System &system,
+                         InputIterator1 first1,
+                         InputIterator1 last1,
+                         InputIterator2 first2)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::mismatch(non_const_system, first1, last1, first2);
+} // end mismatch()
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+  thrust::pair<InputIterator1, InputIterator2>
+    strip_const_mismatch(const System &system,
+                         InputIterator1 first1,
+                         InputIterator1 last1,
+                         InputIterator2 first2,
+                         BinaryPredicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::mismatch(non_const_system, first1, last1, first2, pred);
+} // end mismatch()
+
+
+} // end detail
+
+
 template <typename InputIterator1, typename InputIterator2>
 thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::mismatch;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
 
-  return mismatch(select_system(system1(),system2()), first1, last1, first2);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_mismatch(select_system(system1,system2), first1, last1, first2);
 } // end mismatch()
+
 
 template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
@@ -51,13 +110,16 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       BinaryPredicate pred)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::mismatch;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
+  typedef typename thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type System2;
 
-  return mismatch(select_system(system1(),system2()), first1, last1, first2, pred);
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_mismatch(select_system(system1,system2), first1, last1, first2, pred);
 } // end mismatch()
+
 
 } // end namespace thrust
 

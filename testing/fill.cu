@@ -384,7 +384,23 @@ void TestFillWithNonTrivialAssignment(void)
 DECLARE_UNITTEST(TestFillWithNonTrivialAssignment);
 
 
-struct my_tag : thrust::device_system_tag {};
+template<typename ForwardIterator, typename T>
+void fill(my_system &system, ForwardIterator first, ForwardIterator, const T&)
+{
+    system.validate_dispatch();
+}
+
+void TestFillDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::fill(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestFillDispatchExplicit);
+
 
 template<typename ForwardIterator, typename T>
 void fill(my_tag, ForwardIterator first, ForwardIterator, const T&)
@@ -392,7 +408,7 @@ void fill(my_tag, ForwardIterator first, ForwardIterator, const T&)
     *first = 13;
 }
 
-void TestFillDispatch()
+void TestFillDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -402,7 +418,26 @@ void TestFillDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFillDispatch);
+DECLARE_UNITTEST(TestFillDispatchImplicit);
+
+
+template<typename OutputIterator, typename Size, typename T>
+OutputIterator fill_n(my_system &system, OutputIterator first, Size, const T&)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestFillNDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::fill_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestFillNDispatchExplicit);
 
 
 template<typename OutputIterator, typename Size, typename T>
@@ -412,7 +447,7 @@ OutputIterator fill_n(my_tag, OutputIterator first, Size, const T&)
     return first;
 }
 
-void TestFillNDispatch()
+void TestFillNDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -422,7 +457,7 @@ void TestFillNDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestFillNDispatch);
+DECLARE_UNITTEST(TestFillNDispatchImplicit);
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

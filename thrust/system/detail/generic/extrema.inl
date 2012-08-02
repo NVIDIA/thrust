@@ -137,18 +137,18 @@ struct duplicate_tuple
 
 } // end namespace detail
 
-template <typename ForwardIterator>
-ForwardIterator min_element(tag,
+template <typename System, typename ForwardIterator>
+ForwardIterator min_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last)
 {
   typedef typename thrust::iterator_value<ForwardIterator>::type value_type;
 
-  return thrust::min_element(first, last, thrust::less<value_type>());
+  return thrust::min_element(system, first, last, thrust::less<value_type>());
 } // end min_element()
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -161,7 +161,8 @@ ForwardIterator min_element(tag,
 
   thrust::tuple<InputType, IndexType> result =
     thrust::reduce
-      (thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
+      (system,
+       thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
        thrust::tuple<InputType, IndexType>(*first, 0),
        detail::min_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
@@ -169,18 +170,18 @@ ForwardIterator min_element(tag,
   return first + thrust::get<1>(result);
 } // end min_element()
 
-template <typename ForwardIterator>
-ForwardIterator max_element(tag,
+template <typename System, typename ForwardIterator>
+ForwardIterator max_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last)
 {
   typedef typename thrust::iterator_value<ForwardIterator>::type value_type;
 
-  return thrust::max_element(first, last, thrust::less<value_type>());
+  return thrust::max_element(system, first, last, thrust::less<value_type>());
 } // end max_element()
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -193,7 +194,8 @@ ForwardIterator max_element(tag,
 
   thrust::tuple<InputType, IndexType> result =
     thrust::reduce
-      (thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
+      (system,
+       thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
        thrust::tuple<InputType, IndexType>(*first, 0),
        detail::max_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
@@ -201,18 +203,18 @@ ForwardIterator max_element(tag,
   return first + thrust::get<1>(result);
 } // end max_element()
 
-template <typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+template <typename System, typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::dispatchable<System> &system,
                                                              ForwardIterator first, 
                                                              ForwardIterator last)
 {
   typedef typename thrust::iterator_value<ForwardIterator>::type value_type;
 
-  return thrust::minmax_element(first, last, thrust::less<value_type>());
+  return thrust::minmax_element(system, first, last, thrust::less<value_type>());
 } // end minmax_element()
 
-template <typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::dispatchable<System> &system,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
@@ -225,7 +227,8 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
 
   thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> > result = 
     thrust::transform_reduce
-      (thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
+      (system,
+       thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
        detail::duplicate_tuple<InputType, IndexType>(),
        detail::duplicate_tuple<InputType, IndexType>()(thrust::tuple<InputType, IndexType>(*first, 0)),

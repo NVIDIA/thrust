@@ -30,19 +30,22 @@ namespace cpp
 namespace detail
 {
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
+  ForwardIterator unique(dispatchable<System> &,
+                         ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
   return thrust::system::detail::internal::scalar::unique(first, last, binary_pred);
 }
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator unique_copy(tag,
+  OutputIterator unique_copy(dispatchable<System> &,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,

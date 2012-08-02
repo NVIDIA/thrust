@@ -6,8 +6,6 @@
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-struct my_tag : thrust::device_system_tag {};
-
 template <typename T>
 class mark_present_for_each
 {
@@ -44,13 +42,32 @@ DECLARE_VECTOR_UNITTEST(TestForEachSimple);
 
 
 template<typename InputIterator, typename Function>
+InputIterator for_each(my_system &system, InputIterator first, InputIterator, Function)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestForEachDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::for_each(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestForEachDispatchExplicit);
+
+
+template<typename InputIterator, typename Function>
 InputIterator for_each(my_tag, InputIterator first, InputIterator, Function)
 {
     *first = 13;
     return first;
 }
 
-void TestForEachDispatch()
+void TestForEachDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -60,7 +77,7 @@ void TestForEachDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestForEachDispatch);
+DECLARE_UNITTEST(TestForEachDispatchImplicit);
 
 
 template <class Vector>
@@ -91,13 +108,32 @@ DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
 
 
 template<typename InputIterator, typename Size, typename Function>
+InputIterator for_each_n(my_system &system, InputIterator first, Size, Function)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestForEachNDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::for_each_n(sys, vec.begin(), vec.size(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestForEachNDispatchExplicit);
+
+
+template<typename InputIterator, typename Size, typename Function>
 InputIterator for_each_n(my_tag, InputIterator first, Size, Function)
 {
     *first = 13;
     return first;
 }
 
-void TestForEachNDispatch()
+void TestForEachNDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -107,7 +143,7 @@ void TestForEachNDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestForEachNDispatch);
+DECLARE_UNITTEST(TestForEachNDispatchImplicit);
 
 
 void TestForEachSimpleAnySystem(void)
@@ -262,14 +298,12 @@ void TestForEachWithLargeTypes(void)
     _TestForEachWithLargeTypes<int,    8>();
     _TestForEachWithLargeTypes<int,   16>();
 
-    KNOWN_FAILURE;
-
-    //_TestForEachWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
-    //_TestForEachWithLargeTypes<int,   64>();
-    //_TestForEachWithLargeTypes<int,  128>();
-    //_TestForEachWithLargeTypes<int,  256>();
-    //_TestForEachWithLargeTypes<int,  512>();
-    //_TestForEachWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
+    _TestForEachWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
+    _TestForEachWithLargeTypes<int,   64>();
+    _TestForEachWithLargeTypes<int,  128>();
+    _TestForEachWithLargeTypes<int,  256>();
+    _TestForEachWithLargeTypes<int,  512>();
+    _TestForEachWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
 }
 DECLARE_UNITTEST(TestForEachWithLargeTypes);
 
@@ -303,14 +337,12 @@ void TestForEachNWithLargeTypes(void)
     _TestForEachNWithLargeTypes<int,    8>();
     _TestForEachNWithLargeTypes<int,   16>();
 
-    KNOWN_FAILURE;
-
-    //_TestForEachNWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
-    //_TestForEachNWithLargeTypes<int,   64>();
-    //_TestForEachNWithLargeTypes<int,  128>();
-    //_TestForEachNWithLargeTypes<int,  256>();
-    //_TestForEachNWithLargeTypes<int,  512>();
-    //_TestForEachNWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
+    _TestForEachNWithLargeTypes<int,   32>();  // fails on Linux 32 w/ gcc 4.1
+    _TestForEachNWithLargeTypes<int,   64>();
+    _TestForEachNWithLargeTypes<int,  128>();
+    _TestForEachNWithLargeTypes<int,  256>();
+    _TestForEachNWithLargeTypes<int,  512>();
+    _TestForEachNWithLargeTypes<int, 1024>();  // fails on Vista 64 w/ VS2008
 }
 DECLARE_UNITTEST(TestForEachNWithLargeTypes);
 

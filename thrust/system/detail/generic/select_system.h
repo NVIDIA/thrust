@@ -17,7 +17,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/is_metafunction_defined.h>
 #include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/system/detail/generic/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -30,53 +32,107 @@ namespace detail
 {
 namespace generic
 {
+namespace select_system_detail
+{
 
-template<typename Tag>
+
+// min_system case 1: both systems have the same type, just return the first one
+template<typename System>
+__host__ __device__
+System &min_system(thrust::dispatchable<System> &system1,
+                   thrust::dispatchable<System> &)
+{
+  return system1.derived();
+} // end min_system()
+
+
+// min_system case 2: systems have differing type and the first type is considered the minimum
+template<typename System1, typename System2>
+__host__ __device__
+  typename thrust::detail::enable_if<
+    thrust::detail::is_same<
+      System1,
+      typename thrust::detail::minimum_system<System1,System2>::type
+    >::value,
+    System1 &
+  >::type
+    min_system(thrust::dispatchable<System1> &system1, thrust::dispatchable<System2> &)
+{
+  return system1.derived();
+} // end min_system()
+
+
+// min_system case 3: systems have differing type and the second type is considered the minimum
+template<typename System1, typename System2>
+__host__ __device__
+  typename thrust::detail::enable_if<
+    thrust::detail::is_same<
+      System2,
+      typename thrust::detail::minimum_system<System1,System2>::type
+    >::value,
+    System2 &
+  >::type
+    min_system(thrust::dispatchable<System1> &, thrust::dispatchable<System2> &system2)
+{
+  return system2.derived();
+} // end min_system()
+
+
+} // end select_system_detail
+
+
+template<typename System>
 __host__ __device__
   typename thrust::detail::disable_if<
-    select_system1_exists<Tag>::value,
-    Tag
+    select_system1_exists<System>::value,
+    System &
   >::type
-    select_system(Tag)
+    select_system(thrust::dispatchable<System> &system)
 {
-  return Tag();
+  return system.derived();
 } // end select_system()
 
-template<typename Tag1, typename Tag2>
+
+template<typename System1, typename System2>
 __host__ __device__
-  typename thrust::detail::lazy_disable_if<
-    select_system2_exists<Tag1,Tag2>::value,
-    thrust::detail::minimum_system<Tag1,Tag2>
+  typename thrust::detail::enable_if_defined<
+    thrust::detail::minimum_system<System1,System2>
   >::type
-    select_system(Tag1, Tag2)
+    &select_system(thrust::dispatchable<System1> &system1,
+                   thrust::dispatchable<System2> &system2)
 {
-  // for now, return minimum_system
-  return typename thrust::detail::minimum_system<Tag1,Tag2>::type();
+  return select_system_detail::min_system(system1,system2);
 } // end select_system()
 
-template<typename Tag1, typename Tag2, typename Tag3>
+
+template<typename System1, typename System2, typename System3>
 __host__ __device__
   typename thrust::detail::lazy_disable_if<
-    select_system3_exists<Tag1,Tag2,Tag3>::value,
-    thrust::detail::minimum_system<Tag1,Tag2,Tag3>
+    select_system3_exists<System1,System2,System3>::value,
+    thrust::detail::minimum_system<System1,System2,System3>
   >::type
-    select_system(Tag1, Tag2, Tag3)
+    &select_system(thrust::dispatchable<System1> &system1,
+                   thrust::dispatchable<System2> &system2,
+                   thrust::dispatchable<System3> &system3)
 {
-  // for now, return minimum_system
-  return typename thrust::detail::minimum_system<Tag1,Tag2,Tag3>::type();
+  return select_system(select_system(system1,system2), system3);
 } // end select_system()
 
-template<typename Tag1, typename Tag2, typename Tag3, typename Tag4>
+
+template<typename System1, typename System2, typename System3, typename System4>
 __host__ __device__
   typename thrust::detail::lazy_disable_if<
-    select_system4_exists<Tag1,Tag2,Tag3,Tag4>::value,
-    thrust::detail::minimum_system<Tag1,Tag2,Tag3,Tag4>
+    select_system4_exists<System1,System2,System3,System4>::value,
+    thrust::detail::minimum_system<System1,System2,System3,System4>
   >::type
-    select_system(Tag1, Tag2, Tag3, Tag4)
+    &select_system(thrust::dispatchable<System1> &system1,
+                   thrust::dispatchable<System2> &system2,
+                   thrust::dispatchable<System3> &system3,
+                   thrust::dispatchable<System4> &system4)
 {
-  // for now, return minimum_system
-  return typename thrust::detail::minimum_system<Tag1,Tag2,Tag3,Tag4>::type();
+  return select_system(select_system(system1,system2,system3), system4);
 } // end select_system()
+
 
 // map a single any_system_tag to device_system_tag
 inline __host__ __device__
@@ -84,6 +140,7 @@ thrust::device_system_tag select_system(thrust::any_system_tag)
 {
   return thrust::device_system_tag();
 } // end select_system()
+
 
 } // end generic
 } // end detail

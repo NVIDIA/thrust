@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -34,16 +35,20 @@ namespace detail
 namespace detail
 {
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_merge_sort(RandomAccessIterator first,
+void stable_merge_sort(dispatchable<System> &system,
+                       RandomAccessIterator first,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp);
     
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_merge_sort_by_key(RandomAccessIterator1 keys_begin,
+void stable_merge_sort_by_key(dispatchable<System> &system,
+                              RandomAccessIterator1 keys_begin,
                               RandomAccessIterator1 keys_end,
                               RandomAccessIterator2 values_begin,
                               StrictWeakOrdering comp);

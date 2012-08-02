@@ -30,16 +30,90 @@ namespace thrust
 {
 
 
+template<typename System, typename ForwardIterator>
+  void sequence(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator first,
+                ForwardIterator last)
+{
+  using thrust::system::detail::generic::sequence;
+  return sequence(system.derived(), first, last);
+} // end sequence()
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void sequence(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator first,
+                ForwardIterator last,
+                T init)
+{
+  using thrust::system::detail::generic::sequence;
+  return sequence(system.derived(), first, last, init);
+} // end sequence()
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void sequence(thrust::detail::dispatchable_base<System> &system,
+                ForwardIterator first,
+                ForwardIterator last,
+                T init,
+                T step)
+{
+  using thrust::system::detail::generic::sequence;
+  return sequence(system.derived(), first, last, init, step);
+} // end sequence()
+
+
+namespace detail
+{
+
+
+template<typename System, typename ForwardIterator>
+  void strip_const_sequence(const System &system,
+                            ForwardIterator first,
+                            ForwardIterator last)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::sequence(non_const_system, first, last);
+} // end sequence()
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void strip_const_sequence(const System &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            T init)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::sequence(non_const_system, first, last, init);
+} // end sequence()
+
+
+template<typename System, typename ForwardIterator, typename T>
+  void strip_const_sequence(const System &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            T init,
+                            T step)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::sequence(non_const_system, first, last, init, step);
+} // end sequence()
+
+
+} // end detail
+
+
 template<typename ForwardIterator>
   void sequence(ForwardIterator first,
                 ForwardIterator last)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::sequence;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return sequence(select_system(system()), first, last);
+  System system;
+
+  return thrust::detail::strip_const_sequence(select_system(system), first, last);
 } // end sequence()
 
 
@@ -49,11 +123,12 @@ template<typename ForwardIterator, typename T>
                 T init)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::sequence;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return sequence(select_system(system()), first, last, init);
+  System system;
+
+  return thrust::detail::strip_const_sequence(select_system(system), first, last, init);
 } // end sequence()
 
 
@@ -64,11 +139,12 @@ template<typename ForwardIterator, typename T>
                 T step)
 {
   using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::sequence;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
 
-  return sequence(select_system(system()), first, last, init, step);
+  System system;
+
+  return thrust::detail::strip_const_sequence(select_system(system), first, last, init, step);
 } // end sequence()
 
 

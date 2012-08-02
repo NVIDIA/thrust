@@ -21,9 +21,37 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator merge(thrust::detail::dispatchable_base<System> &system,
+                       InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator merge(thrust::detail::dispatchable_base<System> &system,
+                       InputIterator1 first1,
+                       InputIterator1 last1,
+                       InputIterator2 first2,
+                       InputIterator2 last2,
+                       OutputIterator result,
+                       StrictWeakCompare comp);
+
 
 /*! \addtogroup merging Merging
  *  \ingroup algorithms

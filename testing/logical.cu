@@ -2,7 +2,6 @@
 #include <thrust/logical.h>
 #include <thrust/functional.h>
 
-struct my_tag : thrust::device_system_tag {};
 
 template <class Vector>
 void TestAllOf(void)
@@ -26,13 +25,32 @@ DECLARE_VECTOR_UNITTEST(TestAllOf);
 
 
 template <class InputIterator, class Predicate>
+bool all_of(my_system &system, InputIterator first, InputIterator last, Predicate pred)
+{
+    system.validate_dispatch();
+    return false;
+}
+
+void TestAllOfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::all_of(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestAllOfDispatchExplicit);
+
+
+template <class InputIterator, class Predicate>
 bool all_of(my_tag, InputIterator first, InputIterator last, Predicate pred)
 {
     *first = 13;
     return false;
 }
 
-void TestAllOfDispatch()
+void TestAllOfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -42,7 +60,7 @@ void TestAllOfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestAllOfDispatch);
+DECLARE_UNITTEST(TestAllOfDispatchImplicit);
 
 
 template <class Vector>
@@ -67,13 +85,32 @@ DECLARE_VECTOR_UNITTEST(TestAnyOf);
 
 
 template <class InputIterator, class Predicate>
+bool any_of(my_system &system, InputIterator first, InputIterator last, Predicate pred)
+{
+    system.validate_dispatch();
+    return false;
+}
+
+void TestAnyOfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::any_of(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestAnyOfDispatchExplicit);
+
+
+template <class InputIterator, class Predicate>
 bool any_of(my_tag, InputIterator first, InputIterator last, Predicate pred)
 {
     *first = 13;
     return false;
 }
 
-void TestAnyOfDispatch()
+void TestAnyOfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -83,7 +120,7 @@ void TestAnyOfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestAnyOfDispatch);
+DECLARE_UNITTEST(TestAnyOfDispatchImplicit);
 
 
 template <class Vector>
@@ -108,13 +145,32 @@ DECLARE_VECTOR_UNITTEST(TestNoneOf);
 
 
 template <class InputIterator, class Predicate>
+bool none_of(my_system &system, InputIterator first, InputIterator last, Predicate pred)
+{
+    system.validate_dispatch();
+    return false;
+}
+
+void TestNoneOfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::none_of(sys, vec.begin(), vec.end(), 0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestNoneOfDispatchExplicit);
+
+
+template <class InputIterator, class Predicate>
 bool none_of(my_tag, InputIterator first, InputIterator last, Predicate pred)
 {
     *first = 13;
     return false;
 }
 
-void TestNoneOfDispatch()
+void TestNoneOfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -124,5 +180,5 @@ void TestNoneOfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestNoneOfDispatch);
+DECLARE_UNITTEST(TestNoneOfDispatchImplicit);
 

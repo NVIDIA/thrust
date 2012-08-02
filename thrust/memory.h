@@ -25,6 +25,8 @@
 #include <thrust/detail/reference.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/malloc_and_free.h>
+#include <thrust/detail/temporary_buffer.h>
 
 namespace thrust
 {

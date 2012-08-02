@@ -17,7 +17,53 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/pair.h>
 
-// this system inherits partition
-#include <thrust/system/cpp/detail/partition.h>
+namespace thrust
+{
+namespace system
+{
+namespace tbb
+{
+namespace detail
+{
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator partition(dispatchable<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred);
+
+template<typename System,
+         typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(dispatchable<System> &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   Predicate pred);
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(dispatchable<System> &system,
+                          InputIterator first,
+                          InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred);
+
+
+} // end namespace detail
+} // end namespace tbb
+} // end namespace system
+} // end namespace thrust
+
+#include <thrust/system/tbb/detail/partition.inl>
 

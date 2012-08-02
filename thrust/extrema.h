@@ -21,10 +21,36 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
+
+
+template<typename System, typename ForwardIterator>
+ForwardIterator min_element(thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+
+
+template<typename System, typename ForwardIterator>
+ForwardIterator max_element(thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+
+
+template<typename System, typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last);
+
+
+template<typename System, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+
 
 /*! This version of \p min returns the smaller of two values, given a comparison operation.
  *  \param lhs The first value to compare.

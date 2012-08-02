@@ -5,7 +5,6 @@
 #include <thrust/sequence.h>
 #include <thrust/fill.h>
 
-struct my_tag : thrust::device_system_tag {};
 
 template <class Vector>
 void TestScatterSimple(void)
@@ -37,6 +36,35 @@ DECLARE_VECTOR_UNITTEST(TestScatterSimple);
 template<typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
+void scatter(my_system &system,
+             InputIterator1,
+             InputIterator1,
+             InputIterator2,
+             RandomAccessIterator output)
+{
+    system.validate_dispatch();
+}
+
+
+void TestScatterDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::scatter(sys,
+                    vec.begin(),
+                    vec.begin(),
+                    vec.begin(),
+                    vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestScatterDispatchExplicit);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename RandomAccessIterator>
 void scatter(my_tag,
              InputIterator1,
              InputIterator1,
@@ -46,7 +74,7 @@ void scatter(my_tag,
     *output = 13;
 }
 
-void TestScatterDispatch()
+void TestScatterDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -57,7 +85,7 @@ void TestScatterDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScatterDispatch);
+DECLARE_UNITTEST(TestScatterDispatchImplicit);
 
 
 template <typename T>
@@ -142,6 +170,37 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
+void scatter_if(my_system &system,
+                InputIterator1,
+                InputIterator1,
+                InputIterator2,
+                InputIterator3,
+                RandomAccessIterator output)
+{
+    system.validate_dispatch();
+}
+
+void TestScatterIfDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::scatter_if(sys,
+                       vec.begin(),
+                       vec.begin(),
+                       vec.begin(),
+                       vec.begin(),
+                       vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestScatterIfDispatchExplicit);
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename RandomAccessIterator>
 void scatter_if(my_tag,
                 InputIterator1,
                 InputIterator1,
@@ -152,7 +211,7 @@ void scatter_if(my_tag,
     *output = 13;
 }
 
-void TestScatterIfDispatch()
+void TestScatterIfDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -164,7 +223,7 @@ void TestScatterIfDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestScatterIfDispatch);
+DECLARE_UNITTEST(TestScatterIfDispatchImplicit);
 
 
 template <typename T>

@@ -34,35 +34,35 @@ namespace detail
 namespace generic
 {
 
-template <typename ForwardIterator>
-ForwardIterator max_element(tag,
+template <typename System, typename ForwardIterator>
+ForwardIterator max_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last);
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp);
 
-template <typename ForwardIterator>
-ForwardIterator min_element(tag,
+template <typename System, typename ForwardIterator>
+ForwardIterator min_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last);
 
-template <typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(thrust::dispatchable<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp);
 
-template <typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+template <typename System, typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::dispatchable<System> &system,
                                                              ForwardIterator first, 
                                                              ForwardIterator last);
 
-template <typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+template <typename System, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::dispatchable<System> &system,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp);

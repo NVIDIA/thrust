@@ -17,9 +17,32 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator first,
+                         InputIterator last,
+                         OutputIterator result,
+                         Predicate pred);
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+                         InputIterator1 first,
+                         InputIterator1 last,
+                         InputIterator2 stencil,
+                         OutputIterator result,
+                         Predicate pred);
 
 template<typename InputIterator,
          typename OutputIterator,

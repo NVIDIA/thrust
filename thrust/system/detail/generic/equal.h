@@ -28,12 +28,11 @@ namespace detail
 namespace generic
 {
 
-template <typename InputIterator1, typename InputIterator2>
-bool equal(tag, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
+template<typename System, typename InputIterator1, typename InputIterator2>
+bool equal(thrust::dispatchable<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
 
-template <typename InputIterator1, typename InputIterator2, 
-          typename BinaryPredicate>
-bool equal(tag, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
+template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+bool equal(thrust::dispatchable<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
 
 } // end namespace generic
 } // end namespace detail

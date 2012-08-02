@@ -30,17 +30,18 @@ namespace detail
 namespace generic
 {
 
-template<typename InputIterator>
+template<typename System, typename InputIterator>
   typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(tag, InputIterator first, InputIterator last);
+    reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last);
 
-template<typename InputIterator, typename T>
-  T reduce(tag, InputIterator first, InputIterator last, T init);
+template<typename System, typename InputIterator, typename T>
+  T reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, T init);
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename T,
          typename BinaryFunction>
-  T reduce(tag, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
+  T reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
 
 } // end namespace generic
 } // end namespace detail

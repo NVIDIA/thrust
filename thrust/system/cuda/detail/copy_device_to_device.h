@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/tag.h>
 
 namespace thrust
 {
@@ -33,9 +34,11 @@ namespace detail
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(InputIterator begin, 
+  OutputIterator copy_device_to_device(dispatchable<System> &system,
+                                       InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result);
 

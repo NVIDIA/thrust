@@ -119,7 +119,26 @@ void TestAdjacentDifferenceDiscardIterator(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestAdjacentDifferenceDiscardIterator);
 
-struct my_tag : thrust::device_system_tag {};
+template<typename InputIterator, typename OutputIterator>
+OutputIterator adjacent_difference(my_system &system, InputIterator, InputIterator, OutputIterator result)
+{
+    system.validate_dispatch();
+    return result;
+}
+
+void TestAdjacentDifferenceDispatchExplicit()
+{
+    thrust::device_vector<int> d_input(1);
+
+    my_system sys(0);
+    thrust::adjacent_difference(sys,
+                                d_input.begin(),
+                                d_input.end(),
+                                d_input.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestAdjacentDifferenceDispatchExplicit);
 
 template<typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(my_tag, InputIterator, InputIterator, OutputIterator result)
@@ -128,7 +147,7 @@ OutputIterator adjacent_difference(my_tag, InputIterator, InputIterator, OutputI
     return result;
 }
 
-void TestAdjacentDifferenceDispatch()
+void TestAdjacentDifferenceDispatchImplicit()
 {
     thrust::device_vector<int> d_input(1);
 
@@ -138,5 +157,5 @@ void TestAdjacentDifferenceDispatch()
 
     ASSERT_EQUAL(13, d_input.front());
 }
-DECLARE_UNITTEST(TestAdjacentDifferenceDispatch);
+DECLARE_UNITTEST(TestAdjacentDifferenceDispatchImplicit);
 

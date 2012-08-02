@@ -330,14 +330,14 @@ struct grouped_gather_closure
 } // end namespace set_operation_detail
 
 
-template<typename Tag,
+template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename Compare,
          typename SplittingFunction,
          typename BlockConvergentSetOperation>
-  RandomAccessIterator3 set_operation(Tag,
+  RandomAccessIterator3 set_operation(dispatchable<System> &system,
                                       RandomAccessIterator1 first1,
                                       RandomAccessIterator1 last1,
                                       RandomAccessIterator2 first2,
@@ -357,10 +357,10 @@ template<typename Tag,
 
   typedef set_operation_closure<RandomAccessIterator1,
                                 RandomAccessIterator2,
-                                typename thrust::detail::temporary_array<difference1,Tag>::iterator,
-                                typename thrust::detail::temporary_array<difference2,Tag>::iterator,
-                                typename thrust::detail::temporary_array<value_type1,Tag>::iterator,
-                                typename thrust::detail::temporary_array<difference1,Tag>::iterator,
+                                typename thrust::detail::temporary_array<difference1,System>::iterator,
+                                typename thrust::detail::temporary_array<difference2,System>::iterator,
+                                typename thrust::detail::temporary_array<value_type1,System>::iterator,
+                                typename thrust::detail::temporary_array<difference1,System>::iterator,
                                 Compare,
                                 BlockConvergentSetOperation,
                                 size_t,
@@ -390,14 +390,15 @@ template<typename Tag,
   const size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
 
   // allocate storage for splitter ranks
-  thrust::detail::temporary_array<difference1, Tag> splitter_ranks1(num_splitters_from_range1 + num_splitters_from_range2);
-  thrust::detail::temporary_array<difference2, Tag> splitter_ranks2(num_splitters_from_range1 + num_splitters_from_range2);
+  thrust::detail::temporary_array<difference1, System> splitter_ranks1(system, num_splitters_from_range1 + num_splitters_from_range2);
+  thrust::detail::temporary_array<difference2, System> splitter_ranks2(system, num_splitters_from_range1 + num_splitters_from_range2);
 
   // select some splitters and find the rank of each splitter in the other range
   // XXX it's possible to fuse rank-finding with the kernel below
   //     this eliminates the temporary buffers splitter_ranks1 & splitter_ranks2
   //     but this spills to lmem and causes a 10x speeddown
-  split(first1,last1,
+  split(system,
+        first1,last1,
         first2,last2,
         splitter_ranks1.begin(),
         splitter_ranks2.begin(),
@@ -409,12 +410,12 @@ template<typename Tag,
   using namespace thrust::detail;
 
   // allocate storage to store each intersected partition's size
-  thrust::detail::temporary_array<difference1, Tag> result_partition_sizes(num_merged_partitions);
+  thrust::detail::temporary_array<difference1, System> result_partition_sizes(system, num_merged_partitions);
 
   // allocate storage to store the largest possible result
   // XXX if the size of the result is known a priori (i.e., first == second), we don't need this temporary
-  temporary_array<value_type1, Tag>
-    temporary_results(set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
+  temporary_array<value_type1, System>
+    temporary_results(system, set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
 
   // maximize the number of blocks we can launch
   const size_t max_blocks = properties.maxGridSize[0];
@@ -434,7 +435,8 @@ template<typename Tag,
      num_blocks, block_size, dynamic_smem_size);
 
   // inclusive scan the element counts to get the number of elements occurring before and including each partition
-  thrust::inclusive_scan(result_partition_sizes.begin(),
+  thrust::inclusive_scan(system,
+                         result_partition_sizes.begin(),
                          result_partition_sizes.end(),
                          result_partition_sizes.begin());
 
@@ -443,10 +445,10 @@ template<typename Tag,
   typedef grouped_gather_closure<
     BlockConvergentSetOperation,
     RandomAccessIterator3,
-    typename temporary_array<value_type1, Tag>::iterator,
-    typename temporary_array<difference1, Tag>::iterator,
-    typename temporary_array<difference2, Tag>::iterator,
-    typename temporary_array<difference1, Tag>::iterator,
+    typename temporary_array<value_type1, System>::iterator,
+    typename temporary_array<difference1, System>::iterator,
+    typename temporary_array<difference2, System>::iterator,
+    typename temporary_array<difference1, System>::iterator,
     size_t,
     Context
   > GroupedGatherClosure;

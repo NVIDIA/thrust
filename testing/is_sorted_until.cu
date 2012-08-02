@@ -95,7 +95,25 @@ void TestIsSortedUntil(void)
 }
 DECLARE_VECTOR_UNITTEST(TestIsSortedUntil);
 
-struct my_tag : thrust::device_system_tag {};
+
+template<typename ForwardIterator>
+ForwardIterator is_sorted_until(my_system &system, ForwardIterator first, ForwardIterator)
+{
+    system.validate_dispatch();
+    return first;
+}
+
+void TestIsSortedUntilExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::is_sorted_until(sys, vec.begin(), vec.end());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestIsSortedUntilExplicit);
+
 
 template<typename ForwardIterator>
 ForwardIterator is_sorted_until(my_tag, ForwardIterator first, ForwardIterator)
@@ -104,7 +122,7 @@ ForwardIterator is_sorted_until(my_tag, ForwardIterator first, ForwardIterator)
     return first;
 }
 
-void TestIsSortedUntil()
+void TestIsSortedUntilImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -113,5 +131,5 @@ void TestIsSortedUntil()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestIsSortedUntil);
+DECLARE_UNITTEST(TestIsSortedUntilImplicit);
 

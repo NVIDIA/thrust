@@ -12,7 +12,7 @@
 
 void TestTransformNullPtr(void)
 {
-#if defined(__APPLE__) || defined(_MSC_VER)
+#if defined(__APPLE__)
   KNOWN_FAILURE;
 #endif
 
@@ -92,6 +92,7 @@ void TestSortNullPtr(void)
 {
   // XXX sort(null) below just crashes
   KNOWN_FAILURE;
+
 //  thrust::device_ptr<int> ptr = thrust::device_pointer_cast<int>(0);
 //
 //  bool caught_exception = false;

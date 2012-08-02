@@ -1074,12 +1074,14 @@ template<typename RandomAccessIterator1,
      grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)));
 }
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge(RandomAccessIterator1 keys_first,
+  void merge(dispatchable<System> &system,
+             RandomAccessIterator1 keys_first,
              RandomAccessIterator2 values_first,
              size_t n,
              RandomAccessIterator3 keys_result,
@@ -1163,17 +1165,15 @@ template<typename RandomAccessIterator1,
 
   using namespace thrust::detail;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
-
-  temporary_array<KeyType,      system>      splitters(num_splitters);
-  temporary_array<unsigned int, system>      splitters_pos(num_splitters);
-  temporary_array<KeyType,      system>      merged_splitters(num_splitters);
-  temporary_array<unsigned int, system>      merged_splitters_pos(num_splitters);
+  temporary_array<KeyType,      System>      splitters(system, num_splitters);
+  temporary_array<unsigned int, System>      splitters_pos(system, num_splitters);
+  temporary_array<KeyType,      System>      merged_splitters(system, num_splitters);
+  temporary_array<unsigned int, System>      merged_splitters_pos(system, num_splitters);
 
   typedef extract_splitters_closure<
     RandomAccessIterator1,
-    typename temporary_array<KeyType,      system>::iterator,
-    typename temporary_array<unsigned int, system>::iterator,
+    typename temporary_array<KeyType,      System>::iterator,
+    typename temporary_array<unsigned int, System>::iterator,
     detail::blocked_thread_array
   > ExtractSplittersClosure;
 
@@ -1188,7 +1188,8 @@ template<typename RandomAccessIterator1,
   // We need to merge num_splitters elements, each new "block" is the set of
   // splitters for each original block.
   size_t log_num_splitters_per_block = log_tile_size - log_block_size;
-  merge(splitters.begin(),
+  merge(system,
+        splitters.begin(),
         splitters_pos.begin(),
         num_splitters,
         merged_splitters.begin(),
@@ -1214,16 +1215,16 @@ template<typename RandomAccessIterator1,
   grid_size = min<size_t>(num_blocks, max_num_blocks);
 
   // reuse the splitters_pos storage for rank1
-  temporary_array<unsigned int, system> &rank1 = splitters_pos;
-  temporary_array<unsigned int, system> rank2(num_splitters);
+  temporary_array<unsigned int, System> &rank1 = splitters_pos;
+  temporary_array<unsigned int, System> rank2(system, num_splitters);
 
   typedef find_splitter_ranks_closure<
     block_size,
     log_block_size,
-    typename temporary_array<KeyType,      system>::iterator,
-    typename temporary_array<unsigned int, system>::iterator,
-    typename temporary_array<unsigned int, system>::iterator,
-    typename temporary_array<unsigned int, system>::iterator,
+    typename temporary_array<KeyType,      System>::iterator,
+    typename temporary_array<unsigned int, System>::iterator,
+    typename temporary_array<unsigned int, System>::iterator,
+    typename temporary_array<unsigned int, System>::iterator,
     RandomAccessIterator1,
     StrictWeakOrdering,
     detail::statically_blocked_thread_array<block_size>
@@ -1258,12 +1259,14 @@ template<typename RandomAccessIterator1,
                                comp);
 }
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge(RandomAccessIterator1 keys_first,
+  void merge(dispatchable<System> &system,
+             RandomAccessIterator1 keys_first,
              RandomAccessIterator2 values_first,
              size_t n,
              RandomAccessIterator3 keys_result,
@@ -1278,7 +1281,8 @@ template<typename RandomAccessIterator1,
 #endif // THRUST_DEVICE_COMPILER_NVCC
   unsigned int num_blocks = (n%block_size)?((n/block_size)+1):(n/block_size);
 
-  merge(keys_first,
+  merge(system,
+        keys_first,
         values_first,
         (num_blocks%2)?((num_blocks-1)*block_size):n,
         keys_result,
@@ -1289,11 +1293,13 @@ template<typename RandomAccessIterator1,
 
   if(num_blocks%2)
   {
-    thrust::copy(keys_first + (num_blocks-1)*block_size,
+    thrust::copy(system,
+                 keys_first + (num_blocks-1)*block_size,
                  keys_first + n,
                  keys_result + (num_blocks-1)*block_size);
     
-    thrust::copy(values_first + (num_blocks-1)*block_size,
+    thrust::copy(system,
+                 values_first + (num_blocks-1)*block_size,
                  values_first + n,
                  values_result + (num_blocks-1)*block_size);
   }
@@ -1304,22 +1310,26 @@ template<typename RandomAccessIterator1,
 
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_merge_sort(RandomAccessIterator first,
+void stable_merge_sort(dispatchable<System> &system,
+                       RandomAccessIterator first,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp)
 {
     // XXX it's potentially unsafe to pass the same array for keys & values
     //     implement a legit merge_sort_dev function later
-    thrust::system::cuda::detail::detail::stable_merge_sort_by_key(first, last, first, comp);
+    thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, first, last, first, comp);
 }
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+  void stable_merge_sort_by_key(dispatchable<System> &system,
+                                RandomAccessIterator1 keys_first,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first,
                                 StrictWeakOrdering comp)
@@ -1358,16 +1368,15 @@ template<typename RandomAccessIterator1,
      grid_size, block_size);
 
   // allocate scratch space
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type system;
   using namespace thrust::detail;
-  temporary_array<KeyType,   system> temp_keys(n);
-  temporary_array<ValueType, system> temp_vals(n);
+  temporary_array<KeyType,   System> temp_keys(system, n);
+  temporary_array<ValueType, System> temp_vals(system, n);
 
   // give iterators simpler names
   RandomAccessIterator1 keys0 = keys_first;
   RandomAccessIterator2 vals0 = values_first;
-  typename temporary_array<KeyType,   system>::iterator keys1 = temp_keys.begin();
-  typename temporary_array<ValueType, system>::iterator vals1 = temp_vals.begin();
+  typename temporary_array<KeyType,   System>::iterator keys1 = temp_keys.begin();
+  typename temporary_array<ValueType, System>::iterator vals1 = temp_vals.begin();
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.
@@ -1377,9 +1386,9 @@ template<typename RandomAccessIterator1,
       tile_size *= 2)
   {
     if (iterations % 2)
-      merge_sort_dev_namespace::merge(keys1, vals1, n, keys0, vals0, tile_size, comp);
+      merge_sort_dev_namespace::merge(system, keys1, vals1, n, keys0, vals0, tile_size, comp);
     else
-      merge_sort_dev_namespace::merge(keys0, vals0, n, keys1, vals1, tile_size, comp);
+      merge_sort_dev_namespace::merge(system, keys0, vals0, n, keys1, vals1, tile_size, comp);
     ++iterations;
   }
 
@@ -1387,8 +1396,8 @@ template<typename RandomAccessIterator1,
   // and not in the temporary arrays
   if(iterations % 2)
   {
-    thrust::copy(vals1, vals1 + n, vals0);
-    thrust::copy(keys1, keys1 + n, keys0);
+    thrust::copy(system, vals1, vals1 + n, vals0);
+    thrust::copy(system, keys1, keys1 + n, keys0);
   }
 } // end stable_merge_sort_by_key()
 

@@ -29,18 +29,20 @@ namespace detail
 {
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename OutputIterator>
-OutputIterator copy(tag,
+OutputIterator copy(dispatchable<System> &system,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename System,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
-OutputIterator copy_n(tag,
+OutputIterator copy_n(dispatchable<System> &system,
                       InputIterator first,
                       Size n,
                       OutputIterator result);

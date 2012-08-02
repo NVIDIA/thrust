@@ -17,7 +17,29 @@ void TestInnerProductSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestInnerProductSimple);
 
-struct my_tag : thrust::device_system_tag {};
+
+template <typename InputIterator1, typename InputIterator2, typename OutputType>
+int inner_product(my_system &system, InputIterator1, InputIterator1, InputIterator2, OutputType)
+{
+    system.validate_dispatch();
+    return 13;
+}
+
+void TestInnerProductDispatchExplicit()
+{
+    thrust::device_vector<int> vec;
+
+    my_system sys(0);
+    thrust::inner_product(sys,
+                          vec.begin(),
+                          vec.end(),
+                          vec.begin(),
+                          0);
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestInnerProductDispatchExplicit);
+
 
 template <typename InputIterator1, typename InputIterator2, typename OutputType>
 int inner_product(my_tag, InputIterator1, InputIterator1, InputIterator2, OutputType)
@@ -25,7 +47,7 @@ int inner_product(my_tag, InputIterator1, InputIterator1, InputIterator2, Output
     return 13;
 }
 
-void TestInnerProductDispatch()
+void TestInnerProductDispatchImplicit()
 {
     thrust::device_vector<int> vec;
 
@@ -36,7 +58,7 @@ void TestInnerProductDispatch()
 
     ASSERT_EQUAL(13, result);
 }
-DECLARE_UNITTEST(TestInnerProductDispatch);
+DECLARE_UNITTEST(TestInnerProductDispatchImplicit);
 
 template <class Vector>
 void TestInnerProductWithOperator(void)

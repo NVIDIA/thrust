@@ -31,27 +31,30 @@ namespace generic
 {
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-  void scatter(tag,
+  void scatter(thrust::dispatchable<System> &system,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-  thrust::transform(first,
+  thrust::transform(system,
+                    first,
                     last,
                     thrust::make_permutation_iterator(output, map),
                     thrust::identity<typename thrust::iterator_value<InputIterator1>::type>());
 } // end scatter()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-  void scatter_if(tag,
+  void scatter_if(thrust::dispatchable<System> &system,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -60,16 +63,17 @@ template<typename InputIterator1,
 {
   // default predicate is identity
   typedef typename thrust::iterator_value<InputIterator3>::type StencilType;
-  thrust::scatter_if(first, last, map, stencil, output, thrust::identity<StencilType>());
+  thrust::scatter_if(system, first, last, map, stencil, output, thrust::identity<StencilType>());
 } // end scatter_if()
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-  void scatter_if(tag,
+  void scatter_if(thrust::dispatchable<System> &system,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -78,7 +82,7 @@ template<typename InputIterator1,
                   Predicate pred)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type InputType;
-  thrust::transform_if(first, last, stencil, thrust::make_permutation_iterator(output, map), thrust::identity<InputType>(), pred);
+  thrust::transform_if(system, first, last, stencil, thrust::make_permutation_iterator(output, map), thrust::identity<InputType>(), pred);
 } // end scatter_if()
 
 

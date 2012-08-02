@@ -257,10 +257,6 @@ SimpleUnitTest<TestZipIteratorSystem, NumericTypes> TestZipIteratorSystemInstanc
 template <typename Vector>
 void TestZipIteratorCopy(void)
 {
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER == 1400) && defined(_DEBUG)
-    // fails on msvc80 SP1 in debug mode
-    KNOWN_FAILURE;
-#else    
   using namespace thrust;
 
   Vector input0(4),  input1(4);
@@ -276,7 +272,6 @@ void TestZipIteratorCopy(void)
 
   ASSERT_EQUAL(input0, output0);
   ASSERT_EQUAL(input1, output1);
-#endif
 }
 DECLARE_VECTOR_UNITTEST(TestZipIteratorCopy);
 
@@ -351,10 +346,6 @@ VariableUnitTest<TestZipIteratorTransform, ThirtyTwoBitTypes> TestZipIteratorTra
 
 void TestZipIteratorCopyAoSToSoA(void)
 {
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER == 1400) && defined(_DEBUG)
-    // fails on msvc80 SP1 in debug mode
-    KNOWN_FAILURE;
-#else    
   using namespace thrust;
 
   const size_t n = 1;
@@ -408,7 +399,6 @@ void TestZipIteratorCopyAoSToSoA(void)
 
   thrust::copy(d_aos.begin(), d_aos.end(), h_soa);
   ASSERT_EQUAL_QUIET(make_tuple(7, 13), h_soa[0]);
-#endif      
 };
 DECLARE_UNITTEST(TestZipIteratorCopyAoSToSoA);
 

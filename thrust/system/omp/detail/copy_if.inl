@@ -30,11 +30,12 @@ namespace detail
 {
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(tag,
+  OutputIterator copy_if(dispatchable<System> &system,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
@@ -42,7 +43,7 @@ template<typename InputIterator1,
                          Predicate pred)
 {
   // omp prefers generic::copy_if to cpp::copy_if
-  return thrust::system::detail::generic::copy_if(tag(), first, last, stencil, result, pred);
+  return thrust::system::detail::generic::copy_if(system, first, last, stencil, result, pred);
 } // end copy_if()
 
 

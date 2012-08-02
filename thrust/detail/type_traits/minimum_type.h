@@ -28,10 +28,10 @@ namespace minimum_type_detail
 {
 
 //
-// Returns the minimum type or causes an error
+// Returns the minimum type or is empty
 // if T1 and T2 are unrelated.
 //
-template <typename T1, typename T2, bool GreaterEqual, bool LessEqual> struct minimum_type_impl;
+template <typename T1, typename T2, bool GreaterEqual, bool LessEqual> struct minimum_type_impl {};
   
 template <typename T1, typename T2>
 struct minimum_type_impl<T1,T2,true,false>
@@ -51,7 +51,7 @@ struct minimum_type_impl<T1,T2,true,true>
   typedef T1 type;
 }; // end minimum_type_impl
 
-template <class T1, class T2>
+template <typename T1, typename T2>
 struct primitive_minimum_type
   : minimum_type_detail::minimum_type_impl<
       T1,
@@ -60,6 +60,14 @@ struct primitive_minimum_type
       ::thrust::detail::is_convertible<T2,T1>::value
     >
 {
+}; // end primitive_minimum_type
+
+// because some types are not convertible (even to themselves)
+// specialize primitive_minimum_type for when both types are identical
+template <typename T>
+struct primitive_minimum_type<T,T>
+{
+  typedef T type;
 }; // end primitive_minimum_type
 
 // XXX this belongs somewhere more general
@@ -86,28 +94,67 @@ template<typename T1,
          typename T14 = minimum_type_detail::any_conversion,
          typename T15 = minimum_type_detail::any_conversion,
          typename T16 = minimum_type_detail::any_conversion>
-  class minimum_type
-{
-  typedef typename minimum_type_detail::primitive_minimum_type<T1,T2>::type    type1;
-  typedef typename minimum_type_detail::primitive_minimum_type<T3,T4>::type    type2;
-  typedef typename minimum_type_detail::primitive_minimum_type<T5,T6>::type    type3;
-  typedef typename minimum_type_detail::primitive_minimum_type<T7,T8>::type    type4;
-  typedef typename minimum_type_detail::primitive_minimum_type<T9,T10>::type   type5;
-  typedef typename minimum_type_detail::primitive_minimum_type<T11,T12>::type  type6;
-  typedef typename minimum_type_detail::primitive_minimum_type<T13,T14>::type  type7;
-  typedef typename minimum_type_detail::primitive_minimum_type<T15,T16>::type  type8;
+  struct minimum_type;
 
-  typedef typename minimum_type_detail::primitive_minimum_type<type1,type2>::type    type9;
-  typedef typename minimum_type_detail::primitive_minimum_type<type3,type4>::type    type10;
-  typedef typename minimum_type_detail::primitive_minimum_type<type5,type6>::type    type11;
-  typedef typename minimum_type_detail::primitive_minimum_type<type7,type8>::type    type12;
+// base case
+template<typename T1, typename T2>
+  struct minimum_type<T1,T2>
+    : minimum_type_detail::primitive_minimum_type<T1,T2>
+{};
 
-  typedef typename minimum_type_detail::primitive_minimum_type<type9,type10>::type   type13;
-  typedef typename minimum_type_detail::primitive_minimum_type<type11,type12>::type  type14;
+template<typename T1, typename T2>
+  struct lazy_minimum_type
+    : minimum_type<
+        typename T1::type,
+        typename T2::type
+      >
+{};
 
-  public:
-    typedef typename minimum_type_detail::primitive_minimum_type<type13, type14>::type type;
-}; // end minimum_type
+// carefully avoid referring to a nested ::type which may not exist
+template<typename T1,  typename T2,  typename T3,  typename T4,
+         typename T5,  typename T6,  typename T7,  typename T8,
+         typename T9,  typename T10, typename T11, typename T12,
+         typename T13, typename T14, typename T15, typename T16>
+  struct minimum_type
+    : lazy_minimum_type<
+        lazy_minimum_type<
+          lazy_minimum_type<
+            minimum_type<
+              T1,T2
+            >,
+            minimum_type<
+              T3,T4
+            >
+          >,
+          lazy_minimum_type<
+            minimum_type<
+              T5,T6
+            >,
+            minimum_type<
+              T7,T8
+            >
+          >
+        >,
+        lazy_minimum_type<
+          lazy_minimum_type<
+            minimum_type<
+              T9,T10
+            >,
+            minimum_type<
+              T11,T12
+            >
+          >,
+          lazy_minimum_type<
+            minimum_type<
+              T13,T14
+            >,
+            minimum_type<
+              T15,T16
+            >
+          >
+        >
+      >
+{};
 
 } // end detail
 

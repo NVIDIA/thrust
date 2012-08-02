@@ -132,9 +132,32 @@ template<typename Element, typename Pointer, typename Derived>
     // allow access to m_ptr for other references
     template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference;
 
+    template<typename System>
+    __host__ __device__
+    inline value_type strip_const_get_value(const System &system) const;
+
     template<typename OtherPointer>
     __host__ __device__
     inline void assign_from(OtherPointer src);
+
+    // XXX this helper exists only to avoid warnings about null references from the other assign_from
+    template<typename System1, typename System2, typename OtherPointer>
+    inline __host__ __device__
+    void assign_from(System1 *system1, System2 *system2, OtherPointer src);
+
+    template<typename System, typename OtherPointer>
+    __host__ __device__
+    inline void strip_const_assign_value(const System &system, OtherPointer src);
+
+    // XXX this helper exists only to avoid warnings about null references from the other swap
+    template<typename System>
+    inline __host__ __device__
+    void swap(System *system, derived_type &other);
+
+    // XXX this helper exists only to avoid warnings about null references from operator value_type ()
+    template<typename System>
+    inline __host__ __device__
+    value_type convert_to_value_type(System *system) const;
 }; // end reference
 
   

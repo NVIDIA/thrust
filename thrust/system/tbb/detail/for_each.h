@@ -28,17 +28,19 @@ namespace tbb
 namespace detail
 {
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename UnaryFunction>
-  RandomAccessIterator for_each(tag,
+  RandomAccessIterator for_each(dispatchable<System> &s,
                                 RandomAccessIterator first,
                                 RandomAccessIterator last,
                                 UnaryFunction f);
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-  RandomAccessIterator for_each_n(tag,
+  RandomAccessIterator for_each_n(dispatchable<System> &s,
                                   RandomAccessIterator first,
                                   Size n,
                                   UnaryFunction f);

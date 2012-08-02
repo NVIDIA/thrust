@@ -29,95 +29,105 @@ namespace generic
 {
 
 
-template<typename RandomAccessIterator>
-  void sort(tag,
+template<typename System,
+         typename RandomAccessIterator>
+  void sort(thrust::dispatchable<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last);
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(tag,
+  void sort(thrust::dispatchable<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(tag,
+  void sort_by_key(thrust::dispatchable<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(tag,
+  void sort_by_key(thrust::dispatchable<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp);
 
 
-template<typename RandomAccessIterator>
-  void stable_sort(tag,
+template<typename System,
+         typename RandomAccessIterator>
+  void stable_sort(thrust::dispatchable<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(tag,
+  void stable_sort(thrust::dispatchable<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
 
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(tag,
+  void stable_sort_by_key(thrust::dispatchable<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(tag,
+  void stable_sort_by_key(thrust::dispatchable<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp);
 
 
-template<typename ForwardIterator>
-  bool is_sorted(tag,
+template<typename System, typename ForwardIterator>
+  bool is_sorted(thrust::dispatchable<System> &system,
                  ForwardIterator first,
                  ForwardIterator last);
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Compare>
-  bool is_sorted(tag,
+  bool is_sorted(thrust::dispatchable<System> &system,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp);
 
 
-template<typename ForwardIterator>
-  ForwardIterator is_sorted_until(tag,
+template<typename System, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last);
 
 
-template<typename ForwardIterator,
+template<typename System,
+         typename ForwardIterator,
          typename Compare>
-  ForwardIterator is_sorted_until(tag,
+  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp);

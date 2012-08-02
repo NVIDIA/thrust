@@ -22,9 +22,75 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename T>
+  ForwardIterator remove(thrust::detail::dispatchable_base<System> &system,
+                         ForwardIterator first,
+                         ForwardIterator last,
+                         const T &value);
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T>
+  OutputIterator remove_copy(thrust::detail::dispatchable_base<System> &system,
+                             InputIterator first,
+                             InputIterator last,
+                             OutputIterator result,
+                             const T &value);
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename Predicate>
+  ForwardIterator remove_if(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            Predicate pred);
+
+
+template<typename System,
+         typename InputIterator,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator remove_copy_if(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator first,
+                                InputIterator last,
+                                OutputIterator result,
+                                Predicate pred);
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator remove_if(thrust::detail::dispatchable_base<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil,
+                            Predicate pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+  OutputIterator remove_copy_if(thrust::detail::dispatchable_base<System> &system,
+                                InputIterator1 first,
+                                InputIterator1 last,
+                                InputIterator2 stencil,
+                                OutputIterator result,
+                                Predicate pred);
+
 
 /*! \addtogroup stream_compaction Stream Compaction
  *  \ingroup reordering

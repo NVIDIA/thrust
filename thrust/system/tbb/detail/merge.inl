@@ -219,11 +219,12 @@ struct body
 } // end namespace merge_by_key_detail
 
 
-template<typename InputIterator1,
+template<typename System,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(tag,
+OutputIterator merge(dispatchable<System> &system,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -238,12 +239,13 @@ OutputIterator merge(tag,
 
   ::tbb::parallel_for(range, body);
 
-  thrust::advance(result, thrust::distance(first1, last1) + thrust::distance(first2, last2));
+  thrust::advance(system, result, thrust::distance(system, first1, last1) + thrust::distance(system, first2, last2));
 
   return result;
 } // end merge()
 
-template <typename InputIterator1,
+template <typename System,
+          typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
           typename InputIterator4,
@@ -251,7 +253,7 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(tag,
+    merge_by_key(dispatchable<System> &system,
                  InputIterator1 first1,
                  InputIterator1 last1,
                  InputIterator2 first2,
@@ -270,8 +272,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
 
   ::tbb::parallel_for(range, body);
 
-  thrust::advance(output1, thrust::distance(first1, last1) + thrust::distance(first2, last2));
-  thrust::advance(output2, thrust::distance(first1, last1) + thrust::distance(first2, last2));
+  thrust::advance(system, output1, thrust::distance(system, first1, last1) + thrust::distance(system, first2, last2));
+  thrust::advance(system, output2, thrust::distance(system, first1, last1) + thrust::distance(system, first2, last2));
 
   return thrust::make_pair(output1,output2);
 }

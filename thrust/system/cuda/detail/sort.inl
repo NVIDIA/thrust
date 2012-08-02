@@ -107,34 +107,36 @@ namespace third_dispatch
 {
     // thrid level of the dispatch decision tree
     
-    template<typename RandomAccessIterator1,
+    template<typename System,
+             typename RandomAccessIterator1,
              typename RandomAccessIterator2,
              typename StrictWeakOrdering>
-    void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+    void stable_merge_sort_by_key(dispatchable<System> &system,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first,
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        typedef thrust::cuda::tag system;
-
         // sizeof(ValueType) != 4, use indirection and permute values
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-        thrust::detail::temporary_array<unsigned int, system> permutation(keys_last - keys_first);
-        thrust::sequence(permutation.begin(), permutation.end());
+        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
+        thrust::sequence(system, permutation.begin(), permutation.end());
     
         thrust::system::cuda::detail::detail::stable_merge_sort_by_key
-            (keys_first, keys_last, permutation.begin(), comp);
+            (system, keys_first, keys_last, permutation.begin(), comp);
    
         RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-        thrust::detail::temporary_array<ValueType, system> temp(values_first, values_last);
-        thrust::gather(permutation.begin(), permutation.end(), temp.begin(), values_first);
+        thrust::detail::temporary_array<ValueType, System> temp(system, values_first, values_last);
+        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), values_first);
     }
     
-    template<typename RandomAccessIterator1,
+    template<typename System,
+             typename RandomAccessIterator1,
              typename RandomAccessIterator2,
              typename StrictWeakOrdering>
-    void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+    void stable_merge_sort_by_key(dispatchable<System> &system,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first,
                                   StrictWeakOrdering comp,
@@ -142,7 +144,7 @@ namespace third_dispatch
     {
         // sizeof(ValueType) == 4, sort values directly
         thrust::system::cuda::detail::detail::stable_merge_sort_by_key
-            (keys_first, keys_last, values_first, comp);
+            (system, keys_first, keys_last, values_first, comp);
     }
 
 } // end namespace third_dispatch
@@ -173,53 +175,55 @@ namespace second_dispatch
         }    
     };
 
-    template<typename RandomAccessIterator,
+    template<typename System,
+             typename RandomAccessIterator,
              typename StrictWeakOrdering>
-      void stable_merge_sort(RandomAccessIterator first,
+      void stable_merge_sort(dispatchable<System> &system,
+                             RandomAccessIterator first,
                              RandomAccessIterator last,
                              StrictWeakOrdering comp,
                              thrust::detail::true_type)
     {
-        typedef thrust::cuda::tag system;
-
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int,system> permutation(last - first);
-        thrust::sequence(permutation.begin(), permutation.end());
+        thrust::detail::temporary_array<unsigned int,System> permutation(system, last - first);
+        thrust::sequence(system, permutation.begin(), permutation.end());
     
         thrust::system::cuda::detail::detail::stable_merge_sort
-            (permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
+            (system, permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
     
-        thrust::detail::temporary_array<KeyType,system> temp(first, last);
-        thrust::gather(permutation.begin(), permutation.end(), temp.begin(), first);
+        thrust::detail::temporary_array<KeyType,System> temp(system, first, last);
+        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), first);
     }
     
-    template<typename RandomAccessIterator,
+    template<typename System,
+             typename RandomAccessIterator,
              typename StrictWeakOrdering>
-      void stable_merge_sort(RandomAccessIterator first,
+      void stable_merge_sort(dispatchable<System> &system,
+                             RandomAccessIterator first,
                              RandomAccessIterator last,
                              StrictWeakOrdering comp,
                              thrust::detail::false_type)
     {
         // sizeof(KeyType) <= 16, sort keys directly
-        thrust::system::cuda::detail::detail::stable_merge_sort(first, last, comp);
+        thrust::system::cuda::detail::detail::stable_merge_sort(system, first, last, comp);
     }
     
-    template<typename RandomAccessIterator1,
+    template<typename System,
+             typename RandomAccessIterator1,
              typename RandomAccessIterator2,
              typename StrictWeakOrdering>
-    void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+    void stable_merge_sort_by_key(dispatchable<System> &system,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first,
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        typedef thrust::cuda::tag system;
-
         // sizeof(KeyType) > 16, sort keys indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int, system> permutation(keys_last - keys_first);
-        thrust::sequence(permutation.begin(), permutation.end());
+        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
+        thrust::sequence(system, permutation.begin(), permutation.end());
     
         // decide whether to sort values indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
@@ -229,17 +233,19 @@ namespace second_dispatch
         (void) sort_values_indirectly;
 
         thrust::system::cuda::detail::third_dispatch::stable_merge_sort_by_key
-            (permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
+            (system, permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
-        thrust::detail::temporary_array<KeyType,system> temp(keys_first, keys_last);
-        thrust::gather(permutation.begin(), permutation.end(), temp.begin(), keys_first);
+        thrust::detail::temporary_array<KeyType,System> temp(system, keys_first, keys_last);
+        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), keys_first);
     }
     
-    template<typename RandomAccessIterator1,
+    template<typename System,
+             typename RandomAccessIterator1,
              typename RandomAccessIterator2,
              typename StrictWeakOrdering>
-    void stable_merge_sort_by_key(RandomAccessIterator1 keys_first,
+    void stable_merge_sort_by_key(dispatchable<System> &system,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first,
                                   StrictWeakOrdering comp,
@@ -255,7 +261,7 @@ namespace second_dispatch
         (void) sort_values_indirectly;
 
         thrust::system::cuda::detail::third_dispatch::stable_merge_sort_by_key
-            (keys_first, keys_last, values_first, comp,
+            (system, keys_first, keys_last, values_first, comp,
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     }
 
@@ -297,37 +303,45 @@ namespace first_dispatch
 
     // first level of the dispatch decision tree
 
-    template<typename RandomAccessIterator,
+    template<typename System,
+             typename RandomAccessIterator,
              typename StrictWeakOrdering>
       typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
-        stable_sort(RandomAccessIterator first,
+        stable_sort(dispatchable<System> &system,
+                    RandomAccessIterator first,
                     RandomAccessIterator last,
                     StrictWeakOrdering comp)
     {
          // ensure sequence has trivial iterators
-         thrust::detail::trivial_sequence<RandomAccessIterator> keys(first, last);
+         thrust::detail::trivial_sequence<RandomAccessIterator,System> keys(system, first, last);
         
          // CUDA path for thrust::stable_sort with primitive keys
          // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
          // method is implemented with a primitive sort
-         thrust::system::cuda::detail::detail::stable_primitive_sort(keys.begin(), keys.end());
+         thrust::system::cuda::detail::detail::stable_primitive_sort(system, keys.begin(), keys.end());
         
          // copy results back, if necessary
          if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
-             thrust::copy(keys.begin(), keys.end(), first);
+         {
+           thrust::copy(system, keys.begin(), keys.end(), first);
+         }
        
          // if comp is greater<T> then reverse the keys
          typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
          const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
 
-         if (reverse)
+         if(reverse)
+         {
            thrust::reverse(first, last);
+         }
     }
     
-    template<typename RandomAccessIterator,
+    template<typename System,
+             typename RandomAccessIterator,
              typename StrictWeakOrdering>
       typename enable_if_comparison_sort<RandomAccessIterator,StrictWeakOrdering>::type
-        stable_sort(RandomAccessIterator first,
+        stable_sort(dispatchable<System> &system,
+                    RandomAccessIterator first,
                     RandomAccessIterator last,
                     StrictWeakOrdering comp)
     {
@@ -344,15 +358,17 @@ namespace first_dispatch
         // path for thrust::stable_sort with general keys 
         // and comparison methods is implemented with stable_merge_sort
         thrust::system::cuda::detail::second_dispatch::stable_merge_sort
-            (first, last, comp,
+            (system, first, last, comp,
                 thrust::detail::integral_constant<bool, sort_keys_indirectly>());
     }
     
-    template<typename RandomAccessIterator1,
+    template<typename System,
+             typename RandomAccessIterator1,
              typename RandomAccessIterator2,
              typename StrictWeakOrdering>
       typename enable_if_primitive_sort<RandomAccessIterator1,StrictWeakOrdering>::type
-        stable_sort_by_key(RandomAccessIterator1 keys_first,
+        stable_sort_by_key(dispatchable<System> &system,
+                           RandomAccessIterator1 keys_first,
                            RandomAccessIterator1 keys_last,
                            RandomAccessIterator2 values_first,
                            StrictWeakOrdering comp)
@@ -368,34 +384,36 @@ namespace first_dispatch
         // note, we also have to reverse the (unordered) input to preserve stability
         if (reverse)
         {
-          thrust::reverse(keys_first,  keys_last);
-          thrust::reverse(values_first, values_first + (keys_last - keys_first));
+          thrust::reverse(system, keys_first,  keys_last);
+          thrust::reverse(system, values_first, values_first + (keys_last - keys_first));
         }
 
         // ensure sequences have trivial iterators
-        thrust::detail::trivial_sequence<RandomAccessIterator1> keys(keys_first, keys_last);
-        thrust::detail::trivial_sequence<RandomAccessIterator2> values(values_first, values_first + (keys_last - keys_first));
+        thrust::detail::trivial_sequence<RandomAccessIterator1,System> keys(system, keys_first, keys_last);
+        thrust::detail::trivial_sequence<RandomAccessIterator2,System> values(system, values_first, values_first + (keys_last - keys_first));
 
-        thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(keys.begin(), keys.end(), values.begin());
+        thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(system, keys.begin(), keys.end(), values.begin());
 
         // copy results back, if necessary
         if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
-            thrust::copy(keys.begin(), keys.end(), keys_first);
+            thrust::copy(system, keys.begin(), keys.end(), keys_first);
         if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
-            thrust::copy(values.begin(), values.end(), values_first);
+            thrust::copy(system, values.begin(), values.end(), values_first);
         
         if (reverse)
         {
-          thrust::reverse(keys_first,  keys_last);
-          thrust::reverse(values_first, values_first + (keys_last - keys_first));
+          thrust::reverse(system, keys_first,  keys_last);
+          thrust::reverse(system, values_first, values_first + (keys_last - keys_first));
         }
     }
     
-    template<typename RandomAccessIterator1,
+    template<typename System,
+             typename RandomAccessIterator1,
              typename RandomAccessIterator2,
              typename StrictWeakOrdering>
       typename enable_if_comparison_sort<RandomAccessIterator1,StrictWeakOrdering>::type
-        stable_sort_by_key(RandomAccessIterator1 keys_first,
+        stable_sort_by_key(dispatchable<System> &system,
+                           RandomAccessIterator1 keys_first,
                            RandomAccessIterator1 keys_last,
                            RandomAccessIterator2 values_first,
                            StrictWeakOrdering comp)
@@ -413,16 +431,17 @@ namespace first_dispatch
         // path for thrust::stable_sort with general keys 
         // and comparison methods is implemented with stable_merge_sort
         thrust::system::cuda::detail::second_dispatch::stable_merge_sort_by_key
-            (keys_first, keys_last, values_first, comp,
+            (system, keys_first, keys_last, values_first, comp,
                 thrust::detail::integral_constant<bool, sort_keys_indirectly>());
     }
 
 } // end namespace first_dispatch
 
 
-template<typename RandomAccessIterator,
+template<typename System,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(tag,
+  void stable_sort(dispatchable<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
@@ -434,13 +453,14 @@ template<typename RandomAccessIterator,
     // ========================================================================
     THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-    first_dispatch::stable_sort(first, last, comp);
+    first_dispatch::stable_sort(system, first, last, comp);
 }
 
-template<typename RandomAccessIterator1,
+template<typename System,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(tag,
+  void stable_sort_by_key(dispatchable<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
@@ -453,7 +473,7 @@ template<typename RandomAccessIterator1,
     // ========================================================================
     THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
     
-    first_dispatch::stable_sort_by_key(keys_first, keys_last, values_first, comp);
+    first_dispatch::stable_sort_by_key(system, keys_first, keys_last, values_first, comp);
 }
 
 } // end namespace detail

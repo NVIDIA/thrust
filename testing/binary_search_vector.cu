@@ -5,8 +5,6 @@
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
 
-// for testing dispatch
-struct my_tag : thrust::device_system_tag {};
 
 //////////////////////
 // Vector Functions //
@@ -78,13 +76,37 @@ DECLARE_VECTOR_UNITTEST(TestVectorLowerBoundSimple);
 
 
 template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(my_system &system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    system.validate_dispatch();
+    return output;
+}
+
+void TestVectorLowerBoundDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::lower_bound(sys,
+                        vec.begin(),
+                        vec.end(),
+                        vec.begin(),
+                        vec.end(),
+                        vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestVectorLowerBoundDispatchExplicit);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
 OutputIterator lower_bound(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
 {
     *output = 13;
     return output;
 }
 
-void TestVectorLowerBoundDispatch()
+void TestVectorLowerBoundDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -96,7 +118,7 @@ void TestVectorLowerBoundDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestVectorLowerBoundDispatch);
+DECLARE_UNITTEST(TestVectorLowerBoundDispatchImplicit);
 
 
 template <class Vector>
@@ -154,13 +176,37 @@ DECLARE_VECTOR_UNITTEST(TestVectorUpperBoundSimple);
 
 
 template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(my_system &system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    system.validate_dispatch();
+    return output;
+}
+
+void TestVectorUpperBoundDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::upper_bound(sys,
+                        vec.begin(),
+                        vec.end(),
+                        vec.begin(),
+                        vec.end(),
+                        vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestVectorUpperBoundDispatchExplicit);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
 OutputIterator upper_bound(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
 {
     *output = 13;
     return output;
 }
 
-void TestVectorUpperBoundDispatch()
+void TestVectorUpperBoundDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -172,7 +218,7 @@ void TestVectorUpperBoundDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestVectorUpperBoundDispatch);
+DECLARE_UNITTEST(TestVectorUpperBoundDispatchImplicit);
 
 
 template <class Vector>
@@ -232,13 +278,37 @@ DECLARE_VECTOR_UNITTEST(TestVectorBinarySearchSimple);
 
 
 template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(my_system &system, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
+{
+    system.validate_dispatch();
+    return output;
+}
+
+void TestVectorBinarySearchDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::binary_search(sys,
+                          vec.begin(),
+                          vec.end(),
+                          vec.begin(),
+                          vec.end(),
+                          vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestVectorBinarySearchDispatchExplicit);
+
+
+template<typename ForwardIterator, typename InputIterator, typename OutputIterator>
 OutputIterator binary_search(my_tag, ForwardIterator,ForwardIterator,InputIterator,InputIterator,OutputIterator output)
 {
     *output = 13;
     return output;
 }
 
-void TestVectorBinarySearchDispatch()
+void TestVectorBinarySearchDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -250,7 +320,7 @@ void TestVectorBinarySearchDispatch()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(TestVectorBinarySearchDispatch);
+DECLARE_UNITTEST(TestVectorBinarySearchDispatchImplicit);
 
 
 template <typename T>
@@ -258,11 +328,6 @@ struct TestVectorLowerBound
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -276,7 +341,6 @@ struct TestVectorLowerBound
     thrust::lower_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_EQUAL(h_output, d_output);
-#endif
   }
 };
 VariableUnitTest<TestVectorLowerBound, SignedIntegralTypes> TestVectorLowerBoundInstance;
@@ -287,11 +351,6 @@ struct TestVectorUpperBound
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -305,7 +364,6 @@ struct TestVectorUpperBound
     thrust::upper_bound(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_EQUAL(h_output, d_output);
-#endif
   }
 };
 VariableUnitTest<TestVectorUpperBound, SignedIntegralTypes> TestVectorUpperBoundInstance;
@@ -315,11 +373,6 @@ struct TestVectorBinarySearch
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -333,7 +386,6 @@ struct TestVectorBinarySearch
     thrust::binary_search(d_vec.begin(), d_vec.end(), d_input.begin(), d_input.end(), d_output.begin());
 
     ASSERT_EQUAL(h_output, d_output);
-#endif
   }
 };
 VariableUnitTest<TestVectorBinarySearch, SignedIntegralTypes> TestVectorBinarySearchInstance;
@@ -343,11 +395,6 @@ struct TestVectorLowerBoundDiscardIterator
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -363,7 +410,6 @@ struct TestVectorLowerBoundDiscardIterator
 
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
-#endif
   }
 };
 VariableUnitTest<TestVectorLowerBoundDiscardIterator, SignedIntegralTypes> TestVectorLowerBoundDiscardIteratorInstance;
@@ -374,11 +420,6 @@ struct TestVectorUpperBoundDiscardIterator
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -394,7 +435,6 @@ struct TestVectorUpperBoundDiscardIterator
 
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
-#endif
   }
 };
 VariableUnitTest<TestVectorUpperBoundDiscardIterator, SignedIntegralTypes> TestVectorUpperBoundDiscardIteratorInstance;
@@ -404,11 +444,6 @@ struct TestVectorBinarySearchDiscardIterator
 {
   void operator()(const size_t n)
   {
-// XXX an MSVC bug causes problems inside std::stable_sort's implementation:
-//     std::lower_bound/upper_bound is confused with thrust::lower_bound/upper_bound
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_OMP)
-    KNOWN_FAILURE;
-#else
     thrust::host_vector<T>   h_vec = unittest::random_integers<T>(n); thrust::sort(h_vec.begin(), h_vec.end());
     thrust::device_vector<T> d_vec = h_vec;
 
@@ -424,7 +459,6 @@ struct TestVectorBinarySearchDiscardIterator
 
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
-#endif
   }
 };
 VariableUnitTest<TestVectorBinarySearchDiscardIterator, SignedIntegralTypes> TestVectorBinarySearchDiscardIteratorInstance;
