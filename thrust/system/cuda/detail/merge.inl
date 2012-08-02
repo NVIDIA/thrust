@@ -22,7 +22,8 @@
 
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
+#include <thrust/system/cuda/detail/cuda_launch_config.h>
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/system/cuda/detail/block/merge.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
@@ -318,18 +319,18 @@ RandomAccessIterator3 merge(Tag,
                         size_t,
                         Context> Closure;
   
-  arch::function_attributes_t attributes = detail::closure_attributes<Closure>();
-  arch::device_properties_t   properties = arch::device_properties();
+  function_attributes_t attributes = detail::closure_attributes<Closure>();
+  device_properties_t   properties = device_properties();
 
   
   // prefer large blocks to keep the partitions as large as possible
   const size_t block_size =
-    arch::max_blocksize_subject_to_smem_usage(properties, attributes,
-                                              get_merge_kernel_per_block_dynamic_smem_usage<
-                                                RandomAccessIterator1,
-                                                RandomAccessIterator2,
-                                                RandomAccessIterator3
-                                              >);
+    max_blocksize_subject_to_smem_usage(properties, attributes,
+                                        get_merge_kernel_per_block_dynamic_smem_usage<
+                                          RandomAccessIterator1,
+                                          RandomAccessIterator2,
+                                          RandomAccessIterator3
+                                        >);
 
   const size_t partition_size = block_size;
   const difference1 num_partitions1 = ceil_div(num_elements1, partition_size);

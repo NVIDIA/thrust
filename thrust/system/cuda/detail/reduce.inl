@@ -26,7 +26,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/detail/generic/select_system.h>
 
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/block/reduce.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
@@ -182,12 +182,12 @@ template<typename Tag,
   typedef detail::blocked_thread_array Context;
   typedef unordered_reduce_closure<InputIterator,difference_type,OutputType,OutputIterator,BinaryFunction,Context> Closure;
     
-  arch::function_attributes_t attributes = detail::closure_attributes<Closure>();
+  function_attributes_t attributes = detail::closure_attributes<Closure>();
   
   // TODO chose this in a more principled manner
   size_t threshold = thrust::max<size_t>(2 * attributes.maxThreadsPerBlock, 1024);
 
-  arch::device_properties_t properties = arch::device_properties();
+  device_properties_t properties = device_properties();
 
   // launch configuration
   size_t num_blocks; 
@@ -232,7 +232,7 @@ template<typename Tag,
     typedef detail::blocked_thread_array Context;
     typedef unordered_reduce_closure<OutputIterator,difference_type,OutputType,OutputIterator,BinaryFunction,Context> Closure;
 
-    arch::function_attributes_t attributes = detail::closure_attributes<Closure>();
+    function_attributes_t attributes = detail::closure_attributes<Closure>();
 
     num_blocks = 1;
     block_size = thrust::min(output.size(), static_cast<size_t>(attributes.maxThreadsPerBlock));

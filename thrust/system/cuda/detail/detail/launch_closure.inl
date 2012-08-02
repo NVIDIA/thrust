@@ -17,7 +17,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/tag.h>
@@ -120,33 +120,14 @@ template<typename Closure>
 {
   typedef closure_launcher_base<Closure> super_t;
   
-  static inline const arch::device_properties_t& device_properties(void)
+  static inline const device_properties_t& device_properties(void)
   {
-    return arch::device_properties();
+    return device_properties();
   }
   
-  static inline arch::function_attributes_t function_attributes(void)
+  static inline function_attributes_t function_attributes(void)
   {
-    return arch::function_attributes(super_t::get_launch_function());
-  }
-
-  inline static size_t block_size_with_maximal_occupancy(size_t dynamic_smem_bytes_per_thread = 0)
-  {
-    return arch::max_blocksize_with_highest_occupancy(super_t::get_launch_function(), dynamic_smem_bytes_per_thread);
-  }
-
-  template<typename Size1, typename Size2>
-  static size_t num_blocks_with_maximal_occupancy(Size1 n, Size2 block_size, size_t dynamic_smem_bytes_per_block)
-  {
-    const size_t max_blocks = arch::max_active_blocks(super_t::get_launch_function(), block_size, dynamic_smem_bytes_per_block);
-
-    typedef typename thrust::detail::larger_type<Size1,Size2>::type large_integer;
-
-    // promote both arguments to the larger of Size1 & Size2
-    const large_integer result = thrust::min<large_integer>(max_blocks, ( n + (block_size - 1) ) / block_size);
-
-    // due to min above, result is never larger than max_blocks, which is of type size_t
-    return static_cast<size_t>(result);
+    return thrust::system::cuda::detail::function_attributes(super_t::get_launch_function());
   }
 
   template<typename Size1, typename Size2, typename Size3>
@@ -177,28 +158,28 @@ template<typename Closure, typename Size1, typename Size2, typename Size3>
 
   
 template <typename Closure>
-arch::function_attributes_t closure_attributes(void)
+function_attributes_t closure_attributes(void)
 {
   typedef closure_launcher<Closure> Launcher;
 
   // cache the result of function_attributes(), because it is slow
   // only cache the first few devices
-  static const int max_num_devices                                        = 16;
+  static const int max_num_devices                                  = 16;
 
-  static bool attributes_exist[max_num_devices]                           = {0};
-  static arch::function_attributes_t function_attributes[max_num_devices] = {};
+  static bool attributes_exist[max_num_devices]                     = {0};
+  static function_attributes_t function_attributes[max_num_devices] = {};
 
   // XXX device_id ought to be an argument to this function
-  int device_id = arch::current_device();
+  int device_id = current_device();
 
   if(device_id >= max_num_devices)
   {
-    return arch::function_attributes(Launcher::get_launch_function());
+    return thrust::system::cuda::detail::function_attributes(Launcher::get_launch_function());
   }
 
   if(!attributes_exist[device_id])
   {
-    function_attributes[device_id] = arch::function_attributes(Launcher::get_launch_function());
+    function_attributes[device_id] = thrust::system::cuda::detail::function_attributes(Launcher::get_launch_function());
 
     // disallow the compiler to move the write to attributes_exist[device_id]
     // before the initialization of function_attributes[device_id]

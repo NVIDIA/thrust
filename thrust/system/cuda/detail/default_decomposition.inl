@@ -15,7 +15,7 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
 
 namespace thrust
 {
@@ -30,7 +30,7 @@ template <typename IndexType>
 thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
   // TODO eliminate magical constant
-  arch::device_properties_t properties = arch::device_properties();
+  device_properties_t properties = device_properties();
   return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, properties.maxThreadsPerBlock, 10 * properties.multiProcessorCount);
 }
 

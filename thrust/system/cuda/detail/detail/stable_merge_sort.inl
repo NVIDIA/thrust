@@ -37,7 +37,7 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/system/cuda/detail/block/merging_sort.h>
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
@@ -116,7 +116,7 @@ static const unsigned int warp_size = 32;
 template <typename Size>
 inline unsigned int max_grid_size(Size block_size)
 {
-  const arch::device_properties_t& properties = arch::device_properties();
+  const device_properties_t& properties = device_properties();
 
   const unsigned int max_threads = properties.maxThreadsPerMultiProcessor * properties.multiProcessorCount;
   const unsigned int max_blocks  = properties.maxGridSize[0];

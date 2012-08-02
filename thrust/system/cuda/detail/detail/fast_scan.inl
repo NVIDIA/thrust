@@ -26,7 +26,6 @@
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 #include <thrust/system/cuda/detail/reduce_intervals.h>
-#include <thrust/system/cuda/detail/arch.h>
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>

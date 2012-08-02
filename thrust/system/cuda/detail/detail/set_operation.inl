@@ -19,7 +19,8 @@
 #include <thrust/scan.h>
 #include <thrust/detail/minmax.h>
 
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
+#include <thrust/system/cuda/detail/cuda_launch_config.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/scan.h>
@@ -365,16 +366,16 @@ template<typename Tag,
                                 size_t,
                                 Context> SetOperationClosure;
 
-  arch::function_attributes_t attributes = detail::closure_attributes<SetOperationClosure>();
-  arch::device_properties_t   properties = arch::device_properties();
+  function_attributes_t attributes = detail::closure_attributes<SetOperationClosure>();
+  device_properties_t   properties = device_properties();
 
   // prefer large blocks to keep the partitions as large as possible
   const size_t block_size =
-    arch::max_blocksize_subject_to_smem_usage(properties, attributes,
-                                              get_set_operation_kernel_per_block_dynamic_smem_usage<
-                                                RandomAccessIterator1,
-                                                RandomAccessIterator2,
-                                                BlockConvergentSetOperation>);
+    max_blocksize_subject_to_smem_usage(properties, attributes,
+                                        get_set_operation_kernel_per_block_dynamic_smem_usage<
+                                          RandomAccessIterator1,
+                                          RandomAccessIterator2,
+                                          BlockConvergentSetOperation>);
 
   const size_t partition_size = block_size;
   const difference1 num_elements1 = last1 - first1;
