@@ -30,7 +30,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
 
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
 
 namespace thrust
 {
@@ -106,7 +106,7 @@ template<typename System, typename OutputIterator, typename Size, typename T>
   
   if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
   {
-      if (arch::compute_capability() < 20)
+      if (compute_capability() < 20)
       {
         // 32-bit writes are faster on G80 and GT200
         typedef unsigned int WideType;

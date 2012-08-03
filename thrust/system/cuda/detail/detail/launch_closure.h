@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/cuda_launch_config.h>
 
 namespace thrust
 {
@@ -102,7 +102,7 @@ template<typename Closure, typename Size1, typename Size2, typename Size3>
  *  that is associated with a given Closure
  */
 template <typename Closure>
-arch::function_attributes_t closure_attributes(void);
+function_attributes_t closure_attributes(void);
 
 } // end namespace detail
 } // end namespace detail
