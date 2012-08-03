@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/cuda_launch_config.h>
 #include <thrust/tuple.h>
 
 namespace thrust
@@ -35,21 +35,41 @@ namespace detail
 template <typename Closure>
 class launch_calculator
 {
-  arch::device_properties_t   properties;
-  arch::function_attributes_t attributes;
+  device_properties_t   properties;
+  function_attributes_t attributes;
 
   public:
   
   launch_calculator(void);
 
-  launch_calculator(const arch::device_properties_t& properties, const arch::function_attributes_t& attributes);
+  launch_calculator(const device_properties_t& properties, const function_attributes_t& attributes);
 
-  thrust::tuple<size_t,size_t,size_t> with_variable_block_size(void);
+  thrust::tuple<size_t,size_t,size_t> with_variable_block_size(void) const;
 
   template <typename UnaryFunction>
-  thrust::tuple<size_t,size_t,size_t> with_variable_block_size(UnaryFunction block_size_to_smem_size);
+  thrust::tuple<size_t,size_t,size_t> with_variable_block_size(UnaryFunction block_size_to_smem_size) const;
   
-  thrust::tuple<size_t,size_t,size_t> with_variable_block_size_available_smem(void);
+  thrust::tuple<size_t,size_t,size_t> with_variable_block_size_available_smem(void) const;
+
+  private:
+
+  /*! Returns a pair (num_threads_per_block, num_blocks_per_multiprocessor)
+   *  where num_threads_per_block is a valid block size for an instance of Closure
+   *  chosen by a heuristic and num_blocks_per_multiprocessor is the maximum
+   *  number of such blocks that can execute on a streaming multiprocessor at once.
+   */
+  thrust::pair<size_t, size_t> default_block_configuration() const;
+
+  /*! Returns a pair (num_threads_per_block, num_blocks_per_multiprocessor)
+   *  where num_threads_per_block is a valid block size for an instance of Closure
+   *  chosen by a heuristic and num_blocks_per_multiprocessor is the maximum
+   *  number of such blocks that can execute on a streaming multiprocessor at once.
+   *
+   *  \param block_size_to_smem_size Mapping from num_threads_per_block to number of
+   *                                 dynamically-allocated bytes of shared memory
+   */
+  template<typename UnaryFunction>
+  thrust::pair<size_t, size_t> default_block_configuration(UnaryFunction block_size_to_smem_size) const;
 };
 
 } // end namespace detail
