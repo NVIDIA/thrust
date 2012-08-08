@@ -48,7 +48,51 @@ Iterator2 strip_const_copy(const System &system, Iterator1 first, Iterator1 last
 } // end strip_const_copy()
 
 
+template<typename System, typename Iterator1, typename Size, typename Iterator2>
+Iterator2 strip_const_copy_n(const System &system, Iterator1 first, Size n, Iterator2 result)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::copy_n(non_const_system, first, n, result);
+} // end strip_const_copy_n()
+
+
 } // end temporary_array_detail
+
+
+template<typename T, typename System>
+  template<typename InputIterator>
+    temporary_array<T,System>
+      ::temporary_array(thrust::dispatchable<System> &system,
+                        InputIterator first,
+                        size_type n)
+        : super_t(alloc_type(temporary_allocator<T,System>(system)))
+{
+  super_t::allocate(n);
+
+  // XXX this copy should actually be copy construct via allocator
+  thrust::copy_n(system, first, n, super_t::begin());
+} // end temporary_array::temporary_array()
+
+
+template<typename T, typename System>
+  template<typename InputIterator, typename InputSystem>
+    temporary_array<T,System>
+      ::temporary_array(thrust::dispatchable<System> &system,
+                        thrust::dispatchable<InputSystem> &input_system,
+                        InputIterator first,
+                        size_type n)
+        : super_t(alloc_type(temporary_allocator<T,System>(system)))
+{
+  super_t::allocate(n);
+
+  // since this copy is cross-system,
+  // use select_system to get the system to dispatch on
+
+  using thrust::system::detail::generic::select_system;
+
+  // XXX this copy should actually be copy construct via allocator
+  temporary_array_detail::strip_const_copy_n(select_system(input_system.derived(), system.derived()), first, n, super_t::begin());
+} // end temporary_array::temporary_array()
 
 
 template<typename T, typename System>

@@ -63,6 +63,17 @@ template<typename T, typename System>
     template<typename InputIterator>
     temporary_array(thrust::dispatchable<System> &system,
                     InputIterator first,
+                    size_type n);
+
+    template<typename InputIterator, typename InputSystem>
+    temporary_array(thrust::dispatchable<System> &system,
+                    thrust::dispatchable<InputSystem> &input_system,
+                    InputIterator first,
+                    size_type n);
+
+    template<typename InputIterator>
+    temporary_array(thrust::dispatchable<System> &system,
+                    InputIterator first,
                     InputIterator last);
 
     template<typename InputSystem, typename InputIterator>
