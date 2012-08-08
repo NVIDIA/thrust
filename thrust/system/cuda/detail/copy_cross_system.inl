@@ -100,11 +100,8 @@ template<typename System1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
 
-  // allocate temporary storage in System2
-  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, thrust::distance(systems.system2,begin,end));
-
-  // recurse
-  copy_cross_system(systems, begin, end, temp.begin());
+  // copy to temporary storage in System2
+  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, systems.system1, begin, end);
 
   return thrust::copy(systems.system2, temp.begin(), temp.end(), result);
 }
