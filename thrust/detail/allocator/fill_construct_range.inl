@@ -66,7 +66,7 @@ template<typename Allocator, typename Arg1>
 };
 
 
-template<typename Allocator, typename Pointer, typename Size, typename T>
+template<typename System, typename Allocator, typename Pointer, typename Size, typename T>
   typename enable_if<
     has_effectful_member_construct2<
       Allocator,
@@ -74,13 +74,13 @@ template<typename Allocator, typename Pointer, typename Size, typename T>
       T
     >::value
   >::type
-    fill_construct_range(Allocator &a, Pointer p, Size n, const T &value)
+    fill_construct_range(thrust::dispatchable<System> &system, Allocator &a, Pointer p, Size n, const T &value)
 {
-  thrust::for_each_n(p, n, construct2_via_allocator<Allocator,T>(a, value));
+  thrust::for_each_n(system, p, n, construct2_via_allocator<Allocator,T>(a, value));
 }
 
 
-template<typename Allocator, typename Pointer, typename Size, typename T>
+template<typename System, typename Allocator, typename Pointer, typename Size, typename T>
   typename disable_if<
     has_effectful_member_construct2<
       Allocator,
@@ -88,19 +88,19 @@ template<typename Allocator, typename Pointer, typename Size, typename T>
       T
     >::value
   >::type
-    fill_construct_range(Allocator &, Pointer p, Size n, const T &value)
+    fill_construct_range(thrust::dispatchable<System> &system, Allocator &, Pointer p, Size n, const T &value)
 {
-  thrust::uninitialized_fill_n(p, n, value);
+  thrust::uninitialized_fill_n(system, p, n, value);
 }
 
 
 } // end allocator_traits_detail
 
 
-template<typename Alloc, typename Pointer, typename Size, typename T>
-  void fill_construct_range(Alloc &a, Pointer p, Size n, const T &value)
+template<typename System, typename Alloc, typename Pointer, typename Size, typename T>
+  void fill_construct_range(thrust::dispatchable<System> &system, Alloc &a, Pointer p, Size n, const T &value)
 {
-  return allocator_traits_detail::fill_construct_range(a,p,n,value);
+  return allocator_traits_detail::fill_construct_range(system,a,p,n,value);
 }
 
 
