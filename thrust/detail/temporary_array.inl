@@ -36,29 +36,6 @@ template<typename T, typename System>
 } // end temporary_array::temporary_array()
 
 
-namespace temporary_array_detail
-{
-
-
-template<typename System, typename Iterator1, typename Iterator2>
-Iterator2 strip_const_copy(const System &system, Iterator1 first, Iterator1 last, Iterator2 result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy(non_const_system, first, last, result);
-} // end strip_const_copy()
-
-
-template<typename System, typename Iterator1, typename Size, typename Iterator2>
-Iterator2 strip_const_copy_n(const System &system, Iterator1 first, Size n, Iterator2 result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy_n(non_const_system, first, n, result);
-} // end strip_const_copy_n()
-
-
-} // end temporary_array_detail
-
-
 template<typename T, typename System>
   template<typename InputIterator>
     temporary_array<T,System>
@@ -85,13 +62,8 @@ template<typename T, typename System>
 {
   super_t::allocate(n);
 
-  // since this copy is cross-system,
-  // use select_system to get the system to dispatch on
-
-  using thrust::system::detail::generic::select_system;
-
   // XXX this copy should actually be copy construct via allocator
-  temporary_array_detail::strip_const_copy_n(select_system(input_system.derived(), system.derived()), first, n, super_t::begin());
+  thrust::detail::two_system_copy_n(input_system, system, first, n, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
@@ -121,13 +93,8 @@ template<typename T, typename System>
 {
   super_t::allocate(thrust::distance(input_system,first,last));
 
-  // since this copy is cross-system,
-  // use select_system to get the system to dispatch on
-
-  using thrust::system::detail::generic::select_system;
-
   // XXX this copy should actually be copy construct via allocator
-  temporary_array_detail::strip_const_copy(select_system(input_system.derived(), system.derived()), first, last, super_t::begin());
+  thrust::detail::two_system_copy(input_system, system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
