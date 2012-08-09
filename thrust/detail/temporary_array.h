@@ -105,45 +105,45 @@ template<typename Iterator, typename System>
 };
 
 
-// if the system of Iterator is convertible to System, then just make a shallow
+// if FromSystem is convertible to ToSystem, then just make a shallow
 // copy of the range. else, use a temporary_array
-// note that the resulting iterator is explicitly tagged with System either way
-template<typename Iterator, typename System>
+// note that the resulting iterator is explicitly tagged with ToSystem either way
+template<typename Iterator, typename FromSystem, typename ToSystem>
   struct move_to_system_base
     : public eval_if<
         is_convertible<
-          typename thrust::iterator_system<Iterator>::type,
-          System
+          FromSystem,
+          ToSystem
         >::value,
         identity_<
-          tagged_iterator_range<Iterator,System>
+          tagged_iterator_range<Iterator,ToSystem>
         >,
         identity_<
           temporary_array<
             typename thrust::iterator_value<Iterator>::type,
-            System
+            ToSystem
           >
         >
       >
 {};
 
 
-template<typename Iterator, typename System>
+template<typename Iterator, typename FromSystem, typename ToSystem>
   class move_to_system
     : public move_to_system_base<
         Iterator,
-        System
+        FromSystem,
+        ToSystem
       >::type
 {
-  typedef typename move_to_system_base<Iterator,System>::type super_t;
-
-  typename thrust::iterator_system<Iterator>::type input_system;
+  typedef typename move_to_system_base<Iterator,FromSystem,ToSystem>::type super_t;
 
   public:
-    move_to_system(thrust::dispatchable<System> &system,
+    move_to_system(thrust::dispatchable<FromSystem> &from_system,
+                   thrust::dispatchable<ToSystem> &to_system,
                    Iterator first,
                    Iterator last)
-      : super_t(system, input_system, first, last) {}
+      : super_t(to_system, from_system, first, last) {}
 };
 
 } // end detail

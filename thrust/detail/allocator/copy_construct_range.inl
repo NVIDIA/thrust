@@ -34,7 +34,7 @@ namespace detail
 
 
 // XXX WAR circular dependency with this forward declaration
-template<typename Iterator, typename System> class move_to_system;
+template<typename Iterator, typename FromSystem, typename ToSystem> class move_to_system;
 
 
 namespace allocator_traits_detail
@@ -133,12 +133,14 @@ template<typename Allocator, typename InputIterator, typename Pointer>
     copy_construct_range(Allocator &a, InputIterator first, InputIterator last, Pointer result)
 {
   // move input to the same system as the output
-  typedef typename thrust::iterator_system<Pointer>::type System;
+  typedef typename thrust::iterator_system<InputIterator>::type FromSystem;
+  typedef typename thrust::iterator_system<Pointer>::type       ToSystem;
 
   // this is a no-op if both ranges are in the same system
-  // XXX assumes that System is default constructible
-  System system;
-  thrust::detail::move_to_system<InputIterator,System> temp(system,first,last);
+  // XXX assumes that FromSystem & ToSystem are default constructible
+  FromSystem from_system;
+  ToSystem   to_system;
+  thrust::detail::move_to_system<InputIterator,FromSystem,ToSystem> temp(from_system,to_system,first,last);
 
   return unintialized_copy_with_allocator(a, temp.begin(), temp.end(), result);
 }
