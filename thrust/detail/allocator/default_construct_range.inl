@@ -64,39 +64,39 @@ template<typename U, typename T>
 {};
 
 
-template<typename Allocator, typename Pointer, typename Size>
+template<typename System, typename Allocator, typename Pointer, typename Size>
   typename enable_if<
     needs_default_construct_via_allocator<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value
   >::type
-    default_construct_range(Allocator &a, Pointer p, Size n)
+    default_construct_range(thrust::dispatchable<System> &system, Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(p, n, construct1_via_allocator<Allocator>(a));
+  thrust::for_each_n(system, p, n, construct1_via_allocator<Allocator>(a));
 }
 
 
-template<typename Allocator, typename Pointer, typename Size>
+template<typename System, typename Allocator, typename Pointer, typename Size>
   typename disable_if<
     has_member_construct1<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value
   >::type
-    default_construct_range(Allocator &, Pointer p, Size n)
+    default_construct_range(thrust::dispatchable<System> &system, Allocator &, Pointer p, Size n)
 {
-  thrust::uninitialized_fill_n(p, n, typename pointer_element<Pointer>::type());
+  thrust::uninitialized_fill_n(system, p, n, typename pointer_element<Pointer>::type());
 }
 
 
 } // end allocator_traits_detail
 
 
-template<typename Allocator, typename Pointer, typename Size>
-  void default_construct_range(Allocator &a, Pointer p, Size n)
+template<typename System, typename Allocator, typename Pointer, typename Size>
+  void default_construct_range(thrust::dispatchable<System> &system, Allocator &a, Pointer p, Size n)
 {
-  return allocator_traits_detail::default_construct_range(a,p,n);
+  return allocator_traits_detail::default_construct_range(system,a,p,n);
 }
 
 

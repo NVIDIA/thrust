@@ -174,7 +174,12 @@ template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>
     ::default_construct_n(iterator first, size_type n)
 {
-  default_construct_range(m_allocator, first.base(), n);
+  // XXX assumes system is default-constructible
+  // XXX it may be a better idea to assume m_allocator has a system reference
+  //     inside and simply fish it out
+  typename thrust::iterator_system<iterator>::type system;
+
+  default_construct_range(system, m_allocator, first.base(), n);
 } // end contiguous_storage::default_construct_n()
 
 template<typename T, typename Alloc>
