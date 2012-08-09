@@ -188,15 +188,19 @@ template<typename System1,
                                                                     RandomAccessIterator2 result,
                                                                     thrust::detail::true_type) // InputIterator is trivial
 {
-  // copy the input to a temporary result system buffer of InputType
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
-
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(systems.system1, begin,end);
+  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(systems.system1, begin, end);
 
   // allocate temporary storage in System2
+  // retain the input's type for the intermediate storage
+  // do not initialize the storage
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
   thrust::detail::temporary_array<InputType,System2> temp(systems.system2, n);
 
-  // force a trivial copy
+  // force a trivial (memcpy) copy of the input to the temporary
+  // note that this will not correctly account for copy constructors
+  // but there's nothing we can do about that
+  // XXX one thing we might try is to use pinned memory for the temporary storage
+  //     this might allow us to correctly account for copy constructors
   thrust::system::cuda::detail::trivial_copy_n(systems, begin, n, temp.begin());
 
   // finally, copy to the result
@@ -217,7 +221,7 @@ template<typename System1,
                                           RandomAccessIterator2 result,
                                           thrust::random_access_traversal_tag,
                                           thrust::random_access_traversal_tag,
-                                          thrust::detail::false_type)
+                                          thrust::detail::false_type) // is_trivial_copy
 {
   // dispatch a non-trivial random access cross system copy based on whether or not the InputIterator is trivial
   return detail::non_trivial_random_access_copy_cross_system(systems, begin, end, result,
