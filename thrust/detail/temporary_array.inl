@@ -118,8 +118,7 @@ template<typename T, typename System>
 {
   super_t::allocate(thrust::distance(system,first,last));
 
-  // XXX this copy should actually be copy construct via allocator
-  thrust::copy(system, first, last, super_t::begin());
+  super_t::uninitialized_copy(first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
@@ -134,8 +133,7 @@ template<typename T, typename System>
 {
   super_t::allocate(thrust::distance(input_system,first,last));
 
-  // XXX this copy should actually be copy construct via allocator
-  thrust::detail::two_system_copy(input_system, system, first, last, super_t::begin());
+  super_t::uninitialized_copy(input_system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
