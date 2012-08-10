@@ -70,18 +70,6 @@ template<typename T, typename System>
 }; // end temporary_allocator
 
 
-template<typename T, typename System>
-  struct allocator_system<temporary_allocator<T,System> >
-{
-  typedef System type;
-
-  inline static type &get(temporary_allocator<T,System> &a)
-  {
-    return a.system();
-  } // end get()
-}; // end allocator_system
-
-
 } // end detail
 } // end thrust
 

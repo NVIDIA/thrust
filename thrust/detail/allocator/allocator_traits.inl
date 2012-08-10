@@ -188,6 +188,38 @@ template<typename Alloc>
   return std::numeric_limits<size_type>::max();
 }
 
+__THRUST_DEFINE_HAS_MEMBER_FUNCTION0(has_member_system0_impl, system);
+
+template<typename Alloc>
+  struct has_member_system
+    : has_member_system0_impl<
+        Alloc,
+        typename allocator_system<Alloc>::type &
+      >
+{};
+
+template<typename Alloc>
+  typename enable_if<
+    has_member_system<Alloc>::value,
+    typename allocator_system<Alloc>::type &
+  >::type
+    system(Alloc &a)
+{
+  return a.system();
+}
+
+template<typename Alloc>
+  typename disable_if<
+    has_member_system<Alloc>::value,
+    typename allocator_system<Alloc>::type &
+  >::type
+    system(Alloc &a)
+{
+  // assumes the system is default-constructible
+  static typename allocator_system<Alloc>::type state;
+  return state;
+}
+
 
 } // end allocator_traits_detail
 
@@ -245,6 +277,14 @@ template<typename Alloc>
       ::max_size(const allocator_type &a)
 {
   return allocator_traits_detail::max_size(a);
+}
+
+template<typename Alloc>
+  typename allocator_system<Alloc>::type &
+    allocator_system<Alloc>
+      ::get(Alloc &a)
+{
+  return allocator_traits_detail::system(a);
 }
 
 

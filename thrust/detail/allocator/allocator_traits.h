@@ -202,7 +202,7 @@ template<typename Alloc>
 }; // end allocator_traits
 
 
-// XXX consider moving this functionality inside allocator_traits
+// XXX consider moving this non-standard functionality inside allocator_traits
 template<typename Alloc>
   struct allocator_system
 {
@@ -215,12 +215,7 @@ template<typename Alloc>
     >
   >::type type;
 
-  inline static type &get(Alloc &a)
-  {
-    // assumes the system is default-constructible
-    static type state;
-    return state;
-  }
+  inline static type &get(Alloc &a);
 };
 
 
