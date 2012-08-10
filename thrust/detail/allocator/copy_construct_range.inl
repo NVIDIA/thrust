@@ -34,7 +34,7 @@ namespace detail
 
 
 // XXX WAR circular dependency with this forward declaration
-template<typename Iterator, typename System> class move_to_system;
+template<typename Iterator, typename FromSystem, typename ToSystem> class move_to_system;
 
 
 namespace allocator_traits_detail
@@ -66,8 +66,13 @@ template<typename Allocator, typename InputType, typename OutputType>
 //     perhaps generic::uninitialized_copy could call this routine
 //     with a default allocator
 template<typename Allocator, typename InputIterator, typename Pointer>
-  Pointer unintialized_copy_with_allocator(Allocator &a, InputIterator first, InputIterator last, Pointer result)
+  Pointer uninitialized_copy_with_allocator(Allocator &a,
+                                            InputIterator first,
+                                            InputIterator last,
+                                            Pointer result)
 {
+  typename allocator_system<Allocator>::type &system = allocator_system<Allocator>::get(a);
+
   // zip up the iterators
   typedef thrust::tuple<InputIterator,Pointer> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple>  ZipIterator;
@@ -76,15 +81,15 @@ template<typename Allocator, typename InputIterator, typename Pointer>
   ZipIterator end = begin;
 
   // get a zip_iterator pointing to the end
-  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(first,last);
-  thrust::advance(end, n);
+  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(system,first,last);
+  thrust::advance(system,end,n);
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type InputType;
   typedef typename iterator_traits<Pointer>::value_type       OutputType;
 
   // do the for_each
-  thrust::for_each(begin, end, copy_construct_with_allocator<Allocator,InputType,OutputType>(a));
+  thrust::for_each(system, begin, end, copy_construct_with_allocator<Allocator,InputType,OutputType>(a));
 
   // return the end of the output range
   return thrust::get<1>(end.get_iterator_tuple());
@@ -107,7 +112,7 @@ template<typename U, typename T>
 {};
 
 
-template<typename Allocator, typename InputIterator, typename Pointer>
+template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
   typename enable_if<
     is_trivially_copy_constructible<
       Allocator,
@@ -115,14 +120,20 @@ template<typename Allocator, typename InputIterator, typename Pointer>
     >::value,
     Pointer
   >::type
-    copy_construct_range(Allocator &, InputIterator first, InputIterator last, Pointer result)
+    copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
+                         Allocator &a,
+                         InputIterator first,
+                         InputIterator last,
+                         Pointer result)
 {
-  // just call copy
-  return thrust::copy(first, last, result);
+  typename allocator_system<Allocator>::type &to_system = allocator_system<Allocator>::get(a);
+
+  // just call two_system_copy
+  return thrust::detail::two_system_copy(from_system, to_system, first, last, result);
 }
 
 
-template<typename Allocator, typename InputIterator, typename Pointer>
+template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
   typename disable_if<
     is_trivially_copy_constructible<
       Allocator,
@@ -130,27 +141,33 @@ template<typename Allocator, typename InputIterator, typename Pointer>
     >::value,
     Pointer
   >::type
-    copy_construct_range(Allocator &a, InputIterator first, InputIterator last, Pointer result)
+    copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
+                         Allocator &a,
+                         InputIterator first,
+                         InputIterator last,
+                         Pointer result)
 {
+  typedef typename allocator_system<Allocator>::type ToSystem;
+  ToSystem &to_system = allocator_system<Allocator>::get(a);
+
   // move input to the same system as the output
-  typedef typename thrust::iterator_system<Pointer>::type System;
+  thrust::detail::move_to_system<InputIterator,FromSystem,ToSystem> temp(from_system,to_system,first,last);
 
-  // this is a no-op if both ranges are in the same system
-  // XXX assumes that System is default constructible
-  System system;
-  thrust::detail::move_to_system<InputIterator,System> temp(system,first,last);
-
-  return unintialized_copy_with_allocator(a, temp.begin(), temp.end(), result);
+  return uninitialized_copy_with_allocator(a, temp.begin(), temp.end(), result);
 }
 
 
 } // end allocator_traits_detail
 
 
-template<typename Allocator, typename InputIterator, typename Pointer>
-  Pointer copy_construct_range(Allocator &a, InputIterator first, InputIterator last, Pointer result)
+template<typename System, typename Allocator, typename InputIterator, typename Pointer>
+  Pointer copy_construct_range(thrust::dispatchable<System> &from_system,
+                               Allocator &a,
+                               InputIterator first,
+                               InputIterator last,
+                               Pointer result)
 {
-  return allocator_traits_detail::copy_construct_range(a, first, last, result);
+  return allocator_traits_detail::copy_construct_range(from_system, a, first, last, result);
 }
 
 

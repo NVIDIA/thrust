@@ -25,7 +25,7 @@ namespace detail
 
 
 template<typename Allocator, typename Pointer, typename Size>
-  inline void default_construct_range(Allocator &a, Pointer p, Size n);
+inline void default_construct_range(Allocator &a, Pointer p, Size n);
 
 
 } // end detail

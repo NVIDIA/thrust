@@ -73,7 +73,7 @@ template<typename Allocator, typename Pointer, typename Size>
   >::type
     default_construct_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(p, n, construct1_via_allocator<Allocator>(a));
+  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, construct1_via_allocator<Allocator>(a));
 }
 
 
@@ -84,9 +84,9 @@ template<typename Allocator, typename Pointer, typename Size>
       typename pointer_element<Pointer>::type
     >::value
   >::type
-    default_construct_range(Allocator &, Pointer p, Size n)
+    default_construct_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::uninitialized_fill_n(p, n, typename pointer_element<Pointer>::type());
+  thrust::uninitialized_fill_n(allocator_system<Allocator>::get(a), p, n, typename pointer_element<Pointer>::type());
 }
 
 
