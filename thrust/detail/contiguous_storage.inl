@@ -185,12 +185,24 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::uninitialized_fill()
 
 template<typename T, typename Alloc>
+  template<typename System, typename InputIterator>
+    typename contiguous_storage<T,Alloc>::iterator
+      contiguous_storage<T,Alloc>
+        ::uninitialized_copy(thrust::dispatchable<System> &from_system, InputIterator first, InputIterator last, iterator result)
+{
+  return iterator(copy_construct_range(from_system, m_allocator, first, last, result.base()));
+} // end contiguous_storage::uninitialized_copy()
+
+template<typename T, typename Alloc>
   template<typename InputIterator>
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy(InputIterator first, InputIterator last, iterator result)
 {
-  return iterator(copy_construct_range(m_allocator, first, last, result.base()));
+  // XXX assumes InputIterator's associated System is default-constructible
+  typename thrust::iterator_system<InputIterator>::type from_system;
+
+  return iterator(copy_construct_range(from_system, m_allocator, first, last, result.base()));
 } // end contiguous_storage::uninitialized_copy()
 
 template<typename T, typename Alloc>

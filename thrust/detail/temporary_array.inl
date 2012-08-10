@@ -18,6 +18,7 @@
 #include <thrust/distance.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/detail/copy.h>
+#include <thrust/detail/type_traits.h>
 
 
 namespace thrust
@@ -25,6 +26,36 @@ namespace thrust
 
 namespace detail
 {
+namespace temporary_array_detail
+{
+
+
+template<typename T> struct avoid_initialization : thrust::detail::has_trivial_copy_constructor<T> {};
+
+
+template<typename T, typename TemporaryArray, typename Size>
+typename thrust::detail::enable_if<
+  avoid_initialization<T>::value
+>::type
+  construct_values(TemporaryArray &,
+                   Size)
+{
+  // avoid the overhead of initialization
+} // end construct_values()
+
+
+template<typename T, typename TemporaryArray, typename Size>
+typename thrust::detail::disable_if<
+  avoid_initialization<T>::value
+>::type
+  construct_values(TemporaryArray &a,
+                   Size n)
+{
+  a.default_construct_n(a.begin(), n);
+} // end construct_values()
+
+
+} // end temporary_array_detail
 
 
 template<typename T, typename System>
@@ -32,23 +63,49 @@ template<typename T, typename System>
     ::temporary_array(thrust::dispatchable<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
+  temporary_array_detail::construct_values<T>(*this, n);
+} // end temporary_array::temporary_array()
+
+
+template<typename T, typename System>
+  temporary_array<T,System>
+    ::temporary_array(int, thrust::dispatchable<System> &system, size_type n)
+      :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
+{
+  // avoid initialization
   ;
 } // end temporary_array::temporary_array()
 
 
-namespace temporary_array_detail
+template<typename T, typename System>
+  template<typename InputIterator>
+    temporary_array<T,System>
+      ::temporary_array(thrust::dispatchable<System> &system,
+                        InputIterator first,
+                        size_type n)
+        : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
+  super_t::allocate(n);
+
+  // XXX this copy should actually be copy construct via allocator
+  thrust::copy_n(system, first, n, super_t::begin());
+} // end temporary_array::temporary_array()
 
 
-template<typename System, typename Iterator1, typename Iterator2>
-Iterator2 strip_const_copy(const System &system, Iterator1 first, Iterator1 last, Iterator2 result)
+template<typename T, typename System>
+  template<typename InputIterator, typename InputSystem>
+    temporary_array<T,System>
+      ::temporary_array(thrust::dispatchable<System> &system,
+                        thrust::dispatchable<InputSystem> &input_system,
+                        InputIterator first,
+                        size_type n)
+        : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy(non_const_system, first, last, result);
-} // end strip_const_copy()
+  super_t::allocate(n);
 
-
-} // end temporary_array_detail
+  // XXX this copy should actually be copy construct via allocator
+  thrust::detail::two_system_copy_n(input_system, system, first, n, super_t::begin());
+} // end temporary_array::temporary_array()
 
 
 template<typename T, typename System>
@@ -77,15 +134,18 @@ template<typename T, typename System>
 {
   super_t::allocate(thrust::distance(input_system,first,last));
 
-  // since this copy is cross-system,
-  // use select_system to get the system to dispatch on
-
-  using thrust::system::detail::generic::select_system;
-
   // XXX this copy should actually be copy construct via allocator
-  temporary_array_detail::strip_const_copy(select_system(input_system.derived(), system.derived()), first, last, super_t::begin());
+  thrust::detail::two_system_copy(input_system, system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
+
+template<typename T, typename System>
+  temporary_array<T,System>
+    ::~temporary_array()
+{
+  // note that super_t::destroy will ignore trivial destructors automatically
+  super_t::destroy(super_t::begin(), super_t::end());
+} // end temporary_array::~temporary_array()
 
 } // end detail
 

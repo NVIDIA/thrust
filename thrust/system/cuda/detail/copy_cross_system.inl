@@ -78,8 +78,7 @@ template<typename System1,
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
 
   // allocate and copy to temporary storage System1
-  thrust::detail::temporary_array<InputType, System1> temp(systems.system1,n);
-  thrust::copy_n(systems.system1, first, n, temp.begin());
+  thrust::detail::temporary_array<InputType, System1> temp(systems.system1, first, n);
 
   // recurse
   return copy_cross_system(systems, temp.begin(), temp.end(), result);
@@ -100,11 +99,8 @@ template<typename System1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
 
-  // allocate temporary storage in System2
-  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, thrust::distance(systems.system2,begin,end));
-
-  // recurse
-  copy_cross_system(systems, begin, end, temp.begin());
+  // copy to temporary storage in System2
+  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, systems.system1, begin, end);
 
   return thrust::copy(systems.system2, temp.begin(), temp.end(), result);
 }
@@ -123,12 +119,10 @@ template<typename System1,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
 
-  // allocate and copy to temporary storage in System2
-  thrust::detail::temporary_array<InputType,System2> temp(systems.system2,n);
+  // copy to temporary storage in System2
+  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, systems.system1, first, n);
 
-  // recurse
-  copy_cross_system_n(systems, first, n, temp.begin());
-
+  // copy temp to result
   return thrust::copy(systems.system2, temp.begin(), temp.end(), result);
 }
 
@@ -194,15 +188,19 @@ template<typename System1,
                                                                     RandomAccessIterator2 result,
                                                                     thrust::detail::true_type) // InputIterator is trivial
 {
-  // copy the input to a temporary result system buffer of InputType
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
-
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(systems.system1, begin,end);
+  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(systems.system1, begin, end);
 
   // allocate temporary storage in System2
-  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, n);
+  // retain the input's type for the intermediate storage
+  // do not initialize the storage (the 0 does this)
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
+  thrust::detail::temporary_array<InputType,System2> temp(0, systems.system2, n);
 
-  // force a trivial copy
+  // force a trivial (memcpy) copy of the input to the temporary
+  // note that this will not correctly account for copy constructors
+  // but there's nothing we can do about that
+  // XXX one thing we might try is to use pinned memory for the temporary storage
+  //     this might allow us to correctly account for copy constructors
   thrust::system::cuda::detail::trivial_copy_n(systems, begin, n, temp.begin());
 
   // finally, copy to the result
@@ -223,7 +221,7 @@ template<typename System1,
                                           RandomAccessIterator2 result,
                                           thrust::random_access_traversal_tag,
                                           thrust::random_access_traversal_tag,
-                                          thrust::detail::false_type)
+                                          thrust::detail::false_type) // is_trivial_copy
 {
   // dispatch a non-trivial random access cross system copy based on whether or not the InputIterator is trivial
   return detail::non_trivial_random_access_copy_cross_system(systems, begin, end, result,

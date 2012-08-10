@@ -23,9 +23,7 @@
 #include <thrust/functional.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/temporary_array.h>
-
 #include <thrust/system/cuda/detail/trivial_copy.h>
-#include <thrust/system/cpp/detail/tag.h>
 
 namespace thrust
 {
@@ -56,14 +54,13 @@ template<typename System,
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
-    // XXX forward a real system in here
-    thrust::detail::temporary_array<InputType, thrust::cpp::tag> temp1(begin, end);
+    thrust::host_system_tag temp_system;
+    thrust::detail::temporary_array<InputType, thrust::host_system_tag> temp1(temp_system, begin, end);
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-    // XXX forward a real system in here
-    thrust::detail::temporary_array<OutputType, thrust::cpp::tag> temp2(temp1.begin(), temp1.end());
+    thrust::detail::temporary_array<OutputType, thrust::host_system_tag> temp2(temp_system, temp1.begin(), temp1.end());
 
     // copy temp2 to device
     result = thrust::system::cuda::detail::copy_cross_system(temp2.begin(), temp2.end(), result);

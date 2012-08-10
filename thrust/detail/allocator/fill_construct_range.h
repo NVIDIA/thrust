@@ -25,7 +25,7 @@ namespace detail
 
 
 template<typename Allocator, typename Pointer, typename Size, typename T>
-  inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value);
+inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value);
 
 
 } // end detail
