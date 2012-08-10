@@ -24,9 +24,8 @@ namespace thrust
 namespace detail
 {
 
-template<typename FromSystem, typename ToSystem, typename Allocator, typename InputIterator, typename Pointer>
-  Pointer copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
-                               thrust::dispatchable<ToSystem>   &to_system,
+template<typename System, typename Allocator, typename InputIterator, typename Pointer>
+  Pointer copy_construct_range(thrust::dispatchable<System> &from_system,
                                Allocator &a,
                                InputIterator first,
                                InputIterator last,

@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
@@ -25,8 +24,8 @@ namespace detail
 {
 
 
-template<typename System, typename Allocator, typename Pointer, typename Size>
-  inline void default_construct_range(thrust::dispatchable<System> &system, Allocator &a, Pointer p, Size n);
+template<typename Allocator, typename Pointer, typename Size>
+inline void default_construct_range(Allocator &a, Pointer p, Size n);
 
 
 } // end detail

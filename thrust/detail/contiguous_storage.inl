@@ -174,20 +174,14 @@ template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>
     ::default_construct_n(iterator first, size_type n)
 {
-  // XXX move this get into default_construct_range
-  typename allocator_system<Alloc>::type &system = allocator_system<Alloc>::get(m_allocator);
-
-  default_construct_range(system, m_allocator, first.base(), n);
+  default_construct_range(m_allocator, first.base(), n);
 } // end contiguous_storage::default_construct_n()
 
 template<typename T, typename Alloc>
   void contiguous_storage<T,Alloc>
     ::uninitialized_fill_n(iterator first, size_type n, const value_type &x)
 {
-  // XXX move this get into fill_construct_range
-  typename allocator_system<Alloc>::type &system = allocator_system<Alloc>::get(m_allocator);
-
-  fill_construct_range(system, m_allocator, first.base(), n, x);
+  fill_construct_range(m_allocator, first.base(), n, x);
 } // end contiguous_storage::uninitialized_fill()
 
 template<typename T, typename Alloc>
@@ -196,13 +190,10 @@ template<typename T, typename Alloc>
       contiguous_storage<T,Alloc>
         ::uninitialized_copy(InputIterator first, InputIterator last, iterator result)
 {
-  // XXX assumes both systems are default-constructible
+  // XXX assumes this system is default-constructible
   typename thrust::iterator_system<InputIterator>::type from_system;
 
-  // XXX move this get into copy_construct_range
-  typename allocator_system<Alloc>::type &to_system = allocator_system<Alloc>::get(m_allocator);
-
-  return iterator(copy_construct_range(from_system, to_system, m_allocator, first, last, result.base()));
+  return iterator(copy_construct_range(from_system, m_allocator, first, last, result.base()));
 } // end contiguous_storage::uninitialized_copy()
 
 template<typename T, typename Alloc>

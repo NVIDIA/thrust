@@ -65,13 +65,14 @@ template<typename Allocator, typename InputType, typename OutputType>
 //     exactly from system::detail::generic::uninitialized_copy
 //     perhaps generic::uninitialized_copy could call this routine
 //     with a default allocator
-template<typename System, typename Allocator, typename InputIterator, typename Pointer>
-  Pointer unintialized_copy_with_allocator(thrust::dispatchable<System> &system,
-                                           Allocator &a,
-                                           InputIterator first,
-                                           InputIterator last,
-                                           Pointer result)
+template<typename Allocator, typename InputIterator, typename Pointer>
+  Pointer uninitialized_copy_with_allocator(Allocator &a,
+                                            InputIterator first,
+                                            InputIterator last,
+                                            Pointer result)
 {
+  typename allocator_system<Allocator>::type &system = allocator_system<Allocator>::get(a);
+
   // zip up the iterators
   typedef thrust::tuple<InputIterator,Pointer> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple>  ZipIterator;
@@ -111,7 +112,7 @@ template<typename U, typename T>
 {};
 
 
-template<typename FromSystem, typename ToSystem, typename Allocator, typename InputIterator, typename Pointer>
+template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
   typename enable_if<
     is_trivially_copy_constructible<
       Allocator,
@@ -120,18 +121,19 @@ template<typename FromSystem, typename ToSystem, typename Allocator, typename In
     Pointer
   >::type
     copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
-                         thrust::dispatchable<ToSystem>   &to_system,
-                         Allocator &,
+                         Allocator &a,
                          InputIterator first,
                          InputIterator last,
                          Pointer result)
 {
+  typename allocator_system<Allocator>::type &to_system = allocator_system<Allocator>::get(a);
+
   // just call two_system_copy
   return thrust::detail::two_system_copy(from_system, to_system, first, last, result);
 }
 
 
-template<typename FromSystem, typename ToSystem, typename Allocator, typename InputIterator, typename Pointer>
+template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
   typename disable_if<
     is_trivially_copy_constructible<
       Allocator,
@@ -140,31 +142,32 @@ template<typename FromSystem, typename ToSystem, typename Allocator, typename In
     Pointer
   >::type
     copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
-                         thrust::dispatchable<ToSystem>   &to_system,
                          Allocator &a,
                          InputIterator first,
                          InputIterator last,
                          Pointer result)
 {
+  typedef typename allocator_system<Allocator>::type ToSystem;
+  ToSystem &to_system = allocator_system<Allocator>::get(a);
+
   // move input to the same system as the output
   thrust::detail::move_to_system<InputIterator,FromSystem,ToSystem> temp(from_system,to_system,first,last);
 
-  return unintialized_copy_with_allocator(to_system, a, temp.begin(), temp.end(), result);
+  return uninitialized_copy_with_allocator(a, temp.begin(), temp.end(), result);
 }
 
 
 } // end allocator_traits_detail
 
 
-template<typename FromSystem, typename ToSystem, typename Allocator, typename InputIterator, typename Pointer>
-  Pointer copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
-                               thrust::dispatchable<ToSystem>   &to_system,
+template<typename System, typename Allocator, typename InputIterator, typename Pointer>
+  Pointer copy_construct_range(thrust::dispatchable<System> &from_system,
                                Allocator &a,
                                InputIterator first,
                                InputIterator last,
                                Pointer result)
 {
-  return allocator_traits_detail::copy_construct_range(from_system, to_system, a, first, last, result);
+  return allocator_traits_detail::copy_construct_range(from_system, a, first, last, result);
 }
 
 

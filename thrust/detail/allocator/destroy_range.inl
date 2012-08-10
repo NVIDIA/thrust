@@ -110,7 +110,7 @@ template<typename Allocator, typename Pointer, typename Size>
   typename enable_if_destroy_range_case1<Allocator,Pointer>::type
     destroy_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(p, n, destroy_via_allocator<Allocator>(a));
+  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, destroy_via_allocator<Allocator>(a));
 }
 
 
@@ -128,9 +128,9 @@ struct gozer
 // destroy_range case 2: destroy without the allocator
 template<typename Allocator, typename Pointer, typename Size>
   typename enable_if_destroy_range_case2<Allocator,Pointer>::type
-    destroy_range(Allocator &, Pointer p, Size n)
+    destroy_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(p, n, gozer());
+  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, gozer());
 }
 
 
