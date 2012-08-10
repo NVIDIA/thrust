@@ -192,9 +192,9 @@ template<typename System1,
 
   // allocate temporary storage in System2
   // retain the input's type for the intermediate storage
-  // do not initialize the storage
+  // do not initialize the storage (the 0 does this)
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type InputType;
-  thrust::detail::temporary_array<InputType,System2> temp(systems.system2, n);
+  thrust::detail::temporary_array<InputType,System2> temp(0, systems.system2, n);
 
   // force a trivial (memcpy) copy of the input to the temporary
   // note that this will not correctly account for copy constructors

@@ -18,6 +18,7 @@
 #include <thrust/distance.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/detail/copy.h>
+#include <thrust/detail/type_traits.h>
 
 
 namespace thrust
@@ -25,6 +26,36 @@ namespace thrust
 
 namespace detail
 {
+namespace temporary_array_detail
+{
+
+
+template<typename T> struct avoid_initialization : thrust::detail::has_trivial_copy_constructor<T> {};
+
+
+template<typename T, typename TemporaryArray, typename Size>
+typename thrust::detail::enable_if<
+  avoid_initialization<T>::value
+>::type
+  construct_values(TemporaryArray &,
+                   Size)
+{
+  // avoid the overhead of initialization
+} // end construct_values()
+
+
+template<typename T, typename TemporaryArray, typename Size>
+typename thrust::detail::disable_if<
+  avoid_initialization<T>::value
+>::type
+  construct_values(TemporaryArray &a,
+                   Size n)
+{
+  a.default_construct_n(a.begin(), n);
+} // end construct_values()
+
+
+} // end temporary_array_detail
 
 
 template<typename T, typename System>
@@ -32,6 +63,16 @@ template<typename T, typename System>
     ::temporary_array(thrust::dispatchable<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
+  temporary_array_detail::construct_values<T>(*this, n);
+} // end temporary_array::temporary_array()
+
+
+template<typename T, typename System>
+  temporary_array<T,System>
+    ::temporary_array(int, thrust::dispatchable<System> &system, size_type n)
+      :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
+{
+  // avoid initialization
   ;
 } // end temporary_array::temporary_array()
 
@@ -97,6 +138,14 @@ template<typename T, typename System>
   thrust::detail::two_system_copy(input_system, system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
+
+template<typename T, typename System>
+  temporary_array<T,System>
+    ::~temporary_array()
+{
+  // note that super_t::destroy will ignore trivial destructors automatically
+  super_t::destroy(super_t::begin(), super_t::end());
+} // end temporary_array::~temporary_array()
 
 } // end detail
 

@@ -30,7 +30,6 @@
 
 namespace thrust
 {
-
 namespace detail
 {
 
@@ -60,6 +59,9 @@ template<typename T, typename System>
 
     temporary_array(thrust::dispatchable<System> &system, size_type n);
 
+    // provide a kill-switch to explicitly avoid initialization
+    temporary_array(int uninit, thrust::dispatchable<System> &system, size_type n);
+
     template<typename InputIterator>
     temporary_array(thrust::dispatchable<System> &system,
                     InputIterator first,
@@ -81,6 +83,8 @@ template<typename T, typename System>
                     thrust::dispatchable<InputSystem> &input_system,
                     InputIterator first,
                     InputIterator last);
+
+    ~temporary_array();
 }; // end temporary_array
 
 
@@ -146,8 +150,8 @@ template<typename Iterator, typename FromSystem, typename ToSystem>
       : super_t(to_system, from_system, first, last) {}
 };
 
-} // end detail
 
+} // end detail
 } // end thrust
 
 #include <thrust/detail/temporary_array.inl>
