@@ -19,7 +19,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/tag.h>
 #include <thrust/system/cuda/detail/assign_value.h>
-#include <thrust/system/cpp/detail/tag.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -53,8 +52,8 @@ inline __host__ __device__
       // note that this requires a type with default constructor
       result_type result;
 
-      thrust::cpp::tag cpp_tag;
-      cross_system<thrust::cpp::tag, System> systems(cpp_tag, system);
+      thrust::host_system_tag host_tag;;
+      cross_system<thrust::host_system_tag, System> systems(host_tag, system);
       assign_value(systems, &result, ptr);
 
       return result;
