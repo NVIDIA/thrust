@@ -30,7 +30,7 @@ template<typename T, typename System>
     temporary_allocator<T,System>
       ::allocate(typename temporary_allocator<T,System>::size_type cnt)
 {
-  pointer_and_size result = thrust::get_temporary_buffer<T>(m_system, cnt);
+  pointer_and_size result = thrust::get_temporary_buffer<T>(system(), cnt);
 
   // handle failure
   if(result.second < cnt)
@@ -45,11 +45,12 @@ template<typename T, typename System>
   return result.first;
 } // end temporary_allocator::allocate()
 
+
 template<typename T, typename System>
   void temporary_allocator<T,System>
     ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type n)
 {
-  return thrust::return_temporary_buffer(m_system, p);
+  return thrust::return_temporary_buffer(system(), p);
 } // end temporary_allocator
 
 

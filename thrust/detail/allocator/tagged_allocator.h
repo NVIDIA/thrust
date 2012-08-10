@@ -36,6 +36,7 @@ template<typename Tag, typename Pointer>
     typedef typename thrust::detail::pointer_traits<Pointer>::template rebind<const void>::other const_pointer;
     typedef std::size_t                                                                          size_type;
     typedef typename thrust::detail::pointer_traits<Pointer>::difference_type                    difference_type;
+    typedef Tag                                                                                  system_type;
 
     template<typename U>
       struct rebind
@@ -55,6 +56,7 @@ template<typename T, typename Tag, typename Pointer>
     typedef typename thrust::iterator_reference<const_pointer>::type                          const_reference;
     typedef std::size_t                                                                       size_type;
     typedef typename thrust::detail::pointer_traits<pointer>::difference_type                 difference_type;
+    typedef Tag                                                                               system_type;
 
     template<typename U>
       struct rebind

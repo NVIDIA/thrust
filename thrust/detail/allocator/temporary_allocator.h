@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/tagged_allocator.h>
+#include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/pair.h>
 //#include <thrust/detail/pointer.h>
 //#include <thrust/detail/reference.h>
@@ -29,9 +30,10 @@ namespace thrust
 namespace detail
 {
 
+
 // XXX the pointer parameter given to tagged_allocator should be related to
 //     the type of the expression get_temporary_buffer(system, n).first
-//     without decltype, compromise on pointer<T,Tag>
+//     without decltype, compromise on pointer<T,System>
 template<typename T, typename System>
   class temporary_allocator
     : public thrust::detail::tagged_allocator<
@@ -43,7 +45,7 @@ template<typename T, typename System>
       T, System, thrust::pointer<T,System>
     > super_t;
 
-    thrust::dispatchable<System> &m_system;
+    System &m_system;
 
   public:
     typedef typename super_t::pointer   pointer;
@@ -51,16 +53,34 @@ template<typename T, typename System>
 
     inline explicit temporary_allocator(thrust::dispatchable<System> &system) :
       super_t(),
-      m_system(system)
+      m_system(system.derived())
     {}
 
     pointer allocate(size_type cnt);
 
     void deallocate(pointer p, size_type n);
 
+    inline System &system()
+    {
+      return m_system;
+    } // end system()
+
   private:
     typedef thrust::pair<pointer, size_type> pointer_and_size;
-};
+}; // end temporary_allocator
+
+
+template<typename T, typename System>
+  struct allocator_system<temporary_allocator<T,System> >
+{
+  typedef System type;
+
+  inline static type &get(temporary_allocator<T,System> &a)
+  {
+    return a.system();
+  } // end get()
+}; // end allocator_system
+
 
 } // end detail
 } // end thrust
