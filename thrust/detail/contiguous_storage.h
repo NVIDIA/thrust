@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/iterator/detail/normal_iterator.h>
+#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
@@ -78,6 +79,12 @@ template<typename T, typename Alloc>
 
     template<typename InputIterator>
     iterator uninitialized_copy(InputIterator first, InputIterator last, iterator result);
+
+    template<typename System, typename InputIterator>
+    iterator uninitialized_copy(thrust::dispatchable<System> &from_system,
+                                InputIterator first,
+                                InputIterator last,
+                                iterator result);
 
     void destroy(iterator first, iterator last);
 
