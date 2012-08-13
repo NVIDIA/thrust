@@ -56,14 +56,32 @@ DECLARE_UNITTEST(TestAllocatorCustomCopyConstruct);
 static int g_state;
 
 struct my_allocator_with_custom_destroy
-  : std::allocator<int>
 {
+  typedef int         value_type;
+  typedef int &       reference;
+  typedef const int & const_reference;
+
   template<typename T>
   __host__ __device__
   void destroy(T *p)
   {
     g_state = 13;
   }
+
+  value_type *allocate(std::ptrdiff_t n)
+  {
+    return use_me_to_alloc.allocate(n);
+  }
+
+  void deallocate(value_type *ptr, std::ptrdiff_t n)
+  {
+    use_me_to_alloc.deallocate(ptr,n);
+  }
+  
+  // use composition rather than inheritance
+  // to avoid inheriting std::allocator's member
+  // function construct
+  std::allocator<int> use_me_to_alloc;
 };
 
 void TestAllocatorCustomDestroy()
@@ -76,4 +94,38 @@ void TestAllocatorCustomDestroy()
   ASSERT_EQUAL(13, g_state);
 }
 DECLARE_UNITTEST(TestAllocatorCustomDestroy);
+
+struct my_minimal_allocator
+{
+  typedef int         value_type;
+
+  // XXX ideally, we shouldn't require
+  //     these two typedefs
+  typedef int &       reference;
+  typedef const int & const_reference;
+
+  value_type *allocate(std::ptrdiff_t n)
+  {
+    return use_me_to_alloc.allocate(n);
+  }
+
+  void deallocate(value_type *ptr, std::ptrdiff_t n)
+  {
+    use_me_to_alloc.deallocate(ptr,n);
+  }
+
+  std::allocator<int> use_me_to_alloc;
+};
+
+void TestAllocatorMinimal()
+{
+  thrust::cpp::vector<int, my_minimal_allocator> vec(10, 13);
+
+  // XXX copy to h_vec because ASSERT_EQUAL doesn't know about cpp::vector
+  thrust::host_vector<int> h_vec(vec.begin(), vec.end());
+  thrust::host_vector<int> ref(10, 13);
+
+  ASSERT_EQUAL(ref, h_vec);
+}
+DECLARE_UNITTEST(TestAllocatorMinimal);
 
