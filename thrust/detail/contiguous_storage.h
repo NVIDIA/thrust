@@ -96,6 +96,15 @@ template<typename T, typename Alloc>
                                 InputIterator last,
                                 iterator result);
 
+    template<typename InputIterator, typename Size>
+    iterator uninitialized_copy_n(InputIterator first, Size n, iterator result);
+
+    template<typename System, typename InputIterator, typename Size>
+    iterator uninitialized_copy_n(thrust::dispatchable<System> &from_system,
+                                  InputIterator first,
+                                  Size n,
+                                  iterator result);
+
     void destroy(iterator first, iterator last);
 
   private:

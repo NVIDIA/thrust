@@ -17,7 +17,6 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/distance.h>
 #include <thrust/system/detail/generic/select_system.h>
-#include <thrust/detail/copy.h>
 #include <thrust/detail/type_traits.h>
 
 
@@ -87,8 +86,7 @@ template<typename T, typename System>
 {
   super_t::allocate(n);
 
-  // XXX this copy should actually be copy construct via allocator
-  thrust::copy_n(system, first, n, super_t::begin());
+  super_t::uninitialized_copy_n(system, first, n, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
@@ -103,8 +101,7 @@ template<typename T, typename System>
 {
   super_t::allocate(n);
 
-  // XXX this copy should actually be copy construct via allocator
-  thrust::detail::two_system_copy_n(input_system, system, first, n, super_t::begin());
+  super_t::uninitialized_copy_n(input_system, first, n, super_t::begin());
 } // end temporary_array::temporary_array()
 
 
