@@ -17,6 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/type_traits/has_member_function.h>
+#include <thrust/detail/type_traits/is_call_possible.h>
 #include <new>
 #include <limits>
 
@@ -27,17 +28,19 @@ namespace detail
 namespace allocator_traits_detail
 {
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION2(has_member_allocate_with_hint_impl, allocate);
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_allocate_with_hint_impl, allocate)
 
 template<typename Alloc>
-  struct has_member_allocate_with_hint
-    : has_member_allocate_with_hint_impl<
-        Alloc,
-        typename allocator_traits<Alloc>::pointer, 
-        typename allocator_traits<Alloc>::size_type,
-        typename allocator_traits<Alloc>::const_void_pointer
-      >
-{};
+  class has_member_allocate_with_hint
+{
+  typedef typename allocator_traits<Alloc>::pointer            pointer;
+  typedef typename allocator_traits<Alloc>::size_type          size_type;
+  typedef typename allocator_traits<Alloc>::const_void_pointer const_void_pointer;
+
+  public:
+    typedef typename has_member_allocate_with_hint_impl<Alloc, pointer(size_type,const_void_pointer)>::type type;
+    static const bool value = type::value;
+};
 
 template<typename Alloc>
   typename enable_if<
@@ -60,15 +63,11 @@ template<typename Alloc>
 }
 
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION1(has_member_construct1_impl, construct);
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct1_impl, construct)
 
 template<typename Alloc, typename T>
   struct has_member_construct1
-    : has_member_construct1_impl<
-        Alloc,
-        void,
-        T*
-      >
+    : has_member_construct1_impl<Alloc, void(T*)>
 {};
 
 template<typename Alloc, typename T>
@@ -92,16 +91,11 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION2(has_member_construct2_impl, construct);
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct2_impl, construct)
 
 template<typename Alloc, typename T, typename Arg1>
   struct has_member_construct2
-    : has_member_construct2_impl<
-        Alloc,
-        void,
-        T*,
-        const Arg1 &
-      >
+    : has_member_construct2_impl<Alloc, void(T*,const Arg1 &)>
 {};
 
 template<typename Alloc, typename T, typename Arg1>
@@ -125,21 +119,17 @@ template<typename Alloc, typename T, typename Arg1>
 }
 
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION1(has_member_destroy1_impl, destroy);
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
 
 template<typename Alloc, typename T>
-  struct has_member_destroy1
-    : has_member_destroy1_impl<
-        Alloc,
-        void,
-        T*
-      >
+  struct has_member_destroy
+    : has_member_destroy_impl<Alloc, void(T*)>
 {};
 
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename enable_if<
-      has_member_destroy1<Alloc,T>::value
+      has_member_destroy<Alloc,T>::value
     >::type
       destroy(Alloc &a, T *p)
 {
@@ -149,7 +139,7 @@ template<typename Alloc, typename T>
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename disable_if<
-      has_member_destroy1<Alloc,T>::value
+      has_member_destroy<Alloc,T>::value
     >::type
       destroy(Alloc &, T *p)
 {
@@ -157,15 +147,17 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION0(has_member_max_size0_impl, max_size);
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size);
 
 template<typename Alloc>
-  struct has_member_max_size
-    : has_member_max_size0_impl<
-        Alloc,
-        typename allocator_traits<Alloc>::size_type
-      >
-{};
+  class has_member_max_size
+{
+  typedef typename allocator_traits<Alloc>::size_type size_type;
+
+  public:
+    typedef typename has_member_max_size_impl<Alloc, size_type(void)>::type type;
+    static const bool value = type::value;
+};
 
 template<typename Alloc>
   typename enable_if<
@@ -188,15 +180,17 @@ template<typename Alloc>
   return std::numeric_limits<size_type>::max();
 }
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION0(has_member_system0_impl, system);
+__THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system);
 
 template<typename Alloc>
-  struct has_member_system
-    : has_member_system0_impl<
-        Alloc,
-        typename allocator_system<Alloc>::type &
-      >
-{};
+  class has_member_system
+{
+  typedef typename allocator_system<Alloc>::type system_type;
+
+  public:
+    typedef typename has_member_system_impl<Alloc, system_type&(void)>::type type;
+    static const bool value = type::value;
+};
 
 template<typename Alloc>
   typename enable_if<

@@ -30,6 +30,8 @@ namespace allocator_traits_detail
 
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_pointer, pointer);
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_const_pointer, const_pointer);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_reference, reference);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_const_reference, const_reference);
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_void_pointer, void_pointer);
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_const_void_pointer, const_void_pointer);
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_difference_type, difference_type);
@@ -49,6 +51,18 @@ template<typename T>
   struct nested_const_pointer
 {
   typedef typename T::const_pointer type;
+};
+
+template<typename T>
+  struct nested_reference
+{
+  typedef typename T::reference type;
+};
+
+template<typename T>
+  struct nested_const_reference
+{
+  typedef typename T::const_reference type;
 };
 
 template<typename T>
