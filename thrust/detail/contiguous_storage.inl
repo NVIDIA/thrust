@@ -71,7 +71,7 @@ template<typename T, typename Alloc>
     contiguous_storage<T,Alloc>
       ::max_size(void) const
 {
-  return m_allocator.max_size();
+  return alloc_traits::max_size(m_allocator);
 } // end contiguous_storage::max_size()
 
 template<typename T, typename Alloc>

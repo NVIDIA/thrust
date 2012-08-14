@@ -118,7 +118,7 @@ template<typename T, typename System>
 {
   super_t::allocate(thrust::distance(system,first,last));
 
-  super_t::uninitialized_copy(first, last, super_t::begin());
+  super_t::uninitialized_copy(system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
 
 

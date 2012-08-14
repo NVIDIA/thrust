@@ -36,13 +36,13 @@ namespace allocator_traits_detail
 //   3. if T has a trivial destructor, do a no-op
 
 template<typename Allocator, typename T>
-  struct has_effectful_member_destroy1
-    : has_member_destroy1<Allocator,T>
+  struct has_effectful_member_destroy
+    : has_member_destroy<Allocator,T>
 {};
 
 // std::allocator::destroy's only effect is to invoke its argument's destructor
 template<typename U, typename T>
-  struct has_effectful_member_destroy1<std::allocator<U>, T>
+  struct has_effectful_member_destroy<std::allocator<U>, T>
     : thrust::detail::false_type
 {};
 
@@ -50,7 +50,7 @@ template<typename U, typename T>
 template<typename Allocator, typename Pointer>
   struct enable_if_destroy_range_case1
     : thrust::detail::enable_if<
-        has_effectful_member_destroy1<
+        has_effectful_member_destroy<
           Allocator,
           typename pointer_element<Pointer>::type
         >::value
@@ -61,7 +61,7 @@ template<typename Allocator, typename Pointer>
 template<typename Allocator, typename Pointer>
   struct enable_if_destroy_range_case2
     : thrust::detail::enable_if<
-        !has_effectful_member_destroy1<
+        !has_effectful_member_destroy<
           Allocator,
           typename pointer_element<Pointer>::type
         >::value &&
@@ -75,7 +75,7 @@ template<typename Allocator, typename Pointer>
 template<typename Allocator, typename Pointer>
   struct enable_if_destroy_range_case3
     : thrust::detail::enable_if<
-        !has_effectful_member_destroy1<
+        !has_effectful_member_destroy<
           Allocator,
           typename pointer_element<Pointer>::type
         >::value &&
