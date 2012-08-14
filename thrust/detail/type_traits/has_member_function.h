@@ -34,9 +34,9 @@ class trait_name<T, Result(void)>                                               
    template <typename U, U t>  class helper{};                                                               \
    template <typename U>                                                                                     \
    static no deduce(U*, helper<Result (base_mixin::*)(), &U::member_function_name>* = 0);                    \
-   template <typename U> static yes deduce(...);                                                             \
+   static yes deduce(...);                                                                                   \
 public:                                                                                                      \
-   static const bool value = sizeof(yes) == sizeof(deduce<base>(0));                                         \
+   static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
    typedef thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
@@ -53,9 +53,9 @@ class trait_name<T, Result(Arg)>                                                
    template <typename U, U t>  class helper{};                                                               \
    template <typename U>                                                                                     \
    static no deduce(U*, helper<Result (base_mixin::*)(Arg), &U::member_function_name>* = 0);                 \
-   template <typename U> static yes deduce(...);                                                             \
+   static yes deduce(...);                                                                                   \
 public:                                                                                                      \
-   static const bool value = sizeof(yes) == sizeof(deduce<base>(0));                                         \
+   static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
    typedef thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
@@ -72,9 +72,9 @@ class trait_name<T, Result(Arg1,Arg2)>                                          
    template <typename U, U t>  class helper{};                                                               \
    template <typename U>                                                                                     \
    static no deduce(U*, helper<Result (base_mixin::*)(Arg1,Arg2), &U::member_function_name>* = 0);           \
-   template <typename U> static yes deduce(...);                                                             \
+   static yes deduce(...);                                                                                   \
 public:                                                                                                      \
-   static const bool value = sizeof(yes) == sizeof(deduce<base>(0));                                         \
+   static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
    typedef thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
@@ -91,9 +91,9 @@ class trait_name<T, Result(Arg1,Arg2,Arg3)>                                     
    template <typename U, U t>  class helper{};                                                               \
    template <typename U>                                                                                     \
    static no deduce(U*, helper<Result (base_mixin::*)(Arg1,Arg2,Arg3), &U::member_function_name>* = 0);      \
-   template <typename U> static yes deduce(...);                                                             \
+   static yes deduce(...);                                                                                   \
 public:                                                                                                      \
-   static const bool value = sizeof(yes) == sizeof(deduce<base>(0));                                         \
+   static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
    typedef thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
@@ -110,9 +110,9 @@ class trait_name<T, Result(Arg1,Arg2,Arg3,Arg4)>                                
    template <typename U, U t>  class helper{};                                                               \
    template <typename U>                                                                                     \
    static no deduce(U*, helper<Result (base_mixin::*)(Arg1,Arg2,Arg3,Arg4), &U::member_function_name>* = 0); \
-   template <typename U> static yes deduce(...);                                                             \
+   static yes deduce(...);                                                                                   \
 public:                                                                                                      \
-   static const bool value = sizeof(yes) == sizeof(deduce<base>(0));                                         \
+   static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
    typedef thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           
 
