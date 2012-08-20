@@ -41,6 +41,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
+#include <thrust/system/cuda/detail/block/merge.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -82,23 +83,8 @@ template<typename T>
 template<typename Key, typename Value>
   class block_size
 {
-  private:
-    static const unsigned int sizeof_larger_type = (sizeof(Key) > sizeof(Value) ? sizeof(Key) : sizeof(Value));
-
-    static const unsigned int max_smem_usage = 2048;
-    static const unsigned int max_blocksize = 128;
-
-    // our block size candidate is simply 2K over the sum of sizes
-    static const unsigned int candidate = max_smem_usage / (sizeof(Key) + sizeof(Value));
-
-    // round one_k_over_size down to the nearest power of two
-    static const unsigned int lg_candidate = thrust::detail::mpl::math::log2<candidate>::value;
-
-    // exponentiate that result, which rounds down to the nearest power of two
-    static const unsigned int final_candidate = 1<<lg_candidate;
-
   public:
-    static const unsigned int result = (final_candidate < max_blocksize) ? final_candidate : max_blocksize;
+    static const unsigned int result = 256;
 };
 
 template<typename Key, typename Value>
@@ -687,8 +673,8 @@ template<unsigned int block_size,
     RandomAccessIterator3 result1_temp = result1 + offset + dest_offset;
     RandomAccessIterator4 result2_temp = result2 + offset + dest_offset;
 
-    *result1_temp = (*first1_temp).get();
-    *result2_temp = (*first2_temp).get();
+    *result1_temp = *first1_temp;
+    *result2_temp = *first2_temp;
   }
 
   int i = warp_size - start_thread_aligned + context.thread_index(); 
@@ -704,8 +690,8 @@ template<unsigned int block_size,
       i < num_elements;
       i += block_size, first1 += block_size, first2 += block_size, result1 += block_size, result2 += block_size)
   {
-    *result1 = (*first1).get(); 
-    *result2 = (*first2).get(); 
+    *result1 = *first1; 
+    *result2 = *first2; 
   }
   context.barrier();
 }
@@ -826,17 +812,10 @@ struct merge_subblocks_binarysearch_closure
       comp(comp), context(context)
   {}
 
+  template<typename KeyType, typename ValueType>
   __device__ __thrust_forceinline__
-  void operator()(void)
+  void do_it(KeyType *s_keys, ValueType *s_values)
   {
-    typedef typename iterator_value<RandomAccessIterator5>::type KeyType;
-    typedef typename iterator_value<RandomAccessIterator6>::type ValueType;
-  
-    __shared__ uninitialized<KeyType>   input1[block_size];
-    __shared__ uninitialized<KeyType>   input2[block_size];
-    __shared__ uninitialized<ValueType> input1val[block_size];
-    __shared__ uninitialized<ValueType> input2val[block_size];
-  
     // advance iterators
     unsigned int i = context.block_index();
     ranks_first1 += i;
@@ -902,71 +881,31 @@ struct merge_subblocks_binarysearch_closure
       // read in blocks
       // this causes unaligned loads to take place because start1 is usually unaligned.
       // We can do some fancy tricks to eliminate this unaligned load: somewhat better
-      aligned_read<block_size>(context, local_keys_first1, local_values_first1, input1, input1val, start1, size1);
+      aligned_read<block_size>(context, local_keys_first1, local_values_first1, s_keys, s_values, start1, size1);
       
       // Read in other side
-      aligned_read<block_size>(context, local_keys_first2, local_values_first2, input2, input2val, start2, size2);
+      aligned_read<block_size>(context, local_keys_first2, local_values_first2, s_keys + size1, s_values + size1, start2, size2);
   
-      KeyType inp1 = input1[context.thread_index()]; ValueType inp1val = input1val[context.thread_index()];
-      KeyType inp2 = input2[context.thread_index()]; ValueType inp2val = input2val[context.thread_index()];
-  
-      // this barrier is unnecessary for correctness but speeds up the kernel on G80
-      context.barrier();
-      
-      // to merge input1 and input2, use binary search to find the rank of inp1 & inp2 in arrays input2 & input1, respectively
-      // as before, the "end" variables point to one element after the last element of the arrays
-      unsigned int start_1, end_1, start_2, end_2, cur;
-  
-      // start by looking through input2 for inp1's rank
-      start_1 = 0; end_1 = size2;
-      
-      // don't do the search if our value is beyond the end of input1
-      if(context.thread_index() < size1)
-      {
-        while(start_1 < end_1)
-        {
-          cur = (start_1 + end_1)>>1;
-          if(comp(input2[cur].get(), inp1)) start_1 = cur + 1;
-          else end_1 = cur;
-        } // end while
-      } // end if
-      
-      // now look through input1 for inp2's rank
-      start_2 = 0; end_2 = size1;
-      
-      // don't do the search if our value is beyond the end of input2
-      if(context.thread_index() < size2)
-      {
-        while(start_2 < end_2)
-        {
-          cur = (start_2 + end_2)>>1;
-          // using two comparisons is a hack to break ties in such a way that input1 elements go before input2
-          // XXX eliminate the need for two comparisons and make sure it is still stable
-          KeyType temp = input1[cur];
-          if(comp(temp, inp2) || !comp(inp2, temp)) start_2 = cur + 1;
-          else end_2 = cur;
-        } // end while
-      } // end if
-      context.barrier();
-      
-      // Write back into the right position to the input arrays; can be done in place since we read in
-      // the input arrays into registers before.
-      if(context.thread_index() < size1)
-      {
-        input1[start_1 + context.thread_index()] = inp1;
-        input1val[start_1 + context.thread_index()] = inp1val;
-      } // end if
-      
-      if(context.thread_index() < size2)
-      {
-        input1[start_2 + context.thread_index()] = inp2;
-        input1val[start_2 + context.thread_index()] = inp2val;
-      } // end if
+      // merge the arrays in-place
+      block::inplace_merge_by_key_n(context, s_keys, s_values, size1, size2, comp);
+
       context.barrier();
       
       // Write out to global memory; we need to align the write for good performance
-      aligned_write<block_size>(context, input1, input1val, keys_result, values_result, (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2, size1 + size2);
+      aligned_write<block_size>(context, s_keys, s_values, keys_result, values_result, (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2, size1 + size2);
     } // end for i
+  }
+
+  __device__ __thrust_forceinline__
+  void operator()(void)
+  {
+    typedef typename iterator_value<RandomAccessIterator5>::type KeyType;
+    typedef typename iterator_value<RandomAccessIterator6>::type ValueType;
+  
+    __shared__ uninitialized_array<KeyType,   2 * block_size> s_keys;
+    __shared__ uninitialized_array<ValueType, 2 * block_size> s_values;
+  
+    do_it(s_keys.data(), s_values.data());
   }
 }; // merge_subblocks_binarysearch_closure
 
