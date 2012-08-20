@@ -42,6 +42,7 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/system/cuda/detail/block/merge.h>
+#include <thrust/system/cuda/detail/block/copy.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -643,114 +644,30 @@ struct copy_first_splitters_closure
   }
 }; // copy_first_splitters
 
-// XXX we should eliminate this in favor of block::copy()
-///////////////////// Helper function to write out data in an aligned manner ////////////////////////////////////////
-template<unsigned int block_size,
-         typename Context,
+
+template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
+         typename Size,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4>
-  __device__ void aligned_write(Context context,
-                                RandomAccessIterator1 first1,
-                                RandomAccessIterator2 first2,
-                                RandomAccessIterator3 result1,
-                                RandomAccessIterator4 result2,
-                                unsigned int dest_offset,
-                                unsigned int num_elements)
+__device__
+  void copy_n(Context context,
+              RandomAccessIterator1 first1,
+              RandomAccessIterator2 first2,
+              Size n,
+              RandomAccessIterator3 result1,
+              RandomAccessIterator4 result2)
 {
-  // copy from src to dest + dest_offset: dest, src are aligned, dest_offset not a multiple of 4
-  unsigned int start_thread_aligned = dest_offset%warp_size;
-  
-  // write the first warp_size - start_thread_aligned elements
-  if(context.thread_index() < warp_size && context.thread_index() >= start_thread_aligned && (context.thread_index() - start_thread_aligned < num_elements))
+  for(Size i = context.thread_index();
+      i < n;
+      i += context.block_dimension())
   {
-    unsigned int offset = context.thread_index() - start_thread_aligned;
-
-    RandomAccessIterator1 first1_temp  = first1 + offset;
-    RandomAccessIterator2 first2_temp  = first2 + offset;
-
-    RandomAccessIterator3 result1_temp = result1 + offset + dest_offset;
-    RandomAccessIterator4 result2_temp = result2 + offset + dest_offset;
-
-    *result1_temp = *first1_temp;
-    *result2_temp = *first2_temp;
+    result1[i] = first1[i];
+    result2[i] = first2[i];
   }
-
-  int i = warp_size - start_thread_aligned + context.thread_index(); 
-
-  // advance iterators
-  first1  += i;
-  first2  += i;
-  result1 += i + dest_offset;
-  result2 += i + dest_offset;
-  
-  // write upto block_size elements in each iteration 
-  for(;
-      i < num_elements;
-      i += block_size, first1 += block_size, first2 += block_size, result1 += block_size, result2 += block_size)
-  {
-    *result1 = *first1; 
-    *result2 = *first2; 
-  }
-  context.barrier();
 }
 
-// XXX we should eliminate this in favor of block::copy
-///////////////////// Helper function to read in data in an aligned manner ////////////////////////////////////////
-template<unsigned int block_size,
-         typename Context,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename RandomAccessIterator4>
-  __device__ void aligned_read(Context context,
-                               RandomAccessIterator1 first1,
-                               RandomAccessIterator2 first2,
-                               RandomAccessIterator3 result1,
-                               RandomAccessIterator4 result2,
-                               unsigned int src_offset,
-                               unsigned int num_elements)
-{
-  // copy from src + src_offset to dest: dest, src are aligned, src_offset not a multiple of 4
-  unsigned int start_thread_aligned = src_offset%warp_size;
-  
-  // write the first warp_size - start_thread_aligned elements
-  if((context.thread_index() < warp_size) &&
-     (context.thread_index() >= start_thread_aligned) &&
-     ((context.thread_index() - start_thread_aligned) < num_elements))
-  {
-      // carefully create these iterators without causing creation of temporary objects
-      unsigned int offset = context.thread_index() - start_thread_aligned;
-
-      RandomAccessIterator1 first1_temp  = first1 + offset + src_offset;
-      RandomAccessIterator2 first2_temp  = first2 + offset + src_offset;
-
-      RandomAccessIterator3 result1_temp = result1 + offset;
-      RandomAccessIterator4 result2_temp = result2 + offset;
-
-      *result1_temp = *first1_temp;
-      *result2_temp = *first2_temp;
-  }
-
-  int i = warp_size - start_thread_aligned + context.thread_index();
-
-  // advance iterators
-  first1  += i + src_offset;
-  first2  += i + src_offset;
-  result1 += i;
-  result2 += i;
-  
-  // write up to block_size elements in each iteration 
-  for(;
-      i < num_elements;
-      i += block_size, first1 + block_size, first2 += block_size, result1 += block_size, result2 += block_size)
-  {
-    *result1 = *first1;
-    *result2 = *first2;
-  }
-  context.barrier();
-}
 
 ///////////////////// MERGE TWO INDEPENDENT SEGMENTS USING BINARY SEARCH IN SHARED MEMORY ////////////////////////////////////////
 // NOTE: This is the most compute-intensive part of the algorithm. 
@@ -837,6 +754,7 @@ struct merge_subblocks_binarysearch_closure
       __shared__ unsigned int start1, start2, size1, size2;
       
       // thread 0 computes the ranks & size of each array
+      context.barrier();
       if(context.thread_index() == 0)
       {
         start1 = *ranks_first1;
@@ -869,7 +787,6 @@ struct merge_subblocks_binarysearch_closure
       } // end if
       context.barrier();
   
-      
       // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
       // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
       RandomAccessIterator1 local_keys_first1   = keys_first   + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
@@ -878,21 +795,20 @@ struct merge_subblocks_binarysearch_closure
       RandomAccessIterator2 local_values_first1 = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
       RandomAccessIterator2 local_values_first2 = local_values_first1 + (1<<log_tile_size);
       
-      // read in blocks
-      // this causes unaligned loads to take place because start1 is usually unaligned.
-      // We can do some fancy tricks to eliminate this unaligned load: somewhat better
-      aligned_read<block_size>(context, local_keys_first1, local_values_first1, s_keys, s_values, start1, size1);
-      
-      // Read in other side
-      aligned_read<block_size>(context, local_keys_first2, local_values_first2, s_keys + size1, s_values + size1, start2, size2);
+      // load tiles into smem
+      copy_n(context, local_keys_first1 + start1, local_values_first1 + start1, size1, s_keys, s_values);
+      copy_n(context, local_keys_first2 + start2, local_values_first2 + start2, size2, s_keys + size1, s_values + size1);
+
+      context.barrier();
   
       // merge the arrays in-place
       block::inplace_merge_by_key_n(context, s_keys, s_values, size1, size2, comp);
 
       context.barrier();
       
-      // Write out to global memory; we need to align the write for good performance
-      aligned_write<block_size>(context, s_keys, s_values, keys_result, values_result, (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2, size1 + size2);
+      // write tiles to gmem
+      unsigned int dst_offset = (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2;
+      copy_n(context, s_keys, s_values, size1 + size2, keys_result + dst_offset, values_result + dst_offset);
     } // end for i
   }
 
