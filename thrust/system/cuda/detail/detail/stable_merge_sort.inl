@@ -43,6 +43,7 @@
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/system/cuda/detail/block/merge.h>
 #include <thrust/system/cuda/detail/block/copy.h>
+#include <cstdio>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -532,7 +533,6 @@ struct find_splitter_ranks_closure
 
       if(end == 0) start = end = 0;
       if(end > other_tile_size) end = other_tile_size;
-      if(start > other_tile_size) start = other_tile_size;
 
       // find the start of the search range in the other tile
       RandomAccessIterator4 other_first = other + start;
