@@ -729,6 +729,43 @@ struct merge_subblocks_binarysearch_closure
       comp(comp), context(context)
   {}
 
+  __device__ __thrust_forceinline__
+  void get_partition(unsigned int partition_idx, unsigned int oddeven_blockid,
+                     unsigned int &src_offset1, unsigned int &size1,
+                     unsigned int &src_offset2, unsigned int &size2) const
+  {
+    // the index of the merged splitter within the splitters for the odd-even block pair.
+    unsigned int local_blockIdx = partition_idx - (oddeven_blockid<<log_num_merged_splitters_per_block);
+
+    src_offset1 = *ranks_first1;
+    src_offset2 = *ranks_first2;
+  
+    // Carefully avoid out-of-bounds rank array accesses.
+    if( (partition_idx < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
+    {
+      RandomAccessIterator3 temp1 = ranks_first1 + 1;
+      RandomAccessIterator4 temp2 = ranks_first2 + 1;
+  
+      size1 = *temp1;
+      size2 = *temp2;
+    } // end if
+    else
+    {
+      size1 = size2 = (1<<log_tile_size);
+    } // end else
+    
+    // Adjust size2 to account for the last block possibly not being full.
+    if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + (1<<log_tile_size)) 
+       > datasize)
+    {
+      size2 = datasize - (1<<log_tile_size) - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+    } // end if
+  
+    // measure each array relative to its beginning
+    size1 -= src_offset1;
+    size2 -= src_offset2;
+  }
+
   template<typename KeyType, typename ValueType>
   __device__ __thrust_forceinline__
   void do_it(KeyType *s_keys, ValueType *s_values)
@@ -746,45 +783,15 @@ struct merge_subblocks_binarysearch_closure
       // the (odd, even) block pair that the splitter belongs to.
       unsigned int oddeven_blockid = i >> log_num_merged_splitters_per_block;
       
-      // the index of the merged splitter within the splitters for the odd-even block pair.
-      unsigned int local_blockIdx = i - (oddeven_blockid<<log_num_merged_splitters_per_block);
-      
       // start1 & start2 store rank[i] and rank[i+1] indices in arrays 1 and 2.
       // size1 & size2 store the number of of elements between rank[i] & rank[i+1] in arrays 1 & 2.
       __shared__ unsigned int start1, start2, size1, size2;
-      
-      // thread 0 computes the ranks & size of each array
+
       context.barrier();
       if(context.thread_index() == 0)
       {
-        start1 = *ranks_first1;
-        start2 = *ranks_first2;
-  
-        // Carefully avoid out-of-bounds rank array accesses.
-        if( (i < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
-        {
-          RandomAccessIterator3 temp1 = ranks_first1 + 1;
-          RandomAccessIterator4 temp2 = ranks_first2 + 1;
-  
-          size1 = *temp1;
-          size2 = *temp2;
-        } // end if
-        else
-        {
-          size1 = size2 = (1<<log_tile_size);
-        } // end else
-        
-        // Adjust size2 to account for the last block possibly not being full.
-        if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + (1<<log_tile_size)) 
-           > datasize)
-        {
-          size2 = datasize - (1<<log_tile_size) - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
-        } // end if
-  
-        // measure each array relative to its beginning
-        size1 -= start1;
-        size2 -= start2;
-      } // end if
+        get_partition(i, oddeven_blockid, start1, size1, start2, size2);
+      }
       context.barrier();
   
       // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
