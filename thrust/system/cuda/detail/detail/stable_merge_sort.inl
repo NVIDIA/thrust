@@ -730,6 +730,12 @@ struct merge_subblocks_binarysearch_closure
   {}
 
   __device__ __thrust_forceinline__
+  unsigned int even_offset(unsigned int oddeven_blockid) const
+  {
+    return oddeven_blockid << (log_num_merged_splitters_per_block + log_block_size);
+  }
+
+  __device__ __thrust_forceinline__
   void get_partition(unsigned int partition_idx, unsigned int oddeven_blockid,
                      unsigned int &src_offset1, unsigned int &size1,
                      unsigned int &src_offset2, unsigned int &size2) const
@@ -755,10 +761,13 @@ struct merge_subblocks_binarysearch_closure
     } // end else
     
     // Adjust size2 to account for the last block possibly not being full.
-    if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + tile_size) 
-       > datasize)
+    // check if size2 would fall off the end of the array
+    //if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + tile_size) 
+    //   > datasize)
+    if((even_offset(oddeven_blockid) + tile_size + size2) > datasize)
     {
-      size2 = datasize - tile_size - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+    //  size2 = datasize - tile_size - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      size2 = datasize - tile_size - even_offset(oddeven_blockid);
     } // end if
   
     // measure each array relative to its beginning
@@ -790,10 +799,12 @@ struct merge_subblocks_binarysearch_closure
   
       // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
       // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
-      RandomAccessIterator1 even_keys_first = keys_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      //RandomAccessIterator1 even_keys_first = keys_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      RandomAccessIterator1 even_keys_first = keys_first + even_offset(oddeven_blockid);
       RandomAccessIterator1 odd_keys_first  = even_keys_first + tile_size;
   
-      RandomAccessIterator2 even_values_first = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      //RandomAccessIterator2 even_values_first = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      RandomAccessIterator2 even_values_first = values_first + even_offset(oddeven_blockid);
       RandomAccessIterator2 odd_values_first  = even_values_first + tile_size;
       
       // load tiles into smem
@@ -808,7 +819,8 @@ struct merge_subblocks_binarysearch_closure
       context.barrier();
       
       // write tiles to gmem
-      unsigned int dst_offset = (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2;
+      //unsigned int dst_offset = (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2;
+      unsigned int dst_offset = even_offset(oddeven_blockid) + start1 + start2;
       copy_n(context, s_keys, s_values, size1 + size2, keys_result + dst_offset, values_result + dst_offset);
     } // end for i
   }
