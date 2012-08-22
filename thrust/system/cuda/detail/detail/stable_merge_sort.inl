@@ -485,7 +485,9 @@ struct find_splitter_ranks_closure
       
       // the index of the "other" tile which which tile_idx must be merged.
       unsigned int other_tile_idx = tile_idx^1;
-      RandomAccessIterator4 other = values_begin + (other_tile_idx<<log_tile_size);
+
+      // point to the beginning of the other tile
+      RandomAccessIterator4 other_tile_begin = values_begin + (other_tile_idx<<log_tile_size);
       
       // the size of the other tile can be less than tile_size if the it is the last tile.
       unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
@@ -529,22 +531,25 @@ struct find_splitter_ranks_closure
       unsigned int start = end - block_size;
 
       if(end == 0) start = end = 0;
+
+      // check that end does not fall off the end of the array
+      // XXX simplify the logic for this check
       if(end > other_tile_size) end = other_tile_size;
 
-      // find the start of the search range in the other tile
-      RandomAccessIterator4 other_first = other + start;
+      // find the beginning of the search range in the other tile
+      RandomAccessIterator4 search_range_begin = other_tile_begin + start;
       unsigned int n = end - start;
       
       // find the rank of our splitter in the other tile
       KeyType splitter = *splitters_first;
       if(is_odd_tile)
       {
-        unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(other_first, n, splitter, comp) - other_first;
+        unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(search_range_begin, n, splitter, comp) - search_range_begin;
         *ranks_result1 = start + result;
       } // end if
       else
       {
-        unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(other_first, n, splitter, comp) - other_first;
+        unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(search_range_begin, n, splitter, comp) - search_range_begin;
         *ranks_result2 = start + result;
       } // end else
     } // end for
