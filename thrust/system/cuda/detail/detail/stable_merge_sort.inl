@@ -539,21 +539,21 @@ struct find_splitter_ranks_closure
         if(end == 0) start = end = 0;
         if(end > other_tile_size) end = other_tile_size;
         if(start > other_tile_size) start = other_tile_size;
+
+        // find the start of the search range in the other tile
+        RandomAccessIterator4 other_first = other + start;
+        unsigned int n = end - start;
         
         // we have the start and end indices for the binary search in the "other" tile
         // do a binary search. Break ties by letting elements of array1 before those of array2 
         if(is_odd_tile)
         {
-          RandomAccessIterator4 first = other + start;
-          unsigned int n = end - start;
-          unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(first, n, inp, comp) - first;
+          unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(other_first, n, inp, comp) - other_first;
           *ranks_result1 = start + result;
         } // end if
         else
         {
-          RandomAccessIterator4 first = other + start;
-          unsigned int n = end - start;
-          unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(first, n, inp, comp) - first;
+          unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(other_first, n, inp, comp) - other_first;
           *ranks_result2 = start + result;
         } // end else
       } // end if
