@@ -490,14 +490,14 @@ struct find_splitter_ranks_closure
         unsigned int local_i  = i- ((oddeven_blockid)<<log_num_merged_splitters_per_block);
         
         // the tile to which the splitter belongs.
-        unsigned int listno = (inp_pos >> log_tile_size);
+        unsigned int tile_idx = (inp_pos >> log_tile_size);
         
         // the "other" block which which block listno must be merged.
-        unsigned int otherlist = listno^1;
-        RandomAccessIterator4 other = values_begin + (1<<log_tile_size)*otherlist;
+        unsigned int other_tile_idx = tile_idx^1;
+        RandomAccessIterator4 other = values_begin + (1<<log_tile_size)*other_tile_idx;
         
         // the size of the other block can be less than blocksize if the it is the last block.
-        unsigned int othersize = min<unsigned int>(1 << log_tile_size, datasize - (otherlist<<log_tile_size));
+        unsigned int othersize = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
         
         // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
         // for instance, if inp belongs to d_srcData1, then 
@@ -514,10 +514,10 @@ struct find_splitter_ranks_closure
         //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
         //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
         //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
-        if(listno&0x1)
+        if(tile_idx&0x1)
         { 
           // XXX we should move this store to ranks_result2 to the branch at the bottom
-          *ranks_result2 = inp_pos + 1 - (1<<log_tile_size)*listno;
+          *ranks_result2 = inp_pos + 1 - (1<<log_tile_size)*tile_idx;
   
           // XXX this is a redundant load
           end = (( local_i - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
@@ -525,7 +525,7 @@ struct find_splitter_ranks_closure
         else
         { 
           // XXX we should move this store to ranks_result1 to the branch at the bottom
-          *ranks_result1 = inp_pos + 1 - (1<<log_tile_size)*listno; 
+          *ranks_result1 = inp_pos + 1 - (1<<log_tile_size)*tile_idx; 
   
           // XXX this is a redundant load
           end = (( local_i - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
@@ -539,7 +539,7 @@ struct find_splitter_ranks_closure
         
         // we have the start and end indices for the binary search in the "other" array
         // do a binary search. Break ties by letting elements of array1 before those of array2 
-        if(listno&0x1)
+        if(tile_idx&0x1)
         {
           RandomAccessIterator4 first = other + start;
           unsigned int n = end - start;
