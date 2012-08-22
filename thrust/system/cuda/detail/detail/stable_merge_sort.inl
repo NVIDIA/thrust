@@ -496,8 +496,8 @@ struct find_splitter_ranks_closure
         unsigned int other_tile_idx = tile_idx^1;
         RandomAccessIterator4 other = values_begin + (1<<log_tile_size)*other_tile_idx;
         
-        // the size of the other block can be less than blocksize if the it is the last block.
-        unsigned int othersize = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
+        // the size of the other tile can be less than tile_size if the it is the last tile.
+        unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
         
         // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
         // for instance, if inp belongs to d_srcData1, then 
@@ -534,10 +534,10 @@ struct find_splitter_ranks_closure
         start = end - block_size;
 
         if(end == 0) start = end = 0;
-        if(end > othersize) end = othersize;
-        if(start > othersize) start = othersize;
+        if(end > other_tile_size) end = other_tile_size;
+        if(start > other_tile_size) start = other_tile_size;
         
-        // we have the start and end indices for the binary search in the "other" array
+        // we have the start and end indices for the binary search in the "other" tile
         // do a binary search. Break ties by letting elements of array1 before those of array2 
         if(tile_idx&0x1)
         {
