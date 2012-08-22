@@ -43,7 +43,6 @@
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/system/cuda/detail/block/merge.h>
 #include <thrust/system/cuda/detail/block/copy.h>
-#include <cstdio>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
