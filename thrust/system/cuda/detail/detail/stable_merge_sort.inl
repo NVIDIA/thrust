@@ -460,7 +460,7 @@ struct find_splitter_ranks_closure
     typedef typename iterator_value<RandomAccessIterator2>::type IndexType;
   
     KeyType inp;
-    IndexType inp_pos;
+    IndexType inp_idx;
     int start, end;
   
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
@@ -481,18 +481,18 @@ struct find_splitter_ranks_closure
       if(i < num_splitters)
       { 
         inp     = *splitters_first;
-        inp_pos = *splitters_pos_first;
+        inp_idx = *splitters_pos_first;
         
-        // the (odd, even) block pair to which the splitter belongs. Each i corresponds to a splitter.
-        unsigned int oddeven_blockid = i>>log_num_merged_splitters_per_block;
+        // the (odd, even) tile pair to which the splitter belongs. Each i corresponds to a splitter.
+        unsigned int oddeven_tile_idx = i>>log_num_merged_splitters_per_block;
         
         // the local index of the splitter within the (odd, even) tile pair.
-        unsigned int local_i  = i- ((oddeven_blockid)<<log_num_merged_splitters_per_block);
+        unsigned int local_idx = i - ((oddeven_tile_idx)<<log_num_merged_splitters_per_block);
         
         // the tile to which the splitter belongs.
-        unsigned int tile_idx = (inp_pos >> log_tile_size);
+        unsigned int tile_idx = (inp_idx >> log_tile_size);
         
-        // the "other" block which which block listno must be merged.
+        // the index of the "other" tile which which tile_idx must be merged.
         unsigned int other_tile_idx = tile_idx^1;
         RandomAccessIterator4 other = values_begin + (1<<log_tile_size)*other_tile_idx;
         
@@ -501,12 +501,12 @@ struct find_splitter_ranks_closure
         
         // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
         // for instance, if inp belongs to d_srcData1, then 
-        // (1) the rank in d_srcData1 is simply given by its inp_pos
+        // (1) the rank in d_srcData1 is simply given by its inp_idx
         // (2) to find the rank in d_srcData2, we first find the block in d_srcData2 where inp appears.
         //     We do this by noting that we have already merged/sorted splitters, and thus the rank
         //     of inp in the elements of d_srcData2 that are present in splitters is given by 
         //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in splitters
-        //        = i - inp_pos
+        //        = i - inp_idx
         //     This also gives us the block of d_srcData2 that inp belongs in, since we have one
         //     element in splitters per block of d_srcData2.
         
@@ -517,18 +517,18 @@ struct find_splitter_ranks_closure
         if(tile_idx&0x1)
         { 
           // XXX we should move this store to ranks_result2 to the branch at the bottom
-          *ranks_result2 = inp_pos + 1 - (1<<log_tile_size)*tile_idx;
+          *ranks_result2 = inp_idx + 1 - (1<<log_tile_size)*tile_idx;
   
           // XXX this is a redundant load
-          end = (( local_i - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
+          end = (( local_idx - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
         } // end if
         else
         { 
           // XXX we should move this store to ranks_result1 to the branch at the bottom
-          *ranks_result1 = inp_pos + 1 - (1<<log_tile_size)*tile_idx; 
+          *ranks_result1 = inp_idx + 1 - (1<<log_tile_size)*tile_idx; 
   
           // XXX this is a redundant load
-          end = (( local_i - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
+          end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
         } // end else
 
         start = end - block_size;
