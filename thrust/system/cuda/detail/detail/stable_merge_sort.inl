@@ -413,7 +413,6 @@ template<unsigned int block_size,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
-         typename RandomAccessIterator5,
          typename StrictWeakOrdering,
          typename Context>
 struct find_splitter_ranks_closure
@@ -421,8 +420,8 @@ struct find_splitter_ranks_closure
   RandomAccessIterator1 splitters_first;
   RandomAccessIterator2 splitters_pos_first;
   RandomAccessIterator3 ranks_result1;
-  RandomAccessIterator4 ranks_result2;
-  RandomAccessIterator5 values_begin;
+  RandomAccessIterator3 ranks_result2;
+  RandomAccessIterator4 values_begin;
   unsigned int datasize;
   unsigned int num_splitters;
   unsigned int log_tile_size;
@@ -439,8 +438,8 @@ struct find_splitter_ranks_closure
     (RandomAccessIterator1 splitters_first,
      RandomAccessIterator2 splitters_pos_first, 
      RandomAccessIterator3 ranks_result1,
-     RandomAccessIterator4 ranks_result2, 
-     RandomAccessIterator5 values_begin,
+     RandomAccessIterator3 ranks_result2, 
+     RandomAccessIterator4 values_begin,
      unsigned int datasize, 
      unsigned int num_splitters,
      unsigned int log_tile_size, 
@@ -462,7 +461,7 @@ struct find_splitter_ranks_closure
   
     KeyType inp;
     IndexType inp_pos;
-    int start, end, cur;
+    int start, end;
   
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
   
@@ -495,7 +494,7 @@ struct find_splitter_ranks_closure
         
         // the "other" block which which block listno must be merged.
         unsigned int otherlist = listno^1;
-        RandomAccessIterator5 other = values_begin + (1<<log_tile_size)*otherlist;
+        RandomAccessIterator4 other = values_begin + (1<<log_tile_size)*otherlist;
         
         // the size of the other block can be less than blocksize if the it is the last block.
         unsigned int othersize = min<unsigned int>(1 << log_tile_size, datasize - (otherlist<<log_tile_size));
@@ -515,59 +514,44 @@ struct find_splitter_ranks_closure
         //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
         //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
         //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
-        if(!(listno&0x1))
+        if(listno&0x1)
         { 
-          *ranks_result1 = inp_pos + 1 - (1<<log_tile_size)*listno; 
-  
-          // XXX this is a redundant load
-          end = (( local_i - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size ) - 1;
-          start = end - (block_size-1);
-  
-          if(end < 0) start = end = 0;
-          if(end >= othersize) end = othersize - 1;
-          if(start > othersize) start = othersize;
-        } // end if
-        else
-        { 
+          // XXX we should move this store to ranks_result2 to the branch at the bottom
           *ranks_result2 = inp_pos + 1 - (1<<log_tile_size)*listno;
   
           // XXX this is a redundant load
-          end = (( local_i - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size ) - 1;
-          start = end - (block_size-1);
+          end = (( local_i - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
+        } // end if
+        else
+        { 
+          // XXX we should move this store to ranks_result1 to the branch at the bottom
+          *ranks_result1 = inp_pos + 1 - (1<<log_tile_size)*listno; 
   
-          if(end < 0) start = end = 0;
-          if(end >= othersize) end = othersize - 1;
-          if(start > othersize) start = othersize;
+          // XXX this is a redundant load
+          end = (( local_i - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
         } // end else
+
+        start = end - block_size;
+
+        if(end == 0) start = end = 0;
+        if(end > othersize) end = othersize;
+        if(start > othersize) start = othersize;
         
-        // XXX we need to implement this section with lower_bound()
         // we have the start and end indices for the binary search in the "other" array
         // do a binary search. Break ties by letting elements of array1 before those of array2 
-        while(start <= end)
+        if(listno&0x1)
         {
-          cur = (start + end)>>1;
-          RandomAccessIterator5 mid = other + cur;
-  
-          // XXX eliminate the need for two comparisons here and ensure the sort is still stable
-          // XXX this is a redundant load
-          if((comp(*mid, inp))
-             || (!comp(inp, *mid) && (listno&0x1)))
-          {
-            start = cur + 1;
-          } // end if
-          else
-          {
-            end = cur - 1;
-          } // end else
-        } // end while
-  
-        if(!(listno&0x1))
-        {
-          *ranks_result2 = start;	
+          RandomAccessIterator4 first = other + start;
+          unsigned int n = end - start;
+          unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(first, n, inp, comp) - first;
+          *ranks_result1 = start + result;
         } // end if
         else
         {
-          *ranks_result1 = start;	
+          RandomAccessIterator4 first = other + start;
+          unsigned int n = end - start;
+          unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(first, n, inp, comp) - first;
+          *ranks_result2 = start + result;
         } // end else
       } // end if
     } // end for
@@ -1087,7 +1071,6 @@ template<typename System,
     block_size,
     log_block_size,
     typename temporary_array<KeyType,      System>::iterator,
-    typename temporary_array<unsigned int, System>::iterator,
     typename temporary_array<unsigned int, System>::iterator,
     typename temporary_array<unsigned int, System>::iterator,
     RandomAccessIterator1,
