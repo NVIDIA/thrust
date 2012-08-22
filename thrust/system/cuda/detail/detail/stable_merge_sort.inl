@@ -737,14 +737,14 @@ struct merge_subblocks_binarysearch_closure
 
   __device__ __thrust_forceinline__
   void get_partition(unsigned int partition_idx, unsigned int oddeven_blockid,
-                     unsigned int &src_offset1, unsigned int &size1,
-                     unsigned int &src_offset2, unsigned int &size2) const
+                     unsigned int &rank1, unsigned int &size1,
+                     unsigned int &rank2, unsigned int &size2) const
   {
     // the index of the merged splitter within the splitters for the odd-even block pair.
     unsigned int local_blockIdx = partition_idx - (oddeven_blockid<<log_num_merged_splitters_per_block);
 
-    src_offset1 = *ranks_first1;
-    src_offset2 = *ranks_first2;
+    rank1 = *ranks_first1;
+    rank2 = *ranks_first2;
   
     // Carefully avoid out-of-bounds rank array accesses.
     if( (partition_idx < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
@@ -762,17 +762,14 @@ struct merge_subblocks_binarysearch_closure
     
     // Adjust size2 to account for the last block possibly not being full.
     // check if size2 would fall off the end of the array
-    //if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + tile_size) 
-    //   > datasize)
     if((even_offset(oddeven_blockid) + tile_size + size2) > datasize)
     {
-    //  size2 = datasize - tile_size - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
       size2 = datasize - tile_size - even_offset(oddeven_blockid);
     } // end if
   
     // measure each array relative to its beginning
-    size1 -= src_offset1;
-    size2 -= src_offset2;
+    size1 -= rank1;
+    size2 -= rank2;
   }
 
   template<typename KeyType, typename ValueType>
@@ -794,22 +791,20 @@ struct merge_subblocks_binarysearch_closure
       
       // start1 & start2 store rank[i] and rank[i+1] indices in arrays 1 and 2.
       // size1 & size2 store the number of of elements between rank[i] & rank[i+1] in arrays 1 & 2.
-      unsigned int start1, start2, size1, size2;
-      get_partition(i, oddeven_blockid, start1, size1, start2, size2);
+      unsigned int rank1, rank2, size1, size2;
+      get_partition(i, oddeven_blockid, rank1, size1, rank2, size2);
   
       // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
       // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
-      //RandomAccessIterator1 even_keys_first = keys_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
       RandomAccessIterator1 even_keys_first = keys_first + even_offset(oddeven_blockid);
       RandomAccessIterator1 odd_keys_first  = even_keys_first + tile_size;
   
-      //RandomAccessIterator2 even_values_first = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
       RandomAccessIterator2 even_values_first = values_first + even_offset(oddeven_blockid);
       RandomAccessIterator2 odd_values_first  = even_values_first + tile_size;
       
       // load tiles into smem
-      copy_n(context, even_keys_first + start1, even_values_first + start1, size1, s_keys, s_values);
-      copy_n(context, odd_keys_first + start2, odd_values_first + start2, size2, s_keys + size1, s_values + size1);
+      copy_n(context, even_keys_first + rank1, even_values_first + rank1, size1, s_keys, s_values);
+      copy_n(context, odd_keys_first  + rank2, odd_values_first  + rank2, size2, s_keys + size1, s_values + size1);
 
       context.barrier();
   
@@ -819,8 +814,7 @@ struct merge_subblocks_binarysearch_closure
       context.barrier();
       
       // write tiles to gmem
-      //unsigned int dst_offset = (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + start1 + start2;
-      unsigned int dst_offset = even_offset(oddeven_blockid) + start1 + start2;
+      unsigned int dst_offset = even_offset(oddeven_blockid) + rank1 + rank2;
       copy_n(context, s_keys, s_values, size1 + size2, keys_result + dst_offset, values_result + dst_offset);
     } // end for i
   }
