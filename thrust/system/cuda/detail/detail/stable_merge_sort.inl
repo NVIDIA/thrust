@@ -697,7 +697,7 @@ struct merge_subblocks_binarysearch_closure
   unsigned int datasize;
   RandomAccessIterator3 ranks_first1;
   RandomAccessIterator4 ranks_first2; 
-  const unsigned int log_tile_size;
+  const unsigned int tile_size;
   const unsigned int log_num_merged_splitters_per_block;
   const unsigned int num_splitters;
   RandomAccessIterator5 keys_result;
@@ -713,7 +713,7 @@ struct merge_subblocks_binarysearch_closure
      unsigned int datasize, 
      RandomAccessIterator3 ranks_first1,
      RandomAccessIterator4 ranks_first2, 
-     const unsigned int log_tile_size, 
+     const unsigned int tile_size, 
      const unsigned int log_num_merged_splitters_per_block, 
      const unsigned int num_splitters,
      RandomAccessIterator5 keys_result,
@@ -722,7 +722,7 @@ struct merge_subblocks_binarysearch_closure
      Context context = Context())
     : keys_first(keys_first), values_first(values_first), datasize(datasize),
       ranks_first1(ranks_first1), ranks_first2(ranks_first2),
-      log_tile_size(log_tile_size),
+      tile_size(tile_size),
       log_num_merged_splitters_per_block(log_num_merged_splitters_per_block),
       num_splitters(num_splitters),
       keys_result(keys_result), values_result(values_result),
@@ -751,14 +751,14 @@ struct merge_subblocks_binarysearch_closure
     } // end if
     else
     {
-      size1 = size2 = (1<<log_tile_size);
+      size1 = size2 = tile_size;
     } // end else
     
     // Adjust size2 to account for the last block possibly not being full.
-    if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + (1<<log_tile_size)) 
+    if((size2 + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size)) + tile_size) 
        > datasize)
     {
-      size2 = datasize - (1<<log_tile_size) - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      size2 = datasize - tile_size - (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
     } // end if
   
     // measure each array relative to its beginning
@@ -797,10 +797,10 @@ struct merge_subblocks_binarysearch_closure
       // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
       // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
       RandomAccessIterator1 local_keys_first1   = keys_first   + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
-      RandomAccessIterator1 local_keys_first2   = local_keys_first1   + (1<<log_tile_size);
+      RandomAccessIterator1 local_keys_first2   = local_keys_first1   + tile_size;
   
       RandomAccessIterator2 local_values_first1 = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
-      RandomAccessIterator2 local_values_first2 = local_values_first1 + (1<<log_tile_size);
+      RandomAccessIterator2 local_values_first2 = local_values_first1 + tile_size;
       
       // load tiles into smem
       copy_n(context, local_keys_first1 + start1, local_values_first1 + start1, size1, s_keys, s_values);
@@ -865,7 +865,7 @@ template<typename RandomAccessIterator1,
                                     RandomAccessIterator5 ranks_first2, 
                                     RandomAccessIterator6 keys_result,
                                     RandomAccessIterator7 values_result, 
-                                    unsigned int num_splitters, unsigned int log_tile_size, 
+                                    unsigned int num_splitters, unsigned int tile_size, 
                                     unsigned int log_num_merged_splitters_per_block,
                                     unsigned int num_oddeven_tile_pairs,
                                     StrictWeakOrdering comp)
@@ -927,7 +927,7 @@ template<typename RandomAccessIterator1,
                                        datasize, 
                                        ranks_first1,
                                        ranks_first2, 
-                                       log_tile_size,
+                                       tile_size,
                                        log_num_merged_splitters_per_block, 
                                        num_splitters,
   	                                   keys_result,
@@ -1115,7 +1115,7 @@ template<typename System,
                                keys_result,
                                values_result,
                                num_splitters,
-                               log_tile_size,
+                               1<<log_tile_size,
                                log_num_merged_splitters_per_block,
                                num_tiles / 2,
                                comp);
