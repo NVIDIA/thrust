@@ -473,9 +473,6 @@ struct find_splitter_ranks_closure
         i < num_splitters;
         i += grid_size, splitters_first += grid_size, splitters_pos_first += grid_size, ranks_result1 += grid_size, ranks_result2 += grid_size)
     {
-      KeyType inp       = *splitters_first;
-      IndexType inp_idx = *splitters_pos_first;
-      
       // the (odd, even) tile pair to which the splitter belongs. Each i corresponds to a splitter.
       unsigned int oddeven_tile_idx = i>>log_num_merged_splitters_per_block;
       
@@ -483,7 +480,8 @@ struct find_splitter_ranks_closure
       unsigned int local_idx = i - ((oddeven_tile_idx)<<log_num_merged_splitters_per_block);
       
       // the tile to which the splitter belongs.
-      unsigned int tile_idx = (inp_idx >> log_tile_size);
+      IndexType global_splitter_idx = *splitters_pos_first;
+      unsigned int tile_idx = (global_splitter_idx >> log_tile_size);
       
       // the index of the "other" tile which which tile_idx must be merged.
       unsigned int other_tile_idx = tile_idx^1;
@@ -495,15 +493,15 @@ struct find_splitter_ranks_closure
       // figure out if we are processing the even or odd tile
       const bool is_odd_tile = tile_idx & 0x1;
       
-      // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
-      // for instance, if inp belongs to d_srcData1, then 
-      // (1) the rank in d_srcData1 is simply given by its inp_idx
+      // We want to compute the ranks of the splitter in d_srcData1 and d_srcData2
+      // for instance, if the splitter belongs to d_srcData1, then 
+      // (1) the rank in d_srcData1 is simply given by its global_splitter_idx
       // (2) to find the rank in d_srcData2, we first find the block in d_srcData2 where inp appears.
       //     We do this by noting that we have already merged/sorted splitters, and thus the rank
       //     of inp in the elements of d_srcData2 that are present in splitters is given by 
       //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in splitters
-      //        = i - inp_idx
-      //     This also gives us the block of d_srcData2 that inp belongs in, since we have one
+      //        = i - global_splitter_idx
+      //     This also gives us the block of d_srcData2 that the splitter belongs in, since we have one
       //     element in splitters per block of d_srcData2.
       
       //     We now perform a binary search over this block of d_srcData2 to find the rank of inp in d_srcData2.
@@ -514,7 +512,7 @@ struct find_splitter_ranks_closure
       if(is_odd_tile)
       { 
         // XXX we should move this store to ranks_result2 to the branch at the bottom
-        *ranks_result2 = inp_idx + 1 - (tile_idx<<log_tile_size);
+        *ranks_result2 = global_splitter_idx + 1 - (tile_idx<<log_tile_size);
   
         // XXX this is a redundant load
         end = (( local_idx - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
@@ -522,7 +520,7 @@ struct find_splitter_ranks_closure
       else
       { 
         // XXX we should move this store to ranks_result1 to the branch at the bottom
-        *ranks_result1 = inp_idx + 1 - (tile_idx<<log_tile_size); 
+        *ranks_result1 = global_splitter_idx + 1 - (tile_idx<<log_tile_size); 
   
         // XXX this is a redundant load
         end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
@@ -537,16 +535,16 @@ struct find_splitter_ranks_closure
       RandomAccessIterator4 other_first = other + start;
       unsigned int n = end - start;
       
-      // we have the start and end indices for the binary search in the "other" tile
-      // do a binary search. Break ties by letting elements of array1 before those of array2 
+      // find the rank of our splitter in the other tile
+      KeyType splitter = *splitters_first;
       if(is_odd_tile)
       {
-        unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(other_first, n, inp, comp) - other_first;
+        unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(other_first, n, splitter, comp) - other_first;
         *ranks_result1 = start + result;
       } // end if
       else
       {
-        unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(other_first, n, inp, comp) - other_first;
+        unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(other_first, n, splitter, comp) - other_first;
         *ranks_result2 = start + result;
       } // end else
     } // end for
