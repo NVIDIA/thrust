@@ -785,26 +785,20 @@ struct merge_subblocks_binarysearch_closure
       
       // start1 & start2 store rank[i] and rank[i+1] indices in arrays 1 and 2.
       // size1 & size2 store the number of of elements between rank[i] & rank[i+1] in arrays 1 & 2.
-      __shared__ unsigned int start1, start2, size1, size2;
-
-      context.barrier();
-      if(context.thread_index() == 0)
-      {
-        get_partition(i, oddeven_blockid, start1, size1, start2, size2);
-      }
-      context.barrier();
+      unsigned int start1, start2, size1, size2;
+      get_partition(i, oddeven_blockid, start1, size1, start2, size2);
   
       // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
       // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
-      RandomAccessIterator1 local_keys_first1   = keys_first   + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
-      RandomAccessIterator1 local_keys_first2   = local_keys_first1   + tile_size;
+      RandomAccessIterator1 even_keys_first = keys_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      RandomAccessIterator1 odd_keys_first  = even_keys_first + tile_size;
   
-      RandomAccessIterator2 local_values_first1 = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
-      RandomAccessIterator2 local_values_first2 = local_values_first1 + tile_size;
+      RandomAccessIterator2 even_values_first = values_first + (oddeven_blockid<<(log_num_merged_splitters_per_block + log_block_size));
+      RandomAccessIterator2 odd_values_first  = even_values_first + tile_size;
       
       // load tiles into smem
-      copy_n(context, local_keys_first1 + start1, local_values_first1 + start1, size1, s_keys, s_values);
-      copy_n(context, local_keys_first2 + start2, local_values_first2 + start2, size2, s_keys + size1, s_values + size1);
+      copy_n(context, even_keys_first + start1, even_values_first + start1, size1, s_keys, s_values);
+      copy_n(context, odd_keys_first + start2, odd_values_first + start2, size2, s_keys + size1, s_values + size1);
 
       context.barrier();
   
