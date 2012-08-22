@@ -740,24 +740,28 @@ struct merge_subblocks_binarysearch_closure
                      unsigned int &rank1, unsigned int &size1,
                      unsigned int &rank2, unsigned int &size2) const
   {
+    // XXX this logic would be much improved if we were guaranteed that there was 
+    //     an element at ranks_first[1]
+    // XXX we could eliminate the need for local_blockIdx, log_num_merged_splitters_per_block, tile_size, and datasize
+    
     // the index of the merged splitter within the splitters for the odd-even block pair.
     unsigned int local_blockIdx = partition_idx - (oddeven_blockid<<log_num_merged_splitters_per_block);
 
     rank1 = *ranks_first1;
     rank2 = *ranks_first2;
   
-    // Carefully avoid out-of-bounds rank array accesses.
-    if( (partition_idx < num_splitters - 1) && (local_blockIdx < ((1<<log_num_merged_splitters_per_block)-1)) )
+    // get the rank of the next splitter if we aren't processing the very last splitter of a partially full tile
+    // or if we aren't processing the last splitter in our tile
+    if((partition_idx == num_splitters - 1) || (local_blockIdx == ((1<<log_num_merged_splitters_per_block)-1)))
     {
-      RandomAccessIterator3 temp1 = ranks_first1 + 1;
-      RandomAccessIterator4 temp2 = ranks_first2 + 1;
-  
-      size1 = *temp1;
-      size2 = *temp2;
+      // we're at the end
+      size1 = size2 = tile_size;
     } // end if
     else
     {
-      size1 = size2 = tile_size;
+      // dereference the rank of the *next* splitter
+      size1 = ranks_first1[1];
+      size2 = ranks_first2[1];
     } // end else
     
     // Adjust size2 to account for the last block possibly not being full.
@@ -794,8 +798,7 @@ struct merge_subblocks_binarysearch_closure
       unsigned int rank1, rank2, size1, size2;
       get_partition(i, oddeven_blockid, rank1, size1, rank2, size2);
   
-      // each block has to merge elements start1 - end1 of data1 with start2 - end2 of data2. 
-      // We know that start1 - end1 < 2*CTASIZE, start2 - end2 < 2*CTASIZE
+      // find where the odd,even arrays begin
       RandomAccessIterator1 even_keys_first = keys_first + even_offset(oddeven_blockid);
       RandomAccessIterator1 odd_keys_first  = even_keys_first + tile_size;
   
