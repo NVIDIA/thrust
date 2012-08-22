@@ -494,10 +494,13 @@ struct find_splitter_ranks_closure
         
         // the index of the "other" tile which which tile_idx must be merged.
         unsigned int other_tile_idx = tile_idx^1;
-        RandomAccessIterator4 other = values_begin + (1<<log_tile_size)*other_tile_idx;
+        RandomAccessIterator4 other = values_begin + (other_tile_idx<<log_tile_size);
         
         // the size of the other tile can be less than tile_size if the it is the last tile.
         unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
+
+        // figure out if we are processing the even or odd tile
+        const bool is_odd_tile = tile_idx & 0x1;
         
         // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
         // for instance, if inp belongs to d_srcData1, then 
@@ -514,10 +517,10 @@ struct find_splitter_ranks_closure
         //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
         //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
         //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
-        if(tile_idx&0x1)
+        if(is_odd_tile)
         { 
           // XXX we should move this store to ranks_result2 to the branch at the bottom
-          *ranks_result2 = inp_idx + 1 - (1<<log_tile_size)*tile_idx;
+          *ranks_result2 = inp_idx + 1 - (tile_idx<<log_tile_size);
   
           // XXX this is a redundant load
           end = (( local_idx - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
@@ -525,7 +528,7 @@ struct find_splitter_ranks_closure
         else
         { 
           // XXX we should move this store to ranks_result1 to the branch at the bottom
-          *ranks_result1 = inp_idx + 1 - (1<<log_tile_size)*tile_idx; 
+          *ranks_result1 = inp_idx + 1 - (tile_idx<<log_tile_size); 
   
           // XXX this is a redundant load
           end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
@@ -539,7 +542,7 @@ struct find_splitter_ranks_closure
         
         // we have the start and end indices for the binary search in the "other" tile
         // do a binary search. Break ties by letting elements of array1 before those of array2 
-        if(tile_idx&0x1)
+        if(is_odd_tile)
         {
           RandomAccessIterator4 first = other + start;
           unsigned int n = end - start;
