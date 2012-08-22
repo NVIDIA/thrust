@@ -459,10 +459,6 @@ struct find_splitter_ranks_closure
     typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator2>::type IndexType;
   
-    KeyType inp;
-    IndexType inp_idx;
-    int start, end;
-  
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
   
     unsigned int i = context.thread_index() + context.block_index() * context.block_dimension();
@@ -477,8 +473,8 @@ struct find_splitter_ranks_closure
         i < num_splitters;
         i += grid_size, splitters_first += grid_size, splitters_pos_first += grid_size, ranks_result1 += grid_size, ranks_result2 += grid_size)
     {
-      inp     = *splitters_first;
-      inp_idx = *splitters_pos_first;
+      KeyType inp       = *splitters_first;
+      IndexType inp_idx = *splitters_pos_first;
       
       // the (odd, even) tile pair to which the splitter belongs. Each i corresponds to a splitter.
       unsigned int oddeven_tile_idx = i>>log_num_merged_splitters_per_block;
@@ -514,6 +510,7 @@ struct find_splitter_ranks_closure
       //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
       //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
       //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
+      unsigned int end = 0;
       if(is_odd_tile)
       { 
         // XXX we should move this store to ranks_result2 to the branch at the bottom
@@ -531,7 +528,7 @@ struct find_splitter_ranks_closure
         end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
       } // end else
 
-      start = end - block_size;
+      unsigned int start = end - block_size;
 
       if(end == 0) start = end = 0;
       if(end > other_tile_size) end = other_tile_size;
