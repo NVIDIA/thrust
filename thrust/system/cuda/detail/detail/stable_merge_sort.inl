@@ -465,8 +465,7 @@ struct find_splitter_ranks_closure
   
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
   
-    unsigned int block_offset = context.block_index() * context.block_dimension();
-    unsigned int i = context.thread_index() + block_offset;
+    unsigned int i = context.thread_index() + context.block_index() * context.block_dimension();
   
     // advance iterators
     splitters_first     += i;
@@ -475,88 +474,85 @@ struct find_splitter_ranks_closure
     ranks_result2       += i;
     
     for(;
-        block_offset < num_splitters;
-        block_offset += grid_size, i += grid_size, splitters_first += grid_size, splitters_pos_first += grid_size, ranks_result1 += grid_size, ranks_result2 += grid_size)
+        i < num_splitters;
+        i += grid_size, splitters_first += grid_size, splitters_pos_first += grid_size, ranks_result1 += grid_size, ranks_result2 += grid_size)
     {
-      if(i < num_splitters)
+      inp     = *splitters_first;
+      inp_idx = *splitters_pos_first;
+      
+      // the (odd, even) tile pair to which the splitter belongs. Each i corresponds to a splitter.
+      unsigned int oddeven_tile_idx = i>>log_num_merged_splitters_per_block;
+      
+      // the local index of the splitter within the (odd, even) tile pair.
+      unsigned int local_idx = i - ((oddeven_tile_idx)<<log_num_merged_splitters_per_block);
+      
+      // the tile to which the splitter belongs.
+      unsigned int tile_idx = (inp_idx >> log_tile_size);
+      
+      // the index of the "other" tile which which tile_idx must be merged.
+      unsigned int other_tile_idx = tile_idx^1;
+      RandomAccessIterator4 other = values_begin + (other_tile_idx<<log_tile_size);
+      
+      // the size of the other tile can be less than tile_size if the it is the last tile.
+      unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
+
+      // figure out if we are processing the even or odd tile
+      const bool is_odd_tile = tile_idx & 0x1;
+      
+      // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
+      // for instance, if inp belongs to d_srcData1, then 
+      // (1) the rank in d_srcData1 is simply given by its inp_idx
+      // (2) to find the rank in d_srcData2, we first find the block in d_srcData2 where inp appears.
+      //     We do this by noting that we have already merged/sorted splitters, and thus the rank
+      //     of inp in the elements of d_srcData2 that are present in splitters is given by 
+      //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in splitters
+      //        = i - inp_idx
+      //     This also gives us the block of d_srcData2 that inp belongs in, since we have one
+      //     element in splitters per block of d_srcData2.
+      
+      //     We now perform a binary search over this block of d_srcData2 to find the rank of inp in d_srcData2.
+      //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
+      //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
+      //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
+      if(is_odd_tile)
       { 
-        inp     = *splitters_first;
-        inp_idx = *splitters_pos_first;
-        
-        // the (odd, even) tile pair to which the splitter belongs. Each i corresponds to a splitter.
-        unsigned int oddeven_tile_idx = i>>log_num_merged_splitters_per_block;
-        
-        // the local index of the splitter within the (odd, even) tile pair.
-        unsigned int local_idx = i - ((oddeven_tile_idx)<<log_num_merged_splitters_per_block);
-        
-        // the tile to which the splitter belongs.
-        unsigned int tile_idx = (inp_idx >> log_tile_size);
-        
-        // the index of the "other" tile which which tile_idx must be merged.
-        unsigned int other_tile_idx = tile_idx^1;
-        RandomAccessIterator4 other = values_begin + (other_tile_idx<<log_tile_size);
-        
-        // the size of the other tile can be less than tile_size if the it is the last tile.
-        unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
-
-        // figure out if we are processing the even or odd tile
-        const bool is_odd_tile = tile_idx & 0x1;
-        
-        // We want to compute the ranks of element inp in d_srcData1 and d_srcData2
-        // for instance, if inp belongs to d_srcData1, then 
-        // (1) the rank in d_srcData1 is simply given by its inp_idx
-        // (2) to find the rank in d_srcData2, we first find the block in d_srcData2 where inp appears.
-        //     We do this by noting that we have already merged/sorted splitters, and thus the rank
-        //     of inp in the elements of d_srcData2 that are present in splitters is given by 
-        //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in splitters
-        //        = i - inp_idx
-        //     This also gives us the block of d_srcData2 that inp belongs in, since we have one
-        //     element in splitters per block of d_srcData2.
-        
-        //     We now perform a binary search over this block of d_srcData2 to find the rank of inp in d_srcData2.
-        //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
-        //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
-        //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
-        if(is_odd_tile)
-        { 
-          // XXX we should move this store to ranks_result2 to the branch at the bottom
-          *ranks_result2 = inp_idx + 1 - (tile_idx<<log_tile_size);
+        // XXX we should move this store to ranks_result2 to the branch at the bottom
+        *ranks_result2 = inp_idx + 1 - (tile_idx<<log_tile_size);
   
-          // XXX this is a redundant load
-          end = (( local_idx - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
-        } // end if
-        else
-        { 
-          // XXX we should move this store to ranks_result1 to the branch at the bottom
-          *ranks_result1 = inp_idx + 1 - (tile_idx<<log_tile_size); 
-  
-          // XXX this is a redundant load
-          end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
-        } // end else
-
-        start = end - block_size;
-
-        if(end == 0) start = end = 0;
-        if(end > other_tile_size) end = other_tile_size;
-        if(start > other_tile_size) start = other_tile_size;
-
-        // find the start of the search range in the other tile
-        RandomAccessIterator4 other_first = other + start;
-        unsigned int n = end - start;
-        
-        // we have the start and end indices for the binary search in the "other" tile
-        // do a binary search. Break ties by letting elements of array1 before those of array2 
-        if(is_odd_tile)
-        {
-          unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(other_first, n, inp, comp) - other_first;
-          *ranks_result1 = start + result;
-        } // end if
-        else
-        {
-          unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(other_first, n, inp, comp) - other_first;
-          *ranks_result2 = start + result;
-        } // end else
+        // XXX this is a redundant load
+        end = (( local_idx - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
       } // end if
+      else
+      { 
+        // XXX we should move this store to ranks_result1 to the branch at the bottom
+        *ranks_result1 = inp_idx + 1 - (tile_idx<<log_tile_size); 
+  
+        // XXX this is a redundant load
+        end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
+      } // end else
+
+      start = end - block_size;
+
+      if(end == 0) start = end = 0;
+      if(end > other_tile_size) end = other_tile_size;
+      if(start > other_tile_size) start = other_tile_size;
+
+      // find the start of the search range in the other tile
+      RandomAccessIterator4 other_first = other + start;
+      unsigned int n = end - start;
+      
+      // we have the start and end indices for the binary search in the "other" tile
+      // do a binary search. Break ties by letting elements of array1 before those of array2 
+      if(is_odd_tile)
+      {
+        unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(other_first, n, inp, comp) - other_first;
+        *ranks_result1 = start + result;
+      } // end if
+      else
+      {
+        unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(other_first, n, inp, comp) - other_first;
+        *ranks_result2 = start + result;
+      } // end else
     } // end for
   }
 }; // find_splitter_ranks_closure
