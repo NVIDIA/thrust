@@ -43,6 +43,7 @@
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/system/cuda/detail/block/merge.h>
 #include <thrust/system/cuda/detail/block/copy.h>
+//#include <cstdio>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -86,6 +87,7 @@ template<typename Key, typename Value>
 {
   public:
     static const unsigned int result = 256;
+//    static const unsigned int result = 2;
 };
 
 template<typename Key, typename Value>
@@ -453,6 +455,17 @@ struct find_splitter_ranks_closure
       comp(comp), context(context)
   {}
 
+  /*! this member function returns the index of the (odd,even) block pair
+   *  that the splitter of interest belongs to
+   *  \param splitter_idx The index of the splitter in the splitters list
+   *  \return The global index of the (odd,even) block pair
+   */
+  __device__ __thrust_forceinline__
+  unsigned int block_pair_idx(unsigned int splitter_idx) const
+  {
+    return splitter_idx >> log_num_merged_splitters_per_block;
+  }
+
   __device__ __thrust_forceinline__
   void operator()(void)
   {
@@ -473,15 +486,11 @@ struct find_splitter_ranks_closure
         i < num_splitters;
         i += grid_size, splitters_first += grid_size, splitters_pos_first += grid_size, ranks_result1 += grid_size, ranks_result2 += grid_size)
     {
-      // the (odd, even) tile pair to which the splitter belongs. Each i corresponds to a splitter.
-      unsigned int oddeven_tile_idx = i>>log_num_merged_splitters_per_block;
-      
-      // the local index of the splitter within the (odd, even) tile pair.
-      unsigned int local_idx = i - ((oddeven_tile_idx)<<log_num_merged_splitters_per_block);
-      
+      // the index of the splitter within the global array of elements
+      IndexType splitter_global_idx = *splitters_pos_first;
+
       // the tile to which the splitter belongs.
-      IndexType global_splitter_idx = *splitters_pos_first;
-      unsigned int tile_idx = (global_splitter_idx >> log_tile_size);
+      unsigned int tile_idx = (splitter_global_idx >> log_tile_size);
       
       // the index of the "other" tile which which tile_idx must be merged.
       unsigned int other_tile_idx = tile_idx^1;
@@ -497,12 +506,12 @@ struct find_splitter_ranks_closure
       
       // We want to compute the ranks of the splitter in d_srcData1 and d_srcData2
       // for instance, if the splitter belongs to d_srcData1, then 
-      // (1) the rank in d_srcData1 is simply given by its global_splitter_idx
+      // (1) the rank in d_srcData1 is simply given by its splitter_global_idx
       // (2) to find the rank in d_srcData2, we first find the block in d_srcData2 where inp appears.
       //     We do this by noting that we have already merged/sorted splitters, and thus the rank
       //     of inp in the elements of d_srcData2 that are present in splitters is given by 
       //        position of inp in d_splitters - rank of inp in elements of d_srcData1 in splitters
-      //        = i - global_splitter_idx
+      //        = i - splitter_global_idx
       //     This also gives us the block of d_srcData2 that the splitter belongs in, since we have one
       //     element in splitters per block of d_srcData2.
       
@@ -510,31 +519,40 @@ struct find_splitter_ranks_closure
       //     start and end are the start and end indices of this block in d_srcData2, forming the bounds of the binary search.
       //     Note that this binary search is in global memory with uncoalesced loads. However, we only find the ranks 
       //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
-      unsigned int end = 0;
-      if(is_odd_tile)
-      { 
-        // XXX we should move this store to ranks_result2 to the branch at the bottom
-        *ranks_result2 = global_splitter_idx + 1 - (tile_idx<<log_tile_size);
-  
-        // XXX this is a redundant load
-        end = (( local_idx - ((*ranks_result2 - 1)>>log_block_size)) << log_block_size );
-      } // end if
-      else
-      { 
-        // XXX we should move this store to ranks_result1 to the branch at the bottom
-        *ranks_result1 = global_splitter_idx + 1 - (tile_idx<<log_tile_size); 
-  
-        // XXX this is a redundant load
-        end = (( local_idx - ((*ranks_result1 - 1)>>log_block_size)) << log_block_size );
-      } // end else
+      
+      // the local index of the splitter within the (odd, even) block pair.
+      const unsigned int splitter_block_pair_idx = i - (block_pair_idx(i)<<log_num_merged_splitters_per_block);
 
+      // the index of the splitter within its tile
+      const unsigned int splitter_tile_idx = splitter_global_idx - (tile_idx<<log_tile_size);
+
+      // the index of the splitter's block within its tile
+      const unsigned int block_tile_idx = splitter_tile_idx >> log_block_size;
+      
+      // find the end of the search range in the other tile
+      unsigned int end = (( splitter_block_pair_idx - block_tile_idx) << log_block_size);
       unsigned int start = end - block_size;
 
-      if(end == 0) start = end = 0;
+      // if there's nothing before where we need to search, the search range is empty
+      if(end == 0)
+      {
+        start = end = 0;
+      }
 
       // check that end does not fall off the end of the array
       // XXX simplify the logic for this check
-      if(end > other_tile_size) end = other_tile_size;
+      if(end > other_tile_size)
+      {
+        // XXX we need to fix start here
+        end = other_tile_size;
+      }
+
+      //unsigned int tile_size = 1 << log_tile_size;
+      //if(tile_size == 4 && tile_size == 2 * block_size)
+      //{
+      //  unsigned int splitter = *splitters_first;
+      //  printf("splitter %d in tile_idx: %d search range: [%d,%d) in other_tile_idx: %d\n", splitter, tile_idx, start, end, other_tile_idx);
+      //}
 
       // find the beginning of the search range in the other tile
       RandomAccessIterator4 search_range_begin = other_tile_begin + start;
@@ -546,10 +564,12 @@ struct find_splitter_ranks_closure
       {
         unsigned int result = thrust::system::detail::generic::scalar::upper_bound_n(search_range_begin, n, splitter, comp) - search_range_begin;
         *ranks_result1 = start + result;
+        *ranks_result2 = splitter_tile_idx + 1;
       } // end if
       else
       {
         unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(search_range_begin, n, splitter, comp) - search_range_begin;
+        *ranks_result1 = splitter_tile_idx + 1;
         *ranks_result2 = start + result;
       } // end else
     } // end for
@@ -1088,6 +1108,27 @@ template<typename System,
                               log_num_merged_splitters_per_block,
                               comp),
      grid_size, block_size);
+
+  cudaDeviceSynchronize();
+
+  //if(tile_size == 4 && tile_size == 2*block_size)
+  //{
+  //  std::cout << "tiles: ";
+  //  for(unsigned int i = 0; i < n; i += tile_size)
+  //  {
+  //    unsigned int end = min<int>(n, i + tile_size);
+  //    std::cout << "[ ";
+  //    thrust::copy(keys_first + i, keys_first + end, std::ostream_iterator<int>(std::cout, " "));
+  //    std::cout << "] ";
+  //  }
+  //  std::cout << std::endl;
+
+  //  std::cout << "splitters: [ ";
+  //  thrust::copy(merged_splitters.begin(), merged_splitters.end(), std::ostream_iterator<int>(std::cout, " "));
+  //  std::cout << "]" << std::endl;
+
+  //  std::cout << "=================" << std::endl;
+  //}
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
   merge_subblocks_binarysearch(keys_first,
