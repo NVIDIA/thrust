@@ -587,15 +587,13 @@ struct find_splitter_ranks_closure
 
         *ranks_result1 = start + result;
 
-        // XXX this plus one is suspect
-        *ranks_result2 = splitter_tile_idx + 1;
+        *ranks_result2 = splitter_tile_idx;
       } // end if
       else
       {
         unsigned int result = thrust::system::detail::generic::scalar::lower_bound_n(search_range_begin, n, splitter, comp) - search_range_begin;
 
-        // XXX this plus one is suspect
-        *ranks_result1 = splitter_tile_idx + 1;
+        *ranks_result1 = splitter_tile_idx;
 
         *ranks_result2 = start + result;
       } // end else
