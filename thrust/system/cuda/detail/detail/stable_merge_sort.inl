@@ -160,6 +160,12 @@ struct merge_smalltiles_binarysearch_closure
   {}
 
   __device__ __thrust_forceinline__
+  bool task_not_idle(const unsigned int task_idx) const
+  {
+    return task_idx < n;
+  }
+
+  __device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
@@ -168,7 +174,6 @@ struct merge_smalltiles_binarysearch_closure
     // Assumption: tile_size is a power of 2.
 
     // load (2*block_size) elements into shared memory. These (2*block_size) elements belong to (2*block_size)/tile_size different tiles.
-    // use int for these shared arrays due to alignment issues
     __shared__ uninitialized_array<KeyType, 2 * block_size>   key;
     __shared__ uninitialized_array<KeyType, 2 * block_size>   outkey;
     __shared__ uninitialized_array<ValueType, 2 * block_size> outvalue;
@@ -180,7 +185,7 @@ struct merge_smalltiles_binarysearch_closure
 
     unsigned int block_idx = context.block_index();
     
-    // the global index of this thread
+    // the global index of this task
     unsigned int i = context.thread_index() + context.block_index() * context.block_dimension();
 
     // advance iterators
@@ -193,12 +198,10 @@ struct merge_smalltiles_binarysearch_closure
         block_idx <= index_of_last_block;
         block_idx += context.grid_dimension(), i += grid_size, keys_first += grid_size, values_first += grid_size, keys_result += grid_size, values_result += grid_size)
     {
-      // figure out if this thread should idle
-      unsigned int thread_not_idle = i < n;
       KeyType my_key;
       
       // copy over inputs to shared memory
-      if(thread_not_idle)
+      if(i < n)
       {
         key[context.thread_index()] = my_key = *keys_first;
       } // end if
@@ -220,48 +223,34 @@ struct merge_smalltiles_binarysearch_closure
       
       // figure out where the other tile begins in shared memory
       KeyType *other = key.data() + (other_tile_index<<log_tile_size);
-      
-      // do a binary search on the other tile, and find the rank of the element in the other tile.
-      unsigned int start, end, cur;
-      start = 0; end = other_tile_size;
-      
-      // binary search: at the end of this loop, start contains
-      // the rank of key[context.thread_index()] in the merged sequence.
 
       context.barrier();
-      if(thread_not_idle)
+      if(i < n)
       {
-        while(start < end)
+        if(tile_index & 1)
         {
-          cur = (start + end)>>1;
+          // to compute the rank of my element in the merged sequence
+          // add the rank of the element in the other tile
+          // plus the rank of the element in this tile
+          rank = thrust::system::detail::generic::scalar::upper_bound_n(other, other_tile_size, my_key, comp) - other;
+          rank += context.thread_index() - (1<<log_tile_size);
+        }
+        else
+        {
+          // to compute the rank of my element in the merged sequence
+          // add the rank of the element in the other tile
+          // plus the rank of the element in this tile
+          rank = thrust::system::detail::generic::scalar::lower_bound_n(other, other_tile_size, my_key, comp) - other;
+          rank += context.thread_index();
+        }
 
-          // these are uncoalesced accesses: use shared memory to mitigate cost.
-          if((comp(other[cur], my_key))
-             || (!comp(my_key, other[cur]) && (tile_index&0x1)))
-          {
-            start = cur + 1;
-          } // end if
-          else
-          {
-            end = cur;
-          } // end else
-        } // end while
-
-        // to compute the rank of my element in the merged sequence
-        // add the rank of the element in the other tile
-        // plus the rank of the element in this tile
-        rank = start + ((tile_index&0x1)?(context.thread_index() -(1<<log_tile_size)):(context.thread_index()));
-      } // end if
-
-      if(thread_not_idle)
-      {
-        // these are scatters: use shared memory to reduce cost.
+        // store my key and value to the output arrays in smem
         outkey[rank] = my_key;
         outvalue[rank] = *values_first;
       } // end if
       context.barrier();
       
-      if(thread_not_idle)
+      if(i < n)
       {
         // coalesced writes to global memory
         *keys_result   = outkey[context.thread_index()];
