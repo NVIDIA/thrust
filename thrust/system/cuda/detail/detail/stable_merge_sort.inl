@@ -88,7 +88,6 @@ template<typename Key, typename Value>
 {
   public:
     static const unsigned int result = 256;
-//    static const unsigned int result = 2;
 };
 
 template<typename Key, typename Value>
@@ -123,41 +122,66 @@ template<unsigned int block_size,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering,
          typename Context>
-struct merge_smalltiles_binarysearch_closure
+struct merge_small_tiles_closure
 {
+  typedef Context context_type;
+
   RandomAccessIterator1 keys_first;
   RandomAccessIterator2 values_first;
   const unsigned int n;
-  const unsigned int index_of_last_block;
-  const unsigned int index_of_last_tile_in_last_block;
-  const unsigned int size_of_last_tile;
+  const unsigned int log_tile_size;
   RandomAccessIterator3 keys_result;
   RandomAccessIterator4 values_result;
-  const unsigned int log_tile_size;
   StrictWeakOrdering comp;
-  Context context;
+  context_type context;
 
-  typedef Context context_type;
+  // these members are derivable from block_size, n, and log_tile_size
+  unsigned int index_of_last_block;
+  unsigned int index_of_last_tile_in_last_block;
+  unsigned int size_of_last_tile;
 
-  merge_smalltiles_binarysearch_closure
+  merge_small_tiles_closure
     (RandomAccessIterator1 keys_first,
      RandomAccessIterator2 values_first,
      const unsigned int n,
-     const unsigned int index_of_last_block,
-     const unsigned int index_of_last_tile_in_last_block,
-     const unsigned int size_of_last_tile,
+     const unsigned int log_tile_size,
      RandomAccessIterator3 keys_result,
      RandomAccessIterator4 values_result,
-     const unsigned int log_tile_size,
      StrictWeakOrdering comp,
      Context context = Context())
     : keys_first(keys_first), values_first(values_first),
-      n(n), index_of_last_block(index_of_last_block),
-      index_of_last_tile_in_last_block(index_of_last_tile_in_last_block),
-      size_of_last_tile(size_of_last_tile),
+      n(n), 
+      log_tile_size(log_tile_size),
       keys_result(keys_result), values_result(values_result),
-      log_tile_size(log_tile_size), comp(comp), context(context)
-  {}
+      comp(comp),
+      context(context)
+  {
+    // compute the number of tiles, including a possible partial tile
+    unsigned int tile_size = 1 << log_tile_size;
+    unsigned int num_tiles = n / tile_size;
+    unsigned int partial_tile_size = n % tile_size;
+    if(partial_tile_size) ++num_tiles;
+
+    // compute the number of logical thread blocks, including a possible partial block
+    unsigned int tiles_per_block = block_size / tile_size;
+    unsigned int partial_block_size = num_tiles % tiles_per_block;
+    unsigned int num_blocks = num_tiles / tiles_per_block;
+    if(partial_block_size) ++num_blocks;
+
+    // compute the number of tiles in the last block, which might be of partial size
+    unsigned int number_of_tiles_in_last_block = partial_block_size ? partial_block_size : tiles_per_block;
+
+    size_of_last_tile = partial_tile_size ? partial_tile_size : tile_size;
+    index_of_last_tile_in_last_block = number_of_tiles_in_last_block - 1;
+    index_of_last_block = num_blocks - 1;
+  }
+
+  unsigned int grid_size() const
+  {
+    const unsigned int max_num_blocks = max_grid_size(block_size);
+    const unsigned int num_logical_blocks = index_of_last_block + 1;
+    return min(num_logical_blocks, max_num_blocks);
+  }
 
   __device__ __thrust_forceinline__
   bool task_not_idle(const unsigned int task_idx) const
@@ -171,17 +195,12 @@ struct merge_smalltiles_binarysearch_closure
     typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
     typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
 
-    // Assumption: tile_size is a power of 2.
-
     // load (2*block_size) elements into shared memory. These (2*block_size) elements belong to (2*block_size)/tile_size different tiles.
     __shared__ uninitialized_array<KeyType, 2 * block_size>   key;
     __shared__ uninitialized_array<KeyType, 2 * block_size>   outkey;
     __shared__ uninitialized_array<ValueType, 2 * block_size> outvalue;
 
     const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
-
-    // this will store the final rank of our key
-    unsigned int rank;
 
     unsigned int block_idx = context.block_index();
     
@@ -227,19 +246,19 @@ struct merge_smalltiles_binarysearch_closure
       context.barrier();
       if(i < n)
       {
+        // to compute the rank of my element in the merged sequence
+        // add the rank of the element in the other tile
+        // plus the rank of the element in this tile
+        // the computation for the rank of the element in this tile 
+        // differs depending on if we're in the odd or even tile
+        unsigned int rank;
         if(tile_index & 1)
         {
-          // to compute the rank of my element in the merged sequence
-          // add the rank of the element in the other tile
-          // plus the rank of the element in this tile
           rank = thrust::system::detail::generic::scalar::upper_bound_n(other, other_tile_size, my_key, comp) - other;
           rank += context.thread_index() - (1<<log_tile_size);
         }
         else
         {
-          // to compute the rank of my element in the merged sequence
-          // add the rank of the element in the other tile
-          // plus the rank of the element in this tile
           rank = thrust::system::detail::generic::scalar::lower_bound_n(other, other_tile_size, my_key, comp) - other;
           rank += context.thread_index();
         }
@@ -955,6 +974,38 @@ template<typename RandomAccessIterator1,
      grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)));
 }
 
+template<unsigned int block_size,
+         typename System,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename StrictWeakOrdering>
+  void merge_small_tiles(dispatchable<System> &,
+                         RandomAccessIterator1 keys_first,
+                         RandomAccessIterator2 values_first,
+                         size_t n,
+                         size_t log_tile_size,
+                         RandomAccessIterator3 keys_result,
+                         RandomAccessIterator4 values_result,
+                         StrictWeakOrdering comp)
+{
+  typedef merge_small_tiles_closure<
+    block_size,
+    RandomAccessIterator1,
+    RandomAccessIterator2,
+    RandomAccessIterator3,
+    RandomAccessIterator4,
+    StrictWeakOrdering,
+    detail::statically_blocked_thread_array<block_size>
+  > Closure;
+
+  Closure closure(keys_first, values_first, n, log_tile_size, keys_result, values_result, comp);
+
+  detail::launch_closure(closure, closure.grid_size(), block_size);
+} // end merge_small_tiles()
+
+
 template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -987,48 +1038,7 @@ template<typename System,
   // Case (a): tile_size <= block_size
   if(tile_size <= block_size)
   {
-    // Two or more tiles can fully fit into shared memory, and can be merged by one thread block.
-    // In particular, we load (2*block_size) elements into shared memory, 
-    //        and merge all the contained tile pairs using one thread block.   
-    // We use (2*block_size) threads/thread block and grid_size * tile_size/(2*block_size) thread blocks.
-    unsigned int tiles_per_block = (2*block_size) / tile_size;
-    unsigned int partial_block_size = num_tiles % tiles_per_block;
-    unsigned int number_of_tiles_in_last_block = partial_block_size ? partial_block_size : tiles_per_block;
-    unsigned int num_blocks = num_tiles / tiles_per_block;
-    if(partial_block_size) ++num_blocks;
-
-    // compute the maximum number of blocks we can launch on this arch
-    const unsigned int max_num_blocks = max_grid_size(2 * block_size);
-    unsigned int grid_size = min(num_blocks, max_num_blocks);
-
-    // figure out the size & index of the last tile of the last block
-    unsigned int size_of_last_tile = partial_tile_size ? partial_tile_size : tile_size;
-    unsigned int index_of_last_tile_in_last_block = number_of_tiles_in_last_block - 1;
-
-    typedef merge_smalltiles_binarysearch_closure<
-      2*block_size,
-      RandomAccessIterator1,
-      RandomAccessIterator2,
-      RandomAccessIterator3,
-      RandomAccessIterator4,
-      StrictWeakOrdering,
-      detail::statically_blocked_thread_array<2*block_size>
-    > MergeSmallTilesBinarySearchClosure;
-
-    detail::launch_closure
-      (MergeSmallTilesBinarySearchClosure(keys_first,
-                                          values_first,
-                                          n,
-                                          num_blocks - 1,
-                                          index_of_last_tile_in_last_block,
-                                          size_of_last_tile,
-                                          keys_result,
-                                          values_result,
-                                          log_tile_size,
-                                          comp),
-       grid_size, 2*block_size);
-
-    return;
+    return merge_small_tiles<2*block_size>(system, keys_first, values_first, n, log_tile_size, keys_result, values_result, comp);
   } // end if
 
   // Case (b) tile_size >= block_size
