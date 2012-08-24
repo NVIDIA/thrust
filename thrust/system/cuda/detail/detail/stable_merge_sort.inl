@@ -45,6 +45,9 @@
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/pair.h>
 #include <thrust/tuple.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/gather.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -356,59 +359,47 @@ struct stable_odd_even_block_sort_closure
   }
 }; // stable_odd_even_block_sort_closure
 
-// Extract the splitters: every context.block_dimension()'th element of src is a splitter
-// Input: src, src_size
-// Output: splitters: the splitters
-//         splitters_pos: Index of splitter in src
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename Context>
-struct extract_splitters_closure
+
+template<unsigned int stride>
+  class static_strided_integer_range
 {
-  RandomAccessIterator1 first;
-  unsigned int N;
-  RandomAccessIterator2 splitters_result;
-  RandomAccessIterator3 positions_result;
-  Context context;
+  // XXX cudafe doesn't like this private for some reason
+  //private:
+  public:
+    typedef typename thrust::counting_iterator<unsigned int> counting_iterator;
 
-  typedef Context context_type;
-
-  extract_splitters_closure
-    (RandomAccessIterator1 first,
-     unsigned int N,
-     RandomAccessIterator2 splitters_result,
-     RandomAccessIterator3 positions_result,
-     Context context = Context())
-    : first(first), N(N),
-      splitters_result(splitters_result), positions_result(positions_result),
-      context(context)
-  {}
-
-  __device__ __thrust_forceinline__
-  void operator()(void)
-  {
-    const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
-
-    unsigned int i = context.block_index() * context.block_dimension();
-
-    // advance iterators
-    splitters_result += context.block_index();
-    positions_result += context.block_index();
-    first            += context.block_index() * context.block_dimension();
-
-    for(;
-        i < N;
-        i += grid_size, splitters_result += context.grid_dimension(), positions_result += context.grid_dimension(), first += grid_size)
+    struct stride_functor
+      : public thrust::unary_function<unsigned int,unsigned int>
     {
-      if(context.thread_index() == 0)
+      inline __host__ __device__
+      unsigned int operator()(unsigned int i) const
       {
-        *splitters_result = *first; 
-        *positions_result = i;
-      } // end if
-    } // end while
-  }
-}; // extract_splitters_closure
+        return stride * i;
+      }
+    };
+
+  public:
+    typedef typename thrust::transform_iterator<stride_functor, counting_iterator> iterator;
+
+    static_strided_integer_range(unsigned int num_strides)
+      : m_begin(iterator(counting_iterator(0), stride_functor())),
+        m_end(iterator(counting_iterator(num_strides), stride_functor()))
+    {}
+
+    iterator begin() const
+    {
+      return m_begin;
+    }
+
+    iterator end() const
+    {
+      return m_end;
+    }
+
+  private:
+    iterator m_begin, m_end;
+};
+
 
 ///////////////////// Find the rank of each extracted element in both arrays ////////////////////////////////////////
 ///////////////////// This breaks up the array into independent segments to merge ////////////////////////////////////////
@@ -446,7 +437,7 @@ struct rank_splitters_closure
   context_type context;
 
   // this member is derivable from those received in the constructor
-  unsigned int log_num_merged_splitters_per_block;
+  unsigned int log_num_merged_splitters_per_tile;
 
   rank_splitters_closure(RandomAccessIterator1 splitters_first,
                          RandomAccessIterator2 splitters_pos_first, 
@@ -465,11 +456,11 @@ struct rank_splitters_closure
       log_tile_size(log_tile_size),
       comp(comp), context(context)
   {
-    // the number of splitters in each block before merging
-    const unsigned int log_num_splitters_per_block = log_tile_size - log_block_size;
+    // the number of splitters in each tile before merging
+    const unsigned int log_num_splitters_per_tile = log_tile_size - log_block_size;
 
-    // the number of splitters in each block after merging
-    log_num_merged_splitters_per_block = log_num_splitters_per_block + 1;
+    // the number of splitters in each merged tile
+    log_num_merged_splitters_per_tile = log_num_splitters_per_tile + 1;
   }
 
   inline unsigned int grid_size() const
@@ -491,7 +482,7 @@ struct rank_splitters_closure
   __device__ __thrust_forceinline__
   unsigned int block_pair_idx(unsigned int splitter_idx) const
   {
-    return splitter_idx >> log_num_merged_splitters_per_block;
+    return splitter_idx >> log_num_merged_splitters_per_tile;
   }
 
   /*! This member function returns the end of the search range in the other tile in
@@ -522,7 +513,7 @@ struct rank_splitters_closure
     //     of a small set of elements, one per splitter: thus it is not the performance bottleneck.
     
     // the local index of the splitter within the (odd, even) block pair.
-    const unsigned int splitter_block_pair_idx = splitter_idx - (block_pair_idx(splitter_idx)<<log_num_merged_splitters_per_block);
+    const unsigned int splitter_block_pair_idx = splitter_idx - (block_pair_idx(splitter_idx)<<log_num_merged_splitters_per_tile);
 
     // the index of the splitter within its tile
     const unsigned int splitter_tile_idx = splitter_global_idx - (tile_idx<<log_tile_size);
@@ -1088,11 +1079,6 @@ template<typename System,
 
   size_t tile_size = 1<<log_tile_size;
 
-  // assumption: num_tiles is even; tile_size is a power of 2
-  size_t num_tiles = n / tile_size;
-  size_t partial_tile_size = n % tile_size;
-  if(partial_tile_size) ++num_tiles;
-
   // Compute the block_size based on the types to sort
   const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
 
@@ -1104,62 +1090,38 @@ template<typename System,
 
   // Case (b) tile_size >= block_size
 
-  // compute the maximum number of blocks we can launch on this arch
-  const unsigned int max_num_blocks = max_grid_size(block_size);
-
-  // Step 1 of the recursive case: extract one splitter per block_size entries in each odd-even block pair.
+  // Step 1 of the recursive case: gather one splitter per block_size entries in each odd-even block pair.
   size_t num_splitters = n / block_size;
   if(n % block_size) ++num_splitters;
 
-  unsigned int grid_size = min<size_t>(num_splitters, max_num_blocks);
+  using thrust::detail::temporary_array;
 
-  using namespace thrust::detail;
-
+  // gather splitters
+  static_strided_integer_range<block_size>   splitters_pos(num_splitters);
   temporary_array<KeyType,      System>      splitters(system, num_splitters);
-  temporary_array<unsigned int, System>      splitters_pos(system, num_splitters);
-  temporary_array<KeyType,      System>      merged_splitters(system, num_splitters);
-  temporary_array<unsigned int, System>      merged_splitters_pos(system, num_splitters);
-
-  typedef extract_splitters_closure<
-    RandomAccessIterator1,
-    typename temporary_array<KeyType,      System>::iterator,
-    typename temporary_array<unsigned int, System>::iterator,
-    detail::blocked_thread_array
-  > ExtractSplittersClosure;
-
-  detail::launch_closure
-    (ExtractSplittersClosure(keys_first, n, splitters.begin(), splitters_pos.begin()),
-     grid_size, block_size);
+  thrust::gather(system, splitters_pos.begin(), splitters_pos.end(), keys_first, splitters.begin());
                             
-  // compute the log base 2 of the block_size
-  const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
-
   // Step 2 of the recursive case: merge these elements using merge
   // We need to merge num_splitters elements, each new "block" is the set of
   // splitters for each original block.
-  size_t log_num_splitters_per_block = log_tile_size - log_block_size;
+  temporary_array<KeyType,      System>      merged_splitters(system, num_splitters);
+  temporary_array<unsigned int, System>      merged_splitters_pos(system, num_splitters);
+
+  // compute the log base 2 of the block_size
+  const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
+
+  size_t log_num_splitters_per_tile = log_tile_size - log_block_size;
   merge_recursive(system,
                   splitters.begin(),
                   splitters_pos.begin(),
                   num_splitters,
                   merged_splitters.begin(),
                   merged_splitters_pos.begin(),
-                  log_num_splitters_per_block,
+                  log_num_splitters_per_tile,
                   comp);
-  // free this memory before recursion
-  destroy(splitters);
 
-  // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
-  // Store the results into rank1 and rank2 for the even and odd block respectively.
-  // rank1] and rank2 define the sub-block splits:
-  //      Sub-block 0: Elements with indices less than rank1 in the odd block less than rank2 in the even
-  //      Sub-block 1: Indices between rank1 and rank1 in the odd block and
-  //                           between rank2 and rank2 in the even block
-  //      ... and so on.
-  size_t log_num_merged_splitters_per_block = log_num_splitters_per_block + 1;
-
-  // reuse the splitters_pos storage for rank1
-  temporary_array<unsigned int, System> &rank1 = splitters_pos;
+  // step 3 of the recursive case: Find the ranks of each splitter in the respective two tiles.
+  temporary_array<unsigned int, System> rank1(system, num_splitters);
   temporary_array<unsigned int, System> rank2(system, num_splitters);
 
   rank_splitters<block_size>(merged_splitters.begin(),
@@ -1172,7 +1134,13 @@ template<typename System,
                              rank2.begin(),
                              comp);
 
-  // Step 4 of the recursive case: merge each sub-block independently in parallel.
+  // assumption: num_tiles is even; tile_size is a power of 2
+  size_t num_tiles = n / tile_size;
+  size_t partial_tile_size = n % tile_size;
+  if(partial_tile_size) ++num_tiles;
+
+  // step 4 of the recursive case: merge each sub-tile independently in parallel.
+  size_t log_num_merged_splitters_per_tile = log_num_splitters_per_tile + 1;
   merge_subblocks_binarysearch(keys_first,
                                values_first,
                                n,
@@ -1183,7 +1151,7 @@ template<typename System,
                                values_result,
                                num_splitters,
                                1<<log_tile_size,
-                               log_num_merged_splitters_per_block,
+                               log_num_merged_splitters_per_tile,
                                num_tiles / 2,
                                comp);
 }
