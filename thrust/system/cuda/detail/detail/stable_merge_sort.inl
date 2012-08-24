@@ -660,78 +660,6 @@ template<unsigned int block_size,
 }
 
 
-
-///////////////// Copy over first merged splitter of each odd-even block pair to the output array //////////////////
-template<unsigned int log_tile_size,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename RandomAccessIterator4,
-         typename RandomAccessIterator5,
-         typename Context>
-struct copy_first_splitters_closure
-{
-  RandomAccessIterator1 keys_first;
-  RandomAccessIterator2 values_first;
-  RandomAccessIterator3 splitters_pos_first;
-  RandomAccessIterator4 keys_result;
-  RandomAccessIterator5 values_result;
-  unsigned int log_num_merged_splitters_per_block;
-  const unsigned int num_tile_pairs;
-  Context context;
-
-  typedef Context context_type;
-  
-  copy_first_splitters_closure
-    (RandomAccessIterator1 keys_first,
-     RandomAccessIterator2 values_first,
-     RandomAccessIterator3 splitters_pos_first, 
-     RandomAccessIterator4 keys_result, 
-     RandomAccessIterator5 values_result,
-     unsigned int log_num_merged_splitters_per_block,
-     const unsigned int num_tile_pairs,
-     Context context = Context())
-    : keys_first(keys_first), values_first(values_first), splitters_pos_first(splitters_pos_first),
-      keys_result(keys_result), values_result(values_result),
-      log_num_merged_splitters_per_block(log_num_merged_splitters_per_block),
-      num_tile_pairs(num_tile_pairs), context(context)
-  {}
-
-  __device__ __thrust_forceinline__
-  void operator()(void)
-  {
-    unsigned int num_splitters_per_tile  = 1 << (log_num_merged_splitters_per_block);
-    unsigned int num_splitters_per_block = 1 << (log_num_merged_splitters_per_block + log_tile_size);
-    unsigned int num_splitters_per_grid  = num_splitters_per_block * context.grid_dimension();
-  
-    unsigned int block_idx = context.block_index();
-  
-    // advance iterators
-    keys_result         += block_idx * num_splitters_per_block;
-    values_result       += block_idx * num_splitters_per_block;
-    splitters_pos_first += block_idx * num_splitters_per_tile;
-  
-    for(;
-        block_idx < num_tile_pairs;
-        block_idx += context.grid_dimension(), keys_result += num_splitters_per_grid, values_result += num_splitters_per_grid,
-        splitters_pos_first += num_splitters_per_tile * context.grid_dimension())
-    {
-      if(context.thread_index() == 0)
-      {
-        // read in the splitter position once
-        typename thrust::iterator_value<RandomAccessIterator3>::type splitter_pos = *splitters_pos_first;
-  
-        RandomAccessIterator1 key_iter   = keys_first + splitter_pos;
-        RandomAccessIterator2 value_iter = values_first + splitter_pos;
-  
-        *keys_result   = *key_iter;
-        *values_result = *value_iter;
-      } // end if
-    } // end for
-  }
-}; // copy_first_splitters
-
-
 template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -776,7 +704,7 @@ template<unsigned int block_size,
          typename RandomAccessIterator6,
          typename StrictWeakOrdering,
          typename Context>
-struct merge_subblocks_binarysearch_closure
+struct merge_subtiles_closure
 {	
   static const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
 
@@ -795,7 +723,7 @@ struct merge_subblocks_binarysearch_closure
 
   typedef Context context_type;
 
-  merge_subblocks_binarysearch_closure
+  merge_subtiles_closure
     (RandomAccessIterator1 keys_first,
      RandomAccessIterator2 values_first,
      unsigned int datasize, 
@@ -921,24 +849,19 @@ struct merge_subblocks_binarysearch_closure
   
     do_it(s_keys.data(), s_values.data());
   }
-}; // merge_subblocks_binarysearch_closure
+}; // merge_subtiles_closure
 
-// merge_subblocks_binarysearch() merges each sub-block independently. As explained in find_splitter_ranks(), 
-// the sub-blocks are defined by the ranks of the splitter elements d_rank1 and d_rank2 in the odd and even blocks resp.
-// It can be easily shown that each sub-block cannot contain more than block_size elements of either the odd or even block.
+// merge_subtiles() merges each sub-tile independently. As explained in rank_splitters(), 
+// the sub-tiles are defined by the ranks of the splitter elements d_rank1 and d_rank2 in the odd and even tiles resp.
+// It can be easily shown that each sub-tile cannot contain more than block_size elements of either the odd or even tile.
 
-// There are a total of (N_SPLITTERS + 1) sub-blocks for an odd-even block pair if the number of splitters is N_splitterS.
-// Out of these sub-blocks, the very first sub-block for each odd-even block pair always contains only one element: 
-// the smallest merged splitter. We just copy over this set of smallest merged splitters for each odd-even block pair
-// to the output array before doing the merge of the remaining sub-blocks (copy_first_splitters()). 
+// the function calls merge_subblocks_binarysearch_kernel() for the remaining N_splitterS sub-tiles
+// We use 1 thread block per splitter: For instance, thread block 0 will merge rank1[0] -> rank1[1] of array i with
+// rank2[0] -> rank2[1] of array i^1, with i being the thread block to which the splitter belongs.
 
-// After this write, the function calls merge_subblocks_binarysearch_kernel() for the remaining N_splitterS sub-blocks
-// We use 1 block per splitter: For instance, block 0 will merge rank1[0] -> rank1[1] of array i with
-// rank2[0] -> rank2[1] of array i^1, with i being the block to which the splitter belongs.
-
-// We implement each sub-block merge using a binary search. We compute the rank of each element belonging to a sub-block 
-// of an odd numbered block in the corresponding sub-block of its even numbered pair. It then adds this rank to 
-// the index of the element in its own sub-block to find the output index of the element in the merged sub-block.
+// We implement each sub-tile merge using a binary search. We compute the rank of each element belonging to a sub-tile 
+// of an odd numbered tile in the corresponding sub-tile of its even numbered pair. It then adds this rank to 
+// the index of the element in its own sub-tile to find the output index of the element in the merged sub-tile.
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -948,55 +871,25 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator6,
          typename RandomAccessIterator7,
          typename StrictWeakOrdering>
-  void merge_subblocks_binarysearch(RandomAccessIterator1 keys_first,
-                                    RandomAccessIterator2 values_first,
-                                    unsigned int datasize, 
-                                    RandomAccessIterator3 splitters_pos_first, 
-                                    RandomAccessIterator4 ranks_first1,
-                                    RandomAccessIterator5 ranks_first2, 
-                                    RandomAccessIterator6 keys_result,
-                                    RandomAccessIterator7 values_result, 
-                                    unsigned int num_splitters, unsigned int tile_size, 
-                                    unsigned int log_num_merged_splitters_per_block,
-                                    unsigned int num_oddeven_tile_pairs,
-                                    StrictWeakOrdering comp)
+  void merge_subtiles(RandomAccessIterator1 keys_first,
+                      RandomAccessIterator2 values_first,
+                      unsigned int datasize, 
+                      RandomAccessIterator3 splitters_pos_first, 
+                      RandomAccessIterator4 ranks_first1,
+                      RandomAccessIterator5 ranks_first2, 
+                      RandomAccessIterator6 keys_result,
+                      RandomAccessIterator7 values_result, 
+                      unsigned int num_splitters, unsigned int tile_size, 
+                      unsigned int log_num_merged_splitters_per_block,
+                      unsigned int num_oddeven_tile_pairs,
+                      StrictWeakOrdering comp)
 {
   typedef typename iterator_value<RandomAccessIterator6>::type KeyType;
   typedef typename iterator_value<RandomAccessIterator7>::type ValueType;
 
-  unsigned int max_num_blocks = max_grid_size(1);
+  const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
 
-  unsigned int grid_size = min(num_oddeven_tile_pairs, max_num_blocks);
-
-  const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
-  const unsigned int     block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
-
-  // XXX WAR unused variable warning
-  (void) log_block_size;
-
-  typedef copy_first_splitters_closure<
-    log_block_size,
-    RandomAccessIterator1,
-    RandomAccessIterator2,
-    RandomAccessIterator3,
-    RandomAccessIterator6,
-    RandomAccessIterator7,
-    detail::blocked_thread_array
-  > CopyFirstSplittersClosure;
-
-  // Copy over the first merged splitter of each odd-even block pair to the output array
-  // XXX this entire kernel launch is suspect -- why is it necessary at all?
-  detail::launch_closure
-    (CopyFirstSplittersClosure(keys_first,
-                               values_first,
-                               splitters_pos_first, 
-                               keys_result,
-                               values_result,
-                               log_num_merged_splitters_per_block,
-                               num_oddeven_tile_pairs),
-     grid_size, 1);
-
-  typedef merge_subblocks_binarysearch_closure<
+  typedef merge_subtiles_closure<
     block_size,
     RandomAccessIterator1,
     RandomAccessIterator2,
@@ -1006,26 +899,27 @@ template<typename RandomAccessIterator1,
     RandomAccessIterator7,
     StrictWeakOrdering,
     detail::statically_blocked_thread_array<block_size>
-  > MergeSubblocksBinarySearchClosure;
+  > Closure;
 
-  max_num_blocks = max_grid_size(block_size);
+  Closure closure(keys_first,
+                  values_first,
+                  datasize, 
+                  ranks_first1,
+                  ranks_first2, 
+                  tile_size,
+                  log_num_merged_splitters_per_block, 
+                  num_splitters,
+  	          keys_result,
+                  values_result,
+                  comp);
 
-  grid_size = min(num_splitters, max_num_blocks);
+  const unsigned int max_num_blocks = max_grid_size(block_size);
+  const unsigned int grid_size = min(num_splitters, max_num_blocks);
 
-  detail::launch_closure
-    (MergeSubblocksBinarySearchClosure(keys_first,
-                                       values_first,
-                                       datasize, 
-                                       ranks_first1,
-                                       ranks_first2, 
-                                       tile_size,
-                                       log_num_merged_splitters_per_block, 
-                                       num_splitters,
-  	                                   keys_result,
-                                       values_result,
-                                       comp),
-     grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)));
+  // XXX why do we allocate dynamic smem???
+  detail::launch_closure(closure, grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)));
 }
+
 
 template<unsigned int block_size,
          typename System,
@@ -1141,19 +1035,19 @@ template<typename System,
 
   // step 4 of the recursive case: merge each sub-tile independently in parallel.
   size_t log_num_merged_splitters_per_tile = log_num_splitters_per_tile + 1;
-  merge_subblocks_binarysearch(keys_first,
-                               values_first,
-                               n,
-                               merged_splitters_pos.begin(),
-                               rank1.begin(),
-                               rank2.begin(),
-                               keys_result,
-                               values_result,
-                               num_splitters,
-                               1<<log_tile_size,
-                               log_num_merged_splitters_per_tile,
-                               num_tiles / 2,
-                               comp);
+  merge_subtiles(keys_first,
+                 values_first,
+                 n,
+                 merged_splitters_pos.begin(),
+                 rank1.begin(),
+                 rank2.begin(),
+                 keys_result,
+                 values_result,
+                 num_splitters,
+                 1<<log_tile_size,
+                 log_num_merged_splitters_per_tile,
+                 num_tiles / 2,
+                 comp);
 }
 
 template<typename System,
