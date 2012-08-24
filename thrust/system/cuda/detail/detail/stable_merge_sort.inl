@@ -768,7 +768,6 @@ __device__
 //         log_blocksize, log_num_merged_splitters_per_block: as in previous functions
 // Outputs: resultdatakey, resultdatavalue: output merged arrays are written here.
 template<unsigned int block_size,
-         unsigned int log_block_size,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
@@ -779,6 +778,8 @@ template<unsigned int block_size,
          typename Context>
 struct merge_subblocks_binarysearch_closure
 {	
+  static const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
+
   RandomAccessIterator1 keys_first;
   RandomAccessIterator2 values_first;
   unsigned int datasize;
@@ -997,7 +998,6 @@ template<typename RandomAccessIterator1,
 
   typedef merge_subblocks_binarysearch_closure<
     block_size,
-    log_block_size,
     RandomAccessIterator1,
     RandomAccessIterator2,
     RandomAccessIterator4,
