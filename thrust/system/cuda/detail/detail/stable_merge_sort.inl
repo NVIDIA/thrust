@@ -1012,15 +1012,14 @@ template<typename System,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge(dispatchable<System> &system,
-             RandomAccessIterator1 keys_first,
-             RandomAccessIterator2 values_first,
-             size_t n,
-             RandomAccessIterator3 keys_result,
-             RandomAccessIterator4 values_result,
-             size_t log_tile_size,
-             size_t level,
-             StrictWeakOrdering comp)
+  void merge_recursive(dispatchable<System> &system,
+                       RandomAccessIterator1 keys_first,
+                       RandomAccessIterator2 values_first,
+                       size_t n,
+                       RandomAccessIterator3 keys_result,
+                       RandomAccessIterator4 values_result,
+                       size_t log_tile_size,
+                       StrictWeakOrdering comp)
 {
   typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
   typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
@@ -1047,8 +1046,6 @@ template<typename System,
   const unsigned int max_num_blocks = max_grid_size(block_size);
 
   // Step 1 of the recursive case: extract one splitter per block_size entries in each odd-even block pair.
-  // Store the splitter keys into splitters[level], and the array index in keys_first of the splitters
-  // chosen into splitters_pos[level]
   size_t num_splitters = n / block_size;
   if(n % block_size) ++num_splitters;
 
@@ -1079,24 +1076,23 @@ template<typename System,
   // We need to merge num_splitters elements, each new "block" is the set of
   // splitters for each original block.
   size_t log_num_splitters_per_block = log_tile_size - log_block_size;
-  merge(system,
-        splitters.begin(),
-        splitters_pos.begin(),
-        num_splitters,
-        merged_splitters.begin(),
-        merged_splitters_pos.begin(),
-        log_num_splitters_per_block,
-        level + 1,
-        comp);
+  merge_recursive(system,
+                  splitters.begin(),
+                  splitters_pos.begin(),
+                  num_splitters,
+                  merged_splitters.begin(),
+                  merged_splitters_pos.begin(),
+                  log_num_splitters_per_block,
+                  comp);
   // free this memory before recursion
   destroy(splitters);
 
   // Step 3 of the recursive case: Find the ranks of each splitter in the respective two blocks.
-  // Store the results into rank1[level] and rank2[level] for the even and odd block respectively.
-  // rank1[level] and rank2[level] define the sub-block splits:
-  //      Sub-block 0: Elements with indices less than rank1[0] in the odd block less than rank2[0] in the even
-  //      Sub-block 1: Indices between rank1[0] and rank1[1] in the odd block and
-  //                           between rank2[0] and rank2[1] in the even block
+  // Store the results into rank1 and rank2 for the even and odd block respectively.
+  // rank1] and rank2 define the sub-block splits:
+  //      Sub-block 0: Elements with indices less than rank1 in the odd block less than rank2 in the even
+  //      Sub-block 1: Indices between rank1 and rank1 in the odd block and
+  //                           between rank2 and rank2 in the even block
   //      ... and so on.
   size_t log_num_merged_splitters_per_block = log_num_splitters_per_block + 1;
 
@@ -1171,15 +1167,14 @@ template<typename System,
 #endif // THRUST_DEVICE_COMPILER_NVCC
   unsigned int num_blocks = (n%block_size)?((n/block_size)+1):(n/block_size);
 
-  merge(system,
-        keys_first,
-        values_first,
-        (num_blocks%2)?((num_blocks-1)*block_size):n,
-        keys_result,
-        values_result,
-        log_block_size,
-        0,
-        comp);
+  merge_recursive(system,
+                  keys_first,
+                  values_first,
+                  (num_blocks%2)?((num_blocks-1)*block_size):n,
+                  keys_result,
+                  values_result,
+                  log_block_size,
+                  comp);
 
   if(num_blocks%2)
   {
