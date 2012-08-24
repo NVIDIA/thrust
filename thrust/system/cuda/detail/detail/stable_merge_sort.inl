@@ -419,50 +419,69 @@ struct extract_splitters_closure
 // Output: d_rank1, d_rank2: ranks of each splitter in d_splitters in the block to which it belongs
 //		   (say i) and its corresponding block (block i+1).
 template<unsigned int block_size,
-         unsigned int log_block_size,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering,
          typename Context>
-struct find_splitter_ranks_closure
+struct rank_splitters_closure
 {
+  typedef Context context_type;
+
+  static const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
+
   RandomAccessIterator1 splitters_first;
   RandomAccessIterator2 splitters_pos_first;
-  RandomAccessIterator3 ranks_result1;
-  RandomAccessIterator3 ranks_result2;
-  RandomAccessIterator4 values_begin;
-  unsigned int datasize;
+  RandomAccessIterator3 keys_first;
+  RandomAccessIterator4 ranks_result1;
+  RandomAccessIterator4 ranks_result2;
   unsigned int num_splitters;
+  unsigned int num_keys;
   unsigned int log_tile_size;
-  unsigned int log_num_merged_splitters_per_block;
   thrust::detail::device_function<
     StrictWeakOrdering,
     bool
   > comp;
-  Context context;
+  context_type context;
 
-  typedef Context context_type;
+  // this member is derivable from those received in the constructor
+  unsigned int log_num_merged_splitters_per_block;
 
-  find_splitter_ranks_closure
-    (RandomAccessIterator1 splitters_first,
-     RandomAccessIterator2 splitters_pos_first, 
-     RandomAccessIterator3 ranks_result1,
-     RandomAccessIterator3 ranks_result2, 
-     RandomAccessIterator4 values_begin,
-     unsigned int datasize, 
-     unsigned int num_splitters,
-     unsigned int log_tile_size, 
-     unsigned int log_num_merged_splitters_per_block,
-     StrictWeakOrdering comp,
-     Context context = Context())
+  rank_splitters_closure(RandomAccessIterator1 splitters_first,
+                         RandomAccessIterator2 splitters_pos_first, 
+                         RandomAccessIterator3 keys_first,
+                         unsigned int num_splitters,
+                         unsigned int num_keys, 
+                         unsigned int log_tile_size, 
+                         RandomAccessIterator4 ranks_result1,
+                         RandomAccessIterator4 ranks_result2, 
+                         StrictWeakOrdering comp,
+                         context_type context = context_type())
     : splitters_first(splitters_first), splitters_pos_first(splitters_pos_first),
+      keys_first(keys_first),
       ranks_result1(ranks_result1), ranks_result2(ranks_result2),
-      values_begin(values_begin), datasize(datasize), num_splitters(num_splitters),
-      log_tile_size(log_tile_size), log_num_merged_splitters_per_block(log_num_merged_splitters_per_block),
+      num_splitters(num_splitters), num_keys(num_keys),
+      log_tile_size(log_tile_size),
       comp(comp), context(context)
-  {}
+  {
+    // the number of splitters in each block before merging
+    const unsigned int log_num_splitters_per_block = log_tile_size - log_block_size;
+
+    // the number of splitters in each block after merging
+    log_num_merged_splitters_per_block = log_num_splitters_per_block + 1;
+  }
+
+  inline unsigned int grid_size() const
+  {
+    unsigned int num_blocks = num_splitters / block_size;
+    if(num_splitters % block_size) ++num_blocks;
+
+    // compute the maximum number of block_size we can launch on this arch
+    const unsigned int max_num_blocks = max_grid_size(block_size);
+
+    return min<unsigned int>(num_blocks, max_num_blocks);
+  }
 
   /*! this member function returns the index of the (odd,even) block pair
    *  that the splitter of interest belongs to
@@ -521,13 +540,13 @@ struct find_splitter_ranks_closure
     const unsigned int other_tile_idx = tile_idx ^ 1;
     
     // the size of the other tile can be less than tile_size if the it is the last tile.
-    unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, datasize - (other_tile_idx<<log_tile_size));
+    unsigned int other_tile_size = min<unsigned int>(1 << log_tile_size, num_keys - (other_tile_idx<<log_tile_size));
 
     if(end > other_tile_size)
     {
       // the other block has partial size
       end = other_tile_size;
-      other_block_size = datasize % block_size;
+      other_block_size = num_keys % block_size;
     }
     else if(end == 0)
     {
@@ -576,10 +595,10 @@ struct find_splitter_ranks_closure
       thrust::tie(start,n) = search_interval(splitter_idx, splitter_global_idx, tile_idx);
 
       // point to the beginning of the other tile
-      RandomAccessIterator4 other_tile_begin = values_begin + (other_tile_idx<<log_tile_size);
+      RandomAccessIterator3 other_tile_begin = keys_first + (other_tile_idx<<log_tile_size);
 
       // offset the pointer to the other tile by the search range's offset
-      RandomAccessIterator4 search_range_begin = other_tile_begin + start;
+      RandomAccessIterator3 search_range_begin = other_tile_begin + start;
       
       // find the rank of our splitter in the other tile
       KeyType splitter = *splitters_first;
@@ -607,7 +626,49 @@ struct find_splitter_ranks_closure
       } // end else
     } // end for
   }
-}; // find_splitter_ranks_closure
+}; // rank_splitters_closure
+
+
+template<unsigned int block_size,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename StrictWeakOrdering>
+  void rank_splitters(RandomAccessIterator1 splitters_first,
+                      RandomAccessIterator2 splitter_positions_first,
+                      RandomAccessIterator3 keys_first,
+                      size_t num_splitters,
+                      size_t num_keys,
+                      size_t log_tile_size,
+                      RandomAccessIterator4 ranks_result1,
+                      RandomAccessIterator4 ranks_result2,
+                      StrictWeakOrdering comp)
+{
+  typedef rank_splitters_closure<
+    block_size,
+    RandomAccessIterator1,
+    RandomAccessIterator2,
+    RandomAccessIterator3,
+    RandomAccessIterator4,
+    StrictWeakOrdering,
+    detail::statically_blocked_thread_array<block_size>
+  > Closure;
+
+  Closure closure(splitters_first,
+                  splitter_positions_first,
+                  keys_first,
+                  num_splitters,
+                  num_keys,
+                  log_tile_size,
+                  ranks_result1,
+                  ranks_result2,
+                  comp);
+
+  detail::launch_closure(closure, closure.grid_size(), block_size);
+}
+
+
 
 ///////////////// Copy over first merged splitter of each odd-even block pair to the output array //////////////////
 template<unsigned int log_tile_size,
@@ -932,6 +993,7 @@ template<typename RandomAccessIterator1,
   > CopyFirstSplittersClosure;
 
   // Copy over the first merged splitter of each odd-even block pair to the output array
+  // XXX this entire kernel launch is suspect -- why is it necessary at all?
   detail::launch_closure
     (CopyFirstSplittersClosure(keys_first,
                                values_first,
@@ -1096,38 +1158,19 @@ template<typename System,
   //      ... and so on.
   size_t log_num_merged_splitters_per_block = log_num_splitters_per_block + 1;
 
-  size_t num_blocks = num_splitters / block_size;
-  if(num_splitters % block_size) ++num_blocks;
-
-  grid_size = min<size_t>(num_blocks, max_num_blocks);
-
   // reuse the splitters_pos storage for rank1
   temporary_array<unsigned int, System> &rank1 = splitters_pos;
   temporary_array<unsigned int, System> rank2(system, num_splitters);
 
-  typedef find_splitter_ranks_closure<
-    block_size,
-    log_block_size,
-    typename temporary_array<KeyType,      System>::iterator,
-    typename temporary_array<unsigned int, System>::iterator,
-    typename temporary_array<unsigned int, System>::iterator,
-    RandomAccessIterator1,
-    StrictWeakOrdering,
-    detail::statically_blocked_thread_array<block_size>
-  > FindSplitterRanksClosure;
-
-  detail::launch_closure
-    (FindSplitterRanksClosure(merged_splitters.begin(),
-                              merged_splitters_pos.begin(),
-                              rank1.begin(),
-                              rank2.begin(),
-                              keys_first,
-                              n,
-                              num_splitters,
-                              log_tile_size,
-                              log_num_merged_splitters_per_block,
-                              comp),
-     grid_size, block_size);
+  rank_splitters<block_size>(merged_splitters.begin(),
+                             merged_splitters_pos.begin(),
+                             keys_first,
+                             num_splitters,
+                             n,
+                             log_tile_size,
+                             rank1.begin(),
+                             rank2.begin(),
+                             comp);
 
   // Step 4 of the recursive case: merge each sub-block independently in parallel.
   merge_subblocks_binarysearch(keys_first,
