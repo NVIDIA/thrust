@@ -93,16 +93,6 @@ template<typename Key, typename Value>
     static const unsigned int result = 256;
 };
 
-template<typename Key, typename Value>
-  class log_block_size
-{
-  private:
-    static const unsigned int bs = block_size<Key,Value>::result;
-
-  public:
-    static const unsigned int result = thrust::detail::mpl::math::log2<bs>::value;
-};
-
 static const unsigned int warp_size = 32;
 
 template <typename Size>
@@ -406,7 +396,7 @@ template<unsigned int stride>
 // Inputs: d_splitters, d_splittes_pos: the merged array of splitters with corresponding positions.
 //		   d_srcData: input data, datasize: number of entries in d_srcData
 //		   N_SPLITTERS the number of splitters, log_blocksize: log of the size of each block of sorted data
-//		   log_num_merged_splitters_per_block = log of the number of merged splitters. ( = log_blocksize - 7). 
+//		   log_num_merged_splitters_per_tile = log of the number of merged splitters. ( = log_blocksize - 7). 
 // Output: d_rank1, d_rank2: ranks of each splitter in d_splitters in the block to which it belongs
 //		   (say i) and its corresponding block (block i+1).
 template<unsigned int block_size,
@@ -693,7 +683,7 @@ __device__
 // other array. 
 
 // Inputs: srcdatakey, value: inputs
-//         log_blocksize, log_num_merged_splitters_per_block: as in previous functions
+//         log_blocksize, log_num_merged_splitters_per_tile: as in previous functions
 // Outputs: resultdatakey, resultdatavalue: output merged arrays are written here.
 template<unsigned int block_size,
          typename RandomAccessIterator1,
@@ -706,49 +696,57 @@ template<unsigned int block_size,
          typename Context>
 struct merge_subtiles_closure
 {	
+  typedef Context context_type;
   static const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
 
   RandomAccessIterator1 keys_first;
   RandomAccessIterator2 values_first;
-  unsigned int datasize;
+  unsigned int n;
   RandomAccessIterator3 ranks_first1;
   RandomAccessIterator4 ranks_first2; 
   const unsigned int tile_size;
-  const unsigned int log_num_merged_splitters_per_block;
   const unsigned int num_splitters;
   RandomAccessIterator5 keys_result;
   RandomAccessIterator6 values_result;
   StrictWeakOrdering comp;
   Context context;
 
-  typedef Context context_type;
+  // this member is derivable from the constructor parameters
+  unsigned int log_num_merged_splitters_per_tile;
 
   merge_subtiles_closure
     (RandomAccessIterator1 keys_first,
      RandomAccessIterator2 values_first,
-     unsigned int datasize, 
+     unsigned int n, 
      RandomAccessIterator3 ranks_first1,
      RandomAccessIterator4 ranks_first2, 
-     const unsigned int tile_size, 
-     const unsigned int log_num_merged_splitters_per_block, 
+     const unsigned int log_tile_size, 
      const unsigned int num_splitters,
      RandomAccessIterator5 keys_result,
      RandomAccessIterator6 values_result,
      StrictWeakOrdering comp,
      Context context = Context())
-    : keys_first(keys_first), values_first(values_first), datasize(datasize),
+    : keys_first(keys_first), values_first(values_first), n(n),
       ranks_first1(ranks_first1), ranks_first2(ranks_first2),
-      tile_size(tile_size),
-      log_num_merged_splitters_per_block(log_num_merged_splitters_per_block),
+      tile_size(1 << log_tile_size),
       num_splitters(num_splitters),
       keys_result(keys_result), values_result(values_result),
       comp(comp), context(context)
-  {}
+  {
+    const unsigned int log_num_splitters_per_tile = log_tile_size - log_block_size;
+    log_num_merged_splitters_per_tile = log_num_splitters_per_tile + 1;
+  }
+
+  unsigned int grid_size() const
+  {
+    const unsigned int max_num_blocks = max_grid_size(block_size);
+    return min(num_splitters, max_num_blocks);
+  }
 
   __device__ __thrust_forceinline__
   unsigned int even_offset(unsigned int oddeven_blockid) const
   {
-    return oddeven_blockid << (log_num_merged_splitters_per_block + log_block_size);
+    return oddeven_blockid << (log_num_merged_splitters_per_tile + log_block_size);
   }
 
   __device__ __thrust_forceinline__
@@ -758,17 +756,17 @@ struct merge_subtiles_closure
   {
     // XXX this logic would be much improved if we were guaranteed that there was 
     //     an element at ranks_first[1]
-    // XXX we could eliminate the need for local_blockIdx, log_num_merged_splitters_per_block, tile_size, and datasize
+    // XXX we could eliminate the need for local_blockIdx, log_num_merged_splitters_per_block, tile_size, and n
     
     // the index of the merged splitter within the splitters for the odd-even block pair.
-    unsigned int local_blockIdx = partition_idx - (oddeven_blockid<<log_num_merged_splitters_per_block);
+    unsigned int local_blockIdx = partition_idx - (oddeven_blockid<<log_num_merged_splitters_per_tile);
 
     rank1 = *ranks_first1;
     rank2 = *ranks_first2;
   
     // get the rank of the next splitter if we aren't processing the very last splitter of a partially full tile
     // or if we aren't processing the last splitter in our tile
-    if((partition_idx == num_splitters - 1) || (local_blockIdx == ((1<<log_num_merged_splitters_per_block)-1)))
+    if((partition_idx == num_splitters - 1) || (local_blockIdx == ((1<<log_num_merged_splitters_per_tile)-1)))
     {
       // we're at the end
       size1 = size2 = tile_size;
@@ -782,9 +780,9 @@ struct merge_subtiles_closure
     
     // Adjust size2 to account for the last block possibly not being full.
     // check if size2 would fall off the end of the array
-    if((even_offset(oddeven_blockid) + tile_size + size2) > datasize)
+    if((even_offset(oddeven_blockid) + tile_size + size2) > n)
     {
-      size2 = datasize - tile_size - even_offset(oddeven_blockid);
+      size2 = n - tile_size - even_offset(oddeven_blockid);
     } // end if
   
     // measure each array relative to its beginning
@@ -807,7 +805,7 @@ struct merge_subtiles_closure
         i += context.grid_dimension(), ranks_first1 += context.grid_dimension(), ranks_first2 += context.grid_dimension())
     {
       // the (odd, even) block pair that the splitter belongs to.
-      unsigned int oddeven_blockid = i >> log_num_merged_splitters_per_block;
+      unsigned int oddeven_blockid = i >> log_num_merged_splitters_per_tile;
       
       // start1 & start2 store rank[i] and rank[i+1] indices in arrays 1 and 2.
       // size1 & size2 store the number of of elements between rank[i] & rank[i+1] in arrays 1 & 2.
@@ -873,15 +871,14 @@ template<typename RandomAccessIterator1,
          typename StrictWeakOrdering>
   void merge_subtiles(RandomAccessIterator1 keys_first,
                       RandomAccessIterator2 values_first,
-                      unsigned int datasize, 
+                      unsigned int n, 
                       RandomAccessIterator3 splitters_pos_first, 
                       RandomAccessIterator4 ranks_first1,
                       RandomAccessIterator5 ranks_first2, 
                       RandomAccessIterator6 keys_result,
                       RandomAccessIterator7 values_result, 
-                      unsigned int num_splitters, unsigned int tile_size, 
-                      unsigned int log_num_merged_splitters_per_block,
-                      unsigned int num_oddeven_tile_pairs,
+                      unsigned int num_splitters,
+                      unsigned int log_tile_size, 
                       StrictWeakOrdering comp)
 {
   typedef typename iterator_value<RandomAccessIterator6>::type KeyType;
@@ -903,21 +900,16 @@ template<typename RandomAccessIterator1,
 
   Closure closure(keys_first,
                   values_first,
-                  datasize, 
+                  n, 
                   ranks_first1,
                   ranks_first2, 
-                  tile_size,
-                  log_num_merged_splitters_per_block, 
+                  log_tile_size,
                   num_splitters,
   	          keys_result,
                   values_result,
                   comp);
 
-  const unsigned int max_num_blocks = max_grid_size(block_size);
-  const unsigned int grid_size = min(num_splitters, max_num_blocks);
-
-  // XXX why do we allocate dynamic smem???
-  detail::launch_closure(closure, grid_size, block_size, block_size*(2*sizeof(KeyType) + 2*sizeof(ValueType)));
+  detail::launch_closure(closure, closure.grid_size(), block_size);
 }
 
 
@@ -984,26 +976,20 @@ template<typename System,
 
   // Case (b) tile_size >= block_size
 
-  // Step 1 of the recursive case: gather one splitter per block_size entries in each odd-even block pair.
+  // step 1 of the recursive case: gather one splitter per block_size entries in each odd-even block pair.
   size_t num_splitters = n / block_size;
   if(n % block_size) ++num_splitters;
 
-  using thrust::detail::temporary_array;
-
   // gather splitters
-  static_strided_integer_range<block_size>   splitters_pos(num_splitters);
-  temporary_array<KeyType,      System>      splitters(system, num_splitters);
+  static_strided_integer_range<block_size>         splitters_pos(num_splitters);
+  thrust::detail::temporary_array<KeyType, System> splitters(system, num_splitters);
   thrust::gather(system, splitters_pos.begin(), splitters_pos.end(), keys_first, splitters.begin());
                             
-  // Step 2 of the recursive case: merge these elements using merge
-  // We need to merge num_splitters elements, each new "block" is the set of
-  // splitters for each original block.
-  temporary_array<KeyType,      System>      merged_splitters(system, num_splitters);
-  temporary_array<unsigned int, System>      merged_splitters_pos(system, num_splitters);
+  // step 2 of the recursive case: merge the splitters & their positions
+  thrust::detail::temporary_array<KeyType,      System> merged_splitters(system, num_splitters);
+  thrust::detail::temporary_array<unsigned int, System> merged_splitters_pos(system, num_splitters);
 
-  // compute the log base 2 of the block_size
-  const unsigned int log_block_size = merge_sort_dev_namespace::log_block_size<KeyType,ValueType>::result;
-
+  const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
   size_t log_num_splitters_per_tile = log_tile_size - log_block_size;
   merge_recursive(system,
                   splitters.begin(),
@@ -1015,8 +1001,8 @@ template<typename System,
                   comp);
 
   // step 3 of the recursive case: Find the ranks of each splitter in the respective two tiles.
-  temporary_array<unsigned int, System> rank1(system, num_splitters);
-  temporary_array<unsigned int, System> rank2(system, num_splitters);
+  thrust::detail::temporary_array<unsigned int, System> rank1(system, num_splitters);
+  thrust::detail::temporary_array<unsigned int, System> rank2(system, num_splitters);
 
   rank_splitters<block_size>(merged_splitters.begin(),
                              merged_splitters_pos.begin(),
@@ -1028,13 +1014,7 @@ template<typename System,
                              rank2.begin(),
                              comp);
 
-  // assumption: num_tiles is even; tile_size is a power of 2
-  size_t num_tiles = n / tile_size;
-  size_t partial_tile_size = n % tile_size;
-  if(partial_tile_size) ++num_tiles;
-
   // step 4 of the recursive case: merge each sub-tile independently in parallel.
-  size_t log_num_merged_splitters_per_tile = log_num_splitters_per_tile + 1;
   merge_subtiles(keys_first,
                  values_first,
                  n,
@@ -1044,11 +1024,10 @@ template<typename System,
                  keys_result,
                  values_result,
                  num_splitters,
-                 1<<log_tile_size,
-                 log_num_merged_splitters_per_tile,
-                 num_tiles / 2,
+                 log_tile_size,
                  comp);
 }
+
 
 template<typename System,
          typename RandomAccessIterator1,
