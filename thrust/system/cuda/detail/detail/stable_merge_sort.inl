@@ -1045,18 +1045,14 @@ template<typename System,
              size_t n,
              RandomAccessIterator3 keys_result,
              RandomAccessIterator4 values_result,
-             size_t tile_size,
+             unsigned int log_tile_size,
              StrictWeakOrdering comp)
 {
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-  unsigned int log_tile_size = (unsigned int)logb((float)tile_size);
-#else
-  unsigned int log_tile_size = 0;
-#endif // THRUST_DEVICE_COMPILER_NVCC
-  unsigned int num_tiles = (n%tile_size)?((n/tile_size)+1):(n/tile_size);
+  const unsigned int tile_size = 1 << log_tile_size;
+  const size_t num_tiles = divide_ri(n, tile_size);
 
   // if there is an odd number of tiles, we should exclude the last one
-  // in merge_recursive
+  // without a twin in merge_recursive
   const size_t last_tile_offset = (num_tiles%2)?((num_tiles-1)*tile_size):n;
 
   merge_recursive(system,
@@ -1068,13 +1064,13 @@ template<typename System,
                   log_tile_size,
                   comp);
 
-  // copy the last tile without a neighbor, should it exist
+  // copy the last tile without a twin, should it exist
   if(last_tile_offset < n)
   {
     thrust::copy(system, keys_first + last_tile_offset, keys_first + n, keys_result + last_tile_offset);
     thrust::copy(system, values_first + last_tile_offset, values_first + n, values_result + last_tile_offset);
-  }
-}
+  } // end if
+} // end merge
 
 
 } // end merge_sort_dev_namespace
@@ -1151,26 +1147,29 @@ template<typename System,
 
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.
-  unsigned int iterations = 0;
-  for(unsigned int tile_size = block_size;
-      tile_size < n;
-      tile_size *= 2)
+  unsigned int log_tile_size = thrust::detail::mpl::math::log2<block_size>::value;
+  for(; (1u << log_tile_size) < n; ++log_tile_size)
   {
-    if (iterations % 2)
-      merge_sort_dev_namespace::merge(system, keys1, vals1, n, keys0, vals0, tile_size, comp);
+    // we ping-pong back and forth
+    if(log_tile_size % 2)
+    {
+      merge_sort_dev_namespace::merge(system, keys1, vals1, n, keys0, vals0, log_tile_size, comp);
+    } // end if
     else
-      merge_sort_dev_namespace::merge(system, keys0, vals0, n, keys1, vals1, tile_size, comp);
-    ++iterations;
-  }
+    {
+      merge_sort_dev_namespace::merge(system, keys0, vals0, n, keys1, vals1, log_tile_size, comp);
+    } // end else
+  } // end for
 
   // this is to make sure that our data is finally in the data and keys arrays
   // and not in the temporary arrays
-  if(iterations % 2)
+  if(log_tile_size % 2)
   {
     thrust::copy(system, vals1, vals1 + n, vals0);
     thrust::copy(system, keys1, keys1 + n, keys0);
-  }
+  } // end if
 } // end stable_merge_sort_by_key()
+
 
 } // end namespace detail
 } // end namespace detail
