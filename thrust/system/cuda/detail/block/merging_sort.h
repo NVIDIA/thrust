@@ -143,7 +143,7 @@ __device__ void merge(Context context,
         rank += (result - (keys_first+new_begin));
       }
 
-      value = data[i];
+      value = values_first[i];
     }
 
     context.barrier();
