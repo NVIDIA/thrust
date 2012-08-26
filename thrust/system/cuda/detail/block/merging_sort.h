@@ -23,6 +23,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/system/detail/generic/scalar/binary_search.h>
 
 namespace thrust
 {
@@ -35,112 +36,65 @@ namespace detail
 namespace block
 {
 
-    template<class RandomAccessIterator, class T, class Cmp, class Result>
-    __device__
-    // XXX nvcc 2.2 has trouble with the correct way to define this function:
-    //RandomAccessIterator lower_bound(RandomAccessIterator begin, RandomAccessIterator end, const T& x, Cmp cmp)
-    void lower_bound_workaround(RandomAccessIterator begin,
-                                RandomAccessIterator end,
-                                const T& x,
-                                Cmp cmp,
-                                Result &result)
+
+template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
+__device__ void conditional_swap(RandomAccessIterator1 keys,
+                                 RandomAccessIterator2 values,
+                                 const unsigned int i,
+                                 const unsigned int end,
+                                 bool pred,
+                                 Compare comp)
+{
+  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+
+  if(pred && i+1<end)
+  {
+    KeyType xi = keys[i];
+    KeyType xj = keys[i+1];
+
+    // swap if xj sorts before xi
+    if(comp(xj, xi))
     {
-        while( begin<end )
-        {
-            RandomAccessIterator mid = begin + (end-begin)/2;
+      ValueType yi;
+      yi = values[i];
+      ValueType yj;
+      yj = values[i+1];
 
-            if( cmp(*mid, x) )
-              begin = mid+1;
-            else
-              end = mid;
-        }
-
-        result = begin;
-        //return begin;
+      keys[i]     = xj;
+      keys[i+1]   = xi;
+      values[i]   = yj;
+      values[i+1] = yi;
     }
+  }
+}
 
-    template<class RandomAccessIterator, class T, class Cmp, class Result>
-    __device__
-    // XXX nvcc 2.2 has trouble with the correct way to define this function:
-    //RandomAccessIterator upper_bound(RandomAccessIterator begin, RandomAccessIterator end, const T& x, Cmp cmp)
-    void upper_bound_workaround(RandomAccessIterator begin,
-                                RandomAccessIterator end,
-                                const T& x,
-                                Cmp cmp,
-                                Result &result)
-    {
-        while( begin<end )
-        {
-            RandomAccessIterator mid = begin + (end-begin)/2;
 
-            if( cmp(x, *mid) )
-              end = mid;
-            else
-              begin = mid+1;
-        }
-
-        result = begin;
-        //return begin;
-    }
-
-    template<typename RandomAccessIterator1, typename RandomAccessIterator2,
-             typename Cmp>
-    __device__ void conditional_swap(RandomAccessIterator1 keys,
-                                     RandomAccessIterator2 values,
-                                     const unsigned int i,
-                                     const unsigned int end,
-                                     bool pred,
-                                     Cmp comp)
-    {
-        typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-
-        if(pred && i+1<end)
-        {
-            KeyType xi = keys[i];
-            KeyType xj = keys[i+1];
-
-            // swap if xj sorts before xi
-            if(comp( xj, xi))
-            {
-                ValueType yi;
-                yi = values[i];
-                ValueType yj;
-                yj = values[i+1];
-
-                keys[i]     = xj;
-                keys[i+1]   = xi;
-                values[i]   = yj;
-                values[i+1] = yi;
-            }
-        }
-    }
-
-    template<typename Context,
-             typename RandomAccessIterator1,
-             typename RandomAccessIterator2,
-             typename Cmp>
-    __device__ void transposition_sort(Context context,
-                                       RandomAccessIterator1 keys,
-                                       RandomAccessIterator2 values,
-                                       const unsigned int i,
-                                       const unsigned int end,
-                                       const unsigned int size,
-                                       Cmp comp)
-    {
-        const bool is_odd = i&0x1;
-
-        for(unsigned int round=size/2; round>0; --round)
-        {
-            // ODDS
-            conditional_swap(keys, values, i, end, is_odd, comp);
-            context.barrier();
-
-            // EVENS
-            conditional_swap(keys, values, i, end, !is_odd, comp);
-            context.barrier();
-        }
-    }
+template<typename Context,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename Compare>
+__device__ void transposition_sort(Context context,
+                                   RandomAccessIterator1 keys,
+                                   RandomAccessIterator2 values,
+                                   const unsigned int i,
+                                   const unsigned int end,
+                                   const unsigned int size,
+                                   Compare comp)
+{
+  const bool is_odd = i&0x1;
+  
+  for(unsigned int round=size/2; round>0; --round)
+  {
+    // ODDS
+    conditional_swap(keys, values, i, end, is_odd, comp);
+    context.barrier();
+  
+    // EVENS
+    conditional_swap(keys, values, i, end, !is_odd, comp);
+    context.barrier();
+  }
+}
 
 template<typename Context,
          typename RandomAccessIterator1,
@@ -156,62 +110,55 @@ __device__ void merge(Context context,
                       unsigned int h,
                       StrictWeakOrdering cmp)
 {
+  // INVARIANT: Every element i resides within a sequence [begin,end)
+  //            of length h which is already sorted
+  while( h<n )
+  {
+    h *= 2;
 
-    // INVARIANT: Every element i resides within a sequence [begin,end)
-    //            of length h which is already sorted
-    while( h<n )
+    unsigned int new_begin = i&(~(h-1)),
+                 new_end   = min(n,new_begin+h);
+
+    typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+    typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
+
+    KeyType xi;
+    ValueType yi;
+
+    unsigned int rank = i - begin;
+
+    // prevent out-of-bounds access
+    if(i < new_end)
     {
-        h *= 2;
+      xi = keys[i];
 
-        unsigned int new_begin = i&(~(h-1)),
-                     new_end   = min(n,new_begin+h);
+      if(begin==new_begin)  // in the left side of merging pair
+      {
+        RandomAccessIterator1 result = thrust::system::detail::generic::scalar::lower_bound_n(keys+end, new_end-end, xi, cmp);
+        rank += (result - (keys+end));
+      }
+      else                  // in the right side of merging pair
+      {
+        RandomAccessIterator1 result = thrust::system::detail::generic::scalar::upper_bound_n(keys+new_begin, begin-new_begin, xi, cmp);
+        rank += (result - (keys+new_begin));
+      }
 
-        typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-
-        KeyType xi;
-        ValueType yi;
-
-        unsigned int rank = i - begin;
-
-        // prevent out-of-bounds access
-        if( i < new_end )
-        {
-          xi = keys[i];
-
-          if( begin==new_begin )  // in the left side of merging pair
-          {
-              //rank += lower_bound(keys+end, keys+new_end, xi, cmp) - (keys+end);
-              
-              RandomAccessIterator1 result;
-              lower_bound_workaround(keys+end, keys+new_end, xi, cmp, result);
-              rank += (result - (keys+end));
-          }
-          else                    // in the right side of merging pair
-          {
-              //rank += upper_bound(keys+new_begin, keys+begin, xi, cmp) - (keys+new_begin);
-
-              RandomAccessIterator1 result;
-              upper_bound_workaround(keys+new_begin, keys+begin, xi, cmp, result);
-              rank += (result - (keys+new_begin));
-          }
-
-          yi = data[i];
-        }
-
-        context.barrier();
-
-        if( i < new_end )
-        {
-          keys[new_begin+rank] = xi;
-          data[new_begin+rank] = yi;
-        }
-        
-        context.barrier();
-
-        begin = new_begin;
-        end   = new_end;
+      yi = data[i];
     }
+
+    context.barrier();
+
+    if(i < new_end)
+    {
+      keys[new_begin+rank] = xi;
+      data[new_begin+rank] = yi;
+    }
+    
+    context.barrier();
+
+    begin = new_begin;
+    end   = new_end;
+  }
 }
 
 
@@ -228,19 +175,20 @@ __device__ void merging_sort(Context context,
                              const unsigned int n,
                              StrictWeakOrdering comp)
 {
-    // Phase 1: Sort subsequences of length 32 using odd-even
-    //          transposition sort.  The code below assumes that h is a
-    //          power of 2.  Empirically, 32 delivers best results,
-    //          which is not surprising since that's the warp width.
-    unsigned int i = context.thread_index();
-    unsigned int h = 32;
-    unsigned int begin=i&(~(h-1)),  end=min(n,begin+h);
-
-    transposition_sort(context, keys, data, i, end, h, comp);
-
-    // Phase 2: Apply merge tree to produce final sorted results
-    merge(context, keys, data, i, n, begin, end, h, comp);
+  // Phase 1: Sort subsequences of length 32 using odd-even
+  //          transposition sort.  The code below assumes that h is a
+  //          power of 2.  Empirically, 32 delivers best results,
+  //          which is not surprising since that's the warp width.
+  unsigned int i = context.thread_index();
+  unsigned int h = 32;
+  unsigned int begin=i&(~(h-1)),  end=min(n,begin+h);
+  
+  transposition_sort(context, keys, data, i, end, h, comp);
+  
+  // Phase 2: Apply merge tree to produce final sorted results
+  merge(context, keys, data, i, n, begin, end, h, comp);
 } // end merging_sort()
+
 
 } // end namespace block
 } // end namespace detail
