@@ -38,8 +38,8 @@ namespace block
 
 
 template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
-__device__ void conditional_swap(RandomAccessIterator1 keys,
-                                 RandomAccessIterator2 values,
+__device__ void conditional_swap(RandomAccessIterator1 keys_first,
+                                 RandomAccessIterator2 values_first,
                                  const unsigned int i,
                                  const unsigned int end,
                                  bool pred,
@@ -50,21 +50,21 @@ __device__ void conditional_swap(RandomAccessIterator1 keys,
 
   if(pred && i+1<end)
   {
-    KeyType xi = keys[i];
-    KeyType xj = keys[i+1];
+    KeyType xi = keys_first[i];
+    KeyType xj = keys_first[i+1];
 
     // swap if xj sorts before xi
     if(comp(xj, xi))
     {
       ValueType yi;
-      yi = values[i];
+      yi = values_first[i];
       ValueType yj;
-      yj = values[i+1];
+      yj = values_first[i+1];
 
-      keys[i]     = xj;
-      keys[i+1]   = xi;
-      values[i]   = yj;
-      values[i+1] = yi;
+      keys_first[i]     = xj;
+      keys_first[i+1]   = xi;
+      values_first[i]   = yj;
+      values_first[i+1] = yi;
     }
   }
 }
@@ -75,8 +75,8 @@ template<typename Context,
          typename RandomAccessIterator2,
          typename Compare>
 __device__ void transposition_sort(Context context,
-                                   RandomAccessIterator1 keys,
-                                   RandomAccessIterator2 values,
+                                   RandomAccessIterator1 keys_first,
+                                   RandomAccessIterator2 values_first,
                                    const unsigned int i,
                                    const unsigned int end,
                                    const unsigned int size,
@@ -87,11 +87,11 @@ __device__ void transposition_sort(Context context,
   for(unsigned int round=size/2; round>0; --round)
   {
     // ODDS
-    conditional_swap(keys, values, i, end, is_odd, comp);
+    conditional_swap(keys_first, values_first, i, end, is_odd, comp);
     context.barrier();
   
     // EVENS
-    conditional_swap(keys, values, i, end, !is_odd, comp);
+    conditional_swap(keys_first, values_first, i, end, !is_odd, comp);
     context.barrier();
   }
 }
@@ -101,8 +101,8 @@ template<typename Context,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __device__ void merge(Context context,
-                      RandomAccessIterator1 keys, 
-                      RandomAccessIterator2 data,
+                      RandomAccessIterator1 keys_first, 
+                      RandomAccessIterator2 values_first,
                       const unsigned int i,
                       const unsigned int n,
                       unsigned int begin,
@@ -116,42 +116,42 @@ __device__ void merge(Context context,
   {
     h *= 2;
 
-    unsigned int new_begin = i&(~(h-1)),
-                 new_end   = min(n,new_begin+h);
+    unsigned int new_begin = i&(~(h-1));
+    unsigned int new_end   = min(n,new_begin+h);
 
     typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
     typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
 
-    KeyType xi;
-    ValueType yi;
+    KeyType key;
+    ValueType value;
 
     unsigned int rank = i - begin;
 
     // prevent out-of-bounds access
     if(i < new_end)
     {
-      xi = keys[i];
+      key = keys_first[i];
 
       if(begin==new_begin)  // in the left side of merging pair
       {
-        RandomAccessIterator1 result = thrust::system::detail::generic::scalar::lower_bound_n(keys+end, new_end-end, xi, cmp);
-        rank += (result - (keys+end));
+        RandomAccessIterator1 result = thrust::system::detail::generic::scalar::lower_bound_n(keys_first+end, new_end-end, key, cmp);
+        rank += (result - (keys_first+end));
       }
       else                  // in the right side of merging pair
       {
-        RandomAccessIterator1 result = thrust::system::detail::generic::scalar::upper_bound_n(keys+new_begin, begin-new_begin, xi, cmp);
-        rank += (result - (keys+new_begin));
+        RandomAccessIterator1 result = thrust::system::detail::generic::scalar::upper_bound_n(keys_first+new_begin, begin-new_begin, key, cmp);
+        rank += (result - (keys_first+new_begin));
       }
 
-      yi = data[i];
+      value = data[i];
     }
 
     context.barrier();
 
     if(i < new_end)
     {
-      keys[new_begin+rank] = xi;
-      data[new_begin+rank] = yi;
+      keys_first[new_begin+rank] = key;
+      values_first[new_begin+rank] = value;
     }
     
     context.barrier();
@@ -170,8 +170,8 @@ template<typename Context,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __device__ void merging_sort(Context context,
-                             RandomAccessIterator1 keys,
-                             RandomAccessIterator2 data,
+                             RandomAccessIterator1 keys_first,
+                             RandomAccessIterator2 values_first,
                              const unsigned int n,
                              StrictWeakOrdering comp)
 {
@@ -183,10 +183,10 @@ __device__ void merging_sort(Context context,
   unsigned int h = 32;
   unsigned int begin=i&(~(h-1)),  end=min(n,begin+h);
   
-  transposition_sort(context, keys, data, i, end, h, comp);
+  transposition_sort(context, keys_first, values_first, i, end, h, comp);
   
   // Phase 2: Apply merge tree to produce final sorted results
-  merge(context, keys, data, i, n, begin, end, h, comp);
+  merge(context, keys_first, values_first, i, n, begin, end, h, comp);
 } // end merging_sort()
 
 
