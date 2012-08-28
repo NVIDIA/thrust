@@ -41,6 +41,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
+#include <thrust/system/cuda/detail/detail/cached_temporary_allocator.h>
 #include <thrust/system/cuda/detail/block/merge.h>
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/pair.h>
@@ -1145,6 +1146,8 @@ template<typename System,
   typename temporary_array<KeyType,   System>::iterator keys1 = temp_keys.begin();
   typename temporary_array<ValueType, System>::iterator vals1 = temp_vals.begin();
 
+  cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_allocator(system);
+
   // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
   // Currently uses additional arrays for sorted outputs.
   unsigned int log_tile_size = thrust::detail::mpl::math::log2<block_size>::value;
@@ -1153,11 +1156,11 @@ template<typename System,
     // we ping-pong back and forth
     if(log_tile_size % 2)
     {
-      merge_sort_dev_namespace::merge(system, keys1, vals1, n, keys0, vals0, log_tile_size, comp);
+      merge_sort_dev_namespace::merge(merge_allocator, keys1, vals1, n, keys0, vals0, log_tile_size, comp);
     } // end if
     else
     {
-      merge_sort_dev_namespace::merge(system, keys0, vals0, n, keys1, vals1, log_tile_size, comp);
+      merge_sort_dev_namespace::merge(merge_allocator, keys0, vals0, n, keys1, vals1, log_tile_size, comp);
     } // end else
   } // end for
 
