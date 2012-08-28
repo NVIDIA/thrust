@@ -28,15 +28,13 @@
 
 #include <thrust/functional.h>
 #include <thrust/detail/copy.h>
-#include <thrust/swap.h>
 
-#include <thrust/device_ptr.h>
 #include <thrust/detail/function.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
 #include <thrust/iterator/iterator_traits.h>
 
-#include <thrust/system/cuda/detail/block/merging_sort.h>
+#include <thrust/system/cuda/detail/detail/stable_sort_by_count.h>
 #include <thrust/system/cuda/detail/runtime_introspection.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
@@ -45,6 +43,7 @@
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/pair.h>
 #include <thrust/tuple.h>
+#include <thrust/detail/minmax.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/gather.h>
@@ -54,17 +53,6 @@ __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 namespace thrust
 {
-namespace detail
-{
-
-template<typename T>
-  void destroy(T &x)
-{
-  x.~T();
-} // end destroy()
-
-} // end detail
-
 namespace system
 {
 namespace cuda
@@ -73,17 +61,8 @@ namespace detail
 {
 namespace detail
 {
-
 namespace merge_sort_dev_namespace
 {
-
-// define our own min() rather than #include <thrust/extrema.h>
-template<typename T>
-  __host__ __device__
-  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
-{
-  return lhs < rhs ? lhs : rhs;
-} // end min()
 
 
 template<typename Size1, typename Size2>
@@ -100,7 +79,6 @@ template<typename Key, typename Value>
     static const unsigned int result = 256;
 };
 
-static const unsigned int warp_size = 32;
 
 template <typename Size>
 inline unsigned int max_grid_size(Size block_size)
@@ -112,6 +90,7 @@ inline unsigned int max_grid_size(Size block_size)
   
   return std::min<unsigned int>(max_blocks, 3 * max_threads / block_size);
 } // end max_grid_size()
+
 
 // Base case for the merge algorithm: merges data where tile_size <= block_size. 
 // Works by loading two or more tiles into shared memory and doing a binary search.
@@ -180,13 +159,7 @@ struct merge_small_tiles_closure
   {
     const unsigned int max_num_blocks = max_grid_size(block_size);
     const unsigned int num_logical_blocks = index_of_last_block + 1;
-    return min(num_logical_blocks, max_num_blocks);
-  }
-
-  __device__ __thrust_forceinline__
-  bool task_not_idle(const unsigned int task_idx) const
-  {
-    return task_idx < n;
+    return thrust::min<unsigned int>(num_logical_blocks, max_num_blocks);
   }
 
   __device__ __thrust_forceinline__
@@ -277,84 +250,8 @@ struct merge_small_tiles_closure
       } // end if
       context.barrier();
     } // end for
-  }
+  } // end operator()
 }; // merge_smalltiles_binarysearch_closure
-
-template<unsigned int block_size,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering,
-         typename Context>
-struct stable_odd_even_block_sort_closure
-{
-  RandomAccessIterator1 keys_first;
-  RandomAccessIterator2 values_first;
-  StrictWeakOrdering comp;
-  const unsigned int n;
-  Context context;
-
-  typedef Context context_type;
-
-  stable_odd_even_block_sort_closure
-    (RandomAccessIterator1 keys_first,
-     RandomAccessIterator2 values_first,
-     StrictWeakOrdering comp,
-     const unsigned int n,
-     Context context = Context())
-    : keys_first(keys_first), values_first(values_first), comp(comp), n(n), context(context)
-  {}
-
-  __device__ __thrust_forceinline__
-  void operator()(void)
-  {
-    typedef typename iterator_value<RandomAccessIterator1>::type KeyType;
-    typedef typename iterator_value<RandomAccessIterator2>::type ValueType;
-  
-    __shared__ uninitialized_array<KeyType,block_size>   s_keys;
-    __shared__ uninitialized_array<ValueType,block_size> s_data;
-  
-    const unsigned int grid_size = context.grid_dimension() * context.block_dimension();
-  
-    // block_offset records the global index of this block's 0th thread
-    unsigned int block_offset = context.block_index() * block_size;
-    unsigned int i = context.thread_index() + block_offset;
-  
-    // advance iterators
-    keys_first   += i;
-    values_first += i;
-  
-    for(;
-        block_offset < n;
-        block_offset += grid_size, i += grid_size, keys_first += grid_size, values_first += grid_size)
-    {
-      context.barrier();
-      // copy input to shared
-      if(i < n)
-      {
-        s_keys[context.thread_index()] = *keys_first;
-        s_data[context.thread_index()] = *values_first;
-      } // end if
-      context.barrier();
-  
-      // this block could be partially full
-      unsigned int length = block_size;
-      if(block_offset + block_size > n)
-      {
-        length = n - block_offset;
-      } // end if
-  
-      // run merge_sort over the block
-      block::merging_sort(context, s_keys.begin(), s_data.begin(), length, comp);
-  
-      // write result
-      if(i < n)
-      {
-        *keys_first   = s_keys[context.thread_index()];
-        *values_first = s_data[context.thread_index()];
-      } // end if
-    } // end for i
-  }
-}; // stable_odd_even_block_sort_closure
 
 
 template<unsigned int stride>
@@ -613,7 +510,7 @@ struct rank_splitters_closure
         *ranks_result2 = start + result;
       } // end else
     } // end for
-  }
+  } // end operator()
 }; // rank_splitters_closure
 
 
@@ -747,7 +644,7 @@ struct merge_subtiles_closure
   unsigned int grid_size() const
   {
     const unsigned int max_num_blocks = max_grid_size(block_size);
-    return min(num_splitters, max_num_blocks);
+    return thrust::min<unsigned int>(num_splitters, max_num_blocks);
   }
 
   __device__ __thrust_forceinline__
@@ -1085,9 +982,9 @@ void stable_merge_sort(dispatchable<System> &system,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp)
 {
-    // XXX it's potentially unsafe to pass the same array for keys & values
-    //     implement a legit merge_sort_dev function later
-    thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, first, last, first, comp);
+  // XXX it's potentially unsafe to pass the same array for keys & values
+  //     implement a legit merge_sort_dev function later
+  thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, first, last, first, comp);
 }
 
 
@@ -1112,27 +1009,8 @@ template<typename System,
   // compute the block_size based on the types we're sorting
   const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
 
-  // compute the maximum number of blocks we can launch on this arch
-  const unsigned int max_num_blocks = merge_sort_dev_namespace::max_grid_size(block_size);
-
   // first, sort within each block
-  size_t num_blocks = n / block_size;
-  if(n % block_size) ++num_blocks;
-
-  size_t grid_size = merge_sort_dev_namespace::min<size_t>(num_blocks, max_num_blocks);
-
-  typedef merge_sort_dev_namespace::stable_odd_even_block_sort_closure<
-    block_size,
-    RandomAccessIterator1,
-    RandomAccessIterator2,
-    StrictWeakOrdering,
-    detail::statically_blocked_thread_array<block_size>
-  > StableOddEvenBlockSortClosure;
- 
-  // do an odd-even sort per block of data
-  detail::launch_closure
-    (StableOddEvenBlockSortClosure(keys_first, values_first, comp, n),
-     grid_size, block_size);
+  stable_sort_by_count<block_size>(system, keys_first, keys_last, values_first, comp);
 
   // allocate scratch space
   using namespace thrust::detail;

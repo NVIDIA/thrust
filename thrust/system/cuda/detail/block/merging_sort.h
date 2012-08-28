@@ -56,6 +56,7 @@ __device__ void conditional_swap(RandomAccessIterator1 keys_first,
     // swap if xj sorts before xi
     if(comp(xj, xi))
     {
+      // XXX this implementation should really dispatch swap via ADL
       ValueType yi;
       yi = values_first[i];
       ValueType yj;
