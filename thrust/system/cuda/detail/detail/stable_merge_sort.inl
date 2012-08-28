@@ -15,13 +15,11 @@
  */
 
 
-/*! \file stable_merge_sort_dev.inl
- *  \brief Inline file for stable_merge_sort_dev.h.
+/*! \file stable_merge_sort.inl
+ *  \brief Inline file for stable_merge_sort.h.
  *  \note This algorithm is based on the one described
  *        in "Designing Efficient Sorting Algorithms for
  *        Manycore GPUs", by Satish, Harris, and Garland.
- *        Nadatur Satish is the original author of this
- *        implementation.
  */
 
 #include <thrust/detail/config.h>
@@ -61,7 +59,7 @@ namespace detail
 {
 namespace detail
 {
-namespace merge_sort_dev_namespace
+namespace stable_merge_sort_detail
 {
 
 
@@ -101,7 +99,7 @@ template<unsigned int block_size,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering,
          typename Context>
-struct merge_small_tiles_closure
+struct merge_small_tiles_by_key_closure
 {
   typedef Context context_type;
 
@@ -119,7 +117,7 @@ struct merge_small_tiles_closure
   unsigned int index_of_last_tile_in_last_block;
   unsigned int size_of_last_tile;
 
-  merge_small_tiles_closure
+  merge_small_tiles_by_key_closure
     (RandomAccessIterator1 keys_first,
      RandomAccessIterator2 values_first,
      const unsigned int n,
@@ -251,7 +249,7 @@ struct merge_small_tiles_closure
       context.barrier();
     } // end for
   } // end operator()
-}; // merge_smalltiles_binarysearch_closure
+}; // merge_small_tiles_by_key_closure
 
 
 template<unsigned int stride>
@@ -598,7 +596,7 @@ template<unsigned int block_size,
          typename RandomAccessIterator6,
          typename StrictWeakOrdering,
          typename Context>
-struct merge_subtiles_closure
+struct merge_subtiles_by_key_closure
 {	
   typedef Context context_type;
   static const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
@@ -618,7 +616,7 @@ struct merge_subtiles_closure
   // this member is derivable from the constructor parameters
   unsigned int log_num_merged_splitters_per_tile;
 
-  merge_subtiles_closure
+  merge_subtiles_by_key_closure
     (RandomAccessIterator1 keys_first,
      RandomAccessIterator2 values_first,
      unsigned int n, 
@@ -751,9 +749,9 @@ struct merge_subtiles_closure
   
     do_it(s_keys.data(), s_values.data());
   }
-}; // merge_subtiles_closure
+}; // merge_subtiles_by_key_closure
 
-// merge_subtiles() merges each sub-tile independently. As explained in rank_splitters(), 
+// merge_subtiles_by_key() merges each sub-tile independently. As explained in rank_splitters(), 
 // the sub-tiles are defined by the ranks of the splitter elements d_rank1 and d_rank2 in the odd and even tiles resp.
 // It can be easily shown that each sub-tile cannot contain more than block_size elements of either the odd or even tile.
 
@@ -773,24 +771,24 @@ template<typename RandomAccessIterator1,
          typename RandomAccessIterator6,
          typename RandomAccessIterator7,
          typename StrictWeakOrdering>
-  void merge_subtiles(RandomAccessIterator1 keys_first,
-                      RandomAccessIterator1 keys_last,
-                      RandomAccessIterator2 values_first,
-                      RandomAccessIterator3 splitters_pos_first, 
-                      RandomAccessIterator3 splitters_pos_last,
-                      RandomAccessIterator4 ranks_first1,
-                      RandomAccessIterator5 ranks_first2, 
-                      RandomAccessIterator6 keys_result,
-                      RandomAccessIterator7 values_result, 
-                      unsigned int log_tile_size, 
-                      StrictWeakOrdering comp)
+  void merge_subtiles_by_key(RandomAccessIterator1 keys_first,
+                             RandomAccessIterator1 keys_last,
+                             RandomAccessIterator2 values_first,
+                             RandomAccessIterator3 splitters_pos_first, 
+                             RandomAccessIterator3 splitters_pos_last,
+                             RandomAccessIterator4 ranks_first1,
+                             RandomAccessIterator5 ranks_first2, 
+                             RandomAccessIterator6 keys_result,
+                             RandomAccessIterator7 values_result, 
+                             unsigned int log_tile_size, 
+                             StrictWeakOrdering comp)
 {
   typedef typename iterator_value<RandomAccessIterator6>::type KeyType;
   typedef typename iterator_value<RandomAccessIterator7>::type ValueType;
 
-  const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
+  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
 
-  typedef merge_subtiles_closure<
+  typedef merge_subtiles_by_key_closure<
     block_size,
     RandomAccessIterator1,
     RandomAccessIterator2,
@@ -824,16 +822,16 @@ template<unsigned int block_size,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge_small_tiles(dispatchable<System> &,
-                         RandomAccessIterator1 keys_first,
-                         RandomAccessIterator1 keys_last,
-                         RandomAccessIterator2 values_first,
-                         size_t log_tile_size,
-                         RandomAccessIterator3 keys_result,
-                         RandomAccessIterator4 values_result,
-                         StrictWeakOrdering comp)
+  void merge_small_tiles_by_key(dispatchable<System> &,
+                                RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
+                                size_t log_tile_size,
+                                RandomAccessIterator3 keys_result,
+                                RandomAccessIterator4 values_result,
+                                StrictWeakOrdering comp)
 {
-  typedef merge_small_tiles_closure<
+  typedef merge_small_tiles_by_key_closure<
     block_size,
     RandomAccessIterator1,
     RandomAccessIterator2,
@@ -846,7 +844,7 @@ template<unsigned int block_size,
   Closure closure(keys_first, values_first, keys_last - keys_first, log_tile_size, keys_result, values_result, comp);
 
   detail::launch_closure(closure, closure.grid_size(), block_size);
-} // end merge_small_tiles()
+} // end merge_small_tiles_by_key()
 
 
 template<typename System,
@@ -855,14 +853,14 @@ template<typename System,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge_recursive(dispatchable<System> &system,
-                       RandomAccessIterator1 keys_first,
-                       RandomAccessIterator1 keys_last,
-                       RandomAccessIterator2 values_first,
-                       RandomAccessIterator3 keys_result,
-                       RandomAccessIterator4 values_result,
-                       size_t log_tile_size,
-                       StrictWeakOrdering comp)
+  void merge_tiles_by_key_recursive(dispatchable<System> &system,
+                                    RandomAccessIterator1 keys_first,
+                                    RandomAccessIterator1 keys_last,
+                                    RandomAccessIterator2 values_first,
+                                    RandomAccessIterator3 keys_result,
+                                    RandomAccessIterator4 values_result,
+                                    size_t log_tile_size,
+                                    StrictWeakOrdering comp)
 {
   typedef typename iterator_value<RandomAccessIterator3>::type KeyType;
   typedef typename iterator_value<RandomAccessIterator4>::type ValueType;
@@ -870,12 +868,12 @@ template<typename System,
   const size_t tile_size = 1<<log_tile_size;
 
   // Compute the block_size based on the types to sort
-  const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
+  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
 
   // Case (a): tile_size <= block_size
   if(tile_size <= block_size)
   {
-    return merge_small_tiles<2*block_size>(system, keys_first, keys_last, values_first, log_tile_size, keys_result, values_result, comp);
+    return merge_small_tiles_by_key<2*block_size>(system, keys_first, keys_last, values_first, log_tile_size, keys_result, values_result, comp);
   } // end if
 
   // Case (b) tile_size >= block_size
@@ -891,14 +889,14 @@ template<typename System,
 
   const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
   size_t log_num_splitters_per_tile = log_tile_size - log_block_size;
-  merge_recursive(system,
-                  splitters.begin(),
-                  splitters.end(),
-                  splitters_pos.begin(),
-                  merged_splitters.begin(),
-                  merged_splitters_pos.begin(),
-                  log_num_splitters_per_tile,
-                  comp);
+  merge_tiles_by_key_recursive(system,
+                               splitters.begin(),
+                               splitters.end(),
+                               splitters_pos.begin(),
+                               merged_splitters.begin(),
+                               merged_splitters_pos.begin(),
+                               log_num_splitters_per_tile,
+                               comp);
 
   // step 3 of the recursive case: find the ranks of each splitter in the respective two tiles.
   // reuse the merged_splitters_pos storage
@@ -916,17 +914,17 @@ template<typename System,
                              comp);
 
   // step 4 of the recursive case: merge each sub-tile independently in parallel.
-  merge_subtiles(keys_first,
-                 keys_last,
-                 values_first,
-                 merged_splitters_pos.begin(),
-                 merged_splitters_pos.end(),
-                 rank1.begin(),
-                 rank2.begin(),
-                 keys_result,
-                 values_result,
-                 log_tile_size,
-                 comp);
+  merge_subtiles_by_key(keys_first,
+                        keys_last,
+                        values_first,
+                        merged_splitters_pos.begin(),
+                        merged_splitters_pos.end(),
+                        rank1.begin(),
+                        rank2.begin(),
+                        keys_result,
+                        values_result,
+                        log_tile_size,
+                        comp);
 }
 
 
@@ -936,14 +934,14 @@ template<typename System,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge(dispatchable<System> &system,
-             RandomAccessIterator1 keys_first,
-             RandomAccessIterator2 values_first,
-             size_t n,
-             RandomAccessIterator3 keys_result,
-             RandomAccessIterator4 values_result,
-             unsigned int log_tile_size,
-             StrictWeakOrdering comp)
+  void merge_tiles_by_key(dispatchable<System> &system,
+                          RandomAccessIterator1 keys_first,
+                          RandomAccessIterator2 values_first,
+                          size_t n,
+                          RandomAccessIterator3 keys_result,
+                          RandomAccessIterator4 values_result,
+                          unsigned int log_tile_size,
+                          StrictWeakOrdering comp)
 {
   const unsigned int tile_size = 1 << log_tile_size;
   const size_t num_tiles = divide_ri(n, tile_size);
@@ -952,14 +950,14 @@ template<typename System,
   // without a twin in merge_recursive
   const size_t last_tile_offset = (num_tiles%2)?((num_tiles-1)*tile_size):n;
 
-  merge_recursive(system,
-                  keys_first,
-                  keys_first + last_tile_offset,
-                  values_first,
-                  keys_result,
-                  values_result,
-                  log_tile_size,
-                  comp);
+  merge_tiles_by_key_recursive(system,
+                               keys_first,
+                               keys_first + last_tile_offset,
+                               values_first,
+                               keys_result,
+                               values_result,
+                               log_tile_size,
+                               comp);
 
   // copy the last tile without a twin, should it exist
   if(last_tile_offset < n)
@@ -970,7 +968,7 @@ template<typename System,
 } // end merge
 
 
-} // end merge_sort_dev_namespace
+} // end stable_merge_sort_detail
 
 
 
@@ -983,7 +981,6 @@ void stable_merge_sort(dispatchable<System> &system,
                        StrictWeakOrdering comp)
 {
   // XXX it's potentially unsafe to pass the same array for keys & values
-  //     implement a legit merge_sort_dev function later
   thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, first, last, first, comp);
 }
 
@@ -1007,9 +1004,9 @@ template<typename System,
   if(n == 0) return;
 
   // compute the block_size based on the types we're sorting
-  const unsigned int block_size = merge_sort_dev_namespace::block_size<KeyType,ValueType>::result;
+  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
 
-  // first, sort within each block
+  // first, sort each tile of block_size elements
   stable_sort_by_count<block_size>(system, keys_first, keys_last, values_first, comp);
 
   // allocate scratch space
@@ -1031,11 +1028,11 @@ template<typename System,
     // we ping-pong back and forth
     if(log_tile_size % 2)
     {
-      merge_sort_dev_namespace::merge(system, keys1, vals1, n, keys0, vals0, log_tile_size, comp);
+      stable_merge_sort_detail::merge_tiles_by_key(system, keys1, vals1, n, keys0, vals0, log_tile_size, comp);
     } // end if
     else
     {
-      merge_sort_dev_namespace::merge(system, keys0, vals0, n, keys1, vals1, log_tile_size, comp);
+      stable_merge_sort_detail::merge_tiles_by_key(system, keys0, vals0, n, keys1, vals1, log_tile_size, comp);
     } // end else
   } // end for
 
