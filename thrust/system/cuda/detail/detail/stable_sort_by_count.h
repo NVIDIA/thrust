@@ -27,6 +27,8 @@ namespace cuda
 {
 namespace detail
 {
+namespace detail
+{
 
 
 template<unsigned int count,
@@ -41,6 +43,7 @@ void stable_sort_by_count(dispatchable<System> &system,
                           Compare comp);
 
 
+} // end detail
 } // end detail
 } // end cuda
 } // end system
