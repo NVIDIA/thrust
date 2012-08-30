@@ -79,7 +79,7 @@ template<typename Allocator, typename Pointer, typename Size>
 
 template<typename Allocator, typename Pointer, typename Size>
   typename disable_if<
-    has_member_construct1<
+    needs_default_construct_via_allocator<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value
