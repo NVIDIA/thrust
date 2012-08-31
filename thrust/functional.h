@@ -968,7 +968,7 @@ static const thrust::detail::functional::placeholder<9>::type _10;
 
 } // end placeholders
 
-}; // end thrust
+} // end thrust
 
 #include <thrust/detail/functional.inl>
 #include <thrust/detail/functional/operators.h>

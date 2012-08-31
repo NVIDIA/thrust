@@ -133,7 +133,7 @@ enum errc_t
   too_many_links                     = detail::emlink,
   too_many_symbolic_link_levels      = detail::eloop,
   value_too_large                    = detail::eoverflow,
-  wrong_protocol_type                = detail::eprototype,
+  wrong_protocol_type                = detail::eprototype
 }; // end errc_t
 
 } // end namespace errc

@@ -158,7 +158,7 @@ template<typename IteratorTuple>
   using namespace thrust::detail::tuple_impl_specific;
 
   return thrust::detail::tuple_host_device_transform<thrust::detail::device_dereference_iterator::template apply>(iter.get_iterator_tuple(), thrust::detail::device_dereference_iterator());
-}; // end dereference()
+} // end dereference()
 
 
 template<typename IteratorTuple, typename IndexType>
@@ -173,7 +173,7 @@ template<typename IteratorTuple, typename IndexType>
   f.n = n;
 
   return thrust::detail::tuple_host_device_transform<thrust::detail::device_dereference_iterator_with_index<IndexType>::template apply>(iter.get_iterator_tuple(), f);
-}; // end dereference()
+} // end dereference()
 
 
 } // end backend

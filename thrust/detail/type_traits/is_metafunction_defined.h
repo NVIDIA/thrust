@@ -24,7 +24,7 @@ namespace thrust
 namespace detail
 {
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(is_metafunction_defined, type);
+__THRUST_DEFINE_HAS_NESTED_TYPE(is_metafunction_defined, type)
 
 } // end detail
 
