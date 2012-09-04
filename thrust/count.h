@@ -125,7 +125,7 @@ template <class InputIterator, class Predicate>
  *  \} // end reductions
  */
 
-}; // end thrust
+} // end thrust
 
 #include <thrust/detail/count.inl>
 

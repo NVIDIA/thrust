@@ -445,7 +445,7 @@ template <typename InputIterator1,
 /*! \} // end stream_compaction
  */
 
-}; // end namespace thrust
+} // end namespace thrust
 
 #include <thrust/detail/unique.inl>
 
