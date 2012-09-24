@@ -109,7 +109,7 @@ template<typename InputIterator1,
     result_value = binary_op(result_value, *values_first_r);
   }
 
-  return thrust::make_pair(keys_first_r.base(), std::make_pair(result_key, result_value));
+  return thrust::make_pair(keys_first_r.base(), thrust::make_pair(result_key, result_value));
 }
 
 
@@ -308,10 +308,8 @@ template<typename System, typename Iterator1, typename Iterator2, typename Itera
 
   // do a reduce_by_key serially in each thread
   // the final interval never has a carry by definition, so don't reserve space for it
-  thrust::detail::temporary_array<
-    typename reduce_by_key_detail::partial_sum_type<Iterator2,BinaryFunction>::type,
-    System
-  > carries(0, system, num_intervals - 1);
+  typedef typename reduce_by_key_detail::partial_sum_type<Iterator2,BinaryFunction>::type carry_type;
+  thrust::detail::temporary_array<carry_type, System> carries(0, system, num_intervals - 1);
 
   // force grainsize == 1 with simple_partioner()
   ::tbb::parallel_for(::tbb::blocked_range<difference_type>(0, num_intervals, 1),
@@ -323,8 +321,7 @@ template<typename System, typename Iterator1, typename Iterator2, typename Itera
   // sequentially accumulate the carries
   // note that the last interval does not have a carry
   // XXX find a way to express this loop via a sequential algorithm, perhaps reduce_by_key
-  typedef typename std::vector<typename reduce_by_key_detail::partial_sum_type<Iterator2,BinaryFunction>::type>::size_type size_type;
-  for(size_type i = 0; i < carries.size(); ++i)
+  for(typename thrust::detail::temporary_array<carry_type,System>::size_type i = 0; i < carries.size(); ++i)
   {
     // if our interval has a carry, then we need to sum the carry to the next interval's output offset
     // if it does not have a carry, then we need to ignore carry_value[i]
