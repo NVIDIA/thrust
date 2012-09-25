@@ -6,8 +6,8 @@
 
 
 template<typename RandomAccessIterator1,
-         typename Size,
          typename RandomAccessIterator2,
+         typename Size,
          typename Compare>
 __device__ __thrust_forceinline__
 thrust::pair<Size,Size>
@@ -29,7 +29,7 @@ thrust::pair<Size,Size>
     Size index1 = mid;
     Size index2 = diag - mid - 1;
 
-    if(comp(first2[index2] < first1[index1]))
+    if(comp(first2[index2], first1[index1]))
     {
       end = mid;
     }
@@ -39,7 +39,7 @@ thrust::pair<Size,Size>
     }
   }
 
-  return thrust::make_pair(begin, diag - begin)
+  return thrust::make_pair(begin, diag - begin);
 }
 
 
@@ -53,6 +53,8 @@ void merge_n(RandomAccessIterator1 first1,
              Compare comp_)
 {
   thrust::detail::device_function<Compare,bool> comp;
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   Size result_size = n1 + n2;
   Size per_cta_size = (result_size-1)/gridDim.x+1;
@@ -67,7 +69,7 @@ void merge_n(RandomAccessIterator1 first1,
     block_begin = (blockIdx.x == 0) ?
       thrust::make_pair(Size(0),Size(0)) : 
       partition_search(first1, first2,
-                       per_cta_size * blockIdx.x,
+                       Size(per_cta_size * blockIdx.x),
                        Size(0), n1,
                        Size(0), n2,
                        comp);
@@ -81,16 +83,15 @@ void merge_n(RandomAccessIterator1 first1,
 
   while(remaining_size > 0)
   {
-    Size thread_begin1, thread_begin2;
-
     thrust::pair<Size,Size> thread_begin =
-      partition_search(a, b, cta_offset+processed_size+threadIdx.x*per_thread,
-                       block_begin.first, thrust::min<Size>(offset.first + block_size*per_thread, n1),
-                       block_begin.second, thrust::min<Size>(offset.second + block_size*per_thread, n2),
+      partition_search(first1, first2,
+                       Size(cta_offset+processed_size+threadIdx.x*per_thread),
+                       block_begin.get().first, thrust::min<Size>(offset.first + block_size*per_thread, n1),
+                       block_begin.get().second, thrust::min<Size>(offset.second + block_size*per_thread, n2),
                        comp);
 
-    T x1 = first1[thread_begin.first];
-    T x2 = first2[thread_begin.second];
+    value_type1 x1 = first1[thread_begin.first];
+    value_type2 x2 = first2[thread_begin.second];
 
     Size count = thrust::min<Size>(per_thread, result_size - thread_begin.first - thread_begin.second);
     for(Size i = 0; i < count; ++i)
