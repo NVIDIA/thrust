@@ -17,7 +17,41 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/pair.h>
 
-// this system inherits reduce_by_key
-#include <thrust/system/cpp/detail/reduce_by_key.h>
+namespace thrust
+{
+namespace system
+{
+namespace tbb
+{
+namespace detail
+{
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(dispatchable<System> &system,
+                  InputIterator1 keys_first, 
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_output,
+                  OutputIterator2 values_output,
+                  BinaryPredicate binary_pred,
+                  BinaryFunction binary_op);
+
+
+} // end namespace detail
+} // end namespace tbb
+} // end namespace system
+} // end namespace thrust
+
+#include <thrust/system/tbb/detail/reduce_by_key.inl>
 
