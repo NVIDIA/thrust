@@ -133,5 +133,5 @@ struct TestStableSortByKeySemantics
         ASSERT_EQUAL(h_values, d_values);
     }
 };
-VariableUnitTest<TestStableSortByKeySemantics, unittest::type_list<char,short,int> > TestStableSortByKeySemanticsInstance;
+VariableUnitTest<TestStableSortByKeySemantics, unittest::type_list<unittest::uint8_t,unittest::uint16_t,unittest::uint32_t> > TestStableSortByKeySemanticsInstance;
 
