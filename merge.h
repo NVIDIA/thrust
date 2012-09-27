@@ -4,6 +4,13 @@
 #include <thrust/detail/function.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
 
+template<typename Iterator>
+__device__ __forceinline__
+typename thrust::iterator_value<Iterator>::type
+  __ldg(Iterator iter)
+{
+  return *iter;
+}
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
@@ -21,7 +28,7 @@ thrust::pair<Size,Size>
                    Compare comp)
 {
   Size begin = thrust::max<Size>(lower_bound1, diag - upper_bound2);
-  Size end = thrust::min<Size>(diag - lower_bound2, upper_bound1);
+  Size end   = thrust::min<Size>(diag - lower_bound2, upper_bound1);
 
   while(begin < end)
   {
@@ -29,7 +36,7 @@ thrust::pair<Size,Size>
     Size index1 = mid;
     Size index2 = diag - mid - 1;
 
-    if(comp(first2[index2], first1[index1]))
+    if(comp(__ldg(first2 + index2), __ldg(first1 + index1)))
     {
       end = mid;
     }
@@ -42,8 +49,7 @@ thrust::pair<Size,Size>
   return thrust::make_pair(begin, diag - begin);
 }
 
-
-template<unsigned int block_size, unsigned int per_thread, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+template<int block_size, int per_thread, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
 __global__
 void merge_n(RandomAccessIterator1 first1,
              Size n1,
@@ -67,7 +73,7 @@ void merge_n(RandomAccessIterator1 first1,
   if(threadIdx.x == 0)
   {
     block_begin = (blockIdx.x == 0) ?
-      thrust::make_pair(Size(0),Size(0)) : 
+      thrust::make_pair(Size(0),Size(0)) :
       partition_search(first1, first2,
                        Size(per_cta_size * blockIdx.x),
                        Size(0), n1,
@@ -86,15 +92,15 @@ void merge_n(RandomAccessIterator1 first1,
     thrust::pair<Size,Size> thread_begin =
       partition_search(first1, first2,
                        Size(cta_offset+processed_size+threadIdx.x*per_thread),
-                       block_begin.get().first, thrust::min<Size>(offset.first + block_size*per_thread, n1),
-                       block_begin.get().second, thrust::min<Size>(offset.second + block_size*per_thread, n2),
+                       block_begin.get().first, min(offset.first+block_size*per_thread, n1),
+                       block_begin.get().second, min(offset.second+block_size*per_thread, n2),
                        comp);
 
-    value_type1 x1 = first1[thread_begin.first];
-    value_type2 x2 = first2[thread_begin.second];
+    value_type1 x1 = __ldg(first1 + thread_begin.first);
+    value_type2 x2 = __ldg(first2 + thread_begin.second);
 
     Size count = thrust::min<Size>(per_thread, result_size - thread_begin.first - thread_begin.second);
-    for(Size i = 0; i < count; ++i)
+    for(Size i = 0; i < count; i++)
     {
        bool p = false;
        if(thread_begin.second >= n2)
@@ -107,7 +113,7 @@ void merge_n(RandomAccessIterator1 first1,
        }
        else
        {
-         p = !comp(x2,x1);
+         p = !comp(x2, x1);
        }
 
        result[cta_offset+processed_size+threadIdx.x*per_thread+i] = p ? x1 : x2;
@@ -115,12 +121,12 @@ void merge_n(RandomAccessIterator1 first1,
        if(p)
        {
          ++thread_begin.first;
-         x1 = first1[thread_begin.first];
+         x1 = __ldg(first1 + thread_begin.first);
        }
        else
        {
          ++thread_begin.second;
-         x2 = first2[thread_begin.second];
+         x2 = __ldg(first2 + thread_begin.second);
        }
     }
 
