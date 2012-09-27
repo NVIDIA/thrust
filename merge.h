@@ -3,6 +3,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/function.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
+#include <thrust/detail/util/blocking.h>
 
 template<typename Iterator>
 __device__ __forceinline__
@@ -63,7 +64,8 @@ void merge_n(RandomAccessIterator1 first1,
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   Size result_size = n1 + n2;
-  Size per_cta_size = (result_size-1)/gridDim.x+1;
+  Size per_cta_size = thrust::detail::util::divide_ri(result_size, gridDim.x);
+
   Size cta_portion = thrust::min<Size>(per_cta_size, result_size-blockIdx.x*per_cta_size);
   Size cta_offset = blockIdx.x*per_cta_size;
 
@@ -92,8 +94,8 @@ void merge_n(RandomAccessIterator1 first1,
     thrust::pair<Size,Size> thread_begin =
       partition_search(first1, first2,
                        Size(cta_offset+processed_size+threadIdx.x*per_thread),
-                       block_begin.get().first, min(offset.first+block_size*per_thread, n1),
-                       block_begin.get().second, min(offset.second+block_size*per_thread, n2),
+                       block_begin.get().first, thrust::min<Size>(offset.first+block_size*per_thread, n1),
+                       block_begin.get().second, thrust::min<Size>(offset.second+block_size*per_thread, n2),
                        comp);
 
     value_type1 x1 = __ldg(first1 + thread_begin.first);
