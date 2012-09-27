@@ -102,7 +102,7 @@ template<typename T>
   size_t sizes[]   = {0, 1, n / 2, n, n + 1, 2 * n};
   size_t num_sizes = sizeof(sizes) / sizeof(size_t);
 
-  thrust::host_vector<T> random = unittest::random_integers<char>(n + *thrust::max_element(sizes, sizes + num_sizes));
+  thrust::host_vector<T> random = unittest::random_integers<unittest::int8_t>(n + *thrust::max_element(sizes, sizes + num_sizes));
 
   thrust::host_vector<T> h_a(random.begin(), random.begin() + n);
   thrust::host_vector<T> h_b(random.begin() + n, random.end());

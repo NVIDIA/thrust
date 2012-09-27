@@ -3,7 +3,7 @@
 #include <thrust/iterator/discard_iterator.h>
 
 
-typedef unittest::type_list<char,short,int> ReverseTypes;
+typedef unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> ReverseTypes;
 
 template<typename Vector>
 void TestReverseSimple(void)

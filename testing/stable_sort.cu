@@ -120,7 +120,7 @@ struct TestStableSortSemantics
         ASSERT_EQUAL(h_data, d_data);
     }
 };
-VariableUnitTest<TestStableSortSemantics, unittest::type_list<char,short,int> > TestStableSortSemanticsInstance;
+VariableUnitTest<TestStableSortSemantics, unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> > TestStableSortSemanticsInstance;
 
 
 template <typename T>

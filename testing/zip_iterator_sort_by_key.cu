@@ -54,5 +54,5 @@ template <typename T>
     ASSERT_EQUAL_QUIET(h4, d4);
   }
 };
-VariableUnitTest<TestZipIteratorStableSortByKey, unittest::type_list<char,short,int> > TestZipIteratorStableSortByKeyInstance;
+VariableUnitTest<TestZipIteratorStableSortByKey, unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> > TestZipIteratorStableSortByKeyInstance;
 
