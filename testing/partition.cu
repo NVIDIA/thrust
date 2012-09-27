@@ -13,7 +13,7 @@ struct is_even
     bool operator()(T x) const { return ((int) x % 2) == 0; }
 };
 
-typedef unittest::type_list<char,short,int> PartitionTypes;
+typedef unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> PartitionTypes;
 
 template<typename Vector>
 void TestPartitionSimple(void)
