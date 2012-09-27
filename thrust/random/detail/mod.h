@@ -87,7 +87,7 @@ __host__ __device__
 {
   static_mod<T,a,c,m> f;
   return f(x);
-}; // end static_mod
+} // end static_mod
 
 } // end detail
 
