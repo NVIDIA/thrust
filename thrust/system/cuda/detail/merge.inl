@@ -139,20 +139,8 @@ void merge_n(Context &ctx,
 
     // XXX the performance impact of not keeping x1 & x2
     //     in registers is about 10% for int32
-
     uninitialized<value_type1> x1;
-    if(thread_input_begin.first < n1)
-    {
-      // XXX should really construct this, not assign
-      x1 = first1[thread_input_begin.first];
-    }
-
     uninitialized<value_type2> x2;
-    if(thread_input_begin.second < n2)
-    {
-      // XXX should really construct this, not assign
-      x2 = first2[thread_input_begin.second];
-    }
 
     // XXX this is just a serial merge -- try to simplify or abstract this loop
     Size i = result_block_offset + ctx.thread_index() * work_per_thread;
@@ -161,38 +149,37 @@ void merge_n(Context &ctx,
         i < last_i;
         ++i)
     {
-       bool output_x2 = false;
-       if(thread_input_begin.first >= n1)
-       {
-         output_x2 = true;
-       }
-       else if(thread_input_begin.second >= n2)
-       {
-         output_x2 = false;
-       }
-       else
-       {
-         output_x2 = comp(x2, x1);
-       }
+      // optionally load x1 & x2
+      bool output_x2 = true;
+      if(thread_input_begin.second < n2)
+      {
+        x2 = first2[thread_input_begin.second];
+      }
+      else
+      {
+        output_x2 = false;
+      }
 
-       result[i] = output_x2 ? x2.get() : x1.get();
+      if(thread_input_begin.first < n1)
+      {
+        x1 = first1[thread_input_begin.first];
 
-       if(output_x2)
-       {
-         ++thread_input_begin.second;
+        if(output_x2)
+        {
+          output_x2 = comp(x2.get(), x1.get());
+        }
+      }
 
-         // XXX should destroy the previous x2
-         // XXX can't we run off the end of the array here?
-         x2 = first2[thread_input_begin.second];
-       }
-       else
-       {
-         ++thread_input_begin.first;
+      result[i] = output_x2 ? x2.get() : x1.get();
 
-         // XXX should destroy the previous x1
-         // XXX can't we run off the end of the array here?
-         x1 = first1[thread_input_begin.first];
-       }
+      if(output_x2)
+      {
+        ++thread_input_begin.second;
+      }
+      else
+      {
+        ++thread_input_begin.first;
+      }
     } // end for
 
     // the block's last thread has conveniently located the
