@@ -1,4 +1,35 @@
 #######################################
+#           Thrust v1.7.0             #
+#######################################
+
+Summary
+    XXX TODO
+
+Breaking API Changes
+    XXX TODO
+
+New Features
+    XXX TODO
+
+New Examples
+    XXX TODO
+
+Other Enhancements
+    XXX TODO
+    XXX TODO CUDA merge performance
+    XXX TODO TBB reduce_by_key performance
+    XXX TODO TBB algorithm parallelization
+
+Bug Fixes
+    XXX TODO
+
+Known Issues
+    XXX TODO
+
+Acknowledgments
+    Thanks to Sean Baxter, Bryan Catanzaro, and Manjunath Kudlur for contributing a faster merge implementation for CUDA
+
+#######################################
 #           Thrust v1.6.0             #
 #######################################
 
