@@ -3,6 +3,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/function.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
+#include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/detail/util/blocking.h>
 
 
@@ -45,7 +46,7 @@ thrust::pair<Size,Size>
 
 
 template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
-__global__
+__device__ __thrust_forceinline__
 void merge_n(RandomAccessIterator1 first1,
              Size n1,
              RandomAccessIterator2 first2,
@@ -175,6 +176,31 @@ void merge_n(RandomAccessIterator1 first1,
 } // end merge_n
 
 
+template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+  struct merge_n_closure
+{
+  RandomAccessIterator1 first1;
+  Size n1;
+  RandomAccessIterator2 first2;
+  Size n2;
+  RandomAccessIterator3 result;
+  Compare comp;
+  Size work_per_thread;
+
+  typedef thrust::system::cuda::detail::detail::blocked_thread_array context_type;
+
+  merge_n_closure(RandomAccessIterator1 first1, Size n1, RandomAccessIterator2 first2, Size n2, RandomAccessIterator3 result, Compare comp, Size work_per_thread)
+    : first1(first1), n1(n1), first2(first2), n2(n2), result(result), comp(comp), work_per_thread(work_per_thread)
+  {}
+
+  __device__ __forceinline__
+  void operator()()
+  {
+    merge_n(first1, n1, first2, n2, result, comp, work_per_thread);
+  }
+};
+
+
 // returns (work_per_thread, threads_per_block, oversubscription_factor)
 template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
   thrust::tuple<unsigned int,unsigned int,unsigned int>
@@ -193,8 +219,9 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
 template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
   RandomAccessIterator3 new_merge(RandomAccessIterator1 first1, RandomAccessIterator1 last1, RandomAccessIterator2 first2, RandomAccessIterator2 last2, RandomAccessIterator3 result, Compare comp)
 {
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n1 = last1 - first1;
-  typename thrust::iterator_difference<RandomAccessIterator2>::type n2 = last2 - first2;
+  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type Size;
+  Size n1 = last1 - first1;
+  Size n2 = last2 - first2;
 
   unsigned int work_per_thread = 0, threads_per_block = 0, oversubscription_factor = 0;
   thrust::tie(work_per_thread,threads_per_block,oversubscription_factor)
@@ -208,7 +235,9 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
   const unsigned int num_processors = device_properties().multiProcessorCount;
   const unsigned int num_blocks = thrust::min<int>(oversubscription_factor * num_processors, thrust::detail::util::divide_ri(n, work_per_block));
 
-  if(num_blocks > 0) merge_n<<<num_blocks, threads_per_block>>>(first1, n1, first2, n2, result, comp, work_per_thread);
+  typedef merge_n_closure<RandomAccessIterator1,Size,RandomAccessIterator2,RandomAccessIterator3,Compare> closure_type;
+  closure_type closure(first1, n1, first2, n2, result, comp, work_per_thread);
+  thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, threads_per_block);
 
   return result + n1 + n2;
 }
