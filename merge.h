@@ -70,6 +70,7 @@ void merge_n(RandomAccessIterator1 first1,
 
   Size result_block_offset = blockIdx.x*work_per_block;
 
+  // find where this block's input begins in both input sequences
   if(threadIdx.x == 0)
   {
     block_input_begin = (blockIdx.x == 0) ?
@@ -83,6 +84,7 @@ void merge_n(RandomAccessIterator1 first1,
 
   __syncthreads();
 
+  // iterate to consume this block's input
   Size work_per_iteration = block_size * work_per_thread;
   thrust::pair<Size,Size> block_input_end = block_input_begin;
   block_input_end.first  += work_per_iteration;
@@ -96,6 +98,7 @@ void merge_n(RandomAccessIterator1 first1,
       block_input_end.second += work_per_iteration
      )
   {
+    // find where this thread's input begins in both input sequences for this iteration
     thrust::pair<Size,Size> thread_input_begin =
       partition_search(first1, first2,
                        Size(result_block_offset + threadIdx.x*work_per_thread),
@@ -120,7 +123,7 @@ void merge_n(RandomAccessIterator1 first1,
       x2 = first2[thread_input_begin.second];
     }
 
-    // XXX this is just a serial merge -- simplify this loop
+    // XXX this is just a serial merge -- try to simplify or abstract this loop
     Size i = result_block_offset + threadIdx.x * work_per_thread;
     Size last_i = i + thrust::min<Size>(work_per_thread, result_size - thread_input_begin.first - thread_input_begin.second);
     for(;
@@ -161,6 +164,8 @@ void merge_n(RandomAccessIterator1 first1,
        }
     } // end for
 
+    // the block's last thread has conveniently located the
+    // beginning of the next iteration's input
     if(threadIdx.x == block_size-1)
     {
       block_input_begin = thread_input_begin;
