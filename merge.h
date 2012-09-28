@@ -55,7 +55,7 @@ void merge_n(RandomAccessIterator1 first1,
              unsigned int work_per_thread)
 {
   const unsigned int block_size = blockDim.x;
-  thrust::detail::device_function<Compare,bool> comp;
+  thrust::detail::device_function<Compare,bool> comp(comp_);
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
@@ -68,12 +68,14 @@ void merge_n(RandomAccessIterator1 first1,
   using thrust::system::cuda::detail::detail::uninitialized;
   __shared__ uninitialized<thrust::pair<Size,Size> > block_input_begin;
 
+  Size result_block_offset = blockIdx.x*work_per_block;
+
   if(threadIdx.x == 0)
   {
     block_input_begin = (blockIdx.x == 0) ?
-      thrust::make_pair(Size(0),Size(0)) :
+      thrust::pair<Size,Size>(0,0) :
       partition_search(first1, first2,
-                       Size(work_per_block * blockIdx.x),
+                       result_block_offset,
                        Size(0), n1,
                        Size(0), n2,
                        comp);
@@ -81,35 +83,40 @@ void merge_n(RandomAccessIterator1 first1,
 
   __syncthreads();
 
-  thrust::pair<Size,Size> input_offset = block_input_begin;
-
-  Size result_block_offset = blockIdx.x*work_per_block;
-  Size result_block_offset_last = result_block_offset + thrust::min<Size>(work_per_block, result_size - result_block_offset);
   Size work_per_iteration = block_size * work_per_thread;
+  thrust::pair<Size,Size> block_input_end = block_input_begin;
+  block_input_end.first  += work_per_iteration;
+  block_input_end.second += work_per_iteration;
+  Size result_block_offset_last = result_block_offset + thrust::min<Size>(work_per_block, result_size - result_block_offset);
 
   for(;
       result_block_offset < result_block_offset_last;
       result_block_offset += work_per_iteration,
-      input_offset.first  += work_per_iteration,
-      input_offset.second += work_per_iteration
+      block_input_end.first  += work_per_iteration,
+      block_input_end.second += work_per_iteration
      )
   {
     thrust::pair<Size,Size> thread_input_begin =
       partition_search(first1, first2,
                        Size(result_block_offset + threadIdx.x*work_per_thread),
-                       block_input_begin.get().first, thrust::min<Size>(input_offset.first + work_per_iteration, n1),
-                       block_input_begin.get().second, thrust::min<Size>(input_offset.second + work_per_iteration, n2),
+                       block_input_begin.get().first,  thrust::min<Size>(block_input_end.first , n1),
+                       block_input_begin.get().second, thrust::min<Size>(block_input_end.second, n2),
                        comp);
+
+    // XXX the performance impact of not keeping x1 & x2
+    //     in registers is about 10% for int32
 
     uninitialized<value_type1> x1;
     if(thread_input_begin.first < n1)
     {
+      // XXX should really construct this, not assign
       x1 = first1[thread_input_begin.first];
     }
 
     uninitialized<value_type2> x2;
     if(thread_input_begin.second < n2)
     {
+      // XXX should really construct this, not assign
       x2 = first2[thread_input_begin.second];
     }
 
@@ -139,11 +146,17 @@ void merge_n(RandomAccessIterator1 first1,
        if(output_x2)
        {
          ++thread_input_begin.second;
+
+         // XXX should destroy the previous x2
+         // XXX can't we run off the end of the array here?
          x2 = first2[thread_input_begin.second];
        }
        else
        {
          ++thread_input_begin.first;
+
+         // XXX should destroy the previous x1
+         // XXX can't we run off the end of the array here?
          x1 = first1[thread_input_begin.first];
        }
     } // end for
