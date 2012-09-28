@@ -61,21 +61,19 @@ void merge_n(RandomAccessIterator1 first1,
 
   Size result_size = n1 + n2;
 
-  // XXX isn't this just block_size * work_per_thread ?
-  Size per_cta_size = thrust::detail::util::divide_ri(result_size, gridDim.x);
-
-  Size cta_portion = thrust::min<Size>(per_cta_size, result_size-blockIdx.x*per_cta_size);
-  Size cta_offset = blockIdx.x*per_cta_size;
+  // this is just oversubscription_rate * block_size * work_per_thread
+  // but it makes no sense to send oversubscription_rate as an extra parameter
+  Size work_per_block = thrust::detail::util::divide_ri(result_size, gridDim.x);
 
   using thrust::system::cuda::detail::detail::uninitialized;
-  __shared__ uninitialized<thrust::pair<Size,Size> > block_begin;
+  __shared__ uninitialized<thrust::pair<Size,Size> > block_input_begin;
 
   if(threadIdx.x == 0)
   {
-    block_begin = (blockIdx.x == 0) ?
+    block_input_begin = (blockIdx.x == 0) ?
       thrust::make_pair(Size(0),Size(0)) :
       partition_search(first1, first2,
-                       Size(per_cta_size * blockIdx.x),
+                       Size(work_per_block * blockIdx.x),
                        Size(0), n1,
                        Size(0), n2,
                        comp);
@@ -83,80 +81,80 @@ void merge_n(RandomAccessIterator1 first1,
 
   __syncthreads();
 
-  Size remaining_size = cta_portion;
-  Size processed_size = 0;
-  thrust::pair<Size,Size> offset = block_begin;
+  thrust::pair<Size,Size> input_offset = block_input_begin;
 
-  while(remaining_size > 0)
+  Size result_block_offset = blockIdx.x*work_per_block;
+  Size result_block_offset_last = result_block_offset + thrust::min<Size>(work_per_block, result_size - result_block_offset);
+  Size work_per_iteration = block_size * work_per_thread;
+
+  for(;
+      result_block_offset < result_block_offset_last;
+      result_block_offset += work_per_iteration,
+      input_offset.first  += work_per_iteration,
+      input_offset.second += work_per_iteration
+     )
   {
-    thrust::pair<Size,Size> thread_begin =
+    thrust::pair<Size,Size> thread_input_begin =
       partition_search(first1, first2,
-                       Size(cta_offset+processed_size+threadIdx.x*work_per_thread),
-                       block_begin.get().first, thrust::min<Size>(offset.first+block_size*work_per_thread, n1),
-                       block_begin.get().second, thrust::min<Size>(offset.second+block_size*work_per_thread, n2),
+                       Size(result_block_offset + threadIdx.x*work_per_thread),
+                       block_input_begin.get().first, thrust::min<Size>(input_offset.first + work_per_iteration, n1),
+                       block_input_begin.get().second, thrust::min<Size>(input_offset.second + work_per_iteration, n2),
                        comp);
 
-    //value_type1 x1 = __ldg(first1 + thread_begin.first);
-    //value_type2 x2 = __ldg(first2 + thread_begin.second);
-
     uninitialized<value_type1> x1;
-    if(thread_begin.first < n1)
+    if(thread_input_begin.first < n1)
     {
-      x1 = first1[thread_begin.first];
+      x1 = first1[thread_input_begin.first];
     }
 
     uninitialized<value_type2> x2;
-    if(thread_begin.second < n2)
+    if(thread_input_begin.second < n2)
     {
-      x2 = first2[thread_begin.second];
+      x2 = first2[thread_input_begin.second];
     }
-
-    Size count = thrust::min<Size>(work_per_thread, result_size - thread_begin.first - thread_begin.second);
 
     // XXX this is just a serial merge -- simplify this loop
-    for(Size i = 0; i < count; i++)
+    Size i = result_block_offset + threadIdx.x * work_per_thread;
+    Size last_i = i + thrust::min<Size>(work_per_thread, result_size - thread_input_begin.first - thread_input_begin.second);
+    for(;
+        i < last_i;
+        ++i)
     {
-       bool p = false;
-       if(thread_begin.second >= n2)
+       bool output_x2 = false;
+       if(thread_input_begin.first >= n1)
        {
-         p = true;
+         output_x2 = true;
        }
-       else if(thread_begin.first >= n1)
+       else if(thread_input_begin.second >= n2)
        {
-         p = false;
-       }
-       else
-       {
-         p = !comp(x2, x1);
-       }
-
-       // XXX lot of redundant arithmetic in this index -- why can't we simply use the loop counter?
-       result[cta_offset+processed_size+threadIdx.x*work_per_thread+i] = p ? x1.get() : x2.get();
-
-       if(p)
-       {
-         ++thread_begin.first;
-         x1 = first1[thread_begin.first];
+         output_x2 = false;
        }
        else
        {
-         ++thread_begin.second;
-         x2 = first2[thread_begin.second];
+         output_x2 = comp(x2, x1);
        }
-    }
 
-    offset.first   += block_size*work_per_thread;
-    offset.second  += block_size*work_per_thread;
-    processed_size += block_size*work_per_thread;
-    remaining_size -= block_size*work_per_thread;
+       result[i] = output_x2 ? x2.get() : x1.get();
+
+       if(output_x2)
+       {
+         ++thread_input_begin.second;
+         x2 = first2[thread_input_begin.second];
+       }
+       else
+       {
+         ++thread_input_begin.first;
+         x1 = first1[thread_input_begin.first];
+       }
+    } // end for
 
     if(threadIdx.x == block_size-1)
     {
-      block_begin = thread_begin;
+      block_input_begin = thread_input_begin;
     }
     __syncthreads();
-  } // end while
-}
+  } // end for
+} // end merge_n
 
 
 // returns (work_per_thread, threads_per_block, oversubscription_factor)
