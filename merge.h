@@ -45,9 +45,10 @@ thrust::pair<Size,Size>
 }
 
 
-template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+template<typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
 __device__ __thrust_forceinline__
-void merge_n(RandomAccessIterator1 first1,
+void merge_n(Context &ctx,
+             RandomAccessIterator1 first1,
              Size n1,
              RandomAccessIterator2 first2,
              Size n2,
@@ -55,7 +56,7 @@ void merge_n(RandomAccessIterator1 first1,
              Compare comp_,
              unsigned int work_per_thread)
 {
-  const unsigned int block_size = blockDim.x;
+  const unsigned int block_size = ctx.block_dimension();
   thrust::detail::device_function<Compare,bool> comp(comp_);
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
@@ -64,17 +65,17 @@ void merge_n(RandomAccessIterator1 first1,
 
   // this is just oversubscription_rate * block_size * work_per_thread
   // but it makes no sense to send oversubscription_rate as an extra parameter
-  Size work_per_block = thrust::detail::util::divide_ri(result_size, gridDim.x);
+  Size work_per_block = thrust::detail::util::divide_ri(result_size, ctx.grid_dimension());
 
   using thrust::system::cuda::detail::detail::uninitialized;
   __shared__ uninitialized<thrust::pair<Size,Size> > block_input_begin;
 
-  Size result_block_offset = blockIdx.x*work_per_block;
+  Size result_block_offset = ctx.block_index() * work_per_block;
 
   // find where this block's input begins in both input sequences
-  if(threadIdx.x == 0)
+  if(ctx.thread_index() == 0)
   {
-    block_input_begin = (blockIdx.x == 0) ?
+    block_input_begin = (ctx.block_index() == 0) ?
       thrust::pair<Size,Size>(0,0) :
       partition_search(first1, first2,
                        result_block_offset,
@@ -83,7 +84,7 @@ void merge_n(RandomAccessIterator1 first1,
                        comp);
   }
 
-  __syncthreads();
+  ctx.barrier();
 
   // iterate to consume this block's input
   Size work_per_iteration = block_size * work_per_thread;
@@ -102,7 +103,7 @@ void merge_n(RandomAccessIterator1 first1,
     // find where this thread's input begins in both input sequences for this iteration
     thrust::pair<Size,Size> thread_input_begin =
       partition_search(first1, first2,
-                       Size(result_block_offset + threadIdx.x*work_per_thread),
+                       Size(result_block_offset + ctx.thread_index() * work_per_thread),
                        block_input_begin.get().first,  thrust::min<Size>(block_input_end.first , n1),
                        block_input_begin.get().second, thrust::min<Size>(block_input_end.second, n2),
                        comp);
@@ -125,7 +126,7 @@ void merge_n(RandomAccessIterator1 first1,
     }
 
     // XXX this is just a serial merge -- try to simplify or abstract this loop
-    Size i = result_block_offset + threadIdx.x * work_per_thread;
+    Size i = result_block_offset + ctx.thread_index() * work_per_thread;
     Size last_i = i + thrust::min<Size>(work_per_thread, result_size - thread_input_begin.first - thread_input_begin.second);
     for(;
         i < last_i;
@@ -167,11 +168,11 @@ void merge_n(RandomAccessIterator1 first1,
 
     // the block's last thread has conveniently located the
     // beginning of the next iteration's input
-    if(threadIdx.x == block_size-1)
+    if(ctx.thread_index() == block_size-1)
     {
       block_input_begin = thread_input_begin;
     }
-    __syncthreads();
+    ctx.barrier();
   } // end for
 } // end merge_n
 
@@ -196,7 +197,8 @@ template<typename RandomAccessIterator1, typename Size, typename RandomAccessIte
   __device__ __forceinline__
   void operator()()
   {
-    merge_n(first1, n1, first2, n2, result, comp, work_per_thread);
+    context_type ctx;
+    merge_n(ctx, first1, n1, first2, n2, result, comp, work_per_thread);
   }
 };
 
@@ -222,6 +224,10 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type Size;
   Size n1 = last1 - first1;
   Size n2 = last2 - first2;
+  typename thrust::iterator_difference<RandomAccessIterator1>::type n = n1 + n2;
+
+  // empty result
+  if(n <= 0) return result;
 
   unsigned int work_per_thread = 0, threads_per_block = 0, oversubscription_factor = 0;
   thrust::tie(work_per_thread,threads_per_block,oversubscription_factor)
@@ -229,14 +235,13 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
 
   const unsigned int work_per_block = work_per_thread * threads_per_block;
 
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = n1 + n2;
-
   using thrust::system::cuda::detail::device_properties;
   const unsigned int num_processors = device_properties().multiProcessorCount;
   const unsigned int num_blocks = thrust::min<int>(oversubscription_factor * num_processors, thrust::detail::util::divide_ri(n, work_per_block));
 
   typedef merge_n_closure<RandomAccessIterator1,Size,RandomAccessIterator2,RandomAccessIterator3,Compare> closure_type;
   closure_type closure(first1, n1, first2, n2, result, comp, work_per_thread);
+
   thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, threads_per_block);
 
   return result + n1 + n2;
