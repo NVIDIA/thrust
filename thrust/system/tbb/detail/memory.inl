@@ -99,20 +99,5 @@ inline void free(pointer<void> ptr)
 
 } // end tbb
 } // end system
-
-namespace detail
-{
-
-// XXX iterator_facade tries to instantiate the Reference
-//     type when ctbbuting the answer to is_convertible<Reference,Value>
-//     we can't do that at that point because reference
-//     is not ctbblete
-//     WAR the problem by specializing is_convertible
-template<typename T>
-  struct is_convertible<thrust::tbb::reference<T>, T>
-    : thrust::detail::true_type
-{};
-
-} // end detail
 } // end thrust
 
