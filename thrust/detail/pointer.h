@@ -67,10 +67,11 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   struct pointer_base
 {
   // void pointers should have no element type
+  // note that we remove_cv from the Element type to get the value_type
   typedef typename thrust::detail::eval_if<
     thrust::detail::is_void<typename thrust::detail::remove_const<Element>::type>::value,
     thrust::detail::identity_<void>,
-    thrust::detail::identity_<Element>
+    thrust::detail::remove_cv<Element>
   >::type value_type;
 
   // if no Derived type is given, just use pointer
