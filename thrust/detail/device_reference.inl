@@ -42,21 +42,6 @@ template<typename T>
   return super_t::operator=(x);
 } // end operator=()
 
-namespace detail
-{
-
-// XXX iterator_facade tries to instantiate the Reference
-//     type when computing the answer to is_convertible<Reference,Value>
-//     we can't do that at that point because device_reference
-//     is not complete
-//     WAR the problem by specializing is_convertible
-template<typename T>
-  struct is_convertible<thrust::device_reference<T>, T>
-    : thrust::detail::true_type
-{};
-
-} // end detail
-
 template<typename T>
 __host__ __device__
 void swap(device_reference<T> &a, device_reference<T> &b)

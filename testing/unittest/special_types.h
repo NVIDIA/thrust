@@ -165,3 +165,20 @@ class my_system : public thrust::device_system<my_system>
 
 struct my_tag : thrust::device_system<my_tag> {};
 
+namespace unittest
+{
+
+
+using thrust::detail::int8_t;
+using thrust::detail::int16_t;
+using thrust::detail::int32_t;
+using thrust::detail::int64_t;
+
+using thrust::detail::uint8_t;
+using thrust::detail::uint16_t;
+using thrust::detail::uint32_t;
+using thrust::detail::uint64_t;
+
+  
+}
+

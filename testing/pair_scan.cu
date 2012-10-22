@@ -66,5 +66,5 @@ template <typename T>
     ASSERT_EQUAL_QUIET(h_output, d_output);
   }
 };
-VariableUnitTest<TestPairScan, unittest::type_list<char,short,int> > TestPairScanInstance;
+VariableUnitTest<TestPairScan, unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> > TestPairScanInstance;
 

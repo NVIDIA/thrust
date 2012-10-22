@@ -252,7 +252,7 @@ template<typename InputIterator1,
 /*! \} // gathering
  */
 
-}; // end namespace thrust
+} // end namespace thrust
 
 #include <thrust/detail/gather.inl>
 

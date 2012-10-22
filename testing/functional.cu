@@ -56,14 +56,14 @@ void TestBinaryFunctional(void)
 // XXX add bool to list
 // Instantiate a macro for all integer-like data types
 #define INSTANTIATE_INTEGER_TYPES(Macro, vector_type, operator_name)   \
-Macro(vector_type, operator_name, char          )                      \
-Macro(vector_type, operator_name, unsigned char )                      \
-Macro(vector_type, operator_name, short         )                      \
-Macro(vector_type, operator_name, unsigned short)                      \
-Macro(vector_type, operator_name, int           )                      \
-Macro(vector_type, operator_name, unsigned int  )                      \
-Macro(vector_type, operator_name, long          )                      \
-Macro(vector_type, operator_name, unsigned long )
+Macro(vector_type, operator_name, unittest::int8_t  )                  \
+Macro(vector_type, operator_name, unittest::uint8_t )                  \
+Macro(vector_type, operator_name, unittest::int16_t )                  \
+Macro(vector_type, operator_name, unittest::uint16_t)                  \
+Macro(vector_type, operator_name, unittest::int32_t )                  \
+Macro(vector_type, operator_name, unittest::uint32_t)                  \
+Macro(vector_type, operator_name, unittest::int64_t )                  \
+Macro(vector_type, operator_name, unittest::uint64_t)
 
 // Instantiate a macro for all integer and floating point data types
 #define INSTANTIATE_ALL_TYPES(Macro, vector_type, operator_name)       \

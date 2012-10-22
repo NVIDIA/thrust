@@ -353,7 +353,7 @@ struct TestScanWithOperatorToDiscardIterator
     ASSERT_EQUAL_QUIET(reference, d_result);
   }
 };
-VariableUnitTest<TestScanWithOperatorToDiscardIterator, unittest::type_list<char,short,int> > TestScanWithOperatorToDiscardIteratorInstance;
+VariableUnitTest<TestScanWithOperatorToDiscardIterator, unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> > TestScanWithOperatorToDiscardIteratorInstance;
 
 
 template <typename T>
@@ -425,7 +425,7 @@ struct TestScanToDiscardIterator
     ASSERT_EQUAL_QUIET(reference, d_result);
   }
 };
-VariableUnitTest<TestScanToDiscardIterator, unittest::type_list<char,short,int> > TestScanToDiscardIteratorInstance;
+VariableUnitTest<TestScanToDiscardIterator, unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> > TestScanToDiscardIteratorInstance;
 
 
 void TestScanMixedTypes(void)

@@ -15,22 +15,14 @@
  */
 
 #include <thrust/detail/config.h>
-
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/system/detail/generic/select_system.h>
-
+#include <thrust/system/cuda/detail/merge.h>
+#include <thrust/pair.h>
+#include <thrust/tuple.h>
 #include <thrust/detail/minmax.h>
-#include <thrust/detail/internal_functional.h>
-#include <thrust/system/cuda/detail/runtime_introspection.h>
-#include <thrust/system/cuda/detail/cuda_launch_config.h>
-#include <thrust/system/cuda/detail/block/copy.h>
-#include <thrust/system/cuda/detail/block/merge.h>
-#include <thrust/system/cuda/detail/extern_shared_ptr.h>
-#include <thrust/system/cuda/detail/detail/get_set_operation_splitter_ranks.h>
-#include <thrust/detail/internal_functional.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/detail/function.h>
+#include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
+#include <thrust/detail/util/blocking.h>
 
 namespace thrust
 {
@@ -40,244 +32,209 @@ namespace cuda
 {
 namespace detail
 {
-
 namespace merge_detail
 {
 
-template<typename T1, typename T2>
-T1 ceil_div(T1 up, T2 down)
-{
-  T1 div = up / down;
-  T1 rem = up % down;
-  return (rem != 0) ? div + 1 : div;
-}
-
-template<unsigned int N>
-  struct static_align_size_to_int
-{
-  static const unsigned int value = (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
-};
-
-__host__ __device__
-inline unsigned int align_size_to_int(unsigned int N)
-{
-  return (N / sizeof(int)) + ((N % sizeof(int)) ? 1 : 0);
-}
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
-         typename RandomAccessIterator5>
-unsigned int get_merge_kernel_per_block_dynamic_smem_usage(unsigned int block_size)
+         typename Size,
+         typename Compare>
+__device__ __thrust_forceinline__
+thrust::pair<Size,Size>
+  partition_search(RandomAccessIterator1 first1,
+                   RandomAccessIterator2 first2,
+                   Size diag,
+                   Size lower_bound1,
+                   Size upper_bound1,
+                   Size lower_bound2,
+                   Size upper_bound2,
+                   Compare comp)
 {
+  Size begin = thrust::max<Size>(lower_bound1, diag - upper_bound2);
+  Size end   = thrust::min<Size>(diag - lower_bound2, upper_bound1);
+
+  while(begin < end)
+  {
+    Size mid = (begin + end) / 2;
+    Size index1 = mid;
+    Size index2 = diag - mid - 1;
+
+    if(comp(first2[index2], first1[index1]))
+    {
+      end = mid;
+    }
+    else
+    {
+      begin = mid + 1;
+    }
+  }
+
+  return thrust::make_pair(begin, diag - begin);
+}
+
+
+template<typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+__device__ __thrust_forceinline__
+void merge_n(Context &ctx,
+             RandomAccessIterator1 first1,
+             Size n1,
+             RandomAccessIterator2 first2,
+             Size n2,
+             RandomAccessIterator3 result,
+             Compare comp_,
+             unsigned int work_per_thread)
+{
+  const unsigned int block_size = ctx.block_dimension();
+  thrust::detail::device_function<Compare,bool> comp(comp_);
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
-  typedef typename thrust::iterator_value<RandomAccessIterator5>::type value_type5;
 
-  // merge_kernel allocates memory aligned to int
-  const unsigned int array_size1 = align_size_to_int(block_size * sizeof(value_type1));
-  const unsigned int array_size2 = align_size_to_int(block_size * sizeof(value_type2));
-  const unsigned int array_size3 = align_size_to_int(2 * block_size * sizeof(value_type5));
+  Size result_size = n1 + n2;
 
-  return sizeof(int) * (array_size1 + array_size2 + array_size3);
-} // end get_merge_kernel_per_block_dynamic_smem_usage()
+  // this is just oversubscription_rate * block_size * work_per_thread
+  // but it makes no sense to send oversubscription_rate as an extra parameter
+  Size work_per_block = thrust::detail::util::divide_ri(result_size, ctx.grid_dimension());
+
+  using thrust::system::cuda::detail::detail::uninitialized;
+  __shared__ uninitialized<thrust::pair<Size,Size> > block_input_begin;
+
+  Size result_block_offset = ctx.block_index() * work_per_block;
+
+  // find where this block's input begins in both input sequences
+  if(ctx.thread_index() == 0)
+  {
+    block_input_begin = (ctx.block_index() == 0) ?
+      thrust::pair<Size,Size>(0,0) :
+      partition_search(first1, first2,
+                       result_block_offset,
+                       Size(0), n1,
+                       Size(0), n2,
+                       comp);
+  }
+
+  ctx.barrier();
+
+  // iterate to consume this block's input
+  Size work_per_iteration = block_size * work_per_thread;
+  thrust::pair<Size,Size> block_input_end = block_input_begin;
+  block_input_end.first  += work_per_iteration;
+  block_input_end.second += work_per_iteration;
+  Size result_block_offset_last = result_block_offset + thrust::min<Size>(work_per_block, result_size - result_block_offset);
+
+  for(;
+      result_block_offset < result_block_offset_last;
+      result_block_offset += work_per_iteration,
+      block_input_end.first  += work_per_iteration,
+      block_input_end.second += work_per_iteration
+     )
+  {
+    // find where this thread's input begins in both input sequences for this iteration
+    thrust::pair<Size,Size> thread_input_begin =
+      partition_search(first1, first2,
+                       Size(result_block_offset + ctx.thread_index() * work_per_thread),
+                       block_input_begin.get().first,  thrust::min<Size>(block_input_end.first , n1),
+                       block_input_begin.get().second, thrust::min<Size>(block_input_end.second, n2),
+                       comp);
+
+    // XXX the performance impact of not keeping x1 & x2
+    //     in registers is about 10% for int32
+    uninitialized<value_type1> x1;
+    uninitialized<value_type2> x2;
+
+    // XXX this is just a serial merge -- try to simplify or abstract this loop
+    Size i = result_block_offset + ctx.thread_index() * work_per_thread;
+    Size last_i = i + thrust::min<Size>(work_per_thread, result_size - thread_input_begin.first - thread_input_begin.second);
+    for(;
+        i < last_i;
+        ++i)
+    {
+      // optionally load x1 & x2
+      bool output_x2 = true;
+      if(thread_input_begin.second < n2)
+      {
+        x2 = first2[thread_input_begin.second];
+      }
+      else
+      {
+        output_x2 = false;
+      }
+
+      if(thread_input_begin.first < n1)
+      {
+        x1 = first1[thread_input_begin.first];
+
+        if(output_x2)
+        {
+          output_x2 = comp(x2.get(), x1.get());
+        }
+      }
+
+      result[i] = output_x2 ? x2.get() : x1.get();
+
+      if(output_x2)
+      {
+        ++thread_input_begin.second;
+      }
+      else
+      {
+        ++thread_input_begin.first;
+      }
+    } // end for
+
+    // the block's last thread has conveniently located the
+    // beginning of the next iteration's input
+    if(ctx.thread_index() == block_size-1)
+    {
+      block_input_begin = thread_input_begin;
+    }
+    ctx.barrier();
+  } // end for
+} // end merge_n
 
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2, 
-         typename RandomAccessIterator3,
-         typename RandomAccessIterator4,
-         typename RandomAccessIterator5,
-         typename StrictWeakOrdering,
-         typename Size,
-         typename Context>
-struct merge_closure
+template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+  struct merge_n_closure
 {
-  const RandomAccessIterator1 first1;
-  const RandomAccessIterator1 last1;
-  const RandomAccessIterator2 first2;
-  const RandomAccessIterator2 last2;
-  RandomAccessIterator3 splitter_ranks1;
-  RandomAccessIterator4 splitter_ranks2;
-  const RandomAccessIterator5 result;
-  StrictWeakOrdering comp;
-  Size num_merged_partitions;
-  Context context;
+  typedef thrust::system::cuda::detail::detail::blocked_thread_array context_type;
 
-  typedef Context context_type;
+  RandomAccessIterator1 first1;
+  Size n1;
+  RandomAccessIterator2 first2;
+  Size n2;
+  RandomAccessIterator3 result;
+  Compare comp;
+  Size work_per_thread;
 
-  merge_closure(const RandomAccessIterator1 first1, 
-                const RandomAccessIterator1 last1,
-                const RandomAccessIterator2 first2,
-                const RandomAccessIterator2 last2,
-                RandomAccessIterator3 splitter_ranks1,
-                RandomAccessIterator4 splitter_ranks2,
-                const RandomAccessIterator5 result,
-                StrictWeakOrdering comp,
-                Size num_merged_partitions,
-                Context context = Context())
-    : first1(first1), last1(last1), first2(first2), last2(last2),
-      splitter_ranks1(splitter_ranks1), splitter_ranks2(splitter_ranks2),
-      result(result), comp(comp), num_merged_partitions(num_merged_partitions),
-      context(context)
+  merge_n_closure(RandomAccessIterator1 first1, Size n1, RandomAccessIterator2 first2, Size n2, RandomAccessIterator3 result, Compare comp, Size work_per_thread)
+    : first1(first1), n1(n1), first2(first2), n2(n2), result(result), comp(comp), work_per_thread(work_per_thread)
   {}
 
-  __device__ __thrust_forceinline__
-  void operator()(void)
+  __device__ __forceinline__
+  void operator()()
   {
-    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-    typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
-    typedef typename thrust::iterator_value<RandomAccessIterator5>::type value_type5;
-
-    // allocate shared storage
-    const unsigned int array_size1 = align_size_to_int(context.block_dimension() * sizeof(value_type1));
-    const unsigned int array_size2 = align_size_to_int(context.block_dimension() * sizeof(value_type2));
-    const unsigned int array_size3 = align_size_to_int(2 * context.block_dimension() * sizeof(value_type5));
-    int *_shared1 = extern_shared_ptr<int>();
-    int *_shared2 = _shared1 + array_size1;
-    int *_result  = _shared2 + array_size2;
-
-    value_type1 *s_input1 = reinterpret_cast<value_type1*>(_shared1);
-    value_type2 *s_input2 = reinterpret_cast<value_type2*>(_shared2);
-    value_type5 *s_result = reinterpret_cast<value_type5*>(_result);
-
-    // advance splitter iterators
-    splitter_ranks1 += context.block_index();
-    splitter_ranks2 += context.block_index();
-
-    for(Size partition_idx = context.block_index();
-        partition_idx < num_merged_partitions;
-        partition_idx   += context.grid_dimension(),
-        splitter_ranks1 += context.grid_dimension(),
-        splitter_ranks2 += context.grid_dimension())
-    {
-      RandomAccessIterator1 input_begin1 = first1;
-      RandomAccessIterator1 input_end1   = last1;
-      RandomAccessIterator2 input_begin2 = first2;
-      RandomAccessIterator2 input_end2   = last2;
-
-      RandomAccessIterator5 output_begin = result;
-
-      // find the end of the input if this is not the last block
-      // the end of merged partition i is at splitter_ranks1[i] + splitter_ranks2[i]
-      if(partition_idx != num_merged_partitions - 1)
-      {
-        RandomAccessIterator3 rank1 = splitter_ranks1;
-        RandomAccessIterator4 rank2 = splitter_ranks2;
-
-        input_end1 = first1 + *rank1;
-        input_end2 = first2 + *rank2;
-      }
-
-      // find the beginning of the input and output if this is not the first partition
-      // merged partition i begins at splitter_ranks1[i-1] + splitter_ranks2[i-1]
-      if(partition_idx != 0)
-      {
-        RandomAccessIterator3 rank1 = splitter_ranks1 - 1;
-        RandomAccessIterator4 rank2 = splitter_ranks2 - 1;
-
-        // advance the input to point to the beginning
-        input_begin1 += *rank1;
-        input_begin2 += *rank2;
-
-        // advance the result to point to the beginning of the output
-        output_begin += *rank1;
-        output_begin += *rank2;
-      }
-
-      if(input_begin1 < input_end1 && input_begin2 < input_end2)
-      {
-        typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-
-        typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-
-        // load the first segment
-        difference1 s_input1_size = thrust::min<difference1>(context.block_dimension(), input_end1 - input_begin1);
-
-        block::copy(context, input_begin1, input_begin1 + s_input1_size, s_input1);
-        input_begin1 += s_input1_size;
-
-        // load the second segment
-        difference2 s_input2_size = thrust::min<difference2>(context.block_dimension(), input_end2 - input_begin2);
-
-        block::copy(context, input_begin2, input_begin2 + s_input2_size, s_input2);
-        input_begin2 += s_input2_size;
-
-        context.barrier();
-
-        block::merge(context,
-                     s_input1, s_input1 + s_input1_size,
-                     s_input2, s_input2 + s_input2_size,
-                     s_result,
-                     comp);
-
-        context.barrier();
-
-        // store to gmem
-        output_begin = block::copy(context, s_result, s_result + s_input1_size + s_input2_size, output_begin);
-      }
-
-      // simply copy any remaining input
-      block::copy(context, input_begin2, input_end2, block::copy(context, input_begin1, input_end1, output_begin));
-    } // end for partition
+    context_type ctx;
+    merge_n(ctx, first1, n1, first2, n2, result, comp, work_per_thread);
   }
-}; // end merge_closure
+};
 
 
-template<typename System,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename RandomAccessIterator4,
-         typename Compare,
-         typename Size1,
-         typename Size2,
-         typename Size3>
-  void get_merge_splitter_ranks(dispatchable<System> &system,
-                                RandomAccessIterator1 first1,
-                                RandomAccessIterator1 last1,
-                                RandomAccessIterator2 first2,
-                                RandomAccessIterator2 last2,
-                                RandomAccessIterator3 splitter_ranks1,
-                                RandomAccessIterator4 splitter_ranks2,
-                                Compare comp,
-                                Size1 partition_size,
-                                Size2 num_splitters_from_range1,
-                                Size3 num_splitters_from_range2)
+// returns (work_per_thread, threads_per_block, oversubscription_factor)
+template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+  thrust::tuple<unsigned int,unsigned int,unsigned int>
+    tunables(RandomAccessIterator1, RandomAccessIterator1, RandomAccessIterator2, RandomAccessIterator2, RandomAccessIterator3, Compare comp)
 {
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
+  // determined by empirical testing on GTX 480
+  // ~4500 Mkeys/s on GTX 480
+  const unsigned int work_per_thread         = 5;
+  const unsigned int threads_per_block       = 128;
+  const unsigned int oversubscription_factor = 30;
 
-  const difference1 num_elements1 = last1 - first1;
-  const difference2 num_elements2 = last2 - first2;
+  return thrust::make_tuple(work_per_thread, threads_per_block, oversubscription_factor);
+}
 
-  // zip up the ranges with a counter to disambiguate repeated elements during rank-finding
-  typedef thrust::tuple<RandomAccessIterator1,thrust::counting_iterator<difference1> > iterator_tuple1;
-  typedef thrust::tuple<RandomAccessIterator2,thrust::counting_iterator<difference2> > iterator_tuple2;
-  typedef thrust::zip_iterator<iterator_tuple1> iterator_and_counter1;
-  typedef thrust::zip_iterator<iterator_tuple2> iterator_and_counter2;
 
-  iterator_and_counter1 first_and_counter1 =
-    thrust::make_zip_iterator(thrust::make_tuple(first1, thrust::make_counting_iterator<difference1>(0)));
-  iterator_and_counter1 last_and_counter1 = first_and_counter1 + num_elements1;
-
-  // make the second range begin counting at num_elements1 so they sort after elements from the first range when ambiguous
-  iterator_and_counter2 first_and_counter2 =
-    thrust::make_zip_iterator(thrust::make_tuple(first2, thrust::make_counting_iterator<difference2>(num_elements1)));
-  iterator_and_counter2 last_and_counter2 = first_and_counter2 + num_elements2;
-
-  // take into account the tuples when comparing
-  typedef thrust::detail::compare_first_less_second<Compare> splitter_compare;
-
-  return detail::get_set_operation_splitter_ranks(system,
-                                                  first_and_counter1, last_and_counter1,
-                                                  first_and_counter2, last_and_counter2,
-                                                  splitter_ranks1,
-                                                  splitter_ranks2,
-                                                  splitter_compare(comp),
-                                                  partition_size,
-                                                  num_splitters_from_range1,
-                                                  num_splitters_from_range2);
-} // end get_merge_splitter_ranks()
+} // end merge_detail
 
 
 template<typename System,
@@ -293,110 +250,31 @@ RandomAccessIterator3 merge(dispatchable<System> &system,
                             RandomAccessIterator3 result,
                             Compare comp)
 {
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
+  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type Size;
+  Size n1 = last1 - first1;
+  Size n2 = last2 - first2;
+  typename thrust::iterator_difference<RandomAccessIterator1>::type n = n1 + n2;
 
-  const difference1 num_elements1 = last1 - first1;
-  const difference2 num_elements2 = last2 - first2;
+  // empty result
+  if(n <= 0) return result;
 
-  // check for trivial problem
-  if(num_elements1 == 0 && num_elements2 == 0)
-    return result;
-  else if(num_elements2 == 0)
-    return thrust::copy(system, first1, last1, result);
-  else if(num_elements1 == 0)
-    return thrust::copy(system, first2, last2, result);
+  unsigned int work_per_thread = 0, threads_per_block = 0, oversubscription_factor = 0;
+  thrust::tie(work_per_thread,threads_per_block,oversubscription_factor)
+    = merge_detail::tunables(first1, last1, first2, last2, result, comp);
 
-  using namespace merge_detail;
-  using namespace thrust::detail;
+  const unsigned int work_per_block = work_per_thread * threads_per_block;
 
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
+  const unsigned int num_processors = device_properties().multiProcessorCount;
+  const unsigned int num_blocks = thrust::min<int>(oversubscription_factor * num_processors, thrust::detail::util::divide_ri(n, work_per_block));
 
-  typedef detail::blocked_thread_array Context;
-  typedef merge_closure<RandomAccessIterator1,
-                        RandomAccessIterator2,
-                        typename temporary_array<difference1,System>::iterator,
-                        typename temporary_array<difference2,System>::iterator,
-                        RandomAccessIterator3,
-                        Compare,
-                        size_t,
-                        Context> Closure;
-  
-  function_attributes_t attributes = detail::closure_attributes<Closure>();
-  device_properties_t   properties = device_properties();
+  typedef merge_detail::merge_n_closure<RandomAccessIterator1,Size,RandomAccessIterator2,RandomAccessIterator3,Compare> closure_type;
+  closure_type closure(first1, n1, first2, n2, result, comp, work_per_thread);
 
-  
-  // prefer large blocks to keep the partitions as large as possible
-  const size_t block_size =
-    max_blocksize_subject_to_smem_usage(properties, attributes,
-                                        get_merge_kernel_per_block_dynamic_smem_usage<
-                                          RandomAccessIterator1,
-                                          RandomAccessIterator2,
-                                          RandomAccessIterator3
-                                        >);
+  detail::launch_closure(closure, num_blocks, threads_per_block);
 
-  const size_t partition_size = block_size;
-  const difference1 num_partitions1 = ceil_div(num_elements1, partition_size);
-  const difference1 num_splitters_from_range1 = num_partitions1 - 1;
-
-  const difference2 num_partitions2 = ceil_div(num_elements2, partition_size);
-  const difference2 num_splitters_from_range2 = num_partitions2 - 1;
-
-  size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
-
-  // allocate storage for splitter ranks
-  temporary_array<difference1, System> splitter_ranks1(system, num_splitters_from_range1 + num_splitters_from_range2);
-  temporary_array<difference2, System> splitter_ranks2(system, num_splitters_from_range1 + num_splitters_from_range2);
-
-  // select some splitters and find the rank of each splitter in the other range
-  // XXX it's possible to fuse rank-finding with the merge_kernel below
-  //     this eliminates the temporary buffers splitter_ranks1 & splitter_ranks2
-  //     but this spills to lmem and causes a 10x speeddown
-  get_merge_splitter_ranks(system,
-                           first1,last1,
-                           first2,last2,
-                           splitter_ranks1.begin(),
-                           splitter_ranks2.begin(),
-                           comp,
-                           partition_size,
-                           num_splitters_from_range1,
-                           num_splitters_from_range2);
-
-  // maximize the number of blocks we can launch
-  size_t max_blocks = properties.maxGridSize[0];
-  size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
-  size_t dynamic_smem_size = get_merge_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,RandomAccessIterator3>(block_size);
-
-  detail::launch_closure
-    (Closure(first1, last1,
-             first2, last2,
-             splitter_ranks1.begin(),
-             splitter_ranks2.begin(),
-             result, 
-             comp,
-             num_merged_partitions),
-     num_blocks, block_size, dynamic_smem_size);
-
-  return result + num_elements1 + num_elements2;
-} // end merge
-
-} // end namespace merge_detail
-
-template<typename System,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2, 
-	 typename RandomAccessIterator3,
-         typename Compare>
-RandomAccessIterator3 merge(dispatchable<System> &system,
-                            RandomAccessIterator1 first1,
-                            RandomAccessIterator1 last1,
-                            RandomAccessIterator2 first2,
-                            RandomAccessIterator2 last2,
-                            RandomAccessIterator3 result,
-                            Compare comp)
-{
-  return merge_detail::merge(system, first1, last1, first2, last2, result, comp);
+  return result + n1 + n2;
 } // end merge()
+
 
 } // end namespace detail
 } // end namespace cuda
