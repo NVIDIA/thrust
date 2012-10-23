@@ -71,7 +71,7 @@ bool equal(thrust::detail::dispatchable_base<System> &system, InputIterator1 fir
  *  int A1[7] = {3, 1, 4, 1, 5, 9, 3};
  *  int A2[7] = {3, 1, 4, 2, 8, 5, 7};
  *  ...
- *  bool result = thrust::equal(A1, A1 + 7, A1);
+ *  bool result = thrust::equal(A1, A1 + 7, A2);
  *
  *  // result == false
  *  \endcode
