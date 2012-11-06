@@ -199,6 +199,22 @@ template<typename Context,
       );
 } // end copy()
 
+
+template<typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
+inline __device__
+RandomAccessIterator2 copy_n(Context &ctx, RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
+{
+  for(Size i = ctx.thread_index(); i < n; i += ctx.block_dimension())
+  {
+    result[i] = first[i];
+  }
+
+  ctx.barrier();
+
+  return result + n;
+}
+
+
 } // end namespace block
 } // end namespace detail
 } // end namespace cuda

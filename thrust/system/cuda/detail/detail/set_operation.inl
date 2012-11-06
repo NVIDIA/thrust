@@ -15,18 +15,20 @@
  */
 
 #include <thrust/detail/config.h>
-
+#include <thrust/system/cuda/detail/detail/set_operation.h>
+#include <thrust/system/cuda/detail/detail/balanced_path.h>
+#include <thrust/system/cuda/detail/block/inclusive_scan.h>
+#include <thrust/system/cuda/detail/block/exclusive_scan.h>
+#include <thrust/system/cuda/detail/block/copy.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/transform.h>
 #include <thrust/scan.h>
+#include <thrust/pair.h>
+#include <thrust/detail/util/blocking.h>
+#include <thrust/detail/temporary_array.h>
+#include <thrust/detail/cstdint.h>
 #include <thrust/detail/minmax.h>
 
-#include <thrust/system/cuda/detail/runtime_introspection.h>
-#include <thrust/system/cuda/detail/cuda_launch_config.h>
-#include <thrust/system/cuda/detail/extern_shared_ptr.h>
-#include <thrust/system/cuda/detail/block/copy.h>
-#include <thrust/scan.h>
-#include <thrust/extrema.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/detail/launch_closure.h>
 
 namespace thrust
 {
@@ -38,432 +40,596 @@ namespace detail
 {
 namespace detail
 {
-
 namespace set_operation_detail
 {
 
 
-template<typename T1, typename T2>
-T1 ceil_div(T1 up, T2 down)
-{
-  T1 div = up / down;
-  T1 rem = up % down;
-  return (rem != 0) ? div + 1 : div;
-}
+using thrust::system::cuda::detail::detail::statically_blocked_thread_array;
+using thrust::detail::uint16_t;
+using thrust::detail::uint32_t;
 
 
-__host__ __device__
-inline unsigned int align_size_to_int(unsigned int num_bytes)
-{
-  return (num_bytes / sizeof(int)) + ((num_bytes % sizeof(int)) ? 1 : 0);
-}
-
-
-/*! \param num_elements The minimum number of array elements of type \p T desired.
- *  \return The minimum number of elements >= \p num_elements such that the size
- *          of an array of elements of type \p T is aligned to \c int.
- *  \note Another way to interpret this function is that it returns the minimum number
- *        of \c ints that would accomodate a contiguous array of \p num_elements \p Ts.
- */
+// empirically determined on sm_20
+// value_types larger than this will fail to launch if placed in smem
 template<typename T>
-__host__ __device__ __thrust_forceinline__
-unsigned int align_array_size_to_int(unsigned int num_elements)
+  struct stage_through_smem
 {
-  unsigned int num_bytes = num_elements * sizeof(T);
-  return align_size_to_int(num_bytes);
+  static const bool value = sizeof(T) <= 6 * sizeof(uint32_t);
+};
+
+
+// max_input_size <= 32
+template<typename Size, typename InputIterator, typename OutputIterator>
+inline __device__
+  OutputIterator serial_bounded_copy_if(Size max_input_size,
+                                        InputIterator first,
+                                        uint32_t mask,
+                                        OutputIterator result)
+{
+  for(Size i = 0; i < max_input_size; ++i, ++first)
+  {
+    if((1<<i) & mask)
+    {
+      *result = *first;
+      ++result;
+    }
+  }
+
+  return result;
 }
 
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename BlockConvergentSetOperation>
-unsigned int get_set_operation_kernel_per_block_dynamic_smem_usage(unsigned int block_size)
+template<typename Size, typename InputIterator1, typename InputIterator2, typename Compare>
+  struct find_partition_offsets_functor
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+  Size partition_size;
+  InputIterator1 first1;
+  InputIterator2 first2;
+  Size n1, n2;
+  Compare comp;
 
-  // set_operation_kernel allocates memory aligned to int
-  const unsigned int array_size1 = align_array_size_to_int<value_type1>(block_size);
-  const unsigned int array_size2 = align_array_size_to_int<value_type2>(block_size);
-  const unsigned int array_size3 = align_size_to_int(BlockConvergentSetOperation::get_temporary_array_size_in_number_of_bytes(block_size));
-  const unsigned int array_size4 = align_size_to_int(sizeof(value_type1) * BlockConvergentSetOperation::get_max_size_of_result_in_number_of_elements(block_size,block_size));
-
-  return sizeof(int) * (array_size1 + array_size2 + array_size3 + array_size4);
-} // end get_set_operation_kernel_per_block_dynamic_smem_usage()
-
-
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename RandomAccessIterator4,
-         typename RandomAccessIterator5,
-         typename RandomAccessIterator6,
-         typename StrictWeakOrdering,
-         typename BlockConvergentSetOperation,
-         typename Size,
-         typename Context>
-struct set_operation_closure
-{
-  const RandomAccessIterator1 first1;
-  const RandomAccessIterator1 last1;
-  const RandomAccessIterator2 first2;
-  const RandomAccessIterator2 last2;
-  RandomAccessIterator3 splitter_ranks1;
-  RandomAccessIterator4 splitter_ranks2;
-  const RandomAccessIterator5 result;
-  RandomAccessIterator6 result_partition_sizes;
-  StrictWeakOrdering comp;
-  BlockConvergentSetOperation set_operation;
-  Size num_partitions;
-  Context context;
-
-  typedef Context context_type;
-
-  set_operation_closure(const RandomAccessIterator1 first1, 
-                        const RandomAccessIterator1 last1,
-                        const RandomAccessIterator2 first2,
-                        const RandomAccessIterator2 last2,
-                        RandomAccessIterator3 splitter_ranks1,
-                        RandomAccessIterator4 splitter_ranks2,
-                        const RandomAccessIterator5 result,
-                        RandomAccessIterator6 result_partition_sizes,
-                        StrictWeakOrdering comp,
-                        BlockConvergentSetOperation set_operation,
-                        Size num_partitions,
-                        Context context = Context())
-    : first1(first1), last1(last1), first2(first2), last2(last2),
-      splitter_ranks1(splitter_ranks1), splitter_ranks2(splitter_ranks2),
-      result(result), result_partition_sizes(result_partition_sizes), comp(comp),
-      set_operation(set_operation), num_partitions(num_partitions), context(context)
+  find_partition_offsets_functor(Size partition_size,
+                                 InputIterator1 first1, InputIterator1 last1,
+                                 InputIterator2 first2, InputIterator2 last2,
+                                 Compare comp)
+    : partition_size(partition_size),
+      first1(first1), first2(first2),
+      n1(last1 - first1), n2(last2 - first2),
+      comp(comp)
   {}
 
-  __device__ __thrust_forceinline__
-  void operator()(void)
+  inline __host__ __device__
+  thrust::pair<Size,Size> operator()(Size i) const
   {
-    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-    typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
-  
-    // allocate shared storage
-    const unsigned int array_size1 = align_array_size_to_int<value_type1>(context.block_dimension());
-    const unsigned int array_size2 = align_array_size_to_int<value_type2>(context.block_dimension());
-    const unsigned int array_size3 = align_size_to_int(set_operation.get_temporary_array_size_in_number_of_bytes(context.block_dimension()));
-    int *_shared1  = extern_shared_ptr<int>();
-    int *_shared2  = _shared1 + array_size1;
-    int *_shared3  = _shared2 + array_size2;
-    int *_shared4  = _shared3 + array_size3;
-  
-    value_type1 *s_input1  = reinterpret_cast<value_type1*>(_shared1);
-    value_type2 *s_input2  = reinterpret_cast<value_type2*>(_shared2);
-    void        *s_scratch = reinterpret_cast<void*>(_shared3);
-    value_type1 *s_result  = reinterpret_cast<value_type1*>(_shared4);
-  
-    // advance per-partition iterators
-    splitter_ranks1        += context.block_index();
-    splitter_ranks2        += context.block_index();
-    result_partition_sizes += context.block_index();
-  
-    for(Size partition_idx     = context.block_index();
-        partition_idx          < num_partitions;
-        partition_idx          += context.grid_dimension(),
-        splitter_ranks1        += context.grid_dimension(),
-        splitter_ranks2        += context.grid_dimension(),
-        result_partition_sizes += context.grid_dimension())
-    {
-      RandomAccessIterator1 input_begin1 = first1;
-      RandomAccessIterator1 input_end1   = last1;
-      RandomAccessIterator2 input_begin2 = first2;
-      RandomAccessIterator2 input_end2   = last2;
-  
-      RandomAccessIterator5 output_begin = result;
-  
-      // find the end of the input if this is not the last block
-      if(partition_idx != num_partitions - 1)
-      {
-        RandomAccessIterator3 rank1 = splitter_ranks1;
-        RandomAccessIterator4 rank2 = splitter_ranks2;
-  
-        input_end1 = first1 + *rank1;
-        input_end2 = first2 + *rank2;
-      }
-  
-      // find the beginning of the input and output if this is not the first partition
-      if(partition_idx != 0)
-      {
-        typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-        typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-        RandomAccessIterator3 rank1 = splitter_ranks1 - 1;
-        RandomAccessIterator4 rank2 = splitter_ranks2 - 1;
-  
-        difference1 size_of_preceding_input1 = *rank1;
-        difference2 size_of_preceding_input2 = *rank2;
-  
-        // advance the input to point to the beginning
-        input_begin1 += size_of_preceding_input1;
-        input_begin2 += size_of_preceding_input2;
-  
-        // conservatively advance the result to point to the beginning of the output
-        output_begin += set_operation.get_max_size_of_result_in_number_of_elements(size_of_preceding_input1,size_of_preceding_input2);
-      }
-  
-      // the result is empty to begin with
-      value_type1 *s_result_end = s_result;
-  
-      typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  
-      typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-  
-      // load the first segment
-      difference1 s_input1_size = thrust::min<difference1>(context.block_dimension(), input_end1 - input_begin1);
-      block::copy(context, input_begin1, input_begin1 + s_input1_size, s_input1);
-  
-      // load the second segment
-      difference2 s_input2_size = thrust::min<difference2>(context.block_dimension(), input_end2 - input_begin2);
-      block::copy(context, input_begin2, input_begin2 + s_input2_size, s_input2);
-  
-      context.barrier();
-  
-      s_result_end = set_operation(context,
-                                   s_input1, s_input1 + s_input1_size,
-                                   s_input2, s_input2 + s_input2_size,
-                                   s_scratch,
-                                   s_result,
-                                   comp);
-  
-      context.barrier();
-  
-      // store to gmem
-      block::copy(context, s_result, s_result_end, output_begin);
-  
-      // store size of the result
-      if(context.thread_index() == 0)
-      {
-        *result_partition_sizes = s_result_end - s_result;
-      } // end if
-    } // end for partition
+    Size diag = thrust::min(n1 + n2, i * partition_size);
+
+    // XXX the correctness of balanced_path depends critically on the ll suffix below
+    //     why???
+    return balanced_path(first1, n1, first2, n2, diag, 4ll, comp);
   }
-}; // end set_operation_closure
+};
 
 
-template<typename BlockConvergentSetOperation,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename RandomAccessIterator4,
-         typename RandomAccessIterator5,
-         typename Size,
-         typename Context>
-struct grouped_gather_closure
+template<typename Size, typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
+  OutputIterator find_partition_offsets(thrust::cuda::dispatchable<System> &system,
+                                        Size num_partitions,
+                                        Size partition_size,
+                                        InputIterator1 first1, InputIterator1 last1,
+                                        InputIterator2 first2, InputIterator2 last2,
+                                        OutputIterator result,
+                                        Compare comp)
 {
-  const RandomAccessIterator1 result;
-  const RandomAccessIterator2 first;
-  RandomAccessIterator3 splitter_ranks1;
-  RandomAccessIterator4 splitter_ranks2;
-  RandomAccessIterator5 size_of_result_before_and_including_each_partition;
-  Size num_partitions;
-  Context context;
+  find_partition_offsets_functor<Size,InputIterator1,InputIterator2,Compare> f(partition_size, first1, last1, first2, last2, comp);
 
-  typedef Context context_type;
+  return thrust::transform(system,
+                           thrust::counting_iterator<Size>(0),
+                           thrust::counting_iterator<Size>(num_partitions),
+                           result,
+                           f);
+}
 
-  grouped_gather_closure(const RandomAccessIterator1 result,
-                         const RandomAccessIterator2 first,
-                         RandomAccessIterator3 splitter_ranks1,
-                         RandomAccessIterator4 splitter_ranks2,
-                         RandomAccessIterator5 size_of_result_before_and_including_each_partition,
-                         Size num_partitions,
-                         Context context = Context())
-    : result(result), first(first), splitter_ranks1(splitter_ranks1), splitter_ranks2(splitter_ranks2),
-      size_of_result_before_and_including_each_partition(size_of_result_before_and_including_each_partition),
-      num_partitions(num_partitions), context(context) 
+
+namespace block
+{
+
+
+template<unsigned int block_size, typename T>
+inline __device__
+T right_neighbor(statically_blocked_thread_array<block_size> &ctx, const T &x, const T &boundary)
+{
+  // stage this shift to conserve smem
+  const unsigned int storage_size = block_size / 2;
+  __shared__ uninitialized_array<T,storage_size> shared;
+
+  T result = x;
+
+  unsigned int tid = ctx.thread_index();
+
+  if(0 < tid && tid <= storage_size)
+  {
+    shared[tid - 1] = x;
+  }
+
+  ctx.barrier();
+
+  if(tid < storage_size)
+  {
+    result = shared[tid];
+  }
+
+  ctx.barrier();
+  
+  tid -= storage_size;
+  if(0 < tid && tid <= storage_size)
+  {
+    shared[tid - 1] = x;
+  }
+  else if(tid == 0)
+  {
+    shared[storage_size-1] = boundary;
+  }
+
+  ctx.barrier();
+
+  if(tid < storage_size)
+  {
+    result = shared[tid];
+  }
+
+  ctx.barrier();
+
+  return result;
+}
+
+
+template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename Compare, typename SetOperation>
+inline __device__
+  unsigned int bounded_count_set_operation_n(statically_blocked_thread_array<block_size> &ctx,
+                                             InputIterator1 first1, uint16_t n1,
+                                             InputIterator2 first2, uint16_t n2,
+                                             Compare comp,
+                                             SetOperation set_op)
+{
+  unsigned int thread_idx = ctx.thread_index();
+
+  // find partition offsets
+  uint16_t diag = thrust::min<uint16_t>(n1 + n2, thread_idx * work_per_thread);
+  thrust::pair<uint16_t,uint16_t> thread_input_begin = balanced_path(first1, n1, first2, n2, diag, 2, comp);
+  thrust::pair<uint16_t,uint16_t> thread_input_end   = block::right_neighbor<block_size>(ctx, thread_input_begin, thrust::make_pair(n1,n2));
+
+  __shared__ uint16_t s_thread_output_size[block_size];
+
+  // work_per_thread + 1 to accomodate a "starred" partition returned from balanced_path above
+  s_thread_output_size[thread_idx] =
+    set_op.count(work_per_thread + 1,
+                 first1 + thread_input_begin.first,  first1 + thread_input_end.first,
+                 first2 + thread_input_begin.second, first2 + thread_input_end.second,
+                 comp);
+
+  ctx.barrier();
+
+  // reduce per-thread counts
+  thrust::system::cuda::detail::block::inplace_inclusive_scan(ctx, s_thread_output_size);
+  return s_thread_output_size[ctx.block_dimension() - 1];
+}
+
+
+inline __device__ int pop_count(unsigned int x)
+{
+// guard use of __popc from other compilers
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+  return __popc(x);
+#else
+  return 0;
+#endif
+}
+
+
+
+template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
+inline __device__
+  OutputIterator bounded_set_operation_n(statically_blocked_thread_array<block_size> &ctx,
+                                         InputIterator1 first1, uint16_t n1,
+                                         InputIterator2 first2, uint16_t n2,
+                                         OutputIterator result,
+                                         Compare comp,
+                                         SetOperation set_op)
+{
+  unsigned int thread_idx = ctx.thread_index();
+  
+  // find partition offsets
+  uint16_t diag = thrust::min<uint16_t>(n1 + n2, thread_idx * work_per_thread);
+  thrust::pair<uint16_t,uint16_t> thread_input_begin = balanced_path(first1, n1, first2, n2, diag, 2, comp);
+  thrust::pair<uint16_t,uint16_t> thread_input_end   = block::right_neighbor<block_size>(ctx, thread_input_begin, thrust::make_pair(n1,n2));
+
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  // +1 to accomodate a "starred" partition returned from balanced_path above
+  uninitialized_array<value_type, work_per_thread + 1> sparse_result;
+  uint32_t active_mask =
+    set_op(work_per_thread + 1,
+           first1 + thread_input_begin.first,  first1 + thread_input_end.first,
+           first2 + thread_input_begin.second, first2 + thread_input_end.second,
+           sparse_result.begin(),
+           comp);
+
+  __shared__ uint16_t s_thread_output_size[block_size];
+  s_thread_output_size[thread_idx] = pop_count(active_mask);
+
+  ctx.barrier();
+
+  // scan to turn per-thread counts into output indices
+  uint16_t block_output_size = thrust::system::cuda::detail::block::inplace_exclusive_scan(ctx, s_thread_output_size, 0u);
+
+  serial_bounded_copy_if(work_per_thread + 1, sparse_result.begin(), active_mask, result + s_thread_output_size[thread_idx]);
+
+  ctx.barrier();
+
+  return result + block_output_size;
+}
+
+
+template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename Compare, typename SetOperation>
+inline __device__
+  typename thrust::iterator_difference<InputIterator1>::type
+    count_set_operation(statically_blocked_thread_array<block_size> &ctx,
+                        InputIterator1 first1, InputIterator1 last1,
+                        InputIterator2 first2, InputIterator2 last2,
+                        Compare comp,
+                        SetOperation set_op)
+{
+  typedef typename thrust::iterator_difference<InputIterator1>::type difference;
+
+  difference result = 0;
+
+  thrust::pair<difference,difference> remaining_input_size = thrust::make_pair(last1 - first1, last2 - first2);
+
+  // iterate until the input is consumed
+  while(remaining_input_size.first + remaining_input_size.second > 0)
+  {
+    // find the end of this subpartition's input
+    // -1 to accomodate "starred" partitions
+    uint16_t max_subpartition_size = block_size * work_per_thread - 1;
+    difference diag = thrust::min<difference>(remaining_input_size.first + remaining_input_size.second, max_subpartition_size);
+    thrust::pair<uint16_t,uint16_t> subpartition_size = balanced_path(first1, remaining_input_size.first, first2, remaining_input_size.second, diag, 4ll, comp);
+  
+    typedef typename thrust::iterator_value<InputIterator2>::type value_type;
+    if(stage_through_smem<value_type>::value)
+    {
+      // load the input into __shared__ storage
+      __shared__ uninitialized_array<value_type, block_size * work_per_thread> s_input;
+  
+      value_type *s_input_end1 = thrust::system::cuda::detail::block::copy_n(ctx, first1, subpartition_size.first,  s_input.begin());
+      value_type *s_input_end2 = thrust::system::cuda::detail::block::copy_n(ctx, first2, subpartition_size.second, s_input_end1);
+  
+      result += block::bounded_count_set_operation_n<block_size,work_per_thread>(ctx,
+                                                                                 s_input.begin(), subpartition_size.first,
+                                                                                 s_input_end1,    subpartition_size.second,
+                                                                                 comp,
+                                                                                 set_op);
+    }
+    else
+    {
+      result += block::bounded_count_set_operation_n<block_size,work_per_thread>(ctx,
+                                                                                 first1, subpartition_size.first,
+                                                                                 first2, subpartition_size.second,
+                                                                                 comp,
+                                                                                 set_op);
+    }
+
+    // advance input
+    first1 += subpartition_size.first;
+    first2 += subpartition_size.second;
+
+    // decrement remaining size
+    remaining_input_size.first  -= subpartition_size.first;
+    remaining_input_size.second -= subpartition_size.second;
+  }
+
+  return result;
+}
+
+
+template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
+inline __device__
+OutputIterator set_operation(statically_blocked_thread_array<block_size> &ctx,
+                             InputIterator1 first1, InputIterator2 last1,
+                             InputIterator2 first2, InputIterator2 last2,
+                             OutputIterator result,
+                             Compare comp,
+                             SetOperation set_op)
+{
+  typedef typename thrust::iterator_difference<InputIterator1>::type difference;
+
+  thrust::pair<difference,difference> remaining_input_size = thrust::make_pair(last1 - first1, last2 - first2);
+
+  // iterate until the input is consumed
+  while(remaining_input_size.first + remaining_input_size.second > 0)
+  {
+    // find the end of this subpartition's input
+    // -1 to accomodate "starred" partitions
+    uint16_t max_subpartition_size = block_size * work_per_thread - 1;
+    difference diag = thrust::min<difference>(remaining_input_size.first + remaining_input_size.second, max_subpartition_size);
+    thrust::pair<uint16_t,uint16_t> subpartition_size = balanced_path(first1, remaining_input_size.first, first2, remaining_input_size.second, diag, 4ll, comp);
+    
+    typedef typename thrust::iterator_value<InputIterator2>::type value_type;
+    if(stage_through_smem<value_type>::value)
+    {
+      // load the input into __shared__ storage
+      __shared__ uninitialized_array<value_type, block_size * work_per_thread> s_input;
+  
+      value_type *s_input_end1 = thrust::system::cuda::detail::block::copy_n(ctx, first1, subpartition_size.first,  s_input.begin());
+      value_type *s_input_end2 = thrust::system::cuda::detail::block::copy_n(ctx, first2, subpartition_size.second, s_input_end1);
+  
+      result = block::bounded_set_operation_n<block_size,work_per_thread>(ctx,
+                                                                          s_input.begin(), subpartition_size.first,
+                                                                          s_input_end1,    subpartition_size.second,
+                                                                          result,
+                                                                          comp,
+                                                                          set_op);
+    }
+    else
+    {
+      result = block::bounded_set_operation_n<block_size,work_per_thread>(ctx,
+                                                                          first1, subpartition_size.first,
+                                                                          first2, subpartition_size.second,
+                                                                          result,
+                                                                          comp,
+                                                                          set_op);
+    }
+  
+    // advance input
+    first1 += subpartition_size.first;
+    first2 += subpartition_size.second;
+
+    // decrement remaining size
+    remaining_input_size.first  -= subpartition_size.first;
+    remaining_input_size.second -= subpartition_size.second;
+  }
+
+  return result;
+}
+
+
+} // end namespace block
+
+
+template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename OutputIterator, typename Compare, typename SetOperation>
+  inline __device__ void count_set_operation(statically_blocked_thread_array<threads_per_block> &ctx,
+                                             InputIterator1                                      input_partition_offsets,
+                                             Size                                                num_partitions,
+                                             InputIterator2                                      first1,
+                                             InputIterator3                                      first2,
+                                             OutputIterator                                      result,
+                                             Compare                                             comp,
+                                             SetOperation                                        set_op)
+{
+  // consume partitions
+  for(Size partition_idx = ctx.block_index();
+      partition_idx < num_partitions;
+      partition_idx += ctx.grid_dimension())
+  {
+    typedef typename thrust::iterator_difference<InputIterator2>::type difference;
+
+    // find the partition
+    thrust::pair<difference,difference> block_input_begin = input_partition_offsets[partition_idx];
+    thrust::pair<difference,difference> block_input_end   = input_partition_offsets[partition_idx + 1];
+
+    // count the size of the set operation
+    difference count = block::count_set_operation<threads_per_block,work_per_thread>(ctx,
+                                                                                     first1 + block_input_begin.first,  first1 + block_input_end.first,
+                                                                                     first2 + block_input_begin.second, first2 + block_input_end.second,
+                                                                                     comp,
+                                                                                     set_op);
+
+    if(ctx.thread_index() == 0)
+    {
+      result[partition_idx] = count;
+    }
+  }
+}
+
+
+template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename OutputIterator, typename Compare, typename SetOperation>
+  struct count_set_operation_closure
+{
+  typedef statically_blocked_thread_array<threads_per_block> context_type;
+
+  InputIterator1 input_partition_offsets;
+  Size           num_partitions;
+  InputIterator2 first1;
+  InputIterator3 first2;
+  OutputIterator result;
+  Compare        comp;
+  SetOperation   set_op;
+
+  count_set_operation_closure(InputIterator1 input_partition_offsets,
+                              Size           num_partitions,
+                              InputIterator2 first1,
+                              InputIterator3 first2,
+                              OutputIterator result,
+                              Compare        comp,
+                              SetOperation   set_op)
+    : input_partition_offsets(input_partition_offsets),
+      num_partitions(num_partitions),
+      first1(first1),
+      first2(first2),
+      result(result),
+      comp(comp),
+      set_op(set_op)
   {}
 
-  __device__ __thrust_forceinline__
-  void operator()(void)
+  inline __device__ void operator()() const
   {
-    // advance iterators
-    splitter_ranks1                                     += context.block_index();
-    splitter_ranks2                                     += context.block_index();
-    size_of_result_before_and_including_each_partition  += context.block_index();
-  
-    for(Size partition_idx                                 = context.block_index();
-        partition_idx                                      < num_partitions;
-        partition_idx                                      += context.grid_dimension(),
-        splitter_ranks1                                    += context.grid_dimension(),
-        splitter_ranks2                                    += context.grid_dimension(),
-        size_of_result_before_and_including_each_partition += context.grid_dimension())
-    {
-      RandomAccessIterator1 output_begin = result;
-      RandomAccessIterator2 input_begin = first;
-  
-      // find the location of the input and output if this is not the first partition
-      typename thrust::iterator_value<RandomAccessIterator4>::type partition_size = *size_of_result_before_and_including_each_partition;
-
-      if(partition_idx != 0)
-      {
-        // advance iterators to the beginning of this partition's input
-        RandomAccessIterator3 rank1 = splitter_ranks1;
-        --rank1;
-        RandomAccessIterator4 rank2 = splitter_ranks2;
-        --rank2;
-  
-        typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference;
-  
-        difference size_of_preceding_input1 = *rank1;
-        difference size_of_preceding_input2 = *rank2;
-  
-        input_begin +=
-          BlockConvergentSetOperation::get_max_size_of_result_in_number_of_elements(size_of_preceding_input1,size_of_preceding_input2);
-  
-        // subtract away the previous element of size_of_result_preceding_each_partition
-        // resulting in this size of this partition
-        --size_of_result_before_and_including_each_partition;
-        typename thrust::iterator_value<RandomAccessIterator4>::type beginning_of_output = *size_of_result_before_and_including_each_partition;
-  
-        output_begin += beginning_of_output;
-        partition_size -= *size_of_result_before_and_including_each_partition;
-      } // end if
-  
-      block::copy(context, input_begin, input_begin + partition_size, output_begin);
-    } // end for partition
+    context_type ctx;
+    count_set_operation<threads_per_block,work_per_thread>(ctx, input_partition_offsets, num_partitions, first1, first2, result, comp, set_op);
   }
-}; // end grouped_gather_closure
+};
+
+
+template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename OutputIterator, typename Compare, typename SetOperation>
+  count_set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,OutputIterator,Compare,SetOperation>
+    make_count_set_operation_closure(InputIterator1 input_partition_offsets,
+                                     Size           num_partitions,
+                                     InputIterator2 first1,
+                                     InputIterator3 first2,
+                                     OutputIterator result,
+                                     Compare        comp,
+                                     SetOperation   set_op)
+{
+  typedef count_set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,OutputIterator,Compare,SetOperation> result_type;
+  return result_type(input_partition_offsets,num_partitions,first1,first2,result,comp,set_op);
+}
+
+
+template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator, typename Compare, typename SetOperation>
+inline __device__
+  void set_operation(statically_blocked_thread_array<threads_per_block> &ctx,
+                     InputIterator1                                      input_partition_offsets,
+                     Size                                                num_partitions,
+                     InputIterator2                                      first1,
+                     InputIterator3                                      first2,
+                     InputIterator4                                      output_partition_offsets,
+                     OutputIterator                                      result,
+                     Compare                                             comp,
+                     SetOperation                                        set_op)
+{
+  // consume partitions
+  for(Size partition_idx = ctx.block_index();
+      partition_idx < num_partitions;
+      partition_idx += ctx.grid_dimension())
+  {
+    typedef typename thrust::iterator_difference<InputIterator2>::type difference;
+
+    // find the partition
+    thrust::pair<difference,difference> block_input_begin = input_partition_offsets[partition_idx];
+    thrust::pair<difference,difference> block_input_end   = input_partition_offsets[partition_idx + 1];
+
+    // do the set operation across the partition
+    block::set_operation<threads_per_block,work_per_thread>(ctx,
+                                                            first1 + block_input_begin.first,  first1 + block_input_end.first,
+                                                            first2 + block_input_begin.second, first2 + block_input_end.second,
+                                                            result + output_partition_offsets[partition_idx],
+                                                            comp,
+                                                            set_op);
+  }
+}
+
+
+template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator, typename Compare, typename SetOperation>
+  struct set_operation_closure
+{
+  typedef statically_blocked_thread_array<threads_per_block> context_type;
+
+  InputIterator1 input_partition_offsets;
+  Size           num_partitions;
+  InputIterator2 first1;
+  InputIterator3 first2;
+  InputIterator4 output_partition_offsets;
+  OutputIterator result;
+  Compare        comp;
+  SetOperation   set_op;
+
+  set_operation_closure(InputIterator1 input_partition_offsets,
+                        Size           num_partitions,
+                        InputIterator2 first1,
+                        InputIterator3 first2,
+                        InputIterator4 output_partition_offsets,
+                        OutputIterator result,
+                        Compare        comp,
+                        SetOperation   set_op)
+    : input_partition_offsets(input_partition_offsets),
+      num_partitions(num_partitions),
+      first1(first1),
+      first2(first2),
+      output_partition_offsets(output_partition_offsets),
+      result(result),
+      comp(comp),
+      set_op(set_op)
+  {}
+
+  inline __device__ void operator()() const
+  {
+    context_type ctx;
+    set_operation<threads_per_block,work_per_thread>(ctx, input_partition_offsets, num_partitions, first1, first2, output_partition_offsets, result, comp, set_op);
+  }
+};
+
+
+template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator, typename Compare, typename SetOperation>
+  set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,InputIterator4,OutputIterator,Compare,SetOperation>
+    make_set_operation_closure(InputIterator1 input_partition_offsets,
+                               Size           num_partitions,
+                               InputIterator2 first1,
+                               InputIterator3 first2,
+                               InputIterator4 output_partition_offsets,
+                               OutputIterator result,
+                               Compare        comp,
+                               SetOperation   set_op)
+{
+  typedef set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,InputIterator4,OutputIterator,Compare,SetOperation> result_type;
+  return result_type(input_partition_offsets,num_partitions,first1,first2,output_partition_offsets,result,comp,set_op);
+}
+
 
 } // end namespace set_operation_detail
 
 
-template<typename System,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename RandomAccessIterator3,
-         typename Compare,
-         typename SplittingFunction,
-         typename BlockConvergentSetOperation>
-  RandomAccessIterator3 set_operation(dispatchable<System> &system,
-                                      RandomAccessIterator1 first1,
-                                      RandomAccessIterator1 last1,
-                                      RandomAccessIterator2 first2,
-                                      RandomAccessIterator2 last2,
-                                      RandomAccessIterator3 result,
-                                      Compare comp,
-                                      SplittingFunction split,
-                                      BlockConvergentSetOperation set_op)
+template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
+  OutputIterator set_operation(thrust::cuda::dispatchable<System> &system,
+                               InputIterator1 first1, InputIterator1 last1,
+                               InputIterator2 first2, InputIterator2 last2,
+                               OutputIterator result,
+                               Compare comp,
+                               SetOperation set_op)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type      value_type1;
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
+  using thrust::system::cuda::detail::device_properties;
+  using thrust::system::cuda::detail::detail::launch_closure;
+  namespace d = thrust::system::cuda::detail::detail::set_operation_detail;
 
-  using namespace set_operation_detail;
-  
-  typedef detail::blocked_thread_array Context;
+  typedef typename thrust::iterator_difference<InputIterator1>::type difference;
 
-  typedef set_operation_closure<RandomAccessIterator1,
-                                RandomAccessIterator2,
-                                typename thrust::detail::temporary_array<difference1,System>::iterator,
-                                typename thrust::detail::temporary_array<difference2,System>::iterator,
-                                typename thrust::detail::temporary_array<value_type1,System>::iterator,
-                                typename thrust::detail::temporary_array<difference1,System>::iterator,
-                                Compare,
-                                BlockConvergentSetOperation,
-                                size_t,
-                                Context> SetOperationClosure;
+  const difference n1 = last1 - first1;
+  const difference n2 = last2 - first2;
 
-  function_attributes_t attributes = detail::closure_attributes<SetOperationClosure>();
-  device_properties_t   properties = device_properties();
+  // handle empty input
+  if(n1 == 0 && n2 == 0)
+  {
+    return result;
+  }
 
-  // prefer large blocks to keep the partitions as large as possible
-  const size_t block_size =
-    max_blocksize_subject_to_smem_usage(properties, attributes,
-                                        get_set_operation_kernel_per_block_dynamic_smem_usage<
-                                          RandomAccessIterator1,
-                                          RandomAccessIterator2,
-                                          BlockConvergentSetOperation>);
+  const thrust::detail::uint16_t work_per_thread   = 15;
+  const thrust::detail::uint16_t threads_per_block = 128;
+  const thrust::detail::uint16_t work_per_block    = threads_per_block * work_per_thread;
 
-  const size_t partition_size = block_size;
-  const difference1 num_elements1 = last1 - first1;
-  const difference2 num_elements2 = last2 - first2;
+  // -1 because balanced_path adds a single element to the end of a "starred" partition, increasing its size by one
+  const thrust::detail::uint16_t maximum_partition_size = work_per_block - 1;
+  const difference num_partitions = thrust::detail::util::divide_ri(n1 + n2, maximum_partition_size);
 
-  const difference1 num_partitions1 = ceil_div(num_elements1, partition_size);
-  const difference2 num_splitters_from_range1 = (num_partitions1 == 0) ? 0 : num_partitions1 - 1;
+  // find input partition offsets
+  // +1 to handle the end of the input elegantly
+  thrust::detail::temporary_array<thrust::pair<difference,difference>, System> input_partition_offsets(0, system, num_partitions + 1);
+  d::find_partition_offsets<difference>(system, input_partition_offsets.size(), maximum_partition_size, first1, last1, first2, last2, input_partition_offsets.begin(), comp);
 
-  const difference2 num_partitions2 = ceil_div(num_elements2, partition_size);
-  const difference2 num_splitters_from_range2 = (num_partitions2 == 0) ? 0 : num_partitions2 - 1;
+  const difference num_blocks = thrust::min<difference>(device_properties().maxGridSize[0], num_partitions);
 
-  const size_t num_merged_partitions = num_splitters_from_range1 + num_splitters_from_range2 + 1;
+  // find output partition offsets
+  // +1 to store the total size of the total
+  thrust::detail::temporary_array<difference, System> output_partition_offsets(0, system, num_partitions + 1);
+  launch_closure(d::make_count_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), comp, set_op),
+                 num_blocks,
+                 threads_per_block);
 
-  // allocate storage for splitter ranks
-  thrust::detail::temporary_array<difference1, System> splitter_ranks1(system, num_splitters_from_range1 + num_splitters_from_range2);
-  thrust::detail::temporary_array<difference2, System> splitter_ranks2(system, num_splitters_from_range1 + num_splitters_from_range2);
+  // turn the output partition counts into offsets to output partitions
+  thrust::exclusive_scan(system, output_partition_offsets.begin(), output_partition_offsets.end(), output_partition_offsets.begin());
 
-  // select some splitters and find the rank of each splitter in the other range
-  // XXX it's possible to fuse rank-finding with the kernel below
-  //     this eliminates the temporary buffers splitter_ranks1 & splitter_ranks2
-  //     but this spills to lmem and causes a 10x speeddown
-  split(system,
-        first1,last1,
-        first2,last2,
-        splitter_ranks1.begin(),
-        splitter_ranks2.begin(),
-        comp,
-        partition_size,
-        num_splitters_from_range1,
-        num_splitters_from_range2);
+  // run the set op kernel
+  launch_closure(d::make_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), result, comp, set_op),
+                 num_blocks,
+                 threads_per_block);
 
-  using namespace thrust::detail;
+  return result + output_partition_offsets[num_partitions];
+}
 
-  // allocate storage to store each intersected partition's size
-  thrust::detail::temporary_array<difference1, System> result_partition_sizes(system, num_merged_partitions);
-
-  // allocate storage to store the largest possible result
-  // XXX if the size of the result is known a priori (i.e., first == second), we don't need this temporary
-  temporary_array<value_type1, System>
-    temporary_results(system, set_op.get_max_size_of_result_in_number_of_elements(num_elements1, num_elements2));
-
-  // maximize the number of blocks we can launch
-  const size_t max_blocks = properties.maxGridSize[0];
-  const size_t num_blocks = thrust::min(num_merged_partitions, max_blocks);
-  const size_t dynamic_smem_size = get_set_operation_kernel_per_block_dynamic_smem_usage<RandomAccessIterator1,RandomAccessIterator2,BlockConvergentSetOperation>(block_size);
-
-  detail::launch_closure
-    (SetOperationClosure(first1, last1,
-                         first2, last2,
-                         splitter_ranks1.begin(),
-                         splitter_ranks2.begin(),
-                         temporary_results.begin(),
-                         result_partition_sizes.begin(),
-                         comp,
-                         set_op,
-                         num_merged_partitions),
-     num_blocks, block_size, dynamic_smem_size);
-
-  // inclusive scan the element counts to get the number of elements occurring before and including each partition
-  thrust::inclusive_scan(system,
-                         result_partition_sizes.begin(),
-                         result_partition_sizes.end(),
-                         result_partition_sizes.begin());
-
-  // gather from temporary_results to result
-  // no real need to choose a new config for this launch
-  typedef grouped_gather_closure<
-    BlockConvergentSetOperation,
-    RandomAccessIterator3,
-    typename temporary_array<value_type1, System>::iterator,
-    typename temporary_array<difference1, System>::iterator,
-    typename temporary_array<difference2, System>::iterator,
-    typename temporary_array<difference1, System>::iterator,
-    size_t,
-    Context
-  > GroupedGatherClosure;
-
-  detail::launch_closure
-    (GroupedGatherClosure(result,
-                          temporary_results.begin(),
-                          splitter_ranks1.begin(),
-                          splitter_ranks2.begin(),
-                          result_partition_sizes.begin(),
-                          num_merged_partitions),
-     num_blocks, block_size);
-
-  return result + result_partition_sizes[num_merged_partitions - 1];
-} // end set_operation()
 
 } // end namespace detail
 } // end namespace detail

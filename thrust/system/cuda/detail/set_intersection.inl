@@ -15,12 +15,7 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/set_operations.h>
-#include <thrust/system/detail/generic/select_system.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/pair.h>
-#include <thrust/system/cuda/detail/block/set_intersection.h>
-#include <thrust/system/cuda/detail/detail/split_for_set_operation.h>
+#include <thrust/detail/cstdint.h>
 #include <thrust/system/cuda/detail/detail/set_operation.h>
 
 namespace thrust
@@ -31,53 +26,81 @@ namespace cuda
 {
 namespace detail
 {
-
 namespace set_intersection_detail
 {
 
-struct block_convergent_set_intersection_functor
+
+struct serial_bounded_set_intersection
 {
-  __host__ __device__ __thrust_forceinline__
-  static size_t get_min_size_of_result_in_number_of_elements(size_t size_of_range1,
-                                                             size_t size_of_range2)
+  // max_input_size <= 32
+  template<typename Size, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
+  inline __device__
+    thrust::detail::uint32_t operator()(Size max_input_size,
+                                        InputIterator1 first1, InputIterator1 last1,
+                                        InputIterator2 first2, InputIterator2 last2,
+                                        OutputIterator result,
+                                        Compare comp)
   {
-    // set_intersection could result in zero output
-    return 0u;
+    thrust::detail::uint32_t active_mask = 0;
+    thrust::detail::uint32_t active_bit = 1;
+  
+    while(first1 != last1 && first2 != last2)
+    {
+      if(comp(*first1,*first2))
+      {
+        ++first1;
+      } // end if
+      else if(comp(*first2,*first1))
+      {
+        ++first2;
+      } // end else if
+      else
+      {
+        *result = *first1;
+        ++first1;
+        ++first2;
+        active_mask |= active_bit;
+      } // end else
+  
+      ++result;
+      active_bit <<= 1;
+    } // end while
+  
+    return active_mask;
   }
 
-  __host__ __device__ __thrust_forceinline__
-  static size_t get_max_size_of_result_in_number_of_elements(size_t size_of_range1,
-                                                             size_t size_of_range2)
-  {
-    // set_intersection could output all of range1
-    return size_of_range1;
-  }
 
-  __host__ __device__ __thrust_forceinline__
-  static unsigned int get_temporary_array_size_in_number_of_bytes(unsigned int block_size)
+  template<typename Size, typename InputIterator1, typename InputIterator2, typename Compare>
+  inline __device__
+    Size count(Size max_input_size,
+               InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, InputIterator2 last2,
+               Compare comp)
   {
-    return block_size * sizeof(int);
+    Size result = 0;
+  
+    while(first1 != last1 && first2 != last2)
+    {
+      if(comp(*first1,*first2))
+      {
+        ++first1;
+      } // end if
+      else if(comp(*first2,*first1))
+      {
+        ++first2;
+      } // end else if
+      else
+      {
+        ++result;
+        ++first1;
+        ++first2;
+      } // end else
+    } // end while
+  
+    return result;
   }
+}; // end serial_bounded_set_intersection
 
-  // operator() simply calls the block-wise function
-  template<typename Context,
-           typename RandomAccessIterator1,
-           typename RandomAccessIterator2,
-           typename RandomAccessIterator3,
-           typename StrictWeakOrdering>
-  __device__ __thrust_forceinline__
-    RandomAccessIterator3 operator()(Context context,
-                                     RandomAccessIterator1 first1,
-                                     RandomAccessIterator1 last1,
-                                     RandomAccessIterator2 first2,
-                                     RandomAccessIterator2 last2,
-                                     void *temporary,
-                                     RandomAccessIterator3 result,
-                                     StrictWeakOrdering comp)
-  {
-    return block::set_intersection(context,first1,last1,first2,last2,reinterpret_cast<int*>(temporary),result,comp);
-  } // end operator()()
-}; // end block_convergent_set_intersection_functor
 
 } // end namespace set_intersection_detail
 
@@ -95,24 +118,9 @@ RandomAccessIterator3 set_intersection(dispatchable<System> &system,
                                        RandomAccessIterator3 result,
                                        Compare comp)
 {
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference1;
-  typedef typename thrust::iterator_difference<RandomAccessIterator2>::type difference2;
-
-  const difference1 num_elements1 = last1 - first1;
-  const difference2 num_elements2 = last2 - first2;
-
-  // check for trivial problem
-  if(num_elements1 == 0 || num_elements2 == 0)
-    return result;
-
-  return detail::set_operation(system,
-                               first1, last1,
-                               first2, last2,
-                               result,
-                               comp,
-                               detail::split_for_set_operation(),
-                               set_intersection_detail::block_convergent_set_intersection_functor());
+  return thrust::system::cuda::detail::detail::set_operation(system, first1, last1, first2, last2, result, comp, set_intersection_detail::serial_bounded_set_intersection());
 } // end set_intersection
+
 
 } // end namespace detail
 } // end namespace cuda
