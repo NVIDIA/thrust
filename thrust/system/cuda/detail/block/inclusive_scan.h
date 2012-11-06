@@ -152,6 +152,37 @@ void inclusive_scan_by_flag_n(Context context,
   }
 } // end inclusive_scan_by_flag()
 
+
+template<typename Context, typename RandomAccessIterator, typename BinaryFunction>
+__device__ __thrust_forceinline__
+void inplace_inclusive_scan(Context &ctx, RandomAccessIterator first, BinaryFunction op)
+{
+  typename thrust::iterator_value<RandomAccessIterator>::type x = first[ctx.thread_index()];
+
+  for(unsigned int offset = 1; offset < ctx.block_dimension(); offset *= 2)
+  {
+    if(ctx.thread_index() >= offset)
+    {
+      x = op(first[ctx.thread_index() - offset], x);
+    }
+
+    ctx.barrier();
+
+    first[ctx.thread_index()] = x;
+
+    ctx.barrier();
+  }
+}
+
+
+template<typename Context, typename RandomAccessIterator>
+__device__ __thrust_forceinline__
+void inplace_inclusive_scan(Context &ctx, RandomAccessIterator first)
+{
+  block::inplace_inclusive_scan(ctx, first, thrust::plus<typename thrust::iterator_value<RandomAccessIterator>::type>());
+}
+
+
 } // end namespace block
 } // end namespace detail
 } // end namespace cuda
