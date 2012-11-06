@@ -10,7 +10,7 @@ namespace unittest
 template<typename T>
   std::string type_name(void)
 {
-  return std::string(demangle(typeid(T).name()));
+  return demangle(typeid(T).name());
 } // end type_name()
 
 } // end unittest
