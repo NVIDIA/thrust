@@ -374,33 +374,6 @@ void TestCopyIfStencil(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestCopyIfStencil);
 
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-// do we really want to test this ever?
-void TestCopyDeviceThrow(void)
-{
-    typedef int T;
-
-    thrust::device_ptr<T> null_device_ptr((int*)0);
-
-    bool caught_exception = false;
-    try
-    {
-        thrust::copy(null_device_ptr, null_device_ptr + 1, null_device_ptr);
-    } // end try
-    catch(std::runtime_error)
-    {
-        caught_exception = true;
-
-        // kill the context so it can revive later
-        cudaThreadExit();
-    } // end catch
-
-    ASSERT_EQUAL(true, caught_exception);
-}
-DECLARE_UNITTEST(TestCopyDeviceThrow);
-#endif
-
 template <typename Vector>
 void TestCopyCountingIterator(void)
 {
