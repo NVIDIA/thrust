@@ -133,7 +133,7 @@ OutputIterator replace_copy(my_system &system,
     return result;
 }
 
-void ReplaceCopyDispatchExplicit()
+void TestReplaceCopyDispatchExplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -147,7 +147,7 @@ void ReplaceCopyDispatchExplicit()
 
     ASSERT_EQUAL(true, sys.is_valid());
 }
-DECLARE_UNITTEST(ReplaceCopyDispatchExplicit);
+DECLARE_UNITTEST(TestReplaceCopyDispatchExplicit);
 
 
 template<typename InputIterator, typename OutputIterator, typename T>
@@ -161,7 +161,7 @@ OutputIterator replace_copy(my_tag,
     return result;
 }
 
-void ReplaceCopyDispatchImplicit()
+void TestReplaceCopyDispatchImplicit()
 {
     thrust::device_vector<int> vec(1);
 
@@ -173,7 +173,7 @@ void ReplaceCopyDispatchImplicit()
 
     ASSERT_EQUAL(13, vec.front());
 }
-DECLARE_UNITTEST(ReplaceCopyDispatchImplicit);
+DECLARE_UNITTEST(TestReplaceCopyDispatchImplicit);
 
 
 template <typename T>
