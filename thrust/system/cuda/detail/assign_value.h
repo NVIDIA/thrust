@@ -106,16 +106,30 @@ template<typename System1, typename System2, typename Pointer1, typename Pointer
 inline __host__ __device__
   void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
 {
+  // XXX war nvbugs/881631
+  struct war_nvbugs_881631
+  {
+    __host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    {
+      // rotate the systems so that they are ordered the same as (src, dst)
+      // for the call to thrust::copy
+      cross_system<System2,System1> rotated_systems = systems.rotate();
+      thrust::copy(rotated_systems, src, src + 1, dst);
+    }
+
+    __device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    {
+      // XXX forward the true cuda::dispatchable inside systems here
+      //     instead of materializing a tag
+      thrust::cuda::tag cuda_tag;
+      thrust::system::cuda::detail::assign_value(cuda_tag, dst, src);
+    }
+  };
+
 #if __CUDA_ARCH__
-  // XXX forward the true cuda::dispatchable inside systems here
-  //     instead of materializing a tag
-  thrust::cuda::tag cuda_tag;
-  thrust::system::cuda::detail::assign_value(cuda_tag, dst, src);
+  war_nvbugs_881631::device_path(systems,dst,src);
 #else
-  // rotate the systems so that they are ordered the same as (src, dst)
-  // for the call to thrust::copy
-  cross_system<System2,System1> rotated_systems = systems.rotate();
-  thrust::copy(rotated_systems, src, src + 1, dst);
+  war_nvbugs_881631::host_path(systems,dst,src);
 #endif
 } // end assign_value()
 
