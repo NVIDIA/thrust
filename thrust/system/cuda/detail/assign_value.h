@@ -102,6 +102,60 @@ inline __host__ __device__
 #endif // msvc 2005 WAR
 
 
+// XXX WAR an issue with msvc 2005 (cl v14.00) which creates multiply-defined
+//     symbols resulting from assign_value
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+
+namespace
+{
+
+
+template<typename System1, typename System2, typename Pointer1, typename Pointer2>
+inline __host__ __device__
+  void assign_value_msvc2005_war(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+{
+  // XXX war nvbugs/881631
+  struct war_nvbugs_881631
+  {
+    __host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    {
+      // rotate the systems so that they are ordered the same as (src, dst)
+      // for the call to thrust::copy
+      cross_system<System2,System1> rotated_systems = systems.rotate();
+      thrust::copy(rotated_systems, src, src + 1, dst);
+    }
+
+    __device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    {
+      // XXX forward the true cuda::dispatchable inside systems here
+      //     instead of materializing a tag
+      thrust::cuda::tag cuda_tag;
+      thrust::system::cuda::detail::assign_value(cuda_tag, dst, src);
+    }
+  };
+
+#if __CUDA_ARCH__
+  war_nvbugs_881631::device_path(systems,dst,src);
+#else
+  war_nvbugs_881631::host_path(systems,dst,src);
+#endif
+} // end assign_value_msvc2005_war
+
+
+} // end anon namespace
+
+
+template<typename System1, typename System2, typename Pointer1, typename Pointer2>
+inline __host__ __device__
+  void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+{
+  return assign_value_msvc2005_war(systems,dst,src);
+} // end assign_value()
+
+
+#else
+
+
 template<typename System1, typename System2, typename Pointer1, typename Pointer2>
 inline __host__ __device__
   void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
@@ -132,6 +186,9 @@ inline __host__ __device__
   war_nvbugs_881631::host_path(systems,dst,src);
 #endif
 } // end assign_value()
+
+
+#endif // msvc 2005 WAR
 
   
 } // end detail
