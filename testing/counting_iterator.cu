@@ -80,6 +80,72 @@ void TestCountingIteratorComparison(void)
 DECLARE_UNITTEST(TestCountingIteratorComparison);
 
 
+void TestCountingIteratorFloatComparison(void)
+{
+    thrust::counting_iterator<float> iter1(0);
+    thrust::counting_iterator<float> iter2(0);
+
+    ASSERT_EQUAL(iter1 - iter2, 0);
+    ASSERT_EQUAL(iter1 == iter2, true);
+    ASSERT_EQUAL(iter1 <  iter2, false);
+    ASSERT_EQUAL(iter2 <  iter1, false);
+
+    iter1++;
+    
+    ASSERT_EQUAL(iter1 - iter2, 1);
+    ASSERT_EQUAL(iter1 == iter2, false);
+    ASSERT_EQUAL(iter2 < iter1, true); 
+    ASSERT_EQUAL(iter1 < iter2, false); 
+   
+    iter2++;
+
+    ASSERT_EQUAL(iter1 - iter2, 0);
+    ASSERT_EQUAL(iter1 == iter2, true);
+    ASSERT_EQUAL(iter1 < iter2, false);
+    ASSERT_EQUAL(iter2 < iter1, false);
+  
+    iter1 += 100;
+    iter2 += 100;
+
+    ASSERT_EQUAL(iter1 - iter2, 0);
+    ASSERT_EQUAL(iter1 == iter2, true);
+    ASSERT_EQUAL(iter1 < iter2, false);
+    ASSERT_EQUAL(iter2 < iter1, false);
+
+
+    thrust::counting_iterator<float> iter3(0);
+    thrust::counting_iterator<float> iter4(0.5);
+
+    ASSERT_EQUAL(iter3 - iter4, 0);
+    ASSERT_EQUAL(iter3 == iter4, true);
+    ASSERT_EQUAL(iter3 < iter4, false);
+    ASSERT_EQUAL(iter4 < iter3, false);
+
+    iter3++; // iter3 = 1.0, iter4 = 0.5
+    
+    ASSERT_EQUAL(iter3 - iter4, 0);
+    ASSERT_EQUAL(iter3 == iter4, true);
+    ASSERT_EQUAL(iter3 < iter4, false);
+    ASSERT_EQUAL(iter4 < iter3, false);
+   
+    iter4++; // iter3 = 1.0, iter4 = 1.5
+
+    ASSERT_EQUAL(iter3 - iter4, 0);
+    ASSERT_EQUAL(iter3 == iter4, true);
+    ASSERT_EQUAL(iter3 < iter4, false);
+    ASSERT_EQUAL(iter4 < iter3, false);
+
+    iter4++; // iter3 = 1.0, iter4 = 2.5
+
+    ASSERT_EQUAL(iter3 - iter4, -1);
+    ASSERT_EQUAL(iter4 - iter3,  1);
+    ASSERT_EQUAL(iter3 == iter4, false);
+    ASSERT_EQUAL(iter3 < iter4, true);
+    ASSERT_EQUAL(iter4 < iter3, false);
+}
+DECLARE_UNITTEST(TestCountingIteratorFloatComparison);
+
+
 void TestCountingIteratorDistance(void)
 {
     thrust::counting_iterator<int> iter1(0);
