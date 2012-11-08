@@ -5,6 +5,7 @@ PREAMBLE = \
     template <typename T>
     struct my_less : public thrust::binary_function<T,T,bool>
     {
+        __host__ __device__
         bool operator()(const T& a, const T& b) const
         {
             return a < b;

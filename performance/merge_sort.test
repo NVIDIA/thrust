@@ -1,7 +1,16 @@
 PREAMBLE = \
     """
     #include <thrust/sort.h>
-    #include <thrust/detail/backend/cuda/detail/stable_merge_sort.h>
+
+    template<typename T>
+      struct my_less
+    {
+      __host__ __device__
+      bool operator()(const T &x, const T &y) const
+      {
+        return x < y;
+      }
+    };
     """
 
 INITIALIZE = \
@@ -12,7 +21,7 @@ INITIALIZE = \
     
     // test sort
     thrust::stable_sort(h_keys.begin(), h_keys.end());
-    thrust::detail::backend::cuda::detail::stable_merge_sort(d_keys.begin(), d_keys.end(), thrust::less<$KeyType>());
+    thrust::stable_sort(d_keys.begin(), d_keys.end(), my_less<$KeyType>());
 
     ASSERT_EQUAL(d_keys, h_keys);
     """
@@ -20,7 +29,7 @@ INITIALIZE = \
 TIME = \
     """
     thrust::copy(d_keys_copy.begin(), d_keys_copy.end(), d_keys.begin());
-    thrust::detail::backend::cuda::detail::stable_merge_sort(d_keys.begin(), d_keys.end(), thrust::less<$KeyType>());
+    thrust::stable_sort(d_keys.begin(), d_keys.end(), my_less<$KeyType>());
     """
 
 FINALIZE = \

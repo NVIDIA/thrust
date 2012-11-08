@@ -15,8 +15,7 @@ PREAMBLE = \
         __host__ __device__
         bool operator()(IndexType a, IndexType b)
         {
-            return comp(thrust::detail::backend::dereference(first, a),
-                        thrust::detail::backend::dereference(first, b));
+            return comp(thrust::raw_reference_cast(first[a]), thrust::raw_reference_cast(first[b]));
         }    
     };
     

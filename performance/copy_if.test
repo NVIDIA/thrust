@@ -1,18 +1,15 @@
 PREAMBLE = \
     """
-    #include <thrust/detail/backend/cuda/copy_if.h>
     #include <thrust/copy.h>
     #include <thrust/device_vector.h>
     #include <thrust/host_vector.h>
     #include <unittest/unittest.h>
     #include <thrust/sequence.h>
 
-    using namespace thrust;
-
     struct pred
     {
-        __host__ __device__
-            bool operator()(int x) { return bool(x); }
+      __host__ __device__
+      bool operator()(int x) { return bool(x); }
     };
 
     """
@@ -28,11 +25,8 @@ INITIALIZE = \
     thrust::device_vector<int> d_stencil = h_stencil;
     thrust::device_vector<int> d_output  = h_output;
 
-    typedef thrust::device_vector<int>::iterator OutputIterator;
-    
-
     size_t h_count = thrust::copy_if(h_input.begin(), h_input.end(), h_stencil.begin(), h_output.begin(), pred()) - h_output.begin();
-    size_t d_count =       $Function(d_input.begin(), d_input.end(), d_stencil.begin(), d_output.begin(), pred()) - d_output.begin();
+    size_t d_count = thrust::copy_if(d_input.begin(), d_input.end(), d_stencil.begin(), d_output.begin(), pred()) - d_output.begin();
 
     ASSERT_EQUAL(h_output, d_output);
     ASSERT_EQUAL(h_count, d_count);
@@ -40,7 +34,7 @@ INITIALIZE = \
 
 TIME = \
     """
-    $Function(d_input.begin(), d_input.end(), d_stencil.begin(), d_output.begin(), pred());
+    thrust::copy_if(d_input.begin(), d_input.end(), d_stencil.begin(), d_output.begin(), pred());
     """
 
 FINALIZE = \
@@ -50,8 +44,7 @@ FINALIZE = \
     RECORD_BANDWIDTH((2*sizeof(int) + 2*sizeof(float)) *  double($InputSize));
     """
 
-Functions  = ['thrust::copy_if','thrust::detail::backend::cuda::copy_if']
 InputSizes = [2**N for N in range(20, 27)]
 
-TestVariables = [('Function',Functions), ('InputSize', InputSizes)]
+TestVariables = [('InputSize', InputSizes)]
 
