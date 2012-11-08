@@ -20,21 +20,21 @@ cu_builder = Builder(action = cu_build_function,
 my_env.Append(BUILDERS = {'CUFile' : cu_builder})
 
 # define a rule to build a report from an executable
-report_builder = Builder(action = os.path.join('"' + str(my_env.Dir('.')), '$SOURCE" > $TARGET'),
-                         suffix = '.xml',
-                         src_suffix = my_env['PROGSUFFIX'])
-my_env.Append(BUILDERS = {'Report' : report_builder})
+xml_builder = Builder(action = os.path.join('"' + str(my_env.Dir('.')), '$SOURCE" > $TARGET'),
+                      suffix = '.xml',
+                      src_suffix = my_env['PROGSUFFIX'])
+my_env.Append(BUILDERS = {'XMLFile' : xml_builder})
 
 my_env.Append(CPPPATH = [Dir('.').srcnode(), Dir('#/testing')])
 
 cu_list = []
 program_list = []
-report_list = []
+xml_list = []
 
 build_files = [os.path.join('build', f) for f in ['perftest.py', 'test_function_template.cxx']]
 
 # describe dependency graph:
-# report -> program -> .cu -> .test
+# xml -> program -> .cu -> .test
 for test in my_env.Glob('*.test'):
   cu = my_env.CUFile(test)
   my_env.Depends(cu, build_files)
@@ -43,21 +43,21 @@ for test in my_env.Glob('*.test'):
   prog = my_env.Program(cu)
   program_list.append(prog)
 
-  report = my_env.Report(prog)
-  report_list.append(report)
+  xml = my_env.XMLFile(prog)
+  xml_list.append(xml)
 
 # make aliases for groups of targets
-reports = my_env.Alias("reports", report_list)
-programs = my_env.Alias("programs", program_list)
+run_performance_tests_alias = my_env.Alias("run_performance_tests", xml_list)
+performance_tests_alias     = my_env.Alias("performance_tests", program_list)
 
 # when no build target is specified, by default we build the programs
-my_env.Default(programs)
+my_env.Default(performance_tests_alias)
 
 # output a help message
 my_env.Help("""
 Type: 'scons' to build all performance test programs.
-Type: 'scons reports' to run all performance tests and output reports.
+Type: 'scons run_performance_tests' to run all performance tests and output reports.
 Type: 'scons <test name>' to build a single performance test program of interest.
-Type: 'scons <test name>.xml' to run a single performance test of interest and output a report.
+Type: 'scons <test name>.xml' to run a single performance test of interest and output a report in an XML file.
 """)
 
