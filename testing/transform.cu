@@ -739,41 +739,43 @@ void TestTransformIfBinaryToDiscardIterator(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestTransformIfBinaryToDiscardIterator);
 
 
-template <class Vector>
-void TestTransformUnaryCountingIterator(void)
+template <class T>
+  void TestTransformUnaryCountingIterator(size_t n)
 {
-    typedef typename Vector::value_type T;
+    // be careful not to generate a range larger than we can represent
+    n = thrust::min<size_t>(n, std::numeric_limits<T>::max());
 
-    thrust::counting_iterator<T> first(1);
+    thrust::counting_iterator<T, thrust::host_system_tag>   h_first = thrust::make_counting_iterator<T>(0);
+    thrust::counting_iterator<T, thrust::device_system_tag> d_first = thrust::make_counting_iterator<T>(0);
 
-    Vector output(3);
+    thrust::host_vector<T>   h_result(n);
+    thrust::device_vector<T> d_result(n);
 
-    thrust::transform(first, first + 3, output.begin(), thrust::identity<T>());
+    thrust::transform(h_first, h_first + n, h_result.begin(), thrust::identity<T>());
+    thrust::transform(d_first, d_first + n, d_result.begin(), thrust::identity<T>());
     
-    Vector result(3);
-    result[0] = 1; result[1] = 2; result[2] = 3;
-
-    ASSERT_EQUAL(output, result);
+    ASSERT_EQUAL(h_result, d_result);
 }
-DECLARE_VECTOR_UNITTEST(TestTransformUnaryCountingIterator);
+DECLARE_VARIABLE_UNITTEST(TestTransformUnaryCountingIterator);
 
-template <class Vector>
-void TestTransformBinaryCountingIterator(void)
+template <typename T>
+  void TestTransformBinaryCountingIterator(size_t n)
 {
-    typedef typename Vector::value_type T;
+    // be careful not to generate a range larger than we can represent
+    n = thrust::min<size_t>(n, std::numeric_limits<T>::max());
 
-    thrust::counting_iterator<T> first(1);
+    thrust::counting_iterator<T, thrust::host_system_tag>   h_first = thrust::make_counting_iterator<T>(0);
+    thrust::counting_iterator<T, thrust::device_system_tag> d_first = thrust::make_counting_iterator<T>(0);
 
-    Vector output(3);
+    thrust::host_vector<T>   h_result(n);
+    thrust::device_vector<T> d_result(n);
 
-    thrust::transform(first, first + 3, first, output.begin(), thrust::plus<T>());
+    thrust::transform(h_first, h_first + n, h_first, h_result.begin(), thrust::plus<T>());
+    thrust::transform(d_first, d_first + n, d_first, d_result.begin(), thrust::plus<T>());
     
-    Vector result(3);
-    result[0] = 2; result[1] = 4; result[2] = 6;
-
-    ASSERT_EQUAL(output, result);
+    ASSERT_EQUAL(h_result, d_result);
 }
-DECLARE_VECTOR_UNITTEST(TestTransformBinaryCountingIterator);
+DECLARE_VARIABLE_UNITTEST(TestTransformBinaryCountingIterator);
 
 
 template <typename T>
