@@ -190,6 +190,15 @@ template<typename Incrementable,
       return this->base_reference();
     }
 
+    // note that we implement equal specially for floating point counting_iterator
+    template <typename OtherIncrementable, typename OtherSystem, typename OtherTraversal, typename OtherDifference>
+    __host__ __device__
+    bool equal(counting_iterator<OtherIncrementable, OtherSystem, OtherTraversal, OtherDifference> const& y) const
+    {
+      typedef thrust::detail::counting_iterator_equal<difference_type,Incrementable,OtherIncrementable> e;
+      return e::equal(this->base(), y.base());
+    }
+
     template <class OtherIncrementable>
     __host__ __device__
     difference_type
