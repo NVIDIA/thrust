@@ -40,35 +40,26 @@
 namespace thrust
 {
 
-namespace experimental
-{
 
 template <
       typename Derived
     , typename Base
-    , typename Pointer
-    // XXX nvcc can't handle these defaults at the moment
-    //, typename Value                = use_default
-    //, typename CategoryOrSystem      = use_default
-    //, typename CategoryOrTraversal  = use_default
-    //, typename Reference            = use_default
-    //, typename Difference           = use_default
-    , typename Value
-    , typename System
-    , typename Traversal
-    , typename Reference
+    , typename Value      = use_default
+    , typename System     = use_default
+    , typename Traversal  = use_default
+    , typename Reference  = use_default
     , typename Difference = use_default
   >
   class iterator_adaptor:
     public detail::iterator_adaptor_base<
-      Derived, Base, Pointer, Value, System, Traversal, Reference, Difference
+      Derived, Base, Value, System, Traversal, Reference, Difference
     >::type
 {
-    friend class iterator_core_access;
+    friend class thrust::iterator_core_access;
 
   protected:
     typedef typename detail::iterator_adaptor_base<
-        Derived, Base, Pointer, Value, System, Traversal, Reference, Difference
+        Derived, Base, Value, System, Traversal, Reference, Difference
     >::type super_t;
   
   public:
@@ -81,9 +72,9 @@ template <
     {}
 
     typedef Base       base_type;
-    // XXX BUG: why do we have to declare this here?  it's supposed to be published in super_t
+                                                                                              
     typedef typename super_t::reference reference;
-    // XXX BUG: why do we have to declare this here?  it's supposed to be published in super_t
+                                                                                              
     typedef typename super_t::difference_type difference_type;
 
     __host__ __device__
@@ -107,9 +98,9 @@ template <
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
 
-    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename S, typename T, typename R, typename D>
+    template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
-    bool equal(iterator_adaptor<OtherDerived, OtherIterator, P, V, S, T, R, D> const& x) const
+    bool equal(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& x) const
     { return m_iterator == x.base(); }
 
     __host__ __device__
@@ -130,16 +121,15 @@ template <
       --m_iterator;
     }
 
-    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename S, typename T, typename R, typename D>
+    template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
-    typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, P, V, S, T, R, D> const& y) const
+    typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& y) const
     { return y.base() - m_iterator; }
 
   private:
-    Base m_iterator; // exposition only
+    Base m_iterator;
 }; // end iterator_adaptor
 
-} // end experimental
 
 } // end thrust
 

@@ -5,15 +5,18 @@
 
 using namespace unittest;
 
-template <typename Tuple>
-__host__ __device__
-Tuple operator+(const Tuple &lhs, const Tuple &rhs)
+struct SumTupleFunctor
 {
-  using namespace thrust;
-
-  return make_tuple(get<0>(lhs) + get<0>(rhs),
-                    get<1>(lhs) + get<1>(rhs));
-}
+  template <typename Tuple>
+  __host__ __device__
+  Tuple operator()(const Tuple &lhs, const Tuple &rhs)
+  {
+    using thrust::get;
+  
+    return thrust::make_tuple(get<0>(lhs) + get<0>(rhs),
+                              get<1>(lhs) + get<1>(rhs));
+  }
+};
 
 struct MakeTupleFunctor
 {
@@ -37,9 +40,7 @@ struct TestTupleReduce
 
      // zip up the data
      host_vector< tuple<T,T> > h_tuples(n);
-     transform(h_t1.begin(), h_t1.end(),
-                        h_t2.begin(), h_tuples.begin(),
-                        MakeTupleFunctor());
+     transform(h_t1.begin(), h_t1.end(), h_t2.begin(), h_tuples.begin(), MakeTupleFunctor());
 
      // copy to device
      device_vector< tuple<T,T> > d_tuples = h_tuples;
@@ -47,10 +48,10 @@ struct TestTupleReduce
      tuple<T,T> zero(0,0);
 
      // sum on host
-     tuple<T,T> h_result = reduce(h_tuples.begin(), h_tuples.end(), zero);
+     tuple<T,T> h_result = reduce(h_tuples.begin(), h_tuples.end(), zero, SumTupleFunctor());
 
      // sum on device
-     tuple<T,T> d_result = reduce(d_tuples.begin(), d_tuples.end(), zero);
+     tuple<T,T> d_result = reduce(d_tuples.begin(), d_tuples.end(), zero, SumTupleFunctor());
 
      ASSERT_EQUAL_QUIET(h_result, d_result);
   }

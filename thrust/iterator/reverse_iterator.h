@@ -35,6 +35,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/reverse_iterator_base.h>
+#include <thrust/iterator/iterator_facade.h>
 
 namespace thrust
 {
@@ -151,7 +152,7 @@ template<typename BidirectionalIterator>
       BidirectionalIterator
     >::type super_t;
 
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
   /*! \endcond
    */
 

@@ -197,7 +197,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     detail::transform_iterator_base<AdaptableUnaryFunction, Iterator, Reference, Value>::type
     super_t;
 
-    friend class experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
   /*! \endcond
    */
 

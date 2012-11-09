@@ -34,6 +34,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/permutation_iterator_base.h>
+#include <thrust/iterator/iterator_facade.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -127,7 +128,7 @@ template <typename ElementIterator,
   private:
     typedef typename detail::permutation_iterator_base<ElementIterator,IndexIterator>::type super_t;
 
-    friend class experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
   /*! \endcond
    */
 

@@ -33,6 +33,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/detail/zip_iterator_base.h>
+#include <thrust/iterator/iterator_facade.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -181,7 +182,7 @@ template <typename IteratorTuple>
     typedef typename
     detail::zip_iterator_base<IteratorTuple>::type super_t;
 
-    friend class experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
 
     // Dereferencing returns a tuple built from the dereferenced
     // iterators in the iterator tuple.

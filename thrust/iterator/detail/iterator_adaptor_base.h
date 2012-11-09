@@ -24,13 +24,10 @@
 namespace thrust
 {
 
-namespace experimental
-{
 
 // forward declaration of iterator_adaptor for iterator_adaptor_base below
 template<typename Derived,
          typename Base,
-         typename Pointer,
          typename Value,
          typename System,
          typename Traversal,
@@ -38,6 +35,7 @@ template<typename Derived,
          typename Difference
 >
 class iterator_adaptor;
+
 
 namespace detail
 {
@@ -60,7 +58,6 @@ struct ia_dflt_help
 // a specialization of iterator_facade.
 template<typename Derived,
          typename Base,
-         typename Pointer,
          typename Value,
          typename System,
          typename Traversal,
@@ -98,9 +95,8 @@ template<typename Derived,
     iterator_difference<Base>
   >::type difference;
 
-  typedef iterator_facade<
+  typedef thrust::iterator_facade<
     Derived,
-    Pointer,
     value,
     system,
     traversal,
@@ -109,9 +105,7 @@ template<typename Derived,
   > type;
 }; // end iterator_adaptor_base
 
+
 } // end detail
-
-} // end experimental
-
 } // end thrust
 
