@@ -126,7 +126,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     typedef typename thrust::detail::pointer_base<Element,Tag,Reference,Derived>::derived_type derived_type;
 
     // friend iterator_core_access to give it access to dereference
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
 
     __host__ __device__
     typename super_t::reference dereference() const;

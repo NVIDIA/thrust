@@ -23,22 +23,6 @@
 
 namespace thrust
 {
-namespace experimental
-{
-
-// forward declaration of iterator_adaptor
-template <typename Derived,
-          typename Base,
-          typename Value,
-          typename System,
-          typename Traversal,
-          typename Reference,
-          typename Difference
->
-class iterator_adaptor;
-
-} // end experimental
-
 namespace detail
 {
 

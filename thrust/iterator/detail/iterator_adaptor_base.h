@@ -95,7 +95,7 @@ template<typename Derived,
     iterator_difference<Base>
   >::type difference;
 
-  typedef thrust::experimental::iterator_facade<
+  typedef thrust::iterator_facade<
     Derived,
     value,
     system,

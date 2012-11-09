@@ -399,7 +399,7 @@ template<typename IteratorTuple>
   
     // The iterator facade type from which the zip iterator will
     // be derived.
-    typedef experimental::iterator_facade<
+    typedef thrust::iterator_facade<
         zip_iterator<IteratorTuple>,
         value_type,  
         system,

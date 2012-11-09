@@ -55,7 +55,7 @@ template <
       Derived, Base, Value, System, Traversal, Reference, Difference
     >::type
 {
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
 
   protected:
     typedef typename detail::iterator_adaptor_base<

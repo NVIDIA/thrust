@@ -24,6 +24,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/detail/constant_iterator_base.h>
+#include <thrust/iterator/iterator_facade.h>
 
 namespace thrust
 {
@@ -100,7 +101,7 @@ template<typename Value,
 {
     /*! \cond
      */
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
     typedef typename detail::constant_iterator_base<Value, Incrementable, System>::type          super_t;
     typedef typename detail::constant_iterator_base<Value, Incrementable, System>::incrementable incrementable;
     typedef typename detail::constant_iterator_base<Value, Incrementable, System>::base_iterator base_iterator;

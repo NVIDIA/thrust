@@ -46,8 +46,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
 
 // This forward declaration is required for the friend declaration
 // in iterator_core_access
@@ -210,11 +208,6 @@ class iterator_core_access
     {
       return *static_cast<Derived const*>(&facade);
     }
-
-  private:
-    //// objects of this class are useless
-    //__host__ __device__
-    //iterator_core_access(); //undefined
 }; // end iterator_core_access
 
 
@@ -245,7 +238,7 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
     typedef void                                               pointer;
 
     typedef Difference                                         difference_type;
-    typedef typename detail::iterator_facade_category<
+    typedef typename thrust::detail::iterator_facade_category<
       System, Traversal, Value, Reference
     >::type                                                    iterator_category;
 
@@ -448,7 +441,6 @@ Derived operator+ (typename Derived::difference_type n,
   return tmp += n;
 }
 
-} // end experimental
 
 } // end thrust
 
