@@ -94,7 +94,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     >
   >::type reference_arg;
 
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::iterator_adaptor<
     derived_type,                        // pass along the type of our Derived class to iterator_adaptor
     Element *,                           // we adapt a raw pointer
     value_type,                          // the value type

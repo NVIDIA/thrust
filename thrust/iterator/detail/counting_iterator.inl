@@ -42,7 +42,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
     thrust::detail::identity_<System>
   >::type system;
 
-  typedef typename thrust::experimental::detail::ia_dflt_help<
+  typedef typename thrust::detail::ia_dflt_help<
       Traversal,
       thrust::detail::eval_if<
           thrust::detail::is_numeric<Incrementable>::value,
@@ -53,7 +53,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
 
   // unlike Boost, we explicitly use std::ptrdiff_t as the difference type
   // for floating point counting_iterators
-  typedef typename thrust::experimental::detail::ia_dflt_help<
+  typedef typename thrust::detail::ia_dflt_help<
     Difference,
     thrust::detail::eval_if<
       thrust::detail::is_numeric<Incrementable>::value,
@@ -70,7 +70,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
   // returns a copy of its counter, rather than a reference to it. returning a reference
   // to the internal state of an iterator causes subtle bugs (consider the temporary
   // iterator created in the expression *(iter + i) ) and has no compelling use case
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::iterator_adaptor<
     counting_iterator<Incrementable, System, Traversal, Difference>, // self
     Incrementable,                                                  // Base
     Incrementable,                                                  // XXX we may need to pass const here as Boost does

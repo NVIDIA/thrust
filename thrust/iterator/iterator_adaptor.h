@@ -40,8 +40,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
 
 template <
       typename Derived
@@ -57,7 +55,7 @@ template <
       Derived, Base, Value, System, Traversal, Reference, Difference
     >::type
 {
-    friend class iterator_core_access;
+    friend class thrust::experimental::iterator_core_access;
 
   protected:
     typedef typename detail::iterator_adaptor_base<
@@ -132,7 +130,6 @@ template <
     Base m_iterator;
 }; // end iterator_adaptor
 
-} // end experimental
 
 } // end thrust
 

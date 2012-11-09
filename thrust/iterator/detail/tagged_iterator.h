@@ -47,7 +47,7 @@ template <typename,typename> class tagged_iterator;
 template<typename Iterator, typename Tag>
   struct tagged_iterator_base
 {
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::iterator_adaptor<
     tagged_iterator<Iterator,Tag>,
     Iterator,
     typename thrust::iterator_value<Iterator>::type,

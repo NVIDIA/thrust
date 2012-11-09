@@ -35,7 +35,7 @@ struct transform_iterator_base
 {
  private:
     // By default, dereferencing the iterator yields the same as the function.
-    typedef typename thrust::experimental::detail::ia_dflt_help<
+    typedef typename thrust::detail::ia_dflt_help<
       Reference,
       thrust::detail::result_of<UnaryFunc(typename thrust::iterator_value<Iterator>::type)>
     >::type reference;
@@ -45,13 +45,13 @@ struct transform_iterator_base
     // non-writability.  Note that if we adopt Thomas' suggestion
     // to key non-writability *only* on the Reference argument,
     // we'd need to strip constness here as well.
-    typedef typename thrust::experimental::detail::ia_dflt_help<
+    typedef typename thrust::detail::ia_dflt_help<
       Value,
       thrust::detail::remove_reference<reference>
     >::type cv_value_type;
 
  public:
-    typedef thrust::experimental::iterator_adaptor
+    typedef thrust::iterator_adaptor
     <
         transform_iterator<UnaryFunc, Iterator, Reference, Value>
       , Iterator

@@ -47,7 +47,7 @@ template<typename System>
     thrust::random_access_traversal_tag
   > base_iterator;
 
-  typedef typename thrust::experimental::iterator_adaptor<
+  typedef typename thrust::iterator_adaptor<
     discard_iterator<System>,
     base_iterator,
     value_type,

@@ -24,8 +24,6 @@
 namespace thrust
 {
 
-namespace experimental
-{
 
 // forward declaration of iterator_adaptor for iterator_adaptor_base below
 template<typename Derived,
@@ -37,6 +35,7 @@ template<typename Derived,
          typename Difference
 >
 class iterator_adaptor;
+
 
 namespace detail
 {
@@ -96,7 +95,7 @@ template<typename Derived,
     iterator_difference<Base>
   >::type difference;
 
-  typedef iterator_facade<
+  typedef thrust::experimental::iterator_facade<
     Derived,
     value,
     system,
@@ -106,9 +105,7 @@ template<typename Derived,
   > type;
 }; // end iterator_adaptor_base
 
+
 } // end detail
-
-} // end experimental
-
 } // end thrust
 
