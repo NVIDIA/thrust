@@ -46,16 +46,10 @@ namespace experimental
 template <
       typename Derived
     , typename Base
-    // XXX nvcc can't handle these defaults at the moment
-    //, typename Value                = use_default
-    //, typename CategoryOrSystem      = use_default
-    //, typename CategoryOrTraversal  = use_default
-    //, typename Reference            = use_default
-    //, typename Difference           = use_default
-    , typename Value
-    , typename System
-    , typename Traversal
-    , typename Reference
+    , typename Value      = use_default
+    , typename System     = use_default
+    , typename Traversal  = use_default
+    , typename Reference  = use_default
     , typename Difference = use_default
   >
   class iterator_adaptor:
@@ -80,9 +74,9 @@ template <
     {}
 
     typedef Base       base_type;
-    // XXX BUG: why do we have to declare this here?  it's supposed to be published in super_t
+                                                                                              
     typedef typename super_t::reference reference;
-    // XXX BUG: why do we have to declare this here?  it's supposed to be published in super_t
+                                                                                              
     typedef typename super_t::difference_type difference_type;
 
     __host__ __device__
@@ -135,7 +129,7 @@ template <
     { return y.base() - m_iterator; }
 
   private:
-    Base m_iterator; // exposition only
+    Base m_iterator;
 }; // end iterator_adaptor
 
 } // end experimental
