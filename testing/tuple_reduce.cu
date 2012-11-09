@@ -9,7 +9,7 @@ struct SumTupleFunctor
 {
   template <typename Tuple>
   __host__ __device__
-  Tuple operator+(const Tuple &lhs, const Tuple &rhs)
+  Tuple operator()(const Tuple &lhs, const Tuple &rhs)
   {
     using thrust::get;
   

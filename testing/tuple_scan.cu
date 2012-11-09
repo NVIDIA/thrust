@@ -5,15 +5,18 @@
 
 using namespace unittest;
 
-template <typename Tuple>
-__host__ __device__
-Tuple operator+(const Tuple &lhs, const Tuple &rhs)
+struct SumTupleFunctor
 {
-  using namespace thrust;
-
-  return make_tuple(get<0>(lhs) + get<0>(rhs),
-                    get<1>(lhs) + get<1>(rhs));
-}
+  template <typename Tuple>
+  __host__ __device__
+  Tuple operator()(const Tuple &lhs, const Tuple &rhs)
+  {
+    using thrust::get;
+  
+    return thrust::make_tuple(get<0>(lhs) + get<0>(rhs),
+                              get<1>(lhs) + get<1>(rhs));
+  }
+};
 
 struct MakeTupleFunctor
 {
@@ -38,9 +41,7 @@ struct TestTupleScan
 
      // initialize input
      host_vector< tuple<T,T> > h_input(n);
-     transform(h_t1.begin(), h_t1.end(),
-               h_t2.begin(), h_input.begin(),
-               MakeTupleFunctor());
+     transform(h_t1.begin(), h_t1.end(), h_t2.begin(), h_input.begin(), MakeTupleFunctor());
      device_vector< tuple<T,T> > d_input = h_input;
      
      // allocate output
@@ -49,14 +50,14 @@ struct TestTupleScan
      device_vector< tuple<T,T> > d_output(n, zero);
 
      // exclusive_scan
-     inclusive_scan(h_input.begin(), h_input.end(), h_output.begin());
-     inclusive_scan(d_input.begin(), d_input.end(), d_output.begin());
+     inclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), SumTupleFunctor());
+     inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), SumTupleFunctor());
      ASSERT_EQUAL_QUIET(h_output, d_output);
 
      // exclusive_scan
      tuple<T,T> init(13,17);
-     exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), init);
-     exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), init);
+     exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), init, SumTupleFunctor());
+     exclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), init, SumTupleFunctor());
 
      ASSERT_EQUAL_QUIET(h_output, d_output);
   }
