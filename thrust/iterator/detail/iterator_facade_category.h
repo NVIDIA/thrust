@@ -47,13 +47,6 @@ template<typename Category, typename System, typename Traversal>
   typedef System type;
 }; // end iterator_category_with_system_and_traversal
 
-} // end detail
-
-namespace experimental
-{
-
-namespace detail
-{
 
 // adapted from http://www.boost.org/doc/libs/1_37_0/libs/iterator/doc/iterator_facade.html#iterator-category
 //
@@ -284,9 +277,7 @@ template<typename CategoryOrSystem,
   >::type type;
 }; // end iterator_facade_category
 
+
 } // end detail
-
-} // end experimental
-
 } // end thrust
 

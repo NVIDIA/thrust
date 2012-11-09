@@ -39,7 +39,6 @@ template<typename System>
   //     but this interferes with zip_iterator<discard_iterator>
   typedef any_assign         value_type;
   typedef any_assign&        reference;
-  typedef void               pointer;
   typedef std::ptrdiff_t     incrementable;
 
   typedef typename thrust::counting_iterator<
@@ -48,10 +47,9 @@ template<typename System>
     thrust::random_access_traversal_tag
   > base_iterator;
 
-  typedef typename thrust::experimental::iterator_adaptor<
+  typedef typename thrust::iterator_adaptor<
     discard_iterator<System>,
     base_iterator,
-    pointer,
     value_type,
     typename thrust::iterator_system<base_iterator>::type,
     typename thrust::iterator_traversal<base_iterator>::type,
