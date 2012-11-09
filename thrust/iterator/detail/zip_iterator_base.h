@@ -380,10 +380,6 @@ template<typename IteratorTuple>
     //typedef reference value_type;
     typedef typename tuple_of_value_types<IteratorTuple>::type value_type;
 
-    // Boost's Pointer type is just value_type *
-    //typedef value_type * pointer;
-    typedef reference * pointer;
-
     // Difference type is the first iterator's difference type
     typedef typename thrust::iterator_traits<
       typename thrust::tuple_element<0, IteratorTuple>::type
@@ -405,7 +401,6 @@ template<typename IteratorTuple>
     // be derived.
     typedef experimental::iterator_facade<
         zip_iterator<IteratorTuple>,
-        pointer,
         value_type,  
         system,
         traversal_category,

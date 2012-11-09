@@ -38,7 +38,6 @@ template<typename Pointer>
     : public experimental::iterator_adaptor<
         normal_iterator<Pointer>,
         Pointer,
-        Pointer,
         typename thrust::use_default,
         typename thrust::use_default,
         typename thrust::use_default,

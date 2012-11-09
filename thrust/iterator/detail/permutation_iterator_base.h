@@ -40,7 +40,6 @@ template<typename ElementIterator,
   typedef thrust::experimental::iterator_adaptor<
     permutation_iterator<ElementIterator,IndexIterator>,
     IndexIterator,
-    typename thrust::iterator_pointer<ElementIterator>::type,
     typename thrust::iterator_value<ElementIterator>::type,
     typename detail::minimum_system<System1,System2>::type,
     thrust::use_default,

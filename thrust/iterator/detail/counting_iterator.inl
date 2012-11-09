@@ -73,8 +73,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
   typedef thrust::experimental::iterator_adaptor<
     counting_iterator<Incrementable, System, Traversal, Difference>, // self
     Incrementable,                                                  // Base
-    Incrementable *,                                                // Pointer -- maybe we should make this device_ptr when memory space category is device?
-    Incrementable,                                                  // Value
+    Incrementable,                                                  // XXX we may need to pass const here as Boost does
     system,
     traversal,
     Incrementable,

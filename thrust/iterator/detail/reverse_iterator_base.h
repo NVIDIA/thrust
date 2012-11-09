@@ -33,7 +33,6 @@ template<typename BidirectionalIterator>
   typedef thrust::experimental::iterator_adaptor<
     thrust::reverse_iterator<BidirectionalIterator>,
     BidirectionalIterator,
-    typename thrust::iterator_pointer<BidirectionalIterator>::type,
     typename thrust::iterator_value<BidirectionalIterator>::type,
     typename thrust::iterator_system<BidirectionalIterator>::type,
     typename thrust::iterator_traversal<BidirectionalIterator>::type,

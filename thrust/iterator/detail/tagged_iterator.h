@@ -29,7 +29,6 @@ namespace experimental
 // forward declaration of iterator_adaptor
 template <typename Derived,
           typename Base,
-          typename Pointer,
           typename Value,
           typename System,
           typename Traversal,
@@ -51,7 +50,6 @@ template<typename Iterator, typename Tag>
   typedef thrust::experimental::iterator_adaptor<
     tagged_iterator<Iterator,Tag>,
     Iterator,
-    typename thrust::iterator_pointer<Iterator>::type,
     typename thrust::iterator_value<Iterator>::type,
     Tag,
     typename thrust::iterator_traversal<Iterator>::type,

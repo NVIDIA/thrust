@@ -46,7 +46,6 @@ namespace experimental
 template <
       typename Derived
     , typename Base
-    , typename Pointer
     // XXX nvcc can't handle these defaults at the moment
     //, typename Value                = use_default
     //, typename CategoryOrSystem      = use_default
@@ -61,14 +60,14 @@ template <
   >
   class iterator_adaptor:
     public detail::iterator_adaptor_base<
-      Derived, Base, Pointer, Value, System, Traversal, Reference, Difference
+      Derived, Base, Value, System, Traversal, Reference, Difference
     >::type
 {
     friend class iterator_core_access;
 
   protected:
     typedef typename detail::iterator_adaptor_base<
-        Derived, Base, Pointer, Value, System, Traversal, Reference, Difference
+        Derived, Base, Value, System, Traversal, Reference, Difference
     >::type super_t;
   
   public:
@@ -107,9 +106,9 @@ template <
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
 
-    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename S, typename T, typename R, typename D>
+    template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
-    bool equal(iterator_adaptor<OtherDerived, OtherIterator, P, V, S, T, R, D> const& x) const
+    bool equal(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& x) const
     { return m_iterator == x.base(); }
 
     __host__ __device__
@@ -130,9 +129,9 @@ template <
       --m_iterator;
     }
 
-    template<typename OtherDerived, typename OtherIterator, typename P, typename V, typename S, typename T, typename R, typename D>
+    template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
-    typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, P, V, S, T, R, D> const& y) const
+    typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& y) const
     { return y.base() - m_iterator; }
 
   private:

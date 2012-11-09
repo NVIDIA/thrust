@@ -30,7 +30,6 @@ namespace experimental
 // forward declaration of iterator_adaptor for iterator_adaptor_base below
 template<typename Derived,
          typename Base,
-         typename Pointer,
          typename Value,
          typename System,
          typename Traversal,
@@ -60,7 +59,6 @@ struct ia_dflt_help
 // a specialization of iterator_facade.
 template<typename Derived,
          typename Base,
-         typename Pointer,
          typename Value,
          typename System,
          typename Traversal,
@@ -100,7 +98,6 @@ template<typename Derived,
 
   typedef iterator_facade<
     Derived,
-    Pointer,
     value,
     system,
     traversal,

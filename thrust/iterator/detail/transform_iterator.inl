@@ -50,14 +50,11 @@ struct transform_iterator_base
       thrust::detail::remove_reference<reference>
     >::type cv_value_type;
 
-    typedef typename thrust::iterator_traits<Iterator>::pointer pointer_;
-
  public:
     typedef thrust::experimental::iterator_adaptor
     <
         transform_iterator<UnaryFunc, Iterator, Reference, Value>
       , Iterator
-      , pointer_
       , cv_value_type
       , thrust::use_default   // Leave the system alone
         //, thrust::use_default   // Leave the traversal alone

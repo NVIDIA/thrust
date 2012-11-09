@@ -37,11 +37,11 @@
 #include <thrust/iterator/detail/iterator_facade_category.h>
 #include <thrust/iterator/detail/distance_from_result.h>
 
-#define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Pointer, typename    Value, typename    System, typename    Traversal, typename    Reference, typename    Difference
-#define ITERATOR_FACADE_FORMAL_PARMS_I(i) typename Derived##i, typename Pointer##i, typename Value##i, typename System##i, typename Traversal##i, typename Reference##i, typename Difference##i
+#define ITERATOR_FACADE_FORMAL_PARMS      typename    Derived, typename    Value, typename    System, typename    Traversal, typename    Reference, typename    Difference
+#define ITERATOR_FACADE_FORMAL_PARMS_I(i) typename Derived##i, typename Value##i, typename System##i, typename Traversal##i, typename Reference##i, typename Difference##i
 
-#define ITERATOR_FACADE_ARGS         Derived,    Pointer,    Value,    System,    Traversal,    Reference,    Difference
-#define ITERATOR_FACADE_ARGS_I(i) Derived##i, Pointer##i, Value##i, System##i, Traversal##i, Reference##i, Difference##i
+#define ITERATOR_FACADE_ARGS         Derived,    Value,    System,    Traversal,    Reference,    Difference
+#define ITERATOR_FACADE_ARGS_I(i) Derived##i, Value##i, System##i, Traversal##i, Reference##i, Difference##i
 
 namespace thrust
 {
@@ -240,7 +240,10 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
   public:
     typedef typename thrust::detail::remove_const<Value>::type value_type;
     typedef Reference                                          reference;
-    typedef Pointer                                            pointer;
+
+    // XXX consider implementing operator-> later
+    typedef void                                               pointer;
+
     typedef Difference                                         difference_type;
     typedef typename detail::iterator_facade_category<
       System, Traversal, Value, Reference
@@ -252,12 +255,11 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
       return iterator_core_access::dereference(this->derived());
     }
 
-    // XXX investigate whether or not we need to go to the lengths
-    //     boost does to determine the return type
-    pointer operator->() const
-    {
-      return this->derived();
-    }
+    // XXX unimplemented for now, consider implementing it later
+    //pointer operator->() const
+    //{
+    //  return;
+    //}
 
     // XXX investigate whether or not we need to go to the lengths
     //     boost does to determine the return type

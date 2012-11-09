@@ -42,8 +42,6 @@ template<typename Value,
   // *(iter + i)
   typedef value_type         reference;
 
-  typedef const value_type * pointer;
-
   // the incrementable type is int unless otherwise specified
   typedef typename thrust::experimental::detail::ia_dflt_help<
     Incrementable,
@@ -59,8 +57,7 @@ template<typename Value,
   typedef typename thrust::experimental::iterator_adaptor<
     constant_iterator<Value, Incrementable, System>,
     base_iterator,
-    pointer,
-    value_type,
+    value_type, // XXX we may need to pass const value_type here as boost counting_iterator does
     typename thrust::iterator_system<base_iterator>::type,
     typename thrust::iterator_traversal<base_iterator>::type,
     reference
