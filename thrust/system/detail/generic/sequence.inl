@@ -17,6 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/functional.h>
 #include <thrust/tabulate.h>
 
 namespace thrust
@@ -27,28 +28,6 @@ namespace detail
 {
 namespace generic
 {
-namespace detail
-{
-
-template<typename T>
-  struct sequence_functor
-{
-  const T init;
-  const T step;
-
-  sequence_functor(T _init, T _step) 
-      : init(_init), step(_step) {}
-  
-  template <typename IntegerType>
-      __host__ __device__
-  T operator()(const IntegerType i) const
-  {
-    return init + step * i;
-  }
-}; // end sequence_functor
-
-
-} // end namespace detail
 
 
 template<typename System, typename ForwardIterator>
@@ -79,11 +58,7 @@ template<typename System, typename ForwardIterator, typename T>
                 T init,
                 T step)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::difference_type difference_type;
-
-  detail::sequence_functor<T> func(init, step);
-
-  thrust::tabulate(system, first, last, func);
+  thrust::tabulate(system, first, last, init + step * thrust::placeholders::_1);
 } // end sequence()
 
 
