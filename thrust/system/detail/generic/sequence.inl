@@ -17,9 +17,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/transform.h>
-#include <thrust/distance.h>
-#include <thrust/iterator/counting_iterator.h>
+#include <thrust/tabulate.h>
 
 namespace thrust
 {
@@ -85,13 +83,7 @@ template<typename System, typename ForwardIterator, typename T>
 
   detail::sequence_functor<T> func(init, step);
 
-  // by default, counting_iterator uses a 64b difference_type on 32b platforms to avoid overflowing its counter.
-  // this causes problems when a zip_iterator is created in transform's implementation -- ForwardIterator is
-  // incremented by a 64b difference_type and some compilers warn
-  // to avoid this, specify the counting_iterator's difference_type to be the same as ForwardIterator's.
-  thrust::counting_iterator<difference_type, thrust::use_default, thrust::use_default, difference_type> iter(0);
-
-  thrust::transform(system, iter, iter + thrust::distance(system, first, last), first, func);
+  thrust::tabulate(system, first, last, func);
 } // end sequence()
 
 
