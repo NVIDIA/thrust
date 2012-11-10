@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/system/cuda/detail/reduce_by_key.h>
+#include <thrust/sequence.h>
 #include <thrust/iterator/zip_iterator.h>
 
 // this test exists to reproduce issue #480
@@ -84,8 +85,9 @@ template <typename InputIterator1,
                      BinaryPredicate binary_pred,
                      BinaryFunction binary_op)
 {
+  thrust::system::cuda::tag system;
   return thrust::system::cuda::detail::reduce_by_key_detail::reduce_by_key
-        ( thrust::system::cuda::tag(),
+        ( system,
           keys_first, keys_last,
           values_first,
           keys_output,
