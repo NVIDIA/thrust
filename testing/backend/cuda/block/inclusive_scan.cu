@@ -3,7 +3,7 @@
 #if defined(__CUDACC__)
 
 #include <thrust/detail/minmax.h>
-#include <thrust/system/cuda/detail/arch.h>
+#include <thrust/system/cuda/detail/runtime_introspection.h>
 #include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
@@ -47,8 +47,8 @@ struct block_inclusive_scan_closure
 template <typename Closure>
 bool is_valid_launch(size_t grid_size, size_t block_size, size_t smem_bytes = 0)
 {
-  thrust::system::cuda::detail::arch::device_properties_t   properties = thrust::system::cuda::detail::arch::device_properties();
-  thrust::system::cuda::detail::arch::function_attributes_t attributes = thrust::system::cuda::detail::detail::closure_attributes<Closure>();
+  thrust::system::cuda::detail::device_properties_t   properties = thrust::system::cuda::detail::device_properties();
+  thrust::system::cuda::detail::function_attributes_t attributes = thrust::system::cuda::detail::detail::closure_attributes<Closure>();
 
   size_t total_smem = smem_bytes + attributes.sharedSizeBytes;
 
