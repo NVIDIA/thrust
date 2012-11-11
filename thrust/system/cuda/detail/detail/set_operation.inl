@@ -220,7 +220,7 @@ inline __device__ int pop_count(unsigned int x)
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   return __popc(x);
 #else
-  return 0;
+  return x;
 #endif
 }
 

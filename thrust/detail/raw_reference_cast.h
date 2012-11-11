@@ -28,7 +28,7 @@ namespace detail
 {
 
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(is_wrapped_reference, wrapped_reference_hint);
+__THRUST_DEFINE_HAS_NESTED_TYPE(is_wrapped_reference, wrapped_reference_hint)
 
 namespace raw_reference_detail
 {
