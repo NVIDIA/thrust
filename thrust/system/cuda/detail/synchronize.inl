@@ -43,6 +43,9 @@ void synchronize_if_enabled(const char *message)
 // XXX this could potentially be a runtime decision
 #if __THRUST_SYNCHRONOUS
   synchronize(message);
+#else
+  // WAR "unused parameter" warning
+  (void) message;
 #endif
 } // end synchronize_if_enabled()
 

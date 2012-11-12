@@ -147,7 +147,7 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size);
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size)
 
 template<typename Alloc>
   class has_member_max_size
@@ -180,7 +180,7 @@ template<typename Alloc>
   return std::numeric_limits<size_type>::max();
 }
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system);
+__THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system)
 
 template<typename Alloc>
   class has_member_system
