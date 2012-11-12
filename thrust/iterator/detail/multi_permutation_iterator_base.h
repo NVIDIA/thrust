@@ -147,10 +147,6 @@ struct multi_permutation_iterator_base
     //typedef reference value_type;
     typedef typename indexed_tuple_of_value_types<ElementIterator,IndexTupleIterator>::type value_type;
     
-    // Boost's Pointer type is just value_type *
-    //typedef value_type * pointer;
-    typedef reference * pointer;
-    
     // Difference type is the IndexTuple iterator's difference type
     typedef typename thrust::iterator_traits<
         IndexTupleIterator
@@ -163,10 +159,9 @@ struct multi_permutation_iterator_base
 
 public:
     
-    typedef thrust::experimental::iterator_adaptor<
+    typedef thrust::iterator_adaptor<
     multi_permutation_iterator<ElementIterator,IndexTupleIterator>,
     IndexTupleIterator,
-    pointer,
     value_type,  
     system,
     thrust::use_default,
