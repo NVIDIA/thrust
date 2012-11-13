@@ -194,6 +194,46 @@ template<typename System,
 template<typename System,
          typename InputIterator1,
          typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(thrust::dispatchable<System> &system,
+                                    InputIterator1                keys_first1,
+                                    InputIterator1                keys_last1,
+                                    InputIterator2                keys_first2,
+                                    InputIterator2                keys_last2,
+                                    InputIterator3                values_first1,
+                                    InputIterator4                values_first2,
+                                    OutputIterator1               keys_result,
+                                    OutputIterator2               values_result);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename StrictWeakOrdering>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(thrust::dispatchable<System> &system,
+                                    InputIterator1                keys_first1,
+                                    InputIterator1                keys_last1,
+                                    InputIterator2                keys_first2,
+                                    InputIterator2                keys_last2,
+                                    InputIterator3                values_first1,
+                                    InputIterator4                values_first2,
+                                    OutputIterator1               keys_result,
+                                    OutputIterator2               values_result,
+                                    StrictWeakOrdering            comp);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
          typename OutputIterator>
   OutputIterator set_union(thrust::dispatchable<System> &system,
                            InputIterator1                first1,

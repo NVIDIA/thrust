@@ -229,6 +229,54 @@ template<typename System,
 template<typename System,
          typename InputIterator1,
          typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(thrust::detail::dispatchable_base<System> &system,
+                                    InputIterator1                             keys_first1,
+                                    InputIterator1                             keys_last1,
+                                    InputIterator2                             keys_first2,
+                                    InputIterator2                             keys_last2,
+                                    InputIterator3                             values_first1,
+                                    InputIterator4                             values_first2,
+                                    OutputIterator1                            keys_result,
+                                    OutputIterator2                            values_result)
+{
+  using thrust::system::detail::generic::set_symmetric_difference_by_key;
+  return set_symmetric_difference_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+} // end set_symmetric_difference_by_key()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename StrictWeakCompare>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(thrust::detail::dispatchable_base<System> &system,
+                                    InputIterator1                             keys_first1,
+                                    InputIterator1                             keys_last1,
+                                    InputIterator2                             keys_first2,
+                                    InputIterator2                             keys_last2,
+                                    InputIterator3                             values_first1,
+                                    InputIterator4                             values_first2,
+                                    OutputIterator1                            keys_result,
+                                    OutputIterator2                            values_result,
+                                    StrictWeakCompare                          comp)
+{
+  using thrust::system::detail::generic::set_symmetric_difference_by_key;
+  return set_symmetric_difference_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+} // end set_symmetric_difference_by_key()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
          typename OutputIterator>
   OutputIterator set_union(thrust::detail::dispatchable_base<System> &system,
                            InputIterator1                             first1,
@@ -460,6 +508,54 @@ template<typename System,
   System &non_const_system = const_cast<System&>(system);
   return thrust::set_symmetric_difference(non_const_system, first1, last1, first2, last2, result, comp);
 } // end strip_const_set_symmetric_difference()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    strip_const_set_symmetric_difference_by_key(const System   &system,
+                                                InputIterator1  keys_first1,
+                                                InputIterator1  keys_last1,
+                                                InputIterator2  keys_first2,
+                                                InputIterator2  keys_last2,
+                                                InputIterator3  values_first1,
+                                                InputIterator4  values_first2,
+                                                OutputIterator1 keys_result,
+                                                OutputIterator2 values_result)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::set_symmetric_difference_by_key(non_const_system, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+} // end strip_const_set_symmetric_difference_by_key()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename StrictWeakCompare>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    strip_const_set_symmetric_difference_by_key(const System     &system,
+                                                InputIterator1    keys_first1,
+                                                InputIterator1    keys_last1,
+                                                InputIterator2    keys_first2,
+                                                InputIterator2    keys_last2,
+                                                InputIterator3    values_first1,
+                                                InputIterator4    values_first2,
+                                                OutputIterator1   keys_result,
+                                                OutputIterator2   values_result,
+                                                StrictWeakCompare comp)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::set_symmetric_difference_by_key(non_const_system, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+} // end strip_const_set_symmetric_difference_by_key()
 
 
 template<typename System,
@@ -789,6 +885,80 @@ template<typename InputIterator1,
 
   return thrust::detail::strip_const_set_symmetric_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result);
 } // end set_symmetric_difference()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename StrictWeakOrdering>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(InputIterator1 keys_first1,
+                                    InputIterator1 keys_last1,
+                                    InputIterator2 keys_first2,
+                                    InputIterator2 keys_last2,
+                                    InputIterator3 values_first1,
+                                    InputIterator4 values_first2,
+                                    OutputIterator1 keys_result,
+                                    OutputIterator2 values_result,
+                                    StrictWeakOrdering comp)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+
+  System1 system1;
+  System2 system2;
+  System3 system3;
+  System4 system4;
+  System5 system5;
+  System6 system6;
+
+  return thrust::detail::strip_const_set_symmetric_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+} // end set_symmetric_difference_by_key()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(InputIterator1 keys_first1,
+                                    InputIterator1 keys_last1,
+                                    InputIterator2 keys_first2,
+                                    InputIterator2 keys_last2,
+                                    InputIterator3 values_first1,
+                                    InputIterator4 values_first2,
+                                    OutputIterator1 keys_result,
+                                    OutputIterator2 values_result)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+
+  System1 system1;
+  System2 system2;
+  System3 system3;
+  System4 system4;
+  System5 system5;
+  System6 system6;
+
+  return thrust::detail::strip_const_set_symmetric_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+} // end set_symmetric_difference_by_key()
 
 
 template<typename InputIterator1,
