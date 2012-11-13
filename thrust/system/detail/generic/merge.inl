@@ -23,6 +23,7 @@
 #include <thrust/merge.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/detail/raw_reference_cast.h>
 
 namespace thrust
 {

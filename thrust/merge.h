@@ -22,6 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/dispatchable.h>
+#include <thrust/pair.h>
 
 namespace thrust
 {
