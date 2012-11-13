@@ -75,15 +75,15 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(InputIterator1 first1,
-                 InputIterator1 last1,
-                 InputIterator2 first2,
-                 InputIterator2 last2,
-                 InputIterator3 first3,
-                 InputIterator4 first4,
-                 OutputIterator1 output1,
-                 OutputIterator2 output2,
-                 StrictWeakOrdering comp)
+  merge_by_key(InputIterator1 keys_first1,
+               InputIterator1 keys_last1,
+               InputIterator2 keys_first2,
+               InputIterator2 keys_last2,
+               InputIterator3 values_first1,
+               InputIterator4 values_first2,
+               OutputIterator1 keys_result,
+               OutputIterator2 values_result,
+               StrictWeakOrdering comp)
 {
   // wrap comp
   thrust::detail::host_function<
@@ -91,50 +91,50 @@ thrust::pair<OutputIterator1,OutputIterator2>
     bool
   > wrapped_comp(comp);
 
-  while(first1 != last1 && first2 != last2)
+  while(keys_first1 != keys_last1 && keys_first2 != keys_last2)
   {
-    if(!wrapped_comp(*first2, *first1))
+    if(!wrapped_comp(*keys_first2, *keys_first1))
     {
-      // *first1 <= *first2
-      *output1 = *first1;
-      *output2 = *first3;
-      ++first1;
-      ++first3;
+      // *keys_first1 <= *keys_first2
+      *keys_result   = *keys_first1;
+      *values_result = *values_first1;
+      ++keys_first1;
+      ++values_first1;
     }
     else
     {
-      // *first1 > first2
-      *output1 = *first2;
-      *output2 = *first4;
-      ++first2;
-      ++first4;
+      // *keys_first1 > keys_first2
+      *keys_result   = *keys_first2;
+      *values_result = *values_first2;
+      ++keys_first2;
+      ++values_first2;
     }
 
-    ++output1;
-    ++output2;
+    ++keys_result;
+    ++values_result;
   }
 
-  while(first1 != last1)
+  while(keys_first1 != keys_last1)
   {
-    *output1 = *first1;
-    *output2 = *first3;
-    ++first1;
-    ++first3;
-    ++output1;
-    ++output2;
+    *keys_result   = *keys_first1;
+    *values_result = *values_first1;
+    ++keys_first1;
+    ++values_first1;
+    ++keys_result;
+    ++values_result;
   }
 
-  while(first2 != last2)
+  while(keys_first2 != keys_last2)
   {
-    *output1 = *first2;
-    *output2 = *first4;
-    ++first2;
-    ++first4;
-    ++output1;
-    ++output2;
+    *keys_result   = *keys_first2;
+    *values_result = *values_first2;
+    ++keys_first2;
+    ++values_first2;
+    ++keys_result;
+    ++values_result;
   }
 
-  return thrust::make_pair(output1, output2);
+  return thrust::make_pair(keys_result, values_result);
 }
 
 } // end namespace scalar
