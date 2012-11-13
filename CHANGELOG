@@ -7,27 +7,72 @@ Summary
 
 Breaking API Changes
     XXX TODO
+    Dispatch
+      custom user backend systems' tag types must now inherit from the corresponding system's dispatchable template (e.g. thrust::cuda::dispatchable) instead
+      of the tag struct (e.g. thrust::cuda::tag). Algorithm specializations will silently go unfound during dispatch otherwise.
+      See examples/minimal_custom_backend.cu and examples/cuda/custom_temporary_allocation.cu for usage examples.
+
+    Iterators
+      iterator_facade and iterator_adaptor's Pointer template parameters have been eliminated
+      iterator_adaptor has been moved into the thrust namespace (previously thrust::experimental::iterator_adaptor)
+      iterator_facade has been moved into the thrust namespace (previously thrust::experimental::iterator_facade)
+      iterator_core_access has been moved into the thrust namespace (previously thrust::experimental::iterator_core_access)
+      all iterators' nested pointer typedef (the type of the result of operator->) is now void instead of a pointer type to indicate that such expressions are currently not possible
+      floating point counting_iterators' nested difference_type typedef is now a signed integral type instead of a floating point type
+
+    Other
+      placeholder expressions may no longer include the comma operator
 
 New Features
     XXX TODO
+    Functions
+	free
+	get_temporary_buffer
+	malloc
+        merge_by_key
+	return_temporary_buffer
+	tabulate
+
+    Types
+        XXX TODO
+
+    Device support
+        XXX TODO
 
 New Examples
+    uninitialized_vector
     XXX TODO
 
 Other Enhancements
     XXX TODO
+    XXX TODO stateful dispatch
+    XXX TODO THRUST_DEVICE_SYSTEM_CPP
     XXX TODO CUDA merge performance
+    XXX TODO CUDA set operation performance
     XXX TODO TBB reduce_by_key performance
     XXX TODO TBB algorithm parallelization
+    better support for user allocators in vectors
+    sparse_vector example is now implemented with merge_by_key instead of sort_by_key
+    eliminate various warnings
 
 Bug Fixes
     XXX TODO
+    #248 fix broken counting_iterator<float> behavior with OpenMP
+    #231, #209 fix set operation failures with CUDA
+    #187 fix incorrect occupancy calculation with CUDA
+    #153 fix broken multigpu behavior with CUDA
+    #142 eliminate warning produced by thrust::random::taus88 and MSVC 2010
+    #208 correctly initialize elements in temporary storage when necessary
+    #16 fix compilation error when sorting bool with CUDA
+    #10 fix ambiguous overloads of reinterpret_tag
 
 Known Issues
     XXX TODO
 
 Acknowledgments
     Thanks to Sean Baxter, Bryan Catanzaro, and Manjunath Kudlur for contributing a faster merge implementation for CUDA
+    Thanks to Sean Baxter for contributing a faster set operation implementation for CUDA
+    Thanks to Cliff Woolley for contributing a correct occupancy calculation algorithm
 
 #######################################
 #           Thrust v1.6.0             #
