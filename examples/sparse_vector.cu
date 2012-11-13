@@ -1,6 +1,6 @@
 #include <thrust/device_vector.h>
 #include <thrust/functional.h>
-#include <thrust/sort.h>
+#include <thrust/merge.h>
 #include <thrust/reduce.h>
 #include <thrust/inner_product.h>
 #include <cassert>
@@ -46,14 +46,13 @@ void sum_sparse_vectors(const IndexVector1& A_index,
     IndexVector3 temp_index(A_size + B_size);
     ValueVector3 temp_value(A_size + B_size);
 
-    // concatenate A and B
-    thrust::copy(A_index.begin(), A_index.end(), temp_index.begin());
-    thrust::copy(A_value.begin(), A_value.end(), temp_value.begin());
-    thrust::copy(B_index.begin(), B_index.end(), temp_index.begin() + A_size);
-    thrust::copy(B_value.begin(), B_value.end(), temp_value.begin() + A_size);
-
-    // sort by index
-    thrust::sort_by_key(temp_index.begin(), temp_index.end(), temp_value.begin());
+    // merge A and B by index
+    thrust::merge_by_key(A_index.begin(), A_index.end(),
+                         B_index.begin(), B_index.end(),
+                         A_value.begin(),
+                         B_value.begin(),
+                         temp_index.begin(),
+                         temp_value.begin());
     
     // compute number of unique indices
     size_t C_size = thrust::inner_product(temp_index.begin(), temp_index.end() - 1,

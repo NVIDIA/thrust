@@ -55,6 +55,8 @@ namespace select_system_exists_ns
   no select_system(const any_conversion &, const any_conversion &);
   no select_system(const any_conversion &, const any_conversion &, const any_conversion &);
   no select_system(const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &);
+  no select_system(const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &);
+  no select_system(const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &, const any_conversion &);
 
   template<typename T> yes check(const T &);
 
@@ -97,6 +99,31 @@ namespace select_system_exists_ns
 
     static const bool value = sizeof(check(select_system(tag1,tag2,tag3,tag4))) == sizeof(yes);
   };
+
+  template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Tag5>
+    struct select_system5_exists
+  {
+    static Tag1 &tag1;
+    static Tag2 &tag2;
+    static Tag3 &tag3;
+    static Tag4 &tag4;
+    static Tag5 &tag5;
+
+    static const bool value = sizeof(check(select_system(tag1,tag2,tag3,tag4,tag5))) == sizeof(yes);
+  };
+
+  template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Tag5, typename Tag6>
+    struct select_system6_exists
+  {
+    static Tag1 &tag1;
+    static Tag2 &tag2;
+    static Tag3 &tag3;
+    static Tag4 &tag4;
+    static Tag5 &tag5;
+    static Tag6 &tag6;
+
+    static const bool value = sizeof(check(select_system(tag1,tag2,tag3,tag4,tag5,tag6))) == sizeof(yes);
+  };
 } // end select_system_exists_ns
 
 } // end generic_type_traits_ns
@@ -122,6 +149,16 @@ template<typename Tag1, typename Tag2, typename Tag3>
 template<typename Tag1, typename Tag2, typename Tag3, typename Tag4>
   struct select_system4_exists
     : generic_type_traits_ns::select_system_exists_ns::select_system4_exists<Tag1,Tag2,Tag3,Tag4>
+{};
+
+template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Tag5>
+  struct select_system5_exists
+    : generic_type_traits_ns::select_system_exists_ns::select_system5_exists<Tag1,Tag2,Tag3,Tag4,Tag5>
+{};
+
+template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Tag5, typename Tag6>
+  struct select_system6_exists
+    : generic_type_traits_ns::select_system_exists_ns::select_system6_exists<Tag1,Tag2,Tag3,Tag4,Tag5,Tag6>
 {};
 
 } // end generic
