@@ -862,7 +862,7 @@ template<typename InputIterator1,
 
 
 /*! \p set_difference_by_key performs a key-value difference operation from set theory.
- *  \p set_difference_by_key constructs a sorted range that is the set difference of the sorted
+ *  \p set_difference_by_key constructs a sorted range that is the difference of the sorted
  *  ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt>. Associated
  *  with each element from the input and output key ranges is a value element. The associated input
  *  value ranges need not be sorted.
@@ -955,7 +955,7 @@ template<typename InputIterator1,
 
 
 /*! \p set_difference_by_key performs a key-value difference operation from set theory.
- *  \p set_difference_by_key constructs a sorted range that is the set difference of the sorted
+ *  \p set_difference_by_key constructs a sorted range that is the difference of the sorted
  *  ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt>. Associated
  *  with each element from the input and output key ranges is a value element. The associated input
  *  value ranges need not be sorted.
@@ -1052,7 +1052,86 @@ template<typename InputIterator1,
                           StrictWeakCompare                          comp);
 
 
-/*! XXX TODO document me!
+/*! \p set_intersection_by_key performs a key-value intersection operation from set theory.
+ *  \p set_intersection_by_key constructs a sorted range that is the intersection of the sorted
+ *  ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt>. Associated
+ *  with each element from the input and output key ranges is a value element. The associated input
+ *  value ranges need not be sorted.
+ *
+ *  In the simplest case, \p set_intersection_by_key performs the "intersection" operation from set
+ *  theory: the keys output range contains a copy of every element that is contained in both
+ *  <tt>[keys_first1, keys_last1)</tt> <tt>[keys_first2, keys_last2)</tt>.
+ *  The general case is more complicated, because the input ranges may contain duplicate elements.
+ *  The generalization is that if an element appears \c m times in <tt>[keys_first1, keys_last1)</tt>
+ *  and \c n times in <tt>[keys_first2, keys_last2)</tt> (where \c m may be zero), then it
+ *  appears <tt>min(m,n)</tt> times in the keys output range.
+ *  \p set_intersection_by_key is stable, meaning both that elements are copied from the first
+ *  input range rather than the second, and that the relative order of elements in the output range
+ *  is the same as the first input range.
+ *
+ *  Each time a key element is copied from <tt>[keys_first1, keys_last1)</tt> to the keys output range,
+ *  the corresponding value element is copied from <tt>[values_first1, values_last1)</tt> to the values
+ *  output range.
+ *
+ *  This version of \p set_intersection_by_key compares objects using \c operator<.
+ *
+ *  \param keys_first1 The beginning of the first input range of keys.
+ *  \param keys_last1 The end of the first input range of keys.
+ *  \param keys_first2 The beginning of the second input range of keys.
+ *  \param keys_last2 The end of the second input range of keys.
+ *  \param values_first1 The beginning of the first input range of values.
+ *  \param values_first2 The beginning of the first input range of values.
+ *  \param keys_result The beginning of the output range of keys.
+ *  \param values_result The beginning of the output range of values.
+ *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
+ *          and such that <tt>p.second</tt> is the end of the output range of values.
+ *
+ *  \note While it is impossible for an element from \p values_first2 to appear in the values output range,
+ *  this parameter is included to provide an interface uniform with the other set operation algorithms.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
+ *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
+ *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
+ *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
+ *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  The following code snippet demonstrates how to use \p set_intersection_by_key to compute the
+ *  set intersection of two sets of integers sorted in ascending order with their values.
+ *
+ *  \code
+ *  #include <thrust/set_operations.h>
+ *  ...
+ *  int A_keys[6] = {1, 3, 5, 7, 9, 11};
+ *  int A_vals[6] = {0, 0, 0, 0, 0,  0};
+ *  
+ *  int B_keys[7] = {1, 1, 2, 3, 5,  8, 13};
+ *  int B_vals[7] = {1, 1, 1, 1, 1,  1,  1};
+ *
+ *  int keys_result[7];
+ *  int vals_result[7];
+ *
+ *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result);
+ *
+ *  // keys_result is now {1, 3, 5}
+ *  // vals_result is now {0, 0, 0}
+ *  \endcode
+ *
+ *  \see \p set_union_by_key
+ *  \see \p set_difference_by_key
+ *  \see \p set_symmetric_difference_by_key
+ *  \see \p sort_by_key
+ *  \see \p is_sorted
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -1071,7 +1150,89 @@ template<typename InputIterator1,
                             OutputIterator2                            values_result);
 
 
-/*! XXX TODO document me!
+/*! \p set_intersection_by_key performs a key-value intersection operation from set theory.
+ *  \p set_intersection_by_key constructs a sorted range that is the intersection of the sorted
+ *  ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt>. Associated
+ *  with each element from the input and output key ranges is a value element. The associated input
+ *  value ranges need not be sorted.
+ *
+ *  In the simplest case, \p set_intersection_by_key performs the "intersection" operation from set
+ *  theory: the keys output range contains a copy of every element that is contained in both
+ *  <tt>[keys_first1, keys_last1)</tt> <tt>[keys_first2, keys_last2)</tt>.
+ *  The general case is more complicated, because the input ranges may contain duplicate elements.
+ *  The generalization is that if an element appears \c m times in <tt>[keys_first1, keys_last1)</tt>
+ *  and \c n times in <tt>[keys_first2, keys_last2)</tt> (where \c m may be zero), then it
+ *  appears <tt>min(m,n)</tt> times in the keys output range.
+ *  \p set_intersection_by_key is stable, meaning both that elements are copied from the first
+ *  input range rather than the second, and that the relative order of elements in the output range
+ *  is the same as the first input range.
+ *
+ *  Each time a key element is copied from <tt>[keys_first1, keys_last1)</tt> to the keys output range,
+ *  the corresponding value element is copied from <tt>[values_first1, values_last1)</tt> to the values
+ *  output range.
+ *
+ *  This version of \p set_intersection_by_key compares objects using a function object \p comp.
+ *
+ *  \param keys_first1 The beginning of the first input range of keys.
+ *  \param keys_last1 The end of the first input range of keys.
+ *  \param keys_first2 The beginning of the second input range of keys.
+ *  \param keys_last2 The end of the second input range of keys.
+ *  \param values_first1 The beginning of the first input range of values.
+ *  \param values_first2 The beginning of the first input range of values.
+ *  \param keys_result The beginning of the output range of keys.
+ *  \param values_result The beginning of the output range of values.
+ *  \param comp Comparison operator.
+ *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
+ *          and such that <tt>p.second</tt> is the end of the output range of values.
+ *
+ *  \note While it is impossible for an element from \p values_first2 to appear in the values output range,
+ *  this parameter is included to provide an interface uniform with the other set operation algorithms.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
+ *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
+ *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
+ *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
+ *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
+ *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  The following code snippet demonstrates how to use \p set_intersection_by_key to compute the
+ *  set intersection of two sets of integers sorted in descending order with their values.
+ *
+ *  \code
+ *  #include <thrust/set_operations.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  int A_keys[6] = {11, 9, 7, 5, 3, 1};
+ *  int A_vals[6] = { 0, 0, 0, 0, 0, 0};
+ *  
+ *  int B_keys[7] = {13, 8, 5, 3, 2, 1, 1};
+ *  int B_vals[7] = { 1, 1, 1, 1, 1, 1, 1};
+ *
+ *  int keys_result[7];
+ *  int vals_result[7];
+ *
+ *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *
+ *  // keys_result is now {5, 3, 1}
+ *  // vals_result is now {0, 0, 0}
+ *  \endcode
+ *
+ *  \see \p set_union_by_key
+ *  \see \p set_difference_by_key
+ *  \see \p set_symmetric_difference_by_key
+ *  \see \p sort_by_key
+ *  \see \p is_sorted
  */
 template<typename InputIterator1,
          typename InputIterator2,
