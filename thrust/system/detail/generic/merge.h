@@ -57,6 +57,27 @@ template<typename System,
                        OutputIterator result);
 
 
+template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(thrust::dispatchable<System> &system,
+                 InputIterator1 keys_first1, InputIterator1 keys_last1,
+                 InputIterator2 keys_first2, InputIterator2 keys_last2,
+                 InputIterator3 values_first1, InputIterator4 values_first2,
+                 OutputIterator1 keys_result,
+                 OutputIterator2 values_result,
+                 Compare comp);
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(thrust::dispatchable<System> &system,
+                 InputIterator1 keys_first1, InputIterator1 keys_last1,
+                 InputIterator2 keys_first2, InputIterator2 keys_last2,
+                 InputIterator3 values_first1, InputIterator4 values_first2,
+                 OutputIterator1 keys_result,
+                 OutputIterator2 values_result);
+
+
 } // end namespace generic
 } // end namespace detail
 } // end namespace system

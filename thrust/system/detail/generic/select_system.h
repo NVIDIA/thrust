@@ -134,6 +134,39 @@ __host__ __device__
 } // end select_system()
 
 
+template<typename System1, typename System2, typename System3, typename System4, typename System5>
+__host__ __device__
+  typename thrust::detail::lazy_disable_if<
+    select_system5_exists<System1,System2,System3,System4,System5>::value,
+    thrust::detail::minimum_system<System1,System2,System3,System4,System5>
+  >::type
+    &select_system(thrust::dispatchable<System1> &system1,
+                   thrust::dispatchable<System2> &system2,
+                   thrust::dispatchable<System3> &system3,
+                   thrust::dispatchable<System4> &system4,
+                   thrust::dispatchable<System5> &system5)
+{
+  return select_system(select_system(system1,system2,system3,system4), system5);
+} // end select_system()
+
+
+template<typename System1, typename System2, typename System3, typename System4, typename System5, typename System6>
+__host__ __device__
+  typename thrust::detail::lazy_disable_if<
+    select_system6_exists<System1,System2,System3,System4,System5,System6>::value,
+    thrust::detail::minimum_system<System1,System2,System3,System4,System5,System6>
+  >::type
+    &select_system(thrust::dispatchable<System1> &system1,
+                   thrust::dispatchable<System2> &system2,
+                   thrust::dispatchable<System3> &system3,
+                   thrust::dispatchable<System4> &system4,
+                   thrust::dispatchable<System5> &system5,
+                   thrust::dispatchable<System6> &system6)
+{
+  return select_system(select_system(system1,system2,system3,system4,system5), system6);
+} // end select_system()
+
+
 // map a single any_system_tag to device_system_tag
 inline __host__ __device__
 thrust::device_system_tag select_system(thrust::any_system_tag)
