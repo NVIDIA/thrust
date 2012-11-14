@@ -20,8 +20,9 @@
 #include <thrust/detail/static_assert.h>
 #include <thrust/system/detail/generic/set_operations.h>
 #include <thrust/functional.h>
-#include <thrust/iterator/counting_iterator.h>
+#include <thrust/detail/internal_functional.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/zip_iterator.h>
 
 namespace thrust
 {
