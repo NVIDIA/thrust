@@ -111,7 +111,7 @@ template<template<typename, typename, typename, typename> class Ptr, typename Ar
 };
 
 // XXX this should probably be renamed native_type or similar
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer);
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer)
 
 namespace pointer_traits_detail
 {
