@@ -31,6 +31,10 @@ New Features
 	malloc
         merge_by_key
 	return_temporary_buffer
+        set_difference_by_key
+        set_intersection_by_key
+        set_symmetric_difference_by_key
+        set_union_by_key
 	tabulate
 
     Types

@@ -25,6 +25,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <thrust/detail/raw_reference_cast.h>
 #include <memory> // for ::new
 
 namespace thrust
@@ -652,6 +653,24 @@ template<typename Compare>
 
   Compare comp;
 }; // end compare_first_less_second
+
+
+template<typename Compare>
+  struct compare_first
+{
+  Compare comp;
+
+  compare_first(Compare comp)
+    : comp(comp)
+  {}
+
+  template<typename Tuple1, typename Tuple2>
+  __host__ __device__
+  bool operator()(const Tuple1 &x, const Tuple2 &y)
+  {
+    return comp(thrust::raw_reference_cast(thrust::get<0>(x)), thrust::raw_reference_cast(thrust::get<0>(y)));
+  }
+}; // end compare_first
 
 
 } // end namespace detail
