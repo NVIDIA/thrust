@@ -664,9 +664,9 @@ template<typename Compare>
     : comp(comp)
   {}
 
-  template<typename Tuple>
+  template<typename Tuple1, typename Tuple2>
   __host__ __device__
-  bool operator()(const Tuple &x, const Tuple &y)
+  bool operator()(const Tuple1 &x, const Tuple2 &y)
   {
     return comp(thrust::raw_reference_cast(thrust::get<0>(x)), thrust::raw_reference_cast(thrust::get<0>(y)));
   }

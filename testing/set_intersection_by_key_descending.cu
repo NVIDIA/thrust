@@ -16,7 +16,6 @@ void TestSetIntersectionByKeyDescendingSimple(void)
   a_val[0] = 0; a_val[1] = 0; a_val[2] = 0;
 
   b_key[0] = 4; b_key[1] = 3; b_key[2] = 3; b_key[3] = 0;
-  b_val[0] = 1; b_val[1] = 1; b_val[2] = 1; b_val[3] = 1;
 
   Vector ref_key(2), ref_val(2);
   ref_key[0] = 4; ref_key[1] = 0;
@@ -28,7 +27,6 @@ void TestSetIntersectionByKeyDescendingSimple(void)
     thrust::set_intersection_by_key(a_key.begin(), a_key.end(),
                                     b_key.begin(), b_key.end(),
                                     a_val.begin(),
-                                    b_val.begin(),
                                     result_key.begin(),
                                     result_val.begin(),
                                     thrust::greater<T>());
@@ -52,13 +50,11 @@ void TestSetIntersectionByKeyDescending(const size_t n)
   thrust::sort(h_b_key.begin(), h_b_key.end(), thrust::greater<T>());
 
   thrust::host_vector<T> h_a_val = unittest::random_integers<T>(h_a_key.size());
-  thrust::host_vector<T> h_b_val = unittest::random_integers<T>(h_b_key.size());
 
   thrust::device_vector<T> d_a_key = h_a_key;
   thrust::device_vector<T> d_b_key = h_b_key;
 
   thrust::device_vector<T> d_a_val = h_a_val;
-  thrust::device_vector<T> d_b_val = h_b_val;
 
   thrust::host_vector<T>   h_result_key(n), h_result_val(n);
   thrust::device_vector<T> d_result_key(n), d_result_val(n);
@@ -76,7 +72,6 @@ void TestSetIntersectionByKeyDescending(const size_t n)
   h_end = thrust::set_intersection_by_key(h_a_key.begin(), h_a_key.end(),
                                           h_b_key.begin(), h_b_key.end(),
                                           h_a_val.begin(),
-                                          h_b_val.begin(),
                                           h_result_key.begin(),
                                           h_result_val.begin(),
                                           thrust::greater<T>());
@@ -86,7 +81,6 @@ void TestSetIntersectionByKeyDescending(const size_t n)
   d_end = thrust::set_intersection_by_key(d_a_key.begin(), d_a_key.end(),
                                           d_b_key.begin(), d_b_key.end(),
                                           d_a_val.begin(),
-                                          d_b_val.begin(),
                                           d_result_key.begin(),
                                           d_result_val.begin(),
                                           thrust::greater<T>());

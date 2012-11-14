@@ -125,7 +125,6 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
@@ -135,7 +134,6 @@ template<typename System,
                             InputIterator2                             keys_first2,
                             InputIterator2                             keys_last2,
                             InputIterator3                             values_first1,
-                            InputIterator4                             values_first2,
                             OutputIterator1                            keys_result,
                             OutputIterator2                            values_result);
 
@@ -144,7 +142,6 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
@@ -155,7 +152,6 @@ template<typename System,
                             InputIterator2                             keys_first2,
                             InputIterator2                             keys_last2,
                             InputIterator3                             values_first1,
-                            InputIterator4                             values_first2,
                             OutputIterator1                            keys_result,
                             OutputIterator2                            values_result,
                             StrictWeakCompare                          comp);
@@ -1080,14 +1076,13 @@ template<typename InputIterator1,
  *  \param keys_first2 The beginning of the second input range of keys.
  *  \param keys_last2 The end of the second input range of keys.
  *  \param values_first1 The beginning of the first input range of values.
- *  \param values_first2 The beginning of the first input range of values.
  *  \param keys_result The beginning of the output range of keys.
  *  \param values_result The beginning of the output range of values.
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \note While it is impossible for an element from \p values_first2 to appear in the values output range,
- *  this parameter is included to provide an interface uniform with the other set operation algorithms.
+ *  \note Unlike the other key-value set operations, \p set_intersection_by_key is unique in that it has no
+ *        \c values_first2 parameter because elements from the second input range are never copied to the output range.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
@@ -1101,8 +1096,6 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
@@ -1116,12 +1109,11 @@ template<typename InputIterator1,
  *  int A_vals[6] = {0, 0, 0, 0, 0,  0};
  *  
  *  int B_keys[7] = {1, 1, 2, 3, 5,  8, 13};
- *  int B_vals[7] = {1, 1, 1, 1, 1,  1,  1};
  *
  *  int keys_result[7];
  *  int vals_result[7];
  *
- *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result);
+ *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result);
  *
  *  // keys_result is now {1, 3, 5}
  *  // vals_result is now {0, 0, 0}
@@ -1136,7 +1128,6 @@ template<typename InputIterator1,
 template<typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
@@ -1145,7 +1136,6 @@ template<typename InputIterator1,
                             InputIterator2                             keys_first2,
                             InputIterator2                             keys_last2,
                             InputIterator3                             values_first1,
-                            InputIterator4                             values_first2,
                             OutputIterator1                            keys_result,
                             OutputIterator2                            values_result);
 
@@ -1178,15 +1168,14 @@ template<typename InputIterator1,
  *  \param keys_first2 The beginning of the second input range of keys.
  *  \param keys_last2 The end of the second input range of keys.
  *  \param values_first1 The beginning of the first input range of values.
- *  \param values_first2 The beginning of the first input range of values.
  *  \param keys_result The beginning of the output range of keys.
  *  \param values_result The beginning of the output range of values.
  *  \param comp Comparison operator.
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \note While it is impossible for an element from \p values_first2 to appear in the values output range,
- *  this parameter is included to provide an interface uniform with the other set operation algorithms.
+ *  \note Unlike the other key-value set operations, \p set_intersection_by_key is unique in that it has no
+ *        \c values_first2 parameter because elements from the second input range are never copied to the output range.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
@@ -1200,8 +1189,6 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
@@ -1217,12 +1204,11 @@ template<typename InputIterator1,
  *  int A_vals[6] = { 0, 0, 0, 0, 0, 0};
  *  
  *  int B_keys[7] = {13, 8, 5, 3, 2, 1, 1};
- *  int B_vals[7] = { 1, 1, 1, 1, 1, 1, 1};
  *
  *  int keys_result[7];
  *  int vals_result[7];
  *
- *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result, thrust::greater<int>());
  *
  *  // keys_result is now {5, 3, 1}
  *  // vals_result is now {0, 0, 0}
@@ -1237,7 +1223,6 @@ template<typename InputIterator1,
 template<typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
@@ -1247,7 +1232,6 @@ template<typename InputIterator1,
                             InputIterator2                             keys_first2,
                             InputIterator2                             keys_last2,
                             InputIterator3                             values_first1,
-                            InputIterator4                             values_first2,
                             OutputIterator1                            keys_result,
                             OutputIterator2                            values_result,
                             StrictWeakCompare                          comp);

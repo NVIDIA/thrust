@@ -20,6 +20,8 @@
 #include <thrust/detail/static_assert.h>
 #include <thrust/system/detail/generic/set_operations.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
@@ -134,7 +136,6 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
@@ -144,12 +145,11 @@ template<typename System,
                             InputIterator2                keys_first2,
                             InputIterator2                keys_last2,
                             InputIterator3                values_first1,
-                            InputIterator4                values_first2,
                             OutputIterator1               keys_result,
                             OutputIterator2               values_result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::set_intersection_by_key(system, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, thrust::less<value_type>());
+  return thrust::set_intersection_by_key(system, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, thrust::less<value_type>());
 } // end set_intersection_by_key()
 
 
@@ -157,7 +157,6 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
-         typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
@@ -168,18 +167,21 @@ template<typename System,
                             InputIterator2                keys_first2,
                             InputIterator2                keys_last2,
                             InputIterator3                values_first1,
-                            InputIterator4                values_first2,
                             OutputIterator1               keys_result,
                             OutputIterator2               values_result,
                             StrictWeakOrdering            comp)
 {
   typedef thrust::tuple<InputIterator1, InputIterator3>   iterator_tuple1;
-  typedef thrust::tuple<InputIterator2, InputIterator4>   iterator_tuple2;
+  typedef thrust::tuple<InputIterator2, InputIterator2>   iterator_tuple2;
   typedef thrust::tuple<OutputIterator1, OutputIterator2> iterator_tuple3;
 
   typedef thrust::zip_iterator<iterator_tuple1> zip_iterator1;
   typedef thrust::zip_iterator<iterator_tuple2> zip_iterator2;
   typedef thrust::zip_iterator<iterator_tuple3> zip_iterator3;
+
+  // fabricate a values_first2 by "sending" keys twice
+  // it should never be dereferenced by set_intersection
+  InputIterator2 values_first2 = keys_first2;
 
   zip_iterator1 zipped_first1 = thrust::make_zip_iterator(thrust::make_tuple(keys_first1, values_first1));
   zip_iterator1 zipped_last1  = thrust::make_zip_iterator(thrust::make_tuple(keys_last1, values_first1));
