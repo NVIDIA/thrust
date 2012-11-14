@@ -332,7 +332,7 @@ inline __device__
 template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
 inline __device__
 OutputIterator set_operation(statically_blocked_thread_array<block_size> &ctx,
-                             InputIterator1 first1, InputIterator2 last1,
+                             InputIterator1 first1, InputIterator1 last1,
                              InputIterator2 first2, InputIterator2 last2,
                              OutputIterator result,
                              Compare comp,

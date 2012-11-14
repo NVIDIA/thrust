@@ -23,7 +23,7 @@
 #include <thrust/merge.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/zip_iterator.h>
-#include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -70,31 +70,6 @@ template<typename System,
 } // end merge()
 
 
-namespace merge_by_key_detail
-{
-
-
-template<typename Compare>
-  struct compare_first
-{
-  Compare comp;
-
-  compare_first(Compare comp)
-    : comp(comp)
-  {}
-
-  template<typename Tuple>
-  __host__ __device__
-  bool operator()(const Tuple &x, const Tuple &y)
-  {
-    return comp(thrust::raw_reference_cast(thrust::get<0>(x)), thrust::raw_reference_cast(thrust::get<0>(y)));
-  }
-};
-
-
-} // end merge_by_key_detail
-
-
 template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(thrust::dispatchable<System> &system,
@@ -121,7 +96,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
 
   zip_iterator3 zipped_result = thrust::make_zip_iterator(thrust::make_tuple(keys_result, values_result));
 
-  merge_by_key_detail::compare_first<Compare> comp_first(comp);
+  thrust::detail::compare_first<Compare> comp_first(comp);
 
   iterator_tuple3 result = thrust::merge(system, zipped_first1, zipped_last1, zipped_first2, zipped_last2, zipped_result, comp_first).get_iterator_tuple();
 
