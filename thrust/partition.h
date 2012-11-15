@@ -62,6 +62,17 @@ template<typename System,
 
 
 template<typename System,
+         typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(thrust::detail::dispatchable_base<System> &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred);
+
+
+template<typename System,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
@@ -70,6 +81,22 @@ template<typename System,
     stable_partition_copy(thrust::detail::dispatchable_base<System> &system,
                           InputIterator first,
                           InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(thrust::detail::dispatchable_base<System> &system,
+                          InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred);
@@ -235,7 +262,9 @@ template<typename InputIterator,
  *
  *  \p stable_partition differs from \ref partition in that \p stable_partition is
  *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
- *  <tt>[first, last)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
+ *  <tt>[first, last)</tt>, and \c stencil_x and \c stencil_y are the stencil elements
+ *  in corresponding positions within <tt>[stencil, stencil + (last - first))</tt>,
+ *  and <tt>pred(stencil_x) == pred(stencil_y)</tt>, and if \c x precedes
  *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
  *
  *  \param first The first element of the sequence to reorder.
@@ -283,8 +312,72 @@ template<typename ForwardIterator,
                                    Predicate pred);
 
 
+/*! \p stable_partition is much like \ref partition: it reorders the elements in the
+ *  range <tt>[first, last)</tt> based on the function object \p pred applied to a stencil
+ *  range <tt>[stencil, stencil + (last - first))</tt>, such that all of
+ *  the elements whose corresponding stencil element satisfies \p pred precede all of the elements whose
+ *  corresponding stencil element fails to satisfy it. The postcondition is that, for some iterator
+ *  \p middle in the range <tt>[first, last)</tt>, <tt>pred(*i)</tt> is \c true for every iterator \c i in the
+ *  range <tt>[first,middle)</tt> and \c false for every iterator \c i in the range
+ *  <tt>[middle, last)</tt>. The return value of \p stable_partition is \c middle.
+ *
+ *  \p stable_partition differs from \ref partition in that \p stable_partition is
+ *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
+ *  <tt>[first, last)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
+ *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
+ *
+ *  \param first The first element of the sequence to reorder.
+ *  \param last One position past the last element of the sequence to reorder.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param pred A function object which decides to which partition each element of the
+ *              sequence <tt>[first, last)</tt> belongs.
+ *  \return An iterator referring to the first element of the second partition, that is,
+ *          the sequence of the elements which do not satisfy pred.
+ *
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator is mutable.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p stable_partition to reorder a
+ *  sequence so that even numbers precede odd numbers.
+ *
+ *  \code
+ *  #include <thrust/partition.h>
+ *  ...
+ *  struct is_even
+ *  {
+ *    __host__ __device__
+ *    bool operator()(const int &x)
+ *    {
+ *      return (x % 2) == 0;
+ *    }
+ *  };
+ *  ...
+ *  int A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
+ *  int S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+ *  const int N = sizeof(A)/sizeof(int);
+ *  thrust::stable_partition(A, A + N, S, is_even());
+ *  // A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
+ *  // S is unmodified
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/stable_partition.html
+ *  \see \p partition
+ *  \see \p stable_partition_copy
+ */
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred);
+
+
 /*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
- *  sequence is written to difference output sequences, rather than in place.
+ *  sequence is written to different output sequences, rather than in place.
  *
  *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
  *  function object \p pred. All of the elements that satisfy \p pred are copied
@@ -352,6 +445,79 @@ template<typename InputIterator,
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(InputIterator first,
                           InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred);
+
+
+/*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
+ *  sequence is written to different output sequences, rather than in place.
+ *
+ *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
+ *  function object \p pred which is applied to a range of stencil elements. All of the elements
+ *  whose corresponding stencil element satisfies \p pred are copied to the range beginning at \p out_true
+ *  and all the elements whose stencil element fails to satisfy it are copied to the range beginning
+ *  at \p out_false.
+ *
+ *  \p stable_partition_copy differs from \ref partition_copy in that
+ *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
+ *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
+ *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
+ *  after \p stable_partition_copy that \c x precedes \c y in the output.
+ *
+ *  \param first The first element of the sequence to reorder.
+ *  \param last One position past the last element of the sequence to reorder.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param out_true The destination of the resulting sequence of elements which satisfy \p pred.
+ *  \param out_false The destination of the resulting sequence of elements which fail to satisfy \p pred.
+ *  \param pred A function object which decides to which partition each element of the
+ *              sequence <tt>[first, last)</tt> belongs.
+ *  \return A \p pair p such that <tt>p.first</tt> is the end of the output range beginning
+ *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
+ *          \p out_false.
+ *
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p stable_partition_copy to
+ *  reorder a sequence so that even numbers precede odd numbers.
+ *
+ *  \code
+ *  #include <thrust/partition.h>
+ *  #include <thrust/functional.h>
+ *  ...
+ *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+ *  int S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
+ *  int result[10];
+ *  const int N = sizeof(A)/sizeof(int);
+ *  int *evens = result;
+ *  int *odds  = result + 5;
+ *  thrust::stable_partition_copy(A, A + N, S, evens, odds, thrust::identity<int>());
+ *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+ *  // S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}
+ *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+ *  // evens points to {2, 4, 6, 8, 10}
+ *  // odds points to {1, 3, 5, 7, 9}
+ *  \endcode
+ *
+ *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
+ *  \see \p partition_copy
+ *  \see \p stable_partition
+ */
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred);

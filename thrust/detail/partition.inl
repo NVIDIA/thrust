@@ -75,6 +75,21 @@ template<typename System,
 
 
 template<typename System,
+         typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(thrust::detail::dispatchable_base<System> &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred)
+{
+  using thrust::system::detail::generic::stable_partition;
+  return stable_partition(system.derived(), first, last, stencil, pred);
+} // end stable_partition()
+
+
+template<typename System,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
@@ -89,6 +104,26 @@ template<typename System,
 {
   using thrust::system::detail::generic::stable_partition_copy;
   return stable_partition_copy(system.derived(), first, last, out_true, out_false, pred);
+} // end stable_partition_copy()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(thrust::detail::dispatchable_base<System> &system,
+                          InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+  using thrust::system::detail::generic::stable_partition_copy;
+  return stable_partition_copy(system.derived(), first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -163,6 +198,21 @@ template<typename System,
 
 
 template<typename System,
+         typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator strip_const_stable_partition(const System &system,
+                                               ForwardIterator first,
+                                               ForwardIterator last,
+                                               InputIterator stencil,
+                                               Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::stable_partition(non_const_system, first, last, stencil, pred);
+} // end stable_partition()
+
+
+template<typename System,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
@@ -177,6 +227,26 @@ template<typename System,
 {
   System &non_const_system = const_cast<System&>(system);
   return thrust::stable_partition_copy(non_const_system, first, last, out_true, out_false, pred);
+} // end stable_partition_copy()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    strip_const_stable_partition_copy(const System &system,
+                                      InputIterator1 first,
+                                      InputIterator1 last,
+                                      InputIterator2 stencil,
+                                      OutputIterator1 out_true,
+                                      OutputIterator2 out_false,
+                                      Predicate pred)
+{
+  System &non_const_system = const_cast<System&>(system);
+  return thrust::stable_partition_copy(non_const_system, first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -237,6 +307,26 @@ template<typename ForwardIterator,
 } // end stable_partition()
 
 
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_system<ForwardIterator>::type System1;
+  typedef typename thrust::iterator_system<InputIterator>::type   System2;
+
+  System1 system1;
+  System2 system2;
+
+  return thrust::detail::strip_const_stable_partition(select_system(system1,system2), first, last, stencil, pred);
+} // end stable_partition()
+
+
 template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
@@ -284,6 +374,35 @@ template<typename InputIterator,
   System3 system3;
 
   return thrust::detail::strip_const_stable_partition_copy(select_system(system1,system2,system3), first, last, out_true, out_false, pred);
+} // end stable_partition_copy()
+
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_system<InputIterator1>::type   System1;
+  typedef typename thrust::iterator_system<InputIterator2>::type   System2;
+  typedef typename thrust::iterator_system<OutputIterator1>::type  System3;
+  typedef typename thrust::iterator_system<OutputIterator2>::type  System4;
+
+  System1 system1;
+  System2 system2;
+  System3 system3;
+  System4 system4;
+
+  return thrust::detail::strip_const_stable_partition_copy(select_system(system1,system2,system3,system4), first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
