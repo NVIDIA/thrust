@@ -36,16 +36,6 @@ namespace detail
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(tag,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::partition(first, last, pred);
-}
-
-template<typename ForwardIterator,
-         typename Predicate>
   ForwardIterator stable_partition(tag,
                                    ForwardIterator first,
                                    ForwardIterator last,

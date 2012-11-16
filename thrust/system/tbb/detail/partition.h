@@ -33,14 +33,6 @@ namespace detail
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(dispatchable<System> &system,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred);
-
-template<typename System,
-         typename ForwardIterator,
-         typename Predicate>
   ForwardIterator stable_partition(dispatchable<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
