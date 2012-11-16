@@ -33,17 +33,19 @@ namespace detail
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(dispatchable<System> &system,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred);
+  ForwardIterator stable_partition(dispatchable<System> &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   Predicate pred);
 
 template<typename System,
          typename ForwardIterator,
+         typename InputIterator,
          typename Predicate>
   ForwardIterator stable_partition(dispatchable<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
+                                   InputIterator stencil,
                                    Predicate pred);
 
 template<typename System,
@@ -55,6 +57,22 @@ template<typename System,
     stable_partition_copy(dispatchable<System> &system,
                           InputIterator first,
                           InputIterator last,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred);
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(dispatchable<System> &system,
+                          InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred);
