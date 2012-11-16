@@ -36,22 +36,24 @@ namespace detail
 
 template<typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(tag,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::partition(first, last, pred);
-}
-
-template<typename ForwardIterator,
-         typename Predicate>
   ForwardIterator stable_partition(tag,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
 {
   return thrust::system::detail::internal::scalar::stable_partition(first, last, pred);
+}
+
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(tag,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::stable_partition(first, last, stencil, pred);
 }
 
 template<typename InputIterator,
@@ -67,6 +69,23 @@ template<typename InputIterator,
                           Predicate pred)
 {
   return thrust::system::detail::internal::scalar::stable_partition_copy(first, last, out_true, out_false, pred);
+}
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(tag,
+                          InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+  return thrust::system::detail::internal::scalar::stable_partition_copy(first, last, stencil, out_true, out_false, pred);
 }
 
 } // end namespace detail
