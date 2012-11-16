@@ -22,6 +22,8 @@
 #include <thrust/system/detail/generic/merge.h>
 #include <thrust/merge.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/detail/internal_functional.h>
 
 namespace thrust
 {
@@ -66,6 +68,54 @@ template<typename System,
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
   return thrust::merge(system,first1,last1,first2,last2,result,thrust::less<value_type>());
 } // end merge()
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(thrust::dispatchable<System> &system,
+                 InputIterator1 keys_first1, InputIterator1 keys_last1,
+                 InputIterator2 keys_first2, InputIterator2 keys_last2,
+                 InputIterator3 values_first1, InputIterator4 values_first2,
+                 OutputIterator1 keys_result,
+                 OutputIterator2 values_result,
+                 Compare comp)
+{
+  typedef thrust::tuple<InputIterator1, InputIterator3>   iterator_tuple1;
+  typedef thrust::tuple<InputIterator2, InputIterator4>   iterator_tuple2;
+  typedef thrust::tuple<OutputIterator1, OutputIterator2> iterator_tuple3;
+
+  typedef thrust::zip_iterator<iterator_tuple1> zip_iterator1;
+  typedef thrust::zip_iterator<iterator_tuple2> zip_iterator2;
+  typedef thrust::zip_iterator<iterator_tuple3> zip_iterator3;
+
+  zip_iterator1 zipped_first1 = thrust::make_zip_iterator(thrust::make_tuple(keys_first1, values_first1));
+  zip_iterator1 zipped_last1  = thrust::make_zip_iterator(thrust::make_tuple(keys_last1, values_first1));
+
+  zip_iterator2 zipped_first2 = thrust::make_zip_iterator(thrust::make_tuple(keys_first2, values_first2));
+  zip_iterator2 zipped_last2  = thrust::make_zip_iterator(thrust::make_tuple(keys_last2, values_first2));
+
+  zip_iterator3 zipped_result = thrust::make_zip_iterator(thrust::make_tuple(keys_result, values_result));
+
+  thrust::detail::compare_first<Compare> comp_first(comp);
+
+  iterator_tuple3 result = thrust::merge(system, zipped_first1, zipped_last1, zipped_first2, zipped_last2, zipped_result, comp_first).get_iterator_tuple();
+
+  return thrust::make_pair(thrust::get<0>(result), thrust::get<1>(result));
+} // end merge_by_key()
+
+
+template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(thrust::dispatchable<System> &system,
+                 InputIterator1 keys_first1, InputIterator1 keys_last1,
+                 InputIterator2 keys_first2, InputIterator2 keys_last2,
+                 InputIterator3 values_first1, InputIterator4 values_first2,
+                 OutputIterator1 keys_result,
+                 OutputIterator2 values_result)
+{
+  typedef typename thrust::iterator_value<InputIterator1>::type value_type;
+  return thrust::merge_by_key(system, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, thrust::less<value_type>());
+} // end merge_by_key()
 
 
 } // end namespace generic

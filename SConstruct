@@ -18,7 +18,7 @@ def RecursiveGlob(env, pattern, directory = Dir('.'), exclude = '\B'):
   for n in directory.glob('*'):
     # only recurse into directories which aren't in the blacklist
     import re
-    if n.isdir() and not re.match(exclude, directory.rel_path(n)):
+    if isinstance(n,type(directory)) and not re.match(exclude, directory.rel_path(n)):
       result.extend(RecursiveGlob(env, pattern, n, exclude))
   return result
 

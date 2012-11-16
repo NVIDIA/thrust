@@ -33,6 +33,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_adaptor.h>
+#include <thrust/iterator/iterator_facade.h>
 #include <thrust/iterator/iterator_categories.h>
 
 // #include the details first
@@ -135,7 +136,7 @@ template<typename Incrementable,
      */
     typedef typename detail::counting_iterator_base<Incrementable, System, Traversal, Difference>::type super_t;
 
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
 
   public:
     typedef typename super_t::reference       reference;
@@ -188,6 +189,15 @@ template<typename Incrementable,
     reference dereference(void) const
     {
       return this->base_reference();
+    }
+
+    // note that we implement equal specially for floating point counting_iterator
+    template <typename OtherIncrementable, typename OtherSystem, typename OtherTraversal, typename OtherDifference>
+    __host__ __device__
+    bool equal(counting_iterator<OtherIncrementable, OtherSystem, OtherTraversal, OtherDifference> const& y) const
+    {
+      typedef thrust::detail::counting_iterator_equal<difference_type,Incrementable,OtherIncrementable> e;
+      return e::equal(this->base(), y.base());
     }
 
     template <class OtherIncrementable>

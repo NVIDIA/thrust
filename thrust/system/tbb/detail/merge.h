@@ -50,16 +50,16 @@ template <typename System,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(dispatchable<System> &system,
-                 InputIterator1 first1,
-                 InputIterator1 last1,
-                 InputIterator2 first2,
-                 InputIterator2 last2,
-                 InputIterator3 first3,
-                 InputIterator4 first4,
-                 OutputIterator1 output1,
-                 OutputIterator2 output2,
-                 StrictWeakOrdering comp);
+  merge_by_key(dispatchable<System> &system,
+               InputIterator1 keys_first1,
+               InputIterator1 keys_last1,
+               InputIterator2 keys_first2,
+               InputIterator2 keys_last2,
+               InputIterator3 values_first3,
+               InputIterator4 values_first4,
+               OutputIterator1 keys_result,
+               OutputIterator2 values_result,
+               StrictWeakOrdering comp);
 
 } // end detail
 } // end tbb

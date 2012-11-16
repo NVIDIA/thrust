@@ -56,6 +56,7 @@
 #include <thrust/system/cpp/detail/set_operations.h>
 #include <thrust/system/cpp/detail/sort.h>
 #include <thrust/system/cpp/detail/swap_ranges.h>
+#include <thrust/system/cpp/detail/tabulate.h>
 #include <thrust/system/cpp/detail/transform.h>
 #include <thrust/system/cpp/detail/transform_reduce.h>
 #include <thrust/system/cpp/detail/transform_scan.h>

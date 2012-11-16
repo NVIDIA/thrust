@@ -23,23 +23,6 @@
 
 namespace thrust
 {
-namespace experimental
-{
-
-// forward declaration of iterator_adaptor
-template <typename Derived,
-          typename Base,
-          typename Pointer,
-          typename Value,
-          typename System,
-          typename Traversal,
-          typename Reference,
-          typename Difference
->
-class iterator_adaptor;
-
-} // end experimental
-
 namespace detail
 {
 
@@ -48,10 +31,9 @@ template <typename,typename> class tagged_iterator;
 template<typename Iterator, typename Tag>
   struct tagged_iterator_base
 {
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::iterator_adaptor<
     tagged_iterator<Iterator,Tag>,
     Iterator,
-    typename thrust::iterator_pointer<Iterator>::type,
     typename thrust::iterator_value<Iterator>::type,
     Tag,
     typename thrust::iterator_traversal<Iterator>::type,

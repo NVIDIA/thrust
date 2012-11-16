@@ -23,6 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/detail/discard_iterator_base.h>
+#include <thrust/iterator/iterator_facade.h>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
@@ -95,7 +96,7 @@ template<typename System = use_default>
 {
     /*! \cond
      */
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
     typedef typename detail::discard_iterator_base<System>::type          super_t;
     typedef typename detail::discard_iterator_base<System>::incrementable incrementable;
     typedef typename detail::discard_iterator_base<System>::base_iterator base_iterator;

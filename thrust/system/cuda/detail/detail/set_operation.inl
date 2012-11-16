@@ -220,7 +220,7 @@ inline __device__ int pop_count(unsigned int x)
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   return __popc(x);
 #else
-  return 0;
+  return x;
 #endif
 }
 
@@ -332,7 +332,7 @@ inline __device__
 template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
 inline __device__
 OutputIterator set_operation(statically_blocked_thread_array<block_size> &ctx,
-                             InputIterator1 first1, InputIterator2 last1,
+                             InputIterator1 first1, InputIterator1 last1,
                              InputIterator2 first2, InputIterator2 last2,
                              OutputIterator result,
                              Compare comp,

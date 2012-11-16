@@ -56,6 +56,7 @@
 #include <thrust/system/omp/detail/set_operations.h>
 #include <thrust/system/omp/detail/sort.h>
 #include <thrust/system/omp/detail/swap_ranges.h>
+#include <thrust/system/omp/detail/tabulate.h>
 #include <thrust/system/omp/detail/transform.h>
 #include <thrust/system/omp/detail/transform_reduce.h>
 #include <thrust/system/omp/detail/transform_scan.h>

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/generic/tag.h>
 
 namespace thrust
 {
@@ -28,27 +28,28 @@ namespace detail
 {
 namespace generic
 {
-namespace scalar
-{
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
+template<typename System,
+         typename ForwardIterator,
+         typename UnaryOperation>
+  void tabulate(thrust::dispatchable<System> &system,
+                ForwardIterator first,
+                ForwardIterator last,
+                UnaryOperation unary_op);
+
+template<typename System,
+         typename OutputIterator,
          typename Size,
-         typename Compare>
-  typename thrust::iterator_value<RandomAccessIterator1>::type
-  __host__ __device__
-    select(RandomAccessIterator1 first1,
-           RandomAccessIterator1 last1,
-           RandomAccessIterator2 first2,
-           RandomAccessIterator2 last2,
-           Size k,
-           Compare comp);
+         typename UnaryOperation>
+  OutputIterator tabulate_n(thrust::dispatchable<System> &system,
+                            OutputIterator first,
+                            Size n,
+                            UnaryOperation unary_op);
 
-} // end scalar
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
 
-#include <thrust/system/detail/generic/scalar/select.inl>
+#include <thrust/system/detail/generic/tabulate.inl>
 

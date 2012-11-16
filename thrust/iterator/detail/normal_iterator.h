@@ -34,16 +34,9 @@ namespace detail
 
 template<typename Pointer>
   class normal_iterator
-    //: public experimental::iterator_adaptor< normal_iterator<Pointer>, Pointer, Pointer >
-    : public experimental::iterator_adaptor<
+    : public iterator_adaptor<
         normal_iterator<Pointer>,
-        Pointer,
-        Pointer,
-        typename thrust::use_default,
-        typename thrust::use_default,
-        typename thrust::use_default,
-        //typename thrust::iterator_traits<Pointer>::reference
-        typename thrust::use_default
+        Pointer
       >
 {
   public:

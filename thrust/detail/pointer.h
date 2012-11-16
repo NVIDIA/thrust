@@ -49,7 +49,8 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     typedef typename ptr::iterator_category iterator_category;
     typedef typename ptr::value_type        value_type;
     typedef typename ptr::difference_type   difference_type;
-    typedef ptr                             pointer;
+    // XXX implement this type (the result of operator->) later
+    typedef void                             pointer;
     typedef typename ptr::reference         reference;
 }; // end iterator_traits
 
@@ -93,10 +94,9 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     >
   >::type reference_arg;
 
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::iterator_adaptor<
     derived_type,                        // pass along the type of our Derived class to iterator_adaptor
     Element *,                           // we adapt a raw pointer
-    Derived,                             // our pointer type is the same as our Derived type
     value_type,                          // the value type
     Tag,                                 // system tag
     thrust::random_access_traversal_tag, // pointers have random access traversal
@@ -126,7 +126,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     typedef typename thrust::detail::pointer_base<Element,Tag,Reference,Derived>::derived_type derived_type;
 
     // friend iterator_core_access to give it access to dereference
-    friend class thrust::experimental::iterator_core_access;
+    friend class thrust::iterator_core_access;
 
     __host__ __device__
     typename super_t::reference dereference() const;

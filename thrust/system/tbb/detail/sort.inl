@@ -199,11 +199,13 @@ void merge_sort_by_key(dispatchable<System> &system,
   // TODO replace with thrust::merge_by_key
   if(inplace)
   {
-    thrust::system::tbb::detail::merge_by_key(system, first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
+    //thrust::system::tbb::detail::merge_by_key(system, first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
+    thrust::merge_by_key(system, first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
   }
   else
   {
-    thrust::system::tbb::detail::merge_by_key(system, first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
+    //thrust::system::tbb::detail::merge_by_key(system, first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
+    thrust::merge_by_key(system, first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
   }
 }
 

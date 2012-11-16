@@ -19,6 +19,8 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/numeric_traits.h>
+#include <thrust/detail/type_traits.h>
+#include <cstddef>
 
 namespace thrust
 {
@@ -40,7 +42,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
     thrust::detail::identity_<System>
   >::type system;
 
-  typedef typename thrust::experimental::detail::ia_dflt_help<
+  typedef typename thrust::detail::ia_dflt_help<
       Traversal,
       thrust::detail::eval_if<
           thrust::detail::is_numeric<Incrementable>::value,
@@ -49,11 +51,17 @@ template <typename Incrementable, typename System, typename Traversal, typename 
       >
   >::type traversal;
 
-  typedef typename thrust::experimental::detail::ia_dflt_help<
+  // unlike Boost, we explicitly use std::ptrdiff_t as the difference type
+  // for floating point counting_iterators
+  typedef typename thrust::detail::ia_dflt_help<
     Difference,
     thrust::detail::eval_if<
       thrust::detail::is_numeric<Incrementable>::value,
-      thrust::detail::numeric_difference<Incrementable>,
+        thrust::detail::eval_if<
+          thrust::detail::is_integral<Incrementable>::value,
+          thrust::detail::numeric_difference<Incrementable>,
+          thrust::detail::identity_<std::ptrdiff_t>
+        >,
       thrust::iterator_difference<Incrementable>
     >
   >::type difference;
@@ -62,11 +70,10 @@ template <typename Incrementable, typename System, typename Traversal, typename 
   // returns a copy of its counter, rather than a reference to it. returning a reference
   // to the internal state of an iterator causes subtle bugs (consider the temporary
   // iterator created in the expression *(iter + i) ) and has no compelling use case
-  typedef thrust::experimental::iterator_adaptor<
+  typedef thrust::iterator_adaptor<
     counting_iterator<Incrementable, System, Traversal, Difference>, // self
     Incrementable,                                                  // Base
-    Incrementable *,                                                // Pointer -- maybe we should make this device_ptr when memory space category is device?
-    Incrementable,                                                  // Value
+    Incrementable,                                                  // XXX we may need to pass const here as Boost does
     system,
     traversal,
     Incrementable,
@@ -93,6 +100,38 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
   static Difference distance(Incrementable1 x, Incrementable2 y)
   {
       return static_cast<Difference>(numeric_distance(x,y));
+  }
+};
+
+
+template<typename Difference, typename Incrementable1, typename Incrementable2, typename Enable = void>
+  struct counting_iterator_equal
+{
+  __host__ __device__
+  static bool equal(Incrementable1 x, Incrementable2 y)
+  {
+    return x == y;
+  }
+};
+
+
+// specialization for floating point equality
+template<typename Difference, typename Incrementable1, typename Incrementable2>
+  struct counting_iterator_equal<
+    Difference,
+    Incrementable1,
+    Incrementable2,
+    typename thrust::detail::enable_if<
+      thrust::detail::is_floating_point<Incrementable1>::value ||
+      thrust::detail::is_floating_point<Incrementable2>::value
+    >::type
+  >
+{
+  __host__ __device__
+  static bool equal(Incrementable1 x, Incrementable2 y)
+  {
+    typedef number_distance<Difference,Incrementable1,Incrementable2> d;
+    return d::distance(x,y) == 0;
   }
 };
 
