@@ -1007,6 +1007,9 @@ template<typename System,
   // compute the block_size based on the types we're sorting
   const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
 
+  // XXX WAR unused variable warning issued by nvcc
+  (void) block_size;
+
   // first, sort each tile of block_size elements
   stable_sort_by_count<block_size>(system, keys_first, keys_last, values_first, comp);
 
