@@ -27,12 +27,12 @@ namespace thrust
 {
 
 template<typename System>
-pointer<void,System> malloc(thrust::detail::dispatchable_base<System> &system, std::size_t n)
+pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n)
 {
   using thrust::system::detail::generic::malloc;
 
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  void *raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(thrust::detail::derived_cast(system), n)));
+  void *raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(thrust::detail::derived_cast(thrust::detail::strip_const(system)), n)));
 
   return pointer<void,System>(raw_ptr);
 }
@@ -55,11 +55,11 @@ void free(int *volatile ptr)
 #endif // THRUST_DEVICE_COMPILER
 
 template<typename System, typename Pointer>
-void free(thrust::detail::dispatchable_base<System> &system, Pointer ptr)
+void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr)
 {
   using thrust::system::detail::generic::free;
 
-  free(thrust::detail::derived_cast(system), ptr);
+  free(thrust::detail::derived_cast(thrust::detail::strip_const(system)), ptr);
 }
 
 // XXX consider another form of free which does not take a system argument and

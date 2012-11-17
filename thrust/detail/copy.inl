@@ -32,7 +32,7 @@ template<typename System, typename InputIterator, typename OutputIterator>
                       OutputIterator result)
 {
   using thrust::system::detail::generic::copy;
-  return copy(thrust::detail::derived_cast(system), first, last, result);
+  return copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
 } // end copy()
 
 
@@ -43,36 +43,8 @@ template<typename System, typename InputIterator, typename Size, typename Output
                         OutputIterator result)
 {
   using thrust::system::detail::generic::copy_n;
-  return copy_n(thrust::detail::derived_cast(system), first, n, result);
+  return copy_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, result);
 } // end copy_n()
-
-
-namespace detail
-{
-
-
-template<typename System, typename InputIterator, typename OutputIterator>
-  OutputIterator strip_const_copy(const System &system,
-                                  InputIterator first,
-                                  InputIterator last,
-                                  OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy(non_const_system, first, last, result);
-} // end copy()
-
-template<typename System, typename InputIterator, typename Size, typename OutputIterator>
-  OutputIterator strip_const_copy_n(const System &system,
-                                    InputIterator first,
-                                    Size n,
-                                    OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy_n(non_const_system, first, n, result);
-} // end copy_n()
-
-
-} // end detail
 
 
 namespace detail
@@ -91,7 +63,7 @@ template<typename System1,
 {
   using thrust::system::detail::generic::select_system;
 
-  return thrust::detail::strip_const_copy(select_system(thrust::detail::derived_cast(system1), thrust::detail::derived_cast(system2)), first, last, result);
+  return thrust::copy(select_system(thrust::detail::derived_cast(thrust::detail::strip_const(system1)), thrust::detail::derived_cast(thrust::detail::strip_const(system2))), first, last, result);
 } // end two_system_copy()
 
 
@@ -108,7 +80,7 @@ template<typename System1,
 {
   using thrust::system::detail::generic::select_system;
 
-  return thrust::detail::strip_const_copy_n(select_system(thrust::detail::derived_cast(system1), thrust::detail::derived_cast(system2)), first, n, result);
+  return thrust::copy_n(select_system(thrust::detail::derived_cast(thrust::detail::strip_const(system1)), thrust::detail::derived_cast(thrust::detail::strip_const(system2))), first, n, result);
 } // end two_system_copy_n()
 
 

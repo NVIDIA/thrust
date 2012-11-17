@@ -29,7 +29,7 @@ namespace thrust
 
 
 template<typename System, typename RandomAccessIterator>
-  void sort(thrust::detail::dispatchable_base<System> &system,
+  void sort(const thrust::detail::dispatchable_base<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last);
 
@@ -37,14 +37,14 @@ template<typename System, typename RandomAccessIterator>
 template<typename System,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(thrust::detail::dispatchable_base<System> &system,
+  void sort(const thrust::detail::dispatchable_base<System> &system,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
 
 
 template<typename System, typename RandomAccessIterator>
-  void stable_sort(thrust::detail::dispatchable_base<System> &system,
+  void stable_sort(const thrust::detail::dispatchable_base<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
 
@@ -52,7 +52,7 @@ template<typename System, typename RandomAccessIterator>
 template<typename System,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(thrust::detail::dispatchable_base<System> &system,
+  void stable_sort(const thrust::detail::dispatchable_base<System> &system,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
@@ -61,7 +61,7 @@ template<typename System,
 template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(thrust::detail::dispatchable_base<System> &system,
+  void sort_by_key(const thrust::detail::dispatchable_base<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first);
@@ -71,7 +71,7 @@ template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(thrust::detail::dispatchable_base<System> &system,
+  void sort_by_key(const thrust::detail::dispatchable_base<System> &system,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
@@ -81,7 +81,7 @@ template<typename System,
 template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(thrust::detail::dispatchable_base<System> &system,
+  void stable_sort_by_key(const thrust::detail::dispatchable_base<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first);
@@ -91,7 +91,7 @@ template<typename System,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(thrust::detail::dispatchable_base<System> &system,
+  void stable_sort_by_key(const thrust::detail::dispatchable_base<System> &system,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
@@ -99,26 +99,26 @@ template<typename System,
 
 
 template<typename System, typename ForwardIterator>
-  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+  bool is_sorted(const thrust::detail::dispatchable_base<System> &system,
                  ForwardIterator first,
                  ForwardIterator last);
 
 
 template<typename System, typename ForwardIterator, typename Compare>
-  bool is_sorted(thrust::detail::dispatchable_base<System> &system,
+  bool is_sorted(const thrust::detail::dispatchable_base<System> &system,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp);
 
 
 template<typename System, typename ForwardIterator>
-  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator is_sorted_until(const thrust::detail::dispatchable_base<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last);
 
 
 template<typename System, typename ForwardIterator, typename Compare>
-  ForwardIterator is_sorted_until(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator is_sorted_until(const thrust::detail::dispatchable_base<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp);

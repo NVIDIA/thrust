@@ -31,26 +31,15 @@ namespace thrust
 
 template<typename System, typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last)
+    distance(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last)
 {
   using thrust::system::detail::generic::distance;
-  return distance(thrust::detail::derived_cast(system), first, last);
+  return distance(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
 } // end distance()
 
 
 namespace detail
 {
-
-
-template<typename System, typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
-    strip_const_distance(const System &system, InputIterator first, InputIterator last)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::distance(non_const_system, first, last);
-} // end distance()
-
-
 namespace distance_detail
 {
 
@@ -66,8 +55,6 @@ System &deref(System *ptr)
 
 
 } // end distance_detail
-
-
 } // end detail
 
 
@@ -86,7 +73,7 @@ template<typename InputIterator>
   // XXX than it is to the algorithms
   System *system = 0;
 
-  return thrust::detail::strip_const_distance(select_system(detail::distance_detail::deref(system)), first, last);
+  return thrust::distance(select_system(detail::distance_detail::deref(system)), first, last);
 } // end distance()
 
 

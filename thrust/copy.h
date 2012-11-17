@@ -28,22 +28,23 @@ namespace thrust
 {
 
 
+#if 0
 template<typename System, typename InputIterator, typename OutputIterator>
-  OutputIterator copy(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy(thrust::detail::dispatchable_base<System> &&system,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
 
 
 template<typename System, typename InputIterator, typename Size, typename OutputIterator>
-  OutputIterator copy_n(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_n(thrust::detail::dispatchable_base<System> &&system,
                         InputIterator first,
                         Size n,
                         OutputIterator result);
 
 
 template<typename System, typename InputIterator, typename OutputIterator, typename Predicate>
-  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &&system,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
@@ -51,12 +52,13 @@ template<typename System, typename InputIterator, typename OutputIterator, typen
 
 
 template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
-  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &&system,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred);
+#endif
 
 
 /*! \addtogroup algorithms

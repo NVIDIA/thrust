@@ -29,13 +29,13 @@ namespace thrust
 
 
 template<typename System, typename BidirectionalIterator>
-  void reverse(thrust::detail::dispatchable_base<System> &system,
+  void reverse(const thrust::detail::dispatchable_base<System> &system,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
 
 template<typename System, typename BidirectionalIterator, typename OutputIterator>
-  OutputIterator reverse_copy(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator reverse_copy(const thrust::detail::dispatchable_base<System> &system,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);

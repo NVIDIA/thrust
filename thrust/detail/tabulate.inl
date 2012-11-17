@@ -26,32 +26,14 @@ namespace thrust
 
 
 template<typename System, typename ForwardIterator, typename UnaryOperation>
-  void tabulate(thrust::detail::dispatchable_base<System> &system,
+  void tabulate(const thrust::detail::dispatchable_base<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op)
 {
   using thrust::system::detail::generic::tabulate;
-  return tabulate(thrust::detail::derived_cast(system), first, last, unary_op);
+  return tabulate(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, unary_op);
 } // end tabulate()
-
-
-namespace detail
-{
-
-
-template<typename System, typename ForwardIterator, typename UnaryOperation>
-  void strip_const_tabulate(const System &system,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            UnaryOperation unary_op)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::tabulate(non_const_system, first, last, unary_op);
-} // end tabulate()
-
-
-} // end detail
 
 
 template<typename ForwardIterator, typename UnaryOperation>
@@ -65,7 +47,7 @@ template<typename ForwardIterator, typename UnaryOperation>
 
   System system;
 
-  return thrust::detail::strip_const_tabulate(select_system(system), first, last, unary_op);
+  return thrust::tabulate(select_system(system), first, last, unary_op);
 } // end tabulate()
 
 

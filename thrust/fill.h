@@ -29,14 +29,14 @@ namespace thrust
 
 
 template<typename System, typename ForwardIterator, typename T>
-  void fill(thrust::detail::dispatchable_base<System> &system,
+  void fill(const thrust::detail::dispatchable_base<System> &system,
             ForwardIterator first,
             ForwardIterator last,
             const T &value);
 
 
 template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator fill_n(const thrust::detail::dispatchable_base<System> &system,
                         OutputIterator first,
                         Size n,
                         const T &value);

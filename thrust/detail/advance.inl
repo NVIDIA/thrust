@@ -31,25 +31,16 @@ namespace thrust
 
 
 template <typename System, typename InputIterator, typename Distance>
-void advance(thrust::detail::dispatchable_base<System> &system, InputIterator& i, Distance n)
+void advance(const thrust::detail::dispatchable_base<System> &system, InputIterator& i, Distance n)
 {
   using thrust::system::detail::generic::advance;
 
-  advance(thrust::detail::derived_cast(system), i, n);
+  advance(thrust::detail::derived_cast(thrust::detail::strip_const(system)), i, n);
 } // end advance()
 
 
 namespace detail
 {
-
-
-template <typename System, typename InputIterator, typename Distance>
-void strip_const_advance(const System &system, InputIterator& i, Distance n)
-{
-  System &non_const_system = const_cast<System&>(system);
-
-  thrust::advance(non_const_system, i, n);
-} // end strip_const_advance()
 
 
 namespace advance_detail
@@ -85,7 +76,7 @@ void advance(InputIterator& i, Distance n)
   // XXX than it is to the algorithms
   System *system = 0;
 
-  thrust::detail::strip_const_advance(select_system(detail::advance_detail::deref(system)), i, n);
+  thrust::advance(select_system(detail::advance_detail::deref(system)), i, n);
 } // end advance()
 
 
