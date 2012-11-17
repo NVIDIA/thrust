@@ -36,7 +36,7 @@ template<typename System, typename InputIterator, typename ForwardIterator>
                                      ForwardIterator result)
 {
   using thrust::system::detail::generic::uninitialized_copy;
-  return uninitialized_copy(system.derived(), first, last, result);
+  return uninitialized_copy(thrust::detail::derived_cast(system), first, last, result);
 } // end uninitialized_copy()
 
 
@@ -47,7 +47,7 @@ template<typename System, typename InputIterator, typename Size, typename Forwar
                                        ForwardIterator result)
 {
   using thrust::system::detail::generic::uninitialized_copy_n;
-  return uninitialized_copy_n(system.derived(), first, n, result);
+  return uninitialized_copy_n(thrust::detail::derived_cast(system), first, n, result);
 } // end uninitialized_copy_n()
 
 

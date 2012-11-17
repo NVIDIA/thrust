@@ -39,7 +39,7 @@ template<typename System,
                             Predicate pred)
 {
   using thrust::system::detail::generic::partition;
-  return partition(system.derived(), first, last, pred);
+  return partition(thrust::detail::derived_cast(system), first, last, pred);
 } // end partition()
 
 
@@ -54,7 +54,7 @@ template<typename System,
                             Predicate pred)
 {
   using thrust::system::detail::generic::partition;
-  return partition(system.derived(), first, last, stencil, pred);
+  return partition(thrust::detail::derived_cast(system), first, last, stencil, pred);
 } // end partition()
 
 
@@ -72,7 +72,7 @@ template<typename System,
                    Predicate pred)
 {
   using thrust::system::detail::generic::partition_copy;
-  return partition_copy(system.derived(), first, last, out_true, out_false, pred);
+  return partition_copy(thrust::detail::derived_cast(system), first, last, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -92,7 +92,7 @@ template<typename System,
                    Predicate pred)
 {
   using thrust::system::detail::generic::partition_copy;
-  return partition_copy(system.derived(), first, last, stencil, out_true, out_false, pred);
+  return partition_copy(thrust::detail::derived_cast(system), first, last, stencil, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -105,7 +105,7 @@ template<typename System,
                                    Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition;
-  return stable_partition(system.derived(), first, last, pred);
+  return stable_partition(thrust::detail::derived_cast(system), first, last, pred);
 } // end stable_partition()
 
 
@@ -120,7 +120,7 @@ template<typename System,
                                    Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition;
-  return stable_partition(system.derived(), first, last, stencil, pred);
+  return stable_partition(thrust::detail::derived_cast(system), first, last, stencil, pred);
 } // end stable_partition()
 
 
@@ -138,7 +138,7 @@ template<typename System,
                           Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition_copy;
-  return stable_partition_copy(system.derived(), first, last, out_true, out_false, pred);
+  return stable_partition_copy(thrust::detail::derived_cast(system), first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -158,7 +158,7 @@ template<typename System,
                           Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition_copy;
-  return stable_partition_copy(system.derived(), first, last, stencil, out_true, out_false, pred);
+  return stable_partition_copy(thrust::detail::derived_cast(system), first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -169,7 +169,7 @@ template<typename System, typename ForwardIterator, typename Predicate>
                                   Predicate pred)
 {
   using thrust::system::detail::generic::partition_point;
-  return partition_point(system.derived(), first, last, pred);
+  return partition_point(thrust::detail::derived_cast(system), first, last, pred);
 } // end partition_point()
 
 
@@ -180,7 +180,7 @@ template<typename System, typename InputIterator, typename Predicate>
                       Predicate pred)
 {
   using thrust::system::detail::generic::is_partitioned;
-  return is_partitioned(system.derived(), first, last, pred);
+  return is_partitioned(thrust::detail::derived_cast(system), first, last, pred);
 } // end is_partitioned()
 
 

@@ -37,7 +37,7 @@ ForwardIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
                             const LessThanComparable &value)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(system.derived(), first, last, value);
+    return lower_bound(thrust::detail::derived_cast(system), first, last, value);
 }
 
 
@@ -49,7 +49,7 @@ ForwardIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
                             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(system.derived(), first, last, value, comp);
+    return lower_bound(thrust::detail::derived_cast(system), first, last, value, comp);
 }
 
 
@@ -60,7 +60,7 @@ ForwardIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
                             const LessThanComparable &value)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(system.derived(), first, last, value);
+    return upper_bound(thrust::detail::derived_cast(system), first, last, value);
 }
 
 
@@ -72,7 +72,7 @@ ForwardIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
                             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(system.derived(), first, last, value, comp);
+    return upper_bound(thrust::detail::derived_cast(system), first, last, value, comp);
 }
 
 
@@ -83,7 +83,7 @@ bool binary_search(thrust::detail::dispatchable_base<System> &system,
                    const LessThanComparable& value)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(system.derived(), first, last, value);
+    return binary_search(thrust::detail::derived_cast(system), first, last, value);
 }
 
 
@@ -95,7 +95,7 @@ bool binary_search(thrust::detail::dispatchable_base<System> &system,
                    StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(system.derived(), first, last, value, comp);
+    return binary_search(thrust::detail::derived_cast(system), first, last, value, comp);
 }
 
 
@@ -108,7 +108,7 @@ equal_range(thrust::detail::dispatchable_base<System> &system,
             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::equal_range;
-    return equal_range(system.derived(), first, last, value, comp);
+    return equal_range(thrust::detail::derived_cast(system), first, last, value, comp);
 }
 
 
@@ -120,7 +120,7 @@ equal_range(thrust::detail::dispatchable_base<System> &system,
             const LessThanComparable& value)
 {
     using thrust::system::detail::generic::equal_range;
-    return equal_range(system.derived(), first, last, value);
+    return equal_range(thrust::detail::derived_cast(system), first, last, value);
 }
 
 
@@ -133,7 +133,7 @@ OutputIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
                            OutputIterator output)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(system.derived(), first, last, values_first, values_last, output);
+    return lower_bound(thrust::detail::derived_cast(system), first, last, values_first, values_last, output);
 }
 
 
@@ -147,7 +147,7 @@ OutputIterator lower_bound(thrust::detail::dispatchable_base<System> &system,
                            StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(system.derived(), first, last, values_first, values_last, output, comp);
+    return lower_bound(thrust::detail::derived_cast(system), first, last, values_first, values_last, output, comp);
 }
 
 
@@ -160,7 +160,7 @@ OutputIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
                            OutputIterator output)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(system.derived(), first, last, values_first, values_last, output);
+    return upper_bound(thrust::detail::derived_cast(system), first, last, values_first, values_last, output);
 }
 
 
@@ -174,7 +174,7 @@ OutputIterator upper_bound(thrust::detail::dispatchable_base<System> &system,
                            StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(system.derived(), first, last, values_first, values_last, output, comp);
+    return upper_bound(thrust::detail::derived_cast(system), first, last, values_first, values_last, output, comp);
 }
 
 
@@ -187,7 +187,7 @@ OutputIterator binary_search(thrust::detail::dispatchable_base<System> &system,
                              OutputIterator output)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(system.derived(), first, last, values_first, values_last, output);
+    return binary_search(thrust::detail::derived_cast(system), first, last, values_first, values_last, output);
 }
 
 
@@ -201,7 +201,7 @@ OutputIterator binary_search(thrust::detail::dispatchable_base<System> &system,
                              StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(system.derived(), first, last, values_first, values_last, output, comp);
+    return binary_search(thrust::detail::derived_cast(system), first, last, values_first, values_last, output, comp);
 }
 
 

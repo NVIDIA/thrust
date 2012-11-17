@@ -32,7 +32,7 @@ template<typename System, typename InputIterator, typename OutputIterator>
                       OutputIterator result)
 {
   using thrust::system::detail::generic::copy;
-  return copy(system.derived(), first, last, result);
+  return copy(thrust::detail::derived_cast(system), first, last, result);
 } // end copy()
 
 
@@ -43,7 +43,7 @@ template<typename System, typename InputIterator, typename Size, typename Output
                         OutputIterator result)
 {
   using thrust::system::detail::generic::copy_n;
-  return copy_n(system.derived(), first, n, result);
+  return copy_n(thrust::detail::derived_cast(system), first, n, result);
 } // end copy_n()
 
 
@@ -91,7 +91,7 @@ template<typename System1,
 {
   using thrust::system::detail::generic::select_system;
 
-  return thrust::detail::strip_const_copy(select_system(system1.derived(), system2.derived()), first, last, result);
+  return thrust::detail::strip_const_copy(select_system(thrust::detail::derived_cast(system1), thrust::detail::derived_cast(system2)), first, last, result);
 } // end two_system_copy()
 
 
@@ -108,7 +108,7 @@ template<typename System1,
 {
   using thrust::system::detail::generic::select_system;
 
-  return thrust::detail::strip_const_copy_n(select_system(system1.derived(), system2.derived()), first, n, result);
+  return thrust::detail::strip_const_copy_n(select_system(thrust::detail::derived_cast(system1), thrust::detail::derived_cast(system2)), first, n, result);
 } // end two_system_copy_n()
 
 

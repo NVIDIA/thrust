@@ -34,7 +34,7 @@ template<typename System, typename InputIterator>
     distance(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last)
 {
   using thrust::system::detail::generic::distance;
-  return distance(system.derived(), first, last);
+  return distance(thrust::detail::derived_cast(system), first, last);
 } // end distance()
 
 

@@ -36,7 +36,7 @@ template<typename System, typename RandomAccessIterator>
             RandomAccessIterator last)
 {
   using thrust::system::detail::generic::sort;
-  return sort(system.derived(), first, last);
+  return sort(thrust::detail::derived_cast(system), first, last);
 } // end sort()
 
 
@@ -49,7 +49,7 @@ template<typename System,
             StrictWeakOrdering comp)
 {
   using thrust::system::detail::generic::sort;
-  return sort(system.derived(), first, last, comp);
+  return sort(thrust::detail::derived_cast(system), first, last, comp);
 } // end sort()
 
 
@@ -59,7 +59,7 @@ template<typename System, typename RandomAccessIterator>
                    RandomAccessIterator last)
 {
   using thrust::system::detail::generic::stable_sort;
-  return stable_sort(system.derived(), first, last);
+  return stable_sort(thrust::detail::derived_cast(system), first, last);
 } // end stable_sort()
 
 
@@ -72,7 +72,7 @@ template<typename System,
                    StrictWeakOrdering comp)
 {
   using thrust::system::detail::generic::stable_sort;
-  return stable_sort(system.derived(), first, last, comp);
+  return stable_sort(thrust::detail::derived_cast(system), first, last, comp);
 } // end stable_sort()
 
 
@@ -85,7 +85,7 @@ template<typename System,
                    RandomAccessIterator2 values_first)
 {
   using thrust::system::detail::generic::sort_by_key;
-  return sort_by_key(system.derived(), keys_first, keys_last, values_first);
+  return sort_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first);
 } // end sort_by_key()
 
 
@@ -100,7 +100,7 @@ template<typename System,
                    StrictWeakOrdering comp)
 {
   using thrust::system::detail::generic::sort_by_key;
-  return sort_by_key(system.derived(), keys_first, keys_last, values_first, comp);
+  return sort_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, comp);
 } // end sort_by_key()
 
 
@@ -113,7 +113,7 @@ template<typename System,
                           RandomAccessIterator2 values_first)
 {
   using thrust::system::detail::generic::stable_sort_by_key;
-  return stable_sort_by_key(system.derived(), keys_first, keys_last, values_first);
+  return stable_sort_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first);
 } // end stable_sort_by_key()
 
 
@@ -128,7 +128,7 @@ template<typename System,
                           StrictWeakOrdering comp)
 {
   using thrust::system::detail::generic::stable_sort_by_key;
-  return stable_sort_by_key(system.derived(), keys_first, keys_last, values_first, comp);
+  return stable_sort_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()
 
 
@@ -138,7 +138,7 @@ template<typename System, typename ForwardIterator>
                  ForwardIterator last)
 {
   using thrust::system::detail::generic::is_sorted;
-  return is_sorted(system.derived(), first, last);
+  return is_sorted(thrust::detail::derived_cast(system), first, last);
 } // end is_sorted()
 
 
@@ -149,7 +149,7 @@ template<typename System, typename ForwardIterator, typename Compare>
                  Compare comp)
 {
   using thrust::system::detail::generic::is_sorted;
-  return is_sorted(system.derived(), first, last, comp);
+  return is_sorted(thrust::detail::derived_cast(system), first, last, comp);
 } // end is_sorted()
 
 
@@ -159,7 +159,7 @@ template<typename System, typename ForwardIterator>
                                   ForwardIterator last)
 {
   using thrust::system::detail::generic::is_sorted_until;
-  return is_sorted_until(system.derived(), first, last);
+  return is_sorted_until(thrust::detail::derived_cast(system), first, last);
 } // end is_sorted_until()
 
 
@@ -170,7 +170,7 @@ template<typename System, typename ForwardIterator, typename Compare>
                                   Compare comp)
 {
   using thrust::system::detail::generic::is_sorted_until;
-  return is_sorted_until(system.derived(), first, last, comp);
+  return is_sorted_until(thrust::detail::derived_cast(system), first, last, comp);
 } // end is_sorted_until()
 
 

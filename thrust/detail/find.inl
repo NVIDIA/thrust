@@ -36,7 +36,7 @@ InputIterator find(thrust::detail::dispatchable_base<System> &system,
                    const T& value)
 {
   using thrust::system::detail::generic::find;
-  return find(system.derived(), first, last, value);
+  return find(thrust::detail::derived_cast(system), first, last, value);
 } // end find()
 
 
@@ -47,7 +47,7 @@ InputIterator find_if(thrust::detail::dispatchable_base<System> &system,
                       Predicate pred)
 {
   using thrust::system::detail::generic::find_if;
-  return find_if(system.derived(), first, last, pred);
+  return find_if(thrust::detail::derived_cast(system), first, last, pred);
 } // end find_if()
 
 
@@ -58,7 +58,7 @@ InputIterator find_if_not(thrust::detail::dispatchable_base<System> &system,
                           Predicate pred)
 {
   using thrust::system::detail::generic::find_if_not;
-  return find_if_not(system.derived(), first, last, pred);
+  return find_if_not(thrust::detail::derived_cast(system), first, last, pred);
 } // end find_if_not()
 
 

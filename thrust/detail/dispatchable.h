@@ -33,27 +33,29 @@ namespace detail
 // {
 //   using thrust::system::detail::generic::foo;
 //
-//   foo(s.derived();
+//   foo(thrust::detail::derived_cast(s);
 // }
 //
 // foo is not recursive when
 // 1. System is derived from thrust::dispatchable below
 // 2. generic::foo takes thrust::dispatchable as a parameter
-template<typename Derived>
-  struct dispatchable_base
-{
-  __host__ __device__
-  inline Derived &derived()
-  {
-    return static_cast<Derived&>(*this);
-  }
+template<typename Derived> struct dispatchable_base {};
 
-  __host__ __device__
-  inline const Derived &derived() const
-  {
-    return static_cast<const Derived&>(*this);
-  }
-};
+
+template<typename Derived>
+__host__ __device__
+inline Derived &derived_cast(dispatchable_base<Derived> &x)
+{
+  return static_cast<Derived&>(x);
+}
+
+
+template<typename Derived>
+__host__ __device__
+inline const Derived &derived_cast(const dispatchable_base<Derived> &x)
+{
+  return static_cast<const Derived&>(x);
+}
 
 
 } // end detail

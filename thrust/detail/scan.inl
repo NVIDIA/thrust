@@ -41,7 +41,7 @@ template<typename System,
                                 OutputIterator result)
 {
   using thrust::system::detail::generic::inclusive_scan;
-  return inclusive_scan(system.derived(), first, last, result);
+  return inclusive_scan(thrust::detail::derived_cast(system), first, last, result);
 } // end inclusive_scan() 
 
 
@@ -56,7 +56,7 @@ template<typename System,
                                 AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::inclusive_scan;
-  return inclusive_scan(system.derived(), first, last, result, binary_op);
+  return inclusive_scan(thrust::detail::derived_cast(system), first, last, result, binary_op);
 } // end inclusive_scan()
 
 
@@ -69,7 +69,7 @@ template<typename System,
                                 OutputIterator result)
 {
   using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(system.derived(), first, last, result);
+  return exclusive_scan(thrust::detail::derived_cast(system), first, last, result);
 } // end exclusive_scan()
 
 
@@ -84,7 +84,7 @@ template<typename System,
                                 T init)
 {
   using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(system.derived(), first, last, result, init);
+  return exclusive_scan(thrust::detail::derived_cast(system), first, last, result, init);
 } // end exclusive_scan()
 
 
@@ -101,7 +101,7 @@ template<typename System,
                                 AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(system.derived(), first, last, result, init, binary_op);
+  return exclusive_scan(thrust::detail::derived_cast(system), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
 
@@ -116,7 +116,7 @@ template<typename System,
                                        OutputIterator result)
 {
   using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(system.derived(), first1, last1, first2, result);
+  return inclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result);
 } // end inclusive_scan_by_key()
 
 
@@ -133,7 +133,7 @@ template<typename System,
                                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(system.derived(), first1, last1, first2, result, binary_pred);
+  return inclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result, binary_pred);
 } // end inclusive_scan_by_key()
 
 
@@ -152,7 +152,7 @@ template<typename System,
                                        AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(system.derived(), first1, last1, first2, result, binary_pred, binary_op);
+  return inclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result, binary_pred, binary_op);
 } // end inclusive_scan_by_key()
 
 
@@ -167,7 +167,7 @@ template<typename System,
                                        OutputIterator result)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result);
 } // end exclusive_scan_by_key()
 
 
@@ -184,7 +184,7 @@ template<typename System,
                                        T init)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result, init);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result, init);
 } // end exclusive_scan_by_key()
 
 
@@ -203,7 +203,7 @@ template<typename System,
                                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result, init, binary_pred);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result, init, binary_pred);
 } // end exclusive_scan_by_key()
 
 
@@ -224,7 +224,7 @@ template<typename System,
                                        AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result, init, binary_pred, binary_op);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(system), first1, last1, first2, result, init, binary_pred, binary_op);
 } // end exclusive_scan_by_key()
 
 

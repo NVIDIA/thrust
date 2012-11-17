@@ -40,7 +40,7 @@ template<typename System,
 {
   using thrust::system::detail::generic::for_each;
 
-  return for_each(system.derived(), first, last, f);
+  return for_each(thrust::detail::derived_cast(system), first, last, f);
 }
 
 
@@ -78,7 +78,7 @@ template<typename System, typename InputIterator, typename Size, typename UnaryF
 {
   using thrust::system::detail::generic::for_each_n;
 
-  return for_each_n(system.derived(), first, n, f);
+  return for_each_n(thrust::detail::derived_cast(system), first, n, f);
 } // end for_each_n()
 
 

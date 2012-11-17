@@ -39,7 +39,7 @@ template<typename System,
                            UnaryFunction op)
 {
   using thrust::system::detail::generic::transform;
-  return transform(system.derived(), first, last, result, op);
+  return transform(thrust::detail::derived_cast(system), first, last, result, op);
 } // end transform()
 
 
@@ -55,7 +55,7 @@ template<typename System,
                            BinaryFunction op)
 {
   using thrust::system::detail::generic::transform;
-  return transform(system.derived(), first1, last1, first2, result, op);
+  return transform(thrust::detail::derived_cast(system), first1, last1, first2, result, op);
 } // end transform()
 
 
@@ -71,7 +71,7 @@ template<typename System,
                                Predicate pred)
 {
   using thrust::system::detail::generic::transform_if;
-  return transform_if(system.derived(), first, last, result, op, pred);
+  return transform_if(thrust::detail::derived_cast(system), first, last, result, op, pred);
 } // end transform_if()
 
 
@@ -89,7 +89,7 @@ template<typename System,
                                Predicate pred)
 {
   using thrust::system::detail::generic::transform_if;
-  return transform_if(system.derived(), first, last, stencil, result, op, pred);
+  return transform_if(thrust::detail::derived_cast(system), first, last, stencil, result, op, pred);
 } // end transform_if()
 
 
@@ -109,7 +109,7 @@ template<typename System,
                                Predicate pred)
 {
   using thrust::system::detail::generic::transform_if;
-  return transform_if(system.derived(), first1, last1, first2, stencil, result, binary_op, pred);
+  return transform_if(thrust::detail::derived_cast(system), first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()
 
 

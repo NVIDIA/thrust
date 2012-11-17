@@ -101,7 +101,7 @@ template<typename System1,
   void *dst = thrust::raw_pointer_cast(&*result);
   const void *src = thrust::raw_pointer_cast(&*first);
 
-  cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(systems.system1.derived(), systems.system2.derived());
+  cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(systems.system1), thrust::detail::derived_cast(systems.system2));
 
   trivial_copy_detail::checked_cudaMemcpy(dst, src, n * sizeof(T), kind);
 }

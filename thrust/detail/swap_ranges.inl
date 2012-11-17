@@ -38,7 +38,7 @@ template<typename System,
                                ForwardIterator2 first2)
 {
   using thrust::system::detail::generic::swap_ranges;
-  return swap_ranges(system.derived(), first1, last1, first2);
+  return swap_ranges(thrust::detail::derived_cast(system), first1, last1, first2);
 } // end swap_ranges()
 
 

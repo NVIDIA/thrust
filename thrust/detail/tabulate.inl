@@ -32,7 +32,7 @@ template<typename System, typename ForwardIterator, typename UnaryOperation>
                 UnaryOperation unary_op)
 {
   using thrust::system::detail::generic::tabulate;
-  return tabulate(system.derived(), first, last, unary_op);
+  return tabulate(thrust::detail::derived_cast(system), first, last, unary_op);
 } // end tabulate()
 
 

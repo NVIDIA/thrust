@@ -38,7 +38,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(thrust::detail::dispatchab
                                                       InputIterator2 first2)
 {
   using thrust::system::detail::generic::mismatch;
-  return mismatch(system.derived(), first1, last1, first2);
+  return mismatch(thrust::detail::derived_cast(system), first1, last1, first2);
 } // end mismatch()
 
 
@@ -50,7 +50,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(thrust::detail::dispatchab
                                                       BinaryPredicate pred)
 {
   using thrust::system::detail::generic::mismatch;
-  return mismatch(system.derived(), first1, last1, first2, pred);
+  return mismatch(thrust::detail::derived_cast(system), first1, last1, first2, pred);
 } // end mismatch()
 
 

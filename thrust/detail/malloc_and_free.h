@@ -32,7 +32,7 @@ pointer<void,System> malloc(thrust::detail::dispatchable_base<System> &system, s
   using thrust::system::detail::generic::malloc;
 
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  void *raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(system.derived(), n)));
+  void *raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(thrust::detail::derived_cast(system), n)));
 
   return pointer<void,System>(raw_ptr);
 }
@@ -59,7 +59,7 @@ void free(thrust::detail::dispatchable_base<System> &system, Pointer ptr)
 {
   using thrust::system::detail::generic::free;
 
-  free(system.derived(), ptr);
+  free(thrust::detail::derived_cast(system), ptr);
 }
 
 // XXX consider another form of free which does not take a system argument and

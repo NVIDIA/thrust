@@ -35,7 +35,7 @@ OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &sy
 {
   using thrust::system::detail::generic::adjacent_difference;
 
-  return adjacent_difference(system.derived(), first, last, result);
+  return adjacent_difference(thrust::detail::derived_cast(system), first, last, result);
 } // end adjacent_difference()
 
 
@@ -47,7 +47,7 @@ OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &sy
 {
   using thrust::system::detail::generic::adjacent_difference;
 
-  return adjacent_difference(system.derived(), first, last, result, binary_op);
+  return adjacent_difference(thrust::detail::derived_cast(system), first, last, result, binary_op);
 } // end adjacent_difference()
 
 

@@ -39,7 +39,7 @@ template<typename System,
                          const T &value)
 {
   using thrust::system::detail::generic::remove;
-  return remove(system.derived(), first, last, value);
+  return remove(thrust::detail::derived_cast(system), first, last, value);
 } // end remove()
 
 
@@ -54,7 +54,7 @@ template<typename System,
                              const T &value)
 {
   using thrust::system::detail::generic::remove_copy;
-  return remove_copy(system.derived(), first, last, result, value);
+  return remove_copy(thrust::detail::derived_cast(system), first, last, result, value);
 } // end remove_copy()
 
 
@@ -67,7 +67,7 @@ template<typename System,
                             Predicate pred)
 {
   using thrust::system::detail::generic::remove_if;
-  return remove_if(system.derived(), first, last, pred);
+  return remove_if(thrust::detail::derived_cast(system), first, last, pred);
 } // end remove_if()
 
 
@@ -82,7 +82,7 @@ template<typename System,
                                 Predicate pred)
 {
   using thrust::system::detail::generic::remove_copy_if;
-  return remove_copy_if(system.derived(), first, last, result, pred);
+  return remove_copy_if(thrust::detail::derived_cast(system), first, last, result, pred);
 } // end remove_copy_if()
 
 
@@ -97,7 +97,7 @@ template<typename System,
                             Predicate pred)
 {
   using thrust::system::detail::generic::remove_if;
-  return remove_if(system.derived(), first, last, stencil, pred);
+  return remove_if(thrust::detail::derived_cast(system), first, last, stencil, pred);
 } // end remove_if()
 
 
@@ -114,7 +114,7 @@ template<typename System,
                                 Predicate pred)
 {
   using thrust::system::detail::generic::remove_copy_if;
-  return remove_copy_if(system.derived(), first, last, stencil, result, pred);
+  return remove_copy_if(thrust::detail::derived_cast(system), first, last, stencil, result, pred);
 } // end remove_copy_if()
 
 

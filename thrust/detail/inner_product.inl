@@ -41,7 +41,7 @@ OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
                          OutputType init)
 {
   using thrust::system::detail::generic::inner_product;
-  return inner_product(system.derived(), first1, last1, first2, init);
+  return inner_product(thrust::detail::derived_cast(system), first1, last1, first2, init);
 } // end inner_product()
 
 
@@ -60,7 +60,7 @@ OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
                          BinaryFunction2 binary_op2)
 {
   using thrust::system::detail::generic::inner_product;
-  return inner_product(system.derived(), first1, last1, first2, init, binary_op1, binary_op2);
+  return inner_product(thrust::detail::derived_cast(system), first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
 
 

@@ -36,7 +36,7 @@ template<typename System, typename ForwardIterator, typename T>
             const T &value)
 {
   using thrust::system::detail::generic::fill;
-  return fill(system.derived(), first, last, value);
+  return fill(thrust::detail::derived_cast(system), first, last, value);
 } // end fill()
 
 
@@ -47,7 +47,7 @@ template<typename System, typename OutputIterator, typename Size, typename T>
                         const T &value)
 {
   using thrust::system::detail::generic::fill_n;
-  return fill_n(system.derived(), first, n, value);
+  return fill_n(thrust::detail::derived_cast(system), first, n, value);
 } // end fill_n()
 
 

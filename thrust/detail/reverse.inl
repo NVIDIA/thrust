@@ -36,7 +36,7 @@ template<typename System, typename BidirectionalIterator>
                BidirectionalIterator last)
 {
   using thrust::system::detail::generic::reverse;
-  return reverse(system.derived(), first, last);
+  return reverse(thrust::detail::derived_cast(system), first, last);
 } // end reverse()
 
 
@@ -47,7 +47,7 @@ template<typename System, typename BidirectionalIterator, typename OutputIterato
                               OutputIterator result)
 {
   using thrust::system::detail::generic::reverse_copy;
-  return reverse_copy(system.derived(), first, last, result);
+  return reverse_copy(thrust::detail::derived_cast(system), first, last, result);
 } // end reverse_copy()
 
 

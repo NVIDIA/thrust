@@ -37,7 +37,7 @@ template<typename System, typename ForwardIterator, typename T>
                const T &new_value)
 {
   using thrust::system::detail::generic::replace;
-  return replace(system.derived(), first, last, old_value, new_value);
+  return replace(thrust::detail::derived_cast(system), first, last, old_value, new_value);
 } // end replace()
 
 
@@ -48,7 +48,7 @@ template<typename System, typename ForwardIterator, typename Predicate, typename
                   const T &new_value)
 {
   using thrust::system::detail::generic::replace_if;
-  return replace_if(system.derived(), first, last, pred, new_value);
+  return replace_if(thrust::detail::derived_cast(system), first, last, pred, new_value);
 } // end replace_if()
 
 
@@ -60,7 +60,7 @@ template<typename System, typename ForwardIterator, typename InputIterator, type
                   const T &new_value)
 {
   using thrust::system::detail::generic::replace_if;
-  return replace_if(system.derived(), first, last, stencil, pred, new_value);
+  return replace_if(thrust::detail::derived_cast(system), first, last, stencil, pred, new_value);
 } // end replace_if()
 
 
@@ -72,7 +72,7 @@ template<typename System, typename InputIterator, typename OutputIterator, typen
                               const T &new_value)
 {
   using thrust::system::detail::generic::replace_copy;
-  return replace_copy(system.derived(), first, last, result, old_value, new_value);
+  return replace_copy(thrust::detail::derived_cast(system), first, last, result, old_value, new_value);
 } // end replace_copy()
 
 
@@ -84,7 +84,7 @@ template<typename System, typename InputIterator, typename OutputIterator, typen
                                  const T &new_value)
 {
   using thrust::system::detail::generic::replace_copy_if;
-  return replace_copy_if(system.derived(), first, last, result, pred, new_value);
+  return replace_copy_if(thrust::detail::derived_cast(system), first, last, result, pred, new_value);
 } // end replace_copy_if()
 
 
@@ -97,7 +97,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
                                  const T &new_value)
 {
   using thrust::system::detail::generic::replace_copy_if;
-  return replace_copy_if(system.derived(), first, last, stencil, result, pred, new_value);
+  return replace_copy_if(thrust::detail::derived_cast(system), first, last, stencil, result, pred, new_value);
 } // end replace_copy_if()
 
 

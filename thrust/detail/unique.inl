@@ -39,7 +39,7 @@ ForwardIterator unique(thrust::detail::dispatchable_base<System> &system,
                        ForwardIterator last)
 {
   using thrust::system::detail::generic::unique;
-  return unique(system.derived(), first, last);
+  return unique(thrust::detail::derived_cast(system), first, last);
 } // end unique()
 
 
@@ -52,7 +52,7 @@ ForwardIterator unique(thrust::detail::dispatchable_base<System> &system,
                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique;
-  return unique(system.derived(), first, last, binary_pred);
+  return unique(thrust::detail::derived_cast(system), first, last, binary_pred);
 } // end unique()
 
 
@@ -65,7 +65,7 @@ OutputIterator unique_copy(thrust::detail::dispatchable_base<System> &system,
                            OutputIterator output)
 {
   using thrust::system::detail::generic::unique_copy;
-  return unique_copy(system.derived(), first, last, output);
+  return unique_copy(thrust::detail::derived_cast(system), first, last, output);
 } // end unique_copy()
 
 
@@ -80,7 +80,7 @@ OutputIterator unique_copy(thrust::detail::dispatchable_base<System> &system,
                            BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique_copy;
-  return unique_copy(system.derived(), first, last, output, binary_pred);
+  return unique_copy(thrust::detail::derived_cast(system), first, last, output, binary_pred);
 } // end unique_copy()
 
 
@@ -94,7 +94,7 @@ template <typename System,
                 ForwardIterator2 values_first)
 {
   using thrust::system::detail::generic::unique_by_key;
-  return unique_by_key(system.derived(), keys_first, keys_last, values_first);
+  return unique_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first);
 } // end unique_by_key()
 
 
@@ -110,7 +110,7 @@ template <typename System,
                 BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique_by_key;
-  return unique_by_key(system.derived(), keys_first, keys_last, values_first, binary_pred);
+  return unique_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, binary_pred);
 } // end unique_by_key()
 
 
@@ -128,7 +128,7 @@ template <typename System,
                      OutputIterator2 values_output)
 {
   using thrust::system::detail::generic::unique_by_key_copy;
-  return unique_by_key_copy(system.derived(), keys_first, keys_last, values_first, keys_output, values_output);
+  return unique_by_key_copy(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, keys_output, values_output);
 } // end unique_by_key_copy()
 
 
@@ -148,7 +148,7 @@ template <typename System,
                      BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique_by_key_copy;
-  return unique_by_key_copy(system.derived(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+  return unique_by_key_copy(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 } // end unique_by_key_copy()
 
 

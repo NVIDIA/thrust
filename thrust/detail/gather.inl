@@ -40,7 +40,7 @@ template<typename System,
                         OutputIterator                             result)
 {
   using thrust::system::detail::generic::gather;
-  return gather(system.derived(), map_first, map_last, input_first, result);
+  return gather(thrust::detail::derived_cast(system), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -57,7 +57,7 @@ template<typename System,
                            OutputIterator                             result)
 {
   using thrust::system::detail::generic::gather_if;
-  return gather_if(system.derived(), map_first, map_last, stencil, input_first, result);
+  return gather_if(thrust::detail::derived_cast(system), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -76,7 +76,7 @@ template<typename System,
                            Predicate                                  pred)
 {
   using thrust::system::detail::generic::gather_if;
-  return gather_if(system.derived(), map_first, map_last, stencil, input_first, result, pred);
+  return gather_if(thrust::detail::derived_cast(system), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
 
 

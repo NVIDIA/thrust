@@ -42,7 +42,7 @@ template<typename System,
                               BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::transform_reduce;
-  return transform_reduce(system.derived(), first, last, unary_op, init, binary_op);
+  return transform_reduce(thrust::detail::derived_cast(system), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
 
 

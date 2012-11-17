@@ -36,7 +36,7 @@ template<typename System,
                          Predicate pred)
 {
   using thrust::system::detail::generic::copy_if;
-  return copy_if(system.derived(), first, last, result, pred);
+  return copy_if(thrust::detail::derived_cast(system), first, last, result, pred);
 } // end copy_if()
 
 
@@ -53,7 +53,7 @@ template<typename System,
                          Predicate pred)
 {
   using thrust::system::detail::generic::copy_if;
-  return copy_if(system.derived(), first, last, stencil, result, pred);
+  return copy_if(thrust::detail::derived_cast(system), first, last, stencil, result, pred);
 } // end copy_if()
 
 

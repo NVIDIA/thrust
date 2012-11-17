@@ -39,7 +39,7 @@ template<typename System,
                 Generator gen)
 {
   using thrust::system::detail::generic::generate;
-  return generate(system.derived(), first, last, gen);
+  return generate(thrust::detail::derived_cast(system), first, last, gen);
 } // end generate()
 
 
@@ -53,7 +53,7 @@ template<typename System,
                             Generator gen)
 {
   using thrust::system::detail::generic::generate_n;
-  return generate_n(system.derived(), first, n, gen);
+  return generate_n(thrust::detail::derived_cast(system), first, n, gen);
 } // end generate_n()
 
 

@@ -36,7 +36,7 @@ template<typename System, typename ForwardIterator, typename T>
                           const T &x)
 {
   using thrust::system::detail::generic::uninitialized_fill;
-  return uninitialized_fill(system.derived(), first, last, x);
+  return uninitialized_fill(thrust::detail::derived_cast(system), first, last, x);
 } // end uninitialized_fill()
 
 
@@ -47,7 +47,7 @@ template<typename System, typename ForwardIterator, typename Size, typename T>
                                        const T &x)
 {
   using thrust::system::detail::generic::uninitialized_fill_n;
-  return uninitialized_fill_n(system.derived(), first, n, x);
+  return uninitialized_fill_n(thrust::detail::derived_cast(system), first, n, x);
 } // end uninitialized_fill_n()
 
 

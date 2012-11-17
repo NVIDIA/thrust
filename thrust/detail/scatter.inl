@@ -40,7 +40,7 @@ template<typename System,
                RandomAccessIterator output)
 {
   using thrust::system::detail::generic::scatter;
-  return scatter(system.derived(), first, last, map, output);
+  return scatter(thrust::detail::derived_cast(system), first, last, map, output);
 } // end scatter()
 
 
@@ -57,7 +57,7 @@ template<typename System,
                   RandomAccessIterator output)
 {
   using thrust::system::detail::generic::scatter_if;
-  return scatter_if(system.derived(), first, last, map, stencil, output);
+  return scatter_if(thrust::detail::derived_cast(system), first, last, map, stencil, output);
 } // end scatter_if()
 
 
@@ -76,7 +76,7 @@ template<typename System,
                   Predicate pred)
 {
   using thrust::system::detail::generic::scatter_if;
-  return scatter_if(system.derived(), first, last, map, stencil, output, pred);
+  return scatter_if(thrust::detail::derived_cast(system), first, last, map, stencil, output, pred);
 } // end scatter_if()
 
 

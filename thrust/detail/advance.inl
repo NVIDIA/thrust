@@ -35,7 +35,7 @@ void advance(thrust::detail::dispatchable_base<System> &system, InputIterator& i
 {
   using thrust::system::detail::generic::advance;
 
-  advance(system.derived(), i, n);
+  advance(thrust::detail::derived_cast(system), i, n);
 } // end advance()
 
 

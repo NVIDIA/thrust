@@ -35,7 +35,7 @@ template<typename System, typename InputIterator, typename EqualityComparable>
     count(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   using thrust::system::detail::generic::count;
-  return count(system.derived(), first, last, value);
+  return count(thrust::detail::derived_cast(system), first, last, value);
 } // end count()
 
 
@@ -44,7 +44,7 @@ template<typename System, typename InputIterator, typename Predicate>
     count_if(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::count_if;
-  return count_if(system.derived(), first, last, pred);
+  return count_if(thrust::detail::derived_cast(system), first, last, pred);
 } // end count_if()
 
 

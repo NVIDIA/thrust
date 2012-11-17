@@ -40,7 +40,7 @@ template<typename System,
                                 OutputIterator                             result)
 {
   using thrust::system::detail::generic::set_difference;
-  return set_difference(system.derived(), first1, last1, first2, last2, result);
+  return set_difference(thrust::detail::derived_cast(system), first1, last1, first2, last2, result);
 } // end set_difference()
 
 
@@ -58,7 +58,7 @@ template<typename System,
                                 StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_difference;
-  return set_difference(system.derived(), first1, last1, first2, last2, result, comp);
+  return set_difference(thrust::detail::derived_cast(system), first1, last1, first2, last2, result, comp);
 } // end set_difference()
 
 
@@ -81,7 +81,7 @@ template<typename System,
                           OutputIterator2                            values_result)
 {
   using thrust::system::detail::generic::set_difference_by_key;
-  return set_difference_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  return set_difference_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_difference_by_key()
 
 
@@ -106,7 +106,7 @@ template<typename System,
                           StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_difference_by_key;
-  return set_difference_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  return set_difference_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_difference_by_key()
 
 
@@ -122,7 +122,7 @@ template<typename System,
                                   OutputIterator                             result)
 {
   using thrust::system::detail::generic::set_intersection;
-  return set_intersection(system.derived(), first1, last1, first2, last2, result);
+  return set_intersection(thrust::detail::derived_cast(system), first1, last1, first2, last2, result);
 } // end set_intersection()
 
 
@@ -140,7 +140,7 @@ template<typename System,
                                   StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_intersection;
-  return set_intersection(system.derived(), first1, last1, first2, last2, result, comp);
+  return set_intersection(thrust::detail::derived_cast(system), first1, last1, first2, last2, result, comp);
 } // end set_intersection()
 
 
@@ -161,7 +161,7 @@ template<typename System,
                             OutputIterator2                            values_result)
 {
   using thrust::system::detail::generic::set_intersection_by_key;
-  return set_intersection_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
+  return set_intersection_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
 } // end set_intersection_by_key()
 
 
@@ -184,7 +184,7 @@ template<typename System,
                             StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_intersection_by_key;
-  return set_intersection_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, comp);
+  return set_intersection_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, comp);
 } // end set_intersection_by_key()
 
 
@@ -200,7 +200,7 @@ template<typename System,
                                           OutputIterator                             result)
 {
   using thrust::system::detail::generic::set_symmetric_difference;
-  return set_symmetric_difference(system.derived(), first1, last1, first2, last2, result);
+  return set_symmetric_difference(thrust::detail::derived_cast(system), first1, last1, first2, last2, result);
 } // end set_symmetric_difference()
 
 
@@ -218,7 +218,7 @@ template<typename System,
                                           StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_symmetric_difference;
-  return set_symmetric_difference(system.derived(), first1, last1, first2, last2, result, comp);
+  return set_symmetric_difference(thrust::detail::derived_cast(system), first1, last1, first2, last2, result, comp);
 } // end set_symmetric_difference()
 
 
@@ -241,7 +241,7 @@ template<typename System,
                                     OutputIterator2                            values_result)
 {
   using thrust::system::detail::generic::set_symmetric_difference_by_key;
-  return set_symmetric_difference_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  return set_symmetric_difference_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_symmetric_difference_by_key()
 
 
@@ -266,7 +266,7 @@ template<typename System,
                                     StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_symmetric_difference_by_key;
-  return set_symmetric_difference_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  return set_symmetric_difference_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_symmetric_difference_by_key()
 
 
@@ -282,7 +282,7 @@ template<typename System,
                            OutputIterator                             result)
 {
   using thrust::system::detail::generic::set_union;
-  return set_union(system.derived(), first1, last1, first2, last2, result);
+  return set_union(thrust::detail::derived_cast(system), first1, last1, first2, last2, result);
 } // end set_union()
 
 
@@ -300,7 +300,7 @@ template<typename System,
                            StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_union;
-  return set_union(system.derived(), first1, last1, first2, last2, result, comp);
+  return set_union(thrust::detail::derived_cast(system), first1, last1, first2, last2, result, comp);
 } // end set_union()
 
 
@@ -323,7 +323,7 @@ template<typename System,
                      OutputIterator2                            values_result)
 {
   using thrust::system::detail::generic::set_union_by_key;
-  return set_union_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  return set_union_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_union_by_key()
 
 
@@ -348,7 +348,7 @@ template<typename System,
                      StrictWeakCompare                          comp)
 {
   using thrust::system::detail::generic::set_union_by_key;
-  return set_union_by_key(system.derived(), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  return set_union_by_key(thrust::detail::derived_cast(system), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_union_by_key()
 
 

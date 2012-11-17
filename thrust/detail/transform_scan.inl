@@ -42,7 +42,7 @@ template<typename System,
                                           AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::transform_inclusive_scan;
-  return transform_inclusive_scan(system.derived(), first, last, result, unary_op, binary_op);
+  return transform_inclusive_scan(thrust::detail::derived_cast(system), first, last, result, unary_op, binary_op);
 } // end transform_inclusive_scan()
 
 
@@ -61,7 +61,7 @@ template<typename System,
                                           AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::transform_exclusive_scan;
-  return transform_exclusive_scan(system.derived(), first, last, result, unary_op, init, binary_op);
+  return transform_exclusive_scan(thrust::detail::derived_cast(system), first, last, result, unary_op, init, binary_op);
 } // end transform_exclusive_scan()
 
 

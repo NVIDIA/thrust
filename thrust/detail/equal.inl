@@ -33,7 +33,7 @@ template<typename System, typename InputIterator1, typename InputIterator2>
 bool equal(thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
   using thrust::system::detail::generic::equal;
-  return equal(system.derived(), first1, last1, first2);
+  return equal(thrust::detail::derived_cast(system), first1, last1, first2);
 } // end equal()
 
 
@@ -41,7 +41,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
 bool equal(thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::equal;
-  return equal(system.derived(), first1, last1, first2, binary_pred);
+  return equal(thrust::detail::derived_cast(system), first1, last1, first2, binary_pred);
 } // end equal()
 
 

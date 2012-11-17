@@ -36,7 +36,7 @@ template<typename System, typename ForwardIterator>
                 ForwardIterator last)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(system.derived(), first, last);
+  return sequence(thrust::detail::derived_cast(system), first, last);
 } // end sequence()
 
 
@@ -47,7 +47,7 @@ template<typename System, typename ForwardIterator, typename T>
                 T init)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(system.derived(), first, last, init);
+  return sequence(thrust::detail::derived_cast(system), first, last, init);
 } // end sequence()
 
 
@@ -59,7 +59,7 @@ template<typename System, typename ForwardIterator, typename T>
                 T step)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(system.derived(), first, last, init, step);
+  return sequence(thrust::detail::derived_cast(system), first, last, init, step);
 } // end sequence()
 
 

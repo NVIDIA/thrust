@@ -36,7 +36,7 @@ template<typename System, typename InputIterator>
     reduce(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last)
 {
   using thrust::system::detail::generic::reduce;
-  return reduce(system.derived(), first, last);
+  return reduce(thrust::detail::derived_cast(system), first, last);
 } // end reduce()
 
 
@@ -47,7 +47,7 @@ template<typename System, typename InputIterator, typename T>
            T init)
 {
   using thrust::system::detail::generic::reduce;
-  return reduce(system.derived(), first, last, init);
+  return reduce(thrust::detail::derived_cast(system), first, last, init);
 } // end reduce()
 
 
@@ -62,7 +62,7 @@ template<typename System,
            BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::reduce;
-  return reduce(system.derived(), first, last, init, binary_op);
+  return reduce(thrust::detail::derived_cast(system), first, last, init, binary_op);
 } // end reduce()
 
 
@@ -80,7 +80,7 @@ template <typename System,
                 OutputIterator2 values_output)
 {
   using thrust::system::detail::generic::reduce_by_key;
-  return reduce_by_key(system.derived(), keys_first, keys_last, values_first, keys_output, values_output);
+  return reduce_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, keys_output, values_output);
 } // end reduce_by_key()
 
 
@@ -100,7 +100,7 @@ template <typename System,
                 BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::reduce_by_key;
-  return reduce_by_key(system.derived(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+  return reduce_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 } // end reduce_by_key()
 
 
@@ -122,7 +122,7 @@ template <typename System,
                 BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::reduce_by_key;
-  return reduce_by_key(system.derived(), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  return reduce_by_key(thrust::detail::derived_cast(system), keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 } // end reduce_by_key()
 
 
