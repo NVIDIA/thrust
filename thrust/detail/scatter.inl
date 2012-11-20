@@ -33,14 +33,14 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-  void scatter(thrust::detail::dispatchable_base<System> &system,
+  void scatter(const thrust::detail::dispatchable_base<System> &system,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output)
 {
   using thrust::system::detail::generic::scatter;
-  return scatter(system.derived(), first, last, map, output);
+  return scatter(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, map, output);
 } // end scatter()
 
 
@@ -49,7 +49,7 @@ template<typename System,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-  void scatter_if(thrust::detail::dispatchable_base<System> &system,
+  void scatter_if(const thrust::detail::dispatchable_base<System> &system,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -57,7 +57,7 @@ template<typename System,
                   RandomAccessIterator output)
 {
   using thrust::system::detail::generic::scatter_if;
-  return scatter_if(system.derived(), first, last, map, stencil, output);
+  return scatter_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, map, stencil, output);
 } // end scatter_if()
 
 
@@ -67,7 +67,7 @@ template<typename System,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-  void scatter_if(thrust::detail::dispatchable_base<System> &system,
+  void scatter_if(const thrust::detail::dispatchable_base<System> &system,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -76,66 +76,8 @@ template<typename System,
                   Predicate pred)
 {
   using thrust::system::detail::generic::scatter_if;
-  return scatter_if(system.derived(), first, last, map, stencil, output, pred);
+  return scatter_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, map, stencil, output, pred);
 } // end scatter_if()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename RandomAccessIterator>
-  void strip_const_scatter(const System &system,
-                           InputIterator1 first,
-                           InputIterator1 last,
-                           InputIterator2 map,
-                           RandomAccessIterator output)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::scatter(non_const_system, first, last, map, output);
-} // end scatter()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename InputIterator3,
-         typename RandomAccessIterator>
-  void strip_const_scatter_if(const System &system,
-                              InputIterator1 first,
-                              InputIterator1 last,
-                              InputIterator2 map,
-                              InputIterator3 stencil,
-                              RandomAccessIterator output)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::scatter_if(non_const_system, first, last, map, stencil, output);
-} // end scatter_if()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename InputIterator3,
-         typename RandomAccessIterator,
-         typename Predicate>
-  void strip_const_scatter_if(const System &system,
-                              InputIterator1 first,
-                              InputIterator1 last,
-                              InputIterator2 map,
-                              InputIterator3 stencil,
-                              RandomAccessIterator output,
-                              Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::scatter_if(non_const_system, first, last, map, stencil, output, pred);
-} // end scatter_if()
-
-
-} // end detail
 
 
 template<typename InputIterator1,
@@ -156,7 +98,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_scatter(select_system(system1,system2,system3), first, last, map, output);
+  return thrust::scatter(select_system(system1,system2,system3), first, last, map, output);
 } // end scatter()
 
 
@@ -182,7 +124,7 @@ template<typename InputIterator1,
   System3 system3;
   System4 system4;
 
-  return thrust::detail::strip_const_scatter_if(select_system(system1,system2,system3,system4), first, last, map, stencil, output);
+  return thrust::scatter_if(select_system(system1,system2,system3,system4), first, last, map, stencil, output);
 } // end scatter_if()
 
 
@@ -210,7 +152,7 @@ template<typename InputIterator1,
   System3 system3;
   System4 system4;
 
-  return thrust::detail::strip_const_scatter_if(select_system(system1,system2,system3,system4), first, last, map, stencil, output, pred);
+  return thrust::scatter_if(select_system(system1,system2,system3,system4), first, last, map, stencil, output, pred);
 } // end scatter_if()
 
 } // end namespace thrust

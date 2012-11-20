@@ -29,15 +29,15 @@ namespace thrust
 
 
 template <typename System, typename InputIterator, typename Predicate>
-bool all_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+bool all_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
 
 
 template <typename System, typename InputIterator, typename Predicate>
-bool any_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+bool any_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
 
 
 template <typename System, typename InputIterator, typename Predicate>
-bool none_of(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+bool none_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \addtogroup reductions

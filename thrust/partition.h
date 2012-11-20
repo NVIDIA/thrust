@@ -32,7 +32,7 @@ namespace thrust
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition(const thrust::detail::dispatchable_base<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
@@ -42,7 +42,7 @@ template<typename System,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator partition(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition(const thrust::detail::dispatchable_base<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -55,7 +55,7 @@ template<typename System,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::detail::dispatchable_base<System> &system,
+    partition_copy(const thrust::detail::dispatchable_base<System> &system,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -70,7 +70,7 @@ template<typename System,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::detail::dispatchable_base<System> &system,
+    partition_copy(const thrust::detail::dispatchable_base<System> &system,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -82,7 +82,7 @@ template<typename System,
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator stable_partition(const thrust::detail::dispatchable_base<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
@@ -92,7 +92,7 @@ template<typename System,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator stable_partition(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator stable_partition(const thrust::detail::dispatchable_base<System> &system,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
@@ -105,7 +105,7 @@ template<typename System,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::detail::dispatchable_base<System> &system,
+    stable_partition_copy(const thrust::detail::dispatchable_base<System> &system,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -120,7 +120,7 @@ template<typename System,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::detail::dispatchable_base<System> &system,
+    stable_partition_copy(const thrust::detail::dispatchable_base<System> &system,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -130,14 +130,14 @@ template<typename System,
 
 
 template<typename System, typename ForwardIterator, typename Predicate>
-  ForwardIterator partition_point(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition_point(const thrust::detail::dispatchable_base<System> &system,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);
 
 
 template<typename System, typename InputIterator, typename Predicate>
-  bool is_partitioned(thrust::detail::dispatchable_base<System> &system,
+  bool is_partitioned(const thrust::detail::dispatchable_base<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);

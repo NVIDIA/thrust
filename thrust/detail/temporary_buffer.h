@@ -54,7 +54,7 @@ template<typename T, typename System>
 {
   using thrust::system::detail::generic::get_temporary_buffer;
 
-  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,System>(get_temporary_buffer<T>(system.derived(), n));
+  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,System>(get_temporary_buffer<T>(thrust::detail::derived_cast(system), n));
 } // end get_temporary_buffer()
 
 
@@ -63,7 +63,7 @@ template<typename System, typename Pointer>
 {
   using thrust::system::detail::generic::return_temporary_buffer;
 
-  return return_temporary_buffer(system.derived(), p);
+  return return_temporary_buffer(thrust::detail::derived_cast(system), p);
 } // end return_temporary_buffer()
 
 

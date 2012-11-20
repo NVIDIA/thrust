@@ -77,7 +77,7 @@ template<typename System1, typename System2>
 inline __host__ __device__
   System1 select_system(dispatchable<System1> s, thrust::system::tbb::detail::dispatchable<System2>)
 {
-  return s.derived();
+  return thrust::detail::derived_cast(s);
 } // end select_system()
 
 
@@ -85,7 +85,7 @@ template<typename System1, typename System2>
 inline __host__ __device__
   System2 select_system(thrust::system::tbb::detail::dispatchable<System1>, dispatchable<System2> s)
 {
-  return s.derived();
+  return thrust::detail::derived_cast(s);
 } // end select_system()
 
 

@@ -32,34 +32,14 @@ namespace thrust
 template<typename System,
          typename ForwardIterator1,
          typename ForwardIterator2>
-  ForwardIterator2 swap_ranges(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator2 swap_ranges(const thrust::detail::dispatchable_base<System> &system,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
   using thrust::system::detail::generic::swap_ranges;
-  return swap_ranges(system.derived(), first1, last1, first2);
+  return swap_ranges(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2);
 } // end swap_ranges()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename ForwardIterator1,
-         typename ForwardIterator2>
-  ForwardIterator2 strip_const_swap_ranges(const System &system,
-                                           ForwardIterator1 first1,
-                                           ForwardIterator1 last1,
-                                           ForwardIterator2 first2)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::swap_ranges(non_const_system, first1, last1, first2);
-} // end swap_ranges()
-
-
-} // end detail
 
 
 template<typename ForwardIterator1,
@@ -76,7 +56,7 @@ template<typename ForwardIterator1,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_swap_ranges(select_system(system1,system2), first1, last1, first2);
+  return thrust::swap_ranges(select_system(system1,system2), first1, last1, first2);
 } // end swap_ranges()
 
 
