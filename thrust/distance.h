@@ -31,7 +31,7 @@ namespace thrust
 
 template<typename System, typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last);
+    distance(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last);
 
 
 /*! \addtogroup iterators

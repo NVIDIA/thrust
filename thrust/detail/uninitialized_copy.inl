@@ -30,54 +30,25 @@ namespace thrust
 
 
 template<typename System, typename InputIterator, typename ForwardIterator>
-  ForwardIterator uninitialized_copy(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator uninitialized_copy(const thrust::detail::dispatchable_base<System> &system,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result)
 {
   using thrust::system::detail::generic::uninitialized_copy;
-  return uninitialized_copy(system.derived(), first, last, result);
+  return uninitialized_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
 } // end uninitialized_copy()
 
 
 template<typename System, typename InputIterator, typename Size, typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator uninitialized_copy_n(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result)
 {
   using thrust::system::detail::generic::uninitialized_copy_n;
-  return uninitialized_copy_n(system.derived(), first, n, result);
+  return uninitialized_copy_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, result);
 } // end uninitialized_copy_n()
-
-
-namespace detail
-{
-
-
-template<typename System, typename InputIterator, typename ForwardIterator>
-  ForwardIterator strip_const_uninitialized_copy(const System &system,
-                                                 InputIterator first,
-                                                 InputIterator last,
-                                                 ForwardIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::uninitialized_copy(non_const_system, first, last, result);
-} // end strip_const_uninitialized_copy()
-
-
-template<typename System, typename InputIterator, typename Size, typename ForwardIterator>
-  ForwardIterator strip_const_uninitialized_copy_n(const System &system,
-                                                   InputIterator first,
-                                                   Size n,
-                                                   ForwardIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::uninitialized_copy_n(non_const_system, first, n, result);
-} // end strip_const_uninitialized_copy_n()
-
-
-} // end detail
 
 
 template<typename InputIterator,
@@ -94,7 +65,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_uninitialized_copy(select_system(system1,system2), first, last, result);
+  return thrust::uninitialized_copy(select_system(system1,system2), first, last, result);
 } // end uninitialized_copy()
 
 
@@ -113,7 +84,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_uninitialized_copy_n(select_system(system1,system2), first, n, result);
+  return thrust::uninitialized_copy_n(select_system(system1,system2), first, n, result);
 } // end uninitialized_copy_n()
 
 

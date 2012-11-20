@@ -31,52 +31,24 @@ namespace thrust
 
 
 template<typename System, typename BidirectionalIterator>
-  void reverse(thrust::detail::dispatchable_base<System> &system,
+  void reverse(const thrust::detail::dispatchable_base<System> &system,
                BidirectionalIterator first,
                BidirectionalIterator last)
 {
   using thrust::system::detail::generic::reverse;
-  return reverse(system.derived(), first, last);
+  return reverse(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
 } // end reverse()
 
 
 template<typename System, typename BidirectionalIterator, typename OutputIterator>
-  OutputIterator reverse_copy(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator reverse_copy(const thrust::detail::dispatchable_base<System> &system,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result)
 {
   using thrust::system::detail::generic::reverse_copy;
-  return reverse_copy(system.derived(), first, last, result);
+  return reverse_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
 } // end reverse_copy()
-
-
-namespace detail
-{
-
-
-template<typename System, typename BidirectionalIterator>
-  void strip_const_reverse(const System &system,
-                           BidirectionalIterator first,
-                           BidirectionalIterator last)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::reverse(non_const_system, first, last);
-} // end strip_const_reverse()
-
-
-template<typename System, typename BidirectionalIterator, typename OutputIterator>
-  OutputIterator strip_const_reverse_copy(const System &system,
-                                          BidirectionalIterator first,
-                                          BidirectionalIterator last,
-                                          OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::reverse_copy(non_const_system, first, last, result);
-} // end strip_const_reverse_copy()
-
-
-} // end detail
 
 
 template<typename BidirectionalIterator>
@@ -89,7 +61,7 @@ template<typename BidirectionalIterator>
 
   System system;
 
-  return thrust::detail::strip_const_reverse(select_system(system), first, last);
+  return thrust::reverse(select_system(system), first, last);
 } // end reverse()
 
 
@@ -107,7 +79,7 @@ template<typename BidirectionalIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_reverse_copy(select_system(system1,system2), first, last, result);
+  return thrust::reverse_copy(select_system(system1,system2), first, last, result);
 } // end reverse_copy()
 
 

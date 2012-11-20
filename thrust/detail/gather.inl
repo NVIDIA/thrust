@@ -33,14 +33,14 @@ template<typename System,
          typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather(thrust::detail::dispatchable_base<System> &system,
-                        InputIterator                              map_first,
-                        InputIterator                              map_last,
-                        RandomAccessIterator                       input_first,
-                        OutputIterator                             result)
+  OutputIterator gather(const thrust::detail::dispatchable_base<System> &system,
+                        InputIterator                                    map_first,
+                        InputIterator                                    map_last,
+                        RandomAccessIterator                             input_first,
+                        OutputIterator                                   result)
 {
   using thrust::system::detail::generic::gather;
-  return gather(system.derived(), map_first, map_last, input_first, result);
+  return gather(thrust::detail::derived_cast(thrust::detail::strip_const(system)), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -49,15 +49,15 @@ template<typename System,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather_if(thrust::detail::dispatchable_base<System> &system,
-                           InputIterator1                             map_first,
-                           InputIterator1                             map_last,
-                           InputIterator2                             stencil,
-                           RandomAccessIterator                       input_first,
-                           OutputIterator                             result)
+  OutputIterator gather_if(const thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1                                   map_first,
+                           InputIterator1                                   map_last,
+                           InputIterator2                                   stencil,
+                           RandomAccessIterator                             input_first,
+                           OutputIterator                                   result)
 {
   using thrust::system::detail::generic::gather_if;
-  return gather_if(system.derived(), map_first, map_last, stencil, input_first, result);
+  return gather_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -67,75 +67,17 @@ template<typename System,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator gather_if(thrust::detail::dispatchable_base<System> &system,
-                           InputIterator1                             map_first,
-                           InputIterator1                             map_last,
-                           InputIterator2                             stencil,
-                           RandomAccessIterator                       input_first,
-                           OutputIterator                             result,
-                           Predicate                                  pred)
+  OutputIterator gather_if(const thrust::detail::dispatchable_base<System> &system,
+                           InputIterator1                                   map_first,
+                           InputIterator1                                   map_last,
+                           InputIterator2                                   stencil,
+                           RandomAccessIterator                             input_first,
+                           OutputIterator                                   result,
+                           Predicate                                        pred)
 {
   using thrust::system::detail::generic::gather_if;
-  return gather_if(system.derived(), map_first, map_last, stencil, input_first, result, pred);
+  return gather_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename InputIterator,
-         typename RandomAccessIterator,
-         typename OutputIterator>
-  OutputIterator strip_const_gather(const System        &system,
-                                    InputIterator        map_first,
-                                    InputIterator        map_last,
-                                    RandomAccessIterator input_first,
-                                    OutputIterator       result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::gather(non_const_system, map_first, map_last, input_first, result);
-} // end gather()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename RandomAccessIterator,
-         typename OutputIterator>
-  OutputIterator strip_const_gather_if(const System         &system,
-                                       InputIterator1        map_first,
-                                       InputIterator1        map_last,
-                                       InputIterator2        stencil,
-                                       RandomAccessIterator  input_first,
-                                       OutputIterator        result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::gather_if(non_const_system, map_first, map_last, stencil, input_first, result);
-} // end gather_if()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename RandomAccessIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator strip_const_gather_if(const System         &system,
-                                       InputIterator1        map_first,
-                                       InputIterator1        map_last,
-                                       InputIterator2        stencil,
-                                       RandomAccessIterator  input_first,
-                                       OutputIterator        result,
-                                       Predicate             pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::gather_if(non_const_system, map_first, map_last, stencil, input_first, result, pred);
-} // end gather_if()
-
-
-} // end detail
 
 
 template<typename InputIterator,
@@ -156,7 +98,7 @@ template<typename InputIterator,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_gather(select_system(system1,system2,system3), map_first, map_last, input_first, result);
+  return thrust::gather(select_system(system1,system2,system3), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -182,7 +124,7 @@ template<typename InputIterator1,
   System3 system3;
   System4 system4;
 
-  return thrust::detail::strip_const_gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result);
+  return thrust::gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -210,7 +152,7 @@ template<typename InputIterator1,
   System3 system3;
   System4 system4;
 
-  return thrust::detail::strip_const_gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result, pred);
+  return thrust::gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
 
 

@@ -31,76 +31,36 @@ namespace thrust
 
 
 template<typename System, typename ForwardIterator>
-  void sequence(thrust::detail::dispatchable_base<System> &system,
+  void sequence(const thrust::detail::dispatchable_base<System> &system,
                 ForwardIterator first,
                 ForwardIterator last)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(system.derived(), first, last);
+  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
 } // end sequence()
 
 
 template<typename System, typename ForwardIterator, typename T>
-  void sequence(thrust::detail::dispatchable_base<System> &system,
+  void sequence(const thrust::detail::dispatchable_base<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(system.derived(), first, last, init);
+  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, init);
 } // end sequence()
 
 
 template<typename System, typename ForwardIterator, typename T>
-  void sequence(thrust::detail::dispatchable_base<System> &system,
+  void sequence(const thrust::detail::dispatchable_base<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(system.derived(), first, last, init, step);
+  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, init, step);
 } // end sequence()
-
-
-namespace detail
-{
-
-
-template<typename System, typename ForwardIterator>
-  void strip_const_sequence(const System &system,
-                            ForwardIterator first,
-                            ForwardIterator last)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::sequence(non_const_system, first, last);
-} // end sequence()
-
-
-template<typename System, typename ForwardIterator, typename T>
-  void strip_const_sequence(const System &system,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            T init)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::sequence(non_const_system, first, last, init);
-} // end sequence()
-
-
-template<typename System, typename ForwardIterator, typename T>
-  void strip_const_sequence(const System &system,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            T init,
-                            T step)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::sequence(non_const_system, first, last, init, step);
-} // end sequence()
-
-
-} // end detail
 
 
 template<typename ForwardIterator>
@@ -113,7 +73,7 @@ template<typename ForwardIterator>
 
   System system;
 
-  return thrust::detail::strip_const_sequence(select_system(system), first, last);
+  return thrust::sequence(select_system(system), first, last);
 } // end sequence()
 
 
@@ -128,7 +88,7 @@ template<typename ForwardIterator, typename T>
 
   System system;
 
-  return thrust::detail::strip_const_sequence(select_system(system), first, last, init);
+  return thrust::sequence(select_system(system), first, last, init);
 } // end sequence()
 
 
@@ -144,7 +104,7 @@ template<typename ForwardIterator, typename T>
 
   System system;
 
-  return thrust::detail::strip_const_sequence(select_system(system), first, last, init, step);
+  return thrust::sequence(select_system(system), first, last, init, step);
 } // end sequence()
 
 
