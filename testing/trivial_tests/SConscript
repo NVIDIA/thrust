@@ -1,4 +1,5 @@
 import os
+from time import sleep
 from warnings import warn
 
 Import('env')
@@ -18,6 +19,11 @@ def trivial_source_from_header(source, target, env):
   for src in source:
     fid.write('#include <' + str(src) + '>\n')
   fid.close()
+
+  # XXX WAR race condition on Windows discussed here:
+  #         http://scons.tigris.org/ds/viewMessage.do?dsForumId=1272&dsMessageId=807348
+  if os.name == 'nt':
+    sleep(0.1)
 
 
 # CUFile builds a trivial .cu file from a Thrust header
