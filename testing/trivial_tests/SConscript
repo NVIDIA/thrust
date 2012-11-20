@@ -1,5 +1,5 @@
 import os
-from time imoprt sleep
+from time import sleep
 from warnings import warn
 
 Import('env')
