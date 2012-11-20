@@ -22,7 +22,7 @@ def trivial_source_from_header(source, target, env):
 
   # XXX WAR race condition on Windows discussed here:
   #         http://scons.tigris.org/ds/viewMessage.do?dsForumId=1272&dsMessageId=807348
-  if os.name() == 'nt':
+  if os.name == 'nt':
     sleep(0.1)
 
 
