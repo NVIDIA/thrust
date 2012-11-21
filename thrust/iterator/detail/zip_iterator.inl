@@ -70,6 +70,7 @@ template <typename IteratorTuple>
 } // end zip_iterator::dereference()
 
 
+__thrust_hd_warning_disable__
 template <typename IteratorTuple>
   template <typename OtherIteratorTuple>
     bool zip_iterator<IteratorTuple>
@@ -128,6 +129,7 @@ template <typename IteratorTuple>
 } // end zip_iterator::decrement()
 
 
+__thrust_hd_warning_disable__
 template <typename IteratorTuple>
   template <typename OtherIteratorTuple>
     typename zip_iterator<IteratorTuple>::super_t::difference_type

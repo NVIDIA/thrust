@@ -167,6 +167,7 @@ template <typename ElementIterator,
   /*! \cond
    */
   private:
+    __thrust_hd_warning_disable__
     __host__ __device__
     typename super_t::reference dereference() const
     {

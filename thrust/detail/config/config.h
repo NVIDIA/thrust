@@ -32,4 +32,5 @@
 #include <thrust/detail/config/debug.h>
 #include <thrust/detail/config/compiler_fence.h>
 #include <thrust/detail/config/forceinline.h>
+#include <thrust/detail/config/hd_warning_disable.h>
 
