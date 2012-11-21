@@ -296,6 +296,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       return *this;
     }
 
+    __thrust_hd_warning_disable__
     __host__ __device__
     typename super_t::reference dereference() const
     { 

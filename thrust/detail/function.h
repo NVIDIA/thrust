@@ -169,6 +169,7 @@ template<typename Function, typename Result>
     : m_f(f)
   {}
 
+  __thrust_hd_warning_disable__
   template<typename Argument>
   inline __host__ __device__
     Result operator()(Argument &x) const
