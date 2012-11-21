@@ -108,11 +108,11 @@ enum errc_t
   peer_access_not_enabled            = cudaErrorPeerAccessNotEnabled,
   device_already_in_use              = cudaErrorDeviceAlreadyInUse,
   profiler_disabled                  = cudaErrorProfilerDisabled,
-  assert_triggered                   = cudaErrorAssertTriggered,
+  assert_triggered                   = cudaErrorAssert,
   too_many_peers                     = cudaErrorTooManyPeers,
   host_memory_already_registered     = cudaErrorHostMemoryAlreadyRegistered,
   host_memory_not_registered         = cudaErrorHostMemoryNotRegistered,
-  operating_system_error             = cudaErrorOperatingSystemError,
+  operating_system_error             = cudaErrorOperatingSystem,
 #endif
 
 #if CUDART_VERSION >= 5000
