@@ -30,11 +30,15 @@ New Features
 	get_temporary_buffer
 	malloc
         merge_by_key
+        partition with stencil
+        partition_copy with stencil
 	return_temporary_buffer
         set_difference_by_key
         set_intersection_by_key
         set_symmetric_difference_by_key
         set_union_by_key
+        stable_partition with stencil
+        stable_partition_copy with stencil
 	tabulate
 
     Types

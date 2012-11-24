@@ -30,14 +30,14 @@ namespace thrust
 
 
 template<typename System, typename InputIterator1, typename InputIterator2>
-thrust::pair<InputIterator1, InputIterator2> mismatch(thrust::detail::dispatchable_base<System> &system,
+thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::dispatchable_base<System> &system,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2);
 
 
 template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-thrust::pair<InputIterator1, InputIterator2> mismatch(thrust::detail::dispatchable_base<System> &system,
+thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::dispatchable_base<System> &system,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,

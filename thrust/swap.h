@@ -76,7 +76,7 @@ inline void swap(Assignable1 &a, Assignable2 &b);
 template<typename System,
          typename ForwardIterator1,
          typename ForwardIterator2>
-  ForwardIterator2 swap_ranges(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator2 swap_ranges(const thrust::detail::dispatchable_base<System> &system,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2);

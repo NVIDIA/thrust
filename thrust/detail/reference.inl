@@ -125,7 +125,7 @@ template<typename Element, typename Pointer, typename Derived>
 
   using thrust::system::detail::generic::get_value;
 
-  return get_value(non_const_system.derived(), m_ptr);
+  return get_value(thrust::detail::derived_cast(non_const_system), m_ptr);
 } // end reference::strip_const_get_value()
 
 
@@ -168,7 +168,7 @@ template<typename Element, typename Pointer, typename Derived>
 
   using thrust::system::detail::generic::assign_value;
 
-  assign_value(non_const_system.derived(), m_ptr, src);
+  assign_value(thrust::detail::derived_cast(non_const_system), m_ptr, src);
 } // end strip_const_assign_value()
 
 

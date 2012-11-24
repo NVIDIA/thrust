@@ -30,76 +30,36 @@ namespace thrust
 
 
 template<typename System, typename InputIterator, typename T>
-InputIterator find(thrust::detail::dispatchable_base<System> &system,
+InputIterator find(const thrust::detail::dispatchable_base<System> &system,
                    InputIterator first,
                    InputIterator last,
                    const T& value)
 {
   using thrust::system::detail::generic::find;
-  return find(system.derived(), first, last, value);
+  return find(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
 } // end find()
 
 
 template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if(thrust::detail::dispatchable_base<System> &system,
+InputIterator find_if(const thrust::detail::dispatchable_base<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
   using thrust::system::detail::generic::find_if;
-  return find_if(system.derived(), first, last, pred);
+  return find_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
 } // end find_if()
 
 
 template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if_not(thrust::detail::dispatchable_base<System> &system,
+InputIterator find_if_not(const thrust::detail::dispatchable_base<System> &system,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
   using thrust::system::detail::generic::find_if_not;
-  return find_if_not(system.derived(), first, last, pred);
+  return find_if_not(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
 } // end find_if_not()
-
-
-namespace detail
-{
-
-
-template<typename System, typename InputIterator, typename T>
-InputIterator strip_const_find(const System &system,
-                               InputIterator first,
-                               InputIterator last,
-                               const T& value)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::find(non_const_system, first, last, value);
-} // end find()
-
-
-template<typename System, typename InputIterator, typename Predicate>
-InputIterator strip_const_find_if(const System &system,
-                                  InputIterator first,
-                                  InputIterator last,
-                                  Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::find_if(non_const_system, first, last, pred);
-} // end find_if()
-
-
-template<typename System, typename InputIterator, typename Predicate>
-InputIterator strip_const_find_if_not(const System &system,
-                                      InputIterator first,
-                                      InputIterator last,
-                                      Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::find_if_not(non_const_system, first, last, pred);
-} // end find_if_not()
-
-
-} // end detail
 
 
 template <typename InputIterator, typename T>
@@ -113,7 +73,7 @@ InputIterator find(InputIterator first,
 
     System system;
 
-    return thrust::detail::strip_const_find(select_system(system), first, last, value);
+    return thrust::find(select_system(system), first, last, value);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -127,7 +87,7 @@ InputIterator find_if(InputIterator first,
 
     System system;
 
-    return thrust::detail::strip_const_find_if(select_system(system), first, last, pred);
+    return thrust::find_if(select_system(system), first, last, pred);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -141,7 +101,7 @@ InputIterator find_if_not(InputIterator first,
 
     System system;
 
-    return thrust::detail::strip_const_find_if_not(select_system(system), first, last, pred);
+    return thrust::find_if_not(select_system(system), first, last, pred);
 }
 
 

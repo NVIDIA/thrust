@@ -29,12 +29,12 @@ namespace thrust
 
 
 template<typename System, typename InputIterator, typename OutputIterator>
-OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &system,
+OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<System> &system,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result);
 
 template<typename System, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(thrust::detail::dispatchable_base<System> &system,
+OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<System> &system,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);

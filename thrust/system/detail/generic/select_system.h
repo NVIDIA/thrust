@@ -42,7 +42,7 @@ __host__ __device__
 System &min_system(thrust::dispatchable<System> &system1,
                    thrust::dispatchable<System> &)
 {
-  return system1.derived();
+  return thrust::detail::derived_cast(system1);
 } // end min_system()
 
 
@@ -58,7 +58,7 @@ __host__ __device__
   >::type
     min_system(thrust::dispatchable<System1> &system1, thrust::dispatchable<System2> &)
 {
-  return system1.derived();
+  return thrust::detail::derived_cast(system1);
 } // end min_system()
 
 
@@ -74,7 +74,7 @@ __host__ __device__
   >::type
     min_system(thrust::dispatchable<System1> &, thrust::dispatchable<System2> &system2)
 {
-  return system2.derived();
+  return thrust::detail::derived_cast(system2);
 } // end min_system()
 
 
@@ -89,7 +89,7 @@ __host__ __device__
   >::type
     select_system(thrust::dispatchable<System> &system)
 {
-  return system.derived();
+  return thrust::detail::derived_cast(system);
 } // end select_system()
 
 

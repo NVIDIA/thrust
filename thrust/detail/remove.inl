@@ -33,13 +33,13 @@ namespace thrust
 template<typename System,
          typename ForwardIterator,
          typename T>
-  ForwardIterator remove(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator remove(const thrust::detail::dispatchable_base<System> &system,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value)
 {
   using thrust::system::detail::generic::remove;
-  return remove(system.derived(), first, last, value);
+  return remove(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
 } // end remove()
 
 
@@ -47,27 +47,27 @@ template<typename System,
          typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator remove_copy(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator remove_copy(const thrust::detail::dispatchable_base<System> &system,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
                              const T &value)
 {
   using thrust::system::detail::generic::remove_copy;
-  return remove_copy(system.derived(), first, last, result, value);
+  return remove_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, value);
 } // end remove_copy()
 
 
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator remove_if(const thrust::detail::dispatchable_base<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   using thrust::system::detail::generic::remove_if;
-  return remove_if(system.derived(), first, last, pred);
+  return remove_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
 } // end remove_if()
 
 
@@ -75,14 +75,14 @@ template<typename System,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator remove_copy_if(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
   using thrust::system::detail::generic::remove_copy_if;
-  return remove_copy_if(system.derived(), first, last, result, pred);
+  return remove_copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, pred);
 } // end remove_copy_if()
 
 
@@ -90,14 +90,14 @@ template<typename System,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator remove_if(const thrust::detail::dispatchable_base<System> &system,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
   using thrust::system::detail::generic::remove_if;
-  return remove_if(system.derived(), first, last, stencil, pred);
+  return remove_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, pred);
 } // end remove_if()
 
 
@@ -106,7 +106,7 @@ template<typename System,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator remove_copy_if(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
@@ -114,103 +114,8 @@ template<typename System,
                                 Predicate pred)
 {
   using thrust::system::detail::generic::remove_copy_if;
-  return remove_copy_if(system.derived(), first, last, stencil, result, pred);
+  return remove_copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, result, pred);
 } // end remove_copy_if()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename ForwardIterator,
-         typename T>
-  ForwardIterator strip_const_remove(const System &system,
-                                     ForwardIterator first,
-                                     ForwardIterator last,
-                                     const T &value)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::remove(non_const_system, first, last, value);
-} // end remove()
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator,
-         typename T>
-  OutputIterator strip_const_remove_copy(const System &system,
-                                         InputIterator first,
-                                         InputIterator last,
-                                         OutputIterator result,
-                                         const T &value)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::remove_copy(non_const_system, first, last, result, value);
-} // end remove_copy()
-
-
-template<typename System,
-         typename ForwardIterator,
-         typename Predicate>
-  ForwardIterator strip_const_remove_if(const System &system,
-                                        ForwardIterator first,
-                                        ForwardIterator last,
-                                        Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::remove_if(non_const_system, first, last, pred);
-} // end remove_if()
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator strip_const_remove_copy_if(const System &system,
-                                            InputIterator first,
-                                            InputIterator last,
-                                            OutputIterator result,
-                                            Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::remove_copy_if(non_const_system, first, last, result, pred);
-} // end remove_copy_if()
-
-
-template<typename System,
-         typename ForwardIterator,
-         typename InputIterator,
-         typename Predicate>
-  ForwardIterator strip_const_remove_if(const System &system,
-                                        ForwardIterator first,
-                                        ForwardIterator last,
-                                        InputIterator stencil,
-                                        Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::remove_if(non_const_system, first, last, stencil, pred);
-} // end remove_if()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator strip_const_remove_copy_if(const System &system,
-                                            InputIterator1 first,
-                                            InputIterator1 last,
-                                            InputIterator2 stencil,
-                                            OutputIterator result,
-                                            Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::remove_copy_if(non_const_system, first, last, stencil, result, pred);
-} // end remove_copy_if()
-
-
-} // end detail
 
 
 template<typename ForwardIterator,
@@ -225,7 +130,7 @@ template<typename ForwardIterator,
 
   System system;
 
-  return thrust::detail::strip_const_remove(select_system(system), first, last, value);
+  return thrust::remove(select_system(system), first, last, value);
 } // end remove()
 
 
@@ -245,7 +150,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_remove_copy(select_system(system1,system2), first, last, result, value);
+  return thrust::remove_copy(select_system(system1,system2), first, last, result, value);
 } // end remove_copy()
 
 
@@ -261,7 +166,7 @@ template<typename ForwardIterator,
 
   System system;
 
-  return thrust::detail::strip_const_remove_if(select_system(system), first, last, pred);
+  return thrust::remove_if(select_system(system), first, last, pred);
 } // end remove_if()
 
 
@@ -281,7 +186,7 @@ template<typename ForwardIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_remove_if(select_system(system1,system2), first, last, stencil, pred);
+  return thrust::remove_if(select_system(system1,system2), first, last, stencil, pred);
 } // end remove_if()
 
 
@@ -301,7 +206,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_remove_copy_if(select_system(system1,system2), first, last, result, pred);
+  return thrust::remove_copy_if(select_system(system1,system2), first, last, result, pred);
 } // end remove_copy_if()
 
 
@@ -325,7 +230,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_remove_copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
+  return thrust::remove_copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
 } // end remove_copy_if()
 
 

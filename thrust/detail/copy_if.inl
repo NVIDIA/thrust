@@ -29,14 +29,14 @@ template<typename System,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
                          Predicate pred)
 {
   using thrust::system::detail::generic::copy_if;
-  return copy_if(system.derived(), first, last, result, pred);
+  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, pred);
 } // end copy_if()
 
 
@@ -45,7 +45,7 @@ template<typename System,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
@@ -53,47 +53,8 @@ template<typename System,
                          Predicate pred)
 {
   using thrust::system::detail::generic::copy_if;
-  return copy_if(system.derived(), first, last, stencil, result, pred);
+  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, result, pred);
 } // end copy_if()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator strip_const_copy_if(const System &system,
-                                     InputIterator first,
-                                     InputIterator last,
-                                     OutputIterator result,
-                                     Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy_if(non_const_system, first, last, result, pred);
-} // end copy_if()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator strip_const_copy_if(const System &system,
-                                     InputIterator1 first,
-                                     InputIterator1 last,
-                                     InputIterator2 stencil,
-                                     OutputIterator result,
-                                     Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::copy_if(non_const_system, first, last, stencil, result, pred);
-} // end copy_if()
-
-
-} // end detail
 
 
 template<typename InputIterator,
@@ -112,7 +73,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_copy_if(select_system(system1,system2), first, last, result, pred);
+  return thrust::copy_if(select_system(system1,system2), first, last, result, pred);
 } // end copy_if()
 
 
@@ -136,7 +97,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
+  return thrust::copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
 } // end copy_if()
 
 

@@ -29,7 +29,7 @@ namespace thrust
 
 
 template<typename System, typename ForwardIterator, typename UnaryOperation>
-  void tabulate(thrust::detail::dispatchable_base<System> &system,
+  void tabulate(const thrust::detail::dispatchable_base<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op);

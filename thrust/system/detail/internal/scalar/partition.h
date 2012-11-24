@@ -133,6 +133,57 @@ template<typename ForwardIterator,
   return middle;
 }
 
+template<typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred)
+{
+  // wrap pred
+  thrust::detail::host_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
+  // XXX the type of system should be:
+  //     typedef decltype(select_system(first, stencil)) system;
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename thrust::iterator_value<ForwardIterator>::type T;
+
+  typedef thrust::detail::temporary_array<T,System> TempRange;
+  typedef typename TempRange::iterator             TempIterator;
+
+  // XXX presumes System is default constructible
+  System system;
+  TempRange temp(system, first, last);
+
+  InputIterator stencil_iter = stencil;
+  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter, ++stencil_iter)
+  {
+    if (wrapped_pred(*stencil_iter))
+    {
+      *first = *iter;
+      ++first;
+    }
+  }
+
+  ForwardIterator middle = first;
+  stencil_iter = stencil;
+
+  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter, ++stencil_iter)
+  {
+    if (!wrapped_pred(*stencil_iter))
+    {
+      *first = *iter;
+      ++first;
+    }
+  }
+
+  return middle;
+}
+
 template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
@@ -153,6 +204,42 @@ template<typename InputIterator,
   for(; first != last; ++first)
   {
     if(wrapped_pred(*first))
+    {
+      *out_true = *first;
+      ++out_true;
+    } // end if
+    else
+    {
+      *out_false = *first;
+      ++out_false;
+    } // end else
+  }
+
+  return thrust::make_pair(out_true, out_false);
+}
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+  // wrap pred
+  thrust::detail::host_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
+  for(; first != last; ++first, ++stencil)
+  {
+    if(wrapped_pred(*stencil))
     {
       *out_true = *first;
       ++out_true;
