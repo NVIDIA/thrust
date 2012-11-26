@@ -36,12 +36,10 @@
 
 // these are alphabetical
 #include <thrust/system/cuda/detail/adjacent_difference.h>
-#include <thrust/system/cuda/detail/advance.h>
 #include <thrust/system/cuda/detail/assign_value.h>
 #include <thrust/system/cuda/detail/binary_search.h>
 #include <thrust/system/cuda/detail/copy_if.h>
 #include <thrust/system/cuda/detail/count.h>
-#include <thrust/system/cuda/detail/distance.h>
 #include <thrust/system/cuda/detail/equal.h>
 #include <thrust/system/cuda/detail/extrema.h>
 #include <thrust/system/cuda/detail/fill.h>

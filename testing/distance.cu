@@ -27,39 +27,3 @@ void TestDistance(void)
 }
 DECLARE_VECTOR_UNITTEST(TestDistance);
 
-template<typename InputIterator>
-int distance(my_system &system, InputIterator, InputIterator)
-{
-    system.validate_dispatch();
-    return 13;
-}
-
-void TestDistanceDispatchExplicit()
-{
-    thrust::device_vector<int> vec;
-
-    my_system sys(0);
-    thrust::distance(sys, vec.begin(), vec.end());
-
-    ASSERT_EQUAL(true, sys.is_valid());
-}
-DECLARE_UNITTEST(TestDistanceDispatchExplicit);
-
-
-template<typename InputIterator>
-int distance(my_tag, InputIterator, InputIterator)
-{
-    return 13;
-}
-
-void TestDistanceDispatchImplicit()
-{
-    thrust::device_vector<int> vec;
-
-    int result = thrust::distance(thrust::retag<my_tag>(vec.begin()),
-                                  thrust::retag<my_tag>(vec.end()));
-
-    ASSERT_EQUAL(13, result);
-}
-DECLARE_UNITTEST(TestDistanceDispatchImplicit);
-

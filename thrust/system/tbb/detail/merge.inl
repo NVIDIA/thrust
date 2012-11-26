@@ -239,7 +239,7 @@ OutputIterator merge(dispatchable<System> &system,
 
   ::tbb::parallel_for(range, body);
 
-  thrust::advance(system, result, thrust::distance(system, first1, last1) + thrust::distance(system, first2, last2));
+  thrust::advance(result, thrust::distance(first1, last1) + thrust::distance(first2, last2));
 
   return result;
 } // end merge()
@@ -272,8 +272,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
 
   ::tbb::parallel_for(range, body);
 
-  thrust::advance(system, keys_result,   thrust::distance(system, keys_first1, keys_last1) + thrust::distance(system, keys_first2, keys_last2));
-  thrust::advance(system, values_result, thrust::distance(system, keys_first1, keys_last1) + thrust::distance(system, keys_first2, keys_last2));
+  thrust::advance(keys_result,   thrust::distance(keys_first1, keys_last1) + thrust::distance(keys_first2, keys_last2));
+  thrust::advance(values_result, thrust::distance(keys_first1, keys_last1) + thrust::distance(keys_first2, keys_last2));
 
   return thrust::make_pair(keys_result,values_result);
 }

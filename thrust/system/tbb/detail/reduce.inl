@@ -108,7 +108,7 @@ template<typename System,
 {
   typedef typename thrust::iterator_difference<InputIterator>::type Size; 
 
-  Size n = thrust::distance(system, begin, end);
+  Size n = thrust::distance(begin, end);
 
   if (n == 0)
   {

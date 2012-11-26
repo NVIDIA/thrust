@@ -85,8 +85,8 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
   ZipIterator end = begin;
 
   // get a zip_iterator pointing to the end
-  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(from_system,first,last);
-  thrust::advance(from_system,end,n);
+  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(first,last);
+  thrust::advance(end,n);
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type InputType;

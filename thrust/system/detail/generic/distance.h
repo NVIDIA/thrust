@@ -19,7 +19,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/detail/generic/tag.h>
 
 namespace thrust
 {
@@ -30,9 +29,9 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename InputIterator>
+template<typename InputIterator>
   inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(thrust::dispatchable<System> &system, InputIterator first, InputIterator last);
+    distance(InputIterator first, InputIterator last);
 
 } // end namespace generic
 } // end namespace detail

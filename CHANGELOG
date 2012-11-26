@@ -11,6 +11,7 @@ Breaking API Changes
       custom user backend systems' tag types must now inherit from the corresponding system's dispatchable template (e.g. thrust::cuda::dispatchable) instead
       of the tag struct (e.g. thrust::cuda::tag). Algorithm specializations will silently go unfound during dispatch otherwise.
       See examples/minimal_custom_backend.cu and examples/cuda/custom_temporary_allocation.cu for usage examples.
+      thrust::advance and thrust::distance are no longer dispatched based on iterator system and thus may no longer be customized.
 
     Iterators
       iterator_facade and iterator_adaptor's Pointer template parameters have been eliminated
