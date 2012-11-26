@@ -42,7 +42,7 @@ template<typename System,
 {
   typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
 
-  const difference_type n = thrust::distance(system, first,last);
+  const difference_type n = thrust::distance(first,last);
 
   // determine first and second level decomposition
   thrust::system::detail::internal::uniform_decomposition<difference_type> decomp1 = thrust::system::omp::detail::default_decomposition(n);
