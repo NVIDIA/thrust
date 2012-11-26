@@ -154,13 +154,13 @@ template<typename System,
                                   ForwardIterator last,
                                   Compare comp)
 {
-  if(thrust::distance(system,first,last) < 2) return last;
+  if(thrust::distance(first,last) < 2) return last;
 
   typedef thrust::tuple<ForwardIterator,ForwardIterator> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple>            ZipIterator;
 
   ForwardIterator first_plus_one = first;
-  thrust::advance(system, first_plus_one, 1);
+  thrust::advance(first_plus_one, 1);
 
   ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first_plus_one, first));
   ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last, first));

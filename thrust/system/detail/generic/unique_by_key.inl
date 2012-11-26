@@ -113,7 +113,7 @@ template<typename System,
   if(keys_first == keys_last)
     return thrust::make_pair(keys_output, values_output);
   
-  difference_type n = thrust::distance(system, keys_first, keys_last);
+  difference_type n = thrust::distance(keys_first, keys_last);
   
   thrust::detail::temporary_array<int,System> stencil(system,n);
   

@@ -47,7 +47,7 @@ template<typename System,
   // to avoid this, specify the counting_iterator's difference_type to be the same as ForwardIterator's.
   thrust::counting_iterator<difference_type, thrust::use_default, thrust::use_default, difference_type> iter(0);
 
-  thrust::transform(system, iter, iter + thrust::distance(system, first, last), first, unary_op);
+  thrust::transform(system, iter, iter + thrust::distance(first, last), first, unary_op);
 } // end tabulate()
 
 

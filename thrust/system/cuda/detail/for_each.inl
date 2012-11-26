@@ -150,7 +150,7 @@ template<typename System,
                          InputIterator last,
                          UnaryFunction f)
 {
-  return cuda::detail::for_each_n(system, first, thrust::distance(system,first,last), f);
+  return cuda::detail::for_each_n(system, first, thrust::distance(first,last), f);
 } // end for_each()
 
 } // end namespace detail

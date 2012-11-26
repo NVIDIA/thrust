@@ -55,7 +55,7 @@ OutputIterator copy_if(thrust::dispatchable<System> &system,
                        OutputIterator result,
                        Predicate pred)
 {
-    __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(system, first, last));
+    __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
 
     // compute {0,1} predicates
     thrust::detail::temporary_array<IndexType, System> predicates(system, n);
@@ -128,7 +128,7 @@ template<typename System,
   if(first == last)
     return result;
   
-  difference_type n = thrust::distance(system, first, last);
+  difference_type n = thrust::distance(first, last);
   
   // create an unsigned version of n (we know n is positive from the comparison above)
   // to avoid a warning in the compare below

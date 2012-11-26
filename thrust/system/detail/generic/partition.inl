@@ -57,7 +57,7 @@ template<typename System,
 
   // point to the beginning of the false partition
   ForwardIterator out_false = first;
-  thrust::advance(system, out_false, num_true);
+  thrust::advance(out_false, num_true);
 
   return thrust::stable_partition_copy(system, temp.begin(), temp.end(), first, out_false, pred).first;
 } // end stable_partition()
@@ -80,12 +80,12 @@ template<typename System,
 
   // count the size of the true partition
   InputIterator stencil_last = stencil;
-  thrust::advance(system, stencil_last, temp.size());
+  thrust::advance(stencil_last, temp.size());
   typename thrust::iterator_difference<InputIterator>::type num_true = thrust::count_if(system, stencil, stencil_last, pred);
 
   // point to the beginning of the false partition
   ForwardIterator out_false = first;
-  thrust::advance(system, out_false, num_true);
+  thrust::advance(out_false, num_true);
 
   return thrust::stable_partition_copy(system, temp.begin(), temp.end(), stencil, first, out_false, pred).first;
 } // end stable_partition()

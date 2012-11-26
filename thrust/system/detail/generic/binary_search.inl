@@ -124,10 +124,10 @@ OutputIterator binary_search(thrust::dispatchable<System> &system,
 {
     thrust::for_each(system,
                      thrust::make_zip_iterator(thrust::make_tuple(values_begin, output)),
-                     thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(system, values_begin, values_end))),
+                     thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(values_begin, values_end))),
                      detail::binary_search_functor<ForwardIterator, StrictWeakOrdering, BinarySearchFunction>(begin, end, comp, func));
 
-    return output + thrust::distance(system, values_begin, values_end);
+    return output + thrust::distance(values_begin, values_end);
 }
 
    

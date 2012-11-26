@@ -29,22 +29,3 @@ void TestAdvance(void)
 }
 DECLARE_VECTOR_UNITTEST(TestAdvance);
 
-template<typename Iterator, typename Difference>
-void advance(my_system &system, Iterator &i, Difference n)
-{
-  system.validate_dispatch();
-}
-
-void TestAdvanceDispatchExplicit()
-{
-    thrust::device_vector<int> vec(1);
-
-    thrust::device_vector<int>::iterator i = vec.begin();
-
-    my_system sys(0);
-    thrust::advance(sys, i, 9001);
-
-    ASSERT_EQUAL(true, sys.is_valid());
-}
-DECLARE_UNITTEST(TestAdvanceDispatchExplicit);
-

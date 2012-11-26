@@ -22,13 +22,11 @@
 // ADL targets
 
 #include <thrust/system/tbb/detail/adjacent_difference.h>
-#include <thrust/system/tbb/detail/advance.h>
 #include <thrust/system/tbb/detail/assign_value.h>
 #include <thrust/system/tbb/detail/binary_search.h>
 #include <thrust/system/tbb/detail/copy.h>
 #include <thrust/system/tbb/detail/copy_if.h>
 #include <thrust/system/tbb/detail/count.h>
-#include <thrust/system/tbb/detail/distance.h>
 #include <thrust/system/tbb/detail/equal.h>
 #include <thrust/system/tbb/detail/extrema.h>
 #include <thrust/system/tbb/detail/fill.h>

@@ -154,7 +154,7 @@ template<typename System, typename ForwardIterator, typename T>
             ForwardIterator last,
             const T &value)
 {
-  thrust::system::cuda::detail::fill_n(system, first, thrust::distance(system,first,last), value);
+  thrust::system::cuda::detail::fill_n(system, first, thrust::distance(first,last), value);
 } // end fill()
 
 } // end namespace detail
