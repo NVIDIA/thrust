@@ -162,23 +162,39 @@ def tbb_installation(env):
   return (bin_path,lib_path,inc_path,'tbb')
 
 
-def inc_paths(env):
+def inc_paths(env, host_backend, device_backend):
   """Returns a list of include paths needed by the compiler"""
+  result = []
   thrust_inc_path = Dir('.')
-  cuda_inc_path = cuda_installation()[2]
-  tbb_inc_path  = tbb_installation(env)[2]
 
   # note that the thrust path comes before the cuda path, which
   # may itself contain a different version of thrust
-  return [thrust_inc_path, cuda_inc_path, tbb_inc_path]
+  result.append(thrust_inc_path)
+  
+  if host_backend == 'cuda' or device_backend == 'cuda':
+    cuda_inc_path = cuda_installation()[2]
+    result.append(cuda_inc_path)
+
+  if host_backend == 'tbb' or device_backend == 'tbb':
+    tbb_inc_path  = tbb_installation(env)[2]
+    result.append(tbb_inc_path)
+
+  return result
   
 
-def lib_paths(env):
+def lib_paths(env, host_backend, device_backend):
   """Returns a list of lib paths needed by the linker"""
-  cuda_lib_path = cuda_installation()[1]
-  tbb_lib_path  = tbb_installation(env)[1]
+  result = []
 
-  return [cuda_lib_path, tbb_lib_path]
+  if host_backend == 'cuda' or device_backend == 'cuda':
+    cuda_lib_path = cuda_installation()[1]
+    result.append(cuda_lib_path)
+
+  if host_backend == 'tbb' or device_backend == 'tbb':
+    tbb_lib_path  = tbb_installation(env)[1]
+    result.append(tbb_lib_path)
+
+  return result
 
 
 def libs(env, CCX, host_backend, device_backend):
@@ -286,7 +302,9 @@ def nv_compiler_flags(mode, device_backend, arch):
   for machine_arch in arch:
     # transform arch_XX to compute_XX
     virtual_arch = machine_arch.replace('sm','compute')
-    result.append('-gencode="arch={0},code={1}"'.format(virtual_arch, virtual_arch))
+    # the weird -gencode flag is formatted like this:
+    # -gencode=arch=compute_10,code=\"sm_10,compute_10\"
+    result.append('-gencode=arch={0},\\"code={1},{2}\\"'.format(virtual_arch, machine_arch, virtual_arch))
   if mode == 'debug':
     # turn on debug mode
     # XXX make this work when we've debugged nvcc -G
@@ -362,7 +380,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   env = master_env.Clone()
 
   # populate the environment
-  env.Append(CPPPATH = inc_paths(env))
+  env.Append(CPPPATH = inc_paths(env, host, device))
   
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
   
@@ -370,7 +388,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device))
   
-  env.Append(LIBPATH = lib_paths(env))
+  env.Append(LIBPATH = lib_paths(env, host, device))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
   
