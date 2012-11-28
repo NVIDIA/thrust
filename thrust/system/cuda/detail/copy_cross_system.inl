@@ -188,7 +188,7 @@ template<typename System1,
                                                                     RandomAccessIterator2 result,
                                                                     thrust::detail::true_type) // InputIterator is trivial
 {
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(systems.system1, begin, end);
+  typename thrust::iterator_difference<RandomAccessIterator1>::type n = thrust::distance(begin, end);
 
   // allocate temporary storage in System2
   // retain the input's type for the intermediate storage

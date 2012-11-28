@@ -34,14 +34,14 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputType>
-OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
+OutputType inner_product(const thrust::detail::dispatchable_base<System> &system,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
                          OutputType init)
 {
   using thrust::system::detail::generic::inner_product;
-  return inner_product(system.derived(), first1, last1, first2, init);
+  return inner_product(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, init);
 } // end inner_product()
 
 
@@ -51,7 +51,7 @@ template<typename System,
          typename OutputType,
          typename BinaryFunction1,
          typename BinaryFunction2>
-OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
+OutputType inner_product(const thrust::detail::dispatchable_base<System> &system,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -60,49 +60,8 @@ OutputType inner_product(thrust::detail::dispatchable_base<System> &system,
                          BinaryFunction2 binary_op2)
 {
   using thrust::system::detail::generic::inner_product;
-  return inner_product(system.derived(), first1, last1, first2, init, binary_op1, binary_op2);
+  return inner_product(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputType>
-OutputType strip_const_inner_product(const System &system,
-                                     InputIterator1 first1,
-                                     InputIterator1 last1,
-                                     InputIterator2 first2,
-                                     OutputType init)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inner_product(non_const_system, first1, last1, first2, init);
-} // end inner_product()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputType,
-         typename BinaryFunction1,
-         typename BinaryFunction2>
-OutputType strip_const_inner_product(const System &system,
-                                     InputIterator1 first1,
-                                     InputIterator1 last1,
-                                     InputIterator2 first2,
-                                     OutputType init, 
-                                     BinaryFunction1 binary_op1,
-                                     BinaryFunction2 binary_op2)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inner_product(non_const_system, first1, last1, first2, init, binary_op1, binary_op2);
-} // end inner_product()
-
-
-} // end detail
 
 
 template <typename InputIterator1, typename InputIterator2, typename OutputType>
@@ -118,7 +77,7 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_inner_product(select_system(system1,system2), first1, last1, first2, init);
+  return thrust::inner_product(select_system(system1,system2), first1, last1, first2, init);
 } // end inner_product()
 
 
@@ -137,7 +96,7 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_inner_product(select_system(system1,system2), first1, last1, first2, init, binary_op1, binary_op2);
+  return thrust::inner_product(select_system(system1,system2), first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
 
 

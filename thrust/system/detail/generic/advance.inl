@@ -29,7 +29,7 @@ namespace generic
 namespace detail
 {
 
-template <typename InputIterator, typename Distance>
+template<typename InputIterator, typename Distance>
 void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
 {
   while(n)
@@ -39,7 +39,7 @@ void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
   } // end while
 } // end advance()
 
-template <typename InputIterator, typename Distance>
+template<typename InputIterator, typename Distance>
 void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
 {
   i += n;
@@ -47,8 +47,8 @@ void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
 
 } // end detail
 
-template <typename System, typename InputIterator, typename Distance>
-void advance(thrust::dispatchable<System> &, InputIterator& i, Distance n)
+template<typename InputIterator, typename Distance>
+void advance(InputIterator& i, Distance n)
 {
   // dispatch on iterator traversal
   thrust::system::detail::generic::detail::advance(i, n,

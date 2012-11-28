@@ -1,4 +1,5 @@
 import os
+from time import sleep
 from warnings import warn
 
 Import('env')
@@ -19,6 +20,11 @@ def trivial_source_from_header(source, target, env):
     fid.write('#include <' + str(src) + '>\n')
   fid.close()
 
+  # XXX WAR race condition on Windows discussed here:
+  #         http://scons.tigris.org/ds/viewMessage.do?dsForumId=1272&dsMessageId=807348
+  if os.name == 'nt':
+    sleep(0.1)
+
 
 # CUFile builds a trivial .cu file from a Thrust header
 cu_from_header_builder = Builder(action = trivial_source_from_header,
@@ -33,7 +39,13 @@ cpp_from_header_builder = Builder(action = trivial_source_from_header,
 my_env.Append(BUILDERS = {'CPPFile' : cpp_from_header_builder})
 
 # gather all public thrust headers
-public_thrust_headers = my_env.RecursiveGlob('*.h', '#thrust', exclude='detail')
+public_thrust_headers = my_env.RecursiveGlob('*.h', '#thrust', exclude='detail|system')
+
+# omit headers from systems which are not the host or device system
+public_thrust_headers.extend(my_env.Glob('*.h', '#thrust/system'))
+public_thrust_headers.extend(my_env.RecursiveGlob('*.h', '#thrust/system/' + env['host_backend'], exclude='detail'))
+if env['device_backend'] != env['host_backend']:
+  public_thrust_headers.extend(my_env.RecursiveGlob('*.h', '#thrust/system/' + env['device_backend'], exclude='detail')) 
 
 sources = []
 

@@ -30,54 +30,25 @@ namespace thrust
 
 
 template<typename System, typename ForwardIterator, typename T>
-  void uninitialized_fill(thrust::detail::dispatchable_base<System> &system,
+  void uninitialized_fill(const thrust::detail::dispatchable_base<System> &system,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x)
 {
   using thrust::system::detail::generic::uninitialized_fill;
-  return uninitialized_fill(system.derived(), first, last, x);
+  return uninitialized_fill(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, x);
 } // end uninitialized_fill()
 
 
 template<typename System, typename ForwardIterator, typename Size, typename T>
-  ForwardIterator uninitialized_fill_n(thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator uninitialized_fill_n(const thrust::detail::dispatchable_base<System> &system,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x)
 {
   using thrust::system::detail::generic::uninitialized_fill_n;
-  return uninitialized_fill_n(system.derived(), first, n, x);
+  return uninitialized_fill_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, x);
 } // end uninitialized_fill_n()
-
-
-namespace detail
-{
-
-
-template<typename System, typename ForwardIterator, typename T>
-  void strip_const_uninitialized_fill(const System &system,
-                                      ForwardIterator first,
-                                      ForwardIterator last,
-                                      const T &x)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::uninitialized_fill(non_const_system, first, last, x);
-} // end strip_const_uninitialized_fill()
-
-
-template<typename System, typename ForwardIterator, typename Size, typename T>
-  ForwardIterator strip_const_uninitialized_fill_n(const System &system,
-                                                   ForwardIterator first,
-                                                   Size n,
-                                                   const T &x)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::uninitialized_fill_n(non_const_system, first, n, x);
-} // end strip_const_uninitialized_fill_n()
-
-
-} // end detail
 
 
 template<typename ForwardIterator,
@@ -92,7 +63,7 @@ template<typename ForwardIterator,
 
   System system;
 
-  thrust::detail::strip_const_uninitialized_fill(select_system(system), first, last, x);
+  thrust::uninitialized_fill(select_system(system), first, last, x);
 } // end uninitialized_fill()
 
 
@@ -109,7 +80,7 @@ template<typename ForwardIterator,
 
   System system;
 
-  return thrust::detail::strip_const_uninitialized_fill_n(select_system(system), first, n, x);
+  return thrust::uninitialized_fill_n(select_system(system), first, n, x);
 } // end uninitialized_fill_n()
 
 

@@ -113,7 +113,7 @@ template<typename T, typename System>
                         InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  super_t::allocate(thrust::distance(system,first,last));
+  super_t::allocate(thrust::distance(first,last));
 
   super_t::uninitialized_copy(system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
@@ -128,7 +128,7 @@ template<typename T, typename System>
                         InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  super_t::allocate(thrust::distance(input_system,first,last));
+  super_t::allocate(thrust::distance(first,last));
 
   super_t::uninitialized_copy(input_system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()

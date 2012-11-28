@@ -35,13 +35,13 @@ namespace thrust
 template<typename System,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator inclusive_scan(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator inclusive_scan(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
 {
   using thrust::system::detail::generic::inclusive_scan;
-  return inclusive_scan(system.derived(), first, last, result);
+  return inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
 } // end inclusive_scan() 
 
 
@@ -49,27 +49,27 @@ template<typename System,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator inclusive_scan(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::inclusive_scan;
-  return inclusive_scan(system.derived(), first, last, result, binary_op);
+  return inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, binary_op);
 } // end inclusive_scan()
 
 
 template<typename System,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
 {
   using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(system.derived(), first, last, result);
+  return exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
 } // end exclusive_scan()
 
 
@@ -77,14 +77,14 @@ template<typename System,
          typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init)
 {
   using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(system.derived(), first, last, result, init);
+  return exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, init);
 } // end exclusive_scan()
 
 
@@ -93,7 +93,7 @@ template<typename System,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan(const thrust::detail::dispatchable_base<System> &system,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -101,7 +101,7 @@ template<typename System,
                                 AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(system.derived(), first, last, result, init, binary_op);
+  return exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
 
@@ -109,14 +109,14 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator inclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator inclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
   using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(system.derived(), first1, last1, first2, result);
+  return inclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result);
 } // end inclusive_scan_by_key()
 
 
@@ -125,7 +125,7 @@ template<typename System,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator inclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator inclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -133,7 +133,7 @@ template<typename System,
                                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(system.derived(), first1, last1, first2, result, binary_pred);
+  return inclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result, binary_pred);
 } // end inclusive_scan_by_key()
 
 
@@ -143,7 +143,7 @@ template<typename System,
          typename OutputIterator,
          typename BinaryPredicate,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator inclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -152,7 +152,7 @@ template<typename System,
                                        AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(system.derived(), first1, last1, first2, result, binary_pred, binary_op);
+  return inclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result, binary_pred, binary_op);
 } // end inclusive_scan_by_key()
 
 
@@ -160,14 +160,14 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result);
 } // end exclusive_scan_by_key()
 
 
@@ -176,7 +176,7 @@ template<typename System,
          typename InputIterator2,
          typename OutputIterator,
          typename T>
-  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -184,7 +184,7 @@ template<typename System,
                                        T init)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result, init);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result, init);
 } // end exclusive_scan_by_key()
 
 
@@ -194,7 +194,7 @@ template<typename System,
          typename OutputIterator,
          typename T,
          typename BinaryPredicate>
-  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -203,7 +203,7 @@ template<typename System,
                                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result, init, binary_pred);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result, init, binary_pred);
 } // end exclusive_scan_by_key()
 
 
@@ -214,7 +214,7 @@ template<typename System,
          typename T,
          typename BinaryPredicate,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan_by_key(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator exclusive_scan_by_key(const thrust::detail::dispatchable_base<System> &system,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -224,211 +224,8 @@ template<typename System,
                                        AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(system.derived(), first1, last1, first2, result, init, binary_pred, binary_op);
+  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result, init, binary_pred, binary_op);
 } // end exclusive_scan_by_key()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator>
-  OutputIterator strip_const_inclusive_scan(const System &system,
-                                            InputIterator first,
-                                            InputIterator last,
-                                            OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inclusive_scan(non_const_system, first, last, result);
-} // end inclusive_scan() 
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator,
-         typename AssociativeOperator>
-  OutputIterator strip_const_inclusive_scan(const System &system,
-                                            InputIterator first,
-                                            InputIterator last,
-                                            OutputIterator result,
-                                            AssociativeOperator binary_op)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inclusive_scan(non_const_system, first, last, result, binary_op);
-} // end inclusive_scan()
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator>
-  OutputIterator strip_const_exclusive_scan(const System &system,
-                                            InputIterator first,
-                                            InputIterator last,
-                                            OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan(non_const_system, first, last, result);
-} // end exclusive_scan()
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator,
-         typename T>
-  OutputIterator strip_const_exclusive_scan(const System &system,
-                                            InputIterator first,
-                                            InputIterator last,
-                                            OutputIterator result,
-                                            T init)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan(non_const_system, first, last, result, init);
-} // end exclusive_scan()
-
-
-template<typename System,
-         typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename AssociativeOperator>
-  OutputIterator strip_const_exclusive_scan(const System &system,
-                                            InputIterator first,
-                                            InputIterator last,
-                                            OutputIterator result,
-                                            T init,
-                                            AssociativeOperator binary_op)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan(non_const_system, first, last, result, init, binary_op);
-} // end exclusive_scan()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator>
-  OutputIterator strip_const_inclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inclusive_scan_by_key(non_const_system, first1, last1, first2, result);
-} // end inclusive_scan_by_key()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename BinaryPredicate>
-  OutputIterator strip_const_inclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result,
-                                                   BinaryPredicate binary_pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inclusive_scan_by_key(non_const_system, first1, last1, first2, result, binary_pred);
-} // end inclusive_scan_by_key()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename BinaryPredicate,
-         typename AssociativeOperator>
-  OutputIterator strip_const_inclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result,
-                                                   BinaryPredicate binary_pred,
-                                                   AssociativeOperator binary_op)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::inclusive_scan_by_key(non_const_system, first1, last1, first2, result, binary_pred, binary_op);
-} // end inclusive_scan_by_key()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator>
-  OutputIterator strip_const_exclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan_by_key(non_const_system, first1, last1, first2, result);
-} // end exclusive_scan_by_key()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename T>
-  OutputIterator strip_const_exclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result,
-                                                   T init)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan_by_key(non_const_system, first1, last1, first2, result, init);
-} // end exclusive_scan_by_key()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename T,
-         typename BinaryPredicate>
-  OutputIterator strip_const_exclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result,
-                                                   T init,
-                                                   BinaryPredicate binary_pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan_by_key(non_const_system, first1, last1, first2, result, init, binary_pred);
-} // end exclusive_scan_by_key()
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename T,
-         typename BinaryPredicate,
-         typename AssociativeOperator>
-  OutputIterator strip_const_exclusive_scan_by_key(const System &system,
-                                                   InputIterator1 first1,
-                                                   InputIterator1 last1,
-                                                   InputIterator2 first2,
-                                                   OutputIterator result,
-                                                   T init,
-                                                   BinaryPredicate binary_pred,
-                                                   AssociativeOperator binary_op)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::exclusive_scan_by_key(non_const_system, first1, last1, first2, result, init, binary_pred, binary_op);
-} // end exclusive_scan_by_key()
-
-
-} // end detail
 
 
 template<typename InputIterator,
@@ -445,7 +242,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_inclusive_scan(select_system(system1,system2), first, last, result);
+  return thrust::inclusive_scan(select_system(system1,system2), first, last, result);
 } // end inclusive_scan()
 
 
@@ -465,7 +262,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_inclusive_scan(select_system(system1,system2), first, last, result, binary_op);
+  return thrust::inclusive_scan(select_system(system1,system2), first, last, result, binary_op);
 } // end inclusive_scan()
 
 
@@ -483,7 +280,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_exclusive_scan(select_system(system1,system2), first, last, result);
+  return thrust::exclusive_scan(select_system(system1,system2), first, last, result);
 } // end exclusive_scan()
 
 
@@ -503,7 +300,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_exclusive_scan(select_system(system1,system2), first, last, result, init);
+  return thrust::exclusive_scan(select_system(system1,system2), first, last, result, init);
 } // end exclusive_scan()
 
 
@@ -525,7 +322,7 @@ template<typename InputIterator,
   System1 system1;
   System2 system2;
 
-  return thrust::detail::strip_const_exclusive_scan(select_system(system1,system2), first, last, result, init, binary_op);
+  return thrust::exclusive_scan(select_system(system1,system2), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
 
@@ -547,7 +344,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
+  return thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
 }
 
 
@@ -571,7 +368,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred);
+  return thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred);
 }
 
 
@@ -597,7 +394,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred, binary_op);
+  return thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred, binary_op);
 }
 
 
@@ -619,7 +416,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
+  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
 }
 
 
@@ -643,7 +440,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init);
+  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init);
 }
 
 
@@ -669,7 +466,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred);
+  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred);
 }
 
 
@@ -697,7 +494,7 @@ template<typename InputIterator1,
   System2 system2;
   System3 system3;
 
-  return thrust::detail::strip_const_exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred, binary_op);
+  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred, binary_op);
 }
 
 

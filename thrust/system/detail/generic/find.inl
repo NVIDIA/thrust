@@ -79,7 +79,7 @@ InputIterator find_if(thrust::dispatchable<System> &system,
     if (first == last)
         return last;
 
-    const difference_type n = thrust::distance(system, first, last);
+    const difference_type n = thrust::distance(first, last);
 
     // this implementation breaks up the sequence into separate intervals
     // in an attempt to early-out as soon as a value is found

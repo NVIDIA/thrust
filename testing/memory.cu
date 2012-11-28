@@ -195,6 +195,10 @@ void TestGetTemporaryBufferDispatchImplicit()
   }
   else
   {
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION < 40300)
+    // gcc 4.2 does not do adl correctly for get_temporary_buffer
+    KNOWN_FAILURE;
+#else
     thrust::device_vector<int> vec(9001);
 
     thrust::sequence(vec.begin(), vec.end());
@@ -206,6 +210,7 @@ void TestGetTemporaryBufferDispatchImplicit()
 
     ASSERT_EQUAL(true, thrust::is_sorted(vec.begin(), vec.end()));
     ASSERT_EQUAL(true, sys.is_valid());
+#endif
   }
 }
 DECLARE_UNITTEST(TestGetTemporaryBufferDispatchImplicit);

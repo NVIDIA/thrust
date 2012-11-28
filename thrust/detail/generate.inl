@@ -33,13 +33,13 @@ namespace thrust
 template<typename System,
          typename ForwardIterator,
          typename Generator>
-  void generate(thrust::detail::dispatchable_base<System> &system,
+  void generate(const thrust::detail::dispatchable_base<System> &system,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
 {
   using thrust::system::detail::generic::generate;
-  return generate(system.derived(), first, last, gen);
+  return generate(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, gen);
 } // end generate()
 
 
@@ -47,48 +47,14 @@ template<typename System,
          typename OutputIterator,
          typename Size,
          typename Generator>
-  OutputIterator generate_n(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator generate_n(const thrust::detail::dispatchable_base<System> &system,
                             OutputIterator first,
                             Size n,
                             Generator gen)
 {
   using thrust::system::detail::generic::generate_n;
-  return generate_n(system.derived(), first, n, gen);
+  return generate_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, gen);
 } // end generate_n()
-
-
-namespace detail
-{
-
-
-template<typename System,
-         typename ForwardIterator,
-         typename Generator>
-  void strip_const_generate(const System &system,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            Generator gen)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::generate(non_const_system, first, last, gen);
-} // end strip_const_generate()
-
-
-template<typename System,
-         typename OutputIterator,
-         typename Size,
-         typename Generator>
-  OutputIterator strip_const_generate_n(const System &system,
-                                        OutputIterator first,
-                                        Size n,
-                                        Generator gen)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::generate_n(non_const_system, first, n, gen);
-} // end strip_const_generate_n()
-
-
-} // end detail
 
 
 template<typename ForwardIterator,
@@ -103,7 +69,7 @@ template<typename ForwardIterator,
 
   System system;
 
-  return thrust::detail::strip_const_generate(select_system(system), first, last, gen);
+  return thrust::generate(select_system(system), first, last, gen);
 } // end generate()
 
 
@@ -120,7 +86,7 @@ template<typename OutputIterator,
 
   System system;
 
-  return thrust::detail::strip_const_generate_n(select_system(system), first, n, gen);
+  return thrust::generate_n(select_system(system), first, n, gen);
 } // end generate_n()
 
 

@@ -29,11 +29,11 @@ namespace thrust
 
 
 template<typename System, typename InputIterator1, typename InputIterator2>
-bool equal(thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
+bool equal(const thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
 
 
 template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-bool equal(thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
+bool equal(const thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
 
 
 /*! \addtogroup reductions

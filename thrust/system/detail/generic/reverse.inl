@@ -40,9 +40,9 @@ template<typename System, typename BidirectionalIterator>
   typedef typename thrust::iterator_difference<BidirectionalIterator>::type difference_type;
 
   // find the midpoint of [first,last)
-  difference_type N = thrust::distance(system, first, last);
+  difference_type N = thrust::distance(first, last);
   BidirectionalIterator mid(first);
-  thrust::advance(system, mid, N / 2);
+  thrust::advance(mid, N / 2);
 
   // swap elements of [first,mid) with [last - 1, mid)
   thrust::swap_ranges(system, first, mid, thrust::make_reverse_iterator(last));

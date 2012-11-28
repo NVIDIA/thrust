@@ -49,8 +49,9 @@ template<typename Allocator, typename InputType, typename OutputType>
     : a(a)
   {}
 
+  template<typename Tuple>
   inline __host__ __device__
-  void operator()(thrust::tuple<const InputType&,OutputType&> t)
+  void operator()(Tuple t)
   {
     const InputType &in = thrust::get<0>(t);
     OutputType &out = thrust::get<1>(t);
@@ -85,8 +86,8 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
   ZipIterator end = begin;
 
   // get a zip_iterator pointing to the end
-  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(from_system,first,last);
-  thrust::advance(from_system,end,n);
+  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(first,last);
+  thrust::advance(end,n);
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type InputType;

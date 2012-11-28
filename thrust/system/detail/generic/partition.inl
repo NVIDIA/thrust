@@ -38,6 +38,7 @@ namespace detail
 namespace generic
 {
 
+
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
@@ -56,10 +57,39 @@ template<typename System,
 
   // point to the beginning of the false partition
   ForwardIterator out_false = first;
-  thrust::advance(system, out_false, num_true);
+  thrust::advance(out_false, num_true);
 
   return thrust::stable_partition_copy(system, temp.begin(), temp.end(), first, out_false, pred).first;
 } // end stable_partition()
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator stable_partition(thrust::dispatchable<System> &system,
+                                   ForwardIterator first,
+                                   ForwardIterator last,
+                                   InputIterator stencil,
+                                   Predicate pred)
+{
+  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+
+  // copy input to temp buffer
+  thrust::detail::temporary_array<InputType,System> temp(system, first, last);
+
+  // count the size of the true partition
+  InputIterator stencil_last = stencil;
+  thrust::advance(stencil_last, temp.size());
+  typename thrust::iterator_difference<InputIterator>::type num_true = thrust::count_if(system, stencil, stencil_last, pred);
+
+  // point to the beginning of the false partition
+  ForwardIterator out_false = first;
+  thrust::advance(out_false, num_true);
+
+  return thrust::stable_partition_copy(system, temp.begin(), temp.end(), stencil, first, out_false, pred).first;
+} // end stable_partition()
+
 
 template<typename System,
          typename InputIterator,
@@ -85,6 +115,34 @@ template<typename System,
   return thrust::make_pair(end_of_true_partition, end_of_false_partition);
 } // end stable_partition_copy()
 
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(thrust::dispatchable<System> &system,
+                          InputIterator1 first,
+                          InputIterator1 last,
+                          InputIterator2 stencil,
+                          OutputIterator1 out_true,
+                          OutputIterator2 out_false,
+                          Predicate pred)
+{
+  thrust::detail::unary_negate<Predicate> not_pred(pred);
+
+  // remove_copy_if the true partition to out_true
+  OutputIterator1 end_of_true_partition = thrust::remove_copy_if(system, first, last, stencil, out_true, not_pred);
+
+  // remove_copy_if the false partition to out_false
+  OutputIterator2 end_of_false_partition = thrust::remove_copy_if(system, first, last, stencil, out_false, pred);
+
+  return thrust::make_pair(end_of_true_partition, end_of_false_partition);
+} // end stable_partition_copy()
+
+
 template<typename System,
          typename ForwardIterator,
          typename Predicate>
@@ -95,6 +153,21 @@ template<typename System,
 {
   return thrust::stable_partition(system, first, last, pred);
 } // end partition()
+
+
+template<typename System,
+         typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+  ForwardIterator partition(thrust::dispatchable<System> &system,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil,
+                            Predicate pred)
+{
+  return thrust::stable_partition(system, first, last, stencil, pred);
+} // end partition()
+
 
 template<typename System,
          typename InputIterator,
@@ -111,6 +184,26 @@ template<typename System,
 {
   return thrust::stable_partition_copy(system,first,last,out_true,out_false,pred);
 } // end partition_copy()
+
+
+template<typename System,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(thrust::dispatchable<System> &system,
+                   InputIterator1 first,
+                   InputIterator1 last,
+                   InputIterator2 stencil,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred)
+{
+  return thrust::stable_partition_copy(system,first,last,stencil,out_true,out_false,pred);
+} // end partition_copy()
+
 
 template<typename System,
          typename ForwardIterator,

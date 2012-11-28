@@ -94,6 +94,48 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 }; // end pointer_raw_pointer
 #endif
 
+
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40200)
+// XXX WAR g++-4.1 problem with correctly implementing
+//     pointer_element for pointer by specializing it here
+template<typename Element, typename Tag>
+  struct pointer_element< thrust::pointer<Element,Tag> >
+{
+  typedef Element type;
+}; // end pointer_element
+
+template<typename Element, typename Tag, typename Reference>
+  struct pointer_element< thrust::pointer<Element,Tag,Reference> >
+    : pointer_element< thrust::pointer<Element,Tag> >
+{}; // end pointer_element
+
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  struct pointer_element< thrust::pointer<Element,Tag,Reference,Derived> >
+    : pointer_element< thrust::pointer<Element,Tag,Reference> >
+{}; // end pointer_element
+
+
+
+// XXX WAR g++-4.1 problem with correctly implementing
+//     rebind_pointer for pointer by specializing it here
+template<typename Element, typename Tag, typename NewElement>
+  struct rebind_pointer<thrust::pointer<Element,Tag>, NewElement>
+{
+  // XXX note we don't attempt to rebind the pointer's Reference type (or Derived)
+  typedef thrust::pointer<NewElement,Tag> type;
+};
+
+template<typename Element, typename Tag, typename Reference, typename NewElement>
+  struct rebind_pointer<thrust::pointer<Element,Tag,Reference>, NewElement>
+    : rebind_pointer<thrust::pointer<Element,Tag>, NewElement>
+{};
+
+template<typename Element, typename Tag, typename Reference, typename Derived, typename NewElement>
+  struct rebind_pointer<thrust::pointer<Element,Tag,Reference,Derived>, NewElement>
+    : rebind_pointer<thrust::pointer<Element,Tag,Reference>, NewElement>
+{};
+#endif
+
 } // end namespace detail
 
 

@@ -22,16 +22,10 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
-
-
-template<typename System, typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last);
 
 
 /*! \addtogroup iterators

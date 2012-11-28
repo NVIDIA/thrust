@@ -32,7 +32,7 @@ template<typename System,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator merge(const thrust::detail::dispatchable_base<System> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -45,7 +45,7 @@ template<typename System,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator merge(thrust::detail::dispatchable_base<System> &system,
+  OutputIterator merge(const thrust::detail::dispatchable_base<System> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -56,7 +56,7 @@ template<typename System,
 
 template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::detail::dispatchable_base<System> &system,
+    merge_by_key(const thrust::detail::dispatchable_base<System> &system,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -66,7 +66,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
 
 template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::detail::dispatchable_base<System> &system,
+    merge_by_key(const thrust::detail::dispatchable_base<System> &system,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,

@@ -33,7 +33,7 @@ template<typename System,
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(thrust::detail::dispatchable_base<System> &system,
+  OutputType transform_reduce(const thrust::detail::dispatchable_base<System> &system,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,

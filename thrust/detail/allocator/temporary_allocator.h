@@ -53,7 +53,7 @@ template<typename T, typename System>
 
     inline explicit temporary_allocator(thrust::dispatchable<System> &system) :
       super_t(),
-      m_system(system.derived())
+      m_system(thrust::detail::derived_cast(system))
     {}
 
     pointer allocate(size_type cnt);

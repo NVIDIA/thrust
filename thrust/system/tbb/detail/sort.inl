@@ -65,7 +65,7 @@ void merge_sort(dispatchable<System> &system, Iterator1 first1, Iterator1 last1,
 {
   typedef typename thrust::iterator_difference<Iterator1>::type difference_type;
 
-  difference_type n = thrust::distance(system, first1, last1);
+  difference_type n = thrust::distance(first1, last1);
 
   if (n < threshold)
   {
@@ -167,7 +167,7 @@ void merge_sort_by_key(dispatchable<System> &system,
 {
   typedef typename thrust::iterator_difference<Iterator1>::type difference_type;
 
-  difference_type n = thrust::distance(system, first1, last1);
+  difference_type n = thrust::distance(first1, last1);
   
   Iterator1 mid1  = first1 + (n / 2);
   Iterator2 mid2  = first2 + (n / 2);
@@ -239,7 +239,7 @@ template<typename System,
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type key_type;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type val_type;
 
-  RandomAccessIterator2 last2 = first2 + thrust::distance(system, first1, last1);
+  RandomAccessIterator2 last2 = first2 + thrust::distance(first1, last1);
 
   thrust::detail::temporary_array<key_type, System> temp1(system, first1, last1);
   thrust::detail::temporary_array<val_type, System> temp2(system, first2, last2);

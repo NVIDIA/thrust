@@ -22,14 +22,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
 
 namespace thrust
 {
-
-
-template <typename System, typename InputIterator, typename Distance>
-void advance(thrust::detail::dispatchable_base<System> &system, InputIterator& i, Distance n);
 
 
 /*! \addtogroup iterators

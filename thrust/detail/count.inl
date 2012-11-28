@@ -32,45 +32,20 @@ namespace thrust
 
 template<typename System, typename InputIterator, typename EqualityComparable>
   typename thrust::iterator_traits<InputIterator>::difference_type
-    count(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, const EqualityComparable& value)
+    count(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   using thrust::system::detail::generic::count;
-  return count(system.derived(), first, last, value);
+  return count(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
 } // end count()
 
 
 template<typename System, typename InputIterator, typename Predicate>
   typename thrust::iterator_traits<InputIterator>::difference_type
-    count_if(thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred)
+    count_if(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::count_if;
-  return count_if(system.derived(), first, last, pred);
+  return count_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
 } // end count_if()
-
-
-namespace detail
-{
-
-
-template<typename System, typename InputIterator, typename EqualityComparable>
-  typename thrust::iterator_traits<InputIterator>::difference_type
-    strip_const_count(const System &system, InputIterator first, InputIterator last, const EqualityComparable& value)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::count(non_const_system, first, last, value);
-} // end count()
-
-
-template<typename System, typename InputIterator, typename Predicate>
-  typename thrust::iterator_traits<InputIterator>::difference_type
-    strip_const_count_if(const System &system, InputIterator first, InputIterator last, Predicate pred)
-{
-  System &non_const_system = const_cast<System&>(system);
-  return thrust::count_if(non_const_system, first, last, pred);
-} // end count_if()
-
-
-} // end detail
 
 
 template <typename InputIterator, typename EqualityComparable>
@@ -83,7 +58,7 @@ count(InputIterator first, InputIterator last, const EqualityComparable& value)
 
   System system;
 
-  return thrust::detail::strip_const_count(select_system(system), first, last, value);
+  return thrust::count(select_system(system), first, last, value);
 } // end count()
 
 
@@ -97,7 +72,7 @@ count_if(InputIterator first, InputIterator last, Predicate pred)
 
   System system;
 
-  return thrust::detail::strip_const_count_if(select_system(system), first, last, pred);
+  return thrust::count_if(select_system(system), first, last, pred);
 } // end count_if()
 
 

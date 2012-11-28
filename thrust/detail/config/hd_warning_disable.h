@@ -14,10 +14,22 @@
  *  limitations under the License.
  */
 
+/*! \file hd_warning_disable.h
+ *  \brief Defines __thrust_hd_warning_disable__
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
 
-// tbb inherits advance
-#include <thrust/system/cpp/detail/advance.h>
+#if defined(__CUDACC__)
+
+#define __thrust_hd_warning_disable__ \
+#pragma hd_warning_disable
+#else
+
+#define __thrust_hd_warning_disable__
+
+#endif
+
 

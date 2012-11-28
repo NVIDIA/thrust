@@ -29,21 +29,21 @@ namespace thrust
 
 
 template<typename System, typename InputIterator, typename T>
-InputIterator find(thrust::detail::dispatchable_base<System> &system,
+InputIterator find(const thrust::detail::dispatchable_base<System> &system,
                    InputIterator first,
                    InputIterator last,
                    const T& value);
 
 
 template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if(thrust::detail::dispatchable_base<System> &system,
+InputIterator find_if(const thrust::detail::dispatchable_base<System> &system,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
 
 
 template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if_not(thrust::detail::dispatchable_base<System> &system,
+InputIterator find_if_not(const thrust::detail::dispatchable_base<System> &system,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred);
