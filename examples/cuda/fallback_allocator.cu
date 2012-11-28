@@ -1,12 +1,11 @@
-#include <thrust/copy.h>
+#include <thrust/functional.h>
+#include <thrust/tabulate.h>
 #include <thrust/sort.h>
 #include <thrust/memory.h>
 #include <thrust/system/cuda/memory.h>
 
 #include <new> // for std::bad_alloc
-#include <cassert>
 #include <iostream>
-#include <iterator>
 
 // This example demonstrates how to intercept calls to malloc
 // and free to implement a fallback for cudaMalloc.
@@ -15,18 +14,6 @@
 // into the device address space.  The fallback_allocator enables
 // the GPU to process data sets that are larger than the device
 // memory, albeit with a significantly reduced performance.
-
-
-// initialize some unsorted data
-__global__
-void kernel(int * d_ptr, size_t N)
-{
-  size_t thread_id = blockDim.x * blockIdx.x + threadIdx.x;
-  size_t grid_size = blockDim.x * gridDim.x;
-
-  for (size_t i = thread_id; i < N; i += grid_size)
-    d_ptr[i] = i % 1024;
-}
 
 
 // derive a simple allocator from cuda::dispatchable for using pinned host memory as a functional fallback
@@ -143,10 +130,11 @@ int main(void)
 
       if(raw_ptr)
       {
-        kernel<<<100,256>>>(raw_ptr, n); // generate unsorted values
-
         thrust::cuda::pointer<int> begin = thrust::cuda::pointer<int>(raw_ptr);
         thrust::cuda::pointer<int> end   = begin + n;
+
+        // generate unsorted values
+        thrust::tabulate(begin, end, thrust::placeholders::_1 % 1024);
 
         // sort the data using our special allocator
         // if temporary memory is required during the sort,
