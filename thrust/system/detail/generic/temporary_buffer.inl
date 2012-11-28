@@ -36,6 +36,12 @@ template<typename T, typename System>
 {
   thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
 
+  // check for a failed malloc
+  if(!void_ptr.get())
+  {
+    n = 0;
+  } // end if
+
   typedef thrust::pointer<T,System> pointer;
 
   return thrust::make_pair(pointer(static_cast<T*>(void_ptr.get())), n);
