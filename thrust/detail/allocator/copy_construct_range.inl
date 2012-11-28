@@ -49,8 +49,9 @@ template<typename Allocator, typename InputType, typename OutputType>
     : a(a)
   {}
 
+  template<typename Tuple>
   inline __host__ __device__
-  void operator()(thrust::tuple<const InputType&,OutputType&> t)
+  void operator()(Tuple t)
   {
     const InputType &in = thrust::get<0>(t);
     OutputType &out = thrust::get<1>(t);
