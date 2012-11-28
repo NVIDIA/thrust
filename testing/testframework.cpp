@@ -2,8 +2,10 @@
 #include "unittest/exceptions.h"
 #include <thrust/memory.h>
 
-// #include backends' testframework.h, if they exist
+// #include backends' testframework.h, if they exist and required for the build
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 #include "backend/cuda/testframework.h"
+#endif
 
 #include <iostream>
 #include <iomanip>

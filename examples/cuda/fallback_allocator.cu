@@ -49,7 +49,7 @@ void *malloc(fallback_allocator, std::size_t n)
         cudaError_t error = cudaFreeHost(h_ptr);
         if(error)
         {
-          throw thrust::system_error(error, thrust::cuda_category(), "Error after cudaFreeHost");
+          throw thrust::system_error(error, thrust::cuda_category(), "cudaFreeHost failed");
         }
 
         result = 0;
@@ -148,7 +148,6 @@ int main(void)
   catch(std::bad_alloc)
   {
     std::cout << "Caught std::bad_alloc" << std::endl;
-    return 0;
   }
 
   return 0;
