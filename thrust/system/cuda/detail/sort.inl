@@ -31,7 +31,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/tag.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/cuda/detail/temporary_indirect_permutation.h>
 #include <thrust/detail/trivial_sequence.h>
 
 /*
@@ -118,17 +118,10 @@ namespace third_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::true_type)
     {
-        // sizeof(ValueType) != 4, use indirection and permute values
-        typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
-        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
-        thrust::sequence(system, permutation.begin(), permutation.end());
-    
-        thrust::system::cuda::detail::detail::stable_merge_sort_by_key
-            (system, keys_first, keys_last, permutation.begin(), comp);
-   
-        RandomAccessIterator2 values_last = values_first + (keys_last - keys_first);
-        thrust::detail::temporary_array<ValueType, System> temp(system, values_first, values_last);
-        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), values_first);
+      // sort the values indirectly
+      temporary_indirect_permutation<System, RandomAccessIterator2> indirect_values(values_first, values_first + (keys_last - keys_first));
+
+      thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, keys_first, keys_last, indirect_values.begin(), comp);
     }
     
     template<typename System,
@@ -142,9 +135,8 @@ namespace third_dispatch
                                   StrictWeakOrdering comp,
                                   thrust::detail::false_type)
     {
-        // sizeof(ValueType) == 4, sort values directly
-        thrust::system::cuda::detail::detail::stable_merge_sort_by_key
-            (system, keys_first, keys_last, values_first, comp);
+      // sort values directly
+      thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, keys_first, keys_last, values_first, comp);
     }
 
 } // end namespace third_dispatch
@@ -153,27 +145,27 @@ namespace second_dispatch
 {
     // second level of the dispatch decision tree
 
-    // add one level of indirection to the StrictWeakOrdering comp
-    template <typename RandomAccessIterator, typename StrictWeakOrdering> 
-    struct indirect_comp
-    {
-        RandomAccessIterator first;
-
-        thrust::detail::host_device_function<
-          StrictWeakOrdering,
-          bool
-        > comp;
-    
-        indirect_comp(RandomAccessIterator first, StrictWeakOrdering comp)
-            : first(first), comp(comp) {}
-    
-        template <typename IndexType>
-        __host__ __device__
-        bool operator()(IndexType a, IndexType b)
-        {
-            return comp(*(first + a), *(first + b));
-        }    
-    };
+//    // add one level of indirection to the StrictWeakOrdering comp
+//    template <typename RandomAccessIterator, typename StrictWeakOrdering> 
+//    struct indirect_comp
+//    {
+//        RandomAccessIterator first;
+//
+//        thrust::detail::host_device_function<
+//          StrictWeakOrdering,
+//          bool
+//        > comp;
+//    
+//        indirect_comp(RandomAccessIterator first, StrictWeakOrdering comp)
+//            : first(first), comp(comp) {}
+//    
+//        template <typename IndexType>
+//        __host__ __device__
+//        bool operator()(IndexType a, IndexType b)
+//        {
+//            return comp(*(first + a), *(first + b));
+//        }    
+//    };
 
     template<typename System,
              typename RandomAccessIterator,
@@ -184,16 +176,21 @@ namespace second_dispatch
                              StrictWeakOrdering comp,
                              thrust::detail::true_type)
     {
-        // sizeof(KeyType) > 16, sort keys indirectly
-        typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int,System> permutation(system, last - first);
-        thrust::sequence(system, permutation.begin(), permutation.end());
-    
-        thrust::system::cuda::detail::detail::stable_merge_sort
-            (system, permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
-    
-        thrust::detail::temporary_array<KeyType,System> temp(system, first, last);
-        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), first);
+//        // sizeof(KeyType) > 16, sort keys indirectly
+//        typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+//        thrust::detail::temporary_array<unsigned int,System> permutation(system, last - first);
+//        thrust::sequence(system, permutation.begin(), permutation.end());
+//    
+//        thrust::system::cuda::detail::detail::stable_merge_sort
+//            (system, permutation.begin(), permutation.end(), indirect_comp<RandomAccessIterator,StrictWeakOrdering>(first, comp));
+//    
+//        thrust::detail::temporary_array<KeyType,System> temp(system, first, last);
+//        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), first);
+
+      // sort keys indirectly
+      temporary_indirect_ordering<System, RandomAccessIterator, StrictWeakOrdering> permutation(derived_cast(system), first, last, comp);
+
+      thrust::system::cuda::detail::detail::stable_merge_sort(system, permutation.begin(), permutation.end(), permutation.comp());
     }
     
     template<typename System,
@@ -205,8 +202,8 @@ namespace second_dispatch
                              StrictWeakOrdering comp,
                              thrust::detail::false_type)
     {
-        // sizeof(KeyType) <= 16, sort keys directly
-        thrust::system::cuda::detail::detail::stable_merge_sort(system, first, last, comp);
+      // sort keys directly
+      thrust::system::cuda::detail::detail::stable_merge_sort(system, first, last, comp);
     }
     
     template<typename System,
@@ -221,9 +218,10 @@ namespace second_dispatch
                                   thrust::detail::true_type)
     {
         // sizeof(KeyType) > 16, sort keys indirectly
-        typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
-        thrust::sequence(system, permutation.begin(), permutation.end());
+//        typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+//        thrust::detail::temporary_array<unsigned int, System> permutation(system, keys_last - keys_first);
+//        thrust::sequence(system, permutation.begin(), permutation.end());
+        temporary_indirect_ordering<System, RandomAccessIterator1, StrictWeakOrdering> permutation(system, keys_first, keys_last, comp);
     
         // decide whether to sort values indirectly
         typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
@@ -233,11 +231,12 @@ namespace second_dispatch
         (void) sort_values_indirectly;
 
         thrust::system::cuda::detail::third_dispatch::stable_merge_sort_by_key
-            (system, permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
+//            (system, permutation.begin(), permutation.end(), values_first, indirect_comp<RandomAccessIterator1,StrictWeakOrdering>(keys_first, comp),
+            (system, permutation.begin(), permutation.end(), values_first, permutation.comp(),
              thrust::detail::integral_constant<bool, sort_values_indirectly>());
     
-        thrust::detail::temporary_array<KeyType,System> temp(system, keys_first, keys_last);
-        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), keys_first);
+//        thrust::detail::temporary_array<KeyType,System> temp(system, keys_first, keys_last);
+//        thrust::gather(system, permutation.begin(), permutation.end(), temp.begin(), keys_first);
     }
     
     template<typename System,
