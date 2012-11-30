@@ -65,11 +65,57 @@ namespace stable_merge_sort_detail
 {
 
 
-template<typename Key, typename Value>
-  class block_size
+template<unsigned int log_block_size, typename Key, typename Value>
+  struct is_block_size_valid
 {
-  public:
-    static const unsigned int result = 256;
+  // assume sm_10 limits
+  static const unsigned int max_num_smem_bytes = 16384;
+
+  // CUDA steals 256 for itself for kernel parms
+  static const unsigned int num_reserved_smem_bytes = 256;
+
+  // the number of bytes available to our kernels
+  static const unsigned int num_available_smem_bytes = max_num_smem_bytes - num_reserved_smem_bytes;
+
+  // merge_small_tiles_by_key_closure is the hungriest kernel
+  // the block_size it uses is 2x the size of all the other kernels
+  // this merge_small_tiles_by_key_closure's smem requirements:
+  //   2 * block_size_x2 * sizeof(Key)
+  // + 2 * block_size_x2 * sizeof(Key)
+  // + 2 * block_size_x2 * sizeof(Value)
+  // ================================
+  // 4 * (block_size) * (2 * sizeof(Key) + sizeof(Value))
+  static const unsigned int num_needed_smem_bytes = 4 * (1 << log_block_size) * (2 * sizeof(Key) + sizeof(Value));
+
+  static const bool value = num_needed_smem_bytes <= num_available_smem_bytes;
+};
+
+
+
+// choose a (log) block_size to use for our kernels
+template<unsigned int log_preferred_block_size, typename Key, typename Value>
+  struct select_log_block_size
+    : thrust::detail::eval_if<
+        is_block_size_valid<log_preferred_block_size, Key, Value>::value,
+        thrust::detail::integral_constant<unsigned int, log_preferred_block_size>,
+        select_log_block_size<log_preferred_block_size - 1, Key, Value>
+      >::type
+{};
+
+
+// don't recurse lower than block_size < 128
+template<typename Key, typename Value>
+  struct select_log_block_size<6, Key, Value>
+{
+  // no block size exists which can satisfy the storage demands
+};
+
+
+template<typename Key, typename Value>
+  struct block_size
+{
+  // prefer block_size == 512, go lower if we need to
+  static const unsigned int value = 1 << select_log_block_size<8, Key, Value>::value;
 };
 
 
@@ -779,7 +825,7 @@ template<typename RandomAccessIterator1,
   typedef typename iterator_value<RandomAccessIterator6>::type KeyType;
   typedef typename iterator_value<RandomAccessIterator7>::type ValueType;
 
-  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
+  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::value;
 
   typedef merge_subtiles_by_key_closure<
     block_size,
@@ -861,7 +907,7 @@ template<typename System,
   const size_t tile_size = 1<<log_tile_size;
 
   // Compute the block_size based on the types to sort
-  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
+  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::value;
 
   // Case (a): tile_size <= block_size
   if(tile_size <= block_size)
@@ -872,7 +918,7 @@ template<typename System,
   // Case (b) tile_size >= block_size
 
   // step 1 of the recursive case: gather one splitter per block_size entries in each odd-even tile pair.
-  thrust::detail::temporary_array<KeyType, System> splitters(system, divide_ri(keys_last - keys_first, block_size));
+  thrust::detail::temporary_array<KeyType, System> splitters(system, thrust::detail::util::divide_ri(keys_last - keys_first, block_size));
   static_strided_integer_range<block_size>         splitters_pos(splitters.size());
   thrust::gather(system, splitters_pos.begin(), splitters_pos.end(), keys_first, splitters.begin());
                             
@@ -992,7 +1038,7 @@ template<typename System,
   typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
 
   // compute the block_size based on the types we're sorting
-  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
+  const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::value;
 
   // XXX WAR unused variable warning issued by nvcc
   (void) block_size;
@@ -1011,7 +1057,12 @@ template<typename System,
     temporary_array<ValueType, System> temp_values(system, n);
 
     // use a caching allocator for the calls to merge_tiles_by_key
-    cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_allocator(system);
+    // XXX unfortunately g++-4.2 can't deal with this special system
+#if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION <= 40200
+    dispatchable<System> &merge_system = system;
+#else
+    cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_system(system);
+#endif
 
     // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
     unsigned int log_tile_size = thrust::detail::mpl::math::log2<block_size>::value;
@@ -1021,11 +1072,11 @@ template<typename System,
       // we ping-pong back and forth
       if(ping)
       {
-        merge_tiles_by_key(merge_allocator, keys_first, values_first, n, temp_keys.begin(), temp_values.begin(), log_tile_size, comp);
+        merge_tiles_by_key(merge_system, keys_first, values_first, n, temp_keys.begin(), temp_values.begin(), log_tile_size, comp);
       } // end if
       else
       {
-        merge_tiles_by_key(merge_allocator, temp_keys.begin(), temp_values.begin(), n, keys_first, values_first, log_tile_size, comp);
+        merge_tiles_by_key(merge_system, temp_keys.begin(), temp_values.begin(), n, keys_first, values_first, log_tile_size, comp);
       } // end else
     } // end for
 
