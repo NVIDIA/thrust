@@ -81,8 +81,11 @@ template<typename Closure,
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
-    synchronize_if_enabled("launch_closure_by_value");
+    if(num_blocks > 0)
+    {
+      launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
+      synchronize_if_enabled("launch_closure_by_value");
+    }
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 }; // end closure_launcher_base
@@ -102,15 +105,18 @@ template<typename Closure>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    // use temporary storage for the closure
-    // XXX use of cuda::tag is too specific here
-    thrust::cuda::tag cuda_tag;
-    thrust::host_system_tag host_tag;
-    thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
+    if(num_blocks > 0)
+    {
+      // use temporary storage for the closure
+      // XXX use of cuda::tag is too specific here
+      thrust::cuda::tag cuda_tag;
+      thrust::host_system_tag host_tag;
+      thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
 
-    // launch
-    detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
-    synchronize_if_enabled("launch_closure_by_pointer");
+      // launch
+      detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
+      synchronize_if_enabled("launch_closure_by_pointer");
+    }
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
