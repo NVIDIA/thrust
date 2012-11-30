@@ -1058,7 +1058,7 @@ template<typename System,
 
     // use a caching allocator for the calls to merge_tiles_by_key
     // XXX unfortunately g++-4.2 can't deal with this special system
-#if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION <= 40200
+#if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION < 40300
     dispatchable<System> &merge_system = system;
 #else
     cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_system(system);
