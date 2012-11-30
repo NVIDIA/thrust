@@ -937,7 +937,7 @@ template<typename System,
                           StrictWeakOrdering comp)
 {
   const unsigned int tile_size = 1 << log_tile_size;
-  const size_t num_tiles = divide_ri(n, tile_size);
+  const size_t num_tiles = thrust::detail::util::divide_ri(n, tile_size);
 
   // if there is an odd number of tiles, we should exclude the last one
   // without a twin in merge_recursive
