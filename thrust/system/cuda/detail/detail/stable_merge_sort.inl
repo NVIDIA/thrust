@@ -65,13 +65,6 @@ namespace stable_merge_sort_detail
 {
 
 
-template<typename Size1, typename Size2>
-Size1 divide_ri(Size1 numerator, Size2 denominator)
-{
-  return (numerator + (denominator - 1)) / denominator;
-}
-
-
 template<typename Key, typename Value>
   class block_size
 {
