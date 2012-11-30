@@ -30,6 +30,7 @@
 #include <thrust/detail/function.h>
 
 #include <thrust/detail/mpl/math.h> // for log2<N>
+#include <thrust/detail/util/blocking.h>
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/system/cuda/detail/detail/stable_sort_by_count.h>
@@ -136,15 +137,13 @@ struct merge_small_tiles_by_key_closure
   {
     // compute the number of tiles, including a possible partial tile
     unsigned int tile_size = 1 << log_tile_size;
-    unsigned int num_tiles = n / tile_size;
+    unsigned int num_tiles = thrust::detail::util::divide_ri(n, tile_size);
     unsigned int partial_tile_size = n % tile_size;
-    if(partial_tile_size) ++num_tiles;
 
     // compute the number of logical thread blocks, including a possible partial block
     unsigned int tiles_per_block = block_size / tile_size;
+    unsigned int num_blocks = thrust::detail::util::divide_ri(num_tiles, tiles_per_block);
     unsigned int partial_block_size = num_tiles % tiles_per_block;
-    unsigned int num_blocks = num_tiles / tiles_per_block;
-    if(partial_block_size) ++num_blocks;
 
     // compute the number of tiles in the last block, which might be of partial size
     unsigned int number_of_tiles_in_last_block = partial_block_size ? partial_block_size : tiles_per_block;
@@ -999,11 +998,6 @@ template<typename System,
   typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
   typedef typename thrust::iterator_traits<RandomAccessIterator2>::value_type ValueType;
 
-  const size_t n = keys_last - keys_first;
-
-  // don't launch an empty kernel
-  if(n == 0) return;
-
   // compute the block_size based on the types we're sorting
   const unsigned int block_size = stable_merge_sort_detail::block_size<KeyType,ValueType>::result;
 
@@ -1013,42 +1007,42 @@ template<typename System,
   // first, sort each tile of block_size elements
   stable_sort_by_count<block_size>(system, keys_first, keys_last, values_first, comp);
 
-  // allocate scratch space
-  using namespace thrust::detail;
-  temporary_array<KeyType,   System> temp_keys(system, n);
-  temporary_array<ValueType, System> temp_vals(system, n);
-
-  // give iterators simpler names
-  RandomAccessIterator1 keys0 = keys_first;
-  RandomAccessIterator2 vals0 = values_first;
-  typename temporary_array<KeyType,   System>::iterator keys1 = temp_keys.begin();
-  typename temporary_array<ValueType, System>::iterator vals1 = temp_vals.begin();
-
-  // use a caching allocator for the calls to merge_tiles_by_key
-  cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_allocator(system);
-
-  // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
-  // Currently uses additional arrays for sorted outputs.
-  unsigned int log_tile_size = thrust::detail::mpl::math::log2<block_size>::value;
-  for(; (1u << log_tile_size) < n; ++log_tile_size)
+  // merge tiles if there is more than one
+  const size_t n = keys_last - keys_first;
+  if(n > block_size)
   {
-    // we ping-pong back and forth
-    if(log_tile_size % 2)
+    // allocate scratch space
+    using namespace thrust::detail;
+    using namespace stable_merge_sort_detail;
+    temporary_array<KeyType,   System> temp_keys(system, n);
+    temporary_array<ValueType, System> temp_values(system, n);
+
+    // use a caching allocator for the calls to merge_tiles_by_key
+    cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_allocator(system);
+
+    // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
+    unsigned int log_tile_size = thrust::detail::mpl::math::log2<block_size>::value;
+    bool ping = true;
+    for(; (1u << log_tile_size) < n; ++log_tile_size, ping = !ping)
     {
-      stable_merge_sort_detail::merge_tiles_by_key(merge_allocator, keys1, vals1, n, keys0, vals0, log_tile_size, comp);
+      // we ping-pong back and forth
+      if(ping)
+      {
+        merge_tiles_by_key(merge_allocator, keys_first, values_first, n, temp_keys.begin(), temp_values.begin(), log_tile_size, comp);
+      } // end if
+      else
+      {
+        merge_tiles_by_key(merge_allocator, temp_keys.begin(), temp_values.begin(), n, keys_first, values_first, log_tile_size, comp);
+      } // end else
+    } // end for
+
+    // this is to make sure that our data is finally in the data and keys arrays
+    // and not in the temporary arrays
+    if(!ping)
+    {
+      thrust::copy(system, temp_keys.begin(), temp_keys.end(), keys_first);
+      thrust::copy(system, temp_values.begin(), temp_values.end(), values_first);
     } // end if
-    else
-    {
-      stable_merge_sort_detail::merge_tiles_by_key(merge_allocator, keys0, vals0, n, keys1, vals1, log_tile_size, comp);
-    } // end else
-  } // end for
-
-  // this is to make sure that our data is finally in the data and keys arrays
-  // and not in the temporary arrays
-  if(log_tile_size % 2)
-  {
-    thrust::copy(system, vals1, vals1 + n, vals0);
-    thrust::copy(system, keys1, keys1 + n, keys0);
   } // end if
 } // end stable_merge_sort_by_key()
 
