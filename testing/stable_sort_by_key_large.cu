@@ -52,9 +52,11 @@ void TestStableSortByKeyWithLargeKeys(void)
     _TestStableSortByKeyWithLargeKeys<int,  256>();
     _TestStableSortByKeyWithLargeKeys<int,  512>();
     _TestStableSortByKeyWithLargeKeys<int, 1024>();
-    _TestStableSortByKeyWithLargeKeys<int, 2048>();
-    _TestStableSortByKeyWithLargeKeys<int, 4096>();
-    _TestStableSortByKeyWithLargeKeys<int, 8192>();
+
+// XXX these take too long to compile
+//    _TestStableSortByKeyWithLargeKeys<int, 2048>();
+//    _TestStableSortByKeyWithLargeKeys<int, 4096>();
+//    _TestStableSortByKeyWithLargeKeys<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeys);
 
