@@ -2,14 +2,12 @@
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 template <typename T>
 struct less_div_10
 {
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 < ((int) rhs) / 10;}
 };
-
 
 
 template <class Vector>
@@ -33,6 +31,7 @@ void InitializeSimpleKeySortTest(Vector& unsorted_keys, Vector& sorted_keys)
     sorted_keys[5] = 5;
     sorted_keys[6] = 6;
 }
+
 
 template <class Vector>
 void InitializeSimpleKeyValueSortTest(Vector& unsorted_keys, Vector& unsorted_values,
@@ -58,6 +57,7 @@ void InitializeSimpleKeyValueSortTest(Vector& unsorted_keys, Vector& unsorted_va
     sorted_keys[5] = 5;  sorted_values[0] = 5;
     sorted_keys[6] = 6;  sorted_values[4] = 6;
 }
+
 
 template <class Vector>
 void InitializeSimpleStableKeySortTest(Vector& unsorted_keys, Vector& sorted_keys)
@@ -85,8 +85,6 @@ void InitializeSimpleStableKeySortTest(Vector& unsorted_keys, Vector& sorted_key
     sorted_keys[8] = 36; 
 }
 
-
-#ifndef THRUST_DEBUG_CUDA_MERGE_SORT
 
 void TestMergeSortKeySimple(void)
 {
@@ -142,60 +140,6 @@ void TestMergeSortStableKeySimple(void)
 }
 DECLARE_UNITTEST(TestMergeSortStableKeySimple);
 
-#endif // THRUST_DEBUG_CUDA_MERGE_SORT
-
-
-
-#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
-template <typename U>
-void TestMergeSortAscendingKey(const size_t)
-#else
-template <typename T>
-void TestMergeSortAscendingKey(const size_t n)
-#endif
-{
-#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
-
-// XXX these work
-//    const size_t n = 30000;
-//    const size_t n = 32500;
-//    const size_t n = 32750;
-//    const size_t n = 32764;
-//    const size_t n = 32765;
-//    const size_t n = 32768;
-
-// XXX these fail
-      const size_t n = 32769;
-//    const size_t n = 32770;
-//    const size_t n = 32775;
-//    const size_t n = 32800;
-//    const size_t n = 32850;
-//    const size_t n = 33000;
-//    const size_t n = 33750;
-//    const size_t n = 35000;
-//    const size_t n = 40000;
-//    const size_t n = 60000;
-    typedef int T;
-#endif
-
-    thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-    thrust::device_vector<T> d_data = h_data;
-
-    thrust::sort(h_data.begin(), h_data.end(), thrust::less<T>());
-
-    thrust::cuda::tag cuda_tag;
-    thrust::system::cuda::detail::detail::stable_merge_sort(cuda_tag, d_data.begin(), d_data.end(), thrust::less<T>());
-
-#ifdef THRUST_DEBUG_CUDA_MERGE_SORT
-    exit(0);
-#endif
-
-    ASSERT_EQUAL(h_data, d_data);
-}
-DECLARE_VARIABLE_UNITTEST(TestMergeSortAscendingKey);
-
-
-#ifndef THRUST_DEBUG_CUDA_MERGE_SORT
 
 void TestMergeSortDescendingKey(void)
 {
@@ -319,7 +263,28 @@ void TestMergeSortByKeyUnalignedSimple(void)
 }
 DECLARE_UNITTEST(TestMergeSortByKeyUnalignedSimple);
 
-#endif // THRUST_DEBUG_CUDA_MERGE_SORT
 
-#endif // THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+template<typename U>
+void TestMergeSortKeyValue(size_t n)
+{
+  typedef key_value<U,U> T;
+
+  thrust::host_vector<U> h_keys   = unittest::random_integers<U>(n);
+  thrust::host_vector<U> h_values = unittest::random_integers<U>(n);
+
+  thrust::host_vector<T> h_data(n);
+  for(size_t i = 0; i < n; ++i)
+  {
+    h_data[i] = T(h_keys[i], h_values[i]);
+  }
+
+  thrust::device_vector<T> d_data = h_data;
+
+  thrust::stable_sort(h_data.begin(), h_data.end());
+  thrust::cuda::tag cuda_tag;
+  thrust::system::cuda::detail::detail::stable_merge_sort(cuda_tag, d_data.begin(), d_data.end(), thrust::less<T>());
+
+  ASSERT_EQUAL_QUIET(h_data, d_data);
+}
+DECLARE_VARIABLE_UNITTEST(TestMergeSortKeyValue);
 

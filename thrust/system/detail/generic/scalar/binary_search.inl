@@ -36,6 +36,36 @@ namespace generic
 namespace scalar
 {
 
+template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
+__host__ __device__
+RandomAccessIterator lower_bound_n(RandomAccessIterator first,
+                                   Size n,
+                                   const T &val,
+                                   BinaryPredicate comp)
+{
+  // wrap comp
+  thrust::detail::host_device_function<
+    BinaryPredicate,
+    bool
+  > wrapped_comp(comp);
+
+  Size start = 0, i;
+  while(start < n)
+  {
+    i = (start + n) / 2;
+    if(wrapped_comp(first[i], val))
+    {
+      start = i + 1;
+    }
+    else
+    {
+      n = i;
+    }
+  } // end while
+  
+  return first + start;
+}
+
 // XXX generalize these upon implementation of scalar::distance & scalar::advance
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
@@ -44,38 +74,38 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
                                  const T &val,
                                  BinaryPredicate comp)
 {
+  typename thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
+  return lower_bound_n(first, n, val, comp);
+}
+
+template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
+__host__ __device__
+RandomAccessIterator upper_bound_n(RandomAccessIterator first,
+                                   Size n,
+                                   const T &val,
+                                   BinaryPredicate comp)
+{
   // wrap comp
   thrust::detail::host_device_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
 
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference_type;
-
-  // XXX should read len = distance(first,last)
-  difference_type len = last - first;
-
-  while(len > 0)
+  Size start = 0, i;
+  while(start < n)
   {
-    difference_type half = len >> 1;
-    RandomAccessIterator middle = first;
-
-    // XXX should read advance(middle,half)
-    middle += half;
-
-    if(wrapped_comp(*middle, val))
+    i = (start + n) / 2;
+    if(wrapped_comp(val, first[i]))
     {
-      first = middle;
-      ++first;
-      len = len - half - 1;
+      n = i;
     }
     else
     {
-      len = half;
+      start = i + 1;
     }
-  }
-
-  return first;
+  } // end while
+  
+  return first + start;
 }
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
@@ -84,38 +114,8 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
                                  const T &val,
                                  BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_device_function<
-    BinaryPredicate,
-    bool
-  > wrapped_comp(comp);
-
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference_type;
-
-  // XXX should read len = distance(first,last)
-  difference_type len = last - first;
-
-  while(len > 0)
-  {
-    difference_type half = len >> 1;
-    RandomAccessIterator middle = first;
-
-    // XXX should read advance(middle,half)
-    middle += half;
-
-    if(wrapped_comp(val, *middle))
-    {
-      len = half;
-    }
-    else
-    {
-      first = middle;
-      ++first;
-      len = len - half - 1;
-    }
-  }
-
-  return first;
+  typename thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
+  return upper_bound_n(first, n, val, comp);
 }
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>

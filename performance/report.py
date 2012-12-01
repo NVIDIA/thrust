@@ -15,7 +15,7 @@ for function in ['inclusive_scan', 'inclusive_segmented_scan', 'unique']:
 for method in ['indirect_sort']:
     output(method + '.xml',    'Sort', 'VectorLength', 'Time', plot='semilogx', title='Indirect Sorting', format=format)
 
-for method in ['sort', 'merge_sort', 'radix_sort']:
+for method in ['sort', 'comparison_sort', 'radix_sort']:
     output(method + '.xml',    'KeyType', 'InputSize', 'Sorting', title='thrust::' + method, format=format)
     output(method + '_by_key.xml', 'KeyType', 'InputSize', 'Sorting', title='thrust::' + method + '_by_key', format=format)
 

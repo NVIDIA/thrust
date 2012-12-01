@@ -34,11 +34,25 @@ namespace generic
 namespace scalar
 {
 
+template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
+__host__ __device__
+RandomAccessIterator lower_bound_n(RandomAccessIterator first,
+                                   Size n,
+                                   const T &val,
+                                   BinaryPredicate comp);
+
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
 __host__ __device__
 RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp);
+
+template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
+__host__ __device__
+RandomAccessIterator upper_bound_n(RandomAccessIterator first,
+                                   Size n,
+                                   const T &val,
+                                   BinaryPredicate comp);
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
 __host__ __device__

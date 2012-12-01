@@ -12,7 +12,6 @@ PREAMBLE = \
         return x < y;
       }
     };
-
     """
 
 INITIALIZE = \
