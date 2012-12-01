@@ -76,6 +76,55 @@ template<typename System, typename RandomAccessIterator>
 };
 
 
+template<typename System, typename RandomAccessIterator>
+  struct iterator_range_with_system
+{
+  iterator_range_with_system(System &system, RandomAccessIterator first, RandomAccessIterator last)
+    : m_system(system), m_first(first), m_last(last)
+  {}
+
+  typedef RandomAccessIterator iterator;
+
+  iterator begin()
+  {
+    return m_first;
+  }
+
+  iterator end()
+  {
+    return m_last;
+  }
+
+  System &system()
+  {
+    return m_system;
+  }
+
+  System &m_system;
+  RandomAccessIterator m_first, m_last;
+};
+
+
+template<typename Condition, typename System, typename RandomAccessIterator>
+  struct conditional_temporary_indirect_permutation
+    : thrust::detail::eval_if<
+        Condition::value,
+        thrust::detail::identity_<temporary_indirect_permutation<System, RandomAccessIterator> >,
+        thrust::detail::identity_<iterator_range_with_system<System, RandomAccessIterator> >
+      >::type
+{
+  typedef typename thrust::detail::eval_if<
+    Condition::value,
+    thrust::detail::identity_<temporary_indirect_permutation<System, RandomAccessIterator> >,
+    thrust::detail::identity_<iterator_range_with_system<System, RandomAccessIterator> >
+  >::type super_t;
+
+  conditional_temporary_indirect_permutation(System &system, RandomAccessIterator first, RandomAccessIterator last)
+    : super_t(system, first, last)
+  {}
+};
+
+
 template<typename System, typename RandomAccessIterator, typename Compare>
   struct temporary_indirect_ordering
     : temporary_indirect_permutation<System,RandomAccessIterator>
@@ -117,6 +166,47 @@ template<typename System, typename RandomAccessIterator, typename Compare>
 
   private:
     compare m_comp;
+};
+
+
+template<typename System, typename RandomAccessIterator, typename Compare>
+  struct iterator_range_with_system_and_compare
+    : iterator_range_with_system<System, RandomAccessIterator>
+{
+  typedef iterator_range_with_system<System, RandomAccessIterator> super_t;
+
+  iterator_range_with_system_and_compare(System &system, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+    : super_t(system, first, last), m_comp(comp)
+  {}
+
+  typedef Compare compare;
+
+  compare comp()
+  {
+    return m_comp;
+  }
+
+  Compare m_comp;
+};
+
+
+template<typename Condition, typename System, typename RandomAccessIterator, typename Compare>
+  struct conditional_temporary_indirect_ordering
+    : thrust::detail::eval_if<
+        Condition::value,
+        thrust::detail::identity_<temporary_indirect_ordering<System, RandomAccessIterator, Compare> >,
+        thrust::detail::identity_<iterator_range_with_system_and_compare<System, RandomAccessIterator, Compare> >
+      >::type
+{
+  typedef typename thrust::detail::eval_if<
+    Condition::value,
+    thrust::detail::identity_<temporary_indirect_ordering<System, RandomAccessIterator, Compare> >,
+    thrust::detail::identity_<iterator_range_with_system_and_compare<System, RandomAccessIterator, Compare> >
+  >::type super_t;
+
+  conditional_temporary_indirect_ordering(System &system, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+    : super_t(system, first, last, comp)
+  {}
 };
 
 
