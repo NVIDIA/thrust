@@ -1,4 +1,5 @@
 #include <thrust/host_vector.h>
+#include <thrust/random.h>
 #include <thrust/generate.h>
 #include <thrust/sort.h>
 #include <cstdlib>
@@ -12,7 +13,8 @@ int main(void)
 {
     // generate 20 random numbers on the host
     thrust::host_vector<int> h_vec(20);
-    thrust::generate(h_vec.begin(), h_vec.end(), rand);
+    thrust::default_random_engine rng;
+    thrust::generate(h_vec.begin(), h_vec.end(), rng);
 
     // interface to CUDA code
     sort_on_device(h_vec);
