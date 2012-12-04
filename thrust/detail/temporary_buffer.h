@@ -50,20 +50,20 @@ template<typename T, typename System, typename Pair>
 
 template<typename T, typename System>
   thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(thrust::detail::dispatchable_base<System> &system, typename thrust::pointer<T,System>::difference_type n)
+    get_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, typename thrust::pointer<T,System>::difference_type n)
 {
   using thrust::system::detail::generic::get_temporary_buffer;
 
-  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,System>(get_temporary_buffer<T>(thrust::detail::derived_cast(system), n));
+  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,System>(get_temporary_buffer<T>(thrust::detail::derived_cast(thrust::detail::strip_const(system)), n));
 } // end get_temporary_buffer()
 
 
 template<typename System, typename Pointer>
-  void return_temporary_buffer(thrust::detail::dispatchable_base<System> &system, Pointer p)
+  void return_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, Pointer p)
 {
   using thrust::system::detail::generic::return_temporary_buffer;
 
-  return return_temporary_buffer(thrust::detail::derived_cast(system), p);
+  return return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(system)), p);
 } // end return_temporary_buffer()
 
 
