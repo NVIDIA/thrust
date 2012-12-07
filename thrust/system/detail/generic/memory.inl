@@ -40,6 +40,16 @@ template<typename System, typename Size>
 }
 
 
+template<typename T, typename System>
+  thrust::pointer<T,System>
+    malloc(thrust::dispatchable<System> &s, std::size_t n)
+{
+  thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
+
+  return pointer<T,System>(static_cast<T*>(void_ptr.get()));
+} // end malloc()
+
+
 template<typename System, typename Pointer>
   void free(thrust::dispatchable<System> &, Pointer)
 {

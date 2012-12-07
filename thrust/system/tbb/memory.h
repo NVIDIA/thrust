@@ -325,6 +325,19 @@ void swap(reference<T> x, reference<T> y);
  */
 inline pointer<void> malloc(std::size_t n);
 
+/*! Allocates a typed area of memory available to Thrust's <tt>tbb</tt> system.
+ *  \param n Number of elements to allocate.
+ *  \return A <tt>tbb::pointer<T></tt> pointing to the beginning of the newly
+ *          allocated memory. A null <tt>tbb::pointer<T></tt> is returned if
+ *          an error occurs.
+ *  \note The <tt>tbb::pointer<T></tt> returned by this function must be
+ *        deallocated with \p tbb::free.
+ *  \see tbb::free
+ *  \see std::malloc
+ */
+template<typename T>
+inline pointer<T> malloc(std::size_t n);
+
 /*! Deallocates an area of memory previously allocated by <tt>tbb::malloc</tt>.
  *  \param ptr A <tt>tbb::pointer<void></tt> pointing to the beginning of an area
  *         of memory previously allocated with <tt>tbb::malloc</tt>.

@@ -87,6 +87,13 @@ inline pointer<void> malloc(std::size_t n)
   return detail::malloc_workaround(cpp::tag(), n);
 } // end malloc()
 
+template<typename T>
+pointer<T> malloc(std::size_t n)
+{
+  pointer<void> raw_ptr = thrust::system::omp::malloc(sizeof(T) * n);
+  return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
+} // end malloc()
+
 inline void free(pointer<void> ptr)
 {
   // XXX this is how we'd like to implement this function,

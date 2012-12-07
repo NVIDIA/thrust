@@ -41,6 +41,9 @@ namespace generic
 
 template<typename System, typename Size> void malloc(thrust::dispatchable<System> &, Size);
 
+template<typename T, typename System>
+thrust::pointer<T,System> malloc(thrust::dispatchable<System> &s, std::size_t n);
+
 template<typename System, typename Pointer> void free(thrust::dispatchable<System> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
