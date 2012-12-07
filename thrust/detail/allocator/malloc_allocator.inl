@@ -25,18 +25,6 @@ namespace thrust
 {
 namespace detail
 {
-namespace malloc_allocator_detail
-{
-
-
-template<typename T, typename System, typename Size>
-T *raw_malloc(const System &system, Size n)
-{
-  return static_cast<T*>(thrust::raw_pointer_cast(thrust::malloc(system, n)));
-} // end raw_malloc()
-
-
-} // end malloc_allocator_detail
 
 
 template<typename T, typename System, typename Pointer>
@@ -48,14 +36,15 @@ template<typename T, typename System, typename Pointer>
 
   // XXX should use a hypothetical thrust::static_pointer_cast here
   System system;
-  T *result = malloc_allocator_detail::raw_malloc<T>(select_system(system), sizeof(typename super_t::value_type) * cnt);
 
-  if(result == 0)
+  pointer result = thrust::malloc<T>(select_system(system), cnt);
+
+  if(result.get() == 0)
   {
-    throw thrust::system::detail::bad_alloc("tagged_allocator::allocate: malloc failed");
+    throw thrust::system::detail::bad_alloc("malloc_allocator::allocate: malloc failed");
   } // end if
 
-  return pointer(result);
+  return result;
 } // end malloc_allocator::allocate()
 
 

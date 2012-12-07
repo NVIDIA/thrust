@@ -73,6 +73,13 @@ pointer<void> malloc(std::size_t n)
   return pointer<void>(thrust::system::cpp::detail::malloc(t, n));
 } // end malloc()
 
+template<typename T>
+pointer<T> malloc(std::size_t n)
+{
+  pointer<void> raw_ptr = thrust::system::cpp::malloc(sizeof(T) * n);
+  return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
+} // end malloc()
+
 void free(pointer<void> ptr)
 {
   tag t;

@@ -323,6 +323,19 @@ void swap(reference<T> x, reference<T> y);
  */
 inline pointer<void> malloc(std::size_t n);
 
+/*! Allocates a typed area of memory available to Thrust's <tt>cuda</tt> system.
+ *  \param n Number of elements to allocate.
+ *  \return A <tt>cuda::pointer<T></tt> pointing to the beginning of the newly
+ *          allocated memory. A null <tt>cuda::pointer<T></tt> is returned if
+ *          an error occurs.
+ *  \note The <tt>cuda::pointer<T></tt> returned by this function must be
+ *        deallocated with \p cuda::free.
+ *  \see cuda::free
+ *  \see std::malloc
+ */
+template<typename T>
+inline pointer<T> malloc(std::size_t n);
+
 /*! Deallocates an area of memory previously allocated by <tt>cuda::malloc</tt>.
  *  \param ptr A <tt>cuda::pointer<void></tt> pointing to the beginning of an area
  *         of memory previously allocated with <tt>cuda::malloc</tt>.
