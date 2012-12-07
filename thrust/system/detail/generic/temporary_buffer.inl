@@ -34,17 +34,15 @@ template<typename T, typename System>
   thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
     get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n)
 {
-  thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
+  thrust::pointer<T,System> ptr = thrust::malloc<T>(s, n);
 
   // check for a failed malloc
-  if(!void_ptr.get())
+  if(!ptr.get())
   {
     n = 0;
   } // end if
 
-  typedef thrust::pointer<T,System> pointer;
-
-  return thrust::make_pair(pointer(static_cast<T*>(void_ptr.get())), n);
+  return thrust::make_pair(ptr, n);
 } // end get_temporary_buffer()
 
 

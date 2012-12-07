@@ -37,6 +37,16 @@ pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &sys
   return pointer<void,System>(raw_ptr);
 }
 
+template<typename T, typename System>
+pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n)
+{
+  using thrust::system::detail::generic::malloc;
+
+  T *raw_ptr = static_cast<T*>(thrust::raw_pointer_cast(malloc<T>(thrust::detail::derived_cast(thrust::detail::strip_const(system)), n)));
+
+  return pointer<T,System>(raw_ptr);
+}
+
 
 // XXX WAR nvbug 992955
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC

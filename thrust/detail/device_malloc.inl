@@ -45,8 +45,14 @@ thrust::device_ptr<void> device_malloc(const std::size_t n)
 template<typename T>
   thrust::device_ptr<T> device_malloc(const std::size_t n)
 {
-  thrust::device_ptr<void> void_ptr = thrust::device_malloc(n * sizeof(T));
-  return thrust::device_pointer_cast(static_cast<T*>(void_ptr.get()));
+  using thrust::system::detail::generic::select_system;
+
+  typedef thrust::iterator_system< thrust::device_ptr<void> >::type system;
+
+  // XXX lower to select_system(system) here
+  system s;
+
+  return thrust::device_ptr<T>(thrust::malloc<T>(s,n).get());
 } // end device_malloc()
 
 
