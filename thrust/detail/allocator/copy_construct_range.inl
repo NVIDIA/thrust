@@ -30,12 +30,6 @@ namespace thrust
 {
 namespace detail
 {
-
-
-// XXX WAR circular dependency with this forward declaration
-template<typename Iterator, typename FromSystem, typename ToSystem> class move_to_system;
-
-
 namespace allocator_traits_detail
 {
 
@@ -59,6 +53,24 @@ template<typename Allocator, typename InputType, typename OutputType>
     allocator_traits<Allocator>::construct(a, &out, in);
   }
 };
+
+
+template<typename Allocator, typename T>
+  struct needs_copy_construct_via_allocator
+    : has_member_construct2<
+        Allocator,
+        T,
+        T
+      >
+{};
+
+
+// we know that std::allocator::construct's only effect is to call T's
+// copy constructor, so we needn't use it for copy construction
+template<typename U, typename T>
+  struct needs_copy_construct_via_allocator<std::allocator<U>, T>
+    : thrust::detail::false_type
+{};
 
 
 // XXX it's regrettable that this implementation is copied almost
@@ -176,25 +188,9 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
 } // end uninitialized_copy_with_allocator_n()
 
 
-template<typename Allocator, typename T>
-  struct is_trivially_copy_constructible
-    : integral_constant<
-        bool,
-        !has_member_construct2<Allocator,T,T>::value && has_trivial_copy_constructor<T>::value
-      >
-{};
-
-// we know that std::allocator::construct's only effect is to
-// call T's constructor, so we needn't use it when constructing T
-template<typename U, typename T>
-  struct is_trivially_copy_constructible<std::allocator<U>, T>
-    : has_trivial_copy_constructor<T>
-{};
-
-
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
-  typename enable_if<
-    is_trivially_copy_constructible<
+  typename disable_if<
+    needs_copy_construct_via_allocator<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value,
@@ -214,8 +210,8 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Size, typename Pointer>
-  typename enable_if<
-    is_trivially_copy_constructible<
+  typename disable_if<
+    needs_copy_construct_via_allocator<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value,
@@ -235,8 +231,8 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
-  typename disable_if<
-    is_trivially_copy_constructible<
+  typename enable_if<
+    needs_copy_construct_via_allocator<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value,
@@ -254,8 +250,8 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Size, typename Pointer>
-  typename disable_if<
-    is_trivially_copy_constructible<
+  typename enable_if<
+    needs_copy_construct_via_allocator<
       Allocator,
       typename pointer_element<Pointer>::type
     >::value,
