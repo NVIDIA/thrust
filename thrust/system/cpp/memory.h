@@ -323,6 +323,19 @@ void swap(reference<T> x, reference<T> y);
  */
 inline pointer<void> malloc(std::size_t n);
 
+/*! Allocates a typed area of memory available to Thrust's <tt>cpp</tt> system.
+ *  \param n Number of elements to allocate.
+ *  \return A <tt>cpp::pointer<T></tt> pointing to the beginning of the newly
+ *          allocated elements. A null <tt>cpp::pointer<T></tt> is returned if
+ *          an error occurs.
+ *  \note The <tt>cpp::pointer<T></tt> returned by this function must be
+ *        deallocated with \p cpp::free.
+ *  \see cpp::free
+ *  \see std::malloc
+ */
+template<typename T>
+inline pointer<T> malloc(std::size_t n);
+
 /*! Deallocates an area of memory previously allocated by <tt>cpp::malloc</tt>.
  *  \param ptr A <tt>cpp::pointer<void></tt> pointing to the beginning of an area
  *         of memory previously allocated with <tt>cpp::malloc</tt>.
