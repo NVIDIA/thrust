@@ -95,6 +95,8 @@ template<typename BidirectionalIterator>
  *          and \p BidirectionalIterator's \p value_type is convertible to \p OutputIterator's \p value_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
+ *
  *  The following code snippet demonstrates how to use \p reverse_copy to reverse
  *  an input \p device_vector of integers to an output \p device_vector.
  *

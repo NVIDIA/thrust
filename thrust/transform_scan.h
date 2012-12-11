@@ -98,6 +98,8 @@ template<typename System,
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
+ *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p transform_inclusive_scan
  *
  *  \code
@@ -157,6 +159,8 @@ template<typename InputIterator,
  *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
+ *
+ *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p transform_exclusive_scan
  *

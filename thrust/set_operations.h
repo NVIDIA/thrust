@@ -328,6 +328,9 @@ template<typename System,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting range shall not overlap with either input range.
+ *
  *  The following code snippet demonstrates how to use \p set_difference to compute the
  *  set difference of two sets of integers sorted in ascending order.
  *
@@ -391,6 +394,9 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference to compute the
  *  set difference of two sets of integers sorted in descending order.
@@ -468,6 +474,9 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting range shall not overlap with either input range.
+ *
  *  The following code snippet demonstrates how to use \p set_intersection to compute the
  *  set intersection of two sets of integers sorted in ascending order.
  *
@@ -528,6 +537,9 @@ template<typename InputIterator1,
  *  \param result The beginning of the output range.
  *  \param comp Comparison operator.
  *  \return The end of the output range.
+ *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting range shall not overlap with either input range.
  *
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
@@ -612,6 +624,9 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting range shall not overlap with either input range.
+ *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference to compute
  *  the symmetric difference of two sets of integers sorted in ascending order.
  *
@@ -682,6 +697,9 @@ template<typename InputIterator1,
  *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference to compute
  *  the symmetric difference of two sets of integers sorted in descending order.
@@ -754,6 +772,9 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting range shall not overlap with either input range.
+ *
  *  The following code snippet demonstrates how to use \p set_union to compute the union of
  *  two sets of integers sorted in ascending order.
  *
@@ -819,6 +840,9 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_union to compute the union of
  *  two sets of integers sorted in ascending order.
@@ -906,6 +930,9 @@ template<typename InputIterator1,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference_by_key to compute the
  *  set difference of two sets of integers sorted in ascending order with their values.
@@ -1001,6 +1028,9 @@ template<typename InputIterator1,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference_by_key to compute the
  *  set difference of two sets of integers sorted in descending order with their values.
@@ -1099,6 +1129,9 @@ template<typename InputIterator1,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting ranges shall not overlap with any input range.
+ *
  *  The following code snippet demonstrates how to use \p set_intersection_by_key to compute the
  *  set intersection of two sets of integers sorted in ascending order with their values.
  *
@@ -1192,6 +1225,9 @@ template<typename InputIterator1,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_intersection_by_key to compute the
  *  set intersection of two sets of integers sorted in descending order with their values.
@@ -1289,6 +1325,9 @@ template<typename InputIterator1,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in ascending order with their values.
@@ -1388,6 +1427,9 @@ template<typename InputIterator1,
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting ranges shall not overlap with any input range.
+ *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in descending order with their values.
  *
@@ -1485,6 +1527,9 @@ template<typename InputIterator1,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting ranges shall not overlap with any input range.
+ *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in ascending order with their values.
  *
@@ -1580,6 +1625,9 @@ template<typename InputIterator1,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in descending order with their values.

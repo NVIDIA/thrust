@@ -66,6 +66,8 @@ template<typename System, typename InputIterator, typename Size, typename Forwar
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that takes
  *          a single argument whose type is \p InputIterator's \c value_type.
  *
+ *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p uninitialized_copy to initialize
  *  a range of uninitialized memory.
  *
@@ -123,6 +125,8 @@ template<typename InputIterator, typename ForwardIterator>
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that takes
  *          a single argument whose type is \p InputIterator's \c value_type.
+ *
+ *  \pre \p first may equal \p result, but the range <tt>[first, first + n)</tt> and the range <tt>[result, result + n)</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p uninitialized_copy to initialize
  *  a range of uninitialized memory.

@@ -87,6 +87,8 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, last)</tt> otherwise.
+ *
  *  The following code snippet demonstrates how to use \p copy
  *  to copy from one range to another.
  *
@@ -128,6 +130,8 @@ template<typename InputIterator, typename OutputIterator>
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam Size is an integral type.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, first + n)</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p copy
  *  to copy from one range to another.
@@ -180,6 +184,8 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *                        and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
  *  to copy even numbers to an output range.
@@ -238,6 +244,9 @@ template<typename InputIterator,
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
+ *  \pre The ranges <tt>[stencil, stencil + (last - first))</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
  *  to copy numbers to an output range when corresponding stencil elements are even:

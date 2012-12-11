@@ -237,6 +237,8 @@ template<typename ForwardIterator,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
+ *  \pre The ranges <tt>[first,last)</tt> and <tt>[stencil, stencil + (last - first))</tt> shall not overlap.
+ *
  *  The following code snippet demonstrates how to use \p partition to reorder a
  *  sequence so that even numbers precede odd numbers.
  *
@@ -297,6 +299,8 @@ template<typename ForwardIterator,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The input range shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p partition_copy to separate a
  *  sequence into two output sequences of even and odd numbers.
@@ -372,6 +376,8 @@ template<typename InputIterator,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The input ranges shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p partition_copy to separate a
  *  sequence into two output sequences of even and odd numbers.
@@ -505,6 +511,8 @@ template<typename ForwardIterator,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
+ *  \pre The range <tt>[first, last)</tt> shall not overlap with the range <tt>[stencil, stencil + (last - first))</tt>.
+ *
  *  The following code snippet demonstrates how to use \p stable_partition to reorder a
  *  sequence so that even numbers precede odd numbers.
  *
@@ -571,6 +579,8 @@ template<typename ForwardIterator,
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The input ranges shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p stable_partition_copy to
  *  reorder a sequence so that even numbers precede odd numbers.
@@ -649,6 +659,8 @@ template<typename InputIterator,
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
+ *  \pre The input ranges shall not overlap with either output range.
+ *
  *  The following code snippet demonstrates how to use \p stable_partition_copy to
  *  reorder a sequence so that even numbers precede odd numbers.
  *
@@ -713,6 +725,8 @@ template<typename InputIterator1,
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The range <tt>[first, last)</tt> shall be partitioned by \p pred.
  *
  *  \note Though similar, \p partition_point is not redundant with \p find_if_not.
  *        \p partition_point's precondition provides an opportunity for a

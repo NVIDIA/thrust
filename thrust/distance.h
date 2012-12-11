@@ -42,6 +42,9 @@ namespace thrust
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
  *
+ *  \pre If \c InputIterator meets the requirements of random access iterator, \p last shall be reachable from \p first or
+ *       \p first shall be reachable from \p last; otherwise, \p last shall be reachable from \p first.
+ *
  *  The following code snippet demonstrates how to use \p distance to compute
  *  the distance to one iterator from another.
  *

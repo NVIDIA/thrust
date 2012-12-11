@@ -64,6 +64,9 @@ OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<Syste
  *          and the return type of <tt>x - y</tt> is convertible to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \remark Note that \p result is permitted to be the same iterator as \p first. This is
+ *          useful for computing differences "in place".
+ *
  *  The following code snippet demonstrates how to use \p adjacent_difference to compute
  *  the difference between adjacent elements of a range.
  *
@@ -82,9 +85,6 @@ OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<Syste
  *
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
  *  \see inclusive_scan
- *
- *  \note Note that \p result is permitted to be the same iterator as \p first. This is
- *        useful for computing differences "in place".
  */
 template <typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last, 
@@ -111,6 +111,9 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam BinaryFunction's \c result_type is convertible to a type in \p OutputIterator's set of \c value_types.
  *
+ *  \remark Note that \p result is permitted to be the same iterator as \p first. This is
+ *          useful for computing differences "in place".
+ *
  *  The following code snippet demonstrates how to use \p adjacent_difference to compute
  *  the sum between adjacent elements of a range.
  *
@@ -130,9 +133,6 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
  *  \see inclusive_scan
- *
- *  \note Note that \p result is permitted to be the same iterator as \p first. This is
- *        useful for computing differences "in place".
  */
 template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last,
