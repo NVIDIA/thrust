@@ -176,6 +176,8 @@ template<typename ForwardIterator,
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable">Equality Comparable</a>,
  *          and objects of type \p T can be compared for equality with objects of \p InputIterator's \c value_type.
  *
+ *  \pre The range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
+ *
  *  The following code snippet demonstrates how to use \p remove_copy to copy
  *  a sequence of numbers to an output range while omitting a value of interest.
  *
@@ -293,6 +295,8 @@ template<typename ForwardIterator,
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
+ *  \pre The range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
+ *
  *  The following code snippet demonstrates how to use \p remove_copy_if to copy
  *  a sequence of numbers to an output range while omitting even numbers.
  *
@@ -352,6 +356,9 @@ template<typename InputIterator,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/Predicate.html">Predicate</a>.
  *
+ *  \pre The range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
+ *  \pre The range <tt>[stencil, stencil + (last - first))</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
+ *
  *  The following code snippet demonstrates how to use \p remove_if to remove
  *  specific elements from an array of integers.
  *
@@ -405,6 +412,8 @@ template<typename ForwardIterator,
  *          and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The range <tt>[stencil, stencil + (last - first))</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p remove_copy_if to copy
  *  a sequence of numbers to an output range while omitting specific elements.

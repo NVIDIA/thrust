@@ -224,13 +224,15 @@ ForwardIterator unique(ForwardIterator first,
  *
  *  \param first The beginning of the input range.
  *  \param last  The end of the input range.
- *  \param output The beginning of the output range.
+ *  \param result The beginning of the output range.
  *  \return The end of the unique range <tt>[output, output_end)</tt>.
  *
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
+ *
+ *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_copy to
  *  compact a sequence of numbers to remove consecutive duplicates.
@@ -253,7 +255,7 @@ template <typename InputIterator,
           typename OutputIterator>
 OutputIterator unique_copy(InputIterator first,
                            InputIterator last,
-                           OutputIterator output);
+                           OutputIterator result);
                        
 
 /*! \p unique_copy copies elements from the range <tt>[first, last)</tt>
@@ -266,7 +268,7 @@ OutputIterator unique_copy(InputIterator first,
  *
  *  \param first The beginning of the input range.
  *  \param last  The end of the input range.
- *  \param output The beginning of the output range.
+ *  \param result The beginning of the output range.
  *  \param binary_pred  The binary predicate used to determine equality.
  *  \return The end of the unique range <tt>[output, output_end)</tt>.
  *
@@ -275,6 +277,8 @@ OutputIterator unique_copy(InputIterator first,
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_copy to
  *  compact a sequence of numbers to remove consecutive duplicates.
@@ -298,7 +302,7 @@ template <typename InputIterator,
           typename BinaryPredicate>
 OutputIterator unique_copy(InputIterator first,
                            InputIterator last,
-                           OutputIterator output,
+                           OutputIterator result,
                            BinaryPredicate binary_pred);
 
 
@@ -326,6 +330,8 @@ OutputIterator unique_copy(InputIterator first,
  *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator2 is mutable.
+ *
+ *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key to
  *  compact a sequence of key/value pairs to remove consecutive duplicates.
@@ -378,6 +384,8 @@ template <typename ForwardIterator1,
  *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator2 is mutable.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key to
  *  compact a sequence of key/value pairs to remove consecutive duplicates.
@@ -434,6 +442,8 @@ template <typename ForwardIterator1,
  *          and \p InputIterator1's \c value_type is convertible to \c OutputIterator1's \c value_type.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
+ *
+ *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key_copy to
  *  compact a sequence of key/value pairs and with equal keys.
@@ -494,6 +504,8 @@ template <typename InputIterator1,
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key_copy to
  *  compact a sequence of key/value pairs and with equal keys.

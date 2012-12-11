@@ -103,6 +103,8 @@ template<typename System,
  *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator2's \c value_type must be convertible to \p ForwardIterator1's \c value_type.
  *
+ *  \pre \p first1 may equal \p first2, but the range <tt>[first1, last1)</tt> shall not overlap the range <tt>[first2, first2 + (last1 - first1))</tt> otherwise.
+ *
  *  The following code snippet demonstrates how to use \p swap_ranges to
  *  swap the contents of two \c thrust::device_vectors.
  *

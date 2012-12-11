@@ -263,6 +263,8 @@ template<typename InputIterator,
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *
+ *  \pre The input ranges shall not overlap either output range.
+ *
  *  The following code snippet demonstrates how to use \p reduce_by_key to
  *  compact a sequence of key/value pairs and sum values with equal keys.
  *
@@ -322,6 +324,8 @@ template <typename InputIterator1,
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p reduce_by_key to
  *  compact a sequence of key/value pairs and sum values with equal keys.
@@ -391,6 +395,8 @@ template <typename InputIterator1,
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
  *          and \c BinaryFunction's \c result_type is convertible to \c OutputIterator2's \c value_type.
+ *
+ *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p reduce_by_key to
  *  compact a sequence of key/value pairs and sum values with equal keys.

@@ -210,6 +210,8 @@ template<typename System,
  *                         \c OutputIterator's \c value_type, then <tt>T(0)</tt> is
  *                         defined.
  *
+ *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p inclusive_scan
  *
  *  \code
@@ -258,6 +260,8 @@ template<typename InputIterator,
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
+ *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p inclusive_scan
  *
  *  \code
@@ -303,6 +307,8 @@ template<typename InputIterator,
  *                         \c OutputIterator's \c value_type, then <tt>T(0)</tt> is
  *                         defined.
  *
+ *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p exclusive_scan
  *
  *  \code
@@ -346,6 +352,8 @@ template<typename InputIterator,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
+ *
+ *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan
  *
@@ -396,6 +404,8 @@ template<typename InputIterator,
  *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
+ *
+ *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan
  *
@@ -461,6 +471,9 @@ template<typename InputIterator,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
  *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p inclusive_scan_by_key
  *
  *  \code
@@ -519,6 +532,9 @@ template<typename InputIterator1,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p inclusive_scan_by_key
  *
@@ -587,6 +603,9 @@ template<typename InputIterator1,
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p inclusive_scan_by_key
  *
  *  \code
@@ -643,6 +662,9 @@ template<typename InputIterator1,
  *  \param first2 The beginning of the input value sequence.
  *  \param result The beginning of the output value sequence.
  *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key.
  *
  *  \code
@@ -683,6 +705,9 @@ template<typename InputIterator1,
  *  \param result The beginning of the output value sequence.
  *  \param init The initial of the exclusive sum value.
  *  \return The end of the output sequence.
+ *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key
  *
@@ -737,6 +762,9 @@ template<typename InputIterator1,
  *  \param init The initial of the exclusive sum value.
  *  \param binary_pred The binary predicate used to determine equality of keys.
  *  \return The end of the output sequence.
+ *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key
  *
@@ -812,6 +840,9 @@ template<typename InputIterator1,
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
  *                         and \c AssociativeOperator's \c result_type is convertible to \c OutputIterator's \c value_type.
+ *
+ *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
+ *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key
  *
