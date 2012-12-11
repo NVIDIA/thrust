@@ -274,6 +274,8 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
  *          \p T may be compared for equality with \p InputIterator's \c value_type,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
+ *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *
  *  \code
  *  #include <thrust/replace.h>
  *  #include <thrust/device_vector.h>
@@ -323,6 +325,8 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
+ *
+ *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  \code
  *  #include <thrust/replace.h>
@@ -387,6 +391,9 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
+ *
+ *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
+ *  \pre \p stencil may equal \p result, but the ranges <tt>[stencil, stencil + (last - first))</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  \code
  *  #include <thrust/replace.h>

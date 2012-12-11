@@ -109,6 +109,9 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting range shall not overlap with either input range.
+ *
  *  The following code snippet demonstrates how to use
  *  \p merge to compute the merger of two sorted sets of integers.
  *
@@ -164,6 +167,9 @@ template<typename InputIterator1,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use
  *  \p merge to compute the merger of two sets of integers sorted in
@@ -242,6 +248,9 @@ template<typename InputIterator1,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use
  *  \p merge_by_key to compute the merger of two sets of integers sorted in
@@ -323,6 +332,9 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *
+ *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
+ *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use
  *  \p merge_by_key to compute the merger of two sets of integers sorted in
