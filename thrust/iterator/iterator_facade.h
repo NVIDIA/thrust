@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file iterator_facade.h
+/*! \file thrust/iterator/iterator_facade.h
  *  \brief A class which exposes a public interface for iterators
  */
 
@@ -51,8 +51,23 @@ namespace thrust
 // in iterator_core_access
 template<ITERATOR_FACADE_FORMAL_PARMS> class iterator_facade;
 
+/*! \addtogroup iterators
+ *  \{
+ */
+
+/*! \addtogroup fancyiterator Fancy Iterators
+ *  \ingroup iterators
+ *  \{
+ */
+
+/*! \p iterator_core_access is the class which user iterator types derived from \p thrust::iterator_adaptor
+ *  or \p thrust::iterator_facade must befriend to allow it to access their private interface.
+ */
 class iterator_core_access
 {
+    /*! \cond
+     */
+
     // declare our friends
     template<ITERATOR_FACADE_FORMAL_PARMS> friend class iterator_facade;
 
@@ -208,7 +223,16 @@ class iterator_core_access
     {
       return *static_cast<Derived const*>(&facade);
     }
+
+    /*! \endcond
+     */
 }; // end iterator_core_access
+
+/*! \} // fancyiterator
+ */
+
+/*! \} // iterators
+ */
 
 
 template<ITERATOR_FACADE_FORMAL_PARMS>

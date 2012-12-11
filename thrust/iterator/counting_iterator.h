@@ -15,7 +15,7 @@
  */
 
 
-/*! \file counting_iterator.h
+/*! \file thrust/iterator/counting_iterator.h
  *  \brief An iterator which returns an increasing incrementable value
  *         when dereferenced
  */

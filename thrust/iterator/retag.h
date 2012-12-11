@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file retag.h
+/*! \file thrust/iterator/retag.h
  *  \brief Functionality for altering an iterator's associated system.
  */
 

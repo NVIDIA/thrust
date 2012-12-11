@@ -15,7 +15,7 @@
  */
 
 
-/*! \file constant_iterator.h
+/*! \file thrust/iterator/constant_iterator.h
  *  \brief An iterator which returns a constant value when
  *         dereferenced
  */
