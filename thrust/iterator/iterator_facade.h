@@ -336,10 +336,6 @@ template<ITERATOR_FACADE_FORMAL_PARMS>
       Derived result(this->derived());
       return result -= n;
     }
-
-  protected:
-    typedef iterator_facade iterator_facade_;
-
 }; // end iterator_facade
 
 // Comparison operators
