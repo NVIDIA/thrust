@@ -114,7 +114,7 @@ namespace thrust
  *
  *  \p iterator_adaptor's functionality is derived from and generally equivalent to \p boost::iterator_adaptor.
  *  The exception is Thrust's addition of the template parameter \p System, which is necessary to allow Thrust
- *  to dispatch an algorithm to one of several parallel backend "systems".
+ *  to dispatch an algorithm to one of several parallel backend systems.
  *
  *  Interested users may refer to <tt>boost::iterator_adaptor</tt>'s documentation for further usage examples.
  */
@@ -144,7 +144,7 @@ template<typename Derived,
    */
   
   public:
-    /*! \p iterator_adaptor's null constructor does nothing.
+    /*! \p iterator_adaptor's default constructor does nothing.
      */
     __host__ __device__
     iterator_adaptor(){}
@@ -175,12 +175,6 @@ template<typename Derived,
     { return m_iterator; }
 
   protected:
-    /*! \cond
-     */
-    typedef iterator_adaptor iterator_adaptor_;
-    /*! \endcond
-     */
-
     /*! \return A \p const reference to the \p Base iterator this \p iterator_adaptor adapts.
      */
     __host__ __device__
