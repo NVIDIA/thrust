@@ -15,7 +15,7 @@
  */
 
 
-/*! \file transform_iterator.h
+/*! \file thrust/iterator/transform_iterator.h
  *  \brief An iterator which adapts another iterator by applying a function to the result of its dereference 
  */
 

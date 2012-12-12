@@ -15,7 +15,7 @@
  */
 
 
-/*! \file reverse_iterator.h
+/*! \file thrust/iterator/reverse_iterator.h
  *  \brief An iterator adaptor which adapts another iterator to traverse backwards
  */
 

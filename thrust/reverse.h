@@ -80,7 +80,7 @@ template<typename BidirectionalIterator>
  *  is written to a different output range, rather than inplace.
  *
  *  \p reverse_copy copies elements from the range <tt>[first, last)</tt> to the
- *  range <tt>[result, result + (last - first))</tt> such that the copy is a 
+ *  range <tt>[result, result + (last - first))</tt> such that the copy is a 
  *  reverse of the original range. Specifically: for every <tt>i</tt> such that
  *  <tt>0 <= i < (last - first)</tt>, \p reverse_copy performs the assignment
  *  <tt>*(result + (last - first) - i) = *(first + i)</tt>.
