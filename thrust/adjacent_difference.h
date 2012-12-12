@@ -45,10 +45,10 @@ OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<Syste
  */
 
 /*! \p adjacent_difference calculates the differences of adjacent elements in the
- *  range <tt>[first, last)</tt>. That is, <tt>*first</tt> is assigned to
- *  <tt>*result</tt>, and, for each iterator \p i in the range
- *  <tt>[first + 1, last)</tt>, the difference of <tt>*i</tt> and <tt>*(i - 1)</tt>
- *  is assigned to <tt>*(result + (i - first))</tt>.
+ *  range <tt>[first, last)</tt>. That is, <tt>\*first</tt> is assigned to
+ *  <tt>\*result</tt>, and, for each iterator \p i in the range
+ *  <tt>[first + 1, last)</tt>, the difference of <tt>\*i</tt> and <tt>*(i - 1)</tt>
+ *  is assigned to <tt>\*(result + (i - first))</tt>.
  *
  *  This version of \p adjacent_difference uses <tt>operator-</tt> to calculate
  *  differences.
@@ -92,9 +92,9 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
 
 /*! \p adjacent_difference calculates the differences of adjacent elements in the
  *  range <tt>[first, last)</tt>. That is, <tt>*first</tt> is assigned to
- *  <tt>*result</tt>, and, for each iterator \p i in the range
- *  <tt>[first + 1, last)</tt>, <tt>binary_op(*i, *(i - 1))</tt> is assigned to
- *  <tt>*(result + (i - first))</tt>.
+ *  <tt>\*result</tt>, and, for each iterator \p i in the range
+ *  <tt>[first + 1, last)</tt>, <tt>binary_op(\*i, \*(i - 1))</tt> is assigned to
+ *  <tt>\*(result + (i - first))</tt>.
  *  
  *  This version of \p adjacent_difference uses the binary function \p binary_op to
  *  calculate differences.

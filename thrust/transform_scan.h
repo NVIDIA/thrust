@@ -76,9 +76,9 @@ template<typename System,
  *  performing an \p inclusive_scan on the tranformed sequence.  In most
  *  cases, fusing these two operations together is more efficient, since
  *  fewer memory reads and writes are required. In \p transform_inclusive_scan,
- *  <tt>unary_op(*first)</tt> is assigned to <tt>*result</tt> and the result
- *  of <tt>binary_op(unary_op(*first), unary_op(*(first + 1)))</tt> is
- *  assigned to <tt>*(result + 1)</tt>, and so on.  The transform scan
+ *  <tt>unary_op(\*first)</tt> is assigned to <tt>\*result</tt> and the result
+ *  of <tt>binary_op(unary_op(\*first), unary_op(\*(first + 1)))</tt> is
+ *  assigned to <tt>\*(result + 1)</tt>, and so on.  The transform scan
  *  operation is permitted to be in-place.
  *
  *  \param first The beginning of the input sequence.
@@ -136,9 +136,9 @@ template<typename InputIterator,
  *  performing an \p exclusive_scan on the tranformed sequence.  In most
  *  cases, fusing these two operations together is more efficient, since
  *  fewer memory reads and writes are required. In 
- *  \p transform_exclusive_scan, \p init is assigned to <tt>*result</tt> 
- *  and the result of <tt>binary_op(init, unary_op(*first))</tt> is assigned
- *  to <tt>*(result + 1)</tt>, and so on.  The transform scan operation is 
+ *  \p transform_exclusive_scan, \p init is assigned to <tt>\*result</tt> 
+ *  and the result of <tt>binary_op(init, unary_op(\*first))</tt> is assigned
+ *  to <tt>\*(result + 1)</tt>, and so on.  The transform scan operation is 
  *  permitted to be in-place.
  *
  *  \param first The beginning of the input sequence.
