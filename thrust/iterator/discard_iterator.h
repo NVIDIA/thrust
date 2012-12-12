@@ -15,7 +15,7 @@
  */
 
 
-/*! \file discard_iterator.h
+/*! \file thrust/iterator/discard_iterator.h
  *  \brief An iterator which "discards" (ignores) values assigned to it upon dereference
  */
 

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file permutation_iterator.h
+/*! \file thrust/iterator/permutation_iterator.h
  *  \brief An iterator which performs a gather or scatter operation when dereferenced
  */
 

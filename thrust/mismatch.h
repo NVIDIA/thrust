@@ -107,7 +107,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  * \p mismatch use different tests for whether elements differ.
  *
  * This version of \p mismatch finds the first iterator \c i in <tt>[first1, last1)</tt>
- * such that <tt>pred(*i, *(first2 + (i - first1))</tt> is \c false. The return value is a
+ * such that <tt>pred(\*i, \*(first2 + (i - first1))</tt> is \c false. The return value is a
  * \c pair whose first element is \c i and whose second element is <tt>*(first2 + (i - first1))</tt>.
  * If no such iterator \c i exists, the return value is a \c pair whose first element is
  * \c last1 and whose second element is <tt>*(first2 + (last1 - first1))</tt>.

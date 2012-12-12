@@ -15,7 +15,7 @@
  */
 
 
-/*! \file iterator_traits.h
+/*! \file thrust/iterator/iterator_traits.h
  *  \brief Traits and metafunctions for reasoning about the traits of iterators
  */
 

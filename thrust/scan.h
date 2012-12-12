@@ -380,8 +380,8 @@ template<typename InputIterator,
 /*! \p exclusive_scan computes an exclusive prefix sum operation. The
  *  term 'exclusive' means that each result does not include the 
  *  corresponding input operand in the partial sum.  More precisely,
- *  \p init is assigned to <tt>*result</tt> and the value
- *  <tt>binary_op(init, *first)</tt> is assigned to <tt>*(result + 1)</tt>,
+ *  \p init is assigned to <tt>\*result</tt> and the value
+ *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
  *  and so on. This version of the function requires both and associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.

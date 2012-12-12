@@ -15,7 +15,7 @@
  */
 
 
-/*! \file zip_iterator.h
+/*! \file thrust/iterator/zip_iterator.h
  *  \brief An iterator which returns a tuple of the result of dereferencing
  *         a tuple of iterators when dereferenced
  */

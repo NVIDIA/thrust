@@ -15,7 +15,7 @@
  */
 
 
-/*! \file iterator_categories.h
+/*! \file thrust/iterator/iterator_categories.h
  *  \brief Types for reasoning about the categories of iterators
  */
 
