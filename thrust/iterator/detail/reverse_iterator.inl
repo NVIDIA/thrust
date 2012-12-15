@@ -23,6 +23,7 @@ namespace thrust
 namespace detail
 {
 
+__thrust_hd_warning_disable__
 template<typename Iterator>
 __host__ __device__
   Iterator prior(Iterator x)
