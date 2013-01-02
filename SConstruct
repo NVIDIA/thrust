@@ -335,7 +335,7 @@ def command_line_variables():
   
   # add a variable to handle compute capability
   vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_10',
-                        ['sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21']))
+                        ['sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21', 'sm_30', 'sm_35']))
   
   # add a variable to handle warnings
   # only enable Wall by default on compilers other than cl
