@@ -116,18 +116,20 @@ InputIterator find(InputIterator first,
  *
  *  struct greater_than_four
  *  {
- *      bool operator()(int x)
- *      {
- *          return x > 4;
- *      }
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x > 4;
+ *    }
  *  };
  *
  *  struct greater_than_ten
  *  {
- *      bool operator()(int x)
- *      {
- *          return x > 10;
- *      }
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x > 10;
+ *    }
  *  };
  *
  *  ...
@@ -172,18 +174,20 @@ InputIterator find_if(InputIterator first,
  *
  *  struct greater_than_four
  *  {
- *      bool operator()(int x)
- *      {
- *          return x > 4;
- *      }
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x > 4;
+ *    }
  *  };
  *
  *  struct greater_than_ten
  *  {
- *      bool operator()(int x)
- *      {
- *          return x > 10;
- *      }
+ *    __host__ __device__
+ *    bool operator()(int x)
+ *    {
+ *      return x > 10;
+ *    }
  *  };
  *
  *  ...

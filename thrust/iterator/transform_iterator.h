@@ -79,23 +79,23 @@ namespace thrust
  *  
  *  int main(void)
  *  {
- *      thrust::device_vector<float> v(4);
- *      v[0] = 1.0f;
- *      v[1] = 4.0f;
- *      v[2] = 9.0f;
- *      v[3] = 16.0f;
- *                                                                                             
- *      typedef thrust::device_vector<float>::iterator FloatIterator;
- *                                                                                             
- *      thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
- *                                                                                             
- *      *iter;   // returns 1.0f
- *      iter[0]; // returns 1.0f;
- *      iter[1]; // returns 2.0f;
- *      iter[2]; // returns 3.0f;
- *      iter[3]; // returns 4.0f;
- *                                                                                             
- *      // iter[4] is an out-of-bounds error
+ *    thrust::device_vector<float> v(4);
+ *    v[0] = 1.0f;
+ *    v[1] = 4.0f;
+ *    v[2] = 9.0f;
+ *    v[3] = 16.0f;
+ *                                                                                           
+ *    typedef thrust::device_vector<float>::iterator FloatIterator;
+ *                                                                                           
+ *    thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
+ *                                                                                           
+ *    *iter;   // returns 1.0f
+ *    iter[0]; // returns 1.0f;
+ *    iter[1]; // returns 2.0f;
+ *    iter[2]; // returns 3.0f;
+ *    iter[3]; // returns 4.0f;
+ *                                                                                           
+ *    // iter[4] is an out-of-bounds error
  *  }
  *  \endcode
  *
@@ -163,24 +163,24 @@ namespace thrust
  *  
  *  int main(void)
  *  {
- *      thrust::device_vector<float> v(4);
- *      v[0] = 1.0f;
- *      v[1] = 4.0f;
- *      v[2] = 9.0f;
- *      v[3] = 16.0f;
- *                                                                                             
- *      typedef thrust::device_vector<float>::iterator FloatIterator;
- *      
- *      // note: float result_type is specified explicitly
- *      thrust::transform_iterator<square_root, FloatIterator, float> iter(v.begin(), square_root());
- *                                                                                             
- *      *iter;   // returns 1.0f
- *      iter[0]; // returns 1.0f;
- *      iter[1]; // returns 2.0f;
- *      iter[2]; // returns 3.0f;
- *      iter[3]; // returns 4.0f;
- *                                                                                             
- *      // iter[4] is an out-of-bounds error
+ *    thrust::device_vector<float> v(4);
+ *    v[0] = 1.0f;
+ *    v[1] = 4.0f;
+ *    v[2] = 9.0f;
+ *    v[3] = 16.0f;
+ *                                                                                           
+ *    typedef thrust::device_vector<float>::iterator FloatIterator;
+ *    
+ *    // note: float result_type is specified explicitly
+ *    thrust::transform_iterator<square_root, FloatIterator, float> iter(v.begin(), square_root());
+ *                                                                                           
+ *    *iter;   // returns 1.0f
+ *    iter[0]; // returns 1.0f;
+ *    iter[1]; // returns 2.0f;
+ *    iter[2]; // returns 3.0f;
+ *    iter[3]; // returns 4.0f;
+ *                                                                                           
+ *    // iter[4] is an out-of-bounds error
  *  }
  *  \endcode
  *
@@ -321,7 +321,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
  *  \param it The \c Iterator pointing to the input range of the
  *            newly created \p transform_iterator.
  *  \param fun The \c AdaptableUnaryFunction used to transform the range pointed
- *             bo by \p it in the newly created \p transform_iterator.
+ *             to by \p it in the newly created \p transform_iterator.
  *  \return A new \p transform_iterator which transforms the range at
  *          \p it by \p fun.
  *  \see transform_iterator
