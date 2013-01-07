@@ -28,6 +28,7 @@
 #include <thrust/for_each.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
+#include <thrust/detail/util/blocking.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/function.h>
 
@@ -41,6 +42,9 @@ namespace cuda
 {
 namespace detail
 {
+namespace for_each_n_detail
+{
+
 
 template<typename RandomAccessIterator,
          typename Size,
@@ -83,6 +87,50 @@ struct for_each_n_closure
 }; // end for_each_n_closure
 
 
+template<typename Closure, typename Size>
+thrust::tuple<size_t,size_t> configure_launch(Size n)
+{
+  // calculate launch configuration
+  detail::launch_calculator<Closure> calculator;
+  
+  thrust::tuple<size_t, size_t, size_t> config = calculator.with_variable_block_size();
+  size_t max_blocks = thrust::get<0>(config);
+  size_t block_size = thrust::get<1>(config);
+  size_t num_blocks = thrust::min(max_blocks, thrust::detail::util::divide_ri<size_t>(n, block_size));
+
+  return thrust::make_tuple(num_blocks, block_size);
+}
+
+
+template<typename Size>
+bool use_big_closure(Size n, unsigned int little_grid_size)
+{
+  // use the big closure when n will not fit within an unsigned int
+  // or if incrementing an unsigned int by little_grid_size would overflow
+  // the counter
+  
+  Size threshold = std::numeric_limits<unsigned int>::max();
+
+  bool result = (sizeof(Size) > sizeof(unsigned int)) && (n > threshold);
+
+  if(!result)
+  {
+    // check if we'd overflow the little closure's counter
+    unsigned int little_n = static_cast<unsigned int>(n);
+
+    if((little_n - 1u) + little_grid_size < little_n)
+    {
+      result = true;
+    }
+  }
+
+  return result;
+}
+
+
+} // end for_each_n_detail
+
+
 template<typename System,
          typename RandomAccessIterator,
          typename Size,
@@ -99,48 +147,38 @@ RandomAccessIterator for_each_n(dispatchable<System> &,
   // ========================================================================
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-  if (n <= 0) return first;  //empty range
+  if(n <= 0) return first;  // empty range
   
-  if ((sizeof(Size) > sizeof(unsigned int))
-       && n > Size((std::numeric_limits<unsigned int>::max)())) // convert to Size to avoid a warning
+  // create two candidate closures to implement the for_each
+  // choose between them based on the whether we can fit n into a smaller integer
+  // and whether or not we'll overflow the closure's counter
+
+  typedef detail::blocked_thread_array Context;
+  typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context>         BigClosure;
+  typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction, Context> LittleClosure;
+
+  BigClosure    big_closure(first, n, f);
+  LittleClosure little_closure(first, static_cast<unsigned int>(n), f);
+
+  thrust::tuple<size_t, size_t> little_config = for_each_n_detail::configure_launch<LittleClosure>(n);
+
+  unsigned int little_grid_size = thrust::get<0>(little_config) * thrust::get<1>(little_config);
+
+  if(for_each_n_detail::use_big_closure(n, little_grid_size))
   {
-    // n is large, must use 64-bit indices
-    typedef detail::blocked_thread_array Context;
-    typedef for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context> Closure;
-    Closure closure(first, n, f);
-
-    // calculate launch configuration
-    detail::launch_calculator<Closure> calculator;
-
-    thrust::tuple<size_t, size_t, size_t> config = calculator.with_variable_block_size();
-    size_t max_blocks = thrust::get<0>(config);
-    size_t block_size = thrust::get<1>(config);
-    size_t num_blocks = thrust::min(max_blocks, (static_cast<size_t>(n) + (block_size - 1)) / block_size);
-
-    // launch closure
-    detail::launch_closure(closure, num_blocks, block_size);
+    // launch the big closure
+    thrust::tuple<size_t, size_t> big_config = for_each_n_detail::configure_launch<BigClosure>(n);
+    detail::launch_closure(big_closure, thrust::get<0>(big_config), thrust::get<1>(big_config));
   }
   else
   {
-    // n is small, 32-bit indices are sufficient
-    typedef detail::blocked_thread_array Context;
-    typedef for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction,Context> Closure;
-    Closure closure(first, static_cast<unsigned int>(n), f);
-    
-    // calculate launch configuration
-    detail::launch_calculator<Closure> calculator;
-
-    thrust::tuple<size_t, size_t, size_t> config = calculator.with_variable_block_size();
-    size_t max_blocks = thrust::get<0>(config);
-    size_t block_size = thrust::get<1>(config);
-    size_t num_blocks = thrust::min(max_blocks, (static_cast<size_t>(n) + (block_size - 1)) / block_size);
-
-    // launch closure
-    launch_closure(closure, num_blocks, block_size);
+    // launch the little closure
+    detail::launch_closure(little_closure, thrust::get<0>(little_config), thrust::get<1>(little_config));
   }
 
   return first + n;
 } 
+
 
 template<typename System,
          typename InputIterator,
@@ -152,6 +190,7 @@ template<typename System,
 {
   return cuda::detail::for_each_n(system, first, thrust::distance(first,last), f);
 } // end for_each()
+
 
 } // end namespace detail
 } // end namespace cuda
