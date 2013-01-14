@@ -269,9 +269,9 @@ template<typename InputIterator,
  * 
  *  thrust::maximum<int> binary_op;
  *
- *  thrust::inclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan
+ *  thrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan
  *
- *  // data is now {1, 1, 2, 2, 2, 4, 4, 4, 4, 8}
+ *  // data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/partial_sum.html
