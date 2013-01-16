@@ -137,6 +137,14 @@ template<typename T, typename Alloc = std::allocator<T> >
     __host__
     host_vector(const device_vector<OtherT,OtherAlloc> &v);
 
+    /*! Assign operator copies from an exemplar \p device_vector.
+     *  \param v The \p device_vector to copy.
+     */
+    template<typename OtherT, typename OtherAlloc>
+    __host__
+    host_vector &operator=(const device_vector<OtherT,OtherAlloc> &v)
+    { Parent::operator=(v); return *this; }
+
     /*! This constructor builds a \p host_vector from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.
