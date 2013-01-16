@@ -774,6 +774,8 @@ struct merge_subtiles_by_key_closure
       // write tiles to gmem
       unsigned int dst_offset = even_offset(oddeven_blockid) + rank1 + rank2;
       copy_n(context, s_keys, s_values, size1 + size2, keys_result + dst_offset, values_result + dst_offset);
+
+      context.barrier();
     } // end for i
   }
 
@@ -1004,7 +1006,7 @@ template<typename System,
     thrust::copy(system, keys_first + last_tile_offset, keys_first + n, keys_result + last_tile_offset);
     thrust::copy(system, values_first + last_tile_offset, values_first + n, values_result + last_tile_offset);
   } // end if
-} // end merge
+} // end merge_tiles_by_key()
 
 
 } // end stable_merge_sort_detail
