@@ -130,6 +130,14 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     __host__
     device_vector(const host_vector<OtherT,OtherAlloc> &v);
 
+    /*! Assign operator copies from an examplar \p host_vector.
+     *  \param v The \p host_vector to copy.
+     */
+    template<typename OtherT, typename OtherAlloc>
+    __host__
+    device_vector &operator=(const host_vector<OtherT,OtherAlloc> &v)
+    { Parent::operator=(v); return *this; }
+
     /*! This constructor builds a \p device_vector from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.
