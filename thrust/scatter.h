@@ -86,6 +86,12 @@ template<typename System,
  *  \tparam InputIterator2 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator2's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a>.
  *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[first,last)` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[map,map + (last - first))` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The expression `result[*i]` shall be valid for all iterators in the range `[map,map + (last - first))`.
+ *
  *  The following code snippet demonstrates how to use \p scatter to
  *  reorder a range.
  *
@@ -138,6 +144,14 @@ template<typename InputIterator1,
  *  \tparam InputIterator3 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator3's \c value_type must be convertible to \c bool.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a>.
  *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[first,last)` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[map,map + (last - first))` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[stencil,stencil + (last - first))` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The expression `result[*i]` shall be valid for all iterators `i` in the range `[map,map + (last - first))` for which the following condition holds: `*(stencil + i) != false`.
+ *
  *  \code
  *  #include <thrust/scatter.h>
  *  ...
@@ -184,6 +198,14 @@ template<typename InputIterator1,
  *  \tparam InputIterator3 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator3's \c value_type must be convertible to \c Predicate's \c argument_type.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a>.
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[first,last)` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[map,map + (last - first))` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The iterator `result + i` shall not refer to any element referenced by any iterator `j` in the range `[stencil,stencil + (last - first))` for all iterators `i` in the range `[map,map + (last - first))`.
+ *
+ *  \pre The expression `result[*i]` shall be valid for all iterators `i` in the range `[map,map + (last - first))` for which the following condition holds: `pred(*(stencil + i)) != false`.
  *
  *  \code
  *  #include <thrust/scatter.h>
