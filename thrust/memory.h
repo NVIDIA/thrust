@@ -31,6 +31,7 @@
 namespace thrust
 {
 
+
 /*! \addtogroup memory_management Memory Management
  *  \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
@@ -260,6 +261,80 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \ingroup memory_management
  *  \{
  */
+
+
+/*! \p This version of malloc allocates untyped uninitialized storage associated with a given system.
+ *
+ *  \param system The Thrust system with which to associate the storage.
+ *  \param n The number of bytes of storage to allocate.
+ *  \return If allocation succeeds, a pointer to the allocated storage; a null pointer otherwise.
+ *          The pointer must be deallocated with \p thrust::free.
+ *
+ *  \pre \p System must be publically derived from <code>thrust::dispatchable<System></code>.
+ *
+ *  The following code snippet demonstrates how to use \p malloc to allocate a range of memory
+ *  associated with Thrust's device system.
+ *
+ *  \code
+ *  #include <thrust/memory.h>
+ *  ...
+ *  // allocate some memory with thrust::malloc
+ *  const int N = 100;
+ *  thrust::device_system_tag device_sys;
+ *  thrust::pointer<void,thrust::device_space_tag> void_ptr = thrust::malloc(device_sys, N);
+ *
+ *  // mainpulate memory
+ *  ...
+ *
+ *  // deallocate with thrust::free
+ *  thrust::free(device_sys, void_ptr);
+ *  \endcode
+ *
+ *  \see free
+ *  \see device_malloc
+ */
+template<typename System>
+pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
+
+
+/*! \p This version of malloc allocates typed uninitialized storage associated with a given system.
+ *
+ *  \param system The Thrust system with which to associate the storage.
+ *  \param n The number of elements of type \c T which the storage should accomodate.
+ *  \return If allocation succeeds, a pointer to an allocation large enough to accomodate \c n
+ *          elements of type \c T; a null pointer otherwise.
+ *          The pointer must be deallocated with \p thrust::free.
+ *
+ *  \pre \p System must be publically derived from <code>thrust::dispatchable<System></code>.
+ *
+ *  The following code snippet demonstrates how to use \p malloc to allocate a range of memory
+ *  to accomodate integers associated with Thrust's device system.
+ *
+ *  \code
+ *  #include <thrust/memory.h>
+ *  ...
+ *  // allocate storage for 100 ints with thrust::malloc
+ *  const int N = 100;
+ *  thrust::device_system_tag device_sys;
+ *  thrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);
+ *
+ *  // mainpulate memory
+ *  ...
+ *
+ *  // deallocate with with thrust::free
+ *  thrust::free(device_sys, ptr);
+ *  \endcode
+ *
+ *  \see free
+ *  \see device_malloc
+ */
+template<typename T, typename System>
+pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
+
+
+template<typename System, typename Pointer>
+void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr);
+
 
 /*! \p raw_pointer_cast creates a "raw" pointer from a pointer-like type,
  *  simply returning the wrapped pointer, should it exist.
