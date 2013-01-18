@@ -288,7 +288,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  thrust::device_system_tag device_sys;
  *  thrust::pointer<void,thrust::device_space_tag> void_ptr = thrust::malloc(device_sys, N);
  *
- *  // mainpulate memory
+ *  // manipulate memory
  *  ...
  *
  *  // deallocate void_ptr with thrust::free
@@ -323,7 +323,7 @@ pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &sys
  *  thrust::device_system_tag device_sys;
  *  thrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);
  *
- *  // mainpulate memory
+ *  // manipulate memory
  *  ...
  *
  *  // deallocate ptr with thrust::free
@@ -335,6 +335,55 @@ pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &sys
  */
 template<typename T, typename System>
 pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
+
+
+/*! \p get_temporary_buffer returns a pointer to storage associated with a given Thrust system sufficient to store up to
+ *  \p n objects of type \c T. If not enough storage is available to accomodate \p n objects, an implementation may return
+ *  a smaller buffer. The number of objects the returned buffer can accomodate is also returned.
+ *
+ *  Thrust uses \p get_temporary_buffer internally when allocating temporary storage required by algorithm implementations.
+ *
+ *  The storage allocated with \p get_temporary_buffer must be returned to the system with \p return_temporary_buffer.
+ *
+ *  \param system The Thrust system with which to associate the storage.
+ *  \param n The requested number of objects of type \c T the storage should accomodate.
+ *  \return A pair \c p such that <tt>p.first</tt> is a pointer to the allocated storage and <tt>p.second</tt> is the number of
+ *          contiguous objects of type \c T that the storage can accomodate. If no storage can be allocated, <tt>p.first</tt> if
+ *          no storage can be obtained. The storage must be returned to the system using \p return_temporary_buffer.
+ *
+ *  The following code snippet demonstrates how to use \p get_temporary_buffer to allocate a range of memory
+ *  to accomodate integers associated with Thrust's device system.
+ *
+ *  \code
+ *  #include <thrust/memory.h>
+ *  ...
+ *  // allocate storage for 100 ints with thrust::get_temporary_buffer
+ *  const int N = 100;
+ *
+ *  typedef thrust::pair<
+ *    thrust::pointer<int,thrust::device_system_tag>,
+ *    std::ptrdiff_t
+ *  > ptr_and_size_t;
+ *
+ *  thrust::device_system_tag device_sys;
+ *  ptr_and_size_t ptr_and_size = thrust::get_temporary_buffer<int>(device_sys, N);
+ *
+ *  // manipulate up to 100 ints
+ *  for(int i = 0; i < ptr_and_size.second; ++i)
+ *  {
+ *    *ptr_and_size.first = i;
+ *  }
+ *
+ *  // deallocate storage with thrust::return_temporary_buffer
+ *  thrust::return_temporary_buffer(device_sys, ptr_and_size.first);
+ *  \endcode
+ *
+ *  \see malloc
+ *  \see return_temporary_buffer
+ */
+template<typename T, typename System>
+thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
+get_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, typename thrust::pointer<T,System>::difference_type n);
 
 
 /*! \} allocation_functions
@@ -354,7 +403,7 @@ pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system
  *
  *  \pre \p ptr shall have been returned by a previous call to <tt>thrust::malloc(system, n)</tt> or <tt>thrust::malloc<T>(system, n)</tt> for some type \c T.
  *
- *  The following code snipped demonstrates how to use \p free to deallocate a range of memory
+ *  The following code snippet demonstrates how to use \p free to deallocate a range of memory
  *  previously allocated with \p thrust::malloc.
  *
  *  \code
@@ -374,6 +423,49 @@ pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system
  */
 template<typename System, typename Pointer>
 void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr);
+
+
+/*! \p return_temporary_buffer deallocates storage associated with a given Thrust system previously allocated by \p get_temporary_buffer.
+ *
+ *  Thrust uses \p return_temporary_buffer internally when deallocating temporary storage required by algorithm implementations.
+ *
+ *  \param system The Thrust system with which the storage is associated.
+ *  \param p A pointer previously returned by \p thrust::get_temporary_buffer. If \p ptr is null, \p return_temporary_buffer does nothing.
+ *
+ *  \pre \p p shall have been previously allocated by \p thrust::get_temporary_buffer.
+ *
+ *  The following code snippet demonstrates how to use \p return_temporary_buffer to deallocate a range of memory
+ *  previously allocated by \p get_temporary_buffer.
+ *
+ *  \code
+ *  #include <thrust/memory.h>
+ *  ...
+ *  // allocate storage for 100 ints with thrust::get_temporary_buffer
+ *  const int N = 100;
+ *
+ *  typedef thrust::pair<
+ *    thrust::pointer<int,thrust::device_system_tag>,
+ *    std::ptrdiff_t
+ *  > ptr_and_size_t;
+ *
+ *  thrust::device_system_tag device_sys;
+ *  ptr_and_size_t ptr_and_size = thrust::get_temporary_buffer<int>(device_sys, N);
+ *
+ *  // manipulate up to 100 ints
+ *  for(int i = 0; i < ptr_and_size.second; ++i)
+ *  {
+ *    *ptr_and_size.first = i;
+ *  }
+ *
+ *  // deallocate storage with thrust::return_temporary_buffer
+ *  thrust::return_temporary_buffer(device_sys, ptr_and_size.first);
+ *  \endcode
+ *
+ *  \see free
+ *  \see get_temporary_buffer
+ */
+template<typename System, typename Pointer>
+void return_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, Pointer p);
 
 
 /*! \} deallocation_functions
