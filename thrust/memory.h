@@ -263,7 +263,12 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  */
 
 
-/*! \p This version of malloc allocates untyped uninitialized storage associated with a given system.
+/*! \addtogroup allocation_functions
+ *  \{
+ */
+
+
+/*! This version of \p malloc allocates untyped uninitialized storage associated with a given system.
  *
  *  \param system The Thrust system with which to associate the storage.
  *  \param n The number of bytes of storage to allocate.
@@ -286,7 +291,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  // mainpulate memory
  *  ...
  *
- *  // deallocate with thrust::free
+ *  // deallocate void_ptr with thrust::free
  *  thrust::free(device_sys, void_ptr);
  *  \endcode
  *
@@ -297,7 +302,7 @@ template<typename System>
 pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
 
 
-/*! \p This version of malloc allocates typed uninitialized storage associated with a given system.
+/*! This version of \p malloc allocates typed uninitialized storage associated with a given system.
  *
  *  \param system The Thrust system with which to associate the storage.
  *  \param n The number of elements of type \c T which the storage should accomodate.
@@ -321,7 +326,7 @@ pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &sys
  *  // mainpulate memory
  *  ...
  *
- *  // deallocate with with thrust::free
+ *  // deallocate ptr with thrust::free
  *  thrust::free(device_sys, ptr);
  *  \endcode
  *
@@ -332,8 +337,47 @@ template<typename T, typename System>
 pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
 
 
+/*! \} allocation_functions
+ */
+
+
+/*! \addtogroup deallocation_functions
+ *  \{
+ */
+
+
+/*! \p free deallocates the storage previously allocated by \p thrust::malloc.
+ *
+ *  \param system The Thrust system with which the storage is associated.
+ *  \param ptr A pointer previously returned by \p thrust::malloc. If \p ptr is null, \p free
+ *         does nothing.
+ *
+ *  \pre \p ptr shall have been returned by a previous call to <tt>thrust::malloc(system, n)</tt> or <tt>thrust::malloc<T>(system, n)</tt> for some type \c T.
+ *
+ *  The following code snipped demonstrates how to use \p free to deallocate a range of memory
+ *  previously allocated with \p thrust::malloc.
+ *
+ *  \code
+ *  #include <thrust/memory.h>
+ *  ...
+ *  // allocate storage for 100 ints with thrust::malloc
+ *  const int N = 100;
+ *  thrust::device_system_tag device_sys;
+ *  thrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);
+ *
+ *  // mainpulate memory
+ *  ...
+ *
+ *  // deallocate ptr with thrust::free
+ *  thrust::free(device_sys, ptr);
+ *  \endcode
+ */
 template<typename System, typename Pointer>
 void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr);
+
+
+/*! \} deallocation_functions
+ */
 
 
 /*! \p raw_pointer_cast creates a "raw" pointer from a pointer-like type,
@@ -347,6 +391,7 @@ template<typename Pointer>
 __host__ __device__
 inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
   raw_pointer_cast(const Pointer &ptr);
+
 
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
  *  simply returning the underlying reference, should it exist.
@@ -364,6 +409,7 @@ __host__ __device__
 inline typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
+
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
  *  simply returning the underlying reference, should it exist.
  *
@@ -379,6 +425,7 @@ template<typename T>
 __host__ __device__
 inline typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
+
 
 /*! \}
  */
