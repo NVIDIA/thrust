@@ -63,7 +63,7 @@ int main(void)
                              "  On the morrow he will leave me, as my hopes have flown before.'\n"
                              "  Then the bird said, `Nevermore.'\n";
 
-    std::cout << "Text sample:" << std::endl;;
+    std::cout << "Text sample:" << std::endl;
     std::cout << raw_input << std::endl;
     
     // transfer to device
