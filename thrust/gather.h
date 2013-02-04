@@ -169,7 +169,7 @@ template<typename InputIterator,
  *                    d_stencil.begin(),
  *                    d_values.begin(),
  *                    d_output.begin());
- *  // d_output is now {0, 2, 4, 6, 8, 7, 7, 7, 7, 7}
+ *  // d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}
  *  \endcode
  */
 template<typename InputIterator1,
