@@ -28,6 +28,64 @@ namespace thrust
 {
 
 
+/*! \addtogroup modifying
+ *  \ingroup transformations
+ *  \{
+ */
+
+
+/*! \p for_each applies the function object \p f to each element
+ *  in the range <tt>[first, last)</tt>; \p f's return value, if any,
+ *  is ignored. Unlike the C++ Standard Template Library function
+ *  <tt>std::for_each</tt>, this version offers no guarantee on
+ *  order of execution. For this reason, this version of \p for_each
+ *  does not return a copy of the function object.
+ *
+ *  The algorithm's execution is parallelized as determined by \p system.
+ *
+ *  \param system The execution policy to use for parallelization.
+ *  \param first The beginning of the sequence.
+ *  \param last The end of the sequence.
+ *  \param f The function object to apply to the range <tt>[first, last)</tt>.
+ *  \return last
+ *
+ *  \tparam System A Thrust backend system.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
+ *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *          and \p UnaryFunction does not apply any non-constant operation through its argument.
+ *
+ *  The following code snippet demonstrates how to use \p for_each to print the elements
+ *  of a \p std::device_vector using the \p thrust::device parallelization policy:
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <stdio.h>
+ *
+ *  struct printf_functor
+ *  {
+ *    __host__ __device__
+ *    void operator()(int x)
+ *    {
+ *      // note that using printf in a __device__ function requires
+ *      // code compiled for a GPU with compute capability 2.0 or
+ *      // higher (nvcc --arch=sm_20)
+ *      printf("%d\n");
+ *    }
+ *  };
+ *  ...
+ *  thrust::device_vector<int> d_vec(3);
+ *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
+ *
+ *  thrust::for_each(thrust::device, d_vec.begin(), d_vec.end(), printf_functor());
+ *
+ *  // 0 1 2 is printed to standard output in some unspecified order
+ *  \endcode
+ *
+ *  \see for_each_n
+ *  \see http://www.sgi.com/tech/stl/for_each.html
+ */
 template<typename System,
          typename InputIterator,
          typename UnaryFunction>
@@ -37,6 +95,58 @@ InputIterator for_each(const thrust::detail::dispatchable_base<System> &system,
                        UnaryFunction f);
 
 
+/*! \p for_each_n applies the function object \p f to each element
+ *  in the range <tt>[first, first + n)</tt>; \p f's return value, if any,
+ *  is ignored. Unlike the C++ Standard Template Library function
+ *  <tt>std::for_each</tt>, this version offers no guarantee on
+ *  order of execution.
+ *
+ *  The algorithm's execution is parallelized as determined by \p system.
+ *
+ *  \param system The execution policy to use for parallelization.
+ *  \param first The beginning of the sequence.
+ *  \param n The size of the input sequence.
+ *  \param f The function object to apply to the range <tt>[first, first + n)</tt>.
+ *  \return <tt>first + n</tt>
+ *
+ *  \tparam System A Thrust backend system.
+ *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
+ *  \tparam Size is an integral type.
+ *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *          and \p UnaryFunction does not apply any non-constant operation through its argument.
+ *
+ *  The following code snippet demonstrates how to use \p for_each_n to print the elements
+ *  of a \p device_vector using the \p thrust::device parallelization policy.
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <stdio.h>
+ *
+ *  struct printf_functor
+ *  {
+ *    __host__ __device__
+ *    void operator()(int x)
+ *    {
+ *      // note that using printf in a __device__ function requires
+ *      // code compiled for a GPU with compute capability 2.0 or
+ *      // higher (nvcc --arch=sm_20)
+ *      printf("%d\n");
+ *    }
+ *  };
+ *  ...
+ *  thrust::device_vector<int> d_vec(3);
+ *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
+ *
+ *  thrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor());
+ *
+ *  // 0 1 2 is printed to standard output in some unspecified order
+ *  \endcode
+ *
+ *  \see for_each
+ *  \see http://www.sgi.com/tech/stl/for_each.html
+ */
 template<typename System,
          typename InputIterator,
          typename Size,
@@ -45,12 +155,6 @@ InputIterator for_each_n(const thrust::detail::dispatchable_base<System> &system
                          InputIterator first,
                          Size n,
                          UnaryFunction f);
-
-
-/*! \addtogroup modifying
- *  \ingroup transformations
- *  \{
- */
 
 /*! \p for_each applies the function object \p f to each element
  *  in the range <tt>[first, last)</tt>; \p f's return value, if any,
