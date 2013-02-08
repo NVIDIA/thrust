@@ -60,7 +60,7 @@ namespace thrust
  *  \tparam EqualityComparable must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
  *
  *  The following code snippet demonstrates how to use \p count to 
- *  count the number of instances in a range of a value of interest using the \p thrust::device parallelization policy:
+ *  count the number of instances in a range of a value of interest using the \p thrust::device execution policy:
  *
  *  \code
  *  #include <thrust/count.h>
@@ -138,7 +138,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p count to
- *  count the number of odd numbers in a range using the \p thrust::device parallelization policy:
+ *  count the number of odd numbers in a range using the \p thrust::device execution policy:
  *
  *  \code
  *  #include <thrust/count.h>
