@@ -31,19 +31,19 @@ namespace detail
 namespace generic
 {
 
-template <typename System, class InputIterator, class OutputIterator>
-OutputIterator adjacent_difference(thrust::dispatchable<System> &s,
+template <typename DerivedPolicy, class InputIterator, class OutputIterator>
+OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result)
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   thrust::minus<InputType> binary_op;
 
-  return thrust::adjacent_difference(s, first, last, result, binary_op);
+  return thrust::adjacent_difference(exec, first, last, result, binary_op);
 } // end adjacent_difference()
 
-template <typename System, class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, class InputIterator, class OutputIterator, class BinaryFunction>
+OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
@@ -60,10 +60,10 @@ OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
     // an in-place operation is requested, copy the input and call the entry point
     // XXX a special-purpose kernel would be faster here since
     // only block boundaries need to be copied
-    thrust::detail::temporary_array<InputType, System> input_copy(system, first, last);
+    thrust::detail::temporary_array<InputType, DerivedPolicy> input_copy(exec, first, last);
     
     *result = *first;
-    thrust::transform(system, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+    thrust::transform(exec, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
   }
 
   return result + (last - first);

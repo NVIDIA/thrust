@@ -65,10 +65,10 @@ namespace dispatch
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 overlapped_copy(thrust::system::cpp::detail::dispatchable<System> &,
+  RandomAccessIterator2 overlapped_copy(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &,
                                         RandomAccessIterator1 first,
                                         RandomAccessIterator1 last,
                                         RandomAccessIterator2 result)
@@ -91,10 +91,10 @@ template<typename System,
 } // end overlapped_copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 overlapped_copy(thrust::dispatchable<System> &system,
+  RandomAccessIterator2 overlapped_copy(thrust::execution_policy<DerivedPolicy> &exec,
                                         RandomAccessIterator1 first,
                                         RandomAccessIterator1 last,
                                         RandomAccessIterator2 result)
@@ -102,8 +102,8 @@ template<typename System,
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
   // make a temporary copy of [first,last), and copy into it first
-  thrust::detail::temporary_array<value_type, System> temp(system, first, last);
-  return thrust::copy(system, temp.begin(), temp.end(), result);
+  thrust::detail::temporary_array<value_type, DerivedPolicy> temp(exec, first, last);
+  return thrust::copy(exec, temp.begin(), temp.end(), result);
 } // end overlapped_copy()
 
 } // end dispatch

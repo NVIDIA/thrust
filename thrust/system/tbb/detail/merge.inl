@@ -219,12 +219,12 @@ struct body
 } // end namespace merge_by_key_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(dispatchable<System> &system,
+OutputIterator merge(execution_policy<DerivedPolicy> &exec,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -244,7 +244,7 @@ OutputIterator merge(dispatchable<System> &system,
   return result;
 } // end merge()
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
@@ -253,7 +253,7 @@ template <typename System,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(dispatchable<System> &system,
+  merge_by_key(execution_policy<DerivedPolicy> &exec,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,

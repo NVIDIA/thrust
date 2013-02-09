@@ -29,25 +29,25 @@ namespace thrust
 {
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void fill(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
   using thrust::system::detail::generic::fill;
-  return fill(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+  return fill(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 } // end fill()
 
 
-template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value)
 {
   using thrust::system::detail::generic::fill_n;
-  return fill_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, value);
+  return fill_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, value);
 } // end fill_n()
 
 

@@ -29,10 +29,10 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(dispatchable<System> &,
+  void stable_sort(execution_policy<DerivedPolicy> &,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
@@ -40,11 +40,11 @@ template<typename System,
   thrust::system::detail::internal::scalar::stable_sort(first, last, comp);
 }
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(dispatchable<System> &,
+  void stable_sort_by_key(execution_policy<DerivedPolicy> &,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,

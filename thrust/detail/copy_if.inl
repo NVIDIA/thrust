@@ -25,27 +25,27 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
                          Predicate pred)
 {
   using thrust::system::detail::generic::copy_if;
-  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, pred);
+  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, pred);
 } // end copy_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
@@ -53,7 +53,7 @@ template<typename System,
                          Predicate pred)
 {
   using thrust::system::detail::generic::copy_if;
-  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, result, pred);
+  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, result, pred);
 } // end copy_if()
 
 

@@ -33,30 +33,30 @@ namespace detail
 
 // this awkward sequence of definitions arise
 // from the desire both for tag to derive
-// from dispatchable and for dispatchable
-// to convert to tag (when dispatchable is not
+// from execution_policy and for execution_policy
+// to convert to tag (when execution_policy is not
 // an ancestor of tag)
 
 // forward declaration of tag
 struct tag;
 
-// forward declaration of dispatchable
-template<typename> struct dispatchable;
+// forward declaration of execution_policy
+template<typename> struct execution_policy;
 
-// specialize dispatchable for tag
+// specialize execution_policy for tag
 template<>
-  struct dispatchable<tag>
-    : thrust::system::cpp::detail::dispatchable<tag>
+  struct execution_policy<tag>
+    : thrust::system::cpp::detail::execution_policy<tag>
 {};
 
 // tag's definition comes before the
-// generic definition of dispatchable
-struct tag : dispatchable<tag> {};
+// generic definition of execution_policy
+struct tag : execution_policy<tag> {};
 
 // allow conversion to tag when it is not a successor
 template<typename Derived>
-  struct dispatchable
-    : thrust::system::cpp::detail::dispatchable<Derived>
+  struct execution_policy
+    : thrust::system::cpp::detail::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -67,8 +67,8 @@ template<typename Derived>
 
 } // end detail
 
-// alias dispatchable and tag here
-using thrust::system::tbb::detail::dispatchable;
+// alias execution_policy and tag here
+using thrust::system::tbb::detail::execution_policy;
 using thrust::system::tbb::detail::tag;
 
 } // end tbb
@@ -78,7 +78,7 @@ using thrust::system::tbb::detail::tag;
 namespace tbb
 {
 
-using thrust::system::tbb::dispatchable;
+using thrust::system::tbb::execution_policy;
 using thrust::system::tbb::tag;
 
 } // end tbb

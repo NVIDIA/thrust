@@ -31,26 +31,26 @@ namespace thrust
 {
 
 
-template<typename System, typename InputIterator1, typename InputIterator2>
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
+thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2)
 {
   using thrust::system::detail::generic::mismatch;
-  return mismatch(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2);
+  return mismatch(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2);
 } // end mismatch()
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred)
 {
   using thrust::system::detail::generic::mismatch;
-  return mismatch(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, pred);
+  return mismatch(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, pred);
 } // end mismatch()
 
 

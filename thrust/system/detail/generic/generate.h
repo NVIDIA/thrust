@@ -29,19 +29,19 @@ namespace detail
 namespace generic
 {
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Generator>
-  void generate(thrust::dispatchable<System> &system,
+  void generate(thrust::execution_policy<ExecutionPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename OutputIterator,
          typename Size,
          typename Generator>
-  OutputIterator generate_n(thrust::dispatchable<System> &system,
+  OutputIterator generate_n(thrust::execution_policy<ExecutionPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen);

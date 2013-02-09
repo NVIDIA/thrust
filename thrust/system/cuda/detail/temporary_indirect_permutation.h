@@ -31,30 +31,30 @@ namespace detail
 {
 
 
-template<typename System, typename RandomAccessIterator>
+template<typename DerivedPolicy, typename RandomAccessIterator>
   struct temporary_indirect_permutation
 {
   private:
     typedef unsigned int size_type;
-    typedef thrust::detail::temporary_array<size_type, System> array_type;
+    typedef thrust::detail::temporary_array<size_type, DerivedPolicy> array_type;
 
   public:
-    temporary_indirect_permutation(System &system, RandomAccessIterator first, RandomAccessIterator last)
-      : m_system(system),
+    temporary_indirect_permutation(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last)
+      : m_exec(exec),
         m_src_first(first),
         m_src_last(last),
-        m_permutation(0, m_system, last - first)
+        m_permutation(0, m_exec, last - first)
     {
       // generate sorted index sequence
-      thrust::sequence(system, m_permutation.begin(), m_permutation.end());
+      thrust::sequence(exec, m_permutation.begin(), m_permutation.end());
     }
 
     ~temporary_indirect_permutation()
     {
       // permute the source array using the indices
       typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
-      thrust::detail::temporary_array<value_type, System> temp(m_system, m_src_first, m_src_last);
-      thrust::gather(m_system, m_permutation.begin(), m_permutation.end(), temp.begin(), m_src_first);
+      thrust::detail::temporary_array<value_type, DerivedPolicy> temp(m_exec, m_src_first, m_src_last);
+      thrust::gather(m_exec, m_permutation.begin(), m_permutation.end(), temp.begin(), m_src_first);
     }
 
     typedef typename array_type::iterator iterator;
@@ -70,17 +70,17 @@ template<typename System, typename RandomAccessIterator>
     }
 
   private:
-    System &m_system;
+    DerivedPolicy &m_exec;
     RandomAccessIterator m_src_first, m_src_last;
-    thrust::detail::temporary_array<size_type, System> m_permutation;
+    thrust::detail::temporary_array<size_type, DerivedPolicy> m_permutation;
 };
 
 
-template<typename System, typename RandomAccessIterator>
-  struct iterator_range_with_system
+template<typename DerivedPolicy, typename RandomAccessIterator>
+  struct iterator_range_with_execution_policy
 {
-  iterator_range_with_system(System &system, RandomAccessIterator first, RandomAccessIterator last)
-    : m_system(system), m_first(first), m_last(last)
+  iterator_range_with_execution_policy(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last)
+    : m_exec(exec), m_first(first), m_last(last)
   {}
 
   typedef RandomAccessIterator iterator;
@@ -95,46 +95,46 @@ template<typename System, typename RandomAccessIterator>
     return m_last;
   }
 
-  System &system()
+  DerivedPolicy &exec()
   {
-    return m_system;
+    return m_exec;
   }
 
-  System &m_system;
+  DerivedPolicy &m_exec;
   RandomAccessIterator m_first, m_last;
 };
 
 
-template<typename Condition, typename System, typename RandomAccessIterator>
+template<typename Condition, typename DerivedPolicy, typename RandomAccessIterator>
   struct conditional_temporary_indirect_permutation
     : thrust::detail::eval_if<
         Condition::value,
-        thrust::detail::identity_<temporary_indirect_permutation<System, RandomAccessIterator> >,
-        thrust::detail::identity_<iterator_range_with_system<System, RandomAccessIterator> >
+        thrust::detail::identity_<temporary_indirect_permutation<DerivedPolicy, RandomAccessIterator> >,
+        thrust::detail::identity_<iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> >
       >::type
 {
   typedef typename thrust::detail::eval_if<
     Condition::value,
-    thrust::detail::identity_<temporary_indirect_permutation<System, RandomAccessIterator> >,
-    thrust::detail::identity_<iterator_range_with_system<System, RandomAccessIterator> >
+    thrust::detail::identity_<temporary_indirect_permutation<DerivedPolicy, RandomAccessIterator> >,
+    thrust::detail::identity_<iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> >
   >::type super_t;
 
-  conditional_temporary_indirect_permutation(System &system, RandomAccessIterator first, RandomAccessIterator last)
-    : super_t(system, first, last)
+  conditional_temporary_indirect_permutation(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last)
+    : super_t(exec, first, last)
   {}
 };
 
 
-template<typename System, typename RandomAccessIterator, typename Compare>
+template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
   struct temporary_indirect_ordering
-    : temporary_indirect_permutation<System,RandomAccessIterator>
+    : temporary_indirect_permutation<DerivedPolicy,RandomAccessIterator>
 {
   private:
-    typedef temporary_indirect_permutation<System,RandomAccessIterator> super_t;
+    typedef temporary_indirect_permutation<DerivedPolicy,RandomAccessIterator> super_t;
 
   public:
-    temporary_indirect_ordering(System &system, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
-      : super_t(system, first, last),
+    temporary_indirect_ordering(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+      : super_t(exec, first, last),
         m_comp(first, comp)
     {}
 
@@ -169,14 +169,14 @@ template<typename System, typename RandomAccessIterator, typename Compare>
 };
 
 
-template<typename System, typename RandomAccessIterator, typename Compare>
-  struct iterator_range_with_system_and_compare
-    : iterator_range_with_system<System, RandomAccessIterator>
+template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
+  struct iterator_range_with_execution_policy_and_compare
+    : iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator>
 {
-  typedef iterator_range_with_system<System, RandomAccessIterator> super_t;
+  typedef iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> super_t;
 
-  iterator_range_with_system_and_compare(System &system, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
-    : super_t(system, first, last), m_comp(comp)
+  iterator_range_with_execution_policy_and_compare(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+    : super_t(exec, first, last), m_comp(comp)
   {}
 
   typedef Compare compare;
@@ -190,22 +190,22 @@ template<typename System, typename RandomAccessIterator, typename Compare>
 };
 
 
-template<typename Condition, typename System, typename RandomAccessIterator, typename Compare>
+template<typename Condition, typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
   struct conditional_temporary_indirect_ordering
     : thrust::detail::eval_if<
         Condition::value,
-        thrust::detail::identity_<temporary_indirect_ordering<System, RandomAccessIterator, Compare> >,
-        thrust::detail::identity_<iterator_range_with_system_and_compare<System, RandomAccessIterator, Compare> >
+        thrust::detail::identity_<temporary_indirect_ordering<DerivedPolicy, RandomAccessIterator, Compare> >,
+        thrust::detail::identity_<iterator_range_with_execution_policy_and_compare<DerivedPolicy, RandomAccessIterator, Compare> >
       >::type
 {
   typedef typename thrust::detail::eval_if<
     Condition::value,
-    thrust::detail::identity_<temporary_indirect_ordering<System, RandomAccessIterator, Compare> >,
-    thrust::detail::identity_<iterator_range_with_system_and_compare<System, RandomAccessIterator, Compare> >
+    thrust::detail::identity_<temporary_indirect_ordering<DerivedPolicy, RandomAccessIterator, Compare> >,
+    thrust::detail::identity_<iterator_range_with_execution_policy_and_compare<DerivedPolicy, RandomAccessIterator, Compare> >
   >::type super_t;
 
-  conditional_temporary_indirect_ordering(System &system, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
-    : super_t(system, first, last, comp)
+  conditional_temporary_indirect_ordering(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+    : super_t(exec, first, last, comp)
   {}
 };
 

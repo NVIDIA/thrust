@@ -36,8 +36,8 @@ namespace detail
 
 // note that malloc returns a raw pointer to avoid
 // depending on the heavyweight thrust/system/cuda/memory.h header
-template<typename System>
-  void *malloc(dispatchable<System> &, std::size_t n)
+template<typename DerivedPolicy>
+  void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 {
   void *result = 0;
 
@@ -52,8 +52,8 @@ template<typename System>
 } // end malloc()
 
 
-template<typename System, typename Pointer>
-  void free(dispatchable<System> &, Pointer ptr)
+template<typename DerivedPolicy, typename Pointer>
+  void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 {
   cudaError_t error = cudaFree(thrust::raw_pointer_cast(ptr));
 

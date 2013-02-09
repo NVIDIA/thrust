@@ -30,12 +30,12 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(dispatchable<System> &,
+    unique_by_key(execution_policy<DerivedPolicy> &,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
@@ -45,14 +45,14 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(dispatchable<System> &,
+    unique_by_key_copy(execution_policy<DerivedPolicy> &,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,

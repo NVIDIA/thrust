@@ -65,11 +65,11 @@ template<typename Size, typename RandomAccessIterator, typename UnaryFunction>
 } // end for_each_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(dispatchable<System> &,
+RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -81,10 +81,10 @@ RandomAccessIterator for_each_n(dispatchable<System> &,
 } // end for_each_n 
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename UnaryFunction>
-  RandomAccessIterator for_each(dispatchable<System> &s,
+  RandomAccessIterator for_each(execution_policy<DerivedPolicy> &s,
                                 RandomAccessIterator first,
                                 RandomAccessIterator last,
                                 UnaryFunction f)

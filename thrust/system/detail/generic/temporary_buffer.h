@@ -31,13 +31,13 @@ namespace generic
 {
 
 
-template<typename T, typename System>
-  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(thrust::dispatchable<System> &s, typename thrust::pointer<T,System>::difference_type n);
+template<typename T, typename DerivedPolicy>
+  thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
+    get_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
 
 
-template<typename System, typename Pointer>
-  void return_temporary_buffer(thrust::dispatchable<System> &s, Pointer p);
+template<typename DerivedPolicy, typename Pointer>
+  void return_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, Pointer p);
 
 
 } // end generic

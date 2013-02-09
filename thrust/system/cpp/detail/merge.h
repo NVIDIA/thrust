@@ -30,12 +30,12 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(dispatchable<System> &,
+OutputIterator merge(execution_policy<DerivedPolicy> &,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -46,7 +46,7 @@ OutputIterator merge(dispatchable<System> &,
   return thrust::system::detail::internal::scalar::merge(first1, last1, first2, last2, result, comp);
 }
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
@@ -55,7 +55,7 @@ template <typename System,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(dispatchable<System> &,
+  merge_by_key(execution_policy<DerivedPolicy> &,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,

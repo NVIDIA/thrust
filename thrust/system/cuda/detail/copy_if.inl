@@ -153,12 +153,12 @@ struct copy_if_intervals_closure
 }; // copy_if_intervals_closure
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(dispatchable<System> &system,
+   OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -172,12 +172,12 @@ template<typename System,
       return output;
 
   typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
-  typedef thrust::detail::temporary_array<IndexType, System>                 IndexArray;
+  typedef thrust::detail::temporary_array<IndexType, DerivedPolicy>          IndexArray;
 
   Decomposition decomp = default_decomposition(last - first);
 
   // storage for per-block predicate counts
-  IndexArray block_results(system, decomp.size());
+  IndexArray block_results(exec, decomp.size());
 
   // convert stencil into an iterator that produces integral values in {0,1}
   typedef typename thrust::detail::predicate_to_integral<Predicate,IndexType>              PredicateToIndexTransform;
@@ -186,10 +186,10 @@ template<typename System,
   PredicateToIndexIterator predicate_stencil(stencil, PredicateToIndexTransform(pred));
 
   // compute number of true values in each interval
-  thrust::system::cuda::detail::reduce_intervals(system, predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
+  thrust::system::cuda::detail::reduce_intervals(exec, predicate_stencil, block_results.begin(), thrust::plus<IndexType>(), decomp);
 
   // scan the partial sums
-  thrust::inclusive_scan(system, block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
+  thrust::inclusive_scan(exec, block_results.begin(), block_results.end(), block_results.begin(), thrust::plus<IndexType>());
 
   // copy values to output
   const unsigned int ThreadsPerBlock = 256;

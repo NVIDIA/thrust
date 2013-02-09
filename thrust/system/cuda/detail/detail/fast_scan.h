@@ -34,22 +34,22 @@ namespace detail
 namespace fast_scan
 {
 
-template <typename System,
+template <typename ExecutionPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator inclusive_scan(dispatchable<System> &system,
+OutputIterator inclusive_scan(execution_policy<ExecutionPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               BinaryFunction binary_op);
 
-template <typename System,
+template <typename ExecutionPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename T,
           typename BinaryFunction>
-OutputIterator exclusive_scan(dispatchable<System> &system,
+OutputIterator exclusive_scan(execution_policy<ExecutionPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator output,

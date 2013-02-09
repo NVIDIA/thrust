@@ -33,13 +33,13 @@ namespace detail
 namespace generic
 {
 
-template <typename System, class InputIterator, class OutputIterator>
-OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, class InputIterator, class OutputIterator>
+OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result);
 
-template <typename System, class InputIterator, class OutputIterator, class BinaryFunction>
-OutputIterator adjacent_difference(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, class InputIterator, class OutputIterator, class BinaryFunction>
+OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);

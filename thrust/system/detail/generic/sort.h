@@ -29,105 +29,105 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator>
-  void sort(thrust::dispatchable<System> &system,
+  void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(thrust::dispatchable<System> &system,
+  void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(thrust::dispatchable<System> &system,
+  void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(thrust::dispatchable<System> &system,
+  void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator>
-  void stable_sort(thrust::dispatchable<System> &system,
+  void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(thrust::dispatchable<System> &system,
+  void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(thrust::dispatchable<System> &system,
+  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first);
 
 
 // XXX it is an error to call this function; it has no implementation
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(thrust::dispatchable<System> &system,
+  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp);
 
 
-template<typename System, typename ForwardIterator>
-  bool is_sorted(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator>
+  bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
-  bool is_sorted(thrust::dispatchable<System> &system,
+  bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp);
 
 
-template<typename System, typename ForwardIterator>
-  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
-  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
+  ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp);

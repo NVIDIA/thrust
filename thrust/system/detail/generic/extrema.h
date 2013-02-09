@@ -34,35 +34,35 @@ namespace detail
 namespace generic
 {
 
-template <typename System, typename ForwardIterator>
-ForwardIterator max_element(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator>
+ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last);
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp);
 
-template <typename System, typename ForwardIterator>
-ForwardIterator min_element(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator>
+ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last);
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp);
 
-template <typename System, typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last);
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp);

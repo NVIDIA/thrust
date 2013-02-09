@@ -29,18 +29,18 @@ namespace omp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator adjacent_difference(dispatchable<System> &system,
+  OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      OutputIterator result,
                                      BinaryFunction binary_op)
 {
   // omp prefers generic::adjacent_difference to cpp::adjacent_difference
-  return thrust::system::detail::generic::adjacent_difference(system, first, last, result, binary_op);
+  return thrust::system::detail::generic::adjacent_difference(exec, first, last, result, binary_op);
 } // end adjacent_difference()
 
 } // end detail

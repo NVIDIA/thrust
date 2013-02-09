@@ -35,16 +35,16 @@ namespace detail
 {
 
 
-template<typename System, template<typename> class BaseSystem>
+template<typename DerivedPolicy, template<typename> class BasePolicy>
   class cached_temporary_allocator
-    : public BaseSystem<cached_temporary_allocator<System,BaseSystem> >
+    : public BasePolicy<cached_temporary_allocator<DerivedPolicy,BasePolicy> >
 {
   private:
-    typedef thrust::detail::temporary_allocator<char,System> base_allocator_type;
-    typedef thrust::detail::allocator_traits<base_allocator_type> traits;
-    typedef typename traits::pointer                              allocator_pointer;
-    typedef std::multimap<std::ptrdiff_t, void*>                  free_blocks_type;
-    typedef std::map<void *, std::ptrdiff_t>                      allocated_blocks_type;
+    typedef thrust::detail::temporary_allocator<char,DerivedPolicy> base_allocator_type;
+    typedef thrust::detail::allocator_traits<base_allocator_type>   traits;
+    typedef typename traits::pointer                                  allocator_pointer;
+    typedef std::multimap<std::ptrdiff_t, void*>                      free_blocks_type;
+    typedef std::map<void *, std::ptrdiff_t>                          allocated_blocks_type;
 
     base_allocator_type   m_base_allocator;
     free_blocks_type      free_blocks;
@@ -71,7 +71,7 @@ template<typename System, template<typename> class BaseSystem>
     }
 
   public:
-    cached_temporary_allocator(thrust::dispatchable<System> &system)
+    cached_temporary_allocator(thrust::execution_policy<DerivedPolicy> &system)
       : m_base_allocator(system)
     {}
 
@@ -125,9 +125,9 @@ template<typename System, template<typename> class BaseSystem>
 
 // overload get_temporary_buffer on cached_temporary_allocator
 // note that we take a reference to cached_temporary_allocator
-template<typename T, typename System, template<typename> class BaseSystem>
+template<typename T, typename DerivedPolicy, template<typename> class BasePolicy>
   thrust::pair<T*, std::ptrdiff_t>
-    get_temporary_buffer(cached_temporary_allocator<System,BaseSystem> &alloc, std::ptrdiff_t n)
+    get_temporary_buffer(cached_temporary_allocator<DerivedPolicy,BasePolicy> &alloc, std::ptrdiff_t n)
 {
   // ask the allocator for sizeof(T) * n bytes
   T* result = reinterpret_cast<T*>(alloc.allocate(sizeof(T) * n));
@@ -140,8 +140,8 @@ template<typename T, typename System, template<typename> class BaseSystem>
 // overload return_temporary_buffer on cached_temporary_allocator
 // an overloaded return_temporary_buffer should always accompany
 // an overloaded get_temporary_buffer
-template<typename Pointer, typename System, template<typename> class BaseSystem>
-  void return_temporary_buffer(cached_temporary_allocator<System,BaseSystem> &alloc, Pointer p)
+template<typename Pointer, typename DerivedPolicy, template<typename> class BasePolicy>
+  void return_temporary_buffer(cached_temporary_allocator<DerivedPolicy,BasePolicy> &alloc, Pointer p)
 {
   // return the pointer to the allocator
   alloc.deallocate(thrust::raw_pointer_cast(p));

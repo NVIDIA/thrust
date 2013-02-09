@@ -146,11 +146,11 @@ struct stable_sort_by_count_closure
 
 
 template<unsigned int count,
-         typename System,
+         typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-void stable_sort_by_count(dispatchable<System> &,
+void stable_sort_by_count(execution_policy<DerivedPolicy> &,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,

@@ -131,11 +131,11 @@ bool use_big_closure(Size n, unsigned int little_grid_size)
 } // end for_each_n_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(dispatchable<System> &,
+RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -180,15 +180,15 @@ RandomAccessIterator for_each_n(dispatchable<System> &,
 } 
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(dispatchable<System> &system,
+  InputIterator for_each(execution_policy<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          UnaryFunction f)
 {
-  return cuda::detail::for_each_n(system, first, thrust::distance(first,last), f);
+  return cuda::detail::for_each_n(exec, first, thrust::distance(first,last), f);
 } // end for_each()
 
 

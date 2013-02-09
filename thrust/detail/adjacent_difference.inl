@@ -28,26 +28,26 @@ namespace thrust
 {
 
 
-template <typename System, typename InputIterator, typename OutputIterator>
-OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result)
 {
   using thrust::system::detail::generic::adjacent_difference;
 
-  return adjacent_difference(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
+  return adjacent_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
 } // end adjacent_difference()
 
 
-template <typename System, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
+OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::adjacent_difference;
 
-  return adjacent_difference(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, binary_op);
+  return adjacent_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, binary_op);
 } // end adjacent_difference()
 
 

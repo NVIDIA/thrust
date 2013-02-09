@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
 
@@ -30,47 +30,47 @@ namespace thrust
 {
 
 
-template<typename System, typename InputIterator>
+template<typename DerivedPolicy, typename InputIterator>
   typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last);
+    reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
-template<typename System, typename InputIterator, typename T>
-  T reduce(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename T>
+  T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
            T init);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
-  T reduce(const thrust::detail::dispatchable_base<System> &system,
+  T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
            T init,
            BinaryFunction binary_op);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(const thrust::detail::dispatchable_base<System> &system,
+  reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
                 OutputIterator2 values_output);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(const thrust::detail::dispatchable_base<System> &system,
+  reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -78,7 +78,7 @@ template<typename System,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
@@ -86,7 +86,7 @@ template<typename System,
          typename BinaryPredicate,
          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(const thrust::detail::dispatchable_base<System> &system,
+  reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,

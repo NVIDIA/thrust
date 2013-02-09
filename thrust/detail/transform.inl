@@ -29,59 +29,59 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
-  OutputIterator transform(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first, InputIterator last,
                            OutputIterator result,
                            UnaryFunction op)
 {
   using thrust::system::detail::generic::transform;
-  return transform(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, op);
+  return transform(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, op);
 } // end transform()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator transform(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1 first1, InputIterator1 last1,
                            InputIterator2 first2,
                            OutputIterator result,
                            BinaryFunction op)
 {
   using thrust::system::detail::generic::transform;
-  return transform(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, result, op);
+  return transform(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, op);
 } // end transform()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator first, InputIterator last,
                                ForwardIterator result,
                                UnaryFunction op,
                                Predicate pred)
 {
   using thrust::system::detail::generic::transform_if;
-  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, op, pred);
+  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, op, pred);
 } // end transform_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first, InputIterator1 last,
                                InputIterator2 stencil,
                                ForwardIterator result,
@@ -89,18 +89,18 @@ template<typename System,
                                Predicate pred)
 {
   using thrust::system::detail::generic::transform_if;
-  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, result, op, pred);
+  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, result, op, pred);
 } // end transform_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first1, InputIterator1 last1,
                                InputIterator2 first2,
                                InputIterator3 stencil,
@@ -109,7 +109,7 @@ template<typename System,
                                Predicate pred)
 {
   using thrust::system::detail::generic::transform_if;
-  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, stencil, result, binary_op, pred);
+  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()
 
 

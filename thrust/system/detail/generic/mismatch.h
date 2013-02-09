@@ -30,17 +30,17 @@ namespace generic
 {
 
 
-template<typename System, typename InputIterator1, typename InputIterator2>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
   thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::dispatchable<System> &system,
+    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
   thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::dispatchable<System> &system,
+    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2,

@@ -36,30 +36,30 @@ namespace
 {
 
 
-template<typename System, typename Pointer>
+template<typename DerivedPolicy, typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value_msvc2005_war(dispatchable<System> &system, Pointer ptr)
+    get_value_msvc2005_war(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {
   typedef typename thrust::iterator_value<Pointer>::type result_type;
 
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static result_type host_path(dispatchable<System> &system, Pointer ptr)
+    __host__ inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
     {
       // when called from host code, implement with assign_value
       // note that this requires a type with default constructor
       result_type result;
 
-      thrust::host_system_tag host_tag;;
-      cross_system<thrust::host_system_tag, System> systems(host_tag, system);
+      thrust::host_system_tag host_tag;
+      cross_system<thrust::host_system_tag, DerivedPolicy> systems(host_tag, exec);
       assign_value(systems, &result, ptr);
 
       return result;
     }
 
-    __device__ inline static result_type device_path(dispatchable<System> &, Pointer ptr)
+    __device__ inline static result_type device_path(execution_policy<DerivedPolicy> &, Pointer ptr)
     {
       // when called from device code, just do simple deref
       return *thrust::raw_pointer_cast(ptr);
@@ -67,9 +67,9 @@ inline __host__ __device__
   };
 
 #ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(system, ptr);
+  return war_nvbugs_881631::host_path(exec, ptr);
 #else
-  return war_nvbugs_881631::device_path(system, ptr);
+  return war_nvbugs_881631::device_path(exec, ptr);
 #endif // __CUDA_ARCH__
 } // end get_value_msvc2005_war()
 
@@ -77,12 +77,12 @@ inline __host__ __device__
 } // end anon namespace
 
 
-template<typename System, typename Pointer>
+template<typename DerivedPolicy, typename Pointer>
 inline __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(dispatchable<System> &system, Pointer ptr)
+    get_value(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {
-  return get_value_msvc2005_war(system,ptr);
+  return get_value_msvc2005_war(exec,ptr);
 } // end get_value()
 
 

@@ -34,11 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(dispatchable<System> &,
+  OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -48,12 +48,12 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(dispatchable<System> &,
+  OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,

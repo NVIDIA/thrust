@@ -41,10 +41,10 @@ namespace sort_detail
 {
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename RandomAccessIterator,
           typename StrictWeakOrdering>
-void inplace_merge(dispatchable<System> &system,
+void inplace_merge(execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator middle,
                    RandomAccessIterator last,
@@ -52,18 +52,18 @@ void inplace_merge(dispatchable<System> &system,
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type,System> a(system, first, middle);
-  thrust::detail::temporary_array<value_type,System> b(system, middle, last);
+  thrust::detail::temporary_array<value_type,DerivedPolicy> a(exec, first, middle);
+  thrust::detail::temporary_array<value_type,DerivedPolicy> b(exec, middle, last);
 
-  thrust::system::cpp::detail::merge(system, a.begin(), a.end(), b.begin(), b.end(), first, comp);
+  thrust::system::cpp::detail::merge(exec, a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename RandomAccessIterator1,
           typename RandomAccessIterator2,
           typename StrictWeakOrdering>
-void inplace_merge_by_key(dispatchable<System> &system,
+void inplace_merge_by_key(execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 first1,
                           RandomAccessIterator1 middle1,
                           RandomAccessIterator1 last1,
@@ -76,13 +76,13 @@ void inplace_merge_by_key(dispatchable<System> &system,
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1,System> lhs1(system, first1, middle1);
-  thrust::detail::temporary_array<value_type1,System> rhs1(system, middle1, last1);
-  thrust::detail::temporary_array<value_type2,System> lhs2(system, first2, middle2);
-  thrust::detail::temporary_array<value_type2,System> rhs2(system, middle2, last2);
+  thrust::detail::temporary_array<value_type1,DerivedPolicy> lhs1(exec, first1, middle1);
+  thrust::detail::temporary_array<value_type1,DerivedPolicy> rhs1(exec, middle1, last1);
+  thrust::detail::temporary_array<value_type2,DerivedPolicy> lhs2(exec, first2, middle2);
+  thrust::detail::temporary_array<value_type2,DerivedPolicy> rhs2(exec, middle2, last2);
 
   thrust::system::cpp::detail::merge_by_key
-    (system,
+    (exec,
      lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
      lhs2.begin(), rhs2.begin(),
      first1, first2, comp);
@@ -92,10 +92,10 @@ void inplace_merge_by_key(dispatchable<System> &system,
 } // end sort_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(dispatchable<System> &system,
+void stable_sort(execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
@@ -124,7 +124,7 @@ void stable_sort(dispatchable<System> &system,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::system::cpp::detail::stable_sort(system,
+      thrust::system::cpp::detail::stable_sort(exec,
                                                first + decomp[p_i].begin(),
                                                first + decomp[p_i].end(),
                                                comp);
@@ -146,7 +146,7 @@ void stable_sort(dispatchable<System> &system,
         if((p_i % h) == 0 && c > b)
         {
           thrust::system::omp::detail::sort_detail::inplace_merge
-            (system,
+            (exec,
              first + decomp[a].begin(),
              first + decomp[b].end(),
              first + decomp[c].end(),
@@ -165,11 +165,11 @@ void stable_sort(dispatchable<System> &system,
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(dispatchable<System> &system,
+void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,
@@ -199,7 +199,7 @@ void stable_sort_by_key(dispatchable<System> &system,
     // every thread sorts its own tile
     if (p_i < decomp.size())
     {
-      thrust::system::cpp::detail::stable_sort_by_key(system,
+      thrust::system::cpp::detail::stable_sort_by_key(exec,
                                                       keys_first + decomp[p_i].begin(),
                                                       keys_first + decomp[p_i].end(),
                                                       values_first + decomp[p_i].begin(),
@@ -222,7 +222,7 @@ void stable_sort_by_key(dispatchable<System> &system,
         if((p_i % h) == 0 && c > b)
         {
           thrust::system::omp::detail::sort_detail::inplace_merge_by_key
-            (system,
+            (exec,
              keys_first + decomp[a].begin(),
              keys_first + decomp[b].end(),
              keys_first + decomp[c].end(),

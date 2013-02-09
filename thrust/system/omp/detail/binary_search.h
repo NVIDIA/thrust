@@ -30,39 +30,39 @@ namespace detail
 {
 
 
-template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator lower_bound(dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator lower_bound(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
     // omp prefers generic::lower_bound to cpp::lower_bound
-    return thrust::system::detail::generic::lower_bound(system, begin, end, value, comp);
+    return thrust::system::detail::generic::lower_bound(exec, begin, end, value, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering, typename Backend>
-ForwardIterator upper_bound(dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering, typename Backend>
+ForwardIterator upper_bound(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
     // omp prefers generic::upper_bound to cpp::upper_bound
-    return thrust::system::detail::generic::upper_bound(system, begin, end, value, comp);
+    return thrust::system::detail::generic::upper_bound(exec, begin, end, value, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-bool binary_search(dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+bool binary_search(execution_policy<DerivedPolicy> &exec,
                    ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
     // omp prefers generic::binary_search to cpp::binary_search
-    return thrust::system::detail::generic::binary_search(system, begin, end, value, comp);
+    return thrust::system::detail::generic::binary_search(exec, begin, end, value, comp);
 }
 
 

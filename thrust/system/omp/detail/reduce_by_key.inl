@@ -28,7 +28,7 @@ namespace omp
 namespace detail
 {
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
@@ -36,7 +36,7 @@ template <typename System,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(dispatchable<System> &system,
+    reduce_by_key(execution_policy<DerivedPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -46,7 +46,7 @@ template <typename System,
                   BinaryFunction binary_op)
 {
   // omp prefers generic::reduce_by_key to cpp::reduce_by_key
-  return thrust::system::detail::generic::reduce_by_key(system, keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+  return thrust::system::detail::generic::reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 } // end reduce_by_key()
 
 

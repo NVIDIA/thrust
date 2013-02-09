@@ -30,12 +30,12 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(dispatchable<System> &system,
+  OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
@@ -43,7 +43,7 @@ template<typename System,
                          Predicate pred)
 {
   // omp prefers generic::copy_if to cpp::copy_if
-  return thrust::system::detail::generic::copy_if(system, first, last, stencil, result, pred);
+  return thrust::system::detail::generic::copy_if(exec, first, last, stencil, result, pred);
 } // end copy_if()
 
 

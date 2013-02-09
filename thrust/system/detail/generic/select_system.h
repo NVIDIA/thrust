@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/is_metafunction_defined.h>
 #include <thrust/iterator/detail/minimum_system.h>
@@ -39,8 +39,8 @@ namespace select_system_detail
 // min_system case 1: both systems have the same type, just return the first one
 template<typename System>
 __host__ __device__
-System &min_system(thrust::dispatchable<System> &system1,
-                   thrust::dispatchable<System> &)
+System &min_system(thrust::execution_policy<System> &system1,
+                   thrust::execution_policy<System> &)
 {
   return thrust::detail::derived_cast(system1);
 } // end min_system()
@@ -56,7 +56,7 @@ __host__ __device__
     >::value,
     System1 &
   >::type
-    min_system(thrust::dispatchable<System1> &system1, thrust::dispatchable<System2> &)
+    min_system(thrust::execution_policy<System1> &system1, thrust::execution_policy<System2> &)
 {
   return thrust::detail::derived_cast(system1);
 } // end min_system()
@@ -72,7 +72,7 @@ __host__ __device__
     >::value,
     System2 &
   >::type
-    min_system(thrust::dispatchable<System1> &, thrust::dispatchable<System2> &system2)
+    min_system(thrust::execution_policy<System1> &, thrust::execution_policy<System2> &system2)
 {
   return thrust::detail::derived_cast(system2);
 } // end min_system()
@@ -87,7 +87,7 @@ __host__ __device__
     select_system1_exists<System>::value,
     System &
   >::type
-    select_system(thrust::dispatchable<System> &system)
+    select_system(thrust::execution_policy<System> &system)
 {
   return thrust::detail::derived_cast(system);
 } // end select_system()
@@ -98,8 +98,8 @@ __host__ __device__
   typename thrust::detail::enable_if_defined<
     thrust::detail::minimum_system<System1,System2>
   >::type
-    &select_system(thrust::dispatchable<System1> &system1,
-                   thrust::dispatchable<System2> &system2)
+    &select_system(thrust::execution_policy<System1> &system1,
+                   thrust::execution_policy<System2> &system2)
 {
   return select_system_detail::min_system(system1,system2);
 } // end select_system()
@@ -111,9 +111,9 @@ __host__ __device__
     select_system3_exists<System1,System2,System3>::value,
     thrust::detail::minimum_system<System1,System2,System3>
   >::type
-    &select_system(thrust::dispatchable<System1> &system1,
-                   thrust::dispatchable<System2> &system2,
-                   thrust::dispatchable<System3> &system3)
+    &select_system(thrust::execution_policy<System1> &system1,
+                   thrust::execution_policy<System2> &system2,
+                   thrust::execution_policy<System3> &system3)
 {
   return select_system(select_system(system1,system2), system3);
 } // end select_system()
@@ -125,10 +125,10 @@ __host__ __device__
     select_system4_exists<System1,System2,System3,System4>::value,
     thrust::detail::minimum_system<System1,System2,System3,System4>
   >::type
-    &select_system(thrust::dispatchable<System1> &system1,
-                   thrust::dispatchable<System2> &system2,
-                   thrust::dispatchable<System3> &system3,
-                   thrust::dispatchable<System4> &system4)
+    &select_system(thrust::execution_policy<System1> &system1,
+                   thrust::execution_policy<System2> &system2,
+                   thrust::execution_policy<System3> &system3,
+                   thrust::execution_policy<System4> &system4)
 {
   return select_system(select_system(system1,system2,system3), system4);
 } // end select_system()
@@ -140,11 +140,11 @@ __host__ __device__
     select_system5_exists<System1,System2,System3,System4,System5>::value,
     thrust::detail::minimum_system<System1,System2,System3,System4,System5>
   >::type
-    &select_system(thrust::dispatchable<System1> &system1,
-                   thrust::dispatchable<System2> &system2,
-                   thrust::dispatchable<System3> &system3,
-                   thrust::dispatchable<System4> &system4,
-                   thrust::dispatchable<System5> &system5)
+    &select_system(thrust::execution_policy<System1> &system1,
+                   thrust::execution_policy<System2> &system2,
+                   thrust::execution_policy<System3> &system3,
+                   thrust::execution_policy<System4> &system4,
+                   thrust::execution_policy<System5> &system5)
 {
   return select_system(select_system(system1,system2,system3,system4), system5);
 } // end select_system()
@@ -156,12 +156,12 @@ __host__ __device__
     select_system6_exists<System1,System2,System3,System4,System5,System6>::value,
     thrust::detail::minimum_system<System1,System2,System3,System4,System5,System6>
   >::type
-    &select_system(thrust::dispatchable<System1> &system1,
-                   thrust::dispatchable<System2> &system2,
-                   thrust::dispatchable<System3> &system3,
-                   thrust::dispatchable<System4> &system4,
-                   thrust::dispatchable<System5> &system5,
-                   thrust::dispatchable<System6> &system6)
+    &select_system(thrust::execution_policy<System1> &system1,
+                   thrust::execution_policy<System2> &system2,
+                   thrust::execution_policy<System3> &system3,
+                   thrust::execution_policy<System4> &system4,
+                   thrust::execution_policy<System5> &system5,
+                   thrust::execution_policy<System6> &system6)
 {
   return select_system(select_system(system1,system2,system3,system4,system5), system6);
 } // end select_system()

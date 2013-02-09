@@ -34,11 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &,
+  OutputType reduce(execution_policy<DerivedPolicy> &,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,

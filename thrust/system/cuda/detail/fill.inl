@@ -43,8 +43,8 @@ namespace detail
 namespace detail
 {
 
-template<typename WideType, typename System, typename Pointer, typename Size, typename T>
-  Pointer wide_fill_n(dispatchable<System> &system,
+template<typename WideType, typename DerivedPolicy, typename Pointer, typename Size, typename T>
+  Pointer wide_fill_n(execution_policy<DerivedPolicy> &exec,
                       Pointer first,
                       Size n,
                       const T &value)
@@ -77,26 +77,26 @@ template<typename WideType, typename System, typename Pointer, typename Size, ty
   WidePtr block_first_wide = WideTraits::pointer_to(reinterpret_cast<WideType&>(*block_first_raw));
   WidePtr block_last_wide  = WideTraits::pointer_to(reinterpret_cast<WideType&>(*block_last_raw));
 
-  thrust::generate(system, first,                   Pointer(block_first_raw),    thrust::detail::fill_functor<OutputType>(value));
-  thrust::generate(system, block_first_wide,        block_last_wide,             thrust::detail::fill_functor<WideType>(wide_exemplar));
-  thrust::generate(system, Pointer(block_last_raw), first + n,                   thrust::detail::fill_functor<OutputType>(value));
+  thrust::generate(exec, first,                   Pointer(block_first_raw),    thrust::detail::fill_functor<OutputType>(value));
+  thrust::generate(exec, block_first_wide,        block_last_wide,             thrust::detail::fill_functor<WideType>(wide_exemplar));
+  thrust::generate(exec, Pointer(block_last_raw), first + n,                   thrust::detail::fill_functor<OutputType>(value));
 
   return first + n;
 }
 
-template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(dispatchable<System> &system,
+template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value,
                         thrust::detail::false_type)
 {
   thrust::detail::fill_functor<T> func(value); 
-  return thrust::generate_n(system, first, n, func);
+  return thrust::generate_n(exec, first, n, func);
 }
 
-template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(dispatchable<System> &system,
+template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value,
@@ -110,27 +110,27 @@ template<typename System, typename OutputIterator, typename Size, typename T>
       {
         // 32-bit writes are faster on G80 and GT200
         typedef unsigned int WideType;
-        wide_fill_n<WideType>(system, &*first, n, value);
+        wide_fill_n<WideType>(exec, &*first, n, value);
       }
       else
       {
         // 64-bit writes are faster on Fermi
         typedef unsigned long long WideType;
-        wide_fill_n<WideType>(system, &*first, n, value);
+        wide_fill_n<WideType>(exec, &*first, n, value);
       }
 
       return first + n;
   }
   else
   {
-    return fill_n(system, first, n, value, thrust::detail::false_type());
+    return fill_n(exec, first, n, value, thrust::detail::false_type());
   }
 }
 
 } // end detail
 
-template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(dispatchable<System> &system,
+template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value)
@@ -145,16 +145,16 @@ template<typename System, typename OutputIterator, typename Size, typename T>
   // XXX WAR usused variable warning
   (void)use_wide_fill;
 
-  return detail::fill_n(system, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
+  return detail::fill_n(exec, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
 
-template<typename System, typename ForwardIterator, typename T>
-  void fill(dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void fill(execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T &value)
 {
-  thrust::system::cuda::detail::fill_n(system, first, thrust::distance(first,last), value);
+  thrust::system::cuda::detail::fill_n(exec, first, thrust::distance(first,last), value);
 } // end fill()
 
 } // end namespace detail

@@ -46,9 +46,9 @@ namespace detail
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator>
-void stable_radix_sort(dispatchable<System> &system,
+void stable_radix_sort(execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last)
 {
@@ -59,9 +59,9 @@ void stable_radix_sort(dispatchable<System> &system,
     // ensure data is properly aligned
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first), 2*sizeof(K)))
     {
-        thrust::detail::temporary_array<K, System> aligned_keys(system, first, last);
-        stable_radix_sort(system, aligned_keys.begin(), aligned_keys.end());
-        thrust::copy(system, aligned_keys.begin(), aligned_keys.end(), first);
+        thrust::detail::temporary_array<K, DerivedPolicy> aligned_keys(exec, first, last);
+        stable_radix_sort(exec, aligned_keys.begin(), aligned_keys.end());
+        thrust::copy(exec, aligned_keys.begin(), aligned_keys.end(), first);
         return;
     }
     
@@ -69,9 +69,9 @@ void stable_radix_sort(dispatchable<System> &system,
     thrust::system::cuda::detail::detail::b40c_thrust::RadixSortStorage<K>    storage;
     
     // allocate temporary buffers
-    thrust::detail::temporary_array<K,    System> temp_keys(system, num_elements);
-    thrust::detail::temporary_array<int,  System> temp_spine(system, sorter.SpineElements());
-    thrust::detail::temporary_array<bool, System> temp_from_alt(system, 2);
+    thrust::detail::temporary_array<K,    DerivedPolicy> temp_keys(exec, num_elements);
+    thrust::detail::temporary_array<int,  DerivedPolicy> temp_spine(exec, sorter.SpineElements());
+    thrust::detail::temporary_array<bool, DerivedPolicy> temp_from_alt(exec, 2);
 
     // define storage
     storage.d_keys             = thrust::raw_pointer_cast(&*first);
@@ -85,7 +85,7 @@ void stable_radix_sort(dispatchable<System> &system,
     // radix sort sometimes leaves results in the alternate buffers
     if (storage.using_alternate_storage)
     {
-        thrust::copy(system, temp_keys.begin(), temp_keys.end(), first);
+        thrust::copy(exec, temp_keys.begin(), temp_keys.end(), first);
     }
 }
 
@@ -94,10 +94,10 @@ void stable_radix_sort(dispatchable<System> &system,
 ///////////////////////
 
 // sort values directly
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_radix_sort_by_key(dispatchable<System> &system,
+void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2,
@@ -111,16 +111,16 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     // ensure data is properly aligned
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first1), 2*sizeof(K)))
     {
-        thrust::detail::temporary_array<K,System> aligned_keys(system, first1, last1);
-        stable_radix_sort_by_key(system, aligned_keys.begin(), aligned_keys.end(), first2);
-        thrust::copy(system, aligned_keys.begin(), aligned_keys.end(), first1);
+        thrust::detail::temporary_array<K,DerivedPolicy> aligned_keys(exec, first1, last1);
+        stable_radix_sort_by_key(exec, aligned_keys.begin(), aligned_keys.end(), first2);
+        thrust::copy(exec, aligned_keys.begin(), aligned_keys.end(), first1);
         return;
     }
     if (!thrust::detail::util::is_aligned(thrust::raw_pointer_cast(&*first2), 2*sizeof(V)))
     {
-        thrust::detail::temporary_array<V,System> aligned_values(system, first2, first2 + num_elements);
-        stable_radix_sort_by_key(system, first1, last1, aligned_values.begin());
-        thrust::copy(system, aligned_values.begin(), aligned_values.end(), first2);
+        thrust::detail::temporary_array<V,DerivedPolicy> aligned_values(exec, first2, first2 + num_elements);
+        stable_radix_sort_by_key(exec, first1, last1, aligned_values.begin());
+        thrust::copy(exec, aligned_values.begin(), aligned_values.end(), first2);
         return;
     }
    
@@ -128,10 +128,10 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     thrust::system::cuda::detail::detail::b40c_thrust::RadixSortStorage<K,V>    storage;
     
     // allocate temporary buffers
-    thrust::detail::temporary_array<K,    System> temp_keys(system, num_elements);
-    thrust::detail::temporary_array<V,    System> temp_values(system, num_elements);
-    thrust::detail::temporary_array<int,  System> temp_spine(system, sorter.SpineElements());
-    thrust::detail::temporary_array<bool, System> temp_from_alt(system, 2);
+    thrust::detail::temporary_array<K,    DerivedPolicy> temp_keys(exec, num_elements);
+    thrust::detail::temporary_array<V,    DerivedPolicy> temp_values(exec, num_elements);
+    thrust::detail::temporary_array<int,  DerivedPolicy> temp_spine(exec, sorter.SpineElements());
+    thrust::detail::temporary_array<bool, DerivedPolicy> temp_from_alt(exec, 2);
 
     // define storage
     storage.d_keys             = thrust::raw_pointer_cast(&*first1);
@@ -147,17 +147,17 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     // radix sort sometimes leaves results in the alternate buffers
     if (storage.using_alternate_storage)
     {
-        thrust::copy(system, temp_keys.begin(),   temp_keys.end(),   first1);
-        thrust::copy(system, temp_values.begin(), temp_values.end(), first2);
+        thrust::copy(exec, temp_keys.begin(),   temp_keys.end(),   first1);
+        thrust::copy(exec, temp_values.begin(), temp_values.end(), first2);
     }
 }
 
 
 // sort values indirectly
-template<typename System, 
+template<typename DerivedPolicy, 
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_radix_sort_by_key(dispatchable<System> &system,
+void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2,
@@ -168,26 +168,26 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     unsigned int num_elements = last1 - first1;
 
     // sort with integer values and then permute the real values accordingly
-    thrust::detail::temporary_array<unsigned int,System> permutation(system, num_elements);
-    thrust::sequence(system, permutation.begin(), permutation.end());
+    thrust::detail::temporary_array<unsigned int,DerivedPolicy> permutation(exec, num_elements);
+    thrust::sequence(exec, permutation.begin(), permutation.end());
 
-    stable_radix_sort_by_key(system, first1, last1, permutation.begin());
+    stable_radix_sort_by_key(exec, first1, last1, permutation.begin());
     
     // copy values into temp vector and then permute
-    thrust::detail::temporary_array<V,System> temp_values(system, first2, first2 + num_elements);
+    thrust::detail::temporary_array<V,DerivedPolicy> temp_values(exec, first2, first2 + num_elements);
    
     // permute values
-    thrust::gather(system,
+    thrust::gather(exec,
                    permutation.begin(), permutation.end(),
                    temp_values.begin(),
                    first2);
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_radix_sort_by_key(dispatchable<System> &system,
+void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2)
@@ -202,7 +202,7 @@ void stable_radix_sort_by_key(dispatchable<System> &system,
     // XXX WAR unused variable warning
     (void) sort_values_directly;
 
-    stable_radix_sort_by_key(system, first1, last1, first2, 
+    stable_radix_sort_by_key(exec, first1, last1, first2, 
                              thrust::detail::integral_constant<bool, sort_values_directly>());
 }
 

@@ -30,7 +30,7 @@ typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag device_system_tag;
 
 template<typename DerivedSystem>
   struct device_system
-    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::dispatchable<DerivedSystem>
+    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedSystem>
 {};
 
 } // end thrust

@@ -22,21 +22,21 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
 {
 
 
-template<typename System, typename InputIterator, typename EqualityComparable>
+template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
   typename thrust::iterator_traits<InputIterator>::difference_type
-    count(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, const EqualityComparable& value);
+    count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
 
 
-template<typename System, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
   typename thrust::iterator_traits<InputIterator>::difference_type
-    count_if(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+    count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \addtogroup algorithms

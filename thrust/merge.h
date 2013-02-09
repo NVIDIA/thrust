@@ -21,18 +21,18 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -40,12 +40,12 @@ template<typename System,
                        OutputIterator result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator merge(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -54,9 +54,9 @@ template<typename System,
                        StrictWeakCompare comp);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::dispatchable_base<System> &system,
+    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -64,9 +64,9 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
                  OutputIterator2 values_result);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::dispatchable_base<System> &system,
+    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -363,7 +363,7 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  \see \p sort_by_key
  *  \see \p is_sorted
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename StrictWeakCompare>
+template<typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename StrictWeakCompare>
   thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,

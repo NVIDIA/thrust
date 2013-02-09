@@ -34,11 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator adjacent_difference(dispatchable<System> &,
+OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &,
                                    InputIterator first,
                                    InputIterator last,
                                    OutputIterator result,

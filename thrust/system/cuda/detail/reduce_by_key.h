@@ -33,7 +33,7 @@ namespace cuda
 namespace detail
 {
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
@@ -41,7 +41,7 @@ template <typename System,
           typename BinaryPredicate,
           typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(dispatchable<System> &system,
+    reduce_by_key(execution_policy<DerivedPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,

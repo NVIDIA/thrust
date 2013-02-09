@@ -35,19 +35,19 @@ namespace detail
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_merge_sort(dispatchable<System> &system,
+void stable_merge_sort(execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp);
     
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_merge_sort_by_key(dispatchable<System> &system,
+void stable_merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 keys_begin,
                               RandomAccessIterator1 keys_end,
                               RandomAccessIterator2 values_begin,

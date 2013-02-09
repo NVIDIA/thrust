@@ -152,11 +152,11 @@ struct unordered_reduce_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &system,
+  OutputType reduce(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
@@ -176,7 +176,7 @@ template<typename System,
   if (n == 0)
     return init;
 
-  typedef thrust::detail::temporary_array<OutputType, System> OutputArray;
+  typedef thrust::detail::temporary_array<OutputType, DerivedPolicy> OutputArray;
   typedef typename OutputArray::iterator OutputIterator;
 
   typedef detail::blocked_thread_array Context;
@@ -218,7 +218,7 @@ template<typename System,
   // TODO assert(n <= num_blocks * block_size);
   // TODO if (shared_array_size < 1) throw cuda exception "insufficient shared memory"
 
-  OutputArray output(system, num_blocks);
+  OutputArray output(exec, num_blocks);
 
   Closure closure(first, n, init, output.begin(), binary_op, array_size);
   
@@ -255,17 +255,17 @@ template<typename System,
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &system,
+  OutputType reduce(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  return reduce_detail::reduce(system, first, last, init, binary_op);
+  return reduce_detail::reduce(exec, first, last, init, binary_op);
 } // end reduce()
 
 } // end namespace detail
