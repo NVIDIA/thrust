@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/tbb/detail/reduce_by_key.h>
 #include <thrust/iterator/reverse_iterator.h>
-#include <thrust/system/cpp/memory.h>
+#include <thrust/system/cpp/execution_policy.h>
 #include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/system/tbb/detail/reduce_intervals.h>
 #include <thrust/detail/minmax.h>
