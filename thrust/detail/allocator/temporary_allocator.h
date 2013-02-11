@@ -20,10 +20,8 @@
 #include <thrust/detail/allocator/tagged_allocator.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/pair.h>
-//#include <thrust/detail/pointer.h>
-//#include <thrust/detail/reference.h>
 #include <thrust/memory.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {

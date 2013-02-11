@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/execution_policy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/is_metafunction_defined.h>
 #include <thrust/iterator/detail/minimum_system.h>

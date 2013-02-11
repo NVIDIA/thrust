@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/iterator/detail/normal_iterator.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/execution_policy.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 
 namespace thrust

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/execution_policy.h>
 #include <thrust/pair.h>
 #include <thrust/detail/pointer.h>
 #include <thrust/detail/raw_pointer_cast.h>

@@ -23,7 +23,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/execution_policy.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/pointer.h>

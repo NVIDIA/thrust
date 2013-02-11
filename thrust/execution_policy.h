@@ -15,6 +15,10 @@
  */
 
 
+/*! \file execution_policy.h
+ *  \brief Base class for all Thrust execution policy types.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
