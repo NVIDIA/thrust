@@ -96,7 +96,7 @@ template<typename DerivedPolicy,
   // zip_iterator works correctly
   thrust::detail::tagged_iterator<OutputIterator,DerivedPolicy> retagged_result(result);
 
-  return thrust::system::detail::generic::copy_n(policy, thrust::reinterpret_tag<DerivedPolicy>(first), n, retagged_result).base();
+  return thrust::system::detail::generic::copy_n(exec, thrust::reinterpret_tag<DerivedPolicy>(first), n, retagged_result).base();
 } // end copy_n()
 
 } // end dispatch
@@ -105,7 +105,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-OutputIterator copy(execution_policy<DerivedPolicy> &policy,
+OutputIterator copy(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result)
@@ -116,7 +116,7 @@ OutputIterator copy(execution_policy<DerivedPolicy> &policy,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy(policy, first,last,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy(exec, first,last,result,traversal());
 } // end copy()
 
 
@@ -125,7 +125,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-OutputIterator copy_n(execution_policy<DerivedPolicy> &policy,
+OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       Size n,
                       OutputIterator result)
@@ -136,7 +136,7 @@ OutputIterator copy_n(execution_policy<DerivedPolicy> &policy,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy_n(policy,first,n,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy_n(exec,first,n,result,traversal());
 } // end copy_n()
 
 
