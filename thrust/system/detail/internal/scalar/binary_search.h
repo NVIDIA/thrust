@@ -22,9 +22,7 @@
 #pragma once
 
 #include <thrust/advance.h>
-#include <thrust/distance.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -45,36 +43,7 @@ ForwardIterator lower_bound(ForwardIterator first,
                             const T& val,
                             StrictWeakOrdering comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
-
-  difference_type len = thrust::distance(first, last);
-
-  while(len > 0)
-  {
-    difference_type half = len >> 1;
-    ForwardIterator middle = first;
-
-    thrust::advance(middle, half);
-
-    if(wrapped_comp(*middle, val))
-    {
-      first = middle;
-      ++first;
-      len = len - half - 1;
-    }
-    else
-    {
-      len = half;
-    }
-  }
-
-  return first;
+  return lower_bound(thrust::system::detail::sequential::seq, first, last, val, comp);
 }
 
 
@@ -84,36 +53,7 @@ ForwardIterator upper_bound(ForwardIterator first,
                             const T& val, 
                             StrictWeakOrdering comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
-
-  difference_type len = thrust::distance(first, last);
-
-  while(len > 0)
-  {
-    difference_type half = len >> 1;
-    ForwardIterator middle = first;
-
-    thrust::advance(middle, half);
-
-    if(wrapped_comp(val, *middle))
-    {
-      len = half;
-    }
-    else
-    {
-      first = middle;
-      ++first;
-      len = len - half - 1;
-    }
-  }
-
-  return first;
+  return upper_bound(thrust::system::detail::sequential::seq, first, last, val, comp);
 }
 
 template <typename ForwardIterator,
@@ -124,15 +64,7 @@ bool binary_search(ForwardIterator first,
                    const T& val, 
                    StrictWeakOrdering comp)
 {
-  ForwardIterator iter = thrust::system::detail::internal::scalar::lower_bound(first, last, val, comp);
-
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  return iter != last && !wrapped_comp(val,*iter);
+  return binary_search(thrust::system::detail::sequential::seq, first, last, val, comp);
 }
 
 } // end namespace scalar
