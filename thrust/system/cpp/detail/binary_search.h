@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/binary_search.h>
 
 namespace thrust

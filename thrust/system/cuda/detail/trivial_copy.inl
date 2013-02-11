@@ -22,7 +22,7 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 
 namespace thrust

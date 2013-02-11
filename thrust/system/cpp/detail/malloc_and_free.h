@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <cstdlib> // for malloc & free
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 
 namespace thrust
 {

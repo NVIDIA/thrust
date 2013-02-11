@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/execution_policy.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 
 namespace thrust

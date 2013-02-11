@@ -16,7 +16,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/merge.h>
 #include <thrust/system/detail/internal/scalar/binary_search.h>
 #include <tbb/parallel_for.h>

@@ -26,7 +26,7 @@
 #include <thrust/system/cuda/detail/reduce_intervals.h>
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/functional.h>
 
 

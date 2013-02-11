@@ -26,7 +26,7 @@
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/system/cpp/detail/sort.h>
 #include <thrust/system/cpp/detail/merge.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/temporary_array.h>
 
 namespace thrust

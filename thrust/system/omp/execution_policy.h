@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 
 // get the execution policies definitions first
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 
 // now get all the algorithm definitions
 

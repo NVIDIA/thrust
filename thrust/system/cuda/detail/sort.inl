@@ -25,7 +25,7 @@
 #include <thrust/reverse.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/temporary_indirect_permutation.h>
 #include <thrust/detail/trivial_sequence.h>
 

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/swap.h>
 

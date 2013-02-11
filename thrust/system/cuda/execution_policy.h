@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 
 // get the execution policies definitions first
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 // now get all the algorithm defintitions
 
