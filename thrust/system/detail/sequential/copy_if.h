@@ -21,7 +21,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
+#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -29,9 +30,7 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
 
@@ -39,18 +38,33 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(InputIterator1 first,
+__host__ __device__
+  OutputIterator copy_if(tag,
+                         InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred)
 {
-  return copy_if(thrust::system::detail::sequential::seq, first, last, stencil, result, pred);
+  thrust::detail::host_device_function<Predicate,bool> wrapped_pred(pred);
+
+  while(first != last)
+  {
+    if(wrapped_pred(*stencil))
+    {
+      *result = *first;
+      ++result;
+    } // end if
+
+    ++first;
+    ++stencil;
+  } // end while
+
+  return result;
 } // end copy_if()
 
 
-} // end namespace scalar
-} // end namespace internal
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
