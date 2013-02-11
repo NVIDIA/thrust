@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -42,23 +42,7 @@ ForwardIterator min_element(ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    BinaryPredicate,
-    bool
-  > wrapped_comp(comp);
-
-  ForwardIterator imin = first;
-
-  for (; first != last; first++)
-  {
-    if (wrapped_comp(*first, *imin))
-    {
-      imin = first;
-    }
-  }
-
-  return imin;
+  return min_element(thrust::system::detail::sequential::seq, first, last, comp);
 }
 
 
@@ -68,23 +52,7 @@ ForwardIterator max_element(ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    BinaryPredicate,
-    bool
-  > wrapped_comp(comp);
-
-  ForwardIterator imax = first;
-
-  for (; first != last; first++)
-  {
-    if (wrapped_comp(*imax, *first))
-    {
-      imax = first;
-    }
-  }
-
-  return imax;
+  return max_element(thrust::system::detail::sequential::seq, first, last, comp);
 }
 
 
@@ -94,29 +62,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    BinaryPredicate,
-    bool
-  > wrapped_comp(comp);
-  
-  ForwardIterator imin = first;
-  ForwardIterator imax = first;
-
-  for (; first != last; first++)
-  {
-    if (wrapped_comp(*first, *imin))
-    {
-      imin = first;
-    }
-
-    if (wrapped_comp(*imax, *first))
-    {
-      imax = first;
-    }
-  }
-
-  return thrust::make_pair(imin, imax);
+  return minmax_element(thrust::system::detail::sequential::seq, first, last, comp);
 }
 
 } // end namespace scalar

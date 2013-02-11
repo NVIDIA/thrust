@@ -22,7 +22,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
+#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -30,22 +31,38 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template <typename InputIterator,
-          typename Predicate>
-InputIterator find_if(InputIterator first,
+
+template<typename InputIterator,
+         typename Predicate>
+__host__ __device__
+InputIterator find_if(tag,
+                      InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-  return find_if(thrust::system::detail::sequential::seq, first, last, pred);
+  // wrap pred
+  thrust::detail::host_device_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
+  while(first != last)
+  {
+    if (wrapped_pred(*first))
+      return first;
+
+    ++first;
+  }
+
+  // return first so zip_iterator works correctly
+  return first;
 }
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
