@@ -22,7 +22,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -30,24 +31,41 @@ namespace system
 {
 namespace detail
 {
-namespace internal
+namespace sequential
 {
-namespace scalar
-{
+
 
 template <typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator adjacent_difference(InputIterator first,
+__host__ __device__
+OutputIterator adjacent_difference(tag,
+                                   InputIterator first,
                                    InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  return adjacent_difference(thrust::system::detail::sequential::seq, first, last, result, binary_op);
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+
+  if (first == last)
+    return result;
+
+  InputType curr = *first;
+
+  *result = curr;
+
+  while (++first != last)
+  {
+    InputType next = *first;
+    *(++result) = binary_op(next, curr);
+    curr = next;
+  }
+
+  return ++result;
 }
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
