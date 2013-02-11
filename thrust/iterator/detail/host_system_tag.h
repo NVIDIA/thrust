@@ -18,8 +18,8 @@
 
 #include <thrust/detail/config.h>
 
-// #include the host system's tag header
-#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/tag.h>
+// #include the host system's execution_policy header
+#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/execution_policy.h>
 #include __THRUST_HOST_SYSTEM_TAG_HEADER
 #undef __THRUST_HOST_SYSTEM_TAG_HEADER
 

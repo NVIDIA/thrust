@@ -21,7 +21,7 @@
 #include <thrust/iterator/detail/minimum_system.h>
 #include <thrust/detail/copy.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 
 namespace thrust
 {
