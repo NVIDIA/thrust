@@ -18,8 +18,10 @@
 
 #include <thrust/detail/config.h>
 
-// the purpose of this header is to #include all the CUDA
-// backend entry point headers in cuda/detail
+// get the execution policies definitions first
+#include <thrust/system/cuda/detail/tag.h>
+
+// now get all the algorithm defintitions
 
 // the order of the following #includes seems to matter, unfortunately
 

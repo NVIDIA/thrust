@@ -419,6 +419,3 @@ using thrust::system::cuda::allocator;
 
 #include <thrust/system/cuda/detail/memory.inl>
 
-// make cuda::tag's ADL targets available
-#include <thrust/system/cuda/detail/adl_targets.h>
-

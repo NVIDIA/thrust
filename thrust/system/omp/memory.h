@@ -421,6 +421,3 @@ using thrust::system::omp::allocator;
 
 #include <thrust/system/omp/detail/memory.inl>
 
-// make omp::tag's ADL targets available
-#include <thrust/system/cpp/detail/adl_targets.h>
-

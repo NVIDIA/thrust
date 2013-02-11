@@ -419,6 +419,3 @@ using thrust::system::cpp::allocator;
 
 #include <thrust/system/cpp/detail/memory.inl>
 
-// make cpp::tag's ADL targets available
-#include <thrust/system/cpp/detail/adl_targets.h>
-

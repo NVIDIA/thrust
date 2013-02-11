@@ -421,6 +421,3 @@ using thrust::system::tbb::allocator;
 
 #include <thrust/system/tbb/detail/memory.inl>
 
-// make the backend's entry points available to dispatch
-#include <thrust/system/tbb/detail/adl_targets.h>
-
