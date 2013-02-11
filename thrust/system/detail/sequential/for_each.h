@@ -22,7 +22,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
+#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -30,32 +31,61 @@ namespace system
 {
 namespace detail
 {
-namespace internal
+namespace sequential
 {
-namespace scalar
-{
+
 
 template<typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(InputIterator first,
+__host__ __device__
+InputIterator for_each(tag,
+                       InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
 {
-  return for_each(thrust::system::detail::sequential::seq, first, last, f);
+  // wrap f
+  thrust::detail::host_device_function<
+    UnaryFunction,
+    void
+  > wrapped_f(f);
+
+  for(; first != last; ++first)
+  {
+    wrapped_f(*first);
+  }
+
+  return first;
 } // end for_each()
+
 
 template<typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(InputIterator first,
+__host__ __device__
+InputIterator for_each_n(tag,
+                         InputIterator first,
                          Size n,
                          UnaryFunction f)
 {
-  return for_each_n(thrust::system::detail::sequential::seq, first, n, f);
+  // wrap f
+  thrust::detail::host_device_function<
+    UnaryFunction,
+    void
+  > wrapped_f(f);
+
+  for(Size i = 0; i != n; i++)
+  {
+    // we can dereference an OutputIterator if f does not
+    // try to use the reference for anything besides assignment
+    wrapped_f(*first);
+    ++first;
+  }
+
+  return first;
 } // end for_each_n()
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
