@@ -79,7 +79,7 @@ ForwardIterator lower_bound(tag,
 }
 
 
-template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template<typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 ForwardIterator upper_bound(tag,
                             ForwardIterator first,
@@ -120,17 +120,17 @@ ForwardIterator upper_bound(tag,
 }
 
 
-template <typename ForwardIterator,
-          typename T,
-          typename StrictWeakOrdering>
+template<typename ForwardIterator,
+         typename T,
+         typename StrictWeakOrdering>
 __host__ __device__
-bool binary_search(tag,
+bool binary_search(tag seq,
                    ForwardIterator first,
                    ForwardIterator last,
                    const T& val, 
                    StrictWeakOrdering comp)
 {
-  ForwardIterator iter = lower_bound(tag, first, last, val, comp);
+  ForwardIterator iter = lower_bound(seq, first, last, val, comp);
 
   // wrap comp
   thrust::detail::host_device_function<
