@@ -48,4 +48,5 @@ static const tag seq;
 #include <thrust/system/detail/sequential/reduce_by_key.h>
 #include <thrust/system/detail/sequential/reduce.h>
 #include <thrust/system/detail/sequential/remove.h>
+#include <thrust/system/detail/sequential/scan_by_key.h>
 

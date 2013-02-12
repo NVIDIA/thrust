@@ -22,9 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -49,40 +47,12 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  using namespace thrust::detail;
-
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
-
-  // wrap binary_op
-  thrust::detail::host_function<
-    BinaryFunction,
-    ValueType
-  > wrapped_binary_op(binary_op);
-
-  if(first1 != last1)
-  {
-    KeyType   prev_key   = *first1;
-    ValueType prev_value = *first2;
-
-    *result = prev_value;
-
-    for(++first1, ++first2, ++result;
-        first1 != last1;
-        ++first1, ++first2, ++result)
-    {
-      KeyType key = *first1;
-
-      if (binary_pred(prev_key, key))
-        *result = prev_value = wrapped_binary_op(prev_value,*first2);
-      else
-        *result = prev_value = *first2;
-
-      prev_key = key;
-    }
-  }
-
-  return result;
+  return inclusive_scan_by_key(thrust::system::detail::sequential::seq,
+                               first1, last1,
+                               first2,
+                               result,
+                               binary_pred, 
+                               binary_op);
 }
 
 
@@ -100,44 +70,15 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  using namespace thrust::detail;
-
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
-
-  if(first1 != last1)
-  {
-    KeyType   temp_key   = *first1;
-    ValueType temp_value = *first2;
-
-    ValueType next = init;
-
-    // first one is init
-    *result = next;
-
-    next = binary_op(next, temp_value);
-
-    for(++first1, ++first2, ++result;
-        first1 != last1;
-        ++first1, ++first2, ++result)
-    {
-      KeyType key = *first1;
-
-      // use temp to permit in-place scans
-      temp_value = *first2;
-
-      if (!binary_pred(temp_key, key))
-        next = init;  // reset sum
-
-      *result = next;  
-      next = binary_op(next, temp_value);
-
-      temp_key = key;
-    }
-  }
-
-  return result;
+  return exclusive_scan_by_key(thrust::system::detail::sequential::seq,
+                               first1, last1,
+                               first2,
+                               result,
+                               init
+                               binary_pred,
+                               binary_op);
 }
+
 
 } // end namespace scalar
 } // end namespace internal
