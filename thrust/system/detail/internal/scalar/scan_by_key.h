@@ -74,7 +74,7 @@ template<typename InputIterator1,
                                first1, last1,
                                first2,
                                result,
-                               init
+                               init,
                                binary_pred,
                                binary_op);
 }
