@@ -42,5 +42,8 @@ static const tag seq;
 #include <thrust/system/detail/sequential/adjacent_difference.h>
 #include <thrust/system/detail/sequential/binary_search.h>
 #include <thrust/system/detail/sequential/copy_if.h>
+#include <thrust/system/detail/sequential/extrema.h>
+#include <thrust/system/detail/sequential/find.h>
 #include <thrust/system/detail/sequential/for_each.h>
+#include <thrust/system/detail/sequential/reduce_by_key.h>
 
