@@ -14,14 +14,14 @@
  *  limitations under the License.
  */
 
-/*! \file trivial_copy.h
- *  \brief Sequential copy algorithms for plain-old-data.
+/*! \file copy.h
+ *  \brief Sequential implementations of copy algorithms.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <cstring>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -29,23 +29,33 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template<typename T>
-  T *trivial_copy_n(const T *first,
-                    std::ptrdiff_t n,
-                    T *result)
-{
-  std::memmove(result, first, n * sizeof(T));
-  return result + n;
-} // end trivial_copy_n()
 
-} // end namespace scalar
-} // end namespace internal
+template<typename InputIterator,
+         typename OutputIterator>
+__host__ __device__
+  OutputIterator copy(tag,
+                      InputIterator first,
+                      InputIterator last,
+                      OutputIterator result);
+
+
+template<typename InputIterator,
+         typename Size,
+         typename OutputIterator>
+__host__ __device__
+  OutputIterator copy_n(tag,
+                        InputIterator first,
+                        Size n,
+                        OutputIterator result);
+
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
+
+#include <thrust/system/detail/sequential/copy.inl>
 

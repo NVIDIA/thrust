@@ -28,13 +28,13 @@ namespace system
 {
 namespace detail
 {
-namespace internal
+namespace sequential
 {
-namespace scalar
-{
+
 
 template<typename InputIterator,
          typename OutputIterator>
+__host__ __device__
   OutputIterator general_copy(InputIterator first,
                               InputIterator last,
                               OutputIterator result)
@@ -48,6 +48,7 @@ template<typename InputIterator,
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
+__host__ __device__
   OutputIterator general_copy_n(InputIterator first,
                                 Size n,
                                 OutputIterator result)
@@ -57,8 +58,8 @@ template<typename InputIterator,
   return result;
 } // end general_copy_n()
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
