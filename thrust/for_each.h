@@ -22,26 +22,26 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(const thrust::detail::dispatchable_base<System> &system,
+InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(const thrust::detail::dispatchable_base<System> &system,
+InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
                          UnaryFunction f);

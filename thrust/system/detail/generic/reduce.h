@@ -30,18 +30,18 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename InputIterator>
+template<typename DerivedPolicy, typename InputIterator>
   typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last);
+    reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
-template<typename System, typename InputIterator, typename T>
-  T reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, T init);
+template<typename DerivedPolicy, typename InputIterator, typename T>
+  T reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
-  T reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
+  T reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
 
 } // end namespace generic
 } // end namespace detail

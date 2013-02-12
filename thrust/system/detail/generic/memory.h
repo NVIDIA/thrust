@@ -23,7 +23,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/pointer.h>
@@ -39,20 +39,20 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename Size> void malloc(thrust::dispatchable<System> &, Size);
+template<typename DerivedPolicy, typename Size> void malloc(thrust::execution_policy<DerivedPolicy> &, Size);
 
-template<typename T, typename System>
-thrust::pointer<T,System> malloc(thrust::dispatchable<System> &s, std::size_t n);
+template<typename T, typename DerivedPolicy>
+thrust::pointer<T,DerivedPolicy> malloc(thrust::execution_policy<DerivedPolicy> &s, std::size_t n);
 
-template<typename System, typename Pointer> void free(thrust::dispatchable<System> &, Pointer);
+template<typename DerivedPolicy, typename Pointer> void free(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
 void assign_value(tag, Pointer1, Pointer2);
 
-template<typename System, typename Pointer>
+template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
-void get_value(thrust::dispatchable<System> &, Pointer);
+void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__

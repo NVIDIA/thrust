@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 
 namespace thrust
@@ -29,10 +29,10 @@ namespace detail
 {
 
 
-template<typename System, typename Pointer>
+template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
   typename thrust::iterator_value<Pointer>::type
-    get_value(thrust::system::cpp::detail::dispatchable<System> &, Pointer ptr)
+    get_value(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &, Pointer ptr)
 {
   return *thrust::raw_pointer_cast(ptr);
 } // end get_value()

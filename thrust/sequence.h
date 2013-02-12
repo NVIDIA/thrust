@@ -22,27 +22,27 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System, typename ForwardIterator>
-  void sequence(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator>
+  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last);
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init);
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -34,11 +34,11 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &system,
+  OutputType reduce(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,

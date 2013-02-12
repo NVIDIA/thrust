@@ -30,83 +30,83 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
-  ForwardIterator remove(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator remove(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value)
 {
   using thrust::system::detail::generic::remove;
-  return remove(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+  return remove(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 } // end remove()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator remove_copy(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator remove_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
                              const T &value)
 {
   using thrust::system::detail::generic::remove_copy;
-  return remove_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, value);
+  return remove_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, value);
 } // end remove_copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator remove_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   using thrust::system::detail::generic::remove_if;
-  return remove_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return remove_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end remove_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator remove_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
   using thrust::system::detail::generic::remove_copy_if;
-  return remove_copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, pred);
+  return remove_copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, pred);
 } // end remove_copy_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator remove_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
   using thrust::system::detail::generic::remove_if;
-  return remove_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, pred);
+  return remove_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, pred);
 } // end remove_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator remove_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
@@ -114,7 +114,7 @@ template<typename System,
                                 Predicate pred)
 {
   using thrust::system::detail::generic::remove_copy_if;
-  return remove_copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, result, pred);
+  return remove_copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, result, pred);
 } // end remove_copy_if()
 
 

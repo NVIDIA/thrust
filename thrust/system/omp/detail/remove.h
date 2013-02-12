@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -28,43 +28,43 @@ namespace omp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(dispatchable<System> &system,
+  ForwardIterator remove_if(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(dispatchable<System> &system,
+  ForwardIterator remove_if(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(dispatchable<System> &system,
+  OutputIterator remove_copy_if(execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(dispatchable<System> &system,
+  OutputIterator remove_copy_if(execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,

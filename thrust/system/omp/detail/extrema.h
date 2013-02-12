@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 #include <thrust/system/detail/generic/extrema.h>
 
 namespace thrust
@@ -29,34 +29,34 @@ namespace omp
 namespace detail
 {
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
   // omp prefers generic::max_element to cpp::max_element
-  return thrust::system::detail::generic::max_element(system, first, last, comp);
+  return thrust::system::detail::generic::max_element(exec, first, last, comp);
 } // end max_element()
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
 {
   // omp prefers generic::min_element to cpp::min_element
-  return thrust::system::detail::generic::min_element(system, first, last, comp);
+  return thrust::system::detail::generic::min_element(exec, first, last, comp);
 } // end min_element()
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(dispatchable<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
   // omp prefers generic::minmax_element to cpp::minmax_element
-  return thrust::system::detail::generic::minmax_element(system, first, last, comp);
+  return thrust::system::detail::generic::minmax_element(exec, first, last, comp);
 } // end minmax_element()
 
 } // end detail

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/iterator/detail/normal_iterator.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 
 namespace thrust
@@ -91,7 +91,7 @@ template<typename T, typename Alloc>
     iterator uninitialized_copy(InputIterator first, InputIterator last, iterator result);
 
     template<typename System, typename InputIterator>
-    iterator uninitialized_copy(thrust::dispatchable<System> &from_system,
+    iterator uninitialized_copy(thrust::execution_policy<System> &from_system,
                                 InputIterator first,
                                 InputIterator last,
                                 iterator result);
@@ -100,7 +100,7 @@ template<typename T, typename Alloc>
     iterator uninitialized_copy_n(InputIterator first, Size n, iterator result);
 
     template<typename System, typename InputIterator, typename Size>
-    iterator uninitialized_copy_n(thrust::dispatchable<System> &from_system,
+    iterator uninitialized_copy_n(thrust::execution_policy<System> &from_system,
                                   InputIterator first,
                                   Size n,
                                   iterator result);

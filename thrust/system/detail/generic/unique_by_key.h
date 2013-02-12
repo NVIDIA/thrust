@@ -30,35 +30,35 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(thrust::dispatchable<System> &system,
+    unique_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first);
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(thrust::dispatchable<System> &system,
+    unique_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
                   BinaryPredicate binary_pred);
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(thrust::dispatchable<System> &system,
+    unique_by_key_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -66,14 +66,14 @@ template<typename System,
                        OutputIterator2 values_output);
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(thrust::dispatchable<System> &system,
+    unique_by_key_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,

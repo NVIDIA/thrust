@@ -29,36 +29,36 @@ namespace thrust
 {
 
 
-template<typename System, typename InputIterator, typename T>
-InputIterator find(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename T>
+InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    const T& value)
 {
   using thrust::system::detail::generic::find;
-  return find(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+  return find(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 } // end find()
 
 
-template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
   using thrust::system::detail::generic::find_if;
-  return find_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return find_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end find_if()
 
 
-template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if_not(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
   using thrust::system::detail::generic::find_if_not;
-  return find_if_not(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return find_if_not(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end find_if_not()
 
 

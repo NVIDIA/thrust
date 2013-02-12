@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/find.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -34,14 +34,14 @@ namespace omp
 namespace detail
 {
 
-template <typename System, typename InputIterator, typename Predicate>
-InputIterator find_if(dispatchable<System> &system,
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+InputIterator find_if(execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
   // omp prefers generic::find_if to cpp::find_if
-  return thrust::system::detail::generic::find_if(system, first, last, pred);
+  return thrust::system::detail::generic::find_if(exec, first, last, pred);
 }
 
 } // end namespace detail

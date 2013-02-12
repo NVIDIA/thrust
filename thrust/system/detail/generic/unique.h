@@ -29,36 +29,36 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator>
-ForwardIterator unique(thrust::dispatchable<System> &system,
+ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-ForwardIterator unique(thrust::dispatchable<System> &system,
+ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-OutputIterator unique_copy(thrust::dispatchable<System> &system,
+OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator output);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-OutputIterator unique_copy(thrust::dispatchable<System> &system,
+OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator output,

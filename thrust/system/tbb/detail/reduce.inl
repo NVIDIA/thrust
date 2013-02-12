@@ -96,11 +96,11 @@ struct body
 } // end reduce_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &system,
+  OutputType reduce(execution_policy<DerivedPolicy> &exec,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,

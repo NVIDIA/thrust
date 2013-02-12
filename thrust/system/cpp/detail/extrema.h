@@ -24,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/extrema.h>
 
 namespace thrust
@@ -36,8 +36,8 @@ namespace cpp
 namespace detail
 {
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(dispatchable<System> &,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -46,8 +46,8 @@ ForwardIterator min_element(dispatchable<System> &,
 }
 
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(dispatchable<System> &,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -56,8 +56,8 @@ ForwardIterator max_element(dispatchable<System> &,
 }
 
 
-template <typename System, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(dispatchable<System> &,
+template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(execution_policy<DerivedPolicy> &,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)

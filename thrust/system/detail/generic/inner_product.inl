@@ -30,8 +30,8 @@ namespace generic
 {
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputType>
-OutputType inner_product(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputType>
+OutputType inner_product(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -39,12 +39,12 @@ OutputType inner_product(thrust::dispatchable<System> &system,
 {
   thrust::plus<OutputType>       binary_op1;
   thrust::multiplies<OutputType> binary_op2;
-  return thrust::inner_product(system, first1, last1, first2, init, binary_op1, binary_op2);
+  return thrust::inner_product(exec, first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputType, typename BinaryFunction1, typename BinaryFunction2>
-OutputType inner_product(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputType, typename BinaryFunction1, typename BinaryFunction2>
+OutputType inner_product(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -59,7 +59,7 @@ OutputType inner_product(thrust::dispatchable<System> &system,
   // only the first iterator in the tuple is relevant for the purposes of last
   ZipIter last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
 
-  return thrust::transform_reduce(system, first, last, thrust::detail::zipped_binary_op<OutputType,BinaryFunction2>(binary_op2), init, binary_op1);
+  return thrust::transform_reduce(exec, first, last, thrust::detail::zipped_binary_op<OutputType,BinaryFunction2>(binary_op2), init, binary_op1);
 } // end inner_product()
 
 

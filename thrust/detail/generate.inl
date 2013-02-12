@@ -30,30 +30,30 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Generator>
-  void generate(const thrust::detail::dispatchable_base<System> &system,
+  void generate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
 {
   using thrust::system::detail::generic::generate;
-  return generate(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, gen);
+  return generate(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, gen);
 } // end generate()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename OutputIterator,
          typename Size,
          typename Generator>
-  OutputIterator generate_n(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator generate_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen)
 {
   using thrust::system::detail::generic::generate_n;
-  return generate_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, gen);
+  return generate_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, gen);
 } // end generate_n()
 
 

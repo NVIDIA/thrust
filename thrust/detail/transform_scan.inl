@@ -29,12 +29,12 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename AssociativeOperator>
-  OutputIterator transform_inclusive_scan(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator transform_inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -42,17 +42,17 @@ template<typename System,
                                           AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::transform_inclusive_scan;
-  return transform_inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, unary_op, binary_op);
+  return transform_inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, unary_op, binary_op);
 } // end transform_inclusive_scan()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-  OutputIterator transform_exclusive_scan(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator transform_exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -61,7 +61,7 @@ template<typename System,
                                           AssociativeOperator binary_op)
 {
   using thrust::system::detail::generic::transform_exclusive_scan;
-  return transform_exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result, unary_op, init, binary_op);
+  return transform_exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, unary_op, init, binary_op);
 } // end transform_exclusive_scan()
 
 

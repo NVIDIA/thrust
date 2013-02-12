@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 #include <thrust/memory.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/allocator/malloc_allocator.h>
@@ -420,7 +420,4 @@ using thrust::system::omp::allocator;
 } // end thrust
 
 #include <thrust/system/omp/detail/memory.inl>
-
-// make omp::tag's ADL targets available
-#include <thrust/system/cpp/detail/adl_targets.h>
 

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 #include <thrust/pair.h>
 #include <thrust/detail/pointer.h>
 #include <thrust/detail/raw_pointer_cast.h>
@@ -32,14 +32,14 @@ namespace get_temporary_buffer_detail
 {
 
 
-template<typename T, typename System, typename Pair>
-  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
+template<typename T, typename DerivedPolicy, typename Pair>
+  thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
     down_cast_pair(Pair p)
 {
   // XXX should use a hypothetical thrust::static_pointer_cast here
-  thrust::pointer<T,System> ptr = thrust::pointer<T,System>(static_cast<T*>(thrust::raw_pointer_cast(p.first)));
+  thrust::pointer<T,DerivedPolicy> ptr = thrust::pointer<T,DerivedPolicy>(static_cast<T*>(thrust::raw_pointer_cast(p.first)));
 
-  typedef thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type> result_type;
+  typedef thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type> result_type;
   return result_type(ptr, p.second);
 } // end down_cast_pair()
 
@@ -48,22 +48,22 @@ template<typename T, typename System, typename Pair>
 } // end detail
 
 
-template<typename T, typename System>
-  thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-    get_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, typename thrust::pointer<T,System>::difference_type n)
+template<typename T, typename DerivedPolicy>
+  thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
+    get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n)
 {
   using thrust::system::detail::generic::get_temporary_buffer;
 
-  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,System>(get_temporary_buffer<T>(thrust::detail::derived_cast(thrust::detail::strip_const(system)), n));
+  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,DerivedPolicy>(get_temporary_buffer<T>(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), n));
 } // end get_temporary_buffer()
 
 
-template<typename System, typename Pointer>
-  void return_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, Pointer p)
+template<typename DerivedPolicy, typename Pointer>
+  void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer p)
 {
   using thrust::system::detail::generic::return_temporary_buffer;
 
-  return return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(system)), p);
+  return return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), p);
 } // end return_temporary_buffer()
 
 

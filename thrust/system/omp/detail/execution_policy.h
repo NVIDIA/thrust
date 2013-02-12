@@ -17,8 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 #include <thrust/detail/type_traits.h>
 
@@ -34,30 +34,30 @@ namespace detail
 
 // this awkward sequence of definitions arise
 // from the desire both for tag to derive
-// from dispatchable and for dispatchable
-// to convert to tag (when dispatchable is not
+// from execution_policy and for execution_policy
+// to convert to tag (when execution_policy is not
 // an ancestor of tag)
 
 // forward declaration of tag
 struct tag;
 
-// forward declaration of dispatchable
-template<typename> struct dispatchable;
+// forward declaration of execution_policy
+template<typename> struct execution_policy;
 
-// specialize dispatchable for tag
+// specialize execution_policy for tag
 template<>
-  struct dispatchable<tag>
-    : thrust::system::cpp::detail::dispatchable<tag>
+  struct execution_policy<tag>
+    : thrust::system::cpp::detail::execution_policy<tag>
 {};
 
 // tag's definition comes before the
-// generic definition of dispatchable
-struct tag : dispatchable<tag> {};
+// generic definition of execution_policy
+struct tag : execution_policy<tag> {};
 
 // allow conversion to tag when it is not a successor
 template<typename Derived>
-  struct dispatchable
-    : thrust::system::cpp::detail::dispatchable<Derived>
+  struct execution_policy
+    : thrust::system::cpp::detail::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -75,7 +75,7 @@ template<typename Derived>
 
 template<typename System1, typename System2>
 inline __host__ __device__
-  System1 select_system(dispatchable<System1> s, thrust::system::tbb::detail::dispatchable<System2>)
+  System1 select_system(execution_policy<System1> s, thrust::system::tbb::detail::execution_policy<System2>)
 {
   return thrust::detail::derived_cast(s);
 } // end select_system()
@@ -83,7 +83,7 @@ inline __host__ __device__
 
 template<typename System1, typename System2>
 inline __host__ __device__
-  System2 select_system(thrust::system::tbb::detail::dispatchable<System1>, dispatchable<System2> s)
+  System2 select_system(thrust::system::tbb::detail::execution_policy<System1>, execution_policy<System2> s)
 {
   return thrust::detail::derived_cast(s);
 } // end select_system()
@@ -91,8 +91,8 @@ inline __host__ __device__
 
 } // end detail
 
-// alias dispatchable and tag here
-using thrust::system::omp::detail::dispatchable;
+// alias execution_policy and tag here
+using thrust::system::omp::detail::execution_policy;
 using thrust::system::omp::detail::tag;
 
 } // end omp
@@ -102,7 +102,7 @@ using thrust::system::omp::detail::tag;
 namespace omp
 {
 
-using thrust::system::omp::dispatchable;
+using thrust::system::omp::execution_policy;
 using thrust::system::omp::tag;
 
 } // end omp

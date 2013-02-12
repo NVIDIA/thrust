@@ -36,10 +36,10 @@ namespace detail
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(dispatchable<System> &system,
+  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                        InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result,
@@ -49,18 +49,18 @@ template<typename System,
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    return thrust::transform(system, begin, end, result, thrust::identity<InputType>());
+    return thrust::transform(exec, begin, end, result, thrust::identity<InputType>());
 #else
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
     typename thrust::iterator_traits<InputIterator>::difference_type n = thrust::distance(begin, end);
 
-    thrust::host_system_tag temp_system;
-    thrust::detail::temporary_array<InputType, thrust::host_system_tag> temp1(temp_system, begin, end);
+    thrust::host_system_tag temp_exec;
+    thrust::detail::temporary_array<InputType, thrust::host_system_tag> temp1(temp_exec, begin, end);
 
     // transform temp1 to OutputType in host memory
     typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
-    thrust::detail::temporary_array<OutputType, thrust::host_system_tag> temp2(temp_system, temp1.begin(), temp1.end());
+    thrust::detail::temporary_array<OutputType, thrust::host_system_tag> temp2(temp_exec, temp1.begin(), temp1.end());
 
     // copy temp2 to device
     result = thrust::system::cuda::detail::copy_cross_system(temp2.begin(), temp2.end(), result);
@@ -70,10 +70,10 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(dispatchable<System> &system,
+  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                        InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result,
@@ -85,7 +85,7 @@ template<typename System,
     // how many elements to copy?
     typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
 
-    thrust::system::cuda::detail::trivial_copy_n(system, begin, n, result);
+    thrust::system::cuda::detail::trivial_copy_n(exec, begin, n, result);
 
     return result + n;
 }
@@ -96,10 +96,10 @@ template<typename System,
 // Entry Point //
 /////////////////
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(dispatchable<System> &system,
+  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                        InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result)
@@ -115,7 +115,7 @@ template<typename System,
     // XXX WAR unused variable warning
     (void) use_trivial_copy;
 
-    return detail::copy_device_to_device(system, begin, end, result,
+    return detail::copy_device_to_device(exec, begin, end, result,
             thrust::detail::integral_constant<bool, use_trivial_copy>());
 
 }

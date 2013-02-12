@@ -31,31 +31,31 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-  ForwardIterator unique(dispatchable<System> &system,
+  ForwardIterator unique(execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique to cpp::unique
-  return thrust::system::detail::generic::unique(system,first,last,binary_pred);
+  return thrust::system::detail::generic::unique(exec,first,last,binary_pred);
 } // end unique()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator unique_copy(dispatchable<System> &system,
+  OutputIterator unique_copy(execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
   // omp prefers generic::unique_copy to cpp::unique_copy
-  return thrust::system::detail::generic::unique_copy(system,first,last,output,binary_pred);
+  return thrust::system::detail::generic::unique_copy(exec,first,last,output,binary_pred);
 } // end unique_copy()
 
 

@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/memory.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/allocator/malloc_allocator.h>
@@ -418,7 +418,4 @@ using thrust::system::cuda::allocator;
 } // end thrust
 
 #include <thrust/system/cuda/detail/memory.inl>
-
-// make cuda::tag's ADL targets available
-#include <thrust/system/cuda/detail/adl_targets.h>
 

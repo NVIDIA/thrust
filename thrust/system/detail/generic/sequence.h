@@ -30,22 +30,22 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator>
-  void sequence(thrust::dispatchable<System> &system,
+  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last);
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init);
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,

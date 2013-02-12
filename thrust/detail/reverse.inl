@@ -30,24 +30,24 @@ namespace thrust
 {
 
 
-template<typename System, typename BidirectionalIterator>
-  void reverse(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename BidirectionalIterator>
+  void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last)
 {
   using thrust::system::detail::generic::reverse;
-  return reverse(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
+  return reverse(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
 } // end reverse()
 
 
-template<typename System, typename BidirectionalIterator, typename OutputIterator>
-  OutputIterator reverse_copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
+  OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result)
 {
   using thrust::system::detail::generic::reverse_copy;
-  return reverse_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
+  return reverse_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
 } // end reverse_copy()
 
 
