@@ -22,12 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/function_traits.h>
-#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -48,47 +43,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 BinaryFunction binary_op)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if BinaryFunction is AdaptableBinaryFunction
-  //   TemporaryType = AdaptableBinaryFunction::result_type
-  // else if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
-  
-  using namespace thrust::detail;
-
-  typedef typename eval_if<
-    has_result_type<BinaryFunction>::value,
-    result_type<BinaryFunction>,
-    eval_if<
-      is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
-
-  // wrap binary_op
-  thrust::detail::host_function<
-    BinaryFunction,
-    ValueType
-  > wrapped_binary_op(binary_op);
-
-  if(first != last)
-  {
-    ValueType sum = *first;
-
-    *result = sum;
-
-    for(++first, ++result; first != last; ++first, ++result)
-      *result = sum = wrapped_binary_op(sum,*first);
-  }
-
-  return result;
+  return inclusive_scan(thrust::system::detail::sequential::seq, first, last, result, binary_op);
 }
 
 
@@ -102,47 +57,7 @@ template<typename InputIterator,
                                 T init,
                                 BinaryFunction binary_op)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if BinaryFunction is AdaptableBinaryFunction
-  //   TemporaryType = AdaptableBinaryFunction::result_type
-  // else if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
-
-  using namespace thrust::detail;
-
-  typedef typename eval_if<
-    has_result_type<BinaryFunction>::value,
-    result_type<BinaryFunction>,
-    eval_if<
-      is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
-
-  if(first != last)
-  {
-    ValueType tmp = *first;  // temporary value allows in-situ scan
-    ValueType sum = init;
-
-    *result = sum;
-    sum = binary_op(sum, tmp);
-
-    for(++first, ++result; first != last; ++first, ++result)
-    {
-      tmp = *first;
-      *result = sum;
-      sum = binary_op(sum, tmp);
-    }
-  }
-
-  return result;
+  return exclusive_scan(thrust::system::detail::sequential::seq, first, last, result, init, binary_op);
 } 
 
 } // end namespace scalar
