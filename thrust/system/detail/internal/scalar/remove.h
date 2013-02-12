@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -41,35 +41,7 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  // advance iterators until wrapped_pred(*first) is true or we reach the end of input
-  while(first != last && !wrapped_pred(*first))
-    ++first;
-
-  if(first == last)
-    return first;
-
-  // result always trails first 
-  ForwardIterator result = first;
-
-  ++first;
-
-  while(first != last)
-  {
-    if(!wrapped_pred(*first))
-    {
-      *result = *first;
-      ++result;
-    }
-    ++first;
-  }
-
-  return result;
+  return remove_if(thrust::system::detail::sequential::seq, first, last, pred);
 }
 
 
@@ -81,40 +53,7 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  // advance iterators until wrapped_pred(*stencil) is true or we reach the end of input
-  while(first != last && !wrapped_pred(*stencil))
-  {
-    ++first;
-    ++stencil;
-  }
-
-  if(first == last)
-    return first;
-
-  // result always trails first 
-  ForwardIterator result = first;
-
-  ++first;
-  ++stencil;
-
-  while(first != last)
-  {
-    if(!wrapped_pred(*stencil))
-    {
-      *result = *first;
-      ++result;
-    }
-    ++first;
-    ++stencil;
-  }
-
-  return result;
+  return remove_if(thrust::system::detail::sequential::seq, first, last, stencil, pred);
 }
 
 
@@ -126,24 +65,7 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  while (first != last)
-  {
-    if (!wrapped_pred(*first))
-    {
-      *result = *first;
-      ++result;
-    }
-
-    ++first;
-  }
-
-  return result;
+  return remove_copy_if(thrust::system::detail::sequential::seq, first, last, result, pred);
 }
 
 template<typename InputIterator1,
@@ -156,25 +78,7 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  // wrap pred
-  thrust::detail::host_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  while (first != last)
-  {
-    if (!wrapped_pred(*stencil))
-    {
-      *result = *first;
-      ++result;
-    }
-
-    ++first;
-    ++stencil;
-  }
-
-  return result;
+  return remove_copy_if(thrust::system::detail::sequential::seq, first, last, stencil, result, pred);
 }
 
 } // end namespace scalar

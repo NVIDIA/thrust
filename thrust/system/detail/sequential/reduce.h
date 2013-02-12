@@ -38,6 +38,7 @@ namespace sequential
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
+__host__ __device__
   OutputType reduce(tag,
                     InputIterator begin,
                     InputIterator end,
