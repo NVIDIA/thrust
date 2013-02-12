@@ -22,8 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/internal/scalar/copy.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -47,32 +46,11 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  while(first1 != last1 && first2 != last2)
-  {
-    if(wrapped_comp(*first1,*first2))
-    {
-      *result = *first1;
-      ++first1;
-      ++result;
-    } // end if
-    else if(wrapped_comp(*first2,*first1))
-    {
-      ++first2;
-    } // end else if
-    else
-    {
-      ++first1;
-      ++first2;
-    } // end else
-  } // end while
-
-  return scalar::copy(first1, last1, result);
+  return set_difference(thrust::system::detail::sequential::seq,
+                        first1, last1,
+                        first2, last2,
+                        result,
+                        comp);
 } // end set_difference()
 
 
@@ -87,32 +65,11 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  while(first1 != last1 && first2 != last2)
-  {
-    if(wrapped_comp(*first1,*first2))
-    {
-      ++first1;
-    } // end if
-    else if(wrapped_comp(*first2,*first1))
-    {
-      ++first2;
-    } // end else if
-    else
-    {
-      *result = *first1;
-      ++first1;
-      ++first2;
-      ++result;
-    } // end else
-  } // end while
-
-  return result;
+  return set_intersection(thrust::system::detail::sequential::seq,
+                          first1, last1,
+                          first2, last2,
+                          result,
+                          comp);
 } // end set_intersection()
 
 
@@ -127,34 +84,11 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  while(first1 != last1 && first2 != last2)
-  {
-    if(wrapped_comp(*first1,*first2))
-    {
-      *result = *first1;
-      ++first1;
-      ++result;
-    } // end if
-    else if(wrapped_comp(*first2,*first1))
-    {
-      *result = *first2;
-      ++first2;
-      ++result;
-    } // end else if
-    else
-    {
-      ++first1;
-      ++first2;
-    } // end else
-  } // end while
-
-  return scalar::copy(first2, last2, scalar::copy(first1, last1, result));
+  return set_symmetric_difference(thrust::system::detail::sequential::seq,
+                                  first1, last1,
+                                  first2, last2,
+                                  result,
+                                  comp);
 } // end set_symmetric_difference()
 
 
@@ -169,35 +103,11 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  // wrap comp
-  thrust::detail::host_function<
-    StrictWeakOrdering,
-    bool
-  > wrapped_comp(comp);
-
-  while(first1 != last1 && first2 != last2)
-  {
-    if(wrapped_comp(*first1,*first2))
-    {
-      *result = *first1;
-      ++first1;
-    } // end if
-    else if(wrapped_comp(*first2,*first1))
-    {
-      *result = *first2;
-      ++first2;
-    } // end else if
-    else
-    {
-      *result = *first1;
-      ++first1;
-      ++first2;
-    } // end else
-
-    ++result;
-  } // end while
-
-  return scalar::copy(first2, last2, scalar::copy(first1, last1, result));
+  return set_union(thrust::system::detail::sequential::seq,
+                   first1, last1,
+                   first2, last2,
+                   result,
+                   comp);
 } // end set_union()
 
 } // end namespace scalar
