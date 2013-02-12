@@ -22,7 +22,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
+#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -30,24 +31,39 @@ namespace system
 {
 namespace detail
 {
-namespace internal
+namespace sequential
 {
-namespace scalar
-{
+
 
 template<typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(InputIterator begin,
+  OutputType reduce(tag,
+                    InputIterator begin,
                     InputIterator end,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  return reduce(thrust::system::detail::sequential::seq, begin, end, init, binary_op);
+  // wrap binary_op
+  thrust::detail::host_device_function<
+    BinaryFunction,
+    OutputType
+  > wrapped_binary_op(binary_op);
+
+  // initialize the result
+  OutputType result = init;
+
+  while(begin != end)
+  {
+    result = wrapped_binary_op(result, *begin);
+    ++begin;
+  } // end while
+
+  return result;
 }
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust

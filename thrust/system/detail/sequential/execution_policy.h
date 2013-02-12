@@ -46,4 +46,5 @@ static const tag seq;
 #include <thrust/system/detail/sequential/find.h>
 #include <thrust/system/detail/sequential/for_each.h>
 #include <thrust/system/detail/sequential/reduce_by_key.h>
+#include <thrust/system/detail/sequential/reduce.h>
 
