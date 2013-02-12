@@ -34,10 +34,10 @@ static const __device__ tag seq;
 static const tag seq;
 #endif
 
-}
-}
-}
-}
+} // end sequential
+} // end detail
+} // end system
+} // end thrust
 
 #include <thrust/system/detail/sequential/adjacent_difference.h>
 #include <thrust/system/detail/sequential/binary_search.h>
@@ -46,6 +46,7 @@ static const tag seq;
 #include <thrust/system/detail/sequential/extrema.h>
 #include <thrust/system/detail/sequential/find.h>
 #include <thrust/system/detail/sequential/for_each.h>
+#include <thrust/system/detail/sequential/merge.h>
 #include <thrust/system/detail/sequential/reduce_by_key.h>
 #include <thrust/system/detail/sequential/reduce.h>
 #include <thrust/system/detail/sequential/remove.h>

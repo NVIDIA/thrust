@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -34,6 +35,7 @@ namespace internal
 namespace scalar
 {
 
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
@@ -43,7 +45,11 @@ OutputIterator merge(InputIterator1 first1,
                      InputIterator2 first2,
                      InputIterator2 last2,
                      OutputIterator result,
-                     StrictWeakOrdering comp);
+                     StrictWeakOrdering comp)
+{
+  return merge(thrust::system::detail::sequential::seq, first1, last1, first2, last2, result, comp);
+} // end merge()
+
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -61,13 +67,21 @@ thrust::pair<OutputIterator1,OutputIterator2>
                InputIterator4 values_first2,
                OutputIterator1 keys_result,
                OutputIterator2 values_result,
-               StrictWeakOrdering comp);
+               StrictWeakOrdering comp)
+{
+  return merge_by_key(thrust::system::detail::sequential::seq,
+                      keys_first1, keys_last1,
+                      keys_first2, keys_last2,
+                      values_first1, values_first2,
+                      keys_result,
+                      values_result,
+                      comp);
+}
+
 
 } // end namespace scalar
 } // end namespace internal
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
-
-#include <thrust/system/detail/internal/scalar/merge.inl>
 
