@@ -22,8 +22,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/sequential/tag.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -31,34 +32,62 @@ namespace system
 {
 namespace detail
 {
-namespace internal
+namespace sequential
 {
-namespace scalar
-{
+
 
 template<typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator unique_copy(InputIterator first,
+__host__ __device__
+  OutputIterator unique_copy(tag,
+                             InputIterator first,
                              InputIterator last,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  return unique_copy(thrust::system::detail::sequential::seq, first, last, output, binary_pred);
+  typedef typename thrust::iterator_traits<InputIterator>::value_type T;
+
+  if(first != last)
+  {
+    T prev = *first;
+
+    for(++first; first != last; ++first)
+    {
+      T temp = *first;
+
+      if (!binary_pred(prev, temp))
+      {
+        *output = prev;
+
+        ++output;
+
+        prev = temp;
+      }
+    }
+
+    *output = prev;
+    ++output;
+  }
+
+  return output;
 } // end unique_copy()
 
 
 template<typename ForwardIterator,
          typename BinaryPredicate>
-  ForwardIterator unique(ForwardIterator first,
+__host__ __device__
+  ForwardIterator unique(tag seq,
+                         ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
-  return unique(thrust::system::detail::sequential::seq, first, last, binary_pred);
+  // sequential unique_copy permits in-situ operation
+  return unique_copy(seq, first, last, first, binary_pred);
 } // end unique()
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
