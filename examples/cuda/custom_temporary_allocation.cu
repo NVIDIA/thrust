@@ -22,10 +22,10 @@
 
 
 // cached_allocator: a simple allocator for caching allocation requests
-// we derived cached_allocator from cuda::dispatchable to ensure that
+// we derived cached_allocator from cuda::execution_policy to ensure that
 // calls to get_temporary_buffer & return_temporary_buffer "catch" it
 class cached_allocator
-  : public thrust::cuda::dispatchable<cached_allocator>
+  : public thrust::cuda::execution_policy<cached_allocator>
 {
   public:
     cached_allocator() {}

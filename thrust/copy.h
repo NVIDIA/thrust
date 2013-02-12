@@ -22,36 +22,36 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System, typename InputIterator, typename OutputIterator>
-  OutputIterator copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+  OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
 
 
-template<typename System, typename InputIterator, typename Size, typename OutputIterator>
-  OutputIterator copy_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
+  OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result);
 
 
-template<typename System, typename InputIterator, typename OutputIterator, typename Predicate>
-  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
+  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
                          Predicate pred);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
-  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
+  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,

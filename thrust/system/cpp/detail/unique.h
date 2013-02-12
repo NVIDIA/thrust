@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/pair.h>
 #include <thrust/system/detail/internal/scalar/unique.h>
 
@@ -30,10 +30,10 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-  ForwardIterator unique(dispatchable<System> &,
+  ForwardIterator unique(execution_policy<DerivedPolicy> &,
                          ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
@@ -41,11 +41,11 @@ template<typename System,
   return thrust::system::detail::internal::scalar::unique(first, last, binary_pred);
 }
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-  OutputIterator unique_copy(dispatchable<System> &,
+  OutputIterator unique_copy(execution_policy<DerivedPolicy> &,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,

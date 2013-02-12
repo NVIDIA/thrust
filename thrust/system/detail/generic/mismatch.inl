@@ -29,9 +29,9 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename InputIterator1, typename InputIterator2>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
   thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::dispatchable<System> &system,
+    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2)
@@ -39,12 +39,12 @@ template<typename System, typename InputIterator1, typename InputIterator2>
   typedef typename thrust::iterator_value<InputIterator1>::type InputType1;
   
   // XXX use a placeholder expression here
-  return thrust::mismatch(system, first1, last1, first2, thrust::detail::equal_to<InputType1>());
+  return thrust::mismatch(exec, first1, last1, first2, thrust::detail::equal_to<InputType1>());
 } // end mismatch()
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
   thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::dispatchable<System> &system,
+    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2,
@@ -57,7 +57,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
   ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first1,first2));
   ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
   
-  ZipIterator result = thrust::find_if_not(system, zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
+  ZipIterator result = thrust::find_if_not(exec, zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
   
   return thrust::make_pair(thrust::get<0>(result.get_iterator_tuple()),
                            thrust::get<1>(result.get_iterator_tuple()));

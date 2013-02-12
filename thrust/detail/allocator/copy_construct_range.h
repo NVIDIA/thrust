@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
@@ -25,14 +25,14 @@ namespace detail
 {
 
 template<typename System, typename Allocator, typename InputIterator, typename Pointer>
-  Pointer copy_construct_range(thrust::dispatchable<System> &from_system,
+  Pointer copy_construct_range(thrust::execution_policy<System> &from_system,
                                Allocator &a,
                                InputIterator first,
                                InputIterator last,
                                Pointer result);
 
 template<typename System, typename Allocator, typename InputIterator, typename Size, typename Pointer>
-  Pointer copy_construct_range_n(thrust::dispatchable<System> &from_system,
+  Pointer copy_construct_range_n(thrust::execution_policy<System> &from_system,
                                  Allocator &a,
                                  InputIterator first,
                                  Size n,

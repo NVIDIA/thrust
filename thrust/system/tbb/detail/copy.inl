@@ -33,66 +33,66 @@ namespace detail
 namespace dispatch
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(dispatchable<System> &system,
+  OutputIterator copy(execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result,
                       thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy(system, first, last, result);
+  return thrust::system::cpp::detail::copy(exec, first, last, result);
 } // end copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(dispatchable<System> &system,
+  OutputIterator copy(execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy(system, first, last, result);
+  return thrust::system::detail::generic::copy(exec, first, last, result);
 } // end copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(dispatchable<System> &system,
+  OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result,
                         thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy_n(system, first, n, result);
+  return thrust::system::cpp::detail::copy_n(exec, first, n, result);
 } // end copy_n()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(dispatchable<System> &system,
+  OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy_n(system, first, n, result);
+  return thrust::system::detail::generic::copy_n(exec, first, n, result);
 } // end copy_n()
 
 } // end dispatch
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-OutputIterator copy(dispatchable<System> &system,
+OutputIterator copy(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result)
@@ -103,16 +103,16 @@ OutputIterator copy(dispatchable<System> &system,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::tbb::detail::dispatch::copy(system,first,last,result,traversal());
+  return thrust::system::tbb::detail::dispatch::copy(exec,first,last,result,traversal());
 } // end copy()
 
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-OutputIterator copy_n(dispatchable<System> &system,
+OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       Size n,
                       OutputIterator result)
@@ -123,7 +123,7 @@ OutputIterator copy_n(dispatchable<System> &system,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::tbb::detail::dispatch::copy_n(system,first,n,result,traversal());
+  return thrust::system::tbb::detail::dispatch::copy_n(exec,first,n,result,traversal());
 } // end copy_n()
 
 

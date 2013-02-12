@@ -2,7 +2,7 @@
  *  Copyright 2008-2012 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ctbbliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -17,44 +17,46 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
+#include <thrust/iterator/detail/any_system_tag.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
 namespace system
 {
 // put the canonical tag in the same ns as the backend's entry points
-namespace cpp
+namespace tbb
 {
 namespace detail
 {
 
 // this awkward sequence of definitions arise
 // from the desire both for tag to derive
-// from dispatchable and for dispatchable
-// to convert to tag (when dispatchable is not
+// from execution_policy and for execution_policy
+// to convert to tag (when execution_policy is not
 // an ancestor of tag)
 
 // forward declaration of tag
 struct tag;
 
-// forward declaration of dispatchable
-template<typename> struct dispatchable;
+// forward declaration of execution_policy
+template<typename> struct execution_policy;
 
-// specialize dispatchable for tag
+// specialize execution_policy for tag
 template<>
-  struct dispatchable<tag>
-    : thrust::dispatchable<tag>
+  struct execution_policy<tag>
+    : thrust::system::cpp::detail::execution_policy<tag>
 {};
 
 // tag's definition comes before the
-// generic definition of dispatchable
-struct tag : dispatchable<tag> {};
+// generic definition of execution_policy
+struct tag : execution_policy<tag> {};
 
 // allow conversion to tag when it is not a successor
 template<typename Derived>
-  struct dispatchable
-    : thrust::dispatchable<Derived>
+  struct execution_policy
+    : thrust::system::cpp::detail::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -65,20 +67,20 @@ template<typename Derived>
 
 } // end detail
 
-// alias dispatchable and tag here
-using thrust::system::cpp::detail::dispatchable;
-using thrust::system::cpp::detail::tag;
+// alias execution_policy and tag here
+using thrust::system::tbb::detail::execution_policy;
+using thrust::system::tbb::detail::tag;
 
-} // end cpp
+} // end tbb
 } // end system
 
 // alias items at top-level
-namespace cpp
+namespace tbb
 {
 
-using thrust::system::cpp::dispatchable;
-using thrust::system::cpp::tag;
+using thrust::system::tbb::execution_policy;
+using thrust::system::tbb::tag;
 
-} // end cpp
+} // end tbb
 } // end thrust
 

@@ -26,51 +26,51 @@ namespace thrust
 {
 
 
-template<typename System, typename ForwardIterator>
-ForwardIterator min_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last)
+template<typename DerivedPolicy, typename ForwardIterator>
+ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last)
 {
   using thrust::system::detail::generic::min_element;
-  return min_element(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
+  return min_element(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
 } // end min_element()
 
 
-template<typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
+template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
   using thrust::system::detail::generic::min_element;
-  return min_element(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, comp);
+  return min_element(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
 } // end min_element()
 
 
-template<typename System, typename ForwardIterator>
-ForwardIterator max_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last)
+template<typename DerivedPolicy, typename ForwardIterator>
+ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last)
 {
   using thrust::system::detail::generic::max_element;
-  return max_element(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
+  return max_element(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
 } // end max_element()
 
 
-template<typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
+template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
   using thrust::system::detail::generic::max_element;
-  return max_element(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, comp);
+  return max_element(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
 } // end max_element()
 
 
-template<typename System, typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last)
+template<typename DerivedPolicy, typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last)
 {
   using thrust::system::detail::generic::minmax_element;
-  return minmax_element(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
+  return minmax_element(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
 } // end minmax_element()
 
 
-template<typename System, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
+template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
   using thrust::system::detail::generic::minmax_element;
-  return minmax_element(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, comp);
+  return minmax_element(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
 } // end minmax_element()
 
 

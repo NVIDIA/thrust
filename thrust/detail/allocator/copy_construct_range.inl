@@ -84,8 +84,8 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &a,
-                                      thrust::dispatchable<FromSystem> &from_system,
-                                      thrust::dispatchable<ToSystem> &to_system,
+                                      thrust::execution_policy<FromSystem> &from_system,
+                                      thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
                                       Pointer result)
@@ -125,8 +125,8 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &a,
-                                        thrust::dispatchable<FromSystem> &from_system,
-                                        thrust::dispatchable<ToSystem> &to_system,
+                                        thrust::execution_policy<FromSystem> &from_system,
+                                        thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,
                                         Pointer result)
@@ -157,8 +157,8 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &,
-                                      thrust::dispatchable<FromSystem> &from_system,
-                                      thrust::dispatchable<ToSystem> &to_system,
+                                      thrust::execution_policy<FromSystem> &from_system,
+                                      thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
                                       Pointer result)
@@ -176,8 +176,8 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &,
-                                        thrust::dispatchable<FromSystem> &from_system,
-                                        thrust::dispatchable<ToSystem> &to_system,
+                                        thrust::execution_policy<FromSystem> &from_system,
+                                        thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,
                                         Pointer result)
@@ -196,7 +196,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
     >::value,
     Pointer
   >::type
-    copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
+    copy_construct_range(thrust::execution_policy<FromSystem> &from_system,
                          Allocator &a,
                          InputIterator first,
                          InputIterator last,
@@ -217,7 +217,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
     >::value,
     Pointer
   >::type
-    copy_construct_range_n(thrust::dispatchable<FromSystem> &from_system,
+    copy_construct_range_n(thrust::execution_policy<FromSystem> &from_system,
                            Allocator &a,
                            InputIterator first,
                            Size n,
@@ -238,7 +238,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
     >::value,
     Pointer
   >::type
-    copy_construct_range(thrust::dispatchable<FromSystem> &from_system,
+    copy_construct_range(thrust::execution_policy<FromSystem> &from_system,
                          Allocator &a,
                          InputIterator first,
                          InputIterator last,
@@ -257,7 +257,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
     >::value,
     Pointer
   >::type
-    copy_construct_range_n(thrust::dispatchable<FromSystem> &from_system,
+    copy_construct_range_n(thrust::execution_policy<FromSystem> &from_system,
                            Allocator &a,
                            InputIterator first,
                            Size n,
@@ -272,7 +272,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename System, typename Allocator, typename InputIterator, typename Pointer>
-  Pointer copy_construct_range(thrust::dispatchable<System> &from_system,
+  Pointer copy_construct_range(thrust::execution_policy<System> &from_system,
                                Allocator &a,
                                InputIterator first,
                                InputIterator last,
@@ -283,7 +283,7 @@ template<typename System, typename Allocator, typename InputIterator, typename P
 
 
 template<typename System, typename Allocator, typename InputIterator, typename Size, typename Pointer>
-  Pointer copy_construct_range_n(thrust::dispatchable<System> &from_system,
+  Pointer copy_construct_range_n(thrust::execution_policy<System> &from_system,
                                  Allocator &a,
                                  InputIterator first,
                                  Size n,

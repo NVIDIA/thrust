@@ -188,7 +188,7 @@ template<typename T, typename Alloc>
   template<typename System, typename InputIterator>
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
-        ::uninitialized_copy(thrust::dispatchable<System> &from_system, InputIterator first, InputIterator last, iterator result)
+        ::uninitialized_copy(thrust::execution_policy<System> &from_system, InputIterator first, InputIterator last, iterator result)
 {
   return iterator(copy_construct_range(from_system, m_allocator, first, last, result.base()));
 } // end contiguous_storage::uninitialized_copy()
@@ -209,7 +209,7 @@ template<typename T, typename Alloc>
   template<typename System, typename InputIterator, typename Size>
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
-        ::uninitialized_copy_n(thrust::dispatchable<System> &from_system, InputIterator first, Size n, iterator result)
+        ::uninitialized_copy_n(thrust::execution_policy<System> &from_system, InputIterator first, Size n, iterator result)
 {
   return iterator(copy_construct_range_n(from_system, m_allocator, first, n, result.base()));
 } // end contiguous_storage::uninitialized_copy_n()

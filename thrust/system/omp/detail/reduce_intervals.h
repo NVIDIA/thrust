@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -33,12 +33,12 @@ namespace omp
 namespace detail
 {
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(dispatchable<System> &system,
+void reduce_intervals(execution_policy<DerivedPolicy> &exec,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,

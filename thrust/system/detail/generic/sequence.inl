@@ -30,35 +30,35 @@ namespace generic
 {
 
 
-template<typename System, typename ForwardIterator>
-  void sequence(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator>
+  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last)
 {
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type T;
 
-  thrust::sequence(system, first, last, T(0));
+  thrust::sequence(exec, first, last, T(0));
 } // end sequence()
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init)
 {
-  thrust::sequence(system, first, last, init, T(1));
+  thrust::sequence(exec, first, last, init, T(1));
 } // end sequence()
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step)
 {
-  thrust::tabulate(system, first, last, init + step * thrust::placeholders::_1);
+  thrust::tabulate(exec, first, last, init + step * thrust::placeholders::_1);
 } // end sequence()
 
 

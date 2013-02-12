@@ -32,44 +32,44 @@ namespace generic
 {
 
 
-template<typename System, typename Size>
-  void malloc(thrust::dispatchable<System> &, Size)
+template<typename DerivedPolicy, typename Size>
+  void malloc(thrust::execution_policy<DerivedPolicy> &, Size)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
 }
 
 
-template<typename T, typename System>
-  thrust::pointer<T,System>
-    malloc(thrust::dispatchable<System> &s, std::size_t n)
+template<typename T, typename DerivedPolicy>
+  thrust::pointer<T,DerivedPolicy>
+    malloc(thrust::execution_policy<DerivedPolicy> &exec, std::size_t n)
 {
-  thrust::pointer<void,System> void_ptr = thrust::malloc(s, sizeof(T) * n);
+  thrust::pointer<void,DerivedPolicy> void_ptr = thrust::malloc(exec, sizeof(T) * n);
 
-  return pointer<T,System>(static_cast<T*>(void_ptr.get()));
+  return pointer<T,DerivedPolicy>(static_cast<T*>(void_ptr.get()));
 } // end malloc()
 
 
-template<typename System, typename Pointer>
-  void free(thrust::dispatchable<System> &, Pointer)
+template<typename DerivedPolicy, typename Pointer>
+  void free(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
 }
 
 
-template<typename System, typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __host__ __device__
-void assign_value(thrust::dispatchable<System> &, Pointer1, Pointer2)
+void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
 }
 
 
-template<typename System, typename Pointer>
+template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
-void get_value(thrust::dispatchable<System> &, Pointer)
+void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );

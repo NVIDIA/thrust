@@ -25,25 +25,25 @@ namespace thrust
 {
 
 
-template<typename System, typename InputIterator, typename OutputIterator>
-  OutputIterator copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+  OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result)
 {
   using thrust::system::detail::generic::copy;
-  return copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
+  return copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
 } // end copy()
 
 
-template<typename System, typename InputIterator, typename Size, typename OutputIterator>
-  OutputIterator copy_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
+  OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result)
 {
   using thrust::system::detail::generic::copy_n;
-  return copy_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, result);
+  return copy_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, result);
 } // end copy_n()
 
 
@@ -55,8 +55,8 @@ template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator two_system_copy(thrust::dispatchable<System1> &system1,
-                                 thrust::dispatchable<System2> &system2,
+  OutputIterator two_system_copy(thrust::execution_policy<System1> &system1,
+                                 thrust::execution_policy<System2> &system2,
                                  InputIterator first,
                                  InputIterator last,
                                  OutputIterator result)
@@ -72,8 +72,8 @@ template<typename System1,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator two_system_copy_n(thrust::dispatchable<System1> &system1,
-                                   thrust::dispatchable<System2> &system2,
+  OutputIterator two_system_copy_n(thrust::execution_policy<System1> &system1,
+                                   thrust::execution_policy<System2> &system2,
                                    InputIterator first,
                                    Size n,
                                    OutputIterator result)

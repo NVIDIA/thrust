@@ -110,8 +110,8 @@ template<typename Size, typename InputIterator1, typename InputIterator2, typena
 };
 
 
-template<typename Size, typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
-  OutputIterator find_partition_offsets(thrust::cuda::dispatchable<System> &system,
+template<typename Size, typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
+  OutputIterator find_partition_offsets(thrust::cuda::execution_policy<DerivedPolicy> &exec,
                                         Size num_partitions,
                                         Size partition_size,
                                         InputIterator1 first1, InputIterator1 last1,
@@ -121,7 +121,7 @@ template<typename Size, typename System, typename InputIterator1, typename Input
 {
   find_partition_offsets_functor<Size,InputIterator1,InputIterator2,Compare> f(partition_size, first1, last1, first2, last2, comp);
 
-  return thrust::transform(system,
+  return thrust::transform(exec,
                            thrust::counting_iterator<Size>(0),
                            thrust::counting_iterator<Size>(num_partitions),
                            result,
@@ -574,8 +574,8 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
 } // end namespace set_operation_detail
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
-  OutputIterator set_operation(thrust::cuda::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
+  OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first1, InputIterator1 last1,
                                InputIterator2 first2, InputIterator2 last2,
                                OutputIterator result,
@@ -607,20 +607,20 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
 
   // find input partition offsets
   // +1 to handle the end of the input elegantly
-  thrust::detail::temporary_array<thrust::pair<difference,difference>, System> input_partition_offsets(0, system, num_partitions + 1);
-  d::find_partition_offsets<difference>(system, input_partition_offsets.size(), maximum_partition_size, first1, last1, first2, last2, input_partition_offsets.begin(), comp);
+  thrust::detail::temporary_array<thrust::pair<difference,difference>, DerivedPolicy> input_partition_offsets(0, exec, num_partitions + 1);
+  d::find_partition_offsets<difference>(exec, input_partition_offsets.size(), maximum_partition_size, first1, last1, first2, last2, input_partition_offsets.begin(), comp);
 
   const difference num_blocks = thrust::min<difference>(device_properties().maxGridSize[0], num_partitions);
 
   // find output partition offsets
   // +1 to store the total size of the total
-  thrust::detail::temporary_array<difference, System> output_partition_offsets(0, system, num_partitions + 1);
+  thrust::detail::temporary_array<difference, DerivedPolicy> output_partition_offsets(0, exec, num_partitions + 1);
   launch_closure(d::make_count_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), comp, set_op),
                  num_blocks,
                  threads_per_block);
 
   // turn the output partition counts into offsets to output partitions
-  thrust::exclusive_scan(system, output_partition_offsets.begin(), output_partition_offsets.end(), output_partition_offsets.begin());
+  thrust::exclusive_scan(exec, output_partition_offsets.begin(), output_partition_offsets.end(), output_partition_offsets.begin());
 
   // run the set op kernel
   launch_closure(d::make_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), result, comp, set_op),

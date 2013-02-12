@@ -33,45 +33,45 @@ namespace detail
 namespace generic
 {
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(thrust::dispatchable<System> &system,
+  ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator stable_partition(thrust::dispatchable<System> &system,
+  ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
                                    Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::dispatchable<System> &system,
+    stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::dispatchable<System> &system,
+    stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -79,45 +79,45 @@ template<typename System,
                           OutputIterator2 out_false,
                           Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(thrust::dispatchable<System> &system,
+  ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator partition(thrust::dispatchable<System> &system,
+  ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::dispatchable<System> &system,
+    partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::dispatchable<System> &system,
+    partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -125,18 +125,18 @@ template<typename System,
                    OutputIterator2 out_false,
                    Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition_point(thrust::dispatchable<System> &system,
+  ForwardIterator partition_point(thrust::execution_policy<ExecutionPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename Predicate>
-  bool is_partitioned(thrust::dispatchable<System> &system,
+  bool is_partitioned(thrust::execution_policy<ExecutionPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);

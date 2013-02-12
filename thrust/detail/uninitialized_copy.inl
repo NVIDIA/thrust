@@ -29,25 +29,25 @@ namespace thrust
 {
 
 
-template<typename System, typename InputIterator, typename ForwardIterator>
-  ForwardIterator uninitialized_copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename ForwardIterator>
+  ForwardIterator uninitialized_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result)
 {
   using thrust::system::detail::generic::uninitialized_copy;
-  return uninitialized_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, result);
+  return uninitialized_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
 } // end uninitialized_copy()
 
 
-template<typename System, typename InputIterator, typename Size, typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Size, typename ForwardIterator>
+  ForwardIterator uninitialized_copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result)
 {
   using thrust::system::detail::generic::uninitialized_copy_n;
-  return uninitialized_copy_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, result);
+  return uninitialized_copy_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, result);
 } // end uninitialized_copy_n()
 
 

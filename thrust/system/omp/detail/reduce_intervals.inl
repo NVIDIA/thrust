@@ -30,12 +30,12 @@ namespace omp
 namespace detail
 {
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(dispatchable<System> &,
+void reduce_intervals(execution_policy<DerivedPolicy> &,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,

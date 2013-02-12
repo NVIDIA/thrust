@@ -22,7 +22,7 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 
 namespace thrust
@@ -49,8 +49,8 @@ inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cu
 
 template<typename System1,
          typename System2>
-  cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::dispatchable<System1> &,
-                                  const thrust::cpp::dispatchable<System2> &)
+  cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System1> &,
+                                  const thrust::cpp::execution_policy<System2> &)
 {
   return cudaMemcpyDeviceToHost;
 } // end cuda_memcpy_kind()
@@ -58,8 +58,8 @@ template<typename System1,
 
 template<typename System1,
          typename System2>
-  cudaMemcpyKind cuda_memcpy_kind(const thrust::cpp::dispatchable<System1> &,
-                                  const thrust::cuda::dispatchable<System2> &)
+  cudaMemcpyKind cuda_memcpy_kind(const thrust::cpp::execution_policy<System1> &,
+                                  const thrust::cuda::execution_policy<System2> &)
 {
   return cudaMemcpyHostToDevice;
 } // end cuda_memcpy_kind()
@@ -68,11 +68,11 @@ template<typename System1,
 } // end namespace trivial_copy_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-  void trivial_copy_n(dispatchable<System> &system,
+  void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
                       RandomAccessIterator1 first,
                       Size n,
                       RandomAccessIterator2 result)

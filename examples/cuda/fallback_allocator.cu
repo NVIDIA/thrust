@@ -16,8 +16,8 @@
 // memory, albeit with a significantly reduced performance.
 
 
-// derive a simple allocator from cuda::dispatchable for using pinned host memory as a functional fallback
-struct fallback_allocator : thrust::cuda::dispatchable<fallback_allocator> {};
+// derive a simple allocator from cuda::execution_policy for using pinned host memory as a functional fallback
+struct fallback_allocator : thrust::cuda::execution_policy<fallback_allocator> {};
 
 
 // overload malloc on fallback_allocator to implement our special malloc 

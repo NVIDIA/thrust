@@ -22,21 +22,21 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System, typename InputIterator, typename ForwardIterator>
-  ForwardIterator uninitialized_copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename ForwardIterator>
+  ForwardIterator uninitialized_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result);
 
 
-template<typename System, typename InputIterator, typename Size, typename ForwardIterator>
-  ForwardIterator uninitialized_copy_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Size, typename ForwardIterator>
+  ForwardIterator uninitialized_copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result);

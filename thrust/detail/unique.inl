@@ -32,95 +32,95 @@ namespace thrust
 {
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename ForwardIterator>
-ForwardIterator unique(const thrust::detail::dispatchable_base<System> &system,
+ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last)
 {
   using thrust::system::detail::generic::unique;
-  return unique(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
+  return unique(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
 } // end unique()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename ForwardIterator,
           typename BinaryPredicate>
-ForwardIterator unique(const thrust::detail::dispatchable_base<System> &system,
+ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique;
-  return unique(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, binary_pred);
+  return unique(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, binary_pred);
 } // end unique()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator>
-OutputIterator unique_copy(const thrust::detail::dispatchable_base<System> &system,
+OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator output)
 {
   using thrust::system::detail::generic::unique_copy;
-  return unique_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, output);
+  return unique_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, output);
 } // end unique_copy()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryPredicate>
-OutputIterator unique_copy(const thrust::detail::dispatchable_base<System> &system,
+OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator output,
                            BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique_copy;
-  return unique_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, output, binary_pred);
+  return unique_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, output, binary_pred);
 } // end unique_copy()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename ForwardIterator1,
           typename ForwardIterator2>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(const thrust::detail::dispatchable_base<System> &system,
+  unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first)
 {
   using thrust::system::detail::generic::unique_by_key;
-  return unique_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), keys_first, keys_last, values_first);
+  return unique_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first);
 } // end unique_by_key()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename ForwardIterator1,
           typename ForwardIterator2,
           typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(const thrust::detail::dispatchable_base<System> &system,
+  unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first,
                 BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique_by_key;
-  return unique_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(system)), keys_first, keys_last, values_first, binary_pred);
+  return unique_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, binary_pred);
 } // end unique_by_key()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_by_key_copy(const thrust::detail::dispatchable_base<System> &system,
+  unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                      InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
@@ -128,18 +128,18 @@ template <typename System,
                      OutputIterator2 values_output)
 {
   using thrust::system::detail::generic::unique_by_key_copy;
-  return unique_by_key_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), keys_first, keys_last, values_first, keys_output, values_output);
+  return unique_by_key_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, keys_output, values_output);
 } // end unique_by_key_copy()
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  unique_by_key_copy(const thrust::detail::dispatchable_base<System> &system,
+  unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                      InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
@@ -148,7 +148,7 @@ template <typename System,
                      BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::unique_by_key_copy;
-  return unique_by_key_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
+  return unique_by_key_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 } // end unique_by_key_copy()
 
 

@@ -385,15 +385,15 @@ template <typename RandomAccessIterator>
 void stable_radix_sort(RandomAccessIterator first,
                        RandomAccessIterator last)
 {
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System;
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type ExecutionPolicy;
   typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
 
   size_t N = last - first;
   
-  // XXX assumes System is default constructible
+  // XXX assumes ExecutionPolicy is default constructible
   // XXX consider how to get stateful systems into this function
-  System system;
-  thrust::detail::temporary_array<KeyType, System> temp(system, N);
+  ExecutionPolicy exec;
+  thrust::detail::temporary_array<KeyType, ExecutionPolicy> temp(exec, N);
   
   detail::radix_sort(first, temp.begin(), N);
 }
@@ -409,19 +409,19 @@ void stable_radix_sort_by_key(RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2)
 {
-  // XXX the type of System should be
+  // XXX the type of exec should be
   //     typedef decltype(select_system(first1,last1,first2)) system;
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type System;
+  typedef typename thrust::iterator_system<RandomAccessIterator1>::type ExecutionPolicy;
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
 
   size_t N = last1 - first1;
   
-  // XXX assumes System is default constructible
+  // XXX assumes ExecutionPolicy is default constructible
   // XXX consider how to get stateful systems into this function
-  System system;
-  thrust::detail::temporary_array<KeyType, System>   temp1(system, N);
-  thrust::detail::temporary_array<ValueType, System> temp2(system, N);
+  ExecutionPolicy exec;
+  thrust::detail::temporary_array<KeyType, ExecutionPolicy>   temp1(exec, N);
+  thrust::detail::temporary_array<ValueType, ExecutionPolicy> temp2(exec, N);
 
   detail::radix_sort(first1, temp1.begin(), first2, temp2.begin(), N);
 }

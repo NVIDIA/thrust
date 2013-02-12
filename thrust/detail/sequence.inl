@@ -30,36 +30,36 @@ namespace thrust
 {
 
 
-template<typename System, typename ForwardIterator>
-  void sequence(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator>
+  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last);
+  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
 } // end sequence()
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, init);
+  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, init);
 } // end sequence()
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void sequence(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step)
 {
   using thrust::system::detail::generic::sequence;
-  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, init, step);
+  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, init, step);
 } // end sequence()
 
 

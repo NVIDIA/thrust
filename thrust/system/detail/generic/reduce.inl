@@ -32,30 +32,30 @@ namespace generic
 {
 
 
-template<typename System, typename InputIterator>
+template<typename ExecutionPolicy, typename InputIterator>
   typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last)
+    reduce(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last)
 {
   typedef typename thrust::iterator_value<InputIterator>::type InputType;
 
   // use InputType(0) as init by default
-  return thrust::reduce(system, first, last, InputType(0));
+  return thrust::reduce(exec, first, last, InputType(0));
 } // end reduce()
 
 
-template<typename System, typename InputIterator, typename T>
-  T reduce(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, T init)
+template<typename ExecutionPolicy, typename InputIterator, typename T>
+  T reduce(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, T init)
 {
   // use plus<T> by default
-  return thrust::reduce(system, first, last, init, thrust::plus<T>());
+  return thrust::reduce(exec, first, last, init, thrust::plus<T>());
 } // end reduce()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(thrust::dispatchable<System> &system,
+  OutputType reduce(thrust::execution_policy<ExecutionPolicy> &exec,
                     RandomAccessIterator first,
                     RandomAccessIterator last,
                     OutputType init,

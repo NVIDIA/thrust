@@ -17,8 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/execution_policy.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 
 namespace thrust
@@ -33,30 +33,30 @@ namespace detail
 
 // this awkward sequence of definitions arise
 // from the desire both for tag to derive
-// from dispatchable and for dispatchable
-// to convert to tag (when dispatchable is not
+// from execution_policy and for execution_policy
+// to convert to tag (when execution_policy is not
 // an ancestor of tag)
 
 // forward declaration of tag
 struct tag;
 
-// forward declaration of dispatchable
-template<typename> struct dispatchable;
+// forward declaration of execution_policy
+template<typename> struct execution_policy;
 
-// specialize dispatchable for tag
+// specialize execution_policy for tag
 template<>
-  struct dispatchable<tag>
-    : thrust::dispatchable<tag>
+  struct execution_policy<tag>
+    : thrust::execution_policy<tag>
 {};
 
 // tag's definition comes before the
-// generic definition of dispatchable
-struct tag : dispatchable<tag> {};
+// generic definition of execution_policy
+struct tag : execution_policy<tag> {};
 
 // allow conversion to tag when it is not a successor
 template<typename Derived>
-  struct dispatchable
-    : thrust::dispatchable<Derived>
+  struct execution_policy
+    : thrust::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -68,16 +68,16 @@ template<typename Derived>
 
 template<typename System1, typename System2>
   struct cross_system
-    : thrust::dispatchable<cross_system<System1,System2> >
+    : thrust::execution_policy<cross_system<System1,System2> >
 {
   inline __host__ __device__
-  cross_system(thrust::dispatchable<System1> &system1,
-               thrust::dispatchable<System2> &system2)
+  cross_system(thrust::execution_policy<System1> &system1,
+               thrust::execution_policy<System2> &system2)
     : system1(system1), system2(system2)
   {}
 
-  thrust::dispatchable<System1> &system1;
-  thrust::dispatchable<System2> &system2;
+  thrust::execution_policy<System1> &system1;
+  thrust::execution_policy<System2> &system2;
 
   inline __host__ __device__
   cross_system<System2,System1> rotate() const
@@ -92,28 +92,28 @@ template<typename System1, typename System2>
 // cpp interop
 template<typename System1, typename System2>
 inline __host__ __device__
-cross_system<System1,System2> select_system(const dispatchable<System1> &system1, const thrust::cpp::dispatchable<System2> &system2)
+cross_system<System1,System2> select_system(const execution_policy<System1> &system1, const thrust::cpp::execution_policy<System2> &system2)
 {
-  thrust::dispatchable<System1> &non_const_system1 = const_cast<dispatchable<System1>&>(system1);
-  thrust::cpp::dispatchable<System2> &non_const_system2 = const_cast<thrust::cpp::dispatchable<System2>&>(system2);
+  thrust::execution_policy<System1> &non_const_system1 = const_cast<execution_policy<System1>&>(system1);
+  thrust::cpp::execution_policy<System2> &non_const_system2 = const_cast<thrust::cpp::execution_policy<System2>&>(system2);
   return cross_system<System1,System2>(non_const_system1,non_const_system2);
 }
 
 
 template<typename System1, typename System2>
 inline __host__ __device__
-cross_system<System1,System2> select_system(const thrust::cpp::dispatchable<System1> &system1, dispatchable<System2> &system2)
+cross_system<System1,System2> select_system(const thrust::cpp::execution_policy<System1> &system1, execution_policy<System2> &system2)
 {
-  thrust::cpp::dispatchable<System1> &non_const_system1 = const_cast<thrust::cpp::dispatchable<System1>&>(system1);
-  thrust::dispatchable<System2> &non_const_system2 = const_cast<dispatchable<System2>&>(system2);
+  thrust::cpp::execution_policy<System1> &non_const_system1 = const_cast<thrust::cpp::execution_policy<System1>&>(system1);
+  thrust::execution_policy<System2> &non_const_system2 = const_cast<execution_policy<System2>&>(system2);
   return cross_system<System1,System2>(non_const_system1,non_const_system2);
 }
 
 
 } // end detail
 
-// alias dispatchable and tag here
-using thrust::system::cuda::detail::dispatchable;
+// alias execution_policy and tag here
+using thrust::system::cuda::detail::execution_policy;
 using thrust::system::cuda::detail::tag;
 
 } // end cuda
@@ -123,7 +123,7 @@ using thrust::system::cuda::detail::tag;
 namespace cuda
 {
 
-using thrust::system::cuda::dispatchable;
+using thrust::system::cuda::execution_policy;
 using thrust::system::cuda::tag;
 
 } // end cuda

@@ -545,11 +545,11 @@ struct downsweep_intervals_closure
 } // end namespace fast_scan_detail
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator inclusive_scan(dispatchable<System> &system,
+OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator output,
@@ -581,20 +581,20 @@ OutputIterator inclusive_scan(dispatchable<System> &system,
 
   typedef unsigned int                                                       IndexType;
   typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
-  typedef thrust::detail::temporary_array<ValueType,System>                  ValueArray;
+  typedef thrust::detail::temporary_array<ValueType,DerivedPolicy>           ValueArray;
 
   if (first == last)
       return output;
 
   Decomposition decomp = thrust::system::cuda::detail::default_decomposition<IndexType>(last - first);
 
-  ValueArray block_results(system, decomp.size());
+  ValueArray block_results(exec, decomp.size());
   
   // compute sum over each interval
   if (thrust::detail::is_commutative<BinaryFunction>::value)
   {
     // use reduce_intervals for commutative operators
-    thrust::system::cuda::detail::reduce_intervals(system, first, block_results.begin(), binary_op, decomp);
+    thrust::system::cuda::detail::reduce_intervals(exec, first, block_results.begin(), binary_op, decomp);
   }
   else
   {
@@ -641,12 +641,12 @@ OutputIterator inclusive_scan(dispatchable<System> &system,
 }
 
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename T,
           typename BinaryFunction>
-OutputIterator exclusive_scan(dispatchable<System> &system,
+OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator output,
@@ -679,20 +679,20 @@ OutputIterator exclusive_scan(dispatchable<System> &system,
 
   typedef unsigned int                                                       IndexType;
   typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
-  typedef thrust::detail::temporary_array<ValueType,System>                  ValueArray;
+  typedef thrust::detail::temporary_array<ValueType,DerivedPolicy>           ValueArray;
 
   if (first == last)
       return output;
 
   Decomposition decomp = thrust::system::cuda::detail::default_decomposition<IndexType>(last - first);
 
-  ValueArray block_results(system, decomp.size() + 1);
+  ValueArray block_results(exec, decomp.size() + 1);
   
   // compute sum over each interval
   if (thrust::detail::is_commutative<BinaryFunction>::value)
   {
     // use reduce_intervals for commutative operators
-    thrust::system::cuda::detail::reduce_intervals(system, first, block_results.begin() + 1, binary_op, decomp);
+    thrust::system::cuda::detail::reduce_intervals(exec, first, block_results.begin() + 1, binary_op, decomp);
   }
   else
   {

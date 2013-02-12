@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/detail/static_assert.h>
 
@@ -36,10 +36,10 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(thrust::dispatchable<System> &s,
+InputIterator for_each(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
@@ -50,11 +50,11 @@ InputIterator for_each(thrust::dispatchable<System> &s,
 } // end for_each()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(thrust::dispatchable<System> &s,
+InputIterator for_each_n(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
                          UnaryFunction f)

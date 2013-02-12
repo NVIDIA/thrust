@@ -29,25 +29,25 @@ namespace thrust
 {
 
 
-template<typename System, typename ForwardIterator, typename T>
-  void uninitialized_fill(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void uninitialized_fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x)
 {
   using thrust::system::detail::generic::uninitialized_fill;
-  return uninitialized_fill(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, x);
+  return uninitialized_fill(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, x);
 } // end uninitialized_fill()
 
 
-template<typename System, typename ForwardIterator, typename Size, typename T>
-  ForwardIterator uninitialized_fill_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename Size, typename T>
+  ForwardIterator uninitialized_fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x)
 {
   using thrust::system::detail::generic::uninitialized_fill_n;
-  return uninitialized_fill_n(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, n, x);
+  return uninitialized_fill_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, x);
 } // end uninitialized_fill_n()
 
 

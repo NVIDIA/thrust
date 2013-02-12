@@ -20,10 +20,8 @@
 #include <thrust/detail/allocator/tagged_allocator.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/pair.h>
-//#include <thrust/detail/pointer.h>
-//#include <thrust/detail/reference.h>
 #include <thrust/memory.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
@@ -51,7 +49,7 @@ template<typename T, typename System>
     typedef typename super_t::pointer   pointer;
     typedef typename super_t::size_type size_type;
 
-    inline explicit temporary_allocator(thrust::dispatchable<System> &system) :
+    inline explicit temporary_allocator(thrust::execution_policy<System> &system) :
       super_t(),
       m_system(thrust::detail::derived_cast(system))
     {}
