@@ -33,11 +33,11 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
-  OutputIterator transform(thrust::dispatchable<System> &system,
+  OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator result,
@@ -49,14 +49,14 @@ template<typename System,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal system, determine the unary transform functor we need
-  typedef typename thrust::detail::unary_transform_functor<System,UnaryFunction>::type UnaryTransformFunctor;
+  typedef typename thrust::detail::unary_transform_functor<DerivedPolicy,UnaryFunction>::type UnaryTransformFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator,OutputIterator> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(system,
+    thrust::for_each(exec,
                      thrust::make_zip_iterator(thrust::make_tuple(first,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last,result)),
                      UnaryTransformFunctor(op));
@@ -65,12 +65,12 @@ template<typename System,
 } // end transform()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator transform(thrust::dispatchable<System> &system,
+  OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
@@ -83,14 +83,14 @@ template<typename System,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal system, determine the binary transform functor we need
-  typedef typename thrust::detail::binary_transform_functor<System,BinaryFunction>::type BinaryTransformFunctor;
+  typedef typename thrust::detail::binary_transform_functor<DerivedPolicy,BinaryFunction>::type BinaryTransformFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,OutputIterator> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(system,
+    thrust::for_each(exec,
                      thrust::make_zip_iterator(thrust::make_tuple(first1,first2,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last1,first2,result)),
                      BinaryTransformFunctor(op));
@@ -99,12 +99,12 @@ template<typename System,
 } // end transform()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(thrust::dispatchable<System> &system,
+  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator first,
                                InputIterator last,
                                ForwardIterator result,
@@ -117,14 +117,14 @@ template<typename System,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal system, determine the unary transform_if functor we need
-  typedef typename thrust::detail::unary_transform_if_functor<System,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
+  typedef typename thrust::detail::unary_transform_if_functor<DerivedPolicy,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(system,
+    thrust::for_each(exec,
                      thrust::make_zip_iterator(thrust::make_tuple(first,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last,result)),
                      UnaryTransformIfFunctor(unary_op,pred));
@@ -133,13 +133,13 @@ template<typename System,
 } // end transform_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(thrust::dispatchable<System> &system,
+  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first,
                                InputIterator1 last,
                                InputIterator2 stencil,
@@ -153,14 +153,14 @@ template<typename System,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal system, determine the unary transform_if functor we need
-  typedef typename thrust::detail::unary_transform_if_with_stencil_functor<System,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
+  typedef typename thrust::detail::unary_transform_if_with_stencil_functor<DerivedPolicy,UnaryFunction,Predicate>::type UnaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,ForwardIterator> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(system,
+    thrust::for_each(exec,
                      thrust::make_zip_iterator(thrust::make_tuple(first,stencil,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last,stencil,result)),
                      UnaryTransformIfFunctor(unary_op,pred));
@@ -169,14 +169,14 @@ template<typename System,
 } // end transform_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
-  ForwardIterator transform_if(thrust::dispatchable<System> &system,
+  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first1,
                                InputIterator1 last1,
                                InputIterator2 first2,
@@ -191,14 +191,14 @@ template<typename System,
   //     when nvcc is able to deal with this, remove this WAR
   
   // given the minimal system, determine the binary transform_if functor we need
-  typedef typename thrust::detail::binary_transform_if_functor<System,BinaryFunction,Predicate>::type BinaryTransformIfFunctor;
+  typedef typename thrust::detail::binary_transform_if_functor<DerivedPolicy,BinaryFunction,Predicate>::type BinaryTransformIfFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,InputIterator3,ForwardIterator> IteratorTuple;
   typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(system,
+    thrust::for_each(exec,
                      thrust::make_zip_iterator(thrust::make_tuple(first1,first2,stencil,result)),
                      thrust::make_zip_iterator(thrust::make_tuple(last1,first2,stencil,result)),
                      BinaryTransformIfFunctor(binary_op,pred));

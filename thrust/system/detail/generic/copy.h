@@ -29,20 +29,20 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(thrust::dispatchable<System> &system,
+  OutputIterator copy(thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator  first,
                       InputIterator  last,
                       OutputIterator result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(thrust::dispatchable<System> &system,
+  OutputIterator copy_n(thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator  first,
                         Size           n,
                         OutputIterator result);

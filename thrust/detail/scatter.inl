@@ -29,27 +29,27 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-  void scatter(const thrust::detail::dispatchable_base<System> &system,
+  void scatter(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output)
 {
   using thrust::system::detail::generic::scatter;
-  return scatter(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, map, output);
+  return scatter(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, map, output);
 } // end scatter()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-  void scatter_if(const thrust::detail::dispatchable_base<System> &system,
+  void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -57,17 +57,17 @@ template<typename System,
                   RandomAccessIterator output)
 {
   using thrust::system::detail::generic::scatter_if;
-  return scatter_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, map, stencil, output);
+  return scatter_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, map, stencil, output);
 } // end scatter_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-  void scatter_if(const thrust::detail::dispatchable_base<System> &system,
+  void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -76,7 +76,7 @@ template<typename System,
                   Predicate pred)
 {
   using thrust::system::detail::generic::scatter_if;
-  return scatter_if(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, map, stencil, output, pred);
+  return scatter_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, map, stencil, output, pred);
 } // end scatter_if()
 
 

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/reduce.h>
 
 namespace thrust
@@ -34,11 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &,
+  OutputType reduce(execution_policy<DerivedPolicy> &,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,

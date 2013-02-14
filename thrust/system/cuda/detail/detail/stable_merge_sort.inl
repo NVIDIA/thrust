@@ -857,13 +857,13 @@ template<typename RandomAccessIterator1,
 
 
 template<unsigned int block_size,
-         typename System,
+         typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge_small_tiles_by_key(dispatchable<System> &,
+  void merge_small_tiles_by_key(execution_policy<DerivedPolicy> &,
                                 RandomAccessIterator1 keys_first,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first,
@@ -888,13 +888,13 @@ template<unsigned int block_size,
 } // end merge_small_tiles_by_key()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge_tiles_by_key_recursive(dispatchable<System> &system,
+  void merge_tiles_by_key_recursive(execution_policy<DerivedPolicy> &exec,
                                     RandomAccessIterator1 keys_first,
                                     RandomAccessIterator1 keys_last,
                                     RandomAccessIterator2 values_first,
@@ -914,23 +914,23 @@ template<typename System,
   // Case (a): tile_size <= block_size
   if(tile_size <= block_size)
   {
-    return merge_small_tiles_by_key<2*block_size>(system, keys_first, keys_last, values_first, log_tile_size, keys_result, values_result, comp);
+    return merge_small_tiles_by_key<2*block_size>(exec, keys_first, keys_last, values_first, log_tile_size, keys_result, values_result, comp);
   } // end if
 
   // Case (b) tile_size >= block_size
 
   // step 1 of the recursive case: gather one splitter per block_size entries in each odd-even tile pair.
-  thrust::detail::temporary_array<KeyType, System> splitters(system, thrust::detail::util::divide_ri(keys_last - keys_first, block_size));
-  static_strided_integer_range<block_size>         splitters_pos(splitters.size());
-  thrust::gather(system, splitters_pos.begin(), splitters_pos.end(), keys_first, splitters.begin());
+  thrust::detail::temporary_array<KeyType, DerivedPolicy> splitters(exec, thrust::detail::util::divide_ri(keys_last - keys_first, block_size));
+  static_strided_integer_range<block_size>                splitters_pos(splitters.size());
+  thrust::gather(exec, splitters_pos.begin(), splitters_pos.end(), keys_first, splitters.begin());
                             
   // step 2 of the recursive case: merge the splitters & their positions
-  thrust::detail::temporary_array<KeyType,      System> merged_splitters(system, splitters.size());
-  thrust::detail::temporary_array<unsigned int, System> merged_splitters_pos(system, splitters.size());
+  thrust::detail::temporary_array<KeyType,      DerivedPolicy> merged_splitters(exec, splitters.size());
+  thrust::detail::temporary_array<unsigned int, DerivedPolicy> merged_splitters_pos(exec, splitters.size());
 
   const unsigned int log_block_size = thrust::detail::mpl::math::log2<block_size>::value;
   size_t log_num_splitters_per_tile = log_tile_size - log_block_size;
-  merge_tiles_by_key_recursive(system,
+  merge_tiles_by_key_recursive(exec,
                                splitters.begin(),
                                splitters.end(),
                                splitters_pos.begin(),
@@ -941,8 +941,8 @@ template<typename System,
 
   // step 3 of the recursive case: find the ranks of each splitter in the respective two tiles.
   // reuse the merged_splitters_pos storage
-  thrust::detail::temporary_array<unsigned int, System> &rank1 = merged_splitters_pos;
-  thrust::detail::temporary_array<unsigned int, System> rank2(system, rank1.size());
+  thrust::detail::temporary_array<unsigned int, DerivedPolicy> &rank1 = merged_splitters_pos;
+  thrust::detail::temporary_array<unsigned int, DerivedPolicy> rank2(exec, rank1.size());
 
   rank_splitters<block_size>(merged_splitters.begin(),
                              merged_splitters.end(),
@@ -969,13 +969,13 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename RandomAccessIterator4,
          typename StrictWeakOrdering>
-  void merge_tiles_by_key(dispatchable<System> &system,
+  void merge_tiles_by_key(execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator2 values_first,
                           size_t n,
@@ -991,7 +991,7 @@ template<typename System,
   // without a twin in merge_recursive
   const size_t last_tile_offset = (num_tiles%2)?((num_tiles-1)*tile_size):n;
 
-  merge_tiles_by_key_recursive(system,
+  merge_tiles_by_key_recursive(exec,
                                keys_first,
                                keys_first + last_tile_offset,
                                values_first,
@@ -1003,8 +1003,8 @@ template<typename System,
   // copy the last tile without a twin, should it exist
   if(last_tile_offset < n)
   {
-    thrust::copy(system, keys_first + last_tile_offset, keys_first + n, keys_result + last_tile_offset);
-    thrust::copy(system, values_first + last_tile_offset, values_first + n, values_result + last_tile_offset);
+    thrust::copy(exec, keys_first + last_tile_offset, keys_first + n, keys_result + last_tile_offset);
+    thrust::copy(exec, values_first + last_tile_offset, values_first + n, values_result + last_tile_offset);
   } // end if
 } // end merge_tiles_by_key()
 
@@ -1013,24 +1013,24 @@ template<typename System,
 
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_merge_sort(dispatchable<System> &system,
+void stable_merge_sort(execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp)
 {
   // XXX it's potentially unsafe to pass the same array for keys & values
-  thrust::system::cuda::detail::detail::stable_merge_sort_by_key(system, first, last, first, comp);
+  thrust::system::cuda::detail::detail::stable_merge_sort_by_key(exec, first, last, first, comp);
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_merge_sort_by_key(dispatchable<System> &system,
+  void stable_merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator1 keys_first,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first,
@@ -1046,7 +1046,7 @@ template<typename System,
   (void) block_size;
 
   // first, sort each tile of block_size elements
-  stable_sort_by_count<block_size>(system, keys_first, keys_last, values_first, comp);
+  stable_sort_by_count<block_size>(exec, keys_first, keys_last, values_first, comp);
 
   // merge tiles if there is more than one
   const size_t n = keys_last - keys_first;
@@ -1055,15 +1055,15 @@ template<typename System,
     // allocate scratch space
     using namespace thrust::detail;
     using namespace stable_merge_sort_detail;
-    temporary_array<KeyType,   System> temp_keys(system, n);
-    temporary_array<ValueType, System> temp_values(system, n);
+    temporary_array<KeyType,   DerivedPolicy> temp_keys(exec, n);
+    temporary_array<ValueType, DerivedPolicy> temp_values(exec, n);
 
     // use a caching allocator for the calls to merge_tiles_by_key
-    // XXX unfortunately g++-4.2 can't deal with this special system
+    // XXX unfortunately g++-4.2 can't deal with this special execution policy
 #if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION < 40300
-    dispatchable<System> &merge_system = system;
+    execution_policy<DerivedPolicy> &merge_exec = exec;
 #else
-    cached_temporary_allocator<System,thrust::cuda::dispatchable> merge_system(system);
+    cached_temporary_allocator<DerivedPolicy,thrust::cuda::execution_policy> merge_exec(exec);
 #endif
 
     // The log(n) iterations start here. Each call to 'merge' merges an odd-even pair of tiles
@@ -1074,11 +1074,11 @@ template<typename System,
       // we ping-pong back and forth
       if(ping)
       {
-        merge_tiles_by_key(merge_system, keys_first, values_first, n, temp_keys.begin(), temp_values.begin(), log_tile_size, comp);
+        merge_tiles_by_key(merge_exec, keys_first, values_first, n, temp_keys.begin(), temp_values.begin(), log_tile_size, comp);
       } // end if
       else
       {
-        merge_tiles_by_key(merge_system, temp_keys.begin(), temp_values.begin(), n, keys_first, values_first, log_tile_size, comp);
+        merge_tiles_by_key(merge_exec, temp_keys.begin(), temp_values.begin(), n, keys_first, values_first, log_tile_size, comp);
       } // end else
     } // end for
 
@@ -1086,8 +1086,8 @@ template<typename System,
     // and not in the temporary arrays
     if(!ping)
     {
-      thrust::copy(system, temp_keys.begin(), temp_keys.end(), keys_first);
-      thrust::copy(system, temp_values.begin(), temp_values.end(), values_first);
+      thrust::copy(exec, temp_keys.begin(), temp_keys.end(), keys_first);
+      thrust::copy(exec, temp_values.begin(), temp_values.end(), values_first);
     } // end if
   } // end if
 } // end stable_merge_sort_by_key()

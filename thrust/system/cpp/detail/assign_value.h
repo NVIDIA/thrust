@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 
 namespace thrust
@@ -28,9 +28,9 @@ namespace cpp
 namespace detail
 {
 
-template<typename System, typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __host__ __device__
-  void assign_value(thrust::system::cpp::detail::dispatchable<System> &, Pointer1 dst, Pointer2 src)
+  void assign_value(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
 {
   *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
 } // end assign_value()

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -28,19 +28,19 @@ namespace tbb
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename UnaryFunction>
-  RandomAccessIterator for_each(dispatchable<System> &s,
+  RandomAccessIterator for_each(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator first,
                                 RandomAccessIterator last,
                                 UnaryFunction f);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-  RandomAccessIterator for_each_n(dispatchable<System> &s,
+  RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
                                   RandomAccessIterator first,
                                   Size n,
                                   UnaryFunction f);

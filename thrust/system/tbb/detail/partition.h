@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -30,31 +30,31 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(dispatchable<System> &system,
+  ForwardIterator stable_partition(execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator stable_partition(dispatchable<System> &system,
+  ForwardIterator stable_partition(execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
                                    Predicate pred);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(dispatchable<System> &system,
+    stable_partition_copy(execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -62,14 +62,14 @@ template<typename System,
                           Predicate pred);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(dispatchable<System> &system,
+    stable_partition_copy(execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,

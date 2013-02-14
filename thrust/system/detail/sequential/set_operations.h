@@ -160,7 +160,7 @@ __host__ __device__
     } // end else
   } // end while
 
-  return sequential::copy(seq, first2, last2, scalar::copy(first1, last1, result));
+  return sequential::copy(seq, first2, last2, sequential::copy(seq, first1, last1, result));
 } // end set_symmetric_difference()
 
 

@@ -18,8 +18,8 @@
 
 #include <thrust/detail/config.h>
 
-// #include the host system's tag header
-#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/tag.h>
+// #include the host system's execution_policy header
+#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/execution_policy.h>
 #include __THRUST_HOST_SYSTEM_TAG_HEADER
 #undef __THRUST_HOST_SYSTEM_TAG_HEADER
 
@@ -28,9 +28,9 @@ namespace thrust
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
-template<typename DerivedSystem>
-  struct host_system
-    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::dispatchable<DerivedSystem>
+template<typename DerivedPolicy>
+  struct host_execution_policy
+    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
 } // end thrust

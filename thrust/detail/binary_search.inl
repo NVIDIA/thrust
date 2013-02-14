@@ -30,102 +30,102 @@ namespace thrust
 {
 
 
-template <typename System, typename ForwardIterator, typename LessThanComparable>
-ForwardIterator lower_bound(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
+ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable &value)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
-template<typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator lower_bound(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T &value,
                             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value, comp);
+    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
-template<typename System, typename ForwardIterator, typename LessThanComparable>
-ForwardIterator upper_bound(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
+ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable &value)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
-template<typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-ForwardIterator upper_bound(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T &value,
                             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value, comp);
+    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename LessThanComparable>
-bool binary_search(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
+bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first, 
                    ForwardIterator last,
                    const LessThanComparable& value)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
-template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
-bool binary_search(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first,
                    ForwardIterator last,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value, comp);
+    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(const thrust::detail::dispatchable_base<System> &system,
+equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T& value,
             StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::equal_range;
-    return equal_range(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value, comp);
+    return equal_range(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename LessThanComparable>
+template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(const thrust::detail::dispatchable_base<System> &system,
+equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable& value)
 {
     using thrust::system::detail::generic::equal_range;
-    return equal_range(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, value);
+    return equal_range(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
-template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator lower_bound(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -133,12 +133,12 @@ OutputIterator lower_bound(const thrust::detail::dispatchable_base<System> &syst
                            OutputIterator output)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, values_first, values_last, output);
+    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
 }
 
 
-template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator lower_bound(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -147,12 +147,12 @@ OutputIterator lower_bound(const thrust::detail::dispatchable_base<System> &syst
                            StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, values_first, values_last, output, comp);
+    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator upper_bound(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -160,12 +160,12 @@ OutputIterator upper_bound(const thrust::detail::dispatchable_base<System> &syst
                            OutputIterator output)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, values_first, values_last, output);
+    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
 }
 
 
-template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator upper_bound(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -174,12 +174,12 @@ OutputIterator upper_bound(const thrust::detail::dispatchable_base<System> &syst
                            StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, values_first, values_last, output, comp);
+    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
 }
 
 
-template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator binary_search(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              ForwardIterator first, 
                              ForwardIterator last,
                              InputIterator values_first, 
@@ -187,12 +187,12 @@ OutputIterator binary_search(const thrust::detail::dispatchable_base<System> &sy
                              OutputIterator output)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, values_first, values_last, output);
+    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
 }
 
 
-template <typename System, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator binary_search(const thrust::detail::dispatchable_base<System> &system,
+template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              ForwardIterator first, 
                              ForwardIterator last,
                              InputIterator values_first, 
@@ -201,7 +201,7 @@ OutputIterator binary_search(const thrust::detail::dispatchable_base<System> &sy
                              StrictWeakOrdering comp)
 {
     using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, values_first, values_last, output, comp);
+    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
 }
 
 

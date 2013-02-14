@@ -65,7 +65,7 @@ OutputIterator merge(tag seq,
     ++result;
   } // end while
 
-  return thrust::system::detail::sequential::copy(seq, first2, last2, thrust::system::detail::internal::scalar::copy(first1, last1, result));
+  return thrust::system::detail::sequential::copy(seq, first2, last2, thrust::system::detail::sequential::copy(seq, first1, last1, result));
 } // end merge()
 
 

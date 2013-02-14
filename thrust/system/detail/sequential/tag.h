@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
@@ -28,7 +28,7 @@ namespace detail
 namespace sequential
 {
 
-struct tag : thrust::dispatchable<tag>
+struct tag : thrust::execution_policy<tag>
 {
   __host__ __device__ tag() {}
 };

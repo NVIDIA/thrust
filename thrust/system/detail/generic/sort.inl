@@ -38,118 +38,118 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator>
-  void sort(thrust::dispatchable<System> &system,
+  void sort(thrust::execution_policy<ExecutionPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type; 
-  thrust::sort(system, first, last, thrust::less<value_type>());
+  thrust::sort(exec, first, last, thrust::less<value_type>());
 } // end sort()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(thrust::dispatchable<System> &system,
+  void sort(thrust::execution_policy<ExecutionPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
   // implement with stable_sort
-  thrust::stable_sort(system, first, last, comp);
+  thrust::stable_sort(exec, first, last, comp);
 } // end sort()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(thrust::dispatchable<System> &system,
+  void sort_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
-  thrust::sort_by_key(system, keys_first, keys_last, values_first, thrust::less<value_type>());
+  thrust::sort_by_key(exec, keys_first, keys_last, values_first, thrust::less<value_type>());
 } // end sort_by_key()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(thrust::dispatchable<System> &system,
+  void sort_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
   // implement with stable_sort_by_key
-  thrust::stable_sort_by_key(system, keys_first, keys_last, values_first, comp);
+  thrust::stable_sort_by_key(exec, keys_first, keys_last, values_first, comp);
 } // end sort_by_key()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator>
-  void stable_sort(thrust::dispatchable<System> &system,
+  void stable_sort(thrust::execution_policy<ExecutionPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
-  thrust::stable_sort(system, first, last, thrust::less<value_type>());
+  thrust::stable_sort(exec, first, last, thrust::less<value_type>());
 } // end stable_sort()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(thrust::dispatchable<System> &system,
+  void stable_sort_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
 {
   typedef typename iterator_value<RandomAccessIterator1>::type value_type;
-  thrust::stable_sort_by_key(system, keys_first, keys_last, values_first, thrust::less<value_type>());
+  thrust::stable_sort_by_key(exec, keys_first, keys_last, values_first, thrust::less<value_type>());
 } // end stable_sort_by_key()
 
 
-template<typename System, typename ForwardIterator>
-  bool is_sorted(thrust::dispatchable<System> &system,
+template<typename ExecutionPolicy, typename ForwardIterator>
+  bool is_sorted(thrust::execution_policy<ExecutionPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last)
 {
-  return thrust::is_sorted_until(system, first, last) == last;
+  return thrust::is_sorted_until(exec, first, last) == last;
 } // end is_sorted()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Compare>
-  bool is_sorted(thrust::dispatchable<System> &system,
+  bool is_sorted(thrust::execution_policy<ExecutionPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp)
 {
-  return thrust::is_sorted_until(system, first, last, comp) == last;
+  return thrust::is_sorted_until(exec, first, last, comp) == last;
 } // end is_sorted()
 
 
-template<typename System, typename ForwardIterator>
-  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
+template<typename ExecutionPolicy, typename ForwardIterator>
+  ForwardIterator is_sorted_until(thrust::execution_policy<ExecutionPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last)
 {
   typedef typename thrust::iterator_value<ForwardIterator>::type InputType;
 
-  return thrust::is_sorted_until(system, first, last, thrust::less<InputType>());
+  return thrust::is_sorted_until(exec, first, last, thrust::less<InputType>());
 } // end is_sorted_until()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Compare>
-  ForwardIterator is_sorted_until(thrust::dispatchable<System> &system,
+  ForwardIterator is_sorted_until(thrust::execution_policy<ExecutionPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp)
@@ -165,7 +165,7 @@ template<typename System,
   ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first_plus_one, first));
   ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last, first));
 
-  return thrust::get<0>(thrust::find_if(system, zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<Compare>(comp)).get_iterator_tuple());
+  return thrust::get<0>(thrust::find_if(exec, zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<Compare>(comp)).get_iterator_tuple());
 } // end is_sorted_until()
 
 

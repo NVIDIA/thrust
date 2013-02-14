@@ -22,18 +22,18 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System, typename InputIterator1, typename InputIterator2>
-bool equal(const thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
+bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-bool equal(const thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
 
 
 /*! \addtogroup reductions

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -30,13 +30,13 @@ namespace detail
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename Compare,
          typename SetOperation>
-  RandomAccessIterator3 set_operation(dispatchable<System> &system,
+  RandomAccessIterator3 set_operation(execution_policy<DerivedPolicy> &exec,
                                       RandomAccessIterator1 first1,
                                       RandomAccessIterator1 last1,
                                       RandomAccessIterator2 first2,

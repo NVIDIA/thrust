@@ -29,54 +29,54 @@ namespace omp
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator remove_if(dispatchable<System> &system,
+  ForwardIterator remove_if(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::system::detail::generic::remove_if(system, first, last, pred);
+  return thrust::system::detail::generic::remove_if(exec, first, last, pred);
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator remove_if(dispatchable<System> &system,
+  ForwardIterator remove_if(execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::system::detail::generic::remove_if(system, first, last, stencil, pred);
+  return thrust::system::detail::generic::remove_if(exec, first, last, stencil, pred);
 }
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(dispatchable<System> &system,
+  OutputIterator remove_copy_if(execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::system::detail::generic::remove_copy_if(system, first, last, result, pred);
+  return thrust::system::detail::generic::remove_copy_if(exec, first, last, result, pred);
 }
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator remove_copy_if(dispatchable<System> &system,
+  OutputIterator remove_copy_if(execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
@@ -84,7 +84,7 @@ template<typename System,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::system::detail::generic::remove_copy_if(system, first, last, stencil, result, pred);
+  return thrust::system::detail::generic::remove_copy_if(exec, first, last, stencil, result, pred);
 }
 
 } // end namespace detail

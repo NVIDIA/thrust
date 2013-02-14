@@ -59,7 +59,7 @@ typename thrust::detail::disable_if<
 
 template<typename T, typename System>
   temporary_array<T,System>
-    ::temporary_array(thrust::dispatchable<System> &system, size_type n)
+    ::temporary_array(thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
   temporary_array_detail::construct_values<T>(*this, n);
@@ -68,7 +68,7 @@ template<typename T, typename System>
 
 template<typename T, typename System>
   temporary_array<T,System>
-    ::temporary_array(int, thrust::dispatchable<System> &system, size_type n)
+    ::temporary_array(int, thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
   // avoid initialization
@@ -79,7 +79,7 @@ template<typename T, typename System>
 template<typename T, typename System>
   template<typename InputIterator>
     temporary_array<T,System>
-      ::temporary_array(thrust::dispatchable<System> &system,
+      ::temporary_array(thrust::execution_policy<System> &system,
                         InputIterator first,
                         size_type n)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
@@ -93,8 +93,8 @@ template<typename T, typename System>
 template<typename T, typename System>
   template<typename InputIterator, typename InputSystem>
     temporary_array<T,System>
-      ::temporary_array(thrust::dispatchable<System> &system,
-                        thrust::dispatchable<InputSystem> &input_system,
+      ::temporary_array(thrust::execution_policy<System> &system,
+                        thrust::execution_policy<InputSystem> &input_system,
                         InputIterator first,
                         size_type n)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
@@ -108,7 +108,7 @@ template<typename T, typename System>
 template<typename T, typename System>
   template<typename InputIterator>
     temporary_array<T,System>
-      ::temporary_array(thrust::dispatchable<System> &system,
+      ::temporary_array(thrust::execution_policy<System> &system,
                         InputIterator first,
                         InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
@@ -122,8 +122,8 @@ template<typename T, typename System>
 template<typename T, typename System>
   template<typename InputSystem, typename InputIterator>
     temporary_array<T,System>
-      ::temporary_array(thrust::dispatchable<System> &system,
-                        thrust::dispatchable<InputSystem> &input_system,
+      ::temporary_array(thrust::execution_policy<System> &system,
+                        thrust::execution_policy<InputSystem> &input_system,
                         InputIterator first,
                         InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))

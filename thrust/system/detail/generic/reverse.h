@@ -29,15 +29,15 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename BidirectionalIterator>
-  void reverse(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename BidirectionalIterator>
+  void reverse(thrust::execution_policy<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename BidirectionalIterator,
          typename OutputIterator>
-  OutputIterator reverse_copy(thrust::dispatchable<System> &system,
+  OutputIterator reverse_copy(thrust::execution_policy<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);

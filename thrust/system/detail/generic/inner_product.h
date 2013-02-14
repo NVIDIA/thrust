@@ -29,15 +29,15 @@ namespace detail
 namespace generic
 {
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputType>
-  OutputType inner_product(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputType>
+  OutputType inner_product(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
                            OutputType init);
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputType, typename BinaryFunction1, typename BinaryFunction2>
-OutputType inner_product(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputType, typename BinaryFunction1, typename BinaryFunction2>
+OutputType inner_product(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,

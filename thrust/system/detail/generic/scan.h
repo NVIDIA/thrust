@@ -30,41 +30,41 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator inclusive_scan(thrust::dispatchable<System> &system,
+  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
 
 
 // XXX it is an error to call this function; it has no implementation 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-  OutputIterator inclusive_scan(thrust::dispatchable<System> &system,
+  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 BinaryFunction binary_op);
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
+  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T>
-  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
+  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -72,12 +72,12 @@ template<typename System,
 
 
 // XXX it is an error to call this function; it has no implementation 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-  OutputIterator exclusive_scan(thrust::dispatchable<System> &system,
+  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,

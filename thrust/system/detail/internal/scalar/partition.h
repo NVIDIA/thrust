@@ -98,17 +98,17 @@ template<typename ForwardIterator,
     bool
   > wrapped_pred(pred);
 
-  // XXX the type of system should be:
+  // XXX the type of exec should be:
   //     typedef decltype(select_system(first, last)) system;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename thrust::iterator_system<ForwardIterator>::type ExecutionPolicy;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,System> TempRange;
-  typedef typename TempRange::iterator             TempIterator;
+  typedef thrust::detail::temporary_array<T,ExecutionPolicy> TempRange;
+  typedef typename TempRange::iterator                       TempIterator;
 
-  // XXX presumes System is default constructible
-  System system;
-  TempRange temp(system, first, last);
+  // XXX presumes ExecutionPolicy is default constructible
+  ExecutionPolicy exec;
+  TempRange temp(exec, first, last);
 
   for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
   {
@@ -147,17 +147,17 @@ template<typename ForwardIterator,
     bool
   > wrapped_pred(pred);
 
-  // XXX the type of system should be:
+  // XXX the type of exec should be:
   //     typedef decltype(select_system(first, stencil)) system;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename thrust::iterator_system<ForwardIterator>::type ExecutionPolicy;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,System> TempRange;
-  typedef typename TempRange::iterator             TempIterator;
+  typedef thrust::detail::temporary_array<T,ExecutionPolicy> TempRange;
+  typedef typename TempRange::iterator                       TempIterator;
 
-  // XXX presumes System is default constructible
-  System system;
-  TempRange temp(system, first, last);
+  // XXX presumes ExecutionPolicy is default constructible
+  ExecutionPolicy exec;
+  TempRange temp(exec, first, last);
 
   InputIterator stencil_iter = stencil;
   for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter, ++stencil_iter)

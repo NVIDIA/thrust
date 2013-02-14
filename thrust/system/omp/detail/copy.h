@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/omp/detail/tag.h>
+#include <thrust/system/omp/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -29,20 +29,20 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-OutputIterator copy(dispatchable<System> &system,
+OutputIterator copy(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputIterator result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-OutputIterator copy_n(dispatchable<System> &system,
+OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       Size n,
                       OutputIterator result);

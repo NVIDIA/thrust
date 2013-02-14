@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -34,10 +34,10 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(dispatchable<System> &system,
+  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                        InputIterator begin, 
                                        InputIterator end, 
                                        OutputIterator result);

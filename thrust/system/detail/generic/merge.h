@@ -31,12 +31,12 @@ namespace generic
 
 
 // XXX calling this function is an error; there is no implementation
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator merge(thrust::dispatchable<System> &system,
+  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -45,11 +45,11 @@ template<typename System,
                        StrictWeakOrdering comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(thrust::dispatchable<System> &system,
+  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -57,9 +57,9 @@ template<typename System,
                        OutputIterator result);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::dispatchable<System> &system,
+    merge_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -68,9 +68,9 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
                  Compare comp);
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::dispatchable<System> &system,
+    merge_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,

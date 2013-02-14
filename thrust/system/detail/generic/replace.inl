@@ -76,8 +76,8 @@ template<typename T>
 
 } // end detail
 
-template<typename System, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
-  OutputIterator replace_copy_if(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator first,
                                  InputIterator last,
                                  OutputIterator result,
@@ -88,11 +88,11 @@ template<typename System, typename InputIterator, typename OutputIterator, typen
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
   detail::new_value_if<Predicate,T,OutputType> op(pred,new_value);
-  return thrust::transform(system, first, last, result, op);
+  return thrust::transform(exec, first, last, result, op);
 } // end replace_copy_if()
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
-  OutputIterator replace_copy_if(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+  OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator1 first,
                                  InputIterator1 last,
                                  InputIterator2 stencil,
@@ -103,12 +103,12 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
   detail::new_value_if<Predicate,T,OutputType> op(pred,new_value);
-  return thrust::transform(system, first, last, stencil, result, op);
+  return thrust::transform(exec, first, last, stencil, result, op);
 } // end replace_copy_if()
 
 
-template<typename System, typename InputIterator, typename OutputIterator, typename T>
-  OutputIterator replace_copy(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
+  OutputIterator replace_copy(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator result,
@@ -116,11 +116,11 @@ template<typename System, typename InputIterator, typename OutputIterator, typen
                               const T &new_value)
 {
   thrust::detail::equal_to_value<T> pred(old_value);
-  return thrust::replace_copy_if(system, first, last, result, pred, new_value);
+  return thrust::replace_copy_if(exec, first, last, result, pred, new_value);
 } // end replace_copy()
 
-template<typename System, typename ForwardIterator, typename Predicate, typename T>
-  void replace_if(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
+  void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
                   Predicate pred,
@@ -131,11 +131,11 @@ template<typename System, typename ForwardIterator, typename Predicate, typename
   // XXX replace this with generate_if:
   // constant_nullary<T> f(new_value);
   // generate_if(first, last, first, f, pred);
-  thrust::transform_if(system, first, last, first, first, f, pred);
+  thrust::transform_if(exec, first, last, first, first, f, pred);
 } // end replace_if()
 
-template<typename System, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
-  void replace_if(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+  void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
                   InputIterator stencil,
@@ -147,18 +147,18 @@ template<typename System, typename ForwardIterator, typename InputIterator, type
   // XXX replace this with generate_if:
   // constant_nullary<T> f(new_value);
   // generate_if(stencil, stencil + n, first, f, pred);
-  thrust::transform_if(system, first, last, stencil, first, f, pred);
+  thrust::transform_if(exec, first, last, stencil, first, f, pred);
 } // end replace_if()
 
-template<typename System, typename ForwardIterator, typename T>
-  void replace(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void replace(thrust::execution_policy<DerivedPolicy> &exec,
                ForwardIterator first,
                ForwardIterator last,
                const T &old_value,
                const T &new_value)
 {
   thrust::detail::equal_to_value<T> pred(old_value);
-  return thrust::replace_if(system, first, last, pred, new_value);
+  return thrust::replace_if(exec, first, last, pred, new_value);
 } // end replace()
 
 } // end namespace generic

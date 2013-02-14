@@ -67,7 +67,7 @@ struct reduce_by_key_functor
 } // end namespace detail
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
@@ -75,7 +75,7 @@ template<typename System,
          typename BinaryPredicate,
          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(thrust::dispatchable<System> &system,
+    reduce_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -120,46 +120,46 @@ template<typename System,
     InputIterator2 values_last = values_first + n;
     
     // compute head flags
-    thrust::detail::temporary_array<FlagType,System> head_flags(system, n);
-    thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
+    thrust::detail::temporary_array<FlagType,ExecutionPolicy> head_flags(exec, n);
+    thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
-    thrust::detail::temporary_array<FlagType,System> tail_flags(system, n); //COPY INSTEAD OF TRANSFORM
-    thrust::transform(system, keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
+    thrust::detail::temporary_array<FlagType,ExecutionPolicy> tail_flags(exec, n); //COPY INSTEAD OF TRANSFORM
+    thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag
-    thrust::detail::temporary_array<ValueType,System> scanned_values(system, n);
-    thrust::detail::temporary_array<FlagType,System>  scanned_tail_flags(system, n);
+    thrust::detail::temporary_array<ValueType,ExecutionPolicy> scanned_values(exec, n);
+    thrust::detail::temporary_array<FlagType,ExecutionPolicy>  scanned_tail_flags(exec, n);
     
     thrust::inclusive_scan
-        (system,
+        (exec,
          thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
          thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
          thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
          detail::reduce_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
 
-    thrust::exclusive_scan(system, tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
+    thrust::exclusive_scan(exec, tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
 
     // number of unique keys
     FlagType N = scanned_tail_flags[n - 1] + 1;
     
     // scatter the keys and accumulated values    
-    thrust::scatter_if(system, keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
-    thrust::scatter_if(system, scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
+    thrust::scatter_if(exec, keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
+    thrust::scatter_if(exec, scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
 
     return thrust::make_pair(keys_output + N, values_output + N); 
 } // end reduce_by_key()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(thrust::dispatchable<System> &system,
+    reduce_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -169,18 +169,18 @@ template<typename System,
   typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
 
   // use equal_to<KeyType> as default BinaryPredicate
-  return thrust::reduce_by_key(system, keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
+  return thrust::reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
 } // end reduce_by_key()
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(thrust::dispatchable<System> &system,
+    reduce_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -195,7 +195,7 @@ template<typename System,
   >::type T;
 
   // use plus<T> as default BinaryFunction
-  return thrust::reduce_by_key(system,
+  return thrust::reduce_by_key(exec,
                                keys_first, keys_last, 
                                values_first,
                                keys_output,

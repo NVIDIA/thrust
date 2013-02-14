@@ -29,19 +29,19 @@ namespace detail
 namespace generic
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryOperation>
-  void tabulate(thrust::dispatchable<System> &system,
+  void tabulate(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename OutputIterator,
          typename Size,
          typename UnaryOperation>
-  OutputIterator tabulate_n(thrust::dispatchable<System> &system,
+  OutputIterator tabulate_n(thrust::execution_policy<DerivedPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             UnaryOperation unary_op);

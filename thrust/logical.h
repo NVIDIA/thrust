@@ -22,22 +22,22 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/execution_policy.h>
 
 namespace thrust
 {
 
 
-template <typename System, typename InputIterator, typename Predicate>
-bool all_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
-template <typename System, typename InputIterator, typename Predicate>
-bool any_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
-template <typename System, typename InputIterator, typename Predicate>
-bool none_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \addtogroup reductions

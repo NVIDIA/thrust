@@ -30,41 +30,41 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
   using thrust::system::detail::generic::partition;
-  return partition(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end partition()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
   using thrust::system::detail::generic::partition;
-  return partition(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, pred);
+  return partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, pred);
 } // end partition()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -72,18 +72,18 @@ template<typename System,
                    Predicate pred)
 {
   using thrust::system::detail::generic::partition_copy;
-  return partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, out_true, out_false, pred);
+  return partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, out_true, out_false, pred);
 } // end partition_copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -92,45 +92,45 @@ template<typename System,
                    Predicate pred)
 {
   using thrust::system::detail::generic::partition_copy;
-  return partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, out_true, out_false, pred);
+  return partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, out_true, out_false, pred);
 } // end partition_copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition;
-  return stable_partition(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return stable_partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end stable_partition()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator stable_partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
                                    Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition;
-  return stable_partition(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, pred);
+  return stable_partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, pred);
 } // end stable_partition()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -138,18 +138,18 @@ template<typename System,
                           Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition_copy;
-  return stable_partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, out_true, out_false, pred);
+  return stable_partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -158,29 +158,29 @@ template<typename System,
                           Predicate pred)
 {
   using thrust::system::detail::generic::stable_partition_copy;
-  return stable_partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, stencil, out_true, out_false, pred);
+  return stable_partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
-template<typename System, typename ForwardIterator, typename Predicate>
-  ForwardIterator partition_point(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename Predicate>
+  ForwardIterator partition_point(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred)
 {
   using thrust::system::detail::generic::partition_point;
-  return partition_point(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return partition_point(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end partition_point()
 
 
-template<typename System, typename InputIterator, typename Predicate>
-  bool is_partitioned(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+  bool is_partitioned(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
   using thrust::system::detail::generic::is_partitioned;
-  return is_partitioned(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, pred);
+  return is_partitioned(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
 } // end is_partitioned()
 
 
