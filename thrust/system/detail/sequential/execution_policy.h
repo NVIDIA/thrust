@@ -46,6 +46,8 @@ static const tag seq;
 #include <thrust/system/detail/sequential/extrema.h>
 #include <thrust/system/detail/sequential/find.h>
 #include <thrust/system/detail/sequential/for_each.h>
+#include <thrust/system/detail/sequential/free.h>
+#include <thrust/system/detail/sequential/malloc.h>
 #include <thrust/system/detail/sequential/merge.h>
 #include <thrust/system/detail/sequential/reduce_by_key.h>
 #include <thrust/system/detail/sequential/reduce.h>
