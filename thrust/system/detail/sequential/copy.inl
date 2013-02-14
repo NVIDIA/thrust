@@ -61,6 +61,7 @@ __host__ __device__
 } // end copy()
 
 
+__thrust_hd_warning_disable__
 template<typename InputIterator,
          typename OutputIterator>
 __host__ __device__
@@ -103,6 +104,7 @@ __host__ __device__
 } // end namespace copy_detail
 
 
+__thrust_hd_warning_disable__
 template<typename InputIterator,
          typename OutputIterator>
 __host__ __device__

@@ -32,6 +32,7 @@ namespace sequential
 {
 
 
+__thrust_hd_warning_disable__
 template<typename InputIterator,
          typename OutputIterator>
 __host__ __device__
@@ -45,6 +46,7 @@ __host__ __device__
 } // end general_copy()
 
 
+__thrust_hd_warning_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
