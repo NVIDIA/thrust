@@ -69,7 +69,7 @@ void reduce_intervals(execution_policy<DerivedPolicy> &,
 
     if (begin != end)
     {
-      OutputType sum = *begin;
+      OutputType sum = thrust::raw_reference_cast(*begin);
 
       ++begin;
 

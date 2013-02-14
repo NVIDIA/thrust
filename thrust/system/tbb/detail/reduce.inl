@@ -66,7 +66,7 @@ struct body
 
     RandomAccessIterator iter = first + r.begin();
 
-    OutputType temp = *iter;
+    OutputType temp = thrust::raw_reference_cast(*iter);
 
     ++iter;
 
