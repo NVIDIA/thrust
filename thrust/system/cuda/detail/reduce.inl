@@ -92,14 +92,14 @@ struct unordered_reduce_closure
     input += i;
 
     // compute reduction with all blockDim.x threads
-    OutputType sum = *input;
+    OutputType sum = thrust::raw_reference_cast(*input);
 
     i     += grid_size;
     input += grid_size;
 
     while (i < n)
     {
-      OutputType val = *input;
+      OutputType val = thrust::raw_reference_cast(*input);
 
       sum = binary_op(sum, val);
 
