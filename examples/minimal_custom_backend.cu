@@ -10,11 +10,11 @@
 
 // We begin by defining a "system tag", which distinguishes our novel
 // backend from other Thrust backends.
-// We'll derive my_system from thrust::device_system to inherit
+// We'll derive my_system from thrust::device_execution_policy to inherit
 // the functionality of the default device backend.
 // Note that we pass the name of our tag as a template parameter
-// to thrust::device_system
-struct my_system : thrust::device_system<my_system> {};
+// to thrust::device_execution_policy
+struct my_system : thrust::device_execution_policy<my_system> {};
 
 // Next, we'll create a novel version of for_each which only
 // applies to iterators "tagged" with my_system.

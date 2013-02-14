@@ -28,9 +28,9 @@ namespace thrust
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
-template<typename DerivedSystem>
-  struct host_system
-    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedSystem>
+template<typename DerivedPolicy>
+  struct host_execution_policy
+    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
 } // end thrust
