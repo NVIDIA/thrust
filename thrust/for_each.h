@@ -31,6 +31,7 @@ namespace thrust
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
+__host__ __device__
 InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
@@ -41,6 +42,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
+__host__ __device__
 InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
@@ -102,6 +104,7 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  */
 template<typename InputIterator,
          typename UnaryFunction>
+__host__ __device__
 InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
@@ -158,6 +161,7 @@ InputIterator for_each(InputIterator first,
 template<typename InputIterator,
          typename Size,
          typename UnaryFunction>
+__host__ __device__
 InputIterator for_each_n(InputIterator first,
                          Size n,
                          UnaryFunction f);
