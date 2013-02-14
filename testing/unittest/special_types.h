@@ -128,7 +128,7 @@ void swap(user_swappable &x, user_swappable &y)
   y.was_swapped = false;
 }
 
-class my_system : public thrust::device_system<my_system>
+class my_system : public thrust::device_execution_policy<my_system>
 {
   public:
     my_system(int)
@@ -163,7 +163,7 @@ class my_system : public thrust::device_system<my_system>
     my_system();
 };
 
-struct my_tag : thrust::device_system<my_tag> {};
+struct my_tag : thrust::device_execution_policy<my_tag> {};
 
 namespace unittest
 {
