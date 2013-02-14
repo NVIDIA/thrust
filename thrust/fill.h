@@ -29,6 +29,7 @@ namespace thrust
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
@@ -36,6 +37,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename T>
 
 
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+__host__ __device__
   OutputIterator fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
@@ -80,6 +82,7 @@ template<typename DerivedPolicy, typename OutputIterator, typename Size, typenam
  *  \see \c uninitialized_fill
  */
 template<typename ForwardIterator, typename T>
+__host__ __device__
   void fill(ForwardIterator first,
             ForwardIterator last,
             const T &value);
@@ -116,6 +119,7 @@ template<typename ForwardIterator, typename T>
  *  \see \c uninitialized_fill_n
  */
 template<typename OutputIterator, typename Size, typename T>
+__host__ __device__
   OutputIterator fill_n(OutputIterator first,
                         Size n,
                         const T &value);
