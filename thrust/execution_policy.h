@@ -20,6 +20,35 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 // get the definition of thrust::execution_policy
 #include <thrust/detail/execution_policy.h>
+
+// #include the host system's par.h header
+#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/par.h>
+#include __THRUST_HOST_SYSTEM_TAG_HEADER
+#undef __THRUST_HOST_SYSTEM_TAG_HEADER
+
+// #include the device system's par.h header
+#define __THRUST_DEVICE_SYSTEM_TAG_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/par.h>
+#include __THRUST_DEVICE_SYSTEM_TAG_HEADER
+#undef __THRUST_DEVICE_SYSTEM_TAG_HEADER
+
+namespace thrust
+{
+namespace detail
+{
+
+typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
+
+typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
+
+} // end detail
+
+static const detail::host_t host;
+
+static const detail::device_t device;
+
+} // end thrust
 
