@@ -25,15 +25,15 @@
 // get the definition of thrust::execution_policy
 #include <thrust/detail/execution_policy.h>
 
-// #include the host system's par.h header
-#define __THRUST_HOST_SYSTEM_TAG_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/par.h>
-#include __THRUST_HOST_SYSTEM_TAG_HEADER
-#undef __THRUST_HOST_SYSTEM_TAG_HEADER
+// #include the host system's execution_policy header
+#define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
+#include __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
+#undef __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
 
-// #include the device system's par.h header
-#define __THRUST_DEVICE_SYSTEM_TAG_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/par.h>
-#include __THRUST_DEVICE_SYSTEM_TAG_HEADER
-#undef __THRUST_DEVICE_SYSTEM_TAG_HEADER
+// #include the device system's execution_policy.h header
+#define __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
+#include __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+#undef __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
 
 namespace thrust
 {
@@ -45,6 +45,16 @@ typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
 typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
 
 } // end detail
+
+template<typename DerivedPolicy>
+  struct host_execution_policy
+    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+{};
+
+template<typename DerivedPolicy>
+  struct device_execution_policy
+    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+{};
 
 static const detail::host_t host;
 
