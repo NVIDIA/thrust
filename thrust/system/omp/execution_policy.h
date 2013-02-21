@@ -21,6 +21,9 @@
 // get the execution policies definitions first
 #include <thrust/system/omp/detail/execution_policy.h>
 
+// get the definition of par
+#include <thrust/system/omp/detail/par.h>
+
 // now get all the algorithm definitions
 
 #include <thrust/system/omp/detail/adjacent_difference.h>
