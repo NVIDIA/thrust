@@ -21,7 +21,7 @@
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/pair.h>
 #include <thrust/memory.h>
-#include <thrust/execution_policy.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
