@@ -55,8 +55,8 @@ template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator two_system_copy(thrust::execution_policy<System1> &system1,
-                                 thrust::execution_policy<System2> &system2,
+  OutputIterator two_system_copy(const thrust::execution_policy<System1> &system1,
+                                 const thrust::execution_policy<System2> &system2,
                                  InputIterator first,
                                  InputIterator last,
                                  OutputIterator result)
@@ -72,8 +72,8 @@ template<typename System1,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator two_system_copy_n(thrust::execution_policy<System1> &system1,
-                                   thrust::execution_policy<System2> &system2,
+  OutputIterator two_system_copy_n(const thrust::execution_policy<System1> &system1,
+                                   const thrust::execution_policy<System2> &system2,
                                    InputIterator first,
                                    Size n,
                                    OutputIterator result)
