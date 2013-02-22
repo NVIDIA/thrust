@@ -19,12 +19,19 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/type_traits/has_nested_type.h>
+#include <thrust/detail/type_traits/has_member_function.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
 namespace detail
 {
+
+
+// forward declaration for has_member_system
+template<typename Alloc> struct allocator_system;
+
+
 namespace allocator_traits_detail
 {
 
@@ -40,6 +47,8 @@ __THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_copy_assignment, prop
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_move_assignment, propagate_on_container_move_assignment)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_swap, propagate_on_container_swap)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_system_type, system_type)
+__THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system)
+
 
 template<typename T>
   struct nested_pointer
@@ -112,6 +121,17 @@ template<typename T>
 {
   typedef typename T::system_type type;
 };
+
+template<typename Alloc>
+  class has_member_system
+{
+  typedef typename allocator_system<Alloc>::type system_type;
+
+  public:
+    typedef typename has_member_system_impl<Alloc, system_type&(void)>::type type;
+    static const bool value = type::value;
+};
+
 
 } // end allocator_traits_detail
 
@@ -229,7 +249,14 @@ template<typename Alloc>
     >
   >::type type;
 
-  inline static type &get(Alloc &a);
+  // the type that get returns
+  typedef typename eval_if<
+    allocator_traits_detail::has_member_system<Alloc>::value, // if Alloc.system() exists
+    add_reference<type>,                                      // then get() needs to return a reference
+    identity_<type>                                           // else get() needs to return a value
+  >::type get_result_type;
+
+  inline static get_result_type get(Alloc &a);
 };
 
 

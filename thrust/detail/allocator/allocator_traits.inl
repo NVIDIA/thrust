@@ -16,7 +16,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/allocator_traits.h>
-#include <thrust/detail/type_traits/has_member_function.h>
 #include <thrust/detail/type_traits/is_call_possible.h>
 #include <new>
 #include <limits>
@@ -180,18 +179,6 @@ template<typename Alloc>
   return std::numeric_limits<size_type>::max();
 }
 
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system)
-
-template<typename Alloc>
-  class has_member_system
-{
-  typedef typename allocator_system<Alloc>::type system_type;
-
-  public:
-    typedef typename has_member_system_impl<Alloc, system_type&(void)>::type type;
-    static const bool value = type::value;
-};
-
 template<typename Alloc>
   typename enable_if<
     has_member_system<Alloc>::value,
@@ -199,19 +186,20 @@ template<typename Alloc>
   >::type
     system(Alloc &a)
 {
+  // return the allocator's system
   return a.system();
 }
 
 template<typename Alloc>
   typename disable_if<
     has_member_system<Alloc>::value,
-    typename allocator_system<Alloc>::type &
+    typename allocator_system<Alloc>::type
   >::type
     system(Alloc &a)
 {
-  // assumes the system is default-constructible
-  static typename allocator_system<Alloc>::type state;
-  return state;
+  // return a copy of a default-constructed system
+  typename allocator_system<Alloc>::type result;
+  return result;
 }
 
 
@@ -274,7 +262,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
-  typename allocator_system<Alloc>::type &
+  typename allocator_system<Alloc>::get_result_type
     allocator_system<Alloc>
       ::get(Alloc &a)
 {
