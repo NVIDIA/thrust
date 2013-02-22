@@ -202,10 +202,8 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
                          InputIterator last,
                          Pointer result)
 {
-  typename allocator_system<Allocator>::type &to_system = allocator_system<Allocator>::get(a);
-
   // just call two_system_copy
-  return thrust::detail::two_system_copy(from_system, to_system, first, last, result);
+  return thrust::detail::two_system_copy(from_system, allocator_system<Allocator>::get(a), first, last, result);
 }
 
 
@@ -223,10 +221,8 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
                            Size n,
                            Pointer result)
 {
-  typename allocator_system<Allocator>::type &to_system = allocator_system<Allocator>::get(a);
-
   // just call two_system_copy_n
-  return thrust::detail::two_system_copy_n(from_system, to_system, first, n, result);
+  return thrust::detail::two_system_copy_n(from_system, allocator_system<Allocator>::get(a), first, n, result);
 }
 
 
@@ -244,8 +240,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
                          InputIterator last,
                          Pointer result)
 {
-  typename allocator_system<Allocator>::type &to_system = allocator_system<Allocator>::get(a);
-  return uninitialized_copy_with_allocator(a, from_system, to_system, first, last, result);
+  return uninitialized_copy_with_allocator(a, from_system, allocator_system<Allocator>::get(a), first, last, result);
 }
 
 
@@ -263,8 +258,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
                            Size n,
                            Pointer result)
 {
-  typename allocator_system<Allocator>::type &to_system = allocator_system<Allocator>::get(a);
-  return uninitialized_copy_with_allocator_n(a, from_system, to_system, first, n, result);
+  return uninitialized_copy_with_allocator_n(a, from_system, allocator_system<Allocator>::get(a), first, n, result);
 }
 
 
