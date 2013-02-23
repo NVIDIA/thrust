@@ -624,6 +624,7 @@ template<typename T>
 {
   T exemplar;
 
+  __host__ __device__
   uninitialized_fill_functor(T x):exemplar(x){}
 
   __host__ __device__
