@@ -90,18 +90,22 @@ template<typename T, typename Alloc>
     void uninitialized_fill_n(iterator first, size_type n, const value_type &value);
 
     template<typename InputIterator>
+    __host__ __device__
     iterator uninitialized_copy(InputIterator first, InputIterator last, iterator result);
 
     template<typename System, typename InputIterator>
+    __host__ __device__
     iterator uninitialized_copy(thrust::execution_policy<System> &from_system,
                                 InputIterator first,
                                 InputIterator last,
                                 iterator result);
 
     template<typename InputIterator, typename Size>
+    __host__ __device__
     iterator uninitialized_copy_n(InputIterator first, Size n, iterator result);
 
     template<typename System, typename InputIterator, typename Size>
+    __host__ __device__
     iterator uninitialized_copy_n(thrust::execution_policy<System> &from_system,
                                   InputIterator first,
                                   Size n,

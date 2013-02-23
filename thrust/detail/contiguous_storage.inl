@@ -188,6 +188,7 @@ __host__ __device__
 
 template<typename T, typename Alloc>
   template<typename System, typename InputIterator>
+  __host__ __device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy(thrust::execution_policy<System> &from_system, InputIterator first, InputIterator last, iterator result)
@@ -197,6 +198,7 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   template<typename InputIterator>
+  __host__ __device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy(InputIterator first, InputIterator last, iterator result)
@@ -209,6 +211,7 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   template<typename System, typename InputIterator, typename Size>
+  __host__ __device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy_n(thrust::execution_policy<System> &from_system, InputIterator first, Size n, iterator result)
@@ -218,6 +221,7 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   template<typename InputIterator, typename Size>
+  __host__ __device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy_n(InputIterator first, Size n, iterator result)
