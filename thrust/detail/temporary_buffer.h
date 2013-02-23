@@ -33,6 +33,7 @@ namespace get_temporary_buffer_detail
 
 
 template<typename T, typename DerivedPolicy, typename Pair>
+__host__ __device__
   thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
     down_cast_pair(Pair p)
 {
@@ -48,7 +49,9 @@ template<typename T, typename DerivedPolicy, typename Pair>
 } // end detail
 
 
+__thrust_hd_warning_disable__
 template<typename T, typename DerivedPolicy>
+__host__ __device__
   thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
     get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n)
 {
@@ -58,7 +61,9 @@ template<typename T, typename DerivedPolicy>
 } // end get_temporary_buffer()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
   void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer p)
 {
   using thrust::system::detail::generic::return_temporary_buffer;
