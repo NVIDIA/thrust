@@ -55,10 +55,12 @@ namespace detail
 {
 
 
+__thrust_hd_warning_disable__ // because we might call e.g. std::ostream_iterator's constructor
 template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
+__host__ __device__
   OutputIterator two_system_copy(const thrust::execution_policy<System1> &system1,
                                  const thrust::execution_policy<System2> &system2,
                                  InputIterator first,
@@ -71,11 +73,13 @@ template<typename System1,
 } // end two_system_copy()
 
 
+__thrust_hd_warning_disable__ // because we might call e.g. std::ostream_iterator's constructor
 template<typename System1,
          typename System2,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
+__host__ __device__
   OutputIterator two_system_copy_n(const thrust::execution_policy<System1> &system1,
                                    const thrust::execution_policy<System2> &system2,
                                    InputIterator first,

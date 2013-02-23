@@ -63,6 +63,7 @@ template<typename FromSystem,
          typename ToSystem,
          typename InputIterator,
          typename OutputIterator>
+__host__ __device__
   OutputIterator two_system_copy(const thrust::execution_policy<FromSystem> &from_system,
                                  const thrust::execution_policy<ToSystem>   &two_system,
                                  InputIterator first,
@@ -75,6 +76,7 @@ template<typename FromSystem,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
+__host__ __device__
   OutputIterator two_system_copy_n(const thrust::execution_policy<FromSystem> &from_system,
                                    const thrust::execution_policy<ToSystem>   &two_system,
                                    InputIterator first,
