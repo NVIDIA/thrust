@@ -86,6 +86,7 @@ template<typename T, typename Alloc>
     __host__ __device__
     void default_construct_n(iterator first, size_type n);
 
+    __host__ __device__
     void uninitialized_fill_n(iterator first, size_type n, const value_type &value);
 
     template<typename InputIterator>

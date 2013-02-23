@@ -179,6 +179,7 @@ __host__ __device__
 } // end contiguous_storage::default_construct_n()
 
 template<typename T, typename Alloc>
+__host__ __device__
   void contiguous_storage<T,Alloc>
     ::uninitialized_fill_n(iterator first, size_type n, const value_type &x)
 {
