@@ -39,6 +39,7 @@ template<typename Allocator, typename InputType, typename OutputType>
 {
   Allocator &a;
 
+  __host__ __device__
   copy_construct_with_allocator(Allocator &a)
     : a(a)
   {}
@@ -78,6 +79,7 @@ template<typename U, typename T>
 //     perhaps generic::uninitialized_copy could call this routine
 //     with a default allocator
 template<typename Allocator, typename FromSystem, typename ToSystem, typename InputIterator, typename Pointer>
+__host__ __device__
   typename enable_if_convertible<
     FromSystem,
     ToSystem,
@@ -119,6 +121,7 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
 //     perhaps generic::uninitialized_copy_n could call this routine
 //     with a default allocator
 template<typename Allocator, typename FromSystem, typename ToSystem, typename InputIterator, typename Size, typename Pointer>
+__host__ __device__
   typename enable_if_convertible<
     FromSystem,
     ToSystem,
@@ -151,6 +154,7 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
 
 
 template<typename Allocator, typename FromSystem, typename ToSystem, typename InputIterator, typename Pointer>
+__host__ __device__
   typename disable_if_convertible<
     FromSystem,
     ToSystem,
@@ -170,6 +174,7 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
 
 
 template<typename Allocator, typename FromSystem, typename ToSystem, typename InputIterator, typename Size, typename Pointer>
+__host__ __device__
   typename disable_if_convertible<
     FromSystem,
     ToSystem,
@@ -189,6 +194,7 @@ template<typename Allocator, typename FromSystem, typename ToSystem, typename In
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
+__host__ __device__
   typename disable_if<
     needs_copy_construct_via_allocator<
       Allocator,
@@ -208,6 +214,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Size, typename Pointer>
+__host__ __device__
   typename disable_if<
     needs_copy_construct_via_allocator<
       Allocator,
@@ -227,6 +234,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Pointer>
+__host__ __device__
   typename enable_if<
     needs_copy_construct_via_allocator<
       Allocator,
@@ -245,6 +253,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename FromSystem, typename Allocator, typename InputIterator, typename Size, typename Pointer>
+__host__ __device__
   typename enable_if<
     needs_copy_construct_via_allocator<
       Allocator,
@@ -266,6 +275,7 @@ template<typename FromSystem, typename Allocator, typename InputIterator, typena
 
 
 template<typename System, typename Allocator, typename InputIterator, typename Pointer>
+__host__ __device__
   Pointer copy_construct_range(thrust::execution_policy<System> &from_system,
                                Allocator &a,
                                InputIterator first,
@@ -277,6 +287,7 @@ template<typename System, typename Allocator, typename InputIterator, typename P
 
 
 template<typename System, typename Allocator, typename InputIterator, typename Size, typename Pointer>
+__host__ __device__
   Pointer copy_construct_range_n(thrust::execution_policy<System> &from_system,
                                  Allocator &a,
                                  InputIterator first,
