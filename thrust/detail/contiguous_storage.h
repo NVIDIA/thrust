@@ -111,6 +111,7 @@ template<typename T, typename Alloc>
                                   Size n,
                                   iterator result);
 
+    __host__ __device__
     void destroy(iterator first, iterator last);
 
   private:

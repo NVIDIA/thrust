@@ -233,6 +233,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::uninitialized_copy_n()
 
 template<typename T, typename Alloc>
+__host__ __device__
   void contiguous_storage<T,Alloc>
     ::destroy(iterator first, iterator last)
 {
