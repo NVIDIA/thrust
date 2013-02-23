@@ -180,6 +180,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename enable_if<
     has_member_system<Alloc>::value,
     typename allocator_system<Alloc>::type &
@@ -191,6 +192,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename disable_if<
     has_member_system<Alloc>::value,
     typename allocator_system<Alloc>::type
@@ -262,6 +264,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename allocator_system<Alloc>::get_result_type
     allocator_system<Alloc>
       ::get(Alloc &a)

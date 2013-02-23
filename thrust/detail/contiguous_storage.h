@@ -83,6 +83,7 @@ template<typename T, typename Alloc>
 
     void swap(contiguous_storage &x);
 
+    __host__ __device__
     void default_construct_n(iterator first, size_type n);
 
     void uninitialized_fill_n(iterator first, size_type n, const value_type &value);

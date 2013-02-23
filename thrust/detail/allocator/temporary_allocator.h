@@ -58,6 +58,7 @@ template<typename T, typename System>
 
     void deallocate(pointer p, size_type n);
 
+    __host__ __device__
     inline System &system()
     {
       return m_system;

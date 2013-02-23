@@ -256,6 +256,7 @@ template<typename Alloc>
     identity_<type>                                           // else get() needs to return a value
   >::type get_result_type;
 
+  __host__ __device__
   inline static get_result_type get(Alloc &a);
 };
 

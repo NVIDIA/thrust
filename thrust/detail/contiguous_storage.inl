@@ -171,6 +171,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::swap()
 
 template<typename T, typename Alloc>
+__host__ __device__
   void contiguous_storage<T,Alloc>
     ::default_construct_n(iterator first, size_type n)
 {
