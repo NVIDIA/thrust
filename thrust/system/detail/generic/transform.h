@@ -32,6 +32,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
+__host__ __device__
   OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
@@ -43,6 +44,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryFunction>
+__host__ __device__
   OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,
