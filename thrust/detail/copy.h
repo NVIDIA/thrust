@@ -25,6 +25,7 @@ namespace thrust
 template<typename System,
          typename InputIterator,
          typename OutputIterator>
+__host__ __device__
   OutputIterator copy(const thrust::detail::execution_policy_base<System> &system,
                       InputIterator first,
                       InputIterator last,
@@ -34,6 +35,7 @@ template<typename System,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
+__host__ __device__
   OutputIterator copy_n(const thrust::detail::execution_policy_base<System> &system,
                         InputIterator first,
                         Size n,

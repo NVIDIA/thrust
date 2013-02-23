@@ -29,6 +29,7 @@ namespace thrust
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+__host__ __device__
   OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -36,6 +37,7 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
 
 
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
+__host__ __device__
   OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
