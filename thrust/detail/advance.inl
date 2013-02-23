@@ -28,6 +28,7 @@ namespace thrust
 
 
 template <typename InputIterator, typename Distance>
+__host__ __device__
 void advance(InputIterator& i, Distance n)
 {
   thrust::system::detail::generic::advance(i, n);

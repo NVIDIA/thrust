@@ -32,6 +32,7 @@ namespace generic
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename ForwardIterator>
+__host__ __device__
   ForwardIterator uninitialized_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
@@ -41,6 +42,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename Size,
          typename ForwardIterator>
+__host__ __device__
   ForwardIterator uninitialized_copy_n(thrust::execution_policy<ExecutionPolicy> &exec,
                                        InputIterator first,
                                        Size n,
