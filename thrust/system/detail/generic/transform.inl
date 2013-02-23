@@ -43,13 +43,7 @@ template<typename DerivedPolicy,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
-  //     a function which is only __host__ or __device__ by selecting a generic functor
-  //     which is one or the other
-  //     when nvcc is able to deal with this, remove this WAR
-  
-  // given the minimal system, determine the unary transform functor we need
-  typedef typename thrust::detail::unary_transform_functor<DerivedPolicy,UnaryFunction>::type UnaryTransformFunctor;
+  typedef thrust::detail::unary_transform_functor<UnaryFunction> UnaryTransformFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator,OutputIterator> IteratorTuple;
@@ -77,13 +71,8 @@ template<typename DerivedPolicy,
                            OutputIterator result,
                            BinaryFunction op)
 {
-  // XXX WAR the problem of a generic __host__ __device__ functor's inability to invoke
-  //     a function which is only __host__ or __device__ by selecting a generic functor
-  //     which is one or the other
-  //     when nvcc is able to deal with this, remove this WAR
-  
   // given the minimal system, determine the binary transform functor we need
-  typedef typename thrust::detail::binary_transform_functor<DerivedPolicy,BinaryFunction>::type BinaryTransformFunctor;
+  typedef thrust::detail::binary_transform_functor<BinaryFunction> BinaryTransformFunctor;
 
   // make an iterator tuple
   typedef thrust::tuple<InputIterator1,InputIterator2,OutputIterator> IteratorTuple;

@@ -61,8 +61,7 @@ template<typename DerivedPolicy,
   typedef typename thrust::iterator_value<InputIterator>::type value_type;
   typedef thrust::identity<value_type>                         xfrm_type;
 
-  // XXX why do we need to do this? figure out why, and then see if we can do without
-  typedef typename thrust::detail::unary_transform_functor<DerivedPolicy,xfrm_type>::type functor_type;
+  typedef thrust::detail::unary_transform_functor<xfrm_type> functor_type;
 
   typedef thrust::tuple<InputIterator,OutputIterator> iterator_tuple;
   typedef thrust::zip_iterator<iterator_tuple>        zip_iter;

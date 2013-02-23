@@ -299,37 +299,18 @@ template<typename T>
 
 
 template<typename UnaryFunction>
-  struct host_unary_transform_functor
+  struct unary_transform_functor
 {
   typedef void result_type;
 
   UnaryFunction f;
 
-  host_unary_transform_functor(UnaryFunction f_)
-    :f(f_) {}
+  __host__ __device__
+  unary_transform_functor(UnaryFunction f)
+    : f(f)
+  {}
 
-  template<typename Tuple>
-  inline __host__
-  typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<1,Tuple>::type
-  >::type
-    operator()(Tuple t)
-  {
-    thrust::get<1>(t) = f(thrust::get<0>(t));
-  }
-};
-
-template<typename UnaryFunction>
-  struct device_unary_transform_functor
-{
-  typedef void result_type;
-
-  UnaryFunction f;
-
-  device_unary_transform_functor(UnaryFunction f_)
-    :f(f_) {}
-
-  // add __host__ to allow the omp backend compile with nvcc
+  __thrust_hd_warning_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
@@ -342,64 +323,27 @@ template<typename UnaryFunction>
 };
 
 
-template<typename System, typename UnaryFunction>
-  struct unary_transform_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_unary_transform_functor<UnaryFunction> >,
-        thrust::detail::identity_<device_unary_transform_functor<UnaryFunction> >
-      >
-{};
-
-
-template <typename BinaryFunction>
-  struct host_binary_transform_functor
+template<typename BinaryFunction>
+  struct binary_transform_functor
 {
   BinaryFunction f;
 
-  host_binary_transform_functor(BinaryFunction f_)
-    :f(f_)
+  __host__ __device__
+  binary_transform_functor(BinaryFunction f)
+    : f(f)
   {}
 
-  template <typename Tuple>
-  __host__
-  void operator()(Tuple t)
-  { 
-    thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
-  }
-}; // end binary_transform_functor
-
-
-template <typename BinaryFunction>
-  struct device_binary_transform_functor
-{
-  BinaryFunction f;
-
-  device_binary_transform_functor(BinaryFunction f_)
-    :f(f_)
-  {}
-
-  // add __host__ to allow the omp backend compile with nvcc
-  template <typename Tuple>
+  __thrust_hd_warning_disable__
+  template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
     typename thrust::tuple_element<2,Tuple>::type
   >::type
     operator()(Tuple t)
-  { 
+  {
     thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
   }
-}; // end binary_transform_functor
-
-
-template<typename System, typename BinaryFunction>
-  struct binary_transform_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_binary_transform_functor<BinaryFunction> >,
-        thrust::detail::identity_<device_binary_transform_functor<BinaryFunction> >
-      >
-{};
+};
 
 
 template <typename UnaryFunction, typename Predicate>
