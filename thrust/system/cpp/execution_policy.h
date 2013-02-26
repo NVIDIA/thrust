@@ -21,6 +21,9 @@
 // get the execution policies definitions first
 #include <thrust/system/cpp/detail/execution_policy.h>
 
+// get the definition of par
+#include <thrust/system/cpp/detail/par.h>
+
 // now get all the algorithm definitions
 
 #include <thrust/system/cpp/detail/adjacent_difference.h>
