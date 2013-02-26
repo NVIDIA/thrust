@@ -25,7 +25,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/execution_policy.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/detail/temporary_array.h>
 
 namespace thrust

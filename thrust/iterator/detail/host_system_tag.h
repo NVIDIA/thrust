@@ -28,14 +28,9 @@ namespace thrust
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
-template<typename DerivedPolicy>
-  struct host_execution_policy
-    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
-{};
-
 } // end thrust
 
-// TODO remove this in 1.7.0
+// TODO remove this in 1.8.0
 namespace thrust
 {
 
