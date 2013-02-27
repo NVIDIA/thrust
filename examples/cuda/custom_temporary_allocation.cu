@@ -123,6 +123,11 @@ class cached_allocator
 
 int main()
 {
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION < 40400)
+  std::cout << "This feature requires gcc >= 4.4" << std::endl;
+  return 0;
+#endif
+
   size_t n = 1 << 22;
 
   thrust::host_vector<int> h_input(n);
