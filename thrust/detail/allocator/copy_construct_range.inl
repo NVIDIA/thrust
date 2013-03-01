@@ -86,8 +86,8 @@ __host__ __device__
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &a,
-                                      thrust::execution_policy<FromSystem> &from_system,
-                                      thrust::execution_policy<ToSystem> &to_system,
+                                      const thrust::execution_policy<FromSystem> &from_system,
+                                      const thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
                                       Pointer result)
@@ -128,8 +128,8 @@ __host__ __device__
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &a,
-                                        thrust::execution_policy<FromSystem> &from_system,
-                                        thrust::execution_policy<ToSystem> &to_system,
+                                        const thrust::execution_policy<FromSystem> &from_system,
+                                        const thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,
                                         Pointer result)
@@ -161,8 +161,8 @@ __host__ __device__
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &,
-                                      thrust::execution_policy<FromSystem> &from_system,
-                                      thrust::execution_policy<ToSystem> &to_system,
+                                      const thrust::execution_policy<FromSystem> &from_system,
+                                      const thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
                                       Pointer result)
@@ -181,8 +181,8 @@ __host__ __device__
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &,
-                                        thrust::execution_policy<FromSystem> &from_system,
-                                        thrust::execution_policy<ToSystem> &to_system,
+                                        const thrust::execution_policy<FromSystem> &from_system,
+                                        const thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,
                                         Pointer result)
