@@ -17,8 +17,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/type_traits/is_call_possible.h>
+#include <thrust/detail/integer_traits.h>
 #include <new>
-#include <limits>
 
 namespace thrust
 {
@@ -159,6 +159,7 @@ template<typename Alloc>
 };
 
 template<typename Alloc>
+__host__ __device__
   typename enable_if<
     has_member_max_size<Alloc>::value,
     typename allocator_traits<Alloc>::size_type
@@ -169,6 +170,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename disable_if<
     has_member_max_size<Alloc>::value,
     typename allocator_traits<Alloc>::size_type
@@ -176,7 +178,7 @@ template<typename Alloc>
     max_size(const Alloc &a)
 {
   typedef typename allocator_traits<Alloc>::size_type size_type;
-  return std::numeric_limits<size_type>::max();
+  return thrust::detail::integer_traits<size_type>::const_max;
 }
 
 template<typename Alloc>
@@ -233,6 +235,7 @@ template<typename Alloc>
 
 template<typename Alloc>
   template<typename T>
+  __host__ __device__
     void allocator_traits<Alloc>
       ::construct(allocator_type &a, T *p)
 {
@@ -241,6 +244,7 @@ template<typename Alloc>
 
 template<typename Alloc>
   template<typename T, typename Arg1>
+  __host__ __device__
     void allocator_traits<Alloc>
       ::construct(allocator_type &a, T *p, const Arg1 &arg1)
 {
@@ -249,6 +253,7 @@ template<typename Alloc>
 
 template<typename Alloc>
   template<typename T>
+  __host__ __device__
     void allocator_traits<Alloc>
       ::destroy(allocator_type &a, T *p)
 {
@@ -256,6 +261,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename allocator_traits<Alloc>::size_type
     allocator_traits<Alloc>
       ::max_size(const allocator_type &a)
