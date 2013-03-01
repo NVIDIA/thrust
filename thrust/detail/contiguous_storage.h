@@ -52,35 +52,53 @@ template<typename T, typename Alloc>
     typedef thrust::detail::normal_iterator<pointer>       iterator;
     typedef thrust::detail::normal_iterator<const_pointer> const_iterator;
 
+    __thrust_hd_warning_disable__
+    __host__ __device__
     explicit contiguous_storage(const allocator_type &alloc = allocator_type());
 
+    __thrust_hd_warning_disable__
+    __host__ __device__
     explicit contiguous_storage(size_type n, const allocator_type &alloc = allocator_type());
 
+    __thrust_hd_warning_disable__
+    __host__ __device__
     ~contiguous_storage(void);
 
+    __host__ __device__
     size_type size(void) const;
 
+    __host__ __device__
     size_type max_size(void) const;
 
+    __host__ __device__
     iterator begin(void);
     
+    __host__ __device__
     const_iterator begin(void) const;
 
+    __host__ __device__
     iterator end(void);
 
+    __host__ __device__
     const_iterator end(void) const;
 
+    __host__ __device__
     reference operator[](size_type n);
 
+    __host__ __device__
     const_reference operator[](size_type n) const;
 
+    __host__ __device__
     allocator_type get_allocator(void) const;
 
     // note that allocate does *not* automatically call deallocate
+    __host__ __device__
     void allocate(size_type n);
 
+    __host__ __device__
     void deallocate(void);
 
+    __host__ __device__
     void swap(contiguous_storage &x);
 
     __host__ __device__
@@ -128,7 +146,9 @@ template<typename T, typename Alloc>
 
 } // end detail
 
-template<typename T, typename Alloc> void swap(detail::contiguous_storage<T,Alloc> &lhs, detail::contiguous_storage<T,Alloc> &rhs);
+template<typename T, typename Alloc>
+__host__ __device__
+void swap(detail::contiguous_storage<T,Alloc> &lhs, detail::contiguous_storage<T,Alloc> &rhs);
 
 } // end thrust
 

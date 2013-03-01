@@ -31,7 +31,9 @@ namespace thrust
 namespace detail
 {
 
+__thrust_hd_warning_disable__
 template<typename T, typename Alloc>
+__host__ __device__
   contiguous_storage<T,Alloc>
     ::contiguous_storage(const Alloc &alloc)
       :m_allocator(alloc),
@@ -41,7 +43,9 @@ template<typename T, typename Alloc>
   ;
 } // end contiguous_storage::contiguous_storage()
 
+__thrust_hd_warning_disable__
 template<typename T, typename Alloc>
+__host__ __device__
   contiguous_storage<T,Alloc>
     ::contiguous_storage(size_type n, const Alloc &alloc)
       :m_allocator(alloc),
@@ -51,7 +55,9 @@ template<typename T, typename Alloc>
   allocate(n);
 } // end contiguous_storage::contiguous_storage()
 
+__thrust_hd_warning_disable__
 template<typename T, typename Alloc>
+__host__ __device__
   contiguous_storage<T,Alloc>
     ::~contiguous_storage(void)
 {
@@ -59,6 +65,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::~contiguous_storage()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::size_type
     contiguous_storage<T,Alloc>
       ::size(void) const
@@ -67,6 +74,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::size()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::size_type
     contiguous_storage<T,Alloc>
       ::max_size(void) const
@@ -75,6 +83,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::max_size()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::iterator
     contiguous_storage<T,Alloc>
       ::begin(void)
@@ -83,6 +92,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::begin()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::const_iterator
     contiguous_storage<T,Alloc>
       ::begin(void) const
@@ -91,6 +101,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::begin()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::iterator
     contiguous_storage<T,Alloc>
       ::end(void)
@@ -99,6 +110,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::end()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::const_iterator
     contiguous_storage<T,Alloc>
       ::end(void) const
@@ -107,6 +119,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::end()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::reference
     contiguous_storage<T,Alloc>
       ::operator[](size_type n)
@@ -115,6 +128,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::operator[]()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::const_reference
     contiguous_storage<T,Alloc>
       ::operator[](size_type n) const
@@ -123,6 +137,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::operator[]()
 
 template<typename T, typename Alloc>
+__host__ __device__
   typename contiguous_storage<T,Alloc>::allocator_type
     contiguous_storage<T,Alloc>
       ::get_allocator(void) const
@@ -131,12 +146,13 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::get_allocator()
 
 template<typename T, typename Alloc>
+__host__ __device__
   void contiguous_storage<T,Alloc>
     ::allocate(size_type n)
 {
   if(n > 0)
   {
-    m_begin = iterator(m_allocator.allocate(n));
+    m_begin = iterator(alloc_traits::allocate(m_allocator,n));
     m_size = n;
   } // end if
   else
@@ -147,27 +163,27 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::allocate()
 
 template<typename T, typename Alloc>
+__host__ __device__
   void contiguous_storage<T,Alloc>
     ::deallocate(void)
 {
   if(size() > 0)
   {
-    m_allocator.deallocate(m_begin.base(), size());
+    alloc_traits::deallocate(m_allocator,m_begin.base(), size());
     m_begin = iterator(pointer(static_cast<T*>(0)));
     m_size = 0;
   } // end if
 } // end contiguous_storage::deallocate()
 
 template<typename T, typename Alloc>
+__host__ __device__
   void contiguous_storage<T,Alloc>
     ::swap(contiguous_storage &x)
 {
   thrust::swap(m_begin, x.m_begin);
   thrust::swap(m_size, x.m_size);
 
-  // XXX WAR nvcc 4.0's "calling a __host__ function from a __host__ __device__ function is not allowed" warning
-  //thrust::swap(m_allocator, x.m_allocator);
-  std::swap(m_allocator, x.m_allocator);
+  thrust::swap(m_allocator, x.m_allocator);
 } // end contiguous_storage::swap()
 
 template<typename T, typename Alloc>
@@ -243,6 +259,7 @@ __host__ __device__
 } // end detail
 
 template<typename T, typename Alloc>
+__host__ __device__
   void swap(detail::contiguous_storage<T,Alloc> &lhs, detail::contiguous_storage<T,Alloc> &rhs)
 {
   lhs.swap(rhs);
