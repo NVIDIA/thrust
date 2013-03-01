@@ -215,11 +215,14 @@ template<typename Alloc>
   // XXX rebind and rebind_traits are alias templates
   //     and so are omitted while c++11 is unavailable
 
-  inline static pointer allocate(allocator_type &a, size_type n);
+  inline __host__ __device__
+  static pointer allocate(allocator_type &a, size_type n);
 
-  inline static pointer allocate(allocator_type &a, size_type n, const_void_pointer hint);
+  inline __host__ __device__
+  static pointer allocate(allocator_type &a, size_type n, const_void_pointer hint);
 
-  inline static void deallocate(allocator_type &a, pointer p, size_type n);
+  inline __host__ __device__
+  static void deallocate(allocator_type &a, pointer p, size_type n);
 
   // XXX should probably change T* to pointer below and then relax later
 

@@ -42,6 +42,7 @@ template<typename Alloc>
 };
 
 template<typename Alloc>
+__host__ __device__
   typename enable_if<
     has_member_allocate_with_hint<Alloc>::value,
     typename allocator_traits<Alloc>::pointer
@@ -52,6 +53,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename disable_if<
     has_member_allocate_with_hint<Alloc>::value,
     typename allocator_traits<Alloc>::pointer
@@ -211,6 +213,7 @@ __host__ __device__
 
 
 template<typename Alloc>
+__host__ __device__
   typename allocator_traits<Alloc>::pointer
     allocator_traits<Alloc>
       ::allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
@@ -219,6 +222,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   typename allocator_traits<Alloc>::pointer
     allocator_traits<Alloc>
       ::allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n, typename allocator_traits<Alloc>::const_void_pointer hint)
@@ -227,6 +231,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
+__host__ __device__
   void allocator_traits<Alloc>
     ::deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
 {
