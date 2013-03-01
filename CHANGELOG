@@ -67,7 +67,6 @@ New Examples
     uninitialized_vector demonstrates how to use a custom allocator to avoid the automatic initialization of elements in thrust::device_vector.
 
 Other Enhancements
-    XXX TODO
     Authors of custom backend systems may manipulate arbitrary state during algorithm dispatch by incorporating it into their execution_policy parameter.
     Users may control the allocation of temporary storage during algorithm execution by passing standard allocators as parameters via execution policies such as thrust::device.
     THRUST_DEVICE_SYSTEM_CPP has been added as a compile-time target for the device backend. 
