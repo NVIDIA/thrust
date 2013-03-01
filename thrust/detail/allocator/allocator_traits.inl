@@ -218,7 +218,18 @@ __host__ __device__
     allocator_traits<Alloc>
       ::allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
 {
-  return a.allocate(n);
+  struct workaround_warnings
+  {
+    __thrust_hd_warning_disable__
+    static __host__ __device__ 
+    typename allocator_traits<Alloc>::pointer
+      allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
+    {
+      return a.allocate(n);
+    }
+  };
+
+  return workaround_warnings::allocate(a, n);
 }
 
 template<typename Alloc>
@@ -235,7 +246,17 @@ __host__ __device__
   void allocator_traits<Alloc>
     ::deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
 {
-  return a.deallocate(p,n);
+  struct workaround_warnings
+  {
+    __thrust_hd_warning_disable__
+    static __host__ __device__
+    void deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
+    {
+      return a.deallocate(p,n);
+    }
+  };
+
+  return workaround_warnings::deallocate(a,p,n);
 }
 
 template<typename Alloc>
