@@ -23,8 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/detail/function.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -37,53 +36,13 @@ namespace internal
 namespace scalar
 {
 
-template <typename ForwardIterator1,
-          typename ForwardIterator2>
-void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
-{
-  // XXX this isn't correct because it doesn't use thrust::swap
-  using namespace thrust::detail;
-
-  typedef typename thrust::iterator_value<ForwardIterator1>::type T;
-
-  T temp = *iter1;
-  *iter1 = *iter2;
-  *iter2 = temp;
-}
-
 template<typename ForwardIterator,
          typename Predicate>
   ForwardIterator partition(ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
-  if (first == last)
-    return first;
-
-  // wrap pred
-  thrust::detail::wrapped_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  while (wrapped_pred(*first))
-  {
-    if (++first == last)
-      return first;
-  }
-
-  ForwardIterator next = first;
-
-  while (++next != last)
-  {
-    if (wrapped_pred(*next))
-    {
-      iter_swap(first, next);
-      ++first;
-    }
-  }
-
-  return first;
+  return partition(thrust::system::detail::sequential::seq, first, last, pred);
 }
 
 template<typename ForwardIterator,
@@ -92,45 +51,7 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  // wrap pred
-  thrust::detail::wrapped_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  // XXX the type of exec should be:
-  //     typedef decltype(select_system(first, last)) system;
-  typedef typename thrust::iterator_system<ForwardIterator>::type ExecutionPolicy;
-  typedef typename thrust::iterator_value<ForwardIterator>::type T;
-
-  typedef thrust::detail::temporary_array<T,ExecutionPolicy> TempRange;
-  typedef typename TempRange::iterator                       TempIterator;
-
-  // XXX presumes ExecutionPolicy is default constructible
-  ExecutionPolicy exec;
-  TempRange temp(exec, first, last);
-
-  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
-  {
-    if (wrapped_pred(*iter))
-    {
-      *first = *iter;
-      ++first;
-    }
-  }
-
-  ForwardIterator middle = first;
-
-  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
-  {
-    if (!wrapped_pred(*iter))
-    {
-      *first = *iter;
-      ++first;
-    }
-  }
-
-  return middle;
+  return stable_partition(thrust::system::detail::sequential::seq, first, last, pred);
 }
 
 template<typename ForwardIterator,
@@ -141,47 +62,7 @@ template<typename ForwardIterator,
                                    InputIterator stencil,
                                    Predicate pred)
 {
-  // wrap pred
-  thrust::detail::wrapped_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  // XXX the type of exec should be:
-  //     typedef decltype(select_system(first, stencil)) system;
-  typedef typename thrust::iterator_system<ForwardIterator>::type ExecutionPolicy;
-  typedef typename thrust::iterator_value<ForwardIterator>::type T;
-
-  typedef thrust::detail::temporary_array<T,ExecutionPolicy> TempRange;
-  typedef typename TempRange::iterator                       TempIterator;
-
-  // XXX presumes ExecutionPolicy is default constructible
-  ExecutionPolicy exec;
-  TempRange temp(exec, first, last);
-
-  InputIterator stencil_iter = stencil;
-  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter, ++stencil_iter)
-  {
-    if (wrapped_pred(*stencil_iter))
-    {
-      *first = *iter;
-      ++first;
-    }
-  }
-
-  ForwardIterator middle = first;
-  stencil_iter = stencil;
-
-  for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter, ++stencil_iter)
-  {
-    if (!wrapped_pred(*stencil_iter))
-    {
-      *first = *iter;
-      ++first;
-    }
-  }
-
-  return middle;
+  return stable_partition(thrust::system::detail::sequential::seq, first, last, stencil, pred);
 }
 
 template<typename InputIterator,
@@ -195,27 +76,7 @@ template<typename InputIterator,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  // wrap pred
-  thrust::detail::wrapped_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  for(; first != last; ++first)
-  {
-    if(wrapped_pred(*first))
-    {
-      *out_true = *first;
-      ++out_true;
-    } // end if
-    else
-    {
-      *out_false = *first;
-      ++out_false;
-    } // end else
-  }
-
-  return thrust::make_pair(out_true, out_false);
+  return stable_partition_copy(thrust::system::detail::sequential::seq, first, last, out_true, out_false, pred);
 }
 
 template<typename InputIterator1,
@@ -231,27 +92,7 @@ template<typename InputIterator1,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  // wrap pred
-  thrust::detail::wrapped_function<
-    Predicate,
-    bool
-  > wrapped_pred(pred);
-
-  for(; first != last; ++first, ++stencil)
-  {
-    if(wrapped_pred(*stencil))
-    {
-      *out_true = *first;
-      ++out_true;
-    } // end if
-    else
-    {
-      *out_false = *first;
-      ++out_false;
-    } // end else
-  }
-
-  return thrust::make_pair(out_true, out_false);
+  return stable_partition_copy(thrust::system::detail::sequential::seq, first, last, stencil, out_true, out_false, pred);
 }
 
 } // end namespace scalar

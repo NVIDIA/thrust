@@ -49,6 +49,7 @@ static const tag seq;
 #include <thrust/system/detail/sequential/free.h>
 #include <thrust/system/detail/sequential/malloc.h>
 #include <thrust/system/detail/sequential/merge.h>
+#include <thrust/system/detail/sequential/partition.h>
 #include <thrust/system/detail/sequential/reduce_by_key.h>
 #include <thrust/system/detail/sequential/reduce.h>
 #include <thrust/system/detail/sequential/remove.h>
