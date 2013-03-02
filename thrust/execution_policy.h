@@ -14,70 +14,51 @@
  *  limitations under the License.
  */
 
-
 /*! \file execution_policy.h
- *  \brief Base class for all Thrust execution policy types.
+ *  \brief Thrust execution policies.
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
 
+// get the definition of thrust::execution_policy
+#include <thrust/detail/execution_policy.h>
+
+// #include the host system's execution_policy header
+#define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
+#include __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
+#undef __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
+
+// #include the device system's execution_policy.h header
+#define __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
+#include __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+#undef __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+
 namespace thrust
 {
 namespace detail
 {
 
+typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
 
-// execution_policy_base serves as a guard against
-// inifinite recursion in thrust entry points:
-//
-// template<typename DerivedPolicy>
-// void foo(const thrust::detail::execution_policy_base<DerivedPolicy> &s)
-// {
-//   using thrust::system::detail::generic::foo;
-//
-//   foo(thrust::detail::derived_cast(thrust::detail::strip_const(s));
-// }
-//
-// foo is not recursive when
-// 1. DerivedPolicy is derived from thrust::execution_policy below
-// 2. generic::foo takes thrust::execution_policy as a parameter
-template<typename DerivedPolicy> struct execution_policy_base {};
-
-
-template<typename DerivedPolicy>
-__host__ __device__
-inline execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<DerivedPolicy> &x)
-{
-  return const_cast<execution_policy_base<DerivedPolicy>&>(x);
-}
-
-
-template<typename DerivedPolicy>
-__host__ __device__
-inline DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
-{
-  return static_cast<DerivedPolicy&>(x);
-}
-
-
-template<typename DerivedPolicy>
-__host__ __device__
-inline const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
-{
-  return static_cast<const DerivedPolicy&>(x);
-}
-
+typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
 
 } // end detail
 
-
 template<typename DerivedPolicy>
-  struct execution_policy
-    : thrust::detail::execution_policy_base<DerivedPolicy>
+  struct host_execution_policy
+    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
+template<typename DerivedPolicy>
+  struct device_execution_policy
+    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+{};
+
+static const detail::host_t host;
+
+static const detail::device_t device;
 
 } // end thrust
 

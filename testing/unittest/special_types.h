@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <thrust/memory.h>
+#include <thrust/execution_policy.h>
 
 template <typename T, unsigned int N>
 struct FixedVector

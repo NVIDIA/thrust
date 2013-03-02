@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/execution_policy.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {

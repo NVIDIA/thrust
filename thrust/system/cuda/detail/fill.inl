@@ -43,6 +43,20 @@ namespace detail
 namespace detail
 {
 
+
+template<typename WidePtr, typename T>
+  WidePtr widen_raw_ptr(T *ptr)
+{
+  typedef thrust::detail::pointer_traits<WidePtr> WideTraits;
+  typedef typename WideTraits::element_type       WideT;
+
+  // carefully widen the pointer to avoid warnings about conversions between differently aligned types on ARM
+  WideT *wide_raw_ptr = static_cast<WideT*>(static_cast<void*>(ptr));
+
+  return WideTraits::pointer_to(*wide_raw_ptr);
+}
+
+
 template<typename WideType, typename DerivedPolicy, typename Pointer, typename Size, typename T>
   Pointer wide_fill_n(execution_policy<DerivedPolicy> &exec,
                       Pointer first,
@@ -71,11 +85,11 @@ template<typename WideType, typename DerivedPolicy, typename Pointer, typename S
 
   // rebind Pointer to WideType
   typedef typename thrust::detail::rebind_pointer<Pointer,WideType>::type WidePtr;
-  typedef thrust::detail::pointer_traits<WidePtr> WideTraits;
 
   // point to the widened range
-  WidePtr block_first_wide = WideTraits::pointer_to(reinterpret_cast<WideType&>(*block_first_raw));
-  WidePtr block_last_wide  = WideTraits::pointer_to(reinterpret_cast<WideType&>(*block_last_raw));
+  // XXX since we've got an execution policy, we probably don't even need to deal with rebinding pointers
+  WidePtr block_first_wide = widen_raw_ptr<WidePtr>(block_first_raw);
+  WidePtr block_last_wide  = widen_raw_ptr<WidePtr>(block_last_raw);
 
   thrust::generate(exec, first,                   Pointer(block_first_raw),    thrust::detail::fill_functor<OutputType>(value));
   thrust::generate(exec, block_first_wide,        block_last_wide,             thrust::detail::fill_functor<WideType>(wide_exemplar));
