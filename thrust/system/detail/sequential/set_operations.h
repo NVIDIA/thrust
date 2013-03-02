@@ -50,7 +50,7 @@ __host__ __device__
                                 StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -92,7 +92,7 @@ __host__ __device__
                                   StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -134,7 +134,7 @@ __host__ __device__
                                           StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -178,7 +178,7 @@ __host__ __device__
                            StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

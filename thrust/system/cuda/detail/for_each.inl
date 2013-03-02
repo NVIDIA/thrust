@@ -57,7 +57,7 @@ struct for_each_n_closure
 
   RandomAccessIterator first;
   Size n;
-  thrust::detail::device_function<UnaryFunction,void> f;
+  thrust::detail::wrapped_function<UnaryFunction,void> f;
   Context context;
 
   for_each_n_closure(RandomAccessIterator first,

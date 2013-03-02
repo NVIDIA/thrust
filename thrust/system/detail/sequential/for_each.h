@@ -44,7 +44,7 @@ InputIterator for_each(tag,
                        UnaryFunction f)
 {
   // wrap f
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     UnaryFunction,
     void
   > wrapped_f(f);
@@ -68,7 +68,7 @@ InputIterator for_each_n(tag,
                          UnaryFunction f)
 {
   // wrap f
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     UnaryFunction,
     void
   > wrapped_f(f);

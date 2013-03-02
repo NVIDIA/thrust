@@ -61,7 +61,7 @@ template<typename ForwardIterator,
     return first;
 
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -93,7 +93,7 @@ template<typename ForwardIterator,
                                    Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -142,7 +142,7 @@ template<typename ForwardIterator,
                                    Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -196,7 +196,7 @@ template<typename InputIterator,
                           Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -232,7 +232,7 @@ template<typename InputIterator1,
                           Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);

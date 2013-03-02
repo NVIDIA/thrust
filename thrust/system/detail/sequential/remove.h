@@ -44,7 +44,7 @@ __host__ __device__
                             Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -86,7 +86,7 @@ __host__ __device__
                             Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -133,7 +133,7 @@ __host__ __device__
                                 Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -164,7 +164,7 @@ __host__ __device__
                                 Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);

@@ -46,7 +46,7 @@ __host__ __device__
                          OutputIterator result,
                          Predicate pred)
 {
-  thrust::detail::host_device_function<Predicate,bool> wrapped_pred(pred);
+  thrust::detail::wrapped_function<Predicate,bool> wrapped_pred(pred);
 
   while(first != last)
   {

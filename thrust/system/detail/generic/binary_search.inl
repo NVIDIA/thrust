@@ -84,7 +84,7 @@ struct bsf
      bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
          RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(begin, end, value, comp);
 
-         thrust::detail::host_device_function<StrictWeakOrdering,bool> wrapped_comp(comp);
+         thrust::detail::wrapped_function<StrictWeakOrdering,bool> wrapped_comp(comp);
 
          return iter != end && !wrapped_comp(value, *iter);
      }

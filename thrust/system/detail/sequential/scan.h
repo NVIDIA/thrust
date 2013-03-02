@@ -74,7 +74,7 @@ __host__ __device__
   >::type ValueType;
 
   // wrap binary_op
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     BinaryFunction,
     ValueType
   > wrapped_binary_op(binary_op);

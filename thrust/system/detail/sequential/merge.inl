@@ -44,7 +44,7 @@ OutputIterator merge(tag seq,
                      StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -90,7 +90,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
                StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

@@ -44,7 +44,7 @@ InputIterator find_if(tag,
                       Predicate pred)
 {
   // wrap pred
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);

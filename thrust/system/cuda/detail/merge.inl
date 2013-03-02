@@ -86,7 +86,7 @@ void merge_n(Context &ctx,
              unsigned int work_per_thread)
 {
   const unsigned int block_size = ctx.block_dimension();
-  thrust::detail::device_function<Compare,bool> comp(comp_);
+  thrust::detail::wrapped_function<Compare,bool> comp(comp_);
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 

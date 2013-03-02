@@ -45,7 +45,7 @@ ForwardIterator min_element(tag,
                             BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -72,7 +72,7 @@ ForwardIterator max_element(tag,
                             BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -100,7 +100,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
                                                              BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);

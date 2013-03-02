@@ -47,7 +47,7 @@ ForwardIterator lower_bound(tag,
                             StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -88,7 +88,7 @@ ForwardIterator upper_bound(tag,
                             StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -133,7 +133,7 @@ bool binary_search(tag seq,
   ForwardIterator iter = lower_bound(seq, first, last, val, comp);
 
   // wrap comp
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);

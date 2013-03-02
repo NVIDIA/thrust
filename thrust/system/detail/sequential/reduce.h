@@ -46,7 +46,7 @@ __host__ __device__
                     BinaryFunction binary_op)
 {
   // wrap binary_op
-  thrust::detail::host_device_function<
+  thrust::detail::wrapped_function<
     BinaryFunction,
     OutputType
   > wrapped_binary_op(binary_op);
