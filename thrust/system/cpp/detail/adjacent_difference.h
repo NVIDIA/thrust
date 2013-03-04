@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/adjacent_difference.h>
 
 namespace thrust
@@ -34,11 +34,11 @@ namespace cpp
 namespace detail
 {
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator adjacent_difference(dispatchable<System> &,
+OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &,
                                    InputIterator first,
                                    InputIterator last,
                                    OutputIterator result,

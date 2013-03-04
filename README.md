@@ -72,4 +72,4 @@ Refer to the [Quick Start Guide](http://github.com/thrust/thrust/wiki/Quick-Star
 Contributors
 ------------
 
-The primary developers of Thrust are [Jared Hoberock](http://github.com/jaredhoberock) and [Nathan Bell](http://research.nvidia.com/users/nathan-bell).
+The original creators of Thrust are [Jared Hoberock](http://github.com/jaredhoberock) and [Nathan Bell](http://research.nvidia.com/users/nathan-bell).

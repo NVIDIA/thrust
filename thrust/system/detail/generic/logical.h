@@ -31,22 +31,22 @@ namespace detail
 namespace generic
 {
 
-template <typename System, typename InputIterator, typename Predicate>
-bool all_of(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
+template <typename ExecutionPolicy, typename InputIterator, typename Predicate>
+bool all_of(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  return thrust::find_if(system, first, last, thrust::detail::not1(pred)) == last;
+  return thrust::find_if(exec, first, last, thrust::detail::not1(pred)) == last;
 }
 
-template <typename System, typename InputIterator, typename Predicate>
-bool any_of(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
+template <typename ExecutionPolicy, typename InputIterator, typename Predicate>
+bool any_of(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  return thrust::find_if(system, first, last, pred) != last;
+  return thrust::find_if(exec, first, last, pred) != last;
 }
 
-template <typename System, typename InputIterator, typename Predicate>
-bool none_of(thrust::dispatchable<System> &system, InputIterator first, InputIterator last, Predicate pred)
+template <typename ExecutionPolicy, typename InputIterator, typename Predicate>
+bool none_of(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  return !thrust::any_of(system, first, last, pred);
+  return !thrust::any_of(exec, first, last, pred);
 }
 
 } // end generic

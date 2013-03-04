@@ -26,7 +26,7 @@
 #include <thrust/system/cuda/detail/default_decomposition.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -145,11 +145,11 @@ struct adjacent_difference_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template <typename System,
+template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
           typename BinaryFunction>
-OutputIterator adjacent_difference(dispatchable<System> &system,
+OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
@@ -166,18 +166,18 @@ OutputIterator adjacent_difference(dispatchable<System> &system,
   Decomposition decomp = default_decomposition(last - first);
 
   // allocate temporary storage
-  thrust::detail::temporary_array<InputType,System> temp(system, decomp.size() - 1);
+  thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, decomp.size() - 1);
 
   // gather last value in each interval
   detail::last_index_in_each_interval<Decomposition> unary_op(decomp);
-  thrust::gather(system,
+  thrust::gather(exec,
                  thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op),
                  thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op) + (decomp.size() - 1),
                  first,
                  temp.begin());
 
   
-  typedef typename thrust::detail::temporary_array<InputType,System>::iterator InputIterator2;
+  typedef typename thrust::detail::temporary_array<InputType,DerivedPolicy>::iterator InputIterator2;
   typedef detail::blocked_thread_array Context;
   typedef detail::adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition,Context> Closure;
 

@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/memory.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/allocator/malloc_allocator.h>
@@ -418,7 +418,4 @@ using thrust::system::cpp::allocator;
 } // end thrust
 
 #include <thrust/system/cpp/detail/memory.inl>
-
-// make cpp::tag's ADL targets available
-#include <thrust/system/cpp/detail/adl_targets.h>
 

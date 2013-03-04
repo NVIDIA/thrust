@@ -22,40 +22,40 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_difference(const thrust::detail::dispatchable_base<System> &system,
-                                InputIterator1                             first1,
-                                InputIterator1                             last1,
-                                InputIterator2                             first2,
-                                InputIterator2                             last2,
-                                OutputIterator                             result);
+  OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                InputIterator1                                              first1,
+                                InputIterator1                                              last1,
+                                InputIterator2                                              first2,
+                                InputIterator2                                              last2,
+                                OutputIterator                                              result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator set_difference(const thrust::detail::dispatchable_base<System> &system,
-                                InputIterator1                             first1,
-                                InputIterator1                             last1,
-                                InputIterator2                             first2,
-                                InputIterator2                             last2,
-                                OutputIterator                             result,
-                                StrictWeakCompare                          comp);
+  OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                InputIterator1                                              first1,
+                                InputIterator1                                              last1,
+                                InputIterator2                                              first2,
+                                InputIterator2                                              last2,
+                                OutputIterator                                              result,
+                                StrictWeakCompare                                           comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
@@ -63,18 +63,18 @@ template<typename System,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    set_difference_by_key(const thrust::detail::dispatchable_base<System> &system,
-                          InputIterator1                             keys_first1,
-                          InputIterator1                             keys_last1,
-                          InputIterator2                             keys_first2,
-                          InputIterator2                             keys_last2,
-                          InputIterator3                             values_first1,
-                          InputIterator4                             values_first2,
-                          OutputIterator1                            keys_result,
-                          OutputIterator2                            values_result);
+    set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                          InputIterator1                                              keys_first1,
+                          InputIterator1                                              keys_last1,
+                          InputIterator2                                              keys_first2,
+                          InputIterator2                                              keys_last2,
+                          InputIterator3                                              values_first1,
+                          InputIterator4                                              values_first2,
+                          OutputIterator1                                             keys_result,
+                          OutputIterator2                                             values_result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
@@ -83,62 +83,62 @@ template<typename System,
          typename OutputIterator2,
          typename StrictWeakCompare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    set_difference_by_key(const thrust::detail::dispatchable_base<System> &system,
-                          InputIterator1                             keys_first1,
-                          InputIterator1                             keys_last1,
-                          InputIterator2                             keys_first2,
-                          InputIterator2                             keys_last2,
-                          InputIterator3                             values_first1,
-                          InputIterator4                             values_first2,
-                          OutputIterator1                            keys_result,
-                          OutputIterator2                            values_result,
-                          StrictWeakCompare                          comp);
+    set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                          InputIterator1                                              keys_first1,
+                          InputIterator1                                              keys_last1,
+                          InputIterator2                                              keys_first2,
+                          InputIterator2                                              keys_last2,
+                          InputIterator3                                              values_first1,
+                          InputIterator4                                              values_first2,
+                          OutputIterator1                                             keys_result,
+                          OutputIterator2                                             values_result,
+                          StrictWeakCompare                                           comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_intersection(const thrust::detail::dispatchable_base<System> &system,
-                                  InputIterator1                             first1,
-                                  InputIterator1                             last1,
-                                  InputIterator2                             first2,
-                                  InputIterator2                             last2,
-                                  OutputIterator                             result);
+  OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                  InputIterator1                                              first1,
+                                  InputIterator1                                              last1,
+                                  InputIterator2                                              first2,
+                                  InputIterator2                                              last2,
+                                  OutputIterator                                              result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator set_intersection(const thrust::detail::dispatchable_base<System> &system,
-                                  InputIterator1                             first1,
-                                  InputIterator1                             last1,
-                                  InputIterator2                             first2,
-                                  InputIterator2                             last2,
-                                  OutputIterator                             result,
-                                  StrictWeakCompare                          comp);
+  OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                  InputIterator1                                              first1,
+                                  InputIterator1                                              last1,
+                                  InputIterator2                                              first2,
+                                  InputIterator2                                              last2,
+                                  OutputIterator                                              result,
+                                  StrictWeakCompare                                           comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    set_intersection_by_key(const thrust::detail::dispatchable_base<System> &system,
-                            InputIterator1                             keys_first1,
-                            InputIterator1                             keys_last1,
-                            InputIterator2                             keys_first2,
-                            InputIterator2                             keys_last2,
-                            InputIterator3                             values_first1,
-                            OutputIterator1                            keys_result,
-                            OutputIterator2                            values_result);
+    set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                            InputIterator1                                              keys_first1,
+                            InputIterator1                                              keys_last1,
+                            InputIterator2                                              keys_first2,
+                            InputIterator2                                              keys_last2,
+                            InputIterator3                                              values_first1,
+                            OutputIterator1                                             keys_result,
+                            OutputIterator2                                             values_result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
@@ -146,44 +146,44 @@ template<typename System,
          typename OutputIterator2,
          typename StrictWeakCompare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    set_intersection_by_key(const thrust::detail::dispatchable_base<System> &system,
-                            InputIterator1                             keys_first1,
-                            InputIterator1                             keys_last1,
-                            InputIterator2                             keys_first2,
-                            InputIterator2                             keys_last2,
-                            InputIterator3                             values_first1,
-                            OutputIterator1                            keys_result,
-                            OutputIterator2                            values_result,
-                            StrictWeakCompare                          comp);
+    set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                            InputIterator1                                              keys_first1,
+                            InputIterator1                                              keys_last1,
+                            InputIterator2                                              keys_first2,
+                            InputIterator2                                              keys_last2,
+                            InputIterator3                                              values_first1,
+                            OutputIterator1                                             keys_result,
+                            OutputIterator2                                             values_result,
+                            StrictWeakCompare                                           comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator set_symmetric_difference(const thrust::detail::dispatchable_base<System> &system,
-                                          InputIterator1                             first1,
-                                          InputIterator1                             last1,
-                                          InputIterator2                             first2,
-                                          InputIterator2                             last2,
-                                          OutputIterator                             result);
+  OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                          InputIterator1                                              first1,
+                                          InputIterator1                                              last1,
+                                          InputIterator2                                              first2,
+                                          InputIterator2                                              last2,
+                                          OutputIterator                                              result);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator set_symmetric_difference(const thrust::detail::dispatchable_base<System> &system,
-                                          InputIterator1                             first1,
-                                          InputIterator1                             last1,
-                                          InputIterator2                             first2,
-                                          InputIterator2                             last2,
-                                          OutputIterator                             result,
-                                          StrictWeakCompare                          comp);
+  OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                          InputIterator1                                              first1,
+                                          InputIterator1                                              last1,
+                                          InputIterator2                                              first2,
+                                          InputIterator2                                              last2,
+                                          OutputIterator                                              result,
+                                          StrictWeakCompare                                           comp);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
@@ -191,84 +191,18 @@ template<typename System,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    set_symmetric_difference_by_key(const thrust::detail::dispatchable_base<System> &system,
-                                    InputIterator1                             keys_first1,
-                                    InputIterator1                             keys_last1,
-                                    InputIterator2                             keys_first2,
-                                    InputIterator2                             keys_last2,
-                                    InputIterator3                             values_first1,
-                                    InputIterator4                             values_first2,
-                                    OutputIterator1                            keys_result,
-                                    OutputIterator2                            values_result);
+    set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                    InputIterator1                                              keys_first1,
+                                    InputIterator1                                              keys_last1,
+                                    InputIterator2                                              keys_first2,
+                                    InputIterator2                                              keys_last2,
+                                    InputIterator3                                              values_first1,
+                                    InputIterator4                                              values_first2,
+                                    OutputIterator1                                             keys_result,
+                                    OutputIterator2                                             values_result);
 
 
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename InputIterator3,
-         typename InputIterator4,
-         typename OutputIterator1,
-         typename OutputIterator2,
-         typename StrictWeakCompare>
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_symmetric_difference_by_key(const thrust::detail::dispatchable_base<System> &system,
-                                    InputIterator1                             keys_first1,
-                                    InputIterator1                             keys_last1,
-                                    InputIterator2                             keys_first2,
-                                    InputIterator2                             keys_last2,
-                                    InputIterator3                             values_first1,
-                                    InputIterator4                             values_first2,
-                                    OutputIterator1                            keys_result,
-                                    OutputIterator2                            values_result,
-                                    StrictWeakCompare                          comp);
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator>
-  OutputIterator set_union(const thrust::detail::dispatchable_base<System> &system,
-                           InputIterator1                             first1,
-                           InputIterator1                             last1,
-                           InputIterator2                             first2,
-                           InputIterator2                             last2,
-                           OutputIterator                             result);
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename StrictWeakCompare>
-  OutputIterator set_union(const thrust::detail::dispatchable_base<System> &system,
-                           InputIterator1                             first1,
-                           InputIterator1                             last1,
-                           InputIterator2                             first2,
-                           InputIterator2                             last2,
-                           OutputIterator                             result,
-                           StrictWeakCompare                          comp);
-
-
-template<typename System,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename InputIterator3,
-         typename InputIterator4,
-         typename OutputIterator1,
-         typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_union_by_key(const thrust::detail::dispatchable_base<System> &system,
-                     InputIterator1                             keys_first1,
-                     InputIterator1                             keys_last1,
-                     InputIterator2                             keys_first2,
-                     InputIterator2                             keys_last2,
-                     InputIterator3                             values_first1,
-                     InputIterator4                             values_first2,
-                     OutputIterator1                            keys_result,
-                     OutputIterator2                            values_result);
-
-
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
@@ -277,16 +211,82 @@ template<typename System,
          typename OutputIterator2,
          typename StrictWeakCompare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    set_union_by_key(const thrust::detail::dispatchable_base<System> &system,
-                     InputIterator1                             keys_first1,
-                     InputIterator1                             keys_last1,
-                     InputIterator2                             keys_first2,
-                     InputIterator2                             keys_last2,
-                     InputIterator3                             values_first1,
-                     InputIterator4                             values_first2,
-                     OutputIterator1                            keys_result,
-                     OutputIterator2                            values_result,
-                     StrictWeakCompare                          comp);
+    set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                                    InputIterator1                                              keys_first1,
+                                    InputIterator1                                              keys_last1,
+                                    InputIterator2                                              keys_first2,
+                                    InputIterator2                                              keys_last2,
+                                    InputIterator3                                              values_first1,
+                                    InputIterator4                                              values_first2,
+                                    OutputIterator1                                             keys_result,
+                                    OutputIterator2                                             values_result,
+                                    StrictWeakCompare                                           comp);
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator>
+  OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                           InputIterator1                                              first1,
+                           InputIterator1                                              last1,
+                           InputIterator2                                              first2,
+                           InputIterator2                                              last2,
+                           OutputIterator                                              result);
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename StrictWeakCompare>
+  OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                           InputIterator1                                              first1,
+                           InputIterator1                                              last1,
+                           InputIterator2                                              first2,
+                           InputIterator2                                              last2,
+                           OutputIterator                                              result,
+                           StrictWeakCompare                                           comp);
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                     InputIterator1                                              keys_first1,
+                     InputIterator1                                              keys_last1,
+                     InputIterator2                                              keys_first2,
+                     InputIterator2                                              keys_last2,
+                     InputIterator3                                              values_first1,
+                     InputIterator4                                              values_first2,
+                     OutputIterator1                                             keys_result,
+                     OutputIterator2                                             values_result);
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename InputIterator4,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename StrictWeakCompare>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                     InputIterator1                                              keys_first1,
+                     InputIterator1                                              keys_last1,
+                     InputIterator2                                              keys_first2,
+                     InputIterator2                                              keys_last2,
+                     InputIterator3                                              values_first1,
+                     InputIterator4                                              values_first2,
+                     OutputIterator1                                             keys_result,
+                     OutputIterator2                                             values_result,
+                     StrictWeakCompare                                           comp);
 
 
 /*! \addtogroup set_operations Set Operations

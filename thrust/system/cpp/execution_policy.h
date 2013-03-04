@@ -18,8 +18,13 @@
 
 #include <thrust/detail/config.h>
 
-// the purpose of this header is to #include all of cpp::tag's
-// ADL targets
+// get the execution policies definitions first
+#include <thrust/system/cpp/detail/execution_policy.h>
+
+// get the definition of par
+#include <thrust/system/cpp/detail/par.h>
+
+// now get all the algorithm definitions
 
 #include <thrust/system/cpp/detail/adjacent_difference.h>
 #include <thrust/system/cpp/detail/assign_value.h>

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -28,12 +28,12 @@ namespace tbb
 namespace detail
 {
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(dispatchable<System> &system,
+OutputIterator merge(execution_policy<ExecutionPolicy> &exec,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -41,7 +41,7 @@ OutputIterator merge(dispatchable<System> &system,
                      OutputIterator result,
                      StrictWeakOrdering comp);
 
-template <typename System,
+template <typename ExecutionPolicy,
           typename InputIterator1,
           typename InputIterator2,
           typename InputIterator3,
@@ -50,7 +50,7 @@ template <typename System,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(dispatchable<System> &system,
+  merge_by_key(execution_policy<ExecutionPolicy> &exec,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -39,15 +39,15 @@ namespace thrust
  *  value <tt>input_first[\*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
  *  \p RandomAccessIterator must permit random access.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param map_first Beginning of the range of gather locations.
  *  \param map_last End of the range of gather locations.
  *  \param input_first Beginning of the source range.
  *  \param result Beginning of the destination range.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access Iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
@@ -80,15 +80,15 @@ namespace thrust
  *  // d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  \endcode
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather(const thrust::detail::dispatchable_base<System> &system,
-                        InputIterator                                    map_first,
-                        InputIterator                                    map_last,
-                        RandomAccessIterator                             input_first,
-                        OutputIterator                                   result);
+  OutputIterator gather(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                        InputIterator                                               map_first,
+                        InputIterator                                               map_last,
+                        RandomAccessIterator                                        input_first,
+                        OutputIterator                                              result);
 
 
 /*! \p gather copies elements from a source array into a destination range according 
@@ -147,16 +147,16 @@ template<typename InputIterator,
  *  <tt>input_first[\*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
  *  \p RandomAccessIterator must permit random access.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param map_first Beginning of the range of gather locations.
  *  \param map_last End of the range of gather locations.
  *  \param stencil Beginning of the range of predicate values.
  *  \param input_first Beginning of the source range.
  *  \param result Beginning of the destination range.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator1's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
  *  \tparam InputIterator2 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator2's \c value_type must be convertible to \c bool.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
@@ -196,17 +196,17 @@ template<typename InputIterator,
  *  // d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}
  *  \endcode
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather_if(const thrust::detail::dispatchable_base<System> &system,
-                           InputIterator1                                   map_first,
-                           InputIterator1                                   map_last,
-                           InputIterator2                                   stencil,
-                           RandomAccessIterator                             input_first,
-                           OutputIterator                                   result);
+  OutputIterator gather_if(const thrust::detail::execution_policy_base<System> &exec,
+                           InputIterator1                                       map_first,
+                           InputIterator1                                       map_last,
+                           InputIterator2                                       stencil,
+                           RandomAccessIterator                                 input_first,
+                           OutputIterator                                       result);
 
 
 /*! \p gather_if conditionally copies elements from a source array into a destination 
@@ -276,9 +276,9 @@ template<typename InputIterator1,
  *  the value <tt>input_first[\*i]</tt> is assigned to <tt>*(result + (i - map_first))</tt>.
  *  \p RandomAccessIterator must permit random access.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param map_first Beginning of the range of gather locations.
  *  \param map_last End of the range of gather locations.
  *  \param stencil Beginning of the range of predicate values.
@@ -286,7 +286,7 @@ template<typename InputIterator1,
  *  \param result Beginning of the destination range.
  *  \param pred Predicate to apply to the stencil values.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator1's \c value_type must be convertible to \c RandomAccessIterator's \c difference_type.
  *  \tparam InputIterator2 must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator2's \c value_type must be convertible to \c Predicate's \c argument_type.
  *  \tparam RandomAccessIterator must be a model of <a href="http://www.sgi.com/tech/stl/RandomAccessIterator.html">Random Access iterator</a> and \c RandomAccessIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
@@ -337,19 +337,19 @@ template<typename InputIterator1,
  *  // d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}
  *  \endcode
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator gather_if(const thrust::detail::dispatchable_base<System> &system,
-                           InputIterator1                                   map_first,
-                           InputIterator1                                   map_last,
-                           InputIterator2                                   stencil,
-                           RandomAccessIterator                             input_first,
-                           OutputIterator                                   result,
-                           Predicate                                        pred);
+  OutputIterator gather_if(const thrust::detail::execution_policy_base<System> &exec,
+                           InputIterator1                                       map_first,
+                           InputIterator1                                       map_last,
+                           InputIterator2                                       stencil,
+                           RandomAccessIterator                                 input_first,
+                           OutputIterator                                       result,
+                           Predicate                                            pred);
 
 
 /*! \p gather_if conditionally copies elements from a source array into a destination 

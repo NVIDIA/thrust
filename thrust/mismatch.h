@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -48,15 +48,15 @@ namespace thrust
  *  If no such iterator \c i exists, the return value is a \c pair whose first element
  *  is \c last1 and whose second element is <tt>*(first2 + (last1 - first1))</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first sequence.
  *  \param last1  The end of the first sequence.
  *  \param first2 The beginning of the second sequence.
  *  \return The first position where the sequences differ.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
  *          and \p InputIterator1's \c value_type is equality comparable to \p InputIterator2's \c value_type.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
@@ -85,8 +85,8 @@ namespace thrust
  *  \see find
  *  \see find_if
  */
-template<typename System, typename InputIterator1, typename InputIterator2>
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
+thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2);
@@ -151,16 +151,16 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  *  If no such iterator \c i exists, the return value is a \c pair whose first element is
  *  \c last1 and whose second element is <tt>*(first2 + (last1 - first1))</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first sequence.
  *  \param last1  The end of the first sequence.
  *  \param first2 The beginning of the second sequence.
  *  \param pred   The binary predicate to compare elements.
  *  \return The first position where the sequences differ.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Input Iterator</a>.
@@ -189,8 +189,8 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  *  \see find
  *  \see find_if
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,

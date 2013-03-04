@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -42,15 +42,15 @@ namespace thrust
  *  This version of \p adjacent_difference uses <tt>operator-</tt> to calculate
  *  differences.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the input range.
  *  \param last  The end of the input range.
  *  \param result The beginning of the output range.
  *  \return The iterator <tt>result + (last - first)</tt>
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \c x and \c y are objects of \p InputIterator's \c value_type, then \c x - \c is defined,
  *          and \p InputIterator's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types,
@@ -61,7 +61,7 @@ namespace thrust
  *          useful for computing differences "in place".
  *
  *  The following code snippet demonstrates how to use \p adjacent_difference to compute
- *  the difference between adjacent elements of a range using the \p thrust::device parallelization policy:
+ *  the difference between adjacent elements of a range using the \p thrust::device execution policy:
  *
  *  \code
  *  #include <thrust/adjacent_difference.h>
@@ -79,8 +79,8 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
  *  \see inclusive_scan
  */
-template<typename System, typename InputIterator, typename OutputIterator>
-OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result);
 
@@ -93,16 +93,16 @@ OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<Syste
  *  This version of \p adjacent_difference uses the binary function \p binary_op to
  *  calculate differences.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the input range.
  *  \param last  The end of the input range.
  *  \param result The beginning of the output range.
  *  \param binary_op The binary function used to compute differences.
  *  \return The iterator <tt>result + (last - first)</tt>
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type,
  *          and \p InputIterator's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types.
@@ -113,7 +113,7 @@ OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<Syste
  *          useful for computing differences "in place".
  *
  *  The following code snippet demonstrates how to use \p adjacent_difference to compute
- *  the sum between adjacent elements of a range using the \p thrust::device parallelization policy:
+ *  the sum between adjacent elements of a range using the \p thrust::device execution policy:
  *
  *  \code
  *  #include <thrust/adjacent_difference.h>
@@ -132,8 +132,8 @@ OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<Syste
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
  *  \see inclusive_scan
  */
-template<typename System, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
+OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DervivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);

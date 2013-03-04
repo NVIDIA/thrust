@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -41,15 +41,15 @@ namespace thrust
  *  for every iterator \c i in the range <tt>[first, last)</tt> and 
  *  \c false otherwise.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \param pred A predicate used to test range elements.
  *  \return \c true, if all elements satisfy the predicate; \c false, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
@@ -71,8 +71,8 @@ namespace thrust
  *  \see none_of
  *  \see transform_reduce
  */
-template <typename System, typename InputIterator, typename Predicate>
-bool all_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p all_of determines whether all elements in a range satify a predicate.
@@ -115,15 +115,15 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  for any iterator \c i in the range <tt>[first, last)</tt> and 
  *  \c false otherwise.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \param pred A predicate used to test range elements.
  *  \return \c true, if any element satisfies the predicate; \c false, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
@@ -146,8 +146,8 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see none_of
  *  \see transform_reduce
  */
-template <typename System, typename InputIterator, typename Predicate>
-bool any_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
    
 
 /*! \p any_of determines whether any element in a range satifies a predicate.
@@ -191,15 +191,15 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  the range <tt>[first, last)</tt> such that <tt>pred(*i)</tt> is \c true,
  *  and \c false otherwise.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \param pred A predicate used to test range elements.
  *  \return \c true, if no element satisfies the predicate; \c false, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
@@ -222,8 +222,8 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see any_of
  *  \see transform_reduce
  */
-template <typename System, typename InputIterator, typename Predicate>
-bool none_of(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p none_of determines whether no element in a range satifies a predicate.

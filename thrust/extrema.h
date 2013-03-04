@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -199,9 +199,9 @@ __host__ __device__
  *  such that, for every iterator \c j in <tt>[first, last)</tt>, <tt>*j < *i</tt> is
  *  \c false.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \return An iterator pointing to the smallest element of the range <tt>[first, last)</tt>,
@@ -223,8 +223,8 @@ __host__ __device__
  *
  *  \see http://www.sgi.com/tech/stl/min_element.html 
  */
-template<typename System, typename ForwardIterator>
-ForwardIterator min_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last);
+template<typename DerivedPolicy, typename ForwardIterator>
+ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
 /*! \p min_element finds the smallest element in the range <tt>[first, last)</tt>.
@@ -276,16 +276,16 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *  such that, for every iterator \c j in <tt>[first, last)</tt>, <tt>comp(*j, *i)</tt> is
  *  \c false.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \param comp A binary predicate used for comparison.
  *  \return An iterator pointing to the smallest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
@@ -323,8 +323,8 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *
  *  \see http://www.sgi.com/tech/stl/min_element.html 
  */
-template<typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
 /*! \p min_element finds the smallest element in the range <tt>[first, last)</tt>.
@@ -399,9 +399,9 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *  such that, for every iterator \c j in <tt>[first, last)</tt>, <tt>*i < *j</tt> is
  *  \c false.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \return An iterator pointing to the largest element of the range <tt>[first, last)</tt>,
@@ -423,8 +423,8 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *
  *  \see http://www.sgi.com/tech/stl/max_element.html 
  */
-template<typename System, typename ForwardIterator>
-ForwardIterator max_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last);
+template<typename DerivedPolicy, typename ForwardIterator>
+ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
 /*! \p max_element finds the largest element in the range <tt>[first, last)</tt>.
@@ -475,16 +475,16 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *  such that, for every iterator \c j in <tt>[first, last)</tt>, <tt>comp(*i, *j)</tt> is
  *  \c false.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \param comp A binary predicate used for comparison.
  *  \return An iterator pointing to the largest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
@@ -522,8 +522,8 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *
  *  \see http://www.sgi.com/tech/stl/max_element.html 
  */
-template<typename System, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
 /*! \p max_element finds the largest element in the range <tt>[first, last)</tt>.
@@ -591,15 +591,15 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *  returned by \p min_element and \c imax is the same iterator returned by \p max_element.
  *  This function is potentially more efficient than separate calls to \p min_element and \p max_element.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \return A pair of iterator pointing to the smallest and largest elements of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
  *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
@@ -620,8 +620,8 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *  \see max_element
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
-template<typename System, typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last);
+template<typename DerivedPolicy, typename ForwardIterator>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
 /*! \p minmax_element finds the smallest and largest elements in the range <tt>[first, last)</tt>.
@@ -664,16 +664,16 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  returned by \p min_element and \c imax is the same iterator returned by \p max_element.
  *  This function is potentially more efficient than separate calls to \p min_element and \p max_element.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last  The end of the sequence.
  *  \param comp A binary predicate used for comparison.
  *  \return A pair of iterator pointing to the smallest and largest elements of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
@@ -716,8 +716,8 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \see max_element
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
-template<typename System, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::dispatchable_base<System> &system, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
 /*! \p minmax_element finds the smallest and largest elements in the range <tt>[first, last)</tt>.

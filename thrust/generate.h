@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -36,15 +36,15 @@ namespace thrust
 /*! \p generate assigns the result of invoking \p gen, a function object that takes no arguments,
  *  to each element in the range <tt>[first,last)</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The first element in the range of interest.
  *  \param last The last element in the range of interest.
  *  \param gen A function argument, taking no parameters, used to generate values to assign to
  *             elements in the range <tt>[first,last)</tt>.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
  *  \tparam Generator is a model of <a href="http://www.sgi.com/tech/stl/Generator.html">Generator</a>,
@@ -68,10 +68,10 @@ namespace thrust
  *  \see generate_n
  *  \see http://www.sgi.com/tech/stl/generate.html
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Generator>
-  void generate(const thrust::detail::dispatchable_base<System> &system,
+  void generate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
@@ -118,15 +118,15 @@ template<typename ForwardIterator,
 /*! \p generate_n assigns the result of invoking \p gen, a function object that takes no arguments,
  *  to each element in the range <tt>[first,first + n)</tt>. The return value is <tt>first + n</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The first element in the range of interest.
  *  \param n The size of the range of interest.
  *  \param gen A function argument, taking no parameters, used to generate values to assign to
  *             elements in the range <tt>[first,first + n)</tt>.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam Size is an integral type (either signed or unsigned).
  *  \tparam Generator is a model of <a href="http://www.sgi.com/tech/stl/Generator.html">Generator</a>,
@@ -150,11 +150,11 @@ template<typename ForwardIterator,
  *  \see generate
  *  \see http://www.sgi.com/tech/stl/generate.html
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename OutputIterator,
          typename Size,
          typename Generator>
-  OutputIterator generate_n(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator generate_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen);

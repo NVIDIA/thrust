@@ -31,17 +31,17 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-  void scatter(thrust::dispatchable<System> &system,
+  void scatter(thrust::execution_policy<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-  thrust::transform(system,
+  thrust::transform(exec,
                     first,
                     last,
                     thrust::make_permutation_iterator(output, map),
@@ -49,12 +49,12 @@ template<typename System,
 } // end scatter()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-  void scatter_if(thrust::dispatchable<System> &system,
+  void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -63,17 +63,17 @@ template<typename System,
 {
   // default predicate is identity
   typedef typename thrust::iterator_value<InputIterator3>::type StencilType;
-  thrust::scatter_if(system, first, last, map, stencil, output, thrust::identity<StencilType>());
+  thrust::scatter_if(exec, first, last, map, stencil, output, thrust::identity<StencilType>());
 } // end scatter_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-  void scatter_if(thrust::dispatchable<System> &system,
+  void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -82,7 +82,7 @@ template<typename System,
                   Predicate pred)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type InputType;
-  thrust::transform_if(system, first, last, stencil, thrust::make_permutation_iterator(output, map), thrust::identity<InputType>(), pred);
+  thrust::transform_if(exec, first, last, stencil, thrust::make_permutation_iterator(output, map), thrust::identity<InputType>(), pred);
 } // end scatter_if()
 
 

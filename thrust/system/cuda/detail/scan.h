@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -33,22 +33,22 @@ namespace cuda
 namespace detail
 {
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(dispatchable<System> &system,
+  OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op);
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(dispatchable<System> &system,
+  OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,

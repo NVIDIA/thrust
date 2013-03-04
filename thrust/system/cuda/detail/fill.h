@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/tag.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -33,14 +33,14 @@ namespace cuda
 namespace detail
 {
 
-template<typename System, typename ForwardIterator, typename T>
-  void fill(dispatchable<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void fill(execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T &value);
 
-template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(dispatchable<System> &system,
+template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value);

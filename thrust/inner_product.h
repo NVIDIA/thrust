@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -42,9 +42,9 @@ namespace thrust
  *  Specifically, this version of \p inner_product computes the sum
  *  <tt>init + (*first1 * *first2) + (*(first1+1) * *(first2+1)) + ... </tt>
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first sequence.
  *  \param last1 The end of the first sequence.
  *  \param first2 The beginning of the second sequence.
@@ -52,7 +52,7 @@ namespace thrust
  *  \return The inner product of sequences <tt>[first1, last1)</tt>
  *          and <tt>[first2, last2)</tt> plus \p init.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *  \tparam OutputType is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
@@ -76,11 +76,11 @@ namespace thrust
  *
  *  \see http://www.sgi.com/tech/stl/inner_product.html
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputType>
-OutputType inner_product(const thrust::detail::dispatchable_base<System> &system,
+OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -140,9 +140,9 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  *  Specifically, this version of \p inner_product computes the sum
  *  <tt>binary_op1( init, binary_op2(*first1, *first2) ), ... </tt>
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first sequence.
  *  \param last1 The end of the first sequence.
  *  \param first2 The beginning of the second sequence.
@@ -151,7 +151,7 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  *  \param binary_op2 Generalized multiplication operation.
  *  \return The inner product of sequences <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt>.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator1's \c value_type is convertible to \p BinaryFunction2's \c first_argument_type.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
@@ -180,13 +180,13 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  *
  *  \see http://www.sgi.com/tech/stl/inner_product.html
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputType,
          typename BinaryFunction1,
          typename BinaryFunction2>
-OutputType inner_product(const thrust::detail::dispatchable_base<System> &system,
+OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,

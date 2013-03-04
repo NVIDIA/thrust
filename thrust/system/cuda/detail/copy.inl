@@ -32,7 +32,7 @@ namespace detail
 template<typename System,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(dispatchable<System> &system,
+  OutputIterator copy(execution_policy<System> &system,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result)
@@ -58,7 +58,7 @@ template<typename System,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(dispatchable<System> &system,
+  OutputIterator copy_n(execution_policy<System> &system,
                         InputIterator first,
                         Size n,
                         OutputIterator result)

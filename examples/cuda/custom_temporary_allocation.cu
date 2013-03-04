@@ -1,4 +1,5 @@
 #include <thrust/system/cuda/vector.h>
+#include <thrust/system/cuda/execution_policy.h>
 #include <thrust/host_vector.h>
 #include <thrust/generate.h>
 #include <thrust/sort.h>
@@ -14,7 +15,7 @@
 // during algorithms such as thrust::sort. The idea will be to create a simple
 // cache of allocations to search when temporary storage is requested. If a hit
 // is found in the cache, we quickly return the cached allocation instead of
-// resorting to the more expensive thrust::system::cuda::malloc.
+// resorting to the more expensive thrust::cuda::malloc.
 //
 // Note: this implementation cached_allocator is not thread-safe. If multiple
 // (host) threads use the same cached_allocator then they should gain exclusive
@@ -22,12 +23,12 @@
 
 
 // cached_allocator: a simple allocator for caching allocation requests
-// we derived cached_allocator from cuda::dispatchable to ensure that
-// calls to get_temporary_buffer & return_temporary_buffer "catch" it
 class cached_allocator
-  : public thrust::cuda::dispatchable<cached_allocator>
 {
   public:
+    // just allocate bytes
+    typedef char value_type;
+
     cached_allocator() {}
 
     ~cached_allocator()
@@ -36,9 +37,9 @@ class cached_allocator
       free_all();
     }
 
-    void *allocate(std::ptrdiff_t num_bytes)
+    char *allocate(std::ptrdiff_t num_bytes)
     {
-      void *result = 0;
+      char *result = 0;
 
       // search the cache for a free block
       free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
@@ -63,7 +64,7 @@ class cached_allocator
           std::cout << "cached_allocator::allocator(): no free block found; calling cuda::malloc" << std::endl;
 
           // allocate memory and convert cuda::pointer to raw pointer
-          result = thrust::system::cuda::malloc(num_bytes).get();
+          result = thrust::cuda::malloc<char>(num_bytes).get();
         }
         catch(std::runtime_error &e)
         {
@@ -77,7 +78,7 @@ class cached_allocator
       return result;
     }
 
-    void deallocate(void *ptr)
+    void deallocate(char *ptr, size_t n)
     {
       // erase the allocated block from the allocated blocks map
       allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
@@ -87,6 +88,13 @@ class cached_allocator
       // insert the block into the free blocks map
       free_blocks.insert(std::make_pair(num_bytes, ptr));
     }
+
+  private:
+    typedef std::multimap<std::ptrdiff_t, char*> free_blocks_type;
+    typedef std::map<char *, std::ptrdiff_t>     allocated_blocks_type;
+
+    free_blocks_type      free_blocks;
+    allocated_blocks_type allocated_blocks;
 
     void free_all()
     {
@@ -98,7 +106,7 @@ class cached_allocator
           ++i)
       {
         // transform the pointer to cuda::pointer before calling cuda::free
-        thrust::system::cuda::free(thrust::system::cuda::pointer<void>(i->second));
+        thrust::cuda::free(thrust::cuda::pointer<char>(i->second));
       }
 
       for(allocated_blocks_type::iterator i = allocated_blocks.begin();
@@ -106,46 +114,20 @@ class cached_allocator
           ++i)
       {
         // transform the pointer to cuda::pointer before calling cuda::free
-        thrust::system::cuda::free(thrust::system::cuda::pointer<void>(i->first));
+        thrust::cuda::free(thrust::cuda::pointer<char>(i->first));
       }
     }
 
-  typedef std::multimap<std::ptrdiff_t, void*> free_blocks_type;
-  typedef std::map<void *, std::ptrdiff_t>     allocated_blocks_type;
-
-  private:
-    free_blocks_type      free_blocks;
-    allocated_blocks_type allocated_blocks;
 };
-
-
-// overload get_temporary_buffer on cached_allocator
-// note that we take a reference to cached_allocator
-template<typename T>
-  thrust::pair<T*, std::ptrdiff_t>
-    get_temporary_buffer(cached_allocator &alloc, std::ptrdiff_t n)
-{
-  // ask the allocator for sizeof(T) * n bytes
-  T* result = reinterpret_cast<T*>(alloc.allocate(sizeof(T) * n));
-
-  // return the pointer and the number of elements allocated
-  return thrust::make_pair(result,n);
-}
-
-
-// overload return_temporary_buffer on cached_allocator
-// an overloaded return_temporary_buffer should always accompany
-// an overloaded get_temporary_buffer
-template<typename Pointer>
-  void return_temporary_buffer(cached_allocator &alloc, Pointer p)
-{
-  // return the pointer to the allocator
-  alloc.deallocate(thrust::raw_pointer_cast(p));
-}
 
 
 int main()
 {
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION < 40400)
+  std::cout << "This feature requires gcc >= 4.4" << std::endl;
+  return 0;
+#endif
+
   size_t n = 1 << 22;
 
   thrust::host_vector<int> h_input(n);
@@ -153,8 +135,8 @@ int main()
   // generate random input
   thrust::generate(h_input.begin(), h_input.end(), rand);
 
-  thrust::system::cuda::vector<int> d_input = h_input;
-  thrust::system::cuda::vector<int> d_result(n);
+  thrust::cuda::vector<int> d_input = h_input;
+  thrust::cuda::vector<int> d_result(n);
 
   size_t num_trials = 5;
 
@@ -166,10 +148,9 @@ int main()
     // initialize data to sort
     d_result = d_input;
 
-    // pass alloc as the first parameter to sort
-    // to cause invocations of our get_temporary_buffer
-    // and return_temporary_buffer during sort
-    thrust::sort(alloc, d_result.begin(), d_result.end());
+    // pass alloc through cuda::par as the first parameter to sort
+    // to cause allocations to be handled by alloc during sort
+    thrust::sort(thrust::cuda::par(alloc), d_result.begin(), d_result.end());
 
     // ensure the result is sorted
     assert(thrust::is_sorted(d_result.begin(), d_result.end()));

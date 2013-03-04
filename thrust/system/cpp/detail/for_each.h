@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/for_each.h>
 
 namespace thrust
@@ -30,10 +30,10 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(thrust::system::cpp::detail::dispatchable<System> &,
+InputIterator for_each(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
@@ -41,11 +41,11 @@ InputIterator for_each(thrust::system::cpp::detail::dispatchable<System> &,
   return thrust::system::detail::internal::scalar::for_each(first, last, f);
 }
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(thrust::system::cpp::detail::dispatchable<System> &,
+InputIterator for_each_n(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &,
                          InputIterator first,
                          Size n,
                          UnaryFunction f)

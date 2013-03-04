@@ -68,12 +68,29 @@ template<typename Integer>
     //    >
     //  >
 {
+  private:
+    // XXX workaround a pedantic warning in old versions of g++
+    //     which complains about &&ing with a constant value
+    template<bool x, bool y>
+      struct and_
+    {
+      static const bool value = false;
+    };
+
+    template<bool y>
+      struct and_<true,y>
+    {
+      static const bool value = y;
+    };
+
   public:
     typedef typename
       eval_if<
-        (std::numeric_limits<Integer>::is_signed &&
-        // digits is the number of no-sign bits
-        (!std::numeric_limits<Integer>::is_bounded || (int(std::numeric_limits<Integer>::digits) + 1 >= num_digits<intmax_t>::value))),
+        and_<
+          std::numeric_limits<Integer>::is_signed,
+          // digits is the number of no-sign bits
+          (!std::numeric_limits<Integer>::is_bounded || (int(std::numeric_limits<Integer>::digits) + 1 >= num_digits<intmax_t>::value))
+        >::value,
         identity_<Integer>,
         eval_if<
           int(std::numeric_limits<Integer>::digits) + 1 < num_digits<signed int>::value,

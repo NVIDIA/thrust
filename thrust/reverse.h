@@ -22,20 +22,20 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System, typename BidirectionalIterator>
-  void reverse(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename BidirectionalIterator>
+  void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
 
-template<typename System, typename BidirectionalIterator, typename OutputIterator>
-  OutputIterator reverse_copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
+  OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);

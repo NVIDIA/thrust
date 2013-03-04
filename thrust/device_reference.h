@@ -223,7 +223,7 @@ template<typename T>
      *  thrust::device_reference<int> ref = v[0];
      *
      *  // ref equals the object at v[0]
-     *  assert(ref1 == v[0]);
+     *  assert(ref == v[0]);
      *
      *  // the address of ref equals the address of v[0]
      *  assert(&ref == &v[0]);

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -43,15 +43,15 @@ namespace thrust
  *  This version of \p equal returns \c true if and only if for every
  *  iterator \c i in <tt>[first1, last1)</tt>, <tt>*i == *(first2 + (i - first1))</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first sequence.
  *  \param last1  The end of the first sequence.
  *  \param first2 The beginning of the second sequence.
  *  \return \c true, if the sequences are equal; \c false, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>,
  *          and \p InputIterator1's \c value_type can be compared for equality with \c InputIterator2's \c value_type.
@@ -75,8 +75,8 @@ namespace thrust
  *
  *  \see http://www.sgi.com/tech/stl/equal.html
  */
-template<typename System, typename InputIterator1, typename InputIterator2>
-bool equal(const thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
+bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
 
 
 /*! \p equal returns \c true if the two ranges <tt>[first1, last1)</tt>
@@ -127,16 +127,16 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *  iterator \c i in <tt>[first1, last1)</tt>,
  *  <tt>binary_pred(*i, *(first2 + (i - first1)))</tt> is \c true.
  *
- *  The algorithm's execution is parallelized as determined by \p thrust::host.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first sequence.
  *  \param last1  The end of the first sequence.
  *  \param first2 The beginning of the second sequence.
  *  \param binary_pred Binary predicate used to test element equality.
  *  \return \c true, if the sequences are equal; \c false, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator1's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -168,8 +168,8 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *
  *  \see http://www.sgi.com/tech/stl/equal.html
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-bool equal(const thrust::detail::dispatchable_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
 
 
 /*! \p equal returns \c true if the two ranges <tt>[first1, last1)</tt>

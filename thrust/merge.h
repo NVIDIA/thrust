@@ -21,7 +21,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -44,9 +44,9 @@ namespace thrust
  *
  *  This version of \p merge compares elements using \c operator<.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first input range.
  *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
@@ -54,7 +54,7 @@ namespace thrust
  *  \param result The beginning of the merged output.
  *  \return The end of the output range.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
  *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
@@ -94,11 +94,11 @@ namespace thrust
  *  \see \p sort
  *  \see \p is_sorted
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -178,9 +178,9 @@ template<typename InputIterator1,
  *
  *  This version of \p merge compares elements using a function object \p comp.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first1 The beginning of the first input range.
  *  \param last1 The end of the first input range.
  *  \param first2 The beginning of the second input range.
@@ -189,7 +189,7 @@ template<typename InputIterator1,
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
@@ -227,12 +227,12 @@ template<typename InputIterator1,
  *  \see \p sort
  *  \see \p is_sorted
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator merge(const thrust::detail::dispatchable_base<System> &system,
+  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &system,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -321,9 +321,9 @@ template<typename InputIterator1,
  *  The return value is is <tt>(keys_result + (keys_last1 - keys_first1) + (keys_last2 - keys_first2))</tt>
  *  and <tt>(values_result + (keys_last1 - keys_first1) + (keys_last2 - keys_first2))</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param keys_first1 The beginning of the first input range of keys.
  *  \param keys_last1 The end of the first input range of keys.
  *  \param keys_first2 The beginning of the second input range of keys.
@@ -335,7 +335,7 @@ template<typename InputIterator1,
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
  *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
@@ -388,9 +388,9 @@ template<typename InputIterator1,
  *  \see \p sort_by_key
  *  \see \p is_sorted
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::dispatchable_base<System> &system,
+    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -501,9 +501,9 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *
  *  This version of \p merge_by_key compares key elements using a function object \p comp.
  *
- *  The algorithm's execution is parallelized using \p system.
+ *  The algorithm's execution is parallelized using \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param keys_first1 The beginning of the first input range of keys.
  *  \param keys_last1 The end of the first input range of keys.
  *  \param keys_first2 The beginning of the second input range of keys.
@@ -516,7 +516,7 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator1's set of \c value_types.
@@ -567,9 +567,9 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  \see \p sort_by_key
  *  \see \p is_sorted
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::dispatchable_base<System> &system,
+    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &system,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -653,7 +653,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
  *  \see \p sort_by_key
  *  \see \p is_sorted
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename StrictWeakCompare>
+template<typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename StrictWeakCompare>
   thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,

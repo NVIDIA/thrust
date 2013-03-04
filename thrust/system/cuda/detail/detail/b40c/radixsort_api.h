@@ -336,8 +336,8 @@ BaseRadixSortingEnactor<K, V>::BaseRadixSortingEnactor(
 	_swizzle_pointers_for_odd_passes	= swizzle_pointers_for_odd_passes;
 	
 	int total_cycles 			= _num_elements / _cycle_elements;
-	int cycles_per_block 		= total_cycles / _grid_size;						
-	int extra_cycles 			= total_cycles - (cycles_per_block * _grid_size);
+	unsigned int cycles_per_block 		= total_cycles / _grid_size;						
+	unsigned int extra_cycles 			= total_cycles - (cycles_per_block * _grid_size);
 
 	CtaDecomposition work_decomposition = {
 		extra_cycles,										// num_big_blocks

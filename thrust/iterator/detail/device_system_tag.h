@@ -18,8 +18,8 @@
 
 #include <thrust/detail/config.h>
 
-// #include the device system's tag header
-#define __THRUST_DEVICE_SYSTEM_TAG_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/tag.h>
+// #include the device system's execution_policy header
+#define __THRUST_DEVICE_SYSTEM_TAG_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/execution_policy.h>
 #include __THRUST_DEVICE_SYSTEM_TAG_HEADER
 #undef __THRUST_DEVICE_SYSTEM_TAG_HEADER
 
@@ -28,14 +28,9 @@ namespace thrust
 
 typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag device_system_tag;
 
-template<typename DerivedSystem>
-  struct device_system
-    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::dispatchable<DerivedSystem>
-{};
-
 } // end thrust
 
-// TODO remove this in 1.7.0
+// TODO remove this in 1.8.0
 namespace thrust
 {
 

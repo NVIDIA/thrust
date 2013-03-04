@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/iterator/iterator_traits.h>
 
 namespace thrust
@@ -47,15 +47,15 @@ namespace thrust
  *  to \p value. More precisely, \p count returns the number of iterators \c i in
  *  <tt>[first, last)</tt> such that <tt>*i == value</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
  *  \param value The value to be counted.
  *  \return The number of elements equal to \p value.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be a model of must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  *  \tparam EqualityComparable must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
  *
@@ -125,15 +125,15 @@ template <typename InputIterator, typename EqualityComparable>
  *  a predicate is \c true. More precisely, \p count_if returns the number of iterators
  *  \c i in <tt>[first, last)</tt> such that <tt>pred(*i) == true</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
  *  \param pred The predicate.
  *  \return The number of elements where \p pred is \c true.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c Predicate's \c argument_type.
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
@@ -168,9 +168,9 @@ template <typename InputIterator, typename EqualityComparable>
  *
  *  \see http://www.sgi.com/tech/stl/count.html
  */
-template<typename System, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
   typename thrust::iterator_traits<InputIterator>::difference_type
-    count_if(const thrust::detail::dispatchable_base<System> &system, InputIterator first, InputIterator last, Predicate pred);
+    count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p count_if finds the number of elements in <tt>[first,last)</tt> for which 

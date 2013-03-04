@@ -25,14 +25,14 @@ namespace thrust
 {
 
 
-template<typename System, typename ForwardIterator, typename UnaryOperation>
-  void tabulate(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename UnaryOperation>
+  void tabulate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op)
 {
   using thrust::system::detail::generic::tabulate;
-  return tabulate(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, unary_op);
+  return tabulate(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, unary_op);
 } // end tabulate()
 
 

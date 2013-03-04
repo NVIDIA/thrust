@@ -35,12 +35,12 @@ namespace generic
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator merge(thrust::dispatchable<System> &system,
+  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -54,11 +54,11 @@ template<typename System,
 } // end merge()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-  OutputIterator merge(thrust::dispatchable<System> &system,
+  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -66,13 +66,13 @@ template<typename System,
                        OutputIterator result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::merge(system,first1,last1,first2,last2,result,thrust::less<value_type>());
+  return thrust::merge(exec,first1,last1,first2,last2,result,thrust::less<value_type>());
 } // end merge()
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::dispatchable<System> &system,
+    merge_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -98,15 +98,15 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
 
   thrust::detail::compare_first<Compare> comp_first(comp);
 
-  iterator_tuple3 result = thrust::merge(system, zipped_first1, zipped_last1, zipped_first2, zipped_last2, zipped_result, comp_first).get_iterator_tuple();
+  iterator_tuple3 result = thrust::merge(exec, zipped_first1, zipped_last1, zipped_first2, zipped_last2, zipped_result, comp_first).get_iterator_tuple();
 
   return thrust::make_pair(thrust::get<0>(result), thrust::get<1>(result));
 } // end merge_by_key()
 
 
-template<typename System, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::dispatchable<System> &system,
+    merge_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -114,7 +114,7 @@ template<typename System, typename InputIterator1, typename InputIterator2, type
                  OutputIterator2 values_result)
 {
   typedef typename thrust::iterator_value<InputIterator1>::type value_type;
-  return thrust::merge_by_key(system, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, thrust::less<value_type>());
+  return thrust::merge_by_key(exec, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, thrust::less<value_type>());
 } // end merge_by_key()
 
 

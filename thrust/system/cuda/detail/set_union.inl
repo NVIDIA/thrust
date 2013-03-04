@@ -126,12 +126,12 @@ struct serial_bounded_set_union
 } // end namespace set_union_detail
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_union(dispatchable<System> &system,
+RandomAccessIterator3 set_union(execution_policy<ExecutionPolicy> &exec,
                                 RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
                                 RandomAccessIterator2 first2,
@@ -139,7 +139,7 @@ RandomAccessIterator3 set_union(dispatchable<System> &system,
                                 RandomAccessIterator3 result,
                                 Compare comp)
 {
-  return thrust::system::cuda::detail::detail::set_operation(system, first1, last1, first2, last2, result, comp, set_union_detail::serial_bounded_set_union());
+  return thrust::system::cuda::detail::detail::set_operation(exec, first1, last1, first2, last2, result, comp, set_union_detail::serial_bounded_set_union());
 } // end set_union
 
 

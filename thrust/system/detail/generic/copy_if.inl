@@ -43,12 +43,12 @@ namespace detail
 {
 
 template<typename IndexType,
-         typename System,
+         typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-OutputIterator copy_if(thrust::dispatchable<System> &system,
+OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first,
                        InputIterator1 last,
                        InputIterator2 stencil,
@@ -58,16 +58,16 @@ OutputIterator copy_if(thrust::dispatchable<System> &system,
     __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
 
     // compute {0,1} predicates
-    thrust::detail::temporary_array<IndexType, System> predicates(system, n);
-    thrust::transform(system,
+    thrust::detail::temporary_array<IndexType, DerivedPolicy> predicates(exec, n);
+    thrust::transform(exec,
                       stencil,
                       stencil + n,
                       predicates.begin(),
                       thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
 
     // scan {0,1} predicates
-    thrust::detail::temporary_array<IndexType, System> scatter_indices(system, n);
-    thrust::exclusive_scan(system,
+    thrust::detail::temporary_array<IndexType, DerivedPolicy> scatter_indices(exec, n);
+    thrust::exclusive_scan(exec,
                            predicates.begin(),
                            predicates.end(),
                            scatter_indices.begin(),
@@ -75,7 +75,7 @@ OutputIterator copy_if(thrust::dispatchable<System> &system,
                            thrust::plus<IndexType>());
 
     // scatter the true elements
-    thrust::scatter_if(system,
+    thrust::scatter_if(exec,
                        first,
                        last,
                        scatter_indices.begin(),
@@ -92,11 +92,11 @@ OutputIterator copy_if(thrust::dispatchable<System> &system,
 } // end namespace detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator copy_if(thrust::dispatchable<System> &system,
+  OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
@@ -106,16 +106,16 @@ template<typename System,
   //     we should probably specialize this case for POD
   //     since we can safely keep the input in a temporary instead
   //     of doing two loads
-  return thrust::copy_if(system, first, last, first, result, pred);
+  return thrust::copy_if(exec, first, last, first, result, pred);
 } // end copy_if()
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(thrust::dispatchable<System> &system,
+   OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -137,11 +137,11 @@ template<typename System,
   // use 32-bit indices when possible (almost always)
   if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
   {
-    result = detail::copy_if<difference_type>(system, first, last, stencil, result, pred);
+    result = detail::copy_if<difference_type>(exec, first, last, stencil, result, pred);
   } // end if
   else
   {
-    result = detail::copy_if<unsigned int>(system, first, last, stencil, result, pred);
+    result = detail::copy_if<unsigned int>(exec, first, last, stencil, result, pred);
   } // end else
 
   return result;

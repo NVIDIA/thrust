@@ -22,18 +22,18 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(const thrust::detail::dispatchable_base<System> &system,
+  OutputType transform_reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,

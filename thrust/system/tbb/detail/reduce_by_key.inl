@@ -19,8 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/tbb/detail/reduce_by_key.h>
 #include <thrust/iterator/reverse_iterator.h>
-#include <thrust/system/cpp/memory.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/cpp/execution_policy.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/system/tbb/detail/reduce_intervals.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
@@ -257,9 +257,9 @@ template<typename Iterator1, typename Iterator2, typename Iterator3, typename It
 } // end reduce_by_key_detail
 
 
-template<typename System, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename BinaryPredicate, typename BinaryFunction>
+template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename BinaryPredicate, typename BinaryFunction>
   thrust::pair<Iterator3,Iterator4>
-    reduce_by_key(thrust::tbb::dispatchable<System> &system,
+    reduce_by_key(thrust::tbb::execution_policy<DerivedPolicy> &exec,
                   Iterator1 keys_first, Iterator1 keys_last, 
                   Iterator2 values_first,
                   Iterator3 keys_result,
@@ -293,11 +293,11 @@ template<typename System, typename Iterator1, typename Iterator2, typename Itera
 
   // decompose the input into intervals of size N / num_intervals
   // add one extra element to this vector to store the size of the entire result
-  thrust::detail::temporary_array<difference_type, System> interval_output_offsets(0, system, num_intervals + 1);
+  thrust::detail::temporary_array<difference_type, DerivedPolicy> interval_output_offsets(0, exec, num_intervals + 1);
 
   // first count the number of tail flags in each interval
   thrust::detail::tail_flags<Iterator1,BinaryPredicate> tail_flags = thrust::detail::make_tail_flags(keys_first, keys_last, binary_pred);
-  thrust::system::tbb::detail::reduce_intervals(system, tail_flags.begin(), tail_flags.end(), interval_size, interval_output_offsets.begin() + 1, thrust::plus<size_t>());
+  thrust::system::tbb::detail::reduce_intervals(exec, tail_flags.begin(), tail_flags.end(), interval_size, interval_output_offsets.begin() + 1, thrust::plus<size_t>());
   interval_output_offsets[0] = 0;
 
   // scan the counts to get each body's output offset
@@ -309,7 +309,7 @@ template<typename System, typename Iterator1, typename Iterator2, typename Itera
   // do a reduce_by_key serially in each thread
   // the final interval never has a carry by definition, so don't reserve space for it
   typedef typename reduce_by_key_detail::partial_sum_type<Iterator2,BinaryFunction>::type carry_type;
-  thrust::detail::temporary_array<carry_type, System> carries(0, system, num_intervals - 1);
+  thrust::detail::temporary_array<carry_type, DerivedPolicy> carries(0, exec, num_intervals - 1);
 
   // force grainsize == 1 with simple_partioner()
   ::tbb::parallel_for(::tbb::blocked_range<difference_type>(0, num_intervals, 1),
@@ -321,7 +321,7 @@ template<typename System, typename Iterator1, typename Iterator2, typename Itera
   // sequentially accumulate the carries
   // note that the last interval does not have a carry
   // XXX find a way to express this loop via a sequential algorithm, perhaps reduce_by_key
-  for(typename thrust::detail::temporary_array<carry_type,System>::size_type i = 0; i < carries.size(); ++i)
+  for(typename thrust::detail::temporary_array<carry_type,DerivedPolicy>::size_type i = 0; i < carries.size(); ++i)
   {
     // if our interval has a carry, then we need to sum the carry to the next interval's output offset
     // if it does not have a carry, then we need to ignore carry_value[i]

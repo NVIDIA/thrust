@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -50,9 +50,9 @@ namespace thrust
  *  necessarily the same as it was in the original sequence. A different algorithm,
  *  \ref stable_partition, does guarantee to preserve the relative order.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
  *  \param pred A function object which decides to which partition each element of the
@@ -60,7 +60,7 @@ namespace thrust
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy \p pred.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type,
  *          and \p ForwardIterator is mutable.
@@ -93,13 +93,43 @@ namespace thrust
  *  \see \p stable_partition
  *  \see \p partition_copy
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                   InputIterator first,
+                   InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred);
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                   InputIterator1 first,
+                   InputIterator1 last,
+                   InputIterator2 stencil,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred);
 
 
 /*! \p partition reorders the elements <tt>[first, last)</tt> based on the function

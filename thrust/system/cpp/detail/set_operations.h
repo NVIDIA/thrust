@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/tag.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/detail/internal/scalar/set_operations.h>
 
 namespace thrust
@@ -30,12 +30,12 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_difference(dispatchable<System> &,
+  OutputIterator set_difference(execution_policy<ExecutionPolicy> &,
                                 InputIterator1 first1,
                                 InputIterator1 last1,
                                 InputIterator2 first2,
@@ -47,12 +47,12 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_intersection(dispatchable<System> &,
+  OutputIterator set_intersection(execution_policy<ExecutionPolicy> &,
                                   InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
@@ -64,12 +64,12 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_symmetric_difference(dispatchable<System> &,
+  OutputIterator set_symmetric_difference(execution_policy<ExecutionPolicy> &,
                                           InputIterator1 first1,
                                           InputIterator1 last1,
                                           InputIterator2 first2,
@@ -81,12 +81,12 @@ template<typename System,
 }
 
 
-template<typename System,
+template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-  OutputIterator set_union(dispatchable<System> &,
+  OutputIterator set_union(execution_policy<ExecutionPolicy> &,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,

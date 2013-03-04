@@ -30,11 +30,11 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(dispatchable<System> &system,
+  OutputType reduce(execution_policy<DerivedPolicy> &exec,
                     InputIterator first,
                     InputIterator last,
                     OutputType init,
@@ -50,16 +50,16 @@ template<typename System,
 
   // allocate storage for the initializer and partial sums
   // XXX use select_system for Tag
-  thrust::detail::temporary_array<OutputType,System> partial_sums(system, decomp1.size() + 1);
+  thrust::detail::temporary_array<OutputType,DerivedPolicy> partial_sums(exec, decomp1.size() + 1);
   
   // set first element of temp array to init
   partial_sums[0] = init;
   
   // accumulate partial sums (first level reduction)
-  thrust::system::omp::detail::reduce_intervals(system, first, partial_sums.begin() + 1, binary_op, decomp1);
+  thrust::system::omp::detail::reduce_intervals(exec, first, partial_sums.begin() + 1, binary_op, decomp1);
 
   // reduce partial sums (second level reduction)
-  thrust::system::omp::detail::reduce_intervals(system, partial_sums.begin(), partial_sums.begin(), binary_op, decomp2);
+  thrust::system::omp::detail::reduce_intervals(exec, partial_sums.begin(), partial_sums.begin(), binary_op, decomp2);
 
   return partial_sums[0];
 } // end reduce()

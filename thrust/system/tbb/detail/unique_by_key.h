@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/tbb/detail/tag.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -30,26 +30,26 @@ namespace detail
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(dispatchable<System> &system,
+    unique_by_key(execution_policy<DerivedPolicy> &exec,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
                   BinaryPredicate binary_pred);
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(dispatchable<System> &system,
+    unique_by_key_copy(execution_policy<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,

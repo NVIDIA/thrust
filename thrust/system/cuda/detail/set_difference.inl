@@ -114,12 +114,12 @@ struct serial_bounded_set_difference
 } // end namespace set_difference_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 set_difference(dispatchable<System> &system,
+RandomAccessIterator3 set_difference(execution_policy<DerivedPolicy> &exec,
                                      RandomAccessIterator1 first1,
                                      RandomAccessIterator1 last1,
                                      RandomAccessIterator2 first2,
@@ -127,7 +127,7 @@ RandomAccessIterator3 set_difference(dispatchable<System> &system,
                                      RandomAccessIterator3 result,
                                      Compare comp)
 {
-  return thrust::system::cuda::detail::detail::set_operation(system, first1, last1, first2, last2, result, comp, set_difference_detail::serial_bounded_set_difference());
+  return thrust::system::cuda::detail::detail::set_operation(exec, first1, last1, first2, last2, result, comp, set_difference_detail::serial_bounded_set_difference());
 } // end set_difference
 
 

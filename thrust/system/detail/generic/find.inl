@@ -38,14 +38,14 @@ namespace generic
 {
 
 
-template<typename System, typename InputIterator, typename T>
-InputIterator find(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename T>
+InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    const T& value)
 {
   // XXX consider a placeholder expression here
-  return thrust::find_if(system, first, last, thrust::detail::equal_to_value<T>(value));
+  return thrust::find_if(exec, first, last, thrust::detail::equal_to_value<T>(value));
 } // end find()
 
 
@@ -66,8 +66,8 @@ struct find_if_functor
 };
     
 
-template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
@@ -107,7 +107,7 @@ InputIterator find_if(thrust::dispatchable<System> &system,
           interval_end = end;
         } // end if
 
-        result_type result = thrust::reduce(system,
+        result_type result = thrust::reduce(exec,
                                             interval_begin, interval_end,
                                             result_type(false,interval_end - begin),
                                             find_if_functor<result_type>());
@@ -124,13 +124,13 @@ InputIterator find_if(thrust::dispatchable<System> &system,
 }
 
 
-template<typename System, typename InputIterator, typename Predicate>
-InputIterator find_if_not(thrust::dispatchable<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+InputIterator find_if_not(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
-    return thrust::find_if(system, first, last, thrust::detail::not1(pred));
+    return thrust::find_if(exec, first, last, thrust::detail::not1(pred));
 } // end find()
 
 

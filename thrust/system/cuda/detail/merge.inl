@@ -97,14 +97,14 @@ void merge_n(Context &ctx,
   Size work_per_block = thrust::detail::util::divide_ri(result_size, ctx.grid_dimension());
 
   using thrust::system::cuda::detail::detail::uninitialized;
-  __shared__ uninitialized<thrust::pair<Size,Size> > block_input_begin;
+  __shared__ uninitialized<thrust::pair<Size,Size> > s_block_input_begin;
 
   Size result_block_offset = ctx.block_index() * work_per_block;
 
   // find where this block's input begins in both input sequences
   if(ctx.thread_index() == 0)
   {
-    block_input_begin = (ctx.block_index() == 0) ?
+    s_block_input_begin = (ctx.block_index() == 0) ?
       thrust::pair<Size,Size>(0,0) :
       partition_search(first1, first2,
                        result_block_offset,
@@ -117,7 +117,7 @@ void merge_n(Context &ctx,
 
   // iterate to consume this block's input
   Size work_per_iteration = block_size * work_per_thread;
-  thrust::pair<Size,Size> block_input_end = block_input_begin;
+  thrust::pair<Size,Size> block_input_end = s_block_input_begin;
   block_input_end.first  += work_per_iteration;
   block_input_end.second += work_per_iteration;
   Size result_block_offset_last = result_block_offset + thrust::min<Size>(work_per_block, result_size - result_block_offset);
@@ -133,9 +133,11 @@ void merge_n(Context &ctx,
     thrust::pair<Size,Size> thread_input_begin =
       partition_search(first1, first2,
                        Size(result_block_offset + ctx.thread_index() * work_per_thread),
-                       block_input_begin.get().first,  thrust::min<Size>(block_input_end.first , n1),
-                       block_input_begin.get().second, thrust::min<Size>(block_input_end.second, n2),
+                       s_block_input_begin.get().first,  thrust::min<Size>(block_input_end.first , n1),
+                       s_block_input_begin.get().second, thrust::min<Size>(block_input_end.second, n2),
                        comp);
+
+    ctx.barrier();
 
     // XXX the performance impact of not keeping x1 & x2
     //     in registers is about 10% for int32
@@ -186,7 +188,7 @@ void merge_n(Context &ctx,
     // beginning of the next iteration's input
     if(ctx.thread_index() == block_size-1)
     {
-      block_input_begin = thread_input_begin;
+      s_block_input_begin = thread_input_begin;
     }
     ctx.barrier();
   } // end for
@@ -237,12 +239,12 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
 } // end merge_detail
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-RandomAccessIterator3 merge(dispatchable<System> &system,
+RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
                             RandomAccessIterator2 first2,

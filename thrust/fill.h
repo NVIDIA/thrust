@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -40,14 +40,14 @@ namespace thrust
  *  iterator \c i in <tt>[first, last)</tt>, it performs
  *  the assignment <tt>*i = value</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
  *  \param value The value to be copied.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
@@ -70,8 +70,8 @@ namespace thrust
  *  \see \c fill_n
  *  \see \c uninitialized_fill
  */
-template<typename System, typename ForwardIterator, typename T>
-  void fill(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+  void fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T &value);
@@ -119,15 +119,15 @@ template<typename ForwardIterator, typename T>
  *  iterator \c i in <tt>[first, first+n)</tt>, it performs
  *  the assignment <tt>*i = value</tt>.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param n The size of the sequence.
  *  \param value The value to be copied.
  *  \return <tt>first + n</tt>
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T's \c value_type is convertible to a type in \p OutputIterator's set of \c value_type.
@@ -149,8 +149,8 @@ template<typename ForwardIterator, typename T>
  *  \see \c fill
  *  \see \c uninitialized_fill_n
  */
-template<typename System, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+  OutputIterator fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value);

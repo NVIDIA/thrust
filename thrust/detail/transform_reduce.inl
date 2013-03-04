@@ -29,12 +29,12 @@ namespace thrust
 {
 
 
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType transform_reduce(const thrust::detail::dispatchable_base<System> &system,
+  OutputType transform_reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
@@ -42,7 +42,7 @@ template<typename System,
                               BinaryFunction binary_op)
 {
   using thrust::system::detail::generic::transform_reduce;
-  return transform_reduce(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first, last, unary_op, init, binary_op);
+  return transform_reduce(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
 
 

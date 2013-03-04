@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -41,15 +41,15 @@ namespace thrust
  *  order of execution. For this reason, this version of \p for_each
  *  does not return a copy of the function object.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param last The end of the sequence.
  *  \param f The function object to apply to the range <tt>[first, last)</tt>.
  *  \return last
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
@@ -86,10 +86,10 @@ namespace thrust
  *  \see for_each_n
  *  \see http://www.sgi.com/tech/stl/for_each.html
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-InputIterator for_each(const thrust::detail::dispatchable_base<System> &system,
+InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
@@ -101,15 +101,15 @@ InputIterator for_each(const thrust::detail::dispatchable_base<System> &system,
  *  <tt>std::for_each</tt>, this version offers no guarantee on
  *  order of execution.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence.
  *  \param n The size of the input sequence.
  *  \param f The function object to apply to the range <tt>[first, first + n)</tt>.
  *  \return <tt>first + n</tt>
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam Size is an integral type.
@@ -147,11 +147,11 @@ InputIterator for_each(const thrust::detail::dispatchable_base<System> &system,
  *  \see for_each
  *  \see http://www.sgi.com/tech/stl/for_each.html
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-InputIterator for_each_n(const thrust::detail::dispatchable_base<System> &system,
+InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
                          UnaryFunction f);

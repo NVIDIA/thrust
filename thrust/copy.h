@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/dispatchable.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -47,16 +47,16 @@ namespace thrust
  *
  *  The return value is \p result + (\p last - \p first).
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence to copy.
  *  \param last The end of the sequence to copy.
  *  \param result The destination sequence.
  *  \return The end of the destination sequence.
  *  \see http://www.sgi.com/tech/stl/copy.html
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
@@ -79,8 +79,8 @@ namespace thrust
  *  // vec1 is now a copy of vec0
  *  \endcode
  */
-template<typename System, typename InputIterator, typename OutputIterator>
-  OutputIterator copy(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+  OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
@@ -96,15 +96,15 @@ template<typename System, typename InputIterator, typename OutputIterator>
  *
  *  The return value is \p result + \p n.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the range to copy.
  *  \param n The number of elements to copy.
  *  \param result The beginning destination range.
  *  \return The end of the destination range.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam Size is an integral type.
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
@@ -130,8 +130,8 @@ template<typename System, typename InputIterator, typename OutputIterator>
  *  \see http://www.sgi.com/tech/stl/copy_n.html
  *  \see thrust::copy
  */
-template<typename System, typename InputIterator, typename Size, typename OutputIterator>
-  OutputIterator copy_n(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
+  OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result);
@@ -247,7 +247,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *
  *  The algorithm's execution is parallelized as determined by \p system.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence from which to copy.
  *  \param last The end of the sequence from which to copy.
  *  \param result The beginning of the sequence into which to copy.
@@ -255,7 +255,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  \return <tt>result + n</tt>, where \c n is equal to the number of times \p pred
  *          evaluated to \c true in the range <tt>[first, last)</tt>.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *                        and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
@@ -290,8 +290,8 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *
  *  \see \c remove_copy_if
  */
-template<typename System, typename InputIterator, typename OutputIterator, typename Predicate>
-  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
+  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
@@ -367,9 +367,9 @@ template<typename InputIterator,
  *  is advanced one position if <tt>pred(*(stencil+n))</tt>. Otherwise, no assignment
  *  occurs and \p result is not advanced.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence from which to copy.
  *  \param last The end of the sequence from which to copy.
  *  \param stencil The beginning of the stencil sequence.
@@ -378,7 +378,7 @@ template<typename InputIterator,
  *  \return <tt>result + n</tt>, where \c n is equal to the number of times \p pred
  *          evaluated to \c true in the range <tt>[stencil, stencil + (last-first))</tt>.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
@@ -417,8 +417,8 @@ template<typename InputIterator,
  *
  *  \see \c remove_copy_if
  */
-template<typename System, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
-  OutputIterator copy_if(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
+  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,

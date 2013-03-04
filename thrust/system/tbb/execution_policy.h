@@ -18,8 +18,13 @@
 
 #include <thrust/detail/config.h>
 
-// the purpose of this header is to #include all of tbb::tag's
-// ADL targets
+// get the execution policies definitions first
+#include <thrust/system/tbb/detail/execution_policy.h>
+
+// get the definition of par
+#include <thrust/system/tbb/detail/par.h>
+
+// now get all the algorithm definitions
 
 #include <thrust/system/tbb/detail/adjacent_difference.h>
 #include <thrust/system/tbb/detail/assign_value.h>
