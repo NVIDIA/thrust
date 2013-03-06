@@ -57,6 +57,7 @@ namespace thrust
  *  \code
  *  #include <thrust/find.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  thrust::device_vector<int> input(4);
  *
@@ -141,6 +142,8 @@ InputIterator find(InputIterator first,
  *  \code
  *  #include <thrust/find.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
  *
  *  struct greater_than_four
  *  {
@@ -264,6 +267,8 @@ InputIterator find_if(InputIterator first,
  *  \code
  *  #include <thrust/find.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
  *
  *  struct greater_than_four
  *  {

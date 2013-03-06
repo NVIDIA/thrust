@@ -65,6 +65,7 @@ namespace thrust
  *
  *  \code
  *  #include <thrust/inner_product.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  float vec1[3] = {1.0f, 2.0f, 5.0f};
  *  float vec2[3] = {4.0f, 1.0f, 5.0f};
@@ -165,6 +166,7 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  * 
  *  \code
  *  #include <thrust/inner_product.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  float vec1[3] = {1.0f, 2.0f, 5.0f};
  *  float vec2[3] = {4.0f, 1.0f, 5.0f};

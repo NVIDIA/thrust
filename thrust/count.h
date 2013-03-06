@@ -65,6 +65,7 @@ namespace thrust
  *  \code
  *  #include <thrust/count.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  // put 3 1s in a device_vector
  *  thrust::device_vector<int> vec(5,0);
@@ -143,6 +144,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  \code
  *  #include <thrust/count.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_odd
  *  {

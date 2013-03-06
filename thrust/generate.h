@@ -56,7 +56,8 @@ namespace thrust
  *  \code
  *  #include <thrust/generate.h>
  *  #include <thrust/host_vector.h>
- *  #include <stdlib.h>
+ *  #include <thrust/execution_policy.h>
+ *  #include <cstdlib>
  *  ...
  *  thrust::host_vector<int> v(10);
  *  srand(13);
@@ -96,7 +97,8 @@ template<typename DerivedPolicy,
  *  \code
  *  #include <thrust/generate.h>
  *  #include <thrust/host_vector.h>
- *  #include <stdlib.h>
+ *  #include <thrust/execution_policy.h>
+ *  #include <cstdlib>
  *  ...
  *  thrust::host_vector<int> v(10);
  *  srand(13);
@@ -138,7 +140,8 @@ template<typename ForwardIterator,
  *  \code
  *  #include <thrust/generate.h>
  *  #include <thrust/host_vector.h>
- *  #include <stdlib.h>
+ *  #include <thrust/execution_policy.h>
+ *  #include <cstdlib>
  *  ...
  *  thrust::host_vector<int> v(10);
  *  srand(13);

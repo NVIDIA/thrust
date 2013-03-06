@@ -62,7 +62,7 @@ namespace thrust
  *  #include <thrust/uninitialized_fill.h>
  *  #include <thrust/device_malloc.h>
  *  #include <thrust/execution_policy.h>
- *  ...
+ *  
  *  struct Int
  *  {
  *    __host__ __device__
@@ -117,7 +117,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename T>
  *  \code
  *  #include <thrust/uninitialized_fill.h>
  *  #include <thrust/device_malloc.h>
- *  ...
+ *  
  *  struct Int
  *  {
  *    __host__ __device__
@@ -177,7 +177,7 @@ template<typename ForwardIterator, typename T>
  *  #include <thrust/uninitialized_fill.h>
  *  #include <thrust/device_malloc.h>
  *  #include <thrust/execution_policy.h>
- *  ...
+ *  
  *  struct Int
  *  {
  *    __host__ __device__
@@ -233,7 +233,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename Size, typena
  *  \code
  *  #include <thrust/uninitialized_fill.h>
  *  #include <thrust/device_malloc.h>
- *  ...
+ *  
  *  struct Int
  *  {
  *    __host__ __device__

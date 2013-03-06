@@ -213,6 +213,7 @@ __host__ __device__
  *
  *  \code
  *  #include <thrust/extrema.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *  int *result = thrust::min_element(thrust::host, data, data + 6);
@@ -296,6 +297,8 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *
  *  \code
  *  #include <thrust/extrema.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
  *
  *  struct key_value
  *  {
@@ -414,6 +417,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *
  *  \code
  *  #include <thrust/extrema.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *  int *result = thrust::max_element(thrust::host, data, data + 6);
@@ -495,6 +499,8 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *
  *  \code
  *  #include <thrust/extrema.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
  *
  *  struct key_value
  *  {
@@ -606,6 +612,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *
  *  \code
  *  #include <thrust/extrema.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *  thrust::pair<int *, int *> result = thrust::minmax_element(thrust::host, data, data + 6);
@@ -685,6 +692,8 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \code
  *  #include <thrust/extrema.h>
  *  #include <thrust/pair.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
  *
  *  struct key_value
  *  {

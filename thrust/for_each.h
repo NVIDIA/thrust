@@ -61,7 +61,9 @@ namespace thrust
  *  \code
  *  #include <thrust/for_each.h>
  *  #include <thrust/device_vector.h>
- *  #include <stdio.h>
+ *  #include <thrust/execution_policy.h>
+ *  #include <cstdio>
+ *  ...
  *
  *  struct printf_functor
  *  {
@@ -122,7 +124,8 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *  \code
  *  #include <thrust/for_each.h>
  *  #include <thrust/device_vector.h>
- *  #include <stdio.h>
+ *  #include <thrust/execution_policy.h>
+ *  #include <cstdio>
  *
  *  struct printf_functor
  *  {

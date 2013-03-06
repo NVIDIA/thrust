@@ -66,6 +66,7 @@ namespace thrust
  *  \code
  *  #include <thrust/adjacent_difference.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
  *  thrust::device_vector<int> d_data(h_data, h_data + 8);
@@ -119,6 +120,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *  #include <thrust/adjacent_difference.h>
  *  #include <thrust/functional.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
  *  thrust::device_vector<int> d_data(h_data, h_data + 8);

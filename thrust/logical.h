@@ -56,6 +56,7 @@ namespace thrust
  *  \code
  *  #include <thrust/logical.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  bool A[3] = {true, true, false};
  *
@@ -130,6 +131,7 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  \code
  *  #include <thrust/logical.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  bool A[3] = {true, true, false};
  *
@@ -206,6 +208,7 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  \code
  *  #include <thrust/logical.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  bool A[3] = {true, true, false};
  *

@@ -64,6 +64,7 @@ namespace thrust
  *
  *  \code
  *  #include <thrust/equal.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int A1[7] = {3, 1, 4, 1, 5, 9, 3};
  *  int A2[7] = {3, 1, 4, 2, 8, 5, 7};
@@ -148,6 +149,8 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *
  *  \code
  *  #include <thrust/equal.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
  *  
  *  __host__ __device__
  *  struct compare_modulo_two

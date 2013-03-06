@@ -62,6 +62,7 @@ namespace thrust
  *  \code
  *  #include <thrust/gather.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  // mark even indices with a 1; odd indices with a 0
  *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
@@ -173,6 +174,7 @@ template<typename InputIterator,
  *  \code
  *  #include <thrust/gather.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *
  *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -304,6 +306,7 @@ template<typename InputIterator1,
  *  \code
  *  #include <thrust/gather.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  
  *  struct is_even
  *  {

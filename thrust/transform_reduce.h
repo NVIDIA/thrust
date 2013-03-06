@@ -77,6 +77,7 @@ namespace thrust
  *  \code
  *  #include <thrust/transform_reduce.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *
  *  template<typename T>
  *  struct absolute_value : public unary_function<T,T>

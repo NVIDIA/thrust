@@ -68,6 +68,7 @@ namespace thrust
  *  \code
  *  #include <thrust/copy.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *
  *  thrust::device_vector<int> vec0(100);
@@ -117,6 +118,7 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
  *  \code
  *  #include <thrust/copy.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  size_t n = 100;
  *  thrust::device_vector<int> vec0(n);
@@ -173,7 +175,7 @@ template<typename DerivedPolicy, typename InputIterator, typename Size, typename
  *  ...
  *
  *  thrust::copy(vec0.begin(), vec0.end(),
- *                vec1.begin());
+ *               vec1.begin());
  *
  *  // vec1 is now a copy of vec0
  *  \endcode
@@ -264,10 +266,11 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
- *  to copy even numbers to an output range using the \p thrust::device parallelization policy:
+ *  to copy even numbers to an output range using the \p thrust::host parallelization policy:
  *
  *  \code
  *  #include <thrust/copy.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -282,7 +285,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[4];
  *
- *  thrust::copy_if(thrust::device, V, V + N, result, is_even());
+ *  thrust::copy_if(thrust::host, V, V + N, result, is_even());
  *
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-2, 0, 0, 2}
@@ -389,10 +392,11 @@ template<typename InputIterator,
  *  \pre The ranges <tt>[stencil, stencil + (last - first))</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
- *  to copy numbers to an output range when corresponding stencil elements are even using the \p thrust::device execution policy:
+ *  to copy numbers to an output range when corresponding stencil elements are even using the \p thrust::host execution policy:
  *
  *  \code
  *  #include <thrust/copy.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -408,7 +412,7 @@ template<typename InputIterator,
  *  int stencil[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[4];
  *
- *  thrust::copy_if(thrust::device, data, data + N, stencil, result, is_even());
+ *  thrust::copy_if(thrust::host, data, data + N, stencil, result, is_even());
  *
  *  // data remains    = { 0, 1,  2, 3, 4, 5};
  *  // stencil remains = {-2, 0, -1, 0, 1, 2};

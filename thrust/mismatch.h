@@ -64,6 +64,7 @@ namespace thrust
  *  \code
  *  #include <thrust/mismatch.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  thrust::device_vector<int> vec1(4);
  *  thrust::device_vector<int> vec2(4);
@@ -168,6 +169,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  *  \code
  *  #include <thrust/mismatch.h>
  *  #include <thrust/device_vector.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  thrust::device_vector<int> vec1(4);
  *  thrust::device_vector<int> vec2(4);
