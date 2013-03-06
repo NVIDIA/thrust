@@ -275,7 +275,9 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \return If allocation succeeds, a pointer to the allocated storage; a null pointer otherwise.
  *          The pointer must be deallocated with \p thrust::free.
  *
- *  \pre \p System must be publically derived from <code>thrust::dispatchable<System></code>.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *
+ *  \pre \p DerivedPolicy must be publically derived from <code>thrust::execution_policy<DerivedPolicy></code>.
  *
  *  The following code snippet demonstrates how to use \p malloc to allocate a range of memory
  *  associated with Thrust's device system.
@@ -298,8 +300,8 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \see free
  *  \see device_malloc
  */
-template<typename System>
-pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
+template<typename DerivedPolicy>
+pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n);
 
 
 /*! This version of \p malloc allocates typed uninitialized storage associated with a given system.
@@ -310,7 +312,9 @@ pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &sys
  *          elements of type \c T; a null pointer otherwise.
  *          The pointer must be deallocated with \p thrust::free.
  *
- *  \pre \p System must be publically derived from <code>thrust::dispatchable<System></code>.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *
+ *  \pre \p DerivedPolicy must be publically derived from <code>thrust::execution_policy<DerivedPolicy></code>.
  *
  *  The following code snippet demonstrates how to use \p malloc to allocate a range of memory
  *  to accomodate integers associated with Thrust's device system.
@@ -333,8 +337,8 @@ pointer<void,System> malloc(const thrust::detail::dispatchable_base<System> &sys
  *  \see free
  *  \see device_malloc
  */
-template<typename T, typename System>
-pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system, std::size_t n);
+template<typename T, typename DerivedPolicy>
+pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n);
 
 
 /*! \p get_temporary_buffer returns a pointer to storage associated with a given Thrust system sufficient to store up to
@@ -350,6 +354,10 @@ pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system
  *  \return A pair \c p such that <tt>p.first</tt> is a pointer to the allocated storage and <tt>p.second</tt> is the number of
  *          contiguous objects of type \c T that the storage can accomodate. If no storage can be allocated, <tt>p.first</tt> if
  *          no storage can be obtained. The storage must be returned to the system using \p return_temporary_buffer.
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *
+ *  \pre \p DerivedPolicy must be publically derived from <code>thrust::execution_policy<DerivedPolicy></code>.
  *
  *  The following code snippet demonstrates how to use \p get_temporary_buffer to allocate a range of memory
  *  to accomodate integers associated with Thrust's device system.
@@ -381,9 +389,9 @@ pointer<T,System> malloc(const thrust::detail::dispatchable_base<System> &system
  *  \see malloc
  *  \see return_temporary_buffer
  */
-template<typename T, typename System>
-thrust::pair<thrust::pointer<T,System>, typename thrust::pointer<T,System>::difference_type>
-get_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, typename thrust::pointer<T,System>::difference_type n);
+template<typename T, typename DerivedPolicy>
+thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
+get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
 
 
 /*! \} allocation_functions
@@ -400,6 +408,8 @@ get_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, ty
  *  \param system The Thrust system with which the storage is associated.
  *  \param ptr A pointer previously returned by \p thrust::malloc. If \p ptr is null, \p free
  *         does nothing.
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *
  *  \pre \p ptr shall have been returned by a previous call to <tt>thrust::malloc(system, n)</tt> or <tt>thrust::malloc<T>(system, n)</tt> for some type \c T.
  *
@@ -421,8 +431,8 @@ get_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, ty
  *  thrust::free(device_sys, ptr);
  *  \endcode
  */
-template<typename System, typename Pointer>
-void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr);
+template<typename DerivedPolicy, typename Pointer>
+void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer ptr);
 
 
 /*! \p return_temporary_buffer deallocates storage associated with a given Thrust system previously allocated by \p get_temporary_buffer.
@@ -431,6 +441,8 @@ void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr);
  *
  *  \param system The Thrust system with which the storage is associated.
  *  \param p A pointer previously returned by \p thrust::get_temporary_buffer. If \p ptr is null, \p return_temporary_buffer does nothing.
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *
  *  \pre \p p shall have been previously allocated by \p thrust::get_temporary_buffer.
  *
@@ -464,8 +476,8 @@ void free(const thrust::detail::dispatchable_base<System> &system, Pointer ptr);
  *  \see free
  *  \see get_temporary_buffer
  */
-template<typename System, typename Pointer>
-void return_temporary_buffer(const thrust::detail::dispatchable_base<System> &system, Pointer p);
+template<typename DerivedPolicy, typename Pointer>
+void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p);
 
 
 /*! \} deallocation_functions
