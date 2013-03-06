@@ -71,6 +71,7 @@ namespace thrust
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -100,36 +101,6 @@ template<typename DerivedPolicy,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
-
-
-template<typename DerivedPolicy,
-         typename InputIterator,
-         typename OutputIterator1,
-         typename OutputIterator2,
-         typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                   InputIterator first,
-                   InputIterator last,
-                   OutputIterator1 out_true,
-                   OutputIterator2 out_false,
-                   Predicate pred);
-
-
-template<typename DerivedPolicy,
-         typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator1,
-         typename OutputIterator2,
-         typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                   InputIterator1 first,
-                   InputIterator1 last,
-                   InputIterator2 stencil,
-                   OutputIterator1 out_true,
-                   OutputIterator2 out_false,
-                   Predicate pred);
 
 
 /*! \p partition reorders the elements <tt>[first, last)</tt> based on the function
@@ -202,9 +173,9 @@ template<typename ForwardIterator,
  *  necessarily the same as it was in the original sequence. A different algorithm,
  *  \ref stable_partition, does guarantee to preserve the relative order.
  *
- *  The algorithm's execution policy is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p system.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
  *  \param stencil The beginning of the stencil sequence.
@@ -213,7 +184,7 @@ template<typename ForwardIterator,
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements whose stencil elements do not satisfy \p pred.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -227,6 +198,7 @@ template<typename ForwardIterator,
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -249,11 +221,11 @@ template<typename ForwardIterator,
  *  \see \p stable_partition
  *  \see \p partition_copy
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -333,9 +305,9 @@ template<typename ForwardIterator,
  *  to the range beginning at \p out_true and all the elements that fail to satisfy it
  *  are copied to the range beginning at \p out_false.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
  *  \param out_true The destination of the resulting sequence of elements which satisfy \p pred.
@@ -346,7 +318,7 @@ template<typename ForwardIterator,
  *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
  *          \p out_false.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type and \p InputIterator's \c value_type
  *          is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
@@ -361,6 +333,7 @@ template<typename ForwardIterator,
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -391,13 +364,13 @@ template<typename ForwardIterator,
  *  \see \p stable_partition_copy
  *  \see \p partition
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    partition_copy(const thrust::detail::dispatchable_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -474,6 +447,87 @@ template<typename InputIterator,
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(InputIterator first,
                    InputIterator last,
+                   OutputIterator1 out_true,
+                   OutputIterator2 out_false,
+                   Predicate pred);
+
+
+/*! \p partition_copy differs from \ref partition only in that the reordered
+ *  sequence is written to difference output sequences, rather than in place.
+ *
+ *  \p partition_copy copies the elements <tt>[first, last)</tt> based on the
+ *  function object \p pred which is applied to a range of stencil elements. All of the elements
+ *  whose corresponding stencil element satisfies \p pred are copied to the range beginning at \p out_true
+ *  and all the elements whose stencil element fails to satisfy it are copied to the range beginning
+ *  at \p out_false.
+ *
+ *  The algorithm's execution is parallelized as determined by \p exec.
+ *
+ *  \param exec The execution policy to use for parallelization.
+ *  \param first The beginning of the sequence to reorder.
+ *  \param last The end of the sequence to reorder.
+ *  \param stencil The beginning of the stencil sequence.
+ *  \param out_true The destination of the resulting sequence of elements which satisfy \p pred.
+ *  \param out_false The destination of the resulting sequence of elements which fail to satisfy \p pred.
+ *  \param pred A function object which decides to which partition each element of the
+ *              sequence <tt>[first, last)</tt> belongs.
+ *  \return A \p pair p such that <tt>p.first</tt> is the end of the output range beginning
+ *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
+ *          \p out_false.
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
+ *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *          and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
+ *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *
+ *  \pre The input ranges shall not overlap with either output range.
+ *
+ *  The following code snippet demonstrates how to use \p partition_copy to separate a
+ *  sequence into two output sequences of even and odd numbers using the \p thrust::host execution
+ *  policy for parallelization.
+ *
+ *  \code
+ *  #include <thrust/partition.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
+ *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+ *  int S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
+ *  int result[10];
+ *  const int N = sizeof(A)/sizeof(int);
+ *  int *evens = result;
+ *  int *odds  = result + 5;
+ *  thrust::stable_partition_copy(thrust::host, A, A + N, S, evens, odds, thrust::identity<int>());
+ *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+ *  // S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}
+ *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
+ *  // evens points to {2, 4, 6, 8, 10}
+ *  // odds points to {1, 3, 5, 7, 9}
+ *  \endcode
+ *
+ *  \note The relative order of elements in the two reordered sequences is not
+ *  necessarily the same as it was in the original sequence. A different algorithm,
+ *  \ref stable_partition_copy, does guarantee to preserve the relative order.
+ *
+ *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
+ *  \see \p stable_partition_copy
+ *  \see \p partition
+ */
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename Predicate>
+  thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                   InputIterator1 first,
+                   InputIterator1 last,
+                   InputIterator2 stencil,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred);
@@ -588,6 +642,7 @@ template<typename InputIterator1,
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -679,7 +734,7 @@ template<typename ForwardIterator,
                                    Predicate pred);
 
 
-/*! \p stable_partition is much like \ref partition: it reorders the elements in the
+/*! \p stable_partition is much like \p partition: it reorders the elements in the
  *  range <tt>[first, last)</tt> based on the function object \p pred applied to a stencil
  *  range <tt>[stencil, stencil + (last - first))</tt>, such that all of
  *  the elements whose corresponding stencil element satisfies \p pred precede all of the elements whose
@@ -719,6 +774,7 @@ template<typename ForwardIterator,
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -752,7 +808,7 @@ template<typename System,
                                    Predicate pred);
 
 
-/*! \p stable_partition is much like \ref partition: it reorders the elements in the
+/*! \p stable_partition is much like \p partition: it reorders the elements in the
  *  range <tt>[first, last)</tt> based on the function object \p pred applied to a stencil
  *  range <tt>[stencil, stencil + (last - first))</tt>, such that all of
  *  the elements whose corresponding stencil element satisfies \p pred precede all of the elements whose
@@ -861,6 +917,7 @@ template<typename ForwardIterator,
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  struct is_even
  *  {
@@ -1023,6 +1080,7 @@ template<typename InputIterator,
  *  \code
  *  #include <thrust/partition.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  int S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
@@ -1172,6 +1230,7 @@ template<typename InputIterator1,
  *
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *
  *  struct is_even
  *  {
@@ -1266,9 +1325,9 @@ template<typename ForwardIterator, typename Predicate>
  *  is empty of if <tt>[first, last)</tt> is partitioned by \p pred, i.e. if
  *  all elements that satisfy \p pred appear before those that do not.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the range to consider.
  *  \param last The end of the range to consider.
  *  \param pred A function object which decides to which partition each element of the
@@ -1276,13 +1335,14 @@ template<typename ForwardIterator, typename Predicate>
  *  \return \c true if the range <tt>[first, last)</tt> is partitioned with respect
  *          to \p pred, or if <tt>[first, last)</tt> is empty. \c false, otherwise.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *  
  *  \code
  *  #include <thrust/partition.h>
+ *  #include <thrust/execution_policy.h>
  *
  *  struct is_even
  *  {
@@ -1304,8 +1364,8 @@ template<typename ForwardIterator, typename Predicate>
  *
  *  \see \p partition
  */
-template<typename System, typename InputIterator, typename Predicate>
-  bool is_partitioned(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+  bool is_partitioned(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);

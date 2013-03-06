@@ -75,6 +75,7 @@ namespace thrust
  *
  *  \code
  *  #include <thrust/merge.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int A1[6] = {1, 3, 5, 7, 9, 11};
  *  int A2[7] = {1, 1, 2, 3, 5,  8, 13};
@@ -209,6 +210,7 @@ template<typename InputIterator1,
  *  \code
  *  #include <thrust/merge.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int A1[6] = {11, 9, 7, 5, 3, 1};
  *  int A2[7] = {13, 8, 5, 3, 2, 1, 1};
@@ -232,7 +234,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &system,
+  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -363,6 +365,7 @@ template<typename InputIterator1,
  *  \code
  *  #include <thrust/merge.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int A_keys[6] = {1, 3, 5, 7, 9, 11};
  *  int A_vals[6] = {0, 0, 0, 0, 0, 0};
@@ -541,6 +544,7 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  \code
  *  #include <thrust/merge.h>
  *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
  *  ...
  *  int A_keys[6] = {11, 9, 7, 5, 3, 1};
  *  int A_vals[6] = { 0, 0, 0, 0, 0, 0};
@@ -569,7 +573,7 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
   thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &system,
+    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
