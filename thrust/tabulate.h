@@ -28,16 +28,56 @@ namespace thrust
 {
 
 
+/*! \addtogroup transformations
+ *  \{
+ */
+
+
+/*! \p tabulate fills the range <tt>[first, last)</tt> with the value of a function applied to each
+ *     element's index.
+ *
+ *  For each iterator \c i in the range <tt>[first, last)</tt>, \p tabulate performs the assignment
+ *  <tt>*i = unary_op(i - first)</tt>.
+ *
+ *  The algorithm's execution is parallelized as determined by \p exec.
+ *
+ *  \param exec The execution policy to use for parallelization.
+ *  \param first The beginning of the range.
+ *  \param last The end of the range.
+ *  \param unary_op The unary operation to apply.
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator is mutable,
+ *          and if \c x and \c y are objects of \c ForwardIterator's \c value_type, then <tt>x + y</tt> is defined,
+ *          and if \c T is \p ForwardIterator's \c value_type, then <tt>T(0)</tt> is defined.
+ *  \tparam UnaryOperation is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
+ *                         and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
+ *
+ *  The following code snippet demonstrates how to use \p tabulate to generate the first \c n non-positive integers
+ *  using the \p thrust::host execution policy for parallelization:
+ *
+ *  \code
+ *  #include <thrust/tabulate.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/execution_policy.h>
+ *  ...
+ *  const int N = 10;
+ *  int A[N];
+ *  thrust::tabulate(thrust::host, A, A + 10, thrust::negate<int>());
+ *  // A is now {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}
+ *  \endcode
+ *
+ *  \see thrust::fill
+ *  \see thrust::generate
+ *  \see thrust::sequence
+ */
 template<typename DerivedPolicy, typename ForwardIterator, typename UnaryOperation>
   void tabulate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op);
 
-
-/*! \addtogroup transformations
- *  \{
- */
 
 /*! \p tabulate fills the range <tt>[first, last)</tt> with the value of a function applied to each
  *     element's index.
@@ -77,8 +117,10 @@ template<typename ForwardIterator, typename UnaryOperation>
                 ForwardIterator last,
                 UnaryOperation unary_op);
 
+
 /*! \} // end transformations
  */
+
 
 } // end namespace thrust
 
