@@ -203,12 +203,12 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-  OutputIterator gather_if(const thrust::detail::execution_policy_base<System> &exec,
-                           InputIterator1                                       map_first,
-                           InputIterator1                                       map_last,
-                           InputIterator2                                       stencil,
-                           RandomAccessIterator                                 input_first,
-                           OutputIterator                                       result);
+  OutputIterator gather_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                           InputIterator1                                              map_first,
+                           InputIterator1                                              map_last,
+                           InputIterator2                                              stencil,
+                           RandomAccessIterator                                        input_first,
+                           OutputIterator                                              result);
 
 
 /*! \p gather_if conditionally copies elements from a source array into a destination 
@@ -346,13 +346,13 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-  OutputIterator gather_if(const thrust::detail::execution_policy_base<System> &exec,
-                           InputIterator1                                       map_first,
-                           InputIterator1                                       map_last,
-                           InputIterator2                                       stencil,
-                           RandomAccessIterator                                 input_first,
-                           OutputIterator                                       result,
-                           Predicate                                            pred);
+  OutputIterator gather_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                           InputIterator1                                              map_first,
+                           InputIterator1                                              map_last,
+                           InputIterator2                                              stencil,
+                           RandomAccessIterator                                        input_first,
+                           OutputIterator                                              result,
+                           Predicate                                                   pred);
 
 
 /*! \p gather_if conditionally copies elements from a source array into a destination 

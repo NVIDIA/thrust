@@ -173,7 +173,7 @@ template<typename ForwardIterator,
  *  necessarily the same as it was in the original sequence. A different algorithm,
  *  \ref stable_partition, does guarantee to preserve the relative order.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
  *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the sequence to reorder.
@@ -370,7 +370,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::dispatchable_base<DerivedPolicy> &exec,
+    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -621,9 +621,9 @@ template<typename InputIterator1,
  *  and <tt>pred(stencil_x) == pred(stencil_y)</tt>, and if \c x precedes
  *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The first element of the sequence to reorder.
  *  \param last One position past the last element of the sequence to reorder.
  *  \param pred A function object which decides to which partition each element of the
@@ -631,7 +631,7 @@ template<typename InputIterator1,
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements which do not satisfy pred.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type,
  *          and \p ForwardIterator is mutable.
@@ -665,10 +665,10 @@ template<typename InputIterator1,
  *  \see \p partition
  *  \see \p stable_partition_copy
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-  ForwardIterator stable_partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
@@ -749,9 +749,9 @@ template<typename ForwardIterator,
  *  <tt>[first, last)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
  *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The first element of the sequence to reorder.
  *  \param last One position past the last element of the sequence to reorder.
  *  \param stencil The beginning of the stencil sequence.
@@ -760,7 +760,7 @@ template<typename ForwardIterator,
  *  \return An iterator referring to the first element of the second partition, that is,
  *          the sequence of the elements whose stencil elements do not satisfy \p pred.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -797,11 +797,11 @@ template<typename ForwardIterator,
  *  \see \p partition
  *  \see \p stable_partition_copy
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-  ForwardIterator stable_partition(const thrust::detail::dispatchable_base<System> &system,
+  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
@@ -889,9 +889,9 @@ template<typename ForwardIterator,
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
  *  after \p stable_partition_copy that \c x precedes \c y in the output.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The first element of the sequence to reorder.
  *  \param last One position past the last element of the sequence to reorder.
  *  \param out_true The destination of the resulting sequence of elements which satisfy \p pred.
@@ -902,7 +902,7 @@ template<typename ForwardIterator,
  *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
  *          \p out_false.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type and \p InputIterator's \c value_type
  *          is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
@@ -944,13 +944,13 @@ template<typename ForwardIterator,
  *  \see \p partition_copy
  *  \see \p stable_partition
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -1049,9 +1049,9 @@ template<typename InputIterator,
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
  *  after \p stable_partition_copy that \c x precedes \c y in the output.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The first element of the sequence to reorder.
  *  \param last One position past the last element of the sequence to reorder.
  *  \param stencil The beginning of the stencil sequence.
@@ -1063,7 +1063,7 @@ template<typename InputIterator,
  *          at \p out_true and <tt>p.second</tt> is the end of the output range beginning at
  *          \p out_false.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p OutputIterator1 and \p OutputIterator2's \c value_types.
  *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
@@ -1100,14 +1100,14 @@ template<typename InputIterator,
  *  \see \p partition_copy
  *  \see \p stable_partition
  */
-template<typename System,
+template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::dispatchable_base<System> &system,
+    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -1207,9 +1207,9 @@ template<typename InputIterator1,
  *  <tt>[first,last)</tt> to be a partition; that is, all elements which satisfy
  *  <tt>pred</tt> shall appear before those that do not.
  *
- *  The algorithm's execution is parallelized as determined by \p system.
+ *  The algorithm's execution is parallelized as determined by \p exec.
  *
- *  \param system The execution policy to use for parallelization.
+ *  \param exec The execution policy to use for parallelization.
  *  \param first The beginning of the range to consider.
  *  \param last The end of the range to consider.
  *  \param pred A function object which decides to which partition each element of the
@@ -1217,7 +1217,7 @@ template<typename InputIterator1,
  *  \return An iterator \c mid such that <tt>all_of(first, mid, pred)</tt>
  *          and <tt>none_of(mid, last, pred)</tt> are both true.
  *
- *  \tparam System A Thrust backend system.
+ *  \tparam DerivedPolicy The name of the derived execution policy.
  *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
@@ -1252,8 +1252,8 @@ template<typename InputIterator1,
  *  \see \p partition
  *  \see \p find_if_not
  */
-template<typename System, typename ForwardIterator, typename Predicate>
-  ForwardIterator partition_point(const thrust::detail::dispatchable_base<System> &system,
+template<typename DerivedPolicy, typename ForwardIterator, typename Predicate>
+  ForwardIterator partition_point(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);

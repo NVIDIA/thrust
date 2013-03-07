@@ -135,7 +135,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DervivedPolicy> &exec,
+OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);

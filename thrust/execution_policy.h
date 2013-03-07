@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file execution_policy.h
+/*! \file thrust/execution_policy.h
  *  \brief Thrust execution policies.
  */
 

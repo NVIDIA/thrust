@@ -301,7 +301,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \see device_malloc
  */
 template<typename DerivedPolicy>
-pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n);
+pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
 /*! This version of \p malloc allocates typed uninitialized storage associated with a given system.
@@ -338,7 +338,7 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
  *  \see device_malloc
  */
 template<typename T, typename DerivedPolicy>
-pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n);
+pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
 /*! \p get_temporary_buffer returns a pointer to storage associated with a given Thrust system sufficient to store up to
