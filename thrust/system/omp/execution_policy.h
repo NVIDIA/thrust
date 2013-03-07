@@ -16,6 +16,10 @@
 
 #pragma once
 
+/*! \file thrust/system/omp/execution_policy.h
+ *  \brief Execution policies for Thrust's OpenMP system.
+ */
+
 #include <thrust/detail/config.h>
 
 // get the execution policies definitions first
@@ -67,4 +71,86 @@
 #include <thrust/system/omp/detail/uninitialized_fill.h>
 #include <thrust/system/omp/detail/unique.h>
 #include <thrust/system/omp/detail/unique_by_key.h>
+
+
+// define these entities here for the purpose of Doxygenating them
+// they are actually defined elsewhere
+#if 0
+namespace thrust
+{
+namespace system
+{
+namespace omp
+{
+
+
+/*! \addtogroup execution_policies
+ *  \{
+ */
+
+
+/*! \p thrust::omp::execution_policy is the base class for all Thrust parallel execution
+ *  policies which are derived from Thrust's OpenMP backend system.
+ */
+template<typename DerivedPolicy>
+struct execution_policy : thrust::execution_policy<DerivedPolicy>
+{};
+
+
+/*! \p omp::tag is a type representing Thrust's standard C++ backend system in C++'s type system.
+ *  Iterators "tagged" with a type which is convertible to \p omp::tag assert that they may be
+ *  "dispatched" to algorithm implementations in the \p omp system.
+ */
+struct tag : thrust::system::omp::execution_policy<tag> { unspecified };
+
+
+/*! \p thrust::omp::par is the parallel execution policy associated with Thrust's OpenMP
+ *  backend system.
+ *
+ *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may
+ *  directly target Thrust's OpenMP backend system by providing \p thrust::omp::par as an algorithm
+ *  parameter.
+ *
+ *  Explicit dispatch can be useful in avoiding the introduction of data copies into containers such
+ *  as \p thrust::omp::vector.
+ *
+ *  The type of \p thrust::omp::par is implementation-defined.
+ *
+ *  The following code snippet demonstrates how to use \p thrust::omp::par to explicitly dispatch an
+ *  invocation of \p thrust::for_each to the OpenMP backend system:
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/system/omp/execution_policy.h>
+ *  #include <cstdio>
+ *
+ *  struct printf_functor
+ *  {
+ *    __host__ __device__
+ *    void operator()(int x)
+ *    {
+ *      printf("%d\n");
+ *    }
+ *  };
+ *  ...
+ *  int vec[3];
+ *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
+ *
+ *  thrust::for_each(thrust::omp::par, vec.begin(), vec.end(), printf_functor());
+ *
+ *  // 0 1 2 is printed to standard output in some unspecified order
+ *  \endcode
+ */
+static const unspecified par;
+
+
+/*! \}
+ */
+
+
+} // end cpp
+} // end system
+} // end thrust
+#endif
+
 
