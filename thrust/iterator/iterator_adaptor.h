@@ -55,57 +55,46 @@ namespace thrust
  *  functionality, it is occasionally more straightforward to derive from \p iterator_adaptor directly.
  *
  *  To see how to use \p iterator_adaptor to create a novel iterator type, let's examine how to use it to
- *  define our own version of \p transform_iterator, a fancy iterator which fuses the application of
- *  a unary function with an iterator dereference:
+ *  define \p repeat_iterator, a fancy iterator which repeats elements from another range a given number of time:
  *
  *  \code
  *  #include <thrust/iterator/iterator_adaptor.h>
  *
- *  // derive my_transform_iterator from iterator_adaptor
- *  template<typename Function, typename Iterator>
- *    class my_transform_iterator
+ *  // derive repeat_iterator from iterator_adaptor
+ *  template<typename Iterator>
+ *    class repeat_iterator
  *      : public thrust::iterator_adaptor<
- *          my_transform_iterator<Function, Iterator>, // the first template parameter is the name of the type we're creating
- *          Iterator,                                  // the second template parameter is the name of the iterator we're adapting
- *          typename Function::result_type,            // the third template parameter is the name of the iterator's value_type -- it's simply the function's result_type.
- *          thrust::use_default,                       // the fourth template parameter is the name of the iterator's system. use_default will use the same system as the base iterator.
- *          thrust::use_default,                       // the fifth template parameter is the name of the iterator's traversal. use_default will use the same traversal as the base iterator.
- *          typename Function::result_type             // the sixth template parameter is the name of the iterator's reference. Like value_type, it's simply the function's result_type.
+ *          repeat_iterator<Iterator>, // the first template parameter is the name of the iterator we're creating
+ *          Iterator                   // the second template parameter is the name of the iterator we're adapting
+ *                                     // we can use the default for the additional template parameters
  *        >
  *  {
  *    public:
  *      // shorthand for the name of the iterator_adaptor we're deriving from
  *      typedef thrust::iterator_adaptor<
- *        my_transform_iterator<Function, Iterator>,
- *        Iterator,
- *        typename Function::result_type,
- *        thrust::use_default,
- *        thrust::use_default,
- *        typename Function::result_type
+ *        repeat_iterator<Iterator>,
+ *        Iterator
  *      > super_t;
  *
  *      __host__ __device__
- *      my_transform_iterator(const Iterator &x, Function f) : super_t(x), m_f(f) {}
- *
- *      // other assorted constructors might go here
- *      ...
+ *      repeat_iterator(const Iterator &x, int n) : super_t(x), begin(x), n(n) {}
  *
  *      // befriend thrust::iterator_core_access to allow it access to the private interface below
  *      friend class thrust::iterator_core_access;
  *
  *    private:
- *      // here we define what it means to dereference my_transform_iterator
+ *      // repeat each element of the adapted range n times
+ *      unsigned int n;
+ *
+ *      // used to keep track of where we began
+ *      const Iterator begin;
+ *
  *      // it is private because only thrust::iterator_core_access needs access to it
  *      __host__ __device__
  *      typename super_t::reference dereference() const
  *      {
- *        // when my_transform_iterator is dereferenced, it dereferences the base iterator
- *        // and applies the unary function
- *        return m_f(*this->base());
+ *        return *(begin + (this->base() - begin) / n);
  *      }
- *
- *      // the unary function
- *      Function m_f;
  *  };
  *  \endcode
  *
@@ -115,6 +104,10 @@ namespace thrust
  *  \p iterator_adaptor's functionality is derived from and generally equivalent to \p boost::iterator_adaptor.
  *  The exception is Thrust's addition of the template parameter \p System, which is necessary to allow Thrust
  *  to dispatch an algorithm to one of several parallel backend systems.
+ *
+ *  \p iterator_adaptor is a powerful tool for creating custom iterators directly. However, the large set of iterator semantics which must be satisfied
+ *  for algorithm compatibility can make \p iterator_adaptor difficult to use correctly. Unless you require the full expressivity of \p iterator_adaptor,
+ *  consider building a custom iterator through composition of existing higher-level fancy iterators instead. 
  *
  *  Interested users may refer to <tt>boost::iterator_adaptor</tt>'s documentation for further usage examples.
  */
