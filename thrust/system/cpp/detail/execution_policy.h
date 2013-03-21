@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -54,7 +54,7 @@ struct tag : execution_policy<tag> {};
 // allow conversion to tag when it is not a successor
 template<typename Derived>
   struct execution_policy
-    : thrust::execution_policy<Derived>
+    : thrust::system::detail::sequential::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
