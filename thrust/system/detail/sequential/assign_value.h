@@ -17,7 +17,27 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/sequential/tag.h>
+#include <thrust/detail/raw_pointer_cast.h>
 
-// this system inherits assign_value
-#include <thrust/system/detail/sequential/assign_value.h>
+namespace thrust
+{
+namespace system
+{
+namespace detail
+{
+namespace sequential
+{
+
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
+__host__ __device__
+  void assign_value(sequential::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
+{
+  *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
+} // end assign_value()
+
+} // end sequential
+} // end detail
+} // end system
+} // end thrust
 
