@@ -29,6 +29,16 @@
 
 namespace thrust
 {
+namespace detail
+{
+
+
+// XXX WAR an unfortunate circular #inclusion problem
+template<typename,typename> class temporary_array;
+
+
+} // end detail
+
 namespace system
 {
 namespace detail
