@@ -44,7 +44,7 @@ template<typename> struct execution_policy;
 // specialize execution_policy for tag
 template<>
   struct execution_policy<tag>
-    : thrust::execution_policy<tag>
+    : thrust::system::detail::sequential::execution_policy<tag>
 {};
 
 // tag's definition comes before the
