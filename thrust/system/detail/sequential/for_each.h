@@ -35,10 +35,11 @@ namespace sequential
 {
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename UnaryFunction>
 __host__ __device__
-InputIterator for_each(tag,
+InputIterator for_each(sequential::execution_policy<DerivedPolicy> &,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
@@ -58,11 +59,12 @@ InputIterator for_each(tag,
 } // end for_each()
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename Size,
          typename UnaryFunction>
 __host__ __device__
-InputIterator for_each_n(tag,
+InputIterator for_each_n(sequential::execution_policy<DerivedPolicy> &,
                          InputIterator first,
                          Size n,
                          UnaryFunction f)

@@ -46,7 +46,7 @@ struct body
   InputIterator1 first;
   InputIterator2 stencil;
   OutputIterator result;
-  thrust::detail::host_function<Predicate,bool> pred;
+  thrust::detail::wrapped_function<Predicate,bool> pred;
   Size sum;
 
   body(InputIterator1 first, InputIterator2 stencil, OutputIterator result, Predicate pred)

@@ -47,7 +47,7 @@ struct inclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  thrust::detail::host_function<BinaryFunction,ValueType> binary_op;
+  thrust::detail::wrapped_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
@@ -122,7 +122,7 @@ struct exclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  thrust::detail::host_function<BinaryFunction,ValueType> binary_op;
+  thrust::detail::wrapped_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
