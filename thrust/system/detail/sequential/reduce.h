@@ -35,11 +35,12 @@ namespace sequential
 {
 
 
-template<typename InputIterator, 
+template<typename DerivedPolicy,
+         typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
 __host__ __device__
-  OutputType reduce(tag,
+  OutputType reduce(sequential::execution_policy<DerivedPolicy> &,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,
