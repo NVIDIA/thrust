@@ -30,8 +30,9 @@ namespace sequential
 {
 
 
+template<typename DerivedPolicy>
 inline __host__ __device__
-void *malloc(tag, std::size_t n)
+void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 {
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ > 200)
   return std::malloc(n);

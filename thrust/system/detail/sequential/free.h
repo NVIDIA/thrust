@@ -31,9 +31,9 @@ namespace sequential
 {
 
 
-template<typename Pointer>
-__host__ __device__
-void malloc(tag, Pointer ptr)
+template<typename DerivedPolicy, typename Pointer>
+inline __host__ __device__
+void free(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ > 200)
   std::free(thrust::raw_pointer_cast(ptr));

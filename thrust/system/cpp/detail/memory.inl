@@ -70,7 +70,7 @@ void swap(reference<T> a, reference<T> b)
 pointer<void> malloc(std::size_t n)
 {
   tag t;
-  return pointer<void>(thrust::system::cpp::detail::malloc(t, n));
+  return pointer<void>(thrust::system::detail::sequential::malloc(t, n));
 } // end malloc()
 
 template<typename T>
@@ -83,7 +83,7 @@ pointer<T> malloc(std::size_t n)
 void free(pointer<void> ptr)
 {
   tag t;
-  return thrust::system::cpp::detail::free(t, ptr);
+  return thrust::system::detail::sequential::free(t, ptr);
 } // end free()
 
 } // end cpp

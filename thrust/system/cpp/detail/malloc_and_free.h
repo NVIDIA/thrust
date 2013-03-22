@@ -17,38 +17,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/raw_pointer_cast.h>
-#include <cstdlib> // for malloc & free
-#include <thrust/system/cpp/detail/execution_policy.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-
-// note that malloc returns a raw pointer to avoid
-// depending on the heavyweight thrust/system/cpp/memory.h header
-template<typename DerivedPolicy>
-  void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
-{
-  return std::malloc(n);
-} // end malloc()
-
-
-template<typename DerivedPolicy, typename Pointer>
-  void free(execution_policy<DerivedPolicy> &, Pointer ptr)
-{
-  std::free(thrust::raw_pointer_cast(ptr));
-} // end free()
-
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+// this system inherits malloc & free
+#include <thrust/system/detail/sequential/malloc.h>
+#include <thrust/system/detail/sequential/free.h>
 
