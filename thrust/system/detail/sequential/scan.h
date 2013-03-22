@@ -39,11 +39,12 @@ namespace sequential
 {
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
 __host__ __device__
-  OutputIterator inclusive_scan(tag,
+  OutputIterator inclusive_scan(sequential::execution_policy<DerivedPolicy> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -93,12 +94,13 @@ __host__ __device__
 }
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
 __host__ __device__
-  OutputIterator exclusive_scan(tag,
+  OutputIterator exclusive_scan(sequential::execution_policy<DerivedPolicy> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
