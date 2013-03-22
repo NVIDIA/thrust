@@ -17,7 +17,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/detail/internal/scalar/merge.h>
+#include <thrust/system/detail/sequential/merge.h>
 #include <thrust/system/detail/internal/scalar/insertion_sort.h>
 
 namespace thrust
@@ -52,7 +52,8 @@ void inplace_merge(RandomAccessIterator first,
   thrust::detail::temporary_array<value_type, DerivedPolicy> a(exec, first, middle);
   thrust::detail::temporary_array<value_type, DerivedPolicy> b(exec, middle, last);
 
-  thrust::system::detail::internal::scalar::merge(a.begin(), a.end(), b.begin(), b.end(), first, comp);
+  thrust::system::detail::sequential::tag seq;
+  sequential::merge(seq, a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 template <typename RandomAccessIterator1,
@@ -82,8 +83,9 @@ void inplace_merge_by_key(RandomAccessIterator1 first1,
   thrust::detail::temporary_array<value_type2, DerivedPolicy> lhs2(exec, first2, middle2);
   thrust::detail::temporary_array<value_type2, DerivedPolicy> rhs2(exec, middle2, last2);
 
-  thrust::system::detail::internal::scalar::merge_by_key
-    (lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
+  thrust::system::detail::sequential::tag seq;
+  sequential::merge_by_key
+    (seq, lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
      lhs2.begin(), rhs2.begin(),
      first1, first2, comp);
 }

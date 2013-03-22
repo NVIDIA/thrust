@@ -34,12 +34,13 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-OutputIterator merge(tag,
+OutputIterator merge(sequential::execution_policy<DerivedPolicy> &exec,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -48,7 +49,8 @@ OutputIterator merge(tag,
                      StrictWeakOrdering comp);
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename InputIterator4,
@@ -57,7 +59,7 @@ template<typename InputIterator1,
          typename StrictWeakOrdering>
 __host__ __device__
 thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(tag,
+  merge_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,

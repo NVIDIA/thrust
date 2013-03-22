@@ -16,7 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/sequential/merge.h>
-#include <thrust/system/detail/sequential/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/function.h>
 
@@ -30,12 +30,13 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-OutputIterator merge(tag seq,
+OutputIterator merge(sequential::execution_policy<DerivedPolicy> &exec,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -65,11 +66,12 @@ OutputIterator merge(tag seq,
     ++result;
   } // end while
 
-  return thrust::system::detail::sequential::copy(seq, first2, last2, thrust::system::detail::sequential::copy(seq, first1, last1, result));
+  return thrust::copy(exec, first2, last2, thrust::copy(exec, first1, last1, result));
 } // end merge()
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename InputIterator4,
@@ -78,7 +80,7 @@ template<typename InputIterator1,
          typename StrictWeakOrdering>
 __host__ __device__
 thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(tag seq,
+  merge_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,
