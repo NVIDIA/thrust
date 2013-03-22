@@ -34,12 +34,13 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
 __host__ __device__
-  OutputIterator copy_if(tag,
+  OutputIterator copy_if(sequential::execution_policy<DerivedPolicy> &,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
