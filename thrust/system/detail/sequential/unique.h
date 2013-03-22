@@ -36,11 +36,12 @@ namespace sequential
 {
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
 __host__ __device__
-  OutputIterator unique_copy(tag,
+  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
@@ -74,16 +75,17 @@ __host__ __device__
 } // end unique_copy()
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename BinaryPredicate>
 __host__ __device__
-  ForwardIterator unique(tag seq,
+  ForwardIterator unique(sequential::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
   // sequential unique_copy permits in-situ operation
-  return unique_copy(seq, first, last, first, binary_pred);
+  return sequential::unique_copy(exec, first, last, first, binary_pred);
 } // end unique()
 
 
