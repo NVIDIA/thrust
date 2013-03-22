@@ -63,10 +63,11 @@ void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 }
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename Predicate>
 __host__ __device__
-  ForwardIterator partition(tag,
+  ForwardIterator partition(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
@@ -101,10 +102,11 @@ __host__ __device__
 }
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename Predicate>
 __host__ __device__
-  ForwardIterator stable_partition(tag,
+  ForwardIterator stable_partition(sequential::execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
@@ -115,18 +117,11 @@ __host__ __device__
     bool
   > wrapped_pred(pred);
 
-  // TODO XXX use the execution_policy parameter in the temporary_array rather than deriving a fake one from the iterator
-
-  // XXX the type of exec should be:
-  //     typedef decltype(select_system(first, last)) system;
-  typedef typename thrust::iterator_system<ForwardIterator>::type ExecutionPolicy;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,ExecutionPolicy> TempRange;
-  typedef typename TempRange::iterator                       TempIterator;
+  typedef thrust::detail::temporary_array<T,DerivedPolicy> TempRange;
+  typedef typename TempRange::iterator                     TempIterator;
 
-  // XXX presumes ExecutionPolicy is default constructible
-  ExecutionPolicy exec;
   TempRange temp(exec, first, last);
 
   for(TempIterator iter = temp.begin(); iter != temp.end(); ++iter)
@@ -153,11 +148,12 @@ __host__ __device__
 }
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
 __host__ __device__
-  ForwardIterator stable_partition(tag,
+  ForwardIterator stable_partition(sequential::execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
@@ -169,18 +165,11 @@ __host__ __device__
     bool
   > wrapped_pred(pred);
 
-  // TODO XXX use the execution_policy parameter in the temporary_array rather than deriving a fake one from the iterator
-
-  // XXX the type of exec should be:
-  //     typedef decltype(select_system(first, stencil)) system;
-  typedef typename thrust::iterator_system<ForwardIterator>::type ExecutionPolicy;
   typedef typename thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,ExecutionPolicy> TempRange;
-  typedef typename TempRange::iterator                       TempIterator;
+  typedef thrust::detail::temporary_array<T,DerivedPolicy> TempRange;
+  typedef typename TempRange::iterator                     TempIterator;
 
-  // XXX presumes ExecutionPolicy is default constructible
-  ExecutionPolicy exec;
   TempRange temp(exec, first, last);
 
   InputIterator stencil_iter = stencil;
@@ -209,13 +198,14 @@ __host__ __device__
 }
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(tag,
+    stable_partition_copy(sequential::execution_policy<DerivedPolicy> &,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -246,14 +236,15 @@ __host__ __device__
 }
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(tag,
+    stable_partition_copy(sequential::execution_policy<DerivedPolicy> &,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,

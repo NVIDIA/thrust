@@ -20,7 +20,7 @@
 #include <thrust/system/detail/internal/scalar/stable_primitive_sort.h>
 #include <thrust/system/detail/internal/scalar/stable_radix_sort.h>
 #include <thrust/functional.h>
-#include <thrust/system/detail/internal/scalar/partition.h>
+#include <thrust/system/detail/sequential/partition.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/type_traits.h>
 
@@ -67,7 +67,8 @@ template<typename RandomAccessIterator>
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
-  scalar::stable_partition(first, last, thrust::logical_not<bool>());
+  thrust::system::detail::sequential::tag seq;
+  sequential::stable_partition(seq, first, last, thrust::logical_not<bool>());
 }
 
 
@@ -98,9 +99,11 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2>
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
-  scalar::stable_partition(thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
-                           thrust::make_zip_iterator(thrust::make_tuple(keys_last, values_first)),
-                           logical_not_first());
+  thrust::system::detail::sequential::tag seq;
+  sequential::stable_partition(seq,
+                               thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
+                               thrust::make_zip_iterator(thrust::make_tuple(keys_last, values_first)),
+                               logical_not_first());
 }
 
 
