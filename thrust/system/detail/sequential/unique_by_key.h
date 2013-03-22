@@ -36,14 +36,15 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(tag,
+    unique_by_key_copy(sequential::execution_policy<DerivedPolicy> &,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -90,19 +91,20 @@ __host__ __device__
 } // end unique_by_key_copy()
 
 
-template<typename ForwardIterator1,
+template<typename DerivedPolicy,
+         typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
 __host__ __device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(tag seq,
+    unique_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
                   BinaryPredicate binary_pred)
 {
   // sequential unique_by_key_copy() permits in-situ operation
-  return unique_by_key_copy(seq, keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
+  return sequential::unique_by_key_copy(exec, keys_first, keys_last, values_first, keys_first, values_first, binary_pred);
 } // end unique_by_key()
 
 
