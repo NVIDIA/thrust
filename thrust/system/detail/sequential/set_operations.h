@@ -209,7 +209,7 @@ __host__ __device__
     ++result;
   } // end while
 
-  return thrust::copy(seq, first2, last2, thrust::copy(seq, first1, last1, result));
+  return thrust::copy(exec, first2, last2, thrust::copy(exec, first1, last1, result));
 } // end set_union()
 
 
