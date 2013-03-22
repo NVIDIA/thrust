@@ -107,10 +107,11 @@ __host__ __device__
 
 
 __thrust_hd_warning_disable__
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator>
 __host__ __device__
-  OutputIterator copy(tag,
+  OutputIterator copy(sequential::execution_policy<DerivedPolicy> &,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result)
@@ -120,11 +121,12 @@ __host__ __device__
 } // end copy()
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
 __host__ __device__
-  OutputIterator copy_n(tag,
+  OutputIterator copy_n(sequential::execution_policy<DerivedPolicy> &,
                         InputIterator first,
                         Size n,
                         OutputIterator result)

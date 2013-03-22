@@ -33,20 +33,22 @@ namespace sequential
 {
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator>
 __host__ __device__
-  OutputIterator copy(tag,
+  OutputIterator copy(sequential::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename Size,
          typename OutputIterator>
 __host__ __device__
-  OutputIterator copy_n(tag,
+  OutputIterator copy_n(sequential::execution_policy<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result);
