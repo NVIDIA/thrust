@@ -35,10 +35,11 @@ namespace sequential
 {
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename Predicate>
 __host__ __device__
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
@@ -75,11 +76,12 @@ __host__ __device__
 }
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
 __host__ __device__
-  ForwardIterator remove_if(tag,
+  ForwardIterator remove_if(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -122,11 +124,12 @@ __host__ __device__
 }
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename OutputIterator,
          typename Predicate>
 __host__ __device__
-  OutputIterator remove_copy_if(tag,
+  OutputIterator remove_copy_if(sequential::execution_policy<DerivedPolicy> &,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -152,12 +155,14 @@ __host__ __device__
   return result;
 }
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
 __host__ __device__
-  OutputIterator remove_copy_if(InputIterator1 first,
+  OutputIterator remove_copy_if(sequential::execution_policy<DerivedPolicy> &,
+                                InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
