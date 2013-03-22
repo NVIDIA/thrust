@@ -32,7 +32,8 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
@@ -40,7 +41,7 @@ template<typename InputIterator1,
          typename BinaryFunction>
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(tag,
+    reduce_by_key(sequential::execution_policy<DerivedPolicy> &,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
