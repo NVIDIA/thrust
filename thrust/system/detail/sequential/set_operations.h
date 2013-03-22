@@ -23,7 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/sequential/tag.h>
-#include <thrust/system/detail/sequential/copy.h>
+#include <thrust/detail/copy.h>
 #include <thrust/detail/function.h>
 
 namespace thrust
@@ -36,12 +36,13 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-  OutputIterator set_difference(tag seq,
+  OutputIterator set_difference(sequential::execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first1,
                                 InputIterator1 last1,
                                 InputIterator2 first2,
@@ -74,16 +75,17 @@ __host__ __device__
     } // end else
   } // end while
 
-  return sequential::copy(seq, first1, last1, result);
+  return thrust::copy(exec, first1, last1, result);
 } // end set_difference()
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-  OutputIterator set_intersection(tag seq,
+  OutputIterator set_intersection(sequential::execution_policy<DerivedPolicy> &,
                                   InputIterator1 first1,
                                   InputIterator1 last1,
                                   InputIterator2 first2,
@@ -120,12 +122,13 @@ __host__ __device__
 } // end set_intersection()
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-  OutputIterator set_symmetric_difference(tag seq,
+  OutputIterator set_symmetric_difference(sequential::execution_policy<DerivedPolicy> &exec,
                                           InputIterator1 first1,
                                           InputIterator1 last1,
                                           InputIterator2 first2,
@@ -160,16 +163,17 @@ __host__ __device__
     } // end else
   } // end while
 
-  return sequential::copy(seq, first2, last2, sequential::copy(seq, first1, last1, result));
+  return thrust::copy(exec, first2, last2, thrust::copy(exec, first1, last1, result));
 } // end set_symmetric_difference()
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-  OutputIterator set_union(tag seq,
+  OutputIterator set_union(sequential::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
@@ -205,7 +209,7 @@ __host__ __device__
     ++result;
   } // end while
 
-  return sequential::copy(seq, first2, last2, sequential::copy(seq, first1, last1, result));
+  return thrust::copy(seq, first2, last2, thrust::copy(seq, first1, last1, result));
 } // end set_union()
 
 
