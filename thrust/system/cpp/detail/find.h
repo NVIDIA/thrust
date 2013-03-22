@@ -14,39 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file find.h
- *  \brief C++ implementation of find_if. 
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/find.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template <typename InputIterator,
-          typename Predicate>
-InputIterator find_if(tag,
-                      InputIterator first,
-                      InputIterator last,
-                      Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::find_if(first, last, pred);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits find
+#include <thrust/system/detail/sequential/find.h>
 

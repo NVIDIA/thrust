@@ -35,10 +35,11 @@ namespace sequential
 {
 
 
-template<typename InputIterator,
+template<typename DerivedPolicy,
+         typename InputIterator,
          typename Predicate>
 __host__ __device__
-InputIterator find_if(tag,
+InputIterator find_if(execution_policy<DerivedPolicy> &,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
