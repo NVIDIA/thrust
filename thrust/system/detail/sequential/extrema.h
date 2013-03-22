@@ -36,10 +36,11 @@ namespace sequential
 {
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename BinaryPredicate>
 __host__ __device__
-ForwardIterator min_element(tag,
+ForwardIterator min_element(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -64,9 +65,10 @@ ForwardIterator min_element(tag,
 }
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename BinaryPredicate>
-ForwardIterator max_element(tag,
+ForwardIterator max_element(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
                             BinaryPredicate comp)
@@ -91,10 +93,11 @@ ForwardIterator max_element(tag,
 }
 
 
-template<typename ForwardIterator,
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename BinaryPredicate>
 __host__ __device__
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(tag,
+thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::execution_policy<DerivedPolicy> &,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
