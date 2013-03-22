@@ -17,55 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/scan_by_key.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename BinaryPredicate,
-         typename BinaryFunction>
-  OutputIterator inclusive_scan_by_key(tag,
-                                       InputIterator1 first1,
-                                       InputIterator1 last1,
-                                       InputIterator2 first2,
-                                       OutputIterator result,
-                                       BinaryPredicate binary_pred,
-                                       BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::inclusive_scan_by_key(first1, last1, first2, result, binary_pred, binary_op);
-}
-
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename T,
-         typename BinaryPredicate,
-         typename BinaryFunction>
-  OutputIterator exclusive_scan_by_key(tag,
-                                       InputIterator1 first1,
-                                       InputIterator1 last1,
-                                       InputIterator2 first2,
-                                       OutputIterator result,
-                                       T init,
-                                       BinaryPredicate binary_pred,
-                                       BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::exclusive_scan_by_key(first1, last1, first2, result, init, binary_pred, binary_op);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits the scan_by_key algorithms
+#include <thrust/system/detail/sequential/scan_by_key.h>
 

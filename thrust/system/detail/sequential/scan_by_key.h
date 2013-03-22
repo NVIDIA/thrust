@@ -36,13 +36,14 @@ namespace sequential
 {
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate,
          typename BinaryFunction>
 __host__ __device__
-  OutputIterator inclusive_scan_by_key(tag,
+  OutputIterator inclusive_scan_by_key(sequential::execution_policy<DerivedPolicy> &,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -50,8 +51,6 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  using namespace thrust::detail;
-
   typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
   typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
@@ -87,14 +86,15 @@ __host__ __device__
 }
 
 
-template<typename InputIterator1,
+template<typename DerivedPolicy,
+         typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename T,
          typename BinaryPredicate,
          typename BinaryFunction>
 __host__ __device__
-  OutputIterator exclusive_scan_by_key(tag,
+  OutputIterator exclusive_scan_by_key(sequential::execution_policy<DerivedPolicy> &,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -103,8 +103,6 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  using namespace thrust::detail;
-
   typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
   typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
