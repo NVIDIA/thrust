@@ -17,44 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/sort.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template<typename DerivedPolicy,
-         typename RandomAccessIterator,
-         typename StrictWeakOrdering>
-  void stable_sort(execution_policy<DerivedPolicy> &,
-                   RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp)
-{
-  thrust::system::detail::internal::scalar::stable_sort(first, last, comp);
-}
-
-template<typename DerivedPolicy,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename StrictWeakOrdering>
-  void stable_sort_by_key(execution_policy<DerivedPolicy> &,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          StrictWeakOrdering comp)
-{
-  thrust::system::detail::internal::scalar::stable_sort_by_key(keys_first, keys_last, values_first, comp);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits sort
+#include <thrust/system/detail/sequential/sort.h>
 

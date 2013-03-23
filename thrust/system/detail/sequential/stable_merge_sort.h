@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-/*! \file sort.h
- *  \brief Sequential implementations of sort algorithms.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -28,30 +25,36 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template<typename RandomAccessIterator,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
-                 RandomAccessIterator last,
-                 StrictWeakOrdering comp);
+__host__ __device__
+void stable_merge_sort(sequential::execution_policy<DerivedPolicy> &exec,
+                       RandomAccessIterator begin,
+                       RandomAccessIterator end,
+                       StrictWeakOrdering comp);
 
-template<typename RandomAccessIterator1,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 first1,
-                        RandomAccessIterator1 last1,
-                        RandomAccessIterator2 first2,
-                        StrictWeakOrdering comp);
+__host__ __device__
+void stable_merge_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
+                              RandomAccessIterator1 keys_begin,
+                              RandomAccessIterator1 keys_end,
+                              RandomAccessIterator2 values_begin,
+                              StrictWeakOrdering comp);
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
 
-#include <thrust/system/detail/internal/scalar/sort.inl>
+#include <thrust/system/detail/sequential/stable_merge_sort.inl>
 

@@ -18,8 +18,8 @@
 #include <thrust/reverse.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/detail/internal/scalar/stable_merge_sort.h>
-#include <thrust/system/detail/internal/scalar/stable_primitive_sort.h>
+#include <thrust/system/detail/sequential/stable_merge_sort.h>
+#include <thrust/system/detail/sequential/stable_primitive_sort.h>
 
 namespace thrust
 {
@@ -27,38 +27,47 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 namespace sort_detail
 {
 
+
 ////////////////////
 // Primitive Sort //
 ////////////////////
+//
 
-template<typename RandomAccessIterator,
+template<typename DerivedPolicy,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
+__host__ __device__
+void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
+                 RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp,
                  thrust::detail::true_type)
 {
-  thrust::system::detail::internal::scalar::stable_primitive_sort(first, last);
+  thrust::system::detail::sequential::stable_primitive_sort(exec, first, last);
         
   // if comp is greater<T> then reverse the keys
   typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
   const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
 
-  if (reverse)
-    thrust::reverse(first, last);
+  if(reverse)
+  {
+    thrust::reverse(exec, first, last);
+  }
 }
 
-template<typename RandomAccessIterator1,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 first1,
+__host__ __device__
+void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
                         StrictWeakOrdering comp,
@@ -69,53 +78,66 @@ void stable_sort_by_key(RandomAccessIterator1 first1,
   const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
 
   // note, we also have to reverse the (unordered) input to preserve stability
-  if (reverse)
+  if(reverse)
   {
-    thrust::reverse(first1,  last1);
-    thrust::reverse(first2, first2 + (last1 - first1));
+    thrust::reverse(exec, first1,  last1);
+    thrust::reverse(exec, first2, first2 + (last1 - first1));
   }
 
-  thrust::system::detail::internal::scalar::stable_primitive_sort_by_key(first1, last1, first2);
+  thrust::system::detail::sequential::stable_primitive_sort_by_key(exec, first1, last1, first2);
 
-  if (reverse)
+  if(reverse)
   {
-    thrust::reverse(first1,  last1);
-    thrust::reverse(first2, first2 + (last1 - first1));
+    thrust::reverse(exec, first1,  last1);
+    thrust::reverse(exec, first2, first2 + (last1 - first1));
   }
 }
+
 
 ////////////////
 // Merge Sort //
 ////////////////
+//
 
-template<typename RandomAccessIterator,
+template<typename DerivedPolicy,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
+__host__ __device__
+void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
+                 RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp,
                  thrust::detail::false_type)
 {
-  thrust::system::detail::internal::scalar::stable_merge_sort(first, last, comp);
+  thrust::system::detail::sequential::stable_merge_sort(exec, first, last, comp);
 }
 
-template<typename RandomAccessIterator1,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 first1,
+__host__ __device__
+void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
                         StrictWeakOrdering comp,
                         thrust::detail::false_type)
 {
-  thrust::system::detail::internal::scalar::stable_merge_sort_by_key(first1, last1, first2, comp);
+  thrust::system::detail::sequential::stable_merge_sort_by_key(exec, first1, last1, first2, comp);
 }
 
 
 } // end namespace sort_detail
 
-template<typename RandomAccessIterator,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-void stable_sort(RandomAccessIterator first,
+__host__ __device__
+void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
+                 RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
@@ -127,15 +149,18 @@ void stable_sort(RandomAccessIterator first,
   // supress unused variable warning
   (void) use_primitive_sort;
 
-  thrust::system::detail::internal::scalar::sort_detail::stable_sort
-    (first, last, comp, 
-      thrust::detail::integral_constant<bool, use_primitive_sort>());
+  sort_detail::stable_sort(exec, first, last, comp, 
+    thrust::detail::integral_constant<bool, use_primitive_sort>());
 }
 
-template<typename RandomAccessIterator1,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-void stable_sort_by_key(RandomAccessIterator1 first1,
+__host__ __device__
+void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
                         StrictWeakOrdering comp)
@@ -148,13 +173,12 @@ void stable_sort_by_key(RandomAccessIterator1 first1,
   // supress unused variable warning
   (void) use_primitive_sort;
 
-  thrust::system::detail::internal::scalar::sort_detail::stable_sort_by_key
-    (first1, last1, first2, comp, 
-      thrust::detail::integral_constant<bool, use_primitive_sort>());
+  sort_detail::stable_sort_by_key(exec, first1, last1, first2, comp, 
+    thrust::detail::integral_constant<bool, use_primitive_sort>());
 }
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust

@@ -24,13 +24,12 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template <typename BidirectionalIterator1,
-          typename BidirectionalIterator2>
+template<typename BidirectionalIterator1,
+         typename BidirectionalIterator2>
+__host__ __device__
 BidirectionalIterator2 copy_backward(BidirectionalIterator1 first, 
                                      BidirectionalIterator1 last, 
                                      BidirectionalIterator2 result)
@@ -45,8 +44,7 @@ BidirectionalIterator2 copy_backward(BidirectionalIterator1 first,
   return result;
 }
 
-} // end namespace scalar
-} // end namespace internal
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust

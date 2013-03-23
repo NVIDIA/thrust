@@ -20,7 +20,7 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/function.h>
-#include <thrust/system/detail/internal/scalar/copy_backward.h>
+#include <thrust/system/detail/sequential/copy_backward.h>
 
 namespace thrust
 {
@@ -28,20 +28,20 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template <typename RandomAccessIterator,
-          typename StrictWeakOrdering>
+
+template<typename RandomAccessIterator,
+         typename StrictWeakOrdering>
+__host__ __device__
 void insertion_sort(RandomAccessIterator first,
                     RandomAccessIterator last,
                     StrictWeakOrdering comp)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  if (first == last) return;
+  if(first == last) return;
 
   // wrap comp
   thrust::detail::wrapped_function<
@@ -53,10 +53,10 @@ void insertion_sort(RandomAccessIterator first,
   {
     value_type tmp = *i;
 
-    if (wrapped_comp(tmp, *first))
+    if(wrapped_comp(tmp, *first))
     {
       // tmp is the smallest value encountered so far
-      thrust::system::detail::internal::scalar::copy_backward(first, i, i + 1);
+      sequential::copy_backward(first, i, i + 1);
 
       *first = tmp;
     }
@@ -78,9 +78,11 @@ void insertion_sort(RandomAccessIterator first,
   }
 }
 
-template <typename RandomAccessIterator1,
-          typename RandomAccessIterator2,
-          typename StrictWeakOrdering>
+
+template<typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
+__host__ __device__
 void insertion_sort_by_key(RandomAccessIterator1 first1,
                            RandomAccessIterator1 last1,
                            RandomAccessIterator2 first2,
@@ -89,7 +91,7 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
-  if (first1 == last1) return;
+  if(first1 == last1) return;
 
   // wrap comp
   thrust::detail::wrapped_function<
@@ -105,11 +107,11 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
     value_type1 tmp1 = *i1;
     value_type2 tmp2 = *i2;
 
-    if (wrapped_comp(tmp1, *first1))
+    if(wrapped_comp(tmp1, *first1))
     {
       // tmp is the smallest value encountered so far
-      thrust::system::detail::internal::scalar::copy_backward(first1, i1, i1 + 1);
-      thrust::system::detail::internal::scalar::copy_backward(first2, i2, i2 + 1);
+      sequential::copy_backward(first1, i1, i1 + 1);
+      sequential::copy_backward(first2, i2, i2 + 1);
 
       *first1 = tmp1;
       *first2 = tmp2;
@@ -141,8 +143,8 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
   }
 }
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust

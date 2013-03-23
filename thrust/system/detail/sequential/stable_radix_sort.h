@@ -14,14 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file stable_radix_sort.h
- *  \brief Sequential implementation of radix sort.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -29,26 +25,32 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template<typename RandomAccessIterator>
-void stable_radix_sort(RandomAccessIterator begin,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator>
+__host__ __device__
+void stable_radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
+                       RandomAccessIterator begin,
                        RandomAccessIterator end);
 
-template<typename RandomAccessIterator1,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_radix_sort_by_key(RandomAccessIterator1 keys_begin,
+__host__ __device__
+void stable_radix_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
+                              RandomAccessIterator1 keys_begin,
                               RandomAccessIterator1 keys_end,
                               RandomAccessIterator2 values_begin);
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
 
-#include <thrust/system/detail/internal/scalar/stable_radix_sort.inl>
+#include <thrust/system/detail/sequential/stable_radix_sort.inl>
 

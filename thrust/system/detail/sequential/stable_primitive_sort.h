@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/detail/sequential/tag.h>
 
 namespace thrust
 {
@@ -24,26 +25,32 @@ namespace system
 {
 namespace detail
 {
-namespace internal
-{
-namespace scalar
+namespace sequential
 {
 
-template<typename RandomAccessIterator>
-void stable_primitive_sort(RandomAccessIterator first,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator>
+__host__ __device__
+void stable_primitive_sort(sequential::execution_policy<DerivedPolicy> &exec,
+                           RandomAccessIterator first,
                            RandomAccessIterator last);
 
-template<typename RandomAccessIterator1,
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-void stable_primitive_sort_by_key(RandomAccessIterator1 keys_first,
+__host__ __device__
+void stable_primitive_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
+                                  RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first);
 
-} // end namespace scalar
-} // end namespace internal
+
+} // end namespace sequential
 } // end namespace detail
 } // end namespace system
 } // end namespace thrust
 
-#include <thrust/system/detail/internal/scalar/stable_primitive_sort.inl>
+#include <thrust/system/detail/sequential/stable_primitive_sort.inl>
 
