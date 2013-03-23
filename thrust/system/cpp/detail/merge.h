@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/pair.h>
 
 // this system inherits merge
 #include <thrust/system/detail/sequential/merge.h>
