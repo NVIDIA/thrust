@@ -47,7 +47,6 @@ __host__ __device__
 
 template<typename InputIterator,
          typename UnaryFunction>
-__host__ __device__
 InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
@@ -76,7 +75,6 @@ __host__ __device__
 template<typename InputIterator,
          typename Size,
          typename UnaryFunction>
-__host__ __device__
 InputIterator for_each_n(InputIterator first,
                          Size n,
                          UnaryFunction f)
