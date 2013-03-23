@@ -208,14 +208,13 @@ __device__ __forceinline__ int TallyWarpVoteSm10(int predicate, int storage[]) {
 }
 
 
-__shared__ int vote_reduction[B40C_WARP_THREADS];
-
 /**
  * Tally a warp-vote regarding the given predicate
  */
 template <int ACTIVE_THREADS>
 __device__ __forceinline__ int TallyWarpVoteSm10(int predicate) {
-	return TallyWarpVoteSm10<ACTIVE_THREADS>(predicate, vote_reduction);
+  __shared__ int vote_reduction[B40C_WARP_THREADS];
+  return TallyWarpVoteSm10<ACTIVE_THREADS>(predicate, vote_reduction);
 }
 
 /**

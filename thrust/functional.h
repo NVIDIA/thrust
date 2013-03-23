@@ -962,21 +962,115 @@ template<typename BinaryPredicate>
 /*! \}
  */
 
+
+/*! \addtogroup placeholder_objects Placeholder Objects
+ *  \ingroup function_objects
+ *  \{
+ */
+
+
+/*! \namespace placeholders
+ *  \brief Facilities for constructing simple functions inline.
+ *
+ *  Objects in the \p thrust::placeholders namespace may be used to create simple arithmetic functions inline
+ *  in an algorithm invocation. Combining placeholders such as \p _1 and \p _2 with arithmetic operations such as \c +
+ *  creates an unnamed function object which applies the operation to their arguments.
+ *
+ *  The type of placeholder objects is implementation-defined.
+ *
+ *  The following code snippet demonstrates how to use the placeholders \p _1 and \p _2 with \p thrust::transform
+ *  to implement the SAXPY computation:
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/transform.h>
+ *  #include <thrust/functional.h>
+ *
+ *  int main()
+ *  {
+ *    thrust::device_vector<float> x(4), y(4);
+ *    x[0] = 1;
+ *    x[1] = 2;
+ *    x[2] = 3;
+ *    x[3] = 4;
+ *    
+ *    y[0] = 1;
+ *    y[1] = 1;
+ *    y[2] = 1;
+ *    y[3] = 1;
+ *
+ *    float a = 2.0f;
+ *
+ *    using namespace thrust::placeholders;
+ *
+ *    thrust::transform(x.begin(), x.end(), y.begin(), y.begin(),
+ *      a * _1 + 2
+ *    );
+ *
+ *    // y is now {3, 5, 7, 9}
+ *  }
+ *  \endcode
+ */
 namespace placeholders
 {
 
+
+/*! \p thrust::placeholders::_1 is the placeholder for the first function parameter.
+ */
 static const thrust::detail::functional::placeholder<0>::type _1;
+
+
+/*! \p thrust::placeholders::_2 is the placeholder for the second function parameter.
+ */
 static const thrust::detail::functional::placeholder<1>::type _2;
+
+
+/*! \p thrust::placeholders::_3 is the placeholder for the third function parameter.
+ */
 static const thrust::detail::functional::placeholder<2>::type _3;
+
+
+/*! \p thrust::placeholders::_4 is the placeholder for the fourth function parameter.
+ */
 static const thrust::detail::functional::placeholder<3>::type _4;
+
+
+/*! \p thrust::placeholders::_5 is the placeholder for the fifth function parameter.
+ */
 static const thrust::detail::functional::placeholder<4>::type _5;
+
+
+/*! \p thrust::placeholders::_6 is the placeholder for the sixth function parameter.
+ */
 static const thrust::detail::functional::placeholder<5>::type _6;
+
+
+/*! \p thrust::placeholders::_7 is the placeholder for the seventh function parameter.
+ */
 static const thrust::detail::functional::placeholder<6>::type _7;
+
+
+/*! \p thrust::placeholders::_8 is the placeholder for the eighth function parameter.
+ */
 static const thrust::detail::functional::placeholder<7>::type _8;
+
+
+/*! \p thrust::placeholders::_9 is the placeholder for the ninth function parameter.
+ */
 static const thrust::detail::functional::placeholder<8>::type _9;
+
+
+/*! \p thrust::placeholders::_10 is the placeholder for the tenth function parameter.
+ */
 static const thrust::detail::functional::placeholder<9>::type _10;
 
+
 } // end placeholders
+
+
+/*! \} // placeholder_objects
+ */
+
 
 } // end thrust
 
