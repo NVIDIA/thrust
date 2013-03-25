@@ -29,23 +29,30 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy, typename InputIterator, typename T>
+__host__ __device__
 InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    const T& value);
 
+
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
 
+
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 InputIterator find_if_not(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred);
+
 
 } // end namespace generic
 } // end namespace detail
