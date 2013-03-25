@@ -41,8 +41,10 @@ namespace thrust
 namespace detail
 {
 
+
 // XXX WAR circular #inclusion with this forward declaration
 template<typename,typename> class temporary_array;
+
 
 } // end detail
 namespace system
@@ -58,61 +60,67 @@ namespace detail
 // short names to avoid nvcc bug
 struct lbf
 {
-    template <typename RandomAccessIterator, typename T, typename StrictWeakOrdering>
-    __host__ __device__
-    typename thrust::iterator_traits<RandomAccessIterator>::difference_type
+  template<typename RandomAccessIterator, typename T, typename StrictWeakOrdering>
+  __host__ __device__
+  typename thrust::iterator_traits<RandomAccessIterator>::difference_type
     operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp)
-    {
-        return thrust::system::detail::generic::scalar::lower_bound(begin, end, value, comp) - begin;
-    }
+  {
+    return thrust::system::detail::generic::scalar::lower_bound(begin, end, value, comp) - begin;
+  }
 };
+
 
 struct ubf
 {
-    template <typename RandomAccessIterator, typename T, typename StrictWeakOrdering>
-        __host__ __device__
-        typename thrust::iterator_traits<RandomAccessIterator>::difference_type
-     operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
-         return thrust::system::detail::generic::scalar::upper_bound(begin, end, value, comp) - begin;
-     }
+  template<typename RandomAccessIterator, typename T, typename StrictWeakOrdering>
+  __host__ __device__
+  typename thrust::iterator_traits<RandomAccessIterator>::difference_type
+    operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp)
+  {
+    return thrust::system::detail::generic::scalar::upper_bound(begin, end, value, comp) - begin;
+  }
 };
+
 
 struct bsf
 {
-    template <typename RandomAccessIterator, typename T, typename StrictWeakOrdering>
-        __host__ __device__
-     bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp){
-         RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(begin, end, value, comp);
-
-         thrust::detail::wrapped_function<StrictWeakOrdering,bool> wrapped_comp(comp);
-
-         return iter != end && !wrapped_comp(value, *iter);
-     }
+  template<typename RandomAccessIterator, typename T, typename StrictWeakOrdering>
+  __host__ __device__
+  bool operator()(RandomAccessIterator begin, RandomAccessIterator end, const T& value, StrictWeakOrdering comp)
+  {
+    RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(begin, end, value, comp);
+    
+    thrust::detail::wrapped_function<StrictWeakOrdering,bool> wrapped_comp(comp);
+    
+    return iter != end && !wrapped_comp(value, *iter);
+  }
 };
 
 
-template <typename ForwardIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
+template<typename ForwardIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
 struct binary_search_functor
 {
-    ForwardIterator begin;
-    ForwardIterator end;
-    StrictWeakOrdering comp;
-    BinarySearchFunction func;
-
-    binary_search_functor(ForwardIterator begin, ForwardIterator end, StrictWeakOrdering comp, BinarySearchFunction func)
-        : begin(begin), end(end), comp(comp), func(func) {}
-
-    template <typename Tuple>
-        __host__ __device__
-        void operator()(Tuple t)
-        {
-            thrust::get<1>(t) = func(begin, end, thrust::get<0>(t), comp);
-        }
+  ForwardIterator begin;
+  ForwardIterator end;
+  StrictWeakOrdering comp;
+  BinarySearchFunction func;
+  
+  __host__ __device__
+  binary_search_functor(ForwardIterator begin, ForwardIterator end, StrictWeakOrdering comp, BinarySearchFunction func)
+    : begin(begin), end(end), comp(comp), func(func) {}
+  
+  template<typename Tuple>
+  __host__ __device__
+  void operator()(Tuple t)
+  {
+    thrust::get<1>(t) = func(begin, end, thrust::get<0>(t), comp);
+  }
 }; // binary_search_functor
 
 
 // Vector Implementation
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering, typename BinarySearchFunction>
+__host__ __device__
 OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                              ForwardIterator begin, 
                              ForwardIterator end,
@@ -122,18 +130,19 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                              StrictWeakOrdering comp,
                              BinarySearchFunction func)
 {
-    thrust::for_each(exec,
-                     thrust::make_zip_iterator(thrust::make_tuple(values_begin, output)),
-                     thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(values_begin, values_end))),
-                     detail::binary_search_functor<ForwardIterator, StrictWeakOrdering, BinarySearchFunction>(begin, end, comp, func));
-
-    return output + thrust::distance(values_begin, values_end);
+  thrust::for_each(exec,
+                   thrust::make_zip_iterator(thrust::make_tuple(values_begin, output)),
+                   thrust::make_zip_iterator(thrust::make_tuple(values_end, output + thrust::distance(values_begin, values_end))),
+                   detail::binary_search_functor<ForwardIterator, StrictWeakOrdering, BinarySearchFunction>(begin, end, comp, func));
+  
+  return output + thrust::distance(values_begin, values_end);
 }
 
    
 
 // Scalar Implementation
-template <typename OutputType, typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering, typename BinarySearchFunction>
+template<typename OutputType, typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering, typename BinarySearchFunction>
+__host__ __device__
 OutputType binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator begin,
                          ForwardIterator end,
@@ -141,21 +150,22 @@ OutputType binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                          StrictWeakOrdering comp,
                          BinarySearchFunction func)
 {
-    // use the vectorized path to implement the scalar version
-
-    // allocate device buffers for value and output
-    thrust::detail::temporary_array<T,DerivedPolicy>          d_value(exec,1);
-    thrust::detail::temporary_array<OutputType,DerivedPolicy> d_output(exec,1);
-
-    // copy value to device
-    d_value[0] = value;
-
-    // perform the query
-    thrust::system::detail::generic::detail::binary_search(exec, begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
-
-    // copy result to host and return
-    return d_output[0];
+  // use the vectorized path to implement the scalar version
+  
+  // allocate device buffers for value and output
+  thrust::detail::temporary_array<T,DerivedPolicy>          d_value(exec,1);
+  thrust::detail::temporary_array<OutputType,DerivedPolicy> d_output(exec,1);
+  
+  // copy value to device
+  d_value[0] = value;
+  
+  // perform the query
+  thrust::system::detail::generic::detail::binary_search(exec, begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
+  
+  // copy result to host and return
+  return d_output[0];
 }
+
    
 } // end namespace detail
 
@@ -164,7 +174,9 @@ OutputType binary_search(thrust::execution_policy<DerivedPolicy> &exec,
 // Scalar Functions //
 //////////////////////
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
 ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
@@ -173,7 +185,8 @@ ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::lower_bound(exec, begin, end, value, thrust::less<T>());
 }
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+__host__ __device__
 ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
@@ -186,7 +199,8 @@ ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T>
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
 ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
@@ -195,7 +209,9 @@ ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::upper_bound(exec, begin, end, value, thrust::less<T>());
 }
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+__host__ __device__
 ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
@@ -208,7 +224,8 @@ ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T>
+template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
 bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                    ForwardIterator begin,
                    ForwardIterator end,
@@ -217,7 +234,9 @@ bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::binary_search(exec, begin, end, value, thrust::less<T>());
 }
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+__host__ __device__
 bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                    ForwardIterator begin,
                    ForwardIterator end,
@@ -232,7 +251,9 @@ bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
 // Vector Functions //
 //////////////////////
 
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+__host__ __device__
 OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
@@ -245,7 +266,9 @@ OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::lower_bound(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
 }
 
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+__host__ __device__
 OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
@@ -258,7 +281,8 @@ OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+__host__ __device__
 OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
@@ -271,7 +295,9 @@ OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::upper_bound(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
 }
 
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+__host__ __device__
 OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
@@ -284,7 +310,8 @@ OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
+__host__ __device__
 OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                              ForwardIterator begin, 
                              ForwardIterator end,
@@ -297,7 +324,9 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::binary_search(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
 }
 
-template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+
+template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
+__host__ __device__
 OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                              ForwardIterator begin, 
                              ForwardIterator end,
@@ -310,7 +339,8 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
+template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
+__host__ __device__
 thrust::pair<ForwardIterator,ForwardIterator>
 equal_range(thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
@@ -321,7 +351,8 @@ equal_range(thrust::execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
+__host__ __device__
 thrust::pair<ForwardIterator,ForwardIterator>
 equal_range(thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
