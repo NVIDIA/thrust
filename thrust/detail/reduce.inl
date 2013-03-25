@@ -31,7 +31,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator>
+__host__ __device__
   typename thrust::iterator_traits<InputIterator>::value_type
     reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last)
 {
@@ -40,7 +42,9 @@ template<typename DerivedPolicy, typename InputIterator>
 } // end reduce()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename T>
+__host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
@@ -51,10 +55,12 @@ template<typename DerivedPolicy, typename InputIterator, typename T>
 } // end reduce()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
+__host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,

@@ -80,6 +80,7 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/accumulate.html
  */
 template<typename DerivedPolicy, typename InputIterator>
+__host__ __device__
   typename thrust::iterator_traits<InputIterator>::value_type
     reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
@@ -173,6 +174,7 @@ template<typename InputIterator> typename
  *  \see http://www.sgi.com/tech/stl/accumulate.html
  */
 template<typename DerivedPolicy, typename InputIterator, typename T>
+__host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
@@ -280,6 +282,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
+__host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
