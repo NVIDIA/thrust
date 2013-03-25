@@ -29,7 +29,9 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
+__host__ __device__
   thrust::pair<InputIterator1, InputIterator2>
     mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
@@ -42,7 +44,9 @@ template<typename DerivedPolicy, typename InputIterator1, typename InputIterator
   return thrust::mismatch(exec, first1, last1, first2, thrust::detail::equal_to<InputType1>());
 } // end mismatch()
 
+
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+__host__ __device__
   thrust::pair<InputIterator1, InputIterator2>
     mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
@@ -62,6 +66,7 @@ template<typename DerivedPolicy, typename InputIterator1, typename InputIterator
   return thrust::make_pair(thrust::get<0>(result.get_iterator_tuple()),
                            thrust::get<1>(result.get_iterator_tuple()));
 } // end mismatch()
+
 
 } // end generic
 } // end detail
