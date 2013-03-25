@@ -605,6 +605,7 @@ template<typename Compare>
 {
   Compare comp;
 
+  __host__ __device__
   compare_first(Compare comp)
     : comp(comp)
   {}
