@@ -29,7 +29,8 @@ namespace thrust
 {
 
 
-template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::all_of;
@@ -37,7 +38,8 @@ bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
 } // end all_of()
 
 
-template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::any_of;
@@ -45,7 +47,8 @@ bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
 } // end any_of()
 
 
-template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::none_of;
@@ -53,7 +56,7 @@ bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, I
 } // end none_of()
 
 
-template <typename InputIterator, typename Predicate>
+template<typename InputIterator, typename Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
@@ -66,7 +69,7 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred)
 }
 
 
-template <typename InputIterator, typename Predicate>
+template<typename InputIterator, typename Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;
@@ -79,7 +82,7 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred)
 }
 
 
-template <typename InputIterator, typename Predicate>
+template<typename InputIterator, typename Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::select_system;

@@ -72,7 +72,8 @@ namespace thrust
  *  \see none_of
  *  \see transform_reduce
  */
-template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -107,7 +108,7 @@ bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
  *  \see none_of
  *  \see transform_reduce
  */
-template <typename InputIterator, typename Predicate>
+template<typename InputIterator, typename Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -148,7 +149,8 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see none_of
  *  \see transform_reduce
  */
-template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
    
 
@@ -184,7 +186,7 @@ bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
  *  \see none_of
  *  \see transform_reduce
  */
-template <typename InputIterator, typename Predicate>
+template<typename InputIterator, typename Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -225,7 +227,8 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see any_of
  *  \see transform_reduce
  */
-template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -261,7 +264,7 @@ bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, I
  *  \see any_of
  *  \see transform_reduce
  */
-template <typename InputIterator, typename Predicate>
+template<typename InputIterator, typename Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred);
 
 
