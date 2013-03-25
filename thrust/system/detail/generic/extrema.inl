@@ -43,9 +43,11 @@ namespace generic
 namespace detail
 {
 
+
 //////////////
 // Functors //
 //////////////
+//
 
 // return the smaller/larger element making sure to prefer the 
 // first occurance of the minimum/maximum element
@@ -73,7 +75,6 @@ struct min_element_reduction
     else
       return rhs;
   } // end operator()()
-
 }; // end min_element_reduction
 
 
@@ -101,8 +102,8 @@ struct max_element_reduction
     else
       return rhs;
   } // end operator()()
-
 }; // end max_element_reduction
+
 
 // return the smaller & larger element making sure to prefer the 
 // first occurance of the minimum/maximum element
@@ -111,6 +112,7 @@ struct minmax_element_reduction
 {
   BinaryPredicate comp;
 
+  __host__ __device__
   minmax_element_reduction(BinaryPredicate comp) : comp(comp){}
 
   __host__ __device__ 
@@ -124,6 +126,7 @@ struct minmax_element_reduction
   } // end operator()()
 }; // end minmax_element_reduction
 
+
 template <typename InputType, typename IndexType>
 struct duplicate_tuple
 {
@@ -135,9 +138,12 @@ struct duplicate_tuple
   }
 }; // end duplicate_tuple
 
+
 } // end namespace detail
 
+
 template <typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
 ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last)
@@ -147,7 +153,9 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::min_element(exec, first, last, thrust::less<value_type>());
 } // end min_element()
 
+
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+__host__ __device__
 ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -170,7 +178,9 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
   return first + thrust::get<1>(result);
 } // end min_element()
 
+
 template <typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
 ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last)
@@ -180,7 +190,9 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
   return thrust::max_element(exec, first, last, thrust::less<value_type>());
 } // end max_element()
 
+
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+__host__ __device__
 ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -203,7 +215,9 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
   return first + thrust::get<1>(result);
 } // end max_element()
 
+
 template <typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last)
@@ -213,7 +227,9 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
   return thrust::minmax_element(exec, first, last, thrust::less<value_type>());
 } // end minmax_element()
 
+
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+__host__ __device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
@@ -236,6 +252,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
 
   return thrust::make_pair(first + thrust::get<1>(thrust::get<0>(result)), first + thrust::get<1>(thrust::get<1>(result)));
 } // end minmax_element()
+
 
 } // end namespace generic
 } // end namespace detail
