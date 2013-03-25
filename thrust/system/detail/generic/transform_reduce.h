@@ -29,17 +29,20 @@ namespace detail
 namespace generic
 {
 
+
 template<typename ExecutionPolicy,
          typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
+__host__ __device__
   OutputType transform_reduce(thrust::execution_policy<ExecutionPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
                               BinaryFunction binary_op);
+
 
 } // end namespace generic
 } // end namespace detail
