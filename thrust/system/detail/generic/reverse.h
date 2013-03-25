@@ -29,18 +29,23 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy, typename BidirectionalIterator>
+__host__ __device__
   void reverse(thrust::execution_policy<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
+
 template<typename DerivedPolicy,
          typename BidirectionalIterator,
          typename OutputIterator>
+__host__ __device__
   OutputIterator reverse_copy(thrust::execution_policy<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);
+
 
 } // end namespace generic
 } // end namespace detail
