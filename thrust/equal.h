@@ -77,6 +77,7 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/equal.html
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
+__host__ __device__
 bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
 
 
@@ -172,6 +173,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *  \see http://www.sgi.com/tech/stl/equal.html
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+__host__ __device__
 bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
 
 
