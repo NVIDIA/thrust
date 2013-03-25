@@ -31,7 +31,9 @@ namespace detail
 namespace generic
 {
 
-template <typename DerivedPolicy, class InputIterator, class OutputIterator>
+
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+__host__ __device__
 OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result)
@@ -42,7 +44,9 @@ OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec
   return thrust::adjacent_difference(exec, first, last, result, binary_op);
 } // end adjacent_difference()
 
-template <typename DerivedPolicy, class InputIterator, class OutputIterator, class BinaryFunction>
+
+template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
+__host__ __device__
 OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
@@ -68,6 +72,7 @@ OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec
 
   return result + (last - first);
 }
+
 
 } // end namespace generic
 } // end namespace detail
