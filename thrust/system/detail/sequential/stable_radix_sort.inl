@@ -155,10 +155,10 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   typedef RadixEncoder<KeyType> Encoder;
   typedef typename Encoder::result_type EncodedType;
 
-  static const unsigned int NumHistograms = (8 * sizeof(EncodedType) + (RadixBits - 1)) / RadixBits;
-  static const unsigned int HistogramSize =  1 << RadixBits;
-
-  static const EncodedType BitMask = static_cast<EncodedType>((1 << RadixBits) - 1);
+  const unsigned int NumHistograms = (8 * sizeof(EncodedType) + (RadixBits - 1)) / RadixBits;
+  const unsigned int HistogramSize =  1 << RadixBits;
+  
+  const EncodedType BitMask = static_cast<EncodedType>((1 << RadixBits) - 1);
   
   Encoder encode;
 

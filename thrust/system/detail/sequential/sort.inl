@@ -36,7 +36,16 @@ namespace sort_detail
 ////////////////////
 // Primitive Sort //
 ////////////////////
-//
+
+
+template<typename KeyType, typename Compare>
+struct needs_reverse
+  : thrust::detail::integral_constant<
+      bool,
+      thrust::detail::is_same<Compare, typename thrust::greater<KeyType> >::value
+    >
+{};
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
@@ -52,9 +61,8 @@ void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
         
   // if comp is greater<T> then reverse the keys
   typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-  const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
 
-  if(reverse)
+  if(needs_reverse<KeyType,StrictWeakOrdering>::value)
   {
     thrust::reverse(exec, first, last);
   }
@@ -75,10 +83,9 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 {
   // if comp is greater<T> then reverse the keys and values
   typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-  const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
 
   // note, we also have to reverse the (unordered) input to preserve stability
-  if(reverse)
+  if(needs_reverse<KeyType,StrictWeakOrdering>::value)
   {
     thrust::reverse(exec, first1,  last1);
     thrust::reverse(exec, first2, first2 + (last1 - first1));
@@ -86,7 +93,7 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 
   thrust::system::detail::sequential::stable_primitive_sort_by_key(exec, first1, last1, first2);
 
-  if(reverse)
+  if(needs_reverse<KeyType,StrictWeakOrdering>::value)
   {
     thrust::reverse(exec, first1,  last1);
     thrust::reverse(exec, first2, first2 + (last1 - first1));
@@ -97,7 +104,7 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 ////////////////
 // Merge Sort //
 ////////////////
-//
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
@@ -129,6 +136,18 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 }
 
 
+template<typename KeyType, typename Compare>
+struct use_primitive_sort
+  : thrust::detail::and_<
+      thrust::detail::is_arithmetic<KeyType>,
+      thrust::detail::or_<
+        thrust::detail::is_same<Compare, thrust::less<KeyType> >,
+        thrust::detail::is_same<Compare, thrust::greater<KeyType> >
+      >
+    >
+{};
+
+
 } // end namespace sort_detail
 
 
@@ -142,15 +161,8 @@ void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  StrictWeakOrdering comp)
 {
   typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-  static const bool use_primitive_sort = thrust::detail::is_arithmetic<KeyType>::value &&
-                                         (thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value ||
-                                          thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value);
 
-  // supress unused variable warning
-  (void) use_primitive_sort;
-
-  sort_detail::stable_sort(exec, first, last, comp, 
-    thrust::detail::integral_constant<bool, use_primitive_sort>());
+  sort_detail::stable_sort(exec, first, last, comp, sort_detail::use_primitive_sort<KeyType, StrictWeakOrdering>());
 }
 
 
@@ -166,15 +178,8 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         StrictWeakOrdering comp)
 {
   typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-  static const bool use_primitive_sort = thrust::detail::is_arithmetic<KeyType>::value &&
-                                         (thrust::detail::is_same<StrictWeakOrdering, typename thrust::less<KeyType> >::value ||
-                                          thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value);
 
-  // supress unused variable warning
-  (void) use_primitive_sort;
-
-  sort_detail::stable_sort_by_key(exec, first1, last1, first2, comp, 
-    thrust::detail::integral_constant<bool, use_primitive_sort>());
+  sort_detail::stable_sort_by_key(exec, first1, last1, first2, comp, sort_detail::use_primitive_sort<KeyType, StrictWeakOrdering>());
 }
 
 
