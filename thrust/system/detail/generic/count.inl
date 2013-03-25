@@ -28,6 +28,7 @@ namespace detail
 namespace generic
 {
 
+
 template <typename InputType, typename Predicate, typename CountType>
 struct count_if_transform
 {
@@ -46,7 +47,9 @@ struct count_if_transform
   Predicate pred;
 }; // end count_if_transform
 
+
 template <typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
+__host__ __device__
 typename thrust::iterator_traits<InputIterator>::difference_type
 count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
@@ -56,7 +59,9 @@ count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputI
   return thrust::count_if(exec, first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
 } // end count()
 
+
 template <typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 typename thrust::iterator_traits<InputIterator>::difference_type
 count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
@@ -67,6 +72,7 @@ count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, Inp
   thrust::plus<CountType> binary_op;
   return thrust::transform_reduce(exec, first, last, unary_op, CountType(0), binary_op);
 } // end count_if()
+
 
 } // end generic
 } // end detail
