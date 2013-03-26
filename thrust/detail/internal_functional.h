@@ -124,6 +124,7 @@ struct equal_to_value
 {
     T2 rhs;
 
+    __host__ __device__
     equal_to_value(const T2& rhs) : rhs(rhs) {}
 
     template <typename T1>
