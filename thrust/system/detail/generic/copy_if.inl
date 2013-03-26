@@ -42,12 +42,14 @@ namespace generic
 namespace detail
 {
 
+
 template<typename IndexType,
          typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
+__host__ __device__
 OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first,
                        InputIterator1 last,
@@ -55,39 +57,40 @@ OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                        OutputIterator result,
                        Predicate pred)
 {
-    __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
-
-    // compute {0,1} predicates
-    thrust::detail::temporary_array<IndexType, DerivedPolicy> predicates(exec, n);
-    thrust::transform(exec,
-                      stencil,
-                      stencil + n,
-                      predicates.begin(),
-                      thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
-
-    // scan {0,1} predicates
-    thrust::detail::temporary_array<IndexType, DerivedPolicy> scatter_indices(exec, n);
-    thrust::exclusive_scan(exec,
-                           predicates.begin(),
-                           predicates.end(),
-                           scatter_indices.begin(),
-                           static_cast<IndexType>(0),
-                           thrust::plus<IndexType>());
-
-    // scatter the true elements
-    thrust::scatter_if(exec,
-                       first,
-                       last,
-                       scatter_indices.begin(),
-                       predicates.begin(),
-                       result,
-                       thrust::identity<IndexType>());
-
-    // find the end of the new sequence
-    IndexType output_size = scatter_indices[n - 1] + predicates[n - 1];
-
-    return result + output_size;
+  __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
+  
+  // compute {0,1} predicates
+  thrust::detail::temporary_array<IndexType, DerivedPolicy> predicates(exec, n);
+  thrust::transform(exec,
+                    stencil,
+                    stencil + n,
+                    predicates.begin(),
+                    thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
+  
+  // scan {0,1} predicates
+  thrust::detail::temporary_array<IndexType, DerivedPolicy> scatter_indices(exec, n);
+  thrust::exclusive_scan(exec,
+                         predicates.begin(),
+                         predicates.end(),
+                         scatter_indices.begin(),
+                         static_cast<IndexType>(0),
+                         thrust::plus<IndexType>());
+  
+  // scatter the true elements
+  thrust::scatter_if(exec,
+                     first,
+                     last,
+                     scatter_indices.begin(),
+                     predicates.begin(),
+                     result,
+                     thrust::identity<IndexType>());
+  
+  // find the end of the new sequence
+  IndexType output_size = scatter_indices[n - 1] + predicates[n - 1];
+  
+  return result + output_size;
 }
+
 
 } // end namespace detail
 
@@ -96,6 +99,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
+__host__ __device__
   OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
@@ -115,6 +119,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
+__host__ __device__
    OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,

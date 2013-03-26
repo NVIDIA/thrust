@@ -296,6 +296,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  \see \c remove_copy_if
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
+__host__ __device__
   OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
@@ -424,6 +425,7 @@ template<typename InputIterator,
  *  \see \c remove_copy_if
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
+__host__ __device__
   OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
