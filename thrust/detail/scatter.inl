@@ -29,10 +29,12 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
+__host__ __device__
   void scatter(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
@@ -44,11 +46,13 @@ template<typename DerivedPolicy,
 } // end scatter()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
+__host__ __device__
   void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -61,12 +65,14 @@ template<typename DerivedPolicy,
 } // end scatter_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
+__host__ __device__
   void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -154,6 +160,7 @@ template<typename InputIterator1,
 
   return thrust::scatter_if(select_system(system1,system2,system3,system4), first, last, map, stencil, output, pred);
 } // end scatter_if()
+
 
 } // end namespace thrust
 
