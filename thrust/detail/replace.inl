@@ -30,7 +30,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void replace(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                ForwardIterator first, ForwardIterator last,
                const T &old_value,
@@ -41,7 +43,9 @@ template<typename DerivedPolicy, typename ForwardIterator, typename T>
 } // end replace()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
+__host__ __device__
   void replace_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator first, ForwardIterator last,
                   Predicate pred,
@@ -52,7 +56,9 @@ template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, t
 } // end replace_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+__host__ __device__
   void replace_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator first, ForwardIterator last,
                   InputIterator stencil,
@@ -64,7 +70,9 @@ template<typename DerivedPolicy, typename ForwardIterator, typename InputIterato
 } // end replace_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
+__host__ __device__
   OutputIterator replace_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first, InputIterator last,
                               OutputIterator result,
@@ -76,7 +84,9 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
 } // end replace_copy()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
+__host__ __device__
   OutputIterator replace_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                  InputIterator first, InputIterator last,
                                  OutputIterator result,
@@ -88,7 +98,9 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
 } // end replace_copy_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+__host__ __device__
   OutputIterator replace_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                  InputIterator1 first, InputIterator1 last,
                                  InputIterator2 stencil,

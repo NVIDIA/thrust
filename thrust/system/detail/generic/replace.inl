@@ -31,11 +31,13 @@ namespace generic
 namespace detail
 {
 
+
 // this functor receives x, and returns a new_value if predicate(x) is true; otherwise,
 // it returns x
 template<typename Predicate, typename NewType, typename OutputType>
   struct new_value_if
 {
+  __host__ __device__
   new_value_if(Predicate p, NewType nv):pred(p),new_value(nv){}
 
   template<typename InputType>
@@ -58,10 +60,12 @@ template<typename Predicate, typename NewType, typename OutputType>
   NewType new_value;
 }; // end new_value_if
 
+
 // this unary functor ignores its argument and returns a constant
 template<typename T>
   struct constant_unary
 {
+  __host__ __device__
   constant_unary(T _c):c(_c){}
 
   template<typename U>
@@ -74,9 +78,12 @@ template<typename T>
   T c;
 }; // end constant_unary
 
+
 } // end detail
 
+
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
+__host__ __device__
   OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator first,
                                  InputIterator last,
@@ -91,7 +98,9 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
   return thrust::transform(exec, first, last, result, op);
 } // end replace_copy_if()
 
+
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+__host__ __device__
   OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator1 first,
                                  InputIterator1 last,
@@ -108,6 +117,7 @@ template<typename DerivedPolicy, typename InputIterator1, typename InputIterator
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
+__host__ __device__
   OutputIterator replace_copy(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -119,7 +129,9 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
   return thrust::replace_copy_if(exec, first, last, result, pred, new_value);
 } // end replace_copy()
 
+
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
+__host__ __device__
   void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
@@ -127,14 +139,12 @@ template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, t
                   const T &new_value)
 {
   detail::constant_unary<T> f(new_value);
-
-  // XXX replace this with generate_if:
-  // constant_nullary<T> f(new_value);
-  // generate_if(first, last, first, f, pred);
   thrust::transform_if(exec, first, last, first, first, f, pred);
 } // end replace_if()
 
+
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+__host__ __device__
   void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
@@ -143,14 +153,12 @@ template<typename DerivedPolicy, typename ForwardIterator, typename InputIterato
                   const T &new_value)
 {
   detail::constant_unary<T> f(new_value);
-
-  // XXX replace this with generate_if:
-  // constant_nullary<T> f(new_value);
-  // generate_if(stencil, stencil + n, first, f, pred);
   thrust::transform_if(exec, first, last, stencil, first, f, pred);
 } // end replace_if()
 
+
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void replace(thrust::execution_policy<DerivedPolicy> &exec,
                ForwardIterator first,
                ForwardIterator last,
@@ -160,6 +168,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename T>
   thrust::detail::equal_to_value<T> pred(old_value);
   return thrust::replace_if(exec, first, last, pred, new_value);
 } // end replace()
+
 
 } // end namespace generic
 } // end namespace detail

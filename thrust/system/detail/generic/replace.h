@@ -31,6 +31,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
+__host__ __device__
   OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator first,
                                  InputIterator last,
@@ -40,6 +41,7 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
+__host__ __device__
   OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator1 first,
                                  InputIterator1 last,
@@ -50,6 +52,7 @@ template<typename DerivedPolicy, typename InputIterator1, typename InputIterator
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
+__host__ __device__
   OutputIterator replace_copy(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -59,6 +62,7 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
+__host__ __device__
   void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
@@ -67,6 +71,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, t
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
+__host__ __device__
   void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
@@ -76,6 +81,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename InputIterato
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void replace(thrust::execution_policy<DerivedPolicy> &exec,
                ForwardIterator first,
                ForwardIterator last,
