@@ -75,6 +75,7 @@ namespace thrust
  *  \see \p sort_by_key
  */
 template<typename DerivedPolicy, typename RandomAccessIterator>
+__host__ __device__
   void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last);
@@ -166,6 +167,7 @@ template<typename RandomAccessIterator>
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
@@ -212,6 +214,7 @@ template<typename DerivedPolicy,
  */
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort(RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
@@ -262,6 +265,7 @@ template<typename RandomAccessIterator,
  *  \see \p stable_sort_by_key
  */
 template<typename DerivedPolicy, typename RandomAccessIterator>
+__host__ __device__
   void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
@@ -361,6 +365,7 @@ template<typename RandomAccessIterator>
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
@@ -478,6 +483,7 @@ template<typename RandomAccessIterator,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
   void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -599,6 +605,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -725,6 +732,7 @@ template<typename RandomAccessIterator1,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
   void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
@@ -851,6 +859,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
+__host__ __device__
   void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
