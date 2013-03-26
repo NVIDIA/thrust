@@ -105,6 +105,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
+__host__ __device__
   OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1                                              first1,
                                 InputIterator1                                              last1,
@@ -253,6 +254,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
+__host__ __device__
   OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1                                              first1,
                                 InputIterator1                                              last1,
@@ -410,6 +412,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
+__host__ __device__
   OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   InputIterator1                                              first1,
                                   InputIterator1                                              last1,
@@ -573,6 +576,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
+__host__ __device__
   OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   InputIterator1                                              first1,
                                   InputIterator1                                              last1,
@@ -735,6 +739,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
+__host__ __device__
   OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator1                                              first1,
                                           InputIterator1                                              last1,
@@ -893,6 +898,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
+__host__ __device__
   OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator1                                              first1,
                                           InputIterator1                                              last1,
@@ -1051,6 +1057,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
+__host__ __device__
   OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              first1,
                            InputIterator1                                              last1,
@@ -1203,6 +1210,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
+__host__ __device__
   OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              first1,
                            InputIterator1                                              last1,
@@ -1377,6 +1385,7 @@ template<typename DerivedPolicy,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1                                              keys_first1,
@@ -1581,6 +1590,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1                                              keys_first1,
@@ -1787,6 +1797,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             InputIterator1                                              keys_first1,
@@ -1989,6 +2000,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             InputIterator1                                              keys_first1,
@@ -2196,6 +2208,7 @@ template<typename DerivedPolicy,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                     InputIterator1                                              keys_first1,
@@ -2406,6 +2419,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                     InputIterator1                                              keys_first1,
@@ -2616,6 +2630,7 @@ template<typename DerivedPolicy,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                      InputIterator1                                              keys_first1,
@@ -2822,6 +2837,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                      InputIterator1                                              keys_first1,
