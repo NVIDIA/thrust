@@ -32,12 +32,14 @@ namespace generic
 
 template<typename DerivedPolicy,
          typename ForwardIterator>
+__host__ __device__
   void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last);
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
@@ -45,6 +47,7 @@ template<typename DerivedPolicy, typename ForwardIterator, typename T>
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
