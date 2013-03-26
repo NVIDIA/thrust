@@ -340,6 +340,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
+__host__ __device__
   ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator first, InputIterator last,
                                ForwardIterator result,
@@ -483,6 +484,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
+__host__ __device__
   ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first, InputIterator1 last,
                                InputIterator2 stencil,
@@ -630,6 +632,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
+__host__ __device__
   ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first1, InputIterator1 last1,
                                InputIterator2 first2,

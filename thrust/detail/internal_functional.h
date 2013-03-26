@@ -347,39 +347,18 @@ template<typename BinaryFunction>
 };
 
 
-template <typename UnaryFunction, typename Predicate>
-struct host_unary_transform_if_functor
+template<typename UnaryFunction, typename Predicate>
+struct unary_transform_if_functor
 {
   UnaryFunction unary_op;
   Predicate pred;
 
-  host_unary_transform_if_functor(UnaryFunction unary_op_, Predicate pred_)
-    : unary_op(unary_op_), pred(pred_) {}
+  __host__ __device__
+  unary_transform_if_functor(UnaryFunction unary_op, Predicate pred)
+    : unary_op(unary_op), pred(pred)
+  {}
 
-  template<typename Tuple>
-  inline __host__
-  typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<1,Tuple>::type
-  >::type
-    operator()(Tuple t)
-  {
-    if(pred(thrust::get<0>(t)))
-    {
-      thrust::get<1>(t) = unary_op(thrust::get<0>(t));
-    }
-  }
-}; // end host_unary_transform_if_functor
-
-
-template <typename UnaryFunction, typename Predicate>
-struct device_unary_transform_if_functor
-{
-  UnaryFunction unary_op;
-  Predicate pred;
-
-  device_unary_transform_if_functor(UnaryFunction unary_op_, Predicate pred_)
-    : unary_op(unary_op_), pred(pred_) {}
-
+  __thrust_hd_warning_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
@@ -392,52 +371,22 @@ struct device_unary_transform_if_functor
       thrust::get<1>(t) = unary_op(thrust::get<0>(t));
     }
   }
-}; // end device_unary_transform_if_functor
+}; // end unary_transform_if_functor
 
 
-template<typename System, typename UnaryFunction, typename Predicate>
-  struct unary_transform_if_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_unary_transform_if_functor<UnaryFunction,Predicate> >,
-        thrust::detail::identity_<device_unary_transform_if_functor<UnaryFunction,Predicate> >
-      >
-{};
-
-
-template <typename UnaryFunction, typename Predicate>
-struct host_unary_transform_if_with_stencil_functor
+template<typename UnaryFunction, typename Predicate>
+struct unary_transform_if_with_stencil_functor
 {
   UnaryFunction unary_op;
   Predicate pred;
-  
-  host_unary_transform_if_with_stencil_functor(UnaryFunction _unary_op, Predicate _pred)
-    : unary_op(_unary_op), pred(_pred) {} 
-  
-  template <typename Tuple>
-  inline __host__
-  typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<2,Tuple>::type
-  >::type
-    operator()(Tuple t)
-  {
-    if(pred(thrust::get<1>(t)))
-      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
-  }
-}; // end host_unary_transform_if_with_stencil_functor
 
+  __host__ __device__
+  unary_transform_if_with_stencil_functor(UnaryFunction unary_op, Predicate pred)
+    : unary_op(unary_op), pred(pred)
+  {}
 
-template <typename UnaryFunction, typename Predicate>
-struct device_unary_transform_if_with_stencil_functor
-{
-  UnaryFunction unary_op;
-  Predicate pred;
-  
-  device_unary_transform_if_with_stencil_functor(UnaryFunction _unary_op, Predicate _pred)
-    : unary_op(_unary_op), pred(_pred) {} 
-  
-  // add __host__ to allow the omp backend compile with nvcc
-  template <typename Tuple>
+  __thrust_hd_warning_disable__
+  template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
     typename thrust::tuple_element<2,Tuple>::type
@@ -447,52 +396,21 @@ struct device_unary_transform_if_with_stencil_functor
     if(pred(thrust::get<1>(t)))
       thrust::get<2>(t) = unary_op(thrust::get<0>(t));
   }
-}; // end device_unary_transform_if_with_stencil_functor
+}; // end unary_transform_if_with_stencil_functor
 
 
-template<typename System, typename UnaryFunction, typename Predicate>
-  struct unary_transform_if_with_stencil_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> >,
-        thrust::detail::identity_<device_unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> >
-      >
-{};
-
-
-template <typename BinaryFunction, typename Predicate>
-struct host_binary_transform_if_functor
+template<typename BinaryFunction, typename Predicate>
+struct binary_transform_if_functor
 {
   BinaryFunction binary_op;
   Predicate pred;
 
-  host_binary_transform_if_functor(BinaryFunction _binary_op, Predicate _pred)
-    : binary_op(_binary_op), pred(_pred) {} 
+  __host__ __device__
+  binary_transform_if_functor(BinaryFunction binary_op, Predicate pred)
+    : binary_op(binary_op), pred(pred) {} 
 
-  template <typename Tuple>
-  inline __host__
-  typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<3,Tuple>::type
-  >::type
-    operator()(Tuple t)
-  {
-    if(pred(thrust::get<2>(t)))
-      thrust::get<3>(t) = binary_op(thrust::get<0>(t), thrust::get<1>(t));
-  }
-}; // end host_binary_transform_if_functor
-
-
-template <typename BinaryFunction, typename Predicate>
-struct device_binary_transform_if_functor
-{
-  BinaryFunction binary_op;
-  Predicate pred;
-
-  device_binary_transform_if_functor(BinaryFunction _binary_op, Predicate _pred)
-    : binary_op(_binary_op), pred(_pred) {} 
-
-  // add __host__ to allow the omp backend compile with nvcc
-  template <typename Tuple>
+  __thrust_hd_warning_disable__
+  template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
     typename thrust::tuple_element<3,Tuple>::type
@@ -502,17 +420,7 @@ struct device_binary_transform_if_functor
     if(pred(thrust::get<2>(t)))
       thrust::get<3>(t) = binary_op(thrust::get<0>(t), thrust::get<1>(t));
   }
-}; // end device_binary_transform_if_functor
-
-
-template<typename System, typename BinaryFunction, typename Predicate>
-  struct binary_transform_if_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_binary_transform_if_functor<BinaryFunction,Predicate> >,
-        thrust::detail::identity_<device_binary_transform_if_functor<BinaryFunction,Predicate> >
-      >
-{};
+}; // end binary_transform_if_functor
 
 
 template<typename T>
