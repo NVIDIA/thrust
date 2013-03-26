@@ -144,7 +144,6 @@ __host__ __device__
  *  \see \c device_malloc
  */
 template<typename ForwardIterator, typename T>
-__host__ __device__
   void uninitialized_fill(ForwardIterator first,
                           ForwardIterator last,
                           const T &x);
@@ -262,7 +261,6 @@ __host__ __device__
  *  \see \c device_malloc
  */
 template<typename ForwardIterator, typename Size, typename T>
-__host__ __device__
   ForwardIterator uninitialized_fill_n(ForwardIterator first,
                                        Size n,
                                        const T &x);

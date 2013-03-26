@@ -113,7 +113,6 @@ __host__ __device__
  */
 template<typename ForwardIterator,
          typename Generator>
-__host__ __device__
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
@@ -200,7 +199,6 @@ __host__ __device__
 template<typename OutputIterator,
          typename Size,
          typename Generator>
-__host__ __device__
   OutputIterator generate_n(OutputIterator first,
                             Size n,
                             Generator gen);

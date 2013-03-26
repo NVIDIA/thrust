@@ -30,6 +30,7 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Generator>
@@ -44,6 +45,7 @@ __host__ __device__
 } // end generate()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename OutputIterator,
          typename Size,
@@ -61,7 +63,6 @@ __host__ __device__
 
 template<typename ForwardIterator,
          typename Generator>
-__host__ __device__
   void generate(ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
@@ -79,7 +80,6 @@ __host__ __device__
 template<typename OutputIterator,
          typename Size,
          typename Generator>
-__host__ __device__
   OutputIterator generate_n(OutputIterator first,
                             Size n,
                             Generator gen)
