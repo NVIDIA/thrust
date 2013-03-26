@@ -104,6 +104,7 @@ template<typename DerivedPolicy,
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last);
@@ -112,6 +113,7 @@ template<typename DerivedPolicy, typename ForwardIterator>
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
+__host__ __device__
   bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
@@ -119,6 +121,7 @@ template<typename DerivedPolicy,
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last);
@@ -127,6 +130,7 @@ template<typename DerivedPolicy, typename ForwardIterator>
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
+__host__ __device__
   ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,

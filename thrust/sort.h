@@ -988,6 +988,7 @@ template<typename RandomAccessIterator1,
  *  \see \c less<T>
  */
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last);
@@ -1102,6 +1103,7 @@ template<typename ForwardIterator>
  *  \see \c less<T>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
+__host__ __device__
   bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
@@ -1202,6 +1204,7 @@ template<typename ForwardIterator, typename Compare>
  *  \see \p stable_sort_by_key
  */
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last);
@@ -1289,6 +1292,7 @@ template<typename ForwardIterator>
  *  \see \p stable_sort_by_key
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
+__host__ __device__
   ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
