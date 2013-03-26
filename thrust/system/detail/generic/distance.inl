@@ -29,6 +29,8 @@ namespace generic
 namespace detail
 {
 
+
+__thrust_hd_warning_disable__
 template<typename InputIterator>
 inline __host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type
@@ -45,6 +47,8 @@ inline __host__ __device__
   return result;
 } // end advance()
 
+
+__thrust_hd_warning_disable__
 template<typename InputIterator>
 inline __host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type
@@ -53,7 +57,9 @@ inline __host__ __device__
   return last - first;
 } // end distance()
 
+
 } // end detail
+
 
 template<typename InputIterator>
 inline __host__ __device__
@@ -64,6 +70,7 @@ inline __host__ __device__
   return thrust::system::detail::generic::detail::distance(first, last,
     typename thrust::iterator_traversal<InputIterator>::type());
 } // end advance()
+
 
 } // end namespace generic
 } // end namespace detail
