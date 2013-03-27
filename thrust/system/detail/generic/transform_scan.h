@@ -29,11 +29,13 @@ namespace detail
 namespace generic
 {
 
+
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
          typename BinaryFunction>
+__host__ __device__
   OutputIterator transform_inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
@@ -47,6 +49,7 @@ template<typename ExecutionPolicy,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
+__host__ __device__
   OutputIterator transform_exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
@@ -54,6 +57,7 @@ template<typename ExecutionPolicy,
                                           UnaryFunction unary_op,
                                           T init,
                                           AssociativeOperator binary_op);
+
 
 } // end namespace generic
 } // end namespace detail
