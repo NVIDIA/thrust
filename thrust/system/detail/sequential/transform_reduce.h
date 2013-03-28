@@ -17,33 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/execution_policy.h>
-#include <cstdlib> // for free
-#include <thrust/detail/raw_pointer_cast.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace detail
-{
-namespace sequential
-{
-
-
-template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
-void free(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
-{
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ > 200)
-  std::free(thrust::raw_pointer_cast(ptr));
-#endif
-} // end mallc()
-
-
-} // end sequential
-} // end detail
-} // end system
-} // end thrust
-
+// this system has no special transform_reduce functions
 

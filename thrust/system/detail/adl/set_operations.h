@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the set_operations.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch set_operations
+
+#include <thrust/system/detail/sequential/set_operations.h>
 
 #define __THRUST_HOST_SYSTEM_SET_OPERATIONS_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/set_operations.h>
 #include __THRUST_HOST_SYSTEM_SET_OPERATIONS_HEADER

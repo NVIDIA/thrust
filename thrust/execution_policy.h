@@ -21,9 +21,11 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-
-// get the definition of thrust::execution_policy
 #include <thrust/detail/execution_policy.h>
+#include <thrust/detail/execute_with_allocator.h>
+
+// #include the sequential execution_policy header
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 // #include the host system's execution_policy header
 #define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
@@ -45,6 +47,19 @@ namespace thrust
 
 namespace detail
 {
+
+
+struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>
+{
+  seq_t() : thrust::system::detail::sequential::execution_policy<seq_t>() {}
+
+  template<typename Allocator>
+    thrust::detail::execute_with_allocator<Allocator, thrust::system::detail::sequential::execution_policy>
+      operator()(Allocator &alloc) const
+  {
+    return thrust::detail::execute_with_allocator<Allocator, thrust::system::detail::sequential::execution_policy>(alloc);
+  }
+};
 
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
@@ -276,11 +291,11 @@ template<typename DerivedPolicy>
  *    __host__ __device__
  *    void operator()(int x)
  *    {
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...
- *  int vec[3];
+ *  int vec(3);
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
  *  thrust::for_each(thrust::host, vec.begin(), vec.end(), printf_functor());
@@ -325,12 +340,12 @@ static const detail::host_t host;
  *    __host__ __device__
  *    void operator()(int x)
  *    {
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec[3];
- *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
+ *  thrust::device_vector<int> vec(3);
+ *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
  *  thrust::for_each(thrust::device, vec.begin(), vec.end(), printf_functor());
  *
@@ -341,6 +356,47 @@ static const detail::host_t host;
  *  \see thrust::device
  */
 static const detail::device_t device;
+
+
+/*! \p thrust::seq is an execution policy which requires an algorithm invocation to execute sequentially
+ *  in the current thread. It can not be configured by a compile-time macro.
+ *
+ *  The type of \p thrust::seq is implementation-defined.
+ *
+ *  The following code snippet demonstrates how to use \p thrust::seq to explicitly execute an invocation
+ *  of \p thrust::for_each sequentially:
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/execution_policy.h>
+ *  #include <vector>
+ *  #include <cstdio>
+ *
+ *  struct printf_functor
+ *  {
+ *    __host__ __device__
+ *    void operator()(int x)
+ *    {
+ *      printf("%d\n", x);
+ *    }
+ *  };
+ *  ...
+ *  std::vector<int> vec(3);
+ *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
+ *
+ *  thrust::for_each(thrust::seq, vec.begin(), vec.end(), printf_functor());
+ *
+ *  // 0 1 2 is printed to standard output in sequential order
+ *  \endcode
+ *
+ *  \see thrust::host
+ *  \see thrust::device
+ */
+#ifdef __CUDA_ARCH__
+static const __device__ detail::seq_t seq;
+#else
+static const detail::seq_t seq;
+#endif
 
 
 /*! \}

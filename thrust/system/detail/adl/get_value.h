@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the get_value.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch get_value
+
+#include <thrust/system/detail/sequential/get_value.h>
 
 #define __THRUST_HOST_SYSTEM_GET_VALUE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/get_value.h>
 #include __THRUST_HOST_SYSTEM_GET_VALUE_HEADER

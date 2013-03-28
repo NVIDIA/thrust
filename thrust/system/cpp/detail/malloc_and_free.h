@@ -19,6 +19,5 @@
 #include <thrust/detail/config.h>
 
 // this system inherits malloc & free
-#include <thrust/system/detail/sequential/malloc.h>
-#include <thrust/system/detail/sequential/free.h>
+#include <thrust/system/detail/sequential/malloc_and_free.h>
 

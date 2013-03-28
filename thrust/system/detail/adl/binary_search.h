@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the binary_search.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch binary_search
+
+#include <thrust/system/detail/sequential/binary_search.h>
 
 #define __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/binary_search.h>
 #include __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER

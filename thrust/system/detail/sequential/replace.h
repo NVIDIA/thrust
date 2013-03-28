@@ -18,17 +18,5 @@
 
 #include <thrust/detail/config.h>
 
-// the purpose of this header is to #include the for_each.h header
-// of the sequential, host, and device systems. It should be #included in any
-// code which uses adl to dispatch for_each
-
-#include <thrust/system/detail/sequential/for_each.h>
-
-#define __THRUST_HOST_SYSTEM_FOR_EACH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/for_each.h>
-#include __THRUST_HOST_SYSTEM_FOR_EACH_HEADER
-#undef __THRUST_HOST_SYSTEM_FOR_EACH_HEADER
-
-#define __THRUST_DEVICE_SYSTEM_FOR_EACH_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/for_each.h>
-#include __THRUST_DEVICE_SYSTEM_FOR_EACH_HEADER
-#undef __THRUST_DEVICE_SYSTEM_FOR_EACH_HEADER
+// this system has no special replace functions
 

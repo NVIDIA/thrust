@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the merge.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch merge
+
+#include <thrust/system/detail/sequential/merge.h>
 
 #define __THRUST_HOST_SYSTEM_MERGE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/merge.h>
 #include __THRUST_HOST_SYSTEM_MERGE_HEADER

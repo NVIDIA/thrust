@@ -22,6 +22,8 @@
 // of the host and device systems. It should be #included in any
 // code which uses adl to dispatch scan
 
+#include <thrust/system/detail/sequential/scan.h>
+
 #define __THRUST_HOST_SYSTEM_SCAN_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/scan.h>
 #include __THRUST_HOST_SYSTEM_SCAN_HEADER
 #undef __THRUST_HOST_SYSTEM_SCAN_HEADER

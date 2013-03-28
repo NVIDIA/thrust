@@ -22,6 +22,8 @@
 // of the host and device systems. It should be #included in any
 // code which uses adl to dispatch mismatch
 
+#include <thrust/system/detail/sequential/mismatch.h>
+
 #define __THRUST_HOST_SYSTEM_MISMATCH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/mismatch.h>
 #include __THRUST_HOST_SYSTEM_MISMATCH_HEADER
 #undef __THRUST_HOST_SYSTEM_MISMATCH_HEADER
